@@ -94,7 +94,7 @@ public class IPSSActivePowerDigraph {
 	
 	public static void main(String[] args) throws Exception {
 		IpssPlugin.init();
-		IPSSActivePowerDigraph apd = new IPSSActivePowerDigraph("UCTE_2002_Summer.ieee");
+		IPSSActivePowerDigraph apd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Summer.ieee");
 //		for (DefaultWeightedEdge thisEdge : apd.getpDigraph().edgeSet()) {
 //			String fromId = apd.getpDigraph().getEdgeSource(thisEdge);
 //			String toId = apd.getpDigraph().getEdgeTarget(thisEdge);
