@@ -259,6 +259,11 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		}
 		return shortestPathDigraph;
 	}
+	
+	// Output the histogram of all the edge betweenness
+	public void histogramOfEdgeBetweenness() {
+		// TODO
+	}
 
 	public static void main(String[] args) throws Exception {
 		
