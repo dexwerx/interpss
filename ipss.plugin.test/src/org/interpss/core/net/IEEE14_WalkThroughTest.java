@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.ActivePowerWalkDirectionEnum;
-import com.interpss.core.algorithm.ActivePowerWalkThrough;
+import com.interpss.core.algorithm.ActivePowerPathWalkEnum;
+import com.interpss.core.algorithm.ActivePowerPathWalkThrough;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.common.visitor.IBranchBVisitor;
 import com.interpss.core.common.visitor.IBusBVisitor;
@@ -30,7 +30,7 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   		net.accept(algo);
   		assertTrue(net.isLfConverged());
   		
-  		ActivePowerWalkThrough walkAlgo = CoreObjectFactory.createActivePowerWalkThrough();
+  		ActivePowerPathWalkThrough walkAlgo = CoreObjectFactory.createActivePowerPathWalkThrough();
   		walkAlgo.setBusVisitor(new IBusBVisitor() {
 			@Override
 			public boolean visit(Bus bus) {
@@ -47,7 +47,7 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   		});
   		
 		System.out.println("Source to Load direction");
-  		walkAlgo.setDirection(ActivePowerWalkDirectionEnum.SOURCE_TO_LOAD);
+  		walkAlgo.setDirection(ActivePowerPathWalkEnum.SOURCE_TO_LOAD);
   		net.accept(walkAlgo);
   		
   		for (Bus bus : net.getBusList())
@@ -56,7 +56,7 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   	  		assertTrue(branch.isVisited());
   		
 		System.out.println("Load to Source direction");
-  		walkAlgo.setDirection(ActivePowerWalkDirectionEnum.LOAD_TO_SOURCE);
+  		walkAlgo.setDirection(ActivePowerPathWalkEnum.LOAD_TO_SOURCE);
   		net.accept(walkAlgo);
 
   		for (Bus bus : net.getBusList())
