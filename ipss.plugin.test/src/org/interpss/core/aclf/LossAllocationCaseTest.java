@@ -12,7 +12,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.ActivePowerPathWalkEnum;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.loss.LossCalNetAdapter;
+import com.interpss.core.algorithm.loss.LossAllocationAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -36,15 +36,17 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
   					((AclfBranch)bra).loss().getReal()*100 + "MW");
   		}
   		*/
-  		LossCalNetAdapter netAdapter = (LossCalNetAdapter)net.getAdapter(LossCalNetAdapter.class);
-  		assertTrue(!netAdapter.hasActivePowerLoop());
-
+  		LossAllocationAlgorithm lossAlgo = CoreObjectFactory.createLossAllocationAlgorithm();
+  		assertTrue(!lossAlgo.hasActivePowerLoop(net));
+  		
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerPathWalkEnum.SOURCE_TO_LOAD); 
+  		lossAlgo.setDirection(ActivePowerPathWalkEnum.SOURCE_TO_LOAD); 
+  		net.accept(lossAlgo);
 		System.out.println(AclfOutFunc.loadLossAllocation(net));
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerPathWalkEnum.LOAD_TO_SOURCE); 
+  		lossAlgo.setDirection(ActivePowerPathWalkEnum.LOAD_TO_SOURCE); 
+  		net.accept(lossAlgo);
 		System.out.println(AclfOutFunc.genLossAllocation(net));
 	}	
 	
@@ -62,15 +64,17 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
   		assertTrue(net.isLfConverged());
   		
-  		LossCalNetAdapter netAdapter = (LossCalNetAdapter)net.getAdapter(LossCalNetAdapter.class);
-  		assertTrue(!netAdapter.hasActivePowerLoop());
+  		LossAllocationAlgorithm lossAlgo = CoreObjectFactory.createLossAllocationAlgorithm();
+  		assertTrue(!lossAlgo.hasActivePowerLoop(net));
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerPathWalkEnum.SOURCE_TO_LOAD); 
+  		lossAlgo.setDirection(ActivePowerPathWalkEnum.SOURCE_TO_LOAD); 
+  		net.accept(lossAlgo);
 		System.out.println(AclfOutFunc.loadLossAllocation(net));
 
   		//netAdapter.initForWalkThrough();
-  		netAdapter.lossAllocation(ActivePowerPathWalkEnum.LOAD_TO_SOURCE); 
+		lossAlgo.setDirection(ActivePowerPathWalkEnum.LOAD_TO_SOURCE); 
+  		net.accept(lossAlgo);
 		System.out.println(AclfOutFunc.genLossAllocation(net));
 	}	
 }
