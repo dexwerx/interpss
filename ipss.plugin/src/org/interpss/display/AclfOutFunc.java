@@ -46,7 +46,7 @@ import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.algorithm.ActivePowerWalkDirectionEnum;
+import com.interpss.core.algorithm.ActivePowerPathWalkEnum;
 import com.interpss.core.algorithm.sec.BranchRatingAdapter;
 import com.interpss.core.algorithm.sec.SecAnalysisViolationType;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
@@ -185,9 +185,9 @@ public class AclfOutFunc {
 		
 		net.forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
-				if ( bus.getLossPFactor(ActivePowerWalkDirectionEnum.SOURCE_TO_LOAD, lossPU) > 0.0 && 
+				if ( bus.getLossPFactor(ActivePowerPathWalkEnum.SOURCE_TO_LOAD, lossPU) > 0.0 && 
 						(bus.isLoad() || bus.isSwing())) { 
-					str.append(lossString(bus, ActivePowerWalkDirectionEnum.SOURCE_TO_LOAD, lossMW, lossPU));
+					str.append(lossString(bus, ActivePowerPathWalkEnum.SOURCE_TO_LOAD, lossMW, lossPU));
 				}
 			}
 		});
@@ -212,15 +212,15 @@ public class AclfOutFunc {
 		str.append("  ------------------------------------------------------------------------\n");
 		for (Bus bus : net.getBusList()) {
 			AclfBus aclfBus = (AclfBus)bus;
-			if (aclfBus.isGen() && aclfBus.getLossPFactor(ActivePowerWalkDirectionEnum.LOAD_TO_SOURCE, lossPU) > 0.0) { 
-				str.append(lossString(aclfBus, ActivePowerWalkDirectionEnum.LOAD_TO_SOURCE, lossMW, lossPU));
+			if (aclfBus.isGen() && aclfBus.getLossPFactor(ActivePowerPathWalkEnum.LOAD_TO_SOURCE, lossPU) > 0.0) { 
+				str.append(lossString(aclfBus, ActivePowerPathWalkEnum.LOAD_TO_SOURCE, lossMW, lossPU));
 			}
   		}		
 		
 		return str.toString();
 	}
 	
-	private static String lossString(AclfBus aclfBus, ActivePowerWalkDirectionEnum direction, double lossMW, double lossPU) {
+	private static String lossString(AclfBus aclfBus, ActivePowerPathWalkEnum direction, double lossMW, double lossPU) {
 		StringBuffer str = new StringBuffer("");
 		str.append(Number2String.toStr(12, " "));
 		str.append(Number2String.toStr(-12, aclfBus.getId()) + "  ");
