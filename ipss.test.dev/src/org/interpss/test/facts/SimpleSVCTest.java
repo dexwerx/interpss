@@ -25,8 +25,8 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
-        svc.setQc(1.05);
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstB);
+        svc.setQc(0.05);
         svc.setYsh(0.0, -5.0);
 
         // set svc as AclfBus extension
@@ -43,8 +43,13 @@ public class SimpleSVCTest extends DevTestSetup {
         // run Loadflow
         net.accept(algo);
         // output loadflow calculation results
-        System.out.println(AclfOutFunc.loadFlowSummary(net));	
+        System.out.println(AclfOutFunc.loadFlowSummary(net));
+        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+        Complex yshc = new Complex(0.0, -5.0);
+        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
         
+        System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
         System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
 	}
 	
