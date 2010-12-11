@@ -23,7 +23,7 @@ public class InputDataInvestigation {
 		*/
 			AclfBus bus = CoreObjectFactory.createAclfBus("MyBus", null);
 			LimitType limit = new LimitType(999.0, -999.0);
-			bus.setQLimit(limit);
+			bus.setQGenLimit(limit);
 			limit = new LimitType(1.10, 0.90);
 			bus.setVLimit(limit);
 			//bus.setLossPartFactor(0.3); should be calculated
