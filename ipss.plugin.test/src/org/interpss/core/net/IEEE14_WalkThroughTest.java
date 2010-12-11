@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.ActivePowerPathWalkEnum;
-import com.interpss.core.algorithm.ActivePowerPathWalkThrough;
+import com.interpss.core.algorithm.ActivePowerPathWalkAlgorithm;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.common.visitor.IBranchBVisitor;
 import com.interpss.core.common.visitor.IBusBVisitor;
@@ -30,7 +30,7 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   		net.accept(algo);
   		assertTrue(net.isLfConverged());
   		
-  		ActivePowerPathWalkThrough walkAlgo = CoreObjectFactory.createActivePowerPathWalkThrough();
+  		ActivePowerPathWalkAlgorithm walkAlgo = CoreObjectFactory.createActivePowerPathWalkAlgorithm();
   		walkAlgo.setBusVisitor(new IBusBVisitor() {
 			@Override
 			public boolean visit(Bus bus) {
