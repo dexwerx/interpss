@@ -18,7 +18,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
-public class SimpleSVCTest extends DevTestSetup { 
+public class Pass1_SimpleSVCTest extends DevTestSetup { 
 	@Test
 	public void ConctV_testCase() {
 		AclfNetwork net = createNet();
@@ -62,6 +62,93 @@ public class SimpleSVCTest extends DevTestSetup {
 	  	assertTrue(Math.abs(svc.getThedash() + 0.10017) < 0.00001); 
 	}
 
+	@Test
+	public void ConstQ_testCase() {
+		AclfNetwork net = createNet();
+		
+        AclfBus bus = net.getAclfBus("Bus2");
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstQ);
+        svc.setQc(1.0);
+        svc.setYsh(0.0, -5.0);
+        svc.setLoad(new Complex(1.0, 0.8));
+
+        // set svc as AclfBus extension
+        bus.setExtensionObject(svc);
+        
+        SVCControl[] svcArray = {svc};
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        
+        // create a Loadflow algo object
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+        // set algo NR solver to the CustomNrSolver
+        algo.setNrSolver(svcNrSolver);
+
+        // run Loadflow
+        net.accept(algo);
+        // output loadflow calculation results
+        //System.out.println(AclfOutFunc.loadFlowSummary(net));
+        
+        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+        Complex yshc = new Complex(0.0, -5.0);
+        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+        
+        //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
+        //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
+        /*
+		yshunt=(4.941690964361082E-6)+i(-0.9733914104446989)
+		Vsh, Thedash: 0.8162216037743674, -0.09882646523007681
+         */
+	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
+	  	assertTrue(Math.abs(yc.getImaginary() + 0.973393) < 0.00001); 
+	  	assertTrue(Math.abs(svc.getVsh() - 0.81622) < 0.00001); 
+	  	assertTrue(Math.abs(svc.getThedash() + 0.09883) < 0.00001);         
+	}
+
+	@Test
+	public void ConstB_testCase() {
+		AclfNetwork net = createNet();
+		
+        AclfBus bus = net.getAclfBus("Bus2");
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstB);
+        svc.setQc(0.05);
+        svc.setYsh(0.0, -5.0);
+        svc.setLoad(new Complex(1.0, 0.8));
+
+        // set svc as AclfBus extension
+        bus.setExtensionObject(svc);
+        
+        SVCControl[] svcArray = {svc};
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        
+        // create a Loadflow algo object
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+        // set algo NR solver to the CustomNrSolver
+        algo.setNrSolver(svcNrSolver);
+
+        // run Loadflow
+        net.accept(algo);
+        // output loadflow calculation results
+        //System.out.println(AclfOutFunc.loadFlowSummary(net));
+        
+        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+        Complex yshc = new Complex(0.0, -5.0);
+        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+        
+        //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
+        //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
+        /*
+		yshunt=(1.1800157013745432E-4)+i(0.049875933325408905)
+		Vsh, Thedash: 0.9088964271644712, -0.11136805274941748
+         */
+	  	assertTrue(Math.abs(yc.getReal()) < 0.00019); 
+	  	assertTrue(Math.abs(yc.getImaginary() - 0.04987) < 0.00001); 
+	  	assertTrue(Math.abs(svc.getVsh() - 0.90890) < 0.00001); 
+	  	assertTrue(Math.abs(svc.getThedash() + 0.11137) < 0.00001);         
+	}
+	
+	
 	public static AclfNetwork createNet() {
         // create a sample 5-bus system for Loadflow
         AclfNetwork net = CoreObjectFactory.createAclfNetwork();
