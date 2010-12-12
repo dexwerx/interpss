@@ -7,11 +7,11 @@ import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.ActivePowerPathWalkEnum;
-import com.interpss.core.algorithm.ActivePowerPathWalkAlgorithm;
+import com.interpss.core.algorithm.path.NetPathWalkAlgorithm;
+import com.interpss.core.algorithm.path.NetPathWalkDirectionEnum;
+import com.interpss.core.algorithm.path.impl.AbstractBranchPowerFlowPathWalker;
+import com.interpss.core.algorithm.path.impl.AbstractBusPowerFlowPathWalker;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
-import com.interpss.core.common.visitor.IBranchBVisitor;
-import com.interpss.core.common.visitor.IBusBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
@@ -30,24 +30,26 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   		net.accept(algo);
   		assertTrue(net.isLfConverged());
   		
-  		ActivePowerPathWalkAlgorithm walkAlgo = CoreObjectFactory.createActivePowerPathWalkAlgorithm();
-  		walkAlgo.setBusVisitor(new IBusBVisitor() {
-			@Override
-			public boolean visit(Bus bus) {
-				//System.out.println("Bus " + bus.getId() + " visited");
-				return true;
-			}
+  		NetPathWalkAlgorithm walkAlgo = CoreObjectFactory.createNetPathWalkAlgorithm();
+  		walkAlgo.setBusWalker(new AbstractBusPowerFlowPathWalker() {
+  			@Override
+  			public boolean visit(Bus bus) {
+  				bus.setVisited(true);
+  				System.out.println("Bus " + bus.getId() + " visited");
+  				return true;
+  			}
   		});
-  		walkAlgo.setBranchVisitor(new IBranchBVisitor() {
-			@Override
-			public boolean visit(Branch branch) {
-				//System.out.println("Branch " + branch.getId() + " visited");
-				return true;
-			}
+  		walkAlgo.setBranchWalker(new AbstractBranchPowerFlowPathWalker() {
+  			@Override
+  			public boolean visit(Branch branch) {
+  				branch.setVisited(true);
+  				System.out.println("Branch " + branch.getId() + " visited");
+  				return true;
+  			}
   		});
   		
 		System.out.println("Source to Load direction");
-  		walkAlgo.setDirection(ActivePowerPathWalkEnum.SOURCE_TO_LOAD);
+  		walkAlgo.setDirection(NetPathWalkDirectionEnum.ALONG_PATH);
   		net.accept(walkAlgo);
   		
   		for (Bus bus : net.getBusList())
@@ -56,12 +58,12 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   	  		assertTrue(branch.isVisited());
   		
 		System.out.println("Load to Source direction");
-  		walkAlgo.setDirection(ActivePowerPathWalkEnum.LOAD_TO_SOURCE);
+  		walkAlgo.setDirection(NetPathWalkDirectionEnum.OPPOSITE_PATH);
   		net.accept(walkAlgo);
 
   		for (Bus bus : net.getBusList())
   	  		assertTrue(bus.isVisited());
   		for (Branch branch : net.getBranchList())
   	  		assertTrue(branch.isVisited());
-	}			
+	}	
 }
