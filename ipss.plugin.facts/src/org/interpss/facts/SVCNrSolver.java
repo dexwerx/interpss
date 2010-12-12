@@ -1,6 +1,5 @@
 package org.interpss.facts;
 
-import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;

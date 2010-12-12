@@ -32,6 +32,9 @@ public class SVCControl extends AbstractAclfBus {
     private double bsh;
     private double qc;
     
+    // bus load
+    private Complex load = new Complex(0.0,0.0);
+    
 	public SVCControl(AclfBus bus, int n, SVCControlType type) {
 		this.setParentAclfBus(bus);
 		this.position = n;
@@ -80,14 +83,18 @@ public class SVCControl extends AbstractAclfBus {
 
 	@Override
 	public double getLoadP() {
-		return 1.0;
+		return this.load.getReal();
 	}
 
 	@Override
 	public double getLoadQ() {
-		return 0.8;
+		return this.load.getImaginary();
 	}
 
+	public void setLoad(Complex load) {
+		this.load = load;
+	}
+	
     /**
      * J-matrix element at [i,i]. It will used to modify (add to) the network J-matrix element
      * This J-matrix part should be the same for all control types, because it contains the partial derivatives of power mismatch
