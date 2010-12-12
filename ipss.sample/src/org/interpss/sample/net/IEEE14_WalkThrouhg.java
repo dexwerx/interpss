@@ -31,11 +31,11 @@ import org.interpss.custom.IpssFileAdapter;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.ActivePowerPathWalkAlgorithm;
-import com.interpss.core.algorithm.ActivePowerPathWalkEnum;
+import com.interpss.core.algorithm.path.NetPathWalkAlgorithm;
+import com.interpss.core.algorithm.path.NetPathWalkDirectionEnum;
+import com.interpss.core.algorithm.path.impl.AbstractBranchPowerFlowPathWalker;
+import com.interpss.core.algorithm.path.impl.AbstractBusPowerFlowPathWalker;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
-import com.interpss.core.common.visitor.IBranchBVisitor;
-import com.interpss.core.common.visitor.IBusBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
@@ -65,17 +65,19 @@ public class IEEE14_WalkThrouhg {
 	  	 * Step-3 define the walk through algorithm. The algorithm is nothing other then 
 	  	 *        print out bus and branch id
 	  	 */
-  		ActivePowerPathWalkAlgorithm walkAlgo = CoreObjectFactory.createActivePowerPathWalkAlgorithm();
-  		walkAlgo.setBusVisitor(new IBusBVisitor() {
+  		NetPathWalkAlgorithm walkAlgo = CoreObjectFactory.createNetPathWalkAlgorithm();
+  		walkAlgo.setBusWalker(new AbstractBusPowerFlowPathWalker() {
 			@Override
 			public boolean visit(Bus bus) {
+				bus.setVisited(true);
 				System.out.println("\nBus: " + bus.getId() + " visited");
 				return true;
 			}
   		});
-  		walkAlgo.setBranchVisitor(new IBranchBVisitor() {
+  		walkAlgo.setBranchWalker(new AbstractBranchPowerFlowPathWalker() {
 			@Override
 			public boolean visit(Branch branch) {
+				branch.setVisited(true);
 				System.out.println("Branch: " + branch.getId() + " visited");
 				return true;
 			}
@@ -85,14 +87,14 @@ public class IEEE14_WalkThrouhg {
   		 * Step-4 Walk through the network from source to load along the active power flow direction
   		 */
 		System.out.println("Source to Load direction");
-  		walkAlgo.setDirection(ActivePowerPathWalkEnum.SOURCE_TO_LOAD);
+  		walkAlgo.setDirection(NetPathWalkDirectionEnum.ALONG_PATH);
   		net.accept(walkAlgo);
   		
   		/*
   		 * Step-5 Walk through the network from load to source along the reverse active power flow direction 
   		 */
 		System.out.println("\nLoad to Source direction");
-  		walkAlgo.setDirection(ActivePowerPathWalkEnum.LOAD_TO_SOURCE);
+  		walkAlgo.setDirection(NetPathWalkDirectionEnum.OPPOSITE_PATH);
   		net.accept(walkAlgo);
 	}
 }
