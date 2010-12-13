@@ -11,7 +11,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.loss.LossAllocationAlgorithm;
+import com.interpss.core.algorithm.path.LossAllocationAlgorithm;
 import com.interpss.core.algorithm.path.NetPathWalkDirectionEnum;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
