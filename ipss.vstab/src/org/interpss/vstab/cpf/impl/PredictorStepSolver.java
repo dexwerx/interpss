@@ -99,7 +99,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
      //   only the element corresponding to Continuous parameter is set to +1,or -1, depending on the slope of continuous parameter
    	
     int contParaSign=getContParaSign();  
-    augmentedJacobi.setBi(new Complex(-1*contParaSign,0),lambda.getPosition());
+    augmentedJacobi.setBi(new Complex(contParaSign,0),lambda.getPosition());
 
      // solve Jau*[dx,dLamda]T=[0,+-1]
      

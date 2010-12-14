@@ -68,9 +68,12 @@ public class CpfHelper {
 		   }
 		   Matrix_xy ek=new Matrix_xy();
 		   if(this.getSortNumOfContParam()!=this.net.getNoBus()+1) {
-			   ek.xy=1; // Corresponding to vmag(i) in B vector [theta(i), vmag(i)];
+//			   if(this.getSortNumOfContParam()%2==0)
+//			   ek.xx=1; // Corresponding to vmag(i) in B vector [theta(i)];
+//			   else 
+			  ek.xy=-1;   // vmag(i)
 		   }
-	       else ek.xx=1;// corresponding to lambda;
+	       else ek.xx=-1;// corresponding to lambda;
 	       
 		   lfEqn.setAij(ek, n+1,this.getSortNumOfContParam());
 		   if(lfEqn.getElement(n+1, n+1).yy==0) {
@@ -80,7 +83,7 @@ public class CpfHelper {
 			   
 		   }
 		  // print J-matrix
-//		    VstabFuncOut.printJmatix(lfEqn,6,2);
+		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
 	}
 

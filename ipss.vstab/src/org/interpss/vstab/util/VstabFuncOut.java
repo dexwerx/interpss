@@ -76,7 +76,7 @@ public class VstabFuncOut {
 		public void visit(AclfBus bus) {
 			int i=bus.getSortNumber();
 			Vector_xy bxy=lfEqn.getBVect_xy(i);
-			System.out.println(bus.getId()+":  dAng="+bxy.x+",  dMag="+bxy.y);
+			System.out.println(bus.getId()+"  "+bus.getGenCode().getLiteral()+":  dAng="+bxy.x+",  dMag="+bxy.y);
 		}
 		   
 	   });

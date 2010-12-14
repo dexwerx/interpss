@@ -9,10 +9,12 @@ import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Number2String;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.INrSolver;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
+import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
@@ -114,6 +116,8 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 	public boolean nrStep(INrSolver solver){
 		SparseEqnMatrix2x2 lfEqn=solver.formJMatrix();
 		solver.setPowerMismatch(lfEqn);
+		// print out power mismatch
+		printPowerMismatch(lfEqn);
 		if(solveEqnByCommonMath(lfEqn)){
 			solver.updateBusVoltage(lfEqn);
 			return true;
@@ -123,19 +127,46 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 		
 	}
 	private boolean solveEqnByCommonMath(SparseEqnMatrix2x2 lfEqn) {//// customized solver,different from default LU decomposition;
-		double[][] A=VstabFuncOut.SparseMatrix2Ary(lfEqn);
-		double[]   b=new double[lfEqn.getDimension()];
+		double[][] temp=VstabFuncOut.SparseMatrix2Ary(lfEqn);
+		double[]   b0=new double[lfEqn.getDimension()];
+		double[][] A=null;
+		double[] b=null;
+		int row=lfEqn.getDimension();
+		if(lfEqn.getDimension()>this.getAclfNet().getNoBus()*2){
+			A=new double[this.getAclfNet().getNoBus()*2+1][this.getAclfNet().getNoBus()*2+1];
+			row=this.getAclfNet().getNoBus()*2+1;
+			for(int i=0; i<=this.getAclfNet().getNoBus()*2;i++){
+				for(int j=0; j<=this.getAclfNet().getNoBus()*2;j++){
+					A[i][j]=temp[i][j];
+				}
+			}
+			
+			for(int i=0;i<lfEqn.getDimension()/2;i++) { // index 1-N
+				   b0[2*i]=lfEqn.getBVect_xy(i+1).x;
+				   b0[2*i+1]=lfEqn.getBVect_xy(i+1).y;
+		    }
+			
+			b=new double[row];
+			for(int k=0;k<row;k++ ) b[k]=b0[k];
+			
+		}
+		else{
+			A=temp;
+			b=b0;
+		}
+
 		
-		for(int i=0;i<lfEqn.getDimension()/2;i++) { // index 1-N
-				   b[2*i]=lfEqn.getBVect_xy(i+1).x;
-				   b[2*i+1]=lfEqn.getBVect_xy(i+1).y;
-		 }
 		RealMatrix J=new  Array2DRowRealMatrix(A);
 		DecompositionSolver lu=new LUDecompositionImpl(J).getSolver();
+		 Vector_xy v=null;
 		if(lu.isNonSingular()){
 		  double[] dxdL =lu.solve(b);
 		  for(int i=0;i<lfEqn.getDimension()/2;i++) { // index 1-N
-			Vector_xy v=new Vector_xy(dxdL[2*i],dxdL[2*i+1]);
+			  if(2*i+1>row-1){
+				 v=new Vector_xy(dxdL[2*i],0);
+			  }
+			  else v=new Vector_xy(dxdL[2*i],dxdL[2*i+1]);
+			  
 			lfEqn.setBi(v, i+1);
 		  }
 		  return true;
@@ -148,9 +179,26 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 
 	@Override
 	public boolean visit(AclfNetwork net) {
-        setAclfNet(net);
+		if(this.net!=net)  setAclfNet(net);
 		return loadflow();
 	}
+	private void printPowerMismatch( final SparseEqnMatrix2x2 lfEqn){
+		  
+		   net.forEachAclfBus(new IAclfBusVisitor(){
+			@Override
+			public void visit(AclfBus bus) {
+				int i=bus.getSortNumber();
+				Vector_xy bxy=lfEqn.getBVect_xy(i);
+				System.out.println(bus.getId()+"  "+bus.getGenCode().getLiteral()+":  misP="+bxy.x+",  misQ="+bxy.y);
+			}
+			   
+		   });
+		   if(lfEqn.getDimension()>net.getNoBus()*2){
+			   Vector_xy v=lfEqn.getBVect_xy(net.getNoBus()+1);
+			   System.out.println("B("+(net.getNoBus()+1)+") :  misLambda="+v.x+",  dummy="+v.y);
+		   }
+	   }
+	
 		
 }
 
