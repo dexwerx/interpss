@@ -41,7 +41,7 @@ public class IEEE14_WalkThroughTest  extends PluginTestSetup {
   		});
   		walkAlgo.setBranchWalker(new AbstractBranchPowerFlowPathWalker() {
   			@Override
-  			public boolean visit(Branch branch) {
+  			public boolean visit(Bus bus, Branch branch) {
   				branch.setVisited(true);
   				System.out.println("Branch " + branch.getId() + " visited");
   				return true;
