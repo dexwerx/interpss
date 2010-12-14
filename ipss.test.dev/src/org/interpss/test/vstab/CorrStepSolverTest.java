@@ -23,26 +23,23 @@ public class CorrStepSolverTest extends DevTestSetup {
 	 */
 //	@Test
 //	public void testCase1() {
-//    IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+//    IPSSMsgHub msg = 		CoreCommonSpringCtx.getIpssMsgHub();
 //	
 //	// create a sample 5-bus system for Loadflow 
 //	AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-//	SampleCases.load_LF_5BusSystem(net, msg);
-//	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
-////	net.accept(algo);
-////	System.out.println(AclfOutFunc.loadFlowSummary(net)); // output load flow result 
-//	
+//	SampleCases.load_LF_5BusSystem(net);
+//	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+//
 //	// create CPF algorithm;
 //	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, msg);
-//	double fixVal=2.5;
-//	cpfAlgo.setFixedValOfContPara(fixVal);// set fixval to 1.5 intentionally for testing
-//	CorrectorStepSolver corSolver=cpfAlgo.getCorrStepSolver();
-//	algo.setNrSolver(corSolver);
+//	double fixVal=cpfAlgo.getLambdaParam().getValue();
+////	CustomLfAlgorithm customAlgo=new CustomLfAlgorithm(cpfAlgo);
+//	CorrectorStepSolver corrSolver =cpfAlgo.getCorrStepSolver();
+//	algo.setNrSolver(corrSolver);
 //	net.accept(algo);
 //	assertTrue(net.isLfConverged());
-//	assertTrue((cpfAlgo.getLambdaParam().getVal()-fixVal)<1e-5);
-////	System.out.println("lambda="+cpfAlgo.getLambdaParam().getVal());
-////	System.out.println(AclfOutFunc.loadFlowSummary(net));
+//	assertTrue((cpfAlgo.getLambdaParam().getValue()-fixVal)<1e-9);
+//
 //	}
 	
 	/**
@@ -55,10 +52,7 @@ public class CorrStepSolverTest extends DevTestSetup {
 			// create a sample 5-bus system for Loadflow 
 			AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 			SampleCases.load_LF_5BusSystem(net);
-//			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
-//			net.accept(algo);
-//			System.out.println(AclfOutFunc.loadFlowSummary(net));
-			// create CPF algorithm;
+
 			CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, msg);
 
 			double fixVal=0.956;
@@ -67,15 +61,16 @@ public class CorrStepSolverTest extends DevTestSetup {
 			cpfAlgo.setSorNumofContParam(4);// sortNumber=4 ,namely vmag of bus2 is selected as the continuation parameter
 			cpfAlgo.setFixedValOfContPara(fixVal);// set fixedVal to 1.5 intentionally for testing
 			System.out.println("cpfAlgo SortNum="+cpfAlgo.getSortNumOfContParam());
-			//CorrectorStepSolver corSolver=cpfAlgo.getCorrStepSolver();
-			CustomLfAlgorithm customAlgo=new CustomLfAlgorithm(cpfAlgo);
-//			algo.setNrSolver(corSolver);
-			net.accept(customAlgo);
+			CorrectorStepSolver corSolver=cpfAlgo.getCorrStepSolver();
+
+			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+			algo.setNrSolver(corSolver);
+			net.accept(algo);
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			System.out.println("SortNumber of bus2 ="+net.getAclfBus("2").getSortNumber());
 			assertTrue(net.isLfConverged());
 			assertTrue((net.getAclfBus("2").getVoltageMag()-fixVal)<1e-5);// bus2
-//			System.out.println("lambda="+cpfAlgo.getLambdaParam().getVal());
+
 			
 	}
 }
