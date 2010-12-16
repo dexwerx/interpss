@@ -1,13 +1,11 @@
 package org.interpss.vstab.cpf;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
 
 public abstract class  AbstractStepSolver {
 	protected AclfNetwork net=null;
 	protected int sortNumofContParam=0;
-	protected IPSSMsgHub msg=null;
 	protected SparseEqnMatrix2x2 augmentedJacobi=null;
 	protected double DEFAULT_CPFSOLVER_TOLEARNCE=9.95e-21;
 	protected double tolerance=DEFAULT_CPFSOLVER_TOLEARNCE;

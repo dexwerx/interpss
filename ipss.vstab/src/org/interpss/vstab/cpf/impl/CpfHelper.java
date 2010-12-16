@@ -5,17 +5,13 @@ package org.interpss.vstab.cpf.impl;
  */
 
 import java.util.Hashtable;
+
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
-import java.util.Iterator;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.util.VstabFuncOut;
 
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
-import com.interpss.common.exp.InterpssException;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;

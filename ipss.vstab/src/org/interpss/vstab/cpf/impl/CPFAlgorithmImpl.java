@@ -6,8 +6,6 @@ import org.interpss.vstab.cpf.GenDispPattern;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
-import com.interpss.common.datatype.UnitType;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -17,7 +15,7 @@ import com.interpss.core.common.visitor.IAclfBusVisitor;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
 
-    protected LambdaParam lambda=null;
+//    protected LambdaParam lambda=null;
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPattern genDispPtn=null;
     protected LoadIncPattern loadIncPtn=null;
@@ -31,7 +29,7 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     
     public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda) {
     	this.setAclfNetwork(net);
-    	this.lambda=lambda;
+    	//this.lambda=lambda;
     	this.sortNumOfContPara=lambda.getPosition();// by default;
     	this.fixedValOfContParam=lambda.getValue(); // by default;
         this.cpfSolver=new CPFSolverImpl(this,lambda);

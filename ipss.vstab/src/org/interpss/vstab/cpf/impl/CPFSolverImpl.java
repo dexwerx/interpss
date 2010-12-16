@@ -2,19 +2,10 @@ package org.interpss.vstab.cpf.impl;
 
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
-import org.interpss.vstab.cpf.GenDispPattern;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.IAclfBranch;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.common.visitor.IAclfBranchVisitor;
-import com.interpss.core.common.visitor.IAclfBusVisitor;
 
 public class CPFSolverImpl implements CPFSolver{
 
@@ -31,8 +22,8 @@ public class CPFSolverImpl implements CPFSolver{
 		
 	}
 	public CPFSolverImpl(CPFAlgorithm algo,LambdaParam newLambda) {
-		cpfAlgo=algo;
-		lambda=newLambda;
+		this.cpfAlgo=algo;
+		this.lambda=newLambda;
 		this.corrStepSolver=new CorrectorStepSolver(algo);
 		this.predStepSolver=new PredictorStepSolver(algo,lambda);
 		

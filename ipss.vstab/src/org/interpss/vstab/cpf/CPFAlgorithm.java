@@ -1,14 +1,24 @@
 package org.interpss.vstab.cpf;
 
+/**
+class structure
+    
+    CPFAlgorithm -> LoadflowAlgorithm
+          --<> AclfNetwork (inherited)
+          --<> LoadIncPattern
+          --<> GenDispPattern
+          --<> CPFSolver
+                  ---> CPFAlgorithm
+                  --<> LambdaParam
+                  --<> PredictorStepSolver
+                  			---> CPFAlgorithm
+                  --<> CorrectorStepSolver
+                  			---> CPFAlgorithm
 
+*/
 
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
-import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
-import org.interpss.vstab.cpf.impl.LambdaParam;
-import org.interpss.vstab.cpf.impl.PredictorStepSolver;
 
-import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
 public interface CPFAlgorithm extends LoadflowAlgorithm{
