@@ -161,9 +161,7 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		return edgeBetweennessDigraph;
 	}
 
-	// Create shortest-path graph for every vertex by Dijkstra algorithm
-	// R. K. Ahuja, T. L. Magnanti, and J. B. Orlin, Network Flows: Theory, Algorithms, and Applications, Prentice Hall, Upper Saddle River,
-	// New Jersey (1993)
+	// Create shortest-path graph for every vertex by depth-first traversal algorithm
 	private DirectedMultigraph<String, DefaultEdge> DijkstraAlgorithm(DirectedWeightedMultigraph<String, DefaultWeightedEdge> originalDigraph, 
 			String thisVertex) {
 	
@@ -206,38 +204,39 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		mapVertexShortestDistance.put(thisVertex, 0.0);
 		
 		// 3. Depth-first traversing, update the shortest-path values
-		// TODO: Create the depth-first iterator
 		Stack<String> bfiVertices = new Stack<String>();	// Stack to store passed vertices in a breadth-first traversing
 		// The map of a weighted edge and the flag of having been visited
-		HashMap<DefaultWeightedEdge, Boolean> mapEdgeVisited = new HashMap<DefaultWeightedEdge, Boolean>();
-		for (DefaultWeightedEdge thisEdge : inverseGraph.edgeSet())
-			mapEdgeVisited.put(thisEdge, false);
+//		HashMap<DefaultWeightedEdge, Boolean> mapEdgeVisited = new HashMap<DefaultWeightedEdge, Boolean>();
+//		for (DefaultWeightedEdge thisEdge : inverseGraph.edgeSet())
+//			mapEdgeVisited.put(thisEdge, false);
 		String currentVertex = thisVertex;
 		bfiVertices.push(currentVertex);
+//		System.out.println(bfiVertices.toString());
 		while (!bfiVertices.isEmpty()) {
 			// Operate the following codes for those edges started with current vertex
 			boolean hasNewEdge = false;
 			for (DefaultWeightedEdge curEdge : inverseGraph.outgoingEdgesOf(currentVertex)) {
-				if (!mapEdgeVisited.get(curEdge)) {	// Used for those edges that have not been treated yet
-					hasNewEdge = true;
+//				if (!mapEdgeVisited.get(curEdge)) {	// Used for those edges that have not been treated yet
 					// 3.1. Mark current edge as already been visited
-					mapEdgeVisited.put(curEdge, true);
+//					mapEdgeVisited.put(curEdge, true);
 					String nextVertex = inverseGraph.getEdgeTarget(curEdge);
 					// 3.2. Update shortest-path values
 					double curSD = mapVertexShortestDistance.get(currentVertex);
 					double edgeWeight = inverseGraph.getEdgeWeight(curEdge);
 					double newSD = curSD + edgeWeight;
 					if (mapVertexShortestDistance.get(nextVertex) > newSD) {
+						hasNewEdge = true;
 						mapVertexShortestDistance.put(nextVertex, newSD);
+						// 3.3. Push the target vertex of current edge into the stack
+						bfiVertices.push(nextVertex);
+//						System.out.println(bfiVertices.toString());
+						break;
 //						System.out.println("New shortest path [" + nextVertex + "]: " + newSD);
 					}
-					// 3.3. Push the target vertex of current edge into the stack
-					bfiVertices.push(nextVertex);
-				}
+//				}
 			}
 			if (!hasNewEdge) {
 				bfiVertices.pop();
-				// TODO: Add something here to mark the subsequent edges to be not visited again
 			}
 			if (!bfiVertices.isEmpty())
 				currentVertex = bfiVertices.peek();
@@ -264,48 +263,50 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		return shortestPathDigraph;
 	}
 	
-	// Test of the Dijkstra Algorithm
-	private void TestDijkstra() {
-		// 1. Create the weighted digraph
-		// 1.1. Initialise the graph
-		DirectedWeightedMultigraph<String, DefaultWeightedEdge> testGraph = 
-			new DirectedWeightedMultigraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-		// 1.2. Add nodes
-		for (int i = 1; i <= 6; i++)
-			testGraph.addVertex((new Integer(i)).toString());
-		// 1.3. Add edges
-		DefaultWeightedEdge edge1 = new DefaultWeightedEdge();
-		testGraph.addEdge("1", "2", edge1);
-		testGraph.setEdgeWeight(edge1, 6);
-		DefaultWeightedEdge edge2 = new DefaultWeightedEdge();
-		testGraph.addEdge("1", "3", edge2);
-		testGraph.setEdgeWeight(edge2, 4);
-		DefaultWeightedEdge edge3 = new DefaultWeightedEdge();
-		testGraph.addEdge("2", "3", edge3);
-		testGraph.setEdgeWeight(edge3, 2);
-		DefaultWeightedEdge edge4 = new DefaultWeightedEdge();
-		testGraph.addEdge("2", "4", edge4);
-		testGraph.setEdgeWeight(edge4, 2);
-		DefaultWeightedEdge edge5 = new DefaultWeightedEdge();
-		testGraph.addEdge("3", "4", edge5);
-		testGraph.setEdgeWeight(edge5, 1);
-		DefaultWeightedEdge edge6 = new DefaultWeightedEdge();
-		testGraph.addEdge("3", "5", edge6);
-		testGraph.setEdgeWeight(edge6, 2);
-		DefaultWeightedEdge edge7 = new DefaultWeightedEdge();
-		testGraph.addEdge("4", "6", edge7);
-		testGraph.setEdgeWeight(edge7, 7);
-		DefaultWeightedEdge edge8 = new DefaultWeightedEdge();
-		testGraph.addEdge("5", "4", edge8);
-		testGraph.setEdgeWeight(edge8, 1);
-		DefaultWeightedEdge edge9 = new DefaultWeightedEdge();
-		testGraph.addEdge("5", "6", edge9);
-		testGraph.setEdgeWeight(edge9, 3);
-
-		// 2. Test the algorithm
-		DirectedMultigraph<String, DefaultEdge> spd1 = DijkstraAlgorithm(testGraph, "1");
-		System.out.println(spd1.toString());
-	}
+//	// Test of the Dijkstra Algorithm
+//	private void TestDijkstra() {
+//		// 1. Create the weighted digraph
+//		// 1.1. Initialise the graph
+//		DirectedWeightedMultigraph<String, DefaultWeightedEdge> testGraph = 
+//			new DirectedWeightedMultigraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+//		// 1.2. Add nodes
+//		for (int i = 1; i <= 6; i++)
+//			testGraph.addVertex((new Integer(i)).toString());
+//		// 1.3. Add edges
+//		DefaultWeightedEdge edge1 = new DefaultWeightedEdge();
+//		testGraph.addEdge("1", "2", edge1);
+//		testGraph.setEdgeWeight(edge1, new Double(1.0 / 6.0));
+//		DefaultWeightedEdge edge2 = new DefaultWeightedEdge();
+//		testGraph.addEdge("1", "3", edge2);
+//		testGraph.setEdgeWeight(edge2, new Double(1.0 / 4.0));
+//		DefaultWeightedEdge edge3 = new DefaultWeightedEdge();
+//		testGraph.addEdge("2", "3", edge3);
+//		testGraph.setEdgeWeight(edge3, new Double(1.0 / 2.0));
+//		DefaultWeightedEdge edge4 = new DefaultWeightedEdge();
+//		testGraph.addEdge("2", "4", edge4);
+//		testGraph.setEdgeWeight(edge4, new Double(1.0 / 2.0));
+//		DefaultWeightedEdge edge5 = new DefaultWeightedEdge();
+//		testGraph.addEdge("3", "4", edge5);
+//		testGraph.setEdgeWeight(edge5, new Double(1.0 / 1.0));
+//		DefaultWeightedEdge edge6 = new DefaultWeightedEdge();
+//		testGraph.addEdge("3", "5", edge6);
+//		testGraph.setEdgeWeight(edge6, new Double(1.0 / 2.0));
+//		DefaultWeightedEdge edge7 = new DefaultWeightedEdge();
+//		testGraph.addEdge("4", "6", edge7);
+//		testGraph.setEdgeWeight(edge7, new Double(1.0 / 7.0));
+//		DefaultWeightedEdge edge8 = new DefaultWeightedEdge();
+//		testGraph.addEdge("5", "4", edge8);
+//		testGraph.setEdgeWeight(edge8, new Double(1.0 / 1.0));
+//		DefaultWeightedEdge edge9 = new DefaultWeightedEdge();
+//		testGraph.addEdge("5", "6", edge9);
+//		testGraph.setEdgeWeight(edge9, new Double(1.0 / 3.0));
+//
+//		// 2. Test the algorithm
+//		for (String thisVertex : testGraph.vertexSet()) {
+//			DirectedMultigraph<String, DefaultEdge> spd1 = DijkstraAlgorithm(testGraph, thisVertex);
+//			System.out.println(spd1.toString());
+//		}
+//	}
 	
 	// Output the histogram of all the edge betweenness
 	public void histogramOfEdgeBetweenness() {
@@ -316,10 +317,10 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		
 		
 		IpssPlugin.init();
-//		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("ieee14.ieee");
-		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Summer.ieee");
+		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/ieee14.ieee");
+//		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Summer.ieee");
 		EdgeBetweennessDigraph ebd = new EdgeBetweennessDigraph(afd.getpDigraph());
-		ebd.TestDijkstra();
+//		ebd.TestDijkstra();
 		// Output all the edge betweenness descendingly
 		// 1. Create the map between the edge and the corresponding weight
 		HashMap<DefaultWeightedEdge, Double> mapEdgeBetweenness = new HashMap<DefaultWeightedEdge, Double>();
