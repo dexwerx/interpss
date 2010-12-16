@@ -205,7 +205,8 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		// The weight of the first vertex is zero
 		mapVertexShortestDistance.put(thisVertex, 0.0);
 		
-		// 3. Breadth-first traversing, update the shortest-path values
+		// 3. Depth-first traversing, update the shortest-path values
+		// TODO: Create the depth-first iterator
 		Stack<String> bfiVertices = new Stack<String>();	// Stack to store passed vertices in a breadth-first traversing
 		// The map of a weighted edge and the flag of having been visited
 		HashMap<DefaultWeightedEdge, Boolean> mapEdgeVisited = new HashMap<DefaultWeightedEdge, Boolean>();
@@ -234,8 +235,10 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 					bfiVertices.push(nextVertex);
 				}
 			}
-			if (!hasNewEdge)
+			if (!hasNewEdge) {
 				bfiVertices.pop();
+				// TODO: Add something here to mark the subsequent edges to be not visited again
+			}
 			if (!bfiVertices.isEmpty())
 				currentVertex = bfiVertices.peek();
 		}
@@ -261,6 +264,49 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		return shortestPathDigraph;
 	}
 	
+	// Test of the Dijkstra Algorithm
+	private void TestDijkstra() {
+		// 1. Create the weighted digraph
+		// 1.1. Initialise the graph
+		DirectedWeightedMultigraph<String, DefaultWeightedEdge> testGraph = 
+			new DirectedWeightedMultigraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+		// 1.2. Add nodes
+		for (int i = 1; i <= 6; i++)
+			testGraph.addVertex((new Integer(i)).toString());
+		// 1.3. Add edges
+		DefaultWeightedEdge edge1 = new DefaultWeightedEdge();
+		testGraph.addEdge("1", "2", edge1);
+		testGraph.setEdgeWeight(edge1, 6);
+		DefaultWeightedEdge edge2 = new DefaultWeightedEdge();
+		testGraph.addEdge("1", "3", edge2);
+		testGraph.setEdgeWeight(edge2, 4);
+		DefaultWeightedEdge edge3 = new DefaultWeightedEdge();
+		testGraph.addEdge("2", "3", edge3);
+		testGraph.setEdgeWeight(edge3, 2);
+		DefaultWeightedEdge edge4 = new DefaultWeightedEdge();
+		testGraph.addEdge("2", "4", edge4);
+		testGraph.setEdgeWeight(edge4, 2);
+		DefaultWeightedEdge edge5 = new DefaultWeightedEdge();
+		testGraph.addEdge("3", "4", edge5);
+		testGraph.setEdgeWeight(edge5, 1);
+		DefaultWeightedEdge edge6 = new DefaultWeightedEdge();
+		testGraph.addEdge("3", "5", edge6);
+		testGraph.setEdgeWeight(edge6, 2);
+		DefaultWeightedEdge edge7 = new DefaultWeightedEdge();
+		testGraph.addEdge("4", "6", edge7);
+		testGraph.setEdgeWeight(edge7, 7);
+		DefaultWeightedEdge edge8 = new DefaultWeightedEdge();
+		testGraph.addEdge("5", "4", edge8);
+		testGraph.setEdgeWeight(edge8, 1);
+		DefaultWeightedEdge edge9 = new DefaultWeightedEdge();
+		testGraph.addEdge("5", "6", edge9);
+		testGraph.setEdgeWeight(edge9, 3);
+
+		// 2. Test the algorithm
+		DirectedMultigraph<String, DefaultEdge> spd1 = DijkstraAlgorithm(testGraph, "1");
+		System.out.println(spd1.toString());
+	}
+	
 	// Output the histogram of all the edge betweenness
 	public void histogramOfEdgeBetweenness() {
 		// TODO
@@ -268,10 +314,12 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 
 	public static void main(String[] args) throws Exception {
 		
+		
 		IpssPlugin.init();
 //		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("ieee14.ieee");
 		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Summer.ieee");
 		EdgeBetweennessDigraph ebd = new EdgeBetweennessDigraph(afd.getpDigraph());
+		ebd.TestDijkstra();
 		// Output all the edge betweenness descendingly
 		// 1. Create the map between the edge and the corresponding weight
 		HashMap<DefaultWeightedEdge, Double> mapEdgeBetweenness = new HashMap<DefaultWeightedEdge, Double>();
