@@ -17,15 +17,11 @@ import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 
 public class CPFSolverImpl implements CPFSolver{
-    private AclfNetwork net=null;
-    private IPSSMsgHub msg=null;
-    protected LoadIncPattern _loadIncPtn=null;
-    protected GenDispPattern _genDispPtn=null;
+
+//    protected LoadIncPattern _loadIncPtn=null;
+//    protected GenDispPattern _genDispPtn=null;
     private boolean cpfConverged=false;
     private boolean isCpfStop=false;
-	private final int DEFAULT_CONT_PARA_SORTNUM=0;
-	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
-	private double fixedValueOfContPara=0;
 	private LambdaParam lambda=null;
 	CPFAlgorithm cpfAlgo=null;
     private CorrectorStepSolver corrStepSolver;
@@ -34,12 +30,11 @@ public class CPFSolverImpl implements CPFSolver{
 	public CPFSolverImpl() {
 		
 	}
-	public CPFSolverImpl(CPFAlgorithm cpf, IPSSMsgHub msg) {
-		cpfAlgo=cpf;
-		this.net=cpfAlgo.getAclfNet();
-		lambda=cpfAlgo.getLambdaParam();
-		this.corrStepSolver=cpf.getCorrStepSolver();
-		this.predStepSolver=cpf.getPreStepSolver();
+	public CPFSolverImpl(CPFAlgorithm algo,LambdaParam newLambda) {
+		cpfAlgo=algo;
+		lambda=newLambda;
+		this.corrStepSolver=new CorrectorStepSolver(algo);
+		this.predStepSolver=new PredictorStepSolver(algo,lambda);
 		
 	}
 
@@ -61,7 +56,7 @@ public class CPFSolverImpl implements CPFSolver{
 	public boolean correctorStep() {
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		algo.setNrSolver(corrStepSolver);
-		if(!net.accept(algo)) {
+		if(!this.cpfAlgo.getAclfNetwork().accept(algo)) {
 			return false;
 		}
 		return true;
@@ -84,6 +79,21 @@ public class CPFSolverImpl implements CPFSolver{
 		}
 		return isCpfStop=false;
 		
+	}
+	@Override
+	public CorrectorStepSolver getCorrStepSolver() {
+		
+		return this.corrStepSolver;
+	}
+	@Override
+	public LambdaParam getLambda() {
+		
+		return this.lambda;
+	}
+	@Override
+	public PredictorStepSolver getPredStepSolver() {
+		
+		return this.predStepSolver;
 	}
 
 	

@@ -16,6 +16,7 @@ import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.datatype.Vector_xy;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
@@ -30,12 +31,11 @@ public class CpfHelper {
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
 	private int iterationCount=0;
-	private IPSSMsgHub msg=null;
+
 	private AclfNetwork net=null;
 	
-	public CpfHelper(AclfNetwork net, IPSSMsgHub msg){
+	public CpfHelper(AclfNetwork net){
 		this.net=net;
-		this.msg=msg;
 		contParaSortNum=this.net.getNoBus()+1; // by default
 	}
 
@@ -49,7 +49,7 @@ public class CpfHelper {
 		//2. augment the Jacobi with the differentiation of load flow equation 
 		// to Lamda(the load  increase index) 
         if(ldIncDirTbl==null||ldIncDirTbl.isEmpty()) {
-        	msg.sendInfoMsg("No load increasement data/profile is defined, set it to default");
+        	IpssLogger.getLogger().info("No load increasement data/profile is defined, set it to default");
         	setDefaultLoadIncData();
         }
 		   for(Bus b:this.net.getBusList()) {

@@ -31,9 +31,9 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
      * customized Load Flow for CPFAlgorithm, used in the corrector step;
      * @param cpf
      */
-	public CustomLfAlgorithm(CPFAlgorithm cpf){
-    	Solver=cpf.getCorrStepSolver();
-    	net=cpf.getAclfNet();
+	public CustomLfAlgorithm(CPFAlgorithm cpfAlgo){
+    	Solver=cpfAlgo.getCpfSolver().getCorrStepSolver();
+    	net=cpfAlgo.getAclfNetwork();
     }
 	
 	/**

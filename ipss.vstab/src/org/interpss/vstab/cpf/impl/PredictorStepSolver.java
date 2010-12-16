@@ -35,12 +35,12 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	 * @param net
 	 * @param msg
 	 */
-	public PredictorStepSolver(CPFAlgorithm cpfAlgo,IPSSMsgHub msg) {
-		super(cpfAlgo.getAclfNet(), msg);
+	public PredictorStepSolver(CPFAlgorithm cpfAlgo,LambdaParam lambda) {
+
 		cpf=cpfAlgo;
-		this.lambda=cpfAlgo.getLambdaParam();
-		cpfHelper=new CpfHelper(net,msg);
-		this.deltaX_Lambda=new ArrayRealVector(this.net.getNoBus()*2+1); // swing bus is included
+		this.lambda=lambda;
+		cpfHelper=new CpfHelper(cpf.getAclfNetwork());
+		this.deltaX_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()*2+1); // swing bus is included
 	}
 	/**
 	 * a step Solver, overrides the same method of AbstractStepSolver 
@@ -70,7 +70,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 		}
 
 		final double actualStep=x;
-    	this.net.forEachAclfBus(new IAclfBusVisitor() {
+    	this.cpf.getAclfNetwork().forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
 			  if((!bus.isSwing())&bus.isActive()) {
 				 Vector_xy v=augmentedJacobi.getBVect_xy(bus.getSortNumber());
@@ -137,16 +137,16 @@ public class PredictorStepSolver extends AbstractStepSolver{
     private void saveDeltaRslt2Vctr() {
     	
     	int i=0;
-    	for (Iterator localIterator = this.net.getBusList().iterator(); localIterator.hasNext(); ) { 
+    	for (Iterator localIterator = cpf.getAclfNetwork().getBusList().iterator(); localIterator.hasNext(); ) { 
     		Bus b = (Bus)localIterator.next();
             i=b.getSortNumber();
             Vector_xy dv=this.augmentedJacobi.getBVect_xy(i);   
             this.deltaX_Lambda.setEntry(2*i-2, dv.x);
             this.deltaX_Lambda.setEntry(2*i-1, dv.y);
         }
-    	i=this.getAclfNetwork().getNoBus()+1; // lambda index 
+    	i=this.cpf.getAclfNetwork().getNoBus()+1; // lambda index 
     	double deltaL=this.augmentedJacobi.getBVect_xy(i).x;
-        this.deltaX_Lambda.setEntry(this.getAclfNetwork().getNoBus()*2, deltaL);
+        this.deltaX_Lambda.setEntry(this.cpf.getAclfNetwork().getNoBus()*2, deltaL);
     }
     protected boolean isStepSizeControl() {
     	return this.stepSizeCntrl;
@@ -162,8 +162,6 @@ public class PredictorStepSolver extends AbstractStepSolver{
     public ArrayRealVector getDeltaXLambda() {
     	return this.deltaX_Lambda;
     }
-    public CPFAlgorithm getCpfAlgo() {
-    	return this.cpf;
-    }
+
 
 }

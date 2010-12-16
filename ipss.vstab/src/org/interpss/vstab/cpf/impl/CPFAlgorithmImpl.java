@@ -11,39 +11,30 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algorithm.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 
-public class CPFAlgorithmImpl implements CPFAlgorithm{
-	
-    
-    protected IPSSMsgHub msg=null;
-    protected AclfNetwork net=null;
-    
+public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
+
     protected LambdaParam lambda=null;
-    private PredictorStepSolver predictStepSolver; 
-    private CorrectorStepSolver corrStepSolver;
     protected AnalysisStopCriteria stopCriteria=null;
     protected GenDispPattern genDispPtn=null;
     protected LoadIncPattern loadIncPtn=null;
     protected CPFSolver cpfSolver=null;
-    
-	protected int DEFAULT_CONTPARA_SORTNUM=0;
-	protected int sortNumOfContPara=DEFAULT_CONTPARA_SORTNUM; // used in whole process
+	protected int sortNumOfContPara=0; // used in whole process
     protected boolean violation=false;
     protected double DEFAULT_CPF_TOLEARANCE=1e-3;
     protected double tolerance;
     protected int maxInterations;
     protected double fixedValOfContParam=0;
     
-    public CPFAlgorithmImpl(AclfNetwork net, LambdaParam lambda, IPSSMsgHub msg) {
-    	this.net=net;
-    	this.msg=msg;
+    public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda) {
+    	this.setAclfNetwork(net);
     	this.lambda=lambda;
     	this.sortNumOfContPara=lambda.getPosition();// by default;
     	this.fixedValOfContParam=lambda.getValue(); // by default;
-    	this.predictStepSolver = new PredictorStepSolver(this,msg);
-    	this.corrStepSolver=new CorrectorStepSolver(this);
+        this.cpfSolver=new CPFSolverImpl(this,lambda);
     }
     
     
@@ -54,38 +45,6 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		return this.maxInterations;
 	}
 
-	@Override
-	public IPSSMsgHub getMsgHub() {
-		return this.msg;
-	}
-
-	@Override
-	public double getTolerance(byte unit) {
-		if(unit==UnitType.mVA) {
-			return this.tolerance*this.net.getBaseKva()/1000;
-		}
-		else if(unit==UnitType.PU) {
-			return this.tolerance;
-		}
-		else {
-			getMsgHub().sendErrorMsg("unit parameter must be either UnitType.mVA or PU");
-			return 0;
-		}
-		
-	}
-	@Override
-	public void setTolerance(double tol, byte unit) {
-		if(unit==UnitType.mVA) {
-			this.tolerance=tol/this.net.getBaseKva()*1000;
-		}
-		else if(unit==UnitType.PU) {
-			this.tolerance=tol;
-		}
-		else {
-			getMsgHub().sendErrorMsg("unit parameter must be either UnitType.mVA or PU");
-		}
-		
-	}
 
 	@Override
 	public boolean runCPF() {
@@ -118,12 +77,6 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 	}
 
 	@Override
-	public void setMsgHub(IPSSMsgHub paramIPSSMsgHub) {
-		this.msg=paramIPSSMsgHub;
-		
-	}
-
-	@Override
 	public AnalysisStopCriteria getAnalysisStopCriteria() {
 		return this.stopCriteria;
 	}
@@ -139,26 +92,12 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		return this.loadIncPtn;
 		
 	}
-
-	@Override
-	public double getTolerance() {
-		
-		return this.tolerance;
-	}
-	public AclfNetwork getAclfNet() {
-		return net;
-	}
-	/**
-	 * @param net the net to set
-	 */
-	public void setAclfNet(AclfNetwork net) {
-		this.net = net;
-	}
+	
 	@Override
 	public boolean isAnyViolation() {
 	         
 		
-		this.getAclfNet().forEachAclfBranch(new IAclfBranchVisitor() {
+		this.getAclfNetwork().forEachAclfBranch(new IAclfBranchVisitor() {
 
 			@Override
 			public void visit(AclfBranch bra) {
@@ -167,7 +106,7 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 			}
 			
 		});
-		this.getAclfNet().forEachAclfBus(new IAclfBusVisitor() {
+		this.getAclfNetwork().forEachAclfBus(new IAclfBusVisitor() {
 
 			@Override
 			public void visit(AclfBus bus) {
@@ -179,21 +118,6 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		return false;
 		
 	}
-
-
-	@Override
-	public LambdaParam getLambdaParam() {
-		
-		return lambda;
-	}
-
-
-	@Override
-	public void setLambda(LambdaParam newLambda) {
-		this.lambda=newLambda;
-		
-	}
-
 
 	@Override
 	public int getSortNumOfContParam() {
@@ -222,31 +146,12 @@ public class CPFAlgorithmImpl implements CPFAlgorithm{
 		
 	}
 
-
-
 	@Override
-	public CorrectorStepSolver getCorrStepSolver() {
-		return this.corrStepSolver;
-	}
-
-
-	@Override
-	public CPFSolver createCpfSolver() {
+	public CPFSolver getCpfSolver() {
 		
-		return new CPFSolverImpl(this,msg);
+		return this.cpfSolver;
 	}
 
-
-	@Override
-	public PredictorStepSolver getPreStepSolver() {
-		return this.predictStepSolver;
-	}
-
-
-
-	
-	
-	
 
 
 }

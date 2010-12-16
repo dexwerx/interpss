@@ -76,13 +76,13 @@ public class VstabFuncOut {
 		public void visit(AclfBus bus) {
 			int i=bus.getSortNumber();
 			Vector_xy bxy=lfEqn.getBVect_xy(i);
-			System.out.println(bus.getId()+"  "+bus.getGenCode().getLiteral()+":  dAng="+bxy.x+",  dMag="+bxy.y);
+			System.out.println("sortNumber"+bus.getSortNumber()+"busId  "+bus.getId()+"  "+bus.getGenCode().getLiteral()+":  b.x="+bxy.x+",  b.y="+bxy.y);
 		}
 		   
 	   });
 	   if(lfEqn.getDimension()>net.getNoBus()*2){
 		   Vector_xy v=lfEqn.getBVect_xy(net.getNoBus()+1);
-		   System.out.println("B("+(net.getNoBus()+1)+") :  dAng="+v.x+",  dMag="+v.y);
+		   System.out.println("B("+(net.getNoBus()+1)+") :  b.x="+v.x+",  b.y="+v.y);
 	   }
    }
    

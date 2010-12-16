@@ -12,10 +12,7 @@ public abstract class  AbstractStepSolver {
 	protected double DEFAULT_CPFSOLVER_TOLEARNCE=9.95e-21;
 	protected double tolerance=DEFAULT_CPFSOLVER_TOLEARNCE;
 	
-	public AbstractStepSolver(AclfNetwork net,IPSSMsgHub msg) {
-		this.net=net;
-		this.msg=msg;
-	}
+
 	
 	public double getTolerance() {
 		return tolerance;
@@ -23,24 +20,14 @@ public abstract class  AbstractStepSolver {
 	public void setTolerance(double tolerance) {
 		this.tolerance = tolerance;
 	}
-	public AclfNetwork getAclfNetwork() {
-		return net;
-	}
-	public void setAclfNetwork(AclfNetwork net) {
-		this.net = net;
-	}
+
 	public int getSortNumofContParam() {
 		return sortNumofContParam;
 	}
 	public void setSortNumofContParam(int sortNumofContParam) {
 		this.sortNumofContParam = sortNumofContParam;
 	}
-	public IPSSMsgHub getMsg() {
-		return msg;
-	}
-	public void setMsg(IPSSMsgHub msg) {
-		this.msg = msg;
-	}
+
 	public SparseEqnMatrix2x2 getAugmentedJacobi() {
 		return augmentedJacobi;
 	}
