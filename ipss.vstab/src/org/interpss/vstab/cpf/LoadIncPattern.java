@@ -1,47 +1,94 @@
 package org.interpss.vstab.cpf;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
-import com.interpss.common.msg.IPSSMsgHub;
+import org.apache.commons.math.complex.Complex;
+
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
-import com.interpss.core.net.Area;
-import com.interpss.core.net.Zone;
-import java.io.File;
 
+/**
+ * This class is to define the load increase pattern, including the scope and the increase direction of studied load buses;
+ * 
+ * @author Tony Huang
+ *
+ */
 public class LoadIncPattern {
 
-	protected List<Area> incAreaList=null;
-	protected List<Zone> incZoneList=null;
-	protected List<Bus> incBusList=null;
+	private LoadIncScope scope;
+	private LoadIncType  type;
+	private Hashtable<String,Complex> ldIncDirTbl=null;
+	private AclfNetwork net=null;
 	private  Hashtable<String ,Bus > incLoadBusTbl=null;
-	private  IPSSMsgHub _msg=null;
-	private  AclfNetwork _net=null;
-
-	
-	public enum LoadIncPtn{NETWORK,AREA,ZONE,BUS,CUSTOM_SPECIFIC};
-	
-	public LoadIncPattern(AclfNetwork net,IPSSMsgHub msg) {
-		
-		this._net=net;
-		this._msg=msg;
-		this.incLoadBusTbl=new Hashtable<String, Bus>(net.getNoBus());
-		this.incAreaList=new ArrayList<Area>();
-		this.incZoneList=new ArrayList<Zone>();
-		this.incBusList=new ArrayList<Bus>();
+	private List<Bus> incBusList=null;
+	public LoadIncPattern(AclfNetwork net,LoadIncScope incScope,LoadIncType incType,Object[]incObjectList){
+		this.net=net;
+		ldIncByScope(incScope,incObjectList);
+		defLoadIncDir(type);
 	}
-	public void ldIncByNetwork() {
-		addLoadBus2ListByBus(this._net.getBusList());
+    /*
+     * LoadIncScope : to specify where the loads will increase, or which of the analyzed network is the interested part(s) during the CPF analysis
+     */
+	
+	public enum LoadIncScope{NETWORK,AREA,ZONE,BUS};
+	
+	/*
+	 * LoadIncType : to define how the would-be-increased load(s) increase demand
+	 */
+	public enum LoadIncType{CONST_PF,ONLY_P,ONLY_Q};
+	
+	public void setLoadIncScope(LoadIncScope incScope){
+		this.scope=incScope;
 	}
-	public void defLoadIncPtn(LoadIncPtn ptn, AclfNetwork net,Object[]increaseObj){
-		this._net=net;
+	public LoadIncScope getLoadIncScope(){
+		return this.scope;
+	}
+	
+	public LoadIncType getLdIncType() {
+		return type;
+	}
+	public void setLdIncType(LoadIncType type) {
+		this.type = type;
+	}
+	public Hashtable<String,Complex> getLoadIncDir(){
+		return this.ldIncDirTbl;
+	}
+    private void defLoadIncDir(LoadIncType type){
+    	ldIncDirTbl.clear(); // clear the direction info saved before
+		for(Bus b:incBusList){
+			AclfBus bus=(AclfBus) b;
+			Complex dir=new Complex(0, 0);
+			if(type==LoadIncType.CONST_PF){
+				dir=bus.getLoad();
+			}
+			else if(type==LoadIncType.ONLY_P){
+				dir=new Complex(bus.getLoadP(),0);
+			}
+			else if(type==LoadIncType.ONLY_Q){
+				dir= new Complex(0,bus.getLoadQ());
+			}
+			else
+				IpssLogger.getLogger().severe("Error:the Load Type"+ type.toString()+" is never defined in InterPSS yet! ");
+			this.ldIncDirTbl.put(bus.getId(),dir);
+		}
+	}
+    public void customLoadIncDir(){
+    	throw new UnsupportedOperationException();
+    }
+	
+	private void ldIncByScope(LoadIncScope scope, Object[]increaseObj){
 		long areaNumber=0;
 		long zoneNumber=0;
-		if(ptn==LoadIncPtn.AREA) {
+		if(scope==LoadIncScope.NETWORK){
+			ldIncByNetwork();	
+		}
+		if(scope==LoadIncScope.AREA) {
 			if((increaseObj.length!=0)& increaseObj instanceof Long[]) {
 				for(int i=0;i<increaseObj.length;i++) {
 					areaNumber=(Long) increaseObj[i];
@@ -49,10 +96,10 @@ public class LoadIncPattern {
 				}
 			}
 			else {
-				_msg.sendErrorMsg("LoadIncPtn is by AREA, but inceaseObjList is not Area type, not consistent with ptn");
+				IpssLogger.getLogger().severe("LoadIncPtn is by AREA, but inceaseObjList is not Area type, not consistent with ptn");
 			}
 			
-		if(ptn==LoadIncPtn.ZONE) {
+		if(scope==LoadIncScope.ZONE) {
 			if((increaseObj.length!=0)& increaseObj instanceof Long[]) {
 				for(int i=0;i<increaseObj.length;i++) {
 					zoneNumber=(Long) increaseObj[i];
@@ -60,47 +107,37 @@ public class LoadIncPattern {
 				}
 			}
 			else {
-				_msg.sendErrorMsg("LoadIncPtn is by ZONE, but inceaseObj is not ZONE type, not consistent with ptn");
+				IpssLogger.getLogger().severe("LoadIncPtn is by ZONE, but inceaseObj is not ZONE type, not consistent with ptn");
 			}
 		}
-		if(ptn==LoadIncPtn.BUS) {
+		if(scope==LoadIncScope.BUS) {
 			if((increaseObj!=null)&(increaseObj instanceof Bus[])) {
 				addLoadBus2ListByBus(Arrays.asList((Bus[])increaseObj));
 			}
 			else {
-				_msg.sendErrorMsg("LoadIncPtn is by BUS, but inceaseObj is not BUS type, not consistent with ptn");
+				IpssLogger.getLogger().severe("LoadIncPtn is by BUS, but inceaseObj is not BUS type, not consistent with ptn");
 			}
 		}
 			
 		}
 	}
-
-	public List<Area> getIncAreaList() {
-		return incAreaList;
-	}
-	public void setIncAreaList(List<Area> incAreaList) {
-		this.incAreaList = incAreaList;
-	}
 	
-	public List<Zone> getIncZoneList() {
-		return incZoneList;
-	}
-	public void setIncZoneList(List<Zone> incZoneList) {
-		this.incZoneList = incZoneList;
-	}
-	
-	public void setIncBusList(List<Bus> incBusList) {
+	public void setIncBusList(ArrayList<Bus> incBusList) {
 		this.incBusList = incBusList;
 	}
 	public List<Bus> getIncBusList() {
 		return this.incBusList;
 	}
+	
+	private void ldIncByNetwork() {
+		addLoadBus2ListByBus(this.net.getBusList());
+	}
 	private void addLdBus2ListByArea(long areaNum) {
-		for(Bus b:_net.getBusList()) {
+		for(Bus b:net.getBusList()) {
 			AclfBus bus=(AclfBus) b;
-			if((b.getArea().getNumber()==areaNum)&bus.isLoad()) {
+			if((b.getArea().getNumber()==areaNum)&bus.isLoad()&b.isActive()) {
 				if (this.incLoadBusTbl.containsKey(b.getId())){
-					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
+					IpssLogger.getLogger().info("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
 				else {
 					this.incBusList.add(b);
@@ -111,14 +148,14 @@ public class LoadIncPattern {
 		}
 	}
 	private void addLdBus2ListByZone(long zoneNum) {
-		for(Bus b:_net.getBusList()) {
+		for(Bus b:net.getBusList()) {
 			
 			AclfBus bus=(AclfBus) b;
-			if(b.getZone().getNumber()==zoneNum&bus.isLoad()) {
+			if(b.getZone().getNumber()==zoneNum&bus.isLoad()& b.isActive()) {
 				if (this.incLoadBusTbl.containsKey(b.getId())){
-					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
+					IpssLogger.getLogger().info("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
-				else {
+				else{
 					this.incBusList.add(b);
 					this.incLoadBusTbl.put(b.getId(), b);
 				}
@@ -126,26 +163,26 @@ public class LoadIncPattern {
 				
 		}
 	}
-	private void addLoadBus2ListByBus(List<Bus> loadIncBusList) {
+	private void addLoadBus2ListByBus(List<Bus> list) {
 		if((this.incBusList!=null)&(!this.incBusList.isEmpty())) {
-			for(Bus b:loadIncBusList) {
+			for(Bus b:list) {
 				if(!this.incLoadBusTbl.containsValue(b)){
-					if(((AclfBus)b).isLoad()) {
+					if(((AclfBus)b).isLoad()& b.isActive()) {
 					     this.incBusList.add(b);
 					     this.incLoadBusTbl.put(b.getId(), b);
 					}
 					else {
-						_msg.sendErrorMsg("Bus "+b.getId()+"is not a Load Bus");
+						IpssLogger.getLogger().info("Bus "+b.getId()+"is not a Load Bus");
 					}
 				}
 				else {
-					_msg.sendErrorMsg("Duplication Error,Bus "+b.getId()+"is already in incBusList");
+					IpssLogger.getLogger().info("Duplication Error,Bus "+b.getId()+"is already in incBusList");
 				}
 			}
 		}
 		else {
-			this.incBusList=loadIncBusList;
-			for(Bus b:loadIncBusList) {
+			this.incBusList=list;
+			for(Bus b:list) {
 				this.incLoadBusTbl.put(b.getId(),b);
 			}
 		}
@@ -157,6 +194,5 @@ public class LoadIncPattern {
 	public void getLdPtnFromXmlDoc(File file) {
 		throw new UnsupportedOperationException();
 	}
-
 
 }
