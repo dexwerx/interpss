@@ -13,13 +13,14 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
  * 
  *     i - The SVC connected bus position in the J-matrix
  *     n - The SVC position in the J-matrix
- * 
+ *
+ * 	   vsh - ?
+ *     qc - ?  (Mike : it seems to me qc is used for vref and qc(max) 
+ *     gsh + j bsh - 	
+ *     
  */
 
 public class SVCControl extends AbstractAclfBus {
-
-	// network variables
-	//AclfBus busi = null;  // bus the SVC connected to
 	int position = 0;     // SVC position in the J-matrix
 
 	// SVC variables
