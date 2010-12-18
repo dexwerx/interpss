@@ -47,5 +47,7 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
     public double getFixedValOfContPara() ;
     
     public CPFSolver getCpfSolver() ;
+    
+    public boolean isLmdaContParam();
 
 }

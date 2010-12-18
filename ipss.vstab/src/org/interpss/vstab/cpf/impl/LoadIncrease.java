@@ -1,7 +1,6 @@
 package org.interpss.vstab.cpf.impl;
 
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.apache.commons.math.complex.Complex;
@@ -11,7 +10,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 /**
- * With the predefined load increase pattern, this LoadIncreaes class increase the some interested loads by Lambda;
+ * With the predefined load increase pattern, this LoadIncreae class increase the some interested loads by Lambda;
  * @author Tony Huang
  *
  */

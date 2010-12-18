@@ -8,6 +8,7 @@ import java.util.Hashtable;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealVector;
+import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.util.VstabFuncOut;
 
 import com.interpss.common.datatype.Matrix_xy;
@@ -27,9 +28,10 @@ public class CpfHelper {
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
 	private int iterationCount=0;
-
 	private AclfNetwork net=null;
 	
+	private LoadIncrease ldInc=null;
+	private LoadIncPattern ptn=null;
 	public CpfHelper(AclfNetwork net){
 		this.net=net;
 		contParaSortNum=this.net.getNoBus()+1; // by default
@@ -44,13 +46,13 @@ public class CpfHelper {
 		
 		//2. augment the Jacobi with the differentiation of load flow equation 
 		// to Lamda(the load  increase index) 
-        if(ldIncDirTbl==null||ldIncDirTbl.isEmpty()) {
+        if(getLdIncDirTbl()==null||getLdIncDirTbl().isEmpty()) {
         	IpssLogger.getLogger().info("No load increasement data/profile is defined, set it to default");
         	setDefaultLoadIncData();
         }
 		   for(Bus b:this.net.getBusList()) {
-		   	if(ldIncDirTbl.containsKey(b.getId())) {
-		   		Complex dir_pq=this.ldIncDirTbl.get(b.getId());
+		   	if(getLdIncDirTbl().containsKey(b.getId())) {
+		   		Complex dir_pq=getLdIncDirTbl().get(b.getId());
 		   		Matrix_xy m=new Matrix_xy();
 		   		if(b.isActive()) {
 		   			m.xx=dir_pq.getReal();// dirP  // sign is opposite to ordinary J-matrix;
@@ -93,7 +95,13 @@ public class CpfHelper {
 	}
     
 	public Hashtable<String,Complex> getLdIncDirTbl() {
-		return ldIncDirTbl;
+		if(this.ptn!=null)
+		return ldIncDirTbl=this.ptn.getLoadIncDir();
+		else{
+			IpssLogger.getLogger().severe("no loadIncPattern defined yet! Please check");
+			return null;
+		}
+		
 	}
 	public void setLdIncDirTbl(Hashtable<String,Complex> ldIncDirTbl) {
 		this.ldIncDirTbl = ldIncDirTbl;
@@ -188,6 +196,14 @@ public class CpfHelper {
 		   }
     		
     	});
+    }
+    public void increaseLoad(LoadIncPattern ptn, LambdaParam lambda){
+    	ldInc=new LoadIncrease(this.net,ptn);
+    	ldInc.increaseLoad(lambda);
+    }
+    public void setLoadIncPattern(LoadIncPattern ptn){
+    	this.ptn=ptn;
+    	
     }
     
 }

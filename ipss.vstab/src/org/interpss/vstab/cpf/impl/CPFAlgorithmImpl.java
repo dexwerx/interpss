@@ -152,4 +152,11 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 
 
 
+	@Override
+	public boolean isLmdaContParam() {
+		return this.getSortNumOfContParam()>this.getAclfNetwork().getNoBus();
+	}
+
+
+
 }

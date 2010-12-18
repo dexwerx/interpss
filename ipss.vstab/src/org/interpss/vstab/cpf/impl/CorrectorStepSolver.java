@@ -11,7 +11,6 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
 public class CorrectorStepSolver extends DefaultNrSolver {
     private CPFAlgorithm cpf=null;
     CpfHelper cpfHelper=null;
-    
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
 		cpf=cpfAlgo;
@@ -23,8 +22,6 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		System.out.println("cpf sortNum="+cpf.getSortNumOfContParam());
 		System.out.println("cpfHelper sortNum="+cpfHelper.getSortNumOfContParam());
 		SparseEqnMatrix2x2 lfEqn=cpfHelper.formAugmJacobiMatrix();
-		
-
 //		VstabFuncOut.printJmatix(lfEqn, 5, 2);
 		return lfEqn;
 	}
@@ -32,6 +29,9 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 	public void setPowerMismatch(SparseEqnMatrix2x2 lfEqn) {
 		// calculate bus power mismatch. The mismatch stored on 
 		// the right-hand side of the sparse eqn
+		if(!this.cpf.isLmdaContParam()){
+			
+		}
 		super.setPowerMismatch(lfEqn);
 		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
 		VstabFuncOut.printBVector(getAclfNet(), lfEqn);
@@ -45,7 +45,8 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		
 		// the solution result of the extra variable defined is stored at B(n+1)  
         this.cpf.getCpfSolver().getLambda().update(lfEqn);// is any factor needed for update?
-        // out put the B vector for test
+   
+        // output the B vector for test
         System.out.println("-------Delta X( theta, Vmag)-------");
         VstabFuncOut.printBVector(getAclfNet(), lfEqn);
         System.out.println("-------After update-------");

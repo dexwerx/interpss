@@ -1,7 +1,11 @@
 package org.interpss.vstab.cpf.impl;
 
 import java.util.HashMap;
+import java.util.Hashtable;
+
 import org.apache.commons.math.linear.*;
+import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
+
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
@@ -12,19 +16,43 @@ import com.interpss.core.net.Bus;
  */
 public class GenDispatch {
 
-    private int numofGen;
+    private int numofGen=0;
     private HashMap<Integer,Double> genPmax; //=new Matrix(numofGen,2);
     private HashMap<Integer,Double> genP0;
     private AclfNetwork net;
-
+    private GenDispPtn ptn;
+    private Hashtable<String,Double> customGenDispTbl;
+    public GenDispatch(AclfNetwork net, GenDispPtn genDispPtn){
+    	this.net=net;
+    	this.ptn=genDispPtn;
+    	
+    }
     
-	public  void genDispatch(AclfNetwork net,double pMismatch)  {
+	public  void genDispatch(double pMismatch){
+		if(this.ptn==GenDispPtn.AGC){
+			genDispByAGC(pMismatch);
+		}
+		else if (this.ptn==GenDispPtn.RESERVE_PROPORTION){
+			genDispByResvProp(pMismatch);
+		}
+		else if(this.ptn==GenDispPtn.CUSTOM_SPECIFIC){
+			genDispByCustSpec(pMismatch);
+		}
+	}
+	private void genDispByAGC(double pMismatch){
+		throw new UnsupportedOperationException();
+	}
+	private void genDispByCustSpec(double pMismatch){
+		throw new UnsupportedOperationException();
+	}
+	private  void genDispByResvProp(double pMismatch){
+	{
 		/*
 		 * 1.run power flow first,get the result ,here the gen P AND Q are needed
 		 * 2.get the gen power reserve  .
 		 * 3.generation dispatch according to the proportion of gen RESERVE of each gen.
 		 */
-		System.out.println("-- starting gen dispatch-- ");
+		System.out.println("-- starting gen dispatch by Reservation-Proportion method-- ");
 
 		double sumofDgenP=0;
 		RealVector DgenP=new ArrayRealVector(numofGen);                                               
@@ -52,6 +80,7 @@ public class GenDispatch {
 	        	j++;
 	     }
 		System.out.println("--end gen dispatch--");
+	}
    }
 
 

@@ -27,9 +27,19 @@ public class LoadIncPattern {
 	private AclfNetwork net=null;
 	private  Hashtable<String ,Bus > incLoadBusTbl=null;
 	private List<Bus> incBusList=null;
-	public LoadIncPattern(AclfNetwork net,LoadIncScope incScope,LoadIncType incType,Object[]incObjectList){
+	/**
+	 * 
+	 * @param net: the studied network
+	 * @param incScope: the scope(only a big picture,need "incObjectAry" parameter to specify the details) within which the load buses will increase demand.Now four levels are under consideration, and they are All-Net, Area(s),Zone(s),Bus(s)
+	 * @param incType : in what type or how the loads increase. Now three types(CONST_PF,ONLY_P,ONLY_Q)are considered, more will be included in the future. 
+	 * @param incObjectAry: to specify details of the scope and must be consistent with incScope.For example, incScope is AREA, then here must be a "AreaNumber" array.
+	 */
+	public LoadIncPattern(AclfNetwork net,LoadIncScope incScope,LoadIncType incType,Object[]incObjectAry){
 		this.net=net;
-		ldIncByScope(incScope,incObjectList);
+		incBusList=new ArrayList<Bus>(this.net.getNoBus());
+		ldIncDirTbl=new Hashtable<String,Complex>(this.net.getNoBus());
+		incLoadBusTbl=new Hashtable<String ,Bus >(this.net.getNoBus());
+		ldIncByScope(incScope,incObjectAry);
 		defLoadIncDir(type);
 	}
     /*
@@ -74,7 +84,7 @@ public class LoadIncPattern {
 				dir= new Complex(0,bus.getLoadQ());
 			}
 			else
-				IpssLogger.getLogger().severe("Error:the Load Type"+ type.toString()+" is never defined in InterPSS yet! ");
+				IpssLogger.getLogger().severe("Error:the input Load Type is never defined in InterPSS yet! ");
 			this.ldIncDirTbl.put(bus.getId(),dir);
 		}
 	}
@@ -82,16 +92,16 @@ public class LoadIncPattern {
     	throw new UnsupportedOperationException();
     }
 	
-	private void ldIncByScope(LoadIncScope scope, Object[]increaseObj){
+	private void ldIncByScope(LoadIncScope scope, Object[]incObjAry){
 		long areaNumber=0;
 		long zoneNumber=0;
 		if(scope==LoadIncScope.NETWORK){
 			ldIncByNetwork();	
 		}
 		if(scope==LoadIncScope.AREA) {
-			if((increaseObj.length!=0)& increaseObj instanceof Long[]) {
-				for(int i=0;i<increaseObj.length;i++) {
-					areaNumber=(Long) increaseObj[i];
+			if((incObjAry.length!=0)& incObjAry instanceof Long[]) {
+				for(int i=0;i<incObjAry.length;i++) {
+					areaNumber=(Long) incObjAry[i];
 					addLdBus2ListByArea(areaNumber);	
 				}
 			}
@@ -100,9 +110,9 @@ public class LoadIncPattern {
 			}
 			
 		if(scope==LoadIncScope.ZONE) {
-			if((increaseObj.length!=0)& increaseObj instanceof Long[]) {
-				for(int i=0;i<increaseObj.length;i++) {
-					zoneNumber=(Long) increaseObj[i];
+			if((incObjAry.length!=0)& incObjAry instanceof Long[]) {
+				for(int i=0;i<incObjAry.length;i++) {
+					zoneNumber=(Long) incObjAry[i];
 					addLdBus2ListByZone(zoneNumber);	
 				}
 			}
@@ -111,8 +121,8 @@ public class LoadIncPattern {
 			}
 		}
 		if(scope==LoadIncScope.BUS) {
-			if((increaseObj!=null)&(increaseObj instanceof Bus[])) {
-				addLoadBus2ListByBus(Arrays.asList((Bus[])increaseObj));
+			if((incObjAry!=null)&(incObjAry instanceof Bus[])) {
+				addLoadBus2ListByBus(Arrays.asList((Bus[])incObjAry));
 			}
 			else {
 				IpssLogger.getLogger().severe("LoadIncPtn is by BUS, but inceaseObj is not BUS type, not consistent with ptn");
