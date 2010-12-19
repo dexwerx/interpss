@@ -23,16 +23,29 @@ public class LoadIncPattern {
 
 	private LoadIncScope scope;
 	private LoadIncType  type;
+	/*
+	 * define the table????
+	 */
 	private Hashtable<String,Complex> ldIncDirTbl=null;
 	private AclfNetwork net=null;
+	/*
+	 * define the table????
+	 */
 	private  Hashtable<String ,Bus > incLoadBusTbl=null;
+	/*
+	 * define the list????
+	 */
 	private List<Bus> incBusList=null;
 	/**
 	 * 
 	 * @param net: the studied network
-	 * @param incScope: the scope(only a big picture,need "incObjectAry" parameter to specify the details) within which the load buses will increase demand.Now four levels are under consideration, and they are All-Net, Area(s),Zone(s),Bus(s)
-	 * @param incType : in what type or how the loads increase. Now three types(CONST_PF,ONLY_P,ONLY_Q)are considered, more will be included in the future. 
-	 * @param incObjectAry: to specify details of the scope and must be consistent with incScope.For example, incScope is AREA, then here must be a "AreaNumber" array.
+	 * @param incScope: the scope(only a big picture,need "incObjectAry" parameter to specify the details) 
+	 *                  within which the load buses will increase demand.Now four levels are under consideration, 
+	 *                  and they are All-Net, Area(s),Zone(s),Bus(s)
+	 * @param incType : in what type or how the loads increase. Now three types(CONST_PF,ONLY_P,ONLY_Q)are considered, 
+	 *                  more will be included in the future. 
+	 * @param incObjectAry: to specify details of the scope and must be consistent with incScope.For example, incScope 
+	 *                  is AREA, then here must be a "AreaNumber" array.
 	 */
 	public LoadIncPattern(AclfNetwork net,LoadIncScope incScope,LoadIncType incType,Object[]incObjectAry){
 		this.net=net;
@@ -46,12 +59,12 @@ public class LoadIncPattern {
      * LoadIncScope : to specify where the loads will increase, or which of the analyzed network is the interested part(s) during the CPF analysis
      */
 	
-	public enum LoadIncScope{NETWORK,AREA,ZONE,BUS};
+	public static enum LoadIncScope{NETWORK,AREA,ZONE,BUS};
 	
 	/*
 	 * LoadIncType : to define how the would-be-increased load(s) increase demand
 	 */
-	public enum LoadIncType{CONST_PF,ONLY_P,ONLY_Q};
+	public static enum LoadIncType{CONST_PF,ONLY_P,ONLY_Q};
 	
 	public void setLoadIncScope(LoadIncScope incScope){
 		this.scope=incScope;

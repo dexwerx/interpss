@@ -15,5 +15,5 @@ public class GenDispPattern {
      *   to the customized rules.
      *
      */
-	public enum GenDispPtn{AGC,RESERVE_PROPORTION,CUSTOM_SPECIFIC};
+	public static enum GenDispPtn{AGC,RESERVE_PROPORTION,CUSTOM_SPECIFIC};
 }
