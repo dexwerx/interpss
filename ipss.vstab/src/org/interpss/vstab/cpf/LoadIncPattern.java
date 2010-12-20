@@ -24,16 +24,16 @@ public class LoadIncPattern {
 	private LoadIncScope scope;
 	private LoadIncType  type;
 	/*
-	 * define the table????
+	 * IdIncDirTbl: It is defined to save the load increase direction by <key,value>=(BusId,Complex(dirP,dirQ))
 	 */
 	private Hashtable<String,Complex> ldIncDirTbl=null;
 	private AclfNetwork net=null;
 	/*
-	 * define the table????
+	 * incLoadBusTbl: use as a temperary variable for judging whether a bus has been add to incBusList and incBusDirTbl for studied yet.
 	 */
 	private  Hashtable<String ,Bus > incLoadBusTbl=null;
 	/*
-	 * define the list????
+	 * incBusList: to store all load buses whose demand(loadP AND/OR loadQ) would be increased
 	 */
 	private List<Bus> incBusList=null;
 	/**
@@ -53,7 +53,7 @@ public class LoadIncPattern {
 		ldIncDirTbl=new Hashtable<String,Complex>(this.net.getNoBus());
 		incLoadBusTbl=new Hashtable<String ,Bus >(this.net.getNoBus());
 		ldIncByScope(incScope,incObjectAry);
-		defLoadIncDir(type);
+		defLoadIncDir(incType);
 	}
     /*
      * LoadIncScope : to specify where the loads will increase, or which of the analyzed network is the interested part(s) during the CPF analysis
@@ -111,7 +111,7 @@ public class LoadIncPattern {
 		if(scope==LoadIncScope.NETWORK){
 			ldIncByNetwork();	
 		}
-		if(scope==LoadIncScope.AREA) {
+		else if(scope==LoadIncScope.AREA) {
 			if((incObjAry.length!=0)& incObjAry instanceof Long[]) {
 				for(int i=0;i<incObjAry.length;i++) {
 					areaNumber=(Long) incObjAry[i];
@@ -121,8 +121,8 @@ public class LoadIncPattern {
 			else {
 				IpssLogger.getLogger().severe("LoadIncPtn is by AREA, but inceaseObjList is not Area type, not consistent with ptn");
 			}
-			
-		if(scope==LoadIncScope.ZONE) {
+		}	
+		else if(scope==LoadIncScope.ZONE) {
 			if((incObjAry.length!=0)& incObjAry instanceof Long[]) {
 				for(int i=0;i<incObjAry.length;i++) {
 					zoneNumber=(Long) incObjAry[i];
@@ -133,17 +133,18 @@ public class LoadIncPattern {
 				IpssLogger.getLogger().severe("LoadIncPtn is by ZONE, but inceaseObj is not ZONE type, not consistent with ptn");
 			}
 		}
-		if(scope==LoadIncScope.BUS) {
+		else if(scope==LoadIncScope.BUS) {
 			if((incObjAry!=null)&(incObjAry instanceof Bus[])) {
-				addLoadBus2ListByBus(Arrays.asList((Bus[])incObjAry));
+				addLoadBus2ListByBus((Bus[])incObjAry);
 			}
 			else {
 				IpssLogger.getLogger().severe("LoadIncPtn is by BUS, but inceaseObj is not BUS type, not consistent with ptn");
 			}
 		}
+		else IpssLogger.getLogger().severe("the input LoadIncScope is not defined!");
 			
-		}
 	}
+	
 	
 	public void setIncBusList(ArrayList<Bus> incBusList) {
 		this.incBusList = incBusList;
@@ -153,7 +154,7 @@ public class LoadIncPattern {
 	}
 	
 	private void ldIncByNetwork() {
-		addLoadBus2ListByBus(this.net.getBusList());
+		addLoadBus2ListByBus((Bus[])this.net.getBusList().toArray());
 	}
 	private void addLdBus2ListByArea(long areaNum) {
 		for(Bus b:net.getBusList()) {
@@ -186,29 +187,26 @@ public class LoadIncPattern {
 				
 		}
 	}
-	private void addLoadBus2ListByBus(List<Bus> list) {
-		if((this.incBusList!=null)&(!this.incBusList.isEmpty())) {
-			for(Bus b:list) {
+	private void addLoadBus2ListByBus(Bus[] busAry) {
+	
+			for(int i=0;i<busAry.length;i++) {
+				Bus b=busAry[i];
 				if(!this.incLoadBusTbl.containsValue(b)){
 					if(((AclfBus)b).isLoad()& b.isActive()) {
 					     this.incBusList.add(b);
 					     this.incLoadBusTbl.put(b.getId(), b);
+//					     System.out.println(b.getId());
 					}
 					else {
-						IpssLogger.getLogger().info("Bus "+b.getId()+"is not a Load Bus");
+						IpssLogger.getLogger().info("Bus "+b.getId()+" is not a Load Bus");
 					}
 				}
 				else {
-					IpssLogger.getLogger().info("Duplication Error,Bus "+b.getId()+"is already in incBusList");
+					IpssLogger.getLogger().info("Duplication Error,Bus "+b.getId()+" is already in incBusList");
 				}
 			}
-		}
-		else {
-			this.incBusList=list;
-			for(Bus b:list) {
-				this.incLoadBusTbl.put(b.getId(),b);
-			}
-		}
+
+
 	}
 	
 	public Hashtable<String,Bus> getIncLoadBusTbl() {

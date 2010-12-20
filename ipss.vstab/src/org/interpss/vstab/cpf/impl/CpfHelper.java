@@ -184,8 +184,7 @@ public class CpfHelper {
 			public void visit(AclfBus bus) {
 				if((!bus.isSwing())&(bus.isActive())) {
 					Vector_xy dv=lfEqn.getBVect_xy(bus.getSortNumber());
-					
-					Complex v= bus.getVoltage(); 
+
 				    double vang=bus.getVoltageAng()-step*dv.x;
 				    double vmag=bus.getVoltageMag();
 				    if(!bus.isGenPV()) {

@@ -27,6 +27,19 @@ public class LoadIncrease {
         saveOrigLoad();
 
 	}
+	public void setAclfNetwork(AclfNetwork net){
+		this.net=net;
+		saveOrigLoad();// when a network is loaded, the original load data is saved first for later usage.
+	}
+	public AclfNetwork getAclfNetwork(){
+		return this.net;
+	}
+	public LoadIncPattern getLdIncPtn() {
+		return ldIncPtn;
+	}
+	public void setLdIncPtn(LoadIncPattern ldIncPtn) {
+		this.ldIncPtn = ldIncPtn;
+	}
 	private void saveOrigLoad() {
 		origLdTbl=new Hashtable<String,Complex>(this.net.getNoBus());
 		for(Bus b:this.net.getBusList()){
@@ -37,7 +50,7 @@ public class LoadIncrease {
 		}
 		
 	}
-	private Hashtable<String, Complex> getOrigLoad(){
+	public Hashtable<String, Complex> getOrigLoad(){
 		return this.origLdTbl;
 	}
 	public void increaseLoad(LambdaParam lambda) {
@@ -61,5 +74,6 @@ public class LoadIncrease {
     public double getDeltaSumOfLoad(){
     	return this.sumOfIncLoadP-this.oldSumOfIncLoadP;
     }
+    
 	
 }

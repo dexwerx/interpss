@@ -1,6 +1,10 @@
 package org.interpss.vstab.cpf.impl;
 
+import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
+import org.interpss.vstab.cpf.LoadIncPattern;
+import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
+import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.util.VstabFuncOut;
 
 import com.interpss.core.aclf.AclfBus;
@@ -11,10 +15,15 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
 public class CorrectorStepSolver extends DefaultNrSolver {
     private CPFAlgorithm cpf=null;
     CpfHelper cpfHelper=null;
+    LoadIncPattern ldPtn=null;
+    LoadIncrease ldInc=null;
+    
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
 		cpf=cpfAlgo;
 		cpfHelper=new CpfHelper(getAclfNet());
+		ldPtn=VStabObjectFactory.createLdIncPattern(cpfAlgo.getAclfNetwork(), LoadIncScope.NETWORK, LoadIncType.CONST_PF, null);
+		ldInc=VStabObjectFactory.createLoadIncrease(cpfAlgo.getAclfNetwork(), ldPtn);
 	}
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix() {
@@ -29,8 +38,9 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 	public void setPowerMismatch(SparseEqnMatrix2x2 lfEqn) {
 		// calculate bus power mismatch. The mismatch stored on 
 		// the right-hand side of the sparse eqn
-		if(!this.cpf.isLmdaContParam()){
-			
+		
+		if(!this.cpf.isLmdaContParam()){ // if lambda is not keep constant, it will change and therefore will affect the load.
+			ldInc.increaseLoad(this.cpf.getCpfSolver().getLambda());
 		}
 		super.setPowerMismatch(lfEqn);
 		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
