@@ -42,6 +42,16 @@ public class SVCControl extends AbstractAclfBus {
 		this.ctype = type;
 	}
 
+	/**
+	 * init SVC state before Loadflow calculation
+	 * 
+	 * @return true if init is successful
+	 */
+	public boolean init() {
+		// Prof Wu - add init code here;
+		return true;
+	}
+	
 	public AclfBus getBus() {
 		return this.getParentAclfBus();
 	}
