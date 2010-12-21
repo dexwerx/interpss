@@ -114,7 +114,6 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // run Loadflow
         net.accept(algo);
         assertTrue(net.isLfConverged());
-        System.out.println("Compensated reactive power: " + svc.getBn().y);
         assertTrue(Math.abs(svc.getParentAclfBus().getVoltageMag() - 1.05) < 0.0001);
 		        
 		//System.out.println(net.net2String());
@@ -160,7 +159,6 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         double vsh = svc.getVsh(), thetash = svc.getThedash();
         double gsh = 0.0, bsh = -5.0;
         double qsh = -(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
-        System.out.println("Compensated reactive power: " + svc.getBn().y);
         assertTrue(Math.abs(qsh - 0.1) < 0.0001);
 		        
 		//System.out.println(net.net2String());
@@ -206,7 +204,6 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
         Complex yshc = new Complex(0.0, -5.0);
         Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
-        System.out.println("Compensated reactive power: " + svc.getBn().y);
 	  	assertTrue(Math.abs(yc.getImaginary() - 0.1) < 0.0005); 
 		        
 		//System.out.println(net.net2String());
