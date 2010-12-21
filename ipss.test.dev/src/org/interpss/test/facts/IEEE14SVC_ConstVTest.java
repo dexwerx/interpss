@@ -2,6 +2,7 @@ package org.interpss.test.facts;
 
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
@@ -27,7 +28,6 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         
         // run Loadflow
         net.accept(algo);
-        System.out.println(AclfOutFunc.loadFlowSummary(net));
         assertTrue(net.isLfConverged());
 		        
 		//System.out.println(net.net2String());
@@ -45,7 +45,6 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         
         // run Loadflow
         net.accept(algo);
-        System.out.println(AclfOutFunc.loadFlowSummary(net));
         assertTrue(net.isLfConverged());
 		        
 		//System.out.println(net.net2String());
@@ -64,7 +63,6 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         
         // run Loadflow
         net.accept(algo);
-        System.out.println(AclfOutFunc.loadFlowSummary(net));
         assertTrue(net.isLfConverged());
 		        
 		//System.out.println(net.net2String());
@@ -83,12 +81,15 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
 	public void singleConstV_testCase() throws InterpssException, Exception {
 		AclfNetwork net = createNet();
 		
-        AclfBus bus = net.getAclfBus("Bus14");
+        AclfBus bus = net.getAclfBus("Bus4");
+        // Issue: the initial value of the controlled voltage must be exactly the same as the controlled value, 
+        // this is strange but always be true in tested cases.
+        bus.setVoltageMag(1.05);
         assertTrue(bus != null);
 
         SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
 
-        double vc = 1.035; // voltage ref for the bus, without SVC the bus = 1.0355
+        double vc = 1.05; // voltage ref for the bus, without SVC the bus = 1.0355
 
         // this is confusing. We should have a method svc.setVref(vc)
         svc.setQc(vc);
@@ -113,6 +114,100 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // run Loadflow
         net.accept(algo);
         assertTrue(net.isLfConverged());
+        System.out.println("Compensated reactive power: " + svc.getBn().y);
+        assertTrue(Math.abs(svc.getParentAclfBus().getVoltageMag() - 1.05) < 0.0001);
+		        
+		//System.out.println(net.net2String());
+	}
+	
+	@Test
+	public void singleConstQ_testCase() throws InterpssException, Exception {
+		AclfNetwork net = createNet();
+		
+        AclfBus bus = net.getAclfBus("Bus4");
+        assertTrue(bus != null);
+
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstQ);
+
+        double qc = 0.1;
+
+        // this is confusing. We should have a method svc.setVref(vc)
+        svc.setQc(qc);
+        svc.setYsh(0.0, -5.0);
+        
+        svc.setLoad(bus.getLoad()); // set Load on the SVC bus
+
+        // set svc as AclfBus extension
+        bus.setExtensionObject(svc);
+
+        // init SVC states
+        svc.init();
+        
+        SVCControl[] svcArray = {svc};
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+		
+        // create a Loadflow algo object
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+        // set algo NR solver to the CustomNrSolver
+        algo.setNrSolver(svcNrSolver);
+        algo.setMaxIterations(100);
+        
+        // run Loadflow
+        net.accept(algo);
+        assertTrue(net.isLfConverged());
+        
+        double vi = svc.getParentAclfBus().getVoltageMag(), thetai = svc.getParentAclfBus().getVoltageAng();
+        double vsh = svc.getVsh(), thetash = svc.getThedash();
+        double gsh = 0.0, bsh = -5.0;
+        double qsh = -(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+        System.out.println("Compensated reactive power: " + svc.getBn().y);
+        assertTrue(Math.abs(qsh - 0.1) < 0.0001);
+		        
+		//System.out.println(net.net2String());
+	}
+	
+	@Test
+	public void singleConstB_testCase() throws InterpssException, Exception {
+		AclfNetwork net = createNet();
+		
+        AclfBus bus = net.getAclfBus("Bus4");
+        assertTrue(bus != null);
+
+        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstB);
+
+        double qc = 0.1;
+
+        // this is confusing. We should have a method svc.setVref(vc)
+        svc.setQc(qc);
+        svc.setYsh(0.0, -5.0);
+        
+        svc.setLoad(bus.getLoad()); // set Load on the SVC bus
+
+        // set svc as AclfBus extension
+        bus.setExtensionObject(svc);
+
+        // init SVC states
+        svc.init();
+        
+        SVCControl[] svcArray = {svc};
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+		
+        // create a Loadflow algo object
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+        // set algo NR solver to the CustomNrSolver
+        algo.setNrSolver(svcNrSolver);
+        algo.setMaxIterations(100);
+        
+        // run Loadflow
+        net.accept(algo);
+        assertTrue(net.isLfConverged());
+        
+        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+        Complex yshc = new Complex(0.0, -5.0);
+        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+        System.out.println("Compensated reactive power: " + svc.getBn().y);
+	  	assertTrue(Math.abs(yc.getImaginary() - 0.1) < 0.0005); 
 		        
 		//System.out.println(net.net2String());
 	}
