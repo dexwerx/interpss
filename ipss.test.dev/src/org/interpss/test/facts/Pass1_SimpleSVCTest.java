@@ -28,38 +28,41 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
         svc.setQc(1.0);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8)); // set Load on the SVC bus
+        
+        if (svc.init()) {
+            // set svc as AclfBus extension
+            bus.setExtensionObject(svc);
+            
+            SVCControl[] svcArray = {svc};
+            SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+            
+            // create a Loadflow algo object
+            LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+            // set algo NR solver to the CustomNrSolver
+            algo.setNrSolver(svcNrSolver);
 
-        // set svc as AclfBus extension
-        bus.setExtensionObject(svc);
-        
-        SVCControl[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
-        
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
-        // set algo NR solver to the CustomNrSolver
-        algo.setNrSolver(svcNrSolver);
+            // run Loadflow
+            net.accept(algo);
+            // output loadflow calculation results
+            //System.out.println(AclfOutFunc.loadFlowSummary(net));
+            
+            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+            Complex yshc = new Complex(0.0, -5.0);
+            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+            
+            //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
+            //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());
+            /*
+    			yshunt=(-2.7383583558709127E-9)+i(-0.8501256427294784)
+    			Vsh, Thedash: 0.8299748714541043, -0.10016742050169442
+             */
+    	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
+    	  	assertTrue(Math.abs(yc.getImaginary() + 0.85013) < 0.00001); 
+    	  	assertTrue(Math.abs(svc.getVsh() - 0.82998) < 0.00001); 
+    	  	assertTrue(Math.abs(svc.getThedash() + 0.10017) < 0.00001); 
+        }
 
-        // run Loadflow
-        net.accept(algo);
-        // output loadflow calculation results
-        //System.out.println(AclfOutFunc.loadFlowSummary(net));
-        
-        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
-        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
-        Complex yshc = new Complex(0.0, -5.0);
-        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
-        
-        //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
-        //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());
-        /*
-			yshunt=(-2.7383583558709127E-9)+i(-0.8501256427294784)
-			Vsh, Thedash: 0.8299748714541043, -0.10016742050169442
-         */
-	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
-	  	assertTrue(Math.abs(yc.getImaginary() + 0.85013) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getVsh() - 0.82998) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getThedash() + 0.10017) < 0.00001); 
 	}
 
 	@Test
@@ -71,38 +74,41 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
         svc.setQc(1.0);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8));
+        
+        if (svc.init()) {
+            // set svc as AclfBus extension
+            bus.setExtensionObject(svc);
+            
+            SVCControl[] svcArray = {svc};
+            SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+            
+            // create a Loadflow algo object
+            LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+            // set algo NR solver to the CustomNrSolver
+            algo.setNrSolver(svcNrSolver);
 
-        // set svc as AclfBus extension
-        bus.setExtensionObject(svc);
-        
-        SVCControl[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
-        
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
-        // set algo NR solver to the CustomNrSolver
-        algo.setNrSolver(svcNrSolver);
+            // run Loadflow
+            net.accept(algo);
+            // output loadflow calculation results
+            //System.out.println(AclfOutFunc.loadFlowSummary(net));
+            
+            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+            Complex yshc = new Complex(0.0, -5.0);
+            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+            
+            //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
+            //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
+            /*
+    		yshunt=(4.941690964361082E-6)+i(-0.9733914104446989)
+    		Vsh, Thedash: 0.8162216037743674, -0.09882646523007681
+             */
+    	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
+    	  	assertTrue(Math.abs(yc.getImaginary() + 0.973393) < 0.00001); 
+    	  	assertTrue(Math.abs(svc.getVsh() - 0.81622) < 0.00001); 
+    	  	assertTrue(Math.abs(svc.getThedash() + 0.09883) < 0.00001);         
+        }
 
-        // run Loadflow
-        net.accept(algo);
-        // output loadflow calculation results
-        //System.out.println(AclfOutFunc.loadFlowSummary(net));
-        
-        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
-        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
-        Complex yshc = new Complex(0.0, -5.0);
-        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
-        
-        //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
-        //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
-        /*
-		yshunt=(4.941690964361082E-6)+i(-0.9733914104446989)
-		Vsh, Thedash: 0.8162216037743674, -0.09882646523007681
-         */
-	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
-	  	assertTrue(Math.abs(yc.getImaginary() + 0.973393) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getVsh() - 0.81622) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getThedash() + 0.09883) < 0.00001);         
 	}
 
 	@Test
@@ -114,38 +120,41 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
         svc.setQc(0.05);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8));
+        
+        if (svc.init()) {
+            // set svc as AclfBus extension
+            bus.setExtensionObject(svc);
+            
+            SVCControl[] svcArray = {svc};
+            SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+            
+            // create a Loadflow algo object
+            LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+            // set algo NR solver to the CustomNrSolver
+            algo.setNrSolver(svcNrSolver);
 
-        // set svc as AclfBus extension
-        bus.setExtensionObject(svc);
-        
-        SVCControl[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
-        
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
-        // set algo NR solver to the CustomNrSolver
-        algo.setNrSolver(svcNrSolver);
+            // run Loadflow
+            net.accept(algo);
+            // output loadflow calculation results
+            //System.out.println(AclfOutFunc.loadFlowSummary(net));
+            
+            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+            Complex yshc = new Complex(0.0, -5.0);
+            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+            
+            //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
+            //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
+            /*
+    		yshunt=(1.1800157013745432E-4)+i(0.049875933325408905)
+    		Vsh, Thedash: 0.9088964271644712, -0.11136805274941748
+             */
+    	  	assertTrue(Math.abs(yc.getReal()) < 0.00019); 
+    	  	assertTrue(Math.abs(yc.getImaginary() - 0.04987) < 0.00001); 
+    	  	assertTrue(Math.abs(svc.getVsh() - 0.90890) < 0.00001); 
+    	  	assertTrue(Math.abs(svc.getThedash() + 0.11137) < 0.00001);         
+        }
 
-        // run Loadflow
-        net.accept(algo);
-        // output loadflow calculation results
-        //System.out.println(AclfOutFunc.loadFlowSummary(net));
-        
-        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
-        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
-        Complex yshc = new Complex(0.0, -5.0);
-        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
-        
-        //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
-        //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
-        /*
-		yshunt=(1.1800157013745432E-4)+i(0.049875933325408905)
-		Vsh, Thedash: 0.9088964271644712, -0.11136805274941748
-         */
-	  	assertTrue(Math.abs(yc.getReal()) < 0.00019); 
-	  	assertTrue(Math.abs(yc.getImaginary() - 0.04987) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getVsh() - 0.90890) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getThedash() + 0.11137) < 0.00001);         
 	}
 	
 	
