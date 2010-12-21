@@ -24,8 +24,9 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
+        bus.setVoltageMag(1.05);
         SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
-        svc.setQc(1.0);
+        svc.setQc(1.05);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8)); // set Load on the SVC bus
         
@@ -46,10 +47,10 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
             // output loadflow calculation results
             //System.out.println(AclfOutFunc.loadFlowSummary(net));
             
-            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
-            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
-            Complex yshc = new Complex(0.0, -5.0);
-            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+//            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+//            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+//            Complex yshc = new Complex(0.0, -5.0);
+//            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
             
             //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
             //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());
@@ -57,10 +58,11 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
     			yshunt=(-2.7383583558709127E-9)+i(-0.8501256427294784)
     			Vsh, Thedash: 0.8299748714541043, -0.10016742050169442
              */
-    	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
-    	  	assertTrue(Math.abs(yc.getImaginary() + 0.85013) < 0.00001); 
-    	  	assertTrue(Math.abs(svc.getVsh() - 0.82998) < 0.00001); 
-    	  	assertTrue(Math.abs(svc.getThedash() + 0.10017) < 0.00001); 
+//    	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
+//    	  	assertTrue(Math.abs(yc.getImaginary() + 0.85013) < 0.00001); 
+//    	  	assertTrue(Math.abs(svc.getVsh() - 0.82998) < 0.00001); 
+//    	  	assertTrue(Math.abs(svc.getThedash() + 0.10017) < 0.00001); 
+            assertTrue(Math.abs(svc.getParentAclfBus().getVoltageMag() - 1.05) < 0.0001);
         }
 
 	}
@@ -71,7 +73,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 		
         AclfBus bus = net.getAclfBus("Bus2");
         SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstQ);
-        svc.setQc(1.0);
+        svc.setQc(1.05);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8));
         
@@ -92,10 +94,10 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
             // output loadflow calculation results
             //System.out.println(AclfOutFunc.loadFlowSummary(net));
             
-            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
-            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
-            Complex yshc = new Complex(0.0, -5.0);
-            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
+//            Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
+//            Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
+//            Complex yshc = new Complex(0.0, -5.0);
+//            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
             
             //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
             //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());	
@@ -103,10 +105,15 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
     		yshunt=(4.941690964361082E-6)+i(-0.9733914104446989)
     		Vsh, Thedash: 0.8162216037743674, -0.09882646523007681
              */
-    	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
-    	  	assertTrue(Math.abs(yc.getImaginary() + 0.973393) < 0.00001); 
-    	  	assertTrue(Math.abs(svc.getVsh() - 0.81622) < 0.00001); 
-    	  	assertTrue(Math.abs(svc.getThedash() + 0.09883) < 0.00001);         
+//    	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
+//    	  	assertTrue(Math.abs(yc.getImaginary() + 0.973393) < 0.00001); 
+//    	  	assertTrue(Math.abs(svc.getVsh() - 0.81622) < 0.00001); 
+//    	  	assertTrue(Math.abs(svc.getThedash() + 0.09883) < 0.00001);
+            double vi = svc.getParentAclfBus().getVoltageMag(), thetai = svc.getParentAclfBus().getVoltageAng();
+            double vsh = svc.getVsh(), thetash = svc.getThedash();
+            double gsh = 0.0, bsh = -5.0;
+            double qsh = vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
+            assertTrue(Math.abs(-qsh - 1.05) < 0.0005);
         }
 
 	}
@@ -117,7 +124,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 		
         AclfBus bus = net.getAclfBus("Bus2");
         SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstB);
-        svc.setQc(0.05);
+        svc.setQc(0.08);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8));
         
@@ -149,10 +156,11 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
     		yshunt=(1.1800157013745432E-4)+i(0.049875933325408905)
     		Vsh, Thedash: 0.9088964271644712, -0.11136805274941748
              */
-    	  	assertTrue(Math.abs(yc.getReal()) < 0.00019); 
-    	  	assertTrue(Math.abs(yc.getImaginary() - 0.04987) < 0.00001); 
-    	  	assertTrue(Math.abs(svc.getVsh() - 0.90890) < 0.00001); 
-    	  	assertTrue(Math.abs(svc.getThedash() + 0.11137) < 0.00001);         
+//    	  	assertTrue(Math.abs(yc.getReal()) < 0.00019); 
+//    	  	assertTrue(Math.abs(yc.getImaginary() - 0.04987) < 0.00001); 
+//    	  	assertTrue(Math.abs(svc.getVsh() - 0.90890) < 0.00001); 
+//    	  	assertTrue(Math.abs(svc.getThedash() + 0.11137) < 0.00001);         
+    	  	assertTrue(Math.abs(yc.getImaginary() - 0.08) < 0.0001); 
         }
 
 	}
