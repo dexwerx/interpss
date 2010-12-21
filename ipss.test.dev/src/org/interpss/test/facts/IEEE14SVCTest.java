@@ -3,6 +3,7 @@ package org.interpss.test.facts;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.IpssPlugin;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.SVCControl;
@@ -58,11 +59,13 @@ public class IEEE14SVCTest extends DevTestSetup {
 	
 	@Test
 	public void singleConstQ_testCase() throws InterpssException, Exception {
+		IpssPlugin.init();
 		AclfNetwork net = createNet();
 		for (Bus bus : net.getBusList()) {
 			AclfBus thisBus = net.getAclfBus(bus.getId());
 			if (thisBus.getGenCode() == AclfGenCode.GEN_PQ) {
-				AclfNetwork currentNet = createNet();
+				IpssPlugin.init();
+				AclfNetwork currentNet = createNewNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
 		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus()+1, SVCControlType.ConstQ);
 		        double qc = 1.0;
@@ -140,6 +143,10 @@ public class IEEE14SVCTest extends DevTestSetup {
 	}
 
 	private AclfNetwork createNet() throws InterpssException, Exception {
+		return PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee14.ieee").getAclfNet();
+	}
+	
+	private AclfNetwork createNewNet() throws InterpssException, Exception {
 		return PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee14.ieee").getAclfNet();
 	}
 	
