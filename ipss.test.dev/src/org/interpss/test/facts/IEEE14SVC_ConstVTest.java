@@ -31,6 +31,41 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
 		//System.out.println(net.net2String());
 	}
 
+	@Test
+	public void base1_testCase() throws InterpssException, Exception {
+		AclfNetwork net = createNet();
+		
+        // create a Loadflow algo object
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, null);
+        algo.setNrSolver(svcNrSolver);
+        
+        // run Loadflow
+        net.accept(algo);
+        assertTrue(net.isLfConverged());
+		        
+		//System.out.println(net.net2String());
+	}
+
+	@Test
+	public void base2_testCase() throws InterpssException, Exception {
+		AclfNetwork net = createNet();
+		
+        // create a Loadflow algo object
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+
+        SVCControl[] svcArray = {};
+        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        algo.setNrSolver(svcNrSolver);
+        
+        // run Loadflow
+        net.accept(algo);
+        assertTrue(net.isLfConverged());
+		        
+		//System.out.println(net.net2String());
+	}
+
 	/*
 	 * Issue
 	 * 	[12/17/2010] 
@@ -76,7 +111,10 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
 	}
 	
 	private AclfNetwork createNet() throws InterpssException, Exception {
-		return PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee14.ieee").getAclfNet();
+		return PluginObjectFactory
+			.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+			.load("testdata/ieee_cdf/ieee14.ieee")
+			.getAclfNet();
 	}
 	
 }
