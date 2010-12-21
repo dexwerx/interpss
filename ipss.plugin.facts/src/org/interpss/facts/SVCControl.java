@@ -24,8 +24,8 @@ public class SVCControl extends AbstractAclfBus {
 	int position = 0;     // SVC position in the J-matrix
 
 	// SVC variables
-    private double vsh = 1.0;
-    private double thetash = 0.0;  
+    private double vsh;
+    private double thetash;  
     
     // SVC constants, do not change in the Loadflow calculation process
     SVCControlType ctype;
@@ -48,7 +48,18 @@ public class SVCControl extends AbstractAclfBus {
 	 * @return true if init is successful
 	 */
 	public boolean init() {
-		// Prof Wu - add init code here;
+		double vi = this.getParentAclfBus().getVoltageMag();
+		double thetai = this.getParentAclfBus().getVoltageAng();
+		double ysh = Math.sqrt(gsh * gsh + bsh * bsh);
+		double thetaysh = Math.acos(gsh / ysh);
+		
+		vsh = 1.0;
+		thetash = thetai - thetaysh - Math.acos(vi * gsh / vsh / ysh);
+		while (thetash < -Math.PI)
+			thetash += 2 * Math.PI;
+		while (thetash > Math.PI)
+			thetash -= 2 * Math.PI;
+		// codes to verify the init result is required here
 		return true;
 	}
 	
