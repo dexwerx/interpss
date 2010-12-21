@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.facts.SVCControl;
 import org.interpss.facts.SVCControlType;
 import org.interpss.facts.SVCNrSolver;
@@ -26,6 +27,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         
         // run Loadflow
         net.accept(algo);
+        System.out.println(AclfOutFunc.loadFlowSummary(net));
         assertTrue(net.isLfConverged());
 		        
 		//System.out.println(net.net2String());
@@ -43,6 +45,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         
         // run Loadflow
         net.accept(algo);
+        System.out.println(AclfOutFunc.loadFlowSummary(net));
         assertTrue(net.isLfConverged());
 		        
 		//System.out.println(net.net2String());
@@ -61,6 +64,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         
         // run Loadflow
         net.accept(algo);
+        System.out.println(AclfOutFunc.loadFlowSummary(net));
         assertTrue(net.isLfConverged());
 		        
 		//System.out.println(net.net2String());
