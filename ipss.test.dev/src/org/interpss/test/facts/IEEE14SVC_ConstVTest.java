@@ -94,6 +94,9 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
+
+        // init SVC states
+        svc.init();
         
         SVCControl[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
