@@ -112,6 +112,10 @@ public class ODMXmlHelper {
 	public static byte toUnit(ZUnitType unit) {
 		if (unit == ZUnitType.OHM)
 			return UnitType.Ohm;
+		else if (unit == ZUnitType.OHM_PER_FT)
+			return UnitType.OhmPerFt;
+		else if (unit == ZUnitType.OHM_PER_M)
+			return UnitType.OhmPerM;
 		return UnitType.PU;
 	}
 
