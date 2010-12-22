@@ -2,6 +2,7 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
+    <include schemaLocation=""></include>
     <include schemaLocation="../common/RecordType.xsd"></include>
 
 	<annotation>
@@ -53,7 +54,13 @@
 					<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="power" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="load" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="pvModel" type="pss:SolarPVModelXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="pvModelList" minOccurs="0" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="pvModel" type="pss:SolarPVModelXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+							</sequence>
+						</complexType></element>
+					<element name="inverter" type="pss:DcAcInverterXmlType" minOccurs="0"></element>
 				</sequence>
 				<attribute name="code" type="pss:DcBusCodeEnumType" use="required"></attribute>
 			</extension>
@@ -70,6 +77,31 @@
 		</restriction>
 	</simpleType>	
 	
+	<complexType name="DcAcInverterXmlType">
+		<annotation><documentation>
+		</documentation></annotation>
+		<sequence>
+			<element name="powerRating" type="pss:ActivePowerXmlType" minOccurs="1"></element>
+			<element name="vdcLimit" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
+			<element name="lossParamList" minOccurs="1">
+				<complexType>
+					<sequence>
+						<element name="lossParam" type="pss:InverterLossParamXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+					</sequence>
+				</complexType></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="InverterLossParamXmlType">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<attribute name="vdc" type="double"></attribute>
+		<attribute name="a" type="double"></attribute>
+		<attribute name="b" type="double"></attribute>
+		<attribute name="c" type="double"></attribute>
+	</complexType>
+
 	<complexType name="SolarPVModelXmlType">
 		<annotation><documentation>
 		</documentation></annotation>
@@ -95,9 +127,20 @@
 		<complexContent>
 			<extension base="pss:BaseBranchXmlType">
 				<sequence>
-					<element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="feeder" type="pss:DcFeederXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1"></element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
+	
+	<complexType name="DcFeederXmlType">
+		<annotation><documentation>
+		</documentation></annotation>
+		<sequence>
+			<element name="length" type="pss:LengthXmlType" minOccurs="0" maxOccurs="1"></element>
+			<element name="gage" type="string" minOccurs="0" maxOccurs="1"></element>
+			<element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1"></element>
+		</sequence>
+	</complexType>	
 </schema>
