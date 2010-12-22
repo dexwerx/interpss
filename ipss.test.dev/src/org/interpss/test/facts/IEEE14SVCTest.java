@@ -22,7 +22,7 @@ import com.interpss.core.net.Bus;
 
 public class IEEE14SVCTest extends DevTestSetup {
 
-//	@Test
+	@Test
 	public void singleConstV_testCase() throws InterpssException, Exception {
 		AclfNetwork net = createNet();
 		for (Bus bus : net.getBusList()) {
@@ -33,13 +33,14 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
 		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus()+1, SVCControlType.ConstV);
 		        double vc = currentBus.getVoltageMag();
-		        svc.setQc(vc);
+		        svc.setQc(vc * 0.9);
 		        svc.setYsh(0.0, -5.0);
 		        svc.setLoad(currentBus.getLoad()); // set Load on the SVC bus
 
 		        // set svc as AclfBus extension
 		        currentBus.setExtensionObject(svc);
 		        
+		        svc.init();
 		        SVCControl[] svcArray = {svc};
 		        SVCNrSolver svcNrSolver = new SVCNrSolver(currentNet, svcArray);
 		        
@@ -52,7 +53,8 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        currentNet.accept(algo);
 		        
 		        System.out.println("Converged voltage: " + currentBus.getVoltageMag() + ", control objective: " + vc);
-			  	assertTrue(Math.abs(currentBus.getVoltageMag() - vc) < 0.0001); 
+			  	assertTrue(Math.abs(currentBus.getVoltageMag() - vc * 0.9) < 0.0001); 
+			  	currentNet = null;
 			}
 		}
 	}
@@ -65,10 +67,10 @@ public class IEEE14SVCTest extends DevTestSetup {
 			AclfBus thisBus = net.getAclfBus(bus.getId());
 			if (thisBus.getGenCode() == AclfGenCode.GEN_PQ) {
 				IpssPlugin.init();
-				AclfNetwork currentNet = createNewNet();
+				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
 		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus()+1, SVCControlType.ConstQ);
-		        double qc = 1.0;
+		        double qc = 0.1;
 		        svc.setQc(qc);
 		        svc.setYsh(0.0, -5.0);
 		        svc.setLoad(currentBus.getLoad()); // set Load on the SVC bus
@@ -76,6 +78,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        // set svc as AclfBus extension
 		        currentBus.setExtensionObject(svc);
 		        
+		        svc.init();
 		        SVCControl[] svcArray = {svc};
 		        SVCNrSolver svcNrSolver = new SVCNrSolver(currentNet, svcArray);
 		        
@@ -84,7 +87,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        // set algo NR solver to the CustomNrSolver
 		        algo.setNrSolver(svcNrSolver);
 		        algo.setMaxIterations(100);
-		        algo.setTolerance(0.001);
+		        algo.setTolerance(0.0001);
 
 		        // run Loadflow
 		        currentNet.accept(algo);
@@ -96,12 +99,13 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        double gsh = 0.0, bsh = -5.0;
 		        double qsh = -(vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
 		        System.out.println("[" + bus.getId() + "] Converged Q: " + qsh + ", control objective: " + qc);
-			  	assertTrue(Math.abs(qsh - qc) < 0.01); 
+			  	assertTrue(Math.abs(qsh - qc) < 0.001); 
+			  	currentNet = null;
 			}
 		}
 	}
 	
-//	@Test
+	@Test
 	public void singleConstB_testCase() throws InterpssException, Exception {
 		AclfNetwork net = createNet();
 		for (Bus bus : net.getBusList()) {
@@ -118,6 +122,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        // set svc as AclfBus extension
 		        currentBus.setExtensionObject(svc);
 		        
+		        svc.init();
 		        SVCControl[] svcArray = {svc};
 		        SVCNrSolver svcNrSolver = new SVCNrSolver(currentNet, svcArray);
 		        
@@ -138,15 +143,12 @@ public class IEEE14SVCTest extends DevTestSetup {
 
 		        System.out.println("[" + currentBus.getId() + "] Converged B: " + yc.getImaginary() + ", control objective: " + qc);
 			  	assertTrue(Math.abs(yc.getImaginary() - qc) < 0.01); 
+			  	currentNet = null;
 			}
 		}
 	}
 
 	private AclfNetwork createNet() throws InterpssException, Exception {
-		return PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee14.ieee").getAclfNet();
-	}
-	
-	private AclfNetwork createNewNet() throws InterpssException, Exception {
 		return PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee14.ieee").getAclfNet();
 	}
 	
