@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.facts.SVCControl;
 import org.interpss.facts.SVCControlType;
 import org.interpss.facts.SVCNrSolver;
@@ -19,55 +18,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 
 public class IEEE14SVC_ConstVTest extends DevTestSetup {
-	@Test
-	public void base_testCase() throws InterpssException, Exception {
-		AclfNetwork net = createNet();
-		
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
-        
-        // run Loadflow
-        net.accept(algo);
-        assertTrue(net.isLfConverged());
-		        
-		//System.out.println(net.net2String());
-	}
-
-	@Test
-	public void base1_testCase() throws InterpssException, Exception {
-		AclfNetwork net = createNet();
-		
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
-
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, null);
-        algo.setNrSolver(svcNrSolver);
-        
-        // run Loadflow
-        net.accept(algo);
-        assertTrue(net.isLfConverged());
-		        
-		//System.out.println(net.net2String());
-	}
-
-	@Test
-	public void base2_testCase() throws InterpssException, Exception {
-		AclfNetwork net = createNet();
-		
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
-
-        SVCControl[] svcArray = {};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
-        algo.setNrSolver(svcNrSolver);
-        
-        // run Loadflow
-        net.accept(algo);
-        assertTrue(net.isLfConverged());
-		        
-		//System.out.println(net.net2String());
-	}
-
 	/*
 	 * Issue
 	 * 	[12/17/2010] 
