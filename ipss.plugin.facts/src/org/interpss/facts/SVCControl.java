@@ -243,7 +243,7 @@ public class SVCControl extends AbstractAclfBus {
         // dPeq
         b.y = (vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)));
         if (this.ctype == SVCControlType.ConstV) {	// dVi
-            b.x = (vi - qc);
+            b.x = -(vi - qc);
         }
         else if (this.ctype == SVCControlType.ConstQ) {	// dQi
             b.x = ((vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) + qc);
