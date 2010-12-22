@@ -51,16 +51,33 @@
 		<complexContent>
 			<extension base="pss:BusXmlType">
 				<sequence>
-					<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="power" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="load" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1">
+						<annotation><documentation>
+						For DcBusCodeEnumType.VoltageSource, it is the voltage spec. Otherwise, it
+						is optional, used for bus init voltage
+						</documentation></annotation></element>
+					<element name="power" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1">
+						<annotation><documentation>
+						Only use for DcBusCodeEnumType.PowerSource
+						</documentation></annotation></element>
+					<element name="load" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1">
+						<annotation><documentation>
+						For DcBusCodeEnumType.Load. For other DcBus type, it is optional. Bus load
+						can be defined for any kind of bus type
+						</documentation></annotation></element>
 					<element name="pvModelList" minOccurs="0" maxOccurs="1">
-						<complexType>
+                        <annotation><documentation>
+                        For DcBusCodeEnumType.PVModel bus type
+                        </documentation></annotation>
+                        <complexType>
 							<sequence>
 								<element name="pvModel" type="pss:SolarPVModelXmlType" minOccurs="1" maxOccurs="unbounded"></element>
 							</sequence>
 						</complexType></element>
-					<element name="inverter" type="pss:DcAcInverterXmlType" minOccurs="0"></element>
+					<element name="inverter" type="pss:DcAcInverterXmlType" minOccurs="0">
+						<annotation><documentation>
+						For DcBusCodeEnumType.Inverter bus type
+						</documentation></annotation></element>
 				</sequence>
 				<attribute name="code" type="pss:DcBusCodeEnumType" use="required"></attribute>
 			</extension>
@@ -127,8 +144,10 @@
 		<complexContent>
 			<extension base="pss:BaseBranchXmlType">
 				<sequence>
-					<element name="feeder" type="pss:DcFeederXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="feeder" type="pss:DcFeederXmlType" minOccurs="1" maxOccurs="1">
+					</element>
+					<element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -138,9 +157,18 @@
 		<annotation><documentation>
 		</documentation></annotation>
 		<sequence>
-			<element name="length" type="pss:LengthXmlType" minOccurs="0" maxOccurs="1"></element>
-			<element name="gage" type="string" minOccurs="0" maxOccurs="1"></element>
-			<element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1"></element>
+			<element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1">
+				<annotation><documentation>
+				Feeder resistance, could be in Ohm or Ohm/Ft, Ohm/M
+				</documentation></annotation></element>
+			<element name="length" type="pss:LengthXmlType" minOccurs="0" maxOccurs="1">
+				<annotation><documentation>
+				If r in Ohm/Ft or Ohm/M, the length need to be defined. unit in Ft, M, KM or Mile
+				</documentation></annotation></element>
+			<element name="gage" type="string" minOccurs="0" maxOccurs="1">
+				<annotation><documentation>
+				Feeder gage info, not used in calculation, might be used for data lookup
+				</documentation></annotation></element>
 		</sequence>
 	</complexType>	
 </schema>
