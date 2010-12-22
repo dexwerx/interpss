@@ -10,21 +10,26 @@ package org.ieee.odm.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for LineBranchInfoXmlType complex type.
+ * 
+ * 		
+ * 
+ * <p>Java class for DcFeederXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="LineBranchInfoXmlType">
+ * &lt;complexType name="DcFeederXmlType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="length" type="{http://www.ieee.org/odm/Schema/2008}LengthXmlType" minOccurs="0"/>
- *         &lt;element name="lossFactor" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *         &lt;element name="gage" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="r" type="{http://www.ieee.org/odm/Schema/2008}RXmlType"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,14 +39,17 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LineBranchInfoXmlType", propOrder = {
+@XmlType(name = "DcFeederXmlType", propOrder = {
     "length",
-    "lossFactor"
+    "gage",
+    "r"
 })
-public class LineBranchInfoXmlType {
+public class DcFeederXmlType {
 
     protected LengthXmlType length;
-    protected Double lossFactor;
+    protected String gage;
+    @XmlElement(required = true)
+    protected RXmlType r;
 
     /**
      * Gets the value of the length property.
@@ -68,27 +76,51 @@ public class LineBranchInfoXmlType {
     }
 
     /**
-     * Gets the value of the lossFactor property.
+     * Gets the value of the gage property.
      * 
      * @return
      *     possible object is
-     *     {@link Double }
+     *     {@link String }
      *     
      */
-    public Double getLossFactor() {
-        return lossFactor;
+    public String getGage() {
+        return gage;
     }
 
     /**
-     * Sets the value of the lossFactor property.
+     * Sets the value of the gage property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Double }
+     *     {@link String }
      *     
      */
-    public void setLossFactor(Double value) {
-        this.lossFactor = value;
+    public void setGage(String value) {
+        this.gage = value;
+    }
+
+    /**
+     * Gets the value of the r property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RXmlType }
+     *     
+     */
+    public RXmlType getR() {
+        return r;
+    }
+
+    /**
+     * Sets the value of the r property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RXmlType }
+     *     
+     */
+    public void setR(RXmlType value) {
+        this.r = value;
     }
 
 }

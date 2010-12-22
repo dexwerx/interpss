@@ -12,36 +12,37 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for NetAreaXmlType complex type.
+ * 
+ * 		
+ * 
+ * <p>Java class for DcAcInverterXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="NetAreaXmlType">
+ * &lt;complexType name="DcAcInverterXmlType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="zoneList" minOccurs="0">
+ *         &lt;element name="powerRating" type="{http://www.ieee.org/odm/Schema/2008}ActivePowerXmlType"/>
+ *         &lt;element name="vdcLimit" type="{http://www.ieee.org/odm/Schema/2008}VoltageLimitXmlType"/>
+ *         &lt;element name="lossParamList">
  *           &lt;complexType>
  *             &lt;complexContent>
  *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *                 &lt;sequence>
- *                   &lt;element name="zone" type="{http://www.ieee.org/odm/Schema/2008}NetZoneXmlType" maxOccurs="unbounded" minOccurs="0"/>
+ *                   &lt;element name="lossParam" type="{http://www.ieee.org/odm/Schema/2008}InverterLossParamXmlType" maxOccurs="unbounded"/>
  *                 &lt;/sequence>
  *               &lt;/restriction>
  *             &lt;/complexContent>
  *           &lt;/complexType>
  *         &lt;/element>
  *       &lt;/sequence>
- *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="number" type="{http://www.w3.org/2001/XMLSchema}int" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -50,116 +51,90 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NetAreaXmlType", propOrder = {
-    "zoneList"
+@XmlType(name = "DcAcInverterXmlType", propOrder = {
+    "powerRating",
+    "vdcLimit",
+    "lossParamList"
 })
-@XmlSeeAlso({
-    ExchangeAreaXmlType.class
-})
-public class NetAreaXmlType {
+public class DcAcInverterXmlType {
 
-    protected NetAreaXmlType.ZoneList zoneList;
-    @XmlAttribute
-    protected String id;
-    @XmlAttribute
-    protected String name;
-    @XmlAttribute
-    protected Integer number;
+    @XmlElement(required = true)
+    protected ActivePowerXmlType powerRating;
+    @XmlElement(required = true)
+    protected VoltageLimitXmlType vdcLimit;
+    @XmlElement(required = true)
+    protected DcAcInverterXmlType.LossParamList lossParamList;
 
     /**
-     * Gets the value of the zoneList property.
+     * Gets the value of the powerRating property.
      * 
      * @return
      *     possible object is
-     *     {@link NetAreaXmlType.ZoneList }
+     *     {@link ActivePowerXmlType }
      *     
      */
-    public NetAreaXmlType.ZoneList getZoneList() {
-        return zoneList;
+    public ActivePowerXmlType getPowerRating() {
+        return powerRating;
     }
 
     /**
-     * Sets the value of the zoneList property.
+     * Sets the value of the powerRating property.
      * 
      * @param value
      *     allowed object is
-     *     {@link NetAreaXmlType.ZoneList }
+     *     {@link ActivePowerXmlType }
      *     
      */
-    public void setZoneList(NetAreaXmlType.ZoneList value) {
-        this.zoneList = value;
+    public void setPowerRating(ActivePowerXmlType value) {
+        this.powerRating = value;
     }
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the vdcLimit property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link VoltageLimitXmlType }
      *     
      */
-    public String getId() {
-        return id;
+    public VoltageLimitXmlType getVdcLimit() {
+        return vdcLimit;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the vdcLimit property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link VoltageLimitXmlType }
      *     
      */
-    public void setId(String value) {
-        this.id = value;
+    public void setVdcLimit(VoltageLimitXmlType value) {
+        this.vdcLimit = value;
     }
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the lossParamList property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link DcAcInverterXmlType.LossParamList }
      *     
      */
-    public String getName() {
-        return name;
+    public DcAcInverterXmlType.LossParamList getLossParamList() {
+        return lossParamList;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the lossParamList property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link DcAcInverterXmlType.LossParamList }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    /**
-     * Gets the value of the number property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getNumber() {
-        return number;
-    }
-
-    /**
-     * Sets the value of the number property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setNumber(Integer value) {
-        this.number = value;
+    public void setLossParamList(DcAcInverterXmlType.LossParamList value) {
+        this.lossParamList = value;
     }
 
 
@@ -173,7 +148,7 @@ public class NetAreaXmlType {
      *   &lt;complexContent>
      *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
      *       &lt;sequence>
-     *         &lt;element name="zone" type="{http://www.ieee.org/odm/Schema/2008}NetZoneXmlType" maxOccurs="unbounded" minOccurs="0"/>
+     *         &lt;element name="lossParam" type="{http://www.ieee.org/odm/Schema/2008}InverterLossParamXmlType" maxOccurs="unbounded"/>
      *       &lt;/sequence>
      *     &lt;/restriction>
      *   &lt;/complexContent>
@@ -184,39 +159,40 @@ public class NetAreaXmlType {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "zone"
+        "lossParam"
     })
-    public static class ZoneList {
+    public static class LossParamList {
 
-        protected List<NetZoneXmlType> zone;
+        @XmlElement(required = true)
+        protected List<InverterLossParamXmlType> lossParam;
 
         /**
-         * Gets the value of the zone property.
+         * Gets the value of the lossParam property.
          * 
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the zone property.
+         * This is why there is not a <CODE>set</CODE> method for the lossParam property.
          * 
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
-         *    getZone().add(newItem);
+         *    getLossParam().add(newItem);
          * </pre>
          * 
          * 
          * <p>
          * Objects of the following type(s) are allowed in the list
-         * {@link NetZoneXmlType }
+         * {@link InverterLossParamXmlType }
          * 
          * 
          */
-        public List<NetZoneXmlType> getZone() {
-            if (zone == null) {
-                zone = new ArrayList<NetZoneXmlType>();
+        public List<InverterLossParamXmlType> getLossParam() {
+            if (lossParam == null) {
+                lossParam = new ArrayList<InverterLossParamXmlType>();
             }
-            return this.zone;
+            return this.lossParam;
         }
 
     }
