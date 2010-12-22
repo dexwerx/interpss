@@ -93,7 +93,7 @@ public interface SparseEquation {
 	 * Solve the [A]X = B problem
 	 * 
 	 */
-	void solveEqn();			
+	void solveEqn() throws IpssNumericException;			
 
 	/**
 	 * Set all b elements to 0.0 and bi = 1.0, a unit vector.
