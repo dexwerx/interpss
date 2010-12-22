@@ -24,7 +24,8 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        bus.setVoltageMag(1.05);
+        bus.setVoltageMag(0.9);
+//        bus.setVoltageMag(1.05);
         SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
         svc.setQc(1.05);
         svc.setYsh(0.0, -5.0);
@@ -41,6 +42,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
             LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
             // set algo NR solver to the CustomNrSolver
             algo.setNrSolver(svcNrSolver);
+//            algo.setTolerance(0.001);
 
             // run Loadflow
             net.accept(algo);
@@ -67,7 +69,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 
 	}
 
-	@Test
+//	@Test
 	public void ConstQ_testCase() {
 		AclfNetwork net = createNet();
 		
@@ -118,7 +120,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 
 	}
 
-	@Test
+//	@Test
 	public void ConstB_testCase() {
 		AclfNetwork net = createNet();
 		
