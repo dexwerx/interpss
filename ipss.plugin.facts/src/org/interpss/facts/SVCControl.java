@@ -14,6 +14,7 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2;
  *     i - The SVC connected bus position in the J-matrix
  *     n - The SVC position in the J-matrix
  *
+// TODO: please specify the following parameters 
  * 	   vsh - ?
  *     qc - ?  (Mike : it seems to me qc is used for vref and qc(max) 
  *     gsh + j bsh - 	
@@ -48,8 +49,8 @@ public class SVCControl extends AbstractAclfBus {
 	 * @return true if init is successful
 	 */
 	public boolean init() {
-		double vi = this.getParentAclfBus().getVoltageMag();
-		double thetai = this.getParentAclfBus().getVoltageAng();
+		double vi = this.getBus().getVoltageMag();
+		double thetai = this.getBus().getVoltageAng();
 		double ysh = Math.sqrt(gsh * gsh + bsh * bsh);
 		double thetaysh = Math.acos(gsh / ysh);
 		
@@ -89,7 +90,7 @@ public class SVCControl extends AbstractAclfBus {
 	}
 
 	public Complex mismatch() {
-		Complex pIn2Net = this.getParentAclfBus().powerIntoNet();
+		Complex pIn2Net = this.getBus().powerIntoNet();
 		// equivalent P+jQ of SVC
 		Vector_xy pq = getBi();
 		// extra load on the same bus
@@ -262,6 +263,8 @@ public class SVCControl extends AbstractAclfBus {
         vsh -= lfEqn.getBVect_xy(this.position).x;
         thetash -= lfEqn.getBVect_xy(this.position).y;
 //        System.out.println("vsh: " + vsh + ", thetash: " + thetash);
+        // TODO: at this point, we can check if there is any limit violation. If yes,
+        //       change SVC control mode, for example from ConstV to ConstQ
     }
 
 }
