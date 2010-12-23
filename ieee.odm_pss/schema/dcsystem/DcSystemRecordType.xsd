@@ -120,11 +120,17 @@
 	</complexType>
 
 	<complexType name="SolarPVModelXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
+		<annotation>
+			<documentation></documentation>
+		</annotation>
 		<sequence>
-			<element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+			<element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
+				<annotation><documentation>
+				volt in ascending order and amp in descending order, and first point vdc = 0;
+				</documentation></annotation></element>
 		</sequence>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="desc" type="string" use="optional"></attribute>
 	</complexType>
 
 	<complexType name="PVModelPointXmlType">
