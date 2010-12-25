@@ -28,7 +28,9 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
+
 import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.sparse.SparseEqnDouble;
@@ -72,8 +74,11 @@ public class SparseEqnDoubleTest {
 		
 		LUDecomposition lu = new LUDecompositionImpl(m);
 		double[] result = lu.getSolver().solve(new double [] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0});
-		for (double d : result)
-			System.out.print(d + ",");
+		//for (double d : result)
+		//	System.out.print(d + ",");
+		
+// 1.0,1.0,0.2,1.0000000000000002,2.8000000000000003,0.39999999999999997
+		assertTrue(Math.abs(result[4] - 2.8) < 0.00001);
    }	
 	@Test
 	public void testProfWuSample2() throws InterpssException {
@@ -113,6 +118,12 @@ public class SparseEqnDoubleTest {
 		eqn.setAij( 0.0, 6, 6 );
 		eqn.setAij( 1.0, 6, 4 );
 		
-		eqn.luMatrix(1.0e-20);
+		for (int i = 1; i <= 6; i++)
+			eqn.setBi(1.0, i);
+		
+		eqn.luMatrixAndSolveEqn(1.0e-20);
+		
+		//System.out.println(eqn);
+		assertTrue(Math.abs(eqn.getBi(5) - 2.8) < 0.00001);
    }	
 }
