@@ -184,21 +184,24 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 				originalSimpleGraph.setEdgeWeight(newEdge, originalDigraph.getEdgeWeight(curEdge));
 			}
 		}
+		// Issue (2010/10/25): Maybe larger amount of active power transfer still means weaker relationship between the two terminal buses of a certain branch,
+		// thus originalSimpleGraph other than inverseGraph should be used here.
 		// Use the inverse of active power to build a new weighted directed graph (the larger the active power is, the close the two buses will be)
-		SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> inverseGraph = 
-			new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
-		for (String curVertex : originalSimpleGraph.vertexSet())
-			inverseGraph.addVertex(curVertex);
-		for (DefaultWeightedEdge curEdge : originalSimpleGraph.edgeSet()) {
-			String sourceVertex = originalSimpleGraph.getEdgeSource(curEdge);
-			String targetVertex = originalSimpleGraph.getEdgeTarget(curEdge);
-			DefaultWeightedEdge newEdge = new DefaultWeightedEdge();
-			inverseGraph.addEdge(sourceVertex, targetVertex, newEdge);
-			inverseGraph.setEdgeWeight(newEdge, 1 / originalSimpleGraph.getEdgeWeight(curEdge));
-		}
+//		SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> inverseGraph = 
+//			new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+//		for (String curVertex : originalSimpleGraph.vertexSet())
+//			inverseGraph.addVertex(curVertex);
+//		for (DefaultWeightedEdge curEdge : originalSimpleGraph.edgeSet()) {
+//			String sourceVertex = originalSimpleGraph.getEdgeSource(curEdge);
+//			String targetVertex = originalSimpleGraph.getEdgeTarget(curEdge);
+//			DefaultWeightedEdge newEdge = new DefaultWeightedEdge();
+//			inverseGraph.addEdge(sourceVertex, targetVertex, newEdge);
+//			inverseGraph.setEdgeWeight(newEdge, 1 / originalSimpleGraph.getEdgeWeight(curEdge));
+//		}
 		// 2. Initialize the map of vertices and the corresponding weights (distance from current vertex to the first vertex)
 		HashMap<String, Double> mapVertexShortestDistance = new HashMap<String, Double>();
-		for (String thisOriginalVertex : inverseGraph.vertexSet())
+//		for (String thisOriginalVertex : inverseGraph.vertexSet())
+		for (String thisOriginalVertex : originalSimpleGraph.vertexSet())
 			mapVertexShortestDistance.put(thisOriginalVertex, 10E10);
 		// The weight of the first vertex is zero
 		mapVertexShortestDistance.put(thisVertex, 0.0);
@@ -215,14 +218,17 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		while (!bfiVertices.isEmpty()) {
 			// Operate the following codes for those edges started with current vertex
 			boolean hasNewEdge = false;
-			for (DefaultWeightedEdge curEdge : inverseGraph.outgoingEdgesOf(currentVertex)) {
+//			for (DefaultWeightedEdge curEdge : inverseGraph.outgoingEdgesOf(currentVertex)) {
+			for (DefaultWeightedEdge curEdge : originalSimpleGraph.outgoingEdgesOf(currentVertex)) {
 //				if (!mapEdgeVisited.get(curEdge)) {	// Used for those edges that have not been treated yet
 					// 3.1. Mark current edge as already been visited
 //					mapEdgeVisited.put(curEdge, true);
-					String nextVertex = inverseGraph.getEdgeTarget(curEdge);
+//				String nextVertex = inverseGraph.getEdgeTarget(curEdge);
+					String nextVertex = originalSimpleGraph.getEdgeTarget(curEdge);
 					// 3.2. Update shortest-path values
 					double curSD = mapVertexShortestDistance.get(currentVertex);
-					double edgeWeight = inverseGraph.getEdgeWeight(curEdge);
+//					double edgeWeight = inverseGraph.getEdgeWeight(curEdge);
+					double edgeWeight = originalSimpleGraph.getEdgeWeight(curEdge);
 					double newSD = curSD + edgeWeight;
 					if (mapVertexShortestDistance.get(nextVertex) > newSD) {
 						hasNewEdge = true;
@@ -245,11 +251,15 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		// 4.1. Initialize the shortest-path digraph
 		DirectedMultigraph<String, DefaultEdge> shortestPathDigraph = new DirectedMultigraph<String, DefaultEdge>(DefaultEdge.class);
 		// 4.2. Add all qualified edges
-		for (DefaultWeightedEdge curEdge : inverseGraph.edgeSet()) {
+//		for (DefaultWeightedEdge curEdge : inverseGraph.edgeSet()) {
+		for (DefaultWeightedEdge curEdge : originalSimpleGraph.edgeSet()) {
 			// 4.2.1. Evaluate if current edge is suitable
-			String sourceVertex = inverseGraph.getEdgeSource(curEdge);
-			String targetVertex = inverseGraph.getEdgeTarget(curEdge);
-			if (Math.abs(inverseGraph.getEdgeWeight(curEdge) - 
+//			String sourceVertex = inverseGraph.getEdgeSource(curEdge);
+//			String targetVertex = inverseGraph.getEdgeTarget(curEdge);
+			String sourceVertex = originalSimpleGraph.getEdgeSource(curEdge);
+			String targetVertex = originalSimpleGraph.getEdgeTarget(curEdge);
+//			if (Math.abs(inverseGraph.getEdgeWeight(curEdge) - 
+			if (Math.abs(originalSimpleGraph.getEdgeWeight(curEdge) - 
 				(mapVertexShortestDistance.get(targetVertex) - mapVertexShortestDistance.get(sourceVertex))) < 1.0E-5) {
 				// 4.2.2. Add suitable edge that found just now
 				DefaultEdge newEdge = new DefaultEdge();
