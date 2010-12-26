@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

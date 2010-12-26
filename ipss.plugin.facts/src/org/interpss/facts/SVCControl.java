@@ -1,12 +1,12 @@
 package org.interpss.facts;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.Matrix_xy;
+import org.interpss.numeric.datatype.Vector_xy;
 
-import com.interpss.common.datatype.Matrix_xy;
-import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.impl.AbstractAclfBus;
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
+import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
 
 /**
  * A SVC implementation
