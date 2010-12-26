@@ -3,7 +3,8 @@ package org.interpss.vstab.cpf.impl;
 import java.util.HashMap;
 import java.util.Hashtable;
 
-import org.apache.commons.math.linear.*;
+import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.RealVector;
 import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 
 import com.interpss.core.aclf.AclfBus;

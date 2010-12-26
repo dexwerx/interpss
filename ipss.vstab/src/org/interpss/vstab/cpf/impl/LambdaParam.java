@@ -1,6 +1,7 @@
 package org.interpss.vstab.cpf.impl;
 
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
+import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+
 
 public class LambdaParam {
 	/**

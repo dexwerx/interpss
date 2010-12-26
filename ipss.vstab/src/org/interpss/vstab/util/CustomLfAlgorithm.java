@@ -4,9 +4,9 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
+import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.vstab.cpf.CPFAlgorithm;
-import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
-import com.interpss.common.datatype.Vector_xy;
+
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBus;
@@ -17,7 +17,7 @@ import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.datatype.Mismatch;
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
+import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CustomLfAlgorithm implements IAclfNetBVisitor{

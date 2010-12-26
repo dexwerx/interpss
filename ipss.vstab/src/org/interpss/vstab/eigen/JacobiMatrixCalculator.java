@@ -1,14 +1,14 @@
 package org.interpss.vstab.eigen;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
+import org.interpss.numeric.datatype.Matrix_xy;
 
-import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
+import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
 /*
  * still some problem for this conversation ,
  * cau'z the dimension and index of complex matrix is not so clear 
