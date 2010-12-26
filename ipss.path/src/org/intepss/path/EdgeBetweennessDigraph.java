@@ -75,7 +75,7 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 			DefaultWeightedEdge edgeInWholeGraph = originalDigraph.getEdge(sourceVertex, targetVertex);
 			double newWeight = originalDigraph.getEdgeWeight(edgeInWholeGraph) * betweennessWeight;
 			this.setEdgeWeight(thisEdge, newWeight);
-			System.out.println("Final edge betweenness between " + sourceVertex + " and " + targetVertex + ": " + newWeight);
+//			System.out.println("Final edge betweenness between " + sourceVertex + " and " + targetVertex + ": " + newWeight);
 		}
 		
 	}
@@ -259,15 +259,17 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 			String sourceVertex = originalSimpleGraph.getEdgeSource(curEdge);
 			String targetVertex = originalSimpleGraph.getEdgeTarget(curEdge);
 //			if (Math.abs(inverseGraph.getEdgeWeight(curEdge) - 
-			if (Math.abs(originalSimpleGraph.getEdgeWeight(curEdge) - 
-				(mapVertexShortestDistance.get(targetVertex) - mapVertexShortestDistance.get(sourceVertex))) < 1.0E-5) {
-				// 4.2.2. Add suitable edge that found just now
-				DefaultEdge newEdge = new DefaultEdge();
-				if (!shortestPathDigraph.containsVertex(sourceVertex))
-					shortestPathDigraph.addVertex(sourceVertex);
-				if (!shortestPathDigraph.containsVertex(targetVertex))
-					shortestPathDigraph.addVertex(targetVertex);
-				shortestPathDigraph.addEdge(sourceVertex, targetVertex, newEdge);
+			if (originalSimpleGraph.getEdgeWeight(curEdge) > 1.0E-5) {
+				if (Math.abs(originalSimpleGraph.getEdgeWeight(curEdge) - 
+						(mapVertexShortestDistance.get(targetVertex) - mapVertexShortestDistance.get(sourceVertex))) < 1.0E-5) {
+						// 4.2.2. Add suitable edge that found just now
+						DefaultEdge newEdge = new DefaultEdge();
+						if (!shortestPathDigraph.containsVertex(sourceVertex))
+							shortestPathDigraph.addVertex(sourceVertex);
+						if (!shortestPathDigraph.containsVertex(targetVertex))
+							shortestPathDigraph.addVertex(targetVertex);
+						shortestPathDigraph.addEdge(sourceVertex, targetVertex, newEdge);
+					}
 			}
 		}
 		return shortestPathDigraph;
@@ -327,8 +329,8 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		
 		
 		IpssPlugin.init();
-		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/ieee14.ieee");
-//		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Summer.ieee");
+//		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/ieee14.ieee");
+		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Winter_Offpeak.ieee");
 		EdgeBetweennessDigraph ebd = new EdgeBetweennessDigraph(afd.getpDigraph());
 //		ebd.TestDijkstra();
 		// Output all the edge betweenness descendingly
