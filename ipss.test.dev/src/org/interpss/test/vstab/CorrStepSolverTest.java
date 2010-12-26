@@ -7,7 +7,6 @@ import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
-import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
 
 import com.interpss.common.msg.IPSSMsgHub;
