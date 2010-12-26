@@ -25,6 +25,7 @@
 package org.interpss.spring;
 
 import org.interpss.numeric.sparse.SparseEqnDouble;
+import org.interpss.numeric.sparse.SparseEqnInteger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -36,8 +37,22 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class NumericSpringCtx {
+	private static final String DefaultSparseEqnIntegerId = "sparseEqnInteger";
 	private static final String DefaultSparseEqnDoubleId = "sparseEqnDoubleCommonMath";
 
+	/**
+	 * Get the SparseEqnDouble(singleton) object from the SpringAppContext.
+	 *  
+	 * @return the SparseEqnDouble object
+	 */
+	public static SparseEqnInteger getSparseEqnInteger() {
+		return getSparseEqnInteger(DefaultSparseEqnIntegerId);
+	}
+	public static SparseEqnInteger getSparseEqnInteger(String beanId) {
+		setup();
+		return (SparseEqnInteger) SpringAppCtx.getBean(beanId);
+	}
+	
 	/**
 	 * Get the SparseEqnDouble(singleton) object from the SpringAppContext.
 	 *  
