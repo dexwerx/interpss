@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.sparse.SparseEqnDouble;
-import com.interpss.core.sparse.impl.SparseEqnDoubleImpl;
+import com.interpss.core.sparse.dep.SparseEqnDoubleImpl;
 
 /**
  * @author mzhou
