@@ -58,8 +58,8 @@ public interface SparseEqnInteger extends SparseEquation {
    * Set the aij element
 	* 
 	* @param n the aij element
-	* @param i the element row number (1-n convention)
-	* @param j the element column number (1-n convention)
+	* @param i the element row number (starts from 0)
+	* @param j the element column number (starts from 0)
    */
 	void setAij( final int n, final int i, final int j );
 }
