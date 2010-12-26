@@ -58,12 +58,12 @@ public class IPSSActivePowerDigraph {
 			AclfBranch thisAclfBranch = net.getAclfBranch(branchID);
 			double activePowerFrom2To = thisAclfBranch.powerFrom2To().getReal();
 			double activePowerTo2From = thisAclfBranch.powerTo2From().getReal();
-			if (activePowerFrom2To > 0) {
+			if (activePowerFrom2To > 1.0E-5) {
 				DefaultWeightedEdge thisEdge = new DefaultWeightedEdge();
 				pDigraph.addEdge(fromId, toId, thisEdge);
 				pDigraph.setEdgeWeight(thisEdge, activePowerFrom2To);
 			}
-			else if (activePowerTo2From > 0) {
+			else if (activePowerTo2From > 1.0E-5) {
 				DefaultWeightedEdge thisEdge = new DefaultWeightedEdge();
 				pDigraph.addEdge(toId, fromId, thisEdge);
 				pDigraph.setEdgeWeight(thisEdge, activePowerTo2From);
