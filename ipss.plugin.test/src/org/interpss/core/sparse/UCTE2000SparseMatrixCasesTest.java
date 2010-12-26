@@ -34,10 +34,10 @@ import org.apache.commons.math.linear.SparseRealMatrix;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.numeric.datatype.Matrix_xy;
+import org.interpss.numeric.datatype.Vector_xy;
 import org.junit.Test;
 
-import com.interpss.common.datatype.Matrix_xy;
-import com.interpss.common.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
 

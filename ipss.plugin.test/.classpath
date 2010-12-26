@@ -32,5 +32,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
