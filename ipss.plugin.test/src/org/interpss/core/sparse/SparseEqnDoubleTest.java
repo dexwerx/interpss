@@ -33,8 +33,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.sparse.SparseEqnDouble;
-import com.interpss.core.sparse.dep.SparseEqnDoubleImpl;
+import com.interpss.core.sparse.dep.SparseEqnDouble;
+import com.interpss.core.sparse.dep.impl.SparseEqnDoubleImpl;
 
 /**
  * @author mzhou

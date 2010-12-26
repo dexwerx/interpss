@@ -40,7 +40,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-import com.interpss.core.sparse.SparseEqnComplex;
+import com.interpss.core.sparse.dep.SparseEqnComplex;
 import com.interpss.simu.SimuContext;
 
 public class Bus11856Test extends PluginTestSetup {
