@@ -18,7 +18,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class CpfHelper {
 	private SparseEqnMatrix2x2 lfEqn=null;
@@ -57,7 +57,7 @@ public class CpfHelper {
 		   		if(b.isActive()) {
 		   			m.xx=dir_pq.getReal();// dirP  // sign is opposite to ordinary J-matrix;
 		   			m.yx=dir_pq.getImaginary();//dirQ
-		   			lfEqn.setAij(m,b.getSortNumber(), n+1);
+		   			lfEqn.setA(m,b.getSortNumber(), n+1);
 
 		   		}
 		   		
@@ -73,11 +73,11 @@ public class CpfHelper {
 		   }
 	       else ek.xx=-1;// corresponding to lambda;
 	       
-		   lfEqn.setAij(ek, n+1,this.getSortNumOfContParam());
-		   if(lfEqn.getElement(n+1, n+1).yy==0) {
+		   lfEqn.setA(ek, n+1,this.getSortNumOfContParam());
+		   if(lfEqn.getA(n+1, n+1).yy==0) {
 			   Matrix_xy m_lambda=new Matrix_xy();
 			   m_lambda.yy=1;
-			   lfEqn.addToAij(m_lambda, n+1, n+1);
+			   lfEqn.addToA(m_lambda, n+1, n+1);
 			   
 		   }
 		  // print J-matrix
@@ -183,7 +183,7 @@ public class CpfHelper {
 
 			public void visit(AclfBus bus) {
 				if((!bus.isSwing())&(bus.isActive())) {
-					Vector_xy dv=lfEqn.getBVect_xy(bus.getSortNumber());
+					Vector_xy dv=lfEqn.getX(bus.getSortNumber());
 
 				    double vang=bus.getVoltageAng()-step*dv.x;
 				    double vmag=bus.getVoltageMag();

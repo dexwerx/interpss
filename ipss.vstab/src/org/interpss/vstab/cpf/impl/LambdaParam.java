@@ -1,6 +1,6 @@
 package org.interpss.vstab.cpf.impl;
 
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 
 public class LambdaParam {
@@ -46,13 +46,13 @@ public class LambdaParam {
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn) {
 		System.out.println("before update lambda="+this.val);
-		this.val+=lfEqn.getBVect_xy(n).x;
-		System.out.println("deltaL="+lfEqn.getBVect_xy(n).x+"   ,after update, lambda="+this.val);
+		this.val+=lfEqn.getX(n).x;
+		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update, lambda="+this.val);
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
 		System.out.println("before update lambda="+this.val);
-		this.val+=stepSize*lfEqn.getBVect_xy(n).x;
-		System.out.println("deltaL="+lfEqn.getBVect_xy(n).x+"   ,after update lambda="+this.val);
+		this.val+=stepSize*lfEqn.getX(n).x;
+		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update lambda="+this.val);
 	}
 	
 	

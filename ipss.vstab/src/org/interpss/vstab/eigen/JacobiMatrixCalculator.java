@@ -8,7 +8,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 /*
  * still some problem for this conversation ,
  * cau'z the dimension and index of complex matrix is not so clear 
@@ -69,7 +69,7 @@ public class JacobiMatrixCalculator {
                  if (!aclfBusj.isSwing()) {        
                      int i = busi.getSortNumber();
                      int j = busj.getSortNumber();
-                     Matrix_xy elem = S.getElement(i, j);
+                     Matrix_xy elem = S.getA(i, j);
 
 	               // the following variant is chosen like PQ bus, but it is also suitable for PV bus
 	                  double dPdVang = elem.xx;
@@ -138,7 +138,7 @@ public class JacobiMatrixCalculator {
 		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE);
 		if(acBus.isActive()&&!acBus.isSwing()){ // both PQ and PV
 			
-			elem = S.getElement(acBus.getSortNumber(),acBus.getSortNumber());
+			elem = S.getA(acBus.getSortNumber(),acBus.getSortNumber());
 			Hii=elem.xx;
 			
 		}
@@ -158,7 +158,7 @@ public class JacobiMatrixCalculator {
 		SparseEqnMatrix2x2 S=_net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE);
 		if(acBus.isActive()&&acBus.isGenPQ()){ // only for PQ
 			
-			elem = S.getElement(acBus.getSortNumber(),acBus.getSortNumber());
+			elem = S.getA(acBus.getSortNumber(),acBus.getSortNumber());
 			Lii=elem.yy;
 			
 		}

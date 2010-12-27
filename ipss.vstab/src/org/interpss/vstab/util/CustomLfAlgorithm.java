@@ -17,7 +17,7 @@ import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.datatype.Mismatch;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CustomLfAlgorithm implements IAclfNetBVisitor{
@@ -141,9 +141,9 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 				}
 			}
 			
-			for(int i=0;i<lfEqn.getDimension()/2;i++) { // index 1-N
-				   b0[2*i]=lfEqn.getBVect_xy(i+1).x;
-				   b0[2*i+1]=lfEqn.getBVect_xy(i+1).y;
+			for(int i=0;i<lfEqn.getDimension()/2;i++) { // index 0->N-1
+				   b0[2*i]=lfEqn.getX(i).x;
+				   b0[2*i+1]=lfEqn.getX(i).y;
 		    }
 			
 			b=new double[row];
@@ -167,7 +167,7 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 			  }
 			  else v=new Vector_xy(dxdL[2*i],dxdL[2*i+1]);
 			  
-			lfEqn.setBi(v, i+1);
+			lfEqn.setB(v, i+1);
 		  }
 		  return true;
 		}
@@ -188,13 +188,13 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 			@Override
 			public void visit(AclfBus bus) {
 				int i=bus.getSortNumber();
-				Vector_xy bxy=lfEqn.getBVect_xy(i);
+				Vector_xy bxy=lfEqn.getX(i);
 				System.out.println(bus.getId()+"  "+bus.getGenCode().getLiteral()+":  misP="+bxy.x+",  misQ="+bxy.y);
 			}
 			   
 		   });
 		   if(lfEqn.getDimension()>net.getNoBus()*2){
-			   Vector_xy v=lfEqn.getBVect_xy(net.getNoBus()+1);
+			   Vector_xy v=lfEqn.getX(net.getNoBus()+1);
 			   System.out.println("B("+(net.getNoBus()+1)+") :  misLambda="+v.x+",  dummy="+v.y);
 		   }
 	   }

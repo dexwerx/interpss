@@ -10,7 +10,7 @@ import org.interpss.vstab.util.VstabFuncOut;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class CorrectorStepSolver extends DefaultNrSolver {
     private CPFAlgorithm cpf=null;

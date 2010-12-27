@@ -11,7 +11,7 @@ import org.interpss.numeric.datatype.Vector_xy;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class VstabFuncOut {
 	/**
@@ -60,7 +60,7 @@ public class VstabFuncOut {
 	   double[][] mAry=new double[m.getDimension()][m.getDimension()];
 	   for(int i=0;i<m.getDimension()/2;i++) { // index 1-N
 		   for(int j=0;j<m.getDimension()/2;j++) {//index 1-N
-			   Matrix_xy mxy=m.getElement(i+1, j+1);
+			   Matrix_xy mxy=m.getA(i+1, j+1);
 			   mAry[2 * i ][2 * j ]=mxy.xx;
 			   mAry[2 * i ][2 * j+1]=mxy.xy;
 			   mAry[2 * i+1 ][2 * j]=mxy.yx;
@@ -76,13 +76,13 @@ public class VstabFuncOut {
 		@Override
 		public void visit(AclfBus bus) {
 			int i=bus.getSortNumber();
-			Vector_xy bxy=lfEqn.getBVect_xy(i);
+			Vector_xy bxy=lfEqn.getX(i);
 			System.out.println("sortNumber"+bus.getSortNumber()+"  ,busId  "+bus.getId()+"  ,"+bus.getGenCode().getLiteral()+":  b.x="+bxy.x+",  b.y="+bxy.y);
 		}
 		   
 	   });
 	   if(lfEqn.getDimension()>net.getNoBus()*2){
-		   Vector_xy v=lfEqn.getBVect_xy(net.getNoBus()+1);
+		   Vector_xy v=lfEqn.getX(net.getNoBus()+1);
 		   System.out.println("B("+(net.getNoBus()+1)+") :  b.x="+v.x+",  b.y="+v.y);
 	   }
    }

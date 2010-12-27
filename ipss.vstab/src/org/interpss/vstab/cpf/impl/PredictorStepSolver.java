@@ -4,10 +4,10 @@ import java.util.Iterator;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.interpss.numeric.datatype.Vector_xy;
+import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.vstab.cpf.AbstractStepSolver;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 
-import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.net.Bus;
@@ -72,7 +72,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
     	this.cpf.getAclfNetwork().forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
 			  if((!bus.isSwing())&bus.isActive()) {
-				 Vector_xy v=augmentedJacobi.getBVect_xy(bus.getSortNumber());
+				 Vector_xy v=augmentedJacobi.getX(bus.getSortNumber());
 				 double vang=bus.getVoltageAng();
 				 double vmag=bus.getVoltageMag();
 				 if(!bus.isGenPV()) {
@@ -98,7 +98,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
      //   only the element corresponding to Continuous parameter is set to +1,or -1, depending on the slope of continuous parameter
    	
     int contParaSign=getContParaSign();  
-    augmentedJacobi.setBi(new Complex(contParaSign,0),lambda.getPosition());
+    augmentedJacobi.setB(new Complex(contParaSign,0),lambda.getPosition());
 
      // solve Jau*[dx,dLamda]T=[0,+-1]
      
@@ -106,7 +106,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 		if (!augmentedJacobi.luMatrixAndSolveEqn(this.tolerance)) {
 			return false;
 		}
-	} catch (InterpssException e) {
+	} catch (IpssNumericException e) {
 		e.printStackTrace();
 	}
     
@@ -139,12 +139,12 @@ public class PredictorStepSolver extends AbstractStepSolver{
     	for (Iterator localIterator = cpf.getAclfNetwork().getBusList().iterator(); localIterator.hasNext(); ) { 
     		Bus b = (Bus)localIterator.next();
             i=b.getSortNumber();
-            Vector_xy dv=this.augmentedJacobi.getBVect_xy(i);   
+            Vector_xy dv=this.augmentedJacobi.getX(i);   
             this.deltaX_Lambda.setEntry(2*i-2, dv.x);
             this.deltaX_Lambda.setEntry(2*i-1, dv.y);
         }
     	i=this.cpf.getAclfNetwork().getNoBus()+1; // lambda index 
-    	double deltaL=this.augmentedJacobi.getBVect_xy(i).x;
+    	double deltaL=this.augmentedJacobi.getX(i).x;
         this.deltaX_Lambda.setEntry(this.cpf.getAclfNetwork().getNoBus()*2, deltaL);
     }
     protected boolean isStepSizeControl() {
