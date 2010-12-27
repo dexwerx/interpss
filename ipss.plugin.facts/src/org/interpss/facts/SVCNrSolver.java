@@ -2,7 +2,7 @@ package org.interpss.facts;
 
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class SVCNrSolver extends DefaultNrSolver {
 
@@ -25,10 +25,10 @@ public class SVCNrSolver extends DefaultNrSolver {
                 int i = svc.getBus().getSortNumber();
                 int n = svc.getPosition();
                 
-                lfEqn.setAij(svc.getJnn(), n, n);
-                lfEqn.setAij(svc.getJni(), n, i);
-                lfEqn.setAij(svc.getJin(), i, n);
-                lfEqn.addToAij(svc.getJii(), i, i);
+                lfEqn.setA(svc.getJnn(), n, n);
+                lfEqn.setA(svc.getJni(), n, i);
+                lfEqn.setA(svc.getJin(), i, n);
+                lfEqn.addToA(svc.getJii(), i, i);
             }
         }
 
@@ -47,7 +47,7 @@ public class SVCNrSolver extends DefaultNrSolver {
                 //lfEqn.addToBi(bi,i);
 
                 int n = svc.getPosition();
-                lfEqn.setBi(svc.getBn(), n);
+                lfEqn.setB(svc.getBn(), n);
             }
         }
     }

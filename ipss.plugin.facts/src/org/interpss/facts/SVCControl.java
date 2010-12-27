@@ -6,7 +6,7 @@ import org.interpss.numeric.datatype.Vector_xy;
 
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.impl.AbstractAclfBus;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 /**
  * A SVC implementation
@@ -260,8 +260,8 @@ public class SVCControl extends AbstractAclfBus {
      * @param lfEqn
      */
     public void update(SparseEqnMatrix2x2 lfEqn) {
-        vsh -= lfEqn.getBVect_xy(this.position).x;
-        thetash -= lfEqn.getBVect_xy(this.position).y;
+        vsh -= lfEqn.getX(this.position).x;
+        thetash -= lfEqn.getX(this.position).y;
 //        System.out.println("vsh: " + vsh + ", thetash: " + thetash);
         // TODO: at this point, we can check if there is any limit violation. If yes,
         //       change SVC control mode, for example from ConstV to ConstQ
