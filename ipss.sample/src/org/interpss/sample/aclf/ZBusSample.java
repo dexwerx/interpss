@@ -30,20 +30,20 @@ import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.exp.InterpssException;
+import org.interpss.numeric.exp.IpssNumericException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.sparse.dep.SparseEqnComplex;
+import org.interpss.numeric.sparse.SparseEqnComplex;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 
 public class ZBusSample {
-	public static void main(String args[]) throws InterpssException {
+	public static void main(String args[]) throws IpssNumericException {
 		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
 		
 		// set session message to Warning level
@@ -59,7 +59,7 @@ public class ZBusSample {
 		// assume swing connect to the ground
 		AclfBus swing = net.getAclfBus("5");
 		int busNo = swing.getSortNumber();
-		eqn.setAij(new Complex(0.0, 1.0e10), busNo, busNo);
+		eqn.setA(new Complex(0.0, 1.0e10), busNo, busNo);
 		
 		// calculate zii of bus "1"
 		AclfBus bus1 = net.getAclfBus("1");
@@ -67,7 +67,7 @@ public class ZBusSample {
 		eqn.setB2Unit(busNo);
 		
 		eqn.luMatrixAndSolveEqn(1.0e-20);
-		Complex z = eqn.getBi(busNo);
+		Complex z = eqn.getX(busNo);
 		System.out.println("Zii: " + ComplexFunc.toString(z));  
 
 		// calculate zii of bus "2"
@@ -77,7 +77,7 @@ public class ZBusSample {
 		
 		// Y-matrix already LUed, so no need to LU again
 		eqn.solveEqn();
-		z = eqn.getBi(busNo);
+		z = eqn.getX(busNo);
 		System.out.println("Zii: " + ComplexFunc.toString(z));  
 	}	
 }

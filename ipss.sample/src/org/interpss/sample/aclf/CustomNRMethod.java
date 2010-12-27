@@ -26,13 +26,13 @@ package org.interpss.sample.aclf;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
 
@@ -64,7 +64,7 @@ public class CustomNRMethod {
 			
 			// set the matrix element to J-matrix
 			int n = getAclfNet().getNoBus();
-			lfEqn.setAij(m, n+1, n+1);
+			lfEqn.setA(m, n+1, n+1);
 			
 			return lfEqn;
 		}
@@ -88,7 +88,7 @@ public class CustomNRMethod {
 			
 			// set the vector to the right-hand side of the sparse eqn
 			int n = getAclfNet().getNoBus();
-			lfEqn.setBi(b, n+1);
+			lfEqn.setB(b, n+1);
 		}
 		
 		/**
@@ -103,7 +103,7 @@ public class CustomNRMethod {
 			
 			// the solution result of the extra variable defined is stored at B(n+1)  
 			int n = getAclfNet().getNoBus();
-			System.out.println("mis: " + this.mis + "  ---> " + lfEqn.getBVect_xy(n+1));
+			System.out.println("mis: " + this.mis + "  ---> " + lfEqn.getX(n+1));
 			
 			// reduce the dummy variable so that the loadflow can converge  
 			this.mis *= 0.1;
