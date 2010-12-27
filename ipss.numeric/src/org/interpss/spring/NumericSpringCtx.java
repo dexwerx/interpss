@@ -37,8 +37,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class NumericSpringCtx {
-	private static final String DefaultSparseEqnIntegerId = "sparseEqnInteger";
-	private static final String DefaultSparseEqnDoubleId = "sparseEqnDoubleCommonMath";
+	private static final String DefaultSparseEqnIntegerId 	= "sparseEqnInteger";
+	private static final String DefaultSparseEqnDoubleId 	= "sparseEqnDouble";
 
 	/**
 	 * Get the SparseEqnDouble(singleton) object from the SpringAppContext.

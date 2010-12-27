@@ -38,7 +38,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	* @param i the element row number 
 	* @param j the element column number 
    */
-	void addToAij( final TAij x, final int i, final int j );
+	void addToA( final TAij x, final int i, final int j );
 
   /**
    * Get the bi element.
@@ -46,7 +46,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	* @param i the element row number 
 	* @return the bi element
    */
-	TBi getXi( final int i );
+	TBi getX( final int i );
 
   /**
    * Set the aij element.
@@ -55,7 +55,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	* @param i the element row number 
 	* @param j the element column number 
    */
-	void setAij( final TAij x, final int i, final int j );
+	void setA( final TAij x, final int i, final int j );
 
 	/**
 	* Get the aij element.
@@ -64,7 +64,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	* @param j the element column number 
 	* @return aij 
 	*/
-	TAij getAij(final int i, final int j );
+	TAij getA(final int i, final int j );
 		
 	/**
    * Set bi element.
@@ -72,7 +72,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	* @param bi the bi element
 	* @param i row number 
    */
-	void setBi( final TBi bi, final int i );
+	void setB( final TBi bi, final int i );
 	
 	/**
 	 * add to bi element.
@@ -80,11 +80,11 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 		* @param bi the bi element
 		* @param i row number 
 	   */
-	void addToBi( final TBi bi, final int i );	
+	void addToB( final TBi bi, final int i );	
 	
 	/**
 	 * Get zero aii row number
 	 * @return
 	 */
-	int getZeroAii_row();		
+	int getZeroA_row();		
 }

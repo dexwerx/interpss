@@ -42,7 +42,7 @@ public interface SparseEqnMatrix2x2 extends SparseEqnObject<Matrix_xy, Vector_xy
 		* @param c the bi element
 		* @param i row number 
 	   */
-	public void setBi( final Complex c, final int i );
+	public void setB( final Complex c, final int i );
 		
   /**
    * add to bi element.
@@ -50,5 +50,5 @@ public interface SparseEqnMatrix2x2 extends SparseEqnObject<Matrix_xy, Vector_xy
 	* @param c the bi element
 	* @param i row number 
    */
-	public void addToBi( final Complex c, final int i );
+	public void addToB( final Complex c, final int i );
 }

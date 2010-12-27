@@ -9,6 +9,10 @@
 	      scope="singleton">	
 	</bean>
 
+	<bean id="sparseEqnDouble" 
+	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl"
+	      scope="singleton">	
+	</bean>
 	<bean id="sparseEqnDoubleCommonMath" 
 	      class="org.interpss.numeric.sparse.impl.SparseEqnDoubleCommonMathImpl"
 	      scope="singleton">	
