@@ -32,7 +32,7 @@ package org.interpss.numeric.sparse.base;
 
 public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
   /**
-   * Add the aij element to the matrix. If aij exists, aij += x.
+   * Add the aij object to the matrix. If aij exists, aij += x.
 	* 
 	* @param x the aij element
 	* @param i the element row number 
@@ -41,24 +41,24 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	void addToA( final TAij x, final int i, final int j );
 
   /**
-   * Get the bi element.
+   * Get the x[i] object, after the eqn is solved.
 	* 
 	* @param i the element row number 
-	* @return the bi element
+	* @return the x[i] element
    */
 	TBi getX( final int i );
 
   /**
-   * Set the aij element.
+   * Set the aij object.
 	* 
-	* @param x the aij element
+	* @param x the aij object
 	* @param i the element row number 
 	* @param j the element column number 
    */
 	void setA( final TAij x, final int i, final int j );
 
 	/**
-	* Get the aij element.
+	* Get the aij object.
 	* 
 	* @param i the element row number 
 	* @param j the element column number 
@@ -67,7 +67,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	TAij getA(final int i, final int j );
 		
 	/**
-   * Set bi element.
+   * Set b[i] object, before solving the eqn.
 	* 
 	* @param bi the bi element
 	* @param i row number 
@@ -83,7 +83,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	void addToB( final TBi bi, final int i );	
 	
 	/**
-	 * Get zero aii row number
+	 * Get zero aii row number, in case the matrix is singular
 	 * @return
 	 */
 	int getZeroA_row();		

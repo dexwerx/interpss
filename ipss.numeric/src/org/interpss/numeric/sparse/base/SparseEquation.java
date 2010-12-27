@@ -98,7 +98,7 @@ public interface SparseEquation {
 	/**
 	 * Set all b elements to 0.0 and bi = 1.0, a unit vector.
 	 * 
-	 * @param i the element row number (1-n convention)
+	 * @param i the element row number
 	 */
 	void setB2Unit(final int i);
 	

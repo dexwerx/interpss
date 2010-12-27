@@ -37,17 +37,17 @@ import org.interpss.numeric.sparse.base.SparseEqnObject;
 
 public interface SparseEqnMatrix2x2 extends SparseEqnObject<Matrix_xy, Vector_xy> {
 	/**
-	   * Set bi element.
-		* 
-		* @param c the bi element
-		* @param i row number 
-	   */
+	* Set b[i] object.
+	* 
+	* @param c the b[i] object
+	* @param i row number 
+	*/
 	public void setB( final Complex c, final int i );
 		
   /**
-   * add to bi element.
+   * add to b[i] object.
 	* 
-	* @param c the bi element
+	* @param c the b[i] object
 	* @param i row number 
    */
 	public void addToB( final Complex c, final int i );

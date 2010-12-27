@@ -39,16 +39,16 @@ public interface SparseEqnDouble extends SparseEquation {
    * Add the aij element to the matrix. If aij exists, aij += x.
 	* 
 	* @param x the aij element
-	* @param i the element row number (1-n convention)
-	* @param j the element column number (1-n convention)
+	* @param i the element row number
+	* @param j the element column number
    */
 	void addToAij( final double x, final int i, final int j );
 
   /**
-   * Get the bi element.
+   * Get the x[i] element.
 	* 
 	* @param i the element row number
-	* @return the bi element
+	* @return the x[i] element
    */
 	double getXi( final int i );
 
@@ -70,7 +70,7 @@ public interface SparseEqnDouble extends SparseEquation {
 	double getAij(final int i, final int j );
 		
 	/**
-	 * Set bi element.
+	 * Set b[i] element.
 	 * 
 	 * @param bi the bi element
 	 * @param i row number 
@@ -78,7 +78,7 @@ public interface SparseEqnDouble extends SparseEquation {
 	void setBi( final double bi, final int i );
 	
 	/**
-	 * add to the element.
+	 * add to the b[i] element.
 	 * 
 	 * @param bi the bi element
 	 * @param i row number 
