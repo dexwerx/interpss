@@ -28,7 +28,7 @@ public class PreSolverTest extends DevTestSetup {
 	assertTrue(cpfAlgo.getSortNumOfContParam()==6);
 	PredictorStepSolver preSolver=cpfAlgo.getCpfSolver().getPredStepSolver();
 	preSolver.stepSolver();
-	assertTrue((preSolver.getAugmentedJacobi().getElement(3, 6).xx-1.60)<1e-9);// bus1.loadP=1.60
+	assertTrue((preSolver.getAugmentedJacobi().getA(3, 6).xx-1.60)<1e-9);// bus1.loadP=1.60
 	assertTrue((preSolver.getDeltaXLambda().getEntry(0)-(-0.73935))<0.0001);
 	assertTrue((preSolver.getDeltaXLambda().getEntry(10)-1.0)<1e-9); // Delta_Lambda=1
 	
