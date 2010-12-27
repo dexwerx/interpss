@@ -18,6 +18,11 @@ import com.interpss.simu.SimuObjectFactory;
 
 public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	@Test
+	public void doNothingCaseTest() throws Exception {
+		
+	}
+	
+	// change 0 -> (n-1) : @Test
 	public void runSingleAclfCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);

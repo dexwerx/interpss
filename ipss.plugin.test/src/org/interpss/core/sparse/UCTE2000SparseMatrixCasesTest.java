@@ -39,7 +39,7 @@ import org.interpss.numeric.datatype.Vector_xy;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.sparse.dep.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 	@Test 
@@ -69,7 +69,7 @@ public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 		
 		int n =  eqn.getDimension()/2;
 		for (int i = 0; i < n; i++) 
-			eqn.setBi(new Vector_xy(1.0,1.0), i+1);
+			eqn.setB(new Vector_xy(1.0,1.0), i+1);
 		
 		
 	  	System.out.println("Interpss ... ");
@@ -79,7 +79,7 @@ public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 		
 		int cnt = 0;
 		for (int i = 0; i < n; i++) { 
-			Vector_xy xy = eqn.getBVect_xy(i+1);
+			Vector_xy xy = eqn.getX(i+1);
 			//System.out.println(cnt++ + ", " + xy.x);
 			//System.out.println(cnt++ + ", " + xy.y);
 	  		assertTrue(Math.abs(result[cnt++] - xy.x ) < 0.0001);
@@ -101,7 +101,7 @@ public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 		int n_2 = n / 2;
 		for(int i=0; i< n_2; i++) { // index 1-N
 			for(int j=0; j < n_2; j++) {//index 1-N
-				Matrix_xy mxy=eqn.getElement(i+1, j+1);
+				Matrix_xy mxy=eqn.getA(i+1, j+1);
 				if(mxy.xx != 0.0)
 					m.setEntry(2*i,   2*j,   mxy.xx);
 				if(mxy.xy != 0.0)

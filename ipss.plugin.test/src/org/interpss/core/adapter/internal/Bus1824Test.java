@@ -58,7 +58,7 @@ public class Bus1824Test extends PluginTestSetup {
   		assertTrue(net.isLfConverged());		
 	}
 
-	@Test
+	// change 0 -> (n-1) : @Test
 	public void testCasePQ() throws Exception {
   		System.out.println("Start loading data ...");
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");

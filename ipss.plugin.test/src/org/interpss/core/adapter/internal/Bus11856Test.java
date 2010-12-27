@@ -40,7 +40,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-import com.interpss.core.sparse.dep.SparseEqnComplex;
+import org.interpss.numeric.sparse.SparseEqnComplex;
 import com.interpss.simu.SimuContext;
 
 public class Bus11856Test extends PluginTestSetup {
@@ -89,7 +89,7 @@ public class Bus11856Test extends PluginTestSetup {
 			public void visit(AclfBus bus) {
 				if (bus.isSwing()) {
 					int busNo = bus.getSortNumber();
-					eqn.setAij(new Complex(0.0, 1.0e10), busNo, busNo);		
+					eqn.setA(new Complex(0.0, 1.0e10), busNo, busNo);		
 				}
 			}
 		});
@@ -101,7 +101,7 @@ public class Bus11856Test extends PluginTestSetup {
 		
         starttime = System.currentTimeMillis() ;
 		eqn.solveEqn();
-		Complex z = eqn.getBi(busNo);
+		Complex z = eqn.getX(busNo);
 		System.out.println("Zii: " + ComplexFunc.toString(z));    		
   		System.out.println("time for finding zii : " + (System.currentTimeMillis() - starttime)*0.001);
 	}	
