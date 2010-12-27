@@ -24,7 +24,10 @@
 
 package org.interpss.numeric;
 
+import org.interpss.numeric.sparse.SparseEqnComplex;
 import org.interpss.numeric.sparse.SparseEqnDouble;
+import org.interpss.numeric.sparse.SparseEqnInteger;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.spring.NumericSpringCtx;
 
 /**
@@ -35,11 +38,46 @@ import org.interpss.spring.NumericSpringCtx;
  */
 public class NumericObjectFactory {
 	/**
+	 * create a SparseEqnInteger object
+	 * 
+	 * @return
+	 */
+	public static SparseEqnInteger createSparseEqnInteger(int n) {
+		SparseEqnInteger e = NumericSpringCtx.getSparseEqnInteger();
+		e.setDimension(n);
+		return e;
+	}
+
+	/**
 	 * create a SparseEqnDouble object
 	 * 
 	 * @return
 	 */
-	public static SparseEqnDouble createSparseEqnDouble() {
-		return NumericSpringCtx.getSparseEqnDouble();
+	public static SparseEqnDouble createSparseEqnDouble(int n) {
+		SparseEqnDouble e = NumericSpringCtx.getSparseEqnDouble();
+		e.setDimension(n);
+		return e;
 	}
+
+	/**
+	 * create a SparseEqnMatrix2x2 object
+	 * 
+	 * @return
+	 */
+	public static SparseEqnMatrix2x2 createSparseEqnMatrix2x2(int n) {
+		SparseEqnMatrix2x2 e = NumericSpringCtx.getSparseEqnMatrix2x2();
+		e.setDimension(n);
+		return e;
+	}	
+	
+	/**
+	 * create a SparseEqnComplex object
+	 * 
+	 * @return
+	 */
+	public static SparseEqnComplex createSparseEqnComplex(int n) {
+		SparseEqnComplex e = NumericSpringCtx.getSparseEqnComplex();
+		e.setDimension(n);
+		return e;
+	}	
 }

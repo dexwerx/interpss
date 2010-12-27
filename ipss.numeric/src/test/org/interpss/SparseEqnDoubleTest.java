@@ -67,8 +67,7 @@ public class SparseEqnDoubleTest {
 
 	@Test
 	public void test3() throws IpssNumericException {
-		SparseEqnDouble eqn = NumericObjectFactory.createSparseEqnDouble();
-		eqn.setDimension(6);
+		SparseEqnDouble eqn = NumericObjectFactory.createSparseEqnDouble(6);
 		setEqnData(eqn);
 		
 		eqn.solveEqn();

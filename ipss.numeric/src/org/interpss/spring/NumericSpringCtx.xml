@@ -17,4 +17,14 @@
 	      class="org.interpss.numeric.sparse.impl.SparseEqnDoubleCommonMathImpl"
 	      scope="singleton">	
 	</bean>
+
+	<bean id="sparseEqnMatrix2x2" 
+	      class="com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl"
+	      scope="singleton">	
+	</bean>
+
+	<bean id="sparseEqnComplex" 
+	      class="com.interpss.core.sparse.impl.SparseEqnComplexImpl"
+	      scope="singleton">	
+	</bean>
 </beans>

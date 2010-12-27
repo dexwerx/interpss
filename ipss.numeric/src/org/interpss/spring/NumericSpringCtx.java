@@ -24,8 +24,10 @@
 
 package org.interpss.spring;
 
+import org.interpss.numeric.sparse.SparseEqnComplex;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.interpss.numeric.sparse.SparseEqnInteger;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -37,13 +39,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class NumericSpringCtx {
-	private static final String DefaultSparseEqnIntegerId 	= "sparseEqnInteger";
-	private static final String DefaultSparseEqnDoubleId 	= "sparseEqnDouble";
+	private static final String DefaultSparseEqnIntegerId 		= "sparseEqnInteger";
+	private static final String DefaultSparseEqnDoubleId 		= "sparseEqnDouble";
+	private static final String DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2";
+	private static final String DefaultSparseEqnComplexId 		= "sparseEqnComplex";
 
 	/**
-	 * Get the SparseEqnDouble(singleton) object from the SpringAppContext.
+	 * Get the SparseEqnInteger(singleton) object from the SpringAppContext.
 	 *  
-	 * @return the SparseEqnDouble object
+	 * @return the SparseEqnInteger object
 	 */
 	public static SparseEqnInteger getSparseEqnInteger() {
 		return getSparseEqnInteger(DefaultSparseEqnIntegerId);
@@ -66,6 +70,32 @@ public class NumericSpringCtx {
 		return (SparseEqnDouble) SpringAppCtx.getBean(beanId);
 	}
 	
+	/**
+	 * Get the SparseEqnMatrix2x2(singleton) object from the SpringAppContext.
+	 *  
+	 * @return the SparseEqnDouble object
+	 */
+	public static SparseEqnMatrix2x2 getSparseEqnMatrix2x2() {
+		return getSparseEqnMatrix2x2(DefaultSparseEqnMatrix2x2Id);
+	}
+	public static SparseEqnMatrix2x2 getSparseEqnMatrix2x2(String beanId) {
+		setup();
+		return (SparseEqnMatrix2x2) SpringAppCtx.getBean(beanId);
+	}
+
+	/**
+	 * Get the SparseEqnComplex(singleton) object from the SpringAppContext.
+	 *  
+	 * @return the SparseEqnComplex object
+	 */
+	public static SparseEqnComplex getSparseEqnComplex() {
+		return getSparseEqnComplex(DefaultSparseEqnComplexId);
+	}
+	public static SparseEqnComplex getSparseEqnComplex(String beanId) {
+		setup();
+		return (SparseEqnComplex) SpringAppCtx.getBean(beanId);
+	}
+
 	/*
 	 * private area
 	 */
