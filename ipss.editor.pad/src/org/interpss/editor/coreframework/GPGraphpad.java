@@ -51,6 +51,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.interpss.editor.EditorSpringCtx;
+import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
@@ -74,7 +75,6 @@ import org.interpss.spring.PluginSpringCtx;
 import org.jgraph.JGraph;
 
 import com.interpss.common.io.IRefDataManager;
-import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.spring.CoreCommonSpringCtx;

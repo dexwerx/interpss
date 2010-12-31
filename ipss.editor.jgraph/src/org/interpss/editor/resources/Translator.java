@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.Vector;
 
-import com.interpss.common.resource.IpssPropertiesLoader;
+import org.interpss.editor.IpssPropertiesLoader;
 
 /**
  * Contains ResourceBundle objects. The first (deepest) bundle is the Graphpad

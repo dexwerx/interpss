@@ -47,9 +47,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
+import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.editor.resources.Translator;
-
-import com.interpss.common.resource.IpssPropertiesLoader;
 
 
 

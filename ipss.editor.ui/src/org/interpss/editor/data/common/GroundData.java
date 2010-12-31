@@ -24,7 +24,6 @@
 
 package org.interpss.editor.data.common;
 
-import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.rec.BaseDataBean;
 
 /**

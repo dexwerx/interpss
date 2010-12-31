@@ -29,7 +29,6 @@ import java.util.Vector;
 import org.interpss.editor.data.common.GroundData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;

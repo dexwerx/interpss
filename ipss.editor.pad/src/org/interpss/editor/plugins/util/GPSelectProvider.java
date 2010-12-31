@@ -41,7 +41,6 @@ import javax.swing.ListCellRenderer;
 
 import org.interpss.editor.resources.Translator;
 
-
 import com.interpss.common.ui.WinUtilities;
 
 /**A Dialog to select a graph model provider.
