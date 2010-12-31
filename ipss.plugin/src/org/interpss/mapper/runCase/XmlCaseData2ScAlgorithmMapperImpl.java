@@ -24,12 +24,12 @@
 
 package org.interpss.mapper.runCase;
 
+import org.interpss.mapper.AbstractMapping;
 import org.interpss.schema.AcscFaultCategoryDataType;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;

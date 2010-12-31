@@ -44,9 +44,9 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.mapper.AbstractMapping;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dist.DistBranch;

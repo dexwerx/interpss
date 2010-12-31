@@ -27,6 +27,7 @@ package org.interpss.report.mapper;
 import java.util.Map;
 
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.mapper.dep.AbstractMapper;
 import org.interpss.mapper.report.AclfResultMapperImpl;
 import org.interpss.mapper.report.AcscResultMapperImpl;
 import org.interpss.mapper.report.MasterfResultMapperImpl;
@@ -37,7 +38,6 @@ import org.interpss.report.bean.aclf.RptAclfSummaryBusBean;
 import org.interpss.report.bean.acsc.RptAcscVoltAmpsBean;
 import org.interpss.report.bean.acsc.RptFaultSummaryBean;
 
-import com.interpss.common.mapper.dep.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;

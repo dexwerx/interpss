@@ -25,6 +25,7 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.editor.data.dstab.DStabDEventData;
+import org.interpss.mapper.AbstractMapping;
 import org.interpss.schema.AcscFaultCategoryDataType;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscFaultXmlType;
@@ -37,7 +38,6 @@ import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidParameterException;
-import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
@@ -58,8 +58,8 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
 import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
-import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> {

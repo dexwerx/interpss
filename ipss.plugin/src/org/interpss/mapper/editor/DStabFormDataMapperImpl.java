@@ -37,12 +37,12 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.mapper.AbstractMapping;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InvalidParameterException;
-import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;

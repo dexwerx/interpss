@@ -32,6 +32,7 @@ import javax.swing.JDialog;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.mapper.IMapping;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
@@ -44,7 +45,6 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.mapper.IMapping;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
