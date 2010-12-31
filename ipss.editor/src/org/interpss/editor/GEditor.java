@@ -32,7 +32,6 @@ import org.interpss.editor.util.SmartFrame;
 
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.ui.Workspace;
-import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 

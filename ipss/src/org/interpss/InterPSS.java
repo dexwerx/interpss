@@ -30,9 +30,9 @@ import javax.swing.JOptionPane;
 import org.interpss.cmd.CmdLineRunner;
 import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
+import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.gridgain.util.GridUtil;
 
-import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.spring.CoreCommonSpringCtx;

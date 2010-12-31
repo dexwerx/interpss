@@ -10,7 +10,6 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.edit.IElemSearchDialog;
 import org.interpss.editor.util.DocumentUtilFunc;
 
-
 import com.interpss.common.util.IpssLogger;
 
 public class EditFindGraphItem extends IpssAbstractGraphAction {

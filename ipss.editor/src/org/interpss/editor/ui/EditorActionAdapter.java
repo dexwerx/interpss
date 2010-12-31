@@ -44,11 +44,11 @@ import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
+import org.interpss.mapper.IMapping;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.SimuRunEnum;
-import com.interpss.common.mapper.IMapping;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabSpringAppContext;
@@ -86,7 +86,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = (EditorJGraphDataMapper)CoreCommonSpringCtx.ctx().getBean("editorJGraphDataMapper");
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringCtx.ctx().getBean("editorJGraphDataMapper");
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -106,7 +106,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = (EditorJGraphDataMapper)CoreCommonSpringCtx.ctx().getBean("editorJGraphDataMapper");
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringCtx.ctx().getBean("editorJGraphDataMapper");
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -137,7 +137,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = EditorSimuSpringCtx.getEditorDataMapper();
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)EditorSimuSpringCtx.getEditorDataMapper();
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -168,7 +168,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = EditorSimuSpringCtx.getEditorDataMapper();
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)EditorSimuSpringCtx.getEditorDataMapper();
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -197,7 +197,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = EditorSimuSpringCtx.getEditorDataMapper();
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)EditorSimuSpringCtx.getEditorDataMapper();
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -227,7 +227,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = EditorSimuSpringCtx.getEditorDataMapper();
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)EditorSimuSpringCtx.getEditorDataMapper();
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -254,7 +254,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = EditorSimuSpringCtx.getEditorDataMapper();
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)EditorSimuSpringCtx.getEditorDataMapper();
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);

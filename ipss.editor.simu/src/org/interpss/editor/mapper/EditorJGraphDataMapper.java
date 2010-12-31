@@ -29,11 +29,11 @@ import java.util.Vector;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.mapper.AbstractMapping;
 import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InvalidParameterException;
-import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
