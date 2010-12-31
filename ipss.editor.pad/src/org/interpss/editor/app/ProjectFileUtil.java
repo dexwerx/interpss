@@ -31,7 +31,7 @@ import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ProjectFileUtil {
@@ -46,16 +46,16 @@ public class ProjectFileUtil {
 	public static String DStabPlotScriptFilename = "DStabPlotScripts.txt";
 	public static String DStabOutputScriptFilename = "DStabOutputScripts.txt";
 	
-	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, SimuRunType caseType) {
-		if (caseType == SimuRunType.Aclf)
+	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, SimuRunEnum caseType) {
+		if (caseType == SimuRunEnum.Aclf)
 			return getProjectFile(doc, StdRunStudyCase_Aclf);
-		else if (caseType == SimuRunType.SenAnalysis)
+		else if (caseType == SimuRunEnum.SenAnalysis)
 			return getProjectFile(doc, StdRunStudyCase_SenAnalysis);
-		else if (caseType == SimuRunType.TradingAnalysis)
+		else if (caseType == SimuRunEnum.TradingAnalysis)
 			return getProjectFile(doc, StdRunStudyCase_PTradingAnalysis);
-		else if (caseType == SimuRunType.Acsc)
+		else if (caseType == SimuRunEnum.Acsc)
 			return getProjectFile(doc, StdRunStudyCase_Acsc);
-		else if (caseType == SimuRunType.DStab)
+		else if (caseType == SimuRunEnum.DStab)
 			return getProjectFile(doc, StdRunStudyCase_DStab);
 		else 
 			return null;

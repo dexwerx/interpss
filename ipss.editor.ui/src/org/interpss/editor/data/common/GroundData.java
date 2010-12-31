@@ -34,7 +34,7 @@ import com.interpss.common.rec.BaseDataBean;
 public class GroundData  extends BaseDataBean {
 	private static final long serialVersionUID = 1;
 
-	private String code = ScGroundType.GType_Ungrounded; 
+	private String code = "Ungrounded"; 
     private double r = 0d;
     private double x = 0d;
     private String unit = "Ohm";

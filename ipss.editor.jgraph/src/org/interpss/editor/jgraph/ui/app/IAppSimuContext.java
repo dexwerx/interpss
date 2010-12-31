@@ -28,7 +28,7 @@ import javax.swing.JPopupMenu;
 
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.rec.IpssDBCase;
 
 public interface IAppSimuContext {
@@ -51,10 +51,10 @@ public interface IAppSimuContext {
 	boolean isScCalculated();
 	void setScCalculated(boolean scCalculated);
    
-	String getCurrentCaseName(SimuRunType caseType);
+	String getCurrentCaseName(SimuRunEnum caseType);
 
-	SimuRunType getLastRunType();
-	void setLastRunType(SimuRunType lastRunType);	
+	SimuRunEnum getLastRunType();
+	void setLastRunType(SimuRunEnum lastRunType);	
 	boolean hasLastRun();	
 	Object getDStabRunForm();
 
@@ -81,5 +81,5 @@ public interface IAppSimuContext {
 	
 	void addPopupMenuAction(JPopupMenu menu, final Object cell);
 	
-	public IpssDBCase getCaseData(String casename, SimuRunType caseType);
+	public IpssDBCase getCaseData(String casename, SimuRunEnum caseType);
 }

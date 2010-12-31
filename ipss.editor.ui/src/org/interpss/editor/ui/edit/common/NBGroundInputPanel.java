@@ -55,14 +55,14 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
 		IpssLogger.getLogger().info("NBGroundInputPanel setForm2Editor() called");
         this.gXField.setEnabled(false);
         this.gRField.setEnabled(false);
-		if (_form.getCode().equals(ScGroundType.GType_ZGrounded)) {
+		if (_form.getCode().equals("ZGrounded")) {
     		this.zGRadioButton.setSelected(true);
         	this.gXField.setEnabled(true);
         	this.gRField.setEnabled(true);
 			this.gXField.setText(Number2String.toStr(_form.getX(), "#0.0###"));
 			this.gRField.setText(Number2String.toStr(_form.getR(), "#0.0###"));
 		}
-		else if (_form.getCode().equals(ScGroundType.GType_Ungrounded))
+		else if (_form.getCode().equals("Ungrounded"))
     		this.unGRadioButton.setSelected(true);
     	else
     		this.solidGRadioButton.setSelected(true);
@@ -73,7 +73,7 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
 		IpssLogger.getLogger().info("NBGroundInputPanel saveEditor2Form() called");
 
 		if (this.zGRadioButton.isSelected()) {
-			_form.setCode(ScGroundType.GType_ZGrounded);
+			_form.setCode("ZGrounded");
 
 			if (SwingInputVerifyUtil.largeEqualThan(this.gXField, 0.0d, errMsg, "Grounding X < 0.0"))
 				_form.setX(SwingInputVerifyUtil.getDouble(this.gXField));
@@ -82,10 +82,10 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
 				_form.setR(SwingInputVerifyUtil.getDouble(this.gRField));
 		}
 		else if (this.solidGRadioButton.isSelected()) {
-			_form.setCode(ScGroundType.GType_SolidGrounded);
+			_form.setCode("SolidGrounded");
 		}	
 		else
-			_form.setCode(ScGroundType.GType_Ungrounded);
+			_form.setCode("Ungrounded");
 
 		return errMsg.size() == 0;
     }
