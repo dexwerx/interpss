@@ -39,6 +39,7 @@ import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.ScGroundEnum;
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
@@ -344,14 +345,12 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 			// ]
 			return XfrConnectCode.DELTA;
 		else {
-			if (connect.getGrounding().getCode().equals(
-					ScGroundType.GType_Ungrounded))
+			ScGroundEnum code = ScGroundType.str2Code(connect.getGrounding().getCode());
+			if (code == ScGroundEnum.Ungrounded)
 				return XfrConnectCode.WYE_UNGROUNDED;
-			else if (connect.getGrounding().getCode().equals(
-					ScGroundType.GType_ZGrounded))
+			else if (code == ScGroundEnum.ZGrounded)
 				return XfrConnectCode.WYE_ZGROUNDED;
-			if (connect.getGrounding().getCode().equals(
-					ScGroundType.GType_SolidGrounded))
+			else if (code == ScGroundEnum.SolidGrounded)
 				return XfrConnectCode.WYE_SOLID_GROUNDED;
 		}
 		throw new InvalidParameterException(

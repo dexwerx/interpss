@@ -26,7 +26,6 @@ package org.interpss.custom;
 
 import org.ieee.odm.model.IODMModelParser;
 
-import com.interpss.common.custom.IpssCustomAdapter;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 

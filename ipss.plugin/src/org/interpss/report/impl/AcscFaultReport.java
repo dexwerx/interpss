@@ -41,7 +41,7 @@ import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.acsc.AcscRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -66,7 +66,7 @@ public class AcscFaultReport implements IIpssReport {
 			mapper.mapping(appSimuCtx, titleBean);
 			titleBean.setReportTitle("Short Circuit Calculation");
 			titleBean.setCaseName(appSimuCtx
-					.getCurrentCaseName(SimuRunType.Acsc));
+					.getCurrentCaseName(SimuRunEnum.Acsc));
 			parameters.put("ReportMainTitleBean", titleBean);
 
 			parameters.put("FaultSummaryJBeanDatasource", AcscRptBeanFactory

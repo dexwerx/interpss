@@ -1,9 +1,9 @@
 package org.interpss.custom.run;
 
+import org.interpss.custom.IpssCustomAdapter;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
 
-import com.interpss.common.custom.IpssCustomAdapter;
 import com.interpss.common.msg.IPSSMsgHub;
 
 public interface ICustomRunScriptPlugin extends IpssCustomAdapter {
