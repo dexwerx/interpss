@@ -39,8 +39,6 @@ import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.ScGroundEnum;
-import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -61,6 +59,8 @@ import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.acsc.adpter.AcscLineAdapter;
 import com.interpss.core.acsc.adpter.AcscXfrAdapter;
+import com.interpss.core.datatype.ScGroundEnum;
+import com.interpss.core.datatype.ScGroundType;
 import com.interpss.core.util.CoreUtilFunc;
 
 /**
