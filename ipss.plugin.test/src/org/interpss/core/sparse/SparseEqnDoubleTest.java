@@ -24,13 +24,13 @@
 
 package org.interpss.core.sparse;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.sparse.dep.SparseEqnDouble;

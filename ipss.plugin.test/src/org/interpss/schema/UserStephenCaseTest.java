@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginTestSetup;
 import org.interpss.PluginObjectFactory;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
@@ -21,7 +21,6 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class UserStephenCaseTest extends PluginTestSetup {
 	@Test

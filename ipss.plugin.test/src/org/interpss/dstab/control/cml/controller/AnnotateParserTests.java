@@ -35,7 +35,6 @@ import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizerComp
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.junit.Test;
 
-import com.interpss.common.datatype.CMLVarType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.controller.annotate.holder.ControlBlockFieldHolder;
@@ -43,6 +42,7 @@ import com.interpss.dstab.controller.annotate.holder.FunctionFieldHolder;
 import com.interpss.dstab.controller.annotate.holder.StaticBlockFieldHolder;
 import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.controller.block.IFunction;
+import com.interpss.dstab.datatype.CMLVarEnum;
 import com.interpss.dstab.mach.Machine;
 
 public class AnnotateParserTests extends DStabTestSetupBase {
@@ -80,17 +80,17 @@ public class AnnotateParserTests extends DStabTestSetupBase {
 
 		cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockFieldHolder("delayBlock", exc.getFieldList()));
 		assertTrue(cfield.getInitOrder() == 1);
-		assertTrue(cfield.hasInput(CMLVarType.ControllerRefPoint));
-		assertTrue(!cfield.hasOutput(CMLVarType.ControllerRefPoint));
+		assertTrue(cfield.hasInput(CMLVarEnum.ControllerRefPoint));
+		assertTrue(!cfield.hasOutput(CMLVarEnum.ControllerRefPoint));
 		assertTrue(cfield.getInputExp().getRecList().length == 3);
-		assertTrue(cfield.getInputExp().hasVarType(CMLVarType.ControllerRefPoint));
-		assertTrue(cfield.getInputExp().hasVarType(CMLVarType.PssVs));
-		assertTrue(cfield.getInputExp().hasVarType(CMLVarType.MachVt));
+		assertTrue(cfield.getInputExp().hasVarType(CMLVarEnum.ControllerRefPoint));
+		assertTrue(cfield.getInputExp().hasVarType(CMLVarEnum.PssVs));
+		assertTrue(cfield.getInputExp().hasVarType(CMLVarEnum.MachVt));
 
 		assertTrue(cfield.getParameters().length == 5);
 
 		assertTrue(cfield.getY0Exp().getRecList().length == 1);
-		assertTrue(cfield.getY0Exp().hasVarType(CMLVarType.MachEfd));
+		assertTrue(cfield.getY0Exp().hasVarType(CMLVarEnum.MachEfd));
 		
 		assertTrue(AnCntlUtilFunc.getBlockFieldHolder("seFunc", exc.getFieldList()) != null);
 

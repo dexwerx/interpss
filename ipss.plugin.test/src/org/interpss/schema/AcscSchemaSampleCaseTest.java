@@ -39,7 +39,6 @@ import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class AcscSchemaSampleCaseTest extends PluginTestSetup {
 	@Test

@@ -4,10 +4,10 @@ import java.lang.reflect.Field;
 
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 
 // User custom code begin 
 // Define controller annotation here
@@ -24,7 +24,7 @@ public class TestAnnotateStabilizer extends AnnotateStabilizer {
 	// Define controller parameters, fields and field annotation here 
 	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="mach.speed - this.refPoint",
             parameter={"type.NoLimit", "this.k1", "this.t1", "this.t2"},
             y0="this.filterBlock2.u0"	)
@@ -32,7 +32,7 @@ public class TestAnnotateStabilizer extends AnnotateStabilizer {
 	
     public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.filterBlock1.y",
             parameter={"type.Limit", "this.k2", "this.t3", "this.t4", "this.vmax", "this.vmin"},
             y0="pss.vs"	)

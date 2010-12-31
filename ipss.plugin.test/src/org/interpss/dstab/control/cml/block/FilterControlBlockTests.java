@@ -24,10 +24,10 @@
 
 package org.interpss.dstab.control.cml.block;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertTrue;
 
-import org.interpss.dstab.control.cml.block.FilterControlBlock;
+import org.junit.Test;
+
 import com.interpss.dstab.controller.block.IStaticBlock;
 
 public class FilterControlBlockTests {

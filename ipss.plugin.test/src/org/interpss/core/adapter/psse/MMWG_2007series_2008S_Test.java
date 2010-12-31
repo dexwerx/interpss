@@ -34,7 +34,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class MMWG_2007series_2008S_Test extends PluginTestSetup {
 	@Test

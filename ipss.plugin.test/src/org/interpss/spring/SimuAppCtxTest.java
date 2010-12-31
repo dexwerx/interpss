@@ -41,7 +41,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreCommonSpringCtx;
 import com.interpss.spring.CoreSimuSpringCtx;
 import com.interpss.spring.CoreSpringCtx;
 

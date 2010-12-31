@@ -36,7 +36,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class Bus6384Test extends PluginTestSetup {
 	@Test

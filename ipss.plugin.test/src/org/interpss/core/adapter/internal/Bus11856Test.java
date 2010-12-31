@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.numeric.sparse.SparseEqnComplex;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
@@ -40,7 +41,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-import org.interpss.numeric.sparse.SparseEqnComplex;
 import com.interpss.simu.SimuContext;
 
 public class Bus11856Test extends PluginTestSetup {

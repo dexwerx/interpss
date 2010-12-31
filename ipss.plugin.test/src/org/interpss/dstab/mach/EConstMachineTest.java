@@ -26,7 +26,6 @@ package org.interpss.dstab.mach;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;

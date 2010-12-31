@@ -39,7 +39,6 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class GuideSampleTestCases extends PluginTestSetup {
 	//@Test

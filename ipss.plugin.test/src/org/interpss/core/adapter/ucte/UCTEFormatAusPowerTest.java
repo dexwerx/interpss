@@ -27,8 +27,8 @@ package org.interpss.core.adapter.ucte;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
 import org.interpss.PluginObjectFactory;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
@@ -39,7 +39,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class UCTEFormatAusPowerTest extends PluginTestSetup { 
 	@Test 

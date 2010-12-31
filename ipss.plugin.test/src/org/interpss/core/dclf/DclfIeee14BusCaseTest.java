@@ -3,7 +3,6 @@ package org.interpss.core.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.display.DclfOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;

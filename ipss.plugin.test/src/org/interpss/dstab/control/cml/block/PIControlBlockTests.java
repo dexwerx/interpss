@@ -24,9 +24,10 @@
 
 package org.interpss.dstab.control.cml.block;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.interpss.dstab.control.cml.block.PIControlBlock;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import com.interpss.dstab.controller.block.IStaticBlock;
 
 public class PIControlBlockTests {

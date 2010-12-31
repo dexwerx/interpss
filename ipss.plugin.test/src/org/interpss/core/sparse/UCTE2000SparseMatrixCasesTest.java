@@ -36,10 +36,10 @@ import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 	@Test 

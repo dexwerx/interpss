@@ -47,7 +47,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class RuleXmlCaseTest extends PluginTestSetup {
 	@Test

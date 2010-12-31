@@ -24,9 +24,9 @@
 
 package org.interpss.dstab.control.cml.block;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 
 import com.interpss.dstab.controller.block.IStaticBlock;
 

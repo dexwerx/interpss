@@ -20,7 +20,6 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	@Test

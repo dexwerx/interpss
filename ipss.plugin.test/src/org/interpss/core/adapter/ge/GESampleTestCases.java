@@ -37,7 +37,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class GESampleTestCases extends PluginTestSetup {
 	@Test

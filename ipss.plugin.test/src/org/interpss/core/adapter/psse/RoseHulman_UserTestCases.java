@@ -42,7 +42,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class RoseHulman_UserTestCases extends PluginTestSetup {
 	@Test

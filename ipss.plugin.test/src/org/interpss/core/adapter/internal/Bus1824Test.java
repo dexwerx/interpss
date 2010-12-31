@@ -26,8 +26,8 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
 import org.interpss.PluginObjectFactory;
+import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;

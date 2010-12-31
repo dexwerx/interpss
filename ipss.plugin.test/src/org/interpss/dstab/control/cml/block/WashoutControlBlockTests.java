@@ -24,10 +24,9 @@
 
 package org.interpss.dstab.control.cml.block;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertTrue;
 
-import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+import org.junit.Test;
 
 import com.interpss.common.exp.InterpssRuntimeException;
 
