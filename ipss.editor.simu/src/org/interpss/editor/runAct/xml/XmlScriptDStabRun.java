@@ -39,7 +39,7 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -88,7 +88,7 @@ public class XmlScriptDStabRun {
 
 			// single run case
 			if (xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray().length == 1) {
-				appSimuCtx.setLastRunType(SimuRunType.DStab);
+				appSimuCtx.setLastRunType(SimuRunEnum.DStab);
 
 				// get the run case info defined in the Xml scripts
 				DStabStudyCaseXmlType xmlCase = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray(0);
@@ -153,7 +153,7 @@ public class XmlScriptDStabRun {
 				}
 			} else {
 				// Multi-DStab run case
-				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
+				appSimuCtx.setLastRunType(SimuRunEnum.ScriptsMultiCase);
 				CoreCommonSpringCtx.getSimuRecManager().clearDbCaseIdLookup();
 				
 				GridMessageRouter msgRouter = null;

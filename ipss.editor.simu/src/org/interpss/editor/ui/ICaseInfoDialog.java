@@ -26,10 +26,10 @@ package org.interpss.editor.ui;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 
 public interface ICaseInfoDialog extends IFormDataDialog {
-    void setCaseType(SimuRunType caseType);
+    void setCaseType(SimuRunEnum caseType);
    
     void setRunStudyCaseFilename(String filename);
     

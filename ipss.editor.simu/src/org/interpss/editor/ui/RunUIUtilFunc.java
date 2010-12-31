@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -159,7 +159,7 @@ public class RunUIUtilFunc  {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSDocument loadIpssXmlDoc(String filename, SimuRunType caseType) throws Exception {
+	public static InterPSSDocument loadIpssXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
   		IpssXmlParser parser;
   		try {
   			File xmlFile = new File(filename);
@@ -170,19 +170,19 @@ public class RunUIUtilFunc  {
   		}
 
   		// use template file
-		if (caseType == SimuRunType.Aclf || caseType == SimuRunType.Scripts) {
+		if (caseType == SimuRunEnum.Aclf || caseType == SimuRunEnum.Scripts) {
 			filename = Template_RunCase_Aclf;
 		}
-		else if (caseType == SimuRunType.SenAnalysis) {
+		else if (caseType == SimuRunEnum.SenAnalysis) {
 			filename = Template_RunCase_SenAnalysis;
 		}
-		else if (caseType == SimuRunType.TradingAnalysis) {
+		else if (caseType == SimuRunEnum.TradingAnalysis) {
 			filename = Template_RunCase_PTAnalysis;
 		}
-		else if (caseType == SimuRunType.Acsc) {
+		else if (caseType == SimuRunEnum.Acsc) {
 			filename = Template_RunCase_Acsc;
 		}	
-		else if (caseType == SimuRunType.DStab) {
+		else if (caseType == SimuRunEnum.DStab) {
 			filename = Template_RunCase_DStab;
 		}	
   		

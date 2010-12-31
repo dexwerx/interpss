@@ -7,7 +7,7 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.util.DocumentUtilFunc;
 import org.interpss.editor.util.RunUtilFunc;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 
 public class RunSenAnalysis extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
@@ -16,7 +16,7 @@ public class RunSenAnalysis extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		RunUtilFunc.performRunAction(getCurrentDocument(), SimuRunType.SenAnalysis, graphpad);
+		RunUtilFunc.performRunAction(getCurrentDocument(), SimuRunEnum.SenAnalysis, graphpad);
 	}
 
 	@Override

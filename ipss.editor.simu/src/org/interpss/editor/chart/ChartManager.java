@@ -42,7 +42,7 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.BaseSimuDBRecord;
@@ -69,7 +69,7 @@ public class ChartManager {
 		SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
 
 		if (cell == null
-				&& appSimuCtx.getLastRunType() == SimuRunType.ScriptsMultiCase) {
+				&& appSimuCtx.getLastRunType() == SimuRunEnum.ScriptsMultiCase) {
 			menu.addSeparator();
 			IpssLogger.getLogger().info(
 					"No element selected for addPopupMenuAction()");

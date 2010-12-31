@@ -7,7 +7,7 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.util.DocumentUtilFunc;
 import org.interpss.editor.util.RunUtilFunc;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 
 public class RunDclf extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
@@ -16,7 +16,7 @@ public class RunDclf extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		RunUtilFunc.performRunAction(getCurrentDocument(), SimuRunType.Dclf, graphpad);
+		RunUtilFunc.performRunAction(getCurrentDocument(), SimuRunEnum.Dclf, graphpad);
 	}
 
 	@Override

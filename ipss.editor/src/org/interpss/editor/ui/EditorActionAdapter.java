@@ -47,7 +47,7 @@ import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.mapper.IMapping;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
@@ -58,28 +58,28 @@ import com.interpss.spring.CoreSpringCtx;
 
 public class EditorActionAdapter {
 	
-	public static void menu_run(SimuRunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	public static void menu_run(SimuRunEnum type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
 		try {
-			if (type == SimuRunType.Dclf )
+			if (type == SimuRunEnum.Dclf )
 				menu_run_dclf(type, graphView, graph, doc);
-			else if (type == SimuRunType.SenAnalysis )
+			else if (type == SimuRunEnum.SenAnalysis )
 				menu_run_sen(graphView, graph, doc);
-			else if (type == SimuRunType.TradingAnalysis)
+			else if (type == SimuRunEnum.TradingAnalysis)
 				menu_run_trading(graphView, graph, doc);
-			else if (type == SimuRunType.Aclf)
+			else if (type == SimuRunEnum.Aclf)
 				menu_run_aclf(graphView, graph, doc);
-			else if (type == SimuRunType.Acsc)
+			else if (type == SimuRunEnum.Acsc)
 				menu_run_acsc(graphView, graph, doc);
-			else if (type == SimuRunType.DStab)
+			else if (type == SimuRunEnum.DStab)
 				menu_run_dstab(graphView, graph, doc);
-			else if (type == SimuRunType.Scripts)
+			else if (type == SimuRunEnum.Scripts)
 				menu_run_scripting(graphView, graph, doc);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
 		}		
 	}
 
-	private static void menu_run_dclf(SimuRunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) throws Exception {
+	private static void menu_run_dclf(SimuRunEnum type, boolean graphView, JGraph graph, IpssEditorDocument doc) throws Exception {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		
@@ -115,14 +115,14 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringCtx.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunType.SenAnalysis,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.SenAnalysis).getFilePathName());
+			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.SenAnalysis,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunEnum.SenAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("SenAnalysis SimuRunWorker");
-				worker.configRun(SimuRunType.SenAnalysis, simuCtx, graph);
+				worker.configRun(SimuRunEnum.SenAnalysis, simuCtx, graph);
 				worker.start();
-				appSimuCtx.setLastRunType(SimuRunType.SenAnalysis);
+				appSimuCtx.setLastRunType(SimuRunEnum.SenAnalysis);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -146,14 +146,14 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringCtx.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunType.TradingAnalysis,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.TradingAnalysis).getFilePathName());
+			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.TradingAnalysis,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunEnum.TradingAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("TradingAnalysis SimuRunWorker");
-				worker.configRun(SimuRunType.TradingAnalysis, simuCtx, graph);
+				worker.configRun(SimuRunEnum.TradingAnalysis, simuCtx, graph);
 				worker.start();
-				appSimuCtx.setLastRunType(SimuRunType.TradingAnalysis);
+				appSimuCtx.setLastRunType(SimuRunEnum.TradingAnalysis);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -176,14 +176,14 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunType.Aclf,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.Aclf).getFilePathName());
+			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.Aclf,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunEnum.Aclf).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Aclf SimuRunWorker");
-				worker.configRun(SimuRunType.Aclf, simuCtx, graph);
+				worker.configRun(SimuRunEnum.Aclf, simuCtx, graph);
 				worker.start();
-				appSimuCtx.setLastRunType(SimuRunType.Aclf);
+				appSimuCtx.setLastRunType(SimuRunEnum.Aclf);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -206,14 +206,14 @@ public class EditorActionAdapter {
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringCtx.getSimpleFaultAlgorithm());
  
 		try {
-			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunType.Acsc,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.Acsc).getFilePathName());
+			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.Acsc,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunEnum.Acsc).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Acsc SimuRunWorker");
-				worker.configRun(SimuRunType.Acsc, simuCtx, graph);
+				worker.configRun(SimuRunEnum.Acsc, simuCtx, graph);
 				worker.start();
-				appSimuCtx.setLastRunType(SimuRunType.Acsc);
+				appSimuCtx.setLastRunType(SimuRunEnum.Acsc);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -235,16 +235,16 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
 
-		ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunType.DStab,
-				ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.DStab).getFilePathName());
+		ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.DStab,
+				ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunEnum.DStab).getFilePathName());
     	IpssTextFile file = ProjectFileUtil.getProjectFile(doc, ProjectFileUtil.DStabOutputScriptFilename);
     	dialog.setDStabOutputScriptFilename(file.getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("DStab SimuRunWorker");
-			worker.configRun(SimuRunType.DStab, simuCtx);
+			worker.configRun(SimuRunEnum.DStab, simuCtx);
 			worker.start();
-			appSimuCtx.setLastRunType(SimuRunType.DStab);
+			appSimuCtx.setLastRunType(SimuRunEnum.DStab);
 		}	
 	}
 	
@@ -265,15 +265,15 @@ public class EditorActionAdapter {
 		}
 		
 		IpssLogger.getLogger().info("Run Scripts");
-		ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunType.Scripts,
+		ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.Scripts,
 				ProjectFileUtil.getProjectScriptRunCaseFile(doc).getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("Scripting SimuRunWorker");
-			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), SimuRunType.Scripts);
-			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType(), caseData.getScriptPluginName());
+			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), SimuRunEnum.Scripts);
+			worker.configRun(SimuRunEnum.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType(), caseData.getScriptPluginName());
 			worker.start();
-			appSimuCtx.setLastRunType(SimuRunType.Scripts);
+			appSimuCtx.setLastRunType(SimuRunEnum.Scripts);
 		}	
 	}
 

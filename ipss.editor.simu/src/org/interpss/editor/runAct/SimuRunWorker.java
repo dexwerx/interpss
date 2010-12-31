@@ -38,8 +38,8 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.ScriptLanguageType;
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.ScriptLangEnum;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;
@@ -49,30 +49,30 @@ import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
 public class SimuRunWorker extends Thread {
-	private SimuRunType runType = SimuRunType.Aclf;
+	private SimuRunEnum runType = SimuRunEnum.Aclf;
 	private SimuContext simuCtx = null;
 	private JGraph graph = null;
 	private String scripts = null;
-	private ScriptLanguageType scriptLanguage = ScriptLanguageType.Java;
+	private ScriptLangEnum scriptLanguage = ScriptLangEnum.Java;
 	private String pluginName = "";
 
 	public SimuRunWorker(String str) {
 		super(str);
 	}
 
-	public void configRun(SimuRunType aRunType, SimuContext aCtx) {
+	public void configRun(SimuRunEnum aRunType, SimuContext aCtx) {
 		this.runType = aRunType;
 		this.simuCtx = aCtx;
 	}
 
-	public void configRun(SimuRunType aRunType, SimuContext aCtx, JGraph aGraph) {
+	public void configRun(SimuRunEnum aRunType, SimuContext aCtx, JGraph aGraph) {
 		this.runType = aRunType;
 		this.simuCtx = aCtx;
 		this.graph = aGraph;
 	}
 
-	public void configRun(SimuRunType aRunType, SimuContext aCtx,
-			String scripts, ScriptLanguageType lanType, String pluginName) {
+	public void configRun(SimuRunEnum aRunType, SimuContext aCtx,
+			String scripts, ScriptLangEnum lanType, String pluginName) {
 		this.runType = aRunType;
 		this.simuCtx = aCtx;
 		this.scripts = scripts;
@@ -90,7 +90,7 @@ public class SimuRunWorker extends Thread {
 			return;
 		}
 		
-		if (this.runType == SimuRunType.Aclf) {
+		if (this.runType == SimuRunEnum.Aclf) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run AC Loadflow Analysis ...", "Run Aclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Loadflow");
@@ -105,7 +105,7 @@ public class SimuRunWorker extends Thread {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
 						GraphSimuUtilFunc.LABEL_ACT_ACLF);
 			}
-		} else if (this.runType == SimuRunType.Acsc) {
+		} else if (this.runType == SimuRunEnum.Acsc) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run AC Short Circuit Analysis ...", "Run Acsc");
 			IpssLogger.getLogger().info(
@@ -122,7 +122,7 @@ public class SimuRunWorker extends Thread {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
 						GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
 			}
-		} else if (this.runType == SimuRunType.DStab) {
+		} else if (this.runType == SimuRunEnum.DStab) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run Transient Stability Simulation ...", "Run DStab");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
@@ -134,14 +134,14 @@ public class SimuRunWorker extends Thread {
 				runForm.runCase(simuCtx, simuCtx.getMsgHub());
 
 			appStatus.busyStop("Run Transient Stability Simulation finished");
-		} else if (this.runType == SimuRunType.Scripts) {
+		} else if (this.runType == SimuRunEnum.Scripts) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run Scripts ...", "Run Scripts");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Scripts");
 
 			// System.out.println("Run Scripts: " + this.scripts);
 			// compile the source code
-			if (this.scriptLanguage == ScriptLanguageType.Java) {
+			if (this.scriptLanguage == ScriptLangEnum.Java) {
 				String classname = ScriptJavacUtilFunc
 						.createScriptingClassname(CoreScriptUtilFunc.RunScriptsClass);
 				String javacode = CoreScriptUtilFunc.parseRunCaseJavaCode(
@@ -157,15 +157,15 @@ public class SimuRunWorker extends Thread {
 					IpssLogger.logErr(e);
 				}
 			} 
-			else if (this.scriptLanguage == ScriptLanguageType.Xml) {
+			else if (this.scriptLanguage == ScriptLangEnum.Xml) {
 				XmlScriptRunWorker.runCase(this.scripts, simuCtx);
 			}
-			else if (this.scriptLanguage == ScriptLanguageType.Custom) {
+			else if (this.scriptLanguage == ScriptLangEnum.Custom) {
 				CustomScriptRunWorker.runCase(this.scripts, this.pluginName, simuCtx);
 			}
 			appStatus.busyStop("Run Scripts finished");
 		}
-		else if (this.runType == SimuRunType.Dclf) {
+		else if (this.runType == SimuRunEnum.Dclf) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run DC Loadflow Analysis ...", "Run Dclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run DC Loadflow");
@@ -184,7 +184,7 @@ public class SimuRunWorker extends Thread {
 
 			appStatus.busyStop("Run DC Loadflow Analysis finished");
 		}
-		else if (this.runType == SimuRunType.SenAnalysis) {
+		else if (this.runType == SimuRunEnum.SenAnalysis) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run Sensitivity Analysis ...", "Run SenAnalysis");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Sensitivity Analysis");

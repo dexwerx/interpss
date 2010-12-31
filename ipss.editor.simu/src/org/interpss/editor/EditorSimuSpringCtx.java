@@ -35,7 +35,7 @@ import org.interpss.editor.runAct.ui.DclfRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class EditorSimuSpringCtx extends CoreCommonSpringCtx {
@@ -97,7 +97,7 @@ public class EditorSimuSpringCtx extends CoreCommonSpringCtx {
 		return (DStabRunForm) SpringAppCtx.getBean(Constants.SID_DStabRunForm);
 	}
 	
-	public static ICaseInfoDialog getCaseInfoDialog(SimuRunType type, String filename) {
+	public static ICaseInfoDialog getCaseInfoDialog(SimuRunEnum type, String filename) {
 		ICaseInfoDialog dialog = (ICaseInfoDialog)getCaseInfoDialog();
 		dialog.setCaseType(type);
 		dialog.setRunStudyCaseFilename(filename);

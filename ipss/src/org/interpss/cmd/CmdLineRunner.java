@@ -28,7 +28,6 @@ import java.io.File;
 
 import org.interpss.AppConstants;
 import org.interpss.InterPSS;
-import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
@@ -37,9 +36,10 @@ import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -51,7 +51,7 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CmdLineRunner {
-	private static SimuRunType runType = SimuRunType.NotDefined;
+	private static SimuRunEnum runType = SimuRunEnum.NotDefined;
 	
 	/**
 	 * Run InterPSS simulation in cmd line mode
@@ -139,19 +139,19 @@ public class CmdLineRunner {
 			GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
 					&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-				runType = SimuRunType.Aclf;
+				runType = SimuRunEnum.Aclf;
 				return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
-				runType = SimuRunType.Dclf;
+				runType = SimuRunEnum.Dclf;
 				return XmlScriptDclfRun.runDclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
-				runType = SimuRunType.Acsc;
+				runType = SimuRunEnum.Acsc;
 				return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
-				runType = SimuRunType.DStab;
+				runType = SimuRunEnum.DStab;
 				return XmlScriptDStabRun.runDStab(parser.getRootDoc().getInterPSS(), simuCtx, msg);
 			}
 			return true;			
@@ -164,14 +164,14 @@ public class CmdLineRunner {
 						.createLoadflowAlgorithm(simuCtx.getAclfNet());
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
-				runType = SimuRunType.Aclf;
+				runType = SimuRunEnum.Aclf;
 			} else if (runTypeStr != null && InterPSS.RunDclfStr.equals(runTypeStr)) {
 				DclfAlgorithm algo = CoreObjectFactory
 						.createDclfAlgorithm(simuCtx.getAclfNet());
 				simuCtx.setDclfAlgorithm(algo);
 				if (algo.checkCondition())
 					algo.calculateDclf();
-				runType = SimuRunType.Dclf;
+				runType = SimuRunEnum.Dclf;
 			}
 		} else {
 			IpssLogger.getLogger().info("Run CmdLine according network type");
@@ -182,7 +182,7 @@ public class CmdLineRunner {
 						.createLoadflowAlgorithm(simuCtx.getAclfNet());
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow();
-				runType = SimuRunType.Aclf;
+				runType = SimuRunEnum.Aclf;
 			}
 			else {
 				IpssLogger.getLogger().warning("InterPSS CmdLine mode currently only supput Dclf and Aclf run type");
@@ -192,17 +192,17 @@ public class CmdLineRunner {
 		return true;
 	}
 
-	private static void outputResult(SimuContext simuCtx, SimuRunType runType,
+	private static void outputResult(SimuContext simuCtx, SimuRunEnum runType,
 			String outFilename) {
 		IOutputSimuResult out = PluginSpringCtx.getSimuResultOutput();
-		if (runType == SimuRunType.Dclf) {
+		if (runType == SimuRunEnum.Dclf) {
 			if (InterPSS.RunAclfStr.equals(runType)) {
 				out.outAclfResult(simuCtx.getAclfNet(), outFilename);
 			} else if (runType != null && InterPSS.RunDclfStr.equals(runType)) {
 				out.outDclfResult(simuCtx.getDclfAlgorithm(), outFilename);
 			}
 		} 
-		else if (runType == SimuRunType.Aclf) {
+		else if (runType == SimuRunEnum.Aclf) {
 			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK
 					|| simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				out.outAclfResult(simuCtx.getAclfNet(), outFilename);

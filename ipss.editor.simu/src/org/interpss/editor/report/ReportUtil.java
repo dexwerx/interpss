@@ -31,7 +31,7 @@ import org.interpss.editor.resources.Translator;
 import org.interpss.report.IpssReportFactory;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 
 public class ReportUtil {
 	public static void displayReport(String rptType) {
@@ -54,11 +54,11 @@ public class ReportUtil {
 	}
 
 	public static String getDefaultReportType(IGNetForm form,
-			SimuRunType lastRunType, boolean nsFault) {
+			SimuRunEnum lastRunType, boolean nsFault) {
 		if (form.getAppType().equals(IGNetForm.AppType_Distribution)) {
-			if (lastRunType == SimuRunType.Acsc)
+			if (lastRunType == SimuRunEnum.Acsc)
 				return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
-			else if (lastRunType == SimuRunType.Aclf)
+			else if (lastRunType == SimuRunEnum.Aclf)
 				return IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
 		} else {
 			if (form.getNetType().equals(IGNetForm.NetType_AclfNetwork)

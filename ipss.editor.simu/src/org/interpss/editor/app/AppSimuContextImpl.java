@@ -43,7 +43,7 @@ import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.schema.AcscFaultCategoryDataType;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
@@ -64,7 +64,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	private DStabRunForm dStabRunForm = null;
 
 	// track the last run type
-	private SimuRunType lastRunType = null;
+	private SimuRunEnum lastRunType = null;
 
 	// the current case db id
 	private int dbSimuCaseId = 0;
@@ -141,16 +141,16 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	// Case info functions
 	// ===================
 
-	public String getCurrentCaseName(SimuRunType caseType) {
+	public String getCurrentCaseName(SimuRunEnum caseType) {
 		return getCurrentCaseData(caseType).getCaseName();
 
 	}
 
-	public CaseData getCurrentCaseData(SimuRunType caseType) {
+	public CaseData getCurrentCaseData(SimuRunEnum caseType) {
 		ProjData aProjData = (ProjData) getProjData();
-		String casename = caseType.equals(SimuRunType.Aclf) ? aProjData
+		String casename = caseType.equals(SimuRunEnum.Aclf) ? aProjData
 				.getAclfCaseName()
-				: (caseType.equals(SimuRunType.Acsc) ? aProjData
+				: (caseType.equals(SimuRunEnum.Acsc) ? aProjData
 						.getAcscCaseName() : aProjData.getDStabCaseName());
 		return getCaseData(casename, caseType);
 	}
@@ -162,7 +162,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return case data array of type Object[]
 	 */
-	public Object[] getCasenameArray(SimuRunType caseType) {
+	public Object[] getCasenameArray(SimuRunEnum caseType) {
 		Vector<String> vect = new Vector<String>();
 		List<?> caseList = getProjData().getCaseList();
 		for (int i = 0; i < caseList.size(); i++) {
@@ -174,13 +174,13 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 		if (vect.size() == 0) {
 			String name = "Aclf Analysis Case";
-			if (caseType.equals(SimuRunType.SenAnalysis))
+			if (caseType.equals(SimuRunEnum.SenAnalysis))
 				name = "Sensitivity Analysis Case";
-			else if (caseType.equals(SimuRunType.Acsc))
+			else if (caseType.equals(SimuRunEnum.Acsc))
 				name = "Acsc Analysis Case";
-			else if (caseType.equals(SimuRunType.DStab))
+			else if (caseType.equals(SimuRunEnum.DStab))
 				name = "Transient Stability Case";
-			else if (caseType.equals(SimuRunType.Scripts))
+			else if (caseType.equals(SimuRunEnum.Scripts))
 				name = "Custom Scripting Run Case";
 			createCaseData(name, caseType);
 			vect.add(new String(name));
@@ -197,7 +197,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return if the case data delete, return true, else false
 	 */
-	public boolean deleteCaseData(String casename, SimuRunType caseType) {
+	public boolean deleteCaseData(String casename, SimuRunEnum caseType) {
 		CaseData caseData = getCaseData(casename, caseType);
 		if (caseData != null) {
 			getProjData().getCaseList().remove(caseData);
@@ -215,7 +215,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return the case data object
 	 */
-	public CaseData getCaseData(String casename, SimuRunType caseType) {
+	public CaseData getCaseData(String casename, SimuRunEnum caseType) {
 		List<?> caseList = getProjData().getCaseList();
 		for (int i = 0; i < caseList.size(); i++) {
 			CaseData caseData = (CaseData) caseList.get(i);
@@ -241,7 +241,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            the case type
 	 * @return the created case, null the casename already exists
 	 */
-	public CaseData createCaseData(String casename, SimuRunType caseType) {
+	public CaseData createCaseData(String casename, SimuRunEnum caseType) {
 		if (getCaseData(casename, caseType) == null) {
 			CaseData caseData = new CaseData();
 			caseData.setCaseName(casename);
@@ -297,7 +297,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	/**
 	 * @return the lastRunType
 	 */
-	public SimuRunType getLastRunType() {
+	public SimuRunEnum getLastRunType() {
 		return lastRunType;
 	}
 
@@ -315,7 +315,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @param lastRunType
 	 *            the lastRunType to set
 	 */
-	public void setLastRunType(SimuRunType lastRunType) {
+	public void setLastRunType(SimuRunEnum lastRunType) {
 		this.lastRunType = lastRunType;
 	}
 
