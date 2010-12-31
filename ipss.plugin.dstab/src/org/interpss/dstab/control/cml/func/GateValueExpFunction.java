@@ -24,8 +24,8 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.common.func.ExpCalculator;
 import com.interpss.dstab.controller.block.adapt.FunctionExpressionAdapter;
+import com.interpss.dstab.datatype.ExpCalculator;
 
 public class GateValueExpFunction extends FunctionExpressionAdapter {
 	/**

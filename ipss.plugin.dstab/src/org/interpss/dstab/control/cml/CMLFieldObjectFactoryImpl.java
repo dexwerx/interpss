@@ -43,14 +43,13 @@ import org.interpss.dstab.control.cml.func.HighValueFunction;
 import org.interpss.dstab.control.cml.func.LookupTableFunction;
 import org.interpss.dstab.control.cml.func.LowValueExpFunction;
 import org.interpss.dstab.control.cml.func.LowValueFunction;
-import org.interpss.dstab.control.cml.func.SeFunction;
 import org.interpss.dstab.control.cml.func.PowerFunction;
+import org.interpss.dstab.control.cml.func.SeFunction;
 import org.interpss.dstab.control.cml.func.SwitchFunction;
 import org.interpss.dstab.control.cml.func.VthevFunction;
 
-import com.interpss.common.func.ExpCalculator;
 import com.interpss.common.func.ILookupTable;
-import com.interpss.common.util.LookupTableImpl;
+import com.interpss.common.func.impl.LookupTableImpl;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.IFieldObjectFactory;
@@ -60,6 +59,7 @@ import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.controller.block.IFunctionExpression;
 import com.interpss.dstab.controller.block.ILookupTableFunction;
 import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.datatype.ExpCalculator;
 
 /**
  * Controller annotated field object factory to create objects based on the annotated info
@@ -92,14 +92,14 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     	    	double t = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
     	    	String vmaxStr = parameters[3];
     	    	String vminStr = parameters[4];
-    	    	if (StringUtil.isExpression(vmaxStr) && StringUtil.isExpression(vminStr)) {
+    	    	if (ExpCalculator.isExpression(vmaxStr) && ExpCalculator.isExpression(vminStr)) {
         	    	return new DelayControlBlock(type, k, t, new ExpCalculator(vmaxStr), new ExpCalculator(vminStr));
     	    	}
-    	    	else if (StringUtil.isExpression(vminStr)) {
+    	    	else if (ExpCalculator.isExpression(vminStr)) {
     	    		double vmax = controllor.getDoubleField(StringUtil.getParameterName(parameters[3]));
         	    	return new DelayControlBlock(type, k, t, vmax, new ExpCalculator(vminStr));
     	    	}
-    	    	else if (StringUtil.isExpression(vmaxStr)) {
+    	    	else if (ExpCalculator.isExpression(vmaxStr)) {
         	    	double vmin = controllor.getDoubleField(StringUtil.getParameterName(parameters[4]));
         	    	return new DelayControlBlock(type, k, t, new ExpCalculator(vmaxStr), vmin);
     	    	}

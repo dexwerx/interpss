@@ -29,13 +29,13 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.dstab.control.cml.func.SeFunction;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -46,7 +46,7 @@ import com.interpss.dstab.mach.Machine;
 public class Ieee1968Type2Exciter extends AnnotateExciter {
 	   public double ka = 50.0, ta = 0.05, vrmax = 10.0, vrmin = 0.0;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
 	      parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
 	      y0="this.delayBlock.u0 + this.seFunc.y"	)
@@ -54,7 +54,7 @@ public class Ieee1968Type2Exciter extends AnnotateExciter {
 
 	   public double ke1 = 1.0 /* ke1 = 1.0/Ke */, te_ke = 0.05 /* te_ke = Te/Ke*/;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.kaDelayBlock.y - this.seFunc.y",
 	      parameter={"type.NoLimit", "this.ke1", "this.te_ke"},
 	      y0="mach.efd"	)
@@ -68,7 +68,7 @@ public class Ieee1968Type2Exciter extends AnnotateExciter {
 
 	   public double kf2 = 1.0, tf2 = 0.05;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.kaDelayBlock.y",
 	      parameter={"type.NoLimit", "this.kf2", "this.tf2"},
 	      feedback = true	)
@@ -76,7 +76,7 @@ public class Ieee1968Type2Exciter extends AnnotateExciter {
 
 	   public double kf = 0.05, tf1 = 0.05, k = kf/tf1;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.f2DelayBlock.y",
 	      parameter={"type.NoLimit", "this.k", "this.tf1"},
 	      feedback = true	)

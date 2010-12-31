@@ -32,13 +32,12 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
-import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.ICMLScriptingController;
-import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.impl.MachineControllerImpl;
 
 /**

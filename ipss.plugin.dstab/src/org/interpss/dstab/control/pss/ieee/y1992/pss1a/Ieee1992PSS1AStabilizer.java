@@ -32,12 +32,12 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.TFunc2ndOrderBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -48,7 +48,7 @@ import com.interpss.dstab.mach.Machine;
 public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 	    public double one = 1.0, t6 = 0.05;
 	    @AnControllerField(
-	            type= CMLFieldType.ControlBlock,
+	            type= CMLFieldEnum.ControlBlock,
 	            input="mach.speed - this.refPoint",
 	            parameter={"type.NoLimit", "this.one", "this.t6"},
 	            y0="this.washoutBlock.u0"	)
@@ -56,7 +56,7 @@ public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 
 	    public double ks = 1.0, t5 = 0.1;
 	    @AnControllerField(
-	            type= CMLFieldType.ControlBlock,
+	            type= CMLFieldEnum.ControlBlock,
 	            input="this.delayBlock.y",
 	            parameter={"type.NoLimit", "this.ks", "this.t5"},
 	            y0="this.order2ndBlock.u0"	)
@@ -64,7 +64,7 @@ public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 
 	    public double a1 = 0.05, a2 = 0.5;
 	    @AnControllerField(
-	            type= CMLFieldType.ControlBlock,
+	            type= CMLFieldEnum.ControlBlock,
 	            input="this.washoutBlock.y",
 	            parameter={"type.NoLimit", "this.one", "this.a1", "this.a2"},
 	            y0="this.filterBlock1.u0"	)
@@ -72,7 +72,7 @@ public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 
 	    public double k1 = 10.0, t1 = 0.05, t2 = 0.5;
 	    @AnControllerField(
-	            type= CMLFieldType.ControlBlock,
+	            type= CMLFieldEnum.ControlBlock,
 	            input="this.order2ndBlock.y",
 	            parameter={"type.NoLimit", "this.k1", "this.t1", "this.t2"},
 	            y0="this.filterBlock2.u0"	)
@@ -80,7 +80,7 @@ public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 		
 	    public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
 	    @AnControllerField(
-	            type= CMLFieldType.ControlBlock,
+	            type= CMLFieldEnum.ControlBlock,
 	            input="this.filterBlock1.y",
 	            parameter={"type.Limit", "this.k2", "this.t3", "this.t4", "this.vmax", "this.vmin"},
 	            y0="pss.vs"	)

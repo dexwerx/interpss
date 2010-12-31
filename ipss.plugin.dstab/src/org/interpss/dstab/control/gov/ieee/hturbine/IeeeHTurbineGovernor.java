@@ -30,12 +30,12 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -46,7 +46,7 @@ import com.interpss.dstab.mach.Machine;
 public class IeeeHTurbineGovernor extends AnnotateGovernor {
 	 public double k = 1.0, t2 = 0.5, t1 = 0.01;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="mach.speed - 1.0",
             parameter={"type.NoLimit", "this.k", "this.t2", "this.t1"},
             y0="this.delayBlock.u0"	)
@@ -54,7 +54,7 @@ public class IeeeHTurbineGovernor extends AnnotateGovernor {
 
 	 public double k1 = 10.0, t3 = 0.5;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.filterBlock.y",
             parameter={"type.NoLimit", "this.k1", "this.t3"},
             y0="this.refPoint - this.gainBlock.y"	)
@@ -62,7 +62,7 @@ public class IeeeHTurbineGovernor extends AnnotateGovernor {
 
     public double kgain = 1.0, pmax = 1.2, pmin = 0.0;
     @AnControllerField(
-            type= CMLFieldType.StaticBlock,
+            type= CMLFieldEnum.StaticBlock,
             input="this.refPoint - this.delayBlock.y",
             parameter={"type.Limit", "this.kgain", "this.pmax", "this.pmin"},
             y0="this.wFilterBlock.u0"	)
@@ -70,7 +70,7 @@ public class IeeeHTurbineGovernor extends AnnotateGovernor {
 
 	 public double kf2 = 1.0, tw = 0.1, t4 = -0.5*tw, t5 = 0.5*tw;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.gainBlock.y",
             parameter={"type.NoLimit", "this.kf2", "this.t4", "this.t5"},
             y0="mach.pm"	)

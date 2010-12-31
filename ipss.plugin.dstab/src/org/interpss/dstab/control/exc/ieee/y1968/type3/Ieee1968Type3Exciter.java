@@ -30,7 +30,6 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
@@ -39,6 +38,7 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -49,7 +49,7 @@ import com.interpss.dstab.mach.Machine;
 public class Ieee1968Type3Exciter extends AnnotateExciter {
 	   public double ka = 50.0, ta = 0.05, vrmax = 10.0, vrmin = 0.0;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
 	      parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
 	      y0="this.customBlock.u0"	)
@@ -57,7 +57,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 
 	   public double kp = 2.0, ki = 1.0, vbmax = 10.0;
 	   @AnControllerField(
-	      type= CMLFieldType.StaticBlock,
+	      type= CMLFieldEnum.StaticBlock,
 	      input= "this.kaDelayBlock.y", 
 	      y0="this.delayBlock.u0"    )
 	   public IStaticBlock customBlock = new StaticBlockAdapter() {
@@ -132,7 +132,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 
 	   public double ke1 = 1.0 /* ke1 = 1/Ke  */, te_ke = 0.1 /* te_ke = Te/Ke */;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.customBlock.y",
 	      parameter={"type.NoLimit", "this.ke1", "this.te_ke"},
 	      y0="mach.efd"	)
@@ -141,7 +141,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 
 	   public double kf = 0.1, tf = 0.5, k = kf/tf;
 	   @AnControllerField(
-	      type= CMLFieldType.ControlBlock,
+	      type= CMLFieldEnum.ControlBlock,
 	      input="this.delayBlock.y",
 	      parameter={"type.NoLimit", "this.k", "this.tf"},
 	      feedback = true	)

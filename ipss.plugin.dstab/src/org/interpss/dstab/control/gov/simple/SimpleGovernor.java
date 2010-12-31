@@ -29,12 +29,12 @@ import java.lang.reflect.Field;
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -45,7 +45,7 @@ import com.interpss.dstab.mach.Machine;
 public class SimpleGovernor extends AnnotateGovernor {
 	public double ka = 10.0, ta = 0.5;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="mach.speed - 1.0",
             parameter={"type.NoLimit", "this.ka", "this.ta"},
             y0="this.refPoint - this.gainBlock.u0"	)
@@ -53,7 +53,7 @@ public class SimpleGovernor extends AnnotateGovernor {
 	
     public double ks = 1.0, pmax = 1.2, pmin = 0.0;
     @AnControllerField(
-            type= CMLFieldType.StaticBlock,
+            type= CMLFieldEnum.StaticBlock,
             input="this.refPoint - this.delayBlock.y",
             parameter={"type.Limit", "this.ks", "this.pmax", "this.pmin"},
             y0="mach.pm"	)

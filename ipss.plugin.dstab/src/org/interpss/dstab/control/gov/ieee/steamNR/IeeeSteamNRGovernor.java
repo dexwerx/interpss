@@ -31,12 +31,12 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -47,7 +47,7 @@ import com.interpss.dstab.mach.Machine;
 public class IeeeSteamNRGovernor extends AnnotateGovernor {
 	public double k = 10.0, t1 = 0.5, t2 = 0.1;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="mach.speed - 1.0",
             parameter={"type.NoLimit", "this.k", "this.t2", "this.t1"},
             y0="this.refPoint - this.gainBlock.y - this.intBlock.y" )
@@ -55,7 +55,7 @@ public class IeeeSteamNRGovernor extends AnnotateGovernor {
 	
     public double k3 = 1.0 /* 1.0/t3 */, pup = 1.2, pdown = 0.0;
     @AnControllerField(
-            type= CMLFieldType.StaticBlock,
+            type= CMLFieldEnum.StaticBlock,
             input="this.refPoint - this.filterBlock.y - this.intBlock.y",
             parameter={"type.Limit", "this.k3", "this.pup", "this.pdown"},
             y0="this.intBlock.u0"	)
@@ -63,7 +63,7 @@ public class IeeeSteamNRGovernor extends AnnotateGovernor {
 
     public double kint = 1.0, pmax = 10.0, pmin = 0.0;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.gainBlock.y",
             parameter={"type.Limit", "this.kint", "this.pmax", "this.pmin"},
             y0="this.delayBlock.u0"	)
@@ -71,7 +71,7 @@ public class IeeeSteamNRGovernor extends AnnotateGovernor {
 
     public double kch = 1.0, tch = 1.2;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.intBlock.y",
             parameter={"type.NoLimit", "this.kch", "this.tch"},
             y0="mach.pm"	)

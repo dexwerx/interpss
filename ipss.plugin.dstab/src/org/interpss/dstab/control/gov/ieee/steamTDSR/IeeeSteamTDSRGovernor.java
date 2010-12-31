@@ -31,12 +31,12 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 
-import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -49,7 +49,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 
 	public double k = 10.0, t1 = 0.5, t2 = 0.1;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="mach.speed - 1.0",
             parameter={"type.NoLimit", "this.k", "this.t2", "this.t1"},
             y0 = "this.refPoint - this.gainBlock.y - this.intBlock.y" )
@@ -57,7 +57,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 	
     public double k3 = 1.0 /* 1.0/t3 */, pup = 1.2, pdown = 0.0;
     @AnControllerField(
-            type= CMLFieldType.StaticBlock,
+            type= CMLFieldEnum.StaticBlock,
             input="this.refPoint - this.filterBlock.y - this.intBlock.y",
             parameter={"type.Limit", "this.k3", "this.pup", "this.pdown"},
             y0="this.intBlock.u0"	)
@@ -65,7 +65,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 
     public double kint = 1.0, pmax = 10.0, pmin = 0.0;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.gainBlock.y",
             parameter={"type.Limit", "this.kint", "this.pmax", "this.pmin"},
             y0="this.coDelayBlock.u0"	)
@@ -73,7 +73,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 
     public double kch = 1.0, tch = 1.2;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.intBlock.y",
             parameter={"type.NoLimit", "this.kch", "this.tch"},
             y0="this.rh1DelayBlock.u0"	)
@@ -81,7 +81,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 
     public double krh1 = 1.0, trh1 = 1.2;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.chDelayBlock.y",
             parameter={"type.NoLimit", "this.krh1", "this.trh1"},
             y0="this.rh2DelayBlock.u0"	)
@@ -89,7 +89,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 
     public double krh2 = 1.0, trh2 = 1.2;
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.rh1DelayBlock.y",
             parameter={"type.NoLimit", "this.krh2", "this.trh2"},
             y0="this.coDelayBlock.u0"	)
@@ -97,7 +97,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
 
     public double kco = 1.0, tco = 1.2, factor = 1.0 / (fvhp+fhp+fip+flp);
     @AnControllerField(
-            type= CMLFieldType.ControlBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.rh2DelayBlock.y",
             parameter={"type.NoLimit", "this.kco", "this.tco"},
             y0="this.factor*mach.pm"	)
