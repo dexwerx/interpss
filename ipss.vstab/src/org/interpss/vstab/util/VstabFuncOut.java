@@ -7,11 +7,11 @@ import java.util.Locale;
 import org.apache.commons.math.linear.RealVector;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class VstabFuncOut {
 	/**

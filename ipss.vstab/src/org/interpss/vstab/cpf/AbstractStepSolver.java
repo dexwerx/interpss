@@ -1,7 +1,8 @@
 package org.interpss.vstab.cpf;
 
-import com.interpss.core.aclf.AclfNetwork;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+
+import com.interpss.core.aclf.AclfNetwork;
 
 public abstract class  AbstractStepSolver {
 	protected AclfNetwork net=null;

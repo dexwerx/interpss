@@ -1,5 +1,6 @@
 package org.interpss.vstab.cpf.impl;
 
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.LoadIncPattern;
@@ -10,7 +11,6 @@ import org.interpss.vstab.util.VstabFuncOut;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.net.Bus;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class CorrectorStepSolver extends DefaultNrSolver {
     private CPFAlgorithm cpf=null;

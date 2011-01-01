@@ -10,6 +10,7 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealVector;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.util.VstabFuncOut;
 
@@ -18,7 +19,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.net.Bus;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 public class CpfHelper {
 	private SparseEqnMatrix2x2 lfEqn=null;

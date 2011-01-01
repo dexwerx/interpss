@@ -1,7 +1,9 @@
 package org.interpss.vstab.eigen;
 
-import Jama.Matrix;
-import org.apache.commons.math.linear.*;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.EigenDecomposition;
+import org.apache.commons.math.linear.EigenDecompositionImpl;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.util.MathUtils;
 
 
