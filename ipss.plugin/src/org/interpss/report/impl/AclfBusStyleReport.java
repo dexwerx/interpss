@@ -30,6 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.IIpssReport;
@@ -37,7 +38,6 @@ import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.aclf.AclfRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;

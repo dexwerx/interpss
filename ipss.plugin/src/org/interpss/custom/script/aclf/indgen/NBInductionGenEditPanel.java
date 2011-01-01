@@ -26,9 +26,9 @@ package org.interpss.custom.script.aclf.indgen;
 
 import java.util.Vector;
 
-import com.interpss.common.ui.ICustomPluginEditor;
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Number2String;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.ICustomPluginEditor;
+import org.interpss.ui.SwingInputVerifyUtil;
 
 public class NBInductionGenEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;

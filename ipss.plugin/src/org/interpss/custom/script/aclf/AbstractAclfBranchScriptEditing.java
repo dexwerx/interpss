@@ -27,9 +27,9 @@ package org.interpss.custom.script.aclf;
 import javax.swing.JPanel;
 
 import org.interpss.custom.script.ScriptPluginEditingAdapter;
+import org.interpss.ui.ICustomPluginEditor;
+import org.interpss.ui.IScriptPluginEditing;
 
-import com.interpss.common.ui.ICustomPluginEditor;
-import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.core.aclf.impl.AbstractAclfBranch;
 
 public abstract class AbstractAclfBranchScriptEditing extends AbstractAclfBranch implements IScriptPluginEditing {  

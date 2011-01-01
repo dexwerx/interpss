@@ -27,11 +27,11 @@ package org.interpss.display;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.Complex3x1;
+import org.interpss.numeric.util.Number2String;
 
-import com.interpss.common.datatype.Complex3x1;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;

@@ -33,89 +33,6 @@
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>	      
 
-<!-- 
-	<bean id="fileAdapterIeeeCommonFormat" 
-	      class="org.interpss.custom.dep.exchange.FileAdapter_IeeeCommonFormat"
-	      scope="singleton"	
-	      p:name="IEEE Common Format"
-	      p:fileFilterString="dat"
-	      p:extension="ieee"
-	      p:description="IEEE Common Format">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	</bean>	
-	
-	<bean id="fileAdapterIeeeODMXml" 
-	      class="org.interpss.custom.dep.ieee_odm.FileAdapter_IEEEODM_Xml"
-	      scope="singleton"	
-	      p:name="IEEE ODM Xml Model"
-	      p:fileFilterString="xml"
-	      p:extension="odm"
-	      p:description="IEEE ODM Xml Model">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	</bean>	
-
-	<bean id="fileAdapterPSTMatlabFormat" 
-	      class="cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat"
-	      scope="singleton"	
-	      p:name="MatLat Data Format"
-	      p:fileFilterString="m"
-	      p:extension="m"
-	      p:description="MatLab Power Flow Data Format">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	</bean>	
-
-	<bean id="fileAdapterPSATFormat" 
-	      class="org.interpss.custom.dep.exchange.FileAdpater_PSATFormat"
-	      scope="singleton"	
-	      p:name="PSAT Format"
-	      p:fileFilterString="m"
-	      p:extension="psat"
-	      p:description="PSAT Data Format">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	</bean>	
-		
-	<bean id="fileAdapterUCTEFormat" 
-	      class="org.interpss.custom.dep.exchange.FileAdapter_UCTEFormat"
-	      scope="singleton"	
-	      p:name="UCTE Format"
-	      p:fileFilterString="uct"
-	      p:extension="uct"
-	      p:description="UCTE Data Exchange Format for LF and SC">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	</bean>	
-	
-	<bean id="fileAdapterPSSEFormat" 
-	      class="org.interpss.custom.dep.exchange.FileAdapter_PTIFormat"
-	      scope="singleton"	
-	      p:name="PSS/E Format"
-	      p:fileFilterString="raw"
-	      p:extension="psse"
-	      p:description="PSSE Data Format">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	    <property name="versionList">
-	    	<list>
-	    		<value>PSS/E-30</value>
-	    		<value>PSS/E-29</value>
-	    	</list></property>
-	</bean>
-	
-	<bean id="fileAdapterGEFormat" 
-	      class="org.interpss.custom.dep.exchange.FileAdapter_GEFormat"
-	      scope="singleton"	
-	      p:name="GE-PSLF Format"
-	      p:fileFilterString="epc"
-	      p:extension="ge"
-	      p:description="GE Data Exchange Format">
-	  	<constructor-arg>
-	  		<ref bean="ipssMsgHub"/></constructor-arg>
-	</bean>	
- -->	
 	<bean id="fileAdapterJavaScripts" 
 	      class="org.interpss.custom.script.proj.FileAdapter_JavaScripts"
 	      scope="singleton"	
@@ -138,15 +55,6 @@
 			<list>
 				<ref bean="fileAdapterIpssInternalFormat"/>
 				<ref bean="fileAdapterJavaScripts"/>
-				<!-- 
-				<ref bean="fileAdapterPSSEFormat"/>
-				<ref bean="fileAdapterGEFormat"/>
-				<ref bean="fileAdapterUCTEFormat"/>
-				<ref bean="fileAdapterIeeeODMXml"/>
-				<ref bean="fileAdapterIeeeCommonFormat"/>
-				<ref bean="fileAdapterPSTMatlabFormat"/>
-				<ref bean="fileAdapterPSATFormat"/>
-				 -->
 			</list>
 		</constructor-arg>
 	</bean>
@@ -189,19 +97,20 @@
 	    scope="prototype"	
 	    p:name="Aclf Induction Generator"
 	    p:desc="InterPSS Aclf Induction Generator implementation" />
+<!-- 	    
 	<bean id="sampleAclfBusPlugin"  
 	  	class="org.interpss.sample.plugin.aclf.funcload.SampleFuncLoad"
 	    scope="prototype"	
 	    p:name="Sample Aclf Scripting FuncLoad"
 	    p:desc="A sample Functional Load Aclf bus scripting implementation" />
-
+ -->
 	<bean id="customAclfBusScriptPluginList" 
 	      class="java.util.ArrayList"
 	      scope="singleton">	
 		<constructor-arg>
 			<list>
 				<ref bean="inductionGenerator"/>
-				<ref bean="sampleAclfBusPlugin"/>
+				<!-- ref bean="sampleAclfBusPlugin"/ -->
 			</list>
 		</constructor-arg>
 	</bean>	
@@ -210,17 +119,19 @@
 		AclfBranch Scripting Custom Plugin List
 		=======================================
 	-->	
+<!-- 
 	<bean id="sampleAclfLinePlugin"  
 	  	class="org.interpss.sample.plugin.aclf.line.SampleLine"
 	    scope="prototype"	
 	    p:name="Sample Aclf Scripting Line"
 	    p:desc="A sample line Aclf branch scripting implementation" />
+ -->	    
 	<bean id="customAclfBranchScriptPluginList" 
 	      class="java.util.ArrayList"
 	      scope="singleton">	
 		<constructor-arg>
 			<list>
-				<ref bean="sampleAclfLinePlugin"/>
+				<!-- ref bean="sampleAclfLinePlugin"/ -->
 			</list>
 		</constructor-arg>
 	</bean>	

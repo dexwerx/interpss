@@ -27,10 +27,10 @@ package org.interpss.display;
 import java.util.Hashtable;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.net.Bus;

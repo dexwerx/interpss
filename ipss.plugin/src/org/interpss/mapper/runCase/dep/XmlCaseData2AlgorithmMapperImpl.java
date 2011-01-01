@@ -69,8 +69,8 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
 import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
-import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class XmlCaseData2AlgorithmMapperImpl {

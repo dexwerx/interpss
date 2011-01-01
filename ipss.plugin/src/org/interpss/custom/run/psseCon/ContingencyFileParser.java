@@ -33,11 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.schema.AclfStudyCaseListXmlType;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
 import org.interpss.xml.IpssXmlParser;
 

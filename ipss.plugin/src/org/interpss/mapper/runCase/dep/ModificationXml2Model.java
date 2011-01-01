@@ -25,6 +25,7 @@
 package org.interpss.mapper.runCase.dep;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.BusChangeRecXmlType;
 import org.interpss.schema.ComplexValueChangeXmlType;
@@ -36,7 +37,6 @@ import org.interpss.schema.ValueChangeXmlType;
 import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 import org.interpss.xml.IpssXmlUtilFunc;
 
-import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;

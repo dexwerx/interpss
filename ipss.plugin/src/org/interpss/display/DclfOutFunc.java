@@ -27,6 +27,7 @@ package org.interpss.display;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.numeric.util.Number2String;
 import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
@@ -37,7 +38,6 @@ import org.interpss.schema.SenBusAnalysisDataType;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;

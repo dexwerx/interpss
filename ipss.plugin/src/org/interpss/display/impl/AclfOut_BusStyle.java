@@ -26,9 +26,9 @@ package org.interpss.display.impl;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;

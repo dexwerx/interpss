@@ -26,9 +26,9 @@ package org.interpss.custom.script;
 
 import javax.swing.JPanel;
 
+import org.interpss.ui.ICustomPluginEditor;
+import org.interpss.ui.IScriptPluginEditing;
 
-import com.interpss.common.ui.ICustomPluginEditor;
-import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.common.util.XmlUtil;
 
 public class ScriptPluginEditingAdapter implements IScriptPluginEditing {  

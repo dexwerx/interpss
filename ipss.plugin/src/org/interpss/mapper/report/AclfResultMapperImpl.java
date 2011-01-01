@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.util.Number2String;
 import org.interpss.report.bean.aclf.RptAclfBusStyleBean;
 import org.interpss.report.bean.aclf.RptAclfMaxMismatchBean;
 import org.interpss.report.bean.aclf.RptAclfSummaryBusBean;
@@ -40,7 +41,6 @@ import org.interpss.report.bean.aclf.RptTapVControlBean;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;

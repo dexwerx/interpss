@@ -27,9 +27,9 @@ package org.interpss.custom.script.dstab;
 import javax.swing.JPanel;
 
 import org.interpss.custom.script.ScriptPluginEditingAdapter;
+import org.interpss.ui.ICustomPluginEditor;
+import org.interpss.ui.IScriptPluginEditing;
 
-import com.interpss.common.ui.ICustomPluginEditor;
-import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
 
 public abstract class AbstractDynamicBusDeviceScriptEditing extends ScriptDynamicBusDeviceImpl implements IScriptPluginEditing {  

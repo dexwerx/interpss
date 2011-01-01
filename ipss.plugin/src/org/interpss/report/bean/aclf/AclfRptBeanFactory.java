@@ -24,6 +24,8 @@
 
 package org.interpss.report.bean.aclf;
 
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
+
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
@@ -34,8 +36,6 @@ import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.simu.SimuContext;
-
-import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 
 public class AclfRptBeanFactory {
 	public static RptPVLimitBean[] createPVLimitSampleBeanList() {
