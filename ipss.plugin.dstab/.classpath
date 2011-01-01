@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_jgraph.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor_ui.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

@@ -27,8 +27,7 @@ package org.interpss.dstab.control.exc.ieee.y1968.type2;
 import java.util.Vector;
 
 import org.interpss.dstab.control.base.EditUtilFunct;
-
-import com.interpss.common.ui.ICustomPluginEditor;
+import org.interpss.ui.ICustomPluginEditor;
 
 public class NBIeee1968Type2EditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;

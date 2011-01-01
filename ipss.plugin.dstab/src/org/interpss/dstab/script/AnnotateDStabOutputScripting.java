@@ -7,9 +7,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.interpss.numeric.util.Number2String;
+
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.BusVariableRec;

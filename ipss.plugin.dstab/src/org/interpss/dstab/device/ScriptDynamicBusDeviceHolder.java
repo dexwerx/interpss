@@ -29,9 +29,9 @@ import java.util.Hashtable;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.ui.IScriptPluginEditing;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;

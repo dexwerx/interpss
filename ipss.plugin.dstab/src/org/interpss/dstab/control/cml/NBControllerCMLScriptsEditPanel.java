@@ -27,8 +27,8 @@ package org.interpss.dstab.control.cml;
 import java.util.Vector;
 
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.ui.ICustomPluginEditor;
 
-import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {

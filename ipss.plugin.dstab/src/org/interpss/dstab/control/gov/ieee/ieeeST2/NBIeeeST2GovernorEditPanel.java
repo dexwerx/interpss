@@ -26,9 +26,10 @@ package org.interpss.dstab.control.gov.ieee.ieeeST2;
 
 import java.util.Vector;
 
-import com.interpss.common.ui.ICustomPluginEditor;
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Number2String;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.ICustomPluginEditor;
+import org.interpss.ui.SwingInputVerifyUtil;
+
 import com.interpss.dstab.controller.AbstractGovernor;
 
 

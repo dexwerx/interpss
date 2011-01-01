@@ -27,8 +27,7 @@ package org.interpss.dstab.control.gov.ieee.steamNR;
 import java.util.Vector;
 
 import org.interpss.dstab.control.base.EditUtilFunct;
-
-import com.interpss.common.ui.ICustomPluginEditor;
+import org.interpss.ui.ICustomPluginEditor;
 
 public class NBIeeeSteamNREditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
