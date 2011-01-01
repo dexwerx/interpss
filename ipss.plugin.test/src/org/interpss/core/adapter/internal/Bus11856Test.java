@@ -29,11 +29,11 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.sparse.SparseEqnComplex;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetHelper;

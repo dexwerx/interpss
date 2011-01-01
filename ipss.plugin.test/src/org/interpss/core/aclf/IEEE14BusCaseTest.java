@@ -4,9 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.ComplexFunc;
 import org.junit.Test;
 
-import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;

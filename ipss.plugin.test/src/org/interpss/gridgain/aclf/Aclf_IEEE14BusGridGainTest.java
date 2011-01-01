@@ -32,9 +32,9 @@ import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.task.singleJob.AclfSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
+import org.interpss.numeric.datatype.ComplexFunc;
 import org.junit.Test;
 
-import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
