@@ -12,7 +12,6 @@ import org.interpss.editor.project.IpssNewGraphDialog;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
 
-
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 

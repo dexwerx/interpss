@@ -14,7 +14,6 @@ import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.interpss.editor.coreframework.GPUserObject;
-import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.cells.LabelCell;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;

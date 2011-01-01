@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.TransferHandler;
 
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
-import org.interpss.editor.plugins.gpgraph.GPGraph;
 
 
 public class EditCopy extends IpssAbstractGraphAction {

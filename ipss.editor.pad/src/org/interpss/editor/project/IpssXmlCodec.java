@@ -6,15 +6,9 @@ import java.io.OutputStream;
 
 import javax.swing.filechooser.FileFilter;
 
-import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssXmlDocument;
-import org.interpss.editor.io.CustomFileUtility;
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.resources.Translator;
-
-
-import com.interpss.simu.SimuContext;
  
 public class IpssXmlCodec {
 	private static IpssXmlCodec _instance;

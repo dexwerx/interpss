@@ -36,8 +36,8 @@ import org.interpss.editor.data.dstab.DStabMachData;
 import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
+import org.interpss.ui.ICustomPluginEditor;
 
-import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;

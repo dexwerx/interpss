@@ -34,10 +34,10 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
 
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
  
 public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

@@ -21,9 +21,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import org.interpss.editor.coreframework.GPGraphpad;
-import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.IpssReportFile;
-import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.NamedInputStream;

@@ -21,17 +21,10 @@
 package org.interpss.editor.coreframework.actions;
 
 import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.TransferHandler;
 
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
-import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
-import org.interpss.editor.jgraph.cells.BusCell;
-import org.interpss.editor.jgraph.cells.LabelCell;
-import org.interpss.editor.plugins.gpgraph.GPGraph;
-import org.jgraph.graph.AttributeMap;
-import org.jgraph.graph.GraphConstants;
 
 
 public class EditPaste extends IpssAbstractGraphAction {

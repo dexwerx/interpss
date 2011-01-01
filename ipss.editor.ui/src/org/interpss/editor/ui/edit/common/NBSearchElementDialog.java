@@ -27,9 +27,9 @@ package org.interpss.editor.ui.edit.common;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.WinUtilities;
 
 public class NBSearchElementDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;

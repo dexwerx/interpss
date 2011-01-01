@@ -1,6 +1,5 @@
 package org.interpss.editor.project;
 
-import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.resources.Translator;
 
 import com.interpss.common.ui.Workspace;

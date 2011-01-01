@@ -2,14 +2,9 @@ package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.interpss.editor.coreframework.GPDocument;
-import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.IpssAbstractProjectAction;
-import org.interpss.editor.coreframework.IpssCustomFile;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProject;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.project.IpssNewCustomDialog;
 import org.interpss.editor.project.IpssNewTextDialog;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;

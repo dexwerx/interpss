@@ -30,13 +30,13 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBusForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.Number2String;
 import com.interpss.spring.CoreCommonSpringCtx;
   
 

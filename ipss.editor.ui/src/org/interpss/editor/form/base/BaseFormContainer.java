@@ -28,8 +28,8 @@ package org.interpss.editor.form.base;
 *	A JavaBean: BaseFormContainer class for storing network data
 */
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.dist.DistBranchData;

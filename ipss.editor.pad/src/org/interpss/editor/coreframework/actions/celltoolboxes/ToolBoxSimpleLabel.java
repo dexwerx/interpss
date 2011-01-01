@@ -4,7 +4,6 @@ import java.awt.geom.Rectangle2D;
 
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.jgraph.cells.SimpleLabelCell;
-import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.GraphCell;
 import org.jgraph.graph.GraphConstants;

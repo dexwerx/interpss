@@ -29,7 +29,6 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 
-import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.aclf.AclfAdjBranchData;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.form.GBranchForm;
@@ -40,10 +39,10 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.common.NBCustomScriptEditPanel;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
 
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
  
 public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

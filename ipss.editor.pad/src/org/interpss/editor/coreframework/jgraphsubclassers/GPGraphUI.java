@@ -5,16 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Map;
 
-import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
 import org.interpss.editor.coreframework.GPDocument;
@@ -24,7 +20,6 @@ import org.interpss.editor.jgraph.cells.BranchEdge;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.cells.LabelCell;
 import org.interpss.editor.jgraph.cells.SimpleLabelCell;
-import org.jgraph.JGraph;
 import org.jgraph.graph.AbstractCellView;
 import org.jgraph.graph.AttributeMap;
 import org.jgraph.graph.CellHandle;
@@ -33,11 +28,8 @@ import org.jgraph.graph.ConnectionSet;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphContext;
 import org.jgraph.graph.GraphLayoutCache;
-import org.jgraph.graph.GraphTransferHandler;
-import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.ParentMap;
 import org.jgraph.plaf.basic.BasicGraphUI;
-import org.jgraph.plaf.basic.BasicGraphUI.RootHandle;
 
 import com.interpss.common.util.IpssLogger;
 

@@ -1,7 +1,5 @@
 package org.interpss.editor.doc;
 
-import java.util.ArrayList;
-
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
 

@@ -26,12 +26,12 @@ package org.interpss.editor.app;
 
 import java.io.File;
 
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
 
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ProjectFileUtil {

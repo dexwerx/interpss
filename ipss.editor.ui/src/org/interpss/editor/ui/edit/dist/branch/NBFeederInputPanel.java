@@ -30,9 +30,8 @@ import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
-
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Number2String;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
    
 
 public class NBFeederInputPanel extends javax.swing.JPanel implements IFormDataPanel {

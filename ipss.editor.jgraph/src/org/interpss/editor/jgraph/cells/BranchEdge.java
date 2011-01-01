@@ -7,7 +7,6 @@ package org.interpss.editor.jgraph.cells;
 
 import java.awt.Font;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
 import java.util.Map;
 

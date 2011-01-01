@@ -32,9 +32,8 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
-
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Number2String;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
    
 
 public class NBBreakerInputPanel extends javax.swing.JPanel implements IFormDataPanel {

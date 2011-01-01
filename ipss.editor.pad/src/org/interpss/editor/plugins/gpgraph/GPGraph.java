@@ -30,9 +30,6 @@ import java.util.Set;
 import javax.swing.JComponent;
 
 import org.interpss.editor.coreframework.jgraphsubclassers.GPGraphUI;
-import org.interpss.editor.coreframework.jgraphsubclassers.GPTransferHandler;
-import org.interpss.editor.jgraph.cells.BusCell;
-import org.interpss.editor.jgraph.cells.SimpleLabelCell;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellView;
 import org.jgraph.graph.DefaultGraphModel;

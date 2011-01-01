@@ -55,7 +55,6 @@ import org.interpss.editor.util.BarEntry;
 import org.interpss.editor.util.ICommandRegistery;
 import org.interpss.editor.util.Utilities;
 import org.jgraph.JGraph;
-import org.jgraph.graph.DefaultGraphCell;
 
 import com.interpss.common.util.IpssLogger;
 

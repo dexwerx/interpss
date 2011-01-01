@@ -20,17 +20,12 @@
  */
 package org.interpss.editor.coreframework.actions;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.util.Enumeration;
 import java.util.Vector;
 
-import javax.swing.JMenuItem;
 import javax.swing.undo.CannotRedoException;
 
-import org.interpss.editor.coreframework.GPBarFactory;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
-import org.interpss.editor.resources.Translator;
 
 
 

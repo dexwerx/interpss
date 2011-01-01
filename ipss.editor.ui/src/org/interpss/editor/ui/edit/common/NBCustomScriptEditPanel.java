@@ -34,10 +34,10 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.ui.ICustomPluginEditor;
+import org.interpss.ui.IScriptPluginEditing;
 
 import com.interpss.common.rec.BaseDataBean;
-import com.interpss.common.ui.ICustomPluginEditor;
-import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.common.util.IpssLogger;
  
 public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IFormDataPanel {

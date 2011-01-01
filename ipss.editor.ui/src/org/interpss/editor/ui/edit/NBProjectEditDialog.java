@@ -38,13 +38,13 @@ import org.interpss.editor.ui.edit.dist.NBDistProjEditPanel;
 import org.interpss.editor.ui.edit.trans.NBAclfTransProjPanel;
 import org.interpss.editor.ui.edit.trans.NBAcscTransProjPanel;
 import org.interpss.editor.ui.edit.trans.NBDStabTransProjPanel;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.spring.CoreCommonSpringCtx;
   
  

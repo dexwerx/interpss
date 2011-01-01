@@ -1,34 +1,18 @@
 package org.interpss.editor.coreframework.jgraphsubclassers;
 
-import java.awt.Point;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
-import javax.swing.JComponent;
-import javax.swing.TransferHandler;
-
-import org.jgraph.JGraph;
-import org.jgraph.graph.AttributeMap;
-import org.jgraph.graph.CellView;
-import org.jgraph.graph.ConnectionSet;
-import org.jgraph.graph.DefaultGraphModel;
-import org.jgraph.graph.GraphConstants;
-import org.jgraph.graph.GraphLayoutCache;
-import org.jgraph.graph.GraphModel;
-import org.jgraph.graph.GraphTransferHandler;
-import org.jgraph.graph.GraphTransferable;
-import org.jgraph.graph.ParentMap;
-import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.cells.LabelCell;
+import org.jgraph.JGraph;
+import org.jgraph.graph.AttributeMap;
+import org.jgraph.graph.ConnectionSet;
+import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphTransferHandler;
+import org.jgraph.graph.ParentMap;
 public class GPTransferHandler extends GraphTransferHandler {
 
 	

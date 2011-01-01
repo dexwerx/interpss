@@ -32,8 +32,6 @@ import java.util.Stack;
 
 import javax.swing.ImageIcon;
 
-import com.interpss.common.util.IpssLogger;
-
 /**
  * Loader for the resource images. The class uses the getResource Method to get
  * the Resource from the relative path.

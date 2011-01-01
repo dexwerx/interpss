@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.ui.IScriptPluginEditing;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
 

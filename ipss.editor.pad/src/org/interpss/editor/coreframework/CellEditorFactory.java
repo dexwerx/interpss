@@ -16,7 +16,6 @@ import org.interpss.editor.ui.edit.NBBranchEditDialog;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
 
-
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CellEditorFactory {

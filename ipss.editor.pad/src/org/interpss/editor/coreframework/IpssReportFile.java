@@ -1,6 +1,5 @@
 package org.interpss.editor.coreframework;
 
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
 public class IpssReportFile {
 //	private IAppSimuContext appSimuContext;

@@ -23,7 +23,6 @@
   */
 package org.interpss.editor.data.aclf;
 
-import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.rec.BaseDataBean;

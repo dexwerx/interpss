@@ -29,10 +29,10 @@ import java.util.Vector;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
 
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 
 
 public class NBUtilityInputPanel extends javax.swing.JPanel  implements IFormDataPanel {

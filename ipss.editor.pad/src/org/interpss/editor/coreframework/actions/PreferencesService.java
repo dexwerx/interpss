@@ -2,8 +2,6 @@ package org.interpss.editor.coreframework.actions;
 
 import java.util.prefs.Preferences;
 
-import org.interpss.editor.coreframework.GPPluginInvoker;
-
 
 /**
  * A service for storing and loading user preferences.

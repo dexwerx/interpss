@@ -40,8 +40,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 
 import org.interpss.editor.resources.Translator;
-
-import com.interpss.common.ui.WinUtilities;
+import org.interpss.ui.WinUtilities;
 
 /**A Dialog to select a graph model provider.
  *

@@ -21,7 +21,6 @@
 package org.interpss.editor.coreframework.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;

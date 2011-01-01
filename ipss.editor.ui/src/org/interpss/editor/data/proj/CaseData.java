@@ -28,7 +28,8 @@ package org.interpss.editor.data.proj;
 	Study case info
 */
 
-import com.interpss.common.datatype.SimuRunEnum;
+import org.interpss.editor.SimuRunEnum;
+
 import com.interpss.common.rec.IpssDBCase;
 
 public class CaseData extends IpssDBCase {

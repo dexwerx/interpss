@@ -2,7 +2,6 @@ package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.doc.IpssProjectItem;
