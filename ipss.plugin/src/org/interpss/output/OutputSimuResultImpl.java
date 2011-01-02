@@ -26,8 +26,8 @@ package org.interpss.output;
 
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
+import org.interpss.util.FileUtil;
 
-import com.interpss.common.util.FileUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 

@@ -10,6 +10,10 @@
 	<import resource="classpath:org/interpss/spring/CustomFAdapterSpringCtx.xml"/>
 	<import resource="classpath:org/interpss/spring/JGraphSpringCtx.xml"/>
 	
+	<bean id="editorDialogUtil" 
+	      class="org.interpss.ui.DialogUtilImpl"
+	      scope="singleton">	
+	</bean>		
 <!--
 		ODM model to ipss SimuContext mapping 
  -->	

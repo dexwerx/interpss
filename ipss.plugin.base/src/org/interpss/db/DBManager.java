@@ -27,10 +27,11 @@ package org.interpss.db;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.interpss.ui.Workspace;
+
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
-import com.interpss.common.ui.Workspace;
 import com.interpss.common.util.IpssLogger;
 
 public class DBManager {

@@ -60,7 +60,6 @@ import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> {
 	public XmlCaseData2DStabAlgorithmMapperImpl(IPSSMsgHub msg) {
@@ -159,7 +158,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 							xmlEvent.getRecName(), name, deType, dstabNet,
 							msg);
 					if (event == null) {
-						CoreCommonSpringCtx.getEditorDialogUtil()
+						PluginSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
 						return false;
 					}
@@ -169,7 +168,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 								dstabNet, msg);
 					} catch (Exception e) {
 						IpssLogger.logErr(e);
-						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+						PluginSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 										"Error to process DynamicEvent", "See log file for details, " + e.toString());
 						return false;
 					}

@@ -7,6 +7,7 @@ package org.interpss.dstab.output;
 import java.util.Hashtable;
 
 import org.interpss.db.DBManager;
+import org.interpss.db.IpssDBCase;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.spring.BasePluginSpringCtx;
 import org.interpss.ui.IProjectDataManager;
@@ -14,7 +15,6 @@ import org.interpss.ui.IProjectDataManager;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IpssMessage;
-import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.common.DStabOutSymbol;

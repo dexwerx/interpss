@@ -24,9 +24,9 @@
 
 package org.interpss.mapper.dep;
 
-import com.interpss.common.msg.IPSSMsgHub;
-
 import java.util.Map;
+
+import com.interpss.common.msg.IPSSMsgHub;
 
 public abstract class AbstractMapper implements IpssMapper {
 	/**

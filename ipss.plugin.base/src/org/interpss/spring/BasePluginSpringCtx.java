@@ -24,6 +24,7 @@
 
 package org.interpss.spring;
 
+import static com.interpss.common.datatype.Constants.SID_EditorDialogUtil;
 import static com.interpss.common.datatype.Constants.SID_ProjectDataManager;
 import static com.interpss.common.datatype.Constants.SID_RefDataManager;
 import static com.interpss.common.datatype.Constants.SID_SimuRecManager;
@@ -32,9 +33,20 @@ import org.interpss.output.ISimuRecManager;
 import org.interpss.ui.IProjectDataManager;
 import org.interpss.ui.IRefDataManager;
 
+import com.interpss.common.ui.IDialogUtil;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class BasePluginSpringCtx extends CoreCommonSpringCtx {
+
+	/**
+	 * Get the IEditorDialogUtil(singleton) from the SpringAppContext.
+	 *  
+	 * @return the EditorDialogUtil object
+	 */
+	public static IDialogUtil getEditorDialogUtil() {
+		return (IDialogUtil) SpringAppCtx.getBean(SID_EditorDialogUtil);
+	}
+	
 	/**
 	 * Get the SimuRecManager(singleton) from the SpringAppContext.
 	 *  

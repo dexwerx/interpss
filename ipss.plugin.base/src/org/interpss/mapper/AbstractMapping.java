@@ -2,7 +2,6 @@ package org.interpss.mapper;
 
 import java.util.logging.Logger;
 
-
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
