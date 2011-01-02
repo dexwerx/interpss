@@ -39,7 +39,7 @@ import org.interpss.editor.ui.util.IpssFileFilter;
 
 import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class EditorConfig {
 	/**
@@ -67,7 +67,7 @@ public class EditorConfig {
 //		LabelCell.DefaultLabelHeight = 20;
 //		LabelCell.BackgroundColor = Color.white;
 
-		XmlUtil.XmlPIChars = 40;	
+		XmlBeanUtil.XmlPIChars = 40;	
 		
 		ProjData.NewProjName = "UnSaved";
 	}
