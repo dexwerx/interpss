@@ -6,9 +6,8 @@ import org.interpss.PluginTestSetup;
 import org.interpss.editor.io.ProjectDataDBManager;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.Workspace;
 import org.junit.Test;
-
-import com.interpss.common.ui.Workspace;
 
 public class DbUtilTools  extends PluginTestSetup {
 	public void createProjectId(String filename, String projName) {
