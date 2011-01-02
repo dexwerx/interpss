@@ -28,9 +28,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.db.DBManager;
+
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.interpss.common.exp.InvalidInputException;
-import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 

@@ -72,9 +72,9 @@ import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IRefDataManager;
 import org.jgraph.JGraph;
 
-import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.spring.CoreCommonSpringCtx;

@@ -60,12 +60,13 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.resources.Translator;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IProjectDataManager;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellViewFactory;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 
-import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -407,7 +408,7 @@ public final class Utilities {
 	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
 		IpssLogger.getLogger().info("Load project data from DB ...");
 		IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		IProjectDataManager projManager = CoreCommonSpringCtx
+		IProjectDataManager projManager = PluginSpringCtx
 				.getProjectDataDBManager();
 		projManager.loadProjectDataFromDB(item.getProjDbId(), item
 				.getName(), item.getFileNameNoExt(), appSimuContext);

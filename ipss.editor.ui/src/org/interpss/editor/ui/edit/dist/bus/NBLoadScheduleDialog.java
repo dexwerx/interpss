@@ -36,9 +36,10 @@ import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.refData.LoadScheduleItem;
 import org.interpss.editor.refData.LoadScheduleRefData;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IRefDataManager;
 import org.interpss.ui.WinUtilities;
 
-import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
  
@@ -92,7 +93,7 @@ public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDa
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBLoadScheduleDialog.setForm2Editor() called");
 
-	    LoadScheduleRefData refData = (LoadScheduleRefData)CoreCommonSpringCtx.getRefDataManager().
+	    LoadScheduleRefData refData = (LoadScheduleRefData)PluginSpringCtx.getRefDataManager().
 							getRefDataObject(IRefDataManager.REFDATA_LoadSchedule);
 	    refDataNameComboBox.setModel(new javax.swing.DefaultComboBoxModel(refData.getScheduleNameList(
 	    				((GNetForm)netContainer.getGNetForm()).getDistNetData().getLoadSchedulePeriodUnit())));
@@ -371,7 +372,7 @@ public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDa
 
     private void refDataCopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refDataCopyButtonActionPerformed
 	    String schedule = (String)refDataNameComboBox.getSelectedItem();
-	    LoadScheduleRefData refData = (LoadScheduleRefData)CoreCommonSpringCtx.getRefDataManager().
+	    LoadScheduleRefData refData = (LoadScheduleRefData)PluginSpringCtx.getRefDataManager().
 	    									getRefDataObject(IRefDataManager.REFDATA_LoadSchedule);
 	    Object[] itemList = refData.getItemList(schedule);
 

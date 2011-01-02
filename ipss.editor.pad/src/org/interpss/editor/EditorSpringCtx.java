@@ -29,10 +29,10 @@ import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.output.ISimuRecManager;
+import org.interpss.ui.IProjectDataManager;
+import org.interpss.ui.IRefDataManager;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.io.IProjectDataManager;
-import com.interpss.common.io.IRefDataManager;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class EditorSpringCtx extends CoreCommonSpringCtx {

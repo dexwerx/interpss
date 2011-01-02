@@ -24,7 +24,8 @@
 
 package org.interpss.editor.refData;
 
-import com.interpss.common.io.IRefDataManager;
+import org.interpss.ui.IRefDataManager;
+
 import com.interpss.common.util.XmlUtil;
 
 public class RefDataManager implements IRefDataManager {
