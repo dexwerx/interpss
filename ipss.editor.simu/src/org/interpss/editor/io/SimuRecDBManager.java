@@ -30,6 +30,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 import org.interpss.db.DBManager;
+import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.spring.PluginSpringCtx;
@@ -37,7 +38,6 @@ import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 

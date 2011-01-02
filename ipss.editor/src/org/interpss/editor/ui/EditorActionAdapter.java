@@ -24,6 +24,7 @@
 
 package org.interpss.editor.ui;
 
+import org.interpss.db.IpssDBCase;
 import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.ProjectFileUtil;
@@ -48,7 +49,6 @@ import org.interpss.mapper.IMapping;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
-import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;

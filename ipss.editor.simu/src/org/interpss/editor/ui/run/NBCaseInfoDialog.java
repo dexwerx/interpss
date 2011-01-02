@@ -49,10 +49,10 @@ import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.TradingStudyCaseXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
+import org.interpss.util.FileUtil;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
-import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;

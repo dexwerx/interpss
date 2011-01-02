@@ -5,8 +5,7 @@ import java.awt.event.ActionEvent;
 import org.interpss.editor.GEditor;
 import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-
-import com.interpss.common.ui.Workspace;
+import org.interpss.ui.Workspace;
 
 public class FileSelectWorkspaceSample extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
