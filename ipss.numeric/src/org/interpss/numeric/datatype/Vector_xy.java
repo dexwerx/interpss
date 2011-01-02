@@ -25,6 +25,7 @@
 package org.interpss.numeric.datatype;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.util.Number2String;
 
 /**
  * Data structure class for manipulating 2x1 [x,y] vector
@@ -90,6 +91,6 @@ public class Vector_xy implements java.io.Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "(" + String.valueOf(x) + " + j" + String.valueOf(y) + ")\n";
+		return "(" + Number2String.toStr(x) + " + j" + Number2String.toStr(y) + ")\n";
 	}
 }

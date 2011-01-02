@@ -1,5 +1,5 @@
 /*
- * @(#)Num2Str.java   
+ * @(#)Number2String.java   
  *
  * Copyright (C) 2006 www.interpss.com
  *

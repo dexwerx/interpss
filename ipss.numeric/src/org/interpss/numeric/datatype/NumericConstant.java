@@ -28,7 +28,7 @@ import org.apache.commons.math.complex.Complex;
 
 
 /**
- * All global constants
+ * Constants for ipss numeric package
  */
 
 public class NumericConstant {

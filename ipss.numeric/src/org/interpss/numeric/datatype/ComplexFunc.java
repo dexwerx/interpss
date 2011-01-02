@@ -28,7 +28,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.util.Number2String;
 
 /**
- * Complex util function to argument the Complext class
+ * Complex util function to argument the Complex class
  */
 
 public class ComplexFunc {
