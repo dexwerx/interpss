@@ -32,7 +32,7 @@ import org.interpss.spring.PluginSpringCtx;
 import org.jgraph.JGraph;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.simu.SimuContext;
 
 public class SimuActionAdapter {
@@ -92,17 +92,17 @@ public class SimuActionAdapter {
 	}
 
 	public static void menu_tools_debug_projDataInfo(IAppSimuContext appSimuContext) {
-		XmlUtil.ToolKid = XmlUtil.TOOL_JDK;
+		XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_JDK;
 		String str = appSimuContext.getProjData().toString();
-		XmlUtil.ToolKid = XmlUtil.TOOL_CASTOR;
+		XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_CASTOR;
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Project data");
   		dialog.display(str);		
 	}
 	
 	public static void menu_tools_debug_netDataInfo(IGFormContainer gFormContainer) {
-		XmlUtil.ToolKid = XmlUtil.TOOL_JDK;
+		XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_JDK;
 		String str = gFormContainer.toString();
-		XmlUtil.ToolKid = XmlUtil.TOOL_CASTOR;
+		XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_CASTOR;
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Network data");
   		dialog.display(str);		
 	}

@@ -24,13 +24,13 @@
 
 package org.interpss.editor.runAct.ui;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class BaseRunForm {
 	public BaseRunForm() {
 	}
 
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 }

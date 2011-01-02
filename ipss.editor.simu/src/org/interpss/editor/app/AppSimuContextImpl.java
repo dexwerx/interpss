@@ -46,7 +46,7 @@ import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.schema.AcscFaultCategoryDataType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreSimuSpringCtx;
 
@@ -273,7 +273,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return the string representation
 	 */
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 
 	public void releaseResource() {

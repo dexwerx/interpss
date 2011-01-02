@@ -36,12 +36,12 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.util.MemoryJavaCompiler;
 import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;

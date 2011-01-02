@@ -42,7 +42,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class ProjectDataDBManager implements IProjectDataManager {
@@ -176,7 +176,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 					if (newProjData == null) {
 						IpssLogger.getLogger().warning(
 								"ProjectData object is not in DB, "
-										+ XmlUtil.toXmlString(projData));
+										+ XmlBeanUtil.toXmlString(projData));
 						return null;
 					}
 
