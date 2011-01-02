@@ -5,16 +5,16 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginTestSetup;
 import org.interpss.editor.io.ProjectDataDBManager;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
+import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.common.ui.Workspace;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class DbUtilTools  extends PluginTestSetup {
 	public void createProjectId(String filename, String projName) {
 		Workspace.setCurrentType(Workspace.Type.Sample);
 		
-		ProjectDataDBManager manager = (ProjectDataDBManager)CoreCommonSpringCtx.getProjectDataDBManager();
+		ProjectDataDBManager manager = (ProjectDataDBManager)PluginSpringCtx.getProjectDataDBManager();
 		int projDbId = 0;
 		IProjectData projData = manager.loadProjectDataFromDB(projDbId, filename, projName);
 		assertTrue(projData.getProjectDbId() > 0);
