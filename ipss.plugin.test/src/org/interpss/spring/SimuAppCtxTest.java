@@ -28,10 +28,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
+import org.interpss.TestUtilFunc;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
