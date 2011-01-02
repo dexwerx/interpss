@@ -29,16 +29,17 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.interpss.db.DBManager;
+import org.interpss.dstab.output.DStabSimuDBRecord;
+import org.interpss.output.ISimuRecManager;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IProjectDataManager;
+
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.io.DBManager;
-import com.interpss.common.io.IProjectDataManager;
-import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.dstab.datatype.DStabSimuDBRecord;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class SimuRecDBManager implements ISimuRecManager {
 	
@@ -213,7 +214,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 						"selectIpssCaseForProject", projId);
 				for (int i = 0; i < caseList.size(); i++) {
 					IpssDBCase aCase = (IpssDBCase) caseList.get(i);
-					ISimuRecManager simuRecMgr = CoreCommonSpringCtx
+					ISimuRecManager simuRecMgr = PluginSpringCtx
 							.getSimuRecManager();
 					simuRecMgr.deleteAllSimuRec(aCase.getCaseDbId(),
 							IProjectDataManager.CaseType_DStabSimuRec);

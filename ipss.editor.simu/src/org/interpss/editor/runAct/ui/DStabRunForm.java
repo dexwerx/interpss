@@ -209,7 +209,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// make sure net.id defined here. It has to be unique if run multiple grid runs
 			String caseId = "DStabNetId";
 			net.setId(caseId);
-			CoreCommonSpringCtx.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
+			PluginSpringCtx.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			RemoteMessageTable result = new GridRunner(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm()).executeTask(timeout);

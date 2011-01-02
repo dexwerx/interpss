@@ -28,20 +28,20 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.IScriptTool;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.output.ISimuRecManager;
 import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 import com.interpss.spring.CoreCommonSpringCtx;

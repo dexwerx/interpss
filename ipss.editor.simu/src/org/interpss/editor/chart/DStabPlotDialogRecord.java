@@ -30,15 +30,16 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.output.BaseSimuDBRecord;
+import org.interpss.output.ISimuRecManager;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.io.IProjectDataManager;
-import com.interpss.common.io.ISimuRecManager;
-import com.interpss.common.rec.BaseSimuDBRecord;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
@@ -148,7 +149,7 @@ public class DStabPlotDialogRecord {
 						+ map.toString());
 
 		// retrieve rec from DB
-		ISimuRecManager simuRecManager = CoreCommonSpringCtx.getSimuRecManager();
+		ISimuRecManager simuRecManager = PluginSpringCtx.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recTypeList,

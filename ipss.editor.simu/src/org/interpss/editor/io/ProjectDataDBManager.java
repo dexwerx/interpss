@@ -27,17 +27,18 @@ package org.interpss.editor.io;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.interpss.db.DBManager;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DBStudyCase;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
+import org.interpss.output.ISimuRecManager;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.io.DBManager;
-import com.interpss.common.io.IProjectDataManager;
-import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -257,7 +258,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 	public static void deleteDbProject(int projDbId) {
 		try {
 			IpssLogger.getLogger().info("Delete project: " + projDbId);
-			ISimuRecManager simuRecMgr = CoreCommonSpringCtx.getSimuRecManager();
+			ISimuRecManager simuRecMgr = PluginSpringCtx.getSimuRecManager();
 			simuRecMgr.deleteAllSimuRecForProject(projDbId,
 				IProjectDataManager.CaseType_DStabSimuRec);
 			DBManager.getSqlMap().delete("deleteAllStudyCaseForProject", projDbId);

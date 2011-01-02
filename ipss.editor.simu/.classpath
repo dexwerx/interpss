@@ -25,5 +25,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

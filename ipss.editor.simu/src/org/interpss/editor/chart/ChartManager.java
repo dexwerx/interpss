@@ -35,6 +35,7 @@ import javax.swing.JPopupMenu;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.chart.dist.LoadScheduleChart;
 import org.interpss.chart.dstab.SimpleOneStateChart;
+import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.cells.BusCell;
@@ -43,10 +44,11 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.output.BaseSimuDBRecord;
+import org.interpss.output.ISimuRecManager;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.ui.IProjectDataManager;
 
-import com.interpss.common.io.IProjectDataManager;
-import com.interpss.common.io.ISimuRecManager;
-import com.interpss.common.rec.BaseSimuDBRecord;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.net.Bus;
@@ -55,7 +57,6 @@ import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.DStabOutSymbol;
-import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
@@ -75,16 +76,16 @@ public class ChartManager {
 					"No element selected for addPopupMenuAction()");
 			JMenu simuCaseMenu = new JMenu("Select SimuCase");
 			menu.add(simuCaseMenu);
-			String[] caseIdList = CoreCommonSpringCtx.getSimuRecManager()
+			String[] caseIdList = PluginSpringCtx.getSimuRecManager()
 					.getCaseIdList();
 			for (final String str : caseIdList) {
-				if (CoreCommonSpringCtx.getSimuRecManager().getDBCaseId(str) != appSimuCtx
+				if (PluginSpringCtx.getSimuRecManager().getDBCaseId(str) != appSimuCtx
 						.getDbSimuCaseId()) {
 					simuCaseMenu.add(new AbstractAction(str) {
 						private static final long serialVersionUID = 1L;
 
 						public void actionPerformed(ActionEvent e) {
-							appSimuCtx.setDbSimuCaseId(CoreCommonSpringCtx
+							appSimuCtx.setDbSimuCaseId(PluginSpringCtx
 									.getSimuRecManager().getDBCaseId(str));
 						}
 					});
@@ -175,7 +176,7 @@ public class ChartManager {
 		}
 		machStateMenu.add(new AbstractAction("Machine State Table Output") {
 			private static final long serialVersionUID = 1L;
-			ISimuRecManager simuRecManager = CoreCommonSpringCtx
+			ISimuRecManager simuRecManager = PluginSpringCtx
 					.getSimuRecManager();
 
 			public void actionPerformed(ActionEvent e) {
@@ -438,7 +439,7 @@ public class ChartManager {
 	 */
 	public static Object[] getStatesNameList(int caseId, String elemId,
 			String recType) {
-		ISimuRecManager simuRecManager = CoreCommonSpringCtx.getSimuRecManager();
+		ISimuRecManager simuRecManager = PluginSpringCtx.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
@@ -493,7 +494,7 @@ public class ChartManager {
 			IpssLogger.logErr(ex);
 		}	
 		
-		ISimuRecManager simuRecManager = CoreCommonSpringCtx.getSimuRecManager();
+		ISimuRecManager simuRecManager = PluginSpringCtx.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recType,

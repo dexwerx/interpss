@@ -26,6 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
@@ -95,7 +96,8 @@ public class XmlScriptDStabRun {
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
 				DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
-						.createDynamicSimuAlgorithm(dstabNet, msg);
+						.createDynamicSimuAlgorithm(dstabNet, 
+								new DatabaseSimuOutputHandler(), msg);
 
 				if (xmlCase == null) {
 					if (xmlDefaultCase == null) {
@@ -154,7 +156,7 @@ public class XmlScriptDStabRun {
 			} else {
 				// Multi-DStab run case
 				appSimuCtx.setLastRunType(SimuRunEnum.ScriptsMultiCase);
-				CoreCommonSpringCtx.getSimuRecManager().clearDbCaseIdLookup();
+				PluginSpringCtx.getSimuRecManager().clearDbCaseIdLookup();
 				
 				GridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
@@ -176,7 +178,8 @@ public class XmlScriptDStabRun {
 					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil.loadModel(netStr);
 					net.rebuildLookupTable();
 					DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
-							.createDynamicSimuAlgorithm(net, msg);
+							.createDynamicSimuAlgorithm(net, 
+									new DatabaseSimuOutputHandler(), msg);
 					
 					if (xmlCase == null) {
 						if (xmlDefaultCase == null) {
@@ -286,7 +289,7 @@ public class XmlScriptDStabRun {
 		
 		// correlate net.id, case.id and dbCaseId
 		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
-		CoreCommonSpringCtx.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
+		PluginSpringCtx.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
 				.getDBCaseId());
 
 		// transfer output variable filter info to the DStabAlgo object, which
