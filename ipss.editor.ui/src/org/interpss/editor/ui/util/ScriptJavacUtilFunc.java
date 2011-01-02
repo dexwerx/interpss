@@ -26,8 +26,8 @@ package org.interpss.editor.ui.util;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.util.FileUtil;
 
-import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;

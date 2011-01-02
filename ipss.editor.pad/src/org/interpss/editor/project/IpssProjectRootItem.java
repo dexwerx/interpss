@@ -1,8 +1,7 @@
 package org.interpss.editor.project;
 
 import org.interpss.editor.resources.Translator;
-
-import com.interpss.common.ui.Workspace;
+import org.interpss.ui.Workspace;
 
 public class IpssProjectRootItem {
 	public static final String rootText = "My Workspace";

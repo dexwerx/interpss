@@ -31,8 +31,8 @@ import java.io.IOException;
 import javax.swing.JTextArea;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.util.FileUtil;
 
-import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
 

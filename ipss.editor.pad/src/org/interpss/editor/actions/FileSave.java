@@ -18,7 +18,6 @@ import org.interpss.spring.PluginSpringCtx;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * Action opens a dialog to select the file. After that the action saves the

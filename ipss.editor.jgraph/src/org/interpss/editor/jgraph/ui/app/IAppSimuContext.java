@@ -26,10 +26,9 @@ package org.interpss.editor.jgraph.ui.app;
 
 import javax.swing.JPopupMenu;
 
+import org.interpss.db.IpssDBCase;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
-
-import com.interpss.common.rec.IpssDBCase;
 
 public interface IAppSimuContext {
 	//public static enum CaseType { Aclf, Acsc, DStab, Scripts, SenAnalysis, NotDefined };
