@@ -31,12 +31,12 @@ import org.interpss.editor.jgraph.cells.BranchEdge;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
+import org.interpss.numeric.datatype.Complex3x1;
+import org.interpss.numeric.util.Number2String;
 import org.jgraph.JGraph;
 
-import com.interpss.common.datatype.Complex3x1;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;

@@ -35,15 +35,15 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.numeric.util.Number2String;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DynamicEventDataType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.MachineControllerDataType;
+import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;

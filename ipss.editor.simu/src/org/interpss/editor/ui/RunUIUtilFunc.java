@@ -29,11 +29,11 @@ import java.io.File;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;

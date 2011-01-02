@@ -29,8 +29,8 @@ import java.util.Vector;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.schema.GridComputingXmlType;
+import org.interpss.ui.SwingInputVerifyUtil;
 
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 
 public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDataPanel {

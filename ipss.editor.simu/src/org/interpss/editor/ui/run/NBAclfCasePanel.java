@@ -36,16 +36,16 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
+import org.interpss.numeric.util.Number2String;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.GridComputingXmlType;
+import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.algorithm.AclfMethod;

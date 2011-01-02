@@ -32,12 +32,12 @@ import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
+import org.interpss.numeric.util.Number2String;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.ui.SwingInputVerifyUtil;
 
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPanel {

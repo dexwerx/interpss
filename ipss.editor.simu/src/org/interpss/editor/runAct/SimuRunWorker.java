@@ -26,6 +26,7 @@ package org.interpss.editor.runAct;
 
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.EditorSimuSpringCtx;
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
@@ -39,7 +40,6 @@ import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLangEnum;
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;

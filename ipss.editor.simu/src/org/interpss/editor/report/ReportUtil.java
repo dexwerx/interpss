@@ -24,6 +24,7 @@
 
 package org.interpss.editor.report;
 
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
@@ -31,7 +32,6 @@ import org.interpss.editor.resources.Translator;
 import org.interpss.report.IpssReportFactory;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.SimuRunEnum;
 
 public class ReportUtil {
 	public static void displayReport(String rptType) {

@@ -33,11 +33,11 @@ import org.interpss.editor.ui.IScriptTool;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;

@@ -35,13 +35,13 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.AreaRecXmlType;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 

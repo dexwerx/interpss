@@ -30,6 +30,7 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 
 import org.interpss.editor.EditorSimuSpringCtx;
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
@@ -46,12 +47,11 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.TradingStudyCaseXmlType;
+import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.ui.WinUtilities;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
-import com.interpss.common.datatype.SimuRunEnum;
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;

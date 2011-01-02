@@ -29,8 +29,8 @@ import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
+import org.interpss.ui.WinUtilities;
 
-import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.ui.Workspace;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;

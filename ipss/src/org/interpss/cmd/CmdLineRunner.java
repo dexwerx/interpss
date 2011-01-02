@@ -29,6 +29,7 @@ import java.io.File;
 import org.interpss.AppConstants;
 import org.interpss.InterPSS;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
@@ -39,7 +40,6 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;

@@ -25,6 +25,7 @@
 package org.interpss.editor.ui;
 
 import org.interpss.editor.EditorSimuSpringCtx;
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.ProjectFileUtil;
 import org.interpss.editor.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.coreframework.GPDocument;
@@ -40,7 +41,6 @@ import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
-import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
@@ -48,7 +48,6 @@ import org.interpss.mapper.IMapping;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabSpringAppContext;

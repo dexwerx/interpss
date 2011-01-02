@@ -24,6 +24,7 @@
 
 package org.interpss.editor.util;
 
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssCustomDocument;
@@ -31,7 +32,6 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.ui.EditorActionAdapter;
 
-import com.interpss.common.datatype.SimuRunEnum;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 
