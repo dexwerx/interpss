@@ -1,7 +1,6 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
-import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.ContingencyAnaysisJob;
@@ -10,6 +9,7 @@ import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;

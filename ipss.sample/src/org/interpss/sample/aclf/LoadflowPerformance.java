@@ -26,8 +26,8 @@ package org.interpss.sample.aclf;
 
 import java.util.logging.Level;
 
-import org.interpss.spring.PluginSpringCtx;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
