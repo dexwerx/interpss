@@ -30,10 +30,10 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.ui.IScriptPluginEditing;
+import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethod;

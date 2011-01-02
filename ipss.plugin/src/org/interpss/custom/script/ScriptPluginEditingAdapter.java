@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.IScriptPluginEditing;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class ScriptPluginEditingAdapter implements IScriptPluginEditing {  
 	// the plugin data object
@@ -70,12 +70,12 @@ public class ScriptPluginEditingAdapter implements IScriptPluginEditing {
     
 	@Override
     public String getDataXmlString() {
-    	return XmlUtil.toXmlString(_data);
+    	return XmlBeanUtil.toXmlString(_data);
     }
 
 	@Override
 	public void setData(String dataXmlStr) {
-		_data = XmlUtil.toObject(dataXmlStr, getData().getClass());
+		_data = XmlBeanUtil.toObject(dataXmlStr, getData().getClass());
     }
     
 	@Override

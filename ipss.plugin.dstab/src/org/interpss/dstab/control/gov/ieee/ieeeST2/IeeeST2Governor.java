@@ -28,7 +28,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethod;
 import com.interpss.dstab.controller.AbstractGovernor;
@@ -81,7 +81,7 @@ public class IeeeST2Governor extends AbstractGovernor {
 	@Override
 	public void setDataXmlString(final String xmlString) {
 		super.setDataXmlString(xmlString);
-		_data = XmlUtil.toObject(xmlString, IeeeST2GovernorData.class);
+		_data = XmlBeanUtil.toObject(xmlString, IeeeST2GovernorData.class);
 	}
 	
 	/**

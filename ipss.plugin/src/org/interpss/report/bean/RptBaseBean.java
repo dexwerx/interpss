@@ -24,7 +24,7 @@
 
 package org.interpss.report.bean;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class RptBaseBean {
 	public RptBaseBean() {
@@ -32,6 +32,6 @@ public class RptBaseBean {
 
 	@Override
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 }
