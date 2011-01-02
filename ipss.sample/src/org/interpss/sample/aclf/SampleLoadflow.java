@@ -28,12 +28,12 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.util.PerformanceTimer;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.PerformanceTimer;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
