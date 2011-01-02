@@ -30,5 +30,6 @@
 	<classpathentry kind="lib" path="lib/gephi-toolkit.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.path"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

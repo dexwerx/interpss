@@ -7,11 +7,11 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.acsc.AcscModelParser;
+import org.interpss.TestUtilFunc;
 import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
