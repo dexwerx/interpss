@@ -24,6 +24,8 @@
 
 package org.interpss.spring;
 
+import static com.interpss.common.datatype.Constants.SID_SimuRecManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,7 @@ import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.output.IOutputSimuResult;
+import org.interpss.output.ISimuRecManager;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
@@ -55,7 +58,15 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.spring.CoreCommonSpringCtx;
 
-public class PluginSpringCtx extends CoreCommonSpringCtx {
+public class PluginSpringCtx extends BasePluginSpringCtx {
+	/**
+	 * Get the SimuRecManager(singleton) from the SpringAppContext.
+	 *  
+	 * @return the RefDataManager object
+	 */
+	public static ISimuRecManager getSimuRecManager() {
+		return (ISimuRecManager) SpringAppCtx.getBean(SID_SimuRecManager);
+	}
 
 	public static JDialog getCaseInfoDialog() {
 		return (JDialog) SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);

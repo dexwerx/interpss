@@ -35,6 +35,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -51,7 +52,6 @@ import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.datatype.DStabSimuDBRecord;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 
