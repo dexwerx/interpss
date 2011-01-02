@@ -59,6 +59,8 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 import javax.tools.JavaFileObject.Kind;
 
+import junit.framework.AssertionFailedError;
+
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
 

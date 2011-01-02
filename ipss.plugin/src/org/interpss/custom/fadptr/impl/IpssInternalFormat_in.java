@@ -25,8 +25,8 @@
 package org.interpss.custom.fadptr.impl;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;

@@ -1,6 +1,7 @@
 package org.interpss.cpf;
 
-import com.interpss.common.datatype.LimitType;
+import org.interpss.numeric.datatype.LimitType;
+
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;

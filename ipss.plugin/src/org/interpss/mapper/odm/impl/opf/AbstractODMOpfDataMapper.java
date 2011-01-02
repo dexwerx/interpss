@@ -37,8 +37,8 @@ import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;

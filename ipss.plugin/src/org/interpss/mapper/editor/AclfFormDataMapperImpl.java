@@ -38,9 +38,9 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.mapper.AbstractMapping;
+import org.interpss.numeric.datatype.LimitType;
 import org.interpss.util.MemoryJavaCompiler;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;

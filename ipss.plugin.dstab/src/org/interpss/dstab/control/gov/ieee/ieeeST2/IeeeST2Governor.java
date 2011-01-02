@@ -24,7 +24,8 @@
 
 package org.interpss.dstab.control.gov.ieee.ieeeST2;
 
-import com.interpss.common.datatype.LimitType;
+import org.interpss.numeric.datatype.LimitType;
+
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;

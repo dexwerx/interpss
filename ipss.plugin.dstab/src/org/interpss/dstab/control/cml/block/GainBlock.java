@@ -24,7 +24,8 @@
 
 package org.interpss.dstab.control.cml.block;
 
-import com.interpss.common.datatype.LimitType;
+import org.interpss.numeric.datatype.LimitType;
+
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 
