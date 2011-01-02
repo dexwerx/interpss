@@ -1,5 +1,7 @@
 package org.interpss.sample.opf;
 
+import org.interpss.numeric.exp.IpssNumericException;
+
 import com.interpss.core.net.Bus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
@@ -10,7 +12,7 @@ public class OpfSample {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IpssNumericException {
 		OpfNetwork net = Opf3BusTestNet.create3BusNetwork();
 		
 		net.forEachOpfGenBus(new IOpfGenBusVisitor() {

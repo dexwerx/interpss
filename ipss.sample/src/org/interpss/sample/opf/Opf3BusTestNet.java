@@ -1,8 +1,9 @@
 package org.interpss.sample.opf;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.LimitType;
+import org.interpss.numeric.exp.IpssNumericException;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
@@ -13,7 +14,7 @@ import com.interpss.opf.OpfNetwork;
 import com.interpss.opf.OpfObjectFactory;
 
 public class Opf3BusTestNet {
-	public static OpfNetwork create3BusNetwork(){
+	public static OpfNetwork create3BusNetwork() throws IpssNumericException {
 		OpfNetwork net = OpfObjectFactory.createOpfNetwork();
 		net.setAnglePenaltyFactor(1.0); 
 		
