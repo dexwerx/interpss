@@ -33,6 +33,7 @@ import org.apache.commons.math.complex.Complex;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridMessageListener;
 import org.interpss.PluginTestSetup;
+import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.gridgain.util.GridUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -85,7 +86,8 @@ public class GridBaseTestSetup extends PluginTestSetup {
 	}
 	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
-		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
+		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, 
+				new DatabaseSimuOutputHandler(), msg);
 		algo.setSimuStepSec(0.002);
 		algo.setTotalSimuTimeSec(10.0);
 		

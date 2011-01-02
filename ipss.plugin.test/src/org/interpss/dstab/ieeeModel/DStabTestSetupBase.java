@@ -28,6 +28,7 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
+import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.mapper.EditorJGraphDataMapper;
@@ -67,7 +68,8 @@ public class DStabTestSetupBase extends PluginTestSetup{
 	}
 	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
-		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
+		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, 
+				new DatabaseSimuOutputHandler(), msg);
 		algo.setSimuStepSec(0.002);
 		algo.setTotalSimuTimeSec(10.0);
 		
