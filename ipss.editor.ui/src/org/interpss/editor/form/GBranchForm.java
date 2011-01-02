@@ -36,7 +36,7 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.form.IUserData;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class GBranchForm extends BaseBranchForm implements IGBranchForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;
@@ -83,9 +83,9 @@ public class GBranchForm extends BaseBranchForm implements IGBranchForm, java.io
 	* @return the clone
 	*/
     public Object clone() {
-		XmlUtil.ToolKid = XmlUtil.TOOL_JDK;
-		String xml = XmlUtil.toXmlString(this);
-		GBranchForm form = (GBranchForm)XmlUtil.toObject(xml);
+		XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_JDK;
+		String xml = XmlBeanUtil.toXmlString(this);
+		GBranchForm form = (GBranchForm)XmlBeanUtil.toObject(xml);
 		form.rebuildRelation();
 		return form;
     }

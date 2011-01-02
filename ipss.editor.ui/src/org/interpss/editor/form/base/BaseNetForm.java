@@ -24,7 +24,7 @@
 
 package org.interpss.editor.form.base;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 /**
 *	BaseNetForm JavaBean for storing base network data.
@@ -65,8 +65,8 @@ public class BaseNetForm {
 	// ====================
 
     public Object clone() {
-		String xml = XmlUtil.toXmlString(this);
-		return XmlUtil.toObject(xml);
+		String xml = XmlBeanUtil.toXmlString(this);
+		return XmlBeanUtil.toObject(xml);
     }
 
     /**
@@ -75,7 +75,7 @@ public class BaseNetForm {
 	* @return the string representation
 	*/
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 	/**
 	 * @return Returns the name.

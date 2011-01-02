@@ -36,7 +36,7 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.form.IUserData;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class GBusForm extends BaseBusForm implements IGBusForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;
@@ -78,9 +78,9 @@ public class GBusForm extends BaseBusForm implements IGBusForm, java.io.Serializ
     }
     
     public Object clone() {
-		XmlUtil.ToolKid = XmlUtil.TOOL_JDK;
-		String xml = XmlUtil.toXmlString(this);
-		GBusForm form = (GBusForm)XmlUtil.toObject(xml);
+		XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_JDK;
+		String xml = XmlBeanUtil.toXmlString(this);
+		GBusForm form = (GBusForm)XmlBeanUtil.toObject(xml);
 		form.rebuildRelation();
 		return form;
     }

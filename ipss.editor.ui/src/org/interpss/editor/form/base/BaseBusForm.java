@@ -24,7 +24,7 @@
 
 package org.interpss.editor.form.base;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 /**
 *	BaseBusForm class for storing bus data.
@@ -49,6 +49,6 @@ public class BaseBusForm extends BaseForm {
 	* @return the string representation
 	*/
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}    
 }

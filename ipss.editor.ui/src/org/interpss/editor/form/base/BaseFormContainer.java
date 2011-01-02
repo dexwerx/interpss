@@ -31,6 +31,7 @@ package org.interpss.editor.form.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.editor.DataChangeMessage;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
@@ -39,7 +40,6 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
 

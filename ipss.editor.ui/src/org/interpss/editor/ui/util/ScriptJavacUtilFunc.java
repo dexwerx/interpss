@@ -27,10 +27,10 @@ package org.interpss.editor.ui.util;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.util.FileUtil;
+import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.MemoryJavaCompiler;
 
 public class ScriptJavacUtilFunc {
 	public final static String CheckCodeTempPackageName = "temp/";

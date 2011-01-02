@@ -25,7 +25,7 @@
 package org.interpss.editor.form.base;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 /**
 *	BaseBranchForm class for storing branch data.
@@ -69,7 +69,7 @@ public class BaseBranchForm  extends BaseForm {
 	*/
 	public String toString() {
 		if (XmlBinding)
-			return XmlUtil.toXmlString(this);
+			return XmlBeanUtil.toXmlString(this);
 		else {
 			IpssLogger.getLogger().info("GBranchForm.XmlBinding is set off");
 			return "";

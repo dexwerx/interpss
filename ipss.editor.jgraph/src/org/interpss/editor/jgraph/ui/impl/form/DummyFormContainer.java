@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.interpss.editor.DataChangeMessage;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
@@ -42,10 +43,9 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.impl.data.DummyProjData;
 import org.interpss.numeric.util.Number2String;
 
-import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class DummyFormContainer implements IGFormContainer {
@@ -267,13 +267,13 @@ public class DummyFormContainer implements IGFormContainer {
 	
 	public Object xml2Object(String xmlStr, Class klass) {
 		if (klass == IGBusForm.class) 
-			return XmlUtil.toObject(xmlStr, DummyBusForm.class);
+			return XmlBeanUtil.toObject(xmlStr, DummyBusForm.class);
 		else if (klass == IGBranchForm.class) 
-			return XmlUtil.toObject(xmlStr, DummyBranchForm.class);
+			return XmlBeanUtil.toObject(xmlStr, DummyBranchForm.class);
 		else if (klass == IGNetForm.class) 
-			return XmlUtil.toObject(xmlStr, DummyNetForm.class);
+			return XmlBeanUtil.toObject(xmlStr, DummyNetForm.class);
 		else if (klass == IProjectData.class) 
-			return XmlUtil.toObject(xmlStr, DummyProjData.class);
+			return XmlBeanUtil.toObject(xmlStr, DummyProjData.class);
 		return null;
 	}	
 	
@@ -426,6 +426,6 @@ public class DummyFormContainer implements IGFormContainer {
 	* @return the string representation
 	*/
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 }

@@ -29,7 +29,7 @@ import java.util.TreeSet;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.form.IUserData;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class DummyNetForm implements IGNetForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;
@@ -102,8 +102,8 @@ public class DummyNetForm implements IGNetForm, java.io.Serializable {
 	// ====================
 
     public Object clone() {
-		String xml = XmlUtil.toXmlString(this);
-		return XmlUtil.toObject(xml);
+		String xml = XmlBeanUtil.toXmlString(this);
+		return XmlBeanUtil.toObject(xml);
     }
 
 	/**
@@ -132,6 +132,6 @@ public class DummyNetForm implements IGNetForm, java.io.Serializable {
 	* @return the string representation
 	*/
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 }

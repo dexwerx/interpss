@@ -48,7 +48,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class GFormContainer extends BaseFormContainer implements
 		IGFormContainer {
@@ -93,20 +93,20 @@ public class GFormContainer extends BaseFormContainer implements
 
 	public Object xml2Object(String xmlStr, Class klass) {
 		if (klass == IGBusForm.class) {
-			GBusForm form = (GBusForm) XmlUtil.toObject(xmlStr, GBusForm.class);
+			GBusForm form = (GBusForm) XmlBeanUtil.toObject(xmlStr, GBusForm.class);
 			form.setNewState(false);
 			return form;
 		} else if (klass == IGBranchForm.class) {
-			GBranchForm form = (GBranchForm) XmlUtil.toObject(xmlStr,
+			GBranchForm form = (GBranchForm) XmlBeanUtil.toObject(xmlStr,
 					GBranchForm.class);
 			form.setNewState(false);
 			return form;
 		} else if (klass == IGNetForm.class) {
-			GNetForm form = (GNetForm) XmlUtil.toObject(xmlStr, GNetForm.class);
+			GNetForm form = (GNetForm) XmlBeanUtil.toObject(xmlStr, GNetForm.class);
 			form.setNewState(false);
 			return form;
 		} else if (klass == IProjectData.class)
-			return XmlUtil.toObject(xmlStr, ProjData.class);
+			return XmlBeanUtil.toObject(xmlStr, ProjData.class);
 		return null;
 	}
 
@@ -561,12 +561,12 @@ public class GFormContainer extends BaseFormContainer implements
 	 */
 	public String toString() {
 		StringBuffer xml = new StringBuffer();
-		xml.append(XmlUtil.toXmlString(getGNetForm()));
+		xml.append(XmlBeanUtil.toXmlString(getGNetForm()));
 		for (int i = 0; i < getBusFormList().size(); i++) {
-			xml.append(XmlUtil.toXmlString(getBusFormList().get(i)));
+			xml.append(XmlBeanUtil.toXmlString(getBusFormList().get(i)));
 		}
 		for (int i = 0; i < getBranchFormList().size(); i++) {
-			xml.append(XmlUtil.toXmlString(getBranchFormList().get(i)));
+			xml.append(XmlBeanUtil.toXmlString(getBranchFormList().get(i)));
 		}
 		return xml.toString();
 	}

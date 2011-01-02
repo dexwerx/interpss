@@ -85,7 +85,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 /**
  * File format for the default graph model. The file format writes a XML file
@@ -301,8 +301,8 @@ public class IpssGraphCodec {
 						.getNodeValue().toString(), "UTF-8");
 				IpssLogger.getLogger().fine("--->GNetForm Str" + str);
 				if (model != null) {
-					XmlUtil.ToolKid = XmlUtil.TOOL_CASTOR;
-					GNetForm gNetForm = (GNetForm) XmlUtil.toObject(str.trim(),
+					XmlBeanUtil.ToolKid = XmlBeanUtil.TOOL_CASTOR;
+					GNetForm gNetForm = (GNetForm) XmlBeanUtil.toObject(str.trim(),
 							GNetForm.class);
 					IpssLogger.getLogger().fine(gNetForm.toString());
 					model.getGFormContainer().setGNetForm(gNetForm);
@@ -1414,7 +1414,7 @@ public class IpssGraphCodec {
 		else if (type.equals(EDGE))
 			return new DefaultEdge(userObject);
 		else if (userObject instanceof String && type.equals(BUS)) {
-			IGBusForm busForm = (IGBusForm) XmlUtil.toObject(
+			IGBusForm busForm = (IGBusForm) XmlBeanUtil.toObject(
 					(String) userObject, GBusForm.class);
 			busForm = ((GPGraphModel) model).getGFormContainer().addGBusForm(
 					busForm);
@@ -1427,13 +1427,13 @@ public class IpssGraphCodec {
 			String objStr = (String) userObject;
 			Object form = null;
 			if (objStr.startsWith("<GBusForm")) {
-				form = XmlUtil.toObject((String) userObject, GBusForm.class);
+				form = XmlBeanUtil.toObject((String) userObject, GBusForm.class);
 				form = ((GPGraphModel) model).getGFormContainer().addGBusForm(
 						(GBusForm) form);
 			} else if (objStr.startsWith("<GNetForm")) {
 				// at this time the NetForm may have created with elements
 				// we cannot create again
-				form = XmlUtil.toObject((String) userObject, GNetForm.class);
+				form = XmlBeanUtil.toObject((String) userObject, GNetForm.class);
 				((GPGraphModel) model).getGFormContainer().setGNetForm(
 						(GNetForm) form);
 			}
@@ -1443,7 +1443,7 @@ public class IpssGraphCodec {
 				return new LabelCell(null, form);
 		} else if (userObject instanceof String && type.equals(BRANCH)) {
 			IpssLogger.getLogger().fine("branch--->: " + (String)userObject);
-			IGBranchForm braForm = (IGBranchForm) XmlUtil.toObject(
+			IGBranchForm braForm = (IGBranchForm) XmlBeanUtil.toObject(
 					(String) userObject, GBranchForm.class);
 			braForm = ((GPGraphModel) model).getGFormContainer()
 					.addGBranchForm(braForm);

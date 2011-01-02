@@ -32,7 +32,7 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.form.IUserData;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class DummyBusForm implements IGBusForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;
@@ -121,8 +121,8 @@ public class DummyBusForm implements IGBusForm, java.io.Serializable {
     }
     
     public Object clone() {
-		String xml = XmlUtil.toXmlString(this);
-		DummyBusForm form = (DummyBusForm)XmlUtil.toObject(xml);
+		String xml = XmlBeanUtil.toXmlString(this);
+		DummyBusForm form = (DummyBusForm)XmlBeanUtil.toObject(xml);
 		form.rebuildRelation();
 		return form;
     }
@@ -147,6 +147,6 @@ public class DummyBusForm implements IGBusForm, java.io.Serializable {
 	* @return the string representation
 	*/
 	public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	} 	
 }

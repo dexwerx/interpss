@@ -26,7 +26,7 @@ package org.interpss.editor.form.base;
 
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 /**
 *	BaseForm JavaBean for storing bus/branch common data.
@@ -68,8 +68,8 @@ public class BaseForm {
 	public void setScripts(String str) { this.scripts = str; }
 
 	public Object clone() {
-		String xml = XmlUtil.toXmlString(this);
-		return XmlUtil.toObject(xml);
+		String xml = XmlBeanUtil.toXmlString(this);
+		return XmlBeanUtil.toObject(xml);
     }
     
     public String getNameIdStr() {

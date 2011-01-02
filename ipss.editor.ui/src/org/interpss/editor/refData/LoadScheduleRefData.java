@@ -33,7 +33,7 @@ import org.interpss.db.DBManager;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class LoadScheduleRefData {
 	public static final String PERIOD_UNIT_HOUR = "Hour";
@@ -121,6 +121,6 @@ public class LoadScheduleRefData {
 	}
 	
     public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}		
 }

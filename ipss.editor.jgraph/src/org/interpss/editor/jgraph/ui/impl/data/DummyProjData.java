@@ -34,7 +34,7 @@ import java.util.List;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 
 import com.interpss.common.util.StringUtil;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class DummyProjData implements IProjectData {
 	public static String NewProjName = "UnSaved";
@@ -137,7 +137,7 @@ public class DummyProjData implements IProjectData {
 	}
 	
     public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}
 
 	/**

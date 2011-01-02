@@ -26,7 +26,7 @@ package org.interpss.editor.refData;
 
 import org.interpss.ui.IRefDataManager;
 
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class RefDataManager implements IRefDataManager {
 	private LoadScheduleRefData loadScheduleRefData;
@@ -59,6 +59,6 @@ public class RefDataManager implements IRefDataManager {
 	}
 	
     public String toString() {
-		return XmlUtil.toXmlString(this);
+		return XmlBeanUtil.toXmlString(this);
 	}		
 }

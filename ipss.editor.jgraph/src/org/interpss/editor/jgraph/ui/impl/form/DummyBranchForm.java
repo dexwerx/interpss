@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.form.IUserData;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.util.XmlUtil;
+import com.interpss.common.util.XmlBeanUtil;
 
 public class DummyBranchForm implements IGBranchForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;
@@ -131,8 +131,8 @@ public class DummyBranchForm implements IGBranchForm, java.io.Serializable {
 	* @return the clone
 	*/
     public Object clone() {
-		String xml = XmlUtil.toXmlString(this);
-		DummyBranchForm form = (DummyBranchForm)XmlUtil.toObject(xml);
+		String xml = XmlBeanUtil.toXmlString(this);
+		DummyBranchForm form = (DummyBranchForm)XmlBeanUtil.toObject(xml);
 		form.rebuildRelation();
 		return form;
     }
@@ -171,7 +171,7 @@ public class DummyBranchForm implements IGBranchForm, java.io.Serializable {
 	*/
 	public String toString() {
 		if (XmlBinding)
-			return XmlUtil.toXmlString(this);
+			return XmlBeanUtil.toXmlString(this);
 		else
 			return "";
 	} 
