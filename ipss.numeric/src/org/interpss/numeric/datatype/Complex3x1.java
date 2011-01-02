@@ -26,6 +26,7 @@ package org.interpss.numeric.datatype;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
+import org.interpss.numeric.NumericConstant;
 
 /**
  * Data structure class for manipulating 3x1 [a,b,c] or [0,1,2] complex number vector

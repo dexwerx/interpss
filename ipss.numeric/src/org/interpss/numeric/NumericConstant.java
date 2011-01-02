@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.numeric.datatype;
+package org.interpss.numeric;
 
 import org.apache.commons.math.complex.Complex;
 

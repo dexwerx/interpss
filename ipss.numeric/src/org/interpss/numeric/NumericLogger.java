@@ -1,5 +1,5 @@
 /*
- * @(#)ODMLogger.java   
+ * @(#)NumericLogger.java   
  *
  * Copyright (C) 2006 www.interpss.com
  *
@@ -15,7 +15,7 @@
  *
  * @Author Mike Zhou
  * @Version 1.0
- * @Date 09/15/2010
+ * @Date 01/02/2011
  * 
  *   Revision History
  *   ================
