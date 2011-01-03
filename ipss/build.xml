@@ -62,7 +62,7 @@
    	  	<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
 	  	<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
     	<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
-		<fileset dir="${dev_base}/ipss.opf_EMF/runtime" excludes="CVS/**,model/**" />
+		<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
   	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
    	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>		
@@ -70,7 +70,7 @@
    	  	<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
 	  	<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
     	<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
-		<fileset dir="${dev_base}/ipss.opf_EMF/runtime" excludes="CVS/**,model/**" />
+		<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
   	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
    	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
@@ -104,7 +104,7 @@
      	<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
   	  	<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
       	<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
-  		<fileset dir="${dev_base}/ipss.opf_EMF/runtime" excludes="CVS/**,model/**" />
+  		<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
     	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
      	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
   	  </jar>	
@@ -280,7 +280,7 @@
         </copy>
 
 		<copy todir="${SrcBackup}/ipss/ipss.opf">
-	    	<fileset dir="${dev_base}/ipss.opf_EMF" >
+	    	<fileset dir="${dev_base}/ipss.opf_EMF1" >
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
