@@ -267,7 +267,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		} else if (braData.getLfCode().equals(
 				IGBranchForm.TransBranchCode_Scripting)
 				&& branch instanceof AcscBranch) {
-			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
+			branch.setBranchCode(AclfBranchCode.BRANCH_EXTENSION);
 			// branch.setScripts(data.getScripts());
 
 			if (braData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java) {

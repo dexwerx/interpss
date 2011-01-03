@@ -278,7 +278,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 					UnitType.toUnit(busData.getCapQUnit()));
 		} else if (busData.getGenCode()
 				.equals(AclfBusData.GenCode_GenScripting)) {
-			bus.setGenCode(AclfGenCode.GEN_SCRIPTING);
+			bus.setGenCode(AclfGenCode.BUS_EXTENSION);
 			// bus.setScripts(busData.getScripts());
 		} else {
 			bus.setGenCode(AclfGenCode.NON_GEN);
@@ -411,7 +411,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 				: (code.equals(AclfBusData.LoadCode_ConstI) ? AclfLoadCode.CONST_I
 						: (code.equals(AclfBusData.LoadCode_ConstZ) ? AclfLoadCode.CONST_Z
 								: (code
-										.equals(AclfBusData.LoadCode_LoadScripting) ? AclfLoadCode.LOAD_SCRIPTING
+										.equals(AclfBusData.LoadCode_LoadScripting) ? AclfLoadCode.BUS_EXTENSION
 										: AclfLoadCode.NON_LOAD)));
 	}
 
@@ -442,7 +442,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		} else if (braData.getLfCode().equals(
 				IGBranchForm.TransBranchCode_Scripting)
 				&& aclf) {
-			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
+			branch.setBranchCode(AclfBranchCode.BRANCH_EXTENSION);
 			if (braData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java) {
 				// branch.setScripts(data.getScripts());
 				String classname = ScriptJavacUtilFunc
