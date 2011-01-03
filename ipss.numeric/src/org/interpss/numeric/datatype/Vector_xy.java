@@ -32,10 +32,8 @@ import org.interpss.numeric.util.Number2String;
  * 
  */
 
-public class Vector_xy implements java.io.Serializable {
+public class Vector_xy extends Point implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
-
-	public double x = 0.0, y = 0.0;
 
 	/**
 	 * Default constructor.
@@ -50,8 +48,7 @@ public class Vector_xy implements java.io.Serializable {
 	 * @param a set obj.x=a and obj.y=a
 	 */
 	public Vector_xy(final double a) {
-		x = a;
-		y = a;
+		super(a, a);
 	}
 
 	/**
@@ -61,8 +58,7 @@ public class Vector_xy implements java.io.Serializable {
 	 * @param b set obj.y=b
 	 */
 	public Vector_xy(final double a, final double b) {
-		x = a;
-		y = b;
+		super(a, b);
 	}
 
 	/**
@@ -71,8 +67,7 @@ public class Vector_xy implements java.io.Serializable {
 	 * @param c set obj.x=c.re and obj.y=c.im
 	 */
 	public Vector_xy(final Complex c) {
-		x = c.getReal();
-		y = c.getImaginary();
+		super(c.getReal(), c.getImaginary());
 	}
 
 	/**
