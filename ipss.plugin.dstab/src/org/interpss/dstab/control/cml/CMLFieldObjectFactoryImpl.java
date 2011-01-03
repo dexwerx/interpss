@@ -47,9 +47,10 @@ import org.interpss.dstab.control.cml.func.PowerFunction;
 import org.interpss.dstab.control.cml.func.SeFunction;
 import org.interpss.dstab.control.cml.func.SwitchFunction;
 import org.interpss.dstab.control.cml.func.VthevFunction;
+import org.interpss.numeric.datatype.Point;
 
+import com.interpss.common.CommonObjectFactory;
 import com.interpss.common.func.ILookupTable;
-import com.interpss.common.func.impl.LookupTableImpl;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.IFieldObjectFactory;
@@ -316,13 +317,13 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     public ILookupTableFunction createLookupTableFunctionField(AbstractAnnotateController controllor, Field field, 
     		                             ILookupTable.Type lookupTabletype, String[] dataPoints) throws Exception {
     	if (field.getType() == LookupTableFunction.class) {
-    		ILookupTable table = new LookupTableImpl(lookupTabletype);
+    		ILookupTable table = CommonObjectFactory.createLookupTable(lookupTabletype);
     		// dataPoints format : {"1.0, 5.0", "2.0, 6.0", "3.0, 5.5"}
     		for (String str : dataPoints) {
     			StringTokenizer st = new StringTokenizer(str, ",");
     			double x = new Double(st.nextToken()).doubleValue();
     			double y = new Double(st.nextToken()).doubleValue();
-    			ILookupTable.Point point = new ILookupTable.Point(x, y);
+    			Point point = new Point(x, y);
     			table.addPoint(point);
     		}
     		ILookupTableFunction func = new LookupTableFunction(table);
