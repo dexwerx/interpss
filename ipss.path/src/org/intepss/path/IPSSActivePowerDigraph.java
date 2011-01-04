@@ -1,17 +1,14 @@
 package org.intepss.path;
 
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.xml.transform.TransformerConfigurationException;
 
-import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-//import org.interpss.PluginSpringCtx;
-import org.interpss.custom.IpssFileAdapter;
 import org.jgrapht.ext.EdgeNameProvider;
 import org.jgrapht.ext.GraphMLExporter;
 import org.jgrapht.ext.StringEdgeNameProvider;
@@ -29,18 +26,12 @@ import com.interpss.core.net.Bus;
 // Active power digraph of InterPSS network model
 public class IPSSActivePowerDigraph {
 
-	private String networkName;
 	private AclfNetwork net;
 	private DirectedWeightedMultigraph<String, DefaultWeightedEdge> pDigraph;	// Active power digraph
 	
 	// Constructor, build the network model
-	public IPSSActivePowerDigraph(String networkName) throws Exception {
-		this.networkName = networkName;
-		this.net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load(this.networkName).getAclfNet();
-//	    IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
-//		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(msg);
-//		net.accept(algo);
-//        System.out.println(AclfOutFunc.loadFlowSummary(net));
+	public IPSSActivePowerDigraph(AclfNetwork net) throws Exception {
+		this.net = net;
 	}
 
 	// Get the active power digraph
@@ -69,6 +60,15 @@ public class IPSSActivePowerDigraph {
 				pDigraph.setEdgeWeight(thisEdge, activePowerTo2From);
 			}
 		}
+		// 3. Remove those nodes with zero degrees
+		Collection<String> nodesToBeRemoved = new ArrayList<String>();
+		for (String thisNode : pDigraph.vertexSet()) {
+			if (pDigraph.inDegreeOf(thisNode) == 0 && pDigraph.outDegreeOf(thisNode) == 0) {
+				nodesToBeRemoved.add(thisNode);
+				System.out.println("Node " + thisNode + " is removed because it is isolated from the network.");
+			}
+		}
+		pDigraph.removeAllVertices(nodesToBeRemoved);
 		return pDigraph;
 	}
 	
@@ -80,7 +80,6 @@ public class IPSSActivePowerDigraph {
 
 			@Override
 			public String getEdgeName(DefaultWeightedEdge edge) {
-				// TODO Auto-generated method stub
 				DecimalFormat edgeWeight = new DecimalFormat("#.000");
 				return edgeWeight.format(pDigraph.getEdgeWeight(edge));
 			}
@@ -90,22 +89,6 @@ public class IPSSActivePowerDigraph {
 		File fileOutput = new File(outputName);
 		FileWriter writerOutput = new FileWriter(fileOutput, true);
 		graphml.export(writerOutput, this.getpDigraph());
-		System.out.println(outputName + " created successfully.");
-	}
-	
-	public static void main(String[] args) throws Exception {
-		IpssPlugin.init();
-		IPSSActivePowerDigraph apd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Summer.ieee");
-//		for (DefaultWeightedEdge thisEdge : apd.getpDigraph().edgeSet()) {
-//			String fromId = apd.getpDigraph().getEdgeSource(thisEdge);
-//			String toId = apd.getpDigraph().getEdgeTarget(thisEdge);
-//			double weight = apd.getpDigraph().getEdgeWeight(thisEdge);
-//			System.out.println(fromId + "=>" + toId + ": " + weight);
-//		}
-//		apd.digraphToGML("ieee14.graphml");
-		JGraphToGephi j2g = new JGraphToGephi(apd.getpDigraph());
-		String outputName = "UCTE_2002_Summer.graphml";
-		j2g.getGraphML(outputName);
 		System.out.println(outputName + " created successfully.");
 	}
 
