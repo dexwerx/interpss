@@ -17,11 +17,17 @@ import java.util.Stack;
 import java.util.Map.Entry;
 
 import org.interpss.IpssPlugin;
+import org.interpss.PluginObjectFactory;
+import org.interpss.custom.IpssFileAdapter;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
+
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 
 // Class to calculate edge betweenness
 // ****** Key idea: the bigger the active power flow is, the closer the two terminal of a certain branch is, on another word, the more important
@@ -47,10 +53,23 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 			this.addEdge(sendingName, receivingName, newEdge);
 			this.setEdgeWeight(newEdge, 0.0);
 		}
+		// 1.3. Create corresponding unweighted graph
+		// 1.3.1. Add vertices
+		DirectedWeightedMultigraph<String, DefaultWeightedEdge> originalUnweightedDigraph = new DirectedWeightedMultigraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+		for (String thisVertex : originalDigraph.vertexSet())
+			originalUnweightedDigraph.addVertex(thisVertex);
+		// 1.3.2. Add edges
+		for (DefaultWeightedEdge thisEdge : originalDigraph.edgeSet()) {
+			DefaultWeightedEdge newEdge = new DefaultWeightedEdge();
+			String sendingName = originalDigraph.getEdgeSource(thisEdge);
+			String receivingName = originalDigraph.getEdgeTarget(thisEdge);
+			originalUnweightedDigraph.addEdge(sendingName, receivingName, newEdge);
+			originalUnweightedDigraph.setEdgeWeight(newEdge, 1.0);
+		}
 		
 		for (String thisVertex : this.vertexSet()) {
 			// 2. Create shortest-path graph for every vertex by Dijkstra algorithm
-			DirectedMultigraph<String, DefaultEdge> shortestPathDigraph = DijkstraAlgorithm(originalDigraph, thisVertex);
+			DirectedMultigraph<String, DefaultEdge> shortestPathDigraph = DijkstraAlgorithm(originalUnweightedDigraph, thisVertex);
 			
 			// 3. Calculate the contribution of current vertex's shortest-path graph to final edge betweenness (Newman algorithm)
 			SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> edgeBetweennessDigraph = NewmanAlgorithm(shortestPathDigraph, thisVertex);
@@ -73,7 +92,7 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 			String targetVertex = this.getEdgeTarget(thisEdge);
 			double betweennessWeight = this.getEdgeWeight(thisEdge);
 			DefaultWeightedEdge edgeInWholeGraph = originalDigraph.getEdge(sourceVertex, targetVertex);
-			double newWeight = originalDigraph.getEdgeWeight(edgeInWholeGraph) * betweennessWeight;
+			double newWeight =  betweennessWeight / originalDigraph.getEdgeWeight(edgeInWholeGraph);
 			this.setEdgeWeight(thisEdge, newWeight);
 //			System.out.println("Final edge betweenness between " + sourceVertex + " and " + targetVertex + ": " + newWeight);
 		}
@@ -330,7 +349,10 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		
 		IpssPlugin.init();
 //		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/ieee14.ieee");
-		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/UCTE_2002_Winter_Offpeak.ieee");
+		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
+	    LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
+		net.accept(algo);
+		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph(net);
 		EdgeBetweennessDigraph ebd = new EdgeBetweennessDigraph(afd.getpDigraph());
 //		ebd.TestDijkstra();
 		// Output all the edge betweenness descendingly
