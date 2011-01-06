@@ -45,4 +45,17 @@ public class NumericConstant {
 			a = new Complex(-0.5, SqrtRoot3 / 2.0),
 			a2 = new Complex(-0.5, -SqrtRoot3 / 2.0);
 	
+	// for define error cases
+	public final static double LargeDouble = 1.0e20;
+	public final static int LargeNegativeInt = -Integer.MAX_VALUE;
+
+	public final static Complex 
+			SmallScZ = new Complex(0.0, 1.0e-8),
+			LargeBusZ = new Complex(0.0, 1.0e10), 
+			LargeBranchZ = new Complex(0.0, 1.0e20), 
+			SmallBranchZ = new Complex(0.0, 1.0e-8);
+
+	public final static double 
+			ZMarginInitV = 0.0001, // pu
+			SmallDoubleNumber = 0.000001;	
 }
