@@ -33,9 +33,9 @@ import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.util.IOUtilFunc;
+import org.interpss.numeric.NumericConstant;
 import org.jgraph.JGraph;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -89,7 +89,7 @@ public class DStabTestSetupBase extends PluginTestSetup{
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@0003" );
   		fault.setAcscBus(faultBus);
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
-		fault.setZLGFault(Constants.SmallScZ);
+		fault.setZLGFault(NumericConstant.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		event1.setBusFault(fault);		
 	}	

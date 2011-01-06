@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.TestUtilFunc;
+import org.interpss.numeric.util.TestUtilFunc;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;

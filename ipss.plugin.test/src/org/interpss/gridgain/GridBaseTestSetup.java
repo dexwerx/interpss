@@ -35,10 +35,10 @@ import org.gridgain.grid.GridMessageListener;
 import org.interpss.PluginTestSetup;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.gridgain.util.GridUtil;
+import org.interpss.numeric.NumericConstant;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.fault.AcscBusFault;
@@ -107,7 +107,7 @@ public class GridBaseTestSetup extends PluginTestSetup {
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@0003" );
   		fault.setAcscBus(faultBus);
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
-		fault.setZLGFault(Constants.SmallScZ);
+		fault.setZLGFault(NumericConstant.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		event1.setBusFault(fault);		
 	}		
