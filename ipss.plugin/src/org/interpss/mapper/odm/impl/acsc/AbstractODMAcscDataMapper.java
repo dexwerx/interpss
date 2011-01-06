@@ -50,8 +50,8 @@ import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.numeric.NumericConstant;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -206,11 +206,11 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 
 	private static void setNonContributeBusFormInfo(AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.NON_CONTRI);
-		acscBus.setZ(Constants.LargeBusZ, SequenceCode.POSITIVE);
-		acscBus.setZ(Constants.LargeBusZ, SequenceCode.NEGATIVE);
-		acscBus.setZ(Constants.LargeBusZ, SequenceCode.ZERO);
+		acscBus.setZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
+		acscBus.setZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
+		acscBus.setZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
 		acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
-		acscBus.getGrounding().setZ(Constants.LargeBusZ);
+		acscBus.getGrounding().setZ(NumericConstant.LargeBusZ);
 	}
 
 	private static void setContributeBusInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {

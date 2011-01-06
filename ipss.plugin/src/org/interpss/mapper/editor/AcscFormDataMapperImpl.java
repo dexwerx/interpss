@@ -38,9 +38,9 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.mapper.AbstractMapping;
+import org.interpss.numeric.NumericConstant;
 import org.interpss.util.MemoryJavaCompiler;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -227,11 +227,11 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 	private static boolean setNonContributeBusFormInfo(AcscBusData busData,
 			AcscBus bus, AcscNetwork net) {
 		bus.setScCode(BusScCode.NON_CONTRI);
-		bus.setZ(Constants.LargeBusZ, SequenceCode.POSITIVE);
-		bus.setZ(Constants.LargeBusZ, SequenceCode.NEGATIVE);
-		bus.setZ(Constants.LargeBusZ, SequenceCode.ZERO);
+		bus.setZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
+		bus.setZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
+		bus.setZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
 		bus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
-		bus.getGrounding().setZ(Constants.LargeBusZ);
+		bus.getGrounding().setZ(NumericConstant.LargeBusZ);
 		return true;
 	}
 

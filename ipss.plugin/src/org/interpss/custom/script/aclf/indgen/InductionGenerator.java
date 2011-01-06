@@ -26,8 +26,8 @@ package org.interpss.custom.script.aclf.indgen;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.script.aclf.AbstractAclfBusScriptEditing;
+import org.interpss.numeric.NumericConstant;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 
 // all AclfBus scripting plugin needs to extends AbstractAclfBusScriptEditing
@@ -86,7 +86,7 @@ public class InductionGenerator extends AbstractAclfBusScriptEditing {
          }
          else {
         	 IpssLogger.getLogger().warning("No solution for Induction Generator Q, bus id: " + getParentAclfBus().getId());
-        	 return Constants.LargeBusZ.abs();
+        	 return NumericConstant.LargeBusZ.abs();
          }
     }
     
