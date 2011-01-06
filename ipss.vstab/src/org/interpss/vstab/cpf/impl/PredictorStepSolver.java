@@ -38,7 +38,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 
 		this.cpf=cpfAlgo;
 		this.lambda=lambda;
-		this.cpfHelper=new CpfHelper(cpf.getAclfNetwork());
+		this.cpfHelper=new CpfHelper(cpf.getAclfNetwork(),cpf.getLoadIncrease().getPattern());
 		this.deltaX_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()*2+1); // swing bus is included
 	}
 	/**

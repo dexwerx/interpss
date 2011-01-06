@@ -20,10 +20,10 @@ public class CorrectorStepSolver extends DefaultNrSolver {
     
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
-		cpf=cpfAlgo;
-		cpfHelper=new CpfHelper(getAclfNet());
-		ldPtn=VStabObjectFactory.createLdIncPattern(cpfAlgo.getAclfNetwork(), LoadIncScope.NETWORK, LoadIncType.CONST_PF, null);
-		ldInc=VStabObjectFactory.createLoadIncrease(cpfAlgo.getAclfNetwork(), ldPtn);
+		this.cpf=cpfAlgo;
+		this.cpfHelper=new CpfHelper(getAclfNet(),cpfAlgo.getLoadIncrease().getPattern());
+		this.ldPtn=VStabObjectFactory.createLdIncPattern(cpfAlgo.getAclfNetwork(), LoadIncScope.NETWORK, LoadIncType.CONST_PF, null);
+		this.ldInc=VStabObjectFactory.createLoadIncrease(cpfAlgo.getAclfNetwork(), ldPtn);
 	}
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix() {

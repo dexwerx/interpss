@@ -32,9 +32,10 @@ public class CpfHelper {
 	
 	private LoadIncrease ldInc=null;
 	private LoadIncPattern ptn=null;
-	public CpfHelper(AclfNetwork net){
+	public CpfHelper(AclfNetwork net,LoadIncPattern ldIncPtn){
 		this.net=net;
 		contParaSortNum=this.net.getNoBus()+1; // by default
+		this.ldIncDirTbl=ldIncPtn.getLoadIncDir();
 	}
 
 	public SparseEqnMatrix2x2 formAugmJacobiMatrix() {

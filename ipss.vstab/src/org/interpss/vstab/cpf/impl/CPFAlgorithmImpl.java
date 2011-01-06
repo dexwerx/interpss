@@ -12,13 +12,14 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
+import com.interpss.core.common.visitor.IAclfNetBVisitor;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
 
 //    protected LambdaParam lambda=null;
     protected AnalysisStopCriteria stopCriteria=null;
-    protected GenDispPattern genDispPtn=null;
-    protected LoadIncPattern loadIncPtn=null;
+    protected GenDispatch genDispatch=null;
+    protected LoadIncrease ldInc=null;
     protected CPFSolver cpfSolver=null;
 	protected int sortNumOfContPara=0; // used in whole process
     protected boolean violation=false;
@@ -56,17 +57,6 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 		
 	}
 
-	@Override
-	public void setGenDispPattern(GenDispPattern newGenDispPtn) {
-		this.genDispPtn=newGenDispPtn;
-		
-	}
-
-	@Override
-	public void setLoadIncPattern(LoadIncPattern newLoadIncPtn) {
-		this.loadIncPtn=newLoadIncPtn;
-		
-	}
 
 	@Override
 	public void setMaxIterations(int maxIter) {
@@ -79,18 +69,6 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 		return this.stopCriteria;
 	}
 
-	@Override
-	public GenDispPattern getGenDispPatten() {
-		return this.genDispPtn;
-		
-	}
-
-	@Override
-	public LoadIncPattern getLoadIncPatten() {
-		return this.loadIncPtn;
-		
-	}
-	
 	@Override
 	public boolean isAnyViolation() {
 	         
@@ -130,20 +108,6 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 		
 	}
 
-
-	@Override
-	public double getFixedValOfContPara() {
-		
-		return this.fixedValOfContParam;
-	}
-
-
-	@Override
-	public void setFixedValOfContPara(double fixedVal) {
-		this.fixedValOfContParam=fixedVal;
-		
-	}
-
 	@Override
 	public CPFSolver getCpfSolver() {
 		
@@ -156,6 +120,45 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public boolean isLmdaContParam() {
 		return this.getSortNumOfContParam()>this.getAclfNetwork().getNoBus();
 	}
+
+
+
+	@Override
+	public LoadIncrease getLoadIncrease() {
+		
+		return this.ldInc;
+	}
+
+	@Override
+	public void setLoadIncrease(LoadIncrease ldInc) {
+	  this.ldInc=ldInc;
+		
+	}
+
+
+
+	@Override
+	public GenDispatch getGenDispatch() {
+		return this.genDispatch;
+	}
+
+
+
+	@Override
+	public void setGenDispatch(GenDispatch genDispatch) {
+		this.genDispatch=genDispatch;
+		
+	}
+
+
+
+	@Override
+	public boolean visit(AclfNetwork net) {
+		this.setAclfNetwork(net);
+		return runCPF();
+		
+	}
+
 
 
 

@@ -34,10 +34,10 @@ public class LoadIncrease {
 	public AclfNetwork getAclfNetwork(){
 		return this.net;
 	}
-	public LoadIncPattern getLdIncPtn() {
+	public LoadIncPattern getPattern() {
 		return ldIncPtn;
 	}
-	public void setLdIncPtn(LoadIncPattern ldIncPtn) {
+	public void setPattern(LoadIncPattern ldIncPtn) {
 		this.ldIncPtn = ldIncPtn;
 	}
 	private void saveOrigLoad() {
