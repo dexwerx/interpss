@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
