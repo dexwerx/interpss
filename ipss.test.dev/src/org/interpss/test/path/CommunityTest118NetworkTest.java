@@ -1,5 +1,7 @@
 package org.interpss.test.path;
 
+import static org.junit.Assert.assertTrue;
+
 import org.intepss.path.CommunityDetection;
 import org.intepss.path.IPSSNetworkGraph;
 import org.interpss.IpssPlugin;
@@ -7,9 +9,7 @@ import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.numeric.util.NumericUtil;
 import org.interpss.test.DevTestSetup;
-
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 
 import com.interpss.core.aclf.AclfNetwork;
 

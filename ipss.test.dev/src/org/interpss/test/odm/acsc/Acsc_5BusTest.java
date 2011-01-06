@@ -7,8 +7,8 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.acsc.AcscModelParser;
-import org.interpss.TestUtilFunc;
 import org.interpss.mapper.odm.ODMAcscDataMapper;
+import org.interpss.numeric.util.TestUtilFunc;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
