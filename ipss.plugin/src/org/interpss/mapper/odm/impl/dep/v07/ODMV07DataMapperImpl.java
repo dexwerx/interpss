@@ -44,8 +44,8 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -295,7 +295,7 @@ public class ODMV07DataMapperImpl {
 				LineAdapter line = aclfBra.toLine();
 				line.setZ(new Complex(braXmlData.getZ().getRe(), braXmlData.getZ().getIm()), 
 							ODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
-							aclfBra.getFromAclfBus().getBaseVoltage(), msg);
+							aclfBra.getFromAclfBus().getBaseVoltage());
 				if (braXmlData.getTotalShuntY() != null)
 					line.setHShuntY(new Complex(0.5 * braXmlData.getTotalShuntY().getRe(),
 									0.5 * braXmlData.getTotalShuntY().getIm()),
@@ -383,7 +383,7 @@ public class ODMV07DataMapperImpl {
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
-				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, msg);
+				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV);
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio().getValue() == 0.0 ? 1.0 : xfrData
 				.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrData.getToTurnRatio().getValue() == 0.0 ? 1.0 : xfrData

@@ -43,8 +43,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.odm.model.dep.xbean.XBeanParserHelper;
+import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.datatype.LimitType;
+
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -291,7 +292,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 				LineAdapter line = aclfBra.toLine();
 				line.setZ(new Complex(braXmlData.getZ().getRe(), braXmlData.getZ().getIm()), 
 							XmlBeansODMXmlHelper.toUnit(braXmlData.getZ().getUnit()), 
-							aclfBra.getFromAclfBus().getBaseVoltage(), msg);
+							aclfBra.getFromAclfBus().getBaseVoltage());
 				if (braXmlData.getTotalShuntY() != null)
 					line.setHShuntY(new Complex(0.5 * braXmlData.getTotalShuntY().getRe(),
 									0.5 * braXmlData.getTotalShuntY().getIm()),
@@ -379,8 +380,7 @@ public class XmlBeansODMLoadflowDataMapperImpl {
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
-				XmlBeansODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV,
-				msg);
+				XmlBeansODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV);
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio().getValue() == 0.0 ? 1.0 : xfrData
 				.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrData.getToTurnRatio().getValue() == 0.0 ? 1.0 : xfrData

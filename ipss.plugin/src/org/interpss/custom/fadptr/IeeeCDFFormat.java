@@ -70,8 +70,9 @@ public class IeeeCDFFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public SimuContext load(final String filepath) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-  		load(simuCtx, filepath);
+ 		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+//		final SimuContext simuCtx = SimuObjectFactory.createSimuCtxTypeAclfNet(msgHub);
+		load(simuCtx, filepath);
   		return simuCtx;
 	}
 }

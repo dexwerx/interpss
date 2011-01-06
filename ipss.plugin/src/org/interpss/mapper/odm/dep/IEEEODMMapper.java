@@ -38,7 +38,7 @@ import org.interpss.mapper.odm.impl.dep.v07.ODM2SimuCtxMapper;
 import org.interpss.mapper.odm.impl.dep.xbean.XmlBeansODM2SimuCtxMapperImpl;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.mapper.AbstractMapping;
+import org.interpss.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
