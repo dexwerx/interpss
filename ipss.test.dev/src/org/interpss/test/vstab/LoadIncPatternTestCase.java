@@ -2,6 +2,8 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
+import org.interpss.PluginObjectFactory;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
@@ -11,6 +13,7 @@ import org.junit.Test;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Bus;
 import com.interpss.simu.util.sample.SampleCases;
 
 
@@ -60,13 +63,14 @@ public class LoadIncPatternTestCase extends DevTestSetup {
 		assertTrue(ldPtn.getLoadIncDir().get("2").getReal()-2<1e-6);
 
 	}
-//	public static void main(String[]args ) throws InterpssException, Exception{
-//		
-//		AclfNetwork net=PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testData/ieee_cdf/ieee14.ieee").getAclfNet();
-//		Bus[] bAry={net.getBus("Bus4")};
-//		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.BUS,LoadIncType.CONST_PF,bAry);
-//		System.out.print(ldPtn.getIncBusList().size());
-//		
-//	}
+	@Test
+	public void testCase3() throws Exception {
+		
+		AclfNetwork net=PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testData/ieee_cdf/ieee14.ieee").getAclfNet();
+		Bus[] bAry={net.getBus("Bus4")};
+		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.BUS,LoadIncType.CONST_PF,bAry);
+		assertTrue(ldPtn.getIncBusList().size()==1);
+		
+	}
 
 }
