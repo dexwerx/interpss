@@ -35,7 +35,7 @@ public class LoadIncrease {
 		return this.net;
 	}
 	public LoadIncPattern getPattern() {
-		return ldIncPtn;
+		return this.ldIncPtn;
 	}
 	public void setPattern(LoadIncPattern ldIncPtn) {
 		this.ldIncPtn = ldIncPtn;

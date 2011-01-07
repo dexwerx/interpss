@@ -91,7 +91,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	 * @return
 	 */
     private boolean calDeltaPredResult() {
-//    cpfHelper.setSortNumOfContParam(getSortNumofContParam());
+
    	this.augmentedJacobi=cpfHelper.formAugmJacobiMatrix();
 
      //   set the [B] elements(right-hand side of Jacobian matrix) to [0,+-1] ,
@@ -138,12 +138,12 @@ public class PredictorStepSolver extends AbstractStepSolver{
     	int i=0;
     	for (Iterator localIterator = cpf.getAclfNetwork().getBusList().iterator(); localIterator.hasNext(); ) { 
     		Bus b = (Bus)localIterator.next();
-            i=b.getSortNumber();
+            i=b.getSortNumber();// sort number is still ranging between 1->n,while SparseEqn is indexed 0->n-1
             Vector_xy dv=this.augmentedJacobi.getX(i);   
-            this.deltaX_Lambda.setEntry(2*i-2, dv.x);
-            this.deltaX_Lambda.setEntry(2*i-1, dv.y);
+            this.deltaX_Lambda.setEntry(2*i, dv.x);
+            this.deltaX_Lambda.setEntry(2*i+1, dv.y);
         }
-    	i=this.cpf.getAclfNetwork().getNoBus()+1; // lambda index 
+    	i=this.cpf.getCpfSolver().getLambda().getPosition(); // lambda index 
     	double deltaL=this.augmentedJacobi.getX(i).x;
         this.deltaX_Lambda.setEntry(this.cpf.getAclfNetwork().getNoBus()*2, deltaL);
     }

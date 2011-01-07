@@ -60,7 +60,7 @@ public class VstabFuncOut {
 	   double[][] mAry=new double[m.getDimension()][m.getDimension()];
 	   for(int i=0;i<m.getDimension()/2;i++) { // index 1-N
 		   for(int j=0;j<m.getDimension()/2;j++) {//index 1-N
-			   Matrix_xy mxy=m.getA(i+1, j+1);
+			   Matrix_xy mxy=m.getA(i, j);
 			   mAry[2 * i ][2 * j ]=mxy.xx;
 			   mAry[2 * i ][2 * j+1]=mxy.xy;
 			   mAry[2 * i+1 ][2 * j]=mxy.yx;

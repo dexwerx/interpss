@@ -12,9 +12,9 @@ import com.interpss.core.aclf.AclfNetwork;
 
 public class VStabObjectFactory {
 
-	public static CPFAlgorithm createCPFAlgorithmImpl(AclfNetwork net) {
-		LambdaParam lambda = new LambdaParam(net.getNoBus()+1,1);
-		CPFAlgorithm cpf=new CPFAlgorithmImpl(net, lambda);
+	public static CPFAlgorithm createCPFAlgorithmImpl(AclfNetwork net,LoadIncrease loadInc) {
+		LambdaParam lambda = new LambdaParam(net.getNoBus(),1);// index is changed, now normally it is 0->n-1, so the lambda should be Nth paramether; 
+		CPFAlgorithm cpf=new CPFAlgorithmImpl(net, lambda, loadInc);
 		return cpf;
 	}
 	public static LoadIncPattern createLdIncPattern(AclfNetwork net,LoadIncScope incScope,LoadIncType incType,Object[]incObjectAry){

@@ -1,13 +1,8 @@
 package org.interpss.vstab.cpf.impl;
 
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
-import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
-import org.interpss.vstab.cpf.LoadIncPattern;
-import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
-import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.util.VstabFuncOut;
-
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import com.interpss.core.net.Bus;
@@ -15,15 +10,13 @@ import com.interpss.core.net.Bus;
 public class CorrectorStepSolver extends DefaultNrSolver {
     private CPFAlgorithm cpf=null;
     CpfHelper cpfHelper=null;
-    LoadIncPattern ldPtn=null;
     LoadIncrease ldInc=null;
     
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
 		this.cpf=cpfAlgo;
-		this.cpfHelper=new CpfHelper(getAclfNet(),cpfAlgo.getLoadIncrease().getPattern());
-		this.ldPtn=VStabObjectFactory.createLdIncPattern(cpfAlgo.getAclfNetwork(), LoadIncScope.NETWORK, LoadIncType.CONST_PF, null);
-		this.ldInc=VStabObjectFactory.createLoadIncrease(cpfAlgo.getAclfNetwork(), ldPtn);
+		this.cpfHelper=new CpfHelper(cpf.getAclfNetwork(),cpf.getLoadIncrease().getPattern());
+		this.ldInc=cpfAlgo.getLoadIncrease();
 	}
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix() {

@@ -24,17 +24,16 @@ public class CpfHelper {
 	private SparseEqnMatrix2x2 lfEqn=null;
 	private RealVector deltaX_Lambda=null;
 	private RealVector corrResult=null;
+	private LoadIncPattern loadIncPtn=null;
 	private Hashtable<String,Complex> ldIncDirTbl=null;
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
 	private int iterationCount=0;
 	private AclfNetwork net=null;
-	
-	private LoadIncrease ldInc=null;
-	private LoadIncPattern ptn=null;
 	public CpfHelper(AclfNetwork net,LoadIncPattern ldIncPtn){
 		this.net=net;
-		contParaSortNum=this.net.getNoBus()+1; // by default
+		contParaSortNum=this.net.getNoBus(); // by default
+		this.loadIncPtn=ldIncPtn;
 		this.ldIncDirTbl=ldIncPtn.getLoadIncDir();
 	}
 
@@ -58,7 +57,7 @@ public class CpfHelper {
 		   		if(b.isActive()) {
 		   			m.xx=dir_pq.getReal();// dirP  // sign is opposite to ordinary J-matrix;
 		   			m.yx=dir_pq.getImaginary();//dirQ
-		   			lfEqn.setA(m,b.getSortNumber(), n+1);
+		   			lfEqn.setA(m,b.getSortNumber(), n);
 
 		   		}
 		   		
@@ -66,19 +65,16 @@ public class CpfHelper {
 		   	
 		   }
 		   Matrix_xy ek=new Matrix_xy();
-		   if(this.getSortNumOfContParam()!=this.net.getNoBus()+1) {
-//			   if(this.getSortNumOfContParam()%2==0)
-//			   ek.xx=1; // Corresponding to vmag(i) in B vector [theta(i)];
-//			   else 
+		   if(this.getSortNumOfContParam()!=this.net.getNoBus()) {
 			  ek.xy=-1;   // vmag(i)
 		   }
 	       else ek.xx=-1;// corresponding to lambda;
 	       
-		   lfEqn.setA(ek, n+1,this.getSortNumOfContParam());
-		   if(lfEqn.getA(n+1, n+1).yy==0) {
+		   lfEqn.setA(ek, n,this.getSortNumOfContParam());
+		   if(lfEqn.getA(n, n).yy==0) {
 			   Matrix_xy m_lambda=new Matrix_xy();
 			   m_lambda.yy=1;
-			   lfEqn.addToA(m_lambda, n+1, n+1);
+			   lfEqn.addToA(m_lambda, n, n);
 			   
 		   }
 		  // print J-matrix
@@ -96,8 +92,8 @@ public class CpfHelper {
 	}
     
 	public Hashtable<String,Complex> getLdIncDirTbl() {
-		if(this.ptn!=null)
-		return ldIncDirTbl=this.ptn.getLoadIncDir();
+		if(this.loadIncPtn!=null)
+		return ldIncDirTbl=this.loadIncPtn.getLoadIncDir();
 		else{
 			IpssLogger.getLogger().severe("no loadIncPattern defined yet! Please check");
 			return null;
@@ -197,12 +193,9 @@ public class CpfHelper {
     		
     	});
     }
-    public void increaseLoad(LoadIncPattern ptn, LambdaParam lambda){
-    	ldInc=new LoadIncrease(this.net,ptn);
-    	ldInc.increaseLoad(lambda);
-    }
+
     public void setLoadIncPattern(LoadIncPattern ptn){
-    	this.ptn=ptn;
+    	this.loadIncPtn=ptn;
     	
     }
     

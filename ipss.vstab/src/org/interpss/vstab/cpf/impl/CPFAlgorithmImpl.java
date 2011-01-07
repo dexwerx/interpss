@@ -2,17 +2,14 @@ package org.interpss.vstab.cpf.impl;
 
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
-import org.interpss.vstab.cpf.GenDispPattern;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
-
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-import com.interpss.core.common.visitor.IAclfNetBVisitor;
+
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
 
@@ -26,14 +23,14 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     protected double DEFAULT_CPF_TOLEARANCE=1e-3;
     protected double tolerance;
     protected int maxInterations;
-    protected double fixedValOfContParam=0;
     
-    public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda) {
+    public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc) {
     	this.setAclfNetwork(net);
     	//this.lambda=lambda;
     	this.sortNumOfContPara=lambda.getPosition();// by default;
-    	this.fixedValOfContParam=lambda.getValue(); // by default;
+        this.ldInc=loadInc;
         this.cpfSolver=new CPFSolverImpl(this,lambda);
+
     }
     
     
@@ -141,8 +138,6 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public GenDispatch getGenDispatch() {
 		return this.genDispatch;
 	}
-
-
 
 	@Override
 	public void setGenDispatch(GenDispatch genDispatch) {
