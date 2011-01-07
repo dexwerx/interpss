@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar" sourcepath="G:/Software/java/commons-math-2.1-src.zip"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
