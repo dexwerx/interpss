@@ -24,7 +24,11 @@ import org.interpss.vstab.cpf.impl.LoadIncrease;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
-
+/**
+ * An interface to define the methods/operations in CPFAlgorithm, and it is extended from LoadflowAlgorithm.
+ * @author Tony Huang
+ *
+ */
 public interface CPFAlgorithm extends LoadflowAlgorithm{
 	public static final String copyright = "Copyright www.interpss.org 2005-2010";
    /**
@@ -91,9 +95,38 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
     public LoadIncrease getLoadIncrease();
     /**
      * to visit the network and perform the CPF analysis
-     * @param netVisitor
-     * @return
+     * @param AclfNetwork net
+     * @return boolean as a flag to indicate the CPF analysis is converged or not?
      */
     public boolean visit(AclfNetwork net);
+    
+    /**
+     * to set the max step size during the analysis, so that stepSize*dX < maxStepSize
+     * @param maxStepSize
+     */
+	public void setMaxStepSize(double maxStepSize);
+
+    /**
+     * 
+     * @return the max step size; it satisfies the following inequation : stepSize*dX < maxStepSize
+     */
+	public double getMaxStepSize();
+
+    /**
+     * set the stepSize to control the states deviation in each step;
+     * @param stepSize
+     */
+
+	public void setStepSize(double stepSize);
+  
+    /**
+     * 
+     * @return step size
+     */
+	public double getStepSize();
+	
+	public double getMinStepSize();
+	
+	public void setMinStepSize(double minStepSize);
 
 }

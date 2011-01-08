@@ -9,8 +9,9 @@ import com.interpss.core.net.Bus;
 
 public class CorrectorStepSolver extends DefaultNrSolver {
     private CPFAlgorithm cpf=null;
-    CpfHelper cpfHelper=null;
-    LoadIncrease ldInc=null;
+    private CpfHelper cpfHelper=null;
+    private LoadIncrease ldInc=null;
+    private double incSize=0;
     
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
@@ -21,8 +22,8 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix() {
 		cpfHelper.setSortNumOfContParam(cpf.getSortNumOfContParam());
-		System.out.println("cpf sortNum="+cpf.getSortNumOfContParam());
-		System.out.println("cpfHelper sortNum="+cpfHelper.getSortNumOfContParam());
+//		System.out.println("cpf sortNum="+cpf.getSortNumOfContParam());
+//		System.out.println("cpfHelper sortNum="+cpfHelper.getSortNumOfContParam());
 		SparseEqnMatrix2x2 lfEqn=cpfHelper.formAugmJacobiMatrix();
 //		VstabFuncOut.printJmatix(lfEqn, 5, 2);
 		return lfEqn;
@@ -33,7 +34,9 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		// the right-hand side of the sparse eqn
 		
 		if(!this.cpf.isLmdaContParam()){ // if lambda is not keep constant, it will change and therefore will affect the load.
-			ldInc.increaseLoad(this.cpf.getCpfSolver().getLambda());
+			incSize=this.cpf.getCpfSolver().getLambda().getValue()* this.cpf.getStepSize();
+			incSize=incSize>this.cpf.getMaxStepSize()?incSize:this.cpf.getMaxStepSize();
+			ldInc.increaseLoad(incSize);
 		}
 		super.setPowerMismatch(lfEqn);
 		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
@@ -47,7 +50,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		super.updateBusVoltage(lfEqn);
 		
 		// the solution result of the extra variable defined is stored at B(n+1)  
-        this.cpf.getCpfSolver().getLambda().update(lfEqn);// is any factor needed for update?
+        this.cpf.getCpfSolver().getLambda().update(lfEqn, 0.1);// is a factor needed for update?
    
         // output the B vector for test
         System.out.println("-------Delta X( theta, Vmag)-------");

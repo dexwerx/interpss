@@ -66,9 +66,9 @@ public class CpfHelper {
 		   }
 		   Matrix_xy ek=new Matrix_xy();
 		   if(this.getSortNumOfContParam()!=this.net.getNoBus()) {
-			  ek.xy=-1;   // vmag(i)
+			  ek.xy=1;   // vmag(i)
 		   }
-	       else ek.xx=-1;// corresponding to lambda;
+	       else ek.xx=1;// corresponding to lambda;
 	       
 		   lfEqn.setA(ek, n,this.getSortNumOfContParam());
 		   if(lfEqn.getA(n, n).yy==0) {

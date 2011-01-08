@@ -53,12 +53,12 @@ public class LoadIncrease {
 	public Hashtable<String, Complex> getOrigLoad(){
 		return this.origLdTbl;
 	}
-	public void increaseLoad(LambdaParam lambda) {
+	public void increaseLoad(double incSize) {
 		oldSumOfIncLoadP=sumOfIncLoadP;
 		sumOfIncLoadP=0;
 		for(Bus b:this.ldIncPtn.getIncBusList()){
 			AclfBus bus=(AclfBus) b;
-			Complex deltaLoad=this.ldIncPtn.getLoadIncDir().get(bus.getId()).multiply(lambda.getValue());
+			Complex deltaLoad=this.ldIncPtn.getLoadIncDir().get(bus.getId()).multiply(incSize);
 			Complex incLoad=this.getOrigLoad().get(bus.getId()).add(deltaLoad);
 			bus.setLoadP(incLoad.getReal());
 			bus.setLoadQ(incLoad.getImaginary());

@@ -51,7 +51,7 @@ public class LambdaParam {
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
 		System.out.println("before update lambda="+this.val);
-		this.val+=stepSize*lfEqn.getX(n).x;
+		this.val-=stepSize*lfEqn.getX(n).x;
 		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update lambda="+this.val);
 	}
 	

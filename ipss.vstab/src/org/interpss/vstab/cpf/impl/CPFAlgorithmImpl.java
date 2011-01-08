@@ -9,7 +9,13 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
-
+/**
+ * an implementation of the interface--CPFAlgorithm, since CPFAlgorithm is extended from LoadflowAlgorithm,
+ * correspondingly, it extends LoadflowAlgorithmImpl here, thus having the methods defined in LoadflowAlgorithmImpl.
+ * 
+ * @author Tony Huang
+ *
+ */
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
 
@@ -20,9 +26,15 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     protected CPFSolver cpfSolver=null;
 	protected int sortNumOfContPara=0; // used in whole process
     protected boolean violation=false;
-    protected double DEFAULT_CPF_TOLEARANCE=1e-3;
+    protected final double DEFAULT_CPF_TOLEARANCE=1e-3;
     protected double tolerance;
     protected int maxInterations;
+    protected final double DEFAULT_MAX_STEP_SIZE=0.1;// to control the max step increase/decrease
+    private double maxStepSize=DEFAULT_MAX_STEP_SIZE;
+    protected final double DEFAULT_MIN_STEP_SIZE=0.001;// to control the max step increase/decrease
+    private double minStepSize=DEFAULT_MIN_STEP_SIZE;
+    protected final double DEFAULT_STEP_SIZE=0.05;  // deault step size;
+    private double stepSize=0.05;
     
     public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc) {
     	this.setAclfNetwork(net);
@@ -115,7 +127,7 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 
 	@Override
 	public boolean isLmdaContParam() {
-		return this.getSortNumOfContParam()>this.getAclfNetwork().getNoBus();
+		return this.getSortNumOfContParam()==this.getAclfNetwork().getNoBus();
 	}
 
 
@@ -151,6 +163,46 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public boolean visit(AclfNetwork net) {
 		this.setAclfNetwork(net);
 		return runCPF();
+		
+	}
+
+
+
+	public void setMaxStepSize(double maxStepSize) {
+		this.maxStepSize = maxStepSize;
+	}
+
+
+
+	public double getMaxStepSize() {
+		return maxStepSize;
+	}
+
+
+
+	public void setStepSize(double stepSize) {
+		this.stepSize = stepSize;
+	}
+
+
+
+	public double getStepSize() {
+		return stepSize;
+	}
+
+
+
+	@Override
+	public double getMinStepSize() {
+		
+		return this.minStepSize;
+	}
+
+
+
+	@Override
+	public void setMinStepSize(double minStepSize) {
+		this.minStepSize=minStepSize;
 		
 	}
 

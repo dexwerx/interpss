@@ -71,7 +71,7 @@ public class VstabFuncOut {
 	   
    }
    public static void printBVector(AclfNetwork net, final SparseEqnMatrix2x2 lfEqn){
-	   String s="\n";
+
 	   net.forEachAclfBus(new IAclfBusVisitor(){
 		@Override
 		public void visit(AclfBus bus) {
@@ -82,8 +82,8 @@ public class VstabFuncOut {
 		   
 	   });
 	   if(lfEqn.getDimension()>net.getNoBus()*2){
-		   Vector_xy v=lfEqn.getX(net.getNoBus()+1);
-		   System.out.println("B("+(net.getNoBus()+1)+") :  b.x="+v.x+",  b.y="+v.y);
+		   Vector_xy v=lfEqn.getX(net.getNoBus());// just to get lambda parameter now;
+		   System.out.println("B("+(net.getNoBus())+") :  b.x="+v.x+",  b.y="+v.y);
 	   }
    }
    
