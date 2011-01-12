@@ -31,7 +31,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 				System.out.println(bus.getId() + ": " + thisBus.getVoltageMag());
 				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
-		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus()+1, SVCControlType.ConstV);
+		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus(), SVCControlType.ConstV);
 		        double vc = currentBus.getVoltageMag();
 		        svc.setQc(vc * 0.9);
 		        svc.setYsh(0.0, -5.0);
@@ -69,7 +69,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 				IpssPlugin.init();
 				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
-		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus()+1, SVCControlType.ConstQ);
+		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus(), SVCControlType.ConstQ);
 		        double qc = 0.1;
 		        svc.setQc(qc);
 		        svc.setYsh(0.0, -5.0);
@@ -113,7 +113,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 			if (thisBus.getGenCode() == AclfGenCode.GEN_PQ) {
 				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
-		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus()+1, SVCControlType.ConstB);
+		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus(), SVCControlType.ConstB);
 		        double qc = 0.05;
 		        svc.setQc(qc);
 		        svc.setYsh(0.0, -5.0);

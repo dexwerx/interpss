@@ -26,7 +26,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus2");
         bus.setVoltageMag(0.9);
 //        bus.setVoltageMag(1.05);
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
+        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstV);
         svc.setQc(1.05);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8)); // set Load on the SVC bus
@@ -74,7 +74,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstQ);
+        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstQ);
         svc.setQc(1.05);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8));
@@ -125,7 +125,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstB);
+        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstB);
         svc.setQc(0.08);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8));

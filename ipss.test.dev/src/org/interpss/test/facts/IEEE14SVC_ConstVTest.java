@@ -37,7 +37,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         bus.setVoltageMag(1.05);
         assertTrue(bus != null);
 
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstV);
+        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstV);
 
         double vc = 1.05; // voltage ref for the bus, without SVC the bus = 1.0355
 
@@ -76,7 +76,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus4");
         assertTrue(bus != null);
 
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstQ);
+        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstQ);
 
         double qc = 0.1;
 
@@ -121,7 +121,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus4");
         assertTrue(bus != null);
 
-        SVCControl svc = new SVCControl(bus, net.getNoBus()+1, SVCControlType.ConstB);
+        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstB);
 
         double qc = 0.1;
 
