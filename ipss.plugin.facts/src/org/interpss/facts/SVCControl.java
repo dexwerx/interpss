@@ -14,10 +14,13 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
  *     i - The SVC connected bus position in the J-matrix
  *     n - The SVC position in the J-matrix
  *
-// TODO: please specify the following parameters 
- * 	   vsh - ?
- *     qc - ?  (Mike : it seems to me qc is used for vref and qc(max) 
- *     gsh + j bsh - 	
+ * 	   vsh - Magnitude of the equivalent (controlled) voltage source of the converter's Thevenin equivalent circuit
+ *     thetash - Phase angle of the equivalent (controlled) voltage source of the converter's Thevenin equivalent circuit
+ *     qc - Control objective of the SVC, should be Vspecify in constant V mode, Qspecify in constant Q mode and Bspecify in constant B mode
+ *     gsh + j bsh - Equivalent admittance of the converter's Thevenin equivalent circuit
+ *     
+ *     qc and (gsh + j bsh) should be pre-defined, while vsh and thetash is calculated according to the load flow scenario and the control
+ *     objective. Furthermore, for readability reasons, maybe qc should be renamed separately in different control mode to avoid confusion.
  *     
  */
 
