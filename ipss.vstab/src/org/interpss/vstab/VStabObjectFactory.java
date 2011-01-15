@@ -17,7 +17,7 @@ import com.interpss.core.aclf.AclfNetwork;
 public class VStabObjectFactory {
 
 	public static CPFAlgorithm createCPFAlgorithmImpl(AclfNetwork net,LoadIncrease loadInc) {
-		LambdaParam lambda = new LambdaParam(net.getNoBus(),0.1);// index is changed, now normally it is 0->n-1, so the lambda should be Nth paramether; 
+		LambdaParam lambda = new LambdaParam(net.getNoBus(),0.01);// index is changed, now normally it is 0->n-1, so the lambda should be Nth paramether; 
 		CPFAlgorithm cpf=new CPFAlgorithmImpl(net, lambda, loadInc);
 		return cpf;
 	}

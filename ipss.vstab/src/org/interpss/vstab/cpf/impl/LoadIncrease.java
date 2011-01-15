@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.vstab.cpf.LoadIncPattern;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
@@ -56,6 +57,7 @@ public class LoadIncrease {
 	public void increaseLoad(double incSize) {
 		oldSumOfIncLoadP=sumOfIncLoadP;
 		sumOfIncLoadP=0;
+		IpssLogger.getLogger().info("Start load increase, and incSize= "+incSize);
 		for(Bus b:this.ldIncPtn.getIncBusList()){
 			AclfBus bus=(AclfBus) b;
 			Complex deltaLoad=this.ldIncPtn.getLoadIncDir().get(bus.getId()).multiply(incSize);
@@ -64,6 +66,7 @@ public class LoadIncrease {
 			bus.setLoadQ(incLoad.getImaginary());
 			sumOfIncLoadP+=deltaLoad.getReal();
 		}
+		IpssLogger.getLogger().info("End load increase");
 	}
 	public double getSumOfIncLoad(){
 		return this.sumOfIncLoadP;

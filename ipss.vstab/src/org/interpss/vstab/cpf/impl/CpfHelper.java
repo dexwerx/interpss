@@ -73,6 +73,7 @@ public class CpfHelper {
 		   lfEqn.setA(ek, n,this.getSortNumOfContParam());
 		   if(lfEqn.getA(n, n).yy==0) {
 			   Matrix_xy m_lambda=new Matrix_xy();
+//			   m_lambda.xx=1;// for test Õý½»ÑÓÍØ
 			   m_lambda.yy=1;
 			   lfEqn.addToA(m_lambda, n, n);
 			   

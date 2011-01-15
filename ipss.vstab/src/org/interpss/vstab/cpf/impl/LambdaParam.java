@@ -51,7 +51,16 @@ public class LambdaParam {
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
 		System.out.println("before update lambda="+this.val);
-		this.val-=stepSize*lfEqn.getX(n).x;
+		double maxDeltaVal=0.01;
+		double dVal=0;
+		if(Math.abs(stepSize*lfEqn.getX(n).x)>maxDeltaVal){
+			if(stepSize*lfEqn.getX(n).x<0){
+				dVal=-maxDeltaVal;
+			}
+			else dVal=maxDeltaVal;
+		}
+		else dVal=stepSize*lfEqn.getX(n).x;
+		this.val+=dVal;
 		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update lambda="+this.val);
 	}
 	

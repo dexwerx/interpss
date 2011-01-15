@@ -17,6 +17,7 @@ public class CPFSolverImpl implements CPFSolver{
 	CPFAlgorithm cpfAlgo=null;
     private CorrectorStepSolver corrStepSolver;
     private PredictorStepSolver predStepSolver;
+	private int sortNumOfContPara;
     
 	public CPFSolverImpl() {
 		
@@ -87,8 +88,24 @@ public class CPFSolverImpl implements CPFSolver{
 		return this.predStepSolver;
 	}
 
-	
-	
+	@Override
+	public int getSortNumOfContParam() {
+		
+		return this.sortNumOfContPara;
+	}
+
+
+	@Override
+	public void setSorNumofContParam(int sortNum) {
+		this.sortNumOfContPara=sortNum;
+		
+	}
+
+
+	@Override
+	public boolean isLmdaContParam() {
+		return this.getSortNumOfContParam()==this.lambda.getPosition();
+	}
 	
 
 }

@@ -121,7 +121,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
     public boolean isCrossMaxPwrPnt() {
     	// only sign of Lambda is used for judgment.
 
-    	if(cpf.getSortNumOfContParam()!=lambda.getPosition()) {
+    	if(!cpf.getCpfSolver().isLmdaContParam()) {
     		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension()-1)<0)// Lambda parameter is at the last of deltaX_Lambda vector
     			return this.isCrossMPP=true;
     	}

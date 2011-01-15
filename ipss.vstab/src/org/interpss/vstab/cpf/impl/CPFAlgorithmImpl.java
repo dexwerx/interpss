@@ -29,7 +29,7 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     protected final double DEFAULT_CPF_TOLEARANCE=1e-3;
     protected double tolerance;
     protected int maxInterations;
-    protected final double DEFAULT_MAX_STEP_SIZE=0.1;// to control the max step increase/decrease
+    protected final double DEFAULT_MAX_STEP_SIZE=0.5;// to control the max step increase/decrease
     private double maxStepSize=DEFAULT_MAX_STEP_SIZE;
     protected final double DEFAULT_MIN_STEP_SIZE=0.001;// to control the max step increase/decrease
     private double minStepSize=DEFAULT_MIN_STEP_SIZE;
@@ -104,32 +104,12 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 		
 	}
 
-	@Override
-	public int getSortNumOfContParam() {
-		
-		return this.sortNumOfContPara;
-	}
-
-
-	@Override
-	public void setSorNumofContParam(int sortNum) {
-		this.sortNumOfContPara=sortNum;
-		
-	}
 
 	@Override
 	public CPFSolver getCpfSolver() {
 		
 		return this.cpfSolver;
 	}
-
-
-
-	@Override
-	public boolean isLmdaContParam() {
-		return this.getSortNumOfContParam()==this.getAclfNetwork().getNoBus();
-	}
-
 
 
 	@Override

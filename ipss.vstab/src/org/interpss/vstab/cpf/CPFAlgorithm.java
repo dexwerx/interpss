@@ -62,27 +62,13 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
      * @return 
      */
     public boolean isAnyViolation();
-    /**
-     * 
-     * @return the sort Number of continuation parameter;
-     */
-    public int getSortNumOfContParam();
-    /**
-     * set the sort Number of continuation parameter;
-     * @param sortNum
-     */
-    
-    public void setSorNumofContParam(int sortNum);
+
     /**
      * get the CPF Solver
      * @return CPF Solver 
      */
     public CPFSolver getCpfSolver() ;
-    /**
-     * return TRUE if Lambda parameter is used as the continuation parameter, otherwise,False
-     * @return 
-     */
-    public boolean isLmdaContParam();
+
     /**
      * set the LoadIncrease attribute, it aims to increase load by load increasing index-Lambda; Note:load increase pattern is referenced in LoadIncrease
      * @param ldInc
