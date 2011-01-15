@@ -29,7 +29,7 @@ public class CpfAlgorithemTest extends DevTestSetup{
     // create the cpf algorithm;
 	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
 	
-	assertTrue(cpfAlgo.getSortNumOfContParam()==6);
+	assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==6);
 	assertTrue(cpfAlgo.getLoadIncrease().getPattern().getLoadIncDir().get("1").getReal()-1.6<1e-9);
 	}
 }

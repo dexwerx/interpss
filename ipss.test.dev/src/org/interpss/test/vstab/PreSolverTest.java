@@ -38,7 +38,7 @@ public class PreSolverTest extends DevTestSetup {
 	
     // create the cpf algorithm;
 	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
-	assertTrue(cpfAlgo.getSortNumOfContParam()==5);
+	assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==5);
 	
 //	 initialize the cpf predictor step solver;
 	PredictorStepSolver preSolver=cpfAlgo.getCpfSolver().getPredStepSolver();

@@ -45,7 +45,7 @@ public class CorrStepSolverTest extends DevTestSetup {
 	net.accept(algo);
 	assertTrue(net.isLfConverged());
 	assertTrue((cpfAlgo.getCpfSolver().getLambda().getValue()-fixVal)<1e-9);
-
+	System.out.println(AclfOutFunc.loadFlowSummary(net));
 	}
 	
 	/**
@@ -63,15 +63,16 @@ public class CorrStepSolverTest extends DevTestSetup {
 			// create a cpf algorithm;
 			CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
 
-			double fixVal=0.956;
-			net.getAclfBus("1").setVoltageMag(fixVal);
+			double fixVal=1.034;
+			net.getAclfBus("3").setVoltageMag(fixVal);
 			
-			cpfAlgo.setSorNumofContParam(3);// sortNumber=4 ,namely vmag of bus2 is selected as the continuation parameter
-			System.out.println("cpfAlgo SortNum="+cpfAlgo.getSortNumOfContParam());
+			cpfAlgo.getCpfSolver().setSorNumofContParam(4);// sortNumber=2 ,namely vmag of bus1 is selected as the continuation parameter
+			System.out.println("cpfAlgo SortNum="+cpfAlgo.getCpfSolver().getSortNumOfContParam());
 			CorrectorStepSolver corSolver=cpfAlgo.getCpfSolver().getCorrStepSolver();
 
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 			algo.setNrSolver(corSolver);
+			algo.setMaxIterations(100);
 			net.accept(algo);
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			System.out.println("SortNumber of bus1 ="+net.getAclfBus("1").getSortNumber());

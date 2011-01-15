@@ -41,12 +41,12 @@ public class LoadIncreaseTest {
         assertTrue(ldInc.getOrigLoad().get("2").getReal()-2<1e-6);
         
         LambdaParam lambda=new LambdaParam(6,1);
-        ldInc.increaseLoad(lambda);
+        ldInc.increaseLoad(lambda.getValue());
         assertTrue(((AclfBus)ldInc.getAclfNetwork().getBus("2")).getLoad().getReal()-4<1e-6); // loadP=2+dirP(=2)*lambda(=1)=4
         assertTrue(((AclfBus)ldInc.getAclfNetwork().getBus("2")).getLoad().getImaginary()-1<1e-6); // keep constant
         assertTrue(((AclfBus)ldInc.getAclfNetwork().getBus("3")).getLoad().getImaginary()-1.3<1e-6);
         lambda.setValue(0.1);
-        ldInc.increaseLoad(lambda);
+        ldInc.increaseLoad(lambda.getValue());
         assertTrue(((AclfBus)ldInc.getAclfNetwork().getBus("2")).getLoad().getReal()-4.4<1e-6);
 	}    
         //2. increase by Area Scope
@@ -60,7 +60,7 @@ public class LoadIncreaseTest {
         LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
         ldInc.setPattern(ldPtn);
         lambda=new LambdaParam(ldInc.getAclfNetwork().getNoBus()+1,0.1) ;
-        ldInc.increaseLoad(lambda);
+        ldInc.increaseLoad(lambda.getValue());
         System.out.println(ldInc.getAclfNetwork().net2String());
         assertTrue(((AclfBus)ldInc.getAclfNetwork().getBus("2")).getLoad().getReal()-2.2<1e-6);
         assertTrue(((AclfBus)ldInc.getAclfNetwork().getBus("2")).getLoad().getImaginary()-1.1<1e-6);
