@@ -2,7 +2,6 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-    <include schemaLocation=""></include>
     <include schemaLocation="../common/RecordType.xsd"></include>
 
 	<annotation>
@@ -14,7 +13,7 @@
 		Network for Dc system analysis analysis. 
 		</documentation></annotation>
 	</element>
-	
+
 	<element name="dcBus" type="pss:DcBusXmlType" substitutionGroup="pss:bus">
 		<annotation><documentation>
 		Bus record for Dc system analysis
@@ -24,6 +23,24 @@
 	<element name="dcBranch" type="pss:DcBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
 		Branch record for Dc system analysis
+		</documentation></annotation>
+	</element>
+
+<!-- 
+		PV Model definition
+ -->
+	<element name="pvModel" type="pss:BasePVModelXmlType">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>	
+
+	<element name="ivFuncPVModel" type="pss:PVModelIVFunctionXmlType" substitutionGroup="pss:pvModel">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+
+	<element name="ivPointPVModel" type="pss:PVModelIVCurveXmlType" substitutionGroup="pss:pvModel">
+		<annotation><documentation>
 		</documentation></annotation>
 	</element>
 	
@@ -37,11 +54,83 @@
 			<extension base="pss:NetworkXmlType">
 				<sequence>
 					<element name="ratedVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="pvModelList" minOccurs="0" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element ref="pss:pvModel" maxOccurs="unbounded"></element>
+							</sequence>
+						</complexType></element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 	
+	<!--
+			PV Model 
+ 	-->
+	<complexType name="BasePVModelXmlType" abstract="true">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<sequence>
+			<element name="dataType" type="pss:PVModuleDataEnumType" minOccurs="1"></element>
+		</sequence>
+		<attribute name="id" type="ID" use="required"></attribute>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="desc" type="string" use="optional"></attribute>
+	</complexType>
+
+	<simpleType name="PVModuleDataEnumType">
+		<restriction base="string">
+			<enumeration value="Points"></enumeration>
+			<enumeration value="Function"></enumeration>
+			<enumeration value="value"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="PVModelIVFunctionXmlType">
+		<annotation><documentation>
+		</documentation></annotation>
+		<complexContent>
+			<extension base="pss:BasePVModelXmlType">
+				<sequence>
+					<element name="a" type="double" minOccurs="1"></element>
+					<element name="b" type="double" minOccurs="1"></element>
+					<element name="c" type="double" minOccurs="1"></element>
+					<element name="d" type="double" minOccurs="1"></element>
+					<element name="e" type="double" minOccurs="1"></element>
+					<element name="f" type="double" minOccurs="1"></element>
+				</sequence>
+				<attribute name="sign" type="int" use="required"></attribute>		
+				<attribute name="shadingFactor" type="double" use="required"></attribute>
+			</extension>
+		</complexContent>		
+	</complexType>
+
+	<complexType name="PVModelIVCurveXmlType">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<complexContent>
+			<extension base="pss:BasePVModelXmlType">
+		<sequence>
+			<element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
+				<annotation><documentation>
+				volt in ascending order and amp in descending order, and first point vdc = 0;
+				</documentation></annotation></element>
+		</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="PVModelPointXmlType">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<attribute name="volt" type="double" use="required"></attribute>
+		<attribute name="amp" type="double" use="required"></attribute>
+	</complexType>
+
 	<!--  
 		Bus objects
  	-->	
@@ -65,15 +154,10 @@
 						For DcBusCodeEnumType.Load. For other DcBus type, it is optional. Bus load
 						can be defined for any kind of bus type
 						</documentation></annotation></element>
-					<element name="pvModelList" minOccurs="0" maxOccurs="1">
+					<element name="pvModule" minOccurs="0" maxOccurs="1" type="pss:PVModuleXmlType">
                         <annotation><documentation>
                         For DcBusCodeEnumType.PVModel bus type
-                        </documentation></annotation>
-                        <complexType>
-							<sequence>
-								<element name="pvModel" type="pss:SolarPVModelXmlType" minOccurs="1" maxOccurs="unbounded"></element>
-							</sequence>
-						</complexType></element>
+                        </documentation></annotation></element>
 					<element name="inverter" type="pss:DcAcInverterXmlType" minOccurs="0">
 						<annotation><documentation>
 						For DcBusCodeEnumType.Inverter bus type
@@ -84,28 +168,55 @@
 		</complexContent>
 	</complexType>
 
+    <complexType name="PVModuleXmlType">
+      	<sequence>
+       		<element name="pvModuleItem" type="pss:PVModuleItemXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+       	</sequence>
+       	<attribute name="dataType" type="pss:PVModuleDataEnumType" use="required"></attribute>
+    </complexType>
+
 	<simpleType name="DcBusCodeEnumType">
 		<restriction base="string">
 			<enumeration value="Load"></enumeration>
 			<enumeration value="PowerSource"></enumeration>
 			<enumeration value="VoltageSource"></enumeration>
-			<enumeration value="PVModel"></enumeration>
+			<enumeration value="PVModule"></enumeration>
 			<enumeration value="Inverter"></enumeration>
 		</restriction>
-	</simpleType>	
+	</simpleType>
 	
+	<complexType name="PVModuleItemXmlType">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<attribute name="id" type="ID" use="required"></attribute>
+		<attribute name="pvModelRef" type="IDREF" use="required"></attribute>
+		<attribute name="name" type="string" use="optional"></attribute>
+		<attribute name="desc" type="string" use="optional"></attribute>
+	</complexType>
+
+		
+	
+	<!--
+			Inverter 
+	 -->
 	<complexType name="DcAcInverterXmlType">
 		<annotation><documentation>
 		</documentation></annotation>
 		<sequence>
 			<element name="powerRating" type="pss:ActivePowerXmlType" minOccurs="1"></element>
 			<element name="vdcLimit" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
+			<element name="mpptLimit" type="pss:ActivePowerLimitXmlType" minOccurs="1"></element>
+			<choice>
+			<element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></element>
 			<element name="lossParamList" minOccurs="1">
 				<complexType>
 					<sequence>
 						<element name="lossParam" type="pss:InverterLossParamXmlType" minOccurs="1" maxOccurs="unbounded"></element>
 					</sequence>
-				</complexType></element>
+				</complexType>
+			</element>
+			</choice>
 		</sequence>
 	</complexType>
 
@@ -113,32 +224,22 @@
 		<annotation>
 			<documentation></documentation>
 		</annotation>
-		<attribute name="vdc" type="double"></attribute>
-		<attribute name="a" type="double"></attribute>
-		<attribute name="b" type="double"></attribute>
-		<attribute name="c" type="double"></attribute>
+		<attribute name="vdc" type="double" use="required"></attribute>
+		<attribute name="a" type="double" use="required"></attribute>
+		<attribute name="b" type="double" use="required"></attribute>
+		<attribute name="c" type="double" use="required"></attribute>
 	</complexType>
 
-	<complexType name="SolarPVModelXmlType">
+	<complexType name="InverterLossEqnXmlType">
 		<annotation>
 			<documentation></documentation>
 		</annotation>
-		<sequence>
-			<element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
-				<annotation><documentation>
-				volt in ascending order and amp in descending order, and first point vdc = 0;
-				</documentation></annotation></element>
-		</sequence>
-		<attribute name="name" type="string" use="required"></attribute>
-		<attribute name="desc" type="string" use="optional"></attribute>
-	</complexType>
-
-	<complexType name="PVModelPointXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<attribute name="volt" type="double" use="required"></attribute>
-		<attribute name="amp" type="double" use="required"></attribute>
+		<attribute name="a1" type="double" use="required"></attribute>
+		<attribute name="a2" type="double" use="required"></attribute>
+		<attribute name="b1" type="double" use="required"></attribute>
+		<attribute name="b2" type="double" use="required"></attribute>
+		<attribute name="c1" type="double" use="required"></attribute>
+		<attribute name="c2" type="double" use="required"></attribute>
 	</complexType>
 
 	<!--  
