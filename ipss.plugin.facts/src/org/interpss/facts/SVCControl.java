@@ -1,12 +1,13 @@
 package org.interpss.facts;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
+import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.impl.AbstractAclfBus;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 /**
  * A SVC implementation
@@ -14,9 +15,14 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
  *     i - The SVC connected bus position in the J-matrix
  *     n - The SVC position in the J-matrix
  *
- * 	   vsh - Magnitude of the equivalent (controlled) voltage source of the converter's Thevenin equivalent circuit
- *     thetash - Phase angle of the equivalent (controlled) voltage source of the converter's Thevenin equivalent circuit
- *     qc - Control objective of the SVC, should be Vspecify in constant V mode, Qspecify in constant Q mode and Bspecify in constant B mode
+ * 	   vsh - Magnitude of the equivalent (controlled) voltage source of the converter's 
+ *              Thevenin equivalent circuit
+ *     thetash - Phase angle of the equivalent (controlled) voltage source of the converter's 
+ *              Thevenin equivalent circuit
+ *     qc - Control objective of the SVC, should be 
+ *     			Vspecify in constant V mode, 
+ *     			Qspecify in constant Q mode 
+ *     			Bspecify in constant B mode
  *     gsh + j bsh - Equivalent admittance of the converter's Thevenin equivalent circuit
  *     
  *     qc and (gsh + j bsh) should be pre-defined, while vsh and thetash is calculated according to the load flow scenario and the control
@@ -37,7 +43,10 @@ public class SVCControl extends AbstractAclfBus {
     private double bsh;
     private double qc;
     
-    // bus load
+    // SVC limit for inequlity control
+    LimitType limit;
+    
+    // bus load - shunt load at the bus
     private Complex load = new Complex(0.0,0.0);
     
 	public SVCControl(AclfBus bus, int n, SVCControlType type) {
@@ -74,6 +83,14 @@ public class SVCControl extends AbstractAclfBus {
 	public int getPosition() {
 		return position;
 	} 
+	
+	public LimitType getLimit() {
+		return this.limit;
+	}
+	
+	public void setLimit(LimitType limit) {
+		this.limit = limit;
+	}
 	
 	public void setQc(double qc) {
 		this.qc = qc;
