@@ -189,14 +189,20 @@
 		<annotation>
 			<documentation></documentation>
 		</annotation>
+		<sequence>
+			<element name="shadingFactor" type="double" minOccurs="0">
+				<annotation>
+					<documentation>shadingFactor to override the shading factor defined in pvModelRef PVModel</documentation>
+				</annotation></element>
+		</sequence>
 		<attribute name="id" type="ID" use="required"></attribute>
 		<attribute name="pvModelRef" type="IDREF" use="required"></attribute>
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="desc" type="string" use="optional"></attribute>
 	</complexType>
 
-		
-	
+
+
 	<!--
 			Inverter 
 	 -->
