@@ -24,6 +24,10 @@
 
 package org.interpss.numeric.sparse.impl;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
@@ -84,5 +88,26 @@ public class SparseEqnDoubleCommonMathImpl extends AbstractSparseEqnDouble {
 	public void solveEqn() {
 		LUDecomposition lu = new LUDecompositionImpl(A);
 		this.X = lu.getSolver().solve(B);
+	}
+	public String toString(){
+		   
+		   StringBuffer sb=new StringBuffer();
+		   DecimalFormat format = new DecimalFormat();
+		   format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+		   format.setMinimumIntegerDigits(1);
+		   format.setMaximumFractionDigits(3);
+		   format.setMinimumFractionDigits(1);
+		   for(int i=0;i<A.getRowDimension();i++) {
+			   for(int j=0;j<A.getColumnDimension();j++) {
+				   String s=format.format(A.getEntry(i, j));
+				   sb.append(s);
+				   int padding = Math.max(1,5-s.length()); // At _least_ 1 space
+		           for (int k = 0; k < padding; k++) sb.append(" ");
+		                    
+			   }
+			   sb.append("\n");
+		   }
+
+		   return sb.toString();
 	}
 }
