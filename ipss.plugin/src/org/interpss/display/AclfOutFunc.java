@@ -42,7 +42,6 @@ import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adj.XfrTapControlType;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.algorithm.AclfMethod;
@@ -116,14 +115,7 @@ public class AclfOutFunc {
 			net.forEachAclfBus(new IAclfBusVisitor() {
 				public void visit(AclfBus bus) {
 					if (bus.isActive()) {
-						GenBusAdapter genBus = bus.toGenBus();
-						Complex busPQ = genBus.getGenResults(UnitType.PU);
-						busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
-						if (bus.isCapacitor()) {
-							CapacitorBusAdapter cap = bus.toCapacitorBus();
-							busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-									.getVoltageMag(), UnitType.PU)));
-						}
+						Complex busPQ = bus.getPowerInjection();
 						str.append("  ");
 						str.append(String.format("%-12s  ", getBusId(bus, bus.getNetwork().getOriginalDataFormat())));
 						str.append(String.format("%-17s ", bus.code2String()));

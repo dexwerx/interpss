@@ -296,7 +296,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 			XfrBranchXmlType branchRec = (XfrBranchXmlType) branch;
 			setXfrBranchData(branchRec, aclfBranch, adjNet, msg);
 		}
-		else if (branch instanceof LineBranchXmlType) {
+		else if (branch instanceof PSXfrBranchXmlType) {
 			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) branch;
 			setPsXfrBranchData(branchRec, aclfBranch, adjNet, msg);
 		}		
