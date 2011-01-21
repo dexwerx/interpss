@@ -54,10 +54,10 @@ public class IeeeCDFFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug) throws Exception{
 		//IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.IeeeCDF);
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub);
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug);
 	}
 	
 	/**
@@ -68,11 +68,10 @@ public class IeeeCDFFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 * @return the created SimuContext object.
 	 */
-	@Override
-	public SimuContext load(final String filepath) throws Exception{
- 		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-//		final SimuContext simuCtx = SimuObjectFactory.createSimuCtxTypeAclfNet(msgHub);
-		load(simuCtx, filepath);
-  		return simuCtx;
-	}
+//	@Override
+//	public SimuContext load(final String filepath) throws Exception{
+//  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+//  		load(simuCtx, filepath);
+//  		return simuCtx;
+//	}
 }
