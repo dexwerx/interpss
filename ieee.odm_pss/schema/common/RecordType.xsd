@@ -87,7 +87,10 @@
         <complexContent>
 			<extension base="pss:CimRdfRecordType">
 				<sequence>
-					<element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1">
+						<annotation>
+							<documentation>For DC system, baseBase might be defined at the Network level</documentation>
+						</annotation></element>
 				</sequence>
 			</extension>
 		</complexContent>

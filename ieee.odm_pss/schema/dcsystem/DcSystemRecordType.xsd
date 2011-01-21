@@ -177,6 +177,7 @@
 
 	<simpleType name="DcBusCodeEnumType">
 		<restriction base="string">
+			<enumeration value="Connection"></enumeration>
 			<enumeration value="Load"></enumeration>
 			<enumeration value="PowerSource"></enumeration>
 			<enumeration value="VoltageSource"></enumeration>
@@ -256,12 +257,14 @@
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:BaseBranchXmlType">
+				<choice>
 				<sequence>
-					<element name="feeder" type="pss:DcFeederXmlType" minOccurs="1" maxOccurs="1">
+					<element name="feeder" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
 					</element>
 					<element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
 					</element>
 				</sequence>
+				</choice>
 			</extension>
 		</complexContent>
 	</complexType>
