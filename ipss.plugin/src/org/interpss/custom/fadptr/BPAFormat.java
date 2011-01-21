@@ -47,9 +47,9 @@ public class BPAFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug) throws Exception{
 		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub);
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug);
  	}
 	
 	/**
@@ -60,10 +60,10 @@ public class BPAFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 * @return the created SimuContext object.
 	 */
-	@Override
-	public SimuContext load(final String filepath) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-  		load(simuCtx, filepath);
-  		return simuCtx;
-	}
+//	@Override
+//	public SimuContext load(final String filepath) throws Exception{
+//  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+//  		load(simuCtx, filepath);
+//  		return simuCtx;
+//	}
 }
