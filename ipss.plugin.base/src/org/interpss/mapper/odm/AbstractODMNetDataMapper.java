@@ -109,8 +109,13 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 			Zone zone = CoreObjectFactory.createZone(busRec.getZoneNumber(), net);
 			bus.setZone(zone);
 		}
-		bus.setBaseVoltage(busRec.getBaseVoltage().getUnit()==VoltageUnitType.KV ?    // Base V unit [KV, Volt] 
-									busRec.getBaseVoltage().getValue()*1000.0	: busRec.getBaseVoltage().getValue());
+		
+		// for DcSystem, baseVoltage might defined at Net level
+		if (busRec.getBaseVoltage() != null) {
+			bus.setBaseVoltage(busRec.getBaseVoltage().getUnit()==VoltageUnitType.KV ?    // Base V unit [KV, Volt] 
+					busRec.getBaseVoltage().getValue()*1000.0 : 
+					busRec.getBaseVoltage().getValue());
+		}
 	}
 
 	/**
