@@ -46,7 +46,7 @@ public class CustomFileUtility {
 
 		try {
 			adapter.setVersionSelected(version);
-			adapter.load(simuCtx, filepath);
+			adapter.load(simuCtx, filepath, false);
 		} catch (Exception e) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"Custom Data File Loading Error", e.toString());
