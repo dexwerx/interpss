@@ -77,7 +77,7 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 * Load the file into the a SimuNetwork object
 	 *  
 	 */
-	void load(SimuContext simuCtx, String filepath) throws Exception;
+	void load(SimuContext simuCtx, String filepath, boolean debug) throws Exception;
 
 	/**
 	 * Load the file and create a SimuNetwork object
@@ -86,6 +86,13 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 */
 	SimuContext load(String filepath) throws Exception;
 
+	/**
+	 * Load the file and create a SimuNetwork object
+	 *  
+	 * @return a SimuNetwork object
+	 */
+	SimuContext loadDebug(String filepath) throws Exception;
+	
 	/**
 	 * Load the file and create a SimuNetwork object
 	 *  
