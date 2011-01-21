@@ -37,6 +37,8 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
 
 public class IpssFileAdapterBase implements IpssFileAdapter{
 	protected IPSSMsgHub msgHub;
@@ -54,10 +56,12 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		this.msgHub = msgHub;
 	}
 	
-	protected void loadByODMTransformation(final IODMAdapter adapter, final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{		
+	protected void loadByODMTransformation(final IODMAdapter adapter, final SimuContext simuCtx, final String filepath, 
+						final IPSSMsgHub msg, boolean debug)  throws Exception{		
 		adapter.parseInputFile(filepath);
 		this.parser = adapter.getModel();
-		//System.out.println(adapter.getModel().toString());
+		if (debug)
+			System.out.println(adapter.getModel().toXmlDoc(false));
 		
 		
 		if (PluginSpringCtx.getOdm2AclfMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
@@ -133,12 +137,20 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		description = s;
 	}
 
-	public void load(SimuContext simuCtx, String filepath) throws Exception {
+	public void load(SimuContext simuCtx, String filepath, boolean debug) throws Exception {
 		throw new InvalidOperationException("Load need to implemented");
 	}
 
 	public SimuContext load(String filepath) throws Exception {
-		throw new InvalidOperationException("Load need to implemented");
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath, false);
+  		return simuCtx;
+	}
+
+	public SimuContext loadDebug(String filepath) throws Exception {
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath, true);
+  		return simuCtx;
 	}
 
 	public AclfNetwork loadAclfNet(String filepath) throws Exception {
