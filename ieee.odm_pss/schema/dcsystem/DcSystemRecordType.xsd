@@ -212,8 +212,11 @@
 		</documentation></annotation>
 		<sequence>
 			<element name="powerRating" type="pss:ActivePowerXmlType" minOccurs="1"></element>
-			<element name="vdcLimit" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
-			<element name="mpptLimit" type="pss:ActivePowerLimitXmlType" minOccurs="1"></element>
+			<element name="vdcmax" type="double" minOccurs="0"></element>
+			<element name="idcmax" type="double" minOccurs="0"></element>
+			<element name="mpptHigh" type="double" minOccurs="0"></element>
+			<element name="mpptLow" type="double" minOccurs="0"></element>
+			<element name="vac" type="double" minOccurs="0"></element>
 			<choice>
 			<element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></element>
 			<element name="lossParamList" minOccurs="1">
