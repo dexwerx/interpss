@@ -293,7 +293,8 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       			}
     		} while (lineStr != null);
   		} catch (Exception e) {
-    		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
+  			e.printStackTrace();
+  			throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
   		AclfParserHelper.createBusEquivData(parser, this.getLogger());

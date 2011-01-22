@@ -199,6 +199,8 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	public LineBranchXmlType createLineBranch() {
 		LineBranchXmlType branch = this.getFactory().createLineBranchXmlType();
+		branch.setRatingLimit(this.getFactory().createBranchRatingLimitXmlType());
+		branch.setLineInfo(this.getFactory().createLineBranchInfoXmlType());
 		intiBranchData(branch);
 		return branch;
 	}
@@ -210,6 +212,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	public XfrBranchXmlType createXfrBranch() {
 		XfrBranchXmlType branch = this.getFactory().createXfrBranchXmlType();
+		branch.setXfrInfo(this.getFactory().createTransformerInfoXmlType());
 		intiBranchData(branch);
 		return branch;
 	}

@@ -27,11 +27,10 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
@@ -210,8 +209,16 @@ public class XformerDataRec extends BaseBranchDataRec {
 */
 		boolean isPsXfr = this.anglp != 0.0 || this.angls != 0.0;
 
-		XfrBranchXmlType branchRec = isPsXfr?
-				parser.createPSXfrBranch() : parser.createXfrBranch();
+		final String fid = AclfModelParser.BusIdPreFix + f_bus;
+		final String tid = AclfModelParser.BusIdPreFix + t_bus;
+		final String cId = ck.replace(' ', '_');
+		XfrBranchXmlType branchRec = null;
+		try {
+			branchRec = isPsXfr?
+				parser.createPSXfrBranch(fid, tid, cId) : parser.createXfrBranch(fid, tid, cId);
+		} catch (Exception e) {
+			ODMLogger.getLogger().severe("branch data error, " + e.toString());
+		}				
 		
 		if (branchRec.getNvPairList() == null)
 			branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());

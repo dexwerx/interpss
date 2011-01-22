@@ -57,19 +57,4 @@ public class BranchHeaderRec {
 			this.long_id = st.nextToken();
 		}
 	}
-//	
-//	public BranchXmlType createBranch(AclfModelParser parser) throws Exception {
-//		final String fid = AclfModelParser.BusIdPreFix + f_bus;
-//		final String tid = AclfModelParser.BusIdPreFix + t_bus;
-//		final String cId = ck.replace(' ', '_');
-//		BranchXmlType branchRec = parser.getBranch(fid, tid, cId);
-//		if (branchRec == null) {
-//			String id = ModelStringUtil.formBranchId(fid, tid, cId);
-//			branchRec = parser.createBranch(id);	
-//			branchRec.setFromBus(parser.createBusRef(fid));
-//			branchRec.setToBus(parser.createBusRef(tid));
-//			branchRec.setName(f_name + "-" + t_name + "_" + cId);
-//		}
-//		return branchRec;
-//	}
 }

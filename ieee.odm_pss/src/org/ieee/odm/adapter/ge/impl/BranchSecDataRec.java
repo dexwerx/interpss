@@ -27,6 +27,7 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -66,9 +67,17 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		public String f_name, t_name, ck, long_id;
 		public double f_bkv, t_bkv;
 */		
-		LineBranchXmlType branchRec = parser.createLineBranch();
+		final String fid = AclfModelParser.BusIdPreFix + f_bus;
+		final String tid = AclfModelParser.BusIdPreFix + t_bus;
+		final String cId = ck.replace(' ', '_');
+		LineBranchXmlType branchRec = null;
+		try {
+			branchRec = parser.createLineBranch(fid, tid, cId);
+		} catch (Exception e) {
+			ODMLogger.getLogger().severe("branch data error, " + e.toString());
+		}
 		
-		LineBranchInfoXmlType branchInfo = branchRec.getLineInfo(); 
+//		LineBranchInfoXmlType branchInfo = branchRec.getLineInfo(); 
 //		branchRec.getLoadflowData().add(branchData);
 //		branchData.setCode(LFBranchCodeEnumType.LINE);
 

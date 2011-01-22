@@ -152,7 +152,7 @@ public class NetDataRec {
 			
 			if (baseCaseNet.getAreaList() == null)
 				baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
-			ExchangeAreaXmlType area = (ExchangeAreaXmlType)parser.getFactory().createNetAreaXmlType();
+			ExchangeAreaXmlType area = parser.getFactory().createExchangeAreaXmlType();
 			baseCaseNet.getAreaList().getArea().add(area);
 			area.setId(new Integer(this.arnum).toString());
 			area.setNumber(this.arnum);
@@ -192,7 +192,7 @@ public class NetDataRec {
 			
 			if (baseCaseNet.getLossZoneList() == null)
 				baseCaseNet.setLossZoneList(parser.getFactory().createNetworkXmlTypeLossZoneList());
-			ExchangeZoneXmlType zone = (ExchangeZoneXmlType)parser.getFactory().createNetZoneXmlType(); 
+			ExchangeZoneXmlType zone = parser.getFactory().createExchangeZoneXmlType(); 
 			baseCaseNet.getLossZoneList().getLossZone().add(zone);
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);
