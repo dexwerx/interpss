@@ -35,7 +35,7 @@ import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;

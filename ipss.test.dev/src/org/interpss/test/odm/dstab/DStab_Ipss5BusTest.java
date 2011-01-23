@@ -38,7 +38,7 @@ import org.junit.Test;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.acsc.fault.SimpleFaultType;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.devent.DynamicEvent;
