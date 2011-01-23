@@ -1,8 +1,9 @@
 package org.interpss.facts;
 
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.impl.DefaultNrSolver;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.impl.DefaultNrSolver;
 
 public class SVCNrSolver extends DefaultNrSolver {
 
