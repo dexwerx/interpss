@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.junit.Test;
 
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.DStabOutSymbol;

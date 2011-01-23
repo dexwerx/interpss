@@ -31,8 +31,8 @@ import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.AclfMethod;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
 public class NEIsoEDTestCases extends PluginTestSetup {

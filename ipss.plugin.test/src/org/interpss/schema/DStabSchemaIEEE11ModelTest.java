@@ -36,7 +36,7 @@ import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;

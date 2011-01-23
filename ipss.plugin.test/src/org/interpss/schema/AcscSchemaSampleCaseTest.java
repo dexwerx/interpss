@@ -37,7 +37,7 @@ import org.junit.Test;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
-import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
 
 public class AcscSchemaSampleCaseTest extends PluginTestSetup {
