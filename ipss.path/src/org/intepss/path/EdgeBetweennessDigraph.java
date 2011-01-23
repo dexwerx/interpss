@@ -27,7 +27,7 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 // Class to calculate edge betweenness
 // ****** Key idea: the bigger the active power flow is, the closer the two terminal of a certain branch is, on another word, the more important
