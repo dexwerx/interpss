@@ -22,8 +22,7 @@ import org.interpss.vstab.cpf.impl.GenDispatch;
 import org.interpss.vstab.cpf.impl.LoadIncrease;
 
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.common.visitor.IAclfNetBVisitor;
+import com.interpss.core.algo.LoadflowAlgorithm;
 /**
  * An interface to define the methods/operations in CPFAlgorithm, and it is extended from LoadflowAlgorithm.
  * @author Tony Huang

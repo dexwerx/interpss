@@ -16,7 +16,7 @@ import org.junit.Test;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
 import com.interpss.spring.CoreCommonSpringCtx;
 

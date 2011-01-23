@@ -5,7 +5,7 @@ import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class CPFSolverImpl implements CPFSolver{
 

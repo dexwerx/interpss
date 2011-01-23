@@ -5,9 +5,10 @@ import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.util.VstabFuncOut;
+
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.IAclfElement;
-import com.interpss.core.algorithm.impl.DefaultNrSolver;
+import com.interpss.core.algo.impl.DefaultNrSolver;
 import com.interpss.core.net.Bus;
 
 public class CorrectorStepSolver extends DefaultNrSolver {

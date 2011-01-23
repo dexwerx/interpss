@@ -3,10 +3,11 @@ package org.interpss.vstab.cpf.impl;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
+
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.impl.LoadflowAlgorithmImpl;
+import com.interpss.core.algo.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 /**
