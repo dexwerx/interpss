@@ -9,7 +9,7 @@ import org.interpss.custom.IpssFileAdapter;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class CommunityTestSZNormal {
 
