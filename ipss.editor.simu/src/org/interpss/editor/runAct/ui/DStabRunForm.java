@@ -38,7 +38,7 @@ import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;

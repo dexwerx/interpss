@@ -39,7 +39,7 @@ import org.interpss.spring.PluginSpringCtx;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;

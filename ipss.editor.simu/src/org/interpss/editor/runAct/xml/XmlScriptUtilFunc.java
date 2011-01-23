@@ -30,7 +30,7 @@ import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public class XmlScriptUtilFunc {

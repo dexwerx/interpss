@@ -48,7 +48,7 @@ import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adj.FunctionLoad;
-import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.simu.SimuContext;

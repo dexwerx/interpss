@@ -50,7 +50,7 @@ import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
