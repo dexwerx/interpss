@@ -31,8 +31,8 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class IpssXmlMapper extends AbstractMapper {

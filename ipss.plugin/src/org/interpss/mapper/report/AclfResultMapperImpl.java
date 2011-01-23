@@ -55,7 +55,7 @@ import com.interpss.core.aclf.adj.XfrTapControlType;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
-import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;

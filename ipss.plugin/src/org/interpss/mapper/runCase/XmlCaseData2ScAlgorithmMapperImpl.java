@@ -40,8 +40,8 @@ import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
-import com.interpss.core.algorithm.ScBusVoltageType;
-import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.algo.ScBusVoltageType;
+import com.interpss.core.algo.SimpleFaultAlgorithm;
 
 public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm> {
 	public XmlCaseData2ScAlgorithmMapperImpl(IPSSMsgHub msg) {

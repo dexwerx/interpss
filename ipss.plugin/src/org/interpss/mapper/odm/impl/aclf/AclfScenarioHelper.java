@@ -28,8 +28,8 @@ import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
 
-import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.AclfMethod;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class AclfScenarioHelper {
 	LoadflowAlgorithm aclfAlgo = null;

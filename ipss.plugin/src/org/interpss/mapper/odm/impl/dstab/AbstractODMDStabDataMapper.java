@@ -60,7 +60,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;

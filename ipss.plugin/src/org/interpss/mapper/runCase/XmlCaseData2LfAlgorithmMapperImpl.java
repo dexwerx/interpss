@@ -29,8 +29,8 @@ import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.UnitDataType;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.AclfMethod;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> {
 	public XmlCaseData2LfAlgorithmMapperImpl(IPSSMsgHub msg) {
