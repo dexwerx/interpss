@@ -32,7 +32,7 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.simu.IpssAclf;
 
 

@@ -31,8 +31,8 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.impl.DefaultNrSolver;
+import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.algo.impl.DefaultNrSolver;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
 

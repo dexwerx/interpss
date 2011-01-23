@@ -31,10 +31,10 @@ import org.interpss.custom.IpssFileAdapter;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.path.NetPathWalkAlgorithm;
-import com.interpss.core.algorithm.path.NetPathWalkDirectionEnum;
-import com.interpss.core.algorithm.path.impl.AbstractBranchPowerFlowPathWalker;
-import com.interpss.core.algorithm.path.impl.AbstractBusPowerFlowPathWalker;
+import com.interpss.core.algo.path.NetPathWalkAlgorithm;
+import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
+import com.interpss.core.algo.path.impl.AbstractBranchPowerFlowPathWalker;
+import com.interpss.core.algo.path.impl.AbstractBusPowerFlowPathWalker;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;

@@ -24,8 +24,6 @@
 
 package org.interpss.sample.aclf;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.exp.IpssNumericException;
@@ -45,7 +43,7 @@ import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
 import com.interpss.spring.CoreCommonSpringCtx;
 

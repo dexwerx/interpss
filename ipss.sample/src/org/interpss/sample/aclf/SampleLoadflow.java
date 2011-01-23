@@ -45,7 +45,7 @@ import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.pssl.simu.IpssAclf;
 
 
