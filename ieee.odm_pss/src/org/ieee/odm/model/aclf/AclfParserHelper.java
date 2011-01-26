@@ -168,16 +168,23 @@ public class AclfParserHelper extends BaseJaxbHelper {
 					if (offLine && genData.getEquivGen().getCode() != LFGenCodeEnumType.SWING)
 						// generator on a swing bus might turned off
 						genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
-					else {	
+					else if (genData.getEquivGen().getCode() == LFGenCodeEnumType.PV) {
+						equivGen.setPower(BaseDataSetter.createPowerValue(pgen, qgen, ApparentPowerUnitType.MVA));
+						if (qmax != 0.0 || qmin != 0.0) {
+							equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qmax, qmin, ReactivePowerUnitType.MVAR));
+							if (vSpec != 0.0) {
+								equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpec, vSpecUnit));
+							}
+						}
+						else {
+							// this is the case when the generator is turn-off
+							genData.getEquivGen().setCode(LFGenCodeEnumType.PQ);
+						}
+					}	
+					else {  // PQ bus	
 						equivGen.setPower(BaseDataSetter.createPowerValue(pgen, qgen, ApparentPowerUnitType.MVA));
 						if (pmax != 0.0 || pmin != 0.0) {
 							equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(pmax, pmin, ActivePowerUnitType.MW));
-						}
-						if (qmax != 0.0 || qmin != 0.0) {
-							equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qmax, qmin, ReactivePowerUnitType.MVAR));
-						}
-						if (vSpec != 0.0) {
-							equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpec, vSpecUnit));
 						}
 					}
 					

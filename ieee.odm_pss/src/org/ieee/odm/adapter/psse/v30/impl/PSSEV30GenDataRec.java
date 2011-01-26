@@ -31,7 +31,6 @@ import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -56,6 +55,20 @@ public class PSSEV30GenDataRec {
 	 * The standard generator boundary condition is a specification of real
 	 * power output at the high-voltage bus, bus k, and of voltage magnitude at
 	 * some designated bus, not necessarily bus k.
+	 * 
+PG Generator active power output; entered in MW. PG = 0.0 by default.
+QG Generator reactive power output; entered in Mvar. QG need be entered only if the
+	case, as read in, is to be treated as a solved case. QG = 0.0 by default.
+QT Maximum generator reactive power output; entered in Mvar. For fixed output generators
+	(i.e., nonregulating), QT must be equal to the fixed Mvar output.
+QT = 9999.0 by default.
+QB Minimum generator reactive power output; entered in Mvar. For fixed output
+	generators, QB must be equal to the fixed Mvar output. QB = -9999.0 by default.
+VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
+
+ This is a case where the gen is turn-off
+ I,    ID,       PG,        QG,        QT,        QB,   VS,          IREG,MBASE,     ZR,        ZX,        RT,        XT,     GTAP,   STAT,RMPCT,    PT,        PB,      O1,F1,...,O4,F4
+ 10636,'1 ',     0.000,     0.000,     0.000,     0.000,1.05100,     0,   100.000,   0.00000,   1.00000,   0.00000,   0.00000,1.00000,1,  100.0,     0.000,     0.000,   1,1.0000
 	 */
 
 	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser, Logger logger) {
@@ -87,14 +100,14 @@ public class PSSEV30GenDataRec {
 
 	    contriGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
 		
-		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
-			pt = 9999.0; pb = -9999.0;
-		}
+//		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
+//			pt = 9999.0; pb = -9999.0;
+//		}
 		contriGen.setPLimit(BaseDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
 		
-		if (qt == 0.0 & qb == 0.0 || qt < qb) {
-			qt = 9999.0; qb = -9999.0;
-		}
+//		if (qt == 0.0 & qb == 0.0 || qt < qb) {
+//			qt = 9999.0; qb = -9999.0;
+//		}
 		contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
 		
 	    if (ireg > 0) {
