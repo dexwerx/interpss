@@ -9,10 +9,16 @@
 	      scope="singleton">	
 	</bean>
 
+<!--
+	Default Double Sparse Eqn implementation   
+-->
 	<bean id="sparseEqnDouble" 
 	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl"
 	      scope="singleton">	
 	</bean>
+<!--
+	An alternative Double Sparse Eqn implementation   
+-->
 	<bean id="sparseEqnDoubleCommonMath" 
 	      class="org.interpss.numeric.sparse.impl.SparseEqnDoubleCommonMathImpl"
 	      scope="singleton">	
