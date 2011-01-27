@@ -30,7 +30,15 @@
 		<annotation><documentation>
 		</documentation></annotation>
 	</element>
+	<element name="aclf3WXfr" type="pss:Xfr3WBranchXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
 	<element name="aclfPSXfr" type="pss:PSXfrBranchXmlType" substitutionGroup="pss:branch">
+		<annotation><documentation>
+		</documentation></annotation>
+	</element>
+	<element name="aclf3WPSXfr" type="pss:PSXfr3WBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
 		</documentation></annotation>
 	</element>
@@ -332,21 +340,6 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="Transformer3WInfoXmlType">
-		<complexContent>
-			<extension base="pss:TransformerInfoXmlType">
-				<sequence>
-					<element name="starVMag" type="pss:VoltageXmlType" minOccurs="0"></element>
-					<element name="starVAng" type="pss:AngleXmlType" minOccurs="0"></element>
-					<element name="tertRatedVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
-					<element name="ratedPower23" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
-					<element name="ratedPower31" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
-					<element name="tertLossFactor" type="double" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-
 	<complexType name="PSXfrBranchXmlType">
 		<complexContent>
 			<extension base="pss:XfrBranchXmlType">
@@ -364,31 +357,6 @@
 			<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
   		</sequence>
 	</group>
-	
-	<complexType name="Xfr3WBranchXmlType">
-		<complexContent>
-			<extension base="pss:XfrBranchXmlType">
-				<sequence>
-					<element name="z23" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="z31" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="tertTurnRatio" type="pss:TurnRatioXmlType" minOccurs="0"></element>
-					<element name="ratingLimit23" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
-					<element name="ratingLimit13" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-
-	<complexType name="PSXfr3WBranchXmlType">
-		<complexContent>
-			<extension base="pss:Xfr3WBranchXmlType">
-				<sequence>
-				  	<group ref="pss:PSXfrInfoGroup"/>
-					<element name="tertShiftAngle" type="pss:AngleXmlType" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
 
 	<simpleType name="TapAdjustmentEnumType">
 		<restriction base="string">
@@ -461,4 +429,48 @@
 			<enumeration value="ToBus"></enumeration>
 		</restriction>
 	</simpleType>	
+	
+<!-- 
+		3W Xfr Branch objects
+ -->
+ 
+ 	<complexType name="Xfr3WBranchXmlType">
+		<complexContent>
+			<extension base="pss:XfrBranchXmlType">
+				<sequence>
+					<element name="z23" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="z31" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="tertTurnRatio" type="pss:TurnRatioXmlType" minOccurs="0"></element>
+					<element name="ratingLimit23" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
+					<element name="ratingLimit13" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Transformer3WInfoXmlType">
+		<complexContent>
+			<extension base="pss:TransformerInfoXmlType">
+				<sequence>
+					<element name="starVMag" type="pss:VoltageXmlType" minOccurs="0"></element>
+					<element name="starVAng" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="tertRatedVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
+					<element name="ratedPower23" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+					<element name="ratedPower31" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+					<element name="tertLossFactor" type="double" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="PSXfr3WBranchXmlType">
+		<complexContent>
+			<extension base="pss:Xfr3WBranchXmlType">
+				<sequence>
+				  	<group ref="pss:PSXfrInfoGroup"/>
+					<element name="tertShiftAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
 </schema>
