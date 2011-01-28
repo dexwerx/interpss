@@ -136,7 +136,9 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 			net.addBranch(branch, fromBusId, toBusId);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new InterpssException(e.toString() + ", the branch is ignored");
+			throw new InterpssException(e.toString() + ", the branch is ignored " +
+					(branchRec.getFromBus().getIdRef() == null? "null" : BaseJaxbHelper.getRecId(branchRec.getFromBus()) + " -> " + 
+					(branchRec.getToBus().getIdRef() == null? "null" : BaseJaxbHelper.getRecId(branchRec.getToBus()))));
 		}
 
 		branch.setName(branchRec.getName() == null ? "" : branchRec.getName());
