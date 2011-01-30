@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;

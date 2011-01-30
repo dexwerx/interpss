@@ -27,7 +27,6 @@ package org.ieee.odm.model;
 import java.text.DecimalFormat;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.BranchXmlType;
 
 public class ModelStringUtil {

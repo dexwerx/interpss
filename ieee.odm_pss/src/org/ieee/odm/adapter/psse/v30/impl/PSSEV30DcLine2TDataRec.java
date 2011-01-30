@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;

@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import org.ieee.odm.adapter.dep.v07.ge.GE_PSLF_AdapterOld;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
-import org.ieee.odm.model.dep.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;

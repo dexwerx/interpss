@@ -60,8 +60,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.odm.model.dep.xbean.XBeanDataSetter;
-import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 
 public class XBeanParserHelper {
 	/**

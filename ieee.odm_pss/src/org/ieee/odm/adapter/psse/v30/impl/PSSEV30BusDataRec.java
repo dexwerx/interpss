@@ -28,12 +28,12 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -52,7 +52,12 @@ public class PSSEV30BusDataRec {
 
 	 */
 	public static void procLineString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
-		procFields(lineStr, version);
+		try {
+			procFields(lineStr, version);
+		} catch (Exception e) {
+			ODMLogger.getLogger().severe("lineStr: " + lineStr);
+			e.printStackTrace();
+		}
 
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
@@ -100,7 +105,7 @@ public class PSSEV30BusDataRec {
 			
 	}
 	
-	private static void procFields(String lineStr, PsseVersion version) {
+	private static void procFields(String lineStr, PsseVersion version) throws Exception {
 		StringTokenizer st;
 
 	//	 101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1

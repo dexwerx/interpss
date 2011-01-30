@@ -46,9 +46,11 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
+import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
+import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 
@@ -101,8 +103,12 @@ public class BaseJaxbHelper {
 			return getFactory().createDstabXfr((XfrDStabXmlType)branch);
 		else if (branch instanceof LineBranchXmlType) 
 			return getFactory().createAclfLine((LineBranchXmlType)branch);
+		else if (branch instanceof PSXfr3WBranchXmlType) 
+			return getFactory().createAclf3WPSXfr((PSXfr3WBranchXmlType)branch);
 		else if (branch instanceof PSXfrBranchXmlType) 
 			return getFactory().createAclfPSXfr((PSXfrBranchXmlType)branch);
+		else if (branch instanceof Xfr3WBranchXmlType) 
+			return getFactory().createAclf3WXfr((Xfr3WBranchXmlType)branch);
 		else if (branch instanceof XfrBranchXmlType) 
 			return getFactory().createAclfXfr((XfrBranchXmlType)branch);
 		else if (branch instanceof DcBranchXmlType) 

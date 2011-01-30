@@ -33,7 +33,6 @@ import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.dep.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusRecordXmlType;

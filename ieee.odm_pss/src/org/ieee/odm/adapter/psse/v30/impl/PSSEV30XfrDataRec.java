@@ -33,7 +33,6 @@ import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -242,7 +241,7 @@ public class PSSEV30XfrDataRec {
   			windv1 /= nomv1;
   			xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(nomv1, VoltageUnitType.KV));
   		}
-  		branchRec.setFromTurnRatio(BaseDataSetter.createTapPU(windv1));
+  		branchRec.setFromTurnRatio(BaseDataSetter.createTurnRatioPU(windv1));
 	
     	if (isPsXfr && is3W) {
     		PSXfr3WBranchXmlType branchPsXfr = (PSXfr3WBranchXmlType)branchRec; 
@@ -386,7 +385,7 @@ public class PSSEV30XfrDataRec {
   			windv2 /= nomv2;
   			xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(nomv2, VoltageUnitType.KV));
   		}
-  		branchRec.setToTurnRatio(BaseDataSetter.createTapPU(windv2));
+  		branchRec.setToTurnRatio(BaseDataSetter.createTurnRatioPU(windv2));
 
   		if (is3W) {
     		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branchRec; 
@@ -413,7 +412,7 @@ public class PSSEV30XfrDataRec {
       			windv3 /= nomv3;
       			xfr3WInfo.setTertRatedVoltage(BaseDataSetter.createVoltageValue(nomv3, VoltageUnitType.KV));
       		}
-      		branch3WXfr.setTertTurnRatio(BaseDataSetter.createTapPU(windv3));
+      		branch3WXfr.setTertTurnRatio(BaseDataSetter.createTurnRatioPU(windv3));
       		branch3WXfr.setRatingLimit13(parser.getFactory().createBranchRatingLimitXmlType());
            	AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
            	if (isPsXfr) {

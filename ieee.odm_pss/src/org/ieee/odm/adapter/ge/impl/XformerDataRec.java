@@ -232,8 +232,8 @@ public class XformerDataRec extends BaseBranchDataRec {
 		branchRec.setZ(BaseDataSetter.createZValue(this.zpsr, this.zpsx, ZUnitType.PU));
 		branchRec.getXfrInfo().setDataOnSystemBase(false);
 		
-		branchRec.setFromTurnRatio(BaseDataSetter.createTapPU(this.tapfp));
-		branchRec.setToTurnRatio(BaseDataSetter.createTapPU(this.tapfs));
+		branchRec.setFromTurnRatio(BaseDataSetter.createTurnRatioPU(this.tapfp));
+		branchRec.setToTurnRatio(BaseDataSetter.createTurnRatioPU(this.tapfs));
 		
 		if (isPsXfr) {
 			PSXfrBranchXmlType branch = (PSXfrBranchXmlType)branchRec;

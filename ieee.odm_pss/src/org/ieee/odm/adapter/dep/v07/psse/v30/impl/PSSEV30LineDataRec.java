@@ -10,7 +10,6 @@ import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.dep.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
-import org.ieee.odm.model.dep.jaxb.JaxbParserHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
 import org.ieee.odm.schema.BranchRecordXmlType;

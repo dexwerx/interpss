@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.model.dep.jaxb.JaxbDataSetter;
 import org.ieee.odm.model.dep.jaxb.JaxbODMModelParser;
 import org.ieee.odm.model.dep.xbean.XBeanODMModelParser;
 import org.ieee.odm.schema.BusRecordXmlType;
