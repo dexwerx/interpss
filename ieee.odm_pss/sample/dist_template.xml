@@ -30,11 +30,11 @@
     	</pss:distMixedLoadBus>
     </pss:busList>
     <pss:branchList>
-      <pss:feederDistBranch id="BranchId">
+      <pss:distFeederBranch id="BranchId">
       	<pss:fromBus idRef="Bus-1"></pss:fromBus>
       	<pss:toBus idRef="Bus-2"></pss:toBus>
       	<pss:z1 im="0.0" unit="PU" />
-      </pss:feederDistBranch>
+      </pss:distFeederBranch>
     </pss:branchList>
     <pss:scStd>Generic</pss:scStd>
     <pss:scPointList>

@@ -22,10 +22,10 @@
 	<element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus"/>
 	<element name="distNonContributeSynMotorBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
 	
-	<element name="feederDistBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
-	<element name="xfrDistBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch"/>
-	<element name="reactorDistBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch"/>
-	<element name="breakerDistBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="distXfrBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="distReactorBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch"/>
+	<element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
 
 <!-- 
 	Network types
