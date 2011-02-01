@@ -56,7 +56,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		//parser.stdout();
+		parser.stdout();
 		
 		LoadflowNetXmlType net = parser.getAclfNet();
 		assertTrue(net.getBasePower().getValue() == 100.0);
