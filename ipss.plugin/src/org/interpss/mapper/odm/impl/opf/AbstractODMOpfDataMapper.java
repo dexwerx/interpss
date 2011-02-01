@@ -37,6 +37,7 @@ import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.common.exp.InterpssException;
@@ -133,7 +134,9 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
 		net.addBus(opfGenBus);
 		mapBaseBusData(busRec, opfGenBus, net);
-		setAclfBusData(busRec, opfGenBus, net);
+
+		AclfBusDataHelper helper = new AclfBusDataHelper(net, opfGenBus);
+		helper.setAclfBusData(busRec);
 		
 		/*
     		<pss:coeffA>37.8896</pss:coeffA>

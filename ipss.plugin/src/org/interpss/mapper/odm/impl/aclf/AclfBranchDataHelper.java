@@ -26,6 +26,7 @@ package org.interpss.mapper.odm.impl.aclf;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -37,16 +38,54 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
 
-public class AclfXfrDataHelper {
+public class AclfBranchDataHelper {
 	private AclfNetwork aclfNet = null;
 	private AclfBranch aclfBra = null;
 	
-	public AclfXfrDataHelper(AclfNetwork aclfNet, AclfBranch aclfBra) {
+	public AclfBranchDataHelper(AclfNetwork aclfNet, AclfBranch aclfBra) {
 		this.aclfNet = aclfNet;
 		this.aclfBra = aclfBra;
+	}
+	
+	public void setLineBranchData(LineBranchXmlType braLine) throws InterpssException {
+		YXmlType fromShuntY = null, toShuntY = null;
+		double baseKva = aclfNet.getBaseKva();
+
+		aclfBra.setBranchCode(AclfBranchCode.LINE);
+		//System.out.println(braXmlData.getLineData().getZ().getIm());
+		LineAdapter line = aclfBra.toLine();
+		if (braLine.getZ() == null) {
+		throw new InterpssException("Line data error, Z == null, branch id: " + braLine.getId());
+		}
+
+		line.setZ(new Complex(braLine.getZ().getRe(), braLine.getZ().getIm()), 
+			ODMXmlHelper.toUnit(braLine.getZ().getUnit()), 
+			aclfBra.getFromAclfBus().getBaseVoltage());
+		if (braLine.getTotalShuntY() != null)
+		line.setHShuntY(new Complex(0.5 * braLine.getTotalShuntY().getRe(),
+					0.5 * braLine.getTotalShuntY().getIm()),
+			ODMXmlHelper.toUnit(braLine.getTotalShuntY().getUnit()), 
+			aclfBra.getFromAclfBus().getBaseVoltage());
+
+		fromShuntY = braLine.getFromShuntY();
+		toShuntY = braLine.getToShuntY();
+
+		if (fromShuntY != null) {
+		Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
+			aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
+			ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
+		aclfBra.setFromShuntY(ypu);
+		}
+		if (toShuntY != null) {
+		Complex ypu = UnitType.yConversion(new Complex(toShuntY.getRe(),	toShuntY.getIm()),
+			aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
+			ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
+		aclfBra.setToShuntY(ypu);
+		}
 	}
 	
 	public void setXfrBranchData(XfrBranchXmlType braXfr) throws InterpssException {

@@ -54,6 +54,7 @@ import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
 
 import com.interpss.common.exp.InterpssException;
@@ -114,7 +115,8 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 						mapBaseBusData(aclfBusXml, dstabBus, dstabNet);
 						
 						// map the Aclf info part
-						setAclfBusData(aclfBusXml, dstabBus, dstabNet);
+						AclfBusDataHelper helper = new AclfBusDataHelper(dstabNet, dstabBus);
+						helper.setAclfBusData(aclfBusXml);
 						
 						// if the record includes Acsc info, do the mapping
 						if (bus.getValue() instanceof ShortCircuitBusXmlType) {

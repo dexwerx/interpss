@@ -50,6 +50,7 @@ import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.NumericConstant;
 
 import com.interpss.common.exp.InterpssException;
@@ -116,8 +117,10 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
 						// map the base bus info part
 						mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
-						// map the Aclf info part						
-						setAclfBusData(acscBusXml, acscBus, acscFaultNet);
+						// map the Aclf info part		
+						AclfBusDataHelper helper = new AclfBusDataHelper(acscFaultNet, acscBus);
+						helper.setAclfBusData(acscBusXml);
+						
 						setAcscBusData(acscBusXml, acscBus);
 					} else if (bus.getValue() instanceof ScSimpleBusXmlType){
 						// no loadflow info included
