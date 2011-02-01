@@ -43,10 +43,11 @@ import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PowerXmlType;
-import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
+import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
@@ -71,10 +72,8 @@ import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.PQBusAdapter;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -290,16 +289,28 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		setAclfBranchData((BranchXmlType)branch, aclfBranch, adjNet);
 		if (branch instanceof LineBranchXmlType) {
 			LineBranchXmlType branchRec = (LineBranchXmlType) branch;
-			setLineBranchData(branchRec, aclfBranch, adjNet, msg);
+			setLineBranchData(branchRec, aclfBranch, adjNet);
 		}
-		else if (branch instanceof XfrBranchXmlType) {
-			XfrBranchXmlType branchRec = (XfrBranchXmlType) branch;
-			setXfrBranchData(branchRec, aclfBranch, adjNet, msg);
+		else if (branch instanceof PSXfr3WBranchXmlType) {
+			PSXfr3WBranchXmlType branchRec = (PSXfr3WBranchXmlType) branch;
+			System.out.println("PSXfr3WBranchXmlType: " + branchRec.getId());
+			//setPsXfrBranchData(branchRec, aclfBranch, adjNet, msg);
+		}		
+		else if (branch instanceof Xfr3WBranchXmlType) {
+			Xfr3WBranchXmlType branchRec = (Xfr3WBranchXmlType) branch;
+			//setXfrBranchData(branchRec, aclfBranch, adjNet, msg);
+			System.out.println("Xfr3WBranchXmlType: " + branchRec.getId());
 		}
 		else if (branch instanceof PSXfrBranchXmlType) {
 			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) branch;
-			setPsXfrBranchData(branchRec, aclfBranch, adjNet, msg);
+			AclfXfrDataHelper helper = new AclfXfrDataHelper(adjNet, aclfBranch);
+			helper.setPsXfrBranchData(branchRec);
 		}		
+		else if (branch instanceof XfrBranchXmlType) {
+			XfrBranchXmlType branchRec = (XfrBranchXmlType) branch;
+			AclfXfrDataHelper helper = new AclfXfrDataHelper(adjNet, aclfBranch);
+			helper.setXfrBranchData(branchRec);
+		}
 	}
 	
 	private void setAclfBranchData(BranchXmlType branchRec, AclfBranch aclfBranch, AclfNetwork adjNet) throws InterpssException {
@@ -321,7 +332,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	}
 
 	private void setLineBranchData(LineBranchXmlType braLine, AclfBranch aclfBra, 
-							AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
+							AclfNetwork adjNet) throws InterpssException {
 		YXmlType fromShuntY = null, toShuntY = null;
 		double baseKva = adjNet.getBaseKva();
 		
@@ -356,77 +367,5 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 					ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
 			aclfBra.setToShuntY(ypu);
 		}
-	}
-
-	private void setXfrBranchData(XfrBranchXmlType braXfr, AclfBranch aclfBra, 
-			AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
-		YXmlType fromShuntY = null;
-		double baseKva = adjNet.getBaseKva();
-		
-		aclfBra.setBranchCode(AclfBranchCode.XFORMER);
-		setXformerInfoData(aclfBra, braXfr, adjNet, msg);
-		fromShuntY = braXfr.getMagnitizingY();
-
-		if (fromShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
-					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-					ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
-			aclfBra.setFromShuntY(ypu);
-		}
-	}
-	
-	private void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr, AclfBranch aclfBra, 
-			AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
-		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
-
-		setXfrBranchData(braPsXfr, aclfBra, adjNet, msg);
-		
-		PSXfrAdapter psXfr = aclfBra.toPSXfr();
-		if(braPsXfr.getFromAngle() != null)
-			psXfr.setFromAngle(braPsXfr.getFromAngle().getValue(), 
-						ODMXmlHelper.toUnit(braPsXfr.getFromAngle().getUnit()));
-		if(braPsXfr.getToAngle() != null)
-			psXfr.setToAngle(braPsXfr.getToAngle().getValue(), 
-						ODMXmlHelper.toUnit(braPsXfr.getToAngle().getUnit()));
-	}
-
-	private void setXformerInfoData(AclfBranch aclfBra, XfrBranchXmlType xfrBranch, 
-						AclfNetwork adjNet, IPSSMsgHub msg) {
-		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
-		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();
-		// turn ratio is based on xfr rated voltage
-		// voltage units should be same for both side 
-		double fromRatedV = fromBaseV;
-		double toRatedV = toBaseV;
-		double zratio = 1.0;
-		double tapratio = 1.0;
-		
-		TransformerInfoXmlType xfrData = xfrBranch.getXfrInfo();
-		if (xfrData != null) {
-			if (xfrData.getFromRatedVoltage() != null)
-				fromRatedV = xfrData.getFromRatedVoltage().getValue();
-			if (xfrData.getToRatedVoltage() != null)
-				toRatedV = xfrData.getToRatedVoltage().getValue();
-
-			if (xfrData != null &&
-					!xfrData.isDataOnSystemBase() &&
-					xfrData.getRatedPower() != null && 
-					xfrData.getRatedPower().getValue() > 0.0) 
-				zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
-						adjNet.getBaseKva() / xfrData.getRatedPower().getValue() :
-							0.001 * adjNet.getBaseKva() / xfrData.getRatedPower().getValue();
-
-			if (!xfrData.isDataOnSystemBase())
-				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
-		}
-		
-		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-		XfrAdapter xfr = aclfBra.toXfr();
-		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
-				ODMXmlHelper.toUnit(xfrBranch.getZ().getUnit()), baseV);
-		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
-				xfrBranch.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
-		xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
-				xfrBranch.getToTurnRatio().getValue()/tapratio, UnitType.PU);
 	}
 }
