@@ -31,8 +31,6 @@ import org.interpss.custom.fadptr.impl.IpssFileAdapterBase;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 /**
  *  Custom input file adapter for IEEE Common Format. It loads a data file in the format and create an

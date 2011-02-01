@@ -31,8 +31,6 @@ import org.interpss.custom.fadptr.impl.IpssFileAdapterBase;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class GEFormat extends IpssFileAdapterBase {
 	public GEFormat(IPSSMsgHub msgHub) {
