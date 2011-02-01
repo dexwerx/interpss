@@ -146,13 +146,11 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		}
 		else if (branch instanceof PSXfr3WBranchXmlType) {
 			PSXfr3WBranchXmlType branchRec = (PSXfr3WBranchXmlType) branch;
-			System.out.println("PSXfr3WBranchXmlType: " + branchRec.getId());
-			//setPsXfrBranchData(branchRec, aclfBranch, adjNet, msg);
+			helper.setPsXfr3WBranchData(branchRec);
 		}		
 		else if (branch instanceof Xfr3WBranchXmlType) {
 			Xfr3WBranchXmlType branchRec = (Xfr3WBranchXmlType) branch;
-			//setXfrBranchData(branchRec, aclfBranch, adjNet, msg);
-			System.out.println("Xfr3WBranchXmlType: " + branchRec.getId());
+			helper.setXfr3WBranchData(branchRec);
 		}
 		else if (branch instanceof PSXfrBranchXmlType) {
 			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) branch;

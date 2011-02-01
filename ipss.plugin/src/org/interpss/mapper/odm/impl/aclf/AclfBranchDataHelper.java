@@ -1,5 +1,5 @@
 /*
- * @(#)AclfXfrDataHelper.java   
+ * @(#)AclfBranchDataHelper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -27,8 +27,10 @@ package org.interpss.mapper.odm.impl.aclf;
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
+import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
@@ -158,4 +160,18 @@ public class AclfBranchDataHelper {
 		xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
 				xfrBranch.getToTurnRatio().getValue()/tapratio, UnitType.PU);
 	}
+	
+	/*
+	 *   	3W Xfr
+	 */
+	
+	public void setXfr3WBranchData(Xfr3WBranchXmlType braXfr) throws InterpssException {
+		System.out.println("Xfr3WBranchXmlType: " + braXfr.getId());
+	}
+	
+	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType braPsXfr) throws InterpssException {
+		System.out.println("PSXfr3WBranchXmlType: " + braPsXfr.getId());
+		
+	}
+	
 }
