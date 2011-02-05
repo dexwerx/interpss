@@ -29,7 +29,9 @@ import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
+import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class Bus42_3winding extends PluginTestSetup {
 	@Test
@@ -39,11 +41,11 @@ public class Bus42_3winding extends PluginTestSetup {
 				.load("testData/psse/v30/42bus_3winding_from_PSSE_V30.raw")
 				.getAclfNet();	
 
-//		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-//	  	algo.loadflow();
-//  		//System.out.println(net.net2String());
-//	  	
-//  		assertTrue(net.isLfConverged());	
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow();
+  		//System.out.println(net.net2String());
+	  	
+  		//assertTrue(net.isLfConverged());	
 	}
 }
 
