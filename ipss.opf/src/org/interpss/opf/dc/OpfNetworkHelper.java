@@ -206,24 +206,26 @@ public class OpfNetworkHelper {
 		Array2DRowRealMatrix braBusAdjacent = new Array2DRowRealMatrix(numOfBranch, numOfBus - 1);
 		int swingIndex = this.getSwingBusIndex();
 		for (Branch bra : opfNet.getBranchList()) {
-			AclfBranch aclfBra = (AclfBranch) bra;
-			// create branch admittance matrix
-			bij = (aclfBra.getZ().getImaginary() > 0.00001) ? 1 / aclfBra
-					.getZ().getImaginary() : DEFAULT_BIJ; // in case x=0;
-			braAdmDiag.setEntry(braIndex, braIndex, bij);
+			if (bra.isAclfBranch()) {
+				AclfBranch aclfBra = (AclfBranch) bra;
+				// create branch admittance matrix
+				bij = (aclfBra.getZ().getImaginary() > 0.00001) ? 1 / aclfBra
+						.getZ().getImaginary() : DEFAULT_BIJ; // in case x=0;
+				braAdmDiag.setEntry(braIndex, braIndex, bij);
 
-			// create branch-bus connected or adjacent matrix;
-			if (!((AclfBus) bra.getFromBus()).isSwing()) {
-				int fromBusIndex = bra.getFromBus().getSortNumber();
-				fromBusIndex=(fromBusIndex<swingIndex)?fromBusIndex:fromBusIndex-1; // insure nonswing bus;
-				braBusAdjacent.setEntry(braIndex, fromBusIndex, 1);
+				// create branch-bus connected or adjacent matrix;
+				if (!((AclfBus) bra.getFromBus()).isSwing()) {
+					int fromBusIndex = bra.getFromBus().getSortNumber();
+					fromBusIndex=(fromBusIndex<swingIndex)?fromBusIndex:fromBusIndex-1; // insure nonswing bus;
+					braBusAdjacent.setEntry(braIndex, fromBusIndex, 1);
+				}
+				if (!((AclfBus) bra.getToBus()).isSwing()) {
+					int toBusIndex = bra.getToBus().getSortNumber();
+					toBusIndex=(toBusIndex<swingIndex)?toBusIndex:toBusIndex-1; 
+					braBusAdjacent.setEntry(braIndex, toBusIndex, -1);
+				}
+				braIndex++;
 			}
-			if (!((AclfBus) bra.getToBus()).isSwing()) {
-				int toBusIndex = bra.getToBus().getSortNumber();
-				toBusIndex=(toBusIndex<swingIndex)?toBusIndex:toBusIndex-1; 
-				braBusAdjacent.setEntry(braIndex, toBusIndex, -1);
-			}
-			braIndex++;
 		}
 
 		int genIndex = 0;
@@ -275,10 +277,12 @@ public class OpfNetworkHelper {
 		int braIndex = 0;
 		// form the bt;
 		for (Branch bra : opfNet.getBranchList()) {
-			AclfBranch acBranch = (AclfBranch) bra;
-			double ratingMva1 = acBranch.getRatingMva1()/baseMVA;
-			bt.setEntry(braIndex, -ratingMva1);
-			braIndex++;
+			if (bra.isAclfBranch()) {
+				AclfBranch acBranch = (AclfBranch) bra;
+				double ratingMva1 = acBranch.getRatingMva1()/baseMVA;
+				bt.setEntry(braIndex, -ratingMva1);
+				braIndex++;
+			}
 		}
 		return bt;
 	}
@@ -327,12 +331,14 @@ public class OpfNetworkHelper {
 			int i = busi.getSortNumber();
 			double Bii = 0;
 			for (Branch bra : busi.getBranchList()) {
-				Bus busj = bra.getToBus().getId().equals(busi.getId()) ? bra.getFromBus() : bra	.getToBus();
-				AclfBranch aclfBranch = (AclfBranch) bra;
-				int j = busj.getSortNumber();
-				double Bij = 1.0 / aclfBranch.getZ().getImaginary();// aclfBranch.b1ft();
-				tempBusAdm.setEntry(i, j, -Bij);
-				Bii += Bij;
+				if (bra.isAclfBranch()) {
+					AclfBranch aclfBranch = (AclfBranch) bra;
+					Bus busj = bra.getToBus().getId().equals(busi.getId()) ? bra.getFromBus() : bra	.getToBus();
+					int j = busj.getSortNumber();
+					double Bij = 1.0 / aclfBranch.getZ().getImaginary();// aclfBranch.b1ft();
+					tempBusAdm.setEntry(i, j, -Bij);
+					Bii += Bij;
+				}
 			}
 			tempBusAdm.setEntry(i, i, Bii);
 		}
