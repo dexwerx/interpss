@@ -38,6 +38,7 @@ import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.Aclf3WXformer;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -174,7 +175,7 @@ public class AclfBranchDataHelper {
 	 */
 	
 	public void setXfr3WBranchData(Xfr3WBranchXmlType xml3WXfr) throws InterpssException {
-		System.out.println("Xfr3WBranchXmlType: " + xml3WXfr.getId());
+		IpssLogger.getLogger().info("Xfr3WBranchXmlType: " + xml3WXfr.getId());
 		
 		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_XFORMER);
@@ -186,7 +187,7 @@ public class AclfBranchDataHelper {
 	}
 	
 	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType xmlPsXfr3W) throws InterpssException {
-		System.out.println("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
+		IpssLogger.getLogger().info("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
 		
 		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_PS_XFORMER);
