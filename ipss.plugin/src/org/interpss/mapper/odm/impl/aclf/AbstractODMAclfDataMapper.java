@@ -50,6 +50,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -82,8 +83,10 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
-					AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
-					mapAclfBranchData(b.getValue(), aclfBranch, adjNet, simuCtx.getMsgHub());
+					BaseBranchXmlType xmlBranch = b.getValue();
+					Branch branch = xmlBranch instanceof PSXfr3WBranchXmlType || xmlBranch instanceof Xfr3WBranchXmlType ? 
+							CoreObjectFactory.createAclf3WXformer()	: CoreObjectFactory.createAclfBranch();
+					mapAclfBranchData(xmlBranch, branch, adjNet);
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();
@@ -132,51 +135,54 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	
 	/**
 	 * 
-	 * @param branch
+	 * @param xmlBranch
 	 * @param adjNet
 	 * @param msg
 	 * @throws Exception
 	 */
-	public void mapAclfBranchData(BaseBranchXmlType branch, AclfBranch aclfBranch, AclfNetwork adjNet, IPSSMsgHub msg) throws InterpssException {
-		setAclfBranchData((BranchXmlType)branch, aclfBranch, adjNet);
-		AclfBranchDataHelper helper = new AclfBranchDataHelper(adjNet, aclfBranch);
-		if (branch instanceof LineBranchXmlType) {
-			LineBranchXmlType branchRec = (LineBranchXmlType) branch;
+	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet) throws InterpssException {
+		setAclfBranchData((BranchXmlType)xmlBranch, branch, adjNet);
+		AclfBranchDataHelper helper = new AclfBranchDataHelper(adjNet, branch);
+		if (xmlBranch instanceof LineBranchXmlType) {
+			LineBranchXmlType branchRec = (LineBranchXmlType) xmlBranch;
 			helper.setLineBranchData(branchRec);
 		}
-		else if (branch instanceof PSXfr3WBranchXmlType) {
-			PSXfr3WBranchXmlType branchRec = (PSXfr3WBranchXmlType) branch;
+		else if (xmlBranch instanceof PSXfr3WBranchXmlType) {
+			PSXfr3WBranchXmlType branchRec = (PSXfr3WBranchXmlType) xmlBranch;
 			helper.setPsXfr3WBranchData(branchRec);
 		}		
-		else if (branch instanceof Xfr3WBranchXmlType) {
-			Xfr3WBranchXmlType branchRec = (Xfr3WBranchXmlType) branch;
+		else if (xmlBranch instanceof Xfr3WBranchXmlType) {
+			Xfr3WBranchXmlType branchRec = (Xfr3WBranchXmlType) xmlBranch;
 			helper.setXfr3WBranchData(branchRec);
 		}
-		else if (branch instanceof PSXfrBranchXmlType) {
-			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) branch;
+		else if (xmlBranch instanceof PSXfrBranchXmlType) {
+			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) xmlBranch;
 			helper.setPsXfrBranchData(branchRec);
 		}		
-		else if (branch instanceof XfrBranchXmlType) {
-			XfrBranchXmlType branchRec = (XfrBranchXmlType) branch;
+		else if (xmlBranch instanceof XfrBranchXmlType) {
+			XfrBranchXmlType branchRec = (XfrBranchXmlType) xmlBranch;
 			helper.setXfrBranchData(branchRec);
 		}
 	}
 	
-	private void setAclfBranchData(BranchXmlType branchRec, AclfBranch aclfBranch, AclfNetwork adjNet) throws InterpssException {
-		mapBaseBranchRec(branchRec, aclfBranch, adjNet);		
-		if (branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getMva() != null) {
-			double factor = 1.0;
-			if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.PU)
-				factor = adjNet.getBaseKva() * 0.001;
-			else if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.KVA)
-				factor = 0.001;
-			aclfBranch.setRatingMva1(branchRec.getRatingLimit().getMva().getRating1() * factor);
-			if (branchRec.getRatingLimit().getMva().getRating2() != null)
-				aclfBranch.setRatingMva2(branchRec.getRatingLimit().getMva().getRating2() * factor);
-			if (branchRec.getRatingLimit().getMva().getRating3() != null)
-				aclfBranch.setRatingMva3(branchRec.getRatingLimit().getMva().getRating3() * factor);
-			//if (branchRec.getRatingLimit().getMva().getRating4())
-			//	aclfBranch.setRatingMva4(branchRec.getRatingLimit().getMva().getRating3() * factor);
+	private void setAclfBranchData(BranchXmlType branchRec, Branch branch, AclfNetwork adjNet) throws InterpssException {
+		mapBaseBranchRec(branchRec, branch, adjNet);		
+		if (branch instanceof AclfBranch) {
+			AclfBranch aclfBranch = (AclfBranch)branch;
+			if (branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getMva() != null) {
+				double factor = 1.0;
+				if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.PU)
+					factor = adjNet.getBaseKva() * 0.001;
+				else if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.KVA)
+					factor = 0.001;
+				aclfBranch.setRatingMva1(branchRec.getRatingLimit().getMva().getRating1() * factor);
+				if (branchRec.getRatingLimit().getMva().getRating2() != null)
+					aclfBranch.setRatingMva2(branchRec.getRatingLimit().getMva().getRating2() * factor);
+				if (branchRec.getRatingLimit().getMva().getRating3() != null)
+					aclfBranch.setRatingMva3(branchRec.getRatingLimit().getMva().getRating3() * factor);
+				//if (branchRec.getRatingLimit().getMva().getRating4())
+				//	aclfBranch.setRatingMva4(branchRec.getRatingLimit().getMva().getRating3() * factor);
+			}
 		}
 	}
 }

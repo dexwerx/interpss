@@ -144,7 +144,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 							branch.getValue() instanceof XfrBranchXmlType ||
 								branch.getValue() instanceof PSXfrBranchXmlType) {
 						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
-						mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, simuCtx.getMsgHub());
+						mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet);
 
 						if (branch.getValue() instanceof LineShortCircuitXmlType || 
 								branch.getValue() instanceof XfrShortCircuitXmlType ||

@@ -143,7 +143,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
-						mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet, simuCtx.getMsgHub());
+						mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet);
 						setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
 					}
 					else {

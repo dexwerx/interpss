@@ -29,6 +29,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.Transformer3WInfoXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -37,24 +38,28 @@ import org.interpss.mapper.odm.ODMXmlHelper;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.aclf.Aclf3WXformer;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.LineAdapter;
+import com.interpss.core.aclf.adpter.PSXfr3WAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
+import com.interpss.core.aclf.adpter.Xfr3WAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
+import com.interpss.core.net.Branch;
 
 public class AclfBranchDataHelper {
 	private AclfNetwork aclfNet = null;
-	private AclfBranch aclfBra = null;
+	private Branch branch = null;
 	
-	public AclfBranchDataHelper(AclfNetwork aclfNet, AclfBranch aclfBra) {
+	public AclfBranchDataHelper(AclfNetwork aclfNet, Branch bra) {
 		this.aclfNet = aclfNet;
-		this.aclfBra = aclfBra;
+		this.branch = bra;
 	}
 	
 	public void setLineBranchData(LineBranchXmlType braLine) throws InterpssException {
-		YXmlType fromShuntY = null, toShuntY = null;
+		AclfBranch aclfBra = (AclfBranch)branch;
 		double baseKva = aclfNet.getBaseKva();
 
 		aclfBra.setBranchCode(AclfBranchCode.LINE);
@@ -70,34 +75,36 @@ public class AclfBranchDataHelper {
 		if (braLine.getTotalShuntY() != null)
 		line.setHShuntY(new Complex(0.5 * braLine.getTotalShuntY().getRe(),
 					0.5 * braLine.getTotalShuntY().getIm()),
-			ODMXmlHelper.toUnit(braLine.getTotalShuntY().getUnit()), 
-			aclfBra.getFromAclfBus().getBaseVoltage());
+					ODMXmlHelper.toUnit(braLine.getTotalShuntY().getUnit()), 
+					aclfBra.getFromAclfBus().getBaseVoltage());
 
-		fromShuntY = braLine.getFromShuntY();
-		toShuntY = braLine.getToShuntY();
+		YXmlType fromShuntY = braLine.getFromShuntY(),
+				 toShuntY = braLine.getToShuntY();
 
 		if (fromShuntY != null) {
-		Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
-			aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-			ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
-		aclfBra.setFromShuntY(ypu);
+			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	
+					fromShuntY.getIm()),
+					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
+					ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
+			aclfBra.setFromShuntY(ypu);
 		}
 		if (toShuntY != null) {
-		Complex ypu = UnitType.yConversion(new Complex(toShuntY.getRe(),	toShuntY.getIm()),
-			aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
-			ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
-		aclfBra.setToShuntY(ypu);
+			Complex ypu = UnitType.yConversion(new Complex(toShuntY.getRe(),	
+					toShuntY.getIm()),
+					aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
+					ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
+			aclfBra.setToShuntY(ypu);
 		}
 	}
 	
 	public void setXfrBranchData(XfrBranchXmlType braXfr) throws InterpssException {
-		YXmlType fromShuntY = null;
+		AclfBranch aclfBra = (AclfBranch)branch;
 		double baseKva = aclfNet.getBaseKva();
 		
 		aclfBra.setBranchCode(AclfBranchCode.XFORMER);
-		setXformerInfoData(braXfr);
-		fromShuntY = braXfr.getMagnitizingY();
+		setXformerInfoData(braXfr, aclfBra);
 
+		YXmlType fromShuntY = braXfr.getMagnitizingY();
 		if (fromShuntY != null) {
 			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
@@ -107,6 +114,7 @@ public class AclfBranchDataHelper {
 	}
 	
 	public void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr) throws InterpssException {
+		AclfBranch aclfBra = (AclfBranch)branch;
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 
 		setXfrBranchData(braPsXfr);
@@ -120,7 +128,7 @@ public class AclfBranchDataHelper {
 						ODMXmlHelper.toUnit(braPsXfr.getToAngle().getUnit()));
 	}
 
-	private void setXformerInfoData(XfrBranchXmlType xfrBranch) {
+	private void setXformerInfoData(XfrBranchXmlType xfrBranch, AclfBranch aclfBra) {
 		double baseKva = aclfNet.getBaseKva();
 
 		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
@@ -165,13 +173,149 @@ public class AclfBranchDataHelper {
 	 *   	3W Xfr
 	 */
 	
-	public void setXfr3WBranchData(Xfr3WBranchXmlType braXfr) throws InterpssException {
-		System.out.println("Xfr3WBranchXmlType: " + braXfr.getId());
-	}
-	
-	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType braPsXfr) throws InterpssException {
-		System.out.println("PSXfr3WBranchXmlType: " + braPsXfr.getId());
+	public void setXfr3WBranchData(Xfr3WBranchXmlType xml3WXfr) throws InterpssException {
+		System.out.println("Xfr3WBranchXmlType: " + xml3WXfr.getId());
 		
+		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
+		branch3W.setBranchCode(AclfBranchCode.W3_XFORMER);
+		branch3W.create2WBranches(AclfBranchCode.XFORMER);
+		
+		Xfr3WAdapter xfr3W = branch3W.to3WXfr();
+		
+		setXfr3WData(xml3WXfr, xfr3W);
 	}
 	
+	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType xmlPsXfr3W) throws InterpssException {
+		System.out.println("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
+		
+		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
+		branch3W.setBranchCode(AclfBranchCode.W3_PS_XFORMER);
+		branch3W.create2WBranches(AclfBranchCode.PS_XFORMER);
+		
+		PSXfr3WAdapter psXfr3W = branch3W.toPS3WXfr();
+		
+		setXfr3WData(xmlPsXfr3W, psXfr3W);
+/*
+        <fromAngle unit="DEG" value="0.0"/>
+        <toAngle unit="DEG" value="0.0"/>
+        <tertShiftAngle unit="DEG" value="30.0"/>
+ */
+		if (xmlPsXfr3W.getFromAngle() != null && xmlPsXfr3W.getFromAngle().getValue() != 0.0) {
+			byte unit = ODMXmlHelper.toUnit(xmlPsXfr3W.getFromAngle().getUnit());
+			psXfr3W.setFromAngle(xmlPsXfr3W.getFromAngle().getValue(), unit);
+		}
+		if (xmlPsXfr3W.getToAngle() != null && xmlPsXfr3W.getToAngle().getValue() != 0.0) {
+			byte unit = ODMXmlHelper.toUnit(xmlPsXfr3W.getToAngle().getUnit());
+			psXfr3W.setToAngle(xmlPsXfr3W.getToAngle().getValue(), unit);
+		}
+		if (xmlPsXfr3W.getTertShiftAngle() != null && xmlPsXfr3W.getTertShiftAngle().getValue() != 0.0) {
+			byte unit = ODMXmlHelper.toUnit(xmlPsXfr3W.getTertShiftAngle().getUnit());
+			psXfr3W.setTertAngle(xmlPsXfr3W.getTertShiftAngle().getValue(), unit);
+		}
+	}
+
+	private void setXfr3WData(Xfr3WBranchXmlType xml3WXfr, Xfr3WAdapter xfr3W) throws InterpssException {
+		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
+		double baseKva = aclfNet.getBaseKva();
+		
+//        <magnitizingY unit="PU" im="-0.0042" re="0.0012"/>
+		YXmlType fromShuntY = xml3WXfr.getMagnitizingY();
+		if (fromShuntY != null) {
+			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
+					branch3W.getFromBus().getBaseVoltage(), baseKva,
+					ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
+			branch3W.getFromAclfBranch().setFromShuntY(ypu);
+		}
+
+//      <meterLocation>ToSide</meterLocation>
+		
+		
+		double fromBaseV = branch3W.getFromBus().getBaseVoltage(), 
+	       		toBaseV = branch3W.getToBus().getBaseVoltage(),
+	       		tertBaseV = branch3W.getToBus().getBaseVoltage();
+		// turn ratio is based on xfr rated voltage
+		// voltage units should be same for both side 
+		double fromRatedV = fromBaseV;
+		double toRatedV = toBaseV;
+		double tertRatedV = tertBaseV;
+
+		double zratio = 1.0;
+		double tapratio = 1.0;
+		
+		Transformer3WInfoXmlType xfrData = (Transformer3WInfoXmlType)xml3WXfr.getXfrInfo();
+		/*
+            <xfrInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Transformer3WInfoXmlType">
+                <dataOnSystemBase>true</dataOnSystemBase>
+                <ratedPower unit="MVA" value="1000.0"/>
+                <starVMag unit="PU" value="0.99004"/>
+                <starVAng unit="DEG" value="1.5349"/>
+                <ratedPower23 unit="MVA" value="1000.0"/>
+                <ratedPower31 unit="MVA" value="1000.0"/>
+            </xfrInfo>
+		 */
+		if (xfrData != null) {
+			if (xfrData.getFromRatedVoltage() != null)
+				fromRatedV = xfrData.getFromRatedVoltage().getValue();
+			if (xfrData.getToRatedVoltage() != null)
+				toRatedV = xfrData.getToRatedVoltage().getValue();
+			if (xfrData.getTertRatedVoltage() != null)
+				tertRatedV = xfrData.getTertRatedVoltage().getValue();
+
+			if (!xfrData.isDataOnSystemBase() &&
+					xfrData.getRatedPower() != null && 
+					xfrData.getRatedPower().getValue() > 0.0) 
+				zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
+						baseKva / xfrData.getRatedPower().getValue() :
+							0.001 * baseKva / xfrData.getRatedPower().getValue();
+
+			if (!xfrData.isDataOnSystemBase())
+				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+		}	
+		
+		/*
+            <z unit="PU" im="0.025" re="2.0E-4"/>
+            <fromTurnRatio unit="PU" value="1.0101"/>
+            <toTurnRatio unit="PU" value="1.05"/>
+            <z23 unit="PU" im="0.01" re="3.0E-4"/>
+            <z31 unit="PU" im="0.011" re="4.0E-4"/>
+            <tertTurnRatio unit="PU" value="1.01"/>
+*/
+		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
+		baseV = baseV > tertBaseV ? baseV : tertBaseV;
+		Complex z12 = new Complex(xml3WXfr.getZ().getRe()*zratio, xml3WXfr.getZ().getIm()*zratio);
+		Complex z23 = new Complex(xml3WXfr.getZ23().getRe()*zratio, xml3WXfr.getZ23().getIm()*zratio);
+		Complex z31 = new Complex(xml3WXfr.getZ31().getRe()*zratio, xml3WXfr.getZ31().getIm()*zratio);
+		byte unit = ODMXmlHelper.toUnit(xml3WXfr.getZ().getUnit());
+		xfr3W.setZ(z12, z31, z23, unit, baseV);
+
+		double fromRatio = xml3WXfr.getFromTurnRatio().getValue()*tapratio;
+		double toRatio = xml3WXfr.getToTurnRatio().getValue()*tapratio;
+		double tertRatio = xml3WXfr.getTertTurnRatio().getValue()*tapratio;
+		
+		xfr3W.setFromTurnRatio(fromRatio == 0.0 ? 1.0 : fromRatio);
+		xfr3W.setToTurnRatio(toRatio == 0.0 ? 1.0 : fromRatio);
+		xfr3W.setTertTurnRatio(tertRatio == 0.0 ? 1.0 : fromRatio);
+		
+/*
+                <ratingLimit>
+                    <mva unit="MVA" rating3="1090.0" rating2="1150.0" rating1="1200.0"/>
+                </ratingLimit>
+                <ratingLimit23>
+                    <mva unit="MVA" rating3="1112.0" rating2="1175.0" rating1="1250.0"/>
+                </ratingLimit23>
+                <ratingLimit13>
+                    <mva unit="MVA" rating3="1157.0" rating2="1200.0" rating1="1280.0"/>
+                </ratingLimit13>
+ */
+		
+/*
+                <tapAdjustment offLine="false">
+                    <adjustmentType>Voltage</adjustmentType>
+                    <tapLimit unit="PU" min="0.92" max="1.1002"/>
+                    <tapAdjStep>33</tapAdjStep>
+                    <tapAdjOnFromSide>false</tapAdjOnFromSide>
+                    <voltageAdjData desiredValue="0.0" mode="RangeAdjustment" min="0.93" max="1.16"/>
+                </tapAdjustment>
+*/
+	}
 }

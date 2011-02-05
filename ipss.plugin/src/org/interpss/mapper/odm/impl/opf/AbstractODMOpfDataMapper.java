@@ -91,7 +91,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
-					mapAclfBranchData(b.getValue(), aclfBranch, opfNet, simuCtx.getMsgHub());
+					mapAclfBranchData(b.getValue(), aclfBranch, opfNet);
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();

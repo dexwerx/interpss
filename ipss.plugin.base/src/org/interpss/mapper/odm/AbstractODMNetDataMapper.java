@@ -40,6 +40,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
+import com.interpss.core.net.Branch3W;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.CimRecord;
 import com.interpss.core.net.Network;
@@ -133,7 +134,12 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 		try {
 			String fromBusId = BaseJaxbHelper.getRecId(branchRec.getFromBus());
 			String toBusId = BaseJaxbHelper.getRecId(branchRec.getToBus());
-			net.addBranch(branch, fromBusId, toBusId);
+			if (branch instanceof Branch3W) {
+				String tertBusId = BaseJaxbHelper.getRecId(branchRec.getTertiaryBus());
+				net.add3WBranch((Branch3W)branch, fromBusId, toBusId, tertBusId);
+			}
+			else
+				net.addBranch(branch, fromBusId, toBusId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InterpssException(e.toString() + ", the branch is ignored " +
