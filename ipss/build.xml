@@ -64,7 +64,7 @@
 	  	<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
     	<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
 		<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
-  	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+  	  	<!-- fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" /-->	
    	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>		
 	  <jar destfile="${ipss_base}/ipss_core.jar">
@@ -73,7 +73,7 @@
 	  	<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
     	<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
 		<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
-  	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+  	  	<!--fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" /-->	
    	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
 
@@ -108,7 +108,7 @@
   	  	<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
       	<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
   		<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
-    	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+  	  	<!--fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" /-->	
      	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
   	  </jar>	
     	
