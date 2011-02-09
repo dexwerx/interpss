@@ -241,6 +241,21 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	}	
 
 	/**
+	 * set bus record id and add the bus object into the cache
+	 * 
+	 * @param busRec
+	 * @param id
+	 * @throws Exception
+	 */
+	public void setBusId(BusXmlType busRec, String id) throws Exception {
+		busRec.setId(id);
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Bus record duplication, bus id: " + id);
+		}
+		this.objectCache.put(id, busRec);
+	}
+	
+	/**
 	 * create a ref record with id
 	 * 
 	 * @param id

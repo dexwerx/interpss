@@ -28,28 +28,39 @@ import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
+import org.ieee.odm.schema.BreakerDistBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DcBranchXmlType;
 import org.ieee.odm.schema.DcBusXmlType;
 import org.ieee.odm.schema.DcNetworkXmlType;
+import org.ieee.odm.schema.DistributionNetXmlType;
+import org.ieee.odm.schema.FeederDistBranchXmlType;
+import org.ieee.odm.schema.GeneratorDistBusXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
+import org.ieee.odm.schema.InductionMotorDistBusXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.MixedLoadDistBusXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.NonContributingDistBusXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.ReactorDistBranchXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
+import org.ieee.odm.schema.SynchronousMotorDistBusXmlType;
+import org.ieee.odm.schema.UtilityDistBusXmlType;
+import org.ieee.odm.schema.XFormerDistBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -83,6 +94,8 @@ public class BaseJaxbHelper {
 			return getFactory().createAclfNet((LoadflowNetXmlType)net);
 		else if (net instanceof DcNetworkXmlType) 
 			return getFactory().createDcNet((DcNetworkXmlType)net);
+		else if (net instanceof DistributionNetXmlType) 
+			return getFactory().createDistNet((DistributionNetXmlType)net);
 		else
 			return getFactory().createBaseCase(net);
 	}
@@ -101,6 +114,7 @@ public class BaseJaxbHelper {
 			return getFactory().createDstabPSXfr((PSXfrDStabXmlType)branch);
 		else if (branch instanceof XfrDStabXmlType) 
 			return getFactory().createDstabXfr((XfrDStabXmlType)branch);
+		
 		else if (branch instanceof LineBranchXmlType) 
 			return getFactory().createAclfLine((LineBranchXmlType)branch);
 		else if (branch instanceof PSXfr3WBranchXmlType) 
@@ -111,8 +125,25 @@ public class BaseJaxbHelper {
 			return getFactory().createAclf3WXfr((Xfr3WBranchXmlType)branch);
 		else if (branch instanceof XfrBranchXmlType) 
 			return getFactory().createAclfXfr((XfrBranchXmlType)branch);
+
 		else if (branch instanceof DcBranchXmlType) 
 			return getFactory().createDcBranch((DcBranchXmlType)branch);
+		
+		/*
+		<element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
+		<element name="distXfrBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch"/>
+		<element name="distReactorBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch"/>
+		<element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
+	 */
+		else if (branch instanceof FeederDistBranchXmlType) 
+			return getFactory().createDistFeederBranch((FeederDistBranchXmlType)branch);
+		else if (branch instanceof XFormerDistBranchXmlType) 
+			return getFactory().createDistXfrBranch((XFormerDistBranchXmlType)branch);
+		else if (branch instanceof ReactorDistBranchXmlType) 
+			return getFactory().createDistReactorBranch((ReactorDistBranchXmlType)branch);
+		else if (branch instanceof BreakerDistBranchXmlType) 
+			return getFactory().createDistBreakerBranch((BreakerDistBranchXmlType)branch);
+		
 		else
 			return getFactory().createBranch(branch);
 	}
@@ -133,8 +164,43 @@ public class BaseJaxbHelper {
 			return getFactory().createAclfBus((LoadflowBusXmlType)bus);
 		else if (bus instanceof DcBusXmlType)
 			return getFactory().createDcBus((DcBusXmlType)bus);
+		/*
+		<element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus"/>
+		<element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus"/>
+		<element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus"/>
+		<element name="distIndMotorBus" type="pss:InductionMotorDistBusXmlType" substitutionGroup="pss:bus"/>
+		<element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus"/>
+		<element name="distNonContributeSynMotorBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
+	 */
+		else if (bus instanceof UtilityDistBusXmlType)
+			return getFactory().createDistUtilityBus((UtilityDistBusXmlType)bus);
+		else if (bus instanceof GeneratorDistBusXmlType)
+			return getFactory().createDistGeneratorBus((GeneratorDistBusXmlType)bus);
+		else if (bus instanceof SynchronousMotorDistBusXmlType)
+			return getFactory().createDistSynMotorBus((SynchronousMotorDistBusXmlType)bus);
+		else if (bus instanceof InductionMotorDistBusXmlType)
+			return getFactory().createDistIndMotorBus((InductionMotorDistBusXmlType)bus);
+		else if (bus instanceof MixedLoadDistBusXmlType)
+			return getFactory().createDistMixedLoadBus((MixedLoadDistBusXmlType)bus);
+		else if (bus instanceof NonContributingDistBusXmlType)
+			return getFactory().createDistNonContributeSynMotorBus((NonContributingDistBusXmlType)bus);
+		
 		else
 			return getFactory().createBus(bus);
+	}
+	
+	/**
+	 * add the bus record into the network record, and set some default values
+	 * 
+	 * @param busRec
+	 * @param net
+	 * 
+	 */
+	public static void addBus2Net(BusXmlType busRec, NetworkXmlType net) {
+		busRec.setOffLine(false);
+		busRec.setAreaNumber(1);
+		busRec.setZoneNumber(1);
+		net.getBusList().getBus().add(bus(busRec));
 	}
 	
 	/**
