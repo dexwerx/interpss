@@ -11,6 +11,8 @@
     <pss:busList>
     	<pss:distUtilityBus id="Bus-1">
     		<pss:baseVoltage unit="PU" value="0.0" />
+    		<pss:voltage unit="PU" value="1.0"/>
+    		<pss:angle unit="RAD" value="0.0"/>
     		<pss:source>
     			<pss:scMva3Phase>0.0</pss:scMva3Phase>
     			<pss:xOverR3Phase>0.0</pss:xOverR3Phase>
