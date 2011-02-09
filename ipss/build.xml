@@ -10,6 +10,7 @@
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.fit/fitnesse"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
+      	<property name="svn_lib_dev" value="${dev_base}/ipss.lib.dev/lib/ipss"/>
 
       	<property name="lib_base" value="${dist_base}/lib"/>
       	<property name="lib_path" value="${lib_base}/jgraph.jar"/>
@@ -77,7 +78,13 @@
    	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
 
-   	  <jar destfile="${svn_lib}/ipss_ext.jar">
+      <jar destfile="${svn_lib_dev}/ipss_dist.jar">
+    	  <fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+	  	  <fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
+	  	  <fileset dir="${dev_base}/ipss.plugin.dist/runtime" excludes="CVS/**,model/**" />	
+  	  </jar>		
+
+      <jar destfile="${svn_lib}/ipss_ext.jar">
    	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>		
 	  <jar destfile="${ipss_base}/ipss_ext.jar">
