@@ -26,10 +26,18 @@ package org.ieee.odm.model.dist;
 
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.schema.BreakerDistBranchXmlType;
 import org.ieee.odm.schema.DistributionNetXmlType;
 import org.ieee.odm.schema.FeederDistBranchXmlType;
+import org.ieee.odm.schema.GeneratorDistBusXmlType;
+import org.ieee.odm.schema.InductionMotorDistBusXmlType;
+import org.ieee.odm.schema.MixedLoadDistBusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.NonContributingDistBusXmlType;
+import org.ieee.odm.schema.ReactorDistBranchXmlType;
+import org.ieee.odm.schema.SynchronousMotorDistBusXmlType;
 import org.ieee.odm.schema.UtilityDistBusXmlType;
+import org.ieee.odm.schema.XFormerDistBranchXmlType;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
@@ -75,59 +83,154 @@ public class DistModelParser extends AbstractModelParser {
 	
 /*
 	<element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus"/>
-	<element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus"/>
-	<element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus"/>
-	<element name="distIndMotorBus" type="pss:InductionMotorDistBusXmlType" substitutionGroup="pss:bus"/>
-	<element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus"/>
-	<element name="distNonContributeSynMotorBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
  */
-
-	/**
-	 * add a new Bus record to the base case
-	 * 
-	 * @return
-	 */
 	public UtilityDistBusXmlType createUtilityDistBus() {
 		UtilityDistBusXmlType busRec = this.getFactory().createUtilityDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 	
-	/**
-	 * create a bus object with the id, make sure there is no duplication
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
 	public UtilityDistBusXmlType createUtilityDistBus(String id) throws Exception {
 		UtilityDistBusXmlType busRec = createUtilityDistBus();
 		setBusId(busRec, id);
 		return busRec;
 	}		
 	
-	/**
-	 * add a new bus record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public UtilityDistBusXmlType createUtilityDistBus(String id, long number) throws Exception {
 		UtilityDistBusXmlType busRec = createUtilityDistBus(id);
 		busRec.setNumber(number);
 		return busRec;
 	}	
 	
-	/**
-	 * get the bus object using the id
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public UtilityDistBusXmlType getUtilityDistBus(String id) {
 		return (UtilityDistBusXmlType)getBus(id);
 	}
 
+	/*
+	<element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus"/>
+ */
+	public GeneratorDistBusXmlType createDistGeneratorBus() {
+		GeneratorDistBusXmlType busRec = this.getFactory().createGeneratorDistBusXmlType();
+		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		return busRec;
+	}	
+	
+	public GeneratorDistBusXmlType createDistGeneratorBus(String id) throws Exception {
+		GeneratorDistBusXmlType busRec = createDistGeneratorBus();
+		setBusId(busRec, id);
+		return busRec;
+	}		
+	
+	public GeneratorDistBusXmlType createDistGeneratorBus(String id, long number) throws Exception {
+		GeneratorDistBusXmlType busRec = createDistGeneratorBus(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
+	
+	public GeneratorDistBusXmlType getDistGeneratorBus(String id) {
+		return (GeneratorDistBusXmlType)getBus(id);
+	}
+
+	/*
+	<element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus"/>
+ */
+	public SynchronousMotorDistBusXmlType createDistSynMotorBus() {
+		SynchronousMotorDistBusXmlType busRec = this.getFactory().createSynchronousMotorDistBusXmlType();
+		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		return busRec;
+	}	
+	
+	public SynchronousMotorDistBusXmlType createDistSynMotorBus(String id) throws Exception {
+		SynchronousMotorDistBusXmlType busRec = createDistSynMotorBus();
+		setBusId(busRec, id);
+		return busRec;
+	}		
+	
+	public SynchronousMotorDistBusXmlType createDistSynMotorBus(String id, long number) throws Exception {
+		SynchronousMotorDistBusXmlType busRec = createDistSynMotorBus(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
+	
+	public SynchronousMotorDistBusXmlType getDistSynMotorBus(String id) {
+		return (SynchronousMotorDistBusXmlType)getBus(id);
+	}
+
+	/*
+	<element name="distIndMotorBus" type="pss:InductionMotorDistBusXmlType" substitutionGroup="pss:bus"/>
+ */
+	public InductionMotorDistBusXmlType createDistIndMotorBus() {
+		InductionMotorDistBusXmlType busRec = this.getFactory().createInductionMotorDistBusXmlType();
+		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		return busRec;
+	}	
+	
+	public InductionMotorDistBusXmlType createDistIndMotorBus(String id) throws Exception {
+		InductionMotorDistBusXmlType busRec = createDistIndMotorBus();
+		setBusId(busRec, id);
+		return busRec;
+	}		
+	
+	public InductionMotorDistBusXmlType createDistIndMotorBus(String id, long number) throws Exception {
+		InductionMotorDistBusXmlType busRec = createDistIndMotorBus(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
+	
+	public InductionMotorDistBusXmlType getDistIndMotorBus(String id) {
+		return (InductionMotorDistBusXmlType)getBus(id);
+	}
+
+	/*
+	<element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus"/>
+ */
+	public MixedLoadDistBusXmlType createDistMixedLoadBus() {
+		MixedLoadDistBusXmlType busRec = this.getFactory().createMixedLoadDistBusXmlType();
+		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		return busRec;
+	}	
+	
+	public MixedLoadDistBusXmlType createDistMixedLoadBus(String id) throws Exception {
+		MixedLoadDistBusXmlType busRec = createDistMixedLoadBus();
+		setBusId(busRec, id);
+		return busRec;
+	}		
+	
+	public MixedLoadDistBusXmlType createDistMixedLoadBus(String id, long number) throws Exception {
+		MixedLoadDistBusXmlType busRec = createDistMixedLoadBus(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
+	
+	public MixedLoadDistBusXmlType getDistMixedLoadBus(String id) {
+		return (MixedLoadDistBusXmlType)getBus(id);
+	}
+
+	/*
+	<element name="distNonContributeBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
+ */
+	public NonContributingDistBusXmlType createDistNonContributeBus() {
+		NonContributingDistBusXmlType busRec = this.getFactory().createNonContributingDistBusXmlType();
+		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		return busRec;
+	}	
+	
+	public NonContributingDistBusXmlType createDistNonContributeBus(String id) throws Exception {
+		NonContributingDistBusXmlType busRec = createDistNonContributeBus();
+		setBusId(busRec, id);
+		return busRec;
+	}		
+	
+	public NonContributingDistBusXmlType createDistNonContributeBus(String id, long number) throws Exception {
+		NonContributingDistBusXmlType busRec = createDistNonContributeBus(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
+	
+	public NonContributingDistBusXmlType getDistNonContributeBus(String id) {
+		return (NonContributingDistBusXmlType)getBus(id);
+	}
+	
 	/*
 	 * 		Branch functions
 	 * 		================
@@ -135,48 +238,97 @@ public class DistModelParser extends AbstractModelParser {
 	
 /*
 	<element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
-	<element name="distXfrBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch"/>
-	<element name="distReactorBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch"/>
-	<element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
  */
-	
 	public void addDistFeederBranch(FeederDistBranchXmlType branch) {
 		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		this.objectCache.put(branch.getId(), branch);
 	}
 	
-	/**
-	 * get the Line branch object
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
 	public FeederDistBranchXmlType getDistFeederBranch(String fromId, String toId, String cirId) {
 		return (FeederDistBranchXmlType)getBranch(fromId, toId, cirId);
 	}
 
-	/**
-	 * create a LineBranchXmlType object
-	 * 
-	 * @return
-	 */
 	public FeederDistBranchXmlType createDistFeederBranch() {
 		FeederDistBranchXmlType branch = this.getFactory().createFeederDistBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
 
-	/**
-	 * add a new Line branch record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
 	public FeederDistBranchXmlType createDistFeederBranch(String fromId, String toId, String cirId) throws Exception {
 		FeederDistBranchXmlType branch = createDistFeederBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
+/*
+	<element name="distXfrBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch"/>
+ */
+	public void addDistXfrBranch(XFormerDistBranchXmlType branch) {
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
+		this.objectCache.put(branch.getId(), branch);
+	}
+	
+	public XFormerDistBranchXmlType getDistXfrBranch(String fromId, String toId, String cirId) {
+		return (XFormerDistBranchXmlType)getBranch(fromId, toId, cirId);
+	}
+
+	public XFormerDistBranchXmlType createDistXfrBranch() {
+		XFormerDistBranchXmlType branch = this.getFactory().createXFormerDistBranchXmlType();
+		intiBranchData(branch);
+		return branch;
+	}
+
+	public XFormerDistBranchXmlType createDistXfrBranch(String fromId, String toId, String cirId) throws Exception {
+		XFormerDistBranchXmlType branch = createDistXfrBranch();
+		addBranch2BaseCase(branch, fromId, toId, null, cirId);
+		return branch;
+	}
+	
+	/*
+	<element name="distReactorBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch"/>
+ */
+	public void addDistReactorBranch(ReactorDistBranchXmlType branch) {
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
+		this.objectCache.put(branch.getId(), branch);
+	}
+	
+	public ReactorDistBranchXmlType getDistReactorBranch(String fromId, String toId, String cirId) {
+		return (ReactorDistBranchXmlType)getBranch(fromId, toId, cirId);
+	}
+
+	public ReactorDistBranchXmlType createDistReactorBranch() {
+		ReactorDistBranchXmlType branch = this.getFactory().createReactorDistBranchXmlType();
+		intiBranchData(branch);
+		return branch;
+	}
+
+	public ReactorDistBranchXmlType createDistReactorBranch(String fromId, String toId, String cirId) throws Exception {
+		ReactorDistBranchXmlType branch = createDistReactorBranch();
+		addBranch2BaseCase(branch, fromId, toId, null, cirId);
+		return branch;
+	}
+	
+/*
+	<element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
+ */
+	public void addDistBreakerBranch(BreakerDistBranchXmlType branch) {
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
+		this.objectCache.put(branch.getId(), branch);
+	}
+	
+	public BreakerDistBranchXmlType getDistBreakerBranch(String fromId, String toId, String cirId) {
+		return (BreakerDistBranchXmlType)getBranch(fromId, toId, cirId);
+	}
+
+	public BreakerDistBranchXmlType createDistBreakerBranch() {
+		BreakerDistBranchXmlType branch = this.getFactory().createBreakerDistBranchXmlType();
+		intiBranchData(branch);
+		return branch;
+	}
+
+	public BreakerDistBranchXmlType createDistBreakerBranch(String fromId, String toId, String cirId) throws Exception {
+		BreakerDistBranchXmlType branch = createDistBreakerBranch();
+		addBranch2BaseCase(branch, fromId, toId, null, cirId);
+		return branch;
+	}
+	
 }
