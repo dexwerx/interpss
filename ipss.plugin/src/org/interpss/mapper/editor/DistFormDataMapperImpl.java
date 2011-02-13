@@ -48,6 +48,7 @@ import org.interpss.mapper.AbstractMapping;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dist.DistBranch;
 import com.interpss.dist.DistBranchCode;
@@ -56,7 +57,6 @@ import com.interpss.dist.DistBusCode;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dist.DistObjectFactory;
 import com.interpss.dist.ScStanderd;
-import com.interpss.dist.TransformConnectCode;
 import com.interpss.dist.datatype.ScPointType;
 
 public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, DistNetwork> {
@@ -264,8 +264,8 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 			branch.setZUnit(UnitType.toUnit("Ohm"));
 		} else
 			branch.setZUnit(UnitType.toUnit(branchData.getZUnit()));
-		branch.setHShuntB(branchData.getHalfShuntB());
-		branch.setHShuntB0(branchData.getHalfShuntB0());
+		branch.setHShuntY(new Complex(0.0, branchData.getHalfShuntB()));
+		branch.setHShuntY0(new Complex(0.0, branchData.getHalfShuntB0()));
 		branch.setShuntBUnit(UnitType.toUnit(branchData.getHalfShuntBUnit()));
 		branch.setLength(branchData.getLength());
 		branch.setLengthUnit(UnitType.toUnit(branchData.getLengthUnit()));
@@ -279,11 +279,11 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		branch.setRatedVUnit(UnitType.toUnit(branchData.getRatedVoltUnit()));
 
 		branch.setPrimaryConnect(branchData.getFromXfrConnectData().getCode()
-				.equals(XfrConnectData.Code_Wye) ? TransformConnectCode.WYE
-				: TransformConnectCode.DELTA);
+				.equals(XfrConnectData.Code_Wye) ? XFormerConnectCode.WYE
+				: XFormerConnectCode.DELTA);
 		branch.setSecondaryConnect(branchData.getToXfrConnectData().getCode()
-				.equals(XfrConnectData.Code_Wye) ? TransformConnectCode.WYE
-				: TransformConnectCode.DELTA);
+				.equals(XfrConnectData.Code_Wye) ? XFormerConnectCode.WYE
+				: XFormerConnectCode.DELTA);
 		double baseV = 1.0;
 		if (!branchData.getFromXfrConnectData().getGrounding().getUnit()
 				.toUpperCase().equals("PU")) {

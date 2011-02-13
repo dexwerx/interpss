@@ -27,15 +27,20 @@ package org.interpss.mapper.odm;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.GroundingEnumType;
+import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.acsc.BusGroundCode;
+import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.core.net.OriginalDataFormat;
 
 
@@ -116,6 +121,8 @@ public class ODMXmlHelper {
 			return UnitType.OhmPerFt;
 		else if (unit == ZUnitType.OHM_PER_M)
 			return UnitType.OhmPerM;
+		else if (unit == ZUnitType.PERCENT)
+			return UnitType.Percent;
 		return UnitType.PU;
 	}
 
@@ -148,6 +155,20 @@ public class ODMXmlHelper {
 	}
 
 	/**
+	 * convert XML current unit to Ipss UnitType
+	 * 
+	 * @param unit power unit 
+	 * @return
+	 */
+	public static byte toUnit(CurrentUnitType unit) {
+		if (unit == CurrentUnitType.AMP)
+			return UnitType.Amp;
+		else if (unit == CurrentUnitType.KA)
+			return UnitType.kAmp;
+		return UnitType.PU;
+	}
+	
+	/**
 	 * convert XML angle unit to Ipss UnitType
 	 * 
 	 * @param unit power unit 
@@ -158,6 +179,36 @@ public class ODMXmlHelper {
 			return UnitType.Deg;
 		return UnitType.Rad;
 	}
+	
+	/**
+	 * convert XML factor unit to Ipss UnitType
+	 * 
+	 * @param unit power unit 
+	 * @return
+	 */
+	public static byte toUnit(FactorUnitType unit) {
+		if (unit == FactorUnitType.PERCENT)
+			return UnitType.Percent;
+		return UnitType.PU;
+	}	
+	
+	/**
+	 * convert XML length unit to Ipss UnitType
+	 * 
+	 * @param unit power unit 
+	 * @return
+	 */
+	public static byte toUnit(LengthUnitType unit) {
+		if (unit == LengthUnitType.FT)
+			return UnitType.Ft;
+		else if (unit == LengthUnitType.M)
+			return UnitType.M;
+		else if (unit == LengthUnitType.KM)
+			return UnitType.kM;
+		else if (unit == LengthUnitType.MILE)
+			return UnitType.Mile;
+		return UnitType.Ft;
+	}		
 
 	/**
 	 * Convert GroundingEnumType (ODM) to BusGroundCode (Interpss)
@@ -173,7 +224,20 @@ public class ODMXmlHelper {
 		else	
 			return BusGroundCode.UNGROUNDED;
 	}	
-	
+
+	/**
+	 * Convert XformrtConnectionEnumType (ODM) to XFormerConnectCode (Interpss)
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static XFormerConnectCode toXfrConnectCode(XformrtConnectionEnumType type) {
+		if (type == XformrtConnectionEnumType.DELTA) 
+			return XFormerConnectCode.DELTA;
+		else	
+			return XFormerConnectCode.WYE;
+	}	
+
 	/**
 	 * map the ODM data format to InterPSS format
 	 * 
