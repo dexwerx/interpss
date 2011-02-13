@@ -19,46 +19,46 @@ import com.interpss.core.common.visitor.IAclfBusVisitor;
  */
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
+    
+	public final double DEFAULT_MAX_STEP_SIZE=0.1;// to control the max step increase/decrease
+    protected double maxStepSize=DEFAULT_MAX_STEP_SIZE;
+    public final double DEFAULT_MIN_STEP_SIZE=0.001;// to control the max step increase/decrease
+    protected double minStepSize=DEFAULT_MIN_STEP_SIZE;
+    public final double DEFAULT_PF_TOLEARANCE=1e-3;
+   
+    private double PflowTolerance=DEFAULT_PF_TOLEARANCE;
+    public final int DEFAULT_CPF_MAX_ITERATIONS=50;
+    private int maxIterations=DEFAULT_CPF_MAX_ITERATIONS;
 
-//    protected LambdaParam lambda=null;
+    public final double DEFAULT_STEP_SIZE=0.05;  // deault step size;
+    private double stepSize=0.05;
     protected AnalysisStopCriteria stopCriteria=null;
+    
     protected GenDispatch genDispatch=null;
     protected LoadIncrease ldInc=null;
     protected CPFSolver cpfSolver=null;
-	protected int sortNumOfContPara=0; // used in whole process
-    protected boolean violation=false;
-    protected final double DEFAULT_CPF_TOLEARANCE=1e-3;
-    protected double tolerance;
-    protected int maxInterations;
-    protected final double DEFAULT_MAX_STEP_SIZE=0.5;// to control the max step increase/decrease
-    private double maxStepSize=DEFAULT_MAX_STEP_SIZE;
-    protected final double DEFAULT_MIN_STEP_SIZE=0.001;// to control the max step increase/decrease
-    private double minStepSize=DEFAULT_MIN_STEP_SIZE;
-    protected final double DEFAULT_STEP_SIZE=0.05;  // deault step size;
-    private double stepSize=0.05;
+	private CpfHelper cpfHelper=null;
+	private boolean violation=false;
     
     public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc) {
     	this.setAclfNetwork(net);
-    	//this.lambda=lambda;
-    	this.sortNumOfContPara=lambda.getPosition();// by default;
+		this.cpfHelper=new CpfHelper(net,loadInc.getPattern());
         this.ldInc=loadInc;
         this.cpfSolver=new CPFSolverImpl(this,lambda);
 
     }
     
-    
-
 	@Override
 	public int getMaxIterations() {
 		
-		return this.maxInterations;
+		return this.maxIterations;
 	}
 
 
 	@Override
 	public boolean runCPF() {
-		cpfSolver.solveCPF();
-		return cpfSolver.isCPFConverged();
+		return cpfSolver.solveCPF();
+		
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 
 	@Override
 	public void setMaxIterations(int maxIter) {
-		this.maxInterations=maxIter;
+		this.maxIterations=maxIter;
 		
 	}
 
@@ -147,6 +147,16 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 		
 	}
 
+	@Override
+	public void setCpfHelper(CpfHelper cpfHelper) {
+		this.cpfHelper = cpfHelper;
+	}
+  
+	@Override
+	public CpfHelper getCpfHelper() {
+		return cpfHelper;
+	}
+
 
 
 	public void setMaxStepSize(double maxStepSize) {
@@ -185,6 +195,15 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public void setMinStepSize(double minStepSize) {
 		this.minStepSize=minStepSize;
 		
+	}
+
+
+	public void setPflowTolerance(double pflowTolerance) {
+		PflowTolerance = pflowTolerance;
+	}
+
+	public double getPflowTolerance() {
+		return PflowTolerance;
 	}
 
 

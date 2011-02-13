@@ -18,6 +18,7 @@ class structure
 */
 
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
+import org.interpss.vstab.cpf.impl.CpfHelper;
 import org.interpss.vstab.cpf.impl.GenDispatch;
 import org.interpss.vstab.cpf.impl.LoadIncrease;
 
@@ -109,9 +110,33 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
      * @return step size
      */
 	public double getStepSize();
-	
+	/**
+	 * @return minimum step size constrain
+	 */
 	public double getMinStepSize();
 	
 	public void setMinStepSize(double minStepSize);
+	
+    /**
+     * set CpfHelper parameter
+     * @param cpfHelper 
+     */
+	public void setCpfHelper(CpfHelper cpfHelper);
+	
+    /**
+     * 
+     * @return cpfHelper
+     */
+	public CpfHelper getCpfHelper();
+	
+	/**
+	 * @param pflowTolerance the power flow tolerance to set(in P.U.)
+	 */
+	public void setPflowTolerance(double pflowTolerance);
+
+	/**
+	 * @return the power flow tolerance,in P.U.;
+	 */
+	public double getPflowTolerance();
 
 }

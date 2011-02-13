@@ -32,7 +32,7 @@ public class CpfHelper {
 	private AclfNetwork net=null;
 	public CpfHelper(AclfNetwork net,LoadIncPattern ldIncPtn){
 		this.net=net;
-		contParaSortNum=this.net.getNoBus(); // by default
+		this.contParaSortNum=this.net.getNoBus(); //choose Lambda as the continuation parameter by default
 		this.loadIncPtn=ldIncPtn;
 		this.ldIncDirTbl=ldIncPtn.getLoadIncDir();
 	}

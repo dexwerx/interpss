@@ -20,7 +20,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
 		this.cpf=cpfAlgo;
-		this.cpfHelper=new CpfHelper(cpf.getAclfNetwork(),cpf.getLoadIncrease().getPattern());
+		cpfHelper=cpf.getCpfHelper();
 		this.ldInc=cpfAlgo.getLoadIncrease();
 	}
 	@Override
@@ -43,7 +43,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 			
 
 		}
-		System.out.println("loadP of bus1= "+((IAclfElement) this.cpf.getNetwork()).getAclfBus("1").getLoadP());
+//		System.out.println("loadP of bus1= "+((IAclfElement) this.cpf.getNetwork()).getAclfBus("1").getLoadP());
 		super.setPowerMismatch(lfEqn);
 		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
 		VstabFuncOut.printBVector(getAclfNet(), lfEqn);
@@ -59,7 +59,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		super.updateBusVoltage(lfEqn);
 		
 		// the solution result of the extra variable defined is stored at B(n+1)  
-        this.cpf.getCpfSolver().getLambda().update(lfEqn, 0.1);// is a factor needed for update?
+        this.cpf.getCpfSolver().getLambda().update(lfEqn, 1);// is a factor needed for update?
    
         // output the B vector for test
         System.out.println("-------Delta X( theta, Vmag)-------");
@@ -70,7 +70,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
         	System.out.println("busId: "+bus.getId()+", ang ="+bus.getVoltageAng()+"mag="+bus.getVoltageMag());
         }
 	}
-	
+
 	
 
 

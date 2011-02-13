@@ -21,25 +21,27 @@ import com.interpss.core.net.Bus;
 
 public class PredictorStepSolver extends AbstractStepSolver{
 	protected boolean isCrossMPP=false;
-	protected boolean stepSizeCntrl=false;
-	private final double DEFAULT_STEP_SIZE=0.2;
-	private double stepSize=DEFAULT_STEP_SIZE;
-	private double oldStepSize=0;
+	private boolean stepSizeCtrl=false;
+
 	private CpfHelper cpfHelper=null;
-	private ArrayRealVector deltaX_Lambda=null;
-	private LambdaParam lambda=null;
+	protected ArrayRealVector deltaX_Lambda=null;// all state variables are saved
+	private ArrayRealVector deltaV_Lambda=null;// only Vmag and Lambda is save for continuation param judgment;
 	private CPFAlgorithm cpf=null;
+	
+	private double stepSize=0;
+	private double oldStepSize=0;
 	/**
 	 *  the constructor of the PredictorStepSolver class
 	 * @param net
 	 * @param msg
 	 */
-	public PredictorStepSolver(CPFAlgorithm cpfAlgo,LambdaParam lambda) {
+	public PredictorStepSolver(CPFAlgorithm cpfAlgo) {
 
 		this.cpf=cpfAlgo;
-		this.lambda=lambda;
-		this.cpfHelper=new CpfHelper(cpf.getAclfNetwork(),cpf.getLoadIncrease().getPattern());
+		this.cpfHelper=cpfAlgo.getCpfHelper();
 		this.deltaX_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()*2+1); // swing bus is included
+	    this.deltaV_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()+1);
+	    stepSize=cpfAlgo.getStepSize();
 	}
 	/**
 	 * a step Solver, overrides the same method of AbstractStepSolver 
@@ -63,11 +65,13 @@ public class PredictorStepSolver extends AbstractStepSolver{
 	 */
 	@Override
     public void updateBusVoltage() {
-		double x = this.stepSize;
+		double maxStep=this.cpf.getMaxStepSize()/this.getDeltaVLambda().getLInfNorm();
+		
+		double x =Math.min(maxStep,this.stepSize);
 		if(isStepSizeControl()) {
 			x=this.stepSize-this.oldStepSize;
 		}
-
+        
 		final double actualStep=x;
     	this.cpf.getAclfNetwork().forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
@@ -84,7 +88,7 @@ public class PredictorStepSolver extends AbstractStepSolver{
 			  }
 		  }		
     	});
-    	lambda.update(augmentedJacobi, actualStep); //update lambda
+    	this.cpf.getCpfSolver().getLambda().update(augmentedJacobi, actualStep); //update lambda
     }
 	/**
 	 * calculate the tangent vector
@@ -97,13 +101,13 @@ public class PredictorStepSolver extends AbstractStepSolver{
      //   set the [B] elements(right-hand side of Jacobian matrix) to [0,+-1] ,
      //   only the element corresponding to Continuous parameter is set to +1,or -1, depending on the slope of continuous parameter
    	
-    int contParaSign=getContParaSign();  
-    augmentedJacobi.setB(new Complex(contParaSign,0),lambda.getPosition());
+    int signOfcontPara=getContParaSign();  
+    this.augmentedJacobi.setB(new Complex(signOfcontPara,0),this.cpf.getCpfSolver().getLambda().getPosition());
 
      // solve Jau*[dx,dLamda]T=[0,+-1]
      
     try {
-		if (!augmentedJacobi.luMatrixAndSolveEqn(this.tolerance)) {
+		if (!this.augmentedJacobi.luMatrixAndSolveEqn(this.tolerance)) {
 			return false;
 		}
 	} catch (IpssNumericException e) {
@@ -116,22 +120,24 @@ public class PredictorStepSolver extends AbstractStepSolver{
     
     return true;
     }
-    
-
+    /**
+     * 
+     * @return to determine the network state whether it is across the PV nose or not 
+     */
     public boolean isCrossMaxPwrPnt() {
-    	// only sign of Lambda is used for judgment.
+    	// Now only sign of Lambda is used for judgment.
 
     	if(!cpf.getCpfSolver().isLmdaContParam()) {
-    		if(deltaX_Lambda.getEntry(deltaX_Lambda.getDimension()-1)<0)// Lambda parameter is at the last of deltaX_Lambda vector
+    		if(deltaV_Lambda.getEntry(deltaV_Lambda.getDimension()-1)<0)// Lambda parameter is at the last of deltaX_Lambda vector
     			return this.isCrossMPP=true;
     	}
     	return this.isCrossMPP=false;
     }
     private int getContParaSign() {
     	if(isCrossMaxPwrPnt()) {
-    		return  +1;
+    		return  -1;
     	}
-    	else return -1;
+    	else return +1;
     }
     private void saveDeltaRslt2Vctr() {
     	
@@ -140,27 +146,56 @@ public class PredictorStepSolver extends AbstractStepSolver{
     		Bus b = (Bus)localIterator.next();
             i=b.getSortNumber();// sort number is still ranging between 1->n,while SparseEqn is indexed 0->n-1
             Vector_xy dv=this.augmentedJacobi.getX(i);   
-            this.deltaX_Lambda.setEntry(2*i, dv.x);
-            this.deltaX_Lambda.setEntry(2*i+1, dv.y);
+            this.deltaX_Lambda.setEntry(2*i, dv.x);  // dv.x->Vang;
+            this.deltaX_Lambda.setEntry(2*i+1, dv.y); //dv.y->Vmag;
+            this.deltaV_Lambda.setEntry(i, dv.y);
         }
     	i=this.cpf.getCpfSolver().getLambda().getPosition(); // lambda index 
     	double deltaL=this.augmentedJacobi.getX(i).x;
         this.deltaX_Lambda.setEntry(this.cpf.getAclfNetwork().getNoBus()*2, deltaL);
+        this.deltaV_Lambda.setEntry(i, deltaL);
     }
     protected boolean isStepSizeControl() {
-    	return this.stepSizeCntrl;
+    	return this.stepSizeCtrl;
     }
+    /**
+     * 
+     * @param specify "stepControl" parameter to enable step size control or not;
+     */
     public void enableStepSizeControl(boolean stepControl) {
-    	this.stepSizeCntrl=stepControl;
+    	this.stepSizeCtrl=stepControl;
     }
     private void applyStepSizeControl() {
     	this.oldStepSize=stepSize;
     	this.stepSize*=0.5; // cut to the half of last step size
-    	
+    	this.cpf.setStepSize(this.stepSize);// update the step size;
+    	this.stepSizeCtrl=false; // disable its function by changing it back to FALSE
     }
+    /**
+     * 
+     * @return a ArrayRealVector containing DeltaX(Vang and Vmag) and DeltaLambda and indexed by sort number
+     */
     public ArrayRealVector getDeltaXLambda() {
     	return this.deltaX_Lambda;
     }
-
+    /**
+     * 
+     * @return a ArrayRealVector containing DeltaVmag and DeltaLambda and indexed by sort number
+     */
+    public ArrayRealVector getDeltaVLambda() {
+    	return this.deltaV_Lambda;
+    }
+    /**
+     * 
+     * @return the sort number of the continuation parameter for the next step;
+     */
+    public int getNextStepContParam(){
+    	return calMaxDeltaX();
+    }
+    private int calMaxDeltaX(){ // only Vmag and Lambda are considered here
+    	ArrayRealVector temp=(ArrayRealVector) deltaV_Lambda.mapAbs();
+    	return temp.getMaxIndex();
+    	
+    }
 
 }

@@ -1,6 +1,7 @@
 package org.interpss.vstab.cpf;
 
 import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
+import org.interpss.vstab.cpf.impl.CpfHelper;
 import org.interpss.vstab.cpf.impl.LambdaParam;
 import org.interpss.vstab.cpf.impl.PredictorStepSolver;
 /**
@@ -10,15 +11,25 @@ import org.interpss.vstab.cpf.impl.PredictorStepSolver;
  */
 
 public interface CPFSolver {
-
+   /**
+    * 
+    * @return boolean param to show solving CPF successfully or not;
+    */
 	public boolean solveCPF();
-	
-	public boolean isCPFConverged();
-	public void setCpfConverged(boolean convg);
-	
+    /**
+     *  run predictor Step analysis and return a boolean parameter as a flag;
+     * @return 
+     */
 	public boolean predictorStep();
-	
+	/**
+	 *  run corrector step analysis and return  a boolean parameter as a flag;
+	 * @return
+	 */
 	public boolean correctorStep();
+	/**
+	 * 
+	 * @return Lambda parameter;
+	 */
     public LambdaParam getLambda();
     
     public CorrectorStepSolver getCorrStepSolver();
@@ -39,6 +50,7 @@ public interface CPFSolver {
      * @return the flag whether lambda parameter is the continuation parameter;
      */
     public boolean isLmdaContParam();
+
 }
 
 

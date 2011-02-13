@@ -7,6 +7,7 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
@@ -18,15 +19,15 @@ import com.interpss.core.net.Bus;
 public class GenDispatch {
 
     private int numofGen=0;
-    private HashMap<Integer,Double> genPmax; //=new Matrix(numofGen,2);
-    private HashMap<Integer,Double> genP0;
+    private Hashtable<Integer,Double> genPmax; //=new Matrix(numofGen,2);
+    private Hashtable<Integer,Double> genP0;
     private AclfNetwork net;
     private GenDispPtn ptn;
     private Hashtable<String,Double> customGenDispTbl;
     public GenDispatch(AclfNetwork net, GenDispPtn genDispPtn){
     	this.net=net;
     	this.ptn=genDispPtn;
-    	
+    	initialize();
     }
     
 	public  void genDispatch(double pMismatch){
@@ -40,23 +41,23 @@ public class GenDispatch {
 			genDispByCustSpec(pMismatch);
 		}
 	}
-	private void genDispByAGC(double pMismatch){
+	public void genDispByAGC(double pMismatch){
 		throw new UnsupportedOperationException();
 	}
-	private void genDispByCustSpec(double pMismatch){
+	public void genDispByCustSpec(double pMismatch){
 		throw new UnsupportedOperationException();
 	}
-	private  void genDispByResvProp(double pMismatch){
+	public  void genDispByResvProp(double pMismatch){
 	{
 		/*
 		 * 1.run power flow first,get the result ,here the gen P AND Q are needed
 		 * 2.get the gen power reserve  .
 		 * 3.generation dispatch according to the proportion of gen RESERVE of each gen.
 		 */
-		System.out.println("-- starting gen dispatch by Reservation-Proportion method-- ");
+		IpssLogger.getLogger().info("-- starting gen dispatch by Reservation-Proportion method-- ");
 
 		double sumofDgenP=0;
-		RealVector DgenP=new ArrayRealVector(numofGen);                                               
+		ArrayRealVector DgenP=new ArrayRealVector(numofGen);                                               
 		AclfBus objbus =null ;
 		int j=0;
 		for(int i:this.genPmax.keySet()){
@@ -71,7 +72,7 @@ public class GenDispatch {
 		        j++;
 	     }  
       
-		//sumofDgenP=MatrixCalc.sumOfElement(DgenP);
+		//sumofDgenP=sumOfElement(DgenP);
 		sumofDgenP=DgenP.getL1Norm(); // get the sum of all element ,since all are positive
 		j=0;
 		for(int i:this.genPmax.keySet()){
@@ -80,25 +81,32 @@ public class GenDispatch {
 	        	if (DgenP.getEntry(j)>0) { objbus.setGenP(genP0.get(i)+DPi);}
 	        	j++;
 	     }
-		System.out.println("--end gen dispatch--");
+		IpssLogger.getLogger().info("--end gen dispatch--");
 	}
    }
 
 
-	public GenDispatch(AclfNetwork net,HashMap<Integer,Double> genP0,HashMap<Integer,Double> genPmax) {
-		this.genP0=genP0;
-		this.genPmax=genPmax;
-		this.net =net;
+	private void initialize(){
+		this.genP0=new Hashtable<Integer, Double>(this.net.getNoBus());
+		this.genPmax=new Hashtable<Integer, Double>(this.net.getNoBus());
+		for(int i=0;i<this.net.getBusList().size();i++){
+			AclfBus bus=(AclfBus)this.net.getBusList().get(i);
+			if(bus.isGen()){
+				this.genP0.put(i, bus.getGenP());
+				this.genPmax.put(i,bus.getPGenLimit().getMax());
+			}
+			
+		}
 	}
-	public int getNoPVGenBus(AclfNetwork net){
-		int pvGen=0;
+	private int getNoGenBus(AclfNetwork net){
+		int numGen=0;
 		for (Bus bus:net.getBusList()){
 			 AclfBus acbus=(AclfBus) bus;
-			 if(acbus.isActive()&&acbus.isGenPV()){
-				pvGen++;
+			 if(acbus.isActive()&&acbus.isGen()){
+				numGen++;
 			 }
 		}
-		this.numofGen=pvGen;
+		this.numofGen=numGen;
 		return this.numofGen;
 	}
 }
