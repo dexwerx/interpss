@@ -183,7 +183,7 @@ public class BaseJaxbHelper {
 		else if (bus instanceof MixedLoadDistBusXmlType)
 			return getFactory().createDistMixedLoadBus((MixedLoadDistBusXmlType)bus);
 		else if (bus instanceof NonContributingDistBusXmlType)
-			return getFactory().createDistNonContributeSynMotorBus((NonContributingDistBusXmlType)bus);
+			return getFactory().createDistNonContributeBus((NonContributingDistBusXmlType)bus);
 		
 		else
 			return getFactory().createBus(bus);

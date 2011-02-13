@@ -35,6 +35,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.model.dc.DcSystemModelParser;
+import org.ieee.odm.model.dist.DistModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
 
@@ -49,6 +50,11 @@ public class ODMObjectFactory {
 		return parser;
 	}
 
+	public static DistModelParser createDistModelParser() {
+		DistModelParser parser = new DistModelParser();
+		return parser;
+	}
+	
 	public static OpfModelParser createOpfModelParser() {
 		OpfModelParser parser = new OpfModelParser();
 		return parser;

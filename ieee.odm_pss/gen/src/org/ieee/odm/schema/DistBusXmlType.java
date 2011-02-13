@@ -10,18 +10,25 @@ package org.ieee.odm.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for ModifyRecordXmlType complex type.
+ * 
+ * 		bus record for loadflow study
+ * 		
+ * 
+ * <p>Java class for DistBusXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ModifyRecordXmlType">
+ * &lt;complexType name="DistBusXmlType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}IDRecordXmlType">
+ *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}BusXmlType">
+ *       &lt;sequence>
+ *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -30,9 +37,14 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ModifyRecordXmlType")
-public class ModifyRecordXmlType
-    extends IDRecordXmlType
+@XmlType(name = "DistBusXmlType")
+@XmlSeeAlso({
+    UtilityDistBusXmlType.class,
+    NonContributingDistBusXmlType.class,
+    RotatingMachineDistBusXmlType.class
+})
+public abstract class DistBusXmlType
+    extends BusXmlType
 {
 
 

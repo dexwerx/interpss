@@ -37,13 +37,15 @@
 		<complexContent>
 			<extension base="pss:NetworkXmlType">
 				<sequence>
+					<element name="positiveSeqDataOnly" type="boolean" minOccurs="1"></element>
 					<element name="scStd" type="pss:ScAnalysisStdEnumType" minOccurs="1"></element>
 					<element name="scPointList" minOccurs="1">
 						<complexType>
 							<sequence>
 								<element name="scPoint" type="pss:DistScPointXmlType" maxOccurs="unbounded"></element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -69,12 +71,24 @@
 	=========
  -->	
 
-	<complexType name="NonContributingDistBusXmlType">
+	<complexType name="DistBusXmlType" abstract="true">
 		<annotation><documentation>
 		bus record for loadflow study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:BusXmlType">
+				<sequence>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="NonContributingDistBusXmlType">
+		<annotation><documentation>
+		bus record for loadflow study
+		</documentation></annotation>
+		<complexContent>
+			<extension base="pss:DistBusXmlType">
 				<sequence>
 				</sequence>
 			</extension>
@@ -86,7 +100,7 @@
 		bus record for loadflow study
 		</documentation></annotation>
 		<complexContent>
-			<extension base="pss:NonContributingDistBusXmlType">
+			<extension base="pss:DistBusXmlType">
 				<sequence>
 					<element name="voltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
 					<element name="angle" type="pss:AngleXmlType" maxOccurs="1"></element>
@@ -103,6 +117,7 @@
 		<complexContent>
 			<extension base="pss:RotatingMachineDistBusXmlType">
 				<sequence>
+					<element name="totalKva" type="pss:ApparentPowerXmlType" maxOccurs="1"></element>
 					<element name="motorPercent" type="double" maxOccurs="1"></element>
 				</sequence>
 			</extension>
@@ -143,7 +158,7 @@
 		bus record for loadflow study
 		</documentation></annotation>
 		<complexContent>
-			<extension base="pss:NonContributingDistBusXmlType">
+			<extension base="pss:DistBusXmlType">
 				<sequence>
 					<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
 					<element name="pFactor" type="pss:PowerFactorXmlType" minOccurs="1"></element>
@@ -189,13 +204,23 @@
 	Branch types
 	============
  -->	
-	<complexType name="FeederDistBranchXmlType">
+	<complexType name="DistBranchXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:BaseBranchXmlType">
+				<sequence>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>	
+
+	<complexType name="FeederDistBranchXmlType">
+		<complexContent>
+			<extension base="pss:DistBranchXmlType">
 				<sequence>
 					<element name="z1" type="pss:ZXmlType" maxOccurs="1"></element>
 					<element name="z0" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="shuntY" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="shuntY0" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="length" type="pss:LengthXmlType" maxOccurs="1" minOccurs="0"></element>
 				</sequence>
 			</extension>
@@ -204,17 +229,17 @@
 
 	<complexType name="XFormerDistBranchXmlType">
 		<complexContent>
-			<extension base="pss:BaseBranchXmlType">
+			<extension base="pss:DistBranchXmlType">
 				<sequence>
 					<element name="rating" type="pss:ApparentPowerXmlType" maxOccurs="1"></element>
-					<element name="fromSideRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
-					<element name="toSideRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
+					<element name="primaryRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
+					<element name="secondaryRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
 					<element name="z1" type="pss:ZXmlType" maxOccurs="1"></element>
 					<element name="z0" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-					<element name="fromTurnRatio" type="pss:TurnRatioXmlType" maxOccurs="1"></element>
-					<element name="toSideTurnRatio" type="pss:TurnRatioXmlType" maxOccurs="1"></element>
-					<element name="fromSideConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
-					<element name="toSideConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
+					<element name="primaryTurnRatio" type="pss:TurnRatioXmlType" maxOccurs="1"></element>
+					<element name="secondaryTurnRatio" type="pss:TurnRatioXmlType" maxOccurs="1"></element>
+					<element name="primaryConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
+					<element name="secondaryConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -231,7 +256,7 @@
 
 	<complexType name="ReactorDistBranchXmlType">
 		<complexContent>
-			<extension base="pss:BaseBranchXmlType">
+			<extension base="pss:DistBranchXmlType">
 				<sequence>
 					<element name="x" type="pss:XXmlType" maxOccurs="1"></element>
 					<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></element>
@@ -243,7 +268,7 @@
 	
 	<complexType name="BreakerDistBranchXmlType">
 		<complexContent>
-			<extension base="pss:BaseBranchXmlType">
+			<extension base="pss:DistBranchXmlType">
 				<sequence>
 					<element name="r" type="pss:RXmlType" maxOccurs="1"></element>
 				</sequence>
