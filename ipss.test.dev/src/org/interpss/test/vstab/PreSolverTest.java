@@ -29,7 +29,7 @@ public class PreSolverTest extends DevTestSetup {
 	LoadflowAlgorithm algo =CoreObjectFactory.createLoadflowAlgorithm();
 	net.accept(algo);
 	for(Bus b:net.getBusList()){
-		System.out.println(b.getSortNumber());
+		System.out.println(b.getId()+", sort Number: "+ b.getSortNumber());
 	}
 	//define load Increase;
 	LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
@@ -45,12 +45,38 @@ public class PreSolverTest extends DevTestSetup {
 	
 	preSolver.stepSolver();
 	assertTrue((preSolver.getAugmentedJacobi().getA(2, 5).xx-1.60)<1e-9);// bus1.loadP=1.60
-	assertTrue((preSolver.getDeltaXLambda().getEntry(0)-(-0.73935))<0.0001);
-	assertTrue((preSolver.getDeltaXLambda().getEntry(10)-1.0)<1e-9); // Delta_Lambda=1
-	
-	// print J-matrix
-//    VstabFuncOut.printJmatix(preSolver.getAugmentedJacobi(),6,2);
-    // print tangent vector
-//    VstabFuncOut.printRealVector(preSolver.getDeltaXLambda());
+	assertTrue((preSolver.getDeltaXLambda().getEntry(0)-(0.73935))<0.0001);
+	assertTrue((preSolver.getDeltaXLambda().getEntry(10)-(1.0))<1e-9); // Delta_Lambda=1
+	System.out.println(preSolver.getDeltaXLambda().toString());
+	}
+
+	@Test
+	public void testCase2() {
+		// create a sample 5-bus system for Loadflow 
+		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem(net);
+		
+		// run Loadflow analysis of the base case
+		LoadflowAlgorithm algo =CoreObjectFactory.createLoadflowAlgorithm();
+		net.accept(algo);
+		for(Bus b:net.getBusList()){
+			System.out.println(b.getSortNumber());
+		}
+		//define load Increase;
+		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
+		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
+		assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
+		
+	    // create the cpf algorithm;
+		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
+		assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==5);
+		
+//		 initialize the cpf predictor step solver;
+		PredictorStepSolver preSolver=cpfAlgo.getCpfSolver().getPredStepSolver();
+		
+		//the find the next step cont' param;
+		preSolver.stepSolver();
+		assertTrue(preSolver.getNextStepContParam()==5);// bus1
+		System.out.println(preSolver.getDeltaVLambda().toString());
 	}
 }

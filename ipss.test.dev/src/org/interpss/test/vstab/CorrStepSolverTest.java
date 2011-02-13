@@ -73,6 +73,7 @@ public class CorrStepSolverTest extends DevTestSetup {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 			algo.setNrSolver(corSolver);
 			algo.setMaxIterations(100);
+			algo.setTolerance(0.001);
 			net.accept(algo);
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			System.out.println("SortNumber of bus1 ="+net.getAclfBus("1").getSortNumber());
