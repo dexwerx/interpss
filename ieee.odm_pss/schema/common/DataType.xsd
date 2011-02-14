@@ -6,7 +6,7 @@
     <include schemaLocation="UnitType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<complexType name="BaseRecordXmlType">
@@ -23,8 +23,8 @@
 								<attribute name="name" type="string" use="optional"></attribute>
 								<attribute name="number" type="int" use="optional"></attribute>
 								<attribute name="ownership" type="double" use="optional">
-									<annotation>
-										<documentation>ownership in pu</documentation>
+									<annotation><documentation>
+									ownership in pu</documentation>
 									</annotation></attribute>
 							</complexType>
 						</element>
@@ -39,7 +39,6 @@
 		<attribute name="areaNumber" type="int" use="optional"></attribute>
 		<attribute name="zoneNumber" type="int" use="optional"></attribute>
 		<attribute name="number" type="long" use="optional"></attribute>
-
 		<attribute name="offLine" type="boolean" use="optional"></attribute>
 	</complexType>
 
@@ -67,9 +66,9 @@
 				<sequence>
 				</sequence>
 				<attribute name="windingType" type="pss:BusWindingEnumType" use="optional">
-					<annotation>
-						<documentation>optional, for indicating bus xfr winding type (Primary, Secondary or tertiary)</documentation>
-					</annotation>
+					<annotation><documentation>
+					optional, for indicating bus xfr winding type (Primary, Secondary or tertiary)
+					</documentation></annotation>
 				</attribute>
 			</extension>
 		</complexContent>
@@ -132,8 +131,7 @@
 	<complexType name="YXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required" type="pss:YUnitType">
-				</attribute>
+				<attribute name="unit" use="required" type="pss:YUnitType"/>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -241,10 +239,10 @@
 	</complexType>
 
 	<complexType name="AdjustmentDataXmlType">
-		<annotation>
-			<documentation>There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment,
-				max and min are used.</documentation>
-		</annotation>
+		<annotation><documentation>
+		There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment,
+		max and min are used.
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:LimitXmlType">
 				<attribute name="mode" use="required" type="pss:AdjustmentModeEnumType"></attribute>
@@ -295,10 +293,6 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	<!--
-		<complexType name="PerUnitXmlType"> <sequence> <element name="value" type="double" maxOccurs="1" minOccurs="1"> </element> <element name="unit" maxOccurs="1" minOccurs="1"> <simpleType> <restriction
-		base="string"> <enumeration value="PU"></enumeration> </restriction> </simpleType> </element> </sequence> </complexType>
-	-->
 	<complexType name="ApparentPowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
@@ -307,18 +301,6 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	<!--
-		<complexType name="PercentXmlType"> <sequence> <element name="value" type="double" maxOccurs="1" minOccurs="1"> </element> <element name="unit" maxOccurs="1" minOccurs="1"> <simpleType> <restriction
-		base="string"> <enumeration value="percent"></enumeration> </restriction> </simpleType> </element> </sequence> </complexType>
-	<complexType name="LineZeroSeqXmlType">
-		<sequence>
-			<element name="zLine" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="yLine" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="yFromSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="yToSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
-	-->
 
 	<complexType name="TransformerZeroSeqXmlType">
 		<sequence>
@@ -364,21 +346,7 @@
 			<element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1"/>
 		</sequence>
 	</complexType>	
-<!-- not used anymore
-	<complexType name="FaultXmlType">
-		<sequence>
-			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:AcscFaultTypeEnumType"></element>
-			<choice>
-				<element name="branchFault" maxOccurs="1" minOccurs="0" type="pss:BranchFaultXmlType"></element>
-				<element name="busFault" maxOccurs="1" minOccurs="0" type="pss:BusFaultXmlType"></element>
-				<element name="dcLineFault" maxOccurs="1" minOccurs="0" type="pss:DcLineFaultXmlType"></element>
-				<element name="branchOutage" maxOccurs="1" minOccurs="0" type="pss:BranchOutageXmlType"></element>
-				<element name="loadChange" maxOccurs="1" minOccurs="0" type="pss:LoadChangeDynamicEventXmlType"></element>
-				<element name="genChange" maxOccurs="1" minOccurs="0" type="pss:GenChangeDynamicEventXmlType"></element>
-			</choice>
-		</sequence>
-	</complexType>
- -->
+
 	<complexType name="XformerConnectionXmlType">
 		<sequence>
 			<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
@@ -544,8 +512,7 @@
 	</simpleType>
 
 	<complexType name="MvaRatingXmlType">
-		<sequence>
-		</sequence>
+		<sequence>		</sequence>
 		<attribute name="rating1" type="double" use="required"></attribute>
 		<attribute name="rating2" type="double" use="optional"></attribute>
 		<attribute name="rating3" type="double" use="optional"></attribute>
@@ -671,9 +638,7 @@
 		<attribute name="rdfId" type="string" use="required"></attribute>
 		<attribute name="name" type="string" use="optional"></attribute>
 	</complexType>
-	<!--
-		<complexType name="CimConnectionXmlType"> <sequence> <element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"> </element> </sequence> </complexType>
-	-->
+
 	<complexType name="CimConnectionRecordType">
 		<complexContent>
 			<extension base="pss:CimRdfRecordType">

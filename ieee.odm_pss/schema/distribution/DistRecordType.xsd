@@ -6,12 +6,12 @@
     <include schemaLocation="../common/RecordType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<element name="distNet" type="pss:DistributionNetXmlType" substitutionGroup="pss:baseCase">
 		<annotation><documentation>
-		Network for distribution system analysis, not implemented yet
+		Network for distribution system analysis
 		</documentation></annotation>
 	</element>
 	
@@ -73,7 +73,7 @@
 
 	<complexType name="DistBusXmlType" abstract="true">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:BusXmlType">
@@ -85,7 +85,7 @@
 
 	<complexType name="NonContributingDistBusXmlType">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:DistBusXmlType">
@@ -97,7 +97,7 @@
 	
 	<complexType name="UtilityDistBusXmlType">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:DistBusXmlType">
@@ -112,7 +112,7 @@
 	
 	<complexType name="MixedLoadDistBusXmlType">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:RotatingMachineDistBusXmlType">
@@ -126,7 +126,7 @@
 
 	<complexType name="GeneratorDistBusXmlType">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:RotatingMachineDistBusXmlType">
@@ -140,7 +140,7 @@
 
 	<complexType name="MotorDistBusXmlType" abstract="true">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:RotatingMachineDistBusXmlType">
@@ -155,7 +155,7 @@
 
 	<complexType name="RotatingMachineDistBusXmlType" abstract="true">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:DistBusXmlType">
@@ -178,7 +178,7 @@
 
 	<complexType name="SynchronousMotorDistBusXmlType">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:MotorDistBusXmlType">
@@ -190,7 +190,7 @@
 
 	<complexType name="InductionMotorDistBusXmlType">
 		<annotation><documentation>
-		bus record for loadflow study
+		bus record for loadflow and short circuit study
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:MotorDistBusXmlType">

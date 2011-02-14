@@ -16,7 +16,7 @@
 	<include schemaLocation="StudyScenario.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 
 	<element name="pssStudyCase" type="pss:StudyCaseXmlType">
@@ -27,8 +27,8 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType">					</element>
-					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType">					</element>
+					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType"/>
+					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType"/>
 					<element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
 						<annotation><documentation>
 						Base case power network data for power system simulation purpose
@@ -36,7 +36,7 @@
 					</element>
 					<element name="modificationList" minOccurs="0" maxOccurs="1">
 						<annotation><documentation>
-						Modifications to be applied to the base case. Also, modification could be defined at the study scenaio level
+						Modifications to be applied to the base case. Also, modification could be defined at the study scenario level
 						</documentation></annotation>
 						<complexType>
 							<sequence>
@@ -62,11 +62,11 @@
 			</element>
 			<element name="originalFormatVersion" type="string" minOccurs="0"></element>
 			<element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
-				<annotation><documentation>adapter provider name this file was created or this file is inteded for
+				<annotation><documentation>adapter provider name this file was created or this file is intended for
 				</documentation></annotation>
 			</element>
 			<element name="adapterProviderVersion" type="string" minOccurs="0" maxOccurs="1">
-				<annotation><documentation>adapter provider version this file was created or this file is inteded for
+				<annotation><documentation>adapter provider version this file was created or this file is intended for
 				</documentation></annotation>
 			</element>
 		</sequence>
@@ -74,9 +74,11 @@
 						
 	<simpleType name="ODMSchemaVersionEnumType">
 		<annotation><documentation>
+			V0.8.2 - distribution system update
 			V0.8.1 - added dc system analysis
 		</documentation></annotation>
 		<restriction base="string">
+			<enumeration value="V0.8.2"></enumeration>
 			<enumeration value="V0.8.1"></enumeration>
 			<enumeration value="V0.8"></enumeration>
 			<enumeration value="V0.7"></enumeration>

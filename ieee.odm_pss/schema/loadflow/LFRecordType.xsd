@@ -3,12 +3,11 @@
     targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
     <include schemaLocation="../common/RecordType.xsd"></include>
-
     <include schemaLocation="DcLineRecordType.xsd"></include>
     <include schemaLocation="CompensatorType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<element name="aclfNet" type="pss:LoadflowNetXmlType" substitutionGroup="pss:baseCase">
@@ -23,23 +22,27 @@
 	</element>
 	<element name="aclfLine" type="pss:LineBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
-		Branch record for define 
+		Line Branch record for define 
 		</documentation></annotation>
 	</element>
 	<element name="aclfXfr" type="pss:XfrBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		Xfr Branch record for define 
 		</documentation></annotation>
 	</element>
 	<element name="aclf3WXfr" type="pss:Xfr3WBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		3W Xfr Branch record for define 
 		</documentation></annotation>
 	</element>
 	<element name="aclfPSXfr" type="pss:PSXfrBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		PS Xfr Branch record for define 
 		</documentation></annotation>
 	</element>
 	<element name="aclf3WPSXfr" type="pss:PSXfr3WBranchXmlType" substitutionGroup="pss:branch">
 		<annotation><documentation>
+		3W PS Xfr Branch record for define 
 		</documentation></annotation>
 	</element>
 		
@@ -47,12 +50,10 @@
 		Network object
  -->
 	<complexType name="LoadflowNetXmlType">
-		<annotation>
-			<documentation>
+		<annotation><documentation>
 				Network container for AC Loadflow study. It is a sub type of the NetworkXmlType,
 				which as a bus list of BusXmlType and a branch list of BaseBranchXmlType 
-			</documentation>
-		</annotation>
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:NetworkXmlType">
 				<sequence>
@@ -160,21 +161,19 @@
 		Bus objects
  -->	
 	<complexType name="LoadflowBusXmlType">
-		<annotation>
-			<documentation>bus record for loadflow study</documentation>
-		</annotation>
+		<annotation><documentation>
+		bus record for loadflow study
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:BusXmlType">
 		<sequence>
 			<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="angle" type="pss:AngleXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="genData" minOccurs="0" maxOccurs="1">
-				<annotation>
-					<documentation>
-						Loadflow bus gen has an equivGen and a list contribGen. For gen models with contribGen list,
-						the contribGen list are summarized into the equivGen after the data is loaded
-					</documentation>
-				</annotation>
+				<annotation><documentation>
+				Loadflow bus gen has an equivGen and a list contribGen. For gen models with contribGen list,
+				the contribGen list are summarized into the equivGen after the data is loaded
+				</documentation></annotation>
 				<complexType>
 					<sequence>
 						<element name="equivGen" type="pss:LoadflowGenDataXmlType" minOccurs="0" maxOccurs="1"></element>
@@ -189,12 +188,10 @@
 				</complexType>
 			</element>
 			<element name="loadData" minOccurs="0" maxOccurs="1">
-				<annotation>
-					<documentation>
-						Loadflow bus load has an equivLoad and a list contribLoad. For load models with contribLoad list,
-						the contribLoad list are summarized into the equivLoad after the data is loaded
-					</documentation>
-				</annotation>
+				<annotation><documentation>
+				Loadflow bus load has an equivLoad and a list contribLoad. For load models with contribLoad list,
+				the contribLoad list are summarized into the equivLoad after the data is loaded
+				</documentation></annotation>
 				<complexType>
 					<sequence>
 						<element name="equivLoad" minOccurs="0" maxOccurs="1" type="pss:LoadflowLoadDataXmlType"></element>
@@ -230,13 +227,11 @@
 	</complexType>
 	
 	<complexType name="LoadflowGenDataXmlType">
-		<annotation>
-			<documentation>
-				EquivGen is intended for Loadflow study. For PQ bus, p, q are specified using the power field. For Swing bus, 
-				desiredVoltage and desiredAngle are used For PV bus power.re and designedVoltage are used.
-				It is used to define LoadflowBusXmlType equivGen and contribGen list
-			</documentation>
-		</annotation>
+		<annotation><documentation>
+		EquivGen is intended for Loadflow study. For PQ bus, p, q are specified using the power field. For Swing bus, 
+		desiredVoltage and desiredAngle are used For PV bus power.re and designedVoltage are used.
+		It is used to define LoadflowBusXmlType equivGen and contribGen list
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:CimConnectionRecordType">
 				<sequence>
@@ -249,14 +244,14 @@
 					<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
 					<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
 					<element name="sourceZ" type="pss:ZXmlType" minOccurs="0">
-						<annotation>
-							<documentation>In GE-PSLF, it is called CompensatingZ</documentation>
-						</annotation>
+						<annotation><documentation>
+						In GE-PSLF, it is called CompensatingZ
+						</documentation></annotation>
 					</element>
 					<element name="xfrZ" type="pss:ZXmlType" minOccurs="0">
-						<annotation>
-							<documentation>In GE PSLF, it is called CharacteristicZ</documentation>
-						</annotation>
+						<annotation><documentation>
+						In GE PSLF, it is called CharacteristicZ
+						</documentation></annotation>
 					</element>
 					<element name="xfrTap" type="double" minOccurs="0"></element>
 					<element name="mvarVControlParticipateFactor" type="double" minOccurs="0"></element>
@@ -269,11 +264,9 @@
 	</complexType>	
 
 	<complexType name="LoadflowLoadDataXmlType">
-		<annotation>
-			<documentation>
-				It is used to define LoadflowBusXmlType equivLoad and contribLoad list
-			</documentation>
-		</annotation>
+		<annotation><documentation>
+		It is used to define LoadflowBusXmlType equivLoad and contribLoad list
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:CimConnectionRecordType">
 				<sequence>
@@ -327,9 +320,9 @@
 	<complexType name="TransformerInfoXmlType">
 		<sequence>
 			<element name="dataOnSystemBase" type="boolean" minOccurs="0">
-				<annotation>
-					<documentation>Normally xfr data is on xfr rated power based. By setting</documentation>
-				</annotation>
+				<annotation><documentation>
+				Normally xfr data is on xfr rated power based. By setting
+				</documentation></annotation>
 			</element>
 			<element name="fromRatedVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
 			<element name="toRatedVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>

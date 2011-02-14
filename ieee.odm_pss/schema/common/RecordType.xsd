@@ -6,16 +6,27 @@
     <include schemaLocation="DataType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 
 	<element name="baseCase" type="pss:NetworkXmlType">
 		<annotation><documentation>
-		Base network for defining a generic network with bus and branch objects. For testing purpose
+		Base network for defining a generic network with bus and branch objects. For testing purpose.
+		substitutionGroup is used to define network, for example, loadflow study
 		</documentation></annotation>
 	</element>
-	<element name="bus" type="pss:BusXmlType" />
-	<element name="branch" type="pss:BaseBranchXmlType" />
+	<element name="bus" type="pss:BusXmlType">
+		<annotation><documentation>
+		Base bus for defining a generic bus with bus and branch objects.
+		substitutionGroup is used to define network, for example, loadflow study
+		</documentation></annotation>
+	</element>
+	<element name="branch" type="pss:BaseBranchXmlType">
+		<annotation><documentation>
+		Base branch for defining a generic branch with bus and branch objects.
+		substitutionGroup is used to define network, for example, loadflow study
+		</documentation></annotation>
+	</element>
 
 	<complexType name="NetworkXmlType" abstract="true">
 		<complexContent>
@@ -88,8 +99,8 @@
 			<extension base="pss:CimRdfRecordType">
 				<sequence>
 					<element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1">
-						<annotation>
-							<documentation>For DC system, baseBase might be defined at the Network level</documentation>
+						<annotation><documentation>
+						For DC system, baseBase might be defined at the Network level</documentation>
 						</annotation></element>
 				</sequence>
 			</extension>

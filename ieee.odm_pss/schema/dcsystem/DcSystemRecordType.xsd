@@ -5,7 +5,7 @@
     <include schemaLocation="../common/RecordType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<element name="dcNet" type="pss:DcNetworkXmlType" substitutionGroup="pss:baseCase">
@@ -192,17 +192,16 @@
 		</annotation>
 		<sequence>
 			<element name="shadingFactor" type="double" minOccurs="0">
-				<annotation>
-					<documentation>shadingFactor to override the shading factor defined in pvModelRef PVModel</documentation>
-				</annotation></element>
+				<annotation><documentation>
+				shadingFactor to override the shading factor defined in pvModelRef PVModel
+				</documentation></annotation>
+			</element>
 		</sequence>
 		<attribute name="id" type="ID" use="required"></attribute>
 		<attribute name="pvModelRef" type="IDREF" use="required"></attribute>
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="desc" type="string" use="optional"></attribute>
 	</complexType>
-
-
 
 	<!--
 			Inverter 
@@ -279,7 +278,8 @@
 			<element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1">
 				<annotation><documentation>
 				Feeder resistance, could be in Ohm or Ohm/Ft, Ohm/M
-				</documentation></annotation></element>
+				</documentation></annotation>
+			</element>
 			<element name="length" type="pss:LengthXmlType" minOccurs="0" maxOccurs="1">
 				<annotation><documentation>
 				If r in Ohm/Ft or Ohm/M, the length need to be defined. unit in Ft, M, KM or Mile
