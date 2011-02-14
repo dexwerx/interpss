@@ -9,7 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.facts"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.path"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
-	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_ext.jar"/>
@@ -29,5 +28,7 @@
 	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
 	<classpathentry kind="lib" path="lib/gephi-toolkit.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
