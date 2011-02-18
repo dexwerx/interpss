@@ -33,7 +33,7 @@ import org.interpss.util.MemoryJavaCompiler;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethod;
+import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 import com.interpss.dstab.mach.Machine;

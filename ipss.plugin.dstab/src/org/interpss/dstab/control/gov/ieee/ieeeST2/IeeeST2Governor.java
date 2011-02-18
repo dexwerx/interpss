@@ -31,7 +31,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethod;
+import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.controller.AbstractGovernor;
 import com.interpss.dstab.mach.Machine;
 

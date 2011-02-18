@@ -36,7 +36,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethod;
+import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
