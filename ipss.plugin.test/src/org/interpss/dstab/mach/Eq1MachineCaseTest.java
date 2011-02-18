@@ -32,7 +32,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuMethod;
+import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.mach.Eq1Machine;
 import com.interpss.dstab.mach.MachineType;
 

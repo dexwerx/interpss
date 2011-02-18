@@ -44,7 +44,7 @@ import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;

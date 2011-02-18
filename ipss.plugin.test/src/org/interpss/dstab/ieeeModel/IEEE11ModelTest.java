@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.test.StateVariableTestRecorder;
 import com.interpss.dstab.test.YMatrixChangeTestRecorder;

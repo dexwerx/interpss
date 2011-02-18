@@ -35,6 +35,20 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class Bus42_3winding extends PluginTestSetup {
 	@Test
+	public void testCaseNoDC() throws Exception {
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30)
+				.load("testData/psse/v30/42bus_3winding_from_PSSE_V30_NoDC.raw")
+				.getAclfNet();	
+
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow();
+  		//System.out.println(net.net2String());
+	  	
+  		//assertTrue(net.isLfConverged());	
+	}
+
+	//@Test
 	public void testCase1() throws Exception {
 		AclfNetwork net = PluginObjectFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30)
