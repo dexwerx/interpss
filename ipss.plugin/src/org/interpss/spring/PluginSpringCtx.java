@@ -55,7 +55,7 @@ import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.core.net.Network;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class PluginSpringCtx extends BasePluginSpringCtx {

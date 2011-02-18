@@ -84,8 +84,11 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					BaseBranchXmlType xmlBranch = b.getValue();
-					Branch branch = xmlBranch instanceof PSXfr3WBranchXmlType || xmlBranch instanceof Xfr3WBranchXmlType ? 
-							CoreObjectFactory.createAclf3WXformer()	: CoreObjectFactory.createAclfBranch();
+					Branch branch = null;
+					if (xmlBranch instanceof PSXfr3WBranchXmlType || xmlBranch instanceof Xfr3WBranchXmlType)
+						branch = CoreObjectFactory.createAclf3WXformer();
+					else
+						branch = CoreObjectFactory.createAclfBranch();
 					mapAclfBranchData(xmlBranch, branch, adjNet);
 				}
 			} catch (InterpssException e) {
