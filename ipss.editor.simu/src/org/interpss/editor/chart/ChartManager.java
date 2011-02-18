@@ -94,18 +94,19 @@ public class ChartManager {
 		} else if (cell instanceof BusCell) {
 			menu.addSeparator();
 			final IGBusForm bus = ((BusCell) cell).getBusForm();
-			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET
-					&& simuCtx.getDistNet().getLoadNetData()
-							.getSchedulePoints() > 0
-					&& appSimuCtx.isLfConverged()) {
-				menu.add(new AbstractAction("Plot Load Curve") {
-					private static final long serialVersionUID = 1L;
-
-					public void actionPerformed(ActionEvent e) {
-						ChartManager.chartBusLoadCurve(bus.getId());
-					}
-				});
-			} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
+//			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET
+//					&& simuCtx.getDistNet().getLoadNetData()
+//							.getSchedulePoints() > 0
+//					&& appSimuCtx.isLfConverged()) {
+//				menu.add(new AbstractAction("Plot Load Curve") {
+//					private static final long serialVersionUID = 1L;
+//
+//					public void actionPerformed(ActionEvent e) {
+//						ChartManager.chartBusLoadCurve(bus.getId());
+//					}
+//				});
+//			} 
+			if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				int caseId = appSimuCtx.getDbSimuCaseId();
 				if (caseId > 0) {
 					DStabBus dstabBus = simuCtx.getDStabilityNet().getDStabBus(
@@ -592,30 +593,30 @@ public class ChartManager {
 		LoadScheduleChart plot = new LoadScheduleChart("Bus Load Schedule");
 
 		try {
-		SimuContext simuCtx = (SimuContext) GraphSpringAppContext
-				.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-		DistNetwork distNet = simuCtx.getDistNet();
-		DistBus distBus = (DistBus) distNet.getBus(busid);
-		int size = distNet.getLoadNetData().getSchedulePoints();
-		double[] vdata = new double[size];
-		for (int i = 0; i < size; i++) {
-			vdata[i] = ((Complex) distBus.getLoadBusData()
-					.getPointVoltageList().get(i)).abs();
-		}
-		plot.setVoltageData("voltage", vdata);
-
-		double[] pdata = new double[size];
-		double[] qdata = new double[size];
-		for (int i = 0; i < size; i++) {
-			pdata[i] = ((Complex) distBus.getLoadBusData()
-					.getLoadScheduleList().get(i)).getReal();
-			qdata[i] = ((Complex) distBus.getLoadBusData()
-					.getLoadScheduleList().get(i)).getImaginary();
-		}
-		plot.setPQData("Load P%", "Load Q%", pdata, qdata);
-
-		plot.createChart();
-		plot.showChart();
+			SimuContext simuCtx = (SimuContext) GraphSpringAppContext
+					.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+//			DistNetwork distNet = simuCtx.getDistNet();
+//			DistBus distBus = (DistBus) distNet.getBus(busid);
+//			int size = distNet.getLoadNetData().getSchedulePoints();
+//			double[] vdata = new double[size];
+//			for (int i = 0; i < size; i++) {
+//				vdata[i] = ((Complex) distBus.getLoadBusData()
+//							.getPointVoltageList().get(i)).abs();
+//			}
+//			plot.setVoltageData("voltage", vdata);
+//
+//			double[] pdata = new double[size];
+//			double[] qdata = new double[size];
+//			for (int i = 0; i < size; i++) {
+//				pdata[i] = ((Complex) distBus.getLoadBusData()
+//					.getLoadScheduleList().get(i)).getReal();
+//				qdata[i] = ((Complex) distBus.getLoadBusData()
+//					.getLoadScheduleList().get(i)).getImaginary();
+//			}
+//			plot.setPQData("Load P%", "Load Q%", pdata, qdata);
+//
+//			plot.createChart();
+//			plot.showChart();
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
 		}		

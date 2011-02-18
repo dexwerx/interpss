@@ -32,7 +32,7 @@ import org.interpss.mapper.runCase.dep.XmlCaseData2AlgorithmMapperImpl;
 
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
-import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 
 public class RunForm2AlgorithmMapper extends AbstractMapper {
 

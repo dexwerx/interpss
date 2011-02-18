@@ -55,7 +55,7 @@ import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.reg.IRegulationDevice;
-import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.spring.CoreCommonSpringCtx;
 

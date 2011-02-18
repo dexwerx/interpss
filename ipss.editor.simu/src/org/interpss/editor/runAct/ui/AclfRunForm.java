@@ -78,9 +78,9 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		boolean converge = false;
-		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
-			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
-		} else {
+//		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
+//			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
+//		} else {
 			if (this.xmlGridOpt.getEnableGridRun()) {
 				Grid grid = GridUtil.getDefaultGrid();
 				String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
@@ -109,7 +109,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				}
 			} else
 				converge = runLoadflow(simuCtx.getAclfNet(), simuCtx);
-		}
+//		}
 		return converge;
 	}
 
