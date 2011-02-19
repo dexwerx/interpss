@@ -67,7 +67,7 @@ public class AnnotateParserTests extends DStabTestSetupBase {
 		TestAnnotateExciter exc = new TestAnnotateExciter();
 		assertTrue(exc.getDoubleField("k") == 50.0);
 		
-		assertTrue(exc.initStates(bus, machine, null)); 
+		assertTrue(exc.initStates(bus, machine)); 
 		
 		//System.out.println(exc.toString());
 		assertTrue(AnCntlUtilFunc.getBlockFieldHolder("delayBlock", exc.getFieldList()) != null);
@@ -131,7 +131,7 @@ public class AnnotateParserTests extends DStabTestSetupBase {
 		*/
 		TestAnnotateGovernor gov = new TestAnnotateGovernor();
 		
-		assertTrue(gov.initStates(bus, machine, null));
+		assertTrue(gov.initStates(bus, machine));
 		
 		assertTrue(AnCntlUtilFunc.getBlockFieldHolder("delayBlock", gov.getFieldList()) != null);
 		cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockFieldHolder("delayBlock", gov.getFieldList()));
@@ -169,7 +169,7 @@ public class AnnotateParserTests extends DStabTestSetupBase {
 		*/
 		TestAnnotateStabilizer pss = new TestAnnotateStabilizer();
 
-		assertTrue(pss.initStates(bus, machine, null));
+		assertTrue(pss.initStates(bus, machine));
 
 		assertTrue(AnCntlUtilFunc.getBlockFieldHolder("filterBlock1", pss.getFieldList()) != null);
 		cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockFieldHolder("filterBlock1", pss.getFieldList()));
@@ -192,7 +192,7 @@ public class AnnotateParserTests extends DStabTestSetupBase {
 		//Machine mach = TestUtil.createMachine();
 		TestAnnotateStabilizerComplex pss = new TestAnnotateStabilizerComplex();
 
-		assertTrue(pss.initStates(bus, machine, null));
+		assertTrue(pss.initStates(bus, machine));
 
 		assertTrue(AnCntlUtilFunc.getBlockFieldHolder("gainBlock1", pss.getFieldList()) != null);
 		sfield = (StaticBlockFieldHolder)(AnCntlUtilFunc.getBlockFieldHolder("gainBlock1", pss.getFieldList()));

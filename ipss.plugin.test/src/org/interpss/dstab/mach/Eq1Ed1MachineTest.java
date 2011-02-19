@@ -44,7 +44,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		
 		// calculate mach state init values
 		DStabBus bus = net.getDStabBus("Gen");
-		mach.initStates(bus, msg);
+		mach.initStates(bus);
 		//System.out.println("Ygen: " + mach.getYgen());
 		//System.out.println("Igen: " + mach.getIgen());
 		assertTrue(Math.abs(mach.getYgen().getReal()-0.0567) < 0.00001);
@@ -63,7 +63,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward one step
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
 
 		// again, the following values to compare to are by long-hand calculation. There
 		// should be no change
@@ -76,11 +76,11 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward more steps, we should have the same value, since there is no disturbance
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + mach.getEd1() + ", " + mach.getEq1() + ", " + mach.getEfd()+ ", " + mach.getPe());
 		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
@@ -91,7 +91,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		
 		// create an event by changing Pm from 2.0 to 1.0
 		mach.setPm(1.0);  
-		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER, msg);
+		mach.nextStep(0.01, DynamicSimuMethod.MODIFIED_EULER);
 
 		// again, the following values to compare to are by long-hand calculation
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + mach.getEd1() + ", " + mach.getEq1() + ", " + mach.getEfd()+ ", " + mach.getPe());
