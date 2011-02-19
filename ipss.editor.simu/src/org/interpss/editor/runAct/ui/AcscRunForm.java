@@ -70,7 +70,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 //		} 
 //		else {
 			if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
-				simuCtx.getDStabilityNet().initialization(simuCtx.getMsgHub());
+				simuCtx.getDStabilityNet().initialization();
 			}
 			runShortCircuit(simuCtx.getAcscNet(), simuCtx
 					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());

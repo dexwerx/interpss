@@ -216,7 +216,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// init the Net object for plotting purpose. it is inited at the remote grid node
 			// before DStab simulation.
 			simuCtx.setDStabilityNet(net);
-			net.initialization(msg);
+			net.initialization();
 			return result.getReturnStatus();
 		} catch (GridException e) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
