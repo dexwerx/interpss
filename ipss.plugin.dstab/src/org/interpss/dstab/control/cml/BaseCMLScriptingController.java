@@ -102,8 +102,8 @@ public abstract class BaseCMLScriptingController extends MachineControllerImpl i
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach, final IPSSMsgHub msg) {
-		return anController.nextStep(dt, method, mach, msg);
+	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach) {
+		return anController.nextStep(dt, method, mach);
 	}
 	
 	/**

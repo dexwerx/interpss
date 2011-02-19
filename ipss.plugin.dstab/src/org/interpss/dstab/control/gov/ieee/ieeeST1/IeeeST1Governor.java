@@ -114,7 +114,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethod method, Machine mach) {
 		if (method == DynamicSimuMethod.MODIFIED_EULER) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
