@@ -82,9 +82,9 @@ public class IEEE11ModelTest extends DStabTestSetupBase {
 
 		//TextSimuOutputHandler handler = new TextSimuOutputHandler();
 		//algo.setSimuOutputHandler(handler);
-		if (algo.initialization()) {
+		if (algo.getSolver().initialization()) {
 			System.out.println("Running DStab simulation ...");
-			algo.performSimulation();
+			algo.performSimulation(msg);
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 

@@ -81,7 +81,7 @@ public class DStabTestSetupBase extends PluginTestSetup{
 	public void addDynamicEventData(DStabilityNetwork net) {
 		// define a bus fault event
 		DynamicEvent event1 = DStabObjectFactory.createDEvent("BusFault3P@0003", "Bus Fault 3P@0003", 
-				DynamicEventType.BUS_FAULT, net, msg);
+				DynamicEventType.BUS_FAULT, net);
 		event1.setStartTimeSec(1.0);
 		event1.setDurationSec(0.1);
 		

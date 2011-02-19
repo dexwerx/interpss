@@ -79,9 +79,9 @@ public class IEEE21ModelTest extends DStabTestSetupBase {
 		yTestRecorder.initBusNumber(net);
 		net.setNetChangeListener(yTestRecorder);	
 
-		if (algo.initialization()) {
+		if (algo.getSolver().initialization()) {
 			System.out.println("Running DStab simulation ...");
-			algo.performSimulation();
+			algo.performSimulation(msg);
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 

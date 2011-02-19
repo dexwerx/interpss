@@ -105,9 +105,9 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 			  	
-				if (algo.initialization()) {
+				if (algo.getSolver().initialization()) {
 					System.out.println("Running DStab simulation ...");
-					algo.performSimulation();
+					algo.performSimulation(msg);
 				}
 				
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
@@ -157,9 +157,9 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 
 				//TextSimuOutputHandler handler = new TextSimuOutputHandler();
 				//algo.setSimuOutputHandler(handler);
-				if (algo.initialization()) {
+				if (algo.getSolver().initialization()) {
 					System.out.println("Running DStab simulation ...");
-					algo.performSimulation();
+					algo.performSimulation(msg);
 				}
 /*
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
