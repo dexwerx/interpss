@@ -320,8 +320,8 @@ public class XmlScriptDStabRun {
 			return false;
 		}
 
-		if (dstabAlgo.initialization()) {
-			dstabAlgo.performSimulation();
+		if (dstabAlgo.getSolver().initialization(msg)) {
+			dstabAlgo.performSimulation(msg);
 		}
 		return true;
 	}

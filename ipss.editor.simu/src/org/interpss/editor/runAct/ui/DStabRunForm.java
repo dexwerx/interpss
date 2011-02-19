@@ -143,9 +143,9 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		simuCtx.getDStabilityNet().setNetChangeListener(
 				CoreSpringCtx.getNetChangeHandler());
 
-		if (simuCtx.getDynSimuAlgorithm().initialization()) {
+		if (simuCtx.getDynSimuAlgorithm().getSolver().initialization(msg)) {
 			displaySummaryResult(simuCtx);
-			simuCtx.getDynSimuAlgorithm().performSimulation();
+			simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 
 		if (this.xmCaseData.getOutputScripting().getScripting()) {
