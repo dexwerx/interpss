@@ -97,14 +97,14 @@ public class Ieee1968Type1sExciter extends AnnotateExciter {
      *  @param msg the SessionMsg object
      */
     @Override
-	public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+	public boolean initStates(DStabBus bus, Machine mach) {
         this.ka = getData().getKa();
         this.ta = getData().getTa();
         this.kp = getData().getKp();
         this.vrmin = getData().getVrmin();
         this.k = getData().getKf()/getData().getTf();
         this.tf = getData().getTf();
-        return super.initStates(bus, mach, msg);
+        return super.initStates(bus, mach);
     }
 
     /**

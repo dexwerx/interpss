@@ -91,11 +91,11 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach) {
 		limit = new LimitType(getData().getPmax(), getData().getPmin());
 		statePref = getMachine().getPm();
         if (limit.isViolated(statePref)) {
-        	msg.sendErrorMsg("Machine initial mechanical power Pm0 violates its governor power limits, " +
+        	IpssLogger.getLogger().severe("Machine initial mechanical power Pm0 violates its governor power limits, " +
         			"machine id: " + getMachine().getId());
         }
 		stateX1 = 0.0;

@@ -76,12 +76,12 @@ public class SimpleExciter extends AnnotateExciter {
      *  @param msg the SessionMsg object
      */
     @Override
-	public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+	public boolean initStates(DStabBus bus, Machine mach) {
         this.k = getData().getKa();
         this.t = getData().getTa();
         this.vmax = getData().getVrmax();
         this.vmin = getData().getVrmin();
-        return super.initStates(bus, mach, msg);
+        return super.initStates(bus, mach);
     }
 
     /**

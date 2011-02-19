@@ -59,9 +59,9 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach) {
 		setId(mach.getId() + "_Gov");
-		return super.initStates(abus, mach, msg);
+		return super.initStates(abus, mach);
 	}	
 	
 	public boolean checkJavaCode() {

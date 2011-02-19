@@ -75,17 +75,17 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @return false if there is anything wrong
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
-		super.initStates(abus, msg);
+	public boolean initStates(DStabBus abus, Network net) {
+		super.initStates(abus);
 
 		createDeviceObject();
 		if (device != null) {
 			if (abus.getNetwork() == null)
 				abus.setNetwork(net);
-			return device.initStates(abus, msg);
+			return device.initStates(abus);
 		}
 		else {
-			msg.sendErrorMsg("ScriptDynamicBusDevice create error, device == null");
+			IpssLogger.getLogger().severe("ScriptDynamicBusDevice create error, device == null");
 			return false;
 		}
 	}

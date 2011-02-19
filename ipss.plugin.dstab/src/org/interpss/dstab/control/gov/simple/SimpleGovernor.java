@@ -99,12 +99,12 @@ public class SimpleGovernor extends AnnotateGovernor {
      *  @param msg the SessionMsg object
      */
     @Override
-	public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+	public boolean initStates(DStabBus bus, Machine mach) {
         this.ka = getData().getK();
         this.ta = getData().getT1();
         this.pmax = getData().getPmax();
         this.pmin = getData().getPmin();
-        return super.initStates(bus, mach, msg);
+        return super.initStates(bus, mach);
     }
 
     /**

@@ -116,7 +116,7 @@ public class IeeeSteamNRGovernor extends AnnotateGovernor {
      *  @param msg the SessionMsg object
      */
     @Override
-	public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+	public boolean initStates(DStabBus bus, Machine mach) {
         this.k = getData().getK();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
@@ -126,7 +126,7 @@ public class IeeeSteamNRGovernor extends AnnotateGovernor {
         this.pup = getData().getPup();
         this.pdown = getData().getPdown();
         this.tch = getData().getTch();
-        return super.initStates(bus, mach, msg);
+        return super.initStates(bus, mach);
     }
 
     /**

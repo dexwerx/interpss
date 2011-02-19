@@ -84,11 +84,11 @@ public abstract class BaseCMLScriptingController extends MachineControllerImpl i
 	 *  @return false if there is any init problem
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach) {
 		//super.initStates(abus, mach, msg);
    		createControllerObject();
     	if (anController != null)
-    		return anController.initStates(abus, mach, msg);
+    		return anController.initStates(abus, mach);
     	else
     		return false;
 	}

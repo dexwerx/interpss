@@ -95,7 +95,7 @@ public class SimpleStabilizer extends AnnotateStabilizer {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach) {
         this.k1 = getData().getKs();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
@@ -103,7 +103,7 @@ public class SimpleStabilizer extends AnnotateStabilizer {
         this.t4 = getData().getT4();
         this.vmax = getData().getVsmax();
         this.vmin = getData().getVsmin();
-        return super.initStates(abus, mach, msg);
+        return super.initStates(abus, mach);
 	}
 
 	/**
