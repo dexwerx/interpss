@@ -157,7 +157,7 @@ public class DStabScenarioHelper {
 				DynamicEventType deType = getDynamicEventType(eventXml.getEventType(), eventXml.getFault().getFaultType());
 
 				// create the DStabEvent
-				DynamicEvent eventObj = DStabObjectFactory.createDEvent(eventXml.getId(), name, deType, dstabNet, msg);
+				DynamicEvent eventObj = DStabObjectFactory.createDEvent(eventXml.getId(), name, deType, dstabNet);
 			
 				setDynamicEventData(eventObj, eventXml);		
 			}		
@@ -222,7 +222,7 @@ public class DStabScenarioHelper {
 				if (fault.isReclosure()) {
 					String name = "EventAt_" + eventXml.getStartTime()	+ eventXml.getEventType();
 					DynamicEvent reclosureEvent = DStabObjectFactory.createDEvent(eventObj.getId() + "-Reclosure", name,
-							DynamicEventType.BRANCH_RECLOSURE, dstabNet, msg);
+							DynamicEventType.BRANCH_RECLOSURE, dstabNet);
 					reclosureEvent.setStartTimeSec(fault.getReclosureTime());
 					reclosureEvent.setDurationSec(this.dstabAlgo.getTotalSimuTimeSec());
 					reclosureEvent.setPermanent(true);
@@ -330,7 +330,7 @@ public class DStabScenarioHelper {
 		DynamicEvent eventObj = DStabObjectFactory.createDEvent(
 				Constants.Token_SetPointChangeId + machId,
 				"SetPointChange", DynamicEventType.SET_POINT_CHANGE,
-				dstabNet, msg);
+				dstabNet);
 		
 		// set event starting and duration info
 		eventObj.setStartTimeSec(0.0);

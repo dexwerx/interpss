@@ -213,7 +213,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 					DynamicEvent event = DStabObjectFactory.createDEvent(
 							Constants.Token_SetPointChangeId + machId,
 							"SetPointChange", DynamicEventType.SET_POINT_CHANGE,
-							dstabNet, msg);
+							dstabNet);
 					event.setStartTimeSec(0.0);
 					event.setDurationSec(xmlDstabData.getSimuConfig().getTotalSimuTimeSec());
 					SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
@@ -239,8 +239,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 					DynamicEventType deType = XmlCaseData2AlgorithmMapperImpl.getDEventType(xmlEvent.getEventType(), xmlEvent.getFault().getFaultType());
 					// create the DStabEvent
 					DynamicEvent event = DStabObjectFactory.createDEvent(
-							xmlEvent.getRecName(), name, deType, dstabNet,
-							msg);
+							xmlEvent.getRecName(), name, deType, dstabNet);
 					if (event == null) {
 						CoreCommonSpringCtx.getEditorDialogUtil()
 								.showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
@@ -346,7 +345,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 				if (fault.isReclosure()) {
 					String name = "EventAt_" + xmlEvent.getStartTimeSec() + xmlEvent.getEventType();
 					DynamicEvent event2 = DStabObjectFactory.createDEvent(event.getId()
-							+ "-Reclosure", name, DynamicEventType.BRANCH_RECLOSURE, dstabNet, msg);
+							+ "-Reclosure", name, DynamicEventType.BRANCH_RECLOSURE, dstabNet);
 					event2.setStartTimeSec(fault.getReclosureTime());
 					event2.setDurationSec(toltalSimuTime);
 					event2.setPermanent(true);
