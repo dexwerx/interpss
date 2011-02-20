@@ -29,6 +29,8 @@
 				<sequence>
 					<element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType"/>
 					<element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType"/>
+					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></element>
+					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
 					<element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
 						<annotation><documentation>
 						Base case power network data for power system simulation purpose

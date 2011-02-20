@@ -32,8 +32,6 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></element>
-					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
 					<element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></element>
                     <element name="autoBranchId" type="boolean" minOccurs="0">
 						<annotation>
