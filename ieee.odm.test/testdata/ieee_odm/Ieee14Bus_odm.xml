@@ -2,13 +2,15 @@
 <pssStudyCase id="ODM_StudyCase" 
     xmlns="http://www.ieee.org/odm/Schema/2008"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../schema/ODM_StudyCase.xsd">
+  	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
   <schemaVersion>V0.8</schemaVersion>
   <contentInfo>
     <originalDataFormat>IEEE-CDF</originalDataFormat>
     <adapterProviderName>www.interpss.org</adapterProviderName>
     <adapterProviderVersion>1.00</adapterProviderVersion>
   </contentInfo>
+    <networkCategory>Transmission</networkCategory>
+    <analysisCategory>Loadflow</analysisCategory>
   <aclfNet xsi:type="LoadflowNetXmlType" id="Base_Case_from_IEEECDF_format">
     <nvPairList>
       <nvPair>
@@ -28,8 +30,6 @@
         <value>W</value>
       </nvPair>
     </nvPairList>
-    <networkCategory>Transmission</networkCategory>
-    <analysisCategory>Loadflow</analysisCategory>
     <basePower value="100.0" unit="MVA"/>
     <busList>
       <bus xsi:type="LoadflowBusXmlType" id="Bus1" name="Bus 1     HV" areaNumber="1" zoneNumber="1">
@@ -392,5 +392,4 @@
     </interchangeList>
     <tieLineList/>
   </aclfNet>
-  <scenarioList/>
 </pssStudyCase>

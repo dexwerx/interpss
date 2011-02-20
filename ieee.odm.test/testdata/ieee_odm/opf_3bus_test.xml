@@ -2,11 +2,11 @@
 <pss:pssStudyCase id="OPF_3BUS_TEST" 
     xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/StudyCase.xsd ">
+    xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
   <pss:schemaVersion>V0.8</pss:schemaVersion>
-  <pss:opfNet id="SampleOPFBaseCase">
     <pss:networkCategory>Transmission</pss:networkCategory>
     <pss:analysisCategory>OPF</pss:analysisCategory>
+  <pss:opfNet id="SampleOPFBaseCase">
     <pss:basePower unit="MVA" value="100"/>
     <pss:busList>
     	<pss:opfGenBus id="Bus1" name="Bus-1">
@@ -32,20 +32,26 @@
     	</pss:opfGenBus>
     </pss:busList>
     <pss:branchList>
-      <pss:aclfLine xsi:type="pss:LineBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Branch1">
+      <pss:aclfLine areaNumber="1" zoneNumber="1" circuitId="1" id="Branch1">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus2"></pss:toBus>
-        <pss:ratingLimit mva="0.55" unit="PU"></pss:ratingLimit>
+        <pss:ratingLimit>
+        	<pss:mva rating1="0.55" unit="PU" />
+        </pss:ratingLimit>
       </pss:aclfLine>
-      <pss:aclfXfr xsi:type="pss:LineBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Branch2">
+      <pss:aclfXfr areaNumber="1" zoneNumber="1" circuitId="1" id="Branch2">
       	<pss:fromBus idRef="Bus1"></pss:fromBus>
       	<pss:toBus idRef="Bus3"></pss:toBus>
-      	<pss:ratingLimit mva="0.55" unit="PU"></pss:ratingLimit>
+        <pss:ratingLimit>
+        	<pss:mva rating1="0.55" unit="PU" />
+        </pss:ratingLimit>
       </pss:aclfXfr>
-      <pss:aclfPSXfr xsi:type="pss:LineBranchXmlType" areaNumber="1" zoneNumber="1" circuitId="1" id="Branch3">
+      <pss:aclfPSXfr areaNumber="1" zoneNumber="1" circuitId="1" id="Branch3">
       	<pss:fromBus idRef="Bus2"></pss:fromBus>
       	<pss:toBus idRef="Bus3"></pss:toBus>
-      	<pss:ratingLimit mva="0.55" unit="PU"></pss:ratingLimit>
+        <pss:ratingLimit>
+        	<pss:mva rating1="0.55" unit="PU" />
+        </pss:ratingLimit>
       </pss:aclfPSXfr>
     </pss:branchList>
     <pss:anglePenaltyFactor>1</pss:anglePenaltyFactor>

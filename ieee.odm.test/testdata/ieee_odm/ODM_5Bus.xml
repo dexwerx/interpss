@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pss:PSSStudyCase id="InterPss-5Bus-Sample-System" xmlns:pss="http://www.ieee.org/odm/Schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ieee.org/odm/Schema ../../schema/ODM_StudyCase.xsd">
+<pssStudyCase id="InterPss-5Bus-Sample-System" 
+   xmlns:pss="http://www.ieee.org/odm/Schema" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xsi:schemaLocation="http://www.ieee.org/odm/Schema ../../../ieee.odm_pss/schema/StudyCase.xsd ">
 	<pss:schemaVersion>V0.7</pss:schemaVersion>
-	<pss:baseCase id="BaseNetId">
 		<pss:networkCategory>Transmission</pss:networkCategory>
 		<pss:analysisCategory>Loadflow</pss:analysisCategory>
+	<pss:baseCase id="BaseNetId">
 		<pss:basePower unit="MVA" value="100"></pss:basePower>
 		<pss:busList>
 			<pss:bus id="Bus1" name="Bus-1 138.0 KV">
@@ -103,4 +106,4 @@
 			</pss:branch>
 		</pss:branchList>
 	</pss:baseCase>
-</pss:PSSStudyCase>
+</pssStudyCase>
