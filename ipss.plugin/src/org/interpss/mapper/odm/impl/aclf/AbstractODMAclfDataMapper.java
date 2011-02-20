@@ -69,7 +69,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 		AclfModelParser parser = (AclfModelParser)p;
-		if (parser.getAclfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
+		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 			try {

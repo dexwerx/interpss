@@ -87,8 +87,8 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 		boolean noError = true;
 		
 		DStabModelParser parser = (DStabModelParser) p;
-		if (parser.getDStabNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY) {
+		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY) {
 			// get the base net xml record from the parser object
 			DStabNetXmlType xmlNet = parser.getDStabNet();
 			try {

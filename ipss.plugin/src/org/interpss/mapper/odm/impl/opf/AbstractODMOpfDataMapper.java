@@ -70,8 +70,8 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 		
 		OpfModelParser parser = (OpfModelParser) p;
 		
-		if (parser.getOpfNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
+		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
 			OpfNetworkXmlType xmlNet = parser.getOpfNet();
 			simuCtx.setNetType(SimuCtxType.OPF_NET);
 			try {

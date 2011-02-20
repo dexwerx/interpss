@@ -92,8 +92,8 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 			return false;
 		}
 		
-		if (parser.getAcscNet().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
-				&& parser.getAclfNet().getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT) {
+		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT) {
 			// get the base net xml record from the parser object
 			ShortCircuitNetXmlType xmlNet = parser.getAcscNet();
 			try {
