@@ -168,9 +168,9 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		info.setAdapterProviderName("www.interpss.org");
 		info.setAdapterProviderVersion("1.00");
 		
-		getStudyCase().getBaseCase().getValue().setAnalysisCategory(
+		getStudyCase().setAnalysisCategory(
 				AnalysisCategoryEnumType.LOADFLOW);
-		getStudyCase().getBaseCase().getValue().setNetworkCategory(
+		getStudyCase().setNetworkCategory(
 				NetworkCategoryEnumType.TRANSMISSION);		
 	}	
 	
