@@ -4,6 +4,7 @@
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
       	<property name="cloud_base" value="C:/eclipse/InterpssDev"/>
       	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
+      	<property name="dev_lib.dev" value="${dev_base}/ipss.lib.dev/lib"/>
       	<property name="pssl_lib" value="${dev_base}/ipss.pssl.scala/lib"/>
       	<property name="gl.odm_lib" value="${cloud_base}/ipss.web/war/WEB-INF/lib"/>
       	<property name="opencim" value="C:\eclipse\opencimDev\ipss.cim.library"/>
@@ -83,6 +84,12 @@
 	  	  <fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
 	  	  <fileset dir="${dev_base}/ipss.plugin.dist/runtime" excludes="CVS/**,model/**" />	
   	  </jar>		
+
+      <jar destfile="${svn_lib_dev}/ipss_dcsys.jar">
+      	  <fileset dir="${dev_base}/ipss.dc_EMF/runtime" excludes="CVS/**,model/**" />	
+  	  	  <fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
+  	  	  <fileset dir="${dev_base}/ipss.plugin.dc/runtime" excludes="CVS/**,model/**" />	
+      </jar>		
 
       <jar destfile="${svn_lib}/ipss_ext.jar">
    	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
@@ -227,6 +234,8 @@
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${gl.odm_lib}"/>
+		<copy file="${dev_lib.dev}/ipss/ipss_dcsys.jar" todir="${gl.odm_lib}"/>
+		<copy file="${dev_lib.dev}/ipss/ipss_dist.jar" todir="${gl.odm_lib}"/>
 
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${opencim}/odm"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${opencim}/odm"/>
