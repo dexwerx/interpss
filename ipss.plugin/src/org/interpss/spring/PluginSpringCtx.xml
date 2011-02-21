@@ -6,42 +6,16 @@
 
 	<import resource="classpath:com/interpss/spring/SimuCtxSpringCtx.xml"/>
 
-	<import resource="classpath:org/interpss/spring/DStabPluginSpringCtx.xml"/>
+	<import resource="classpath:org/interpss/spring/ODMMapperSpringCtx.xml"/>
+
 	<import resource="classpath:org/interpss/spring/CustomFAdapterSpringCtx.xml"/>
+	<import resource="classpath:org/interpss/spring/DStabPluginSpringCtx.xml"/>
 	<import resource="classpath:org/interpss/spring/JGraphSpringCtx.xml"/>
 	
 	<bean id="editorDialogUtil" 
 	      class="org.interpss.ui.DialogUtilImpl"
 	      scope="singleton">	
 	</bean>		
-<!--
-		ODM model to ipss SimuContext mapping 
- -->	
-	<bean id="odm2AclfMapper" 
-	      class="org.interpss.mapper.odm.ODMAclfDataMapper"
-	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
-	</bean>	
-
-	<bean id="odm2AcscMapper" 
-	      class="org.interpss.mapper.odm.ODMAcscDataMapper"
-	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
-	</bean>	
-	
-	<bean id="odm2DStabMapper" 
-	      class="org.interpss.mapper.odm.ODMDStabDataMapper"
-	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
-	</bean>	
-	
-	<bean id="odm2OpfMapper" 
-	      class="org.interpss.mapper.odm.ODMOpfDataMapper"
-	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
-	</bean>	
-	
-
 <!--
 		ipss xml to Algorithm mapping 
  -->	

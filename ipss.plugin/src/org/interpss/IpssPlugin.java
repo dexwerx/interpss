@@ -44,6 +44,10 @@ public class IpssPlugin {
 		setLoggerLevel(level);
 	}
 
+	public static void initWeb() {
+		setSpringWebCtx();
+	}
+
 	public static IPSSMsgHub getMsgHub() {
 		return CoreCommonSpringCtx.getIpssMsgHub();
 	}
@@ -58,6 +62,14 @@ public class IpssPlugin {
 			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
 					new String[] {
 							"org/interpss/spring/PluginSpringCtx.xml"});
+		}
+	}	
+
+	private static void setSpringWebCtx() {
+		if (CoreCommonSpringCtx.SpringAppCtx == null) {
+			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
+					new String[] {
+							"org/interpss/spring/WebPluginSpringCtx.xml"});
 		}
 	}	
 }

@@ -148,16 +148,15 @@ public class AclfBranchDataHelper {
 			if (xfrData.getToRatedVoltage() != null)
 				toRatedV = xfrData.getToRatedVoltage().getValue();
 
-			if (xfrData != null &&
-					!xfrData.isDataOnSystemBase() &&
-					xfrData.getRatedPower() != null && 
-					xfrData.getRatedPower().getValue() > 0.0) 
-				zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
-						baseKva / xfrData.getRatedPower().getValue() :
-							0.001 * baseKva / xfrData.getRatedPower().getValue();
-
-			if (!xfrData.isDataOnSystemBase())
+			if (xfrData.isDataOnSystemBase() != null && !xfrData.isDataOnSystemBase()) {
+				if (xfrData.getRatedPower() != null) {
+					if (xfrData.getRatedPower().getValue() > 0.0) 
+						zratio = xfrData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
+								baseKva / xfrData.getRatedPower().getValue() :
+								0.001 * baseKva / xfrData.getRatedPower().getValue();
+				}
 				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+			}
 		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
