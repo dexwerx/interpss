@@ -25,7 +25,7 @@
 package org.ieee.odm.model;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * Abstract Xml parser as the base for all the IEEE DOM schema parsers. 
  */
 
 import java.io.ByteArrayInputStream;
@@ -135,8 +135,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public AbstractModelParser() {
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		this.getStudyCase().setId("ODM_StudyCase");
-		this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
+		if (!(this instanceof ODMModelParser)) {
+			this.getStudyCase().setId("ODM_StudyCase");
+			this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
+		}
 	}
 	
 	/*

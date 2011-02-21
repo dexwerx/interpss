@@ -28,7 +28,11 @@ import java.util.logging.Logger;
 
 public class ODMLogger {
 	private static Logger logger = null;
-	
+
+	public static void setLogger(Logger l) {
+		logger = l;
+	}
+
 	public static Logger getLogger() { 
 		if (logger == null) 
 			logger = Logger.getLogger("org.ieee.odm");

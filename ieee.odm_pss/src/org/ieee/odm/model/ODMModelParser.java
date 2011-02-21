@@ -34,7 +34,7 @@ import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.NetworkXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * A generic Xml parser for the IEEE DOM schema, used when the network type is unknown 
  */
 
 public class ODMModelParser extends AbstractModelParser {
@@ -51,7 +51,7 @@ public class ODMModelParser extends AbstractModelParser {
 	 */
 	@Override
 	public NetworkXmlType createBaseCase() {
-		ODMLogger.getLogger().warning("ODMModelParser.createBaseCase() called");
+		ODMLogger.getLogger().severe("Programming error: ODMModelParser.createBaseCase() called");
 		return null;
 	}
 	
