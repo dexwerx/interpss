@@ -40,7 +40,7 @@ import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.acsc.fault.SimpleFaultType;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
