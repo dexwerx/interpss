@@ -2,10 +2,10 @@
 <project basedir="." default="build_dist" name="com.interpss.editor.jgraph">
     <target description="init setup" name="init">
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
-      	<property name="cloud_base" value="C:/eclipse/CloudDev"/>
+      	<property name="cloud_base" value="C:/eclipse/InterpssDev"/>
       	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
       	<property name="pssl_lib" value="${dev_base}/ipss.pssl.scala/lib"/>
-      	<property name="gl.odm_lib" value="${cloud_base}/ipss.gl.odm/war/WEB-INF/lib"/>
+      	<property name="gl.odm_lib" value="${cloud_base}/ipss.web/war/WEB-INF/lib"/>
       	<property name="opencim" value="C:\eclipse\opencimDev\ipss.cim.library"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.fit/fitnesse"/>
@@ -226,9 +226,7 @@
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${gl.odm_lib}"/>
-		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${gl.odm_lib}"/>
-		<copy file="${lib_base}/ipss/ipss_plugin.grid.jar" todir="${gl.odm_lib}"/>
 
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${opencim}/odm"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${opencim}/odm"/>
