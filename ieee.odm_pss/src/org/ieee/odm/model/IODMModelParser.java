@@ -27,6 +27,8 @@ package org.ieee.odm.model;
 import java.io.File;
 import java.io.InputStream;
 
+import org.ieee.odm.schema.StudyCaseXmlType;
+
 /**
  * A Xml parser for the IEEE DOM schema. 
  */
@@ -39,4 +41,6 @@ public interface IODMModelParser {
 	boolean parse(InputStream in);
 	
 	String toXmlDoc(boolean addXsi);
+	
+	StudyCaseXmlType getStudyCase();
 }
