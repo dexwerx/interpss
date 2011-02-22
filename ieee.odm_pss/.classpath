@@ -3,9 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry kind="lib" path="lib/spring-2.5.6.jar"/>
 	<classpathentry kind="lib" path="lib/spring-aop2.5.6.jar"/>
 	<classpathentry kind="output" path="runtime"/>
