@@ -35,7 +35,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.bpa.xbean.BPAAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 
@@ -89,10 +88,10 @@ public class Data2ODMXml {
 				logger.info("Input file is of format UCTE Data Format");
 				adapter = new UCTE_DEFAdapter(logger);
 			}
-			else if (Token_BPA.equals(appParameters.getParamLowerCase(FmtOptStr))) {
-				logger.info("Input file is of format BPA Format");
-				adapter = new BPAAdapter(logger);
-			}
+//			else if (Token_BPA.equals(appParameters.getParamLowerCase(FmtOptStr))) {
+//				logger.info("Input file is of format BPA Format");
+//				adapter = new BPAAdapter(logger);
+//			}
 			else {
 				logger.severe("Error: Unsupported input file data, " + appParameters.getParam(FmtOptStr));
 				System.err.println("Error: Unsupported input file data, " + appParameters.getParam(FmtOptStr));
