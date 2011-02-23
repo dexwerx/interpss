@@ -1,12 +1,10 @@
 package sensMatrixElem.Machine;
 
-import sensMatrix.StateVariables;
 import sensMatrix.NetworkVariables;
+import sensMatrix.StateVariables;
 
-import com.interpss.dstab.mach.EConstMachine;
-
-public interface EConstMach_TSA extends EConstMachine,Machine_TSA{
-    
+public interface Machine_TSA {
+	 
 	/**
 	 * 
 	 * @param x- state variables,for EConstMachine,only Theta considered;
@@ -48,15 +46,31 @@ public interface EConstMach_TSA extends EConstMachine,Machine_TSA{
 	 * @return Gyij--element in the Newton iteration matrix
 	 */
 	public double calGy(NetworkVariables yVar1,NetworkVariables yVar2);
-
+    /**
+     * 
+     * @return the differential of Pe(electrical power) respect to theta(machine angle):dpe/dtheta
+     */
 	public double cal_pe_theta();
-	
+	/**
+	 * 
+	 * busVang-- is the voltage angle of the bus that this machine connected to
+	 * @return the differential of Pe(electrical power) respect to Vang(bus voltage angle):dPe/dVang
+	 * 
+	 */
 	public double cal_pe_busVang();
-	
+	/**
+	 * busVmag-- is the voltage magnitude of the bus that this machine connected to
+	 * @return the differential of Pe(electrical power) respect to Vmag(bus voltage magnitude):dPe/dVmag
+	 */
 	public double cal_pe_busVmag();
-	
-	
-	
-	
+	/**
+	 * omega--  this machine angle
+	 * @return the differential of Pm(Turbine governor output power) respect to omega(machine speed):dPm/dOmega
+	 */
+	public double cal_pm_omega();
 
+	
+	
+	
+	
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.Enumerator;
 
-public enum XVariablesEnum implements Enumerator
+public enum StateVariables implements Enumerator
 {
 	  THETA, OMEGA,EQ1, EQ11,ED11;
 	  public static final int THETA_VALUE = 0;
@@ -14,15 +14,15 @@ public enum XVariablesEnum implements Enumerator
 	  public static final int EQ1_VALUE = 2;
 	  public static final int EQ11_VALUE = 3;
 	  public static final int ED11_VALUE = 4;
-	  private static final XVariablesEnum[] VALUES_ARRAY={ THETA,OMEGA, EQ1,EQ11,ED11};
+	  private static final StateVariables[] VALUES_ARRAY={ THETA,OMEGA, EQ1,EQ11,ED11};
 	  private  int value;
 	  private  String name;
 	  private  String literal;
 
-	  public static XVariablesEnum get(String literal)
+	  public static StateVariables get(String literal)
 	  {
 	    for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-	    	XVariablesEnum result = VALUES_ARRAY[i];
+	    	StateVariables result = VALUES_ARRAY[i];
 	      if (result.toString().equals(literal))
 	        return result;
 	    }
@@ -30,10 +30,10 @@ public enum XVariablesEnum implements Enumerator
 	    return null;
 	  }
 
-	  public static XVariablesEnum getByName(String name)
+	  public static StateVariables getByName(String name)
 	  {
 	    for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-	      XVariablesEnum result = VALUES_ARRAY[i];
+	      StateVariables result = VALUES_ARRAY[i];
 	      if (result.getName().equals(name))
 	        return result;
 	    }
@@ -41,7 +41,7 @@ public enum XVariablesEnum implements Enumerator
 	    return null;
 	  }
 
-	  public static XVariablesEnum get(int value)
+	  public static StateVariables get(int value)
 	  {
 	    switch (value) {
 	    case 0:

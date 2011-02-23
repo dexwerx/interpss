@@ -2,22 +2,21 @@ package sensMatrix;
 
 import org.eclipse.emf.common.util.Enumerator;
 
-public enum YVariablesEnum implements Enumerator
+public enum NetworkVariables implements Enumerator
 	{
-	  UX, UY, IX,IY;
-	  public static final int UX_VALUE = 0;
-	  public static final int UY_VALUE = 1;
-	  public static final int IX_VALUE = 2;
-	  public static final int IY_VALUE = 3;
-	  private static final YVariablesEnum[] VALUES_ARRAY={ UX, UY, IX,IY};
+	  Vmag, Vang;
+	  public static final int Vmag_VALUE = 0;
+	  public static final int Vang_VALUE = 1;
+
+	  private static final NetworkVariables[] VALUES_ARRAY={ Vmag, Vang};
 	  private  int value;
 	  private  String name;
 	  private  String literal;
 
-	  public static YVariablesEnum get(String literal)
+	  public static NetworkVariables get(String literal)
 	  {
 	    for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-	    	YVariablesEnum result = VALUES_ARRAY[i];
+	    	NetworkVariables result = VALUES_ARRAY[i];
 	      if (result.toString().equals(literal))
 	        return result;
 	    }
@@ -25,10 +24,10 @@ public enum YVariablesEnum implements Enumerator
 	    return null;
 	  }
 
-	  public static YVariablesEnum getByName(String name)
+	  public static NetworkVariables getByName(String name)
 	  {
 	    for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-	      YVariablesEnum result = VALUES_ARRAY[i];
+	      NetworkVariables result = VALUES_ARRAY[i];
 	      if (result.getName().equals(name))
 	        return result;
 	    }
@@ -36,18 +35,13 @@ public enum YVariablesEnum implements Enumerator
 	    return null;
 	  }
 
-	  public static YVariablesEnum get(int value)
+	  public static NetworkVariables get(int value)
 	  {
 	    switch (value) {
 	    case 0:
-	      return UX;
+	      return Vmag;
 	    case 1:
-	    	return UY;
-	    case 2:
-	      return IX;
-	    case 3:
-	      return IY;
-
+	    	return Vang;
 	    }
 	    return null;
 	  }

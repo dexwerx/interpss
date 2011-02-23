@@ -6,6 +6,6 @@ package sensMatrix;
  * @author Tony Huang
  *
  */
-public enum LambdaVariablesEnum {
+public enum LambdaVariables {
  
 }
