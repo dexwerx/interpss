@@ -1,5 +1,7 @@
 package sensMatrixElem.Machine;
 
+import com.interpss.dstab.mach.Machine;
+
 import sensMatrix.NetworkVariables;
 import sensMatrix.StateVariables;
 
@@ -68,6 +70,15 @@ public interface Machine_TSA {
 	 * @return the differential of Pm(Turbine governor output power) respect to omega(machine speed):dPm/dOmega
 	 */
 	public double cal_pm_omega();
+	
+	public double getAngleDiff();
+	
+	public double getSin_AngDiff();
+	
+	public double getCos_AngDiff();
+	
+	public void saveStates();
+
 
 	
 	
