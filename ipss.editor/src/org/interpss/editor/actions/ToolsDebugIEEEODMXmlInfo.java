@@ -3,8 +3,8 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.dep.xbean.XBeanIeeeCDFAdapter;
-import org.ieee.odm.adapter.dep.xbean.XBeanUCTE_DEFAdapter;
+import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
@@ -27,10 +27,10 @@ public class ToolsDebugIEEEODMXmlInfo extends IpssAbstractActionDefault {
 		String str = "IEEE ODM Adapter not implemented";
 		IODMAdapter adapter = null;
 		if (doc.getFileName().endsWith(".uct")) {
-			adapter = new XBeanUCTE_DEFAdapter(IpssLogger.getLogger());
+			adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
 		}
 		else if (doc.getFileName().endsWith(".ieee")) {
-			adapter = new XBeanIeeeCDFAdapter(IpssLogger.getLogger());
+			adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		}
 		if (adapter != null) {
 			if (adapter.parseInputFile(filepath)) {
