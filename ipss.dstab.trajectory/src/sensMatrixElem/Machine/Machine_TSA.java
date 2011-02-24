@@ -6,7 +6,9 @@ import sensMatrix.NetworkVariables;
 import sensMatrix.StateVariables;
 
 public interface Machine_TSA {
-	 
+	
+	public Machine getMachine();
+	public void setMachine(Machine machine);
 	/**
 	 * 
 	 * @param x- state variables,for EConstMachine,only Theta considered;
@@ -14,12 +16,7 @@ public interface Machine_TSA {
 	 * @return the residual of the F(i) equation
 	 */
 	public double calFResidual(StateVariables x);
-	/**
-	 * 
-	 * @param y- network variables,namely Ux,Uy,Ix,Iy
-	 * @return the residual of the F(i) equation
-	 */
-	public double calGResidual(NetworkVariables y);
+
 	/**
 	 * 
 	 * @param xVar1- the corresponding state variable xi of  this delta_F(i);
@@ -34,20 +31,7 @@ public interface Machine_TSA {
 	 * @return Fyij element in the Newton iteration matrix
 	 */
 	public double calFy(StateVariables xVar1,NetworkVariables yVar1);
-	/**
-	 * 
-	 * @param yVar1--the corresponding network variable yi of  this delta_G(i);
-	 * @param xVar1--a related state variable xj
-	 * @return Gxij--element in the Newton iteration matrix
-	 */
-	public double calGx(NetworkVariables yVar1,StateVariables xVar1);
-	/**
-	 * 
-	 * @param yVar1--the corresponding network variable yi of  this delta_G(i);
-	 * @param yVar2--another state variable yj
-	 * @return Gyij--element in the Newton iteration matrix
-	 */
-	public double calGy(NetworkVariables yVar1,NetworkVariables yVar2);
+
     /**
      * 
      * @return the differential of Pe(electrical power) respect to theta(machine angle):dpe/dtheta
@@ -65,11 +49,7 @@ public interface Machine_TSA {
 	 * @return the differential of Pe(electrical power) respect to Vmag(bus voltage magnitude):dPe/dVmag
 	 */
 	public double cal_pe_busVmag();
-	/**
-	 * omega--  this machine angle
-	 * @return the differential of Pm(Turbine governor output power) respect to omega(machine speed):dPm/dOmega
-	 */
-	public double cal_pm_omega();
+
 	
 	public double getAngleDiff();
 	
@@ -77,7 +57,35 @@ public interface Machine_TSA {
 	
 	public double getCos_AngDiff();
 	
+	public double getI_d();
+	
+	public double getI_q();
+	
 	public void saveStates();
+	
+	/**
+	 * [Id;Iq]=1/k*[c1 c3;c2 c1]*[E-Ud;E-Uq];
+	 * 
+	 * k--a coefficient for calculating the Jacobian of differential equations
+	 * @return
+	 */
+	public double cal_k();
+	/**
+	 * 
+	 * @return C1--a coefficient for calculating the Jacobian of differential equations
+	 */
+	public double cal_C1();
+	/**
+	 * 
+	 * @return c2--a coefficient for calculating the Jacobian of differential equations
+	 */
+	public double cal_C2();
+	/**
+	 * 
+	 * @return C3--a coefficient for calculating the Jacobian of differential equations
+	 */
+	public double cal_C3();
+
 
 
 	
