@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 
 public abstract class AbstractODMAdapter implements IODMAdapter {
@@ -57,6 +58,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	public boolean parseInputStream(InputStream stream) {
 		try {
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+			ODMLogger.getLogger().info("Parse input stream and create the parser object");
 			this.parser = parseInputFile(din);
 		} catch (Exception e) {
 			logger.severe(e.toString());
@@ -71,6 +73,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		try {
 			final File file = new File(filename);
 			final InputStream stream = new FileInputStream(file);
+			ODMLogger.getLogger().info("Parse input file and create the parser object, " + filename);
 			return parseInputStream(stream);
 		} catch (Exception e) {
 			logger.severe(e.toString());
@@ -83,6 +86,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	public boolean parseFileContent(String fileContent){
 		try {
 			final String[] strList = fileContent.split("\n");
+			ODMLogger.getLogger().info("Parse input fileContent and create the parser object, first line: " + strList[0]);
 			parseInputFile( new IFileReader() {
 				private int cnt = 0;
 				public String readLine() throws Exception {

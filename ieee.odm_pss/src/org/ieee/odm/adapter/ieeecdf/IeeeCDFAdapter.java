@@ -121,7 +121,6 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("BUS")) {
 						dataType = BusData;
-						
 						getLogger().fine("load bus data");
 					} else if ((str.length() > 6)
 							&& str.substring(0, 6).equals("BRANCH")) {
