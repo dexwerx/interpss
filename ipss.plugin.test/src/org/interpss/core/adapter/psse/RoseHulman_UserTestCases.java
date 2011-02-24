@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.dep.xbean.psse.v30.XBeanPSSEV30Adapter;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.PluginTestSetup;
 import org.interpss.spring.PluginSpringCtx;
@@ -46,7 +46,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 public class RoseHulman_UserTestCases extends PluginTestSetup {
 	@Test
 	public void odm_testCase() throws Exception {
-		IODMAdapter adapter = new XBeanPSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
 		assertTrue(adapter.parseInputFile("testData/psse/v30/HEonly_with_loads_added_for_interconnects3.raw"));		
 		
 		AclfNetwork net = PluginSpringCtx

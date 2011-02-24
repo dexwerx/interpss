@@ -1,11 +1,5 @@
 package org.interpss;
 
-import org.ieee.odm.bpa.BPA_ODMTest;
-import org.ieee.odm.ge.GE_ODMTest;
-import org.ieee.odm.ieeecdf.old.XBeanIEEECDF_ODMTest;
-import org.ieee.odm.psse.old.XBeanPSSEV26_ODMTest;
-import org.ieee.odm.psse.old.XBeanPSSEV30_ODMTest;
-import org.ieee.odm.ucte.old.XBeanUCTE_ODMTest;
 import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
 import org.interpss.contigency.ContingencyControlFileCaseTest;
@@ -121,12 +115,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	DclfIeee14BusCaseTest.class,
 	
 	// odm test cases
-	XBeanIEEECDF_ODMTest.class,
-	XBeanUCTE_ODMTest.class,
-	BPA_ODMTest.class,
-	GE_ODMTest.class,
-	XBeanPSSEV30_ODMTest.class,
-	XBeanPSSEV26_ODMTest.class,	
 	GuideSample_TestCase.class,
 })
 public class PluginTestSuite {
