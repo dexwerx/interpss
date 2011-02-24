@@ -1,6 +1,5 @@
 package org.ieee.odm;
 
-import org.ieee.odm.ge.GE_ODMTest;
 import org.ieee.odm.ieeecdf.IEEECDF_ODMTest;
 import org.ieee.odm.odm_xml.OdmXml_Test;
 import org.ieee.odm.ofp.OpfSample_3BusTest;
@@ -22,8 +21,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	UCTE_ODMTest.class,
 	//XBeanUCTE_ODMTest.class,
-	
-	GE_ODMTest.class,
 	
 //	org.ieee.odm.psse.old.XBeanPSSEV30_ODMTest.class,
 //	org.ieee.odm.psse.old.XBeanPSSEV30_NEISO_ODMTest.class,
