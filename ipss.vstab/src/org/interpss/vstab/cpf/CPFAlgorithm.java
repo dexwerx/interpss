@@ -138,5 +138,9 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
 	 * @return the power flow tolerance,in P.U.;
 	 */
 	public double getPflowTolerance();
+	
+	public void setDisplayPQBus(String[] busID);
+	
+	public String[] getDisplayPQBus();
 
 }

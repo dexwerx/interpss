@@ -33,15 +33,21 @@ public class CPFSolverImpl implements CPFSolver{
 	public boolean solveCPF() {
 		this.iteration=0;
 		while(this.iteration<cpfAlgo.getMaxIterations()){
-		  this.predStepSolver.stepSolver();// run preStepSolver and update network buses' voltage with solved result;
+			// run preStepSolver and update network buses' voltage with solved result;
+		  this.predStepSolver.stepSolver();
+		  
+		   //determine the continuation parameter for the following corrector step;
+		  this.setSorNumofContParam(this.predStepSolver.getSortNumofContParam());
+		  
+		  //perform corrector step analysis
 		  LoadflowAlgorithm algo=CoreObjectFactory.createLoadflowAlgorithm();
 		  algo.setTolerance(this.cpfAlgo.getPflowTolerance());
 		  algo.setNrSolver(this.corrStepSolver);// corrector step solver is just a modified Newton-Raphson solver;
 		
-		  if(!this.cpfAlgo.getAclfNetwork().accept(algo)){
-			  if(this.cpfAlgo.getStepSize()<1e-3){
-				  IpssLogger.getLogger().severe("predictor step size="+this.cpfAlgo.getStepSize()+",  is small enough,yet convergance problems still remains!");
-				return false;
+		  if(!this.cpfAlgo.getAclfNetwork().accept(algo)){// if corrector step is not converged
+			  if(this.cpfAlgo.getStepSize()<1e-3 && this.iteration>1){
+				  IpssLogger.getLogger().severe("predictor step size ="+this.cpfAlgo.getStepSize()+",  is small enough,yet convergance problems still remains!");
+				  return false;
 			  }
 			  this.predStepSolver.enableStepSizeControl(true);// step size control in the following step if corr-step is not converged!
 			  IpssLogger.getLogger().warning("the previous Predictor step-size seems to be too large, need to be controlled");
@@ -49,7 +55,7 @@ public class CPFSolverImpl implements CPFSolver{
 		  else if(isCpfStopCriteriaMeet()){
 			  IpssLogger.getLogger().info("one analysis Stop Criteria is meeted,CPF analysis end!");
 		  }
-		  
+		  this.iteration++;
 		}
 		IpssLogger.getLogger().info("not converged within the max iteration!");
 		return false;
@@ -81,7 +87,7 @@ public class CPFSolverImpl implements CPFSolver{
 			}
 		}
 		else if(this.cpfAlgo.getAnalysisStopCriteria()==AnalysisStopCriteria.MAX_POWER_POINT) {
-			if(this.predStepSolver.isCrossMPP) {
+			if(this.predStepSolver.isCrossMaxPwrPnt()) {
 				IpssLogger.getLogger().info("PV nose is encountered, analysis ended!");
 				return isCpfStop=true;
 			}

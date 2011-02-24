@@ -20,7 +20,7 @@ import com.interpss.core.net.Bus;
  */
 
 public class PredictorStepSolver extends AbstractStepSolver{
-	protected boolean isCrossMPP=false;
+	private boolean isCrossMPP=false;
 	private boolean stepSizeCtrl=false;
 
 	private CpfHelper cpfHelper=null;

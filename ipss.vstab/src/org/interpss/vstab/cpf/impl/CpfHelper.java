@@ -47,8 +47,8 @@ public class CpfHelper {
 		//2. augment the Jacobi with the differentiation of load flow equation 
 		// to Lamda(the load  increase index) 
         if(getLdIncDirTbl()==null||getLdIncDirTbl().isEmpty()) {
-        	IpssLogger.getLogger().info("No load increasement data/profile is defined, set it to default");
-        	setDefaultLoadIncData();
+        	IpssLogger.getLogger().info("No load increase data/profile is defined, set it to default");
+        	setDefaultLoadIncData();// set the load increase to default pattern;
         }
 		   for(Bus b:this.net.getBusList()) {
 		   	if(getLdIncDirTbl().containsKey(b.getId())) {
@@ -73,7 +73,6 @@ public class CpfHelper {
 		   lfEqn.setA(ek, n,this.getSortNumOfContParam());
 		   if(lfEqn.getA(n, n).yy==0) {
 			   Matrix_xy m_lambda=new Matrix_xy();
-//			   m_lambda.xx=1;// for test Õý½»ÑÓÍØ
 			   m_lambda.yy=1;
 			   lfEqn.addToA(m_lambda, n, n);
 			   

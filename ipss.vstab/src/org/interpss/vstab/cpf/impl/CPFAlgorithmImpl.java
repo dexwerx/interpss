@@ -3,6 +3,7 @@ package org.interpss.vstab.cpf.impl;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
+import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -40,12 +41,12 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	private CpfHelper cpfHelper=null;
 	private boolean violation=false;
     
-    public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc) {
+    public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc,GenDispatch genDisp) {
     	this.setAclfNetwork(net);
 		this.cpfHelper=new CpfHelper(net,loadInc.getPattern());
         this.ldInc=loadInc;
         this.cpfSolver=new CPFSolverImpl(this,lambda);
-
+        this.genDispatch=genDisp;
     }
     
 	@Override
@@ -205,6 +206,20 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public double getPflowTolerance() {
 		return PflowTolerance;
 	}
+
+	@Override
+	public String[] getDisplayPQBus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDisplayPQBus(String[] busID) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
 
 
 

@@ -1,6 +1,6 @@
 package org.interpss.vstab.cpf.impl;
 
-import java.util.HashMap;
+
 import java.util.Hashtable;
 
 import org.apache.commons.math.linear.ArrayRealVector;
@@ -78,22 +78,37 @@ public class GenDispatch {
 		for(int i:this.genPmax.keySet()){
 			objbus =(AclfBus) net.getBusList().get(i);
 	        	double DPi=DgenP.getEntry(j)/sumofDgenP*pMismatch;
-	        	if (DgenP.getEntry(j)>0) { objbus.setGenP(genP0.get(i)+DPi);}
+	        	if (DgenP.getEntry(j)>0) { objbus.setGenP(this.genP0.get(i)+DPi);}
 	        	j++;
 	     }
 		IpssLogger.getLogger().info("--end gen dispatch--");
 	}
    }
-
+	/**
+	 * to perform generation dispatching with distributed slack buses, each with its distributed factor
+	 * @param distFactor
+	 */
+   
+   
+	public void distSlackBus(Hashtable<String,Double> distFactor){
+		throw new UnsupportedOperationException();
+	}
 
 	private void initialize(){
 		this.genP0=new Hashtable<Integer, Double>(this.net.getNoBus());
 		this.genPmax=new Hashtable<Integer, Double>(this.net.getNoBus());
 		for(int i=0;i<this.net.getBusList().size();i++){
 			AclfBus bus=(AclfBus)this.net.getBusList().get(i);
-			if(bus.isGen()){
+			if(bus.isGenPV()){// only PV bus is considered here
 				this.genP0.put(i, bus.getGenP());
+				if(bus.getPGenLimit()!=null){
 				this.genPmax.put(i,bus.getPGenLimit().getMax());
+				}
+				else {
+					IpssLogger.getLogger().info("There is no PGenLimit defined in bus:"+bus.getId()
+							+" ,assume 20% reservation in the following process.");
+					this.genPmax.put(i,bus.getGenP()*1.20); // assume there is 20% generation reservation by default;
+				}
 			}
 			
 		}
@@ -109,4 +124,5 @@ public class GenDispatch {
 		this.numofGen=numGen;
 		return this.numofGen;
 	}
+
 }
