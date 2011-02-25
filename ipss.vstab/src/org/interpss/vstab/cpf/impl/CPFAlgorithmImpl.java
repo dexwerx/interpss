@@ -5,12 +5,15 @@ import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.common.visitor.IAclfBranchVisitor;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 /**
  * an implementation of the interface--CPFAlgorithm, since CPFAlgorithm is extended from LoadflowAlgorithm,
  * correspondingly, it extends LoadflowAlgorithmImpl here, thus having the methods defined in LoadflowAlgorithmImpl.
@@ -29,7 +32,10 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
    
     private double PflowTolerance=DEFAULT_PF_TOLEARANCE;
     public final int DEFAULT_CPF_MAX_ITERATIONS=50;
-    private int maxIterations=DEFAULT_CPF_MAX_ITERATIONS;
+    private int maxCPFIterations=DEFAULT_CPF_MAX_ITERATIONS;
+    
+    public final int DEFAULT_PF_MAX_ITERATIONS=10;
+    private int maxPFIterations=DEFAULT_PF_MAX_ITERATIONS;
 
     public final double DEFAULT_STEP_SIZE=0.05;  // deault step size;
     private double stepSize=0.05;
@@ -39,8 +45,9 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     protected LoadIncrease ldInc=null;
     protected CPFSolver cpfSolver=null;
 	private CpfHelper cpfHelper=null;
-	private boolean violation=false;
-    
+    private boolean disableAllViolationCheck=false;
+    private boolean disableBraMVAViolChk=false;
+    private boolean disableBusVViolChk=false;
     public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc,GenDispatch genDisp) {
     	this.setAclfNetwork(net);
 		this.cpfHelper=new CpfHelper(net,loadInc.getPattern());
@@ -82,28 +89,35 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 
 	@Override
 	public boolean isAnyViolation() {
-	         
-		
-		this.getAclfNetwork().forEachAclfBranch(new IAclfBranchVisitor() {
-
-			@Override
-			public void visit(AclfBranch bra) {
-				// to do judgment of any violation in any branch
-				
+        if(!this.disableAllViolationCheck){
+        	IpssLogger.getLogger().info("All violation check are disabled.");
+        	return false;
+        }
+        if(!this.disableBraMVAViolChk){
+	      for(Branch bra:this.getAclfNetwork().getBranchList()){
+	    	AclfBranch acBra=(AclfBranch) bra;
+				if(acBra.powerFrom2To().abs()>acBra.getRatingMva1()
+						||acBra.powerTo2From().abs()>acBra.getRatingMva1()){// what is the unit of PowerFrom2To
+					IpssLogger.getLogger().severe("Branch#"+acBra.getId()+"voilate MVArating," +
+							" with powerflow, MVARating:"+acBra.powerFrom2To().abs()+","+acBra.getRatingMva1());
+					return true;
+				}
+	      }
+        }
+        
+	    if(!this.disableBusVViolChk){
+	      for(Bus bus:this.getAclfNetwork().getBusList()){
+	    	AclfBus acBus=(AclfBus) bus;
+				if(acBus.getVLimit().isViolated(acBus.getVoltageMag())){// what is the unit of PowerFrom2To
+					IpssLogger.getLogger().severe("Bus#"+acBus.getId()+"voilates voltage limit," +
+							" with bus Vmag, Vlmit:"+acBus.getVoltageMag()+","+acBus.getVLimit().toString());
+					return true;
+				}
 			}
-			
-		});
-		this.getAclfNetwork().forEachAclfBus(new IAclfBusVisitor() {
-
-			@Override
-			public void visit(AclfBus bus) {
-				// to do judgment of any violation in any bus
-				
-			}
-			
-		});
-		return false;
-		
+	      
+		   
+	    }
+	    return false;
 	}
 
 
@@ -218,7 +232,38 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 		// TODO Auto-generated method stub
 		
 	}
-	
+	public void disableAllViolationCheck(boolean booleanParam){
+		this.disableAllViolationCheck=booleanParam;
+	}
+	public void disableBraMVAViolChk(boolean booleanParam){
+    	this.disableBraMVAViolChk=booleanParam;
+    }
+	public void disableBusVViolChk(boolean booleanParam){
+    	this.disableBusVViolChk=booleanParam;
+    }
+
+	@Override
+	public int getCPFMaxInteration() {
+		return this.maxCPFIterations;
+	}
+
+	@Override
+	public int getPfMaxInteration() {
+		
+		return this.maxPFIterations;
+	}
+
+	@Override
+	public void setCPFMaxInteration(int maxCPFItr) {
+		this.maxCPFIterations=maxCPFItr;
+		
+	}
+
+	@Override
+	public void setPfMaxInteration(int maxPowerflowItr) {
+		this.maxPFIterations=maxPowerflowItr;
+		
+	}
 
 
 

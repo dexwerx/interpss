@@ -138,9 +138,56 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
 	 * @return the power flow tolerance,in P.U.;
 	 */
 	public double getPflowTolerance();
-	
-	public void setDisplayPQBus(String[] busID);
-	
+	/**
+	 * set the max CPF iterations
+	 * @param maxCPFItr
+	 */
+	public void setCPFMaxInteration(int maxCPFItr);
+	/**
+	 * 
+	 * @return
+	 * the max CPF iterations
+	 */
+	public int getCPFMaxInteration();
+	/**
+	 * set the max power flow iterations
+	 * @param maxPowerflowItr
+	 */
+	public void setPfMaxInteration(int maxPowerflowItr);
+	/**
+	 * 
+	 * @return
+	 * the max power flow iterations
+	 */
+	public int getPfMaxInteration();
+	/**
+	 * set the to-be-displayed PQBus while tracing the PV curve
+	 * @param busID
+	 */
+	public void setDisplayPQBus(String[] PQBusID);
+	/**
+	 * 
+	 * @return
+	 * the display PQBus Id(s)
+	 */
 	public String[] getDisplayPQBus();
+	/**
+	 * set TRUE to disable All Violation Checking while tracing PV curve; 
+	 * otherwise set FALSE.
+	 * @param booleanParam
+	 */
+	public void disableAllViolationCheck(boolean booleanParam);
+	/**
+	 * set TRUE to disable branch MVARating Violation Checking while tracing PV curve; 
+	 * otherwise set FALSE.
+	 * @param booleanParam
+	 */
+	public void disableBraMVAViolChk(boolean booleanParam);
+	/**
+	 * set TRUE to disable bus voltage limit Violation Checking while tracing PV curve; 
+	 * otherwise set FALSE.
+	 * @param booleanParam
+	 */
+	public void disableBusVViolChk(boolean booleanParam);
 
 }

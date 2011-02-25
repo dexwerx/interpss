@@ -19,7 +19,7 @@ import com.interpss.core.net.Bus;
 public class GenDispatch {
 
     private int numofGen=0;
-    private Hashtable<Integer,Double> genPmax; //=new Matrix(numofGen,2);
+    private Hashtable<Integer,Double> genPmax; 
     private Hashtable<Integer,Double> genP0;
     private AclfNetwork net;
     private GenDispPtn ptn;
@@ -51,7 +51,7 @@ public class GenDispatch {
 	{
 		/*
 		 * 1.run power flow first,get the result ,here the gen P AND Q are needed
-		 * 2.get the gen power reserve  .
+		 * 2.get the active power reserve of every genBus.
 		 * 3.generation dispatch according to the proportion of gen RESERVE of each gen.
 		 */
 		IpssLogger.getLogger().info("-- starting gen dispatch by Reservation-Proportion method-- ");
@@ -66,7 +66,7 @@ public class GenDispatch {
 			    double deltaP=genPmax.get(i)-objbus.getGenP();
 		        if (deltaP<=0){
 		            objbus.setGenP(genPmax.get(i)); 
-		            DgenP.setEntry(j, 0);
+		            genPmax.remove(i);
 		        }
 		        else {DgenP.setEntry(j,  deltaP) ;}
 		        j++;
@@ -78,14 +78,15 @@ public class GenDispatch {
 		for(int i:this.genPmax.keySet()){
 			objbus =(AclfBus) net.getBusList().get(i);
 	        	double DPi=DgenP.getEntry(j)/sumofDgenP*pMismatch;
-	        	if (DgenP.getEntry(j)>0) { objbus.setGenP(this.genP0.get(i)+DPi);}
+	        	objbus.setGenP(this.genP0.get(i)+DPi);
 	        	j++;
 	     }
 		IpssLogger.getLogger().info("--end gen dispatch--");
 	}
    }
 	/**
-	 * to perform generation dispatching with distributed slack buses, each with its distributed factor
+	 * to perform generation dispatching with distributed slack buses, 
+	 * each with its distributed factor df_i, make sure  sum(all{df_i})=1
 	 * @param distFactor
 	 */
    
@@ -100,9 +101,10 @@ public class GenDispatch {
 		for(int i=0;i<this.net.getBusList().size();i++){
 			AclfBus bus=(AclfBus)this.net.getBusList().get(i);
 			if(bus.isGenPV()){// only PV bus is considered here
+				this.numofGen++; // generator count
 				this.genP0.put(i, bus.getGenP());
 				if(bus.getPGenLimit()!=null){
-				this.genPmax.put(i,bus.getPGenLimit().getMax());
+				  this.genPmax.put(i,bus.getPGenLimit().getMax());
 				}
 				else {
 					IpssLogger.getLogger().info("There is no PGenLimit defined in bus:"+bus.getId()
@@ -113,16 +115,6 @@ public class GenDispatch {
 			
 		}
 	}
-	private int getNoGenBus(AclfNetwork net){
-		int numGen=0;
-		for (Bus bus:net.getBusList()){
-			 AclfBus acbus=(AclfBus) bus;
-			 if(acbus.isActive()&&acbus.isGen()){
-				numGen++;
-			 }
-		}
-		this.numofGen=numGen;
-		return this.numofGen;
-	}
+
 
 }

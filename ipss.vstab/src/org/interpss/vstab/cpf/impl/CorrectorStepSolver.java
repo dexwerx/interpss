@@ -6,8 +6,8 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.util.VstabFuncOut;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.IAclfElement;
 import com.interpss.core.algo.impl.DefaultNrSolver;
 import com.interpss.core.net.Bus;
 
@@ -16,11 +16,12 @@ public class CorrectorStepSolver extends DefaultNrSolver {
     private CpfHelper cpfHelper=null;
     private LoadIncrease ldInc=null;
     private double incSize=0;
+
     
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
 		this.cpf=cpfAlgo;
-		cpfHelper=cpf.getCpfHelper();
+		this.cpfHelper=cpf.getCpfHelper();
 		this.ldInc=cpfAlgo.getLoadIncrease();
 	}
 	@Override
@@ -41,10 +42,14 @@ public class CorrectorStepSolver extends DefaultNrSolver {
    
 		// to increase load 
 		if(!this.cpf.getCpfSolver().isLmdaContParam()){ // if lambda is not keep constant, it will change and therefore will affect the load.
-			incSize=this.cpf.getCpfSolver().getLambda().getValue();//* this.cpf.getStepSize()
-			incSize=incSize>this.cpf.getMaxStepSize()?this.cpf.getMaxStepSize():incSize;
-			ldInc.increaseLoad(incSize);
+			if(this.cpf.getCpfSolver().getLambda().getValue()>1){ // we assume 100% increasement as a warming level
+				IpssLogger.getLogger().warning("Warn:loading index Lambda="+this.cpf.getCpfSolver().getLambda().getValue()+
+						", seems to be too large, out of normal range.");
+			}
+
 		}
+
+		ldInc.increaseLoad(this.cpf.getCpfSolver().getLambda().getValue());
 		// generation dispatching to meet the power mismatch
 		this.cpf.getGenDispatch().genDispByResvProp(ldInc.getDeltaSumOfLoad());
 
