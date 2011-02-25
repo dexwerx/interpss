@@ -6,8 +6,10 @@ import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.LoadIncPattern;
+import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
+import org.interpss.vstab.cpf.impl.GenDispatch;
 import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.interpss.vstab.cpf.impl.PredictorStepSolver;
 import org.junit.Test;
@@ -32,22 +34,40 @@ public class PreSolverTest extends DevTestSetup {
 		System.out.println(b.getId()+", sort Number: "+ b.getSortNumber());
 	}
 	//define load Increase;
+	
 	LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
 	LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
 	assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
 	
+	// define gen dispatch
+	
+	GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
+	
     // create the cpf algorithm;
-	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
+	
+	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
 	assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==5);
+	System.out.println("before: bus4 Vang="+cpfAlgo.getAclfNetwork().getAclfBus("4").getVoltageAng());
+	double v0=cpfAlgo.getAclfNetwork().getAclfBus("4").getVoltageAng();
 	
-//	 initialize the cpf predictor step solver;
+//	 get the cpf predictor step solver;
 	PredictorStepSolver preSolver=cpfAlgo.getCpfSolver().getPredStepSolver();
+
+	assertTrue(preSolver.stepSolver());// run predictor step
+
+	System.out.println("X(0)="+preSolver.getDeltaXLambda().getEntry(0));// output the result;
+
+	assertTrue((Math.abs(preSolver.getDeltaXLambda().getEntry(0)-(-0.73935)))<1e-5); // bus4 delta Vang
+	assertTrue(Math.abs((preSolver.getDeltaXLambda().getEntry(10)-(1.0)))<1e-9);      // Delta_Lambda=1
 	
-	preSolver.stepSolver();
-	assertTrue((preSolver.getAugmentedJacobi().getA(2, 5).xx-1.60)<1e-9);// bus1.loadP=1.60
-	assertTrue((preSolver.getDeltaXLambda().getEntry(0)-(0.73935))<0.0001);
-	assertTrue((preSolver.getDeltaXLambda().getEntry(10)-(1.0))<1e-9); // Delta_Lambda=1
-	System.out.println(preSolver.getDeltaXLambda().toString());
+	// check step size
+	assertTrue(cpfAlgo.getStepSize()-0.05<1e-9);
+	
+	// check predictive result;
+	double v1=cpfAlgo.getAclfNetwork().getAclfBus("4").getVoltageAng(); 
+	System.out.println("after: bus4 Vang="+cpfAlgo.getAclfNetwork().getAclfBus("4").getVoltageAng());
+	assertTrue(Math.abs(v1-v0-(-0.73935)*cpfAlgo.getStepSize())<1e-5);
+
 	}
 
 	@Test
@@ -66,9 +86,10 @@ public class PreSolverTest extends DevTestSetup {
 		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
 		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
 		assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
-		
+		// define gen dispatch
+		GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
 	    // create the cpf algorithm;
-		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
+		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
 		assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==5);
 		
 //		 initialize the cpf predictor step solver;
@@ -76,7 +97,7 @@ public class PreSolverTest extends DevTestSetup {
 		
 		//the find the next step cont' param;
 		preSolver.stepSolver();
-		assertTrue(preSolver.getNextStepContParam()==5);// bus1
-		System.out.println(preSolver.getDeltaVLambda().toString());
+
+		System.out.println(preSolver.getDeltaV().toString());
 	}
 }

@@ -7,9 +7,11 @@ import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.LoadIncPattern;
+import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.cpf.impl.CorrectorStepSolver;
+import org.interpss.vstab.cpf.impl.GenDispatch;
 import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.junit.Test;
 
@@ -35,9 +37,10 @@ public class CorrStepSolverTest extends DevTestSetup {
 	//define load Increase;
 	LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
 	LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
-	
+	// define gen dispatch
+	GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
 	// create CPF algorithm;
-	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, ldInc);
+	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net, ldInc,genDisp);
 	double fixVal=cpfAlgo.getCpfSolver().getLambda().getValue();
 
 	CorrectorStepSolver corrSolver =cpfAlgo.getCpfSolver().getCorrStepSolver();
@@ -60,8 +63,10 @@ public class CorrStepSolverTest extends DevTestSetup {
 			// define the load increase 
 			LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
 			LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
+			// define gen dispatch
+			GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
 			// create a cpf algorithm;
-			CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
+			CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
 
 			double fixVal=1.034;
 			net.getAclfBus("3").setVoltageMag(fixVal);

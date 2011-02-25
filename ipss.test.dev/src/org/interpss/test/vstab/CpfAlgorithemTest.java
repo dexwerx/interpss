@@ -6,8 +6,10 @@ import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.LoadIncPattern;
+import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
+import org.interpss.vstab.cpf.impl.GenDispatch;
 import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.junit.Test;
 
@@ -25,9 +27,10 @@ public class CpfAlgorithemTest extends DevTestSetup{
 	LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
 	LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
 	assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
-	
+	// define gen dispatch
+	GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
     // create the cpf algorithm;
-	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc);
+	CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
 	
 	assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==6);
 	assertTrue(cpfAlgo.getLoadIncrease().getPattern().getLoadIncDir().get("1").getReal()-1.6<1e-9);
