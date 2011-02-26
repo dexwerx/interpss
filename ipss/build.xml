@@ -92,11 +92,8 @@
       </jar>		
 
       <jar destfile="${svn_lib}/ipss_ext.jar">
-   	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
+   	  		<fileset dir="${dev_base}/ipss.opf/bin" excludes="CVS/**,model/**" />	
 	  </jar>		
-	  <jar destfile="${ipss_base}/ipss_ext.jar">
-   	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
-	  </jar>	
 
 	  <jar destfile="${svn_lib}/ipss_pssl.jar">
    	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
@@ -234,6 +231,7 @@
 		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${gl.odm_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${gl.odm_lib}"/>
 		<copy file="${dev_lib.dev}/ipss/ipss_dcsys.jar" todir="${gl.odm_lib}"/>
 		<copy file="${dev_lib.dev}/ipss/ipss_dist.jar" todir="${gl.odm_lib}"/>
 
