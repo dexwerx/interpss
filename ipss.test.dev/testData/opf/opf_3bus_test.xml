@@ -8,9 +8,9 @@
 	  <pss:originalDataFormat>InterPSS</pss:originalDataFormat>
 	  <pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
   </pss:contentInfo>
-  <pss:opfNet id="SampleOPFBaseCase">
     <pss:networkCategory>Transmission</pss:networkCategory>
     <pss:analysisCategory>OPF</pss:analysisCategory>
+  <pss:opfNet id="SampleOPFBaseCase">
     <pss:basePower unit="MVA" value="100"/>
     <pss:busList>
     	<pss:opfGenBus id="Bus1" name="Bus-1">
