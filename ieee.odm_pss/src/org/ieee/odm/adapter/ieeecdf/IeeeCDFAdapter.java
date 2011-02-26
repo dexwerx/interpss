@@ -245,7 +245,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//		1 - Hold MVAR generation within voltage limits, (gen, PQ)
 		//		2 - Hold voltage within VAR limits (gen, PV)
 		//		3 - Hold voltage and angle (swing, V-Theta; must always have one)
-		final int type = new Integer(strAry[4]).intValue();
+		// it might empty, if empty, type = 0;
+		int type = 0;
+		if (!strAry[4].trim().equals(""))
+			type = new Integer(strAry[4]).intValue();
 
 		//Columns 28-33   Final voltage, p.u. [F] *
 		//Columns 34-40   Final angle, degrees [F] *
@@ -337,7 +340,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String areaNo = strAry[2];
 		final String zoneNo = strAry[3];
 		final String cirId = strAry[4];
-		final int branchType = new Integer(strAry[5]).intValue();
+		int branchType = 0;
+		if (!strAry[5].trim().equals(""))
+			branchType = new Integer(strAry[5]).intValue();
 		//String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		BranchXmlType branch = null;
 		try {
@@ -357,8 +362,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			this.logErr("branch is not connected properly, " + e.toString());
 		}
 		*/
-		branch.setAreaNumber(new Integer(areaNo).intValue());
-		branch.setZoneNumber(new Integer(zoneNo).intValue());
+		int an = 0, zn = 0;
+		if (!areaNo.trim().equals(""))
+			an = new Integer(areaNo).intValue();
+		if (!zoneNo.trim().equals(""))
+			zn = new Integer(zoneNo).intValue();
+		branch.setAreaNumber(new Integer(an).intValue());
+		branch.setZoneNumber(new Integer(zn).intValue());
 		branch.setCircuitId(cirId);
 
 		branch.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
@@ -423,9 +433,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//    	Columns 51-55   Line MVA rating No 1 [I] Left justify!
 		//    	Columns 57-61   Line MVA rating No 2 [I] Left justify!
 		//    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
-		final double rating1Mvar = new Integer(strAry[9]).intValue();
-		final double rating2Mvar = new Integer(strAry[10]).intValue();
-		final double rating3Mvar = new Integer(strAry[11]).intValue();
+		double rating1Mvar = 0.0, rating2Mvar = 0.0, rating3Mvar = 0.0;
+		if (!strAry[9].trim().equals(""))
+			rating1Mvar = new Integer(strAry[9]).intValue();
+		if (!strAry[10].trim().equals(""))
+			rating2Mvar = new Integer(strAry[10]).intValue();
+		if (!strAry[11].trim().equals(""))
+			rating3Mvar = new Integer(strAry[11]).intValue();
 		branch.setRatingLimit(this.factory.createBranchRatingLimitXmlType());
 		AclfDataSetter.setBranchRatingLimitData(branch.getRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
@@ -742,7 +756,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			strAry[10] = str.substring(56, 61).trim();
 			strAry[11] = str.substring(62, 67).trim();
 
-			if (new Integer(strAry[5]).intValue() > 1) {
+			int type = 0;
+			if (!strAry[5].trim().equals(""))
+				type = new Integer(strAry[5]).intValue();
+			if (type > 1) {
 				//    			Columns 69-72   Control bus number
 				strAry[12] = str.substring(68, 72).trim();
 
