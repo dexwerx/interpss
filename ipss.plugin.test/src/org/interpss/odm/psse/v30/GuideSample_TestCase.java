@@ -36,7 +36,6 @@ import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -50,7 +49,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class GuideSample_TestCase extends PluginTestSetup {
 	@Test
 	public void testCase() throws Exception {
-		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
@@ -82,7 +81,7 @@ public class GuideSample_TestCase extends PluginTestSetup {
 
 	@Test
 	public void testCase1() throws Exception {
-		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfNetwork net = PluginSpringCtx

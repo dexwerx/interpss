@@ -33,7 +33,6 @@ import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.junit.Test;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -41,7 +40,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class PSSE_5Bus_TestCase extends PluginTestSetup { 
 	@Test
 	public void testCase1() throws Exception {
-		IODMAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSE_5Bus_Test.raw"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
