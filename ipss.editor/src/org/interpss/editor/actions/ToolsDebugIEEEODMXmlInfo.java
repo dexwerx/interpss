@@ -11,7 +11,6 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 
@@ -27,10 +26,10 @@ public class ToolsDebugIEEEODMXmlInfo extends IpssAbstractActionDefault {
 		String str = "IEEE ODM Adapter not implemented";
 		IODMAdapter adapter = null;
 		if (doc.getFileName().endsWith(".uct")) {
-			adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
+			adapter = new UCTE_DEFAdapter();
 		}
 		else if (doc.getFileName().endsWith(".ieee")) {
-			adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
+			adapter = new IeeeCDFAdapter();
 		}
 		if (adapter != null) {
 			if (adapter.parseInputFile(filepath)) {
