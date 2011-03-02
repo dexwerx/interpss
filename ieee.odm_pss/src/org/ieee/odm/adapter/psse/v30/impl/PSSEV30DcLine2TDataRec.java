@@ -1,9 +1,9 @@
 package org.ieee.odm.adapter.psse.v30.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -26,8 +26,8 @@ public class PSSEV30DcLine2TDataRec {
 	private static int IPI, NBI, ICI, IFI, ITI;
 	private static double GAMMX,GAMMN,RCI,XCI,EBASI,TRI,TAPI,TMXI,TMNI,STPI,XCAPI;	
 
-	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, AclfModelParser parser, Logger logger) {
-		procLineFields(lineStr1, lineStr2, lineStr3, version, logger);
+	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, AclfModelParser parser) {
+		procLineFields(lineStr1, lineStr2, lineStr3, version);
 		
 		final String fid = AbstractModelParser.BusIdPreFix+IPR;
 		final String tid = AbstractModelParser.BusIdPreFix+IPI;
@@ -36,7 +36,7 @@ public class PSSEV30DcLine2TDataRec {
 			dcLine2T = parser.createDCLine2TRecord(fid, tid, I);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}			
 
@@ -180,7 +180,7 @@ public class PSSEV30DcLine2TDataRec {
 		}
 	}
 	
-	private static void procLineFields(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, Logger logger) {
+	private static void procLineFields(String lineStr1, String lineStr2, String lineStr3, PsseVersion version) {
 		StringTokenizer st;
 		/*
 		Line-1: I,MDC,RDC,SETVL,VSCHD,VCMOD,RCOMP,DELTI,METER,DCVMIN,CCCITMX,CCCACC

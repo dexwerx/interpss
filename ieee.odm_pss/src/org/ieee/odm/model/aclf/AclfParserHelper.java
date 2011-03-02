@@ -24,10 +24,9 @@
 
 package org.ieee.odm.model.aclf;
 
-import java.util.logging.Logger;
-
 import javax.xml.bind.JAXBElement;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -111,7 +110,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
 	 * 
 	 */
-	public static boolean createBusEquivData(AclfModelParser parser, Logger logger) {
+	public static boolean createBusEquivData(AclfModelParser parser) {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
 		boolean ok = true;
 
@@ -135,7 +134,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 								}
 							}
 							else if (!remoteBusId.equals(BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()))) {
-								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
+								ODMLogger.getLogger().severe("Inconsistant remote control bus id, " + remoteBusId +
 										", " + BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()));
 								return false; 
 							}
@@ -157,7 +156,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 									vSpecUnit = gen.getDesiredVoltage().getUnit();
 								}
 								else if (vSpec != gen.getDesiredVoltage().getValue()) {
-									logger.severe("Inconsistant gen desired voltage, " + 
+									ODMLogger.getLogger().severe("Inconsistant gen desired voltage, " + 
 											BaseJaxbHelper.getRecId(gen.getRemoteVoltageControlBus()));
 									return false; 
 								}

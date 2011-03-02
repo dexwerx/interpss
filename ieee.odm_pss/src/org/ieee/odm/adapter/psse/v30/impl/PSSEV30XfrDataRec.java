@@ -25,9 +25,9 @@
 package org.ieee.odm.adapter.psse.v30.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -63,8 +63,8 @@ public class PSSEV30XfrDataRec {
 	private static double ang1, rata1, ratb1, ratc1, ang2, rata2, ratb2, ratc2, ang3, rata3, ratb3, ratc3;
 	
 	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-							PsseVersion version, AclfModelParser parser, Logger logger) {
-		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version, logger);
+							PsseVersion version, AclfModelParser parser) {
+		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
 
 		boolean is3W = k != 0; 
 		boolean isPsXfr = false;
@@ -108,7 +108,7 @@ public class PSSEV30XfrDataRec {
 		       	branchRec.setXfrInfo(xfrInfo);
 			}
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}		
 		
@@ -423,7 +423,7 @@ public class PSSEV30XfrDataRec {
 	}
 	
 	private static void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-							PsseVersion version, Logger logger) {
+							PsseVersion version) {
 		// 324558,324023,     0,'1 ',2,2,1,   0.00036,  -0.00197,1,'HFL- 1,2    ',1,   1,1.0000
 		// The name field might have ','
 		StringTokenizer st = new StringTokenizer(lineStr1, "'");

@@ -24,6 +24,7 @@
 
 package org.ieee.odm.model.aclf;
 
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
@@ -104,11 +105,11 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public LoadflowBusXmlType createAclfBus(String id) throws Exception {
+	public LoadflowBusXmlType createAclfBus(String id) throws ODMException {
 		LoadflowBusXmlType busRec = createAclfBus();
 		busRec.setId(id);
 		if (this.objectCache.get(id) != null) {
-			throw new Exception("Bus record duplication, bus id: " + id);
+			throw new ODMException("Bus record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, busRec);
 		return busRec;
@@ -120,7 +121,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public LoadflowBusXmlType createAclfBus(String id, long number) throws Exception {
+	public LoadflowBusXmlType createAclfBus(String id, long number) throws ODMException {
 		LoadflowBusXmlType busRec = createAclfBus(id);
 		busRec.setNumber(number);
 		return busRec;
@@ -244,7 +245,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws Exception {
+	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws ODMException {
 		LineBranchXmlType branch = createLineBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;

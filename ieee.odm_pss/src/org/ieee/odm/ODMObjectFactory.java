@@ -72,15 +72,15 @@ public class ODMObjectFactory {
 	
 	public static IODMAdapter createODMAdapter(ODMFileFormatEnum f) throws ODMException {
 		if ( f == ODMFileFormatEnum.IeeeCDF ) 
-			return new IeeeCDFAdapter(ODMLogger.getLogger());
+			return new IeeeCDFAdapter();
 		else if ( f == ODMFileFormatEnum.PsseV26 )
-			return new PSSEV26Adapter(ODMLogger.getLogger());
+			return new PSSEV26Adapter();
 		else if ( f == ODMFileFormatEnum.PsseV30 )
-			return new PSSEV30Adapter(ODMLogger.getLogger());
+			return new PSSEV30Adapter();
 		else if ( f == ODMFileFormatEnum.GePSLF ) 
-			return new GE_PSLF_Adapter(ODMLogger.getLogger());
+			return new GE_PSLF_Adapter();
 		else if ( f == ODMFileFormatEnum.UCTE ) 
-			return new UCTE_DEFAdapter(ODMLogger.getLogger());
+			return new UCTE_DEFAdapter();
 		
 		throw new ODMException("Error - unkown ODM file type");
 	}

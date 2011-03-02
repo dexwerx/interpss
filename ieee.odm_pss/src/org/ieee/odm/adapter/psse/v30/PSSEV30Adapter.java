@@ -24,7 +24,6 @@
 package org.ieee.odm.adapter.psse.v30;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
@@ -37,6 +36,7 @@ import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -52,13 +52,13 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 
 	private ObjectFactory factory = null;
 
-	public PSSEV30Adapter(Logger logger) {
-		super(logger);
+	public PSSEV30Adapter() {
+		super();
 		this.factory = new ObjectFactory();
 	}
 
-	public PSSEV30Adapter(boolean elemCntOnly, Logger logger) {
-		this(logger);
+	public PSSEV30Adapter(boolean elemCntOnly) {
+		this();
 		this.elemCntOnly = elemCntOnly;
 	}
 	
@@ -122,55 +122,55 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 busProcessed = true;
-							 getLogger().info("PSS/E Bus record processed");
+							 ODMLogger.getLogger().info("PSS/E Bus record processed");
 							 this.elemCntStr += "Bus record " + busCnt +"\n";
 						}	 
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30BusDataRec.procLineString(lineStr, version, parser, this.getLogger());
+								PSSEV30BusDataRec.procLineString(lineStr, version, parser);
 							busCnt++;
 						}	 
       				}
       				else if (!loadProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 loadProcessed = true;
-							 getLogger().info("PSS/E Load record processed");
+							 ODMLogger.getLogger().info("PSS/E Load record processed");
 							 this.elemCntStr += "Load record " + loadCnt +"\n";
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30LoadDataRec.procLineString(lineStr, version, parser, this.getLogger());
+								PSSEV30LoadDataRec.procLineString(lineStr, version, parser);
 							loadCnt++;
 						}	 
       				}
       				else if (!genProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 genProcessed = true;
-							 getLogger().info("PSS/E Gen record processed");
+							 ODMLogger.getLogger().info("PSS/E Gen record processed");
 							 this.elemCntStr += "Gen record " + genCnt +"\n";
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30GenDataRec.procLineString(lineStr, version, parser, this.getLogger());
+								PSSEV30GenDataRec.procLineString(lineStr, version, parser);
 							genCnt++;
 						}	 
       				}
       				else if (!lineProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 lineProcessed = true;
-							 getLogger().info("PSS/E Line record processed");
+							 ODMLogger.getLogger().info("PSS/E Line record processed");
 							 this.elemCntStr += "Line record " + lineCnt +"\n";
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30LineDataRec.procLineString(lineStr, version, parser, this.getLogger());
+								PSSEV30LineDataRec.procLineString(lineStr, version, parser);
 							lineCnt++;
 						}	 
       				}
       				else if (!xfrProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 xfrProcessed = true;
-							 getLogger().info("PSS/E Xfr record processed");
+							 ODMLogger.getLogger().info("PSS/E Xfr record processed");
 							 this.elemCntStr += "2W Xfr record " + xfrCnt +"\n";
 							 this.elemCntStr += "3W Xfr record " + xfr3WCnt +"\n";
 						}
@@ -189,13 +189,13 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
     							xfrCnt++;
 							
 							if (!this.elemCntOnly)
-								PSSEV30XfrDataRec.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser, this.getLogger());
+								PSSEV30XfrDataRec.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser);
 						}	 
       				}
       				else if (!areaInterProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 areaInterProcessed = true;
-							 getLogger().info("PSS/E AreaInterchange record processed");
+							 ODMLogger.getLogger().info("PSS/E AreaInterchange record processed");
 							 this.elemCntStr += "Area interchange record " + areaInterCnt +"\n";
 						}
 						else {
@@ -207,7 +207,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!dcLine2TProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 dcLine2TProcessed = true;
-							 getLogger().info("PSS/E DC line record processed");
+							 ODMLogger.getLogger().info("PSS/E DC line record processed");
 							 this.elemCntStr += "2T DC line record " + dcLineCnt +"\n";
 						}
 						else {
@@ -215,14 +215,14 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
 							if (!this.elemCntOnly)
-								PSSEV30DcLine2TDataRec.procLineString(lineStr, lineStr2, lineStr3, version, parser, this.getLogger());
+								PSSEV30DcLine2TDataRec.procLineString(lineStr, lineStr2, lineStr3, version, parser);
 							dcLineCnt++;
 						}	 
       				}
       				else if (!vscDcLineProcessed) {
 						if (isEndRecLine(lineStr)) {
 							vscDcLineProcessed = true;
-							getLogger().info("PSS/E vscDcLine record processed");
+							ODMLogger.getLogger().info("PSS/E vscDcLine record processed");
 							 this.elemCntStr += "vscDcLine record " + vscDcLineCnt +"\n";
 						}
 						else {
@@ -234,19 +234,19 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!switchedShuntProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 switchedShuntProcessed = true;
-							 getLogger().info("PSS/E switched shunt record processed");
+							 ODMLogger.getLogger().info("PSS/E switched shunt record processed");
 							 this.elemCntStr += "Switched Shunt record " + switchedShuntCnt +"\n";
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEBusRecord.processSwitchedShuntData(lineStr, PsseVersion.PSSE_30, parser, this.getLogger());
+								PSSEBusRecord.processSwitchedShuntData(lineStr, PsseVersion.PSSE_30, parser);
 							switchedShuntCnt++;
 						}	 
       				}
       				else if (!xfrZCorrectionProcessed) {
 						if (isEndRecLine(lineStr)) {
 							xfrZCorrectionProcessed = true;
-							getLogger().info("PSS/E Xfr table record processed");
+							ODMLogger.getLogger().info("PSS/E Xfr table record processed");
 							 this.elemCntStr += "Xfr table record " + xfrZTableCnt +"\n";
 						}
 						else {
@@ -258,7 +258,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!dcLineMTProcessed) {
 						if (isEndRecLine(lineStr)) {
 							dcLineMTProcessed = true;
-							getLogger().info("PSS/E multi terminal DC Line record processed");
+							ODMLogger.getLogger().info("PSS/E multi terminal DC Line record processed");
 							 this.elemCntStr += "MT DC line record " + mtDcLineCnt +"\n";
 						}
 						else {
@@ -270,7 +270,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!multiSectionLineGroupProcessed) {
 						if (isEndRecLine(lineStr)) {
 							multiSectionLineGroupProcessed = true;
-							getLogger().info("PSS/E multi section Line Group record processed");
+							ODMLogger.getLogger().info("PSS/E multi section Line Group record processed");
 							 this.elemCntStr += "MultiSec record " + multiSecCnt +"\n";
 						}
 						else {
@@ -282,7 +282,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!zoneProcessed) {
 						if (isEndRecLine(lineStr)) {
 							zoneProcessed = true;
-							getLogger().info("PSS/E Zone record processed");
+							ODMLogger.getLogger().info("PSS/E Zone record processed");
 							 this.elemCntStr += "Zone record " + zoneCnt +"\n";
 						}
 						else {
@@ -295,7 +295,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!interareaTransferProcessed) {
 						if (isEndRecLine(lineStr)) {
 							interareaTransferProcessed = true;
-							getLogger().info("PSS/E Interarea Transfer record processed");
+							ODMLogger.getLogger().info("PSS/E Interarea Transfer record processed");
 							 this.elemCntStr += "Interarea transfer record " + interTransCnt +"\n";
 						}
 						else {
@@ -307,7 +307,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!ownerProcessed) {
 						if (isEndRecLine(lineStr)) {
 							ownerProcessed = true;
-							getLogger().info("PSS/E Owner record processed");
+							ODMLogger.getLogger().info("PSS/E Owner record processed");
 							 this.elemCntStr += "Owner record " + ownerCnt +"\n";
 						}
 						else {
@@ -319,7 +319,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				else if (!factsProcessed) {
 						if (isEndRecLine(lineStr)) {
 							factsProcessed = true;
-							getLogger().info("PSS/E FACTS record processed");
+							ODMLogger.getLogger().info("PSS/E FACTS record processed");
 							 this.elemCntStr += "Facts record " + factsCnt +"\n";
 						}
 						else { 
@@ -337,7 +337,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   		}
              
 		if (!this.elemCntOnly)
-			AclfParserHelper.createBusEquivData(parser, this.getLogger());
+			AclfParserHelper.createBusEquivData(parser);
   		
    	   	return parser;
 	}

@@ -24,8 +24,8 @@
 package org.ieee.odm.adapter.psse.v26.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
@@ -47,7 +47,7 @@ import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV26BranchRecord {
-	public static  void processBranchData(final String str, final AclfModelParser parser, Logger logger) {
+	public static  void processBranchData(final String str, final AclfModelParser parser) {
 		/*
 		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
@@ -67,7 +67,7 @@ public class PSSEV26BranchRecord {
 		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
 		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
-		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+		ODMLogger.getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
@@ -131,7 +131,7 @@ public class PSSEV26BranchRecord {
 		        }
 			}
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}		
 		
@@ -149,7 +149,7 @@ public class PSSEV26BranchRecord {
 				null);
 	}
    
-	public static void processXformerAdjData(final String str, final AclfModelParser parser, Logger logger) {
+	public static void processXformerAdjData(final String str, final AclfModelParser parser) {
 		/*
 		I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP,   TABLE
     	31212,31435,' 1',     0,    1.5000,    0.5100,    1.5000,    0.5100,0.00625,0,0, 0.000, 0.000,   
@@ -171,12 +171,12 @@ public class PSSEV26BranchRecord {
 		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
 		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
 		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
-		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+		ODMLogger.getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
 		BranchXmlType branchRec = (BranchXmlType)parser.getBranch(fid, tid, cirId);
 	    if (branchRec == null){
 			String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
-	    	logger.severe("Branch "+ branchId + " not found in the network");
+			ODMLogger.getLogger().severe("Branch "+ branchId + " not found in the network");
 	    	return;
 	    }	
 

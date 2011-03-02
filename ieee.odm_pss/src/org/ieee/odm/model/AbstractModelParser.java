@@ -41,12 +41,14 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -195,6 +197,20 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	}
 
 	/**
+	 * create a area object
+	 * 
+	 * @return
+	 */
+	public NetAreaXmlType createNetworkArea() {
+		if(getBaseCase().getAreaList() == null){
+			getBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
+		}
+		NetAreaXmlType area = this.getFactory().createNetAreaXmlType();
+		getBaseCase().getAreaList().getArea().add(area);
+		return area;
+	}
+
+	/**
 	 * create a LossZone object
 	 * 
 	 * @return
@@ -249,10 +265,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param id
 	 * @throws Exception
 	 */
-	public void setBusId(BusXmlType busRec, String id) throws Exception {
+	public void setBusId(BusXmlType busRec, String id) throws ODMException {
 		busRec.setId(id);
 		if (this.objectCache.get(id) != null) {
-			throw new Exception("Bus record duplication, bus id: " + id);
+			throw new ODMException("Bus record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, busRec);
 	}
@@ -317,11 +333,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		branch.setZoneNumber(1);
 	}
 	
-	protected void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws Exception {
+	protected void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws ODMException {
 		String id = tertId == null ?
 				ModelStringUtil.formBranchId(fromId, toId, cirId) : ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		if (this.objectCache.get(id) != null) {
-			throw new Exception("Branch record duplication, bus id: " + id);
+			throw new ODMException("Branch record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, branch);		
 		branch.setCircuitId(cirId);

@@ -25,10 +25,10 @@
 package org.ieee.odm.adapter.ieeecdf;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -79,8 +79,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 	private ObjectFactory factory = null;
 
-	public IeeeCDFAdapter(Logger logger) {
-		super(logger);
+	public IeeeCDFAdapter() {
+		super();
 		this.factory = new ObjectFactory();		
 	}
 	 
@@ -121,29 +121,29 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("BUS")) {
 						dataType = BusData;
-						getLogger().fine("load bus data");
+						ODMLogger.getLogger().fine("load bus data");
 					} else if ((str.length() > 6)
 							&& str.substring(0, 6).equals("BRANCH")) {
 						dataType = BranchData;
-						getLogger().fine("load branch data");
+						ODMLogger.getLogger().fine("load branch data");
 					} else if ((str.length() > 4)
 							&& str.substring(0, 4).equals("LOSS")) {
 						dataType = LossZone;
 						//baseCaseNet.addNewLossZoneList();
-						getLogger().fine("load loss zone data");
+						ODMLogger.getLogger().fine("load loss zone data");
 					} else if ((str.length() > 11)
 							&& str.substring(0, 11).equals("INTERCHANGE")) {
 						dataType = InterchangeData;
 						//baseCaseNet.addNewInterchangeList();
-						getLogger().fine("load interchange data");
+						ODMLogger.getLogger().fine("load interchange data");
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("TIE")) {
 						dataType = TielineData;
 						//baseCaseNet.addNewTieLineList();
-						getLogger().fine("load tieline data");
+						ODMLogger.getLogger().fine("load tieline data");
 					}
 				} catch (final Exception e) {
-					this.getLogger().severe(e.toString() + "\n" + str);
+					ODMLogger.getLogger().severe(e.toString() + "\n" + str);
 					e.printStackTrace();
 				}
 			}
@@ -190,12 +190,12 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (caseId != null)
 			BaseJaxbHelper.addNVPair(nvList, Token_CaseId, caseId);
 
-		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
+		ODMLogger.getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
 
 		//[2] Columns 32-37   MVA Base [F] *
 		final double baseMva = new Double(strAry[2]).doubleValue(); // in MVA
-		getLogger().fine("BaseKva: " + baseMva);
+		ODMLogger.getLogger().fine("BaseKva: " + baseMva);
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
 	}
 
@@ -210,7 +210,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//Columns  1- 4   Bus number [I] *
 		final String busId = AbstractModelParser.BusIdPreFix + strAry[0];
-		getLogger().fine("Bus data loaded, id: " + busId);
+		ODMLogger.getLogger().fine("Bus data loaded, id: " + busId);
 		LoadflowBusXmlType aclfBus = null;
 		try {
 			aclfBus = parser.createAclfBus(busId);

@@ -24,8 +24,8 @@
 package org.ieee.odm.adapter.psse.v26.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
@@ -42,14 +42,14 @@ public class PSSEV26NetRecord {
 	public final static String Token_CaseId = "Case ID";	
 	
 	public static boolean processHeaderData(final String str1,final String str2,final String str3,
-			final LoadflowNetXmlType baseCaseNet, Logger logger, ObjectFactory factory) throws Exception {
+			final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) throws Exception {
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
-		final String[] strAry = getHeaderDataFields(str1,str2,str3, logger);
+		final String[] strAry = getHeaderDataFields(str1,str2,str3);
 		if (strAry == null)
 			return false;
 		
 		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
-	    logger.fine("BaseKva: "  + baseMva);
+		ODMLogger.getLogger().fine("BaseKva: "  + baseMva);
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));	    
 	    
 		NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
@@ -61,7 +61,7 @@ public class PSSEV26NetRecord {
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
 		BaseJaxbHelper.addNVPair(nvList, Token_CaseId, caseId);				
-		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
+		ODMLogger.getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
 	}
@@ -109,7 +109,7 @@ public class PSSEV26NetRecord {
 	 * String[3] comments
 	 */
 	private static String[] getHeaderDataFields(final String lineStr, final String lineStr2,
-							final String lineStr3, Logger logger)	throws Exception{
+							final String lineStr3)	throws Exception{
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = new String[4];	
 		StringTokenizer st = lineStr.contains(",") ?
@@ -119,7 +119,7 @@ public class PSSEV26NetRecord {
 		strAry[0] = st.nextToken();  			   
 		int indicator = new Integer(strAry[0]).intValue();
 		if (indicator !=0){
-			logger.severe("Error: Only base case can be process");
+			ODMLogger.getLogger().severe("Error: Only base case can be process");
 			return null;
 		}
 

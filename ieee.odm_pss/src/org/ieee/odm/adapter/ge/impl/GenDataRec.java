@@ -25,9 +25,9 @@
 package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -51,7 +51,7 @@ public class GenDataRec extends BusHeaderRec {
 	public double airTemp, pmax2;
 
 	public GenDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, 
-			final AclfModelParser parser, Logger logger) throws Exception {
+			final AclfModelParser parser) throws Exception {
 		//System.out.println("gen data->" + lineStr);
 /*
 generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  qrf  ar zone   pgen   pmax   pmin   qgen   qmax   qmin   mbase cmp_r cmp_x gen_r gen_x           hbus                    tbus           date_in date_out pid N
@@ -69,7 +69,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		// get the responding-bus data with busId
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 		if (busRec==null){
-			logger.severe("Error: Bus not found in the network, bus number: " + busId);
+			ODMLogger.getLogger().severe("Error: Bus not found in the network, bus number: " + busId);
         	return;
         }
 				

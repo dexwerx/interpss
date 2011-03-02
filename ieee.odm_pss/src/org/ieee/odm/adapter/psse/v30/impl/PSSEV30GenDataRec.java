@@ -25,9 +25,9 @@
 package org.ieee.odm.adapter.psse.v30.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -71,8 +71,8 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
  10636,'1 ',     0.000,     0.000,     0.000,     0.000,1.05100,     0,   100.000,   0.00000,   1.00000,   0.00000,   0.00000,1.00000,1,  100.0,     0.000,     0.000,   1,1.0000
 	 */
 
-	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser, Logger logger) {
-		procFields(lineStr, version, logger);
+	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser) {
+		procFields(lineStr, version);
 
 /*
 		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
@@ -85,7 +85,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
-	    	logger.severe("Bus "+ busId+ " not found in the network");
+	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 	    
@@ -134,7 +134,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 				new Integer(o4).toString(), o4==0?0.0:f4);
 	}
 	
-	private static void procFields(String lineStr, PsseVersion version, Logger logger) {
+	private static void procFields(String lineStr, PsseVersion version) {
 		StringTokenizer st;
 
 		st = new StringTokenizer(lineStr, ",");
@@ -147,7 +147,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 		qt = new Double(st.nextToken().trim()).doubleValue();
 		qb = new Double(st.nextToken().trim()).doubleValue();
 		if (qt < qb) {
-			logger.warning("Gen Data qt (qMax: " + qt + ") < qb (qMin:" + qb + "), set to [9999.0, -9999.0]\n" + lineStr);
+			ODMLogger.getLogger().warning("Gen Data qt (qMax: " + qt + ") < qb (qMin:" + qb + "), set to [9999.0, -9999.0]\n" + lineStr);
 		}
 		vs = new Double(st.nextToken().trim()).doubleValue();
 		ireg = new Integer(st.nextToken().trim()).intValue();
@@ -163,7 +163,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 		pt = new Double(st.nextToken().trim()).doubleValue();
 		pb = new Double(st.nextToken().trim()).doubleValue();
 		if (pt < pb) {
-			logger.warning("Gen Data pt (pMax:" + pt + ") < pb (pMin:" + pb + "), set to [9999.0, -9999.0] \n" + lineStr);
+			ODMLogger.getLogger().warning("Gen Data pt (pMax:" + pt + ") < pb (pMin:" + pb + "), set to [9999.0, -9999.0] \n" + lineStr);
 		}
 
 		if (st.hasMoreTokens())

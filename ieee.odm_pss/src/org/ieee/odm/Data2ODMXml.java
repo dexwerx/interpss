@@ -82,11 +82,11 @@ public class Data2ODMXml {
 			IODMAdapter adapter = null;
 			if (Token_IEEECDF.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format IEEE Common Data Format");
-				adapter = new IeeeCDFAdapter(logger);
+				adapter = new IeeeCDFAdapter();
 			}
 			else if (Token_UCTE.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format UCTE Data Format");
-				adapter = new UCTE_DEFAdapter(logger);
+				adapter = new UCTE_DEFAdapter();
 			}
 //			else if (Token_BPA.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 //				logger.info("Input file is of format BPA Format");

@@ -81,8 +81,8 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
 	
-	public GE_PSLF_Adapter(Logger logger) {
-		super(logger);
+	public GE_PSLF_Adapter() {
+		super();
 	}
 	 
 	@Override
@@ -201,7 +201,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
-      						new BusDataRec(lineStr, version, parser, this.getLogger());
+      						new BusDataRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
@@ -213,11 +213,11 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
-      						new GenDataRec(lineStr, version, parser, this.getLogger());
+      						new GenDataRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.LoadData) {
       						// process Line Data
-      						new LoadDataRec(lineStr, version, parser, this.getLogger());
+      						new LoadDataRec(lineStr, version, parser);
       					}
       					else if (recType == RecType.ShuntData) {
       						// process Shunt Data
@@ -297,7 +297,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
   			throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
-  		AclfParserHelper.createBusEquivData(parser, this.getLogger());
+  		AclfParserHelper.createBusEquivData(parser);
   		
 		return parser;
 	}

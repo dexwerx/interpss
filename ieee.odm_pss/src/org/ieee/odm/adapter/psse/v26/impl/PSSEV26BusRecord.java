@@ -24,8 +24,8 @@
 package org.ieee.odm.adapter.psse.v26.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -44,7 +44,7 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV26BusRecord {
-	public static void processBusData(final String str, final AclfModelParser parser, Logger logger) {
+	public static void processBusData(final String str, final AclfModelParser parser) {
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);	    
 
@@ -53,12 +53,12 @@ public class PSSEV26BusRecord {
 
 		final String busId = AbstractModelParser.BusIdPreFix+strAry[0];
 			// XML requires id start with a char
-		logger.fine("Bus data loaded, id: " + busId);
+		ODMLogger.getLogger().fine("Bus data loaded, id: " + busId);
 		LoadflowBusXmlType busRec;
 		try {
 			busRec = parser.createAclfBus(busId, new Integer(strAry[0]));
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}
 		
@@ -68,7 +68,7 @@ public class PSSEV26BusRecord {
 		busRec.setName(busName);
 		double baseKv = ModelStringUtil.getDouble(strAry[2], 0.0);
 		if (baseKv == 0.0) {
-			logger.severe("Error: base kv = 0.0");
+			ODMLogger.getLogger().severe("Error: base kv = 0.0");
 			baseKv = 1.0;
 		}
 		
@@ -127,7 +127,7 @@ public class PSSEV26BusRecord {
 		busRec.setZoneNumber(ModelStringUtil.getInt(zoneNo, 0));		
 	}
 		
-	public static  void processLoadData(final String str,final AclfModelParser parser, Logger logger) {
+	public static  void processLoadData(final String str,final AclfModelParser parser) {
 		// I,    ID,  STATUS, AREA, ZONE, PL,   QL,   IP,   IQ,   YP,    YQ,  OWNER
 		// 33547,' 1',1,      1,    1,    3.00, 9.54, 0.00, 0.00, 0.00,  0.00,1,   /* [EnergyConsumer_1704] */
 		
@@ -137,7 +137,7 @@ public class PSSEV26BusRecord {
 	    //to test if there is a responding bus in the bus data record
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
-	    	logger.severe("Bus "+ busId+ " not found in the network");
+	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 
@@ -208,7 +208,7 @@ public class PSSEV26BusRecord {
 	    load.setConstPLoad(BaseDataSetter.createPowerValue(tp, tq, ApparentPowerUnitType.MVA));
 	}
 	
-	public static  void processGenData(final String str,final AclfModelParser parser, Logger logger) {
+	public static  void processGenData(final String str,final AclfModelParser parser) {
 		//I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
 		//31435,' 1',    8.52,    2.51,   10.00,   -6.00,1.0203,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,    0.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_78] */ 
 		
@@ -218,7 +218,7 @@ public class PSSEV26BusRecord {
 		// get the responding-bus data with busId
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 		if (busRec==null){
-			logger.severe("Error: Bus not found in the network, bus number: " + busId);
+			ODMLogger.getLogger().severe("Error: Bus not found in the network, bus number: " + busId);
         	return;
         }
 				

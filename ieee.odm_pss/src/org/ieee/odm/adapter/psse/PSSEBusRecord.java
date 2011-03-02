@@ -24,8 +24,8 @@
 package org.ieee.odm.adapter.psse;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.ModelStringUtil;
@@ -39,7 +39,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 
 public class PSSEBusRecord {
 	public static  void processSwitchedShuntData(final String str, PsseVersion version, 
-			final AclfModelParser parser, Logger logger) {
+			final AclfModelParser parser) {
 		/*
 		Format V26
 		I,    MODSW,VSWHI, VSWLO,  SWREM,   BINIT,    N1,      B1,   N2,        B2...N8,B8
@@ -76,7 +76,7 @@ public class PSSEBusRecord {
 		// get the responding-bus data with busId
 		LoadflowBusXmlType aclfBus = parser.getAclfBus(busId);
 		if (aclfBus==null){
-			logger.severe("Error: Bus not found in the network, bus number: " + busId);
+			ODMLogger.getLogger().severe("Error: Bus not found in the network, bus number: " + busId);
         	return;
         }
 				

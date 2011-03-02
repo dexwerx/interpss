@@ -23,8 +23,6 @@
  */
 package org.ieee.odm.adapter.psse.v26;
 
-import java.util.logging.Logger;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.psse.PSSEBusRecord;
@@ -58,8 +56,8 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	
 	private ObjectFactory factory = null;	
 		
-	public PSSEV26Adapter(Logger logger) {
-		super(logger);
+	public PSSEV26Adapter() {
+		super();
 		this.factory = new ObjectFactory();
 	}
 	
@@ -80,7 +78,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 			String str = din.readLine();
 			sAry[i]= str;				
 		} 
-		PSSEV26NetRecord.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.getLogger(), this.factory);	
+		PSSEV26NetRecord.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.factory);	
 
         String str ;         
         int type=BusData;
@@ -105,28 +103,28 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         			else {
         				if (type==BusData){
         					//System.out.println("BusData: " + str);
-        					PSSEV26BusRecord.processBusData(str, parser, this.getLogger());
+        					PSSEV26BusRecord.processBusData(str, parser);
         				}
         				else if(type==LoadData){
         					//System.out.println("LoadData: " + str);
-        					PSSEV26BusRecord.processLoadData(str, parser, this.getLogger());
+        					PSSEV26BusRecord.processLoadData(str, parser);
         				}
         				else if(type==GenData){
         					//System.out.println("GenData: " + str);
-        					PSSEV26BusRecord.processGenData(str, parser, this.getLogger());        			 
+        					PSSEV26BusRecord.processGenData(str, parser);        			 
         				}
         				else if(type==BranchData){
         					//System.out.println("LineData: " + str);
-        					PSSEV26BranchRecord.processBranchData(str, parser, this.getLogger()); 
+        					PSSEV26BranchRecord.processBranchData(str, parser); 
         				}
         				else if(type==XfrAdjData){        			   
         					//System.out.println("XfrData: " + str);
-        					PSSEV26BranchRecord.processXformerAdjData(str, parser, this.getLogger());
+        					PSSEV26BranchRecord.processXformerAdjData(str, parser);
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==SwitchedShuntData){        			   
         					//System.out.println("ShuntData: " + str);
-        					PSSEBusRecord.processSwitchedShuntData(str, PsseVersion.PSSE_26, parser, this.getLogger());
+        					PSSEBusRecord.processSwitchedShuntData(str, PsseVersion.PSSE_26, parser);
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==InterchangeData){

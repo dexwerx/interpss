@@ -25,9 +25,9 @@
 package org.ieee.odm.adapter.psse.v30.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -45,15 +45,15 @@ public class PSSEV30LoadDataRec {
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser, Logger logger) {
-		procLineString(lineStr, version, logger);
+	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser) {
+		procLineString(lineStr, version);
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
-	    	logger.severe("Bus "+ busId+ " not found in the network");
+	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 		
@@ -76,7 +76,7 @@ public class PSSEV30LoadDataRec {
 			contribLoad.setConstZLoad(BaseDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
 	}
 
-	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {
+	private static void procLineString(String lineStr, PsseVersion version) {
 		StringTokenizer st;
 
 		st = new StringTokenizer(lineStr, ",");

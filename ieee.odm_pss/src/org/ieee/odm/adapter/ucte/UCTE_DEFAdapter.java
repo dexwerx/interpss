@@ -26,10 +26,10 @@ package org.ieee.odm.adapter.ucte;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelContansts;
@@ -95,8 +95,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	 * 
 	 * @param logger Logger object
 	 */
-	public UCTE_DEFAdapter(Logger logger) {
-		super(logger);
+	public UCTE_DEFAdapter() {
+		super();
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##C section
      */
     private boolean processCommentRecord(String str, LoadflowNetXmlType xmlBaseNet) {
-    	getLogger().fine("Comment: " + str);
+    	ODMLogger.getLogger().fine("Comment: " + str);
 		// there is no need to do anything to the comment lines
     	return true;
     }
@@ -197,7 +197,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##N and ##Z sections
      */
     private void processNodeRecord(String str, String isoId, int busCnt, AclfModelParser parser) throws Exception {
-    	getLogger().fine("Node Record: " + str);
+    	ODMLogger.getLogger().fine("Node Record: " + str);
 
 		// parse the input line for node information
 		String id, name;
@@ -291,7 +291,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
-				getLogger().fine("Bus is a PVLimitBus, id: " + id);
+				ODMLogger.getLogger().fine("Bus is a PVLimitBus, id: " + id);
 				aclfBus.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit(  
 						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR));
 			}
@@ -332,7 +332,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##L section
      */
     private void processLineRecord(String str, AclfModelParser parser) throws Exception {
-    	 getLogger().fine("Line Record: " + str);
+    	ODMLogger.getLogger().fine("Line Record: " + str);
 
 		// parse the input line for line information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -382,7 +382,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      */
     private void processXfr2WindingRecord(String str, AclfModelParser parser)
                      throws Exception {
-    	getLogger().fine("Xfr 2W Record: " + str);
+    	ODMLogger.getLogger().fine("Xfr 2W Record: " + str);
 
 		// parse the input line for xformer information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -430,7 +430,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		// they are converted to PU using from bus base voltage
 		if (fromRatedKV < toRatedKV) {
 			// TODO: need to transfer R,X to high voltage side
-			getLogger().severe("Need more implementation");
+			ODMLogger.getLogger().severe("Need more implementation");
 		}
 		// XformerData object created in the following call
 		AclfDataSetter.createXformerData(branchRec,
@@ -455,7 +455,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      */
     private void processXfr2WRegulationRecord(String str, AclfModelParser parser) 
     				throws Exception {
-    	getLogger().fine("Xfr 2W Reg Record: " + str);
+    	ODMLogger.getLogger().fine("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
 
@@ -611,8 +611,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##TT section
      */
     private void processXfr2LookupRecord(String str, LoadflowNetXmlType xmlBaseNet) {
-    	getLogger().fine("Xfr 2W Desc Record: " + str);
-    	getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
+    	ODMLogger.getLogger().fine("Xfr 2W Desc Record: " + str);
+    	ODMLogger.getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
 		return;
     }
     
@@ -620,7 +620,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
      * ##E section
      */
     private void processExchangePowerRecord(String str, LoadflowNetXmlType xmlBaseNet, ObjectFactory factory) {
-    	getLogger().info("Exchange Power Record: " + str);
+    	ODMLogger.getLogger().info("Exchange Power Record: " + str);
 
 		String fromIsoId, toIsoId, comment;
 		double exPower;  

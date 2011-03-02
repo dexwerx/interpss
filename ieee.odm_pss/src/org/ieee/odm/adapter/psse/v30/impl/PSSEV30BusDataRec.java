@@ -51,7 +51,7 @@ public class PSSEV30BusDataRec {
 	 *       101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
 
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
+	public static void procLineString(String lineStr, PsseVersion version, AclfModelParser parser) {
 		try {
 			procFields(lineStr, version);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class PSSEV30BusDataRec {
 		try {
 			aclfBus = parser.createAclfBus(iStr, i);
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}
 		aclfBus.setNumber((long)i);

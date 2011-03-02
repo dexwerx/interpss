@@ -31,22 +31,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 
 public abstract class AbstractODMAdapter implements IODMAdapter {
 	private boolean status;
-	private Logger logger;
+	//private Logger logger;
 	private List<String> errMsgList;
 	private IODMModelParser parser;
 	
 	public AbstractODMAdapter() {
-	}
-	
-	public AbstractODMAdapter(Logger logger) {
-		this.logger = logger;
+		//this.logger = logger;
 		this.status = true;                        
 		this.errMsgList = new ArrayList<String>();
 	}
@@ -61,7 +57,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 			ODMLogger.getLogger().info("Parse input stream and create the parser object");
 			this.parser = parseInputFile(din);
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
 			e.printStackTrace();
 			return false;
@@ -76,7 +72,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 			ODMLogger.getLogger().info("Parse input file and create the parser object, " + filename);
 			return parseInputStream(stream);
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
 			e.printStackTrace();
 			return false;
@@ -97,7 +93,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 				}
 			});
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
 			e.printStackTrace();
 			return false;
@@ -122,11 +118,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	
 	public void logErr(String msg) {
 		this.status = false;
-		logger.severe(msg);
+		ODMLogger.getLogger().severe(msg);
 		this.errMsgList.add(msg);
-	}
-	
-	public Logger getLogger() {
-		return this.logger;
 	}
 }

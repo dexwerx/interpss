@@ -25,9 +25,9 @@
 package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -40,7 +40,7 @@ public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
 	public double p, q, ip, iq, g, b;
 			
-	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser, Logger logger) {
+	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser) {
 		//System.out.println("load data->" + lineStr);
 /*
 	<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <p> <q> <ip> <iq> <g> <b> /
@@ -56,7 +56,7 @@ public class LoadDataRec extends BusHeaderRec {
 	    final String busId = AbstractModelParser.BusIdPreFix+this.number;
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
-	    	logger.severe("Bus "+ busId+ " not found in the network");
+	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 

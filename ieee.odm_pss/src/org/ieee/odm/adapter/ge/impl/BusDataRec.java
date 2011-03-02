@@ -25,9 +25,9 @@
 package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
@@ -45,7 +45,7 @@ public class BusDataRec extends BusHeaderRec {
 			public int level, stisol, islnum;
 			public double latitude, longitude;
 
-	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser, Logger logger) {
+	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser) {
 /*
 		<number> <"name"> <kV> : <ty> <vs> <vt> <an> <ar> <z> <vma> <vmi> <d_in> <d_out> <projid> <level> <owner> <stisol> <latitude> <longitude> <islnum>
  
@@ -105,7 +105,7 @@ public class BusDataRec extends BusHeaderRec {
 		try {
 			busRec = parser.createAclfBus(busId, this.number);
 		} catch (Exception e) {
-			logger.severe(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}
 		busRec.setNumber(this.number);
