@@ -399,45 +399,44 @@ public class BPABusRecord {
 		return strAry;
 	}
 	
-	private static String[] getDCLineBusDataFields(final String str,BPAAdapter adapter) {
-		final String[] strAry = new String[14];
-		
-		try{
-			//Columns  1- 2   Bus type
-		    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2);			
-			//Columns  3 code for modification			
-			strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
-			//Columns 3-5   owner code
-			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
-			
-			//Columns 6-13 busName  14-17 rated voltage			
-			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
-			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
-			//Columns 18-19   zone name
-			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 20).trim();
-
-			//bridge per brckt
-			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,24, 25).trim();
-			//smooth reactor
-			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,26, 30).trim();			
-			
-			strAry[8] =ModelStringUtil.getStringReturnEmptyString(str,31, 35).trim();
-			
-			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,36, 40).trim();			
-			// Columns 38-41 pmax
-			// Columns 42-46 pmax
-			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,41, 45).trim();
-			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();		
-			//Qmax Qmin
-			strAry[12]= ModelStringUtil.getStringReturnEmptyString(str,51, 58).trim();
-			strAry[13]= ModelStringUtil.getStringReturnEmptyString(str,59, 62).trim();
-			
-		}catch (Exception e){
-			adapter.logErr("This DCLine bus data is not filled completely:   "+str);
-		}		
-		return strAry;
-	}	
-	
+//	private static String[] getDCLineBusDataFields(final String str) {
+//		final String[] strAry = new String[14];
+//		
+//		try{
+//			//Columns  1- 2   Bus type
+//		    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2);			
+//			//Columns  3 code for modification			
+//			strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
+//			//Columns 3-5   owner code
+//			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
+//			
+//			//Columns 6-13 busName  14-17 rated voltage			
+//			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+//			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+//			//Columns 18-19   zone name
+//			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 20).trim();
+//
+//			//bridge per brckt
+//			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,24, 25).trim();
+//			//smooth reactor
+//			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,26, 30).trim();			
+//			
+//			strAry[8] =ModelStringUtil.getStringReturnEmptyString(str,31, 35).trim();
+//			
+//			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,36, 40).trim();			
+//			// Columns 38-41 pmax
+//			// Columns 42-46 pmax
+//			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,41, 45).trim();
+//			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();		
+//			//Qmax Qmin
+//			strAry[12]= ModelStringUtil.getStringReturnEmptyString(str,51, 58).trim();
+//			strAry[13]= ModelStringUtil.getStringReturnEmptyString(str,59, 62).trim();
+//			
+//		}catch (Exception e){
+//			ODMLogger.getLogger().severe("This DCLine bus data is not filled completely:   "+str);
+//		}		
+//		return strAry;
+//	}	
 }
 	
 	
