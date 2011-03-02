@@ -44,7 +44,7 @@ public class PSSEV30_SegmentTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMAdapter adapter = new PSSEV30Adapter(logger);
+		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE30_SegTest.raw"));
 		//System.out.println(adapter.getModel());
 		

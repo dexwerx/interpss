@@ -53,7 +53,7 @@ public class IEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMAdapter adapter = new IeeeCDFAdapter(logger);
+		IODMAdapter adapter = new IeeeCDFAdapter();
 		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();

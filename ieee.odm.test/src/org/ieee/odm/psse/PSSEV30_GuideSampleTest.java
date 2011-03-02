@@ -45,7 +45,7 @@ public class PSSEV30_GuideSampleTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMAdapter adapter = new PSSEV30Adapter(logger);
+		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testdata/psse/PSSEV30_GuideSample.raw"));
 		
 		//System.out.println(adapter.getModel().toString());

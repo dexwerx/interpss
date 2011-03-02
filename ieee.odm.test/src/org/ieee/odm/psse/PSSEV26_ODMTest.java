@@ -49,7 +49,7 @@ public class PSSEV26_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMAdapter adapter = new PSSEV26Adapter(logger);
+		IODMAdapter adapter = new PSSEV26Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/LFModel_testV26.raw"));
 		//System.out.println(adapter.getModel());
 		

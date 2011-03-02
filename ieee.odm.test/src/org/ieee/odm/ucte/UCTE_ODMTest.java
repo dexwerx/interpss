@@ -53,7 +53,7 @@ public class UCTE_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMAdapter adapter = new UCTE_DEFAdapter(logger);
+		IODMAdapter adapter = new UCTE_DEFAdapter();
 		assertTrue(adapter.parseInputFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
