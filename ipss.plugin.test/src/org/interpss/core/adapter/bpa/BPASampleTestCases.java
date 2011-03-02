@@ -24,20 +24,29 @@
 
 package org.interpss.core.adapter.bpa;
 
+import static org.junit.Assert.assertTrue;
+
+import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
+import org.interpss.custom.IpssFileAdapter;
+import org.junit.Test;
+
+import com.interpss.common.datatype.UnitType;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class BPASampleTestCases extends PluginTestSetup {
-/*
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		IODMAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
-		assertTrue(adapter.parseInputFile("testdata/bpa/IEEE9.dat"));		
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
+				.load("testData/bpa/IEEE9.dat")
+				.getAclfNet();	
 		
-		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
-		SimuContext simuCtx = mapper.map2Model((XBeanODMModelParser)adapter.getModel());
-		AclfNetwork net = simuCtx.getAclfNet();
-		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	
@@ -50,14 +59,12 @@ public class BPASampleTestCases extends PluginTestSetup {
 
 	@Test
 	public void odmAdapterTestCase1() throws Exception {
-		IODMAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
-		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));		
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
+				.load("testData/bpa/Test009bpa.dat")
+				.getAclfNet();	
 		
-		IEEEODMMapper<XBeanODMModelParser> mapper = new IEEEODMMapper<XBeanODMModelParser>(msg);
-		SimuContext simuCtx = mapper.map2Model((XBeanODMModelParser)adapter.getModel());
-		AclfNetwork net = simuCtx.getAclfNet();
-		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, CoreCommonSpringCtx.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	
@@ -67,6 +74,5 @@ public class BPASampleTestCases extends PluginTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.7164)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.2705)<0.01);
 	}
-*/
 }
 

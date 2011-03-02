@@ -7,6 +7,7 @@ import org.interpss.contigency.N11Analysis_IEEE14BusTest;
 import org.interpss.contigency.N1Analysis_IEEE14BusTest;
 import org.interpss.contigency.N2Analysis_IEEE14BusTest;
 import org.interpss.core.aclf.IEEE14ChangeRecorderTest;
+import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
@@ -81,7 +82,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	// core file adapter
 	IEEECommonFormat_CommaTest.class,
 	IEEECommonFormatTest.class,
-	//BPASampleTestCases.class,
+	BPASampleTestCases.class,
 	UCTEFormatAusPowerTest.class,
 	//CR_UserTestCases.class,
 	//GuideSampleTestCases.class,
