@@ -2,6 +2,8 @@ package org.interpss.vstab.cpf.impl;
 
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
+import com.interpss.common.util.IpssLogger;
+
 
 public class LambdaParam {
 	/**
@@ -50,8 +52,8 @@ public class LambdaParam {
 		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update, lambda="+this.val);
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
-		System.out.println("before update lambda="+this.val);
-		double maxDeltaVal=0.05;
+		IpssLogger.getLogger().info("before update lambda="+this.val);
+		double maxDeltaVal=CPFAlgorithmImpl.DEFAULT_MAX_STEP_SIZE;// still need to test
 		double dVal=0;
 		if(Math.abs(stepSize*lfEqn.getX(n).x)>maxDeltaVal){
 			dVal=maxDeltaVal;
@@ -60,16 +62,10 @@ public class LambdaParam {
 			}
 			
 		}
-//		else if(Math.abs(stepSize*lfEqn.getX(n).x)<minDeltaVal){
-//			dVal=minDeltaVal;
-//			if(stepSize*lfEqn.getX(n).x<0){
-//				dVal=-minDeltaVal;
-//			}
-//		}
 		else dVal=stepSize*lfEqn.getX(n).x;
 		
 		this.val+=dVal;
-		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update lambda="+this.val);
+		IpssLogger.getLogger().info("calculating deltaL="+lfEqn.getX(n).x+";  actual chosen deltaL="+dVal+";  after update lambda="+this.val);
 	}
 	
 	

@@ -32,10 +32,11 @@ public class CPFSolverImpl implements CPFSolver{
 
 	@Override
 	public boolean solveCPF() {
+
 		this.iteration=0;
 		lastLFConverged=true; // as a flag
-		while(this.iteration<cpfAlgo.getMaxIterations()){
-			
+		while(this.iteration<cpfAlgo.getCPFMaxInteration()){
+			 IpssLogger.getLogger().info("CPF analysis Itr:"+this.iteration);
 			/*
 			 * change continuation parameter after three iterations 
 			 * or last corrector step not converged.
@@ -45,9 +46,15 @@ public class CPFSolverImpl implements CPFSolver{
 				 IpssLogger.getLogger().info("change continuation parameter, last is #"+this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
 				this.setSorNumofContParam(getNextStepContParam()); 
 			}
-			// run preStepSolver and update network buses' voltage with solved result;
+			
+		  // run preStepSolver and update network buses' voltage with solved result;
+			
 		  this.predStepSolver.stepSolver();
-	  
+	      /*
+	       * output the deltaX for test
+	       */
+		  System.out.println("predictive deltaXL"+this.predStepSolver.getDeltaXLambda().toString());
+		  
 		  //perform corrector step analysis
 		  LoadflowAlgorithm algo=CoreObjectFactory.createLoadflowAlgorithm();
 		  algo.setTolerance(this.cpfAlgo.getPflowTolerance());
@@ -67,6 +74,7 @@ public class CPFSolverImpl implements CPFSolver{
 		  }
 		  else if(isCpfStopCriteriaMeet()){
 			  IpssLogger.getLogger().info("one analysis Stop Criteria is meeted,CPF analysis end!");
+			  return true;
 		  }
 		  this.iteration++;
 		  this.lastLFConverged=this.cpfAlgo.getAclfNetwork().isLfConverged();

@@ -1,17 +1,15 @@
 package org.interpss.vstab.cpf.impl;
 
+import org.interpss.numeric.datatype.LimitType;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
-import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.impl.LoadflowAlgorithmImpl;
-import com.interpss.core.common.visitor.IAclfBranchVisitor;
-import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 /**
@@ -24,9 +22,9 @@ import com.interpss.core.net.Bus;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
     
-	public final double DEFAULT_MAX_STEP_SIZE=0.1;// to control the max step increase/decrease
+	public static final double DEFAULT_MAX_STEP_SIZE=0.01;// to control the max step increase/decrease
     protected double maxStepSize=DEFAULT_MAX_STEP_SIZE;
-    public final double DEFAULT_MIN_STEP_SIZE=0.001;// to control the max step increase/decrease
+    public static final double DEFAULT_MIN_STEP_SIZE=0.0001;// to control the max step increase/decrease
     protected double minStepSize=DEFAULT_MIN_STEP_SIZE;
     public final double DEFAULT_PF_TOLEARANCE=1e-3;
    
@@ -37,8 +35,8 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     public final int DEFAULT_PF_MAX_ITERATIONS=10;
     private int maxPFIterations=DEFAULT_PF_MAX_ITERATIONS;
 
-    public final double DEFAULT_STEP_SIZE=0.05;  // deault step size;
-    private double stepSize=0.05;
+    public final double DEFAULT_STEP_SIZE=0.02;  // deault step size;
+    private double stepSize=0.02;
     protected AnalysisStopCriteria stopCriteria=null;
     
     protected GenDispatch genDispatch=null;
@@ -50,10 +48,11 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     private boolean disableBusVViolChk=false;
     public CPFAlgorithmImpl (AclfNetwork net, LambdaParam lambda,LoadIncrease loadInc,GenDispatch genDisp) {
     	this.setAclfNetwork(net);
-		this.cpfHelper=new CpfHelper(net,loadInc.getPattern());
+//		this.cpfHelper=new CpfHelper(this);
         this.ldInc=loadInc;
-        this.cpfSolver=new CPFSolverImpl(this,lambda);
         this.genDispatch=genDisp;
+        this.cpfSolver=new CPFSolverImpl(this,lambda);
+        
     }
     
 	@Override
@@ -65,6 +64,14 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 
 	@Override
 	public boolean runCPF() {
+		if(!this.getAclfNetwork().isDataChecked()){
+			this.checkData();
+		}
+	      if ((!(getAclfNetwork().checkData())) && 
+	    	     (!(getAclfNetwork().isBypassDataCheck()))) {
+	    	      IpssLogger.getLogger().severe("Data checking error, exit CPF analysis");
+	    	      return false;
+	      }
 		return cpfSolver.solveCPF();
 		
 	}
@@ -263,6 +270,52 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public void setPfMaxInteration(int maxPowerflowItr) {
 		this.maxPFIterations=maxPowerflowItr;
 		
+	}
+
+	@Override
+	public boolean checkDataForCPF() {
+		boolean pass=super.checkData();
+		if(!checkGenPLimitData()) pass=false;
+		if(!checkLoadInceaseData()) pass=false;
+		if(!checkGenDispData()) pass=false;
+		return pass;
+		
+	}
+	private boolean checkGenPLimitData(){
+		boolean pass=true;
+		for(int i=0;i<this.getAclfNetwork().getBusList().size();i++){
+			AclfBus bus=(AclfBus)this.getAclfNetwork().getBusList().get(i);
+			if(bus.isGenPV()){// only PV bus is considered here
+				
+				if(bus.getPGenLimit()==null){
+	
+					IpssLogger.getLogger().severe("There is no PGenLimit defined in bus:"+bus.getId()
+							+" ,assume +/-20% reservation in the following process.");
+					bus.setPGenLimit(new LimitType(bus.getGenP()*1.2,bus.getGenP()*0.8)); // assume there is 20% generation reservation by default;
+				   pass=false;
+				}
+			}
+			
+		}
+		return pass;
+	}
+	
+	private boolean checkLoadInceaseData(){
+		boolean pass=true;
+		if(this.ldInc.getPattern().getLoadIncDir()==null) {
+			IpssLogger.getLogger().severe("Load Increase direction data is NOT found! Please check");
+			pass=false;
+		}
+		return pass;
+	}
+	
+	private boolean checkGenDispData(){
+		boolean pass=true;
+		if(this.genDispatch.getPattern().getGenDirection()==null) {
+			IpssLogger.getLogger().severe("Gen re-dispatching direction data is NOT found! Please check");
+			pass=false;
+		}
+		return pass;
 	}
 
 

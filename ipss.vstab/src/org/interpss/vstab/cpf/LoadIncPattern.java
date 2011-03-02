@@ -62,6 +62,9 @@ public class LoadIncPattern {
 	
 	/*
 	 * LoadIncType : to define how the would-be-increased load(s) increase demand
+	 * CONST_PF: constant power factor
+	 * ONLY_P: only active power changes
+	 * ONLY_Q: only reactive power changes
 	 */
 	public static enum LoadIncType{CONST_PF,ONLY_P,ONLY_Q};
 	

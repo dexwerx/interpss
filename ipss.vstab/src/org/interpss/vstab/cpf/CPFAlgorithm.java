@@ -189,5 +189,12 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
 	 * @param booleanParam
 	 */
 	public void disableBusVViolChk(boolean booleanParam);
+	/**
+	 * check the data needed in CPF analysis; such as GenPLimit, GenQlimit
+	 */
+	public boolean checkDataForCPF();
+	
+	
+
 
 }

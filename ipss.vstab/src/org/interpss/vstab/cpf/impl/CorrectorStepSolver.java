@@ -21,13 +21,11 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 	public CorrectorStepSolver(CPFAlgorithm cpfAlgo) {
 		super(cpfAlgo.getAclfNetwork());
 		this.cpf=cpfAlgo;
-		this.cpfHelper=cpf.getCpfHelper();
 		this.ldInc=cpfAlgo.getLoadIncrease();
 	}
 	@Override
 	public SparseEqnMatrix2x2 formJMatrix() {
-		cpfHelper.setSortNumOfContParam(cpf.getCpfSolver().getSortNumOfContParam());
-
+		this.cpfHelper=new CpfHelper(cpf);
 		SparseEqnMatrix2x2 lfEqn=cpfHelper.formAugmJacobiMatrix();
 
 		return lfEqn;
@@ -51,7 +49,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 
 		ldInc.increaseLoad(this.cpf.getCpfSolver().getLambda().getValue());
 		// generation dispatching to meet the power mismatch
-		this.cpf.getGenDispatch().genDispByResvProp(ldInc.getDeltaSumOfLoad());
+		this.cpf.getGenDispatch().dispatchGen(this.cpf.getCpfSolver().getLambda().getValue());
 
 		super.setPowerMismatch(lfEqn);
 		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
@@ -67,17 +65,17 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		// update the bus voltage using the solution results store in the sparse eqn
 		super.updateBusVoltage(lfEqn);
 		
-		// the solution result of the extra variable defined is stored at B(n+1)  
+		// the solution result of the extra variable defined is stored at B(n+1)
         this.cpf.getCpfSolver().getLambda().update(lfEqn, 1);// is a factor needed for update?
    
-        // output the B vector for test
-        System.out.println("-------Delta X( theta, Vmag)-------");
-        VstabFuncOut.printBVector(getAclfNet(), lfEqn);
-        System.out.println("-------After update-------");
-        for(Bus b:this.getAclfNet().getBusList()){
-        	AclfBus bus=(AclfBus) b;
-        	System.out.println("busId: "+bus.getId()+", ang ="+bus.getVoltageAng()+"mag="+bus.getVoltageMag());
-        }
+//        // output the B vector for test
+//        System.out.println("-------Delta X( theta, Vmag)-------");
+//        VstabFuncOut.printBVector(getAclfNet(), lfEqn);
+//        System.out.println("-------After update-------");
+//        for(Bus b:this.getAclfNet().getBusList()){
+//        	AclfBus bus=(AclfBus) b;
+//        	System.out.println("busId: "+bus.getId()+", ang ="+bus.getVoltageAng()+"mag="+bus.getVoltageMag());
+//        }
 	}
 
 	

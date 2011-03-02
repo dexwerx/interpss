@@ -11,6 +11,8 @@ import org.apache.commons.math.linear.RealVector;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+import org.interpss.vstab.cpf.CPFAlgorithm;
+import org.interpss.vstab.cpf.GenDispPattern;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.util.VstabFuncOut;
 
@@ -25,16 +27,19 @@ public class CpfHelper {
 	private RealVector deltaX_Lambda=null;
 	private RealVector corrResult=null;
 	private LoadIncPattern loadIncPtn=null;
+	private GenDispPattern genDispPtn=null;
 	private Hashtable<String,Complex> ldIncDirTbl=null;
+	private Hashtable<String,Double> genDirTbl=null;
 	private final int DEFAULT_CONT_PARA_SORTNUM=0;
 	private int contParaSortNum=DEFAULT_CONT_PARA_SORTNUM;
 	private int iterationCount=0;
 	private AclfNetwork net=null;
-	public CpfHelper(AclfNetwork net,LoadIncPattern ldIncPtn){
-		this.net=net;
-		this.contParaSortNum=this.net.getNoBus(); //choose Lambda as the continuation parameter by default
-		this.loadIncPtn=ldIncPtn;
-		this.ldIncDirTbl=ldIncPtn.getLoadIncDir();
+	public CpfHelper(CPFAlgorithm algo){
+		this.net=algo.getAclfNetwork();
+		this.contParaSortNum=algo.getCpfSolver().getSortNumOfContParam(); //choose Lambda as the continuation parameter by default
+		this.loadIncPtn=algo.getLoadIncrease().getPattern();
+		this.genDispPtn=algo.getGenDispatch().getPattern();
+		this.ldIncDirTbl=loadIncPtn.getLoadIncDir();
 	}
 
 	public SparseEqnMatrix2x2 formAugmJacobiMatrix() {
@@ -62,6 +67,11 @@ public class CpfHelper {
 		   		}
 		   		
 		   	}
+		   	if(this.genDispPtn.getGenDirection().containsKey(b.getId())){
+		   		Matrix_xy m=new Matrix_xy();
+		   		m.xx=-this.genDispPtn.getGenDirection().get(b.getId()); // -GenP
+		   		   lfEqn.addToA(m, b.getSortNumber(), n);
+		   	}
 		   	
 		   }
 		   Matrix_xy ek=new Matrix_xy();
@@ -77,19 +87,12 @@ public class CpfHelper {
 			   lfEqn.addToA(m_lambda, n, n);
 			   
 		   }
-		  // print J-matrix
-		    VstabFuncOut.printJmatix(lfEqn,6,2);
+//		  // print J-matrix
+//		    VstabFuncOut.printJmatix(lfEqn,6,2);
 		   return lfEqn;
 	}
 
     
-	public Complex getLoadIncDirection(String busId) {
-		// To do
-		
-		return null;
-		
-		
-	}
     
 	public Hashtable<String,Complex> getLdIncDirTbl() {
 		if(this.loadIncPtn!=null)

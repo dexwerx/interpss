@@ -40,7 +40,6 @@ public class PredictorStepSolver {
 	public PredictorStepSolver(CPFAlgorithm cpfAlgo) {
 
 		this.cpf=cpfAlgo;
-		this.cpfHelper=cpfAlgo.getCpfHelper();
 		this.deltaX_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()*2+1); // swing bus is included
 	    this.deltaV=new ArrayRealVector(cpf.getAclfNetwork().getNoBus());
 	    stepSize=cpfAlgo.getStepSize();
@@ -97,10 +96,11 @@ public class PredictorStepSolver {
     	this.cpf.getCpfSolver().getLambda().update(augmentedJacobi, actualStep); //update lambda
     }
 	/**
-	 * calculate the tangent vector
+	 * calculate the tangent vector [delta_X,delta_Lambda]
 	 * @return
 	 */
     private boolean calDeltaPredResult() {
+	this.cpfHelper=new CpfHelper(cpf);
     this.cpfHelper.setSortNumOfContParam(this.cpf.getCpfSolver().getSortNumOfContParam());
     
    	this.augmentedJacobi=cpfHelper.formAugmJacobiMatrix();
@@ -111,7 +111,7 @@ public class PredictorStepSolver {
     int signOfcontPara=getContParaSign();  
     this.augmentedJacobi.setB(new Complex(signOfcontPara,0),this.cpf.getCpfSolver().getLambda().getPosition());
 
-     // solve Jau*[dx,dLamda]T=[0,+-1]
+     // solve Jau*[dx;dLamda]=[0;+-1]
      
     try {
 		if (!this.augmentedJacobi.luMatrixAndSolveEqn(this.tolerance)) {
@@ -141,8 +141,11 @@ public class PredictorStepSolver {
     	return this.isCrossMPP=false;
     }
     private int getContParaSign() {
-    	if(isCrossMaxPwrPnt()) {
+    	if(isCrossMaxPwrPnt()&&this.cpf.getCpfSolver().isLmdaContParam()) {
     		return  -1;
+    	}
+    	else if(!this.cpf.getCpfSolver().isLmdaContParam()){
+    		return -1;
     	}
     	else return +1;
     }
