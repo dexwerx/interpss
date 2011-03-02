@@ -157,7 +157,7 @@
 		</complexContent>
 	</complexType>
 
-	<!--  
+<!--  
 		Bus objects
  -->	
 	<complexType name="LoadflowBusXmlType">
