@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFAdapter.java   
+ * @(#)BPAAdapter.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
@@ -19,6 +19,8 @@
  * 
  *   Revision History
  *   ================
+ *   
+ *   modified for Jaxb Mike Zhou 02/28/2011
  *
  */
 
@@ -51,7 +53,6 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	public final static String Token_ProjectName = "Original Project Name";
 	public final static String Token_CaseId = "Case Identification";
 	public final static String Token_BN="Bus Name";
-	private static final String Token_Id = "No";
 	
 	private ObjectFactory factory = null;
 

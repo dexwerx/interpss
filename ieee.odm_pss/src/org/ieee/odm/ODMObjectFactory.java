@@ -25,13 +25,13 @@
 package org.ieee.odm;
 
 import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.model.dc.DcSystemModelParser;
@@ -81,6 +81,8 @@ public class ODMObjectFactory {
 			return new GE_PSLF_Adapter();
 		else if ( f == ODMFileFormatEnum.UCTE ) 
 			return new UCTE_DEFAdapter();
+		else if ( f == ODMFileFormatEnum.BPA ) 
+			return new BPAAdapter();
 		
 		throw new ODMException("Error - unkown ODM file type");
 	}
