@@ -8,7 +8,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.1.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-common-2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-sqlmap-2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>

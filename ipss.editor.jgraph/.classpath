@@ -5,7 +5,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.1.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry kind="output" path="runtime"/>
