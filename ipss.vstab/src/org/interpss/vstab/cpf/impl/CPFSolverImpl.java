@@ -43,7 +43,7 @@ public class CPFSolverImpl implements CPFSolver{
 			 */
 		
 			if(this.iteration>3||!this.lastLFConverged){
-				 IpssLogger.getLogger().info("change continuation parameter, last is #"+this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
+				 IpssLogger.getLogger().info("change continuation parameter, last sort Number is #"+this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
 				this.setSorNumofContParam(getNextStepContParam()); 
 			}
 			

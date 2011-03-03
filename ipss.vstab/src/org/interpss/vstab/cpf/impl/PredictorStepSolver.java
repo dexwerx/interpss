@@ -8,6 +8,7 @@ import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.net.Bus;
@@ -110,7 +111,7 @@ public class PredictorStepSolver {
    	
     int signOfcontPara=getContParaSign();  
     this.augmentedJacobi.setB(new Complex(signOfcontPara,0),this.cpf.getCpfSolver().getLambda().getPosition());
-
+    System.out.print("");
      // solve Jau*[dx;dLamda]=[0;+-1]
      
     try {
@@ -161,6 +162,9 @@ public class PredictorStepSolver {
             i=b.getSortNumber();// sort number is still ranging between 1->n,while SparseEqn is indexed 0->n-1
             Vector_xy dv=this.augmentedJacobi.getX(i);   
             this.deltaX_Lambda.setEntry(2*i, dv.x);  // dv.x->Vang;
+            if(((AclfBus)b).isGenPV()||((AclfBus)b).isSwing()){
+            	dv.y=0;
+            }
             this.deltaX_Lambda.setEntry(2*i+1, dv.y); //dv.y->Vmag;
             this.deltaV.setEntry(i, dv.y);
         }

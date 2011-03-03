@@ -22,7 +22,7 @@ import com.interpss.core.net.Bus;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
     
-	public static final double DEFAULT_MAX_STEP_SIZE=0.01;// to control the max step increase/decrease
+	public static final double DEFAULT_MAX_STEP_SIZE=0.02;// to control the max step increase/decrease
     protected double maxStepSize=DEFAULT_MAX_STEP_SIZE;
     public static final double DEFAULT_MIN_STEP_SIZE=0.0001;// to control the max step increase/decrease
     protected double minStepSize=DEFAULT_MIN_STEP_SIZE;

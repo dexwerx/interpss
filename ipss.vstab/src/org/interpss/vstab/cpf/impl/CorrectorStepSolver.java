@@ -52,8 +52,8 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		this.cpf.getGenDispatch().dispatchGen(this.cpf.getCpfSolver().getLambda().getValue());
 
 		super.setPowerMismatch(lfEqn);
-		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
-		VstabFuncOut.printBVector(getAclfNet(), lfEqn);
+//		System.out.println("-------power mismatch( deltaP, deltaQ)-------");
+//		VstabFuncOut.printBVector(getAclfNet(), lfEqn);
 	}
 
 	@Override
