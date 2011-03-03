@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm_pss.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm_pss.schemas.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor_simu.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
