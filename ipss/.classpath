@@ -8,7 +8,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-common-2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-sqlmap-2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
-	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.1.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
