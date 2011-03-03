@@ -5,7 +5,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/chart/jcommon-1.0.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/chart/jfreechart-1.0.0-rc2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
-	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.1.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
