@@ -25,7 +25,7 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar" sourcepath="G:/Software/java/commons-math-2.1-src.zip"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.jar"/>
