@@ -5,8 +5,9 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
+import org.interpss.vstab.cpf.GenDispPattern;
 import org.interpss.vstab.cpf.LoadIncPattern;
-import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
+import org.interpss.vstab.cpf.GenDispPattern.Pattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.cpf.impl.GenDispatch;
@@ -40,8 +41,8 @@ public class PreSolverTest extends DevTestSetup {
 	assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
 	
 	// define gen dispatch
-	
-	GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
+	GenDispPattern pattern=new GenDispPattern(net, Pattern.BASE_CASE_DIR);
+	GenDispatch genDisp=new GenDispatch(net, pattern);
 	
     // create the cpf algorithm;
 	
@@ -57,7 +58,7 @@ public class PreSolverTest extends DevTestSetup {
 
 	System.out.println("X(0)="+preSolver.getDeltaXLambda().getEntry(0));// output the result;
 
-	assertTrue((Math.abs(preSolver.getDeltaXLambda().getEntry(0)-(-0.73935)))<1e-5); // bus4 delta Vang
+	assertTrue((Math.abs(preSolver.getDeltaXLambda().getEntry(0)-(0.46385)))<1e-4); // bus4 delta Vang
 	assertTrue(Math.abs((preSolver.getDeltaXLambda().getEntry(10)-(1.0)))<1e-9);      // Delta_Lambda=1
 	
 	// check step size
@@ -66,7 +67,7 @@ public class PreSolverTest extends DevTestSetup {
 	// check predictive result;
 	double v1=cpfAlgo.getAclfNetwork().getAclfBus("4").getVoltageAng(); 
 	System.out.println("after: bus4 Vang="+cpfAlgo.getAclfNetwork().getAclfBus("4").getVoltageAng());
-	assertTrue(Math.abs(v1-v0-(-0.73935)*cpfAlgo.getStepSize())<1e-5);
+	assertTrue(Math.abs(v1-v0-(0.4638)*cpfAlgo.getStepSize())<1e-3);
 
 	}
 
@@ -87,7 +88,8 @@ public class PreSolverTest extends DevTestSetup {
 		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
 		assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
 		// define gen dispatch
-		GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
+		GenDispPattern pattern=new GenDispPattern(net, Pattern.BASE_CASE_DIR);
+		GenDispatch genDisp=new GenDispatch(net, pattern);
 	    // create the cpf algorithm;
 		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
 		assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==5);

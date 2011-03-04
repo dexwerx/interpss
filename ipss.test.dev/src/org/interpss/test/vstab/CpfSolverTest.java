@@ -2,39 +2,19 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.vstab.VStabObjectFactory;
+import org.interpss.display.AclfOutFunc;
+import org.interpss.test.DevTestSetup;
+import org.interpss.test.vstab.TestCaseFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
-import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
-import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
-import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
-import org.interpss.vstab.cpf.impl.GenDispatch;
-import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.simu.util.sample.SampleCases;
+public class CpfSolverTest extends DevTestSetup {
 
-public class CpfSolverTest {
-//
 //	@Test
-//	public void testCpfSolver_OneStep(){
-//		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-//		SampleCases.load_LF_5BusSystem(net);
-//	    
-//		//define load Increase;
-//		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
-//		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
-//		assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
-//		// define gen dispatch
-//		GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
-//	    // create the cpf algorithm;
-//		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
-//		
-//		assertTrue(cpfAlgo.getCpfSolver().getSortNumOfContParam()==5);
-//		
+//	public void ieee005_testCpfSolver_OneStep() throws Exception{
+//
+//		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee005");
 //		
 //		assertTrue(cpfAlgo.getCpfSolver().predictorStep()); // test predictor step;
 //
@@ -42,22 +22,37 @@ public class CpfSolverTest {
 //		assertTrue(cpfAlgo.getCpfSolver().correctorStep()); // corrector step right after predictor step 
 ////		System.out.println("after corrector: bus 1 vang="+cpfAlgo.getAclfNetwork().getAclfBus("1").getVoltageAng());
 //	}
+	
+//	@Test
+//	public void ieee005_testCpfSolver_Loop() throws Exception{
+//
+//		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee005");
+//		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
+//		cpfAlgo.setCPFMaxInteration(45);
+//		assertTrue(cpfAlgo.runCPF());
+//		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
+//		
+//	}
 	@Test
-	public void testCpfSolver_Loop(){
-		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-		SampleCases.load_LF_5BusSystem(net);
-	    
-		//define load Increase;
-		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
-		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
-		assertTrue(ldInc.getPattern().getLoadIncDir().size()==3);
-		// define gen dispatch
-		GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
-	    // create the cpf algorithm;
-		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
+	public void ieee039_testCpfSolver_Loop() throws Exception{
+
+		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee039");
 		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
-		cpfAlgo.setMaxIterations(5);
-		assertTrue(cpfAlgo.getCpfSolver().solveCPF());
+		cpfAlgo.setCPFMaxInteration(27);
+		cpfAlgo.setPflowTolerance(0.01);
+		assertTrue(cpfAlgo.runCPF());
+		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
 		
 	}
+//	@Test
+//	public void ieee030_testCpfSolver_Loop() throws Exception{
+//
+//		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee30");
+//		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
+//		cpfAlgo.setCPFMaxInteration(2);
+//		assertTrue(cpfAlgo.runCPF());
+//		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
+//		
+//	}
+	
 }

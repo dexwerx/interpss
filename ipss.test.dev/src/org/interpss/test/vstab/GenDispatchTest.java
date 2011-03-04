@@ -3,8 +3,9 @@ package org.interpss.test.vstab;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.vstab.VStabObjectFactory;
+import org.interpss.vstab.cpf.GenDispPattern;
 import org.interpss.vstab.cpf.LoadIncPattern;
-import org.interpss.vstab.cpf.GenDispPattern.GenDispPtn;
+import org.interpss.vstab.cpf.GenDispPattern.Pattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.cpf.impl.GenDispatch;
@@ -30,10 +31,11 @@ public class GenDispatchTest {
         assertTrue(ldInc.getDeltaSumOfLoad()-7.3*0.1<1e-6);
         
         // gen redispatch to balance the load increase
+		// define gen dispatch
+		GenDispPattern pattern=new GenDispPattern(net, Pattern.BASE_CASE_DIR);        
+        GenDispatch genDisp=new GenDispatch(net, pattern);
         
-        GenDispatch genDisp=new GenDispatch(net, GenDispPtn.RESERVE_PROPORTION);
-        
-        genDisp.genDispByResvProp(ldInc.getDeltaSumOfLoad());
+        genDisp.dispatchGen(0.1);
         
         assertTrue(net.getAclfBus("4").getGenP()-origGenP-7.3*0.1<1e-6); // deltaP=7.3*0.1
 	}

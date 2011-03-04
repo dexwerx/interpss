@@ -18,7 +18,7 @@ import com.interpss.core.aclf.AclfNetwork;
 public class CutomLFTest extends DevTestSetup {
 	@Test
 	public void testCase1() throws InterpssException{
-		IODMAdapter adapter= new IeeeCDFAdapter();
+		IODMAdapter adapter= new IeeeCDFAdapter(null);
 		assertTrue(adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee"));// error with 005ieee.ieee
 		AclfNetwork net=PluginSpringCtx
 		                .getOdm2AclfMapper()
