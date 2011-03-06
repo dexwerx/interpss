@@ -42,10 +42,12 @@ public class GenDispatch {
       for(String id:genDispDirection.keySet()){
     	  AclfBus bus=this.net.getAclfBus(id);
     	  double genP=this.genP0.get(id)+lambda*this.genDispDirection.get(id);
-    	  if(genP>bus.getPGenLimit().getMax())genP=bus.getPGenLimit().getMax();
-    	  bus.setGenP(genP);
+    	  if(genP>bus.getPGenLimit().getMax()){
+    		  genP=bus.getPGenLimit().getMax();
+    		  bus.setGenP(genP);
+    	  }
     	  
-    	  System.out.println("gen Bus#"+bus.getNumber()+":  active power output="+genP);
+//    	  System.out.println("gen Bus#"+bus.getNumber()+":  active power output="+genP);
       }
 	}
     
@@ -55,7 +57,7 @@ public class GenDispatch {
 
 	/**
 	 * to perform generation dispatching with distributed slack buses, each with
-	 * its distributed factor df_i, make sure sum(all{df_i})=1
+	 * its distributed factor df_i, and make sure that sum(all{df_i})=1
 	 * 
 	 * @param distFactor
 	 */

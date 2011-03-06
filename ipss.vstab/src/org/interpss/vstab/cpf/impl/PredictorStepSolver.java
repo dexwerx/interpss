@@ -44,6 +44,7 @@ public class PredictorStepSolver {
 		this.deltaX_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()*2+1); // swing bus is included
 	    this.deltaV=new ArrayRealVector(cpf.getAclfNetwork().getNoBus());
 	    stepSize=cpfAlgo.getStepSize();
+
 	}
 	/**
 	 * Solver operation, overrides the same method of AbstractStepSolver 
@@ -68,17 +69,24 @@ public class PredictorStepSolver {
 	 */
 
     public void updateBusVoltage() {
+    	double x=0;
+		if(!isStepSizeControl()) {
 		double maxStep=this.cpf.getMaxStepSize()/this.getDeltaV().getLInfNorm();
-		double x =Math.min(maxStep,this.stepSize);
-		this.cpf.setStepSize(x);
-		
-		if(isStepSizeControl()) {
-			x=this.stepSize-this.oldStepSize;
+		if(!this.cpf.getCpfSolver().isLmdaContParam()){
+			if(Math.abs(this.deltaLambda)>this.getDeltaV().getLInfNorm()){ // often this statement is true;
+				double maxDltL=this.cpf.getMaxStepSize()/Math.abs(this.deltaLambda);
+				maxStep=Math.min(maxStep, maxDltL);
+			}
 		}
+		x =Math.min(maxStep,this.stepSize);
+		this.cpf.setStepSize(x);
+		}
+   		
+		else x=this.stepSize;
         
 		final double actualStep=x;
+		IpssLogger.getLogger().info("Predictive step, actual size="+x);
     	this.cpf.getAclfNetwork().forEachAclfBus(new IAclfBusVisitor() {
-
 
 			public void visit(AclfBus bus) {
 			  if((!bus.isSwing())&bus.isActive()) {
@@ -206,6 +214,7 @@ public class PredictorStepSolver {
     public ArrayRealVector getDeltaV() {
     	return this.deltaV;
     }
+
 
 
 

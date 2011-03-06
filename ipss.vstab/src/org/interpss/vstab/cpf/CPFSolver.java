@@ -50,6 +50,10 @@ public interface CPFSolver {
      * @return the flag whether lambda parameter is the continuation parameter;
      */
     public boolean isLmdaContParam();
+    
+    public void backToLastConvgState();
+    
+    
 
 }
 

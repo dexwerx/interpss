@@ -22,8 +22,10 @@ import com.interpss.core.net.Bus;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
     
-	public static final double DEFAULT_MAX_STEP_SIZE=0.02;// to control the max step increase/decrease
+	public static final double DEFAULT_MAX_STEP_SIZE=0.01;// to control the max step increase/decrease
     protected double maxStepSize=DEFAULT_MAX_STEP_SIZE;
+    public static final double DEFAULT_MAX_DELTA_LAMBDA=0.05;
+    protected double maxDeltaLambda=DEFAULT_MAX_DELTA_LAMBDA;
     public static final double DEFAULT_MIN_STEP_SIZE=0.0001;// to control the max step increase/decrease
     protected double minStepSize=DEFAULT_MIN_STEP_SIZE;
     public final double DEFAULT_PF_TOLEARANCE=1e-3;
@@ -270,6 +272,14 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
 	public void setPfMaxInteration(int maxPowerflowItr) {
 		this.maxPFIterations=maxPowerflowItr;
 		
+	}
+
+	public double getMaxDeltaLambda() {
+		return maxDeltaLambda;
+	}
+
+	public void setMaxDeltaLambda(double maxDeltaLambda) {
+		this.maxDeltaLambda = maxDeltaLambda;
 	}
 
 	@Override

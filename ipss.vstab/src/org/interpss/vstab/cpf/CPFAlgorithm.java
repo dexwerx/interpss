@@ -172,6 +172,16 @@ public interface CPFAlgorithm extends LoadflowAlgorithm{
 	 */
 	public String[] getDisplayPQBus();
 	/**
+	 * 
+	 * @return the max step size allowed for loading index(Lambda parameter) update;
+	 */
+	public double getMaxDeltaLambda() ;
+   /**
+    * set the max step size allowed for loading index(Lambda parameter)update;
+    * @param maxDeltaLambda
+    */
+	public void setMaxDeltaLambda(double maxDeltaLambda);
+	/**
 	 * set TRUE to disable All Violation Checking while tracing PV curve; 
 	 * otherwise set FALSE.
 	 * @param booleanParam

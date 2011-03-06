@@ -7,7 +7,9 @@ import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.net.Bus;
 
 public class CPFSolverImpl implements CPFSolver{
 
@@ -20,6 +22,11 @@ public class CPFSolverImpl implements CPFSolver{
 	private int sortNumOfContPara=0;
 	private int iteration=0;
     private boolean lastLFConverged=true;
+    
+    private double[] convg_angle=null;
+    private double[] convg_Vmag=null;
+    private double  convg_lambda=0;
+    
     
 	public CPFSolverImpl(CPFAlgorithm cpf,LambdaParam newLambda) {
 		this.cpfAlgo=cpf;
@@ -43,7 +50,7 @@ public class CPFSolverImpl implements CPFSolver{
 			 */
 		
 			if(this.iteration>3||!this.lastLFConverged){
-				 IpssLogger.getLogger().info("change continuation parameter, last sort Number is #"+this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
+				 IpssLogger.getLogger().info("update continuation parameter, last sort Number is #"+this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
 				this.setSorNumofContParam(getNextStepContParam()); 
 			}
 			
@@ -59,7 +66,7 @@ public class CPFSolverImpl implements CPFSolver{
 		  LoadflowAlgorithm algo=CoreObjectFactory.createLoadflowAlgorithm();
 		  algo.setTolerance(this.cpfAlgo.getPflowTolerance());
 		  algo.setMaxIterations(this.cpfAlgo.getPfMaxInteration());
-		// corrector step solver is just a customized Newton-Raphson solver;
+		  // corrector step solver is just a customized Newton-Raphson solver;
 		  algo.setNrSolver(this.corrStepSolver);
 		
 		  if(!this.cpfAlgo.getAclfNetwork().accept(algo)){// if corrector step is not converged
@@ -68,14 +75,18 @@ public class CPFSolverImpl implements CPFSolver{
 				  IpssLogger.getLogger().severe("predictor step size ="+this.cpfAlgo.getStepSize()+",  is small enough,yet convergance problems still remains!");
 				  return false;
 			  }
-			// step size control in the following step if corr-step is not converged!
+			// step size control in the following step if this corrector step is not converged!
 			  this.predStepSolver.enableStepSizeControl(true);
+			  this.backToLastConvgState(); // back to the last converged state;
 			  IpssLogger.getLogger().warning("the previous Predictor step-size seems to be too large, need to be controlled");
 		  }
 		  else if(isCpfStopCriteriaMeet()){
 			  IpssLogger.getLogger().info("one analysis Stop Criteria is meeted,CPF analysis end!");
 			  return true;
 		  }
+		  // save the last converged network state
+		  this.saveConvgState();
+		  
 		  this.iteration++;
 		  this.lastLFConverged=this.cpfAlgo.getAclfNetwork().isLfConverged();
 		}
@@ -165,6 +176,35 @@ public class CPFSolverImpl implements CPFSolver{
     	return temp.getMaxIndex();
     	
     }
+
+
+	@Override
+	public void backToLastConvgState() {
+		this.getLambda().setValue(this.convg_lambda);
+		int cnt=0;
+		for(Bus b:this.cpfAlgo.getAclfNetwork().getBusList()){
+			AclfBus bus=(AclfBus) b;
+			bus.setVoltageAng(this.convg_angle[cnt]);
+			bus.setVoltageMag(this.convg_Vmag[cnt]);
+			cnt++;
+		}
+		
+	}
+	private void saveConvgState(){
+		
+		int n=this.cpfAlgo.getAclfNetwork().getNoBus();
+		this.convg_angle=new double[n];
+		this.convg_Vmag=new  double[n];
+		this.convg_lambda=this.getLambda().getValue();
+		
+		int cnt=0;
+		for(Bus b:this.cpfAlgo.getAclfNetwork().getBusList()){
+			AclfBus bus=(AclfBus) b;
+			this.convg_angle[cnt]=bus.getVoltageAng();
+			this.convg_Vmag[cnt]=bus.getVoltageMag();
+			cnt++;
+		}
+	}
 	
 
 }
