@@ -12,13 +12,12 @@ import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 
 public class CutomLFTest extends DevTestSetup {
 	@Test
 	public void testCase1() throws InterpssException{
-		IODMAdapter adapter= new IeeeCDFAdapter(null);
+		IODMAdapter adapter= new IeeeCDFAdapter();
 		assertTrue(adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee"));// error with 005ieee.ieee
 		AclfNetwork net=PluginSpringCtx
 		                .getOdm2AclfMapper()
