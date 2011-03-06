@@ -23,23 +23,23 @@ public class CpfSolverTest extends DevTestSetup {
 ////		System.out.println("after corrector: bus 1 vang="+cpfAlgo.getAclfNetwork().getAclfBus("1").getVoltageAng());
 //	}
 	
-//	@Test
-//	public void ieee005_testCpfSolver_Loop() throws Exception{
-//
-//		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee005");
-//		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
-//		cpfAlgo.setCPFMaxInteration(45);
-//		assertTrue(cpfAlgo.runCPF());
-//		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
-//		
-//	}
+	@Test
+	public void ieee005_testCpfSolver_Loop() throws Exception{
+
+		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee005");
+		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
+		cpfAlgo.setCPFMaxInteration(50);
+		assertTrue(cpfAlgo.runCPF());
+		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
+		
+	}
 	@Test
 	public void ieee039_testCpfSolver_Loop() throws Exception{
 
 		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee039");
 		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
-		cpfAlgo.setCPFMaxInteration(27);
-		cpfAlgo.setPflowTolerance(0.01);
+		cpfAlgo.setCPFMaxInteration(100);
+		cpfAlgo.setPflowTolerance(0.001);
 		assertTrue(cpfAlgo.runCPF());
 		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
 		
