@@ -14,11 +14,9 @@
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
-	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
@@ -33,5 +31,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
