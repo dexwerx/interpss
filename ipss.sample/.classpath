@@ -17,7 +17,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/plugins/IpssCustomController.jar"/>
 
 	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm_pss.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm_pss.schemas.jar"/>
 
 	<classpathentry kind="lib" path="lib/gml_schema.jar"/>
 
