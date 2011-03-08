@@ -42,6 +42,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
@@ -116,9 +117,14 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	@SuppressWarnings("unchecked")
 	public boolean parse(InputStream in) {
 		try {
-			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(in);
+			Object obj = createUnmarshaller().unmarshal(in);
+			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)obj;
 			this.pssStudyCase = elem.getValue();
-		} catch (JAXBException e) { e.printStackTrace(); return false;}
+		} catch (JAXBException e) { 
+			//e.printStackTrace();
+			ODMLogger.getLogger().severe("ODM xml doc parsing error, " + e.toString());
+			return false;
+		}
 		// cache the loaded bus and branch objects
 		for (JAXBElement<? extends BusXmlType> bus : this.getBaseCase().getBusList().getBus()) {
 			BusXmlType b = bus.getValue();
