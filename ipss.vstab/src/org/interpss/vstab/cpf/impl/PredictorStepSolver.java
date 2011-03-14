@@ -23,15 +23,12 @@ import com.interpss.core.net.Bus;
 public class PredictorStepSolver {
 	public final double DEFAULT_LU_SOLVER_TOLEARNCE=9.95e-21;
 	private double tolerance=DEFAULT_LU_SOLVER_TOLEARNCE;
-	private boolean isCrossMPP=false;
 	private boolean stepSizeCtrl=false;
 	private CPFAlgorithm cpf=null;
 	private CpfHelper cpfHelper=null;
 	protected ArrayRealVector deltaX_Lambda=null;// all state variables are saved
 	private ArrayRealVector deltaV=null;// only Vmag  is save for continuation param judgment;
 	private double deltaLambda=0;
-	private double stepSize=0;
-	private double oldStepSize=0;
 	private SparseEqnMatrix2x2 augmentedJacobi;
 	/**
 	 *  the constructor of the PredictorStepSolver class
@@ -43,7 +40,6 @@ public class PredictorStepSolver {
 		this.cpf=cpfAlgo;
 		this.deltaX_Lambda=new ArrayRealVector(cpf.getAclfNetwork().getNoBus()*2+1); // swing bus is included
 	    this.deltaV=new ArrayRealVector(cpf.getAclfNetwork().getNoBus());
-	    stepSize=cpfAlgo.getStepSize();
 
 	}
 	/**
@@ -72,17 +68,17 @@ public class PredictorStepSolver {
     	double x=0;
 		if(!isStepSizeControl()) {
 		double maxStep=this.cpf.getMaxStepSize()/this.getDeltaV().getLInfNorm();
-		if(!this.cpf.getCpfSolver().isLmdaContParam()){
-			if(Math.abs(this.deltaLambda)>this.getDeltaV().getLInfNorm()){ // often this statement is true;
-				double maxDltL=this.cpf.getMaxStepSize()/Math.abs(this.deltaLambda);
-				maxStep=Math.min(maxStep, maxDltL);
-			}
-		}
-		x =Math.min(maxStep,this.stepSize);
+//		if(!this.cpf.getCpfSolver().isLmdaContParam()){
+//			if(Math.abs(this.deltaLambda)>this.getDeltaV().getLInfNorm()){ // often this statement is true;
+//				double maxDltL=this.cpf.getMaxStepSize()/Math.abs(this.deltaLambda);
+//				maxStep=Math.min(maxStep, maxDltL);
+//			}
+//		}
+		x =Math.min(maxStep,this.cpf .getStepSize());
 		this.cpf.setStepSize(x);
 		}
    		
-		else x=this.stepSize;
+		else x=this.cpf.getStepSize();
         
 		final double actualStep=x;
 		IpssLogger.getLogger().info("Predictive step, actual size="+x);
@@ -102,7 +98,8 @@ public class PredictorStepSolver {
 			  }
 		  }		
     	});
-    	this.cpf.getCpfSolver().getLambda().update(augmentedJacobi, actualStep); //update lambda
+    	double deltaL=this.deltaLambda*actualStep;
+    	this.cpf.getCpfSolver().getLambda().update(deltaL); //update lambda
     }
 	/**
 	 * calculate the tangent vector [delta_X,delta_Lambda]
@@ -144,10 +141,10 @@ public class PredictorStepSolver {
     	// Now only sign of Lambda is used for judgment.
 
     	if(!cpf.getCpfSolver().isLmdaContParam()) {
-    		if(deltaLambda<0)// Lambda parameter is at the last of deltaX_Lambda vector
-    			return this.isCrossMPP=true;
+    		if(deltaLambda<0||Math.abs(deltaLambda)<0.001)// Lambda parameter is at the last of deltaX_Lambda vector
+    			return true;
     	}
-    	return this.isCrossMPP=false;
+    	return false;
     }
     private int getContParaSign() {
     	if(isCrossMaxPwrPnt()&&this.cpf.getCpfSolver().isLmdaContParam()) {
@@ -192,12 +189,12 @@ public class PredictorStepSolver {
     	this.stepSizeCtrl=stepControl;
     }
     private void applyStepSizeControl() {
-    	this.oldStepSize=stepSize;
-    	this.stepSize*=0.5; // cut to the half of last step size
+    	double stepSize=this.cpf.getStepSize();
+    	stepSize*=0.5; // cut to the half of last step size
     	
-    	this.stepSize=(this.stepSize<this.cpf.getMinStepSize())?this.cpf.getMinStepSize():this.stepSize;
+    	stepSize=(stepSize<this.cpf.getMinStepSize())?this.cpf.getMinStepSize():stepSize;
     	
-    	this.cpf.setStepSize(this.stepSize);// update the step size;
+    	this.cpf.setStepSize(stepSize);// update the step size;
     	this.stepSizeCtrl=false; // disable this function by changing it back to FALSE
     }
     /**

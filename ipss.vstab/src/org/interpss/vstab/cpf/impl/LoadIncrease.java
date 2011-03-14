@@ -57,7 +57,7 @@ public class LoadIncrease {
 	public void increaseLoad(double incSize) {
 		oldSumOfIncLoadP=sumOfIncLoadP;
 		sumOfIncLoadP=0;
-		IpssLogger.getLogger().info("----Start load increase, and incSize= "+incSize+"-----");
+//		IpssLogger.getLogger().info("----Start load increase, and incSize= "+incSize+"-----");
 		for(Bus b:this.ldIncPtn.getIncBusList()){
 			AclfBus bus=(AclfBus) b;
 			Complex deltaLoad=this.ldIncPtn.getLoadIncDir().get(bus.getId()).multiply(incSize);
@@ -66,7 +66,7 @@ public class LoadIncrease {
 			bus.setLoadQ(incLoad.getImaginary());
 			sumOfIncLoadP+=deltaLoad.getReal();
 		}
-		IpssLogger.getLogger().info("----End load increase----");
+//		IpssLogger.getLogger().info("----End load increase----");
 	}
 	public double getSumOfIncLoad(){
 		return this.sumOfIncLoadP;

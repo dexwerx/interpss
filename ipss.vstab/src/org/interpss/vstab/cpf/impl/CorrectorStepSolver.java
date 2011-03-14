@@ -82,7 +82,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		double factor=1;
 		// to find the optimal factor
 		double totalMismatch=totoalMismatch(lfEqn,factor); // factor=0
-		for(int inc=1;inc<10;inc++){
+		for(int inc=0;inc<10;inc++){
 			factor=base*inc;
 			double tolM=totoalMismatch(lfEqn,factor);
 			if(totalMismatch>tolM){
@@ -94,56 +94,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 		return optimFactor;
 		
 	}
-    
-//	private double getOptimLambdaUpate(SparseEqnMatrix2x2 lfEqn){
-//		double optimDeltaL=0;
-//		double optimFactor=0;
-//		double base=0.1;
-//		
-//		double calcL=lfEqn.getX(this.cpf.getCpfSolver().getLambda().getPosition()).x;
-//		
-////		if(Math.abs(calcL)>=100){
-////			base=0.0001;
-////		}		
-////		else if(Math.abs(calcL)>=10){
-////			base=0.001;
-////		}		
-////		else if(Math.abs(calcL)>1){
-////			base=0.001;
-////		}	
-////		else if(Math.abs(calcL)>0.5){
-////			base=0.01;
-////		}
-//////		else if(Math.abs(calcL)>0.1){
-//////			base=0.05;
-//////		}
-//
-//
-//
-//
-//
-//		// to find the optimal factor
-//		double factor=1;
-//		double totalMismatch=maxMismatch(lfEqn,factor*base); // factor=0
-//		System.out.println("Factor="+factor+", maxM="+totalMismatch);
-//		for(int inc=1;inc<10;inc++){
-//			factor=base*inc;
-//			double tolM=maxMismatch(lfEqn,factor);
-//			System.out.println("Factor="+factor+", maxM="+tolM);
-//			if(totalMismatch>tolM){
-//				totalMismatch=tolM;
-//				optimFactor=factor;
-//			}
-//		}
-//		// calculate the optimal deltaL;
-//		optimFactor=base;
-//		optimDeltaL=optimFactor*calcL;
-//		IpssLogger.getLogger().info("calc L="+calcL);
-//		return optimDeltaL;
-//		
-//	}
-
-	
+    	
 	private double totoalMismatch(SparseEqnMatrix2x2 lfEqn, double factor){
 		double tolM=0;
 		double maxMis=0;
@@ -179,7 +130,7 @@ public class CorrectorStepSolver extends DefaultNrSolver {
 //			}
 			tolM+=mis.abs()*mis.abs();
 		}
-		System.out.println("Factor="+factor+", tolM="+tolM);
+//		System.out.println("Factor="+factor+", tolM="+tolM);
 		// turn back to the saved state;
 		this.cpf.getCpfSolver().getLambda().backToLastState();
 		

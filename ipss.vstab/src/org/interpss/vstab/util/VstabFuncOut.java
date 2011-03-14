@@ -1,17 +1,36 @@
 package org.interpss.vstab.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
 
 import org.apache.commons.math.linear.RealVector;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+import org.interpss.vstab.cpf.CPFAlgorithm;
 
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
+
+import jxl.*;
+import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.WritableCell;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
 
 public class VstabFuncOut {
 	/**
@@ -85,6 +104,46 @@ public class VstabFuncOut {
 		   Vector_xy v=lfEqn.getX(net.getNoBus());// just to get lambda parameter now;
 		   System.out.println("B("+(net.getNoBus())+") :  b.x="+v.x+",  b.y="+v.y);
 	   }
+   }
+   public static void pvResult2EXL(final CPFAlgorithm cpf,String filePath) throws BiffException, IOException, RowsExceededException, WriteException{
+	   final List<Double> lambdaList=cpf.getCpfSolver().getLambdaList();
+	   final List<Hashtable<Integer, Double>> busPVList=cpf.getCpfSolver().getBusPVCurveList();
+	   WritableWorkbook wbook=Workbook.createWorkbook(new File(filePath));
+	   WritableSheet sheet=wbook.createSheet("CPF Result",0);
+	   
+	   for(int row=0;row<=lambdaList.size();row++){
+		   for(int col=0;col<=cpf.getAclfNetwork().getNoBus();col++){
+			   if(row==0){  // the first row of the sheet is the name of every column;
+				   if(col==0){  
+					Label l=new Label(col, row, "Lambda");
+					sheet.addCell(l);
+				   }
+				   else{
+					Label l=new Label(col,row,cpf.getAclfNetwork().getBusList().get(col-1).getId());// busID indexed by original bus Index;
+					sheet.addCell(l);
+				   }
+				   
+			   }
+			   else{
+				   if(col==0){
+					   Number n=new Number(col,row,cpf.getCpfSolver().getLambdaList().get(row-1));// Lambda(;0)
+					   sheet.addCell(n);
+				   }
+				   else{
+					   Number n= new Number(col,row,cpf.getCpfSolver().getBusPVCurveList().get(col-1).get(row-1));//bus Vmag of each bus  
+					   sheet.addCell(n);
+				   }
+				   
+			   }
+			   
+		   }
+	   }
+	   wbook.write();
+	   wbook.close();
+	   
+   }
+   public static void pvResutl2CSV(){
+	   
    }
    
 }

@@ -22,11 +22,11 @@ import com.interpss.core.net.Bus;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
     
-	public static final double DEFAULT_MAX_STEP_SIZE=0.01;// to control the max step increase/decrease
+	public static final double DEFAULT_MAX_STEP_SIZE=0.02;// to control the max step increase/decrease
     protected double maxStepSize=DEFAULT_MAX_STEP_SIZE;
     public static final double DEFAULT_MAX_DELTA_LAMBDA=0.05;
     protected double maxDeltaLambda=DEFAULT_MAX_DELTA_LAMBDA;
-    public static final double DEFAULT_MIN_STEP_SIZE=0.0001;// to control the max step increase/decrease
+    public static final double DEFAULT_MIN_STEP_SIZE=1e-5;// to control the max step increase/decrease
     protected double minStepSize=DEFAULT_MIN_STEP_SIZE;
     public final double DEFAULT_PF_TOLEARANCE=1e-3;
    
@@ -38,7 +38,7 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     private int maxPFIterations=DEFAULT_PF_MAX_ITERATIONS;
 
     public final double DEFAULT_STEP_SIZE=0.02;  // deault step size;
-    private double stepSize=0.02;
+    private double stepSize=DEFAULT_STEP_SIZE;
     protected AnalysisStopCriteria stopCriteria=null;
     
     protected GenDispatch genDispatch=null;
@@ -56,18 +56,12 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
         this.cpfSolver=new CPFSolverImpl(this,lambda);
         
     }
-    
-	@Override
-	public int getMaxIterations() {
-		
-		return this.maxIterations;
-	}
 
 
 	@Override
 	public boolean runCPF() {
 		if(!this.getAclfNetwork().isDataChecked()){
-			this.checkData();
+			this.checkDataForCPF();
 		}
 	      if ((!(getAclfNetwork().checkData())) && 
 	    	     (!(getAclfNetwork().isBypassDataCheck()))) {

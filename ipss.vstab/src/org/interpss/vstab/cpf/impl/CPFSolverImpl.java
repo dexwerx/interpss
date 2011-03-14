@@ -1,6 +1,11 @@
 package org.interpss.vstab.cpf.impl;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+
 import org.apache.commons.math.linear.ArrayRealVector;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
@@ -22,11 +27,16 @@ public class CPFSolverImpl implements CPFSolver{
 	private int sortNumOfContPara=0;
 	private int iteration=0;
     private boolean lastLFConverged=true;
+    private boolean saveFlag=true;
     
     private double[] convg_angle=null;
     private double[] convg_Vmag=null;
     private double  convg_lambda=0;
-    
+   
+	private List<Hashtable<Integer,Double>> busPVCurveList=null;
+    private List<Double> lambdaList=null;
+    private int outCnt=0;
+    private List<String> pvOutPutList=null;
     
 	public CPFSolverImpl(CPFAlgorithm cpf,LambdaParam newLambda) {
 		this.cpfAlgo=cpf;
@@ -34,6 +44,10 @@ public class CPFSolverImpl implements CPFSolver{
 		this.corrStepSolver=new CorrectorStepSolver(cpf);
 		this.predStepSolver=new PredictorStepSolver(cpf);
 		this.setSorNumofContParam(this.lambda.getPosition()); // by default;
+		this.busPVCurveList= new ArrayList<Hashtable<Integer, Double>>(this.cpfAlgo.getAclfNetwork().getNoBus());
+		this.lambdaList=new ArrayList<Double>(this.cpfAlgo.getCPFMaxInteration());
+		this.pvOutPutList=new ArrayList<String>(this.cpfAlgo.getAclfNetwork().getNoBus());
+		
 	}
 
 
@@ -41,16 +55,19 @@ public class CPFSolverImpl implements CPFSolver{
 	public boolean solveCPF() {
 
 		this.iteration=0;
+		this.outCnt=0;
 		lastLFConverged=true; // as a flag
+		saveFlag=true;
 		while(this.iteration<cpfAlgo.getCPFMaxInteration()){
 			 IpssLogger.getLogger().info("CPF analysis Itr:"+this.iteration);
 			/*
-			 * change continuation parameter after three iterations 
+			 * dynamically determine continuation parameter after four iterations 
 			 * or last corrector step not converged.
 			 */
 		
 			if(this.iteration>3||!this.lastLFConverged){
-				 IpssLogger.getLogger().info("update continuation parameter, last sort Number is #"+this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
+				 IpssLogger.getLogger().info("update continuation parameter, last sort Number is #"+
+						 this.getSortNumOfContParam()+",  now is #"+getNextStepContParam());
 				this.setSorNumofContParam(getNextStepContParam()); 
 			}
 			
@@ -68,27 +85,72 @@ public class CPFSolverImpl implements CPFSolver{
 		  algo.setMaxIterations(this.cpfAlgo.getPfMaxInteration());
 		  // corrector step solver is just a customized Newton-Raphson solver;
 		  algo.setNrSolver(this.corrStepSolver);
-		
-		  if(!this.cpfAlgo.getAclfNetwork().accept(algo)){// if corrector step is not converged
-			
-			  if(this.cpfAlgo.getStepSize()<1e-3 && this.iteration>1){
-				  IpssLogger.getLogger().severe("predictor step size ="+this.cpfAlgo.getStepSize()+",  is small enough,yet convergance problems still remains!");
+		  
+		  
+		 // if corrector step is not converged ,apply step size control
+		  if(!this.cpfAlgo.getAclfNetwork().accept(algo)){
+			  if(this.cpfAlgo.getStepSize()<this.cpfAlgo.getMinStepSize() && this.iteration>1){
+				  IpssLogger.getLogger().severe("predictor step size ="+this.cpfAlgo.getStepSize()+
+						  ",  is small enough,yet convergance problems still remains!");
 				  return false;
 			  }
 			// step size control in the following step if this corrector step is not converged!
 			  this.predStepSolver.enableStepSizeControl(true);
 			  this.backToLastConvgState(); // back to the last converged state;
 			  IpssLogger.getLogger().warning("the previous Predictor step-size seems to be too large, need to be controlled");
+		      this.saveFlag=false;
 		  }
+		  
+		 /*
+		  * if corrector step is converged to the 'lower' curve because of too-large step size 
+		  * in the predictor step; apply step control in the predictor step;
+		  */
+//		  else if(!this.predStepSolver.isCrossMaxPwrPnt()&&(this.lambda.getValue()<this.convg_lambda)){
+//			  IpssLogger.getLogger().warning("this step lamba="+this.lambda.getValue()+"last converged lambda="+this.convg_lambda+"\n"+
+//			  		", the corrector step converged in the 'lower' curve,back to last state and apply step control");
+//			  this.predStepSolver.enableStepSizeControl(true);
+//			  this.backToLastConvgState();
+//			  this.saveFlag=false;
+//		  }
 		  else if(isCpfStopCriteriaMeet()){
 			  IpssLogger.getLogger().info("one analysis Stop Criteria is meeted,CPF analysis end!");
 			  return true;
 		  }
+
 		  // save the last converged network state
-		  this.saveConvgState();
+		  if(this.saveFlag)this.saveConvgState();
+		  
+		  // save the intermediate state for result output;
+		  if(this.cpfAlgo.getAclfNetwork().isLfConverged()){
+			  this.lambdaList.add(this.getLambda().getValue());
+			  int index=0;
+			  for(Bus b: this.cpfAlgo.getAclfNetwork().getBusList()){
+				  AclfBus bus=(AclfBus) b;
+
+				  if(this.iteration==0){
+					  Hashtable<Integer, Double> ht=new Hashtable<Integer, Double>(this.cpfAlgo.getMaxIterations());
+					  ht.put(outCnt, bus.getVoltageMag());
+					  this.busPVCurveList.add(ht);
+					  
+				      this.pvOutPutList.add(bus.getVoltageMag()+",");
+				  }
+				  else {
+					  String v=this.pvOutPutList.get(index);
+					  v+=bus.getVoltageMag()+",";
+					  this.pvOutPutList.set(index, v);
+					    
+					  this.busPVCurveList.get(index).put(outCnt, bus.getVoltageMag());
+					  }	
+				  index++;
+			  }
+			  outCnt++;
+		  }
+		  IpssLogger.getLogger().info("converged? ="+this.cpfAlgo.getAclfNetwork().isLfConverged()+", lambda="+this.getLambda().getValue());
 		  
 		  this.iteration++;
 		  this.lastLFConverged=this.cpfAlgo.getAclfNetwork().isLfConverged();
+		  this.saveFlag=true;
+//		  System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
 		}
 		IpssLogger.getLogger().info("not converged within the max iteration!");
 		return false;
@@ -180,6 +242,7 @@ public class CPFSolverImpl implements CPFSolver{
 
 	@Override
 	public void backToLastConvgState() {
+		IpssLogger.getLogger().info("return to lambda="+this.convg_lambda);
 		this.getLambda().setValue(this.convg_lambda);
 		int cnt=0;
 		for(Bus b:this.cpfAlgo.getAclfNetwork().getBusList()){
@@ -205,6 +268,13 @@ public class CPFSolverImpl implements CPFSolver{
 			cnt++;
 		}
 	}
-	
+    public List<Hashtable<Integer, Double>> getBusPVCurveList() {
+		return busPVCurveList;
+	}
+
+
+	public List<Double> getLambdaList() {
+		return lambdaList;
+	}
 
 }

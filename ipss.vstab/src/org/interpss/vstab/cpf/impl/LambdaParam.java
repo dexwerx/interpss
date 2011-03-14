@@ -49,31 +49,20 @@ public class LambdaParam {
 		this.val = valOfLambdaParam;
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn) {
-		System.out.println("before update lambda="+this.val);
+//		System.out.println("before update lambda="+this.val);
 		this.val+=lfEqn.getX(n).x;
-		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update, lambda="+this.val);
+//		System.out.println("deltaL="+lfEqn.getX(n).x+"   ,after update, lambda="+this.val);
 	}
 	public void update(SparseEqnMatrix2x2 lfEqn, double stepSize) {
 //		IpssLogger.getLogger().info("before update lambda="+this.val);
 		lastValue=this.val;
-//		double maxDeltaVal=0.01;//CPFAlgorithmImpl.DEFAULT_MAX_STEP_SIZE;// still need to test
-		double dVal=0;
-//		if(Math.abs(stepSize*lfEqn.getX(n).x)>maxDeltaVal){
-//			dVal=maxDeltaVal;
-//			if(stepSize*lfEqn.getX(n).x<0){
-//				dVal=-maxDeltaVal;
-//			}
-//			
-//		}
-//		else dVal=stepSize*lfEqn.getX(n).x;
-		
-		dVal=stepSize*lfEqn.getX(n).x;
+		double dVal=stepSize*lfEqn.getX(n).x;
 		this.val+=dVal;
-		IpssLogger.getLogger().info("calculating deltaL="+lfEqn.getX(n).x+";  actual chosen deltaL="+dVal+";  after update lambda="+this.val);
+//		IpssLogger.getLogger().info("calculating deltaL="+lfEqn.getX(n).x+";  actual chosen deltaL="+dVal+";  after update lambda="+this.val);
 	}
 	
 	public void update(double deltaL){
-		IpssLogger.getLogger().info("before update: lambda="+this.val);
+		IpssLogger.getLogger().info("pridector step update deltalambda="+deltaL);
 		this.lastValue=this.val;
 		this.val+=deltaL;
 		IpssLogger.getLogger().info("After update:  lambda="+this.val);

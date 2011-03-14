@@ -43,6 +43,7 @@ public class GenDispatch {
     	  AclfBus bus=this.net.getAclfBus(id);
     	  double genP=this.genP0.get(id)+lambda*this.genDispDirection.get(id);
     	  if(genP>bus.getPGenLimit().getMax()){
+//    		  IpssLogger.getLogger().info("encounter pGenLimit max @ Bus #"+bus.getId());
     		  genP=bus.getPGenLimit().getMax();
     		  bus.setGenP(genP);
     	  }
