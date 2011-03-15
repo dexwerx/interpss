@@ -60,8 +60,8 @@ public class OpfSample_3BusTest  extends DevTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 
-			QuadProgCalculator opfAlgo=new QuadProgCalculator();
-			opfAlgo.runDCOPF(opfNet);
+			QuadProgCalculator opfAlgo=new QuadProgCalculator(opfNet);
+			opfAlgo.runDCOPF();
 			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
 			

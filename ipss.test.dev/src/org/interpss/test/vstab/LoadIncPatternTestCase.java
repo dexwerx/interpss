@@ -46,7 +46,7 @@ public class LoadIncPatternTestCase extends DevTestSetup {
         //2. increase by network Scope and constant power factor Type
         ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.ONLY_P,null);
         assertTrue(ldPtn.getIncBusList().size()==3); 
-        assertTrue(ldPtn.getLoadIncDir().get("2").getImaginary()-0<1e-6);
+        assertTrue(Math.abs(ldPtn.getLoadIncDir().get("2").getImaginary()-0)<1e-6);
       
         
 	}
@@ -60,7 +60,7 @@ public class LoadIncPatternTestCase extends DevTestSetup {
 //		Bus[] bAry={net.getBus("2")};
 		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.BUS,LoadIncType.CONST_PF,net.getBusList().toArray());
 		assertTrue(ldPtn.getIncBusList().size()==3);
-		assertTrue(ldPtn.getLoadIncDir().get("2").getReal()-2<1e-6);
+		assertTrue(Math.abs(ldPtn.getLoadIncDir().get("2").getReal()-2)<1e-6);
 
 	}
 	@Test

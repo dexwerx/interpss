@@ -47,7 +47,7 @@ public class TestCaseFactory {
 		return cpfAlgo;
 	}
 	
-	 private static void setGenPLimit(AclfNetwork net, double resvRate){
+	 public static void setGenPLimit(AclfNetwork net, double resvRate){
 		 for(int i=0;i<net.getBusList().size();i++){
              AclfBus bus=(AclfBus)net.getBusList().get(i);
              if(bus.isGenPV()){// only PV bus is considered here

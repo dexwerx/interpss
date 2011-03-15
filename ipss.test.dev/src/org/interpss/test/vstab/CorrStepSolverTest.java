@@ -145,7 +145,7 @@ public class CorrStepSolverTest extends DevTestSetup {
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		algo.setNrSolver(corSolver);
-		algo.setMaxIterations(8);
+		algo.setMaxIterations(10);
 		algo.setTolerance(0.0005);
 	    assertTrue(net.accept(algo));
 	    assertTrue(Math.abs(net.getAclfBus("Bus3").getVoltageMag()-fixVal)<1e-5);
