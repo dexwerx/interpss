@@ -113,7 +113,38 @@ public class PSSEV30XfrDataRec {
 		}		
 		
 		branchRec.setName(name);
-		branchRec.setOffLine(stat != 1);
+		
+/*
+		The initial transformer status, where 1 designates in-service and 0 designates
+		out-of-service. In addition, for a three-winding transformer, 2 designates that
+		only winding two is out-of-service, 3 indicates that only winding three is outof-
+		service, and 4 indicates that only winding one is out-of-service, with the
+		remaining windings in-service. STAT = 1 by default.
+ */
+		branchRec.setOffLine(stat == 0);
+		if (is3W) {
+    		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branchRec;			
+    		if (stat == 1) {
+    			branch3WRec.setWind1OffLine(false);
+    			branch3WRec.setWind2OffLine(false);
+    			branch3WRec.setWind3OffLine(false);
+    		}
+    		else if (stat == 2) {
+    			branch3WRec.setWind1OffLine(false);
+    			branch3WRec.setWind2OffLine(true);
+    			branch3WRec.setWind3OffLine(false);
+    		}
+    		else if (stat == 3) {
+    			branch3WRec.setWind1OffLine(false);
+    			branch3WRec.setWind2OffLine(false);
+    			branch3WRec.setWind3OffLine(true);
+    		}
+    		else if (stat == 4) {
+    			branch3WRec.setWind1OffLine(true);
+    			branch3WRec.setWind2OffLine(false);
+    			branch3WRec.setWind3OffLine(false);
+    		}
+		}
        	
        	// rated voltage could be entered 0.0, Bus BaseVoltage should be used in this case
        	if (nomv1 == 0.0)
