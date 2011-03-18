@@ -437,6 +437,9 @@
 					<element name="ratingLimit23" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
 					<element name="ratingLimit13" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
 				</sequence>
+				<attribute name="wind1OffLine" type="boolean" use="optional" default="false" />
+				<attribute name="wind2OffLine" type="boolean" use="optional" default="false" />
+				<attribute name="wind3OffLine" type="boolean" use="optional" default="false" />
 			</extension>
 		</complexContent>
 	</complexType>
