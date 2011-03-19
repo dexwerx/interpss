@@ -52,24 +52,23 @@ public class ProcessOPFData_Test {
  */
 		
 		File file = new File("testdata/ieee_odm/Ieee14Bus_opf.xml");
-		ODMModelParser parser = new ODMModelParser();
+		OpfModelParser parser = new OpfModelParser();
 		parser.parse(new FileInputStream(file));
 		//System.out.println(parser.toXmlDoc(false));
+		assertTrue(parser.getAclfNet().getBasePower().getValue() == 100.0);
+		assertTrue(parser.getAclfNet().getBusList().getBus().size() == 14);
 		
-		OpfModelParser opfParser = parser.toOpfModelParser();
-		//System.out.println(aclfParser.toXmlDoc(false));
-		assertTrue(opfParser.getAclfNet().getBasePower().getValue() == 100.0);
-		assertTrue(opfParser.getAclfNet().getBusList().getBus().size() == 14);
-		
-		BusXmlType aclfBus = opfParser.getBus("Bus2");
+		BusXmlType aclfBus = parser.getBus("Bus2");
 		assertTrue(aclfBus instanceof LoadflowBusXmlType);
 		
+		// a file could be used to store all Opf related info and
+		// load here
 		OpfGenBusXmlType opfGenBus = (OpfGenBusXmlType)ModelStringUtil.casting(aclfBus, "aclfBus", "opfGenBus");
 		opfGenBus.setCoeffA(1.0);
 		opfGenBus.setCoeffB(0.5);
-		opfParser.replaceBus("Bus2", opfGenBus);
+		parser.replaceBus("Bus2", opfGenBus);
 
-		aclfBus = opfParser.getBus("Bus2");
+		aclfBus = parser.getBus("Bus2");
 		assertTrue(aclfBus instanceof OpfGenBusXmlType);
 		//System.out.println(opfParser.toXmlDoc(false));
 	}
