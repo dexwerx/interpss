@@ -180,6 +180,11 @@ public class AclfBranchDataHelper {
 		branch3W.setBranchCode(AclfBranchCode.W3_XFORMER);
 		branch3W.create2WBranches(AclfBranchCode.XFORMER);
 		
+		// set winding status
+		branch3W.getFromAclfBranch().setStatus(!xml3WXfr.isWind1OffLine());
+		branch3W.getToAclfBranch().setStatus(!xml3WXfr.isWind2OffLine());
+		branch3W.getTertAclfBranch().setStatus(!xml3WXfr.isWind3OffLine());
+		
 		Xfr3WAdapter xfr3W = branch3W.to3WXfr();
 		
 		setXfr3WData(xml3WXfr, xfr3W);
@@ -192,6 +197,11 @@ public class AclfBranchDataHelper {
 		branch3W.setBranchCode(AclfBranchCode.W3_PS_XFORMER);
 		branch3W.create2WBranches(AclfBranchCode.PS_XFORMER);
 		
+		// set winding status
+		branch3W.getFromAclfBranch().setStatus(!xmlPsXfr3W.isWind1OffLine());
+		branch3W.getToAclfBranch().setStatus(!xmlPsXfr3W.isWind2OffLine());
+		branch3W.getTertAclfBranch().setStatus(!xmlPsXfr3W.isWind3OffLine());
+
 		PSXfr3WAdapter psXfr3W = branch3W.toPS3WXfr();
 		
 		setXfr3WData(xmlPsXfr3W, psXfr3W);
