@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<pssStudyCase xmlns="http://www.ieee.org/odm/Schema/2008" id="ODM_StudyCase">
+<?xml version="1.0" encoding="UTF-8"?>
+<pssStudyCase id="ODM_StudyCase" 
+    xmlns="http://www.ieee.org/odm/Schema/2008"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
+<!-- 
+    from a aclf network, change to a opf network
+    
+      1) change <aclfNet -> <opfNet
+      2) change analysisCategory to OPF
+      3) add <anglePenaltyFactor>1</anglePenaltyFactor> at the end
+      4) change some aclfBus to opfGenBus
+ -->
     <schemaVersion>V0.8</schemaVersion>
     <contentInfo>
         <originalDataFormat>IEEE-CDF</originalDataFormat>
@@ -7,8 +18,8 @@
         <adapterProviderVersion>1.00</adapterProviderVersion>
     </contentInfo>
     <networkCategory>Transmission</networkCategory>
-    <analysisCategory>Loadflow</analysisCategory>
-    <aclfNet id="Base_Case_from_IEEECDF_format">
+    <analysisCategory>OPF</analysisCategory>
+    <opfNet id="Base_Case_from_IEEECDF_format">
         <nvPairList>
             <nvPair>
                 <name>Date</name>
@@ -34,7 +45,7 @@
                 <voltage unit="PU" value="1.06"/>
                 <angle unit="DEG" value="0.0"/>
                 <genData>
-                    <equivGen code="Swing">
+                    <equivGen id="Bus1_gen" code="Swing">
                         <power unit="MVA" im="-16.9" re="232.4"/>
                         <desiredVoltage unit="PU" value="1.06"/>
                         <desiredAngle unit="DEG" value="0.0"/>
@@ -46,14 +57,14 @@
                 <voltage unit="PU" value="1.045"/>
                 <angle unit="DEG" value="-4.98"/>
                 <genData>
-                    <equivGen code="PV">
+                    <equivGen id="Bus2_gen" code="PV">
                         <power unit="MVA" im="42.4" re="40.0"/>
                         <desiredVoltage unit="PU" value="1.045"/>
                         <qLimit unit="MVAR" min="-40.0" max="50.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus2_load" code="CONST_P">
                         <constPLoad unit="MVA" im="12.7" re="21.7"/>
                     </equivLoad>
                 </loadData>
@@ -63,14 +74,14 @@
                 <voltage unit="PU" value="1.01"/>
                 <angle unit="DEG" value="-12.72"/>
                 <genData>
-                    <equivGen code="PV">
+                    <equivGen id="Bus3_gen" code="PV">
                         <power unit="MVA" im="23.4" re="0.0"/>
                         <desiredVoltage unit="PU" value="1.01"/>
                         <qLimit unit="MVAR" min="0.0" max="40.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus3_load"  code="CONST_P">
                         <constPLoad unit="MVA" im="19.0" re="94.2"/>
                     </equivLoad>
                 </loadData>
@@ -80,12 +91,12 @@
                 <voltage unit="PU" value="1.019"/>
                 <angle unit="DEG" value="-10.33"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus4_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus4_load" code="CONST_P">
                         <constPLoad unit="MVA" im="-3.9" re="47.8"/>
                     </equivLoad>
                 </loadData>
@@ -95,12 +106,12 @@
                 <voltage unit="PU" value="1.02"/>
                 <angle unit="DEG" value="-8.78"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus5_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus5_load" code="CONST_P">
                         <constPLoad unit="MVA" im="1.6" re="7.6"/>
                     </equivLoad>
                 </loadData>
@@ -110,14 +121,14 @@
                 <voltage unit="PU" value="1.07"/>
                 <angle unit="DEG" value="-14.22"/>
                 <genData>
-                    <equivGen code="PV">
+                    <equivGen id="Bus6_gen" code="PV">
                         <power unit="MVA" im="12.2" re="0.0"/>
                         <desiredVoltage unit="PU" value="1.07"/>
                         <qLimit unit="MVAR" min="-6.0" max="24.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus6_load" code="CONST_P">
                         <constPLoad unit="MVA" im="7.5" re="11.2"/>
                     </equivLoad>
                 </loadData>
@@ -127,7 +138,7 @@
                 <voltage unit="PU" value="1.062"/>
                 <angle unit="DEG" value="-13.37"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus7_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
@@ -137,7 +148,7 @@
                 <voltage unit="PU" value="1.09"/>
                 <angle unit="DEG" value="-13.36"/>
                 <genData>
-                    <equivGen code="PV">
+                    <equivGen id="Bus8_gen" code="PV">
                         <power unit="MVA" im="17.4" re="0.0"/>
                         <desiredVoltage unit="PU" value="1.09"/>
                         <qLimit unit="MVAR" min="-6.0" max="24.0"/>
@@ -149,12 +160,12 @@
                 <voltage unit="PU" value="1.056"/>
                 <angle unit="DEG" value="-14.94"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus9_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus9_load"  code="CONST_P">
                         <constPLoad unit="MVA" im="16.6" re="29.5"/>
                     </equivLoad>
                 </loadData>
@@ -165,12 +176,12 @@
                 <voltage unit="PU" value="1.051"/>
                 <angle unit="DEG" value="-15.1"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus10_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus10_load"  code="CONST_P">
                         <constPLoad unit="MVA" im="5.8" re="9.0"/>
                     </equivLoad>
                 </loadData>
@@ -180,12 +191,12 @@
                 <voltage unit="PU" value="1.057"/>
                 <angle unit="DEG" value="-14.79"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus11_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus11_load"  code="CONST_P">
                         <constPLoad unit="MVA" im="1.8" re="3.5"/>
                     </equivLoad>
                 </loadData>
@@ -195,12 +206,12 @@
                 <voltage unit="PU" value="1.055"/>
                 <angle unit="DEG" value="-15.07"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus12_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus12_load"  code="CONST_P">
                         <constPLoad unit="MVA" im="1.6" re="6.1"/>
                     </equivLoad>
                 </loadData>
@@ -210,12 +221,12 @@
                 <voltage unit="PU" value="1.05"/>
                 <angle unit="DEG" value="-15.16"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus13_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus13_load" code="CONST_P">
                         <constPLoad unit="MVA" im="5.8" re="13.5"/>
                     </equivLoad>
                 </loadData>
@@ -225,12 +236,12 @@
                 <voltage unit="PU" value="1.036"/>
                 <angle unit="DEG" value="-16.04"/>
                 <genData>
-                    <equivGen code="PQ">
+                    <equivGen id="Bus14_gen" code="PQ">
                         <power unit="MVA" im="0.0" re="0.0"/>
                     </equivGen>
                 </genData>
                 <loadData>
-                    <equivLoad code="CONST_P">
+                    <equivLoad id="Bus14_load"  code="CONST_P">
                         <constPLoad unit="MVA" im="5.0" re="14.9"/>
                     </equivLoad>
                 </loadData>
@@ -427,5 +438,6 @@
                 </powerEx>
             </interchange>
         </interchangeList>
-    </aclfNet>
+    <anglePenaltyFactor>1</anglePenaltyFactor>
+  </opfNet>
 </pssStudyCase>

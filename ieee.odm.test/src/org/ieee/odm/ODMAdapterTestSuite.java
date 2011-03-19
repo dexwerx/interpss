@@ -3,6 +3,7 @@ package org.ieee.odm;
 import org.ieee.odm.ieeecdf.IEEECDF_ODMTest;
 import org.ieee.odm.odm_xml.OdmXml_Test;
 import org.ieee.odm.ofp.OpfSample_3BusTest;
+import org.ieee.odm.ofp.ProcessOPFData_Test;
 import org.ieee.odm.psse.PSSEV26_ODMTest;
 import org.ieee.odm.psse.PSSEV30_GuideSampleTest;
 import org.ieee.odm.psse.PSSEV30_NEISO_ODMTest;
@@ -34,8 +35,10 @@ import org.junit.runners.Suite.SuiteClasses;
 	PSSEV30_GuideSampleTest.class,
 	PSSEV30_SegmentTest.class,
 	
-	OdmXml_Test.class,
 	OpfSample_3BusTest.class,
+	ProcessOPFData_Test.class,
+
+	OdmXml_Test.class,
 })
 public class ODMAdapterTestSuite {
 }
