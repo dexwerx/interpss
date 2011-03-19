@@ -40,6 +40,17 @@ import org.junit.Test;
 public class ProcessOPFData_Test { 
 	@Test
 	public void testCase() throws Exception {
+/*
+<!-- 
+    from a aclf network, change to a opf network
+    
+      1) change <aclfNet -> <opfNet
+      2) change analysisCategory to OPF
+      3) add <anglePenaltyFactor>1</anglePenaltyFactor> at the end
+      4) change some aclfBus to opfGenBus, using sample code here
+ -->
+ */
+		
 		File file = new File("testdata/ieee_odm/Ieee14Bus_opf.xml");
 		ODMModelParser parser = new ODMModelParser();
 		parser.parse(new FileInputStream(file));
