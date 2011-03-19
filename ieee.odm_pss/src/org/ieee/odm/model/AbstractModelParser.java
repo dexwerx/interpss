@@ -45,6 +45,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
@@ -253,6 +254,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	protected void removeCachedObject(String id) {
 		this.objectCache.remove(id);
 	}
+	
+	/*
+	 *    Bus functions
+	 *    =============
+	 */
 
 	/**
 	 * Get the cashed bus object by id
@@ -264,6 +270,43 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return (BusXmlType)this.getCachedObject(id);
 	}	
 
+	/**
+	 * add a bus object into the branch list and to the cashe table
+	 * 
+	 */
+	public void addBus(BusXmlType bus) {
+		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(bus));
+		this.objectCache.put(bus.getId(), bus);
+	}
+	
+	/**
+	 * remove the branch object from the cache and branch list
+	 * 
+	 * @param branchId
+	 * @return
+	 */
+	public boolean removeBus(String busId) {
+		this.removeCachedObject(busId);
+		for (JAXBElement<? extends BusXmlType> busElem : this.getBaseCase().getBusList().getBus()) {
+			if (busId.equals(busElem.getValue().getId())) {
+				this.getBaseCase().getBusList().getBus().remove(busElem);
+				return true;
+			}
+		}
+		return false; 
+	}
+	
+	/**
+	 * First remove the bus with the busId and then add the bus record
+	 * 
+	 * @param busId id of the bus to be removed
+	 * @param bus bus object to be added
+	 */
+	public void replaceBus(String busId, BusXmlType bus) {
+		this.removeBus(busId);
+		this.addBus(bus);
+	}
+	
 	/**
 	 * set bus record id and add the bus object into the cache
 	 * 
@@ -291,6 +334,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		refBus.setIdRef(rec);
 		return refBus;
 	}
+
+	/*
+	 *    Branch functions
+	 *    ================
+	 */
 	
 	/**
 	 * Get the cashed branch object by id
@@ -309,11 +357,25 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @return
 	 */
 	public boolean removeBranch(String branchId) {
-		Object branch = this.objectCache.get(branchId);
 		this.removeCachedObject(branchId);
-		return this.getBaseCase().getBranchList().getBranch().remove(branch); 
+		for (JAXBElement<? extends BaseBranchXmlType> braElem : this.getBaseCase().getBranchList().getBranch()) {
+			if (branchId.equals(braElem.getValue().getId())) {
+				this.getBaseCase().getBranchList().getBranch().remove(braElem);
+				return true;
+			}
+		}
+		return false; 
 	}
-
+	
+	/**
+	 * add a branch object into the branch list and to the cashe table
+	 * 
+	 */
+	public void addBranch(BranchXmlType branch) {
+		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
+		this.objectCache.put(branch.getId(), branch);
+	}
+	
 	/**
 	 * get the cashed branch record using fromId, toId and cirId
 	 * 

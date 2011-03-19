@@ -143,15 +143,6 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	
 	/**
-	 * add a branch object into the branch list and to the cashe table
-	 * 
-	 */
-	public void addAclfBaseBranch(BranchXmlType branch) {
-		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
-		this.objectCache.put(branch.getId(), branch);
-	}
-	
-	/**
 	 * get the Line branch object
 	 * 
 	 * @param fromId

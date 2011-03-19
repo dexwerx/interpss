@@ -28,6 +28,7 @@ import java.text.DecimalFormat;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 
 public class ModelStringUtil {
 	/**
@@ -219,11 +220,31 @@ public class ModelStringUtil {
 	public static BranchXmlType casting(BranchXmlType from, String fromType, String toType) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
 		parser.getAclfNet().getBranchList().getBranch().add(BaseJaxbHelper.branch(from));
-		String xfrStr = parser.toXmlDoc(true)
+		String braStr = parser.toXmlDoc(true)
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
 		parser = new AclfModelParser();
-		parser.parse(xfrStr);
+		parser.parse(braStr);
 		return (BranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+	}	
+
+	/**
+	 * casting bus objects
+	 * 
+	 * @param from from bus object
+	 * @param fromType
+	 * @param toType
+	 * @return
+	 * @throws Exception
+	 */
+	public static BusXmlType casting(BusXmlType from, String fromType, String toType) throws Exception {
+		AclfModelParser parser = new AclfModelParser();
+		parser.getAclfNet().getBusList().getBus().add(BaseJaxbHelper.bus(from));
+		String busStr = parser.toXmlDoc(true)
+				.replaceAll("<"+fromType, "<"+toType)
+				.replace("</"+fromType, "</"+toType);
+		parser = new AclfModelParser();
+		parser.parse(busStr);
+		return (BusXmlType)parser.getAclfNet().getBusList().getBus().get(0).getValue();
 	}	
 }
