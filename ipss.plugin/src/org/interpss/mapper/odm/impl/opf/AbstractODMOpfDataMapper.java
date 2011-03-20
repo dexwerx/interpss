@@ -43,8 +43,8 @@ import org.interpss.numeric.datatype.LimitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
+import com.interpss.opf.OpfBranch;
+import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.opf.OpfObjectFactory;
@@ -85,12 +85,13 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 					} 
 					else {
 						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-						mapAclfBusData(busRec, opfNet);
+						OpfBus opfBus = OpfObjectFactory.createOpfBus(busRec.getId(), opfNet);
+						mapAclfBusData(busRec, opfBus, opfNet);
 					}
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
-					AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
+					OpfBranch aclfBranch = OpfObjectFactory.createOpfBranch();
 					mapAclfBranchData(b.getValue(), aclfBranch, opfNet);
 				}
 			} catch (InterpssException e) {
@@ -131,8 +132,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 	 * @throws Exception
 	 */
 	public OpfGenBus mapGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
-		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId());
-		net.addBus(opfGenBus);
+		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId(), net);
 		mapBaseBusData(busRec, opfGenBus, net);
 
 		AclfBusDataHelper helper = new AclfBusDataHelper(net, opfGenBus);

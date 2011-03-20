@@ -79,7 +79,8 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-					mapAclfBusData(busRec, adjNet);
+					AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
+					mapAclfBusData(busRec, aclfBus, adjNet);
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
@@ -125,8 +126,8 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 * @return
 	 * @throws Exception
 	 */
-	public AclfBus mapAclfBusData(LoadflowBusXmlType busRec, AclfNetwork adjNet) throws InterpssException {
-		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
+	public AclfBus mapAclfBusData(LoadflowBusXmlType busRec, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
+		//AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
 		//adjNet.addBus(aclfBus);
 		mapBaseBusData(busRec, aclfBus, adjNet);
 
