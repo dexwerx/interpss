@@ -30,7 +30,7 @@ public class XMLCreatorFromOpfSchema {
 		IODMAdapter adapter=new IeeeCDFAdapter();
 		adapter.parseInputFile("testData/ieee_cdf/ieee30.ieee");
 		String xmlString=adapter.getModel().toXmlDoc(true);
-		OutputStream out=new BufferedOutputStream(new FileOutputStream("E:/ieee30ODM.xml"));
+		OutputStream out=new BufferedOutputStream(new FileOutputStream("E:/ieee30bus.xml"));
 		out.write(xmlString.getBytes());
 		out.flush();
 		out.close();

@@ -93,6 +93,6 @@
       	</pss:ratingLimit>
       </pss:aclfLine>
     </pss:branchList>
-    <pss:anglePenaltyFactor>1</pss:anglePenaltyFactor>
+    <pss:anglePenaltyFactor>0.05</pss:anglePenaltyFactor>
   </pss:opfNet>
 </pss:pssStudyCase>

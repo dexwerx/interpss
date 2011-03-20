@@ -58,53 +58,52 @@ public class CpfSolverTest extends DevTestSetup {
 //		System.out.println(cpfAlgo.getCpfSolver().getLambdaList().toString());
 //		VstabFuncOut.pvResult2EXL(cpfAlgo,"E:/ieee5_cpf.xls");
 //	}
-//	@Test
-//	public void ieee039_testCpfSolver_Loop() throws Exception{
-//
-//		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee039");
-//		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
-//		cpfAlgo.getCpfSolver().getLambda().setValue(0.0);
-//		cpfAlgo.setCPFMaxInteration(100);
-//		assertTrue(cpfAlgo.runCPF());
-//		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
-//		VstabFuncOut.pvResult2EXL(cpfAlgo,"E:/ieee39_cpf_all_load_0.02.xls");
-//		
-//	}
 	@Test
-	public void ieee039_testEachBusIncrease() throws Exception{
-		String filePath="testData/ieee_cdf/ieee039.ieee";
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
-		SimuContext simuCtx = adapter.load(filePath);
+	public void ieee039_testCpfSolver_Loop() throws Exception{
 
-		AclfNetwork net = simuCtx.getAclfNet();
-		net.getAclfBus("Bus32").setQGenLimit(new LimitType(3.0,0));
-		assertTrue(Math.abs(((AclfBus)net.getBusList().get(31)).getQGenLimit().getMax()-3.0)<1e-6);
-		// set GenPLimit;
-		TestCaseFactory.setGenPLimit(net,0.2);
-//		for(int i=0;i<net.getBusList().size();i++){
-//		AclfBus b=(AclfBus) net.getBusList().get(i);	
-//		if(b.isLoad()){
-		// define the load increase 
-		int i=14;
-		Bus[] incBus={net.getBusList().get(i)};
-		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.BUS,LoadIncType.CONST_PF,incBus);
-		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
-		// define gen dispatch
-		GenDispPattern pattern=new GenDispPattern(net, Pattern.BASE_CASE_DIR);
-		GenDispatch genDisp=new GenDispatch(net, pattern);
-		// create a cpf algorithm;
-		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
+		CPFAlgorithm cpfAlgo = TestCaseFactory.createCpfAlgo("ieee039");
 		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
-		cpfAlgo.getCpfSolver().getLambda().setValue(3);
+		cpfAlgo.getCpfSolver().getLambda().setValue(0.0);
 		cpfAlgo.setCPFMaxInteration(200);
-		cpfAlgo.setPflowTolerance(0.005);
 		assertTrue(cpfAlgo.runCPF());
-		VstabFuncOut.pvResult2EXL(cpfAlgo,"E:/ieee39_cpf_load_bus_"+(i+1)+".xls");
 		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
-//		 }
-//		}
+		VstabFuncOut.pvResult2EXL(cpfAlgo,"E:/ieee39_cpf_all_load_0.1_qLimit_0319.xls");
 		
 	}
+//	@Test
+//	public void ieee039_testEachBusIncrease() throws Exception{
+//		String filePath="testData/ieee_cdf/ieee039.ieee";
+//		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+//		SimuContext simuCtx = adapter.load(filePath);
+//
+//		AclfNetwork net = simuCtx.getAclfNet();
+//		net.getAclfBus("Bus32").setQGenLimit(new LimitType(3.0,0));
+//		// set GenPLimit;
+//		TestCaseFactory.setGenPLimit(net,0.2);
+////		for(int i=0;i<net.getBusList().size();i++){
+////		AclfBus b=(AclfBus) net.getBusList().get(i);	
+////		if(b.isLoad()){
+//		// define the load increase 
+//		int i=14;
+//		Bus[] incBus={net.getBusList().get(i)};
+//		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.BUS,LoadIncType.CONST_PF,incBus);
+//		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
+//		// define gen dispatch
+//		GenDispPattern pattern=new GenDispPattern(net, Pattern.BASE_CASE_DIR);
+//		GenDispatch genDisp=new GenDispatch(net, pattern);
+//		// create a cpf algorithm;
+//		CPFAlgorithm cpfAlgo = VStabObjectFactory.createCPFAlgorithmImpl(net,ldInc,genDisp);
+//		cpfAlgo.setAnalysisStopCriteria(AnalysisStopCriteria.MAX_POWER_POINT);
+//		cpfAlgo.getCpfSolver().getLambda().setValue(3);
+//		cpfAlgo.setCPFMaxInteration(200);
+//		cpfAlgo.setPflowTolerance(0.005);
+//		assertTrue(cpfAlgo.runCPF());
+//		VstabFuncOut.pvResult2EXL(cpfAlgo,"E:/ieee39_cpf_load_bus_"+(i+1)+".xls");
+//		System.out.println(AclfOutFunc.loadFlowSummary(cpfAlgo.getAclfNetwork()));
+//		 }
+//		}
+//		
+//	}
 //	@Test
 //	public void ieee030_testCpfSolver_Loop() throws Exception{
 //

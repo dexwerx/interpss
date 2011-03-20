@@ -35,7 +35,8 @@ public class TestCaseFactory {
 		AclfNetwork net = simuCtx.getAclfNet();
 
 		// set GenPLimit;
-		setGenPLimit(net,0.2);
+		setGenPLimit(net,0.1);
+		setGenQLimit(net,0.5);
 		// define the load increase 
 		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
 		LoadIncrease ldInc=VStabObjectFactory.createLoadIncrease(net, ldPtn);
@@ -53,7 +54,7 @@ public class TestCaseFactory {
              if(bus.isGenPV()){// only PV bus is considered here
                      if(bus.getPGenLimit()==null){
                              IpssLogger.getLogger().info("There is no PGenLimit defined in bus:"+bus.getId()
-                                             +" ,assume 20% reservation in the following process.");
+                                             +" ,assume 10% reservation in the following process.");
                              bus.setPGenLimit( new LimitType(bus.getGenP()*(1+resvRate),bus.getGenP()*(1-resvRate))); // assume there is 20% generation reservation by default;
                      }
              }
@@ -61,5 +62,20 @@ public class TestCaseFactory {
      }
 		
 	 }
+	 /**
+	  * qMax = q2pMaxRate*PGenLimit.Max;
+	  * @param net
+	  * @param resvRate
+	  */
+	 public static void setGenQLimit(AclfNetwork net, double q2pMaxRate){
+		 for(int i=0;i<net.getBusList().size();i++){
+             AclfBus bus=(AclfBus)net.getBusList().get(i);
+             if(bus.isGenPV()){
+            	 System.out.println("gen q limit"+bus.getQGenLimit().getMax());
+	           bus.setQGenLimit(new LimitType(bus.getPGenLimit().getMax()*q2pMaxRate,0));
+             }
+		 }
+	 }
+	 
      
 }

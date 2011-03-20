@@ -34,7 +34,7 @@ import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.opf.dc.OpfNetworkHelper;
-import org.interpss.opf.dc.QuadProgCalculator;
+import org.interpss.opf.dc.impl.QuadProgCalculator;
 import org.interpss.opf.dc.util.OpfOutFunc;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
@@ -64,11 +64,14 @@ public class OpfSample  extends DevTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 
-			QuadProgCalculator opfAlgo=new QuadProgCalculator(opfNet);
-			opfAlgo.runDCOPF();
+			QuadProgCalculator solver=new QuadProgCalculator(opfNet);
+			solver.solveDCOPF();
 			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
-			
+			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
+			for(int i=0;i<solver.getEqMultipliers().length;i++){
+				System.out.println(solver.getEqMultipliers()[i]);
+			}
 /*
 			Minimun Total Variable Cost: 26.215
 			Minimun Total Cost: 506.106
@@ -109,11 +112,18 @@ public class OpfSample  extends DevTestSetup {
 //            LoadflowAlgorithm lfAlgo= CoreObjectFactory.createLoadflowAlgorithm(opfNet);
 //            lfAlgo.loadflow();
 //            System.out.println(AclfOutFunc.loadFlowSummary(opfNet));
-			QuadProgCalculator opfAlgo=new QuadProgCalculator(opfNet);
-			opfAlgo.runDCOPF();
+			QuadProgCalculator solver=new QuadProgCalculator(opfNet);
+			solver.solveDCOPF();
 //			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
 			
+			for(int i=0;i<solver.getEqMultipliers().length;i++){
+				System.out.println(solver.getEqMultipliers()[i]);
+			}
+			System.out.println("----------a line ,the following are inequation multipiers----");
+			for(int i=0;i<solver.getIneqMultipiers().length;i++){
+				System.out.println(solver.getIneqMultipiers()[i]);
+			}
 /*
 			Minimun Total Variable Cost: 26.215
 			Minimun Total Cost: 506.106
