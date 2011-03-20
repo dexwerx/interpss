@@ -1,4 +1,9 @@
 [Mike 3/20/2011]
 
 - change QuadProgCalculator.java to QuadProgDCOPFSolverImpl.java. The naming is confusing
-- 
+- add opfBus and OpfBranch 
+
+     AclfBus <- OpfBus <- OpfGenBus
+     AclfBranch <- OpfBranch
+        
+        
