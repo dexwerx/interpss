@@ -23,7 +23,7 @@ public class Opf3BusTestNet {
 		//ID	atNode	FCost	a	b	capL	capU	initMoney
 		//1	    1  142.735	10.694	0.00463	20	200	    10000
 		  
-		OpfGenBus bus1= OpfObjectFactory.createOpfGenBus("Bus1");
+		OpfGenBus bus1= OpfObjectFactory.createOpfGenBus("Bus1", net);
 		bus1.setBaseVoltage(10, UnitType.kV);
 		bus1.setAttributes("Bus 1", "");
 		bus1.setLoadCode(AclfLoadCode.CONST_P);
@@ -33,11 +33,10 @@ public class Opf3BusTestNet {
 		bus1.setCoeffA(10.694);
 		bus1.setCoeffB(0.00463);
 		bus1.setFixedCost(142.735);
-		net.addBus(bus1);
 		
 		//bus2
 		//2	2	218.335	18.1	0.00612	10	150	10000
-		OpfGenBus bus2 = OpfObjectFactory.createOpfGenBus("Bus2");
+		OpfGenBus bus2 = OpfObjectFactory.createOpfGenBus("Bus2", net);
 		bus2.setAttributes("Bus 2", "");
 		bus2.setBaseVoltage(10, UnitType.kV);
 		bus2.setLoadCode(AclfLoadCode.CONST_P);
@@ -47,12 +46,10 @@ public class Opf3BusTestNet {
 		bus2.setCoeffA(18.1);
 		bus2.setCoeffB(0.00612);
 		bus2.setFixedCost(218.335);
-		net.addBus(bus2);//genBus2
 		
 		//bus3
 		//3	3	118.821	37.8896	0.01433	5	20	10000
-		OpfGenBus bus3 = OpfObjectFactory.createOpfGenBus("Bus3");
-		net.addBus(bus3);
+		OpfGenBus bus3 = OpfObjectFactory.createOpfGenBus("Bus3", net);
 		bus3.setBaseVoltage(10, UnitType.kV);
 		bus3.setAttributes("Bus 3", "");
 		bus3.setLoadCode(AclfLoadCode.CONST_P);
