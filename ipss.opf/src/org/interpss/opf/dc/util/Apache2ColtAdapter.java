@@ -10,7 +10,7 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 
 public class Apache2ColtAdapter {
 	
-	public DoubleMatrix2D trans(Array2DRowRealMatrix param2DMatrix){
+	public static DoubleMatrix2D trans(Array2DRowRealMatrix param2DMatrix){
 		int row =param2DMatrix.getRowDimension();
 		int col=param2DMatrix.getColumnDimension();
 		DoubleMatrix2D matrix=new DenseDoubleMatrix2D(row,col);
@@ -18,7 +18,7 @@ public class Apache2ColtAdapter {
 		return matrix;
 	}
 	
-	public DoubleMatrix1D trans(ArrayRealVector paramRealVector){
+	public static DoubleMatrix1D trans(ArrayRealVector paramRealVector){
 		DoubleMatrix1D matrix =new DenseDoubleMatrix1D(paramRealVector.getDimension());
 		matrix.assign(paramRealVector.toArray());
 		return matrix;
