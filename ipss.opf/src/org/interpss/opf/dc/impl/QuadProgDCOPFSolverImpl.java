@@ -42,7 +42,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Bus;
 import com.interpss.opf.OpfNetwork;
 
-public class QuadProgCalculator implements DCOPFSolver{
+public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	private OpfNetwork opfNet=null;
 	private QuadProgJ  qpj=null;
 	private boolean isDCOPFSolved=false;
@@ -58,7 +58,7 @@ public class QuadProgCalculator implements DCOPFSolver{
 	
 	
 	
-	public QuadProgCalculator(OpfNetwork opfNetwork){
+	public QuadProgDCOPFSolverImpl(OpfNetwork opfNetwork){
 		this.opfNet=opfNetwork;
 		OpfNetworkHelper helper = new OpfNetworkHelper(opfNet);
 		Apache2ColtAdapter Apache2Colt = new Apache2ColtAdapter();
