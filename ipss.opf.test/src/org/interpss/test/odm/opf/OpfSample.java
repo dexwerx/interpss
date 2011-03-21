@@ -32,7 +32,7 @@ import java.io.FileInputStream;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
-import org.interpss.opf.dc.impl.QuadProgCalculator;
+import org.interpss.opf.dc.impl.QuadProgDCOPFSolverImpl;
 import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
@@ -59,7 +59,7 @@ public class OpfSample  extends OpfTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 
-			QuadProgCalculator solver=new QuadProgCalculator(opfNet);
+			QuadProgDCOPFSolverImpl solver=new QuadProgDCOPFSolverImpl(opfNet);
 			solver.solveDCOPF();
 			
 //			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
@@ -100,7 +100,7 @@ public class OpfSample  extends OpfTestSetup {
 			}	
 			
 			OpfNetwork opfNet = simuCtx.getOpfNet();
-			QuadProgCalculator solver=new QuadProgCalculator(opfNet);
+			QuadProgDCOPFSolverImpl solver=new QuadProgDCOPFSolverImpl(opfNet);
 			solver.solveDCOPF();
 //			
 //			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
