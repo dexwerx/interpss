@@ -31,22 +31,18 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
-import org.interpss.opf.dc.OpfNetworkHelper;
 import org.interpss.opf.dc.impl.QuadProgCalculator;
 import org.interpss.opf.dc.util.OpfOutFunc;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class OpfSample  extends DevTestSetup { 
+public class OpfSample  extends OpfTestSetup { 
 	@Test
 	public void test3BusCase() throws Exception {
 		File file = new File("testdata/opf/opf_3bus_test.xml");

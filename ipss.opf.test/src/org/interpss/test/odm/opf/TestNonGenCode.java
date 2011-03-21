@@ -14,7 +14,7 @@ import com.interpss.simu.SimuContext;
 public class TestNonGenCode {
       @Test
 	  public void aNonGenCodeTest() throws Exception{
-  		String filePath="testdata/ieee_cdf/ieee30.ieee";
+  		String filePath="testdata/opf/ieee30.ieee";
 		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load(filePath);
 
