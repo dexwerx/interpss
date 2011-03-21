@@ -1,7 +1,5 @@
 package org.interpss.opf.dc.impl;
 
-import java.util.Hashtable;
-
 import org.interpss.opf.dc.DCOPFSolver;
 import org.interpss.opf.dc.OpfAlgorithm;
 
@@ -15,9 +13,11 @@ public class OpfAlgorithmImpl implements OpfAlgorithm{
 	
 	private double minF;
 	private double minTVC;
-	private Hashtable<String,Double> busEqMultiplier=null;
-	private Hashtable<String,Double> genBusIneqMultiplier=null;
-	private Hashtable<String,Double> branchIneqMultiplier=null;
+	
+//  removed, not used [Mike 3/21/2011]
+//	private Hashtable<String,Double> busEqMultiplier=null;
+//	private Hashtable<String,Double> genBusIneqMultiplier=null;
+//	private Hashtable<String,Double> branchIneqMultiplier=null;
 	
 	
 	@Override
@@ -32,17 +32,17 @@ public class OpfAlgorithmImpl implements OpfAlgorithm{
 		return this.angleDiffPanelty;
 	}
 
-	@Override
-	public Hashtable<String, Double> getBranchIneqMultiplier() {
-		
-		return this.branchIneqMultiplier;
-	}
+//	@Override
+//	public Hashtable<String, Double> getBranchIneqMultiplier() {
+//		
+//		return this.branchIneqMultiplier;
+//	}
 
-	@Override
-	public Hashtable<String, Double> getBusEqMultiplier() {
-		
-		return this.busEqMultiplier;
-	}
+//	@Override
+//	public Hashtable<String, Double> getBusEqMultiplier() {
+//		
+//		return this.busEqMultiplier;
+//	}
 
 	@Override
 	public DCOPFSolver getDCOPFSolver() {
@@ -50,11 +50,11 @@ public class OpfAlgorithmImpl implements OpfAlgorithm{
 		return this.dcOPFSolver;
 	}
 
-	@Override
-	public Hashtable<String, Double> getGenBusIneqMultiplier() {
-		
-		return this.genBusIneqMultiplier;
-	}
+//	@Override
+//	public Hashtable<String, Double> getGenBusIneqMultiplier() {
+//		
+//		return this.genBusIneqMultiplier;
+//	}
 
 	@Override
 	public double getMinF() {

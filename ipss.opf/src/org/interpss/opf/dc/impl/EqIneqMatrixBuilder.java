@@ -78,7 +78,7 @@ public class EqIneqMatrixBuilder {
 				}
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 			IpssLogger.getLogger().severe(e.toString());
 		}
 		return U;
@@ -115,7 +115,7 @@ public class EqIneqMatrixBuilder {
 			int[] selectedRows = this.getNonSwingBusRows();
 			return (Array2DRowRealMatrix) angleDiffWeight.getSubMatrix(selectedRows, selectedRows);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			IpssLogger.getLogger().severe(e.toString());
 		}
 		return null;

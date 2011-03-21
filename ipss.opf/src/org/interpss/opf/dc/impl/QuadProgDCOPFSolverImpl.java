@@ -30,8 +30,6 @@ package org.interpss.opf.dc.impl;
  * 
  */
 
-import java.util.Hashtable;
-
 import org.interpss.opf.dc.DCOPFSolver;
 import org.interpss.opf.dc.util.Apache2ColtAdapter;
 
@@ -51,9 +49,10 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	private double[] eqMultipliers=null;
 	private double[] ineqMultipiers=null;
 
-	private Hashtable<String,Double> busEqMultiplier=null;
-	private Hashtable<String,Double> genBusIneqMultiplier=null;
-	private Hashtable<String,Double> branchIneqMultiplier=null;
+//  removed, not used [Mike 3/21/2011]
+//	private Hashtable<String,Double> busEqMultiplier=null;
+//	private Hashtable<String,Double> genBusIneqMultiplier=null;
+//	private Hashtable<String,Double> branchIneqMultiplier=null;
 	
 	
 	
@@ -132,15 +131,15 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	public double[] getIneqMultipiers() {
 		return ineqMultipiers;
 	}
-	public Hashtable<String, Double> getBusEqMultiplier() {
-		return busEqMultiplier;
-	}
-	public Hashtable<String, Double> getGenBusIneqMultiplier() {
-		return genBusIneqMultiplier;
-	}
-	public Hashtable<String, Double> getBranchIneqMultiplier() {
-		return branchIneqMultiplier;
-	}
+//	public Hashtable<String, Double> getBusEqMultiplier() {
+//		return busEqMultiplier;
+//	}
+//	public Hashtable<String, Double> getGenBusIneqMultiplier() {
+//		return genBusIneqMultiplier;
+//	}
+//	public Hashtable<String, Double> getBranchIneqMultiplier() {
+//		return branchIneqMultiplier;
+//	}
 	@Override
 	public boolean isDCOPFSolved() {
 		

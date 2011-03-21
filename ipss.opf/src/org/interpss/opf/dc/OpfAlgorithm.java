@@ -1,7 +1,5 @@
 package org.interpss.opf.dc;
 
-import java.util.Hashtable;
-
 import com.interpss.opf.OpfNetwork;
 
 public interface OpfAlgorithm {
@@ -31,11 +29,10 @@ public interface OpfAlgorithm {
     
     public double getMinTVC();
     
-	public Hashtable<String, Double> getBusEqMultiplier() ;
-	
-	public Hashtable<String, Double> getGenBusIneqMultiplier();
-	
-	public Hashtable<String, Double> getBranchIneqMultiplier();
+//  removed, not used [Mike 3/21/2011]
+//	public Hashtable<String, Double> getBusEqMultiplier() ;
+//	public Hashtable<String, Double> getGenBusIneqMultiplier();
+//	public Hashtable<String, Double> getBranchIneqMultiplier();
     
     public void setAngleDiffPanelty(double angleDiffPanelty);
     
