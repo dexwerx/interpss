@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pss:pssStudyCase id="Two-Area_Stability-Study" 
+    xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/StudyCase.xsd ">
+	<pss:schemaVersion>V0.8</pss:schemaVersion>
+	<pss:contentInfo>
+		<pss:originalDataFormat>IEEE-CDF</pss:originalDataFormat>
+		<pss:adapterProviderName>Stephen.Hou</pss:adapterProviderName>
+		<pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
+	</pss:contentInfo>
+	<pss:dstabNet xsi:type="pss:DStabNetXmlType" id="TwoAreaBaseCase">
+		<pss:networkCategory>Transmission</pss:networkCategory>
+		<pss:analysisCategory>TransientStability</pss:analysisCategory>
+		<pss:basePower unit="MVA" value="100"></pss:basePower>
+		<pss:busList>
+			<pss:dstabBus scCode="Contributing" id="Bus1" name="AR1GEN1" offLine="false" areaNumber="1" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="230" />
+				<pss:voltage unit="PU" value="1.03" />
+				<pss:angle unit="DEG" value="-44.25" />
+				<pss:genData>
+					<pss:equivGen code="PV" id="gen1">
+						<pss:power unit="MVA" im="77.59" re="790.0" />
+						<pss:desiredVoltage unit="PU" value="1.03" />
+						<pss:qLimit unit="MVAR" min="-150.0" max="500.0" />
+					</pss:equivGen>
+				</pss:genData>
+				<pss:machineList>
+					<pss:machine>
+						<pss:genId id="AR1BUS1GEN1"></pss:genId>
+						<pss:ownerName>BUS1</pss:ownerName>
+						<pss:ratedPower unit="MW" value="900" />
+						<pss:transientMachModel>
+							<pss:H>4</pss:H>
+							<pss:D>0</pss:D>
+							<pss:xd1>0.3</pss:xd1>
+							<pss:ra>0.0025</pss:ra>
+							<pss:xd>1.8</pss:xd>
+							<pss:xq>1.7</pss:xq>
+							<pss:Td01 unit="Sec" value="8.0"/>
+							<pss:seFmt2>
+								<pss:e1>0.2</pss:e1>
+								<pss:e2>0.9</pss:e2>
+								<pss:se1>6.5</pss:se1>
+								<pss:se2>5</pss:se2>
+							</pss:seFmt2>
+							<pss:xq1>0.3</pss:xq1>
+							<pss:Tq01 unit="Sec" value="0.4"/>
+						</pss:transientMachModel>
+						<pss:excTSATTypeEXC34>
+							<pss:IVUEL>2</pss:IVUEL>
+							<pss:IVOEL>2</pss:IVOEL>
+							<pss:LVS>10</pss:LVS>
+							<pss:KA>190</pss:KA>
+							<pss:TA unit="Sec" value="0.0"></pss:TA>
+							<pss:TB unit="Sec" value="1"></pss:TB>
+							<pss:TC unit="Sec" value="1.0"></pss:TC>
+							<pss:TC1 unit="Sec" value="0.0"></pss:TC1>
+							<pss:TB1 unit="Sec" value="0.0"></pss:TB1>
+							<pss:TF unit="Sec" value="1.0"></pss:TF>
+							<pss:KF>0</pss:KF>
+							<pss:VIMAX>999</pss:VIMAX>
+							<pss:VIMIN>-999</pss:VIMIN>
+							<pss:VAMAX>99</pss:VAMAX>
+							<pss:VAMIN>-99</pss:VAMIN>
+							<pss:VRMAX>7.8</pss:VRMAX>
+							<pss:VRMIN>-6.7</pss:VRMIN>
+							<pss:KC>0.08</pss:KC>
+							<pss:KLR>0</pss:KLR>
+							<pss:ILR>0</pss:ILR>
+							<pss:TR unit="Sec" value="0.01"></pss:TR>
+							<pss:RC>0</pss:RC>
+							<pss:XC>0</pss:XC>
+						</pss:excTSATTypeEXC34>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
+					</pss:machine>
+				</pss:machineList>
+			</pss:dstabBus>
+			<pss:dstabBus scCode="Contributing" id="Bus2" areaNumber="1" name="AR1GEN2" offLine="false" zoneNumber="1">
+				<pss:baseVoltage unit="KV" value="230" />
+				<pss:voltage unit="PU" value="1.01" />
+				<pss:angle unit="DEG" value="-55.09" />
+				<pss:genData>
+					<pss:equivGen code="PV" id="gen2">
+						<pss:power unit="MVA" im="363.59" re="790.0" />
+						<pss:desiredVoltage unit="PU" value="1.01" />
+						<pss:qLimit unit="MVAR" min="-150.0" max="500.0" />
+					</pss:equivGen>
+				</pss:genData>
+				<pss:machineList>
+					<pss:machine>
+						<pss:genId id="AR1BUS2GEN1"></pss:genId>
+						<pss:ownerName>BUS2</pss:ownerName>
+						<pss:ratedPower unit="MW" value="900" />
+						<pss:transientMachModel>
+							<pss:H>4</pss:H>
+							<pss:D>0</pss:D>
+							<pss:xd1>0.3</pss:xd1>
+							<pss:ra>0.0025</pss:ra>
+							<pss:xd>1.8</pss:xd>
+							<pss:xq>1.7</pss:xq>
+							<pss:Td01 unit="Sec" value="8.0"/>
+							<pss:seFmt2>
+							<pss:e1>0.2</pss:e1>
+							<pss:e2>0.9</pss:e2>
+							<pss:se1>6.5</pss:se1>
+							<pss:se2>5</pss:se2>
+							</pss:seFmt2>
+							<pss:xq1>0.3</pss:xq1>
+							<pss:Tq01 unit="Sec" value="0.4"></pss:Tq01>
+						</pss:transientMachModel>
+						<pss:excTSATTypeEXC34>
+							<pss:IVUEL>2</pss:IVUEL>
+							<pss:IVOEL>2</pss:IVOEL>
+							<pss:LVS>10</pss:LVS>
+							<pss:KA>190</pss:KA>
+							<pss:TA unit="Sec" value="0.0"></pss:TA>
+							<pss:TB unit="Sec" value="1"></pss:TB>
+							<pss:TC unit="Sec" value="1.0"></pss:TC>
+							<pss:TC1 unit="Sec" value="0.0"></pss:TC1>
+							<pss:TB1 unit="Sec" value="0.0"></pss:TB1>
+							<pss:TF unit="Sec" value="1.0"></pss:TF>
+							<pss:KF>0</pss:KF>
+							<pss:VIMAX>999</pss:VIMAX>
+							<pss:VIMIN>-999</pss:VIMIN>
+							<pss:VAMAX>99</pss:VAMAX>
+							<pss:VAMIN>-99</pss:VAMIN>
+							<pss:VRMAX>7.8</pss:VRMAX>
+							<pss:VRMIN>-6.7</pss:VRMIN>
+							<pss:KC>0.08</pss:KC>
+							<pss:KLR>0</pss:KLR>
+							<pss:ILR>0</pss:ILR>
+							<pss:TR unit="Sec" value="0.01"></pss:TR>
+							<pss:RC>0</pss:RC>
+							<pss:XC>0</pss:XC>
+						</pss:excTSATTypeEXC34>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
+					</pss:machine>
+				</pss:machineList>
+			</pss:dstabBus>
+			<pss:dstabBus scCode="Contributing" id="Bus3" areaNumber="2" offLine="false" zoneNumber="2" name="AR2GEN1">
+				<pss:baseVoltage unit="KV" value="230" />
+				<pss:voltage unit="PU" value="1.03" />
+				<pss:angle unit="DEG" value="0.0" />
+				<pss:genData>
+					<pss:equivGen code="Swing" id="gen3">
+						<pss:power unit="MVA" im="71.85" re="719.19" />
+						<pss:desiredVoltage unit="PU" value="1.03" />
+						<pss:desiredAngle unit="DEG" value="0.0" />
+					</pss:equivGen>
+				</pss:genData>
+				<pss:machineList>
+					<pss:machine>
+						<pss:genId id="AR2BUS3GEN1"></pss:genId>
+						<pss:ownerName>BUS3</pss:ownerName>
+						<pss:ratedPower unit="MW" value="900" />
+						<pss:transientMachModel>
+							<pss:H>4</pss:H>
+							<pss:D>0</pss:D>
+							<pss:xd1>0.3</pss:xd1>
+							<pss:ra>0.0025</pss:ra>
+							<pss:xd>1.8</pss:xd>
+							<pss:xq>1.7</pss:xq>
+							<pss:Td01 unit="Sec" value="8.0"/>
+							<pss:seFmt2>
+							<pss:e1>0.2</pss:e1>
+							<pss:e2>0.9</pss:e2>
+							<pss:se1>6.5</pss:se1>
+							<pss:se2>5</pss:se2>
+							</pss:seFmt2>
+							<pss:xq1>0.3</pss:xq1>
+							<pss:Tq01 unit="Sec" value="0.4"></pss:Tq01>
+						</pss:transientMachModel>
+						<pss:excTSATTypeEXC34>
+							<pss:IVUEL>2</pss:IVUEL>
+							<pss:IVOEL>2</pss:IVOEL>
+							<pss:LVS>10</pss:LVS>
+							<pss:KA>190</pss:KA>
+							<pss:TA unit="Sec" value="0.0"></pss:TA>
+							<pss:TB unit="Sec" value="1"></pss:TB>
+							<pss:TC unit="Sec" value="1.0"></pss:TC>
+							<pss:TC1 unit="Sec" value="0.0"></pss:TC1>
+							<pss:TB1 unit="Sec" value="0.0"></pss:TB1>
+							<pss:TF unit="Sec" value="1.0"></pss:TF>
+							<pss:KF>0</pss:KF>
+							<pss:VIMAX>999</pss:VIMAX>
+							<pss:VIMIN>-999</pss:VIMIN>
+							<pss:VAMAX>99</pss:VAMAX>
+							<pss:VAMIN>-99</pss:VAMIN>
+							<pss:VRMAX>7.8</pss:VRMAX>
+							<pss:VRMIN>-6.7</pss:VRMIN>
+							<pss:KC>0.08</pss:KC>
+							<pss:KLR>0</pss:KLR>
+							<pss:ILR>0</pss:ILR>
+							<pss:TR unit="Sec" value="0.01"></pss:TR>
+							<pss:RC>0</pss:RC>
+							<pss:XC>0</pss:XC>
+						</pss:excTSATTypeEXC34>
+						<pss:grounding connection="Ungrounded"></pss:grounding>
+					</pss:machine>
+				</pss:machineList>
+			</pss:dstabBus>
+			<pss:dstabBus scCode="Contributing" id="Bus4" areaNumber="2" zoneNumber="2" offLine="false" name="AR2GEN2">
+				<pss:baseVoltage unit="KV" value="230" />
+				<pss:voltage unit="PU" value="1.01" />
+				<pss:angle unit="DEG" value="-9.85" />
+				<pss:genData>
+					<pss:equivGen code="PV" id="gen4">
+						<pss:power unit="MVA" im="212.38" re="740.0" />
+						<pss:desiredVoltage unit="PU" value="1.01" />
+						<pss:qLimit unit="MVAR" min="-150.0" max="500.0" />
+					</pss:equivGen>
+				</pss:genData>
+				<pss:machineList>
+				<pss:machine>
+					<pss:genId id="AR2BUS4GEN1"></pss:genId>
+					<pss:ownerName>BUS4</pss:ownerName>
+					<pss:ratedPower unit="MW" value="900" />
+					<pss:transientMachModel>
+						<pss:H>4</pss:H>
+						<pss:D>0</pss:D>
+						<pss:xd1>0.3</pss:xd1>
+						<pss:ra>0.0025</pss:ra>
+						<pss:xd>1.8</pss:xd>
+						<pss:xq>1.7</pss:xq>
+						<pss:Td01 unit="Sec" value="8.0"/>
+						<pss:seFmt2>
+							<pss:e1>0.2</pss:e1>
+							<pss:e2>0.9</pss:e2>
+							<pss:se1>6.5</pss:se1>
+							<pss:se2>5</pss:se2>
+						</pss:seFmt2>
+						<pss:xq1>0.3</pss:xq1>
+						<pss:Tq01 unit="Sec" value="0.4"></pss:Tq01>
+					</pss:transientMachModel>
+					<pss:excTSATTypeEXC34>
+						<pss:IVUEL>2</pss:IVUEL>
+						<pss:IVOEL>2</pss:IVOEL>
+						<pss:LVS>10</pss:LVS>
+						<pss:KA>190</pss:KA>
+						<pss:TA unit="Sec" value="0.0"></pss:TA>
+						<pss:TB unit="Sec" value="1"></pss:TB>
+						<pss:TC unit="Sec" value="1.0"></pss:TC>
+						<pss:TC1 unit="Sec" value="0.0"></pss:TC1>
+						<pss:TB1 unit="Sec" value="0.0"></pss:TB1>
+						<pss:TF unit="Sec" value="1.0"></pss:TF>
+						<pss:KF>0</pss:KF>
+						<pss:VIMAX>999</pss:VIMAX>
+						<pss:VIMIN>-999</pss:VIMIN>
+						<pss:VAMAX>99</pss:VAMAX>
+						<pss:VAMIN>-99</pss:VAMIN>
+						<pss:VRMAX>7.8</pss:VRMAX>
+						<pss:VRMIN>-6.7</pss:VRMIN>
+						<pss:KC>0.08</pss:KC>
+						<pss:KLR>0</pss:KLR>
+						<pss:ILR>0</pss:ILR>
+						<pss:TR unit="Sec" value="0.01"></pss:TR>
+						<pss:RC>0</pss:RC>
+						<pss:XC>0</pss:XC>
+					</pss:excTSATTypeEXC34>
+					<pss:grounding connection="Ungrounded"></pss:grounding>
+				</pss:machine>
+				</pss:machineList>
+			</pss:dstabBus>
+			<pss:aclfBus xsi:type="pss:LoadflowBusXmlType" id="Bus5" offLine="false" number="5" zoneNumber="1" areaNumber="1" name="B      LOAD1">
+				<pss:baseVoltage unit="KV" value="230.0" />
+				<pss:voltage unit="PU" value="0.9773" />
+				<pss:angle unit="DEG" value="-64.04" />
+				<pss:genData>
+					<pss:equivGen code="PQ" id="gen5">
+						<pss:power unit="MVA" im="0.0" re="0.0" />
+					</pss:equivGen>
+				</pss:genData>
+				<pss:loadData>
+					<pss:equivLoad code="CONST_P" id="load5">
+						<pss:constPLoad unit="MVA" im="100.0" re="1241.0" />
+					</pss:equivLoad>
+				</pss:loadData>
+				<pss:shuntY unit="PU" im="2.235" re="0.0" />
+			</pss:aclfBus>
+			<pss:aclfBus xsi:type="pss:LoadflowBusXmlType" id="Bus6" offLine="false" number="6" zoneNumber="2" areaNumber="2" name="B      LOAD2">
+				<pss:baseVoltage unit="KV" value="230.0" />
+				<pss:voltage unit="PU" value="0.9898" />
+				<pss:angle unit="DEG" value="-18.08" />
+				<pss:genData>
+					<pss:equivGen code="PQ" id="gen6">
+						<pss:power unit="MVA" im="0.0" re="0.0" />
+					</pss:equivGen>
+				</pss:genData>
+				<pss:loadData>
+					<pss:equivLoad code="CONST_P" id="load6">
+						<pss:constPLoad unit="MVA" im="100.0" re="1699.0" />
+					</pss:equivLoad>
+				</pss:loadData>
+				<pss:shuntY unit="PU" im="2.58" re="0.0" />
+			</pss:aclfBus>
+		</pss:busList>
+		<pss:branchList>
+			<pss:aclfLine circuitId="1" id="Bus1_to_Bus2_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+				<pss:fromBus idRef="Bus1" />
+				<pss:toBus idRef="Bus2" />
+				<pss:z unit="PU" im="0.025" re="0.0025" />
+				<pss:ratingLimit />
+			</pss:aclfLine>
+			<pss:aclfLine circuitId="1" id="Bus2_to_Bus5_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+				<pss:fromBus idRef="Bus2" />
+				<pss:toBus idRef="Bus5" />
+				<pss:z unit="PU" im="0.01" re="0.0010" />
+				<pss:ratingLimit />
+			</pss:aclfLine>
+			<pss:aclfLine circuitId="1" id="Bus5_to_Bus6_cirId_1" offLine="false" zoneNumber="2" areaNumber="2">
+				<pss:fromBus idRef="Bus5" />
+				<pss:toBus idRef="Bus6" />
+				<pss:z unit="PU" im="0.22" re="0.022" />
+				<pss:ratingLimit />
+			</pss:aclfLine>
+			<pss:aclfLine circuitId="1" id="Bus3_to_Bus4_cirId_1" offLine="false" zoneNumber="2" areaNumber="2">
+				<pss:fromBus idRef="Bus3" />
+				<pss:toBus idRef="Bus4" />
+				<pss:z unit="PU" im="0.025" re="0.0025" />
+				<pss:ratingLimit />
+			</pss:aclfLine>
+			<pss:aclfLine circuitId="1" id="Bus4_to_Bus6_cirId_1" offLine="false" zoneNumber="2" areaNumber="2">
+				<pss:fromBus idRef="Bus4" />
+				<pss:toBus idRef="Bus6" />
+				<pss:z unit="PU" im="0.01" re="0.001" />
+				<pss:ratingLimit />
+			</pss:aclfLine>
+		</pss:branchList>
+		<pss:lossZoneList>
+			<pss:lossZone number="0" name="1" />
+			<pss:lossZone number="0" name="2" />
+			<pss:lossZone number="0" name="3" />
+			<pss:lossZone number="0" name="4" />
+			<pss:lossZone number="1" name="5" />
+			<pss:lossZone number="2" name="6" />
+		</pss:lossZoneList>
+		<pss:interchangeList>
+			<pss:interchange>
+				<pss:powerEx areaName="AREA1                                                                                 1" 
+				             areaCode="AREA1 " areaNumber="1">
+					<pss:swingBus xsi:type="pss:BusRefRecordXmlType" idRef="Bus1" />
+					<pss:alternateSwingBusName>BD   AR1GEN1</pss:alternateSwingBusName>
+					<pss:desiredExPower unit="MW" value="600.0" />
+					<pss:exErrTolerance unit="MW" value="3.0" />
+				</pss:powerEx>
+			</pss:interchange>
+			<pss:interchange>
+				<pss:powerEx areaName="AREA2                                                                                 2" 
+				             areaCode="AREA2 " areaNumber="2">
+					<pss:swingBus xsi:type="pss:BusRefRecordXmlType" idRef="Bus3" />
+					<pss:alternateSwingBusName>BD   AR2GEN1</pss:alternateSwingBusName>
+					<pss:desiredExPower unit="MW" value="-600.0" />
+					<pss:exErrTolerance unit="MW" value="3.0" />
+				</pss:powerEx>
+			</pss:interchange>
+		</pss:interchangeList>
+		<pss:tieLineList>
+			<pss:tieline>
+				<pss:meteredBus xsi:type="pss:BusRefRecordXmlType" idRef="Bus5" />
+				<pss:meteredArea>1</pss:meteredArea>
+				<pss:nonMeteredBus xsi:type="pss:BusRefRecordXmlType" idRef="Bus6" />
+				<pss:nonMeteredArea>2</pss:nonMeteredArea>
+				<pss:cirId>1</pss:cirId>
+			</pss:tieline>
+		</pss:tieLineList>
+		<pss:positiveSeqDataOnly>true</pss:positiveSeqDataOnly>
+		<pss:saturatedMachineParameter>true</pss:saturatedMachineParameter>
+	</pss:dstabNet>
+</pss:pssStudyCase>
