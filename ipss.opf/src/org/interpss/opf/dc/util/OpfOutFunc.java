@@ -1,7 +1,7 @@
 package org.interpss.opf.dc.util;
 
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Bus;
+import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
 
@@ -27,7 +27,7 @@ public class OpfOutFunc {
 				 str.append(String.format("%10s","False"));
 			     str.append("              ");// just to control the output style, no meaning at all
 			 }
-			 str.append(String.format("%17.3f",((AclfBus)b).getVoltageAng()));	
+			 str.append(String.format("%17.3f",((OpfBus)b).getVoltageAng()));	
 			 str.append("\n");
 		 }
 		 

@@ -2,8 +2,6 @@ package org.interpss.opf.dc;
 
 import java.util.Hashtable;
 
-import com.interpss.opf.OpfNetwork;
-
 public interface DCOPFSolver {
 	
 	

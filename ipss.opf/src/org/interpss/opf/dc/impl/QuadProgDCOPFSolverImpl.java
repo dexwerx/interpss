@@ -33,13 +33,12 @@ package org.interpss.opf.dc.impl;
 import java.util.Hashtable;
 
 import org.interpss.opf.dc.DCOPFSolver;
-import org.interpss.opf.dc.OpfNetworkHelper;
 import org.interpss.opf.dc.util.Apache2ColtAdapter;
 
 import quadprogj.QuadProgJ;
 
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Bus;
+import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfNetwork;
 
 public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
@@ -112,7 +111,7 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 			int genIndex=0;
 			for(Bus b:opfNet.getBusList()){
 				if(opfNet.isOpfGenBus(b)){
-					((AclfBus) b).setGenP(optimX[genIndex]);
+					((OpfBus) b).setGenP(optimX[genIndex]);
 					genIndex++;
 				}
 			}
@@ -120,7 +119,7 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 			// set bus angle to opfNet bus object
 			int nonSwingBusIndex=0;
 			for(Bus b: opfNet.getBusList()){
-				AclfBus acbus=(AclfBus) b;
+				OpfBus acbus=(OpfBus) b;
 				if(!acbus.isSwing()){
 					acbus.setVoltageAng(busAngle[nonSwingBusIndex]);
 					nonSwingBusIndex++;
