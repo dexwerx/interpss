@@ -59,15 +59,14 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	
 	public QuadProgDCOPFSolverImpl(OpfNetwork opfNetwork){
 		this.opfNet=opfNetwork;
-		OpfNetworkHelper helper = new OpfNetworkHelper(opfNet);
-		Apache2ColtAdapter Apache2Colt = new Apache2ColtAdapter();
+		EqIneqMatrixBuilder helper = new EqIneqMatrixBuilder(opfNet);
 		this.qpj= new QuadProgJ(
-				Apache2Colt.trans(helper.formG()),
-				Apache2Colt.trans(helper.formA()),
-				Apache2Colt.trans(helper.formCeq()),
-				Apache2Colt.trans(helper.formBeq()),
-				Apache2Colt.trans(helper.formCiq()),
-				Apache2Colt.trans(helper.formBiq()));
+				Apache2ColtAdapter.trans(helper.formG()),
+				Apache2ColtAdapter.trans(helper.formA()),
+				Apache2ColtAdapter.trans(helper.formCeq()),
+				Apache2ColtAdapter.trans(helper.formBeq()),
+				Apache2ColtAdapter.trans(helper.formCiq()),
+				Apache2ColtAdapter.trans(helper.formBiq()));
 	}
 	public boolean solveDCOPF() {
 		if(solveQP()){

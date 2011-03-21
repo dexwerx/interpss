@@ -41,13 +41,13 @@ import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
 
-public class OpfNetworkHelper {
+public class EqIneqMatrixBuilder {
 	public final static double DEFAULT_BIJ = 10000; 
 		// 10000=1/0.0001 ,namely set the line Xij minimum to be 0.0001;
 	
 	private OpfNetwork opfNet = null;
 	
-	public OpfNetworkHelper(OpfNetwork opfNet) {
+	public EqIneqMatrixBuilder(OpfNetwork opfNet) {
 		this.opfNet = opfNet;
 		this.formBusIndexTable();
 	}
