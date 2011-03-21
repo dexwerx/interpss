@@ -25,8 +25,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.jar"/>
-	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
-	<classpathentry kind="lib" path="lib/gephi-toolkit.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_schemas.jar"/>
