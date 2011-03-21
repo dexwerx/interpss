@@ -33,7 +33,6 @@ import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.opf.dc.impl.QuadProgCalculator;
-import org.interpss.opf.dc.util.OpfOutFunc;
 import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
@@ -63,11 +62,11 @@ public class OpfSample  extends OpfTestSetup {
 			QuadProgCalculator solver=new QuadProgCalculator(opfNet);
 			solver.solveDCOPF();
 			
-			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
-			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
-			for(int i=0;i<solver.getEqMultipliers().length;i++){
-				System.out.println(solver.getEqMultipliers()[i]);
-			}
+//			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
+//			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
+//			for(int i=0;i<solver.getEqMultipliers().length;i++){
+//				System.out.println(solver.getEqMultipliers()[i]);
+//			}
 /*
 			Minimun Total Variable Cost: 26.215
 			Minimun Total Cost: 506.106
@@ -101,31 +100,24 @@ public class OpfSample  extends OpfTestSetup {
 			}	
 			
 			OpfNetwork opfNet = simuCtx.getOpfNet();
-//			System.out.println(opfNet.net2String());
-			
-//			OpfNetworkHelper opfHelper =new OpfNetworkHelper(opfNet);
-//			System.out.println(opfHelper.formU());
-//            LoadflowAlgorithm lfAlgo= CoreObjectFactory.createLoadflowAlgorithm(opfNet);
-//            lfAlgo.loadflow();
-//            System.out.println(AclfOutFunc.loadFlowSummary(opfNet));
 			QuadProgCalculator solver=new QuadProgCalculator(opfNet);
 			solver.solveDCOPF();
 //			
-			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
-			
-			for(int i=0;i<solver.getEqMultipliers().length;i++){
-				System.out.println(solver.getEqMultipliers()[i]);
-			}
-			System.out.println("----------a line ,the following are inequation multipiers----");
-			for(int i=0;i<solver.getIneqMultipiers().length;i++){
-				System.out.println(solver.getIneqMultipiers()[i]);
-			}
+//			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
+//			
+//			for(int i=0;i<solver.getEqMultipliers().length;i++){
+//				System.out.println(solver.getEqMultipliers()[i]);
+//			}
+//			System.out.println("----------a line ,the following are inequation multipiers----");
+//			for(int i=0;i<solver.getIneqMultipiers().length;i++){
+//				System.out.println(solver.getIneqMultipiers()[i]);
+//			}
 /*
-			Minimun Total Variable Cost: 26.215
-			Minimun Total Cost: 506.106
+Minimun Total Variable Cost: 49.173
+Minimun Total Cost: 1524.816
  */
-//		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 26.215) < 0.01);			
-//		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (506.106-26.215)) < 0.01);			
+		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 49.173) < 0.01);			
+		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (1524.816-49.173)) < 0.01);			
 		}
 	}
 }
