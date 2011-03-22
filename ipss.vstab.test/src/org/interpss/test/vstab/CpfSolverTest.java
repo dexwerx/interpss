@@ -6,7 +6,7 @@ import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.LimitType;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.test.vstab.TestCaseFactory;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
@@ -26,7 +26,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 
-public class CpfSolverTest extends DevTestSetup {
+public class CpfSolverTest extends VStabTestSetup {
 
 //	@Test
 //	public void ieee005_testCpfSolver_OneStep() throws Exception{

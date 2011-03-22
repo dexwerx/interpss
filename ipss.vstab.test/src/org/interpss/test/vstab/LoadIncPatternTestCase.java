@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
@@ -17,7 +17,7 @@ import com.interpss.core.net.Bus;
 import com.interpss.simu.util.sample.SampleCases;
 
 
-public class LoadIncPatternTestCase extends DevTestSetup {
+public class LoadIncPatternTestCase extends VStabTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 

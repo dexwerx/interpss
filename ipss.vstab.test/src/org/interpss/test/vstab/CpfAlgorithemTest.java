@@ -2,7 +2,7 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.LoadIncPattern;
@@ -17,7 +17,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.util.sample.SampleCases;
 
-public class CpfAlgorithemTest extends DevTestSetup{
+public class CpfAlgorithemTest extends VStabTestSetup{
 	@Test
 	public void testCase1() throws Exception {
 	

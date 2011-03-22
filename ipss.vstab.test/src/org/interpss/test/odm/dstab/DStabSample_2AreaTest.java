@@ -31,7 +31,7 @@ import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -41,7 +41,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DStabSample_2AreaTest extends DevTestSetup { 
+public class DStabSample_2AreaTest extends VStabTestSetup { 
 	@Test
 	public void testCase() throws Exception {
 		File file = new File("testdata/ieee_odm/Tran_2Area.xml");

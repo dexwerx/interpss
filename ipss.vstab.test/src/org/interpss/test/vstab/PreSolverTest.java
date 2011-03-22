@@ -2,7 +2,7 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.GenDispPattern;
@@ -21,7 +21,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
 import com.interpss.simu.util.sample.SampleCases;
 
-public class PreSolverTest extends DevTestSetup {
+public class PreSolverTest extends VStabTestSetup {
 	@Test
 	public void testCase1() {
 	// create a sample 5-bus system for Loadflow 

@@ -1,5 +1,5 @@
  /*
-  * @(#)DummyTest.java   
+  * @(#)BaseTestSetup.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/01/2010
+  * @Date 07/15/2007
   * 
   *   Revision History
   *   ================
@@ -24,14 +24,18 @@
 
 package org.interpss.test;
 
-import static org.junit.Assert.assertTrue;
+import org.interpss.IpssPlugin;
+import org.junit.BeforeClass;
 
-import org.junit.Test;
+import com.interpss.common.msg.IPSSMsgHub;
 
-public class DummyTest  extends DevTestSetup {
-	@Test
-	public void dummyTestCase() {
-	    assertTrue(true);		
+public class VStabTestSetup {
+	protected static IPSSMsgHub msg;
+
+	@BeforeClass
+	public static void setSpringAppCtx() {
+		IpssPlugin.init();
+		msg = IpssPlugin.getMsgHub();
 	}
 }
 

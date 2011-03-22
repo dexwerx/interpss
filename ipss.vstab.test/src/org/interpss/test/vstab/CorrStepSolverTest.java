@@ -6,7 +6,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.GenDispPattern;
@@ -25,7 +25,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class CorrStepSolverTest extends DevTestSetup {
+public class CorrStepSolverTest extends VStabTestSetup {
 	/**
 	 * Test Lambda as the continuation parameter;
 	 * @throws Exception 

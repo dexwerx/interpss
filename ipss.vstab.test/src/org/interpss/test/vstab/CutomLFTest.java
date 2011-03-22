@@ -7,14 +7,14 @@ import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.spring.PluginSpringCtx;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 
-public class CutomLFTest extends DevTestSetup {
+public class CutomLFTest extends VStabTestSetup {
 	@Test
 	public void testCase1() throws InterpssException{
 		IODMAdapter adapter= new IeeeCDFAdapter();

@@ -27,7 +27,7 @@ package org.interpss.test.vstab;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginObjectFactory;
-import org.interpss.test.DevTestSetup;
+import org.interpss.test.VStabTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
@@ -40,7 +40,7 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class IEEECommonFormatTest extends DevTestSetup {
+public class IEEECommonFormatTest extends VStabTestSetup {
 	@Test 
 	public void bus005testCase() throws Exception {
 		AclfNetwork net = PluginObjectFactory
