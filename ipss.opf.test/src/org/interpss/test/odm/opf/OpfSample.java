@@ -32,11 +32,14 @@ import java.io.FileInputStream;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
+import org.interpss.opf.dc.DCOPFSolver;
 import org.interpss.opf.dc.impl.QuadProgDCOPFSolverImpl;
 import org.interpss.opf.dc.util.OpfOutFunc;
 import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
+import com.interpss.core.net.Bus;
+import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -105,7 +108,7 @@ public class OpfSample  extends OpfTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 			
-			QuadProgDCOPFSolverImpl solver=new QuadProgDCOPFSolverImpl(opfNet);
+			DCOPFSolver solver=new QuadProgDCOPFSolverImpl(opfNet);
 			solver.solveDCOPF();
 //			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
@@ -113,11 +116,11 @@ public class OpfSample  extends OpfTestSetup {
 //			for(int i=0;i<solver.getEqMultipliers().length;i++){
 //				System.out.println(solver.getEqMultipliers()[i]);
 //			}
-			double baseMVA=opfNet.getBaseKva()/1000.0;
-			for(int i=0;i<solver.getEqMultipliers().length;i++){
-//				System.out.println(solver.getEqMultipliers()[i]);
-				System.out.println("The LMP of "+opfNet.getBusList().get(i).getId()+" is :"+solver.getEqMultipliers()[i]/baseMVA);
+			for(Bus b : opfNet.getBusList()){
+				System.out.println("The LMP of "+b.getId()+" is :"
+						+ "(" + ((OpfBus)b).getLMP() + ")");
 			}
+			
 //			System.out.println("----------a line ,the following are inequation multipiers----");
 //			for(int i=0;i<solver.getIneqMultipiers().length;i++){
 //				System.out.println(solver.getIneqMultipiers()[i]);
@@ -126,8 +129,8 @@ public class OpfSample  extends OpfTestSetup {
 			Minimun Total Variable Cost: 49.173
 			Minimun Total Cost: 1524.816
  */
-//		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 49.173) < 0.001);			
-//		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (1524.816-49.173)) < 0.001);			
+		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 49.173) < 0.001);			
+		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (1524.816-49.173)) < 0.001);			
 		}
 	}
 }
