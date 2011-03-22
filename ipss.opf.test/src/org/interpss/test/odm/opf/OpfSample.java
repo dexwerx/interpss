@@ -67,18 +67,18 @@ public class OpfSample  extends OpfTestSetup {
 			solver.solveDCOPF(opfNet);
 			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
-	        double baseMVA=opfNet.getBaseKva()/1000.0;
-			for(int i=0;i<solver.getEqMultipliers().length;i++){
-//				System.out.println(solver.getEqMultipliers()[i]);
-				System.out.println("The LMP of BUS#"+opfNet.getBusList().get(i).getId()+" is :"+solver.getEqMultipliers()[i]/baseMVA);
-			}
+//	        double baseMVA=opfNet.getBaseKva()/1000.0;
+//			for(int i=0;i<solver.getEqMultipliers().length;i++){
+////				System.out.println(solver.getEqMultipliers()[i]);
+//				System.out.println("The LMP of BUS#"+opfNet.getBusList().get(i).getId()+" is :"+solver.getEqMultipliers()[i]/baseMVA);
+//			}
 		
 /*          
 			Minimun Total Variable Cost: 26.215
 			Minimun Total Cost: 506.106
  */
-//		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 26.215) < 0.01);			
-//		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (506.106-26.215)) < 0.01);			
+		  	assertTrue(Math.abs(opfNet.getMinTotalVariableCost() - 26.215) < 0.01);			
+		  	assertTrue(Math.abs(opfNet.getTotalFixedCost() - (506.106-26.215)) < 0.01);			
 		}
 	}
 	@Test
@@ -116,10 +116,10 @@ public class OpfSample  extends OpfTestSetup {
 //			for(int i=0;i<solver.getEqMultipliers().length;i++){
 //				System.out.println(solver.getEqMultipliers()[i]);
 //			}
-			for(Bus b : opfNet.getBusList()){
-				System.out.println("The LMP of "+b.getId()+" is :"
-						+ "(" + ((OpfBus)b).getLMP() + ")");
-			}
+//			for(Bus b : opfNet.getBusList()){
+//				System.out.println("The LMP of "+b.getId()+" is :"
+//						+ "(" + ((OpfBus)b).getLMP() + ")");
+//			}
 			
 //			System.out.println("----------a line ,the following are inequation multipiers----");
 //			for(int i=0;i<solver.getIneqMultipiers().length;i++){
