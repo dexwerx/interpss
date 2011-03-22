@@ -38,4 +38,6 @@ add
  for opfBranch
  add
  set/getRatingInequMulitiplier    
+ 
+ [Mike 3/21/2011, done]
         

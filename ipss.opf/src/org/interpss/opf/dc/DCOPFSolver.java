@@ -2,8 +2,6 @@ package org.interpss.opf.dc;
 
 
 public interface DCOPFSolver {
-	
-	
 	public boolean isDCOPFSolved();
 	
     public boolean solveDCOPF();
@@ -14,6 +12,4 @@ public interface DCOPFSolver {
 //	public Hashtable<String, Double> getBranchIneqMultiplier();
 	
 	public double getMinF();
-	
-	
 }

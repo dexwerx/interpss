@@ -77,22 +77,20 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	}
 	
 	private boolean solveQP() {
-		
 		// NOTE FOR THE SOLUTION STRUCTURE x* = qpj.getMinX()
 	    // x* = (p_{G1}...p_{GI}, delta_2...delta_K) for fixed demand
-	
 		try {
 			this.optimX = qpj.getMinX();
-			this.eqMultipliers = qpj.getEqMultipliers();
-			this.ineqMultipiers = qpj.getIneqMultipiers();
-			this.minF=qpj.getMinF();
-			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
-		return true;
 
+		this.eqMultipliers = qpj.getEqMultipliers();
+		this.ineqMultipiers = qpj.getIneqMultipiers();
+		this.minF=qpj.getMinF();
+		
+		return true;
 	}
 	
 	private void saveOPFResult() {
@@ -114,14 +112,17 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 				}
 			}
 
-			// set bus angle to opfNet bus object
+			// set bus angle and LMP to opfNet bus object
 			int nonSwingBusIndex=0;
+			int cnt = 0;
+			double baseMVA=opfNet.getBaseKva()/1000.0;
 			for(Bus b: opfNet.getBusList()){
-				OpfBus acbus=(OpfBus) b;
-				if(!acbus.isSwing()){
-					acbus.setVoltageAng(busAngle[nonSwingBusIndex]);
+				OpfBus bus=(OpfBus) b;
+				if(!bus.isSwing()){
+					bus.setVoltageAng(busAngle[nonSwingBusIndex]);
 					nonSwingBusIndex++;
 				}
+				bus.setLMP(getEqMultipliers()[cnt++]/baseMVA);
 			}
 	  }
 	
@@ -147,7 +148,6 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	}
 	@Override
 	public double getMinF() {
-		
 		return this.minF;
 	}
 	
