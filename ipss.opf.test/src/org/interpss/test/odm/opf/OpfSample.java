@@ -63,8 +63,8 @@ public class OpfSample  extends OpfTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 
-			QuadProgDCOPFSolverImpl solver=new QuadProgDCOPFSolverImpl(opfNet);
-			solver.solveDCOPF();
+			QuadProgDCOPFSolverImpl solver=new QuadProgDCOPFSolverImpl();
+			solver.solveDCOPF(opfNet);
 			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
 	        double baseMVA=opfNet.getBaseKva()/1000.0;
@@ -108,8 +108,8 @@ public class OpfSample  extends OpfTestSetup {
 			OpfNetwork opfNet = simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 			
-			DCOPFSolver solver=new QuadProgDCOPFSolverImpl(opfNet);
-			solver.solveDCOPF();
+			DCOPFSolver solver=new QuadProgDCOPFSolverImpl();
+			solver.solveDCOPF(opfNet);
 //			
 			System.out.println(OpfOutFunc.opfResultSummary(opfNet));
 			
