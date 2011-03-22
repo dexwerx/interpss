@@ -16,5 +16,26 @@
 //	private Hashtable<String,Double> genBusIneqMultiplier=null;
 //	private Hashtable<String,Double> branchIneqMultiplier=null;   
 
-- removed OpfAlgorithm. It is not used     
+- removed OpfAlgorithm. It is not used 
+
+[Tony 3/22/2011]
+ -fix a bug in EqIneqMatrixBuilder related to opfGenBus when forming the input matrix into DCOPFSolver
+  ai->Ai,bi->Bi(Ai=ai*baseMVA,Bi=bi*baseMVA^2)
+
+    
+ -to do: 
+ for opfBus
+ add    
+  set/getLMP();
+
+ for opfGenBus
+add
+  set/getGenPLInequMultiplier// inequ multiplier for genP lower limit
+  set/getGenPUInequMultiplier// inequ multiplier for genp upper limit
+  set/getGenQLInequMultiplier// inequ multiplier for genQ lower limit
+  set/getGenQUInequMultiplier// inequ multiplier for genQ upper limit
+ 
+ for opfBranch
+ add
+ set/getRatingInequMulitiplier    
         

@@ -64,16 +64,17 @@ public class EqIneqMatrixBuilder {
 		}
 	}
 	
-	// cost matrix composed by coefficient 2*bi	
+	// cost matrix composed by coefficient 2*bi*(baseMVA^2)	
 	public Array2DRowRealMatrix formU() {
 		int numOfGen = opfNet.getNoOfGen();
+		double baseMVA=opfNet.getBaseKva()/1000.0;
 		Array2DRowRealMatrix U = new Array2DRowRealMatrix(numOfGen, numOfGen);
 		int genIndex=0;
 		try{
 			for(Bus b: opfNet.getBusList()){
 				if(opfNet.isOpfGenBus(b)){
 					U.setEntry(genIndex, genIndex, 
-							(opfNet.toOpfGenBus(b)).getCoeffB()*2);
+							(opfNet.toOpfGenBus(b)).getCoeffB()*baseMVA*baseMVA*2);
 					genIndex++;
 				}
 			}
@@ -142,13 +143,14 @@ public class EqIneqMatrixBuilder {
 		
 	private ArrayRealVector getGenCoeffAVector(){
 		int numOfGen=opfNet.getNoOfGen();
+		double baseMVA=opfNet.getBaseKva()/1000.0;
 		ArrayRealVector genFixCostVector =new ArrayRealVector(numOfGen);
         int i=0;
 		// get the constraint data from network file ;
 	    for (Bus bus:opfNet.getBusList()) {
 	    	if(opfNet.isOpfGenBus(bus)){
 	    		OpfGenBus genOPF= opfNet.toOpfGenBus(bus);
-	    		genFixCostVector.setEntry(i, genOPF.getCoeffA());
+	    		genFixCostVector.setEntry(i, genOPF.getCoeffA()*baseMVA);
 	  			i++;
 	    	}
 	    }
