@@ -28,6 +28,9 @@ package org.interpss.opf.dc.impl;
  * This is an implementation of DC-OPF using the Quad Programming optimization algorithm.
  * It depends on the OpfNetworkHelper class to feed Opf net info into the algorithm.
  * 
+ * A DCOPFSolver implementation will has to major concepts
+        * EqIneqMatrixBuilder for build relevant matrixes
+        * An optimization routine    * 
  */
 
 import org.interpss.opf.dc.DCOPFSolver;
@@ -42,9 +45,10 @@ import com.interpss.opf.OpfNetwork;
 public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	private OpfNetwork opfNet=null;
 	private QuadProgJ  qpj=null;
-	private boolean isDCOPFSolved=false;
-    // OPF result
-	private double minF=0;
+//	private boolean isDCOPFSolved=false;
+  
+	// OPF result
+//	private double minF=0;
 	private double[] optimX=null;
 	private double[] eqMultipliers=null;
 	private double[] ineqMultipiers=null;
@@ -56,8 +60,11 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	
 	
 	
-	public QuadProgDCOPFSolverImpl(OpfNetwork opfNetwork){
-		this.opfNet=opfNetwork;
+	public QuadProgDCOPFSolverImpl(){
+	}
+	
+	public boolean solveDCOPF(OpfNetwork opfNet) {
+		this.opfNet=opfNet;
 		EqIneqMatrixBuilder helper = new EqIneqMatrixBuilder(opfNet);
 		this.qpj= new QuadProgJ(
 				Apache2ColtAdapter.trans(helper.formG()),
@@ -66,14 +73,14 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 				Apache2ColtAdapter.trans(helper.formBeq()),
 				Apache2ColtAdapter.trans(helper.formCiq()),
 				Apache2ColtAdapter.trans(helper.formBiq()));
-	}
-	public boolean solveDCOPF() {
+		
 		if(solveQP()){
 			saveOPFResult();
-			isDCOPFSolved=true;
+			this.opfNet.setOpfSolved(true);
 		}
-		else isDCOPFSolved=false;
-		return isDCOPFSolved;
+		else 
+			this.opfNet.setOpfSolved(false);
+		return this.opfNet.isOpfSolved();
 	}
 	
 	private boolean solveQP() {
@@ -88,7 +95,7 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 
 		this.eqMultipliers = qpj.getEqMultipliers();
 		this.ineqMultipiers = qpj.getIneqMultipiers();
-		this.minF=qpj.getMinF();
+		this.opfNet.setMinF(qpj.getMinF());
 		
 		return true;
 	}
@@ -141,15 +148,13 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 //	public Hashtable<String, Double> getBranchIneqMultiplier() {
 //		return branchIneqMultiplier;
 //	}
-	@Override
-	public boolean isDCOPFSolved() {
-		
-		return isDCOPFSolved;
-	}
-	@Override
-	public double getMinF() {
-		return this.minF;
-	}
-	
-
+//	@Override
+//	public boolean isDCOPFSolved() {
+//		
+//		return isDCOPFSolved;
+//	}
+//	@Override
+//	public double getMinF() {
+//		return this.minF;
+//	}
 }
