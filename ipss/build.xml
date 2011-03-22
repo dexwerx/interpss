@@ -33,7 +33,7 @@
      	  	<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
   	  		<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
       		<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
-  			<fileset dir="${dev_base}/ipss.opf_EMF1/runtime" excludes="CVS/**,model/**" />
+  			<fileset dir="${dev_base}/ipss.opf_EMF/runtime" excludes="CVS/**,model/**" />
      	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
   	  	</jar>		
 
