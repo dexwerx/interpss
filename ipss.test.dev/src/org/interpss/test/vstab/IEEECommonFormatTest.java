@@ -37,6 +37,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
@@ -86,7 +87,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 	@Test
 	public void bus39testCase() throws Exception{
 		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
-		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee039.DAT");
+		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee039.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue(net.getBusList().size() == 39);
@@ -169,5 +170,40 @@ public class IEEECommonFormatTest extends DevTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.13442)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.82383)<0.0001);
 	}
+	
+	  @Test
+	   public void runEuro2000SummerCase() throws Exception {
+			AclfNetwork net = PluginObjectFactory
+			.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+			.load("testData/ieee_cdf/UCTE_2000_Summer.ieee")
+			.getAclfNet();
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.setMaxIterations(5);
+	  	algo.loadflow();
+	  	algo.setLfMethod(AclfMethod.NR);
+	  	algo.setInitBusVoltage(false);
+	  	algo.setMaxIterations(15);
+ 		assertTrue(algo.loadflow());
+	   }
+	  @Test
+	   public void runEuro2002SummerCase() throws Exception {
+			AclfNetwork net = PluginObjectFactory
+			.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+			.load("testData/ieee_cdf/UCTE_2002_Summer.ieee")
+			.getAclfNet();
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.setMaxIterations(5);
+	  	algo.loadflow();
+	  	algo.setLfMethod(AclfMethod.NR);
+	  	algo.setInitBusVoltage(false);
+	  	algo.setMaxIterations(15);
+	  	algo.setNonDivergent(true);
+		assertTrue(algo.loadflow());
+	   }
+	  
 }
 
