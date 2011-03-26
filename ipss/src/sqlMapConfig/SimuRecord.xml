@@ -5,8 +5,8 @@
 
 <sqlMap namespace="SimuRecord">
   <typeAlias alias="projectData" type="org.interpss.editor.data.proj.ProjData"/>
-  <typeAlias alias="dstabsimurec" type="com.interpss.dstab.datatype.DStabSimuDBRecord"/>
-  <typeAlias alias="ipsscase" type="com.interpss.common.rec.IpssDBCase"/>
+  <typeAlias alias="dstabsimurec" type="org.interpss.dstab.output.DStabSimuDBRecord"/>
+  <typeAlias alias="ipsscase" type="org.interpss.db.IpssDBCase"/>
 
   <!-- SimuRecordType Table -->
   <!-- ==================== -->

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:p="http://www.springframework.org/schema/p"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<!--  
+	Define ipss editor ui package objects
+-->
+	<bean id="outputTextDialog" 
+	      class="org.interpss.display.NBOutputTextDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	      <constructor-arg>
+	      		<!-- ipssMsgHub defined in applicaitonContext.xml -->
+	  			<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="projectDataEditor" 
+	      class="org.interpss.editor.ui.edit.NBProjectEditDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	      <constructor-arg>
+	      		<!-- ipssMsgHub defined in applicaitonContext.xml -->
+	  			<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="busDataEditor" 
+	      class="org.interpss.editor.ui.edit.NBBusEditDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	      <constructor-arg>
+	      		<!-- ipssMsgHub defined in applicaitonContext.xml -->
+	  			<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="branchDataEditor" 
+	      class="org.interpss.editor.ui.edit.NBBranchEditDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	      <constructor-arg>
+	      		<!-- ipssMsgHub defined in applicaitonContext.xml -->
+	  			<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="searchElementDialog" 
+	      class="org.interpss.editor.ui.edit.common.NBSearchElementDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	      <constructor-arg>
+	      		<!-- ipssMsgHub defined in applicaitonContext.xml -->
+	  			<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="serviceScheduleDialog" 
+	      class="org.interpss.editor.ui.edit.dist.branch.NBServiceScheduleDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	</bean>
+
+	<bean id="loadScheduleDialog" 
+	      class="org.interpss.editor.ui.edit.dist.bus.NBLoadScheduleDialog"
+	      scope="singleton">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	</bean>
+</beans>

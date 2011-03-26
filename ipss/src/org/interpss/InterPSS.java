@@ -32,6 +32,7 @@ import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.gridgain.util.GridUtil;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -67,7 +68,14 @@ public class InterPSS {
 				.getIpssString(OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))?
 						"springframework.config.editor" : "springframework.config.cmdline"));
 		*/
-		CoreCommonSpringCtx.springAppContextSetup();
+		//CoreCommonSpringCtx.springAppContextSetup();
+		if (CoreCommonSpringCtx.SpringAppCtx == null) {
+			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
+					new String[] {
+							"org/interpss/spring/GEditorSpringCtx.xml"});
+		}
+		
+		
 		// load app constants stored in the properties files
 		loadAppConstants();
 
