@@ -14,6 +14,8 @@
 
     	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="dist_lib" value="${dist_base}/lib"/>
+      	<property name="dist_lib.ieee" value="${dist_lib}/ieee"/>
+        <property name="dist_lib.ipss" value="${dist_lib}/ipss"/>
     </target>
 
 	<target depends="jar_lib, copy_lib" description="buld ipss lib files" name="build_lib" />
@@ -72,9 +74,9 @@
 
     	<!-- App lib -->
     	<echo message="- jar app lib files -"/>
-	  	<jar destfile="${dist_lib}/ipss.jar" 
+	  	<jar destfile="${dev_lib}/ipss.jar" 
 	  		basedir="${dev_base}/ipss/runtime" 
-	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
+	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.log" />	
 
 	  	<jar destfile="${lib_ipss}/ipss_editor.jar" 
 	  		basedir="${dev_base}/ipss.editor/runtime" 
@@ -125,6 +127,38 @@
   	  	<copy file="${lib.dev_ipss}/ipss_dist.jar" 	todir="${web_lib}"/>
     	
     	<!-- copy to GEditor -->
+    	<echo message="- copy lib files to GEditor -"/>
+  	  	<copy file="${lib_ieee}/ieee.odm_pss.jar" 	todir="${dist_lib.ieee}"/>
+
+    	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib.dev_ipss}/ipss_dist.jar" 	todir="${dist_lib.ipss}"/>
+    	
+  	  	<copy file="${lib_ipss}/ipss_plugin.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_plugin.grid.jar" 	todir="${dist_lib.ipss}"/>
+    	
+  	  	<copy file="${lib_ipss}/ipss_editor.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_editor_ui.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_editor_simu.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_jgraph.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_pad.jar" 		todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_xml.jar" 		todir="${dist_lib.ipss}"/>
+
+    	<copy file="${dev_lib}/ipss.jar" 			todir="${dist_lib}"/>
    	</target>
+	
+    <target depends="init" description="copy report templates to GEditor" name="copy_report_template">
+    	<copydir src="${dev_base}/ipss/reportTemplate"
+    	         dest="${dist_base}/reportTemplate"
+    	         includes="**/*.jasper"
+    	/>
+    </target>
+	
+    <target depends="init" description="copy ipss schema to GEditor" name="copyIpssSchema">
+    	<copydir src="${dev_base}/ipss.xml/schema"
+    	         dest="${dist_base}/schema"
+    	         includes="**/*.xsd"
+    	/>
+    </target>	
 	
 </project>
