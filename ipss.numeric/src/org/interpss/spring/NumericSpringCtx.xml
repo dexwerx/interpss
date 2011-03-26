@@ -16,6 +16,10 @@
 	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl"
 	      scope="singleton">	
 	</bean>
+	<bean id="sparseEqnDoubleDev" 
+	      class="com.interpss.core.sparse.dev.SparseEqnDoubleDevImpl"
+	      scope="singleton">	
+	</bean>
 <!--
 	An alternative Double Sparse Eqn implementation   
 -->
@@ -26,6 +30,11 @@
 
 	<bean id="sparseEqnMatrix2x2" 
 	      class="com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl"
+	      scope="singleton">	
+	</bean>
+
+	<bean id="sparseEqnMatrix2x2Dev" 
+	      class="com.interpss.core.sparse.dev.SparseEqnMatrix2x2DevImpl"
 	      scope="singleton">	
 	</bean>
 
