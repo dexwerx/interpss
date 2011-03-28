@@ -33,7 +33,7 @@ import java.io.InputStreamReader;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
-import org.interpss.custom.fadptr.impl.IpssFileAdapterBase;
+import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
