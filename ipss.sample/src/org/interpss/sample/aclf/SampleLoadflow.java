@@ -28,7 +28,7 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.util.PerformanceTimer;
+import org.interpss.numeric.util.PerformanceTimer;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
@@ -82,7 +82,7 @@ public class SampleLoadflow {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
-	  	PerformanceTimer timer = new PerformanceTimer();
+	  	PerformanceTimer timer = new PerformanceTimer(IpssLogger.getLogger());
 	  	timer.start();
 	  	algo.loadflow();
 	  	timer.logStd("Duration for loadflow: ");

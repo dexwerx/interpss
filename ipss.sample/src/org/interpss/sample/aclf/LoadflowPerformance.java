@@ -27,8 +27,8 @@ package org.interpss.sample.aclf;
 import java.util.logging.Level;
 
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.numeric.util.PerformanceTimer;
 import org.interpss.spring.PluginSpringCtx;
-import org.interpss.util.PerformanceTimer;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -48,7 +48,7 @@ public class LoadflowPerformance {
 
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 
-	  	PerformanceTimer timer = new PerformanceTimer();
+	  	PerformanceTimer timer = new PerformanceTimer(IpssLogger.getLogger());
 
 	  	/*
 	  	 * time loading data, create ODM and InterPSS Simulation object
