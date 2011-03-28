@@ -22,8 +22,80 @@
 				<ref bean="myCustomAdapterId"/>
 			</list>
 	-->
+	<bean id="fileAdapterIeeeCommonFormat" 
+	      class="org.interpss.custom.fadpter.IeeeCDFFormat"
+	      scope="singleton"	
+	      p:name="IEEE Common Format"
+	      p:fileFilterString="dat"
+	      p:extension="ieee"
+	      p:description="IEEE Common Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
+	<bean id="fileAdapterBPAFormat" 
+	      class="org.interpss.custom.fadpter.BPAFormat"
+	      scope="singleton"	
+	      p:name="BPA Format"
+	      p:fileFilterString="dat"
+	      p:extension="bpa"
+	      p:description="BPA Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+
+	<bean id="fileAdapterIeeeODMXml" 
+	      class="org.interpss.custom.fadpter.ODMFormat"
+	      scope="singleton"	
+	      p:name="IEEE ODM Xml Model"
+	      p:fileFilterString="xml"
+	      p:extension="odm"
+	      p:description="IEEE ODM Xml Model">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+
+	<bean id="fileAdapterUCTEFormat" 
+	      class="org.interpss.custom.fadpter.UCTEFormat"
+	      scope="singleton"	
+	      p:name="UCTE Format"
+	      p:fileFilterString="uct"
+	      p:extension="uct"
+	      p:description="UCTE Data Exchange Format for LF and SC">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
+	<bean id="fileAdapterPSSEFormat" 
+	      class="org.interpss.custom.fadpter.PTIFormat"
+	      scope="singleton"	
+	      p:name="PSS/E Format"
+	      p:fileFilterString="raw"
+	      p:extension="psse"
+	      p:description="PSSE Data Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	    <property name="versionList">
+	    	<list>
+	    		<value>PSS/E-30</value>
+	    		<value>PSS/E-29</value>
+	    		<value>PSS/E-26</value>
+	    	</list></property>
+	</bean>
+	
+	<bean id="fileAdapterGEFormat" 
+	      class="org.interpss.custom.fadpter.GEFormat"
+	      scope="singleton"	
+	      p:name="GE-PSLF Format"
+	      p:fileFilterString="epc"
+	      p:extension="ge"
+	      p:description="GE Data Exchange Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
 	<bean id="fileAdapterIpssInternalFormat" 
-	      class="org.interpss.custom.fadptr.IpssInternalFormat"
+	      class="org.interpss.custom.fadpter.IpssInternalFormat"
 	      scope="singleton"	
 	      p:name="InterPSS Internal Format"
 	      p:fileFilterString="ipssdata|dat"
@@ -53,6 +125,12 @@
 	      scope="singleton">	
 		<constructor-arg>
 			<list>
+				<ref bean="fileAdapterBPAFormat"/>
+				<ref bean="fileAdapterPSSEFormat"/>
+				<ref bean="fileAdapterGEFormat"/>
+				<ref bean="fileAdapterUCTEFormat"/>
+				<ref bean="fileAdapterIeeeODMXml"/>
+				<ref bean="fileAdapterIeeeCommonFormat"/>
 				<ref bean="fileAdapterIpssInternalFormat"/>
 				<ref bean="fileAdapterJavaScripts"/>
 			</list>
