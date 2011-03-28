@@ -24,11 +24,11 @@
 package org.interpss;
 
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.custom.fadptr.BPAFormat;
-import org.interpss.custom.fadptr.GEFormat;
-import org.interpss.custom.fadptr.IeeeCDFFormat;
-import org.interpss.custom.fadptr.PTIFormat;
-import org.interpss.custom.fadptr.UCTEFormat;
+import org.interpss.custom.fadpter.BPAFormat;
+import org.interpss.custom.fadpter.GEFormat;
+import org.interpss.custom.fadpter.IeeeCDFFormat;
+import org.interpss.custom.fadpter.PTIFormat;
+import org.interpss.custom.fadpter.UCTEFormat;
 import org.interpss.spring.BasePluginSpringCtx;
 import org.interpss.spring.PluginSpringCtx;
 
