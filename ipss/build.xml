@@ -35,6 +35,7 @@
      	  	<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
   	  		<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
       		<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
+      	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
   			<fileset dir="${dev_base}/ipss.opf_EMF/runtime" excludes="CVS/**,model/**" />
      	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
   	  	</jar>		
@@ -132,7 +133,6 @@
 
     	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${dist_lib.ipss}"/>
   	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${dist_lib.ipss}"/>
-  	  	<copy file="${lib.dev_ipss}/ipss_dist.jar" 	todir="${dist_lib.ipss}"/>
     	
   	  	<copy file="${lib_ipss}/ipss_plugin.jar" 	todir="${dist_lib.ipss}"/>
   	  	<copy file="${lib_ipss}/ipss_plugin.grid.jar" 	todir="${dist_lib.ipss}"/>
