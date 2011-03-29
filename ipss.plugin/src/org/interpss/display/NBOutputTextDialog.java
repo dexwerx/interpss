@@ -43,6 +43,9 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.ui.WinUtilities;
 
+import com.interpss.QA.QAObjectFactory;
+import com.interpss.QA.rfile.FileReader;
+import com.interpss.QA.rfile.IFileProcessor;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
@@ -130,6 +133,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
             busStyleRadioButton.setEnabled(true);
             summaryRadioButton.setEnabled(true);
             summaryRadioButton.setSelected(true);
+            this.compareButton.setEnabled(true);
         }
         else if (data instanceof MultiStudyCase) {
         	textArea.setText("");
@@ -233,6 +237,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         busStyleRadioButton = new javax.swing.JRadioButton();
         saveAsButton = new javax.swing.JButton();
         secMarginButton = new javax.swing.JButton();
+        compareButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
 
         setTitle("");
@@ -309,6 +314,16 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         });
         controlPanel.add(secMarginButton);
 
+        compareButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        compareButton.setText("Compare");
+        compareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	compareButtonActionPerformed(evt);
+            }
+        });
+        compareButton.setEnabled(false);
+        controlPanel.add(compareButton);
+
         closeButton.setFont(new java.awt.Font("Dialog", 0, 12));
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -354,7 +369,39 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     	textArea.setText(AclfOutFunc.loadFlowSummary(aclfAdjNet));
     }//GEN-LAST:event_summaryRadioButtonActionPerformed
 
-    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+    private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+    	JFileChooser fChooser = getCompareFileChooser();
+    	int retValue = fChooser.showOpenDialog(this);
+		if (retValue == JFileChooser.APPROVE_OPTION) {
+			File file = fChooser.getSelectedFile();
+			String filename = file.getPath();
+		    IpssLogger.getLogger().info("Result file selected: " + filename);
+		    IFileProcessor proc = null;
+		    if (filename.endsWith("psse")) {
+		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, FileReader.Type.PSSEAclfResult);
+		    }
+		    else if (filename.endsWith("bpa") || filename.endsWith("pfo")) {
+		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, FileReader.Type.BPAAclfResult);
+		    }
+	    	if (proc != null) {
+	    		new FileReader(filename).processFile(proc);	
+	    		textArea.setText("Result comparison:\n" + proc.getErrMsgList().toString());
+	    	}
+		}    
+    }//GEN-LAST:event_closeButtonActionPerformed
+
+	private JFileChooser getCompareFileChooser() {
+		if (saveTextFileChooser == null) {
+			saveTextFileChooser = new JFileChooser();
+			saveTextFileChooser.addChoosableFileFilter(new IpssFileFilter("psse", "PSS/E result file"));
+			saveTextFileChooser.addChoosableFileFilter(new IpssFileFilter("bpa", "BPA result file"));
+			saveTextFileChooser.addChoosableFileFilter(new IpssFileFilter("pfo", "BPA result file"));
+			saveTextFileChooser.setCurrentDirectory(new File(IpssFileFilter.OUTPUT_DEFAULT_DIR));
+		}
+    	return saveTextFileChooser;
+	}	
+
+	private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         setVisible(false);
     }//GEN-LAST:event_closeButtonActionPerformed
      
@@ -376,6 +423,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton busStyleRadioButton;
     private javax.swing.JButton closeButton;
+    private javax.swing.JButton compareButton;
     private javax.swing.JPanel controlPanel;
     private javax.swing.ButtonGroup lfFormatButtonGroup;
     private javax.swing.JPanel lfFormatPanel;
