@@ -20,6 +20,10 @@
 	      class="com.interpss.core.sparse.dev.SparseEqnDoubleDevImpl"
 	      scope="singleton">	
 	</bean>
+	<bean id="sparseEqnDoubleNative" 
+	      class="com.interpss.numeric.sparse.SparseEqnDoubleNativeImpl"
+	      scope="singleton">	
+	</bean>
 <!--
 	An alternative Double Sparse Eqn implementation   
 -->

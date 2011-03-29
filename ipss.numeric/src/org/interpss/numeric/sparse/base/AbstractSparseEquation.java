@@ -60,7 +60,7 @@ public class AbstractSparseEquation implements SparseEquation {
 	}
 
 	@Override
-	public boolean luMatrixAndSolveEqn(double tolerance) {
+	public boolean luMatrixAndSolveEqn(double tolerance)  throws IpssNumericException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -90,7 +90,7 @@ public class AbstractSparseEquation implements SparseEquation {
 	}
 
 	@Override
-	public void solveEqn() {
+	public void solveEqn() throws IpssNumericException {
 		throw new UnsupportedOperationException();
 	}
 }
