@@ -32,5 +32,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.native"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
