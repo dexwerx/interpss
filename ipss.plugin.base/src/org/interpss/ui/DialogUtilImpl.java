@@ -34,6 +34,7 @@ import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.TextMessage;
+import com.interpss.common.ui.IDialogUtil;
 
 public class DialogUtilImpl implements IDialogUtil, IpssMsgListener {
 	public static JFrame parent = null;
