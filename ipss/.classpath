@@ -4,10 +4,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-common-2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-sqlmap-2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
@@ -20,9 +22,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Derby"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-beanutils.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-codec-1.3.jar"/>
