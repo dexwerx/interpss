@@ -385,7 +385,10 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 		    }
 	    	if (proc != null) {
 	    		new FileReader(filename).processFile(proc);	
-	    		textArea.setText("Result comparison:\n" + proc.getErrMsgList().toString());
+	    		textArea.setText("Result comparison:\n" + 
+	    				(proc.getErrMsgList().size() > 0?
+	    						proc.getErrMsgList().toString() :
+	    						"No mismatch of LF results found")	);
 	    	}
 		}    
     }//GEN-LAST:event_closeButtonActionPerformed
