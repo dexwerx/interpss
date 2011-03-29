@@ -8,4 +8,6 @@ public interface IFileProcessor {
 	boolean processLine(String lineStr) throws InterpssException ;
 	
 	List<String> getErrMsgList();
+	
+	int getTotalBus();
 }

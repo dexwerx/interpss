@@ -6,7 +6,6 @@ import com.interpss.QA.rfile.Base_FileProcessor;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
@@ -14,7 +13,9 @@ import com.interpss.core.aclf.AclfNetwork;
 public class BPA_FileProcessor extends Base_FileProcessor {
 	private boolean busDataProcessed = false,
 	                busRecordBegin = false,
-	                busDataEnd = true;
+	                busRecordEnd = false;
+	
+	private AclfBus bus = null;
 	
 	public BPA_FileProcessor(AclfNetwork net) {
 		this.net = net;
@@ -22,71 +23,52 @@ public class BPA_FileProcessor extends Base_FileProcessor {
 	
 	@Override
 	public boolean processLine(String lineStr) throws InterpssException {
-		// first step is to verify Base Kva
-		// format: System base      100.00 MVA
-		if (!baseKvaProcessed) {
-			if (lineStr.contains("System base")) {
-				String[] strAry = lineStr.trim().split(" +");  // X+ once or more
-				IpssLogger.getLogger().info("BaseMva: " + strAry[2]);
-				assert("MVA".equals(strAry[3]));
-				baseKvaProcessed = true;
-			}
-		}
-		else if (!busDataProcessed) {
-//         FROM            AR ID   MW   MVAR           TO     ARCK    MW    MVAR    TAP    STP  PLOSS  QLOSS  PCT               
-			if (lineStr.contains("FROM") && lineStr.contains("TO")) {
-				busRecordBegin = true;
-			}
-			
-			if (busRecordBegin) {
-				/*
-			    if first 8 chars are bus number, busDataBegin = true
-			    if busDataBegin == true and empty line, busDataEnd = true
-				*/
-				if (busDataEnd && lineStr.length() > 8 &&
-						StringUtil.isInt(lineStr.substring(0, 8).trim())) {
-					busDataBegin = true;
-					busDataEnd = false;
-					totalBus++; this.busDataLineNo = 0;
-					//IpssLogger.getLogger().info("Processing bus: " + totalBus);
-				}
-				else if (lineStr.trim().equals("")) {
-					// if empty line, start another bus record
-					busDataEnd = true;
-				}
+		if (!busDataProcessed) {
+			if (lineStr.contains("kV        MW      MVAR")) {
+				this.busRecordBegin = true;
 				
-				if (busDataBegin && !busDataEnd) {
-					//System.out.println(++this.busDataLineNo + ":" + lineStr);
-					++this.busDataLineNo;
-					if (this.busDataLineNo == 1) {
-						this.busNo = new Integer(lineStr.substring(0, 8).trim()).intValue();
+			}
+			else if (lineStr.contains("-------  -------          -------  -------  ------  ------  ------")) {
+				this.busRecordEnd = true;
+				this.busDataProcessed = true;
+			}
+			else if (this.busRecordBegin && !this.busRecordEnd) {
+				if (!lineStr.trim().equals("")) {
+/*
+                     kV        MW      MVAR 功率因数     MW     MVAR    使用的  存在的  未安排                      PU/度           
+   bus-1    100.0   104.0     71.6     27.0  0.94        0.0      0.0     0.0     0.0     0.0    S           1   1.040/   0.0
+ */
+					this.totalBus++;
+					this.busId = lineStr.substring(0, 8).trim();
+					//System.out.println(busid.trim() + ":" + lineStr);
+					String str = lineStr.substring(113,125);
+					String[] ary = str.split("/");
+					this.busVoltage = new Double(ary[0].trim()).doubleValue();  // 0.9920PU
+					this.busAngle = new Double(ary[1].trim()).doubleValue();
+					//System.out.println(this.busId + ", " + this.busVoltage + ", " + this.busAngle);
+					
+					bus = this.net.getAclfBus(this.busId);
+					if (bus == null) {
+						IpssLogger.getLogger().severe("bus = null, " + lineStr);
 					}
-					else if (this.busDataLineNo == 3) {
-						this.busVoltage = new Double(lineStr.substring(0, 14).trim()).doubleValue();
-					}
-					else if (this.busDataLineNo == 4) {
-						this.busAngle = new Double(lineStr.substring(0, 13).trim()).doubleValue();
+					
+					double volt = bus.getVoltageMag();
+					if (!NumericUtil.equals(this.busVoltage, volt, 0.001)) {
+						String msg = "Bus voltage mag mismatch: Bus-" + this.busNo + ", " + 
+								     this.busVoltage + ", " + String.format("%5.4f, %4.3f", volt,  
+								     Math.abs(100.0*(this.busVoltage - volt)/this.busVoltage)) + "%";
+						//IpssLogger.getLogger().warning(msg);
+						addErrMsg(msg, lineStr);
 					}
 
-					if (this.busDataLineNo == 4) {
-						//System.out.println("BusNo, BusV, BusAng: " + this.busNo + ", " + this.busVoltage + ", " + this.busAngle);
-						AclfBus bus = this.net.getAclfBus("Bus"+this.busNo);
-						assert(bus != null);
-						
-						if (!NumericUtil.equals(this.busVoltage, bus.getVoltageMag(), 0.0001)) {
-							String msg = "Bus voltage mag mismatch: Bus-" + this.busNo + ", " + 
-									     this.busVoltage + ", " + String.format("%5.4f", bus.getVoltageMag());
-							//IpssLogger.getLogger().warning(msg);
-							this.errMsgList.add("\n" + msg);
-						}
-						
-						if (!NumericUtil.equals(this.busAngle, bus.getVoltageAng(UnitType.Deg), 0.1)) {
-							String msg = "Bus voltage ang mismatch: Bus-" + this.busNo + ", " + 
-											this.busAngle + ", " + String.format("%5.2f", bus.getVoltageAng(UnitType.Deg));
-							//IpssLogger.getLogger().warning(msg);
-							this.errMsgList.add("\n" + msg);
-						}						
-					}
+					double ang = bus.getVoltageAng(UnitType.Deg);
+					if (!NumericUtil.equals(this.busAngle, ang, 0.1)) {
+						String msg = "Bus voltage ang mismatch: Bus-" + this.busNo + ", " + 
+										this.busAngle + ", " + String.format("%5.2f, %4.3f", ang,
+										Math.abs(100.0*(this.busAngle - ang)/this.busAngle)) + "%";
+						//IpssLogger.getLogger().warning(msg);
+						addErrMsg(msg, lineStr);
+					}					
 				}
 			}
 		}

@@ -13,6 +13,7 @@ public abstract class Base_FileProcessor implements IFileProcessor {
 	protected int totalBus = 0, busDataLineNo = 0;
 	
 	protected int busNo;
+	protected String busId;
 	protected double baseMva, busVoltage, busAngle, busP, busQ, shuntQ;
 	
 	protected List<String> errMsgList = new ArrayList<String>();

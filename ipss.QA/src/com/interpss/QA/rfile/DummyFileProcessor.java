@@ -5,6 +5,12 @@ import java.util.List;
 
 public class DummyFileProcessor implements IFileProcessor {
 	@Override
+	public int getTotalBus() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
 	public List<String> getErrMsgList() {
 		// TODO Auto-generated method stub
 		return null;
