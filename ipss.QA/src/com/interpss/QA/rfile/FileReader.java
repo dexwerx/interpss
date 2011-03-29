@@ -33,6 +33,8 @@ import java.io.InputStreamReader;
 import com.interpss.common.util.IpssLogger;
 
 public class FileReader {
+	public static enum Type {PSSEAclfResult, BPAAclfResult, PSLFAclfResult};
+	
 	private String filepath = null;
 	
 	public FileReader(String filepath) {
