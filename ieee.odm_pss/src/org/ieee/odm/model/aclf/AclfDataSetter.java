@@ -34,6 +34,8 @@ import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LengthUnitType;
+import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -85,11 +87,9 @@ public class AclfDataSetter extends BaseDataSetter {
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit,
 			double p, double q, ApparentPowerUnitType pUnit) {
-   		bus.setGenData(getFactory().createLoadflowBusXmlTypeGenData());
-   		LoadflowGenDataXmlType equivGen = getFactory().createLoadflowGenDataXmlType();
-   		bus.getGenData().setEquivGen(equivGen);
-   		equivGen.setCode(code);
-   		equivGen.setPower(createPowerValue(p, q, pUnit));
+		setGenData(bus, code, v, vUnit, ang, angUnit);
+   		LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen();
+		equivGen.setPower(createPowerValue(p, q, pUnit));
    		if (code == LFGenCodeEnumType.PV) {
    			equivGen.setDesiredVoltage(createVoltageValue(v, vUnit));
    		}
@@ -97,6 +97,15 @@ public class AclfDataSetter extends BaseDataSetter {
    			equivGen.setDesiredVoltage(createVoltageValue(v, vUnit));
    			equivGen.setDesiredAngle(createAngleValue(ang, angUnit));
    		}
+	}	
+
+	public static void setGenData(LoadflowBusXmlType bus, LFGenCodeEnumType code, 
+			double v, VoltageUnitType vUnit,
+			double ang, AngleUnitType angUnit) {
+   		bus.setGenData(getFactory().createLoadflowBusXmlTypeGenData());
+   		LoadflowGenDataXmlType equivGen = getFactory().createLoadflowGenDataXmlType();
+   		bus.getGenData().setEquivGen(equivGen);
+   		equivGen.setCode(code);
 	}	
 
 	/*
@@ -121,6 +130,19 @@ public class AclfDataSetter extends BaseDataSetter {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param lineInfo
+	 * @param length
+	 * @param unit
+	 */
+	public static void setLineLength(LineBranchInfoXmlType lineInfo, 
+            double length, LengthUnitType unit) {
+		lineInfo.setLength(getFactory().createLengthXmlType());
+		lineInfo.getLength().setValue(length);
+		lineInfo.getLength().setUnit(unit);
+	}
+
 	/**
 	 * add a XformerData object to the branchData object, then set value(r, x, zUnit, gFrom, bFrom, gTo, bTo, yUnit) to the created XfomerData object
 	 * 

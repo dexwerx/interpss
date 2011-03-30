@@ -267,6 +267,7 @@ public class BusRecord {
 			if(!strAry[17].equals("")){
 				controlledBusRatedVol = new Double(strAry[17]).doubleValue();			
 			}
+			
 			if(strAry[0].equals("BG")||strAry[0].equals("BX")){
 				if(!controlledBus.equals("")) {			
 					busRec.getGenData().getEquivGen().getRemoteVoltageControlBus().setIdRef(controlledBus);

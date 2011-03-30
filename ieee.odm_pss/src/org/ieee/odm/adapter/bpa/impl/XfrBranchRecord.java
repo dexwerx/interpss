@@ -413,11 +413,11 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
 			if (str.length() > 72)
 				strAry[17] = str.substring(67, 71).trim();
 			
-			if (str.length() > 74)
+			if (str.length() > 78)
 				strAry[18] = str.substring(74, 77).trim();
 			
-			if (str.length() > 77)
-			strAry[19] = str.substring(77, 80).trim();
+			if (str.length() > 81)
+				strAry[19] = str.substring(77, 80).trim();
 		}catch(Exception e){
 			ODMLogger.getLogger().severe(e.toString() + "\n" + str);
 			e.printStackTrace();

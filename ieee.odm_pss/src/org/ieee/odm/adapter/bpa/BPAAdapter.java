@@ -28,9 +28,10 @@ package org.ieee.odm.adapter.bpa;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.bpa.impl.BPABranchRecord;
-import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
-import org.ieee.odm.adapter.bpa.impl.BPANetRecord;
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.LineBranchRecord;
+import org.ieee.odm.adapter.bpa.impl.NetRecord;
+import org.ieee.odm.adapter.bpa.impl.XfrBranchRecord;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.IODMModelParser;
@@ -56,10 +57,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	}
 	
 	protected IODMModelParser parseInputFile(final IFileReader din) throws Exception {
-		
 		String str="";
 		// first line, as a sign to run power flow data or transient data
-		str=din.readLine();	
+		// there may be comments starting with . or blank line
+		do{
+			str = din.readLine();
+		} while (str.startsWith(".") || str.trim().equals(""));
+		
 		if(str.equals("loadflow") || str.contains("POWERFLOW")){
 			AclfModelParser parser = new AclfModelParser();
 			parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
@@ -87,17 +91,17 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
 								||str.startsWith(">")){
 							ODMLogger.getLogger().fine("load header data");
-							BPANetRecord.processNetData(str,nvList,baseCaseNet);
+							NetRecord.processNetData(str,nvList,baseCaseNet);
 						}
 						else if(str.startsWith("A")||str.trim().startsWith("I")){
-							BPANetRecord.processAreaData(str, parser,	baseCaseNet, this,areaId++);
+							NetRecord.processAreaData(str, parser,	baseCaseNet, this,areaId++);
 							
 						}
 						else if((str.trim().startsWith("B")||str.trim().startsWith("+")
 								||str.trim().startsWith("X"))
 								&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
 							ODMLogger.getLogger().fine("load AC bus data");						
-							BPABusRecord.processBusData(str, parser);
+							BusRecord.processBusData(str, parser);
 						}
 						else if(str.trim().startsWith("BD")||str.trim().startsWith("BM")){
 							ODMLogger.getLogger().fine("load DCLine bus data");						
@@ -107,15 +111,15 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						else if( (str.trim().startsWith("L")||str.trim().startsWith("E"))
 								&&!str.trim().startsWith("LD")&&!str.trim().startsWith("LM")){
 							ODMLogger.getLogger().fine("load AC line data");
-							BPABranchRecord.processBranchData(str, parser, baseCaseNet);
+							LineBranchRecord.processBranchData(str, parser, baseCaseNet);
 						}
 						else if( str.trim().startsWith("T")){
 							ODMLogger.getLogger().fine("load transformer data");
-							BPABranchRecord.processXfrData(str, parser, baseCaseNet);
+							XfrBranchRecord.processXfrData(str, parser, baseCaseNet);
 						}
 						else if(str.trim().startsWith("R")){
 							ODMLogger.getLogger().fine("load transformer adjustment data");
-							BPABranchRecord.processXfrAdjustData(str, parser, baseCaseNet);
+							XfrBranchRecord.processXfrAdjustData(str, parser, baseCaseNet);
 						}
 						else if( str.trim().startsWith("LD")||str.trim().startsWith("LM")){
 							ODMLogger.getLogger().fine("load DC Line data");
@@ -123,9 +127,11 @@ public class BPAAdapter  extends AbstractODMAdapter {
 							// ***		parser,baseCaseNet, this);
 						}
 						else{
-							BPANetRecord.processReadComment(str, baseCaseNet,this);
+							NetRecord.processReadComment(str, baseCaseNet,this);
 						}						
-					}catch (final Exception e) {
+					}
+					catch (final Exception e) {
+						ODMLogger.getLogger().severe("Error, input : " + str);
 						e.printStackTrace();
 					}					
 				}

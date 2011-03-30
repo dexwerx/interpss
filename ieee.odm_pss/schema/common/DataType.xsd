@@ -34,10 +34,11 @@
 			<element name="nvPairList" type="pss:NameValuePairListXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="extension" type="anySimpleType" minOccurs="0"></element>
 		</sequence>
-
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="areaNumber" type="int" use="optional"></attribute>
+		<attribute name="areaName" type="string" use="optional"></attribute>
 		<attribute name="zoneNumber" type="int" use="optional"></attribute>
+		<attribute name="zoneName" type="string" use="optional"></attribute>
 		<attribute name="number" type="long" use="optional"></attribute>
 		<attribute name="offLine" type="boolean" use="optional"></attribute>
 	</complexType>
