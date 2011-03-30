@@ -169,5 +169,19 @@ public class IEEECommonFormatTest extends VStabTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.13442)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.82383)<0.0001);
 	}
+	@Test
+	public void bus3000testCase() throws Exception{
+		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		SimuContext simuCtx = adapter.load("testData/ieee_cdf/UCTE_2002_Summer.ieee");
+
+		AclfNetwork net = simuCtx.getAclfNet();
+//  		assertTrue((net.getBusList().size() == 118 && net.getBranchList().size() == 186));
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setNonDivergent(true);
+	  	assertTrue(algo.loadflow());
+//	  	System.out.println(AclfOutFunc.lfResultsBusStyle(net));
+	  	
+	}
 }
 

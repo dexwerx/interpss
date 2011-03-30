@@ -24,6 +24,7 @@ public class TestCaseFactory {
 		return null;
 		
 	}
+	
 	public static CPFAlgorithm createCpfAlgo(String ieeeNetName) throws Exception{
 		String filePath="testData/ieee_cdf/"+ieeeNetName+".ieee";
 		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
