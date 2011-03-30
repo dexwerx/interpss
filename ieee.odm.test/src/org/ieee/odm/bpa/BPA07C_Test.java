@@ -31,11 +31,11 @@ import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.junit.Test;
 
-public class BPA_ODMTest { 
+public class BPA07C_Test { 
 	@Test
-	public void testCaseNew() throws Exception {
+	public void bpaTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile("testdata/bpa/IEEE9.dat"));
+		assertTrue(adapter.parseInputFile("testdata/bpa/BPA07c.dat"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		parser.stdout();
