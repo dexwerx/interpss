@@ -22,7 +22,7 @@ import com.interpss.core.net.Bus;
 
 public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgorithm {
     
-	public static final double DEFAULT_MAX_STEP_SIZE=0.02;// to control the max step increase/decrease
+	public static final double DEFAULT_MAX_STEP_SIZE=0.05;// to control the max step increase/decrease
     protected double maxStepSize=DEFAULT_MAX_STEP_SIZE;
     public static final double DEFAULT_MAX_DELTA_LAMBDA=0.05;
     protected double maxDeltaLambda=DEFAULT_MAX_DELTA_LAMBDA;
@@ -37,7 +37,7 @@ public class CPFAlgorithmImpl extends LoadflowAlgorithmImpl implements CPFAlgori
     public final int DEFAULT_PF_MAX_ITERATIONS=10;
     private int maxPFIterations=DEFAULT_PF_MAX_ITERATIONS;
 
-    public final double DEFAULT_STEP_SIZE=0.02;  // deault step size;
+    public final double DEFAULT_STEP_SIZE=0.05;  // deault step size;
     private double stepSize=DEFAULT_STEP_SIZE;
     protected AnalysisStopCriteria stopCriteria=null;
     

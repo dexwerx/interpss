@@ -77,7 +77,7 @@ public class CPFSolverImpl implements CPFSolver{
 	      /*
 	       * output the deltaX for test
 	       */
-		  System.out.println("predictive deltaXL"+this.predStepSolver.getDeltaXLambda().toString());
+//		  System.out.println("predictive deltaXL"+this.predStepSolver.getDeltaXLambda().toString());
 		  
 		  //perform corrector step analysis
 		  LoadflowAlgorithm algo=CoreObjectFactory.createLoadflowAlgorithm();
