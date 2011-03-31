@@ -165,12 +165,13 @@ public class ModelStringUtil {
 	 * @return the string
 	 */
 	public static String getStringReturnEmptyString(String str, int beginCol, int endCol) {
-		if (str.length() < endCol)
+		if (str.length() <=endCol){
 			if(beginCol>str.length()){
 				return "";
 			}else if(beginCol<=str.length()){
-			    return str.substring(beginCol-1, str.length());
+			    return str.substring(beginCol-1, str.length()).trim();
 		     }
+		}
 		return str.substring(beginCol-1, endCol).trim();
 	}
 	

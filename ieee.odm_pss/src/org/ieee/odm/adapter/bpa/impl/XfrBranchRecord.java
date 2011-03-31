@@ -87,8 +87,8 @@ public class XfrBranchRecord {
 		
 		branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
 		
-		final double fVol= new Double(strAry[4]).doubleValue();
-		final double tVol= new Double(strAry[7]).doubleValue();	
+		final double fVbase= new Double(strAry[4]).doubleValue();
+		final double tVbase= new Double(strAry[7]).doubleValue();	
 			
 			
 		//  set tieline data, measure location for power interchange, 1--from side, 2- to side
@@ -144,32 +144,32 @@ public class XfrBranchRecord {
 			
 		// set xfr rating data
 		AclfDataSetter.setXfrRatingData(branchRec, 
-					fVol, tVol,VoltageUnitType.KV, MwRating, ApparentPowerUnitType.MVA);
+				fVbase, tVbase,VoltageUnitType.KV, MwRating, ApparentPowerUnitType.MVA);
 			
 
 		double rpu=0.0, xpu=0.0001, Gpu=0.0, Bpu=0.0;
 		if(!strAry[12].equals("")){
 			rpu = new Double(strAry[12]).doubleValue();
 			if(rpu>10.0){
-				rpu=rpu/100000;
+				rpu=rpu/100000;   //F6.5
 			}
 		}
 		if(!strAry[13].equals("")){
 			xpu = new Double(strAry[13]).doubleValue();
 			if(xpu>10.0){
-				xpu=xpu/100000;
+				xpu=xpu/100000;  //F6.5
 			}
 		}
 		if(!strAry[14].equals("")){
 			Gpu = new Double(strAry[14]).doubleValue();
 			if(Gpu>10.0){
-				Gpu=Gpu/100000;
+				Gpu=Gpu/100000;  //F6.5
 			}
 		}
 		if(!strAry[15].equals("")){
 			Bpu = new Double(strAry[15]).doubleValue();
 			if(Bpu>10.0){
-				Bpu=Bpu/100000;
+				Bpu=Bpu/100000;  //F6.5
 			}
 		}
 		
@@ -188,24 +188,28 @@ public class XfrBranchRecord {
 		if(!strAry[16].equals("")){
 			fromTurnRatedVolOrAngDeg = new Double(strAry[16]).doubleValue();				
 		}
-		if(strAry[17] != null && !strAry[17].equals("")){
-			toTurnRatedVolOrZero = new Double(strAry[17]).doubleValue();				 
+		
+		if(strAry[17] != null &&!strAry[17].equals("")){
+//	    if(!strAry[17].equals("")){
+			toTurnRatedVolOrZero = new Double(strAry[17]).doubleValue();
+			System.out.println("toTurnRatedVol"+toTurnRatedVolOrZero);
 		}
 		double fRatio=1.0, tRatio=1.0;			
         
 		// set transformer ratio and phaseshiftxfr angle
 		if (dataType==transformer){					
 			//to see what is the input data format, specified or not.
-			if(fromTurnRatedVolOrAngDeg>=2*fVol){
-				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100;				
+			if(fromTurnRatedVolOrAngDeg>=2*fVbase){
+				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100.0;		//F5.2		
 			}	
-			fRatio=fromTurnRatedVolOrAngDeg/fVol;
+			fRatio=fromTurnRatedVolOrAngDeg/fVbase;
 			branchRec.setFromTurnRatio(BaseDataSetter.createTurnRatioPU(fRatio));
 			
-			if(toTurnRatedVolOrZero>=2*tVol){
-				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100;				
+			if(toTurnRatedVolOrZero>=2*tVbase){
+				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100.0;		//F5.2		
 			}
-			tRatio = toTurnRatedVolOrZero / tVol;
+			tRatio = toTurnRatedVolOrZero/tVbase;
+			System.out.println("toTurnRatedVol"+toTurnRatedVolOrZero+"tratio="+tRatio);
 			NumberFormat ddf1 = NumberFormat.getNumberInstance();
 			ddf1.setMaximumFractionDigits(4);
 			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		
@@ -410,14 +414,21 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
 /*
 T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536. 			
  */
-			if (str.length() > 72)
-				strAry[17] = str.substring(67, 71).trim();
+			if (str.length() >= 68){
+				if(str.length() <= 72){
+				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,68, str.length()).trim();	
+				}
+				else{
+				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,68, 72).trim();
+				
+				}
+			}
 			
 			if (str.length() > 78)
-				strAry[18] = str.substring(74, 77).trim();
+				strAry[18] =strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();// str.substring(74, 77).trim();
 			
 			if (str.length() > 81)
-				strAry[19] = str.substring(77, 80).trim();
+				strAry[19] =ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();// str.substring(77, 80).trim();
 		}catch(Exception e){
 			ODMLogger.getLogger().severe(e.toString() + "\n" + str);
 			e.printStackTrace();
