@@ -16,8 +16,7 @@ by mw+j*kva/(kvbase*kvbase) then for base voltage(1.0 pu), we can not get the ri
 In fact, zbase should be caculated first, zbase=Vb^2/MVAbase=(20^2)/100=4; 
 y=G+jB=p+jq/(Vbase*Vbase)=1.325-j*0.35(S), y(pu)=y/ybase=y*zbase=(1.325-j*0.35)*4=5.3+1.40(pu)
 
-3) BE bus
-should the vmin be included?
+
 [Mike 31/3/2011]
 
 To investigate, please do the following:
@@ -32,7 +31,21 @@ to print out both ODM and InterPSS AclfNetwork object. Then two models could be 
 
 Translation from ODM to InterPSS is implemented in ipss.plugin/org.interpss/mapper/odm/impl/aclf/*
 
+[Tony 31/3/2011]
+
+1)BE bus
+should the vmin be included?  ---> fixed
+2)to turn bus ratio
+ e.g., <fromTurnRatio unit="PU" value="0.9523809523809523"/>
+                <toTurnRatio unit="PU" value="0.0"/>
+by default, it should be 1.
+      
+                
+
 ------------------ Closed -------------------
+
+
+
 
 
 
