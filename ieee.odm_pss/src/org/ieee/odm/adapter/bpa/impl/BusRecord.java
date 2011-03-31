@@ -118,9 +118,11 @@ public class BusRecord {
 		if(!strAry[9].equals("")){
 			shuntVar= new Double(strAry[9]).doubleValue();
 		}		       
-		double G = shuntMw/(baseKv*baseKv);
+//		double G = shuntMw/(baseKv*baseKv);
+		double baseMVA=parser.getAclfNet().getBasePower().getValue();
+		double G = shuntMw/baseMVA;
 		final double g=ModelStringUtil.getNumberFormat(G);
-		double B = shuntVar/(baseKv*baseKv);
+		double B = shuntVar/baseMVA;
 		final double b=ModelStringUtil.getNumberFormat(B);
 		// set pGenMax
 		double pGenMax=0.0;

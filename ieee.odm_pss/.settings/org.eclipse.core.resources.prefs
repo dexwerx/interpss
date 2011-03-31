@@ -1,3 +1,5 @@
-#Sun Mar 13 20:26:02 GMT-05:00 2011
+#Tue Mar 15 15:09:14 CST 2011
 eclipse.preferences.version=1
+encoding//schema/dcsystem/DcSystemRecordType.xsd=UTF8
 encoding//schema/loadflow/LFRecordType.xsd=UTF8
+encoding//schema/opf/OPFRecordType.xsd=UTF8
