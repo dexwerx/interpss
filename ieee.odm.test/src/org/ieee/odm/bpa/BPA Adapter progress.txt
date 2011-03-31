@@ -1,8 +1,12 @@
 BPA Adapter test progress
+
+------------------ Open -------------------
+
 [Tony 31/3/2011]
 07c test
 1). shuntY Load info missed:
 in line: B     ANSH-HLZ 525DC              1151
+
 2) error in shunt Load calculatioin, from SI unit(MW,Mvar) to pu. --->[fixed]
 in line: BE gz EQG029  20. gz700. 442.6530.-140     3570880.8     1049 
 
@@ -11,5 +15,22 @@ by mw+j*kva/(kvbase*kvbase) then for base voltage(1.0 pu), we can not get the ri
 
 In fact, zbase should be caculated first, zbase=Vb^2/MVAbase=(20^2)/100=4; 
 y=G+jB=p+jq/(Vbase*Vbase)=1.325-j*0.35(S), y(pu)=y/ybase=y*zbase=(1.325-j*0.35)*4=5.3+1.40(pu)
+
+[Mike 31/3/2011]
+
+To investigate, please do the following:
+
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
+				.loadDebug("testData/bpa/Test009bpa.dat")
+				.getAclfNet();	
+		System.out.println(net.net2String());
+
+to print out both ODM and InterPSS AclfNetwork object. Then two models could be compared.  
+
+Translation from ODM to InterPSS is implemented in ipss.plugin/org.interpss/mapper/odm/impl/aclf/*
+
+------------------ Closed -------------------
+
 
 
