@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.ofp;
+package org.ieee.odm.opf;
 
 import static org.junit.Assert.assertTrue;
 

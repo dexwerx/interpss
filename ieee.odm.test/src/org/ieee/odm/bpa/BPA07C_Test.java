@@ -26,6 +26,9 @@ package org.ieee.odm.bpa;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -35,10 +38,16 @@ public class BPA07C_Test {
 	@Test
 	public void bpaTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile("testdata/bpa/BPA07c.dat"));
+		assertTrue(adapter.parseInputFile("07c.dat"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		parser.stdout();
+//		parser.stdout();
+		String xml=parser.toXmlDoc(false);
+		FileOutputStream out=new FileOutputStream(new File("07c_ODM_0331.xml"));
+		out.write(xml.getBytes());
+		out.flush();
+		out.close();
+		
 	}
 }
 
