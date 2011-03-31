@@ -62,6 +62,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		// there may be comments starting with . or blank line
 		do{
 			str = din.readLine();
+			
 		} while (str.startsWith(".") || str.trim().equals(""));
 		
 		if(str.equals("loadflow") || str.contains("POWERFLOW")){
@@ -102,6 +103,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 								&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
 							ODMLogger.getLogger().fine("load AC bus data");						
 							BusRecord.processBusData(str, parser);
+//							System.out.println(str); //for test
 						}
 						else if(str.trim().startsWith("BD")||str.trim().startsWith("BM")){
 							ODMLogger.getLogger().fine("load DCLine bus data");						

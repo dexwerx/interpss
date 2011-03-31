@@ -43,7 +43,7 @@ public class BPA07C_Test {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 //		parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("07c_ODM_0331.xml"));
+		FileOutputStream out=new FileOutputStream(new File("07c_ODM_0331-1.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();

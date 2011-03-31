@@ -173,7 +173,8 @@ public class BusRecord {
 		
 		if(loadMw != 0.0 || loadMvar != 0.0 || 
 				pGen!=0.0|| qGenOrQGenMax!=0.0 ||
-				vMinOrAngDeg!=0.0||pGenMax!=0.0) {
+				vMinOrAngDeg!=0.0||pGenMax!=0.0
+				||g!=0||b!=0) {
 			// set G B
 			if (g != 0.0 || b != 0.0) {
 				busRec.setShuntY(BaseDataSetter.createYValue(g, b,YUnitType.PU));
