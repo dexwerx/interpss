@@ -74,5 +74,14 @@ public class BPASampleTestCases extends PluginTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.7164)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.2705)<0.01);
 	}
+	
+	public void outputTestCase() throws Exception {
+		AclfNetwork net = PluginObjectFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
+				.loadDebug("testData/bpa/Test009bpa.dat")
+				.getAclfNet();	
+		System.out.println(net.net2String());
+	}
+	
 }
 
