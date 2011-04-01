@@ -38,7 +38,7 @@ should the vmin be included?  ---> fixed
 2)to turn bus ratio
  e.g., <fromTurnRatio unit="PU" value="0.9523809523809523"/>
                 <toTurnRatio unit="PU" value="0.0"/>
-by default, it should be 1.
+by default, it should be 1.   ---> fixed Mike
       
                 
 
