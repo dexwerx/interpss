@@ -1,6 +1,7 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
+import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.GridAclfJob;
@@ -41,7 +42,7 @@ public class IEEE14_MultiStudyCase {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS core simulation engine configuration
-		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
+		IpssPlugin.init();
 
     	/*
     	 * step-1 Build the base case

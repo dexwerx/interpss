@@ -1,6 +1,7 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
+import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.gridgain.job.ContingencyAnaysisJob;
@@ -11,7 +12,6 @@ import org.interpss.gridgain.util.GridUtil;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.impl.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
@@ -27,7 +27,6 @@ import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.modify.BranchModification;
 import com.interpss.simu.multicase.modify.Modification;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * This example assumes that at least one remote Gridgain 2.1.1 agent is running in the LAN. 
@@ -41,7 +40,7 @@ public class IEEE14_ContingencyAnalysis {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS core simulation engine configuration
-		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
+		IpssPlugin.init();
 
     	/*
     	 * step-1 Build the base case

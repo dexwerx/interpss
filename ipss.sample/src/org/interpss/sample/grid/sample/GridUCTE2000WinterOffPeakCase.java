@@ -1,6 +1,7 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
+import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.GridRunner;
@@ -28,7 +29,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
+		IpssPlugin.init();
 		
 		// init grid computing env
 		Grid grid = GridHelper.initGridEnv();
