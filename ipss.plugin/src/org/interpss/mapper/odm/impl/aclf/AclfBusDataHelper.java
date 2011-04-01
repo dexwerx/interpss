@@ -98,7 +98,8 @@ public class AclfBusDataHelper {
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 			aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 			PQBusAdapter pqBus = aclfBus.toPQBus();
-			pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
+			if (xmlEquivGenData.getPower() != null)
+				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 					                 xmlEquivGenData.getPower().getIm()),
 					           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
 			if (xmlEquivGenData.getVoltageLimit() != null) {
