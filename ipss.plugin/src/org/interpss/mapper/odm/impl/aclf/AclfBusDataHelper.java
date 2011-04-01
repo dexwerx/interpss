@@ -126,7 +126,8 @@ public class AclfBusDataHelper {
   			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(aclfBus);
   			  		pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
   			  										xmlEquivGenData.getQLimit().getMin()), 
-  			  				ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));						
+  			  				ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));
+  			  		pvLimit.setStatus(xmlEquivGenData.getQLimit().isActive());
 				}
 			}
 			else {
