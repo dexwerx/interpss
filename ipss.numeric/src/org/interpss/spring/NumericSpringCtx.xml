@@ -23,7 +23,7 @@
 	<!-- bean id="sparseEqnDoubleNative" 
 	      class="com.interpss.numeric.sparse.SparseEqnDoubleNativeImpl"
 	      scope="singleton">	
-	</bean-->
+	</bean -->
 <!--
 	An alternative Double Sparse Eqn implementation   
 -->
