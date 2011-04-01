@@ -56,6 +56,7 @@ public class FileReader {
 			
 		} catch (Exception e) {
 			IpssLogger.getLogger().severe(e.toString());
+			e.printStackTrace();
 		}
 	}
 }
