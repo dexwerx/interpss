@@ -40,23 +40,26 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
 public class BusRecord {
+	static final int swingBus=1;
+	static final int pqBus=2;
+	static final int pvBus=3;		
+	static final int pvBusNoQLimit=3;		
+	
 	public static void processBusData(final String str, AclfModelParser parser) throws Exception {		
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);
 		
-		int busType=0;
-		
-		final int swingBus=1;
-		final int pqBus=2;
-		final int pvBus=3;		
-		
         //busType	
+		int busType=0;
 		String stemp = strAry[0];
 		if(stemp.equals("B")||stemp.equals("BC")||stemp.equals("BT")||stemp.equals("BV")){
 			busType=pqBus;
 		}
-		else if(stemp.equals("BE")||stemp.equals("BQ")||stemp.equals("BG")||stemp.equals("BF")){
+		else if(stemp.equals("BQ")||stemp.equals("BG")||stemp.equals("BF")){
 			busType=pvBus;
+		}
+		else if(stemp.equals("BE")){
+			busType=pvBusNoQLimit;
 		}
 		else if(stemp.equals("BS")){
 			busType=swingBus;
@@ -236,7 +239,7 @@ public class BusRecord {
 					}			
 				}
 			}
-			else if(busType==pvBus){
+			else if(busType==pvBus || busType==pvBusNoQLimit){
 				// set bus voltage
 				if(vpu!=0.0){
 					if(vpu>10){
@@ -254,7 +257,10 @@ public class BusRecord {
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					busRec.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit( 
-							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR));				
+							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR));	
+					// for "BE" type the limit if disabled
+					if (busType==pvBusNoQLimit)
+						busRec.getGenData().getEquivGen().getQLimit().setActive(false);
 				}
 				// set P limit
 				if(pGenMax!=0.0){
