@@ -39,7 +39,6 @@ import org.interpss.schema.DStabSchemaIEEE11ModelTest;
 import org.interpss.schema.DclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.ModificationCaseTest;
 import org.interpss.schema.UserStephenCaseTest;
-import org.interpss.spring.CustomFileAdapterTest;
 import org.interpss.spring.DStabControllerTest;
 import org.interpss.spring.SimuAppCtxTest;
 import org.junit.runner.RunWith;
@@ -75,7 +74,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEE22ModelTest.class,
 	
 	// Spring 
-	CustomFileAdapterTest.class,
 	DStabControllerTest.class,
 	SimuAppCtxTest.class,	
 

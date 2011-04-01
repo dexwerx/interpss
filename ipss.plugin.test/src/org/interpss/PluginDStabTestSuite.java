@@ -10,7 +10,6 @@ import org.interpss.dstab.ieeeModel.IEEE12ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE21ModelTest;
 import org.interpss.dstab.ieeeModel.IEEE22ModelTest;
 import org.interpss.schema.DStabSchemaIEEE11ModelTest;
-import org.interpss.spring.CustomFileAdapterTest;
 import org.interpss.spring.DStabControllerTest;
 import org.interpss.spring.SimuAppCtxTest;
 import org.junit.runner.RunWith;
@@ -33,7 +32,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEE22ModelTest.class,
 	
 	// Spring 
-	CustomFileAdapterTest.class,
 	DStabControllerTest.class,
 	SimuAppCtxTest.class,	
 
