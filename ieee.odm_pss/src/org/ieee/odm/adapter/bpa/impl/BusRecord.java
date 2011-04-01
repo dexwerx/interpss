@@ -221,19 +221,20 @@ public class BusRecord {
 			}
 			else if(busType==pqBus){			
 				AclfDataSetter.setGenData(busRec,
-						LFGenCodeEnumType.PQ, 
+						LFGenCodeEnumType.NONE_GEN, 
 						1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG);
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
+					busRec.getGenData().getEquivGen().setCode(LFGenCodeEnumType.PQ);
 					busRec.getGenData().getEquivGen()
 						.setPower(BaseDataSetter.createPowerValue(
 							pGen, qGenOrQGenMax, ApparentPowerUnitType.MVA));
+					// set V limit
+					if(vpu!=0 ||vMinOrAngDeg!=0){
+					    busRec.getGenData().getEquivGen()
+					    	.setVoltageLimit(BaseDataSetter.createVoltageLimit(
+					    			vpu, vMinOrAngDeg, VoltageUnitType.PU));
+					}			
 				}
-				// set V limit
-				if(vpu!=0 ||vMinOrAngDeg!=0){
-				    busRec.getGenData().getEquivGen()
-				    	.setVoltageLimit(BaseDataSetter.createVoltageLimit(
-				    			vpu, vMinOrAngDeg, VoltageUnitType.PU));
-				}			
 			}
 			else if(busType==pvBus){
 				// set bus voltage

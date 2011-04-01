@@ -192,7 +192,7 @@ public class XfrBranchRecord {
 		if(strAry[17] != null &&!strAry[17].equals("")){
 //	    if(!strAry[17].equals("")){
 			toTurnRatedVolOrZero = new Double(strAry[17]).doubleValue();
-			System.out.println("toTurnRatedVol"+toTurnRatedVolOrZero);
+			//System.out.println("toTurnRatedVol:"+toTurnRatedVolOrZero);
 		}
 		double fRatio=1.0, tRatio=1.0;			
         
@@ -209,7 +209,7 @@ public class XfrBranchRecord {
 				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100.0;		//F5.2		
 			}
 			tRatio = toTurnRatedVolOrZero/tVbase;
-			System.out.println("toTurnRatedVol"+toTurnRatedVolOrZero+"tratio="+tRatio);
+			//System.out.println("toTurnRatedVol: "+toTurnRatedVolOrZero+", tratio="+tRatio);
 			NumberFormat ddf1 = NumberFormat.getNumberInstance();
 			ddf1.setMaximumFractionDigits(4);
 			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		

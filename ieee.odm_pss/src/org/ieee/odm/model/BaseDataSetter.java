@@ -378,7 +378,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 */
 	public static TapXmlType createTapPU(double p) {
 		TapXmlType tap = getFactory().createTapXmlType();
-		tap.setValue(p);
+		tap.setValue(p == 0.0? 1.0 : p);
     	tap.setUnit(FactorUnitType.PU);
     	return tap;
 	}
@@ -391,7 +391,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 */
 	public static TurnRatioXmlType createTurnRatioPU(double p) {
 		TurnRatioXmlType r = getFactory().createTurnRatioXmlType();
-		r.setValue(p);
+		r.setValue(p == 0.0? 1.0 : p);
     	r.setUnit(FactorUnitType.PU);
     	return r;
 	}	
