@@ -67,6 +67,7 @@
  	  	  	<fileset dir="${dev_base}/ipss.plugin/runtime" excludes="CVS/**,model/**" />	
 	  	  	<fileset dir="${dev_base}/ipss.plugin.dstab/runtime" excludes="CVS/**,model/**" />	
 	  	  	<fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
+	  	  	<fileset dir="${dev_base}/ipss.QA/bin" excludes="CVS/**,model/**" />	
       	</jar>	
     	
       	<jar destfile="${lib_ipss}/ipss_plugin.grid.jar" 
