@@ -95,6 +95,7 @@
 	<complexType name="LimitXmlType">
 		<attribute name="max" type="double" use="required"></attribute>
 		<attribute name="min" type="double" use="required"></attribute>
+		<attribute name="active" type="boolean" use="optional" default="true"></attribute>
 	</complexType>
 
 	<complexType name="ComplexXmlType">

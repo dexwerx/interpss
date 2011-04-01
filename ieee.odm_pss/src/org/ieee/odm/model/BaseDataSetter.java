@@ -164,6 +164,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		LimitXmlType limit = getFactory().createLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
+		limit.setActive(true);
 		return limit;
 	}
 	
