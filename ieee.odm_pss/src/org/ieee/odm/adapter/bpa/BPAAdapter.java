@@ -113,15 +113,15 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						else if( (str.trim().startsWith("L")||str.trim().startsWith("E"))
 								&&!str.trim().startsWith("LD")&&!str.trim().startsWith("LM")){
 							ODMLogger.getLogger().fine("load AC line data");
-							LineBranchRecord.processBranchData(str, parser, baseCaseNet);
+							LineBranchRecord.processBranchData(str, parser);
 						}
 						else if( str.trim().startsWith("T")){
 							ODMLogger.getLogger().fine("load transformer data");
-							XfrBranchRecord.processXfrData(str, parser, baseCaseNet);
+							XfrBranchRecord.processXfrData(str, parser);
 						}
 						else if(str.trim().startsWith("R")){
 							ODMLogger.getLogger().fine("load transformer adjustment data");
-							XfrBranchRecord.processXfrAdjustData(str, parser, baseCaseNet);
+							XfrBranchRecord.processXfrAdjustData(str, parser);
 						}
 						else if( str.trim().startsWith("LD")||str.trim().startsWith("LM")){
 							ODMLogger.getLogger().fine("load DC Line data");
