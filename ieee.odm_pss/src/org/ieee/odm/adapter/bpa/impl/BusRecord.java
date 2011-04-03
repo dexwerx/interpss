@@ -46,6 +46,8 @@ public class BusRecord {
 	static final int pvBusNoQLimit=4;		
 	
 	public static void processBusData(final String str, AclfModelParser parser) throws Exception {		
+		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
+
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);
 		
@@ -64,6 +66,11 @@ public class BusRecord {
 		else if(stemp.equals("BS")){
 			busType=swingBus;
 		}
+		
+		/*
+		 * set bus record attributes
+		 * =========================
+		 */
 		
 		// modification code
 		final String modCode=strAry[1];
@@ -84,6 +91,8 @@ public class BusRecord {
 		
 		busRec.setId(busId);		
 		busRec.setName(busName);
+		
+		// TODO set bus owner
 
 		//basekv
 		double baseKv=100.0;
@@ -91,22 +100,24 @@ public class BusRecord {
 			baseKv= new Double(strAry[4]).doubleValue();
 		}
 		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
-		
+
+		// TODO area name??
 		
 		//zone name
 		final String zoneName= strAry[5];
 		busRec.setZoneName(zoneName);
 		
-		//****************busRec.setZone(arg0)
+		/*
+		 * Parse Loadflow data
+		 * ===================
+		 */
 		
 		//load mw and mvar
 		double loadMw=0.0;
 		double loadMvar=0.0;
-		
 		if(!strAry[6].equals("")){
 			loadMw = new Double(strAry[6]).doubleValue();			
 		}
-		
 		if(!strAry[7].equals("")){			
 			loadMvar = new Double(strAry[7]).doubleValue();
 		}
@@ -121,18 +132,14 @@ public class BusRecord {
 		if(!strAry[9].equals("")){
 			shuntVar= new Double(strAry[9]).doubleValue();
 		}		       
-//		double G = shuntMw/(baseKv*baseKv);
-		double baseMVA=parser.getAclfNet().getBasePower().getValue();
-		double G = shuntMw/baseMVA;
-		final double g=ModelStringUtil.getNumberFormat(G);
-		double B = shuntVar/baseMVA;
-		final double b=ModelStringUtil.getNumberFormat(B);
+		final double g=ModelStringUtil.getNumberFormat(shuntMw/baseMVA);
+		final double b=ModelStringUtil.getNumberFormat(shuntVar/baseMVA);
+
 		// set pGenMax
 		double pGenMax=0.0;
 		if(!strAry[10].equals("")){
 			pGenMax= new Double(strAry[10]).doubleValue();
 		}
-		
 		double pGen=0.0;
 		if(!strAry[11].equals("")){
 			pGen= new Double(strAry[11]).doubleValue();
@@ -144,6 +151,7 @@ public class BusRecord {
 			qGenOrQGenMax=new Double(strAry[12]).doubleValue();
 		}
 		
+		// TODO - not sure what its meaning
 		if(strAry[13].equals(".")){
 			ODMLogger.getLogger().info(str+"str 13 is .");
 		}
@@ -153,6 +161,7 @@ public class BusRecord {
 			qGenMin= new Double(strAry[13]).doubleValue();
 		}
 		
+		// TODO - not sure what its meaning
 		if(strAry[14].equals(".")){
 			ODMLogger.getLogger().info(str+"str 14 is .");
 		}
@@ -164,7 +173,6 @@ public class BusRecord {
 		
 		//for swing bus, this value is angle(degrees), for others it is vmin.
 		double vMinOrAngDeg=0.0;
-		
 		if(!strAry[15].equals("")){
 			vMinOrAngDeg= new Double(strAry[15]).doubleValue();			
 		}	
@@ -174,6 +182,10 @@ public class BusRecord {
 			varSupplied= new Double(strAry[18]).doubleValue();
 		}	
 		
+		/*
+		 * process data and map to the ODM bus record
+		 * ==========================================
+		 */
 		if(loadMw != 0.0 || loadMvar != 0.0 || 
 				pGen!=0.0|| qGenOrQGenMax!=0.0 ||
 				vMinOrAngDeg!=0.0||pGenMax!=0.0
@@ -285,9 +297,10 @@ public class BusRecord {
 			}
 		}						
 	}
+	
 	private static String[] getBusDataFields(final String str) throws Exception {
 		final String[] strAry = new String[19];
-/*
+/* sample data
 B     XIANLS= 500.XX305.3 -215.                                                                      
 */
 		//Columns  1- 2   Bus type
