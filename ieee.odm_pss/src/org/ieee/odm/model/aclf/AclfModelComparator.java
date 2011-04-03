@@ -2,12 +2,15 @@ package org.ieee.odm.model.aclf;
 
 import java.util.List;
 
+import org.ieee.odm.common.NumericUtil;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 
 public class AclfModelComparator {
 	/**
@@ -62,9 +65,10 @@ public class AclfModelComparator {
                 <shuntY unit="PU" im="-1.4" re="5.3"/>
 */
 		if (base.getShuntY() != null && bus.getShuntY() != null) {
-			if (ModelStringUtil.getNumberFormat(base.getShuntY().getIm()) != bus.getShuntY().getIm() ||
-					ModelStringUtil.getNumberFormat(base.getShuntY().getRe()) != bus.getShuntY().getRe())
-				msgList.add("\nBus ShuntY not equal: " + base.getId() + ", " + BaseJaxbHelper.toStr(base.getShuntY()) + " (base)"
+			if (!NumericUtil.equals(base.getShuntY().getIm(), bus.getShuntY().getIm()) ||
+			    !NumericUtil.equals(base.getShuntY().getRe(), bus.getShuntY().getRe()))
+				msgList.add("\nBus ShuntY not equal: " + base.getId() + ", " + bus.getId() 
+						+ "   " + BaseJaxbHelper.toStr(base.getShuntY()) + " (base)"
 						+ "   " + BaseJaxbHelper.toStr(bus.getShuntY()));
 		}
 		else if (base.getShuntY() == null && bus.getShuntY() != null ||
@@ -82,28 +86,66 @@ public class AclfModelComparator {
 	 * @param msgList
 	 */
 	public static void compare(BranchXmlType base, BranchXmlType bra, List<String> msgList) {
+		//
+		// 	LineBranchXmlType
+		//
+		if (base instanceof LineBranchXmlType ) {
+			LineBranchXmlType baseLine = (LineBranchXmlType)base;
+			LineBranchXmlType line = (LineBranchXmlType)bra;
 /*
-            <aclfLine circuitId="1" id="MEIZH0H_to_HEY50H_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
-                <nvPairList/>
-                <fromBus idRef="MEIZH0H"/>
-                <toBus idRef="HEY50H"/>
-                <z unit="PU" im="0.0181" re="0.0014"/>
-            </aclfLine>
+	           <z unit="PU" im="0.0181" re="0.0014"/>
 */
-		
+			if (!NumericUtil.equals(baseLine.getZ().getRe(), line.getZ().getRe()) ||
+					!NumericUtil.equals(baseLine.getZ().getIm(), line.getZ().getIm())) {
+				msgList.add("\nBranch Z not equal: " + base.getId() + ", " + bra.getId()
+						+ "   " + BaseJaxbHelper.toStr(baseLine.getZ()) + " (base)"
+						+ "   " + BaseJaxbHelper.toStr(line.getZ()));
+			}
+		}
+
+		//
+		// 	XfrBranchXmlType
+		//
+
+		if (base instanceof XfrBranchXmlType ) {
+			XfrBranchXmlType baseXfr = (XfrBranchXmlType)base;
+			XfrBranchXmlType xfr = (XfrBranchXmlType)bra;
+
 /*
-            <aclfXfr circuitId="1" id="EQG021_to_MEIZH0H_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
-                <fromBus idRef="EQG021"/>
-                <toBus idRef="MEIZH0H"/>
-                <z unit="PU" im="0.0066" re="8.0E-5"/>
-                <fromTurnRatio unit="PU" value="1.0"/>
-                <toTurnRatio unit="PU" value="0.9524"/>
-                <xfrInfo>
-                    <fromRatedVoltage unit="KV" value="26.0"/>
-                    <toRatedVoltage unit="KV" value="525.0"/>
-                </xfrInfo>
-            </aclfXfr>
+         	<z unit="PU" im="0.0066" re="8.0E-5"/>
 */
-		
+			if (!NumericUtil.equals(baseXfr.getZ().getRe(), xfr.getZ().getRe()) ||
+				!NumericUtil.equals(baseXfr.getZ().getIm(), xfr.getZ().getIm())) {
+				msgList.add("\nXfr Branch Z not equal: " + base.getId() + ", " + bra.getId()
+							+ "   " + BaseJaxbHelper.toStr(baseXfr.getZ()) + " (base)"
+							+ "   " + BaseJaxbHelper.toStr(xfr.getZ()));
+			}
+			
+/*			
+            <fromTurnRatio unit="PU" value="1.0"/>
+            <toTurnRatio unit="PU" value="0.9524"/>
+*/
+			if (!NumericUtil.equals(baseXfr.getFromTurnRatio().getValue(), xfr.getFromTurnRatio().getValue(), 0.0001)) {
+				msgList.add("\nXfr Branch fromTurnRatio not equal: " + base.getId() + ", " + bra.getId()
+								+ "   " + baseXfr.getFromTurnRatio().getValue() + " (base)"
+								+ "   " + xfr.getFromTurnRatio().getValue());
+			}
+			if (!NumericUtil.equals(baseXfr.getToTurnRatio().getValue(), xfr.getToTurnRatio().getValue(), 0.0001)) {
+				msgList.add("\nXfr Branch toTurnRatio not equal: " + base.getId() + ", " + bra.getId()
+								+ "   " + baseXfr.getToTurnRatio().getValue() + " (base)"
+								+ "   " + xfr.getToTurnRatio().getValue());
+			}
+			
+/*			
+            <xfrInfo>
+                <fromRatedVoltage unit="KV" value="26.0"/>
+                <toRatedVoltage unit="KV" value="525.0"/>
+            </xfrInfo>
+*/
+			
+			if (base instanceof PSXfrBranchXmlType ) {
+				
+			}
+		}
 	}
 }

@@ -176,7 +176,7 @@ public class ModelStringUtil {
 	}
 	
 	public static double getNumberFormat(double d){
-		DecimalFormat   format=new   DecimalFormat("###0.0000");
+		DecimalFormat   format=new   DecimalFormat("###0.000000");
 		String str="";
 		str=format.format(d);
 		double e=Double.parseDouble(str);
