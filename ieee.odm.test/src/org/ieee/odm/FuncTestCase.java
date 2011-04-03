@@ -2,8 +2,8 @@ package org.ieee.odm;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;

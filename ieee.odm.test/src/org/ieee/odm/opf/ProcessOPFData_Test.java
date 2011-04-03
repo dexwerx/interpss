@@ -29,8 +29,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 
-import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
