@@ -43,7 +43,7 @@ public class BusRecord {
 	static final int swingBus=1;
 	static final int pqBus=2;
 	static final int pvBus=3;		
-	static final int pvBusNoQLimit=3;		
+	static final int pvBusNoQLimit=4;		
 	
 	public static void processBusData(final String str, AclfModelParser parser) throws Exception {		
 		// parse the input data line
