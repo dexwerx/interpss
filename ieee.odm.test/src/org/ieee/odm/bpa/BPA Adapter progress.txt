@@ -1,6 +1,54 @@
 BPA Adapter test progress
 
 ------------------ Open -------------------
+[Mike 04/03/2011]
+
+A utility is under development to compare two ODM models. When used to compare 07c file models by PSS/E and BPA, 
+there is an error message:
+
+Error msg: Bus EquivGen model not equal: Bus18, ZQ-HLZ 
+
+PSS/E
+            <aclfBus id="Bus18" offLine="false" number="18" zoneNumber="1" areaNumber="1" name="ZQ-HLZ      ">
+                <ownerList>
+                    <owner ownership="1.0" id="1"/>
+                </ownerList>
+                <nvPairList/>
+                <baseVoltage unit="KV" value="525.0"/>
+                <voltage unit="PU" value="1.001"/>
+                <angle unit="DEG" value="0.0"/>
+                <genData>
+                    <equivGen code="PV">
+                        <power unit="MVA" im="0.0" re="0.0"/>
+                        <desiredVoltage unit="PU" value="1.001"/>
+                        <qLimit unit="MVAR" min="-9999.0" max="9999.0"/>
+                    </equivGen>
+                    <contributeGenList>
+                        <contributeGen id="'1 '" offLine="false" name="Gen:'1 '(18)">
+                            <desc>PSSE Generator '1 ' at Bus 18</desc>
+                            <ownerList><owner ownership="1.0" id="1"/>
+                            </ownerList>
+                            <power unit="MVA" im="0.0" re="0.0"/>
+                            <desiredVoltage unit="PU" value="1.001"/>
+                            <qLimit unit="MVAR" min="-9999.0" max="9999.0"/>
+                            <pLimit unit="MW" min="-1.0" max="0.0"/>
+                            <ratedPower unit="MVA" value="100.0"/>
+                            <sourceZ unit="PU" im="1.0" re="0.0"/>
+                            <mvarVControlParticipateFactor>1.0</mvarVControlParticipateFactor>
+                        </contributeGen>
+                    </contributeGenList>
+                </genData>
+            </aclfBus>
+
+BPA:
+            <aclfBus id="ZQ-HLZ" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="ZQ-HLZ">
+                <nvPairList/>
+                <baseVoltage unit="KV" value="525.0"/>
+            </aclfBus>
+
+Apparently, bus ZQ-HLZ is not modeled correctly in BPAAdapter.
+
+------------------ Closed -------------------
 
 [Tony 31/3/2011]
 07c test
@@ -42,7 +90,6 @@ by default, it should be 1.   ---> fixed Mike
       
                 
 
------------------- Closed -------------------
 
 
 
