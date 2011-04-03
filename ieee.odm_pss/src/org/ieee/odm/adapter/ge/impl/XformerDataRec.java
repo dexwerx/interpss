@@ -28,9 +28,9 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.BaseDataSetter;
-import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;

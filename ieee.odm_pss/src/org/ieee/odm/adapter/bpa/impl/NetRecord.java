@@ -27,9 +27,9 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.BaseJaxbHelper;
-import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;

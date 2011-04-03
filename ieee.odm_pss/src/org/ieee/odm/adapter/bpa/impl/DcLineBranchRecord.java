@@ -29,11 +29,11 @@ import java.text.NumberFormat;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.BaseDataSetter;
-import org.ieee.odm.model.BaseJaxbHelper;
-import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
