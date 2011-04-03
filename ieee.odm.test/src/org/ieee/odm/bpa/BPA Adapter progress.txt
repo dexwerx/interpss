@@ -48,6 +48,39 @@ BPA:
 
 Apparently, bus ZQ-HLZ is not modeled correctly in BPAAdapter.
 
+Error msg: Branch Z not equal: Bus72_to_Bus74_cirId_1, WZ-H_to_EQG003_cirId_1   [3.0E-5+j0.03502] (base)   [3.0+j0.03502]]
+            
+PSS/E            
+            <aclfXfr circuitId="1" id="Bus72_to_Bus74_cirId_1" offLine="false" zoneNumber="1" areaNumber="1" name="            ">
+                <ownerList>
+                    <owner ownership="1.0" id="1"/>
+                </ownerList>
+                <fromBus idRef="Bus72"/>
+                <toBus idRef="Bus74"/>
+                <z unit="PU" im="0.03502" re="3.0E-5"/>
+                <ratingLimit/>
+                <meterLocation>ToSide</meterLocation>
+                <fromTurnRatio unit="PU" value="1.0"/>
+                <toTurnRatio unit="PU" value="1.0"/>
+                <xfrInfo>
+                    <dataOnSystemBase>true</dataOnSystemBase>
+                    <ratedPower unit="MVA" value="100.0"/>
+                </xfrInfo>
+            </aclfXfr>       
+            
+BPA:
+            <aclfXfr circuitId="1" id="WZ-H_to_EQG003_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+                <fromBus idRef="WZ-H"/>
+                <toBus idRef="EQG003"/>
+                <z unit="PU" im="0.03502" re="3.0"/>
+                <fromTurnRatio unit="PU" value="1.0"/>
+                <toTurnRatio unit="PU" value="1.0"/>
+                <xfrInfo>
+                    <fromRatedVoltage unit="KV" value="525.0"/>
+                    <toRatedVoltage unit="KV" value="10.5"/>
+                </xfrInfo>
+            </aclfXfr>
+
 ------------------ Closed -------------------
 
 [Tony 31/3/2011]
