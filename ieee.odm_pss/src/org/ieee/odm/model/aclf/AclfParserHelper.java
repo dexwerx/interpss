@@ -27,8 +27,8 @@ package org.ieee.odm.model.aclf;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.BaseDataSetter;
-import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusRecordXmlType;

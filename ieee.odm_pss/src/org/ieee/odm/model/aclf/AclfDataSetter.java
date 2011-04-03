@@ -24,7 +24,7 @@
 
 package org.ieee.odm.model.aclf;
 
-import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;

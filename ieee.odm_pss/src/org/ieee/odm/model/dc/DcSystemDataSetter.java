@@ -24,7 +24,7 @@
 
 package org.ieee.odm.model.dc;
 
-import org.ieee.odm.model.BaseDataSetter;
+import org.ieee.odm.model.base.BaseDataSetter;
 
 
 public class DcSystemDataSetter extends BaseDataSetter {

@@ -25,7 +25,7 @@
 package org.ieee.odm.model.dc;
 
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.DcBranchXmlType;
 import org.ieee.odm.schema.DcBusXmlType;
 import org.ieee.odm.schema.DcNetworkXmlType;

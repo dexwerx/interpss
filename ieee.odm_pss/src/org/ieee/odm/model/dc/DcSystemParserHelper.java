@@ -24,7 +24,7 @@
 
 package org.ieee.odm.model.dc;
 
-import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 
 public class DcSystemParserHelper extends BaseJaxbHelper {
 }

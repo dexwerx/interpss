@@ -25,7 +25,7 @@
 package org.ieee.odm.model.dist;
 
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BreakerDistBranchXmlType;
 import org.ieee.odm.schema.DistributionNetXmlType;
 import org.ieee.odm.schema.FeederDistBranchXmlType;

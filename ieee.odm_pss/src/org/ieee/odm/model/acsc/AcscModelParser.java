@@ -24,8 +24,8 @@
 
 package org.ieee.odm.model.acsc;
 
-import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
