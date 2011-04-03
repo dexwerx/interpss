@@ -1,5 +1,5 @@
  /*
-  * @(#)ODMAdapter.java   
+  * @(#)Data2ODMXml.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *

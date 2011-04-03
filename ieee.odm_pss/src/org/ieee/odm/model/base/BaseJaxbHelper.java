@@ -24,12 +24,16 @@
 
 package org.ieee.odm.model.base;
 
+import java.util.Comparator;
+
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BreakerDistBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.ComplexXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DcBranchXmlType;
@@ -101,6 +105,23 @@ public class BaseJaxbHelper {
 	}
 	
 	/**
+	 * using the comparator, find a BusXmlType object, which is "equals" to the baseBus object
+	 * 
+	 * @param net
+	 * @param baseBus
+	 * @param comp
+	 * @return
+	 */
+	public static BusXmlType getBus(NetworkXmlType net, BusXmlType baseBus, Comparator<BusXmlType> comp) {
+		for (JAXBElement<? extends BusXmlType> b : net.getBusList().getBus()) {
+			BusXmlType bus = b.getValue();
+			if (comp.compare(baseBus, bus) == 0)
+				return bus;
+		}		
+		return null;
+	}
+	
+	/**
 	 * warp the branch object for substitutionGroup
 	 * 
 	 * @param branch
@@ -147,6 +168,23 @@ public class BaseJaxbHelper {
 		else
 			return getFactory().createBranch(branch);
 	}
+	
+	/**
+	 * using the comparator, find a BusXmlType object, which is "equals" to the baseBus object
+	 * 
+	 * @param net
+	 * @param baseBus
+	 * @param comp
+	 * @return
+	 */
+	public static BranchXmlType getBranch(NetworkXmlType net, BranchXmlType baseBra, Comparator<BranchXmlType> comp) {
+		for (JAXBElement<? extends BaseBranchXmlType> b : net.getBranchList().getBranch()) {
+			BranchXmlType bra = (BranchXmlType)b.getValue();
+			if (comp.compare(baseBra, bra) == 0)
+				return bra;
+		}		
+		return null;
+	}	
 	
 	/**
 	 * warp the bus object for substitutionGroup
@@ -275,6 +313,15 @@ public class BaseJaxbHelper {
 			}
 		}
 	}		
+	
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public static String toStr(ComplexXmlType c) {
+		return "[" + c.getRe() + "+j" + c.getIm() + "]";
+	}
 	
 	private static ObjectFactory _factory = null;	
 	public static ObjectFactory getFactory() {
