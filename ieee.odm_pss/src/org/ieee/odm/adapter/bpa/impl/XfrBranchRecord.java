@@ -1,9 +1,7 @@
-
-
 /*
- * @(#)BPABranchRecord.java   
+ * @(#)XfrBranchRecord.java   
  *
- * Copyright (C) 2006-2008 www.interpss.org
+ * Copyright (C) 2006-2011 www.interpss.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -37,7 +35,6 @@ import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
@@ -47,12 +44,11 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class XfrBranchRecord {
-	public static void processXfrData(final String str, AclfModelParser parser,
-			final LoadflowNetXmlType baseCaseNet) throws ODMException {
-		
-		final int transformer=1;
-		final int phaseShiftXfr=2;
-		final int transformerAndPhaseShiftXfr=3;
+	static final int transformer=1;
+	static final int phaseShiftXfr=2;
+	static final int transformerAndPhaseShiftXfr=3;
+
+	public static void processXfrData(final String str, AclfModelParser parser) throws ODMException {
 		
 		int dataType=0;	    	
 		
@@ -223,8 +219,7 @@ public class XfrBranchRecord {
 	}			
 	
 	
-	public static void processXfrAdjustData(final String str, AclfModelParser parser, 
-			LoadflowNetXmlType baseCaseNet) throws ODMException {
+	public static void processXfrAdjustData(final String str, AclfModelParser parser) throws ODMException {
 		
 		final String[] strAry = getXfrAdjustDataFields(str);
 		

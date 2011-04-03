@@ -1,7 +1,5 @@
-
-
 /*
- * @(#)BPABranchRecord.java   
+ * @(#)LineBranchRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -25,37 +23,25 @@
  */
 package org.ieee.odm.adapter.bpa.impl;
 
-import java.text.NumberFormat;
-
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.BaseDataSetter;
 import org.ieee.odm.model.BaseJaxbHelper;
 import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.schema.AdjustmentModeEnumType;
-import org.ieee.odm.schema.AngleAdjustmentXmlType;
-import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.PSXfrBranchXmlType;
-import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
-import org.ieee.odm.schema.TapAdjustmentXmlType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class LineBranchRecord {
-	public static void processBranchData(final String str,	AclfModelParser parser,
-			final LoadflowNetXmlType baseCaseNet)  throws ODMException {		
+	public static void processBranchData(final String str,	AclfModelParser parser)  throws ODMException {	
 		// symmetry line data
 		if(str.startsWith("L")){
+			// parse the branch input line str
 			final String[] strAry = getBranchDataFields(str);
+			
 			// symetry  branch
 			final String branchType=strAry[0];
 
@@ -82,6 +68,8 @@ public class LineBranchRecord {
 				ODMLogger.getLogger().severe("branch data error, " + e.toString());
 				return;
 			}
+			
+			// TODO owner code
 			
 			double fVol=0.0;
 			double tVol=0.0;
@@ -160,6 +148,10 @@ public class LineBranchRecord {
 				
 			}	
 			
+			/*
+			 * Set branch r,x,b
+			 * ================
+			 */
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
 			if(!strAry[12].equals("")){
 				rpu = new Double(strAry[12]).doubleValue();
@@ -209,141 +201,10 @@ public class LineBranchRecord {
 				desc= strAry[17];
 				BaseJaxbHelper.addNVPair(branchRec.getNvPairList(), "branch description", desc);
 			}			
-			
-            
 		}
-//		else if(str.startsWith("E")){
-//			final String[] strAry = getBranchDataFields(str,adapter);
-//			// symetry  branch
-//			final String branchType=strAry[0];
-//
-//			final String modCode =strAry[1];
-//			final String owner=strAry[2];
-//			
-//			final String fid = strAry[3];
-//			final String tid = strAry[6];
-//			ODMLogger.getLogger().fine("Branch data loaded, from-Bus, to-Bus: " + fid + ", " + tid);
-//			
-//			if(!fid.equals("")){
-//				branchRec.addNewFromBus().setIdRef(fid);
-//			}
-//			if(!tid.equals("")){
-//				branchRec.addNewToBus().setIdRef(tid);
-//			}
-//			
-//			double fVol=0.0;
-//			double tVol=0.0;
-//			if(!strAry[4].equals("")){
-//				fVol= new Double(strAry[4]).doubleValue();
-//			}
-//			if(!strAry[7].equals("")){
-//				tVol= new Double(strAry[4]).doubleValue();
-//			}			
-			// measure location for power interchange, 1--from side, 2- to side
-			//set transfer power measured location in tie line data 
-//			int measureLocation=0;
-//			if(!strAry[5].equals("")){
-//				measureLocation= new Integer(strAry[5]).intValue();
-//				try{
-//					if(measureLocation==1){
-//						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
-//
-//						// set tieline data
-//						tieLine.addNewMeteredBus().setName(fid);
-//						tieLine.addNewNonMeteredBus().setName(tid);	
-//						
-//						BusRecordXmlType busRecFrom=XBeanParserHelper.findBusRecord(fid, baseCaseNet);
-//						busRecFrom.getZoneNumber();
-//						NetAreaXmlType areaFrom=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
-//						tieLine.setMeteredArea(areaFrom.getName());
-//						
-//						BusRecordXmlType busRecTo=XBeanParserHelper.findBusRecord(tid, baseCaseNet);
-//						busRecTo.getZoneNumber();
-//						NetAreaXmlType areaTo=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
-//						tieLine.setNonMeteredArea(areaTo.getName());
-//						// to do: set area number
-//						
-//					}else{
-//						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
-//
-//						tieLine.addNewMeteredBus().setName(tid);
-//						tieLine.addNewNonMeteredBus().setName(fid);					
-//						XBeanParserHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
-//						
-//						BusRecordXmlType busRecFrom=XBeanParserHelper.findBusRecord(tid, baseCaseNet);
-//						busRecFrom.getZoneNumber();
-//						NetAreaXmlType areaFrom=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
-//						tieLine.setMeteredArea(areaFrom.getName());
-//						
-//						BusRecordXmlType busRecTo=XBeanParserHelper.findBusRecord(fid, baseCaseNet);
-//						busRecTo.getZoneNumber();
-//						NetAreaXmlType areaTo=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
-//						tieLine.setNonMeteredArea(areaTo.getName());						
-//					}
-//				}catch (final Exception e){
-//					e.printStackTrace();
-//				}
-//				
-//			}
-			
-//			// set cirId, if not specified, set to 1
-//			String cirId="";
-//			if(!strAry[8].equals("")){
-//				cirId = strAry[8];
-//				branchRec.setCircuitId(cirId);
-//			}
-//			else{
-//				branchRec.setCircuitId("1");
-//			}			
-//			
-//			LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
-//			
-//			branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));			
-//			branchData.setCode(LFBranchCodeEnumType.LINE);
-//			
-//			String multiSectionId="";
-//			if(!strAry[9].equals("")){
-//				multiSectionId = strAry[9];
-//				//set multiSection data if necessary
-//			}			
-//			
-//			//if currentRating!=0.0,set rated current
-//			double currentRating=0.0;
-//			if(!strAry[10].equals("")){
-//				currentRating = new Double(strAry[10]).doubleValue();
-//				XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), 
-//						currentRating, CurrentUnitType.AMP);
-//			}			 
-//			double rpu=0.0, xpu=0.0001, G1pu=0.0, B1pu=0.0, G2pu=0.0, B2pu=0.0;
-//			if(!strAry[12].equals("")){
-//				rpu = new Double(strAry[12]).doubleValue();
-//			}
-//			if(!strAry[13].equals("")){
-//				xpu = new Double(strAry[13]).doubleValue();
-//			}
-//			if(!strAry[14].equals("")){
-//				G1pu = new Double(strAry[14]).doubleValue();
-//			}
-//			if(!strAry[15].equals("")){
-//				B1pu = new Double(strAry[15]).doubleValue();
-//			}
-//			if(!strAry[16].equals("")){
-//				G2pu = new Double(strAry[16]).doubleValue();
-//			}
-//			if(!strAry[17].equals("")){
-//				B2pu = new Double(strAry[17]).doubleValue();
-//			}
-//			ZXmlType z= branchData.addNewZ();
-//			XBeanDataSetter.setZValue(z, rpu, xpu, ZUnitType.PU);
-//			YXmlType y1 = branchData.addNewFromShuntY();
-//			YXmlType y2 = branchData.addNewToShuntY();
-//			XBeanDataSetter.setYData(y1, G1pu, B1pu, YUnitType.PU);
-//			XBeanDataSetter.setYData(y2, G2pu, B2pu, YUnitType.PU); 			
-//		}
+		else {
+			throw new ODMException("Only type L branch is allowed");
+		}
 	}	
 	
 	private static String[] getBranchDataFields(final String str) {
@@ -377,4 +238,138 @@ public class LineBranchRecord {
 		return strAry;
     }
 }
+
+//else if(str.startsWith("E")){
+//final String[] strAry = getBranchDataFields(str,adapter);
+//// symetry  branch
+//final String branchType=strAry[0];
+//
+//final String modCode =strAry[1];
+//final String owner=strAry[2];
+//
+//final String fid = strAry[3];
+//final String tid = strAry[6];
+//ODMLogger.getLogger().fine("Branch data loaded, from-Bus, to-Bus: " + fid + ", " + tid);
+//
+//if(!fid.equals("")){
+//	branchRec.addNewFromBus().setIdRef(fid);
+//}
+//if(!tid.equals("")){
+//	branchRec.addNewToBus().setIdRef(tid);
+//}
+//
+//double fVol=0.0;
+//double tVol=0.0;
+//if(!strAry[4].equals("")){
+//	fVol= new Double(strAry[4]).doubleValue();
+//}
+//if(!strAry[7].equals("")){
+//	tVol= new Double(strAry[4]).doubleValue();
+//}			
+// measure location for power interchange, 1--from side, 2- to side
+//set transfer power measured location in tie line data 
+//int measureLocation=0;
+//if(!strAry[5].equals("")){
+//	measureLocation= new Integer(strAry[5]).intValue();
+//	try{
+//		if(measureLocation==1){
+//			PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+//
+//			// set tieline data
+//			tieLine.addNewMeteredBus().setName(fid);
+//			tieLine.addNewNonMeteredBus().setName(tid);	
+//			
+//			BusRecordXmlType busRecFrom=XBeanParserHelper.findBusRecord(fid, baseCaseNet);
+//			busRecFrom.getZoneNumber();
+//			NetAreaXmlType areaFrom=XBeanParserHelper.
+//			  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
+//			tieLine.setMeteredArea(areaFrom.getName());
+//			
+//			BusRecordXmlType busRecTo=XBeanParserHelper.findBusRecord(tid, baseCaseNet);
+//			busRecTo.getZoneNumber();
+//			NetAreaXmlType areaTo=XBeanParserHelper.
+//			  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
+//			tieLine.setNonMeteredArea(areaTo.getName());
+//			// to do: set area number
+//			
+//		}else{
+//			PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+//
+//			tieLine.addNewMeteredBus().setName(tid);
+//			tieLine.addNewNonMeteredBus().setName(fid);					
+//			XBeanParserHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
+//			
+//			BusRecordXmlType busRecFrom=XBeanParserHelper.findBusRecord(tid, baseCaseNet);
+//			busRecFrom.getZoneNumber();
+//			NetAreaXmlType areaFrom=XBeanParserHelper.
+//			  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
+//			tieLine.setMeteredArea(areaFrom.getName());
+//			
+//			BusRecordXmlType busRecTo=XBeanParserHelper.findBusRecord(fid, baseCaseNet);
+//			busRecTo.getZoneNumber();
+//			NetAreaXmlType areaTo=XBeanParserHelper.
+//			  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
+//			tieLine.setNonMeteredArea(areaTo.getName());						
+//		}
+//	}catch (final Exception e){
+//		e.printStackTrace();
+//	}
+//	
+//}
+
+//// set cirId, if not specified, set to 1
+//String cirId="";
+//if(!strAry[8].equals("")){
+//	cirId = strAry[8];
+//	branchRec.setCircuitId(cirId);
+//}
+//else{
+//	branchRec.setCircuitId("1");
+//}			
+//
+//LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+//
+//branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));			
+//branchData.setCode(LFBranchCodeEnumType.LINE);
+//
+//String multiSectionId="";
+//if(!strAry[9].equals("")){
+//	multiSectionId = strAry[9];
+//	//set multiSection data if necessary
+//}			
+//
+////if currentRating!=0.0,set rated current
+//double currentRating=0.0;
+//if(!strAry[10].equals("")){
+//	currentRating = new Double(strAry[10]).doubleValue();
+//	XBeanDataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), 
+//			currentRating, CurrentUnitType.AMP);
+//}			 
+//double rpu=0.0, xpu=0.0001, G1pu=0.0, B1pu=0.0, G2pu=0.0, B2pu=0.0;
+//if(!strAry[12].equals("")){
+//	rpu = new Double(strAry[12]).doubleValue();
+//}
+//if(!strAry[13].equals("")){
+//	xpu = new Double(strAry[13]).doubleValue();
+//}
+//if(!strAry[14].equals("")){
+//	G1pu = new Double(strAry[14]).doubleValue();
+//}
+//if(!strAry[15].equals("")){
+//	B1pu = new Double(strAry[15]).doubleValue();
+//}
+//if(!strAry[16].equals("")){
+//	G2pu = new Double(strAry[16]).doubleValue();
+//}
+//if(!strAry[17].equals("")){
+//	B2pu = new Double(strAry[17]).doubleValue();
+//}
+//ZXmlType z= branchData.addNewZ();
+//XBeanDataSetter.setZValue(z, rpu, xpu, ZUnitType.PU);
+//YXmlType y1 = branchData.addNewFromShuntY();
+//YXmlType y2 = branchData.addNewToShuntY();
+//XBeanDataSetter.setYData(y1, G1pu, B1pu, YUnitType.PU);
+//XBeanDataSetter.setYData(y2, G2pu, B2pu, YUnitType.PU); 			
+//}
+
 
