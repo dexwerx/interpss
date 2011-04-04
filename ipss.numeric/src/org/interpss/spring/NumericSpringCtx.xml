@@ -5,45 +5,37 @@
 	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="sparseEqnInteger" 
-	      class="com.interpss.core.sparse.impl.SparseEqnIntegerImpl"
-	      scope="singleton">	
+	      class="com.interpss.core.sparse.impl.SparseEqnIntegerImpl" scope="prototype">	
 	</bean>
 
 <!--
 	Default Double Sparse Eqn implementation   
 -->
 	<bean id="sparseEqnDouble" 
-	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl"
-	      scope="singleton">	
+	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl" scope="prototype">	
 	</bean>
 	<bean id="sparseEqnDoubleDev" 
-	      class="com.interpss.core.sparse.dev.SparseEqnDoubleDevImpl"
-	      scope="singleton">	
+	      class="com.interpss.core.sparse.dev.SparseEqnDoubleDevImpl" scope="prototype">
 	</bean>
 	<!-- bean id="sparseEqnDoubleNative" 
-	      class="com.interpss.numeric.sparse.SparseEqnDoubleNativeImpl"
-	      scope="singleton">	
+	      class="com.interpss.numeric.sparse.SparseEqnDoubleNativeImpl" scope="prototype">
 	</bean -->
 <!--
 	An alternative Double Sparse Eqn implementation   
 -->
 	<bean id="sparseEqnDoubleCommonMath" 
-	      class="org.interpss.numeric.sparse.impl.SparseEqnDoubleCommonMathImpl"
-	      scope="singleton">	
+	      class="org.interpss.numeric.sparse.impl.SparseEqnDoubleCommonMathImpl"  scope="prototype">
 	</bean>
 
 	<bean id="sparseEqnMatrix2x2" 
-	      class="com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl"
-	      scope="singleton">	
+	      class="com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl"  scope="prototype">
 	</bean>
 
 	<bean id="sparseEqnMatrix2x2Dev" 
-	      class="com.interpss.core.sparse.dev.SparseEqnMatrix2x2DevImpl"
-	      scope="singleton">	
+	      class="com.interpss.core.sparse.dev.SparseEqnMatrix2x2DevImpl"  scope="prototype">
 	</bean>
 
 	<bean id="sparseEqnComplex" 
-	      class="com.interpss.core.sparse.impl.SparseEqnComplexImpl"
-	      scope="singleton">	
+	      class="com.interpss.core.sparse.impl.SparseEqnComplexImpl"  scope="prototype">
 	</bean>
 </beans>
