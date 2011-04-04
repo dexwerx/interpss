@@ -51,7 +51,7 @@ public class Bus1824Test extends PluginTestSetup {
   		assertTrue((net.getBusList().size() == 1824));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
@@ -59,7 +59,8 @@ public class Bus1824Test extends PluginTestSetup {
   		assertTrue(net.isLfConverged());		
 	}
 
-	// change 0 -> (n-1) : @Test
+	// change 0 -> (n-1) : 
+	@Test
 	public void testCasePQ() throws Exception {
   		System.out.println("Start loading data ...");
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");

@@ -26,16 +26,20 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.logging.Level;
+
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
@@ -61,7 +65,7 @@ public class IEEE14Test extends PluginTestSetup {
   		 */
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow();
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 	  	
 	  	/*
 	  	 * Check if loadflow has converged
@@ -77,6 +81,45 @@ public class IEEE14Test extends PluginTestSetup {
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16889)<0.0001);
 	}
 	
+	//@Test
+	public void testCasePQ() throws Exception {
+  		/*
+  		 * Load the loadflow datafile into the application
+  		 */
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
+		
+		/*
+		 * Check the loadflow network has 14 buses and 20 branches
+		 */
+		AclfNetwork net = simuCtx.getAclfNet();
+  		//System.out.println(net.net2String());
+  		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
+
+  		/*
+  		 * Get the default loadflow algorithm and Run loadflow analysis. By default, it uses
+  		 * NR method with convergence error tolerance 0.0001 pu
+  		 */
+  		IpssLogger.getLogger().setLevel(Level.INFO);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.loadflow();
+  		//System.out.println(net.net2String());
+	  	
+	  	/*
+	  	 * Check if loadflow has converged
+	  	 */
+  		assertTrue(net.isLfConverged());
+  		
+  		/*
+  		 * Bus (id="1") is a swing bus. Make sure the P and Q results are with the expected values
+  		 */
+  		AclfBus swingBus = (AclfBus)net.getBus("1");
+		SwingBusAdapter swing = swingBus.toSwingBus();
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32386)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16889)<0.0001);
+	}
+
 	@Test
 	public void testCase2() throws Exception {
   		/*
