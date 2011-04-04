@@ -146,26 +146,26 @@ public class XfrBranchRecord {
 		double rpu=0.0, xpu=0.0001, Gpu=0.0, Bpu=0.0;
 		if(!strAry[12].equals("")){
 			rpu = new Double(strAry[12]).doubleValue();
-			if(rpu>10.0){
-				rpu=rpu/100000;   //F6.5
+			if(rpu>1.0){
+				rpu=rpu*0.00001;   //F6.5
 			}
 		}
 		if(!strAry[13].equals("")){
 			xpu = new Double(strAry[13]).doubleValue();
-			if(xpu>10.0){
-				xpu=xpu/100000;  //F6.5
+			if(xpu>1.0){
+				xpu=xpu*0.00001;  //F6.5
 			}
 		}
 		if(!strAry[14].equals("")){
 			Gpu = new Double(strAry[14]).doubleValue();
 			if(Gpu>10.0){
-				Gpu=Gpu/100000;  //F6.5
+				Gpu=Gpu*1e-5;  //F6.5
 			}
 		}
 		if(!strAry[15].equals("")){
 			Bpu = new Double(strAry[15]).doubleValue();
 			if(Bpu>10.0){
-				Bpu=Bpu/100000;  //F6.5
+				Bpu=Bpu*1e-5;  //F6.5
 			}
 		}
 		

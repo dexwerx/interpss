@@ -168,7 +168,11 @@ public class BusRecord {
 		
 		double vpu=0.0;
 		if(!strAry[14].equals("")){
-			vpu = new Double(strAry[14]).doubleValue();			
+			vpu = new Double(strAry[14]).doubleValue();
+			if(vpu!=0.0) {
+				if(vpu > 10)
+					vpu=vpu*0.001; //F4.3
+			}
 		}		
 		
 		//for swing bus, this value is angle(degrees), for others it is vmin.
@@ -187,7 +191,7 @@ public class BusRecord {
 		 * ==========================================
 		 */
 		if(loadMw != 0.0 || loadMvar != 0.0 || 
-				pGen!=0.0|| qGenOrQGenMax!=0.0 ||
+				pGen!=0.0|| qGenOrQGenMax!=0.0 ||vpu!=0.0||
 				vMinOrAngDeg!=0.0||pGenMax!=0.0
 				||g!=0||b!=0) {
 			// set G B
@@ -204,12 +208,7 @@ public class BusRecord {
 			
 			if(busType==swingBus){
 				// set bus voltage
-				if(vpu!=0.0) {
-					if(vpu > 10)
-						vpu=vpu/1000;
 					busRec.setVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
-				}
-				
 				// set bus angle
 				busRec.setAngle(BaseDataSetter.createAngleValue(vMinOrAngDeg, AngleUnitType.DEG));
 				
@@ -253,12 +252,7 @@ public class BusRecord {
 			}
 			else if(busType==pvBus || busType==pvBusNoQLimit){
 				// set bus voltage
-				if(vpu!=0.0){
-					if(vpu>10){
-						vpu=vpu/1000;
-					}
 					busRec.setVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
-				}
 				// set gen data
 				AclfDataSetter.setGenData(busRec,
 							LFGenCodeEnumType.PV, 
