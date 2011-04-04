@@ -31,23 +31,29 @@ import java.io.FileOutputStream;
 
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.junit.Test;
+
 
 public class BPA07C_Test { 
 	@Test
 	public void bpaTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
+//		IODMAdapter adapter =new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("07c.dat"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 //		parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("07c_ODM_0331-1.xml"));
+		FileOutputStream out=new FileOutputStream(new File("07c_BPA_ODM_0403.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
 		
 	}
+	
+
+
 }
 

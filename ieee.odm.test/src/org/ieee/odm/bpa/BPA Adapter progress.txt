@@ -6,8 +6,8 @@ BPA Adapter test progress
 A utility is under development to compare two ODM models. When used to compare 07c file models by PSS/E and BPA, 
 there is an error message:
 
-Error msg: Bus EquivGen model not equal: Bus18, ZQ-HLZ 
-
+Error msg: Bus EquivGen model not equal: Bus18, ZQ-HLZ  
+[Tony0403]--bus record bug fixed 
 PSS/E
             <aclfBus id="Bus18" offLine="false" number="18" zoneNumber="1" areaNumber="1" name="ZQ-HLZ      ">
                 <ownerList>
@@ -49,7 +49,7 @@ BPA:
 Apparently, bus ZQ-HLZ is not modeled correctly in BPAAdapter.
 
 Error msg: Branch Z not equal: Bus72_to_Bus74_cirId_1, WZ-H_to_EQG003_cirId_1   [3.0E-5+j0.03502] (base)   [3.0+j0.03502]]
-            
+[Tony0403]--Xfr bug fixed            
 PSS/E            
             <aclfXfr circuitId="1" id="Bus72_to_Bus74_cirId_1" offLine="false" zoneNumber="1" areaNumber="1" name="            ">
                 <ownerList>
