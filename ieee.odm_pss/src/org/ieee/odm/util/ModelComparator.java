@@ -56,9 +56,12 @@ public class ModelComparator {
 	 * compare the scase with the baseStudyCase and return a list of messages for the difference
 	 * 
 	 * @param scase
+	 * @param busComp
+	 * @param braComp
 	 * @return
 	 */
-	public List<String> compareLoadflowNet(StudyCaseXmlType scase, Comparator<BusXmlType> busComp, Comparator<BranchXmlType> braComp ) {
+	public List<String> compareLoadflowModel(StudyCaseXmlType scase, 
+				Comparator<BusXmlType> busComp, Comparator<BranchXmlType> braComp ) {
 		List<String> strList = new ArrayList<String>();
 		
 		LoadflowNetXmlType baseNet = (LoadflowNetXmlType)this.baseStudyCase.getBaseCase().getValue();
