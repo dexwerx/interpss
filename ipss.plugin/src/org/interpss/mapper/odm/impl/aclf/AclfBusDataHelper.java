@@ -25,7 +25,7 @@
 package org.interpss.mapper.odm.impl.aclf;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
