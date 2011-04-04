@@ -24,7 +24,7 @@
 
 package org.interpss.mapper.odm;
 
-import org.ieee.odm.model.BaseJaxbHelper;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
