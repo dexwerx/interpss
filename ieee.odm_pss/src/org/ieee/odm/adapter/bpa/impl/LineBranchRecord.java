@@ -23,20 +23,26 @@
  */
 package org.ieee.odm.adapter.bpa.impl;
 
+import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class LineBranchRecord {
 	public static void processBranchData(final String str,	AclfModelParser parser)  throws ODMException {	
+		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
 		// symmetry line data
 		if(str.startsWith("L")){
 			// parse the branch input line str
@@ -155,7 +161,7 @@ public class LineBranchRecord {
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
 			if(!strAry[12].equals("")){
 				rpu = new Double(strAry[12]).doubleValue();
-				if(rpu>10.0){
+				if(rpu>1.0){
 					rpu=rpu/100000;
 				}
 				rpu=ModelStringUtil.getNumberFormat(rpu);
@@ -163,7 +169,7 @@ public class LineBranchRecord {
 			
 			if(!strAry[13].equals("")){
 				xpu = new Double(strAry[13]).doubleValue();
-				if(xpu>10.0){
+				if(xpu>1.0){
 					xpu=xpu/100000;
 				}
 				xpu=ModelStringUtil.getNumberFormat(xpu);
@@ -171,7 +177,7 @@ public class LineBranchRecord {
 			
 			if(!strAry[14].equals("")){
 				halfGpu = new Double(strAry[14]).doubleValue();
-				if(halfGpu>10.0){
+				if(halfGpu>1.0){
 					halfGpu=halfGpu/100000;
 				}
 			}
@@ -202,11 +208,38 @@ public class LineBranchRecord {
 				BaseJaxbHelper.addNVPair(branchRec.getNvPairList(), "branch description", desc);
 			}			
 		}
-		else {
+		/**
+		 * transform the shunt Var at the end(s) of a branch to a shuntY, 
+		 * and add it to the corresponding bus.
+		 */
+		else if(str.startsWith("L+")){
+			final String[] strAry = getBranchShuntVarDataFields(str);
+			final String fid =  strAry[1];
+			final String tid =  strAry[3]; 
+			final double fromShuntVar=new Double(strAry[6]).doubleValue();
+			double fShuntVar=ModelStringUtil.getNumberFormat(fromShuntVar/baseMVA); // x(pu)=Var/baseMVA
+			
+			final double toShuntVar=new Double(strAry[7]).doubleValue();
+			double tShuntVar=ModelStringUtil.getNumberFormat(toShuntVar/baseMVA);
+			if(fShuntVar!=0.0){
+				LoadflowBusXmlType fromBus=parser.getAclfBus(fid);
+				YXmlType shuntY=fromBus.getShuntY();
+				fromBus.setShuntY(BaseDataSetter.createYValue(shuntY.getRe(), shuntY.getIm()-fShuntVar,YUnitType.PU));
+			}
+			if(tShuntVar!=0.0){
+				LoadflowBusXmlType toBus=parser.getAclfBus(tid);
+				YXmlType shuntY=toBus.getShuntY();
+				toBus.setShuntY(BaseDataSetter.createYValue(shuntY.getRe(), shuntY.getIm()-tShuntVar,YUnitType.PU));
+			}
+			
+		}
+		else{
 			throw new ODMException("Only type L branch is allowed");
 		}
 	}	
 	
+
+
 	private static String[] getBranchDataFields(final String str) {
 		final String[] strAry = new String[20];
 		strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
@@ -237,6 +270,28 @@ public class LineBranchRecord {
             
 		return strAry;
     }
+	private static String[] getBranchShuntVarDataFields(String str) {
+		final String[] strAry = new String[6];
+		// Branch record type
+		strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		// from bus name and basekV
+		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+		// to bus name and basekV
+		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
+		strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
+		strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
+		// shunt Var at the fromBus side
+		if(str.length()>38)
+		     strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,34, 38).trim();
+		else
+			 strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,34, str.length()).trim();
+		// shunt Var at the toBus side
+		if(str.length()>44){
+		   strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,44, str.length()).trim();
+		}
+		return strAry;
+	}
 }
 
 //else if(str.startsWith("E")){

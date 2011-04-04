@@ -149,12 +149,14 @@ public class XfrBranchRecord {
 			if(rpu>1.0){
 				rpu=rpu*0.00001;   //F6.5
 			}
+			rpu=ModelStringUtil.getNumberFormat(rpu);
 		}
 		if(!strAry[13].equals("")){
 			xpu = new Double(strAry[13]).doubleValue();
 			if(xpu>1.0){
 				xpu=xpu*0.00001;  //F6.5
 			}
+			xpu=ModelStringUtil.getNumberFormat(xpu);
 		}
 		if(!strAry[14].equals("")){
 			Gpu = new Double(strAry[14]).doubleValue();
