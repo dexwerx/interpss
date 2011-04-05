@@ -23,8 +23,11 @@
  */
 package org.ieee.odm.adapter.bpa.impl;
 
+import java.util.Hashtable;
+
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -40,10 +43,44 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
 public class BusRecord {
-	static final int swingBus=1;
-	static final int pqBus=2;
-	static final int pvBus=3;		
-	static final int pvBusNoQLimit=4;		
+	private static final int swingBus=1;
+	private static final int pqBus=2;
+	private static final int pvBus=3;		
+	private static final int pvBusNoQLimit=4;		
+	
+	/*
+	 *  BPA data format does not have bus number, only has bus name. 
+	 *  Bus number is generated and a looupTable for busName -> BusId
+	 */
+	private static long busCnt = 0;
+	private static Hashtable<String,String> busIdLookupTable = null;
+	/**
+	 * reset the bus count and lookup table
+	 */
+	public static void resetBusCnt() { 
+		busCnt = 0; 
+		busIdLookupTable = new Hashtable<String,String>();
+	}
+	/**
+	 * get bus Id and add an item to the lookup table for busName -> busId
+	 * 
+	 * @param busName
+	 * @return
+	 */
+	private static String createBusId(String busName) { 
+		String id = AbstractModelParser.BusIdPreFix + ++busCnt;
+		busIdLookupTable.put(busName.trim(), id);
+		return id;
+	}
+	/**
+	 * get busId from busName using the lookup table
+	 * 
+	 * @param busName
+	 * @return
+	 */
+	public static String getBusId(String busName) { 
+		return busIdLookupTable.get(busName.trim()); 
+	}
 	
 	public static void processBusData(final String str, AclfModelParser parser) throws Exception {		
 		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
@@ -78,7 +115,7 @@ public class BusRecord {
 		final String ownerName=strAry[2];
 		//Name
 		final String busName = strAry[3];
-		final String busId =  strAry[3];
+		final String busId =  createBusId(busName);
 		ODMLogger.getLogger().fine("Bus data loaded, busName: " + busId);
 
 		LoadflowBusXmlType busRec = null;

@@ -64,8 +64,10 @@ public class XfrBranchRecord {
 		final String modCode =strAry[1];
 		final String owner=strAry[2];
 			
-		final String fid = strAry[3];
-		final String tid = strAry[6];
+		final String fname =  strAry[3];
+		final String tname =  strAry[6];
+		final String fid =  BusRecord.getBusId(fname);
+		final String tid =  BusRecord.getBusId(tname);
 		ODMLogger.getLogger().fine("Branch data loaded, from-bus, to-bus: " + fid + ", " + tid);
 		
 		String cirId="1";
