@@ -249,12 +249,12 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws Exception {
+	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws ODMException {
 		XfrBranchXmlType branch = createXfrBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws Exception {
+	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMException {
 		Xfr3WBranchXmlType branch = createXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
 		return branch;
@@ -266,12 +266,12 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws Exception {
+	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws ODMException {
 		PSXfrBranchXmlType branch = createPSXfrBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws Exception {
+	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMException {
 		PSXfr3WBranchXmlType branch = createPSXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
 		return branch;

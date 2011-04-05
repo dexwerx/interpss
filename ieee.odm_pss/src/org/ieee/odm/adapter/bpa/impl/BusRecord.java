@@ -78,8 +78,12 @@ public class BusRecord {
 	 * @param busName
 	 * @return
 	 */
-	public static String getBusId(String busName) { 
-		return busIdLookupTable.get(busName.trim()); 
+	public static String getBusId(String busName) throws ODMException { 
+		String id =  busIdLookupTable.get(busName.trim()); 
+		if (id == null) {
+			throw new ODMException("Bus id not found, bus name: " + busName);
+		}
+		return id; 
 	}
 	
 	public static void processBusData(final String str, AclfModelParser parser) throws Exception {		

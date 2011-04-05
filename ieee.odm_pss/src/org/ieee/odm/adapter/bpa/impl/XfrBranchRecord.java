@@ -79,8 +79,9 @@ public class XfrBranchRecord {
 		try {
 			branchRec = dataType == transformer ?
 								parser.createXfrBranch(fid, tid, cirId) : parser.createPSXfrBranch(fid, tid, cirId);
-		} catch (Exception e) {
+		} catch (ODMException e) {
 			ODMLogger.getLogger().severe("branch data error, " + e.toString());
+			return;
 		}
 		
 		branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));

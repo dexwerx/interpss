@@ -108,6 +108,25 @@ public class AclfDataSetter extends BaseDataSetter {
    		equivGen.setCode(code);
 	}	
 
+	/**
+	 * Set bus shunt Y 
+	 * 
+	 * @param bus
+	 * @param re
+	 * @param im
+	 * @param unit
+	 */
+	public static void setBusShuntY(LoadflowBusXmlType bus, double re, double im, YUnitType unit) {
+		bus.setShuntY(getFactory().createYXmlType());
+		bus.getShuntY().setRe(re);
+		bus.getShuntY().setIm(im);
+		bus.getShuntY().setUnit(unit);
+	}	
+
+	public static void setBusShuntVar(LoadflowBusXmlType bus, double var, YUnitType unit) {
+		setBusShuntY(bus, 0.0, var, unit);
+	}	
+
 	/*
 	 * add a LineData object to the branchData object, then set value(r, x, zUnit, g, b, yUnit) 
 	 * to the created LineData object

@@ -216,32 +216,26 @@ public class LineBranchRecord {
 		 */
 		else if(str.startsWith("L+")){
 			final String[] strAry = getBranchDataFields(str);
-			final String fid =  strAry[3];
-			final String tid =  strAry[6]; 
+			final String fname =  strAry[3];
+			final String tname =  strAry[6]; 
+			final String fid =  BusRecord.getBusId(fname);
+			final String tid =  BusRecord.getBusId(tname);
 			if(!strAry[9].equals("")){
-			final double fromShuntVar=new Double(strAry[9]).doubleValue();
-			double fShuntVar=ModelStringUtil.getNumberFormat(fromShuntVar/baseMVA); // x(pu)=Var/baseMVA
-			if(fShuntVar!=0.0){
-				LoadflowBusXmlType fromBus=parser.getAclfBus(fid);
-				YXmlType shuntY=null;
-				if(fromBus.getShuntY()!=null) shuntY=fromBus.getShuntY();
-				else shuntY =BaseDataSetter.createYValue(0,0,YUnitType.PU);
-				fromBus.setShuntY(BaseDataSetter.createYValue(shuntY.getRe(), shuntY.getIm()-fShuntVar,YUnitType.PU));
-			}
+				final double fromShuntVar=new Double(strAry[9]).doubleValue();
+				double fShuntVar=ModelStringUtil.getNumberFormat(fromShuntVar/baseMVA); // x(pu)=Var/baseMVA
+				if(fShuntVar!=0.0){
+					LoadflowBusXmlType fromBus=parser.getAclfBus(fid);
+					AclfDataSetter.setBusShuntVar(fromBus, fShuntVar, YUnitType.PU);
+				}
 			}
 			if(!strAry[10].equals("")){
-			final double toShuntVar=new Double(strAry[10]).doubleValue();
-			double tShuntVar=ModelStringUtil.getNumberFormat(toShuntVar/baseMVA);
-
-			if(tShuntVar!=0.0){
-				LoadflowBusXmlType toBus=parser.getAclfBus(tid);
-				YXmlType shuntY=null;
-				if(toBus.getShuntY()!=null) shuntY=toBus.getShuntY();
-				else shuntY =BaseDataSetter.createYValue(0,0,YUnitType.PU);
-				toBus.setShuntY(BaseDataSetter.createYValue(shuntY.getRe(), shuntY.getIm()-tShuntVar,YUnitType.PU));
+				final double toShuntVar=new Double(strAry[10]).doubleValue();
+				double tShuntVar=ModelStringUtil.getNumberFormat(toShuntVar/baseMVA);
+				if(tShuntVar!=0.0){
+					LoadflowBusXmlType toBus=parser.getAclfBus(tid);
+					AclfDataSetter.setBusShuntVar(toBus, tShuntVar, YUnitType.PU);
+				}
 			}
-			}
-			
 		}
 		else{
 			throw new ODMException("Only type L or L+ branch is allowed");
