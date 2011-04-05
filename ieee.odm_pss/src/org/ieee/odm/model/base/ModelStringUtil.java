@@ -248,4 +248,15 @@ public class ModelStringUtil {
 		parser.parse(busStr);
 		return (BusXmlType)parser.getAclfNet().getBusList().getBus().get(0).getValue();
 	}	
+	public static String replaceChineseChar(String s){
+		String regEx = "[\u4e00-\u9fa5]"; 
+     	String tem= s.replaceAll(regEx,"aa"); 
+        return tem;
+	}
+	public static int getChineseCharNum(String str){
+		String regEx = "[\u4e00-\u9fa5]"; 
+		String tem= str.replaceAll(regEx,"aa"); 
+		int n=tem.length()-str.length(); 
+		return n;
+	}
 }
