@@ -391,41 +391,62 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
             strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
 			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			
-			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
-			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
-			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
-			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
-
-			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
-			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
-			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
-			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,34, 37).trim();
-			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,38, 38).trim();
-			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str,39, 44).trim();
-			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str,45, 50).trim();
-			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str,51, 56).trim();
-			strAry[15] = ModelStringUtil.getStringReturnEmptyString(str,57, 62).trim();
-			strAry[16] = ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
+//			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+//			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+//			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
+//			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();			
 			
-			//strAry[17] ="";
-/*
-T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536. 			
- */
-			if (str.length() >= 68){
-				if(str.length() <= 72){
-				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,68, str.length()).trim();	
+			//----to process the Chinese characters in the fromBus name, if any.
+			String tem=ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
+			
+			//from bus name
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14-chnCharNum1).trim();
+			//from bus basekV
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15-chnCharNum1, 18-chnCharNum1).trim();
+			//meter
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 19-chnCharNum1).trim();
+			
+			//---to process the Chinese characters in the toBus name, if any.
+			tem=ModelStringUtil.getStringReturnEmptyString(str,20-chnCharNum1, 27-chnCharNum1).trim();
+			int chnCharNum2=ModelStringUtil.getChineseCharNum(tem);
+			
+			//to bus name
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20-chnCharNum1, 27-chnCharNum1-chnCharNum2).trim();
+			
+			//--- replace all the Chinese Characters, since they are not used in the following processing.
+			String str2=ModelStringUtil.replaceChineseChar(str);
+
+
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str2,28, 31).trim();
+			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str2,32, 32).trim();
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str2,33, 33).trim();
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str2,34, 37).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str2,38, 38).trim();
+			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str2,39, 44).trim();
+			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str2,45, 50).trim();
+			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str2,51, 56).trim();
+			strAry[15] = ModelStringUtil.getStringReturnEmptyString(str2,57, 62).trim();
+			strAry[16] = ModelStringUtil.getStringReturnEmptyString(str2,63, 67).trim();//// tap of the fromBus
+           /*
+            T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536. 			
+           */
+			// tap of the toBus
+			if (str2.length() >= 68){
+				if(str2.length() <= 72){
+				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,68, str2.length()).trim();	
 				}
 				else{
-				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,68, 72).trim();
+				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,68, 72).trim();
 				
 				}
 			}
 			
-			if (str.length() > 78)
-				strAry[18] =strAry[17] = ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();// str.substring(74, 77).trim();
+			if (str2.length() > 78)
+				strAry[18] =strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,74, 77).trim();// str2.substring(74, 77).trim();
 			
-			if (str.length() > 81)
-				strAry[19] =ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();// str.substring(77, 80).trim();
+			if (str2.length() > 81)
+				strAry[19] =ModelStringUtil.getStringReturnEmptyString(str2,77, 80).trim();// str2.substring(77, 80).trim();
 		}catch(Exception e){
 			ODMLogger.getLogger().severe(e.toString() + "\n" + str);
 			e.printStackTrace();
@@ -441,29 +462,53 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
             strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
             strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
 			strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
+//			//from bus name
+//			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+//			// rated v
+//			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+//			// point of metering interface exchange power 
+//			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
+//			//to bus name
+//			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
+			
+			//----to process the Chinese characters in the fromBus name, if any.
+			String tem=ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
+			
 			//from bus name
-			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
-			// rated v
-			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
-			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 19).trim();
+			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14-chnCharNum1).trim();
+			//from bus basekV
+			strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15-chnCharNum1, 18-chnCharNum1).trim();
+			//meter
+			strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 19-chnCharNum1).trim();
+			
+			//---to process the Chinese characters in the toBus name, if any.
+			tem=ModelStringUtil.getStringReturnEmptyString(str,20-chnCharNum1, 27-chnCharNum1).trim();
+			int chnCharNum2=ModelStringUtil.getChineseCharNum(tem);
+			
 			//to bus name
-			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20, 27).trim();
+			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20-chnCharNum1, 27-chnCharNum1-chnCharNum2).trim();
+			
+			//--- replace all the Chinese Characters, since they are not used in the following processing.
+			String str2=ModelStringUtil.replaceChineseChar(str);
+			
+			
 			// to rated v
-			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,28, 31).trim();
+			strAry[7] = ModelStringUtil.getStringReturnEmptyString(str2,28, 31).trim();
 			// controlled bus name and rated v
-			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,34, 41).trim();
-			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,42, 45).trim();
+			strAry[8] = ModelStringUtil.getStringReturnEmptyString(str2,34, 41).trim();
+			strAry[9] = ModelStringUtil.getStringReturnEmptyString(str2,42, 45).trim();
 			
 			//for R RV RQ RN
 			//max tap
-			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();
+			strAry[10] = ModelStringUtil.getStringReturnEmptyString(str2,46, 50).trim();
 			// min tap
-			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,51, 55).trim();
+			strAry[11] = ModelStringUtil.getStringReturnEmptyString(str2,51, 55).trim();
 			// total tap
-			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str,56, 57).trim();
+			strAry[12] = ModelStringUtil.getStringReturnEmptyString(str2,56, 57).trim();
 			
-			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
-			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			strAry[13] = ModelStringUtil.getStringReturnEmptyString(str2,58, 62).trim();
+			strAry[14] = ModelStringUtil.getStringReturnEmptyString(str2,63, 67).trim();
 		}catch(Exception e){
 			ODMLogger.getLogger().severe(e.toString());
 		}
