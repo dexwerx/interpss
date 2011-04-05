@@ -1,5 +1,6 @@
 package com.interpss.QA.rfile.aclf;
 
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.interpss.numeric.util.NumericUtil;
 
 import com.interpss.QA.rfile.Base_FileProcessor;
@@ -40,7 +41,8 @@ public class BPA_FileProcessor extends Base_FileProcessor {
    ANSH-HLZ 525.0   538.0      0.0      0.0              0.0      0.0  1208.9  1208.9     0.0               DC   1.025/  10.3
  */
 					this.totalBus++;
-					this.busId = lineStr.substring(0, 11).trim();
+					String busName = lineStr.substring(0, 11);
+					this.busId = BusRecord.getBusId(busName);
 					//System.out.println(busid.trim() + ":" + lineStr);
 					String str = lineStr.substring(113,125);
 					String[] ary = str.split("/");
