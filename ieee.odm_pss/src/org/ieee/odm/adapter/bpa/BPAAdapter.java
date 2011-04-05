@@ -53,6 +53,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 
 	public BPAAdapter() {
 		super();
+		BusRecord.resetBusCnt();
 		this.factory = new ObjectFactory();		
 	}
 	
