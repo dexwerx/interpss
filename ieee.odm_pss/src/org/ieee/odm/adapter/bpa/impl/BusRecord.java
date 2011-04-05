@@ -302,35 +302,45 @@ B     XIANLS= 500.XX305.3 -215.
 		//Columns  3 code for modification			
 		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,3, 3).trim();
 		//Columns 3-5   owner code
-		//Columns 6-13 busName  14-17 rated voltage
+		
 		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,4, 6).trim();
-		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();			
-		strAry[4] = ModelStringUtil.getStringReturnEmptyString(str,15, 18).trim();
+		
+		//to process the Chinese characters first, if any.
+		String tem=ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
+		int chineseCharNum=ModelStringUtil.getChineseCharNum(tem);
+		
+		//Columns 6-13 busName  
+		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14-chineseCharNum).trim();
+		
+		String str2=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
+		//14-17 rated voltage
+		strAry[4] = ModelStringUtil.getStringReturnEmptyString(str2,15, 18).trim();
+
 		//Columns 18-19   zone name
-		strAry[5] = ModelStringUtil.getStringReturnEmptyString(str,19, 20).trim();
+		strAry[5] = ModelStringUtil.getStringReturnEmptyString(str2,19, 20).trim();
 		//Columns 20-24   Load MW [F] *
 		//Columns 25-29   Load MVAR [F] *
-		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,21, 25).trim();
-		strAry[7] = ModelStringUtil.getStringReturnEmptyString(str,26, 30).trim();			
+		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str2,21, 25).trim();
+		strAry[7] = ModelStringUtil.getStringReturnEmptyString(str2,26, 30).trim();			
 		//Columns 30-33   shunt MW [F] *
 		//Columns 34-39   shunt MVAR [F] *
-		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,31, 34).trim();
-		strAry[9] = ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();	
+		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str2,31, 34).trim();
+		strAry[9] = ModelStringUtil.getStringReturnEmptyString(str2,35, 38).trim();	
 		// Columns 38-41 pmax
 		// Columns 42-46 pmax
-		strAry[10] = ModelStringUtil.getStringReturnEmptyString(str,39, 42).trim();			
-		strAry[11] = ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
+		strAry[10] = ModelStringUtil.getStringReturnEmptyString(str2,39, 42).trim();			
+		strAry[11] = ModelStringUtil.getStringReturnEmptyString(str2,43, 47).trim();
 		//Qmax Qmin
-		strAry[12]= ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
-		strAry[13]= ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();			
+		strAry[12]= ModelStringUtil.getStringReturnEmptyString(str2,48, 52).trim();
+		strAry[13]= ModelStringUtil.getStringReturnEmptyString(str2,53, 57).trim();			
 		//scheduled V or Vmax, Vmin
-		strAry[14]= ModelStringUtil.getStringReturnEmptyString(str,58, 61).trim();			
-		strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,62, 65).trim();
+		strAry[14]= ModelStringUtil.getStringReturnEmptyString(str2,58, 61).trim();			
+		strAry[15]=ModelStringUtil.getStringReturnEmptyString(str2,62, 65).trim();
 		//remoted busName, rated voltage
-		strAry[16]= ModelStringUtil.getStringReturnEmptyString(str,66, 73).trim();
-		strAry[17]= ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();
+		strAry[16]= ModelStringUtil.getStringReturnEmptyString(str2,66, 73).trim();
+		strAry[17]= ModelStringUtil.getStringReturnEmptyString(str2,74, 77).trim();
 		// used in remoted bus control, var fraction
-		strAry[18]= ModelStringUtil.getStringReturnEmptyString(str,78, 80).trim();
+		strAry[18]= ModelStringUtil.getStringReturnEmptyString(str2,78, 80).trim();
 		return strAry;
 	}
 }
