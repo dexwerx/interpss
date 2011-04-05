@@ -1,6 +1,7 @@
 package com.interpss.QA.rfile.aclf;
 
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.common.ODMException;
 import org.interpss.numeric.util.NumericUtil;
 
 import com.interpss.QA.rfile.Base_FileProcessor;
@@ -23,7 +24,7 @@ public class BPA_FileProcessor extends Base_FileProcessor {
 	}
 	
 	@Override
-	public boolean processLine(String lineStr) throws InterpssException {
+	public boolean processLine(String lineStr) throws InterpssException, ODMException {
 		if (!busDataProcessed) {
 			if (lineStr.contains("kV        MW      MVAR")) {
 				this.busRecordBegin = true;
