@@ -108,8 +108,8 @@ public class AclfOutFunc {
 				str.append("  ------------------------------------------------------------------------------------------------------------------\n");
 			}
 			else {
-				str.append("     BusID          Code             Volt(pu)   Angle(deg)     P(pu)     Q(pu)\n");
-				str.append("  ----------------------------------------------------------------------------\n");
+				str.append("     BusID       Name           Code           Volt(pu)   Angle(deg)     P(pu)     Q(pu)\n");
+				str.append("  ---------------------------------------------------------------------------------------\n");
 			}
 				 
 			net.forEachAclfBus(new IAclfBusVisitor() {
@@ -117,7 +117,8 @@ public class AclfOutFunc {
 					if (bus.isActive()) {
 						Complex busPQ = bus.getPowerInjection();
 						str.append("  ");
-						str.append(String.format("%-12s  ", getBusId(bus, bus.getNetwork().getOriginalDataFormat())));
+						str.append(String.format("%-12s ", getBusId(bus, bus.getNetwork().getOriginalDataFormat())));
+						str.append(String.format("%-10s ", bus.getName()));
 						str.append(String.format("%-17s ", bus.code2String()));
 						str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
 						str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
