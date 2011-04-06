@@ -167,7 +167,7 @@ public class BusRecord {
 		//Shunt var B -->B
 		double shuntMw=0.0;
 		double shuntVar=0.0;
-		if(!strAry[8].equals("")){
+		if(!strAry[8].trim().equals("") && !strAry[8].trim().equals(".")){
 			shuntMw= new Double(strAry[8]).doubleValue();
 		}		
 		if(!strAry[9].equals("")){
