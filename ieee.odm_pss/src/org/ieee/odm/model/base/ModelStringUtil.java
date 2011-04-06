@@ -249,11 +249,13 @@ public class ModelStringUtil {
 		return (BusXmlType)parser.getAclfNet().getBusList().getBus().get(0).getValue();
 	}	
 	
-	// TODO: tony please document the following two functions
+
 	/**
-	 * 
+	 * a Chinese character takes up two-char-space but only counts one char, this method 
+	 * replace the Chinese Character with "aa"(just arbitrary chosen here),with dealing with 
+	 * operations like String.subString(int beginIdx,int endIdx);
 	 * @param s
-	 * @return
+	 * @return a String with all the Chinese Character in it replaced by "aa"
 	 */
 	public static String replaceChineseChar(String s){
 		String regEx = "[\u4e00-\u9fa5]"; 
@@ -262,9 +264,9 @@ public class ModelStringUtil {
 	}
 	
 	/**
-	 * 
+	 * to get the Number of Chinese Characters in the input String.
 	 * @param str
-	 * @return
+	 * @return the Number of Chinese Characters
 	 */
 	public static int getChineseCharNum(String str){
 		String regEx = "[\u4e00-\u9fa5]"; 
