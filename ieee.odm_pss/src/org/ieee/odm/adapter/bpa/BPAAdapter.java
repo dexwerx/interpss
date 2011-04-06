@@ -146,7 +146,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					}
 					catch (final Exception e) {
 						ODMLogger.getLogger().severe("Error, input : " + str + "\n" + e.toString());
-						//e.printStackTrace();
+						e.printStackTrace();
 					}					
 				}
 			} while(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)"));
