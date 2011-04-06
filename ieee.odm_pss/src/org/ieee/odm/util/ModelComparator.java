@@ -25,7 +25,6 @@
 package org.ieee.odm.util;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -61,7 +60,9 @@ public class ModelComparator {
 	 * @return
 	 */
 	public List<String> compareLoadflowModel(StudyCaseXmlType scase, 
-				Comparator<BusXmlType> busComp, Comparator<BranchXmlType> braComp ) {
+				IODMComparator<BusXmlType> busComp, 
+				IODMComparator<BranchXmlType> braComp,
+				String baseFormat) {
 		List<String> strList = new ArrayList<String>();
 		
 		LoadflowNetXmlType baseNet = (LoadflowNetXmlType)this.baseStudyCase.getBaseCase().getValue();
@@ -83,7 +84,8 @@ public class ModelComparator {
 			if (bpaBus == null)
 				strList.add("\nBus not found: " + psseBus.getId() + ", " + psseBus.getName() + "(base)");
 			else 
-				AclfModelComparator.compare((LoadflowBusXmlType)psseBus, (LoadflowBusXmlType)bpaBus, strList);
+				AclfModelComparator.compare((LoadflowBusXmlType)psseBus, (LoadflowBusXmlType)bpaBus, 
+						strList, baseFormat);
 		}
 		
 		// compare number of branch info
@@ -97,7 +99,8 @@ public class ModelComparator {
 			if (bpaBra == null)
 				strList.add("\nBranch not found: " + psseBra.getId() + "(base)");
 			else
-				AclfModelComparator.compare(psseBra, bpaBra, strList);
+				AclfModelComparator.compare(psseBra, bpaBra, braComp.getBaseParser(), 
+						strList, baseFormat);
 		}
 		return strList;
 	}

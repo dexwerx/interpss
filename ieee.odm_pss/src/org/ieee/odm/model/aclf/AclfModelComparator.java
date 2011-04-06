@@ -3,8 +3,10 @@ package org.ieee.odm.model.aclf;
 import java.util.List;
 
 import org.ieee.odm.common.NumericUtil;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -20,9 +22,9 @@ public class AclfModelComparator {
 	 * @param bus
 	 * @param msgList
 	 */
-	public static void compare(LoadflowBusXmlType base, LoadflowBusXmlType bus, List<String> msgList) {
+	public static void compare(LoadflowBusXmlType base, LoadflowBusXmlType bus, List<String> msgList, String baseStr) {
 		if (base.getBaseVoltage().getValue() != bus.getBaseVoltage().getValue())
-			msgList.add("\nBus base voltage not equal: " + base.getId() + ", " + base.getBaseVoltage().getValue() + " (base)");
+			msgList.add("\nBus base voltage not equal: " + base.getId() + ", " + base.getBaseVoltage().getValue() + baseStr);
 /*
                 <genData>
                     <equivGen code="PV">
@@ -34,7 +36,8 @@ public class AclfModelComparator {
 */
 		if (base.getGenData() != null && bus.getGenData() != null) {
 			if (base.getGenData().getEquivGen().getCode() != bus.getGenData().getEquivGen().getCode())
-				msgList.add("\nBus EquivGen code not equal: " + base.getId() + ", " + base.getGenData().getEquivGen().getCode() + " (base)");
+				msgList.add("\nBus EquivGen code not equal: " + base.getId() + ", " + base.getName() + ", " + 
+						base.getGenData().getEquivGen().getCode() + baseStr);
 		}
 		else if (base.getGenData() == null && bus.getGenData() != null 
 						&& bus.getGenData().getEquivGen().getCode() != LFGenCodeEnumType.NONE_GEN ||
@@ -52,7 +55,8 @@ public class AclfModelComparator {
 */
 		if (base.getLoadData() != null && bus.getLoadData() != null) {
 			if (base.getLoadData().getEquivLoad().getCode() != bus.getLoadData().getEquivLoad().getCode())
-				msgList.add("\nBus EquivLoad code not equal: " + base.getId() + ", " + base.getLoadData().getEquivLoad().getCode() + " (base)");
+				msgList.add("\nBus EquivLoad code not equal: " + base.getId() + ", " + base.getName() + ", " + 
+						base.getLoadData().getEquivLoad().getCode() + baseStr);
 		}
 		else if (base.getLoadData() == null && bus.getLoadData() != null 
 						&& bus.getLoadData().getEquivLoad().getCode() != LFLoadCodeEnumType.NONE_LOAD ||
@@ -67,8 +71,8 @@ public class AclfModelComparator {
 		if (base.getShuntY() != null && bus.getShuntY() != null) {
 			if (!NumericUtil.equals(base.getShuntY().getIm(), bus.getShuntY().getIm()) ||
 			    !NumericUtil.equals(base.getShuntY().getRe(), bus.getShuntY().getRe()))
-				msgList.add("\nBus ShuntY not equal: " + base.getId() + ", " + bus.getId() 
-						+ "   " + BaseJaxbHelper.toStr(base.getShuntY()) + " (base)"
+				msgList.add("\nBus ShuntY not equal: " + base.getId() + ", " + bus.getName() 
+						+ "   " + BaseJaxbHelper.toStr(base.getShuntY()) + baseStr
 						+ "   " + BaseJaxbHelper.toStr(bus.getShuntY()));
 		}
 		else if (base.getShuntY() == null && bus.getShuntY() != null ||
@@ -85,7 +89,11 @@ public class AclfModelComparator {
 	 * @param bra
 	 * @param msgList
 	 */
-	public static void compare(BranchXmlType base, BranchXmlType bra, List<String> msgList) {
+	public static void compare(BranchXmlType base, BranchXmlType bra, IODMModelParser baseParser, List<String> msgList, String baseStr) {
+		BusXmlType baseFromBus = baseParser.getBus(BaseJaxbHelper.getRecId(base.getFromBus()));
+		BusXmlType BASEtoBus = baseParser.getBus(BaseJaxbHelper.getRecId(base.getToBus()));
+		String braId = baseFromBus.getName().trim() + "->" + BASEtoBus.getName().trim() + "_" + base.getCircuitId();
+		
 		//
 		// 	LineBranchXmlType
 		//
@@ -97,8 +105,8 @@ public class AclfModelComparator {
 */
 			if (!NumericUtil.equals(baseLine.getZ().getRe(), line.getZ().getRe()) ||
 					!NumericUtil.equals(baseLine.getZ().getIm(), line.getZ().getIm())) {
-				msgList.add("\nBranch Z not equal: " + base.getId() + ", " + bra.getId()
-						+ "   " + BaseJaxbHelper.toStr(baseLine.getZ()) + " (base)"
+				msgList.add("\nLine Branch Z not equal: " + braId
+						+ "   " + BaseJaxbHelper.toStr(baseLine.getZ()) + baseStr
 						+ "   " + BaseJaxbHelper.toStr(line.getZ()));
 			}
 		}
@@ -116,9 +124,9 @@ public class AclfModelComparator {
 */
 			if (!NumericUtil.equals(baseXfr.getZ().getRe(), xfr.getZ().getRe()) ||
 				!NumericUtil.equals(baseXfr.getZ().getIm(), xfr.getZ().getIm())) {
-				msgList.add("\nXfr Branch Z not equal: " + base.getId() + ", " + bra.getId()
-							+ "   " + BaseJaxbHelper.toStr(baseXfr.getZ()) + " (base)"
-							+ "   " + BaseJaxbHelper.toStr(xfr.getZ()));
+				msgList.add("\nXfr Branch Z not equal: " + braId
+						+ "   " + BaseJaxbHelper.toStr(baseXfr.getZ()) + baseStr
+						+ "   " + BaseJaxbHelper.toStr(xfr.getZ()));
 			}
 			
 /*			
@@ -126,14 +134,14 @@ public class AclfModelComparator {
             <toTurnRatio unit="PU" value="0.9524"/>
 */
 			if (!NumericUtil.equals(baseXfr.getFromTurnRatio().getValue(), xfr.getFromTurnRatio().getValue(), 0.0001)) {
-				msgList.add("\nXfr Branch fromTurnRatio not equal: " + base.getId() + ", " + bra.getId()
-								+ "   " + baseXfr.getFromTurnRatio().getValue() + " (base)"
-								+ "   " + xfr.getFromTurnRatio().getValue());
+				msgList.add("\nXfr Branch fromTurnRatio not equal: " + braId
+								+ "   [" + baseXfr.getFromTurnRatio().getValue() + "," + baseXfr.getToTurnRatio().getValue() + "] " + baseStr
+								+ "   [" + + xfr.getFromTurnRatio().getValue() + "," + xfr.getToTurnRatio().getValue() + "]");
 			}
 			if (!NumericUtil.equals(baseXfr.getToTurnRatio().getValue(), xfr.getToTurnRatio().getValue(), 0.0001)) {
-				msgList.add("\nXfr Branch toTurnRatio not equal: " + base.getId() + ", " + bra.getId()
-								+ "   " + baseXfr.getToTurnRatio().getValue() + " (base)"
-								+ "   " + xfr.getToTurnRatio().getValue());
+				msgList.add("\nXfr Branch toTurnRatio not equal: " + braId
+						+ "   [" + baseXfr.getFromTurnRatio().getValue() + "," + baseXfr.getToTurnRatio().getValue() + "] " + baseStr
+						+ "   [" + + xfr.getFromTurnRatio().getValue() + "," + xfr.getToTurnRatio().getValue() + "]");
 			}
 			
 /*			
