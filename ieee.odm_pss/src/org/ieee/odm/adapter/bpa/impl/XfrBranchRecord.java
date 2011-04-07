@@ -192,7 +192,7 @@ public class XfrBranchRecord {
 		//tap2
 		if(strAry[17]!=null&&!strAry[17].equals("")){
 			toTurnRatedVolOrZero = new Double(strAry[17]).doubleValue();
-			System.out.println(strAry[17]+", toTurnRatedVol:"+toTurnRatedVolOrZero);
+			//System.out.println(strAry[17]+", toTurnRatedVol:"+toTurnRatedVolOrZero);
 		}
 		double fRatio=1.0, tRatio=1.0;			
         
@@ -209,7 +209,7 @@ public class XfrBranchRecord {
 				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100.0;		//F5.2		
 			}
 			tRatio = toTurnRatedVolOrZero/tVbase;
-			System.out.println("toTurnRatedVol: "+toTurnRatedVolOrZero+", tratio="+tRatio);
+			//System.out.println("toTurnRatedVol: "+toTurnRatedVolOrZero+", tratio="+tRatio);
 			NumberFormat ddf1 = NumberFormat.getNumberInstance();
 			ddf1.setMaximumFractionDigits(4);
 			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		
@@ -439,10 +439,9 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
 			if (str2.length() >= 68){
 				if(str2.length() <= 72)
 				     strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,68, str2.length()).trim();	
-				
-				else {strAry[17]= ModelStringUtil.getStringReturnEmptyString(str2,68, 72).trim();
+				else {
+					strAry[17]= ModelStringUtil.getStringReturnEmptyString(str2,68, 72).trim();
 				}
-				
 			}
 			
 			if (str2.length() > 78)
