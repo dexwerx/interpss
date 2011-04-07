@@ -163,31 +163,45 @@ public class LineBranchRecord {
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
 			if(!strAry[12].equals("")){
 				rpu = new Double(strAry[12]).doubleValue();
-				if(rpu>1.0){
+				if(Math.abs(rpu)>1.0){
 					rpu=rpu/100000;
 				}
 				rpu=ModelStringUtil.getNumberFormat(rpu);
+				if(Math.abs(rpu)>0.01)
+					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
+							+rpu+" ,seems to be out of normal range, please check!");
 			}
 			
 			if(!strAry[13].equals("")){
 				xpu = new Double(strAry[13]).doubleValue();
-				if(xpu>1.0){
+				if(Math.abs(xpu)>1.0){
 					xpu=xpu/100000;
 				}
 				xpu=ModelStringUtil.getNumberFormat(xpu);
+				if(Math.abs(xpu)>0.1)
+					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the reactance now is"
+							+rpu+" ,seems to be out of normal range, please check!");
 			}
 			
 			if(!strAry[14].equals("")){
 				halfGpu = new Double(strAry[14]).doubleValue();
-				if(halfGpu>10.0){
+				if(Math.abs(halfGpu)>10.0){
 					halfGpu=halfGpu/100000;
 				}
+				if(Math.abs(halfGpu)>0.1)
+					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the line charging G/2 now is"
+							+halfGpu+" ,seems to be out of normal range, please check!");
 			}
 			
 			if(!strAry[15].equals("")){
 				halfBpu = new Double(strAry[15]).doubleValue();
-				if(halfBpu>10.0){
+				if(Math.abs(halfBpu)>10.0){
 					halfBpu=halfBpu/100000;
+					
+				}
+				if(Math.abs(halfBpu)>0.1){
+					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the line charging B/2 now is"
+							+halfBpu+" ,seems to be out of normal range, please check!");
 				}
 			}
 			
