@@ -1,5 +1,5 @@
  /*
-  * @(#)Data2ODMXml.java   
+  * @(#)ModelComparator.java   
   *
   * Copyright (C) 2008-2011 www.interpss.org
   *
@@ -57,6 +57,7 @@ public class ModelComparator {
 	 * @param scase
 	 * @param busComp
 	 * @param braComp
+	 * @param baseFormat string for output purpose
 	 * @return
 	 */
 	public List<String> compareLoadflowModel(StudyCaseXmlType scase, 
@@ -70,19 +71,19 @@ public class ModelComparator {
 
 		// compare number of net info
 		if (baseNet.getBasePower().getValue() != net.getBasePower().getValue())
-			strList.add("\nBaseMVA error: " + baseNet.getBasePower().getValue() + "(base), " +
+			strList.add("\nBaseMVA error: " + baseNet.getBasePower().getValue() + baseFormat + ", " +
 					net.getBasePower().getValue());
 		
 		// compare number of bus info
 		if (baseNet.getBusList().getBus().size() != net.getBusList().getBus().size())
-			strList.add("\n# of Bus error: " + baseNet.getBusList().getBus().size() + "(base), " +
+			strList.add("\n# of Bus error: " + baseNet.getBusList().getBus().size() + baseFormat + ", " +
 					net.getBusList().getBus().size());
 		
 		for (JAXBElement<? extends BusXmlType> b : baseNet.getBusList().getBus()) {
 			BusXmlType psseBus = b.getValue();
 			BusXmlType bpaBus = BaseJaxbHelper.getBus(net, psseBus, busComp);
 			if (bpaBus == null)
-				strList.add("\nBus not found: " + psseBus.getId() + ", " + psseBus.getName() + "(base)");
+				strList.add("\nBus not found: " + psseBus.getId() + ", " + psseBus.getName() + baseFormat);
 			else 
 				AclfModelComparator.compare((LoadflowBusXmlType)psseBus, (LoadflowBusXmlType)bpaBus, 
 						strList, baseFormat);
@@ -90,14 +91,14 @@ public class ModelComparator {
 		
 		// compare number of branch info
 		if (baseNet.getBranchList().getBranch().size() != net.getBranchList().getBranch().size())
-			strList.add("\n# of Branch error: " + baseNet.getBranchList().getBranch().size() + "(base), " +
+			strList.add("\n# of Branch error: " + baseNet.getBranchList().getBranch().size() + baseFormat + ", " +
 					net.getBranchList().getBranch().size());
 		
 		for (JAXBElement<? extends BaseBranchXmlType> b : baseNet.getBranchList().getBranch()) {
 			BranchXmlType psseBra = (BranchXmlType)b.getValue();
 			BranchXmlType bpaBra = BaseJaxbHelper.getBranch(net, psseBra, braComp);
 			if (bpaBra == null)
-				strList.add("\nBranch not found: " + psseBra.getId() + "(base)");
+				strList.add("\nBranch not found: " + psseBra.getId() + baseFormat);
 			else
 				AclfModelComparator.compare(psseBra, bpaBra, braComp.getBaseParser(), 
 						strList, baseFormat);

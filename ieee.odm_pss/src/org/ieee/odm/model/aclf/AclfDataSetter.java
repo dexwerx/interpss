@@ -127,6 +127,18 @@ public class AclfDataSetter extends BaseDataSetter {
 		setBusShuntY(bus, 0.0, var, unit);
 	}	
 
+	public static void addBusShuntY(LoadflowBusXmlType bus, double re, double im, YUnitType unit) {
+		if (bus.getShuntY() == null)
+			bus.setShuntY(getFactory().createYXmlType());
+		bus.getShuntY().setRe(re + bus.getShuntY().getRe());
+		bus.getShuntY().setIm(im + bus.getShuntY().getIm());
+		bus.getShuntY().setUnit(unit);
+	}	
+
+	public static void addBusShuntVar(LoadflowBusXmlType bus, double var, YUnitType unit) {
+		addBusShuntY(bus, 0.0, var, unit);
+	}	
+
 	/*
 	 * add a LineData object to the branchData object, then set value(r, x, zUnit, g, b, yUnit) 
 	 * to the created LineData object

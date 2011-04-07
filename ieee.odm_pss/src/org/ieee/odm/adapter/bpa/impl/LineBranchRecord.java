@@ -228,9 +228,8 @@ public class LineBranchRecord {
 					/*
 					 * 1.  It should be negative considering that positive sign means capacitive shunt var
 					 * 2.  If the Bus has shuntY already, this can be wrong, I think addShuntY() can be good.
-					 *          This will never be the case
 					 */
-					AclfDataSetter.setBusShuntVar(fromBus, -fShuntVar, YUnitType.PU);   
+					AclfDataSetter.addBusShuntVar(fromBus, -fShuntVar, YUnitType.PU);   
 				}
 			}
 			if(!strAry[10].equals("")){
@@ -238,7 +237,7 @@ public class LineBranchRecord {
 				double tShuntVar=ModelStringUtil.getNumberFormat(toShuntVar/baseMVA);
 				if(tShuntVar!=0.0){
 					LoadflowBusXmlType toBus=parser.getAclfBus(tid);
-					AclfDataSetter.setBusShuntVar(toBus, -tShuntVar, YUnitType.PU);
+					AclfDataSetter.addBusShuntVar(toBus, -tShuntVar, YUnitType.PU);
 				}
 			}
 		}
