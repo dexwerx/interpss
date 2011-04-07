@@ -184,16 +184,15 @@ public class XfrBranchRecord {
 			branchRec.setMagnitizingY(BaseDataSetter.createYValue(Gpu, Bpu, YUnitType.PU));
 		}
 		
-		// tap1 tap2 or angle for phase shift
+		// tap1  or angle for phase shift
 		double fromTurnRatedVolOrAngDeg=0.0, toTurnRatedVolOrZero=0.0;
 		if(!strAry[16].equals("")){
 			fromTurnRatedVolOrAngDeg = new Double(strAry[16]).doubleValue();				
 		}
-		
-		if(strAry[17] != null &&!strAry[17].equals("")){
-//	    if(!strAry[17].equals("")){
+		//tap2
+		if(strAry[17]!=null&&!strAry[17].equals("")){
 			toTurnRatedVolOrZero = new Double(strAry[17]).doubleValue();
-			//System.out.println("toTurnRatedVol:"+toTurnRatedVolOrZero);
+			System.out.println(strAry[17]+", toTurnRatedVol:"+toTurnRatedVolOrZero);
 		}
 		double fRatio=1.0, tRatio=1.0;			
         
@@ -210,7 +209,7 @@ public class XfrBranchRecord {
 				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100.0;		//F5.2		
 			}
 			tRatio = toTurnRatedVolOrZero/tVbase;
-			//System.out.println("toTurnRatedVol: "+toTurnRatedVolOrZero+", tratio="+tRatio);
+			System.out.println("toTurnRatedVol: "+toTurnRatedVolOrZero+", tratio="+tRatio);
 			NumberFormat ddf1 = NumberFormat.getNumberInstance();
 			ddf1.setMaximumFractionDigits(4);
 			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		
@@ -388,6 +387,7 @@ public class XfrBranchRecord {
 T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
 */
 	private static String[] getXformerDataFields(final String str) {
+		
 		final String[] strAry = new String[20];
 		try{
 			strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2);
@@ -403,6 +403,7 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
 			String tem=ModelStringUtil.getStringReturnEmptyString(str,7, 14).trim();
 			int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
 			
+//			System.out.println("chnCharNum1:"+chnCharNum1);
 			//from bus name
 			strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,7, 14-chnCharNum1).trim();
 			//from bus basekV
@@ -413,7 +414,7 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
 			//---to process the Chinese characters in the toBus name, if any.
 			tem=ModelStringUtil.getStringReturnEmptyString(str,20-chnCharNum1, 27-chnCharNum1).trim();
 			int chnCharNum2=ModelStringUtil.getChineseCharNum(tem);
-			
+//			System.out.println("chnCharNum2:"+chnCharNum2);
 			//to bus name
 			strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,20-chnCharNum1, 27-chnCharNum1-chnCharNum2).trim();
 			
@@ -436,17 +437,16 @@ T  yn DD1G    22.0 DD50    525.   720..000270.0202            22.0 536.
            */
 			// tap of the toBus
 			if (str2.length() >= 68){
-				if(str2.length() <= 72){
-				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,68, str2.length()).trim();	
-				}
-				else{
-				strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,68, 72).trim();
+				if(str2.length() <= 72)
+				     strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,68, str2.length()).trim();	
 				
+				else {strAry[17]= ModelStringUtil.getStringReturnEmptyString(str2,68, 72).trim();
 				}
+				
 			}
 			
 			if (str2.length() > 78)
-				strAry[18] =strAry[17] = ModelStringUtil.getStringReturnEmptyString(str2,74, 77).trim();// str2.substring(74, 77).trim();
+				strAry[18] = ModelStringUtil.getStringReturnEmptyString(str2,74, 77).trim();// str2.substring(74, 77).trim();
 			
 			if (str2.length() > 81)
 				strAry[19] =ModelStringUtil.getStringReturnEmptyString(str2,77, 80).trim();// str2.substring(77, 80).trim();

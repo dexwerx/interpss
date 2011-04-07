@@ -226,8 +226,8 @@ public class LineBranchRecord {
 				if(fShuntVar!=0.0){
 					LoadflowBusXmlType fromBus=parser.getAclfBus(fid);
 					/*
-					 * 1.  It should be negative considering that positive sign means capacitive shunt var
-					 * 2.  If the Bus has shuntY already, this can be wrong, I think addShuntY() can be good.
+					 * It should be negative considering that positive sign means capacitive shunt var
+					 * 
 					 */
 					AclfDataSetter.addBusShuntVar(fromBus, -fShuntVar, YUnitType.PU);   
 				}
