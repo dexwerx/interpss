@@ -180,7 +180,7 @@ public class LineBranchRecord {
 				xpu=ModelStringUtil.getNumberFormat(xpu);
 				if(Math.abs(xpu)>0.1)
 					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the reactance now is"
-							+rpu+" ,seems to be out of normal range, please check!");
+							+xpu+" ,seems to be out of normal range, please check!");
 			}
 			
 			if(!strAry[14].equals("")){
