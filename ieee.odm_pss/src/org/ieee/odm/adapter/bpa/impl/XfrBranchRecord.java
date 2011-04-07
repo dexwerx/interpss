@@ -149,27 +149,33 @@ public class XfrBranchRecord {
 		double rpu=0.0, xpu=0.0001, Gpu=0.0, Bpu=0.0;
 		if(!strAry[12].equals("")){
 			rpu = new Double(strAry[12]).doubleValue();
-			if(rpu>1.0){
+			if(Math.abs(rpu)>1.0){
 				rpu=rpu*0.00001;   //F6.5
 			}
 			rpu=ModelStringUtil.getNumberFormat(rpu);
+			if(Math.abs(rpu)>0.01)
+				ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
+						+rpu+" ,seems to be out of normal range, please check!");
 		}
 		if(!strAry[13].equals("")){
 			xpu = new Double(strAry[13]).doubleValue();
-			if(xpu>1.0){
+			if(Math.abs(xpu)>1.0){
 				xpu=xpu*0.00001;  //F6.5
 			}
 			xpu=ModelStringUtil.getNumberFormat(xpu);
+			if(Math.abs(xpu)>0.5)
+				ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
+						+xpu+" ,seems to be out of normal range, please check!");
 		}
 		if(!strAry[14].equals("")){
 			Gpu = new Double(strAry[14]).doubleValue();
-			if(Gpu>10.0){
+			if(Math.abs(Gpu)>10.0){
 				Gpu=Gpu*1e-5;  //F6.5
 			}
 		}
 		if(!strAry[15].equals("")){
 			Bpu = new Double(strAry[15]).doubleValue();
-			if(Bpu>10.0){
+			if(Math.abs(Bpu)>10.0){
 				Bpu=Bpu*1e-5;  //F6.5
 			}
 		}
@@ -192,7 +198,6 @@ public class XfrBranchRecord {
 		//tap2
 		if(strAry[17]!=null&&!strAry[17].equals("")){
 			toTurnRatedVolOrZero = new Double(strAry[17]).doubleValue();
-			//System.out.println(strAry[17]+", toTurnRatedVol:"+toTurnRatedVolOrZero);
 		}
 		double fRatio=1.0, tRatio=1.0;			
         
