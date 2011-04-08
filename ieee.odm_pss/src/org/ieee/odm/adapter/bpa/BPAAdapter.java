@@ -32,6 +32,7 @@ import java.util.List;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.GenLoadDataModifyRecord;
 import org.ieee.odm.adapter.bpa.impl.LineBranchRecord;
 import org.ieee.odm.adapter.bpa.impl.NetRecord;
 import org.ieee.odm.adapter.bpa.impl.XfrBranchRecord;
@@ -139,6 +140,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 							// *** BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
 							// ***		parser,baseCaseNet, this);
 						}
+						// the gen and load data modification is usually defined  at the end of all network data
+						else if( str.trim().startsWith("PA")||str.trim().startsWith("PZ")||str.trim().startsWith("PO")
+								||str.trim().startsWith("PC")||str.trim().startsWith("PB")){
+							ODMLogger.getLogger().fine("load Gen AND Load modification data");
+							GenLoadDataModifyRecord.processGenLoadModificationData(str,parser);
+
+						}
 						
 						else{
 							NetRecord.processReadComment(str, baseCaseNet,this);
@@ -153,6 +161,9 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			
 			// processing branch info after all bus info are processed 
 			processBranchInfo(strList, parser);
+			
+			//process Gen and Load Modification Data 
+			
 			
 			return parser;
 		}
