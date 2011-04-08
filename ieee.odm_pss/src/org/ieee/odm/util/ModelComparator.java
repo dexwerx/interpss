@@ -63,7 +63,7 @@ public class ModelComparator {
 	public List<String> compareLoadflowModel(StudyCaseXmlType scase, 
 				IODMComparator<BusXmlType> busComp, 
 				IODMComparator<BranchXmlType> braComp,
-				String baseFormat) {
+				String baseFormat, String format) {
 		List<String> strList = new ArrayList<String>();
 		
 		LoadflowNetXmlType baseNet = (LoadflowNetXmlType)this.baseStudyCase.getBaseCase().getValue();
@@ -75,9 +75,10 @@ public class ModelComparator {
 					net.getBasePower().getValue());
 		
 		// compare number of bus info
-		if (baseNet.getBusList().getBus().size() != net.getBusList().getBus().size())
+		if (baseNet.getBusList().getBus().size() != net.getBusList().getBus().size()) {
 			strList.add("\n# of Bus error: " + baseNet.getBusList().getBus().size() + baseFormat + ", " +
 					net.getBusList().getBus().size());
+		}
 		
 		for (JAXBElement<? extends BusXmlType> b : baseNet.getBusList().getBus()) {
 			BusXmlType psseBus = b.getValue();
@@ -90,9 +91,22 @@ public class ModelComparator {
 		}
 		
 		// compare number of branch info
-		if (baseNet.getBranchList().getBranch().size() != net.getBranchList().getBranch().size())
+		if (baseNet.getBranchList().getBranch().size() != net.getBranchList().getBranch().size()) {
 			strList.add("\n# of Branch error: " + baseNet.getBranchList().getBranch().size() + baseFormat + ", " +
 					net.getBranchList().getBranch().size());
+			for (JAXBElement<? extends BaseBranchXmlType> b : baseNet.getBranchList().getBranch()) {
+				BranchXmlType psseBra = (BranchXmlType)b.getValue();
+				BranchXmlType bpaBra = BaseJaxbHelper.getBranch(net, psseBra, braComp);
+				if (bpaBra == null)
+					strList.add("\nBranch not found: " + psseBra.getId() + baseFormat);
+			}
+			for (JAXBElement<? extends BaseBranchXmlType> b : net.getBranchList().getBranch()) {
+				BranchXmlType bra = (BranchXmlType)b.getValue();
+				BranchXmlType psseBra = BaseJaxbHelper.getBranch(baseNet, bra, braComp);
+				if (bra == null)
+					strList.add("\nBranch not found: " + psseBra.getId() + format);
+			}
+		}
 		
 		for (JAXBElement<? extends BaseBranchXmlType> b : baseNet.getBranchList().getBranch()) {
 			BranchXmlType psseBra = (BranchXmlType)b.getValue();

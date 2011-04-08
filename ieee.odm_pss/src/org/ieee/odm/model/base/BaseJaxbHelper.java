@@ -69,6 +69,7 @@ import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.YXmlType;
+import org.ieee.odm.schema.ZXmlType;
 
 public class BaseJaxbHelper {
 	/**
@@ -325,6 +326,10 @@ public class BaseJaxbHelper {
 	}
 	
 	public static String toStr(YXmlType c) {
+		return "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
+	}
+
+	public static String toStr(ZXmlType c) {
 		return "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
 	}
 
