@@ -188,7 +188,7 @@ public class LineBranchRecord {
 				if(Math.abs(halfGpu)>10.0){
 					halfGpu=halfGpu/100000;
 				}
-				if(Math.abs(halfGpu)>0.1)
+				if(Math.abs(halfGpu)>1)
 					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the line charging G/2 now is"
 							+halfGpu+" ,seems to be out of normal range, please check!");
 			}
@@ -199,7 +199,7 @@ public class LineBranchRecord {
 					halfBpu=halfBpu/100000;
 					
 				}
-				if(Math.abs(halfBpu)>0.1){
+				if(Math.abs(halfBpu)>5){
 					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the line charging B/2 now is"
 							+halfBpu+" ,seems to be out of normal range, please check!");
 				}
