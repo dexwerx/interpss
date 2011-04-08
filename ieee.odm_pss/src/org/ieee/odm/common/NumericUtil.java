@@ -23,6 +23,9 @@
  */
 package org.ieee.odm.common;
 
+import org.ieee.odm.schema.ComplexXmlType;
+import org.ieee.odm.schema.VoltageXmlType;
+
 public class NumericUtil {
 	static double ERR = 0.00001;
 	
@@ -48,5 +51,25 @@ public class NumericUtil {
 	 */
 	public static boolean equals(double x, double y, double err) {
 		return Math.abs(x - y) < err;
+	}
+	
+	public static boolean equals(ComplexXmlType x, ComplexXmlType y) {
+		return (x == null && y == null) || x != null && y != null &&
+		       Math.abs(x.getRe() - y.getRe()) < ERR && Math.abs(x.getIm() - y.getIm()) < ERR;
+	}
+
+	public static boolean equals(ComplexXmlType x, ComplexXmlType y, double err) {
+		return (x == null && y == null) || x != null && y != null &&
+		       Math.abs(x.getRe() - y.getRe()) < err && Math.abs(x.getIm() - y.getIm()) < err;
+	}
+	
+	public static boolean equals(VoltageXmlType x, VoltageXmlType y) {
+		return (x == null && y == null) || x != null && y != null &&
+		       Math.abs(x.getValue() - y.getValue()) < ERR;
+	}
+
+	public static boolean equals(VoltageXmlType x, VoltageXmlType y, double err) {
+		return (x == null && y == null) || x != null && y != null &&
+		       Math.abs(x.getValue() - y.getValue()) < err;
 	}
 }

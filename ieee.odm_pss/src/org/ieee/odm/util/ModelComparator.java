@@ -58,6 +58,7 @@ public class ModelComparator {
 	 * @param busComp
 	 * @param braComp
 	 * @param baseFormat string for output purpose
+	 * @param format string for output purpose
 	 * @return
 	 */
 	public List<String> compareLoadflowModel(StudyCaseXmlType scase, 
@@ -77,7 +78,7 @@ public class ModelComparator {
 		// compare number of bus info
 		if (baseNet.getBusList().getBus().size() != net.getBusList().getBus().size()) {
 			strList.add("\n# of Bus error: " + baseNet.getBusList().getBus().size() + baseFormat + ", " +
-					net.getBusList().getBus().size());
+					net.getBusList().getBus().size() + format);
 		}
 		
 		for (JAXBElement<? extends BusXmlType> b : baseNet.getBusList().getBus()) {
@@ -87,13 +88,13 @@ public class ModelComparator {
 				strList.add("\nBus not found: " + psseBus.getId() + ", " + psseBus.getName() + baseFormat);
 			else 
 				AclfModelComparator.compare((LoadflowBusXmlType)psseBus, (LoadflowBusXmlType)bpaBus, 
-						strList, baseFormat);
+						strList, baseFormat, format);
 		}
 		
 		// compare number of branch info
 		if (baseNet.getBranchList().getBranch().size() != net.getBranchList().getBranch().size()) {
 			strList.add("\n# of Branch error: " + baseNet.getBranchList().getBranch().size() + baseFormat + ", " +
-					net.getBranchList().getBranch().size());
+					net.getBranchList().getBranch().size() + format);
 			for (JAXBElement<? extends BaseBranchXmlType> b : baseNet.getBranchList().getBranch()) {
 				BranchXmlType psseBra = (BranchXmlType)b.getValue();
 				BranchXmlType bpaBra = BaseJaxbHelper.getBranch(net, psseBra, braComp);
@@ -115,7 +116,7 @@ public class ModelComparator {
 				strList.add("\nBranch not found: " + psseBra.getId() + baseFormat);
 			else
 				AclfModelComparator.compare(psseBra, bpaBra, braComp.getBaseParser(), 
-						strList, baseFormat);
+						strList, baseFormat, format);
 		}
 		return strList;
 	}

@@ -80,7 +80,8 @@ public class XfrBranchRecord {
 			branchRec = dataType == transformer ?
 								parser.createXfrBranch(fid, tid, cirId) : parser.createPSXfrBranch(fid, tid, cirId);
 		} catch (ODMException e) {
-			ODMLogger.getLogger().severe("branch data error, " + e.toString());
+			ODMLogger.getLogger().severe("branch data error, " + e.toString()+ 
+					"  " + fname + "->" + tname + "_" + cirId);
 			return;
 		}
 		

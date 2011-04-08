@@ -22,9 +22,12 @@ public class AclfModelComparator {
 	 * @param bus
 	 * @param msgList
 	 */
-	public static void compare(LoadflowBusXmlType base, LoadflowBusXmlType bus, List<String> msgList, String baseStr) {
+	public static void compare(LoadflowBusXmlType base, LoadflowBusXmlType bus, List<String> msgList, 
+			                   String baseStr, String format) {
+		String id = base.getId() + ", " + base.getName().trim();
+		
 		if (base.getBaseVoltage().getValue() != bus.getBaseVoltage().getValue())
-			msgList.add("\nBus base voltage not equal: " + base.getId() + ", " + base.getBaseVoltage().getValue() + baseStr);
+			msgList.add("\nBus base voltage not equal: " + id + ", " + base.getBaseVoltage().getValue() + baseStr);
 /*
                 <genData>
                     <equivGen code="PV">
@@ -36,14 +39,41 @@ public class AclfModelComparator {
 */
 		if (base.getGenData() != null && bus.getGenData() != null) {
 			if (base.getGenData().getEquivGen().getCode() != bus.getGenData().getEquivGen().getCode())
-				msgList.add("\nBus EquivGen code not equal: " + base.getId() + ", " + base.getName() + ", " + 
-						base.getGenData().getEquivGen().getCode() + baseStr);
+				msgList.add("\nBus EquivGen code not equal: " + id + ", " + 
+						base.getGenData().getEquivGen().getCode() + baseStr + 
+						"  " + bus.getGenData().getEquivGen().getCode() + format);
+			if (base.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV) {
+				if (!NumericUtil.equals(base.getGenData().getEquivGen().getPower().getRe(), bus.getGenData().getEquivGen().getPower().getRe()))
+					msgList.add("\nBus EquivGen power not equal: " + id + " " + base.getGenData().getEquivGen().getCode() 
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getPower()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getPower()) + format);
+				if (!NumericUtil.equals(base.getGenData().getEquivGen().getDesiredVoltage(), 
+						                bus.getGenData().getEquivGen().getDesiredVoltage()))
+					msgList.add("\nBus EquivGen desiredVoltage not equal: " + id + " " + base.getGenData().getEquivGen().getCode() 
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getDesiredVoltage()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getDesiredVoltage()) + format);
+			}
+			else if (base.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PQ) {
+				if (!NumericUtil.equals(base.getGenData().getEquivGen().getPower(), bus.getGenData().getEquivGen().getPower()))
+					msgList.add("\nBus EquivGen power not equal: " + id + " " + base.getGenData().getEquivGen().getCode()
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getPower()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getPower()) + format);
+			}
+			else if (base.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
+				if (!NumericUtil.equals(base.getGenData().getEquivGen().getDesiredVoltage(), 
+		                bus.getGenData().getEquivGen().getDesiredVoltage()))
+					msgList.add("\nBus EquivGen desiredVoltage not equal: " + id + " " + base.getGenData().getEquivGen().getCode()
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getDesiredVoltage()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getDesiredVoltage()) + format);
+			}
 		}
 		else if (base.getGenData() == null && bus.getGenData() != null 
 						&& bus.getGenData().getEquivGen().getCode() != LFGenCodeEnumType.NONE_GEN ||
 				 base.getGenData() != null && bus.getGenData() == null 
 				 		&& base.getGenData().getEquivGen().getCode() != LFGenCodeEnumType.NONE_GEN) {
-			msgList.add("\nBus EquivGen model not equal: " + base.getId() + ", " + base.getName());
+			msgList.add("\nBus EquivGen model not equal: " + id + ", " + 
+					base.getGenData().getEquivGen().getCode() + baseStr + 
+					"  " + bus.getGenData().getEquivGen().getCode() + format);
 		}	
 			
 /*
@@ -55,29 +85,35 @@ public class AclfModelComparator {
 */
 		if (base.getLoadData() != null && bus.getLoadData() != null) {
 			if (base.getLoadData().getEquivLoad().getCode() != bus.getLoadData().getEquivLoad().getCode())
-				msgList.add("\nBus EquivLoad code not equal: " + base.getId() + ", " + base.getName() + ", " + 
-						base.getLoadData().getEquivLoad().getCode() + baseStr);
+				msgList.add("\nBus EquivLoad code not equal: " + id + ", " + 
+						base.getLoadData().getEquivLoad().getCode() + baseStr + 
+						"  " + bus.getLoadData().getEquivLoad().getCode() + format);
+			if (!NumericUtil.equals(base.getLoadData().getEquivLoad().getConstPLoad(), bus.getLoadData().getEquivLoad().getConstPLoad()))
+					msgList.add("\nBus EquivLoad constP not equal: " + id 
+							+ "   " + BaseJaxbHelper.toStr(base.getLoadData().getEquivLoad().getConstPLoad()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getLoadData().getEquivLoad().getConstPLoad()) + format);
 		}
 		else if (base.getLoadData() == null && bus.getLoadData() != null 
 						&& bus.getLoadData().getEquivLoad().getCode() != LFLoadCodeEnumType.NONE_LOAD ||
 				 base.getLoadData() != null && bus.getLoadData() == null 
 				 		&& base.getLoadData().getEquivLoad().getCode() != LFLoadCodeEnumType.NONE_LOAD) {
-			msgList.add("\nBus EquivLoad model not equal: " + base.getId() + ", " + base.getName());
+			msgList.add("\nBus EquivLoad model not equal: " + id + ", " + 
+					base.getLoadData().getEquivLoad().getCode() + baseStr + 
+					"  " + bus.getLoadData().getEquivLoad().getCode() + format);
 		}
 		
 /*
                 <shuntY unit="PU" im="-1.4" re="5.3"/>
 */
 		if (base.getShuntY() != null && bus.getShuntY() != null) {
-			if (!NumericUtil.equals(base.getShuntY().getIm(), bus.getShuntY().getIm()) ||
-			    !NumericUtil.equals(base.getShuntY().getRe(), bus.getShuntY().getRe()))
-				msgList.add("\nBus ShuntY not equal: " + base.getId() + ", " + bus.getName() 
+			if (!NumericUtil.equals(base.getShuntY(), bus.getShuntY()))
+				msgList.add("\nBus ShuntY not equal: " + id 
 						+ "   " + BaseJaxbHelper.toStr(base.getShuntY()) + baseStr
-						+ "   " + BaseJaxbHelper.toStr(bus.getShuntY()));
+						+ "   " + BaseJaxbHelper.toStr(bus.getShuntY()) + format);
 		}
 		else if (base.getShuntY() == null && bus.getShuntY() != null ||
 				 base.getShuntY() != null && bus.getShuntY() == null) {
-			msgList.add("\nBus ShuntY model not equal: " + base.getId() + ", " + base.getName());
+			msgList.add("\nBus ShuntY model not equal: " + id);
 		}
 		
 	}
@@ -89,7 +125,8 @@ public class AclfModelComparator {
 	 * @param bra
 	 * @param msgList
 	 */
-	public static void compare(BranchXmlType base, BranchXmlType bra, IODMModelParser baseParser, List<String> msgList, String baseStr) {
+	public static void compare(BranchXmlType base, BranchXmlType bra, IODMModelParser baseParser, List<String> msgList, 
+								String baseFormat, String format) {
 		BusXmlType baseFromBus = baseParser.getBus(BaseJaxbHelper.getRecId(base.getFromBus()));
 		BusXmlType BASEtoBus = baseParser.getBus(BaseJaxbHelper.getRecId(base.getToBus()));
 		String braId = baseFromBus.getName().trim() + "->" + BASEtoBus.getName().trim() + "_" + base.getCircuitId();
@@ -103,14 +140,20 @@ public class AclfModelComparator {
 /*
 	           <z unit="PU" im="0.0181" re="0.0014"/>
 */
-			if (!NumericUtil.equals(baseLine.getZ().getRe(), line.getZ().getRe()) ||
-					!NumericUtil.equals(baseLine.getZ().getIm(), line.getZ().getIm())) {
+			if (!NumericUtil.equals(baseLine.getZ(), line.getZ())) {
 				msgList.add("\nLine Branch Z not equal: " + braId
-						+ "   " + BaseJaxbHelper.toStr(baseLine.getZ()) + baseStr
-						+ "   " + BaseJaxbHelper.toStr(line.getZ()));
+						+ "   " + BaseJaxbHelper.toStr(baseLine.getZ()) + baseFormat
+						+ "   " + BaseJaxbHelper.toStr(line.getZ()) + format);
+			}
+/*
+            <totalShuntY unit="PU" im="0.11444" re="0.0"/>
+*/
+			if (!NumericUtil.equals(baseLine.getTotalShuntY(), line.getTotalShuntY())) {
+				msgList.add("\nLine Branch TotalShuntY not equal: " + braId
+						+ "   " + BaseJaxbHelper.toStr(baseLine.getTotalShuntY()) + baseFormat
+						+ "   " + BaseJaxbHelper.toStr(line.getTotalShuntY()) + format);
 			}
 		}
-
 		//
 		// 	XfrBranchXmlType
 		//
@@ -122,11 +165,10 @@ public class AclfModelComparator {
 /*
          	<z unit="PU" im="0.0066" re="8.0E-5"/>
 */
-			if (!NumericUtil.equals(baseXfr.getZ().getRe(), xfr.getZ().getRe()) ||
-				!NumericUtil.equals(baseXfr.getZ().getIm(), xfr.getZ().getIm())) {
+			if (!NumericUtil.equals(baseXfr.getZ(), xfr.getZ())) {
 				msgList.add("\nXfr Branch Z not equal: " + braId
-						+ "   " + BaseJaxbHelper.toStr(baseXfr.getZ()) + baseStr
-						+ "   " + BaseJaxbHelper.toStr(xfr.getZ()));
+						+ "   " + BaseJaxbHelper.toStr(baseXfr.getZ()) + baseFormat
+						+ "   " + BaseJaxbHelper.toStr(xfr.getZ()) + format);
 			}
 			
 /*			
@@ -135,13 +177,13 @@ public class AclfModelComparator {
 */
 			if (!NumericUtil.equals(baseXfr.getFromTurnRatio().getValue(), xfr.getFromTurnRatio().getValue(), 0.0001)) {
 				msgList.add("\nXfr Branch fromTurnRatio not equal: " + braId
-								+ "   [" + baseXfr.getFromTurnRatio().getValue() + "," + baseXfr.getToTurnRatio().getValue() + "] " + baseStr
+								+ "   [" + baseXfr.getFromTurnRatio().getValue() + "," + baseXfr.getToTurnRatio().getValue() + "] " + baseFormat
 								+ "   [" + + xfr.getFromTurnRatio().getValue() + "," + xfr.getToTurnRatio().getValue() + "]");
 			}
 			if (!NumericUtil.equals(baseXfr.getToTurnRatio().getValue(), xfr.getToTurnRatio().getValue(), 0.0001)) {
 				msgList.add("\nXfr Branch toTurnRatio not equal: " + braId
-						+ "   [" + baseXfr.getFromTurnRatio().getValue() + "," + baseXfr.getToTurnRatio().getValue() + "] " + baseStr
-						+ "   [" + + xfr.getFromTurnRatio().getValue() + "," + xfr.getToTurnRatio().getValue() + "]");
+						+ "   [" + baseXfr.getFromTurnRatio().getValue() + "," + baseXfr.getToTurnRatio().getValue() + "] " + baseFormat
+						+ "   [" + + xfr.getFromTurnRatio().getValue() + "," + xfr.getToTurnRatio().getValue() + "]"  + format);
 			}
 			
 /*			

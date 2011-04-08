@@ -73,7 +73,8 @@ public class LineBranchRecord {
 			try {
 				branchRec = parser.createLineBranch(fid, tid, cirId);
 			} catch (Exception e) {
-				ODMLogger.getLogger().severe("branch data error, " + e.toString());
+				ODMLogger.getLogger().severe("branch data error, " + e.toString() + 
+						"  " + fname + "->" + tname + "_" + cirId);
 				return;
 			}
 			
@@ -163,6 +164,8 @@ public class LineBranchRecord {
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
 			if(!strAry[12].equals("")){
 				rpu = new Double(strAry[12]).doubleValue();
+				/* it is due to  the data storage fomat, for example , when it stores 000123, it is ,in fact, 1.23E-3
+					fix digital points by default five				 */
 				if(Math.abs(rpu)>1.0){
 					rpu=rpu/100000;
 				}

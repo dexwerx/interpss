@@ -407,7 +407,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	protected void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws ODMException {
 		String id = tertId == null ?
 				ModelStringUtil.formBranchId(fromId, toId, cirId) : ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
-		if (this.objectCache.get(id) != null) {
+		if (this.objectCache.get(id) != null ||
+				this.objectCache.get(ModelStringUtil.formBranchId(toId, fromId, cirId)) != null) {
 			throw new ODMException("Branch record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, branch);		

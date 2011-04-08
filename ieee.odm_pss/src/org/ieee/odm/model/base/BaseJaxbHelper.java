@@ -60,10 +60,12 @@ import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactorDistBranchXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.SynchronousMotorDistBusXmlType;
 import org.ieee.odm.schema.UtilityDistBusXmlType;
+import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XFormerDistBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -322,15 +324,23 @@ public class BaseJaxbHelper {
 	 * @return
 	 */
 	public static String toStr(ComplexXmlType c) {
-		return "[" + c.getRe() + "+j" + c.getIm() + "]";
+		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + "]";
 	}
 	
 	public static String toStr(YXmlType c) {
-		return "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
+		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
 	}
 
 	public static String toStr(ZXmlType c) {
-		return "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
+		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
+	}
+	
+	public static String toStr(PowerXmlType c) {
+		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
+	}
+	
+	public static String toStr(VoltageXmlType c) {
+		return c == null? "null" : "[" + c.getValue() + " " + c.getUnit() + "]";
 	}
 
 	private static ObjectFactory _factory = null;	
