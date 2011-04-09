@@ -26,14 +26,11 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.logging.Level;
-
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
@@ -43,7 +40,7 @@ import com.interpss.simu.SimuContext;
 public class Bus6384Test extends PluginTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssLogger.getLogger().setLevel(Level.INFO);
+		//IpssLogger.getLogger().setLevel(Level.INFO);
 		
   		System.out.println("Start loading data ...");
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");

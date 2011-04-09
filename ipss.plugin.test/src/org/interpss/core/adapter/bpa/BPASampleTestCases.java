@@ -51,7 +51,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
-  		AclfBus swingBus = (AclfBus)net.getBus("Gen1");
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
 		System.out.println(swing.getGenResults(UnitType.PU).getImaginary());
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.0586)<0.01);
@@ -62,7 +62,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 	public void odmAdapterTestCase1() throws Exception {
 		AclfNetwork net = PluginObjectFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
-				.loadDebug("testData/bpa/Test009bpa.dat")
+				.load("testData/bpa/Test009bpa.dat")
 				.getAclfNet();	
 		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
@@ -70,7 +70,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
-  		AclfBus swingBus = (AclfBus)net.getBus("bus-1");
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.7164)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.2705)<0.01);
@@ -79,7 +79,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 	public void outputTestCase() throws Exception {
 		AclfNetwork net = PluginObjectFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
-				.loadDebug("testData/bpa/Test009bpa.dat")
+				.load("testData/bpa/Test009bpa.dat")
 				.getAclfNet();	
 		System.out.println(net.net2String());
 	}
