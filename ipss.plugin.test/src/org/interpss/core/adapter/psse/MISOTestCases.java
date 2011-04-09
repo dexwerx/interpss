@@ -36,7 +36,7 @@ public class MISOTestCases extends PluginTestSetup {
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/miso_se_20060302-1300.raw");
-  		System.out.println(simuCtx.getAclfNet().net2String());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
 
 //		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 

@@ -27,7 +27,7 @@ public class ContingencyControlFileCaseTest extends PluginTestSetup {
 		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(
 				IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30);
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
- 		System.out.println(simuCtx.getAclfNet().net2String());
+ 		//System.out.println(simuCtx.getAclfNet().net2String());
 
  		//assertTrue(simuCtx.getAclfNet().getSwitchBreakBranch("60701", null) != null);
  		//assertTrue(simuCtx.getAclfNet().getSwitchBreakBranch("60702", null) != null);
