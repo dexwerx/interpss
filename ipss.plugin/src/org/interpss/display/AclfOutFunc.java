@@ -56,6 +56,8 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.OriginalDataFormat;
 
 public class AclfOutFunc {
+	public static enum BusIdStyle { BusId_No, BusId_Name };
+	
 	public static String getBusId(AclfBus bus, OriginalDataFormat fmt) {
 		if (fmt == OriginalDataFormat.CIM)
 			return "Bus" + bus.getNumber();
@@ -91,7 +93,11 @@ public class AclfOutFunc {
 	 *   ================
 	 */
 	public static String lfResultsBusStyle(AclfNetwork net) {
-		return AclfOut_BusStyle.lfResultsBusStyle(net);
+		return AclfOut_BusStyle.lfResultsBusStyle(net, BusIdStyle.BusId_No);
+	}
+
+	public static String lfResultsBusStyle(AclfNetwork net, BusIdStyle style) {
+		return AclfOut_BusStyle.lfResultsBusStyle(net, style);
 	}
 
 	/*

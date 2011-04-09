@@ -54,7 +54,7 @@ public class AclfOut_BusStyle {
 		return str.toString();
 	}
 
-	public static String lfResultsBusStyle(AclfBus bus, AclfNetwork net) {
+	public static String lfResultsBusStyle(AclfBus bus, AclfNetwork net, AclfOutFunc.BusIdStyle style) {
 		double baseKVA = net.getBaseKva();
 		StringBuffer str = new StringBuffer("");
 
@@ -65,7 +65,10 @@ public class AclfOut_BusStyle {
 			CapacitorBusAdapter cap = bus.toCapacitorBus();
 			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU)));
 		}
-		str.append(Number2String.toStr(-12, AclfOutFunc.getBusId(bus, net.getOriginalDataFormat())) + " ");
+		String id = style == AclfOutFunc.BusIdStyle.BusId_No?
+				AclfOutFunc.getBusId(bus, net.getOriginalDataFormat()):
+				bus.getName().trim();
+		str.append(Number2String.toStr(-12, id) + " ");
 		str.append(String.format(" %s ", AclfOutFunc.formatKV(bus.getBaseVoltage()*0.001)));
 		str.append(Number2String.toStr("0.0000", bus.getVoltageMag(UnitType.PU)) + " ");
 		str.append(Number2String.toStr("##0.0", bus.getVoltageAng(UnitType.Deg)) + " ");
@@ -115,9 +118,11 @@ public class AclfOut_BusStyle {
 					}
 				}
 				if (cnt++ > 0)
-					str.append(Number2String.toStr(67, " ")
-							+ "    ");
-				str.append(" " + Number2String.toStr(-12, AclfOutFunc.getBusId(bus, net.getOriginalDataFormat())) + " ");
+					str.append(Number2String.toStr(67, " ")	+ "    ");
+				id = style == AclfOutFunc.BusIdStyle.BusId_No?
+						AclfOutFunc.getBusId(bus, net.getOriginalDataFormat()):
+						bus.getName().trim();
+				str.append(" " + Number2String.toStr(-12, id) + " ");
 				str.append(Number2String.toStr("####0.00", pq.getReal()) + " ");
 				str.append(Number2String.toStr("####0.00", pq.getImaginary()) + " ");
 				str.append(Number2String.toStr("##0.0##", 0.001 * amp) + " ");
@@ -152,7 +157,7 @@ public class AclfOut_BusStyle {
 		return str.toString();
 	}
 	
-	public static String lfResultsBusStyle(AclfNetwork net) {
+	public static String lfResultsBusStyle(AclfNetwork net, AclfOutFunc.BusIdStyle style) {
 		StringBuffer str = new StringBuffer("");
 		try {
 			str.append(busStyleTitle(net));
@@ -160,7 +165,7 @@ public class AclfOut_BusStyle {
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
 				if (bus.isActive()) {
-					str.append(lfResultsBusStyle(bus, net));
+					str.append(lfResultsBusStyle(bus, net, style));
 				}
 			}
 			str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
