@@ -120,7 +120,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		try {
 			Grid grid = GridUtil.getDefaultGrid();
 			long timeout = 0;
-			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Aclf Calculation", 
+			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Multi-case Aclf Calculation", 
 						mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);

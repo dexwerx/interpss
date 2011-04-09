@@ -66,7 +66,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		net.setId("IEEE 14_Bus");
 		
 		/*
-		 * step-2 Define LF algorithem
+		 * step-2 Define LF algorithm
 		 */
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
@@ -112,7 +112,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		try {
 			Grid grid = GridUtil.getDefaultGrid();
 			long timeout = 0;
-			RemoteMessageTable[] resultAry = new GridRunner(grid,	"InterPSS Grid Aclf Calculation", 
+			RemoteMessageTable[] resultAry = new GridRunner(grid,	"InterPSS Grid Multi-case Aclf Calculation", 
 								mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : resultAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);

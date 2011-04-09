@@ -117,7 +117,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		try {
 			Grid grid = GridUtil.getDefaultGrid();
 			long timeout = 0;
-			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Aclf Calculation", 
+			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Contigency Calculation", 
 							mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
@@ -202,7 +202,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		try {
 			Grid grid = GridUtil.getDefaultGrid();
 			long timeout = 0;
-			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Aclf Calculation", 
+			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Contigency Calculation", 
 							mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);

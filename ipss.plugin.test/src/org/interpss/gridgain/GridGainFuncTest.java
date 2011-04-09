@@ -31,6 +31,9 @@ import org.interpss.gridgain.util.GridUtil;
 import org.junit.Test;
 
 public class GridGainFuncTest extends PluginTestSetup {
+	/*
+	 * this test make sure there at least one slave node running
+	 */
 	@Test
 	public void isGridLibLoadedCaseTest() {
 		GridUtil.startDefaultGrid(GridBaseTestSetup.GridGainHome);
