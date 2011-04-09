@@ -109,8 +109,12 @@ public class GenLoadDataModifyRecord {
 				double genQ=bus.getGenData().getEquivGen().getPower().getIm();
 				if(genP!=0.0)genP*=genPFactor;
 				if(genQ!=0.0)genQ*=genQFactor;
-				if(genP!=0.0||genQ!=0)bus.getGenData().getEquivGen().setPower(BaseDataSetter.createPowerValue(
+				if(genP!=0.0||genQ!=0){
+					  genP=ModelStringUtil.getNumberFormat(genP);
+					  genQ=ModelStringUtil.getNumberFormat(genQ);
+					bus.getGenData().getEquivGen().setPower(BaseDataSetter.createPowerValue(
 						genP,genQ,ApparentPowerUnitType.MVA));
+				}
 			}
 			
 		}catch(Exception e){
@@ -128,8 +132,12 @@ public class GenLoadDataModifyRecord {
 				  double loadQ=bus.getLoadData().getEquivLoad().getConstPLoad().getIm();
 				  if(loadP!=0.0)loadP*=loadPFactor;
 				  if(loadQ!=0.0)loadQ*=loadQFactor;
-				  if(loadP!=0.0||loadQ!=0.0)bus.getLoadData().getEquivLoad().setConstPLoad(BaseDataSetter.createPowerValue(
+				  if(loadP!=0.0||loadQ!=0.0){
+					  loadP=ModelStringUtil.getNumberFormat(loadP);
+					  loadQ=ModelStringUtil.getNumberFormat(loadQ);
+					  bus.getLoadData().getEquivLoad().setConstPLoad(BaseDataSetter.createPowerValue(
 							loadP,loadQ,ApparentPowerUnitType.MVA));
+				  }
 
 				 }
 		}catch(Exception e){
