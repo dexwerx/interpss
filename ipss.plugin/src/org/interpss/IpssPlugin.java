@@ -36,7 +36,7 @@ import com.interpss.spring.CoreCommonSpringCtx;
 public class IpssPlugin {
 
 	public static void init() {
-		init(Level.INFO);
+		init(Level.WARNING);
 	}
 	
 	public static void init(Level level) {
