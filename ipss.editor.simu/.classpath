@@ -15,9 +15,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>

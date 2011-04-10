@@ -34,7 +34,8 @@ import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlHelper;
+import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
 import org.interpss.xml.schema.AreaRecXmlType;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
@@ -101,11 +102,12 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
     }
  */   
     public void setXmlCaseData(TradingStudyCaseXmlType xmlCaseData) {
-    	if (xmlCaseData.getAreaTransferAnalysisArray()[0] != null) {
-    		AreaTransferAnalysisXmlType areaTrans = xmlCaseData.addNewAreaTransferAnalysis();
+    	if (xmlCaseData.getAreaTransferAnalysis().get(0) != null) {
+    		AreaTransferAnalysisXmlType areaTrans = IpssXmlParser.getFactory().createAreaTransferAnalysisXmlType();
+    		xmlCaseData.getAreaTransferAnalysis().add(areaTrans);
     		StudyCaseHanlder.setNewAreaTransfer(areaTrans);
     	}
-    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysisArray()[0];
+    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysis().get(0);
     }    
     
 	/**
@@ -128,7 +130,8 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 		
 		AreaRecXmlType area = this.areaTransfer.getFromArea(); 
 		if (area == null) {
-			area = this.areaTransfer.addNewFromArea();
+			area = IpssXmlParser.getFactory().createAreaRecXmlType();
+			this.areaTransfer.setFromArea(area);
 			String no = (String)this.tradeFromAreaComboBox.getSelectedItem();
 			area.setAreaNo(new Integer(no).intValue());
 		}
@@ -136,7 +139,8 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 			
 		area = this.areaTransfer.getToArea();
 		if (area == null) {
-			area = this.areaTransfer.addNewToArea();
+			area = IpssXmlParser.getFactory().createAreaRecXmlType();
+			this.areaTransfer.setToArea(area);
 			String no = (String)this.atToAreaComboBox.getSelectedItem();
 			area.setAreaNo(new Integer(no).intValue());
 		}
@@ -147,18 +151,18 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 		else
 			tradeDeratingFactorTextField.setText("1.00");
 			
-		if (this.areaTransfer.getInjectBusList() != null && this.areaTransfer.getInjectBusList().sizeOfInjectBusArray() > 0) {
+		if (this.areaTransfer.getInjectBusList() != null && this.areaTransfer.getInjectBusList().getInjectBus().size() > 0) {
 			tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
 		}
 		else
 			tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
 						this.areaTransfer.getFromArea().getAreaNo()).toArray()));
 
-		if (this.areaTransfer.getWithdrawBusList() != null && this.areaTransfer.getWithdrawBusList().sizeOfWithdrawBusArray() > 0) {
+		if (this.areaTransfer.getWithdrawBusList() != null && this.areaTransfer.getWithdrawBusList().getWithdrawBus().size() > 0) {
 			atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
 		}
 		else
 			atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel( 				
@@ -166,7 +170,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 						this.areaTransfer.getToArea().getAreaNo()).toArray()));
 		
     	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-		    			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
+		    			IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 
     	tradeFromDFactorEditTextField.setEnabled(false);
     	tradeFromAreaUpdateButton.setEnabled(false);
@@ -210,9 +214,10 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 
 	private void saveFromAreaBusList2AreaTransfer() {
 		areaTransfer.setInjectBusList(null);
-		areaTransfer.addNewInjectBusList();
+		areaTransfer.setInjectBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
 		for(int i = 0; i < tradeFromAreaBusList.getModel().getSize(); i++) {
-			SenAnalysisBusRecXmlType busRec = areaTransfer.getInjectBusList().addNewInjectBus();
+			SenAnalysisBusRecXmlType busRec = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType();
+			areaTransfer.getInjectBusList().getInjectBus().add(busRec);
 			String elem = (String)tradeFromAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
@@ -221,9 +226,10 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 	
 	private void saveToAreaBusList2AreaTransfer() {
 		areaTransfer.setWithdrawBusList(null);
-		areaTransfer.addNewWithdrawBusList();
+		areaTransfer.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 		for(int i = 0; i < atToAreaBusList.getModel().getSize(); i++) {
-			SenAnalysisBusRecXmlType busRec = areaTransfer.getWithdrawBusList().addNewWithdrawBus();
+			SenAnalysisBusRecXmlType busRec = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType();
+			areaTransfer.getWithdrawBusList().getWithdrawBus().add(busRec);
 			String elem = (String)atToAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
@@ -761,33 +767,34 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
     
 private void atAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddBranchButtonActionPerformed
 	String id = (String)atBranchListComboBox.getSelectedItem();
-	BranchRecXmlType braRec = areaTransfer.addNewBranch();
-	IpssXmlUtilFunc.setBranchRec(braRec, id);
+	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType();
+	areaTransfer.getBranch().add(braRec);
+	IpssXmlHelper.setBranchRec(braRec, id);
 	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
+			IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 }//GEN-LAST:event_atAddBranchButtonActionPerformed
 
 private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButtonActionPerformed
 	if (!atMeasBranchList.isSelectionEmpty()) {
-		areaTransfer.removeBranch(atMeasBranchList.getSelectedIndex());
+		areaTransfer.getBranch().remove(atMeasBranchList.getSelectedIndex());
 		atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
+				IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 	}
 }//GEN-LAST:event_atRemoveBranchButtonActionPerformed
 
 private void tradeFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeFromAreaRemoveButtonActionPerformed
 	if (!tradeFromAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getInjectBusList().removeInjectBus(tradeFromAreaBusList.getSelectedIndex());
+		areaTransfer.getInjectBusList().getInjectBus().remove(tradeFromAreaBusList.getSelectedIndex());
 		tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
+				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
 	}
 }//GEN-LAST:event_tradeFromAreaRemoveButtonActionPerformed
 
 private void atToAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaRemoveButtonActionPerformed
 	if (!atToAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getWithdrawBusList().removeWithdrawBus(atToAreaBusList.getSelectedIndex());
+		areaTransfer.getWithdrawBusList().getWithdrawBus().remove(atToAreaBusList.getSelectedIndex());
 		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
+				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
 	}
 }//GEN-LAST:event_atToAreaRemoveButtonActionPerformed
 
@@ -823,10 +830,10 @@ private void tradeFromAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent
 		double percent = new Double(tradeFromDFactorEditTextField.getText()).doubleValue();
 		String s = (String)tradeFromAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBusArray());
+		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBus());
 		bus.setPercent(percent);
 		tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
+    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
 		tradeFromDFactorEditTextField.setEnabled(false);
 		tradeFromAreaUpdateButton.setEnabled(false);
 	}
@@ -848,11 +855,11 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 		double percent = new Double(atToDFactorEditTextField.getText()).doubleValue();
 		String s = (String)atToAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, 
-						areaTransfer.getWithdrawBusList().getWithdrawBusArray());
+		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, 
+						areaTransfer.getWithdrawBusList().getWithdrawBus());
 		bus.setPercent(percent);
 		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
 		atToDFactorEditTextField.setEnabled(false);
 		atToAreaUpdateButton.setEnabled(false);
 	}

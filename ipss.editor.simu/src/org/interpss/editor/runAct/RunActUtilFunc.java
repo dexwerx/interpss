@@ -34,8 +34,8 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -280,6 +280,6 @@ public class RunActUtilFunc {
 	public static boolean isGridEnabled(RunStudyCaseXmlType xmlStudyCase) {
 		return 	GridUtil.isGridEnabled()
 				&& xmlStudyCase.getGridRunOption() != null
-				&& xmlStudyCase.getGridRunOption().getEnableGridRun();
+				&& xmlStudyCase.getGridRunOption().isEnableGridRun();
 	}	
 }

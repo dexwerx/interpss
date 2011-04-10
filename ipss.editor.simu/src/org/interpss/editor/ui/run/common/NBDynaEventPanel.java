@@ -31,10 +31,10 @@ import javax.swing.JDialog;
 import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlHelper;
+import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
 import org.interpss.xml.schema.AcscFaultDataType;
-import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.DynamicEventDataType;
 import org.interpss.xml.schema.DynamicEventDataXmlType;
 import org.interpss.xml.schema.DynamicEventXmlType;
@@ -80,16 +80,17 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
    		//_eventData = _caseData.getAnyEventData();
     	// update the combox for event name list
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-					IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+					IpssXmlHelper.getRecNameArray(this.xmlEventData.getEventList().getEvent())));
 		setCurrentEventData(this.currentEvent);
     }
     
     private DynamicEventXmlType getFirstEvent(DynamicEventDataXmlType data) {
-    	if (data.getEventList().getEventArray().length == 0) {
-    		DStabStudyCaseXmlType.DynamicEventData.EventList.Event event = data.getEventList().addNewEvent();
+    	if (data.getEventList().getEvent().size() == 0) {
+    		DynamicEventXmlType event = IpssXmlParser.getFactory().createDynamicEventXmlType();
+    		data.getEventList().getEvent().add(event);
     		StudyCaseHanlder.setDefaultEventData(event);
     	}
-    	return  data.getEventList().getEventArray(0);
+    	return  data.getEventList().getEvent().get(0);
     }
     
     private void setCurrentEventData(DynamicEventXmlType eventData) {
@@ -171,8 +172,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             if (!_dstabFaultDataPanel.saveEditor2Form(errMsg))
             	ok = false;
 
-            if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_FAULT && !this.currentEvent.getPermanent()) {
-    			if (this.currentEvent.getFault().getBranchReclosure()) {
+            if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_FAULT && !this.currentEvent.isPermanent()) {
+    			if (this.currentEvent.getFault().isBranchReclosure()) {
     				if (this.currentEvent.getFault().getReclosureTime() <= (this.currentEvent.getStartTimeSec()+this.currentEvent.getDurationSec())) {
     	    			errMsg.add("Branch reclosure at time <= start+duration");
     	    			ok = false;
@@ -371,17 +372,18 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     	this.currentEvent = getFirstEvent(this.xmlEventData);
 		// update the event name list combo box
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEvent().toArray())));
+				IpssXmlHelper.getRecNameArray(this.xmlEventData.getEventList().getEvent())));
 		// update the event data screen
 		setForm2Editor();
     }//GEN-LAST:event_deleteEventButtonActionPerformed
 
     private void addEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventButtonActionPerformed
-    	this.currentEvent = this.xmlEventData.getEventList().addNewEvent();
+    	this.currentEvent = IpssXmlParser.getFactory().createDynamicEventXmlType();
+    	this.xmlEventData.getEventList().getEvent().add(this.currentEvent);
     	this.currentEvent.setRecName("<Not Defined>");
 		// update the event name list combo box
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+				IpssXmlHelper.getRecNameArray(this.xmlEventData.getEventList().getEvent())));
 		this.eventListComboBox.setSelectedItem(this.currentEvent.getRecName());
 	    busFaultRadioButtonActionPerformed(null);
 	    // set fault or load change editor panel pointing to the current eventData object
@@ -402,7 +404,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		}
 		// event name may be modified, refresh the event list
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+				IpssXmlHelper.getRecNameArray(this.xmlEventData.getEventList().getEvent())));
 		this.eventListComboBox.setSelectedItem(this.currentEvent.getRecName());
 		// selected event may have been changed, refresh the screen
 		eventListComboBoxActionPerformed(null);
@@ -410,8 +412,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
     private void eventListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventListComboBoxActionPerformed
 		String eventName = (String)this.eventListComboBox.getSelectedItem();
-		DynamicEventXmlType event = (DynamicEventXmlType)IpssXmlUtilFunc
-					.getRecordByName(eventName, this.xmlEventData.getEventList().getEventArray());
+		DynamicEventXmlType event = (DynamicEventXmlType)IpssXmlHelper
+					.getRecordByName(eventName, this.xmlEventData.getEventList().getEvent());
     	if (event != null)        // event list selection changed
     		this.currentEvent = event;       
     	else {                    // event name changed

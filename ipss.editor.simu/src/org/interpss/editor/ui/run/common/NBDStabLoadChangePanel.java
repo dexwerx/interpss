@@ -32,7 +32,6 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.DynamicLoadChangeDataType;
 import org.interpss.xml.schema.DynamicLoadChangeXmlType;
-import org.interpss.xml.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;

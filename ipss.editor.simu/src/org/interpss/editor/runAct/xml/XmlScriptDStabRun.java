@@ -36,10 +36,10 @@ import org.interpss.gridgain.msg.GridMessageRouter;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
+import org.interpss.xml.schema.RunDStabStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -73,7 +73,7 @@ public class XmlScriptDStabRun {
 		// get the RunStudyCase object, root level modification has already
 		// applied
 		// to the DStabNet object
-		RunStudyCaseXmlType.StandardRun.RunDStabStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDStabStudyCase();
+		RunDStabStudyCaseXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDStabStudyCase();
 
 		if (xmlRunCase != null) {
 			IAppSimuContext appSimuCtx = null;
@@ -88,11 +88,11 @@ public class XmlScriptDStabRun {
 			DStabStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultDStabStudyCase(); 
 
 			// single run case
-			if (xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray().length == 1) {
+			if (xmlRunCase.getDStabStudyCaseList().getDStabStudyCase().size() == 1) {
 				appSimuCtx.setLastRunType(SimuRunEnum.DStab);
 
 				// get the run case info defined in the Xml scripts
-				DStabStudyCaseXmlType xmlCase = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray(0);
+				DStabStudyCaseXmlType xmlCase = xmlRunCase.getDStabStudyCaseList().getDStabStudyCase().get(0);
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
 				DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
@@ -173,7 +173,7 @@ public class XmlScriptDStabRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createDStabMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 				int cnt = 0;
-				for (DStabStudyCaseXmlType xmlCase : xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray()) {
+				for (DStabStudyCaseXmlType xmlCase : xmlRunCase.getDStabStudyCaseList().getDStabStudyCase()) {
 					// deserialize the base case
 					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil.loadModel(netStr);
 					net.rebuildLookupTable();
@@ -312,7 +312,7 @@ public class XmlScriptDStabRun {
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow();
-		if (dstabCase.getAclfAlgorithm().getDisplaySummary())
+		if (dstabCase.getAclfAlgorithm().isDisplaySummary())
 			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
 		if (!dstabAlgo.getDStabNet().isLfConverged()) {
 			msg

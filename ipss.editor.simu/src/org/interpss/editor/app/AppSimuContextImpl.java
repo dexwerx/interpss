@@ -43,7 +43,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
-import org.interpss.schema.AcscFaultCategoryDataType;
+import org.interpss.xml.schema.AcscFaultCategoryDataType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlBeanUtil;

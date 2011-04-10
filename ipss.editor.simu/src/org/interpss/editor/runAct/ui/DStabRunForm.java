@@ -32,9 +32,10 @@ import org.interpss.gridgain.msg.GridMessageRouter;
 import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.GridComputingXmlType;
+import org.interpss.numeric.util.StringHelper;
 import org.interpss.spring.PluginSpringCtx;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.GridComputingXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -84,7 +85,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	 * @param simuCtx
 	 */
 	public void displaySummaryResult(SimuContext simuCtx) {
-		if (this.xmCaseData.getAclfAlgorithm().getDisplaySummary()) {
+		if (this.xmCaseData.getAclfAlgorithm().isDisplaySummary()) {
 			RunActUtilFunc.displayAclfSummaryResult(simuCtx
 					.getDynSimuAlgorithm());
 		}
@@ -119,13 +120,14 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 		
 		// setup if there is output filtering
-		handler.setOutputFilter(this.xmCaseData.getOutputConfig().getOutputFilter());
+		handler.setOutputFilter(this.xmCaseData.getOutputConfig().isOutputFilter());
 		if (handler.isOutputFilter())
-			handler.setOutputVarIdList(this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray());
+			handler.setOutputVarIdList(
+					StringHelper.toStrArray(this.xmCaseData.getOutputConfig().getOutputVarList().getVariableName().toArray()));
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
 		IDStabSimuDatabaseOutputHandler scriptHandler = null;
-		if (this.xmCaseData.getOutputScripting().getScripting()) {
+		if (this.xmCaseData.getOutputScripting().isScripting()) {
 			scriptHandler = (IDStabSimuDatabaseOutputHandler) DStabSpringAppContext
 					.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
@@ -148,7 +150,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 
-		if (this.xmCaseData.getOutputScripting().getScripting()) {
+		if (this.xmCaseData.getOutputScripting().isScripting()) {
 			if (scriptHandler != null)
 				scriptHandler.close();
 		}
@@ -194,11 +196,11 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		// transfer output variable filter info to the DStabAlgo object, which then 
 		// will be carried by the object to the remote grid node
-		simuCtx.getDynSimuAlgorithm().setOutputFiltered(this.xmCaseData.getOutputConfig().getOutputFilter());
+		simuCtx.getDynSimuAlgorithm().setOutputFiltered(this.xmCaseData.getOutputConfig().isOutputFilter());
 		if (simuCtx.getDynSimuAlgorithm().isOutputFiltered()) {
-			String[] slist = new String[this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray().length];
+			String[] slist = new String[this.xmCaseData.getOutputConfig().getOutputVarList().getVariableName().size()];
 			int cnt = 0;
-			for (String str : this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray())
+			for (String str : this.xmCaseData.getOutputConfig().getOutputVarList().getVariableName())
 				slist[cnt++] = str;
 			simuCtx.getDynSimuAlgorithm().setOutputVarIdList(slist);
 		}

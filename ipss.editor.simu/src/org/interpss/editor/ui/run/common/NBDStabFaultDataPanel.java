@@ -29,7 +29,6 @@ import java.util.Vector;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
-import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;

@@ -36,14 +36,16 @@ import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.GridComputingXmlType;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RuleBaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
+import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.GridAclfOptionXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
+import org.interpss.xml.schema.ReturnStudyCaseDataType;
+import org.interpss.xml.schema.RuleBaseXmlType;
+import org.interpss.xml.schema.RunAclfStudyCaseXmlType;
+import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -70,19 +72,19 @@ public class XmlScriptAclfRun {
 	 * @return
 	 */
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
-		RunStudyCaseXmlType.StandardRun.RunAclfStudyCase xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
+		RunAclfStudyCaseXmlType xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
 
-		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
+		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().isApplyRuleBase();
 		AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunAclfCase.getDefaultAclfAlgorithm(); 
 		boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
 		long  timeout = gridRun? ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout() : 0;
 			
-		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
-			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray(0);
+		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCase().size() == 1) {
+			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCase().get(0);
 			RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
 			if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase,	applyRuleBase, gridRun, timeout, msg));
 				return false;
@@ -95,10 +97,10 @@ public class XmlScriptAclfRun {
 			if (applyRuleBase) 
 				XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());
 				
-			boolean reJobCreation = gridRun? ipssXmlDoc.getRunStudyCase().getGridRunOption().getRemoteJobCreation() : false;
+			boolean reJobCreation = gridRun? ipssXmlDoc.getRunStudyCase().getGridRunOption().isRemoteJobCreation() : false;
 				
 			int cnt = 0;
-			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
+			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCase()) {
 				// deserialize the base case, if necessary
 				AclfNetwork net = aclfNet;
 				if (!gridRun || !reJobCreation) { 
@@ -121,7 +123,7 @@ public class XmlScriptAclfRun {
 						studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 						if (reJobCreation && xmlCase.getModification() != null) {
 							// persist modification to be sent to the remote grid node
-							studyCase.setModificationString(xmlCase.getModification().xmlText());
+							studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
 						    studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 						}
 					} else {
@@ -206,7 +208,7 @@ public class XmlScriptAclfRun {
 			}
 		}
 
-		if (xmlCase.getAclfAlgorithm().getDisplaySummary()) {
+		if (xmlCase.getAclfAlgorithm().isDisplaySummary()) {
 			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(aclfNet);
 		}
@@ -214,14 +216,14 @@ public class XmlScriptAclfRun {
 	}
 	
 	private static void setAclfRunOpt(AclfMultiStudyCase mCaseContainer, RunStudyCaseXmlType runCase) {
-		mCaseContainer.setRemoteJobCreation(runCase.getGridRunOption().getRemoteJobCreation());
+		mCaseContainer.setRemoteJobCreation(runCase.getGridRunOption().isRemoteJobCreation());
 		if (runCase.getGridRunOption().getAclfOption() != null) {
-			GridComputingXmlType.AclfOption opt = runCase.getGridRunOption().getAclfOption();
+			GridAclfOptionXmlType opt = runCase.getGridRunOption().getAclfOption();
 			mCaseContainer.getAclfGridOption().setReturnCase(
-					opt.getReturnStudyCase()==ReturnStudyCase.ALL_STUDY_CASE? ReturnRemoteCaseOpt.ALL_STUDY_CASE :
-						(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
+					opt.getReturnStudyCase()==ReturnStudyCaseDataType.ALL_STUDY_CASE? ReturnRemoteCaseOpt.ALL_STUDY_CASE :
+						(opt.getReturnStudyCase()==ReturnStudyCaseDataType.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
 							ReturnRemoteCaseOpt.NO_STUDY_CASE));
-			mCaseContainer.getAclfGridOption().setCalculateViolation(opt.getCalculateViolation());
+			mCaseContainer.getAclfGridOption().setCalculateViolation(opt.isCalculateViolation());
 			if (opt.getBusVoltagePULimit() != null) {
 				mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
 				mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());

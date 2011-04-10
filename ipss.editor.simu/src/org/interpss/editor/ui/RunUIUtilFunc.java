@@ -31,8 +31,8 @@ import java.util.TreeSet;
 
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.schema.InterPSSDocument;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
@@ -159,7 +159,7 @@ public class RunUIUtilFunc  {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSDocument loadIpssXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
+	public static InterPSSXmlType loadIpssXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
   		IpssXmlParser parser;
   		try {
   			File xmlFile = new File(filename);

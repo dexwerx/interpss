@@ -128,7 +128,7 @@ public class SimuRunWorker extends Thread {
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
 
 			DStabRunForm runForm = EditorSimuSpringCtx.getDStabRunForm();
-			if (runForm.getXmlGridData() != null && runForm.getXmlGridData().getEnableGridRun())
+			if (runForm.getXmlGridData() != null && runForm.getXmlGridData().isEnableGridRun())
 				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
 			else
 				runForm.runCase(simuCtx, simuCtx.getMsgHub());

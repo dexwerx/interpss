@@ -24,16 +24,18 @@
 
 package org.interpss.editor.runAct;
 
-import org.apache.xmlbeans.XmlException;
+import javax.xml.bind.JAXBException;
+
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.GridRunner;
-import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -55,7 +57,7 @@ public class XmlScriptRunWorker {
 		IpssXmlParser parser;
 		try {
 			parser = new IpssXmlParser(scripts);
-		} catch (XmlException e) {
+		} catch (JAXBException e) {
 			IpssLogger.logErr(e);
 			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", e.toString());
@@ -71,20 +73,20 @@ public class XmlScriptRunWorker {
 		
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 		GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
-				&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
-		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-			return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(), msg);
-		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
-			return XmlScriptDclfRun.runDclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
+				&& xmlStudyCase.getGridRunOption().isRemoteNodeDebug();
+		if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF) {
+			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfNet(), msg);
+		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_DCLF) {
+			return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
 					msg);
-		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
-			return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscNet(),
+		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACSC) {
+			return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscNet(),
 					msg);
-		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
-			return XmlScriptDStabRun.runDStab(parser.getRootDoc().getInterPSS(), simuCtx, msg);
+		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_D_STAB) {
+			return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
 		}
-		else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
-			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(), msg);
+		else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.CONTINGENCY_ANALYSIS) {
+			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc(), simuCtx.getAclfNet(), msg);
 		}
 		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
 		return false;

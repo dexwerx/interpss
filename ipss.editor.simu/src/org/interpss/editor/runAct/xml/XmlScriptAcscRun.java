@@ -25,10 +25,10 @@
 package org.interpss.editor.runAct.xml;
 
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.schema.AcscStudyCaseXmlType;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
+import org.interpss.xml.schema.RunAcscStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
@@ -50,14 +50,14 @@ public class XmlScriptAcscRun {
 			AcscNetwork faultNet, IPSSMsgHub msg) {
 		//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAcscStudyCase() != null) {
-			RunStudyCaseXmlType.StandardRun.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
+			RunAcscStudyCaseXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
 					.getRunAcscStudyCase();
 			SimpleFaultAlgorithm algo = CoreObjectFactory
 					.createSimpleFaultAlgorithm(faultNet);
 			
 			AcscStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultAcscStudyCase(); 
 			
-			for ( AcscStudyCaseXmlType xmlCase : xmlRunCase.getAcscStudyCaseList().getAcscStudyCaseArray()) {
+			for ( AcscStudyCaseXmlType xmlCase : xmlRunCase.getAcscStudyCaseList().getAcscStudyCase()) {
 				if (xmlCase.getModification() != null) {
 					// TODO: apply the modification
 				}

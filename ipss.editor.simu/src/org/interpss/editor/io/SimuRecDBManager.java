@@ -32,6 +32,7 @@ import java.util.List;
 import org.interpss.db.DBManager;
 import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DStabSimuDBRecord;
+import org.interpss.numeric.util.StringHelper;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.ui.IProjectDataManager;
@@ -39,7 +40,6 @@ import org.interpss.ui.IProjectDataManager;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
 
 public class SimuRecDBManager implements ISimuRecManager {
 	
@@ -275,7 +275,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 
 	@Override
 	public String[] getCaseIdList() {
-		return StringUtil.convertObjectAry2StrAry(dbCaseIdLookup.keySet()
+		return StringHelper.toStrArray(dbCaseIdLookup.keySet()
 				.toArray());
 	}
 

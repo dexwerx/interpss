@@ -26,9 +26,9 @@ package org.interpss.editor.runAct;
 
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.runAct.xml.XmlScriptContingency;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
 import org.interpss.spring.PluginSpringCtx;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.simu.SimuContext;
 
@@ -49,7 +49,7 @@ public class CustomScriptRunWorker {
 		//InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunType.RUN_ACLF, scripts, simuCtx.getMsgHub());
 		//return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
 
-		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunType.CONTINGENCY_ANALYSIS, scripts, simuCtx.getMsgHub());
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS, scripts, simuCtx.getMsgHub());
 		return XmlScriptContingency.runContingencyAnalysis(ipssXmlDoc, simuCtx.getAclfNet(), simuCtx.getMsgHub());		
 	}
 }

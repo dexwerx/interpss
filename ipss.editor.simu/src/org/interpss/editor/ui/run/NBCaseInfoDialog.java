@@ -44,12 +44,13 @@ import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
 import org.interpss.util.FileUtil;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.DclfStudyCaseXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
 import org.interpss.xml.schema.TradingStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
@@ -159,7 +160,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	private void loadRunXmlDocument(String filename) {
 		try {
 			if (_caseType != SimuRunEnum.Scripts) {
-				InterPSSDocument ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(filename, _caseType);
+				InterPSSXmlType ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(filename, _caseType);
 				this.studyCaseXmlDoc = new StudyCaseHanlder(ipssXmlDoc);
 			}
 	        setForm2Editor();
@@ -387,7 +388,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		
 		// save run case xml doc
-		FileUtil.writeText2File(runStudyCaseFilename, IpssXmlUtilFunc.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
+		FileUtil.writeText2File(runStudyCaseFilename, 
+				new IpssXmlParser().toString(this.studyCaseXmlDoc.getIpssXmlDoc()));
 
         return errMsg.size() == 0;
 	}
@@ -709,7 +711,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Run Study Case Xml");
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
-	dialog.display(IpssXmlUtilFunc.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
+	dialog.display(new IpssXmlParser().toString(this.studyCaseXmlDoc.getIpssXmlDoc()));
 }//GEN-LAST:event_viewXmlButtonActionPerformed
 
 private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed

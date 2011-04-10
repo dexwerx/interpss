@@ -34,9 +34,10 @@ import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.ContingencyAnalysisXmlType;
-import org.interpss.schema.InterPSSXmlType;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.ContingencyAnalysisXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -76,7 +77,7 @@ public class XmlScriptContingency {
 		}
 		
 		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, aclfNet);
-		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
+		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().isApplyRuleBase();
 		if (applyRuleBase) 
 			XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());
 
@@ -90,7 +91,7 @@ public class XmlScriptContingency {
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 
 		int cnt = 0;
-		for (AclfStudyCaseXmlType xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
+		for (AclfStudyCaseXmlType xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCase()) {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 			// map to the Algo object including network modification at the study case level
 			//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
@@ -104,7 +105,7 @@ public class XmlScriptContingency {
 				studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 				if (xmlCase.getModification() != null) {
 					// persist modification to be sent to the remote grid node
-					studyCase.setModificationString(xmlCase.getModification().xmlText());
+					studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
 					studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 				}
 				studyCase.setId(xmlCase.getRecId());

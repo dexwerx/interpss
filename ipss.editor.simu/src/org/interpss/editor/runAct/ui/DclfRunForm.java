@@ -28,9 +28,9 @@ import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.schema.AreaTransferAnalysisXmlType;
-import org.interpss.schema.DclfBranchSensitivityXmlType;
-import org.interpss.schema.DclfStudyCaseXmlType;
+import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
+import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
+import org.interpss.xml.schema.DclfStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
@@ -47,8 +47,8 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private AreaTransferAnalysisXmlType areaTransfer = null;;
 
 	public void setXmlCaseData(DclfStudyCaseXmlType scase) {
-		this.tdFactor = scase.getPTransferDistFactorArray(0);
-		this.areaTransfer = scase.getAreaTransferAnalysisArray(0);
+		this.tdFactor = scase.getPTransferDistFactor().get(0);
+		this.areaTransfer = scase.getAreaTransferAnalysis().get(0);
 	}
 	
 	@Override

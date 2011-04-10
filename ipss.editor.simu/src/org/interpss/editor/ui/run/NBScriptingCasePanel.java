@@ -39,8 +39,8 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.InterPSSXmlType;
-import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -241,7 +241,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     	String pluginName = (String)customPluginComboBox.getSelectedItem();
     	String scripts = scriptsTextArea.getText();
 		ICustomRunScriptPlugin adapter = PluginSpringCtx.getCustomScriptRunPlugin(pluginName);
-		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS,
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS,
 				scripts, CoreCommonSpringCtx.getIpssMsgHub());
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("InterPSS Xml Docuement");
 		dialog.display(ipssXmlDoc.toString());		

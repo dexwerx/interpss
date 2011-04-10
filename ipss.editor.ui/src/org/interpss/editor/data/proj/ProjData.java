@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.editor.jgraph.ui.data.IProjectData;
-import org.interpss.schema.InterPSSDocument;
+import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
@@ -51,8 +51,8 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	private String filepath = null;
 	private String dbSchemaVersion = "";
 
-	private InterPSSDocument stdRunXmlDoc = null;
-	private InterPSSDocument scriptRunXmlDoc = null;
+	private RunStudyCaseXmlType stdRunXmlDoc = null;
+	private RunStudyCaseXmlType scriptRunXmlDoc = null;
 	
 	private List caseList = new ArrayList();
 

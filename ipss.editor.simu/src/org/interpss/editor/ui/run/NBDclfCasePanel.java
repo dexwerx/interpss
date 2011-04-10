@@ -34,7 +34,8 @@ import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlHelper;
+import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
 import org.interpss.xml.schema.AreaRecXmlType;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
@@ -113,12 +114,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }
  */   
     public void setXmlCaseData(DclfStudyCaseXmlType xmlCaseData) {
-    	if (xmlCaseData.getPTransferDistFactorArray().length == 0)
+    	if (xmlCaseData.getPTransferDistFactor().size() == 0)
     		StudyCaseHanlder.addNewTDFactor(xmlCaseData);
-    	this.tdFactor = xmlCaseData.getPTransferDistFactorArray(0);
-    	if (xmlCaseData.getAreaTransferAnalysisArray().length == 0)
-    		StudyCaseHanlder.setNewAreaTransfer(xmlCaseData.addNewAreaTransferAnalysis());
-    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysisArray(0);
+    	this.tdFactor = xmlCaseData.getPTransferDistFactor().get(0);
+    	if (xmlCaseData.getAreaTransferAnalysis().size() == 0) {
+    		xmlCaseData.getAreaTransferAnalysis().add(IpssXmlParser.getFactory().createAreaTransferAnalysisXmlType());
+    		StudyCaseHanlder.setNewAreaTransfer(xmlCaseData.getAreaTransferAnalysis().get(0));
+    	}
+    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysis().get(0);
     }    
     
 	/**
@@ -142,7 +145,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 		    this.ptdfSingleInjectBusRadioButton.setSelected(true);
 			ptdfSingleInjectBusRadioButtonActionPerformed(null);
-			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
+			String inBusId = tdFactor.getInjectBusList().getInjectBus().get(0).getBusId();
 			ptdfInjectBusComboBox.setSelectedItem(inBusId);
 		} else {
 			this.ptdfMultiInjectBusRadioButton.setSelected(true);
@@ -150,7 +153,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 				
 		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
+			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBus().get(0).getBusId();
 			ptdfWithdrawBusComboBox.setSelectedItem(wdBusId);
 			ptdfWithSingleBusRadioButton.setSelected(true);
 			ptdfWithSingleBusRadioButtonActionPerformed(null);
@@ -160,11 +163,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			ptdfWithMultiBusRadioButton.setSelected(true);
 			ptdfWithMultiBusRadioButtonActionPerformed(null);
 	    	ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
 		}
 					
     	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-		    			IpssXmlUtilFunc.getBranchIdAry(tdFactor.getBranchArray())));
+		    			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
 
 		return true;
 	}
@@ -175,7 +178,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		
 		AreaRecXmlType area = this.areaTransfer.getFromArea(); 
 		if (area == null) {
-			area = this.areaTransfer.addNewFromArea();
+			area = IpssXmlParser.getFactory().createAreaRecXmlType();
+			this.areaTransfer.setFromArea(area);
 			String no = (String)this.atFromAreaComboBox.getSelectedItem();
 			area.setAreaNo(new Integer(no).intValue());
 		}
@@ -183,7 +187,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			
 		area = this.areaTransfer.getToArea();
 		if (area == null) {
-			area = this.areaTransfer.addNewToArea();
+			area = IpssXmlParser.getFactory().createAreaRecXmlType(); 
+			this.areaTransfer.setToArea(area);
 			String no = (String)this.atToAreaComboBox.getSelectedItem();
 			area.setAreaNo(new Integer(no).intValue());
 		}
@@ -194,18 +199,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		else
 			atDeratingFactorTextField.setText("1.00");
 			
-		if (this.areaTransfer.getInjectBusList() != null && this.areaTransfer.getInjectBusList().sizeOfInjectBusArray() > 0) {
+		if (this.areaTransfer.getInjectBusList() != null && this.areaTransfer.getInjectBusList().getInjectBus().size() > 0) {
 			atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
 		}
 		else
 			atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
 						this.areaTransfer.getFromArea().getAreaNo()).toArray()));
 
-		if (this.areaTransfer.getWithdrawBusList() != null && this.areaTransfer.getWithdrawBusList().sizeOfWithdrawBusArray() > 0) {
+		if (this.areaTransfer.getWithdrawBusList() != null && this.areaTransfer.getWithdrawBusList().getWithdrawBus().size() > 0) {
 			atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
 		}
 		else
 			atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel( 				
@@ -213,7 +218,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 						this.areaTransfer.getToArea().getAreaNo()).toArray()));
 		
     	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-		    			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
+		    			IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 
     	atFromDFactorEditTextField.setEnabled(false);
     	atFromAreaUpdateButton.setEnabled(false);
@@ -238,28 +243,33 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 	public boolean saveEditor2TDFactor() {
 		if (tdFactor.getInjectBusList() == null) {  // for converting old version data
-			tdFactor.addNewInjectBusList();
-			tdFactor.getInjectBusList().addNewInjectBus();
+			tdFactor.setInjectBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
+			tdFactor.getInjectBusList().getInjectBus().add(IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType());
 		}
 		if ( tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			while (tdFactor.getInjectBusList().sizeOfInjectBusArray() > 0)
-				tdFactor.getInjectBusList().removeInjectBus(0);
-			tdFactor.getInjectBusList().addNewInjectBus();
-			tdFactor.getInjectBusList().getInjectBusArray(0).setBusId((String)ptdfInjectBusComboBox.getSelectedItem());
+			while (tdFactor.getInjectBusList().getInjectBus().size() > 0)
+				tdFactor.getInjectBusList().getInjectBus().remove(0);
+			tdFactor.getInjectBusList().getInjectBus().add(IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType());
+			tdFactor.getInjectBusList().getInjectBus().get(0).setBusId((String)ptdfInjectBusComboBox.getSelectedItem());
 		} 
 		else {
 			int cnt = ptdfInjectBusComboBox.getItemCount();
 			for (int i = 0; i < cnt; i++) {
-				BusRecXmlType busRec = tdFactor.getInjectBusList().sizeOfInjectBusArray() > i ?
-						tdFactor.getInjectBusList().getInjectBusArray(i) : tdFactor.getInjectBusList().addNewInjectBus();
+				BusRecXmlType busRec;
+				if ( tdFactor.getInjectBusList().getInjectBus().size() > i )
+					busRec = tdFactor.getInjectBusList().getInjectBus().get(i);
+				else {
+					busRec = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType();
+					tdFactor.getInjectBusList().getInjectBus().add((SenAnalysisBusRecXmlType)busRec);
+				}
 				busRec.setBusId((String)ptdfInjectBusComboBox.getItemAt(i));
 			}
 		}
 		
 		if (ptdfWithSingleBusRadioButton.isSelected()) {
 			tdFactor.setWithdrawBusType(SenBusAnalysisDataType.SINGLE_BUS);
-			tdFactor.getWithdrawBusList().getWithdrawBusArray(0).setBusId((String)ptdfWithdrawBusComboBox.getSelectedItem());
-			tdFactor.getWithdrawBusList().getWithdrawBusArray(0).setPercent(100.0);
+			tdFactor.getWithdrawBusList().getWithdrawBus().get(0).setBusId((String)ptdfWithdrawBusComboBox.getSelectedItem());
+			tdFactor.getWithdrawBusList().getWithdrawBus().get(0).setPercent(100.0);
 		}
 		else {	
 			tdFactor.setWithdrawBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
@@ -289,9 +299,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 	private void saveFromAreaBusList2AreaTransfer() {
 		areaTransfer.setInjectBusList(null);
-		areaTransfer.addNewInjectBusList();
+		areaTransfer.setInjectBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
 		for(int i = 0; i < atFromAreaBusList.getModel().getSize(); i++) {
-			SenAnalysisBusRecXmlType busRec = areaTransfer.getInjectBusList().addNewInjectBus();
+			SenAnalysisBusRecXmlType busRec = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType(); 
+			areaTransfer.getInjectBusList().getInjectBus().add(busRec);
 			String elem = (String)atFromAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
@@ -300,9 +311,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	
 	private void saveToAreaBusList2AreaTransfer() {
 		areaTransfer.setWithdrawBusList(null);
-		areaTransfer.addNewWithdrawBusList();
+		areaTransfer.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 		for(int i = 0; i < atToAreaBusList.getModel().getSize(); i++) {
-			SenAnalysisBusRecXmlType busRec = areaTransfer.getWithdrawBusList().addNewWithdrawBus();
+			SenAnalysisBusRecXmlType busRec = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType(); 
+			areaTransfer.getWithdrawBusList().getWithdrawBus().add(busRec);
 			String elem = (String)atToAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
@@ -1090,17 +1102,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void ptdfWithSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithSingleBusRadioButtonActionPerformed
     	setMultiBusWithdrawStatus(false);
     	tdFactor.setWithdrawBusType(SenBusAnalysisDataType.SINGLE_BUS);
-    	while (tdFactor.getWithdrawBusList().sizeOfWithdrawBusArray() > 0)
-    		tdFactor.getWithdrawBusList().removeWithdrawBus(0);
-    	tdFactor.getWithdrawBusList().addNewWithdrawBus();
-    	tdFactor.getWithdrawBusList().getWithdrawBusArray(0).setBusId((String)ptdfWithdrawBusComboBox.getSelectedItem());
+    	while (tdFactor.getWithdrawBusList().getWithdrawBus().size() > 0)
+    		tdFactor.getWithdrawBusList().getWithdrawBus().remove(0);
+    	tdFactor.getWithdrawBusList().getWithdrawBus().add(
+    			IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType());
+    	tdFactor.getWithdrawBusList().getWithdrawBus().get(0).setBusId((String)ptdfWithdrawBusComboBox.getSelectedItem());
 }//GEN-LAST:event_ptdfWithSingleBusRadioButtonActionPerformed
 
     private void ptdfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfRemoveBranchButtonActionPerformed
     	if (!ptdfMeasBranchList.isSelectionEmpty()) {
-    		tdFactor.removeBranch(ptdfMeasBranchList.getSelectedIndex());
+    		tdFactor.getBranch().remove(ptdfMeasBranchList.getSelectedIndex());
         	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-        			IpssXmlUtilFunc.getBranchIdAry(tdFactor.getBranchArray())));
+        			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
     	}
 }//GEN-LAST:event_ptdfRemoveBranchButtonActionPerformed
 
@@ -1118,7 +1131,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	setMultiBusWithdrawStatus(true);
     	tdFactor.setWithdrawBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
     	if (tdFactor.getWithdrawBusList() == null)
-    		tdFactor.addNewWithdrawBusList();
+    		tdFactor.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 }//GEN-LAST:event_ptdfWithMultiBusRadioButtonActionPerformed
 
     private void ptdfWithAllBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithAllBusRadioButtonActionPerformed
@@ -1133,28 +1146,30 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void ptdfRemoveWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfRemoveWithBusButtonActionPerformed
     	if (!ptdfWithdarwBusList.isSelectionEmpty()) {
-    		tdFactor.getWithdrawBusList().removeWithdrawBus(ptdfWithdarwBusList.getSelectedIndex());
+    		tdFactor.getWithdrawBusList().getWithdrawBus().remove(ptdfWithdarwBusList.getSelectedIndex());
     		ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlUtilFunc.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBusArray())));
+    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
     	}
 }//GEN-LAST:event_ptdfRemoveWithBusButtonActionPerformed
 
     private void ptdfAddWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddWithBusButtonActionPerformed
     	String id = (String)ptdfWithdrawBusComboBox.getSelectedItem();
     	double percent = new Double(this.ptdfDistFactorTextField.getText()).doubleValue();
-    	SenAnalysisBusRecXmlType bus = tdFactor.getWithdrawBusList().addNewWithdrawBus();
+    	SenAnalysisBusRecXmlType bus = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType(); 
+    	tdFactor.getWithdrawBusList().getWithdrawBus().add(bus);
     	bus.setBusId(id);
     	bus.setPercent(percent);
     	ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlUtilFunc.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBusArray())));
+    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
 }//GEN-LAST:event_ptdfAddWithBusButtonActionPerformed
 
     private void ptdfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddBranchButtonActionPerformed
     	String id = (String)ptdfBranchListComboBox.getSelectedItem();
-    	BranchRecXmlType braRec = tdFactor.addNewBranch();
-    	IpssXmlUtilFunc.setBranchRec(braRec, id);
+    	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType();
+    	tdFactor.getBranch().add(braRec);
+    	IpssXmlHelper.setBranchRec(braRec, id);
     	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlUtilFunc.getBranchIdAry(tdFactor.getBranchArray())));
+    			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
 }//GEN-LAST:event_ptdfAddBranchButtonActionPerformed
 
     private void ptdfMultiInjectBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfMultiInjectBusRadioButtonActionPerformed
@@ -1201,10 +1216,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     
 private void atAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddBranchButtonActionPerformed
 	String id = (String)atBranchListComboBox.getSelectedItem();
-	BranchRecXmlType braRec = areaTransfer.addNewBranch();
-	IpssXmlUtilFunc.setBranchRec(braRec, id);
+	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType(); 
+	areaTransfer.getBranch().add(braRec);
+	IpssXmlHelper.setBranchRec(braRec, id);
 	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
+			IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 }//GEN-LAST:event_atAddBranchButtonActionPerformed
 
 private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddInterfaceButtonActionPerformed
@@ -1213,25 +1229,25 @@ private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButtonActionPerformed
 	if (!atMeasBranchList.isSelectionEmpty()) {
-		areaTransfer.removeBranch(atMeasBranchList.getSelectedIndex());
+		areaTransfer.getBranch().remove(atMeasBranchList.getSelectedIndex());
 		atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
+				IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 	}
 }//GEN-LAST:event_atRemoveBranchButtonActionPerformed
 
 private void atFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaRemoveButtonActionPerformed
 	if (!atFromAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getInjectBusList().removeInjectBus(atFromAreaBusList.getSelectedIndex());
+		areaTransfer.getInjectBusList().getInjectBus().remove(atFromAreaBusList.getSelectedIndex());
 		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
+				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
 	}
 }//GEN-LAST:event_atFromAreaRemoveButtonActionPerformed
 
 private void atToAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaRemoveButtonActionPerformed
 	if (!atToAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getWithdrawBusList().removeWithdrawBus(atToAreaBusList.getSelectedIndex());
+		areaTransfer.getWithdrawBusList().getWithdrawBus().remove(atToAreaBusList.getSelectedIndex());
 		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
+				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
 	}
 }//GEN-LAST:event_atToAreaRemoveButtonActionPerformed
 
@@ -1267,10 +1283,10 @@ private void atFromAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent ev
 		double percent = new Double(atFromDFactorEditTextField.getText()).doubleValue();
 		String s = (String)atFromAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBusArray());
+		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBus());
 		bus.setPercent(percent);
 		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
+    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
 		atFromDFactorEditTextField.setEnabled(false);
 		atFromAreaUpdateButton.setEnabled(false);
 	}
@@ -1292,11 +1308,11 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 		double percent = new Double(atToDFactorEditTextField.getText()).doubleValue();
 		String s = (String)atToAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, 
-						areaTransfer.getWithdrawBusList().getWithdrawBusArray());
+		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, 
+						areaTransfer.getWithdrawBusList().getWithdrawBus());
 		bus.setPercent(percent);
 		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
+	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
 		atToDFactorEditTextField.setEnabled(false);
 		atToAreaUpdateButton.setEnabled(false);
 	}
