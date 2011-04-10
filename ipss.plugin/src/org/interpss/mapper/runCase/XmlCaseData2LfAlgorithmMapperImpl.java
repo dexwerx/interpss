@@ -25,8 +25,9 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.mapper.AbstractMapping;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.UnitDataType;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AclfMethodDataType;
+import org.interpss.xml.schema.UnitDataType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algo.AclfMethod;
@@ -45,9 +46,10 @@ public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapping<AclfAlgor
 	 */
 	@Override
 	public boolean map2Model(AclfAlgorithmXmlType xmlAlgo, LoadflowAlgorithm algo) {
-		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
-						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ ? AclfMethod.PQ
-								: AclfMethod.GS));
+		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfMethodDataType.NR ? AclfMethod.NR
+						: (xmlAlgo.getLfMethod() == AclfMethodDataType.PQ ? AclfMethod.PQ
+								: (xmlAlgo.getLfMethod() == AclfMethodDataType.CUSTOM ? AclfMethod.CUSTOM 
+										: AclfMethod.GS)));
 		/*
 		 * no need for this. PQ method can handle PSXfr now if
 		 * (algo.getAclfAdjNetwork().hasPSXfr() && algo.getLfMethod() ==
@@ -60,9 +62,12 @@ public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapping<AclfAlgor
 		else if (xmlAlgo.getToleranceUnit() == UnitDataType.M_VA)
 			factor = 1000.0/algo.getAclfNetwork().getBaseKva();
 		algo.setTolerance(factor * xmlAlgo.getTolerance());
-		algo.setNonDivergent(xmlAlgo.getNonDivergent());
-		algo.setInitBusVoltage(xmlAlgo.getInitBusVoltage());
-		algo.setGsAccFactor(xmlAlgo.getAccFactor());
+		if (xmlAlgo.isNonDivergent() != null)
+			algo.setNonDivergent(xmlAlgo.isNonDivergent());
+		if (xmlAlgo.isInitBusVoltage() != null)
+			algo.setInitBusVoltage(xmlAlgo.isInitBusVoltage());
+		if (xmlAlgo.getAccFactor() != null)
+			algo.setGsAccFactor(xmlAlgo.getAccFactor());
 		
 		return true;
 	}

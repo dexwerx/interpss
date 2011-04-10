@@ -32,14 +32,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.interpss.schema.AclfStudyCaseListXmlType;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.BranchChangeRecXmlType;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AclfStudyCaseListXmlType;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.BranchChangeRecXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
+import org.interpss.xml.schema.ModificationXmlType;
 
 import com.interpss.common.util.StringUtil;
 
@@ -65,7 +64,7 @@ public class ContingencyFileParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSXmlType parseControlFile(AnalysisRunType.Enum type, String filepath) throws Exception {
+	public static InterPSSXmlType parseControlFile(AnalysisRunDataType type, String filepath) throws Exception {
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));	
@@ -93,15 +92,15 @@ public class ContingencyFileParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSXmlType parseControlScripts(AnalysisRunType.Enum type, String[] strAry) throws Exception {
+	public static InterPSSXmlType parseControlScripts(AnalysisRunDataType type, String[] strAry) throws Exception {
 		IpssXmlParser parser = new IpssXmlParser(type);
-		if (type == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS)
+		if (type == AnalysisRunDataType.CONTINGENCY_ANALYSIS)
 			createAclfStudyCaseList(parser.getContingencyAnalysis().getAclfStudyCaseList(), strAry);
 		else
 			createAclfStudyCaseList(parser.getRunAclfStudyCase().getAclfStudyCaseList(), strAry);
 		
 		//System.out.println(parser.toString());
-		return parser.getRootDoc().getInterPSS();
+		return parser.getRootDoc();
 	}
 
 	public static void createAclfStudyCaseList(AclfStudyCaseListXmlType caseList, String[] strAry) throws Exception {
@@ -121,13 +120,15 @@ public class ContingencyFileParser {
 				String conName = sAry[1];
 //				System.out.println("[" + conCnt + "], " + conName);
 				
-				AclfStudyCaseXmlType scase = caseList.addNewAclfStudyCase();
+				AclfStudyCaseXmlType scase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType(); 
+				caseList.getAclfStudyCase().add(scase);
 				scase.setRecId(conName+"_"+conCnt);
 				scase.setRecName(conName);
 				scase.setRecDesc(lineStr);
 
-				mod = scase.addNewModification();
-				mod.addNewBranchChangeRecList();
+				mod = IpssXmlParser.getFactory().createModificationXmlType();
+				scase.setModification(mod);
+				mod.setBranchChangeRecList(IpssXmlParser.getFactory().createModificationXmlTypeBranchChangeRecList());
 				changeCnt = 0;
 			}
 			else if (lineStr.startsWith(ContingencyFileParser.Token_ConEnd) && status != ContingencyFileParser.FileStatus.ConEnd) {
@@ -141,7 +142,8 @@ public class ContingencyFileParser {
 				changeCnt++;
 				if (lineStr.startsWith(ContingencyFileParser.Token_OpenLine)) {
 					
-					BranchChangeRecXmlType braChange = mod.getBranchChangeRecList().addNewBranchChangeRec();
+					BranchChangeRecXmlType braChange = IpssXmlParser.getFactory().createBranchChangeRecXmlType(); 
+					mod.getBranchChangeRecList().getBranchChangeRec().add(braChange);
 					braChange.setRecId("OpenLine_" + conCnt + "_" + changeCnt);
 					braChange.setRecName("Open line, contingency " + conCnt + " event " + changeCnt);
 					braChange.setRecDesc(lineStr);

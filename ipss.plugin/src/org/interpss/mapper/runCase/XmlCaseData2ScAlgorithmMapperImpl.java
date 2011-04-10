@@ -25,9 +25,10 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.mapper.AbstractMapping;
-import org.interpss.schema.AcscFaultCategoryDataType;
-import org.interpss.schema.AcscFaultDataType;
-import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.AcscFaultCategoryDataType;
+import org.interpss.xml.schema.AcscFaultDataType;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.BusAcscInitVoltDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -100,9 +101,10 @@ public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudy
 			return false;
 		}
 
-		algo.setMultiFactor(xmlCaseData.getMultiFactor() * 0.01);
+		algo.setMultiFactor(xmlCaseData.getMultiFactor() == null?
+				1.0 : xmlCaseData.getMultiFactor() * 0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
-		algo.setScBusVoltage(xmlCaseData.getBusAcscInitVolt() == AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT? 
+		algo.setScBusVoltage(xmlCaseData.getBusAcscInitVolt() == BusAcscInitVoltDataType.UNIT_VOLT? 
 				ScBusVoltageType.UNIT_VOLT : ScBusVoltageType.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
 	}

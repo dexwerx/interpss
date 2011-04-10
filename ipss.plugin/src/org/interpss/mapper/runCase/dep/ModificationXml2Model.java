@@ -26,16 +26,17 @@ package org.interpss.mapper.runCase.dep;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.ComplexFunc;
-import org.interpss.schema.BranchChangeRecXmlType;
-import org.interpss.schema.BusChangeRecXmlType;
-import org.interpss.schema.ComplexValueChangeXmlType;
-import org.interpss.schema.ComplexXmlType;
-import org.interpss.schema.DoubleValueChangeXmlType;
-import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.UnitDataType;
-import org.interpss.schema.ValueChangeXmlType;
-import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlHelper;
+import org.interpss.xml.schema.AclfLoadCodeChangeXmlType;
+import org.interpss.xml.schema.AclfLoadCodeDataType;
+import org.interpss.xml.schema.BranchChangeRecXmlType;
+import org.interpss.xml.schema.BusChangeRecXmlType;
+import org.interpss.xml.schema.ComplexValueChangeXmlType;
+import org.interpss.xml.schema.ComplexXmlType;
+import org.interpss.xml.schema.DoubleValueChangeXmlType;
+import org.interpss.xml.schema.ModificationXmlType;
+import org.interpss.xml.schema.UnitDataType;
+import org.interpss.xml.schema.ValueChangeActionDataType;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
@@ -70,14 +71,14 @@ public class ModificationXml2Model {
 		IpssLogger.getLogger().info("Apply Network modification");
 		
 		if (mod.getBusChangeRecList() != null) {
-			for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRecArray()) {
+			for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRec()) {
 				if (!applyBusChange(busRec, modModel, net, msg))
 					return false;
 			}
 		}
 
 		if (mod.getBranchChangeRecList() != null) {
-			for (BranchChangeRecXmlType braRec : mod.getBranchChangeRecList().getBranchChangeRecArray()) {
+			for (BranchChangeRecXmlType braRec : mod.getBranchChangeRecList().getBranchChangeRec()) {
 				if (!applyBranchChange(braRec, modModel, net, msg))
 					return false;
 			}
@@ -100,7 +101,7 @@ public class ModificationXml2Model {
 			busMod.setName(busRec.getRecName());
 			busMod.setDesc(busRec.getRecDesc());
 			
-			busMod.setOutService(busRec.isSetOffLine());
+			busMod.setOutService(busRec.isOffLine());
 			
 		} catch (InterpssException e ) {
 			return false;
@@ -123,7 +124,7 @@ public class ModificationXml2Model {
 			braMod.setName(braRec.getRecName());
 			braMod.setDesc(braRec.getRecDesc());
 			
-			braMod.setOutService(braRec.isSetOffLine());
+			braMod.setOutService(braRec.isOffLine());
 			
 		} catch (InterpssException e ) {
 			return false;
@@ -170,14 +171,14 @@ public class ModificationXml2Model {
 
 		// modify load code
 		if (busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange() != null) {
-			LoadChangeData.CodeChange codeChange = busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange();
+			AclfLoadCodeChangeXmlType codeChange = busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange();
 			bus.setLoadCode(codeChange.getLoadCode() == 
-				LoadChangeData.CodeChange.LoadCode.CONST_P ? AclfLoadCode.CONST_P
-						: (codeChange.getLoadCode() == LoadChangeData.CodeChange.LoadCode.CONST_I ? 
+				AclfLoadCodeDataType.CONST_P ? AclfLoadCode.CONST_P
+						: (codeChange.getLoadCode() == AclfLoadCodeDataType.CONST_I ? 
 							AclfLoadCode.CONST_I : (codeChange.getLoadCode() == 
-								LoadChangeData.CodeChange.LoadCode.CONST_Z ? AclfLoadCode.CONST_Z
+								AclfLoadCodeDataType.CONST_Z ? AclfLoadCode.CONST_Z
 									: (codeChange.getLoadCode() == 
-										LoadChangeData.CodeChange.LoadCode.EXPONENTIAL ? AclfLoadCode.EXPONENTIAL
+										AclfLoadCodeDataType.EXPONENTIAL ? AclfLoadCode.EXPONENTIAL
 											: AclfLoadCode.NON_LOAD))));
 			if (bus.getLoadCode() == AclfLoadCode.EXPONENTIAL) {
 				bus.setExpLoadP(codeChange.getExpLoadP());
@@ -189,15 +190,15 @@ public class ModificationXml2Model {
 	private static Complex applyComplexValueChangeRec(Complex original,
 			ComplexValueChangeXmlType changeRec, ComplexValueType ptype,
 			double baseKva, double busBaseVolt) {
-		if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.ADD
-				|| changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.SET) {
+		if (changeRec.getChangeAction() == ValueChangeActionDataType.ADD
+				|| changeRec.getChangeAction() == ValueChangeActionDataType.SET) {
 			// for add/set, use value and unit (PU or power unit)
 			ComplexXmlType c = changeRec.getValue();
 			double re = c.getRe(), im = c.getIm();
 			// the original is in PU
 			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
-				byte unit = IpssXmlUtilFunc.mapXmlUnitType2IpssUnitType(changeRec
+				byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ComplexValueType.Power) {
 					re = UnitType.pConversion(re, baseKva, unit, UnitType.PU);
@@ -209,20 +210,20 @@ public class ModificationXml2Model {
 					im = z.getImaginary();
 				}
 			}
-			if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.ADD) {
+			if (changeRec.getChangeAction() == ValueChangeActionDataType.ADD) {
 				re += original.getReal();
 				im += original.getImaginary();
 			}
 			Complex cReturn = new Complex(re, im);
 			IpssLogger.getLogger().info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
 			return cReturn;
-		} else if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.INCREASE
-				|| changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE) {
+		} else if (changeRec.getChangeAction() == ValueChangeActionDataType.INCREASE
+				|| changeRec.getChangeAction() == ValueChangeActionDataType.DECREASE) {
 			// for increase/decrease, use percent and unit (PU or percent)
 			double factor = changeRec.getPercent();
 			if (changeRec.getUnit() == UnitDataType.PERCENT)
 				factor *= 0.01;
-			if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE)
+			if (changeRec.getChangeAction() == ValueChangeActionDataType.DECREASE)
 				factor = -factor;
 			Complex cReturn = new Complex(original.getReal() * (1.0 + factor), original
 					.getImaginary()
@@ -237,29 +238,29 @@ public class ModificationXml2Model {
 
 	private static double applyValueChangeRec(double original,
 			DoubleValueChangeXmlType changeRec, ValueType ptype, double busBaseVolt) {
-		if (changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.ADD
-				|| changeRec.getChangeAction() ==ValueChangeXmlType.ChangeAction.SET) {
+		if (changeRec.getChangeAction() == ValueChangeActionDataType.ADD
+				|| changeRec.getChangeAction() ==ValueChangeActionDataType.SET) {
 			// for add/set, use value and unit (PU or power unit)
 			double c = changeRec.getValue();
 			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
-				byte unit = IpssXmlUtilFunc.mapXmlUnitType2IpssUnitType(changeRec
+				byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ValueType.Voltage) {
 					c = UnitType.vConversion(c, busBaseVolt, unit, UnitType.PU);
 				} 
 			}
-			if (changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.ADD) {
+			if (changeRec.getChangeAction() == ValueChangeActionDataType.ADD) {
 				c += original;
 			}
 			return c;
-		} else if (changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.INCREASE
-				|| changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.DECREASE) {
+		} else if (changeRec.getChangeAction() == ValueChangeActionDataType.INCREASE
+				|| changeRec.getChangeAction() == ValueChangeActionDataType.DECREASE) {
 			// for increase/decrease, use percent and unit (PU or percent)
 			double factor = changeRec.getPercent();
 			if (changeRec.getUnit() == UnitDataType.PERCENT)
 				factor *= 0.01;
-			if (changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.DECREASE)
+			if (changeRec.getChangeAction() == ValueChangeActionDataType.DECREASE)
 				factor = -factor;
 			return original * (1.0 + factor);
 		}

@@ -41,11 +41,11 @@ import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AcscStudyCaseXmlType;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.XmlNetParamModifier;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.ModificationXmlType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.aclf.AclfNetwork;

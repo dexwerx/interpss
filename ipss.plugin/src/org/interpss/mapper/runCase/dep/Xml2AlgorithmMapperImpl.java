@@ -25,13 +25,15 @@
 package org.interpss.mapper.runCase.dep;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AcscFaultCategoryDataType;
-import org.interpss.schema.AcscFaultDataType;
-import org.interpss.schema.AcscFaultXmlType;
-import org.interpss.schema.AcscStudyCaseXmlType;
-import org.interpss.schema.UnitDataType;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlHelper;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AclfMethodDataType;
+import org.interpss.xml.schema.AcscFaultCategoryDataType;
+import org.interpss.xml.schema.AcscFaultDataType;
+import org.interpss.xml.schema.AcscFaultXmlType;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.BusAcscInitVoltDataType;
+import org.interpss.xml.schema.UnitDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
@@ -60,20 +62,20 @@ public class Xml2AlgorithmMapperImpl {
 	 */
 	public static void aclfCaseData2AlgoMapping(
 			AclfAlgorithmXmlType xmlAlgo, LoadflowAlgorithm algo, IPSSMsgHub msg) {
-		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
-						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ ? AclfMethod.PQ
+		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfMethodDataType.NR ? AclfMethod.NR
+						: (xmlAlgo.getLfMethod() == AclfMethodDataType.PQ ? AclfMethod.PQ
 								: AclfMethod.GS));
 		algo.setMaxIterations(xmlAlgo.getMaxIterations());
 		double e = xmlAlgo.getTolerance();
 		if (xmlAlgo.getToleranceUnit() != null
 				&& xmlAlgo.getToleranceUnit() != UnitDataType.PU) {
-			byte unit = IpssXmlUtilFunc.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
+			byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
 			e = UnitType.pConversion(e, algo.getAclfNetwork().getBaseKva(),
 					unit, UnitType.PU);
 		}
 		algo.setTolerance(e);
-		algo.setInitBusVoltage(xmlAlgo.getInitBusVoltage());
-		algo.setNonDivergent(xmlAlgo.getNonDivergent());
+		algo.setInitBusVoltage(xmlAlgo.isInitBusVoltage());
+		algo.setNonDivergent(xmlAlgo.isNonDivergent());
 		if (xmlAlgo.getAccFactor() != 0.0
 				&& algo.getLfMethod() == AclfMethod.GS)
 			algo.setGsAccFactor(xmlAlgo.getAccFactor());
@@ -125,8 +127,7 @@ public class Xml2AlgorithmMapperImpl {
 			algo.setMultiFactor(acscCase.getMultiFactor() * 0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
 		if (acscCase.getBusAcscInitVolt() != null)
-			algo.setScBusVoltage(acscCase.getBusAcscInitVolt() == 
-						AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT ? 
+			algo.setScBusVoltage(acscCase.getBusAcscInitVolt() == BusAcscInitVoltDataType.UNIT_VOLT ? 
 								ScBusVoltageType.UNIT_VOLT : ScBusVoltageType.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
 	}

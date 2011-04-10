@@ -1,8 +1,8 @@
 package org.interpss.mapper.runCase;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.schema.AcscFaultCategoryDataType;
-import org.interpss.schema.AcscFaultXmlType;
+import org.interpss.xml.schema.AcscFaultCategoryDataType;
+import org.interpss.xml.schema.AcscFaultXmlType;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.acsc.fault.AcscBranchFault;

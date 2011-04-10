@@ -1,13 +1,13 @@
 package org.interpss.custom.run;
 
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType.Enum;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 
 public abstract class CustomRunScriptPluginBase implements ICustomRunScriptPlugin {
 	@Override
-	public InterPSSXmlType createIpssXmlDocument(Enum type, String scripts, IPSSMsgHub msg) {
+	public InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts, IPSSMsgHub msg) {
 		throw new UnsupportedOperationException();
 	}
 

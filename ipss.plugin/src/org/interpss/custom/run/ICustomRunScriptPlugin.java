@@ -1,8 +1,8 @@
 package org.interpss.custom.run;
 
 import org.interpss.custom.IpssCustomAdapter;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 
@@ -24,5 +24,5 @@ public interface ICustomRunScriptPlugin extends IpssCustomAdapter {
 	 * @param msg Ipss msg object
 	 * @return null if there is any error
 	 */
-	InterPSSXmlType createIpssXmlDocument(AnalysisRunType.Enum type, String scripts, IPSSMsgHub msg);
+	InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts, IPSSMsgHub msg);
 }

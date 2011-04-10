@@ -25,13 +25,17 @@
 package org.interpss.custom.run.psseCon;
 
 import org.interpss.custom.run.CustomRunScriptPluginBase;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.ContingencyAnalysisXmlType;
-import org.interpss.schema.GridComputingXmlType;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.LimitXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
+import org.interpss.xml.IpssXmlDataSetter;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AclfMethodDataType;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.ContingencyAnalysisXmlType;
+import org.interpss.xml.schema.GridAclfOptionXmlType;
+import org.interpss.xml.schema.GridComputingXmlType;
+import org.interpss.xml.schema.InterPSSXmlType;
+import org.interpss.xml.schema.LimitXmlType;
+import org.interpss.xml.schema.ReturnStudyCaseDataType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -40,7 +44,7 @@ import com.interpss.common.util.StringUtil;
 
 public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 	@Override
-	public InterPSSXmlType createIpssXmlDocument(AnalysisRunType.Enum type, String scripts, IPSSMsgHub msg) {
+	public InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Run custom scripts with plugin: PSSEContingencyAnalysis");
 		try {
 			String[] strAry = StringUtil.strToken2Array(scripts, System.getProperty("line.separator"));
@@ -57,29 +61,32 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 		}
 	}
 
-	private boolean createRunXmlScripts(AnalysisRunType.Enum type, InterPSSXmlType ipssXmlDoc) {
-		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
+	private boolean createRunXmlScripts(AnalysisRunDataType type, InterPSSXmlType ipssXmlDoc) {
+		if (type == AnalysisRunDataType.RUN_ACLF) {
 			// grid computing settings
-			GridComputingXmlType gridRun = ipssXmlDoc.getRunStudyCase().addNewGridRunOption();
+			GridComputingXmlType gridRun = IpssXmlParser.getFactory().createGridComputingXmlType();
+			ipssXmlDoc.getRunStudyCase().setGridRunOption(gridRun);
 			gridRun.setEnableGridRun(true);
 			gridRun.setRemoteJobCreation(true);
-			GridComputingXmlType.AclfOption opt = gridRun.addNewAclfOption();
-			opt.setReturnStudyCase(GridComputingXmlType.AclfOption.ReturnStudyCase.DIVERGED_CASE);
+			GridAclfOptionXmlType opt = IpssXmlParser.getFactory().createGridAclfOptionXmlType();
+			gridRun.setAclfOption(opt);
+			opt.setReturnStudyCase(ReturnStudyCaseDataType.DIVERGED_CASE);
 		}
-		else if (type == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
-			ContingencyAnalysisXmlType.Option opt = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis().addNewOption();
-			LimitXmlType limit = opt.addNewBusVLimitPU();
-			limit.setMax(1.1);
-			limit.setMin(0.9);
+		else if (type == AnalysisRunDataType.CONTINGENCY_ANALYSIS) {
+			ContingencyAnalysisXmlType.Option opt = IpssXmlParser.getFactory().createContingencyAnalysisXmlTypeOption();
+			ipssXmlDoc.getRunStudyCase().getContingencyAnalysis().setOption(opt);
+			opt.setBusVLimitPU(IpssXmlDataSetter.createLimitXmlType(1.1, 0.9));
 		}
 		
 		// default Aclf Algorithm settings
-		AclfAlgorithmXmlType algo;
-		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) 
-			algo = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase().addNewDefaultAclfAlgorithm();
-		else
-			algo = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis().addNewDefaultAclfAlgorithm();
-		algo.setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
+		AclfAlgorithmXmlType algo = IpssXmlParser.getFactory().createAclfAlgorithmXmlType();
+		if (type == AnalysisRunDataType.RUN_ACLF) {
+			ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase().setDefaultAclfAlgorithm(algo);
+		}
+		else {
+			ipssXmlDoc.getRunStudyCase().getContingencyAnalysis().setDefaultAclfAlgorithm(algo);
+		}
+		algo.setLfMethod(AclfMethodDataType.NR);
 		algo.setMaxIterations(20);
 		algo.setTolerance(0.0001);
 		algo.setNonDivergent(true);

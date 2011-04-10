@@ -25,10 +25,10 @@
 package org.interpss.mapper.runCase.dep;
 
 import org.interpss.mapper.dep.AbstractMapper;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AcscStudyCaseXmlType;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.ModificationXmlType;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.ModificationXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algo.LoadflowAlgorithm;
