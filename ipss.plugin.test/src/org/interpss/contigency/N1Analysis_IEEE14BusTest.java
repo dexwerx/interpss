@@ -27,9 +27,10 @@ package org.interpss.contigency;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.PluginTestSetup;
 import org.interpss.display.ContingencyOutFunc;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.spring.PluginSpringCtx;
-import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.IpssXmlHelper;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -83,8 +84,8 @@ public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 				String caseName = "Open Branch "+branch.getId();
 				AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, caseName, ++cnt, mscase);
 				
-				ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch);
-				scase.setModificationString(mod.xmlText());
+				ModificationXmlType mod = IpssXmlHelper.createTurnOffBranchRec(branch);
+				scase.setModificationString(new IpssXmlParser().toString(mod));
 				scase.setModStringType(RemoteMessageType.IPSS_XML);
 			}
 		}
@@ -98,9 +99,8 @@ public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 			
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			
-			PluginSpringCtx.getModXml2NetMapper().map2Model(
-					ModificationXmlType.Factory.parse(scase.getModificationString()), 
-		  			algo.getAclfNetwork());
+			PluginSpringCtx.getModXml2NetMapper().map2Model(new IpssXmlParser()
+					.parserModification(scase.getModificationString()),	algo.getAclfNetwork());
 			
 			scase.runLoadflow(algo, mscase);
 	  		

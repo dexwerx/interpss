@@ -33,9 +33,10 @@ import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.BranchChangeRecXmlType;
-import org.interpss.schema.ModificationXmlType;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.BranchChangeRecXmlType;
+import org.interpss.xml.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -183,16 +184,19 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
 			// define modification to the case
-			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
-			ModificationXmlType mod = xmlCase.addNewModification();
-			BranchChangeRecXmlType branchChange = mod.addNewBranchChangeRecList().addNewBranchChangeRec();
+			AclfStudyCaseXmlType xmlCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();
+			ModificationXmlType mod = IpssXmlParser.getFactory().createModificationXmlType();
+			BranchChangeRecXmlType branchChange = IpssXmlParser.getFactory().createBranchChangeRecXmlType();
+			xmlCase.setModification(mod);
+			mod.setBranchChangeRecList(IpssXmlParser.getFactory().createModificationXmlTypeBranchChangeRecList());
+			mod.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
 			branchChange.setFromBusId(branch.getFromBus().getId());
 			branchChange.setToBusId(branch.getToBus().getId());
 			branchChange.setCircuitNumber(branch.getCircuitNumber());
 			branchChange.setOffLine(true);
 			
 			// persist modification to be sent to the remote grid node
-			studyCase.setModificationString(xmlCase.getModification().xmlText());
+			studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
 			studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 		}
 

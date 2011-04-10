@@ -6,6 +6,11 @@ import java.io.File;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
+import org.interpss.xml.schema.BranchRecXmlType;
+import org.interpss.xml.schema.DclfStudyCaseXmlType;
+import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
 import org.junit.Test;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -28,28 +33,28 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.RUN_DCLF);
 		
 	  	IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 	  	
 		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
 		assertTrue(algo.checkCondition());
 			
-		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
+		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCase().get(0);
 
-		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysisArray()) {
+		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysis()) {
 			algo.getInjectBusList().clear();
-			for (SenAnalysisBusRecXmlType bus :  atFactor.getInjectBusList().getInjectBusArray()){
+			for (SenAnalysisBusRecXmlType bus :  atFactor.getInjectBusList().getInjectBus()){
 				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
 				algo.addInjectBus(bus.getBusId(), bus.getPercent());
 			}
 			algo.getWithdrawBusList().clear();
-			for (SenAnalysisBusRecXmlType bus :  atFactor.getWithdrawBusList().getWithdrawBusArray()){
+			for (SenAnalysisBusRecXmlType bus :  atFactor.getWithdrawBusList().getWithdrawBus()){
 				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
 				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 			}
 			
-			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
+			for (BranchRecXmlType branch : atFactor.getBranch()) {
 				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1");
 				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
 			}
@@ -68,9 +73,9 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 	  	IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
-		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
-		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysisArray()) {
-			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
+		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCase().get(0);
+		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysis()) {
+			for (BranchRecXmlType branch : atFactor.getBranch()) {
 				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1");
 				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
 			}

@@ -5,11 +5,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.AnalysisRunDataType;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -36,10 +36,10 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
   		
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.CONTINGENCY_ANALYSIS);
   		
 	  	int cnt = 0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCase()) {
 			AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
@@ -94,7 +94,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
   		//System.out.println("----->" + parser.getRootElem().toString());
   		
 	  	int cnt = 0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCase()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
@@ -133,7 +133,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
   		//System.out.println("----->" + parser.getRootElem().toString());
   		
 	  	int cnt = 0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCase()) {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);

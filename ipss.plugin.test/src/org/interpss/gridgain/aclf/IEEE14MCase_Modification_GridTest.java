@@ -35,9 +35,10 @@ import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.BranchChangeRecXmlType;
-import org.interpss.schema.ModificationXmlType;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.BranchChangeRecXmlType;
+import org.interpss.xml.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -179,10 +180,13 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
 			// define modification to the case
-			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
-			ModificationXmlType mod = xmlCase.addNewModification();
+			AclfStudyCaseXmlType xmlCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();
+			ModificationXmlType mod = IpssXmlParser.getFactory().createModificationXmlType();
+			xmlCase.setModification(mod);
 			// define modification
-			BranchChangeRecXmlType branchChange = mod.addNewBranchChangeRecList().addNewBranchChangeRec();
+			mod.setBranchChangeRecList(IpssXmlParser.getFactory().createModificationXmlTypeBranchChangeRecList());
+			BranchChangeRecXmlType branchChange = IpssXmlParser.getFactory().createBranchChangeRecXmlType(); 
+			mod.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
 			branchChange.setFromBusId("0005");
 			branchChange.setToBusId("0006");
 			branchChange.setCircuitNumber("1");
@@ -190,7 +194,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 			
 			if (xmlCase.getModification() != null) {
 				// persist modification to be sent to the remote grid node
-				studyCase.setModificationString(xmlCase.getModification().xmlText());
+				studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
 				studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 			} 
 		}

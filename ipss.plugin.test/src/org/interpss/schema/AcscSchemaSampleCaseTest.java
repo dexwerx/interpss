@@ -32,6 +32,8 @@ import org.interpss.PluginTestSetup;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.AnalysisRunDataType;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -47,7 +49,7 @@ public class AcscSchemaSampleCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.RUN_ACSC);
 
 	  	AcscNetwork faultNet = CoreObjectFactory.createAcscNetwork();
 		SampleCases.load_SC_5BusSystem(faultNet);
@@ -56,7 +58,7 @@ public class AcscSchemaSampleCaseTest extends PluginTestSetup {
 
   		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 	  	//IpssMapper mapper = new IpssXmlMapper();
-	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray()) {
+	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCase()) {
 	  		PluginSpringCtx.getXml2ScAlgorithmMapper().map2Model(scase, algo);
 	  		AcscBusFault fault = algo.getFaultList().get(0);
 	  		algo.calculateBusFault((AcscBusFault)fault);

@@ -29,14 +29,15 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.schema.AclfStudyCaseXmlType;
-import org.interpss.schema.PreventiveRuleSetXmlType;
-import org.interpss.schema.RuleBaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.ViolationConditionXmlType;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.PreventiveRuleSetXmlType;
+import org.interpss.xml.schema.PreventiveRuleXmlType;
+import org.interpss.xml.schema.RuleBaseXmlType;
+import org.interpss.xml.schema.ViolationConditionXmlType;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -60,9 +61,9 @@ public class RuleXmlCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF);
   		
-	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
+	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCase().get(0);
 	  	AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
@@ -77,13 +78,13 @@ public class RuleXmlCaseTest extends PluginTestSetup {
   		RuleBaseXmlType aclfRuleBase = parser.getRunStudyCase().getRuleBase();
 	  	assertTrue(aclfRuleBase != null);
 	  	
-	  	PreventiveRuleSetXmlType ruleSet = aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray(0);
-	  	assertTrue(ruleSet.getPreventiveRuleList().getPreventiveRuleArray().length == 2);
-	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule1 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[0];
+	  	PreventiveRuleSetXmlType ruleSet = aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSet().get(0);
+	  	assertTrue(ruleSet.getPreventiveRuleList().getPreventiveRule().size() == 2);
+	  	PreventiveRuleXmlType rule1 = ruleSet.getPreventiveRuleList().getPreventiveRule().get(0);
 	  	ViolationConditionXmlType cond = rule1.getCondition();
 	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBranchCondition(cond, net, msg));
 
-	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule2 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[1];
+	  	PreventiveRuleXmlType rule2 = ruleSet.getPreventiveRuleList().getPreventiveRule().get(1);
 	  	cond = rule2.getCondition();
 	  	assertTrue(!PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 0.8, msg));
 	  	// volatge at 0003 1.01
@@ -105,13 +106,13 @@ public class RuleXmlCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF);
   		
 	  	AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
-		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
+		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCase().get(0);
 		PluginSpringCtx.getModXml2NetMapper()
 				.map2Model(aclfCase.getModification(), net);
 
@@ -155,12 +156,12 @@ public class RuleXmlCaseTest extends PluginTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF);
   		
 	  	AclfNetwork net = simuCtx.getAclfNet();
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
-		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
+		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCase().get(0);
 		PluginSpringCtx.getModXml2NetMapper()
 				.map2Model(aclfCase.getModification(), net);
 

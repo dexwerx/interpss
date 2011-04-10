@@ -33,6 +33,7 @@ import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -66,7 +67,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  	String dstabNetStr = "";
 //	  	SimuObjectFactory.initEMFPackage();
 	  	
-	  	for ( DStabStudyCaseXmlType scase : parser.getRunDStabStudyCase().getDStabStudyCaseList().getDStabStudyCaseArray()) {
+	  	for ( DStabStudyCaseXmlType scase : parser.getRunDStabStudyCase().getDStabStudyCaseList().getDStabStudyCase()) {
 			System.out.println("Running DStab case: " + scase.getRecId());
 
 			caseCnt++;

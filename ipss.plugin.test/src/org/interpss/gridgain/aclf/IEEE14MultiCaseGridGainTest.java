@@ -35,7 +35,8 @@ import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -85,13 +86,13 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
 			// define modification to the case
-			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
-			xmlCase.addNewModification();
+			AclfStudyCaseXmlType xmlCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();
+			xmlCase.setModification(IpssXmlParser.getFactory().createModificationXmlType());
 			// define modification
 			
 			if (xmlCase.getModification() != null) {
 				// persist modification to be sent to the remote grid node
-				studyCase.setModificationString(xmlCase.getModification().xmlText());
+				studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
 				studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 			} 
 		}
