@@ -43,10 +43,10 @@ import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
 import org.graphdrawing.gml.NodeType;
 import org.graphdrawing.gml.ObjectFactory;
+import org.interpss.numeric.util.StringHelper;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfNetwork;
 
 public class GmlHelper {
@@ -137,8 +137,8 @@ public class GmlHelper {
 				branchIdList.add(NetUtilFunc.formBranchId(edge.getSource(), edge.getTarget()));
 			}
 		}
-		String[] busIdAry = StringUtil.convertObjectAry2StrAry(busIdList.toArray());
-		String[] branchIdAry = StringUtil.convertObjectAry2StrAry(branchIdList.toArray());
+		String[] busIdAry = StringHelper.toStrArray(busIdList.toArray());
+		String[] branchIdAry = StringHelper.toStrArray(branchIdList.toArray());
 
 		// create a sub network from the original AclfNetwork object, based
 		// on the bus ids and branch ids in the graph object
