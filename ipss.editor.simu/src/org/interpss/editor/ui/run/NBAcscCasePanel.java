@@ -33,9 +33,10 @@ import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.AcscFaultDataType;
-import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.AcscFaultDataType;
+import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.BusAcscInitVoltDataType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -100,7 +101,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
             branchFaultRadioButtonActionPerformed(null);
         }
 		
-        if (xmlCaseData.getBusAcscInitVolt() == AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT) {
+        if (xmlCaseData.getBusAcscInitVolt() == BusAcscInitVoltDataType.UNIT_VOLT) {
             this.fixedVoltRadioButton.setSelected(true);
             this.mFactorLabel.setEnabled(true);
             this.mFactorTextField.setEnabled(true);
@@ -129,7 +130,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BRANCH_FAULT);
 			
 		if (this.fixedVoltRadioButton.isSelected()) {
-			xmlCaseData.setBusAcscInitVolt(AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT);
+			xmlCaseData.setBusAcscInitVolt(BusAcscInitVoltDataType.UNIT_VOLT);
 			if (!SwingInputVerifyUtil.largeThan(this.mFactorTextField, 50.0d) || 
 				 SwingInputVerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
 				errMsg.add("Prefault bus voltage multiplying factor out of range < 50% or > 150%");
@@ -137,7 +138,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 			xmlCaseData.setMultiFactor(SwingInputVerifyUtil.getDouble(this.mFactorTextField));
 	    }
 	    else
-	    	xmlCaseData.setBusAcscInitVolt(AcscStudyCaseXmlType.BusAcscInitVolt.LOADFLOW_VOLT);
+	    	xmlCaseData.setBusAcscInitVolt(BusAcscInitVoltDataType.LOADFLOW_VOLT);
 
         _faultLocDataPanel.saveEditor2Form(errMsg);
 

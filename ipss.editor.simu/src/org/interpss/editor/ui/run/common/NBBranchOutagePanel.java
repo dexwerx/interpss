@@ -29,9 +29,9 @@ import java.util.Vector;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.AcscFaultCategoryDataType;
-import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.AcscFaultCategoryDataType;
+import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -44,7 +44,7 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     private SimuContext _simuCtx = null;	
 	//private DStabDEventData _eventData = null;  // current event data
 	
-	private DStabStudyCaseXmlType.DynamicEventData.EventList.Event xmlEventData = null;  // current event data
+	private DynamicEventXmlType xmlEventData = null;  // current event data
 
 	/** Creates new form FaultLocDataPanel */
     public NBBranchOutagePanel() {
@@ -73,7 +73,7 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     	}
 	}
 	
-	public void setDStabDEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event data) {
+	public void setDStabDEventData(DynamicEventXmlType data) {
 		xmlEventData = data;
 	}
 	

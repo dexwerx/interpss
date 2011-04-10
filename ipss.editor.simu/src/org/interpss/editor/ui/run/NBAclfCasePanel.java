@@ -37,9 +37,10 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.GridComputingXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.AclfAlgorithmXmlType;
+import org.interpss.xml.schema.AclfMethodDataType;
+import org.interpss.xml.schema.GridComputingXmlType;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
@@ -226,12 +227,14 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
      
-    	if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR)
+    	if (xmlCaseData.getLfMethod() == AclfMethodDataType.NR)
         	this.nrRadioButton.setSelected(true);
-    	else if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ)
+    	else if (xmlCaseData.getLfMethod() == AclfMethodDataType.PQ)
         	this.pqRadioButton.setSelected(true);
-    	if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
+    	else if (xmlCaseData.getLfMethod() == AclfMethodDataType.GS)
         	this.gsRadioButton.setSelected(true);
+    	else if (xmlCaseData.getLfMethod() == AclfMethodDataType.CUSTOM)
+        	this.customRadioButton.setSelected(true);
     	
     	//this.nonDivergeCheckBox.setEnabled(xmlCaseData.getNonDivergent());
 
@@ -240,9 +243,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
         this.errKVATextField.setText(Number2String.toStr(xmlCaseData.getTolerance()*baseKva, "#0.####"));
         this.maxItrTextField.setText(new Integer(xmlCaseData.getMaxIterations()).toString());
-        this.nonDivergeCheckBox.setSelected(xmlCaseData.getNonDivergent());
-        this.initVoltCheckBox.setSelected(xmlCaseData.getInitBusVoltage());
-		this.lfSummaryCheckBox.setSelected(xmlCaseData.getDisplaySummary());
+        this.nonDivergeCheckBox.setSelected(xmlCaseData.isNonDivergent());
+        this.initVoltCheckBox.setSelected(xmlCaseData.isInitBusVoltage());
+		this.lfSummaryCheckBox.setSelected(xmlCaseData.isDisplaySummary());
 		
 		if (gridComputing)
 			gridPanel.setForm2Editor();
@@ -260,19 +263,21 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
 
         if (this.nrRadioButton.isSelected())
-        	xmlCaseData.setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
+        	xmlCaseData.setLfMethod(AclfMethodDataType.NR);
         else if (this.pqRadioButton.isSelected())
-        	xmlCaseData.setLfMethod(AclfAlgorithmXmlType.LfMethod.PQ);
-        else 
-        	xmlCaseData.setLfMethod(AclfAlgorithmXmlType.LfMethod.GS);
-
+        	xmlCaseData.setLfMethod(AclfMethodDataType.PQ);
+        else if (this.gsRadioButton.isSelected())
+        	xmlCaseData.setLfMethod(AclfMethodDataType.GS);
+        else
+        	xmlCaseData.setLfMethod(AclfMethodDataType.CUSTOM);
+        
         if (SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
         	xmlCaseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
 
         if (SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
         	xmlCaseData.setMaxIterations(SwingInputVerifyUtil.getInt(this.maxItrTextField));
 
-        if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
+        if (xmlCaseData.getLfMethod() == AclfMethodDataType.GS)
         	if (SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
         		xmlCaseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
@@ -302,6 +307,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         nrRadioButton = new javax.swing.JRadioButton();
         pqRadioButton = new javax.swing.JRadioButton();
         gsRadioButton = new javax.swing.JRadioButton();
+        customRadioButton = new javax.swing.JRadioButton();
         paramPanel = new javax.swing.JPanel();
         toleranceLabel = new javax.swing.JLabel();
         errPUTextField = new javax.swing.JTextField();
@@ -414,6 +420,18 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         methodPanel.add(gsRadioButton);
 
+        methodButtonGroup.add(customRadioButton);
+        customRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        customRadioButton.setText("Custom");
+        customRadioButton.setToolTipText("run Custom Loadflow");
+        customRadioButton.setName("customRadioButton"); // NOI18N
+        customRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customRadioButtonActionPerformed(evt);
+            }
+        });
+        methodPanel.add(customRadioButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
@@ -458,7 +476,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         paramPanel.add(errKVAUnitLabel, gridBagConstraints);
 
-        maxItrLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        maxItrLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         maxItrLabel.setText("Max Iterations");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -475,7 +493,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         paramPanel.add(maxItrTextField, gridBagConstraints);
 
-        accFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        accFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         accFactorLabel.setText("GS Acc Factor");
         accFactorLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -494,7 +512,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         paramPanel.add(accFactorTextField, gridBagConstraints);
 
-        nonDivergeCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        nonDivergeCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         nonDivergeCheckBox.setSelected(true);
         nonDivergeCheckBox.setText("Non-divergent");
         nonDivergeCheckBox.setName("initVoltCheckBox"); // NOI18N
@@ -1116,6 +1134,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed
+
+    private void customRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customRadioButtonActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1123,6 +1145,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private javax.swing.JTextField accFactorTextField;
     private javax.swing.JPanel advancedPanel;
     private javax.swing.JPanel controlPanel;
+    private javax.swing.JRadioButton customRadioButton;
     private javax.swing.JButton detailsButton;
     private javax.swing.JTextField errKVATextField;
     private javax.swing.JLabel errKVAUnitLabel;

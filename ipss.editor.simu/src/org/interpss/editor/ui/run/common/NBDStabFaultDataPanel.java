@@ -28,8 +28,9 @@ import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -39,7 +40,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 	private NBFaultLocDataPanel _faultLocDataPanel = new NBFaultLocDataPanel();
 
 //	private DStabDEventData _eventData = null;  // current event data
-    private DStabStudyCaseXmlType.DynamicEventData.EventList.Event xmlEventData;
+    private DynamicEventXmlType xmlEventData;
 	
     /** Creates new form FaultLocDataPanel */
     public NBDStabFaultDataPanel() {
@@ -64,7 +65,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 	}
 	*/
 	
-	public void setDStabDEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event xmlEventData) {
+	public void setDStabDEventData(DynamicEventXmlType xmlEventData) {
 		this.xmlEventData = xmlEventData;
 		_faultLocDataPanel.setFaultData(xmlEventData.getFault());
 	}
@@ -82,7 +83,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
     public boolean setForm2Editor() {
     	stratTimeTextField.setText(Number2String.toStr(this.xmlEventData.getStartTimeSec(), "#0.0#"));
 
-       	if (this.xmlEventData.getPermanent()) {
+       	if (this.xmlEventData.isPermanent()) {
            	permanetCheckBox.setSelected(true);
         }
         else {

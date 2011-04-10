@@ -29,8 +29,10 @@ import java.util.Vector;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.DynamicLoadChangeDataType;
+import org.interpss.xml.schema.DynamicLoadChangeXmlType;
+import org.interpss.xml.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -46,7 +48,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 
 	private GFormContainer _netContainer = null;
 	private SimuContext    _simuCtx = null;
-	private LoadChangeData xmlLoadChangeData = null;
+	private DynamicLoadChangeXmlType xmlLoadChangeData = null;
 	
     /** Creates new form FaultLocDataPanel */
     public NBDStabLoadChangePanel() {
@@ -70,7 +72,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     				SimuCtxUtilFunc.getLoadBusNameIdArray(_simuCtx)));
 	}
 	
-	public void setLoadChangeData(LoadChangeData data) {
+	public void setLoadChangeData(DynamicLoadChangeXmlType data) {
 		xmlLoadChangeData = data;
 	}
 	
@@ -91,12 +93,12 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
         
        	changeFactorTextField.setText(Number2String.toStr(xmlLoadChangeData.getChangeFactor(), "#0.0"));   
 
-       	if (xmlLoadChangeData.getLoadChangeType() == LoadChangeData.LoadChangeType.LOW_FREQUENCY) {
+       	if (xmlLoadChangeData.getLoadChangeType() == DynamicLoadChangeDataType.LOW_FREQUENCY) {
        		lowfreqRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(xmlLoadChangeData.getThreshhold(), "#0.000"));   
            	delaySecTextField.setText(Number2String.toStr(xmlLoadChangeData.getDelayTime(), "#0.000"));   
        	}
-       	else if (xmlLoadChangeData.getLoadChangeType() == LoadChangeData.LoadChangeType.LOW_VOLTAGE) {
+       	else if (xmlLoadChangeData.getLoadChangeType() == DynamicLoadChangeDataType.LOW_VOLTAGE) {
        		lowVoltRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(xmlLoadChangeData.getThreshhold(), "#0.000"));   
            	delaySecTextField.setText(Number2String.toStr(xmlLoadChangeData.getDelayTime(), "#0.000"));   
@@ -127,7 +129,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 		}
 
        	if (lowfreqRadioButton.isSelected()) {
-       		xmlLoadChangeData.setLoadChangeType(LoadChangeData.LoadChangeType.LOW_FREQUENCY);
+       		xmlLoadChangeData.setLoadChangeType(DynamicLoadChangeDataType.LOW_FREQUENCY);
 			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
 					errMsg, "Load change freq < 0.0"))
 				xmlLoadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
@@ -136,7 +138,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 				xmlLoadChangeData.setDelayTime(SwingInputVerifyUtil.getDouble(this.delaySecTextField));
        	}
        	else if (lowVoltRadioButton.isSelected()) {
-       		xmlLoadChangeData.setLoadChangeType(LoadChangeData.LoadChangeType.LOW_VOLTAGE);
+       		xmlLoadChangeData.setLoadChangeType(DynamicLoadChangeDataType.LOW_VOLTAGE);
 			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
 					errMsg, "Load change voltage < 0.0"))
 				xmlLoadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
@@ -145,7 +147,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 				xmlLoadChangeData.setDelayTime(SwingInputVerifyUtil.getDouble(this.delaySecTextField));
        	}
        	else {
-       		xmlLoadChangeData.setLoadChangeType(LoadChangeData.LoadChangeType.FIXED_TIME);
+       		xmlLoadChangeData.setLoadChangeType(DynamicLoadChangeDataType.FIXED_TIME);
 			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
 					errMsg, "Load change time < 0.0"))
 				xmlLoadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));

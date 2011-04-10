@@ -37,10 +37,10 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
-import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.InterPSSXmlType;
+import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;

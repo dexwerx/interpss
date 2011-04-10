@@ -36,11 +36,11 @@ import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.DynamicEventDataType;
-import org.interpss.schema.GridComputingXmlType;
-import org.interpss.schema.MachineControllerDataType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.DynamicEventDataType;
+import org.interpss.xml.schema.GridComputingXmlType;
+import org.interpss.xml.schema.MachineControllerDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -163,7 +163,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private void setOutputVarList() {
     	if (this.netContainer != null) {
     		outputVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableNameArray()));
+    			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().toArray()));
     	}
     }
 

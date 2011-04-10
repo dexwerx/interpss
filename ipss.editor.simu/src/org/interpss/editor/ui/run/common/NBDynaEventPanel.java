@@ -31,12 +31,13 @@ import javax.swing.JDialog;
 import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.schema.AcscFaultDataType;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.DynamicEventDataType;
-import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
+import org.interpss.xml.schema.AcscFaultDataType;
+import org.interpss.xml.schema.DStabStudyCaseXmlType;
+import org.interpss.xml.schema.DynamicEventDataType;
+import org.interpss.xml.schema.DynamicEventDataXmlType;
+import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -51,8 +52,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 //	private DStabCaseData   _caseData = null;   // current case data
 //	private DStabDEventData _eventData = null;  // current event data
 	
-    private DynamicEventData xmlEventData;
-    private DynamicEventData.EventList.Event currentEvent;  // pointer to the current event being edited
+    private DynamicEventDataXmlType xmlEventData;
+    private DynamicEventXmlType currentEvent;  // pointer to the current event being edited
     
 	private JDialog parentDialog = null;
 
@@ -71,7 +72,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	    _branchOutagePanel.init(netContainer, simuCtx);
     }
 
-    public void setCaseData(DStabStudyCaseXmlType.DynamicEventData data) {
+    public void setCaseData(DynamicEventDataXmlType data) {
     	xmlEventData = data;
     	// This panel does not remember the event name lastly edited, it starts with
     	// the first event in the list. The getAnyEventData method creates a new event if no exiting event
@@ -83,7 +84,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		setCurrentEventData(this.currentEvent);
     }
     
-    private DStabStudyCaseXmlType.DynamicEventData.EventList.Event getFirstEvent(DStabStudyCaseXmlType.DynamicEventData data) {
+    private DynamicEventXmlType getFirstEvent(DynamicEventDataXmlType data) {
     	if (data.getEventList().getEventArray().length == 0) {
     		DStabStudyCaseXmlType.DynamicEventData.EventList.Event event = data.getEventList().addNewEvent();
     		StudyCaseHanlder.setDefaultEventData(event);
@@ -91,7 +92,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     	return  data.getEventList().getEventArray(0);
     }
     
-    private void setCurrentEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event eventData) {
+    private void setCurrentEventData(DynamicEventXmlType eventData) {
 		// update the event data editing screen
         eventInputPanel.removeAll();
         if (eventData.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
@@ -358,19 +359,19 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
     private void deleteEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEventButtonActionPerformed
     	int cnt = 0, index = -1;
-    	for (DynamicEventData.EventList.Event event: this.xmlEventData.getEventList().getEventArray()) {
+    	for (DynamicEventXmlType event: this.xmlEventData.getEventList().getEvent()) {
     		if (event.getRecName().equals(this.currentEvent.getRecName()))
     			index = cnt;
     		cnt++;		
     	}
     	if (index != -1)
-    		this.xmlEventData.getEventList().removeEvent(index);
+    		this.xmlEventData.getEventList().getEvent().remove(index);
     	
 		// if no event left, a new event will be created by the getAnyEventData() call
     	this.currentEvent = getFirstEvent(this.xmlEventData);
 		// update the event name list combo box
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEvent().toArray())));
 		// update the event data screen
 		setForm2Editor();
     }//GEN-LAST:event_deleteEventButtonActionPerformed
@@ -409,7 +410,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
     private void eventListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventListComboBoxActionPerformed
 		String eventName = (String)this.eventListComboBox.getSelectedItem();
-		DynamicEventData.EventList.Event event = (DynamicEventData.EventList.Event)IpssXmlUtilFunc
+		DynamicEventXmlType event = (DynamicEventXmlType)IpssXmlUtilFunc
 					.getRecordByName(eventName, this.xmlEventData.getEventList().getEventArray());
     	if (event != null)        // event list selection changed
     		this.currentEvent = event;       

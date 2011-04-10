@@ -34,13 +34,13 @@ import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.schema.AreaRecXmlType;
-import org.interpss.schema.AreaTransferAnalysisXmlType;
-import org.interpss.schema.BranchRecXmlType;
-import org.interpss.schema.SenAnalysisBusRecXmlType;
-import org.interpss.schema.TradingStudyCaseXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
+import org.interpss.xml.schema.AreaRecXmlType;
+import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
+import org.interpss.xml.schema.BranchRecXmlType;
+import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
+import org.interpss.xml.schema.TradingStudyCaseXmlType;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;

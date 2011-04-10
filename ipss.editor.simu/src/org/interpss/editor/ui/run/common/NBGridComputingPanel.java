@@ -28,8 +28,8 @@ import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.schema.GridComputingXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.GridComputingXmlType;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -92,9 +92,9 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
 
 		if (this.xmlGridOpt != null) {
 			this.xmlGridOpt.setEnableGridRun(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
-	        if (this.xmlGridOpt.getEnableGridRun()) {
+	        if (this.xmlGridOpt.isEnableGridRun()) {
 	        	this.xmlGridOpt.setRemoteNodeName((String)selectGridNodeComboBox.getSelectedItem());
-	        	this.xmlGridOpt.setTimeout(SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
+	        	this.xmlGridOpt.setTimeout((long)SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
 	        }
 		}
 

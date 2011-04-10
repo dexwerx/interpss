@@ -29,10 +29,11 @@ import java.util.Vector;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.schema.AcscFaultCategoryDataType;
-import org.interpss.schema.AcscFaultDataType;
-import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.IpssXmlDataSetter;
+import org.interpss.xml.schema.AcscFaultCategoryDataType;
+import org.interpss.xml.schema.AcscFaultDataType;
+import org.interpss.xml.schema.AcscFaultXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -89,14 +90,10 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 	public void setFaultData(AcscFaultXmlType data) {
 		this.xmlFaultData = data;
 		if (xmlFaultData.getZLG() == null) {
-			xmlFaultData.addNewZLG();
-			xmlFaultData.getZLG().setRe(0.0);
-			xmlFaultData.getZLG().setIm(0.0);
+			xmlFaultData.setZLG(IpssXmlDataSetter.createComplexXmlType(0.0, 0.0));
 		}
 		if (xmlFaultData.getZLL() == null) {
-			xmlFaultData.addNewZLL();
-			xmlFaultData.getZLL().setRe(0.0);
-			xmlFaultData.getZLL().setIm(0.0);
+			xmlFaultData.setZLL(IpssXmlDataSetter.createComplexXmlType(0.0, 0.0));
 		}
         setBusBranchFaultPanel();
 	}
@@ -145,7 +142,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
 
-	    reclosureCheckBox.setSelected(xmlFaultData.getBranchReclosure());		
+	    reclosureCheckBox.setSelected(xmlFaultData.isBranchReclosure());		
         branchReclosureCheckboxActionPerformed(null);
 	    atReclosureTimeTextField.setText(Number2String.toStr(xmlFaultData.getReclosureTime(), "0.00"));
 
