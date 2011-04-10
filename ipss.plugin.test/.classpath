@@ -24,12 +24,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.native"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.shema"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
