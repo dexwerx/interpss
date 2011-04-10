@@ -22,8 +22,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Derby"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-beanutils.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-codec-1.3.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-collections.jar"/>

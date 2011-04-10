@@ -36,9 +36,10 @@ import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.GridRunner;
 import org.interpss.output.IOutputSimuResult;
-import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.AnalysisRunDataType;
+import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -137,22 +138,22 @@ public class CmdLineRunner {
 
 			RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 			GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
-					&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
-			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
+					&& xmlStudyCase.getGridRunOption().isRemoteNodeDebug();
+			if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF) {
 				runType = SimuRunEnum.Aclf;
-				return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
+				return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfNet(),
 						msg);
-			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
+			} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_DCLF) {
 				runType = SimuRunEnum.Dclf;
-				return XmlScriptDclfRun.runDclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
+				return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
 						msg);
-			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
+			} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACSC) {
 				runType = SimuRunEnum.Acsc;
-				return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscNet(),
+				return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscNet(),
 						msg);
-			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
+			} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_D_STAB) {
 				runType = SimuRunEnum.DStab;
-				return XmlScriptDStabRun.runDStab(parser.getRootDoc().getInterPSS(), simuCtx, msg);
+				return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
 			}
 			return true;			
 		}
