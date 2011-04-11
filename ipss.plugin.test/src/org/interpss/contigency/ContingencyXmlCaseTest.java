@@ -141,7 +141,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
-			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9, msg);
+			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9);
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory
 	  				.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);

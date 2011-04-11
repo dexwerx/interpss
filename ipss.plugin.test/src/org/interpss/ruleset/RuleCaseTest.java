@@ -160,16 +160,16 @@ public class RuleCaseTest extends PluginTestSetup {
 	  	assertTrue(ruleSet.getPreventiveRuleList().getPreventiveRule().size() == 2);
 	  	PreventiveRuleXmlType rule1 = ruleSet.getPreventiveRuleList().getPreventiveRule().get(0);
 	  	ViolationConditionXmlType cond = rule1.getCondition();
-	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBranchCondition(cond, net, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBranchCondition(cond, net));
 
 	  	PreventiveRuleXmlType rule2 = ruleSet.getPreventiveRuleList().getPreventiveRule().get(1);
 	  	cond = rule2.getCondition();
-	  	assertTrue(!PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 0.8, msg));
+	  	assertTrue(!PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 0.8));
 	  	// volatge at 0003 1.01
-	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.0, 0.8, msg));
-	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 1.05, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.0, 0.8));
+	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 1.05));
 
-	  	assertTrue(PreventiveRuleHanlder.applyRuleSet(net, parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
+	  	assertTrue(PreventiveRuleHanlder.applyRuleSet(net, parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8));
 	  	assertTrue(!net.getAclfBranch("0010->0009(1)").isActive());
 	  	
 	}		

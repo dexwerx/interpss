@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ipss:InterPSS xmlns:ipss="http://www.interpss.org/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
+	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml.shema/schema/InterPSS.xsd ">
 	<ipss:modification>
 		<ipss:busChangeRecList>
 			<ipss:busChangeRec>
