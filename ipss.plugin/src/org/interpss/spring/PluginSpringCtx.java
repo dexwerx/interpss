@@ -56,7 +56,6 @@ import com.interpss.core.net.Network;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class PluginSpringCtx extends BasePluginSpringCtx {
 	/**
@@ -219,7 +218,7 @@ public class PluginSpringCtx extends BasePluginSpringCtx {
 	@SuppressWarnings("unchecked")
 	public static IMapping<ModificationXmlType, Network> getModXml2NetMapper() {
 		if (SpringAppCtx == null) // for grid computing
-			return new XmlNetParamModifier(CoreCommonSpringCtx.getIpssMsgHub());
+			return new XmlNetParamModifier();
 		return (IMapping<ModificationXmlType, Network>) SpringAppCtx.getBean("modification2NetMapper");
 	}
 	

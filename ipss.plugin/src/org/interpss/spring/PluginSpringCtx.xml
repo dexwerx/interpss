@@ -52,9 +52,6 @@
 	<bean id="modification2NetMapper" 
 	      class="org.interpss.xml.XmlNetParamModifier"
 	      scope="singleton">	
-	      <constructor-arg>
-	  			<ref bean="ipssMsgHub"/>
-	  	  </constructor-arg>	      
 	</bean>		
 
 <!--
