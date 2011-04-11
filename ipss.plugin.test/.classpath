@@ -30,6 +30,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.native"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.shema"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.schema"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
