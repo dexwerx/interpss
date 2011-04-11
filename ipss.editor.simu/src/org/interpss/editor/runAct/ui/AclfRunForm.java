@@ -84,12 +84,11 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				Grid grid = GridUtil.getDefaultGrid();
 				String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
 				DStabSingleJobTask.RemoteNodeId = nodeId;
-				GridRunner.MasterNodeId = grid.getLocalNode()
-						.getId().toString();
+				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 				try {
 					RemoteMessageTable result = new GridRunner(
-							grid, "InterPSS Grid Aclf Calculation", simuCtx
-									.getLoadflowAlgorithm()).executeTask(this.xmlGridOpt.getTimeout());
+							grid, "InterPSS Grid Aclf Calculation", simuCtx.getLoadflowAlgorithm())
+							.executeTask(this.xmlGridOpt.getTimeout());
 					String str = result.getSerializedAclfNet();
 					AclfNetwork adjNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 					adjNet.rebuildLookupTable();

@@ -33,6 +33,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.grid.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.shema"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
