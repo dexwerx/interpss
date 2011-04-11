@@ -131,7 +131,7 @@ public class XmlScriptAclfRun {
 						algo.loadflow();
 						if (applyRuleBase) {
 							RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
-							PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
+							PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit);
 						}
 						studyCase.setDesc("Loadflow by Local Node");
 						studyCase.setRemoteReturnStatus(true);
@@ -204,7 +204,7 @@ public class XmlScriptAclfRun {
 		} else {
 			algo.loadflow();
 			if (applyRuleBase) {
-				PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
+				PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit);
 			}
 		}
 
