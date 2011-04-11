@@ -93,7 +93,7 @@
      	  		excludes="CVS/**,model/**" />	
 
     	<jar destfile="${lib_ipss}/ipss_xml.jar" 
-   	  		basedir="${dev_base}/ipss.xml.schema/runtime" 
+   	  		basedir="${dev_base}/ipss.xml.shema/runtime" 
    	  		excludes="CVS/**,model/**" />	
     	
    	  	<jar destfile="${lib_ipss}/ipss_editor_ui.jar" 
