@@ -25,20 +25,26 @@
 package org.interpss.editor.runAct.xml;
 
 import org.interpss.spring.PluginSpringCtx;
-import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.RuleBaseXmlType;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.mapper.RuleBase2ModelMapper;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public class XmlScriptUtilFunc {
 	public static void mapRuleBase(boolean applyRuleBase, MultiStudyCase mscase, RuleBaseXmlType ruleBase) {
 		mscase.getRuleBase().setApplyRuleBase(applyRuleBase);
 		if (ruleBase != null)
-			mscase.getRuleBase().setRuleBaseXmlString(new IpssXmlParser().toString(ruleBase));
+			try {
+			mscase.setRuleBase(new RuleBase2ModelMapper().map2Model(ruleBase));
+			} catch (InterpssException e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}
 	}
 	
 	public static boolean mapAclfStudyCase(AclfStudyCaseXmlType xmlCase, 

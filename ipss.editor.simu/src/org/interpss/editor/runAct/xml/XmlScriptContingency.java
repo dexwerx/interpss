@@ -34,7 +34,6 @@ import org.interpss.gridgain.msg.RemoteMessageTable;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.GridUtil;
-import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -44,9 +43,9 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -105,8 +104,7 @@ public class XmlScriptContingency {
 				studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 				if (xmlCase.getModification() != null) {
 					// persist modification to be sent to the remote grid node
-					studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
-					studyCase.setModStringType(RemoteMessageType.IPSS_XML);
+					studyCase.setModification(new Modification2ModelMapper().map2Model(xmlCase.getModification()));
 				}
 				studyCase.setId(xmlCase.getRecId());
 				if (xmlCase.getRecName() != null)
