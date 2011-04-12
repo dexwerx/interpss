@@ -45,10 +45,10 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
-import org.interpss.mapper.IMapping;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
+import com.interpss.common.mapper.IMapping;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
