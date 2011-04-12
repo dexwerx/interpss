@@ -85,16 +85,8 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 			// if Grid computing, save the Algo object to the study case object
 			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
-			// define modification to the case
-			AclfStudyCaseXmlType xmlCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();
-			xmlCase.setModification(IpssXmlParser.getFactory().createModificationXmlType());
-			// define modification
-			
-			if (xmlCase.getModification() != null) {
-				// persist modification to be sent to the remote grid node
-				studyCase.setModification(new Modification2ModelMapper().map2Model(xmlCase.getModification()));
-				//studyCase.setModStringType(RemoteMessageType.IPSS_XML);
-			} 
+			// persist modification to be sent to the remote grid node
+			studyCase.setModification(SimuObjectFactory.createModification());
 		}
 
 		/*

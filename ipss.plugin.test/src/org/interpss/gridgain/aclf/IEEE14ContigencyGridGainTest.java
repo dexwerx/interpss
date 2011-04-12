@@ -87,21 +87,6 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 			// if Grid computing, save the Algo object to the study case object
 			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
-			/*
-			// define modification to the case
-			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
-			ModificationXmlType mod = xmlCase.addNewModification();
-			BranchChangeRecXmlType branchChange = mod.addNewBranchChangeRecList().addNewBranchChangeRec();
-			branchChange.setFromBusId(branch.getFromBus().getId());
-			branchChange.setToBusId(branch.getToBus().getId());
-			branchChange.setCircuitNumber(branch.getCircuitNumber());
-			branchChange.setOffLine(true);
-			
-			// persist modification to be sent to the remote grid node
-			studyCase.setModificationString(xmlCase.getModification().xmlText());
-			studyCase.setModStringType(RemoteMessageType.IPSS_XML);
-			*/
-			
 			BranchModification braMod = SimuObjectFactory.createBranchModification(
 					branch.getFromBus().getId(), 
 					branch.getToBus().getId(), 
@@ -150,7 +135,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
     	*/	
 	}	
 
-	@Test
+	//@Test
 	public void AlgoXmlCaseTest() throws Exception {
 		/*
 		 * step-1 Build the base case

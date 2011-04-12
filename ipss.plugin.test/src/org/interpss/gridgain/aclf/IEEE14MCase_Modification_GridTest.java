@@ -57,7 +57,7 @@ import com.interpss.simu.multicase.modify.BranchModification;
 import com.interpss.simu.multicase.modify.Modification;
 
 public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
-	//@Test
+	@Test
 	public void AlgoEMFModificationCaseTest() throws Exception {
 		/*
 		 * step-1 Build the base case
@@ -147,7 +147,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
     	}	
 	}	
 
-	@Test
+	//@Test
 	public void AlgoXmlModificationCaseTest() throws Exception {
 		/*
 		 * step-1 Build the base case

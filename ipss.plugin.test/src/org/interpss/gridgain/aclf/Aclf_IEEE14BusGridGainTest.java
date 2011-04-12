@@ -1,5 +1,5 @@
  /*
-  * @(#)DStab_5BusGridGainTest.java   
+  * @(#)Aclf_IEEE14BusGridGainTest.java   
   *
   * Copyright (C) 2007 www.interpss.org
   *
