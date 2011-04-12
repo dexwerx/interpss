@@ -25,7 +25,6 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.editor.data.dstab.DStabDEventData;
-import org.interpss.mapper.AbstractMapping;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 import org.interpss.xml.schema.AcscFaultDataType;
@@ -42,6 +41,7 @@ import org.interpss.xml.schema.ValueChangeDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;

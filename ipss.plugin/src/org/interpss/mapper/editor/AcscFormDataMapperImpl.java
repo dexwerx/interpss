@@ -37,7 +37,6 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
-import org.interpss.mapper.AbstractMapping;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.util.MemoryJavaCompiler;
 
@@ -45,6 +44,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;

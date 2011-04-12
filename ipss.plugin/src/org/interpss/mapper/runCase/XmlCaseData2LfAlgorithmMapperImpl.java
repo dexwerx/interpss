@@ -24,11 +24,11 @@
 
 package org.interpss.mapper.runCase;
 
-import org.interpss.mapper.AbstractMapping;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
 import org.interpss.xml.schema.UnitDataType;
 
+import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
