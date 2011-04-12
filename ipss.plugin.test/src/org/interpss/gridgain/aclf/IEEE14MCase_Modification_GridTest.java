@@ -45,10 +45,10 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
@@ -57,7 +57,7 @@ import com.interpss.simu.multicase.modify.BranchModification;
 import com.interpss.simu.multicase.modify.Modification;
 
 public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
-	@Test
+	//@Test
 	public void AlgoEMFModificationCaseTest() throws Exception {
 		/*
 		 * step-1 Build the base case
@@ -173,29 +173,33 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		// save the base case Network model to the netStr
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(net));
 
+		// define modification to the case
+		AclfStudyCaseXmlType xmlCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();
+		ModificationXmlType mod = IpssXmlParser.getFactory().createModificationXmlType();
+		xmlCase.setModification(mod);
+		// define modification
+		mod.setBranchChangeRecList(IpssXmlParser.getFactory().createModificationXmlTypeBranchChangeRecList());
+		BranchChangeRecXmlType branchChange = IpssXmlParser.getFactory().createBranchChangeRecXmlType(); 
+		mod.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
+		branchChange.setFromBusId("0005");
+		branchChange.setToBusId("0006");
+		branchChange.setCircuitNumber("1");
+		branchChange.setOffLine(true);
+
+		//String str = new IpssXmlParser().toString(xmlCase.getModification());
+		//ModificationXmlType mod1 = new IpssXmlParser().parserModification(str);  
+		//System.out.println("---->" + new IpssXmlParser().toString(mod1));
+		
 		for (int caseNo = 1; caseNo <= 10; caseNo++) {
 			AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase("caseId"+caseNo, 
 					"caseName", caseNo, mCaseContainer);
 			// if Grid computing, save the Algo object to the study case object
 			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
-			// define modification to the case
-			AclfStudyCaseXmlType xmlCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();
-			ModificationXmlType mod = IpssXmlParser.getFactory().createModificationXmlType();
-			xmlCase.setModification(mod);
-			// define modification
-			mod.setBranchChangeRecList(IpssXmlParser.getFactory().createModificationXmlTypeBranchChangeRecList());
-			BranchChangeRecXmlType branchChange = IpssXmlParser.getFactory().createBranchChangeRecXmlType(); 
-			mod.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
-			branchChange.setFromBusId("0005");
-			branchChange.setToBusId("0006");
-			branchChange.setCircuitNumber("1");
-			branchChange.setOffLine(true);
-			
 			if (xmlCase.getModification() != null) {
 				// persist modification to be sent to the remote grid node
-				studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
-				studyCase.setModStringType(RemoteMessageType.IPSS_XML);
+				studyCase.setModification(new Modification2ModelMapper().map2Model(xmlCase.getModification()));
+				//studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 			} 
 		}
 
@@ -215,6 +219,8 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		try {
 			Grid grid = GridUtil.getDefaultGrid();
 			long timeout = 0;
+			//GridRunner.RemoteNodeDebug = true;
+			//IpssLogger.getLogger().setLevel(Level.INFO);
 			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Aclf Calculation", 
 						mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {

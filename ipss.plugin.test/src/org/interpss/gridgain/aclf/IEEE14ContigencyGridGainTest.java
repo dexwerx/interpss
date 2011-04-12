@@ -44,10 +44,10 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
+import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.modify.BranchModification;
@@ -196,8 +196,8 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 			branchChange.setOffLine(true);
 			
 			// persist modification to be sent to the remote grid node
-			studyCase.setModificationString(new IpssXmlParser().toString(xmlCase.getModification()));
-			studyCase.setModStringType(RemoteMessageType.IPSS_XML);
+			studyCase.setModification(new Modification2ModelMapper().map2Model(xmlCase.getModification()));
+			//studyCase.setModStringType(RemoteMessageType.IPSS_XML);
 		}
 
 		/**

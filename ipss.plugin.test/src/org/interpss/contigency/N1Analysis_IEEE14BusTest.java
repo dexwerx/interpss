@@ -27,10 +27,6 @@ package org.interpss.contigency;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.PluginTestSetup;
 import org.interpss.display.ContingencyOutFunc;
-import org.interpss.spring.PluginSpringCtx;
-import org.interpss.xml.IpssXmlHelper;
-import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -40,10 +36,10 @@ import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
+import com.interpss.simu.multicase.modify.BranchModification;
 
 public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 	@Test
@@ -84,9 +80,9 @@ public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 				String caseName = "Open Branch "+branch.getId();
 				AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, caseName, ++cnt, mscase);
 				
-				ModificationXmlType mod = IpssXmlHelper.createTurnOffBranchRec(branch);
-				scase.setModificationString(new IpssXmlParser().toString(mod));
-				scase.setModStringType(RemoteMessageType.IPSS_XML);
+			  	BranchModification braOutage = SimuObjectFactory.createBranchModification(branch);
+			  	braOutage.setOutService(true);
+				scase.setModification(SimuObjectFactory.createModification(braOutage));
 			}
 		}
 		
@@ -96,14 +92,9 @@ public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 	  	//IpssMapper mapper = new IpssXmlMapper();
 		while (!mscase.getStudyCaseList().isEmpty()) {
 			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfNetwork());
-			
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
-			
-			PluginSpringCtx.getModXml2NetMapper().map2Model(new IpssXmlParser()
-					.parserModification(scase.getModificationString()),	algo.getAclfNetwork());
-			
+			scase.getModification().apply(net, msg);
 			scase.runLoadflow(algo, mscase);
-	  		
 			recorder.endRecording().apply();
 		}
 		
