@@ -28,12 +28,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.interpss.grid.gridgain.GridRunner;
+import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
+import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.msg.GridMessageRouter;
+import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.gridgain.GridRunner;
-import org.interpss.gridgain.msg.GridMessageRouter;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.task.singleJob.DStabSingleJobTask;
-import org.interpss.gridgain.util.GridUtil;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;

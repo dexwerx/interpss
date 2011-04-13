@@ -27,7 +27,7 @@ package org.interpss.gridgain;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridUtil;
 import org.junit.Test;
 
 public class GridGainFuncTest extends PluginTestSetup {

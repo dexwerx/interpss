@@ -27,11 +27,11 @@ package org.interpss.gridgain.aclf;
 import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
+import org.interpss.grid.gridgain.GridRunner;
+import org.interpss.grid.gridgain.task.singleJob.AclfSingleJobTask;
+import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.gridgain.GridRunner;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.task.singleJob.AclfSingleJobTask;
-import org.interpss.gridgain.util.GridUtil;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.junit.Test;
 

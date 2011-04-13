@@ -24,15 +24,18 @@
 
 package org.interpss.gridgain.aclf;
 
+import static org.junit.Assert.assertTrue;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.interpss.grid.algo.GridContingencyAnalysis;
+import org.interpss.grid.gridgain.GridRunner;
+import org.interpss.grid.gridgain.job.ContingencyAnaysisJob;
+import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.msg.RemoteMessageTable;
+import org.interpss.grid.result.IRemoteResult;
+import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.gridgain.GridRunner;
-import org.interpss.gridgain.job.ContingencyAnaysisJob;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.result.IRemoteResult;
-import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.util.GridUtil;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.BranchChangeRecXmlType;
@@ -48,12 +51,65 @@ import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 import com.interpss.simu.multicase.modify.BranchModification;
 import com.interpss.simu.multicase.modify.Modification;
 
 public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
+	@Test
+	public void AlgoEMFCaseTest1() throws Exception {
+		/*
+		 * step-1 Build the base case
+		 */
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		
+		GridContingencyAnalysis analysis = new GridContingencyAnalysis(simuCtx.getAclfNet(), ContingencyAnalysisType.N1);
+		analysis.perform();
+
+		System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
+		System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
+		
+    	for (StudyCase scase : analysis.getMuitlCaseContainer().getStudyCaseList()) {
+    		if (scase.getNetModelString() != null) {
+    			AclfNetwork aclfNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			aclfNet.rebuildLookupTable();
+    			assertTrue(aclfNet.isLfConverged());
+    		}
+    	}
+	}
+	
+	@Test
+	public void AlgoEMFCaseTest2() throws Exception {
+		/*
+		 * step-1 Build the base case
+		 */
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		
+		AclfNetwork net = simuCtx.getAclfNet();
+		//System.out.println(net.net2String());	
+		
+		/*
+		 * step-2 Define LF algorithem
+		 */
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	//algo.setLfMethod(AclfMethod.PQ);
+
+		GridContingencyAnalysis analysis = new GridContingencyAnalysis(simuCtx.getAclfNet(), ContingencyAnalysisType.N1);
+		analysis.perform(algo);
+    	for (StudyCase scase : analysis.getMuitlCaseContainer().getStudyCaseList()) {
+    		if (scase.getNetModelString() != null) {
+    			AclfNetwork aclfNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			aclfNet.rebuildLookupTable();
+    			assertTrue(aclfNet.isLfConverged());
+    		}
+    	}
+	}
+
 	@Test
 	public void AlgoEMFCaseTest() throws Exception {
 		/*
@@ -64,7 +120,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		
 		AclfNetwork net = simuCtx.getAclfNet();
 		//System.out.println(net.net2String());	
-		// network id needs to be set. It is used for identification purpse
+		// network id needs to be set. It is used for identification purpose
 		net.setId("IEEE 14_Bus");
 		
 		/*
@@ -119,20 +175,17 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		//IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
 		//System.out.println(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, mCaseContainer).toString());
 		
-		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
-		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecViolation, mCaseContainer).toString());		
-		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecAssessment, mCaseContainer).toString());		
+//		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+//		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecViolation, mCaseContainer).toString());		
+//		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecAssessment, mCaseContainer).toString());		
 		
-		/*
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
-    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
     		if (scase.getNetModelString() != null) {
-    			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
-    			aclfAdjNet.rebuildLookupTable();
-    			assertTrue(aclfAdjNet.isLfConverged());
+    			AclfNetwork aclfNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			aclfNet.rebuildLookupTable();
+    			assertTrue(aclfNet.isLfConverged());
     		}
     	}
-    	*/	
 	}	
 
 	//@Test
