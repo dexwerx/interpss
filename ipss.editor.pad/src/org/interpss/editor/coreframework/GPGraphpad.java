@@ -70,7 +70,7 @@ import org.interpss.editor.swing.tabbedpane.DoubleClickListener;
 import org.interpss.editor.util.ICommandRegistery;
 import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridUtil;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.ui.IRefDataManager;
 import org.jgraph.JGraph;
