@@ -27,7 +27,7 @@ package org.interpss.editor.ui.run.common;
 import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridUtil;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.GridComputingXmlType;
 
