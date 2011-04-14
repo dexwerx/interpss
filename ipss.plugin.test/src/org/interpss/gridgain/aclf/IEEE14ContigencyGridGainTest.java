@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.interpss.grid.GridObjectFactory;
 import org.interpss.grid.algo.GridContingencyAnalysis;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.job.ContingencyAnaysisJob;
@@ -67,13 +68,13 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		GridContingencyAnalysis analysis = new GridContingencyAnalysis(simuCtx.getAclfNet(), ContingencyAnalysisType.N1);
-		analysis.perform();
+		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
+		analysis.perform(ContingencyAnalysisType.N1);
 
 		System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
 		System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 		
-    	for (StudyCase scase : analysis.getMuitlCaseContainer().getStudyCaseList()) {
+    	for (StudyCase scase : analysis.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
     			AclfNetwork aclfNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfNet.rebuildLookupTable();
@@ -99,9 +100,9 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
-		GridContingencyAnalysis analysis = new GridContingencyAnalysis(simuCtx.getAclfNet(), ContingencyAnalysisType.N1);
-		analysis.perform(algo);
-    	for (StudyCase scase : analysis.getMuitlCaseContainer().getStudyCaseList()) {
+		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
+		analysis.perform(algo, ContingencyAnalysisType.N1);
+    	for (StudyCase scase : analysis.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
     			AclfNetwork aclfNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfNet.rebuildLookupTable();
