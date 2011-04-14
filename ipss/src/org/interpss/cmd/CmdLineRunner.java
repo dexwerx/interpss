@@ -34,7 +34,7 @@ import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
-import org.interpss.gridgain.GridRunner;
+import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;

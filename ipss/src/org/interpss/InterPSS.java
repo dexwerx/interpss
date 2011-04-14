@@ -31,7 +31,7 @@ import org.interpss.cmd.CmdLineRunner;
 import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.editor.IpssPropertiesLoader;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridUtil;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.util.IpssLogger;
