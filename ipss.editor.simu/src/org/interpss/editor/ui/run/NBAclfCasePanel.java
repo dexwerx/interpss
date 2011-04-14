@@ -636,7 +636,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 50, 0);
         contingencyPanel.add(contingencyMethodPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
