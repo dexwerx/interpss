@@ -234,7 +234,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	this.xmlCaseAlgo = analysis.getDefaultAclfAlgorithm();
     	this.xmlAnalysus = analysis;
     	if (gridComputing)
-			gridLfPanel.setXmlCaseData(xmlGridOpt);
+    		gridContinPanel.setXmlCaseData(xmlGridOpt);
     }
 
     /**
@@ -265,8 +265,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         this.initVoltCheckBox.setSelected(xmlCaseAlgo.isInitBusVoltage());
 		this.lfSummaryCheckBox.setSelected(xmlCaseAlgo.isDisplaySummary());
 		
-		if (gridComputing)
+		if (gridComputing) {
 			gridLfPanel.setForm2Editor();
+			gridContinPanel.setForm2Editor();
+		}
 
 		return true;
 	}
@@ -612,8 +614,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.add(n1ContingencyRadioButton);
 
         contingencyButtonGroup.add(n11ContingencyRadioButton);
-        n11ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        n11ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         n11ContingencyRadioButton.setText("N-1-1");
+        n11ContingencyRadioButton.setEnabled(false);
         n11ContingencyRadioButton.setName("pqRadioButton"); // NOI18N
         n11ContingencyRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -625,6 +628,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyButtonGroup.add(n2ContingencyRadioButton);
         n2ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         n2ContingencyRadioButton.setText("N-2");
+        n2ContingencyRadioButton.setEnabled(false);
         n2ContingencyRadioButton.setName("gsRadioButton"); // NOI18N
         n2ContingencyRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

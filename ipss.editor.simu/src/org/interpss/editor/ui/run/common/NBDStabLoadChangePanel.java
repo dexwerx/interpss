@@ -35,7 +35,7 @@ import org.interpss.xml.schema.DynamicLoadChangeXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.util.SimuCtxUtilFunc;
+import com.interpss.simu.util.SimuCtxHelper;
 
 /**
  *
@@ -68,7 +68,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     				_netContainer.getLoadBusNameIdArray()));
     	else	
     		this.loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				SimuCtxUtilFunc.getLoadBusNameIdArray(_simuCtx)));
+    				SimuCtxHelper.getLoadBusNameIdArray(_simuCtx)));
 	}
 	
 	public void setLoadChangeData(DynamicLoadChangeXmlType data) {

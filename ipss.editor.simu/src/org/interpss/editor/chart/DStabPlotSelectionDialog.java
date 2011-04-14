@@ -43,7 +43,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.util.SimuCtxUtilFunc;
+import com.interpss.simu.util.SimuCtxHelper;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
@@ -1217,11 +1217,11 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 
 	private void allRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_allRadioButtonActionPerformed
 		IpssLogger.getLogger().info("all button clicked");
-		updateItemSelectList(simuCtx, SimuCtxUtilFunc.DStabElemType_All);
+		updateItemSelectList(simuCtx, SimuCtxHelper.DStabElemType_All);
 	}// GEN-LAST:event_allRadioButtonActionPerformed
 
 	private void updateItemSelectList(SimuContext aSimuCtx, int elemType) {
-		Object[] strList = SimuCtxUtilFunc.getDStabElemIdArray(aSimuCtx,
+		Object[] strList = SimuCtxHelper.getDStabElemIdArray(aSimuCtx,
 				elemType);
 		idItemList.clear();
 		for (Object obj : strList)
@@ -1323,28 +1323,28 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_branchDeviceRadioButtonActionPerformed
 		IpssLogger.getLogger().info("Branch device button clicked");
 		updateItemSelectList(simuCtx,
-				SimuCtxUtilFunc.DStabElemType_BranchDevice);
+				SimuCtxHelper.DStabElemType_BranchDevice);
 	}// GEN-LAST:event_branchDeviceRadioButtonActionPerformed
 
 	private void branchRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_branchRadioButtonActionPerformed
 		IpssLogger.getLogger().info("Branch button clicked");
-		updateItemSelectList(simuCtx, SimuCtxUtilFunc.DStabElemType_Branch);
+		updateItemSelectList(simuCtx, SimuCtxHelper.DStabElemType_Branch);
 	}// GEN-LAST:event_branchRadioButtonActionPerformed
 
 	private void busDeviceRadioButtonActionPerformed(
 			java.awt.event.ActionEvent evt) {// GEN-FIRST:event_busDeviceRadioButtonActionPerformed
 		IpssLogger.getLogger().info("Bus device button clicked");
-		updateItemSelectList(simuCtx, SimuCtxUtilFunc.DStabElemType_BusDevice);
+		updateItemSelectList(simuCtx, SimuCtxHelper.DStabElemType_BusDevice);
 	}// GEN-LAST:event_busDeviceRadioButtonActionPerformed
 
 	private void busRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_busRadioButtonActionPerformed
 		IpssLogger.getLogger().info("Bus button clicked");
-		updateItemSelectList(simuCtx, SimuCtxUtilFunc.DStabElemType_Bus);
+		updateItemSelectList(simuCtx, SimuCtxHelper.DStabElemType_Bus);
 	}// GEN-LAST:event_busRadioButtonActionPerformed
 
 	private void machRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_machRadioButtonActionPerformed
 		IpssLogger.getLogger().info("machine button clicked");
-		updateItemSelectList(simuCtx, SimuCtxUtilFunc.DStabElemType_Mach);
+		updateItemSelectList(simuCtx, SimuCtxHelper.DStabElemType_Mach);
 	}// GEN-LAST:event_machRadioButtonActionPerformed
 
 	private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_closeButtonActionPerformed

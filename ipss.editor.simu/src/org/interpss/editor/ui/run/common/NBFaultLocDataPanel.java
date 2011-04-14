@@ -37,7 +37,7 @@ import org.interpss.xml.schema.AcscFaultXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.util.SimuCtxUtilFunc;
+import com.interpss.simu.util.SimuCtxHelper;
 
 public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormDataPanel{
 	private static final long serialVersionUID = 1;
@@ -75,8 +75,8 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     			this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
     	}
     	else {
-    		this.faultBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxUtilFunc.getBusNameIdArray(_simuCtx)));
-    		Object[] branchNameId = SimuCtxUtilFunc.getBranchNameIdArrayNoXfr(_simuCtx);
+    		this.faultBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxHelper.getBusNameIdArray(_simuCtx)));
+    		Object[] branchNameId = SimuCtxHelper.getBranchNameIdArrayNoXfr(_simuCtx);
     		if (branchNameId.length > 0)
     			this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
     	}

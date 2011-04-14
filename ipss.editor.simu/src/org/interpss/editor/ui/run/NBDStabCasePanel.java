@@ -52,7 +52,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.util.SimuCtxUtilFunc;
+import com.interpss.simu.util.SimuCtxHelper;
 
 public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	public static String OutpuScriptTemplateFilename = "template/DStabOutputScriptTemplate.txt";
@@ -106,9 +106,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             machIdLargestInertia = this.netContainer.getMachIdLargestInertia();
     	}
     	else {
-            refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxUtilFunc.getMachIdArray(this.simuCtx)));
-            setPointMachineComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxUtilFunc.getMachIdArray(this.simuCtx)));
-            machIdLargestInertia = SimuCtxUtilFunc.getMachIdLargestInertia(this.simuCtx);
+            refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxHelper.getMachIdArray(this.simuCtx)));
+            setPointMachineComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxHelper.getMachIdArray(this.simuCtx)));
+            machIdLargestInertia = SimuCtxHelper.getMachIdLargestInertia(this.simuCtx);
     	}
          
         setSetPointControllerList();
@@ -162,7 +162,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	else {
     		setPointControllerComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				SimuCtxUtilFunc.getMachContrllerList(machId, this.simuCtx)));
+    				SimuCtxHelper.getMachContrllerList(machId, this.simuCtx)));
     	}
     }
 

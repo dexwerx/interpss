@@ -29,19 +29,22 @@ import org.gridgain.grid.GridException;
 import org.interpss.display.ContingencyOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.grid.GridObjectFactory;
+import org.interpss.grid.algo.GridContingencyAnalysis;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridUtil;
 import org.interpss.grid.msg.RemoteMessageTable;
+import org.interpss.grid.result.IRemoteResult;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
@@ -87,15 +90,30 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 //			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
 //		} else {
 			if (this.xmlGridOpt.isEnableGridRun()) {
-				Grid grid = GridUtil.getDefaultGrid();
-				String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
-				DStabSingleJobTask.RemoteNodeId = nodeId;
-				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
-				try {
-					if (this.contingencyAnalysis) {
-						IpssLogger.getLogger().info("Run Grid contingency analysis");
+				if (this.contingencyAnalysis) {
+					IpssLogger.getLogger().info("Run Grid contingency analysis");
+
+					try {
+						GridContingencyAnalysis analysis = GridObjectFactory
+								.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
+						analysis.perform(ContingencyAnalysisType.N1);
+
+						IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
+						dialog.display(					
+						     analysis.getResult(IRemoteResult.DisplayType_SecViolation) + "\n" +		
+						     analysis.getResult(IRemoteResult.DisplayType_SecAssessment));
+					} catch (InterpssException e) {
+						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+								"Grid Aclf Error", e.toString());
+						return false;
 					}
-					else {
+				}
+				else {
+					Grid grid = GridUtil.getDefaultGrid();
+					String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
+					DStabSingleJobTask.RemoteNodeId = nodeId;
+					GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
+					try {
 						RemoteMessageTable result = new GridRunner(
 								grid, "InterPSS Grid Aclf Calculation", simuCtx.getLoadflowAlgorithm())
 								.executeTask(this.xmlGridOpt.getTimeout());
@@ -110,11 +128,11 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 											+ this.xmlGridOpt.getRemoteNodeName());
 							dialog.display(adjNet);
 						}
+					} catch (GridException e) {
+						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+								"Grid Aclf Error", e.toString());
+						return false;
 					}
-				} catch (GridException e) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
-							"Grid Aclf Error", e.toString());
-					return false;
 				}
 			} else {
 				if (this.contingencyAnalysis) {
