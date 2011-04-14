@@ -30,11 +30,10 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
 import org.interpss.xml.schema.AnalysisRunDataType;
-import org.interpss.xml.schema.ContingencyAnalysisXmlType;
+import org.interpss.xml.schema.ContingencyAnalysisOptionXmlType;
 import org.interpss.xml.schema.GridAclfOptionXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
-import org.interpss.xml.schema.LimitXmlType;
 import org.interpss.xml.schema.ReturnStudyCaseDataType;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -73,7 +72,7 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 			opt.setReturnStudyCase(ReturnStudyCaseDataType.DIVERGED_CASE);
 		}
 		else if (type == AnalysisRunDataType.CONTINGENCY_ANALYSIS) {
-			ContingencyAnalysisXmlType.Option opt = IpssXmlParser.getFactory().createContingencyAnalysisXmlTypeOption();
+			ContingencyAnalysisOptionXmlType opt = IpssXmlParser.getFactory().createContingencyAnalysisOptionXmlType();
 			ipssXmlDoc.getRunStudyCase().getContingencyAnalysis().setOption(opt);
 			opt.setBusVLimitPU(IpssXmlDataSetter.createLimitXmlType(1.1, 0.9));
 		}
