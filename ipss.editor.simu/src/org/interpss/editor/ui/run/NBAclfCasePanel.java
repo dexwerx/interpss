@@ -40,6 +40,8 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
+import org.interpss.xml.schema.ContingencyAnalysisDataType;
+import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
 import com.interpss.common.exp.InvalidOperationException;
@@ -59,14 +61,22 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	private static final long serialVersionUID = 1;
 	
 	private JDialog parent = null;
-	private static NBGridComputingPanel gridPanel = new NBGridComputingPanel();
+	private static NBGridComputingPanel gridLfPanel = new NBGridComputingPanel();
+	private static NBGridComputingPanel gridContinPanel = new NBGridComputingPanel();
 	private boolean gridComputing = false;
 
     private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;
 
     // holds the current case data being edited
-    private AclfAlgorithmXmlType xmlCaseData;
+    private AclfAlgorithmXmlType xmlCaseAlgo;
+    private ContingencyAnalysisXmlType xmlAnalysus;
+    
+    public static final int LoadflowPanel = 1,
+    					ContingencyPanel = 2,
+    					AdvancedPanel = 3;
+    private int panelSelected = LoadflowPanel; 
+    public int getPanelSelected() { return this.panelSelected; }
 	
     /** Creates new form NBAclfCasePanel */
     public NBAclfCasePanel(JDialog parent) {
@@ -115,7 +125,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         init(netContainer, simuCtx);
 		if (gridComputing) {
 			this.gridComputing = gridComputing;
-			this.gridComputingPanel.add(gridPanel);
+			this.gridComputingPanel.add(gridLfPanel);
+			this.gridContingencyPanel.add(gridContinPanel);
 		}
     }
     
@@ -214,12 +225,19 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }
 
     public void setXmlCaseData(AclfAlgorithmXmlType data, GridComputingXmlType xmlGridOpt) {
-    	this.xmlCaseData = data;
+    	this.xmlCaseAlgo = data;
     	if (gridComputing)
-			gridPanel.setXmlCaseData(xmlGridOpt);
+			gridLfPanel.setXmlCaseData(xmlGridOpt);
     }
    
-	/**
+    public void setXmlCaseData(ContingencyAnalysisXmlType analysis, GridComputingXmlType xmlGridOpt) {
+    	this.xmlCaseAlgo = analysis.getDefaultAclfAlgorithm();
+    	this.xmlAnalysus = analysis;
+    	if (gridComputing)
+			gridLfPanel.setXmlCaseData(xmlGridOpt);
+    }
+
+    /**
 	*	Set form data to the editor
 	*
 	* @return false if there is any problem
@@ -227,28 +245,28 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
      
-    	if (xmlCaseData.getLfMethod() == AclfMethodDataType.NR)
+    	if (xmlCaseAlgo.getLfMethod() == AclfMethodDataType.NR)
         	this.nrRadioButton.setSelected(true);
-    	else if (xmlCaseData.getLfMethod() == AclfMethodDataType.PQ)
+    	else if (xmlCaseAlgo.getLfMethod() == AclfMethodDataType.PQ)
         	this.pqRadioButton.setSelected(true);
-    	else if (xmlCaseData.getLfMethod() == AclfMethodDataType.GS)
+    	else if (xmlCaseAlgo.getLfMethod() == AclfMethodDataType.GS)
         	this.gsRadioButton.setSelected(true);
-    	else if (xmlCaseData.getLfMethod() == AclfMethodDataType.CUSTOM)
+    	else if (xmlCaseAlgo.getLfMethod() == AclfMethodDataType.CUSTOM)
         	this.customRadioButton.setSelected(true);
     	
     	//this.nonDivergeCheckBox.setEnabled(xmlCaseData.getNonDivergent());
 
-    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseData.getAccFactor(), "#0.0#"));
-        this.errPUTextField.setText(Number2String.toStr(xmlCaseData.getTolerance(), "#0.#####"));
+    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseAlgo.getAccFactor(), "#0.0#"));
+        this.errPUTextField.setText(Number2String.toStr(xmlCaseAlgo.getTolerance(), "#0.#####"));
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
-        this.errKVATextField.setText(Number2String.toStr(xmlCaseData.getTolerance()*baseKva, "#0.####"));
-        this.maxItrTextField.setText(new Integer(xmlCaseData.getMaxIterations()).toString());
-        this.nonDivergeCheckBox.setSelected(xmlCaseData.isNonDivergent());
-        this.initVoltCheckBox.setSelected(xmlCaseData.isInitBusVoltage());
-		this.lfSummaryCheckBox.setSelected(xmlCaseData.isDisplaySummary());
+        this.errKVATextField.setText(Number2String.toStr(xmlCaseAlgo.getTolerance()*baseKva, "#0.####"));
+        this.maxItrTextField.setText(new Integer(xmlCaseAlgo.getMaxIterations()).toString());
+        this.nonDivergeCheckBox.setSelected(xmlCaseAlgo.isNonDivergent());
+        this.initVoltCheckBox.setSelected(xmlCaseAlgo.isInitBusVoltage());
+		this.lfSummaryCheckBox.setSelected(xmlCaseAlgo.isDisplaySummary());
 		
 		if (gridComputing)
-			gridPanel.setForm2Editor();
+			gridLfPanel.setForm2Editor();
 
 		return true;
 	}
@@ -261,32 +279,45 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
-
+		
         if (this.nrRadioButton.isSelected())
-        	xmlCaseData.setLfMethod(AclfMethodDataType.NR);
+        	xmlCaseAlgo.setLfMethod(AclfMethodDataType.NR);
         else if (this.pqRadioButton.isSelected())
-        	xmlCaseData.setLfMethod(AclfMethodDataType.PQ);
+        	xmlCaseAlgo.setLfMethod(AclfMethodDataType.PQ);
         else if (this.gsRadioButton.isSelected())
-        	xmlCaseData.setLfMethod(AclfMethodDataType.GS);
+        	xmlCaseAlgo.setLfMethod(AclfMethodDataType.GS);
         else
-        	xmlCaseData.setLfMethod(AclfMethodDataType.CUSTOM);
+        	xmlCaseAlgo.setLfMethod(AclfMethodDataType.CUSTOM);
         
         if (SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
-        	xmlCaseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
+        	xmlCaseAlgo.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
 
         if (SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
-        	xmlCaseData.setMaxIterations(SwingInputVerifyUtil.getInt(this.maxItrTextField));
+        	xmlCaseAlgo.setMaxIterations(SwingInputVerifyUtil.getInt(this.maxItrTextField));
 
-        if (xmlCaseData.getLfMethod() == AclfMethodDataType.GS)
+        if (xmlCaseAlgo.getLfMethod() == AclfMethodDataType.GS)
         	if (SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
-        		xmlCaseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
+        		xmlCaseAlgo.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
-        xmlCaseData.setNonDivergent(this.nonDivergeCheckBox.isSelected());
-        xmlCaseData.setInitBusVoltage(this.initVoltCheckBox.isSelected());
-        xmlCaseData.setDisplaySummary(this.lfSummaryCheckBox.isSelected());
-        
-		if (gridComputing)
-			gridPanel.saveEditor2Form(errMsg);
+        xmlCaseAlgo.setNonDivergent(this.nonDivergeCheckBox.isSelected());
+        xmlCaseAlgo.setInitBusVoltage(this.initVoltCheckBox.isSelected());
+        xmlCaseAlgo.setDisplaySummary(this.lfSummaryCheckBox.isSelected());
+	        
+		if (this.panelSelected == LoadflowPanel) {
+			if (gridComputing)
+				gridLfPanel.saveEditor2Form(errMsg);
+		}
+		else if (this.panelSelected == ContingencyPanel) {
+	        if (this.n1ContingencyRadioButton.isSelected())
+	        	this.xmlAnalysus.setType(ContingencyAnalysisDataType.N_1);
+	        else if (this.n11ContingencyRadioButton.isSelected())
+	        	this.xmlAnalysus.setType(ContingencyAnalysisDataType.N_1_1);
+	        else
+	        	this.xmlAnalysus.setType(ContingencyAnalysisDataType.N_2);
+
+	        if (gridComputing)
+				gridContinPanel.saveEditor2Form(errMsg);
+		}
 		
 		return errMsg.size() == 0;
 	}
@@ -569,7 +600,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
 
         contingencyButtonGroup.add(n1ContingencyRadioButton);
-        n1ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        n1ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         n1ContingencyRadioButton.setSelected(true);
         n1ContingencyRadioButton.setText("N-1");
         n1ContingencyRadioButton.setName("nrRadioButton"); // NOI18N
@@ -581,7 +612,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.add(n1ContingencyRadioButton);
 
         contingencyButtonGroup.add(n11ContingencyRadioButton);
-        n11ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        n11ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         n11ContingencyRadioButton.setText("N-1-1");
         n11ContingencyRadioButton.setName("pqRadioButton"); // NOI18N
         n11ContingencyRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -592,7 +623,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.add(n11ContingencyRadioButton);
 
         contingencyButtonGroup.add(n2ContingencyRadioButton);
-        n2ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        n2ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         n2ContingencyRadioButton.setText("N-2");
         n2ContingencyRadioButton.setName("gsRadioButton"); // NOI18N
         n2ContingencyRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -604,10 +635,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
         contingencyPanel.add(contingencyMethodPanel, gridBagConstraints);
-        contingencyMethodPanel.getAccessibleContext().setAccessibleName("Contingency Analysis Method");
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         contingencyPanel.add(gridContingencyPanel, gridBagConstraints);
@@ -1027,10 +1057,17 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_pqQStepButtonActionPerformed
 
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
-    	if ( runAclfTabbedPane.getSelectedIndex() == 0 )
+    	if ( runAclfTabbedPane.getSelectedIndex() == 0 ) {
         	IpssLogger.getLogger().info("Panel selection changed - Main Panel");
+        	this.panelSelected = LoadflowPanel;
+    	}
     	else if ( runAclfTabbedPane.getSelectedIndex() == 1 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Contingency Panel");
+        	this.panelSelected = ContingencyPanel;
+    	}	
+    	else if ( runAclfTabbedPane.getSelectedIndex() == 2 ) {
         	IpssLogger.getLogger().info("Panel selection changed - Advanced Panel");
+        	this.panelSelected = AdvancedPanel;
             initAdvanceControlPanel();
         	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
     	}	

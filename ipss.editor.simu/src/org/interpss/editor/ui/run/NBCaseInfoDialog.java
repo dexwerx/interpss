@@ -48,6 +48,7 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
+import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.DclfStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -186,6 +187,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
      */
     public void setCaseType(SimuRunEnum type) {
         _caseType = type;
+    }
+    
+    public SimuRunEnum getCaseType() {
+    	return this._caseType;
     }
     
     public void setRunStudyCaseFilename(String filename) {
@@ -333,16 +338,26 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
 		if (_caseType == SimuRunEnum.Aclf) {
-			AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
-			if (scase == null) {
-				errMsg.add("Aclf study case not found, " + casename);
-				return false;
-			}
-			scase.setRecDesc(this.descTextArea.getText());
 			projData.setAclfCaseName(casename);
-			_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
-			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-			EditorSimuSpringCtx.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+			if (_aclfCaseInfoPanel.getPanelSelected() == NBAclfCasePanel.ContingencyPanel) {
+				this._caseType = SimuRunEnum.ContingencyAnalysis;
+				IpssLogger.getLogger().info("Save Contingency anlaysis Case info");
+				ContingencyAnalysisXmlType analysis = this.studyCaseXmlDoc.getContingencyAnalysis();
+				_aclfCaseInfoPanel.setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
+				_aclfCaseInfoPanel.saveEditor2Form(errMsg);
+				EditorSimuSpringCtx.getAclfRunForm().setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
+			}
+			else {
+				AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
+				if (scase == null) {
+					errMsg.add("Aclf study case not found, " + casename);
+					return false;
+				}
+				scase.setRecDesc(this.descTextArea.getText());
+				_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
+				_aclfCaseInfoPanel.saveEditor2Form(errMsg);
+				EditorSimuSpringCtx.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+			}
 		}
 		else if (_caseType == SimuRunEnum.SenAnalysis) {
 			DclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getDclfStudyCase(casename);
@@ -652,7 +667,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         else {
     		_returnOK = true;
     		_appSimuCtx.getProjData().setDirty(true);
-    		if (_caseType == SimuRunEnum.Aclf)
+    		if (_caseType == SimuRunEnum.Aclf || _caseType == SimuRunEnum.ContingencyAnalysis)
     			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
     		GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
         }

@@ -25,7 +25,9 @@
 package org.interpss.editor;
 
 public enum SimuRunEnum {
-	Aclf, Acsc, DStab, 
+	Aclf, ContingencyAnalysis, 
+	Acsc, 
+	DStab, 
 	Scripts, ScriptsMultiCase, 
 	Dclf, SenAnalysis, TradingAnalysis, 
 	NotDefined

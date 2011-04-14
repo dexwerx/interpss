@@ -105,7 +105,17 @@ public class SimuRunWorker extends Thread {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
 						GraphSimuUtilFunc.LABEL_ACT_ACLF);
 			}
-		} else if (this.runType == SimuRunEnum.Acsc) {
+		} 
+		else if (this.runType == SimuRunEnum.ContingencyAnalysis) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run Contingency Analysis ...", "Run Contingency Analysis");
+			IpssLogger.getLogger().info("SimuRunWorker starts Run Contingency Analysis");
+
+			EditorSimuSpringCtx.getAclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
+
+			appStatus.busyStop("Run Contingency Analysis finished");
+		}
+		else if (this.runType == SimuRunEnum.Acsc) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run AC Short Circuit Analysis ...", "Run Acsc");
 			IpssLogger.getLogger().info(

@@ -29,6 +29,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
 public interface ICaseInfoDialog extends IFormDataDialog {
     void setCaseType(SimuRunEnum caseType);
+    SimuRunEnum getCaseType();
    
     void setRunStudyCaseFilename(String filename);
     

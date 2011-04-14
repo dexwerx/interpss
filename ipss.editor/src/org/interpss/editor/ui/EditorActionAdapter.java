@@ -180,7 +180,7 @@ public class EditorActionAdapter {
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Aclf SimuRunWorker");
-				worker.configRun(SimuRunEnum.Aclf, simuCtx, graph);
+				worker.configRun(dialog.getCaseType(), simuCtx, graph);
 				worker.start();
 				appSimuCtx.setLastRunType(SimuRunEnum.Aclf);
 			}
