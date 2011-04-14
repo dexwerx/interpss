@@ -99,9 +99,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 						analysis.perform(ContingencyAnalysisType.N1);
 
 						IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
-						dialog.display(					
-						     analysis.getResult(IRemoteResult.DisplayType_SecViolation) + "\n" +		
-						     analysis.getResult(IRemoteResult.DisplayType_SecAssessment));
+						dialog.display(analysis);
 					} catch (InterpssException e) {
 						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 								"Grid Aclf Error", e.toString());
