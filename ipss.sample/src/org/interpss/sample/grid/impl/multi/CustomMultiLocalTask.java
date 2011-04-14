@@ -29,9 +29,9 @@
 package org.interpss.sample.grid.impl.multi;
 
 import org.gridgain.grid.GridException;
-import org.interpss.gridgain.job.AbstractGridGainJob;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.task.multiJob.AbstractMultiJobTask;
+import org.interpss.grid.gridgain.job.AbstractGridGainJob;
+import org.interpss.grid.gridgain.task.multiJob.AbstractMultiJobTask;
+import org.interpss.grid.msg.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;

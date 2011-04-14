@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridMessageListener;
-import org.interpss.gridgain.GridRunner;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.GridRunner;
+import org.interpss.grid.gridgain.util.GridUtil;
 
 public class GridHelper {
 	public static String GridGainHome = "c:/Program Files (x86)/gridgain-2.1.1";

@@ -2,9 +2,9 @@ package org.interpss.sample.grid.impl.single;
 
 import java.io.Serializable;
 
-import org.interpss.gridgain.job.GridAclfJob;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.result.RemoteResultFactory;
+import org.interpss.grid.gridgain.job.GridAclfJob;
+import org.interpss.grid.msg.RemoteMessageTable;
+import org.interpss.grid.result.RemoteResultFactory;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;

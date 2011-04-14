@@ -4,18 +4,16 @@ import org.gridgain.grid.Grid;
 import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.gridgain.GridRunner;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.GridRunner;
+import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
  * This example assumes that at least one remote Gridgain 2.1.1 agent is running in the LAN. A simple

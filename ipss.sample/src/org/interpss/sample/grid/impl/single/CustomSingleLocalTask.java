@@ -1,9 +1,9 @@
 
 package org.interpss.sample.grid.impl.single;
 
-import org.interpss.gridgain.job.AbstractGridGainJob;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.task.singleJob.AclfSingleJobTask;
+import org.interpss.grid.gridgain.job.AbstractGridGainJob;
+import org.interpss.grid.gridgain.task.singleJob.AclfSingleJobTask;
+import org.interpss.grid.msg.RemoteMessageTable;
 
 public class CustomSingleLocalTask extends AclfSingleJobTask {
 	private static final long serialVersionUID = 1;

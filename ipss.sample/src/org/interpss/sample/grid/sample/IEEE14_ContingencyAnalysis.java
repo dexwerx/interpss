@@ -3,12 +3,12 @@ package org.interpss.sample.grid.sample;
 import org.gridgain.grid.Grid;
 import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.gridgain.GridRunner;
-import org.interpss.gridgain.job.ContingencyAnaysisJob;
-import org.interpss.gridgain.msg.RemoteMessageTable;
-import org.interpss.gridgain.result.IRemoteResult;
-import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.GridRunner;
+import org.interpss.grid.gridgain.job.ContingencyAnaysisJob;
+import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.msg.RemoteMessageTable;
+import org.interpss.grid.result.IRemoteResult;
+import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.spring.PluginSpringCtx;
 
