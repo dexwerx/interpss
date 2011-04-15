@@ -71,8 +71,8 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
 		analysis.perform(ContingencyAnalysisType.N1);
 
-		System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
-		System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
+//		System.out.println("---->" + analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
+//		System.out.println("---->" + analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 		
     	for (StudyCase scase : analysis.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
