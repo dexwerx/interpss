@@ -24,52 +24,25 @@
 
 package org.interpss.numeric.util;
 
-import org.apache.commons.math.complex.Complex;
-import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Complex3x1;
 
 public class TestUtilFunc {
-	/* config used classpath based 
-	public static String Simu_SpringConfigXmlFile = "c:/eclipse/InterpssDev/ipss/properties/springConfig/test/simuContext.xml";
-	public static String Plugin_SpringConfigXmlFile = "c:/eclipse/InterpssDev/ipss/properties/springConfig/test/pluginContext.xml";
-	*/
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	public static boolean equal(final double x, final double y) {
-		return Math.abs(x - y) < NumericConstant.SmallDoubleNumber;
-	}
-
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	public static boolean equal(final Complex x, Complex y) {
-		return Math.abs(x.getReal() - y.getReal()) < NumericConstant.SmallDoubleNumber
-				&& Math.abs(x.getImaginary() - y.getImaginary()) < NumericConstant.SmallDoubleNumber;
-	}
-
 	public static boolean compare(Complex3x1 iPU_012, double zeroRe,
 			double zeroIm, double oneRe, double oneIm, double twoRe,
 			double twoIm) {
-		if (!(equal(iPU_012.a_0.getReal(), zeroRe)
-				&& equal(iPU_012.a_0.getImaginary(), zeroIm)
-				&& equal(iPU_012.b_1.getReal(), oneRe)
-				&& equal(iPU_012.b_1.getImaginary(), oneIm)
-				&& equal(iPU_012.c_2.getReal(), twoRe) && equal(iPU_012.c_2
+		if (!(NumericUtil.equals(iPU_012.a_0.getReal(), zeroRe)
+				&& NumericUtil.equals(iPU_012.a_0.getImaginary(), zeroIm)
+				&& NumericUtil.equals(iPU_012.b_1.getReal(), oneRe)
+				&& NumericUtil.equals(iPU_012.b_1.getImaginary(), oneIm)
+				&& NumericUtil.equals(iPU_012.c_2.getReal(), twoRe) && NumericUtil.equals(iPU_012.c_2
 				.getImaginary(), twoIm))) {
 			System.out.println("iPU_012 = " + iPU_012);
 		}
-		return equal(iPU_012.a_0.getReal(), zeroRe)
-				&& equal(iPU_012.a_0.getImaginary(), zeroIm)
-				&& equal(iPU_012.b_1.getReal(), oneRe)
-				&& equal(iPU_012.b_1.getImaginary(), oneIm)
-				&& equal(iPU_012.c_2.getReal(), twoRe)
-				&& equal(iPU_012.c_2.getImaginary(), twoIm);
+		return NumericUtil.equals(iPU_012.a_0.getReal(), zeroRe)
+				&& NumericUtil.equals(iPU_012.a_0.getImaginary(), zeroIm)
+				&& NumericUtil.equals(iPU_012.b_1.getReal(), oneRe)
+				&& NumericUtil.equals(iPU_012.b_1.getImaginary(), oneIm)
+				&& NumericUtil.equals(iPU_012.c_2.getReal(), twoRe)
+				&& NumericUtil.equals(iPU_012.c_2.getImaginary(), twoIm);
 	}
 }
