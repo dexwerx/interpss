@@ -26,32 +26,8 @@ package org.ieee.odm.common;
 import org.ieee.odm.schema.ComplexXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 
-public class NumericUtil {
+public class ODMNumericUtil {
 	static double ERR = 0.00001;
-	
-	/**
-	 * Check if the two doubles are equal regarding to the err
-	 * 
-	 * @param x
-	 * @param y
-	 * @param err
-	 * @return
-	 */
-	public static boolean equals(double x, double y) {
-		return Math.abs(x - y) < ERR;
-	}
-
-	/**
-	 * Check if the two doubles are equal regarding to the err
-	 * 
-	 * @param x
-	 * @param y
-	 * @param err
-	 * @return
-	 */
-	public static boolean equals(double x, double y, double err) {
-		return Math.abs(x - y) < err;
-	}
 	
 	public static boolean equals(ComplexXmlType x, ComplexXmlType y) {
 		return (x == null && y == null) || x != null && y != null &&
