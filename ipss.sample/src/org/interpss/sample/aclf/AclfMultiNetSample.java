@@ -24,18 +24,11 @@
 
 package org.interpss.sample.aclf;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.logging.Level;
-
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.util.NumericUtil;
-import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -44,7 +37,6 @@ import com.interpss.core.aclf.AclfBusNetRef;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.LineAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.simu.util.sample.SampleCases;
