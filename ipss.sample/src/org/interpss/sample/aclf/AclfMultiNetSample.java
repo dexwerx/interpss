@@ -113,7 +113,11 @@ public class AclfMultiNetSample {
 		 */
 		AclfNetwork netSub1 = CoreObjectFactory.createAclfNetwork();
 		SampleCases.load_LF_5BusSystem(netSub1);
-		// set netSub1 as a childNet at bus2
+		// set netSub1 as a childNet at bus2, 
+		// assumption
+		//    - bus2 is a PQ bus
+		//    - there is one and only one Swing bus in the child net netSub1, which is linked to bus2 
+		//      of the mainNet
 		bus2.setAclfNet(netSub1);
 		
 		AclfNetwork netSub2 = CoreObjectFactory.createAclfNetwork();
