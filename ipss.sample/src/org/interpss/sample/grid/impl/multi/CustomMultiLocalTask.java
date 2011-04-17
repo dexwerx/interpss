@@ -29,11 +29,11 @@
 package org.interpss.sample.grid.impl.multi;
 
 import org.gridgain.grid.GridException;
+import org.interpss.grid.gridgain.GridConstants;
 import org.interpss.grid.gridgain.job.AbstractGridGainJob;
 import org.interpss.grid.gridgain.task.multiJob.AbstractMultiJobTask;
 import org.interpss.grid.msg.RemoteMessageTable;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
@@ -48,8 +48,8 @@ public class CustomMultiLocalTask extends AbstractMultiJobTask {
 
 		// use grid session to sent network model to the remote node at the
 		// starting of calculation
-		getSession().setAttribute(Constants.GridToken_RemoteJobCreation, Boolean.TRUE);
-		getSession().setAttribute(Constants.GridToken_BaseStudyCaseNetworkModel, aclfModel.getBaseNetModelString());
+		getSession().setAttribute(GridConstants.Key_RemoteJobCreation, Boolean.TRUE);
+		getSession().setAttribute(GridConstants.Key_BaseStudyCaseNetworkModel, aclfModel.getBaseNetModelString());
 	}
 
 	// this method is called to send a study case from the master node to a slave grid node
