@@ -47,10 +47,12 @@ import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
+import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 
 import com.interpss.common.mapper.IMapping;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.DStabSpringAppContext;
+import com.interpss.dstab.DStabObjectFactory;
+import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 import com.interpss.spring.CoreSpringCtx;
@@ -232,7 +234,9 @@ public class EditorActionAdapter {
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
-		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
+		DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(simuCtx.getDStabilityNet(),
+						new DatabaseSimuOutputHandler(), simuCtx.getMsgHub());
+		simuCtx.setDynSimuAlgorithm(dstabAlgo);
 
 		ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.DStab,
 				ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunEnum.DStab).getFilePathName());
