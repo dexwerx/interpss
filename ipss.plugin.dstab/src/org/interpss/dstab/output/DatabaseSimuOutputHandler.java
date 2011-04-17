@@ -8,6 +8,7 @@ import java.util.Hashtable;
 
 import org.interpss.db.DBManager;
 import org.interpss.db.IpssDBCase;
+import org.interpss.grid.gridgain.GridConstants;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.spring.BasePluginSpringCtx;
 import org.interpss.ui.IProjectDataManager;
@@ -104,10 +105,9 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 		try {
 			int dbCaseId = getDBCaseId();
 			if (e.getHashtableData() != null
-					&& e.getHashtableData().get(Constants.GridToken_CaseId) != null) {
+					&& e.getHashtableData().get(GridConstants.Key_CaseId) != null) {
 				// Grid computing case, where case id return from the msg
-				String caseId = (String) e.getHashtableData().get(
-						Constants.GridToken_CaseId);
+				String caseId = (String) e.getHashtableData().get(GridConstants.Key_CaseId);
 				dbCaseId = BasePluginSpringCtx.getSimuRecManager().getDBCaseId(
 						caseId);
 			}
