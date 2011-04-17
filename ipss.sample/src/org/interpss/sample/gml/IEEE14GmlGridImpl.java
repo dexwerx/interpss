@@ -7,7 +7,7 @@ import org.graphdrawing.gml.GraphmlType;
 import org.gridgain.grid.Grid;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
@@ -69,6 +69,6 @@ public class IEEE14GmlGridImpl {
 					.executeMultiJob(CustomMultiLocalTask.class, mCaseContainer, timeout);
 		}
 		
-		GridUtil.stopDefaultGrid();		
+		GridEnvHelper.stopDefaultGrid();		
 	}
 }

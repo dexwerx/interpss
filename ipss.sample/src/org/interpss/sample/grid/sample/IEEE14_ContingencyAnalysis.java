@@ -4,8 +4,8 @@ import org.gridgain.grid.Grid;
 import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.job.ContingencyAnaysisJob;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.job.ContingencyAnaysisReJob;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
@@ -107,7 +107,7 @@ public class IEEE14_ContingencyAnalysis {
 			/**
 			* Step-6 process results
 			*/
-			IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+			IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisReJob.class);
 			for (RemoteMessageTable result : resultAry) {
 				resultHandler.transferRemoteResult(mCaseContainer, result);
 			}
@@ -116,6 +116,6 @@ public class IEEE14_ContingencyAnalysis {
 		}
 		
 		System.out.println("Stop InterPSS Grid env ...");
-		GridUtil.stopDefaultGrid();
+		GridEnvHelper.stopDefaultGrid();
 	}
 }

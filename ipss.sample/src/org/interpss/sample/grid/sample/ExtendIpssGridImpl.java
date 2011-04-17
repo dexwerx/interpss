@@ -3,7 +3,7 @@ package org.interpss.sample.grid.sample;
 import org.gridgain.grid.Grid;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
@@ -32,7 +32,7 @@ public class ExtendIpssGridImpl {
 		Grid grid = GridHelper.initGridEnv();
     	if (grid != null) {
     		// randomly select a remote grid node 
-	    	CustomSingleLocalTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
+	    	CustomSingleLocalTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
 
 	    	// input data and create InterPSS Aclf net object
 	    	AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
@@ -58,6 +58,6 @@ public class ExtendIpssGridImpl {
     	}
 		
 		System.out.println("Stop InterPSS Grid env ...");
-		GridUtil.stopDefaultGrid();		
+		GridEnvHelper.stopDefaultGrid();		
 	}
 }

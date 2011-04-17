@@ -48,17 +48,17 @@ public class CustomMultiLocalTask extends AbstractMultiJobTask {
 
 		// use grid session to sent network model to the remote node at the
 		// starting of calculation
-		getSession().setAttribute(GridConstants.Key_RemoteJobCreation, Boolean.TRUE);
-		getSession().setAttribute(GridConstants.Key_BaseStudyCaseNetworkModel, aclfModel.getBaseNetModelString());
+		getSession().setAttribute(GridConstants.SeKey_RemoteJobCreation, Boolean.TRUE);
+		getSession().setAttribute(GridConstants.SeKey_BaseStudyCaseNetworkModel, aclfModel.getBaseNetModelString());
 	}
 
 	// this method is called to send a study case from the master node to a slave grid node
 	@Override
 	protected RemoteMessageTable serializeStudyCaseModel(StudyCase scase, MultiStudyCase model) throws GridException {
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
-		remoteMsg.put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, scase.getId());
+		remoteMsg.put(GridConstants.MsgKEY_sStudyCaseId, scase.getId());
 		// use the any string field to send the graph xml to the remote node
-		remoteMsg.put(RemoteMessageTable.KEY_sRqt_StudyCaseModification, scase.getModification().getAny());
+		remoteMsg.put(GridConstants.MsgKEY_Rqt_sStudyCaseModification, scase.getModification().getAny());
 		return remoteMsg;
 	}
 	

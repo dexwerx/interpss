@@ -5,7 +5,7 @@ import org.interpss.IpssPlugin;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
@@ -33,7 +33,7 @@ public class GridUCTE2000WinterOffPeakCase {
 		Grid grid = GridHelper.initGridEnv();
     	if (grid != null) {
     		// randomly select a remote grid node 
-	    	CustomSingleLocalTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
+	    	CustomSingleLocalTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
 
 	    	try {
 				IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
@@ -56,6 +56,6 @@ public class GridUCTE2000WinterOffPeakCase {
     	}
 		
 		System.out.println("Stop InterPSS Grid env ...");
-		GridUtil.stopDefaultGrid();		
+		GridEnvHelper.stopDefaultGrid();		
 	}
 }

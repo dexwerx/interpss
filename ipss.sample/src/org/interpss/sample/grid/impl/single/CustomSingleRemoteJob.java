@@ -2,7 +2,8 @@ package org.interpss.sample.grid.impl.single;
 
 import java.io.Serializable;
 
-import org.interpss.grid.gridgain.job.GridAclfJob;
+import org.interpss.grid.gridgain.GridConstants;
+import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.RemoteResultFactory;
 
@@ -18,7 +19,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
  * @author mzhou
  */
 
-public class CustomSingleRemoteJob extends GridAclfJob {
+public class CustomSingleRemoteJob extends GridAclfReJob {
 	private static final long serialVersionUID = 1;
 
 	public CustomSingleRemoteJob(RemoteMessageTable inRemoteMsg) {
@@ -54,7 +55,7 @@ public class CustomSingleRemoteJob extends GridAclfJob {
 			// an example to send some results back to the master node
 			outRemoteResult.put("MyKey", "MyValue");
 		} catch (Exception e) {
-			outRemoteResult.put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.FALSE);
+			outRemoteResult.put(GridConstants.MsgKEY_Rsp_bReturnStatus, Boolean.FALSE);
 			outRemoteResult.addReturnMessage(e.toString());
 		}
 		return outRemoteResult;
