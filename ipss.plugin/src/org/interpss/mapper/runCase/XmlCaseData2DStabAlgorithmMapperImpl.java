@@ -119,8 +119,10 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 			dstabNet.setStaticLoadModel(xmlDstabData.getStaticLoadModel().getStaticLoadType() == 
 				DynamicStaticLoadDataType.CONST_Z ? 
 						StaticLoadModel.CONST_Z	: StaticLoadModel.CONST_P);
-			dstabNet.setStaticLoadSwitchVolt(xmlDstabData.getStaticLoadModel().getSwitchVolt());
-			dstabNet.setStaticLoadSwitchDeadZone(xmlDstabData.getStaticLoadModel().getSwitchDeadZone());
+			if (dstabNet.getStaticLoadModel() == StaticLoadModel.CONST_P) {
+				dstabNet.setStaticLoadSwitchVolt(xmlDstabData.getStaticLoadModel().getSwitchVolt());
+				dstabNet.setStaticLoadSwitchDeadZone(xmlDstabData.getStaticLoadModel().getSwitchDeadZone());
+			}
 		}
 
 		if (xmlDstabData.getDynamicEventData().isDisableEvent()) {
