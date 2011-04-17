@@ -34,7 +34,7 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridUtil;
-import org.interpss.grid.msg.GridMessageRouter;
+import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
@@ -128,7 +128,7 @@ public class XmlScriptDStabRun {
 					 * DStab simu msg, which will be handled by the
 					 * dbSimuDataHandler object
 					 */
-					GridMessageRouter msgRouter = new GridMessageRouter(msg);
+					DStabGridMessageRouter msgRouter = new DStabGridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
 					msgRouter.addDStabSimuDbOutputHandler(dstabAlgo
 							.getSimuOutputHandler());
@@ -158,12 +158,12 @@ public class XmlScriptDStabRun {
 				appSimuCtx.setLastRunType(SimuRunEnum.ScriptsMultiCase);
 				PluginSpringCtx.getSimuRecManager().clearDbCaseIdLookup();
 				
-				GridMessageRouter msgRouter = null;
+				DStabGridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
 					Grid grid = GridUtil.getDefaultGrid();
 					GridRunner.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
-					msgRouter = new GridMessageRouter(msg);
+					msgRouter = new DStabGridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
 				}
 

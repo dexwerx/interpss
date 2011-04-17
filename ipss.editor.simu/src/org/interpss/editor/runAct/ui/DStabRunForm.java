@@ -30,7 +30,7 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridUtil;
-import org.interpss.grid.msg.GridMessageRouter;
+import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.numeric.util.StringHelper;
 import org.interpss.spring.PluginSpringCtx;
@@ -40,13 +40,13 @@ import org.interpss.xml.schema.GridComputingXmlType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 import com.interpss.spring.CoreSpringCtx;
+import com.interpss.spring.DStabSpringCtx;
 
 public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	//private AclfCaseData aclfCaseData = null;
@@ -128,7 +128,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		IDStabSimuDatabaseOutputHandler scriptHandler = null;
 		if (this.xmCaseData.getOutputScripting().isScripting()) {
-			scriptHandler = (IDStabSimuDatabaseOutputHandler) DStabSpringAppContext
+			scriptHandler = (IDStabSimuDatabaseOutputHandler) DStabSpringCtx
 					.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
@@ -178,7 +178,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		 * by the router to the msg object. The simuMsg will be then routed to the 
 		 * DBSimuDataHandler
 		 */
-		GridMessageRouter msgRouter = new GridMessageRouter(msg);
+		DStabGridMessageRouter msgRouter = new DStabGridMessageRouter(msg);
 		grid.addMessageListener(msgRouter);
 
 		IDStabSimuDatabaseOutputHandler dstabDbHandler = null;
