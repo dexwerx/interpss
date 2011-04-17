@@ -29,8 +29,8 @@ import org.gridgain.grid.GridException;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.job.ContingencyAnaysisJob;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.job.ContingencyAnaysisReJob;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
@@ -62,7 +62,7 @@ public class XmlScriptContingency {
 	 * @return
 	 */
 	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
-		if (!GridUtil.isGridEnabled()) {
+		if (!GridEnvHelper.isGridEnabled()) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
 			return false;
@@ -112,13 +112,13 @@ public class XmlScriptContingency {
 				else if (xmlCase.getRecDesc() != null)
 					studyCase.setName(xmlCase.getRecDesc());
 
-				Grid grid = GridUtil.getDefaultGrid();
+				Grid grid = GridEnvHelper.getDefaultGrid();
 				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 					
 				RemoteMessageTable[] objAry = new GridRunner(grid,
 										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJob(GridgainTimeout);
 				for (RemoteMessageTable result : objAry) {
-					IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+					IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisReJob.class);
 					resultHandler.transferRemoteResult(mCaseContainer, result);
 				}
 			} catch (GridException e) {

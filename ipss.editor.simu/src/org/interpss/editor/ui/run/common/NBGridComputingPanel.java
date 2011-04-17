@@ -27,7 +27,7 @@ package org.interpss.editor.ui.run.common;
 import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.GridComputingXmlType;
 
@@ -69,7 +69,7 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
 
 	    try {
-	    	if (GridUtil.isGridEnabled()) {
+	    	if (GridEnvHelper.isGridEnabled()) {
 		       	 enableGridCheckBox.setEnabled(true);
 		       	 enableGridCheckBox.setSelected(false);
 	    	}
@@ -202,8 +202,8 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
     }// </editor-fold>//GEN-END:initComponents
 
 private void refreashGridButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreashGridButtonActionPerformed
-	GridUtil.freshDefaultGrid();
-	selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(GridUtil.getRemoteGridNodeNameList()));
+	GridEnvHelper.freshDefaultGrid();
+	selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(GridEnvHelper.getRemoteGridNodeNameList()));
 }//GEN-LAST:event_refreashGridButtonActionPerformed
 
 private void enableGridCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableGridCheckBoxActionPerformed
@@ -215,7 +215,7 @@ private void enableGridCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
     gridTimeoutTextField.setEnabled(b);
     refreashGridButton.setEnabled(b);
    	if (b) {
-   		selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(GridUtil.getRemoteGridNodeNameList()));
+   		selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(GridEnvHelper.getRemoteGridNodeNameList()));
    	}
 }//GEN-LAST:event_enableGridCheckBoxActionPerformed
     

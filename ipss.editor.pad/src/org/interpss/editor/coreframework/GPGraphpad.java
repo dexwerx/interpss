@@ -70,7 +70,7 @@ import org.interpss.editor.swing.tabbedpane.DoubleClickListener;
 import org.interpss.editor.util.ICommandRegistery;
 import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.ui.IRefDataManager;
 import org.jgraph.JGraph;
@@ -557,7 +557,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			System.exit(0);
 		} else {
 			// stop the grid if started
-			GridUtil.stopDefaultGrid();
+			GridEnvHelper.stopDefaultGrid();
 			getFrame().dispose();
 			String viewPath = sessionParameters.getParam(
 					GPSessionParameters.VIEWPATH, false);

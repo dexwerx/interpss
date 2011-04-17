@@ -3,7 +3,7 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -17,7 +17,7 @@ public class ToolsDebugGridEnv extends IpssAbstractActionDefault {
 	public void actionPerformed(ActionEvent e) {
 		IpssLogger.getLogger().info("Tools | Degug | Grid Environment");
 		
-		if (GridUtil.isGridEnabled()) {
+		if (GridEnvHelper.isGridEnabled()) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Info", "Grid Computing env has been setup properly");
 		}
 		else {

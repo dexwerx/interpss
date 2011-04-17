@@ -29,7 +29,7 @@ import org.gridgain.grid.GridException;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.numeric.util.StringHelper;
@@ -168,8 +168,8 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 
 		// get the selected remote node
-		Grid grid = GridUtil.getDefaultGrid();
-		String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
+		Grid grid = GridEnvHelper.getDefaultGrid();
+		String nodeId = GridEnvHelper.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
 		DStabSingleJobTask.RemoteNodeId = nodeId;
 		GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 

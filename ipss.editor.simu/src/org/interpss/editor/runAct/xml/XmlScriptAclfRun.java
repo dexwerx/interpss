@@ -30,9 +30,9 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.job.GridAclfJob;
+import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
@@ -157,7 +157,7 @@ public class XmlScriptAclfRun {
 			// if Grid computing, send the MultiCase container to perform
 			// remote grid computing
 			if (gridRun) {
-				Grid grid = GridUtil.getDefaultGrid();
+				Grid grid = GridEnvHelper.getDefaultGrid();
 				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 					
 				setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
@@ -165,7 +165,7 @@ public class XmlScriptAclfRun {
 					RemoteMessageTable[] objAry = new GridRunner(grid,
 										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJob(timeout);
 					for (RemoteMessageTable result : objAry) {
-						IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);
+						IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 							resultHandler.transferRemoteResult(mCaseContainer, result);
 					}
 				} catch (GridException e) {
@@ -189,8 +189,8 @@ public class XmlScriptAclfRun {
 			return false;
 
 		if (gridRun) {
-			Grid grid = GridUtil.getDefaultGrid();
-			DStabSingleJobTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
+			Grid grid = GridEnvHelper.getDefaultGrid();
+			DStabSingleJobTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
 			GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 			try {
 				RemoteMessageTable result = new GridRunner(

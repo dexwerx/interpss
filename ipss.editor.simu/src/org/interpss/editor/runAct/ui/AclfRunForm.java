@@ -33,7 +33,7 @@ import org.interpss.grid.GridObjectFactory;
 import org.interpss.grid.algo.GridContingencyAnalysis;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.spring.PluginSpringCtx;
@@ -112,8 +112,8 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					}
 				}
 				else {
-					Grid grid = GridUtil.getDefaultGrid();
-					String nodeId = GridUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
+					Grid grid = GridEnvHelper.getDefaultGrid();
+					String nodeId = GridEnvHelper.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
 					DStabSingleJobTask.RemoteNodeId = nodeId;
 					GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 					try {
