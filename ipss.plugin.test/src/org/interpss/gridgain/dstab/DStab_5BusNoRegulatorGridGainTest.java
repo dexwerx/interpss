@@ -30,7 +30,7 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.gridgain.GridBaseTestSetup;
 import org.junit.Test;
@@ -57,9 +57,9 @@ public class DStab_5BusNoRegulatorGridGainTest extends GridBaseTestSetup {
 		DynamicSimuAlgorithm algo = createDStabAlgo(net);
 		//algo.setTotalSimuTimeSec(0.2);		
 		
-		Grid grid = GridUtil.getDefaultGrid();
+		Grid grid = GridEnvHelper.getDefaultGrid();
 		
-   		DStabSingleJobTask.RemoteNodeId = GridUtil.getAnyRemoteNodeId();
+   		DStabSingleJobTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
 
    		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf 5-Bus Sample system", algo).executeTask(0);
        	assertTrue(result.getReturnStatus());

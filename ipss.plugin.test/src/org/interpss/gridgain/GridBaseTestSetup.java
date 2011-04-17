@@ -35,7 +35,7 @@ import org.gridgain.grid.GridMessageListener;
 import org.interpss.PluginTestSetup;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.numeric.NumericConstant;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -59,18 +59,18 @@ public class GridBaseTestSetup extends PluginTestSetup {
 
 	@BeforeClass
 	public static void startGridEnv() {
-		GridUtil.startDefaultGrid(GridGainHome);
-		assertTrue(GridUtil.isGridEnabled());
-		if (GridUtil.getDefaultGrid().getAllNodes().size() <= 1)
+		GridEnvHelper.startDefaultGrid(GridGainHome);
+		assertTrue(GridEnvHelper.isGridEnabled());
+		if (GridEnvHelper.getDefaultGrid().getAllNodes().size() <= 1)
 			System.out.println("Please start a least one Gridgain agent for the test");
-		assertTrue(GridUtil.getDefaultGrid().getAllNodes().size() > 1);
+		assertTrue(GridEnvHelper.getDefaultGrid().getAllNodes().size() > 1);
 		
-		Grid grid = GridUtil.getDefaultGrid();
+		Grid grid = GridEnvHelper.getDefaultGrid();
 		GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 		GridRunner.RemoteNodeDebug = false;
 
 		// make sure Grid env is setup properly
-		String[] list = GridUtil.gridNodeNameList(grid, false);
+		String[] list = GridEnvHelper.gridNodeNameList(grid, false);
 		assertTrue(list.length > 0);
 		
 		// message from remote note are printed out
@@ -83,7 +83,7 @@ public class GridBaseTestSetup extends PluginTestSetup {
 	
 	@AfterClass
 	public static void stopGridEnv() {
-		GridUtil.stopDefaultGrid();		
+		GridEnvHelper.stopDefaultGrid();		
 	}
 	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {

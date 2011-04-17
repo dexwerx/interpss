@@ -27,7 +27,7 @@ package org.interpss.gridgain;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.junit.Test;
 
 public class GridGainFuncTest extends PluginTestSetup {
@@ -36,11 +36,11 @@ public class GridGainFuncTest extends PluginTestSetup {
 	 */
 	@Test
 	public void isGridLibLoadedCaseTest() {
-		GridUtil.startDefaultGrid(GridBaseTestSetup.GridGainHome);
-		assertTrue(GridUtil.isGridEnabled());
-		if (GridUtil.getDefaultGrid().getAllNodes().size() <= 1)
+		GridEnvHelper.startDefaultGrid(GridBaseTestSetup.GridGainHome);
+		assertTrue(GridEnvHelper.isGridEnabled());
+		if (GridEnvHelper.getDefaultGrid().getAllNodes().size() <= 1)
 			System.out.println("Please start a least one Gridgain agent for the test");
-		assertTrue(GridUtil.getDefaultGrid().getAllNodes().size() > 1);
-		GridUtil.stopDefaultGrid();
+		assertTrue(GridEnvHelper.getDefaultGrid().getAllNodes().size() > 1);
+		GridEnvHelper.stopDefaultGrid();
 	}	
 }

@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.gridgain.grid.Grid;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.AclfSingleJobTask;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.gridgain.GridBaseTestSetup;
 import org.interpss.numeric.datatype.ComplexFunc;
@@ -49,8 +49,8 @@ import com.interpss.simu.SimuObjectFactory;
 public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 	@Test
 	public void CaseTest() throws Exception {
-		Grid grid = GridUtil.getDefaultGrid();
-		String nodeId = GridUtil.getAnyRemoteNodeId();
+		Grid grid = GridEnvHelper.getDefaultGrid();
+		String nodeId = GridEnvHelper.getAnyRemoteNodeId();
 		
     	// set remote and master node id
     	AclfSingleJobTask.RemoteNodeId = nodeId;
@@ -80,8 +80,8 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 
 	@Test
 	public void AlgoCaseTest() throws Exception {
-		Grid grid = GridUtil.getDefaultGrid();
-		String nodeId = GridUtil.getAnyRemoteNodeId();
+		Grid grid = GridEnvHelper.getDefaultGrid();
+		String nodeId = GridEnvHelper.getAnyRemoteNodeId();
 		
     	// set remote and master node id
     	AclfSingleJobTask.RemoteNodeId = nodeId;

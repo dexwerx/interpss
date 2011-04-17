@@ -29,8 +29,8 @@ import static org.junit.Assert.assertTrue;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.job.GridAclfJob;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.job.GridAclfReJob;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
@@ -119,12 +119,12 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		 * Step-5 perform grid computing
 		 */
 		try {
-			Grid grid = GridUtil.getDefaultGrid();
+			Grid grid = GridEnvHelper.getDefaultGrid();
 			long timeout = 0;
 			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Multi-case Aclf Calculation", 
 						mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
-				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);
+				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
 			}
 		} catch (GridException e) {
@@ -217,14 +217,14 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		 * Step-5 perform grid computing
 		 */
 		try {
-			Grid grid = GridUtil.getDefaultGrid();
+			Grid grid = GridEnvHelper.getDefaultGrid();
 			long timeout = 0;
 			//GridRunner.RemoteNodeDebug = true;
 			//IpssLogger.getLogger().setLevel(Level.INFO);
 			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Aclf Calculation", 
 						mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
-				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfJob.class);
+				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
 			}
 		} catch (GridException e) {

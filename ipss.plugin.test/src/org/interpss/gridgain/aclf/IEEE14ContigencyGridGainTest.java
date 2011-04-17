@@ -31,8 +31,8 @@ import org.gridgain.grid.GridException;
 import org.interpss.grid.GridObjectFactory;
 import org.interpss.grid.algo.GridContingencyAnalysis;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.grid.gridgain.job.ContingencyAnaysisJob;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.job.ContingencyAnaysisReJob;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
@@ -158,12 +158,12 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		 * Step-5 perform grid computing
 		 */
 		try {
-			Grid grid = GridUtil.getDefaultGrid();
+			Grid grid = GridEnvHelper.getDefaultGrid();
 			long timeout = 0;
 			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Contigency Calculation", 
 							mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
-				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
 			}
 		} catch (GridException e) {
@@ -243,12 +243,12 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		 * Step-5 perform grid computing
 		 */
 		try {
-			Grid grid = GridUtil.getDefaultGrid();
+			Grid grid = GridEnvHelper.getDefaultGrid();
 			long timeout = 0;
 			RemoteMessageTable[] objAry = new GridRunner(grid,	"InterPSS Grid Contigency Calculation", 
 							mCaseContainer).executeMultiJob(timeout);
 			for (RemoteMessageTable result : objAry) {
-				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+				IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
 			}
 		} catch (GridException e) {
@@ -261,7 +261,7 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		//IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
 		//System.out.println(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, mCaseContainer).toString());
 		
-		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisReJob.class);
 		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecViolation, mCaseContainer).toString());		
 		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_SecAssessment, mCaseContainer).toString());		
 		
