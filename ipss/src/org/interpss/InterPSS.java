@@ -31,7 +31,7 @@ import org.interpss.cmd.CmdLineRunner;
 import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.editor.IpssPropertiesLoader;
-import org.interpss.grid.gridgain.util.GridUtil;
+import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.util.IpssLogger;
@@ -85,7 +85,7 @@ public class InterPSS {
 						.getParamLowerCase(GOptStr))) {
 			String gridgain_home = IpssPropertiesLoader.getEditorString(Pty_GridGainHome);
 			IpssLogger.getLogger().info("Gridgain home " + gridgain_home);
-			GridUtil.startDefaultGrid(gridgain_home);
+			GridEnvHelper.startDefaultGrid(gridgain_home);
 		}
 
 		if (OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))) {
