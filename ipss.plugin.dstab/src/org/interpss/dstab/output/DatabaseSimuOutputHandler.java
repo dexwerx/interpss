@@ -105,9 +105,9 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 		try {
 			int dbCaseId = getDBCaseId();
 			if (e.getHashtableData() != null
-					&& e.getHashtableData().get(GridConstants.Key_CaseId) != null) {
+					&& e.getHashtableData().get(GridConstants.SeKey_CaseId) != null) {
 				// Grid computing case, where case id return from the msg
-				String caseId = (String) e.getHashtableData().get(GridConstants.Key_CaseId);
+				String caseId = (String) e.getHashtableData().get(GridConstants.SeKey_CaseId);
 				dbCaseId = BasePluginSpringCtx.getSimuRecManager().getDBCaseId(
 						caseId);
 			}
