@@ -122,7 +122,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 			Grid grid = GridEnvHelper.getDefaultGrid();
 			long timeout = 0;
 			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Multi-case Aclf Calculation", 
-						mCaseContainer).executeMultiJob(timeout);
+						mCaseContainer).executeMultiJobTask(timeout);
 			for (RemoteMessageTable result : objAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
@@ -222,7 +222,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 			//GridRunner.RemoteNodeDebug = true;
 			//IpssLogger.getLogger().setLevel(Level.INFO);
 			RemoteMessageTable[] objAry = new GridRunner(grid, "InterPSS Grid Aclf Calculation", 
-						mCaseContainer).executeMultiJob(timeout);
+						mCaseContainer).executeMultiJobTask(timeout);
 			for (RemoteMessageTable result : objAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
