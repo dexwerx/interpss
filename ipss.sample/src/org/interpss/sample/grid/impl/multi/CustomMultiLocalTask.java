@@ -30,15 +30,15 @@ package org.interpss.sample.grid.impl.multi;
 
 import org.gridgain.grid.GridException;
 import org.interpss.grid.gridgain.GridConstants;
-import org.interpss.grid.gridgain.job.AbstractGridGainJob;
-import org.interpss.grid.gridgain.task.multiJob.AbstractMultiJobTask;
+import org.interpss.grid.gridgain.job.base.AbstractGridGainJob;
+import org.interpss.grid.gridgain.task.mJobSpilt.AbstractMultiJobSplitTask;
 import org.interpss.grid.msg.RemoteMessageTable;
 
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 
-public class CustomMultiLocalTask extends AbstractMultiJobTask {
+public class CustomMultiLocalTask extends AbstractMultiJobSplitTask {
 	private static final long serialVersionUID = 1;
 
 	// this method is called at the beginning of grid computing
@@ -63,7 +63,7 @@ public class CustomMultiLocalTask extends AbstractMultiJobTask {
 	}
 	
 	@Override
-	protected AbstractGridGainJob createStudyCaseJob(RemoteMessageTable remoteMsg) {
+	protected AbstractGridGainJob createJob(RemoteMessageTable remoteMsg) {
 		return new CustomMultiRemoteJob(remoteMsg);
 	}
 }

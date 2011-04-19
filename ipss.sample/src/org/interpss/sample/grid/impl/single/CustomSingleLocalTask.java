@@ -1,7 +1,7 @@
 
 package org.interpss.sample.grid.impl.single;
 
-import org.interpss.grid.gridgain.job.AbstractGridGainJob;
+import org.interpss.grid.gridgain.job.base.AbstractGridGainJob;
 import org.interpss.grid.gridgain.task.singleJob.AclfSingleJobTask;
 import org.interpss.grid.msg.RemoteMessageTable;
 

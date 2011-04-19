@@ -103,7 +103,7 @@ public class IEEE14_MultiStudyCase {
 		if (grid != null) {
 			long timeout = 0;
 			RemoteMessageTable[] resultAry = new GridRunner(grid,	"InterPSS Grid Aclf Calculation", 
-					mCaseContainer).executeMultiJob(timeout);
+					mCaseContainer).executeMultiJobTask(timeout);
 			/**
 			* Step-6 process results
 			*/
