@@ -140,7 +140,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	}
 
 	@Override
-	public void deserialize(String str) throws InvalidParameterException {
+	public Object deserialize(String str) throws InvalidParameterException {
 		String classname = str.substring(0, str.indexOf('|'));
 		if (!classname.equals(this.getClass().getName())) {
 			throw new InvalidParameterException(
@@ -151,5 +151,6 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		StringTokenizer st = new StringTokenizer(params, ",");
 		this.tf = new Double(st.nextToken()).doubleValue();
 		this.tw = new Double(st.nextToken()).doubleValue();
+		return this;
 	}
 }

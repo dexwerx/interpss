@@ -33,6 +33,10 @@ public class GainBlock extends StaticBlockAdapter {
 	private double k = 0.0;
 	private LimitType limit = null;
 
+	public GainBlock() {
+		this(1.0);
+	}
+	
 	public GainBlock(double k) {
 		setType(IStaticBlock.Type.NoLimit);
 		this.k = k;
@@ -101,6 +105,12 @@ public class GainBlock extends StaticBlockAdapter {
 	 */
 	public LimitType getLimit() {
 		return limit;
+	}
+	
+	/**
+	 */
+	public void setLimit(LimitType limit) {
+		this.limit = limit;
 	}
 
 	@Override
