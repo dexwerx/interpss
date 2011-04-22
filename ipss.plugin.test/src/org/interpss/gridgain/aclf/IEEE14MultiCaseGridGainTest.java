@@ -106,7 +106,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 			Grid grid = GridEnvHelper.getDefaultGrid();
 			long timeout = 0;
 			RemoteMessageTable[] resultAry = new GridRunner(grid,	"InterPSS Grid Multi-case Aclf Calculation", 
-								mCaseContainer).executeMultiJobTask(timeout);
+								mCaseContainer).executeMultiSplitJobTask(timeout);
 			for (RemoteMessageTable result : resultAry) {
 				IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 				resultHandler.transferRemoteResult(mCaseContainer, result);
