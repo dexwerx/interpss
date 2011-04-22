@@ -163,7 +163,7 @@ public class XmlScriptAclfRun {
 				setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
 				try {
 					RemoteMessageTable[] objAry = new GridRunner(grid,
-										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJobTask(timeout);
+										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiSplitJobTask(timeout);
 					for (RemoteMessageTable result : objAry) {
 						IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 							resultHandler.transferRemoteResult(mCaseContainer, result);

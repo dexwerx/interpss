@@ -116,7 +116,7 @@ public class XmlScriptContingency {
 				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 					
 				RemoteMessageTable[] objAry = new GridRunner(grid,
-										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJobTask(GridgainTimeout);
+										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiSplitJobTask(GridgainTimeout);
 				for (RemoteMessageTable result : objAry) {
 					IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisReJob.class);
 					resultHandler.transferRemoteResult(mCaseContainer, result);
