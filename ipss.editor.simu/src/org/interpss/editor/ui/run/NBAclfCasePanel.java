@@ -428,7 +428,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         setLayout(new java.awt.GridBagLayout());
 
-        runAclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        runAclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         runAclfTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 panelSelectionChanged(evt);
@@ -616,7 +616,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
 
         contingencyButtonGroup.add(n1ContingencyRadioButton);
-        n1ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        n1ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         n1ContingencyRadioButton.setSelected(true);
         n1ContingencyRadioButton.setText("N-1");
         n1ContingencyRadioButton.setName("nrRadioButton"); // NOI18N
@@ -657,8 +657,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
         contingencyPanel.add(contingencyMethodPanel, gridBagConstraints);
 
-        continCaseCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        continCaseCheckBox.setText("Specify # of Cases");
+        continCaseCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        continCaseCheckBox.setLabel("Specify # of Cases       ");
         continCaseCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 continCaseCheckBoxActionPerformed(evt);
@@ -666,6 +666,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         ContingencyDataPanel.add(continCaseCheckBox);
 
+        continCaseTextField.setColumns(3);
         continCaseTextField.setText("100");
         continCaseTextField.setEnabled(false);
         ContingencyDataPanel.add(continCaseTextField);
