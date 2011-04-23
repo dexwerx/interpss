@@ -283,12 +283,13 @@ public class BusRecord {
 					busRec.getGenData().getEquivGen()
 						.setPower(BaseDataSetter.createPowerValue(
 							pGen, qGenOrQGenMax, ApparentPowerUnitType.MVA));
-				// set V limit
-				if(vpu!=0 ||vMinOrAngDeg!=0){
-					    busRec.getGenData().getEquivGen()
-					    	.setVoltageLimit(BaseDataSetter.createVoltageLimit(
-					    			vpu, vMinOrAngDeg, VoltageUnitType.PU));
-					}
+			    // for a PQ Bus, it is not proper to set the Vlimit;
+//				// set V limit    
+//				if(vpu!=0 ||vMinOrAngDeg!=0){
+//					    busRec.getGenData().getEquivGen()
+//					    	.setVoltageLimit(BaseDataSetter.createVoltageLimit(
+//					    			vpu, vMinOrAngDeg, VoltageUnitType.PU));
+//					}
 				if(pGen!=0.0&&vpu!=0){
 						ODMLogger.getLogger().info("This bus seems to be a GenPV bus: "+ busId+","+busName
 								+" ,please check! ");
