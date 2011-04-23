@@ -70,7 +70,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     // holds the current case data being edited
     private AclfAlgorithmXmlType xmlCaseAlgo;
-    private ContingencyAnalysisXmlType xmlAnalysus;
+    private ContingencyAnalysisXmlType xmlAnalysis;
     
     public static final int LoadflowPanel = 1,
     					ContingencyPanel = 2,
@@ -127,6 +127,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			this.gridComputing = gridComputing;
 			this.gridComputingPanel.add(gridLfPanel);
 			this.gridContingencyPanel.add(gridContinPanel);
+			if (!this.continCaseCheckBox.isSelected())
+				this.continCaseTextField.setEnabled(false);
 		}
     }
     
@@ -232,9 +234,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
    
     public void setXmlCaseData(ContingencyAnalysisXmlType analysis, GridComputingXmlType xmlGridOpt) {
     	this.xmlCaseAlgo = analysis.getDefaultAclfAlgorithm();
-    	this.xmlAnalysus = analysis;
-    	if (gridComputing)
+    	this.xmlAnalysis = analysis;
+    	analysis.setLimitRunCases(false);
+    	if (gridComputing) {
     		gridContinPanel.setXmlCaseData(xmlGridOpt);
+    	}
     }
 
     /**
@@ -311,11 +315,18 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		else if (this.panelSelected == ContingencyPanel) {
 	        if (this.n1ContingencyRadioButton.isSelected())
-	        	this.xmlAnalysus.setType(ContingencyAnalysisDataType.N_1);
+	        	this.xmlAnalysis.setType(ContingencyAnalysisDataType.N_1);
 	        else if (this.n11ContingencyRadioButton.isSelected())
-	        	this.xmlAnalysus.setType(ContingencyAnalysisDataType.N_1_1);
+	        	this.xmlAnalysis.setType(ContingencyAnalysisDataType.N_1_1);
 	        else
-	        	this.xmlAnalysus.setType(ContingencyAnalysisDataType.N_2);
+	        	this.xmlAnalysis.setType(ContingencyAnalysisDataType.N_2);
+	        
+	        if (this.continCaseCheckBox.isSelected()) {
+	        	this.xmlAnalysis.setLimitRunCases(true);
+	        	this.xmlAnalysis.setMaxRunCases(SwingInputVerifyUtil.getInt(this.continCaseTextField));
+	        }
+	        
+	        this.xmlAnalysis.setDefaultAclfAlgorithm(xmlCaseAlgo);
 
 	        if (gridComputing)
 				gridContinPanel.saveEditor2Form(errMsg);
@@ -361,6 +372,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         n1ContingencyRadioButton = new javax.swing.JRadioButton();
         n11ContingencyRadioButton = new javax.swing.JRadioButton();
         n2ContingencyRadioButton = new javax.swing.JRadioButton();
+        ContingencyDataPanel = new javax.swing.JPanel();
+        continCaseCheckBox = new javax.swing.JCheckBox();
+        continCaseTextField = new javax.swing.JTextField();
         gridContingencyPanel = new javax.swing.JPanel();
         advancedPanel = new javax.swing.JPanel();
         misTitleLabel = new javax.swing.JLabel();
@@ -414,7 +428,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         setLayout(new java.awt.GridBagLayout());
 
-        runAclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
+        runAclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         runAclfTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 panelSelectionChanged(evt);
@@ -602,7 +616,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
 
         contingencyButtonGroup.add(n1ContingencyRadioButton);
-        n1ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        n1ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         n1ContingencyRadioButton.setSelected(true);
         n1ContingencyRadioButton.setText("N-1");
         n1ContingencyRadioButton.setName("nrRadioButton"); // NOI18N
@@ -614,7 +628,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         contingencyMethodPanel.add(n1ContingencyRadioButton);
 
         contingencyButtonGroup.add(n11ContingencyRadioButton);
-        n11ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        n11ContingencyRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         n11ContingencyRadioButton.setText("N-1-1");
         n11ContingencyRadioButton.setEnabled(false);
         n11ContingencyRadioButton.setName("pqRadioButton"); // NOI18N
@@ -640,10 +654,28 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 50, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
         contingencyPanel.add(contingencyMethodPanel, gridBagConstraints);
+
+        continCaseCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        continCaseCheckBox.setText("Specify # of Cases");
+        continCaseCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                continCaseCheckBoxActionPerformed(evt);
+            }
+        });
+        ContingencyDataPanel.add(continCaseCheckBox);
+
+        continCaseTextField.setText("100");
+        continCaseTextField.setEnabled(false);
+        ContingencyDataPanel.add(continCaseTextField);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        contingencyPanel.add(ContingencyDataPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 4;
         contingencyPanel.add(gridContingencyPanel, gridBagConstraints);
 
         runAclfTabbedPane.addTab("Contingency Analysis", contingencyPanel);
@@ -1248,12 +1280,19 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void n2ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n2ContingencyRadioButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_n2ContingencyRadioButtonActionPerformed
+
+    private void continCaseCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continCaseCheckBoxActionPerformed
+    	continCaseTextField.setEnabled(true);
+    }//GEN-LAST:event_continCaseCheckBoxActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ContingencyDataPanel;
     private javax.swing.JLabel accFactorLabel;
     private javax.swing.JTextField accFactorTextField;
     private javax.swing.JPanel advancedPanel;
+    private javax.swing.JCheckBox continCaseCheckBox;
+    private javax.swing.JTextField continCaseTextField;
     private javax.swing.ButtonGroup contingencyButtonGroup;
     private javax.swing.JPanel contingencyMethodPanel;
     private javax.swing.JPanel contingencyPanel;

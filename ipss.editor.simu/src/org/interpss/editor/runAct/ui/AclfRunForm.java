@@ -96,7 +96,14 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					try {
 						GridContingencyAnalysis analysis = GridObjectFactory
 								.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
-						analysis.perform(ContingencyAnalysisType.N1);
+					  	analysis.setLimitRunCase(this.xmlContingency.isLimitRunCases());
+					  	if (analysis.isLimitRunCase())
+					  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
+						
+					  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
+						PluginSpringCtx.getXml2LfAlgorithmMapper()
+								.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
+						analysis.perform(algo, ContingencyAnalysisType.N1);
 						//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
 						//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 
@@ -141,16 +148,19 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				if (this.contingencyAnalysis) {
 					IpssLogger.getLogger().info("Run contingency analysis");
 					
-				  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(
+				  	ContingencyAnalysis analysis = SimuObjectFactory.createContingencyAnalysis(
 				  			SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
+				  	analysis.setLimitRunCase(this.xmlContingency.isLimitRunCases());
+				  	if (analysis.isLimitRunCase())
+				  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
 					
 				  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
 					PluginSpringCtx.getXml2LfAlgorithmMapper()
 							.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
-					mscase.analysis(algo, ContingencyAnalysisType.N1);
+					analysis.analysis(algo, ContingencyAnalysisType.N1);
 					
 					IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
-					dialog.display(ContingencyOutFunc.securityMargin(mscase));					
+					dialog.display(ContingencyOutFunc.securityMargin(analysis));					
 				}
 				else
 					converge = runLoadflow(simuCtx.getAclfNet(), simuCtx);
