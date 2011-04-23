@@ -234,7 +234,7 @@ public class XmlScriptDStabRun {
 					try {
 						RemoteMessageTable[] objAry = new GridRunner(
 										grid, "InterPSS Transient Stability Simulation",
-										mCaseContainer).executeMultiSplitJobTask(ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout());
+										mCaseContainer).executeMultiJobSplitTask(ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout());
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {

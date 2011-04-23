@@ -36,7 +36,6 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
-import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -55,7 +54,6 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.RemoteMessageType;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
@@ -163,7 +161,7 @@ public class XmlScriptAclfRun {
 				setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
 				try {
 					RemoteMessageTable[] objAry = new GridRunner(grid,
-										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiSplitJobTask(timeout);
+										"InterPSS Grid Aclf Calculation", mCaseContainer).executeMultiJobSplitTask(timeout);
 					for (RemoteMessageTable result : objAry) {
 						IRemoteResult resultHandler = RemoteResultFactory.createHandler(GridAclfReJob.class);
 							resultHandler.transferRemoteResult(mCaseContainer, result);
