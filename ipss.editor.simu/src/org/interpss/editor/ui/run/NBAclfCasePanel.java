@@ -43,6 +43,7 @@ import org.interpss.xml.schema.AclfMethodDataType;
 import org.interpss.xml.schema.ContingencyAnalysisDataType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
+import org.interpss.xml.schema.UnitDataType;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
@@ -116,7 +117,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
     	if (_simuCtx.getLoadflowAlgorithm() != null) {
     		_simuCtx.getLoadflowAlgorithm().getLfAdjAlgo().setActivateAllAdjust(false);
-        	initAdvanceControlPanel();
+//        	initAdvanceControlPanel();
     	}
 		msgOutTextArea.setText("");
     }
@@ -295,8 +296,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else
         	xmlCaseAlgo.setLfMethod(AclfMethodDataType.CUSTOM);
         
-        if (SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
+        if (SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0")) {
         	xmlCaseAlgo.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
+        	xmlCaseAlgo.setToleranceUnit(UnitDataType.PU);
+        }
 
         if (SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
         	xmlCaseAlgo.setMaxIterations(SwingInputVerifyUtil.getInt(this.maxItrTextField));
