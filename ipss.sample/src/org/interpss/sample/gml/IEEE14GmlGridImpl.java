@@ -66,7 +66,7 @@ public class IEEE14GmlGridImpl {
 		if (grid != null) {
 			long timeout = 0;
 			RemoteMessageTable[] resultAry = new GridRunner(grid)
-					.executeMultiJobTask(CustomMultiLocalTask.class, mCaseContainer, timeout);
+					.executeMultiJobSplitTask(CustomMultiLocalTask.class, mCaseContainer, timeout);
 		}
 		
 		GridEnvHelper.stopDefaultGrid();		
