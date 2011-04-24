@@ -33,7 +33,7 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
-import org.ieee.odm.schema.DynamicMachineXmlType;
+import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -196,8 +196,8 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 	
 	private void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
-		if (dstabBusXml.getMachineList() != null)
-			for (DynamicMachineXmlType dyGen : dstabBusXml.getMachineList().getMachine()) {
+		if (dstabBusXml.getDynamicGenList() != null)
+			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getDynamicGenList().getDynamicGen()) {
 				// create the machine model and added to the parent bus object
 				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 				String machId = dstabBus.getId() + "-mach" + ++cnt;

@@ -25,7 +25,7 @@
 package org.interpss.mapper.odm.impl.dstab;
 
 import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
-import org.ieee.odm.schema.PssIeeePss1AXmlType;
+import org.ieee.odm.schema.PssIEEE1AXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.interpss.dstab.control.pss.StabilizerObjectFactory;
@@ -85,8 +85,8 @@ public class StabilizerDataHelper {
 			pss.getData().setTw3(pssXml.getTW3().getValue());
 			pss.getData().setTw4(pssXml.getTW4().getValue());
 		}
-		else if (pssXmlRec instanceof PssIeeePss1AXmlType) {
-			PssIeeePss1AXmlType pssXml = (PssIeeePss1AXmlType)pssXmlRec;
+		else if (pssXmlRec instanceof PssIEEE1AXmlType) {
+			PssIEEE1AXmlType pssXml = (PssIEEE1AXmlType)pssXmlRec;
 			Ieee1992PSS1AStabilizer pss = StabilizerObjectFactory.createIeee1992PSS1AStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
 			pss.getData().setKs(pssXml.getKS());			
 			pss.getData().setT1(pssXml.getT1().getValue());
