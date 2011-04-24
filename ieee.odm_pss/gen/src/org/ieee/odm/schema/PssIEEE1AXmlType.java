@@ -15,22 +15,26 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for PssSimpleTypeXmlType complex type.
+ * <p>Java class for PssIEEE1AXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PssSimpleTypeXmlType">
+ * &lt;complexType name="PssIEEE1AXmlType">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}StabilizerModelXmlType">
  *       &lt;sequence>
- *         &lt;element name="Ks" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="KS" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="T1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="T2" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="T3" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="T4" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="Vsmax" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="Vsmin" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="T5" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
+ *         &lt;element name="T6" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
+ *         &lt;element name="VSTMAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VSTMIN" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="A1" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *         &lt;element name="A2" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -40,20 +44,24 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PssSimpleTypeXmlType", propOrder = {
+@XmlType(name = "PssIEEE1AXmlType", propOrder = {
     "ks",
     "t1",
     "t2",
     "t3",
     "t4",
-    "vsmax",
-    "vsmin"
+    "t5",
+    "t6",
+    "vstmax",
+    "vstmin",
+    "a1",
+    "a2"
 })
-public class PssSimpleTypeXmlType
+public class PssIEEE1AXmlType
     extends StabilizerModelXmlType
 {
 
-    @XmlElement(name = "Ks")
+    @XmlElement(name = "KS")
     protected double ks;
     @XmlElement(name = "T1", required = true)
     protected TimePeriodXmlType t1;
@@ -63,16 +71,24 @@ public class PssSimpleTypeXmlType
     protected TimePeriodXmlType t3;
     @XmlElement(name = "T4", required = true)
     protected TimePeriodXmlType t4;
-    @XmlElement(name = "Vsmax")
-    protected double vsmax;
-    @XmlElement(name = "Vsmin")
-    protected double vsmin;
+    @XmlElement(name = "T5", required = true)
+    protected TimePeriodXmlType t5;
+    @XmlElement(name = "T6", required = true)
+    protected TimePeriodXmlType t6;
+    @XmlElement(name = "VSTMAX")
+    protected double vstmax;
+    @XmlElement(name = "VSTMIN")
+    protected double vstmin;
+    @XmlElement(name = "A1")
+    protected Double a1;
+    @XmlElement(name = "A2")
+    protected Double a2;
 
     /**
      * Gets the value of the ks property.
      * 
      */
-    public double getKs() {
+    public double getKS() {
         return ks;
     }
 
@@ -80,7 +96,7 @@ public class PssSimpleTypeXmlType
      * Sets the value of the ks property.
      * 
      */
-    public void setKs(double value) {
+    public void setKS(double value) {
         this.ks = value;
     }
 
@@ -181,35 +197,131 @@ public class PssSimpleTypeXmlType
     }
 
     /**
-     * Gets the value of the vsmax property.
+     * Gets the value of the t5 property.
      * 
+     * @return
+     *     possible object is
+     *     {@link TimePeriodXmlType }
+     *     
      */
-    public double getVsmax() {
-        return vsmax;
+    public TimePeriodXmlType getT5() {
+        return t5;
     }
 
     /**
-     * Sets the value of the vsmax property.
+     * Sets the value of the t5 property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePeriodXmlType }
+     *     
      */
-    public void setVsmax(double value) {
-        this.vsmax = value;
+    public void setT5(TimePeriodXmlType value) {
+        this.t5 = value;
     }
 
     /**
-     * Gets the value of the vsmin property.
+     * Gets the value of the t6 property.
      * 
+     * @return
+     *     possible object is
+     *     {@link TimePeriodXmlType }
+     *     
      */
-    public double getVsmin() {
-        return vsmin;
+    public TimePeriodXmlType getT6() {
+        return t6;
     }
 
     /**
-     * Sets the value of the vsmin property.
+     * Sets the value of the t6 property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePeriodXmlType }
+     *     
+     */
+    public void setT6(TimePeriodXmlType value) {
+        this.t6 = value;
+    }
+
+    /**
+     * Gets the value of the vstmax property.
      * 
      */
-    public void setVsmin(double value) {
-        this.vsmin = value;
+    public double getVSTMAX() {
+        return vstmax;
+    }
+
+    /**
+     * Sets the value of the vstmax property.
+     * 
+     */
+    public void setVSTMAX(double value) {
+        this.vstmax = value;
+    }
+
+    /**
+     * Gets the value of the vstmin property.
+     * 
+     */
+    public double getVSTMIN() {
+        return vstmin;
+    }
+
+    /**
+     * Sets the value of the vstmin property.
+     * 
+     */
+    public void setVSTMIN(double value) {
+        this.vstmin = value;
+    }
+
+    /**
+     * Gets the value of the a1 property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Double }
+     *     
+     */
+    public Double getA1() {
+        return a1;
+    }
+
+    /**
+     * Sets the value of the a1 property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Double }
+     *     
+     */
+    public void setA1(Double value) {
+        this.a1 = value;
+    }
+
+    /**
+     * Gets the value of the a2 property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Double }
+     *     
+     */
+    public Double getA2() {
+        return a2;
+    }
+
+    /**
+     * Sets the value of the a2 property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Double }
+     *     
+     */
+    public void setA2(Double value) {
+        this.a2 = value;
     }
 
 }
