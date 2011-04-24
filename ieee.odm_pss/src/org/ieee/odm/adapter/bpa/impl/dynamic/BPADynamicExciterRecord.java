@@ -24,34 +24,32 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
-import org.ieee.odm.schema.ExcBPAFJXmlType;
-import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
-import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
-import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
-import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
-import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
-import org.ieee.odm.schema.ExciterXmlType;
-import org.ieee.odm.schema.TimePeriodUnitType;
-import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 
 public class BPADynamicExciterRecord {
+	private final static int EA=1;
+	private final static int EC=2;
+	private final static int EK=3;    	
+	private final static int FJ=4;
+	private final static int FK=5;
+	private final static int FQ=6;
+	private final static int FV=7;
+	private final static int FF=8;
+	private final static int FA=9;
 	
-	public static void processExciterData(String str, TransientSimulationXmlType tranSimu,
-    		XBeanODMModelParser parser ,BPAAdapter adapter  ){
-    	final String strAry[]=getExciterDataFields(str,adapter);
+	public static void processExciterData(String str, DStabModelParser parser ) throws ODMException {
+    	final String strAry[]=getExciterDataFields(str);
+    	
+    	String busId = BusRecord.getBusId(strAry[1]);
+    	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	int type=0;
-    	int EA=1;
-    	int EC=2;
-    	int EK=3;    	
-    	int FJ=4;
-    	int FK=5;
-    	int FQ=6;
-    	int FV=7;
-    	int FF=8;
-    	int FA=9;
     	
     	if(strAry[0].equals("EA")){
     		type=EA;
@@ -73,6 +71,9 @@ public class BPADynamicExciterRecord {
     		type=FA;
     	}
     	
+    	// TODO comment out to pass compile
+    	
+/*    	
     	if(type==EA||type==EC||type==EK){
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1968_TYPE_1);
@@ -603,11 +604,11 @@ public class BPADynamicExciterRecord {
         			newExc.setSE2(SE2);
         		}    		
         	}    		
-    	}		
+    	}	
+    	*/	
 	}
 	
-	 private static String[] getExciterDataFields ( final String str
-			 ,BPAAdapter adapter  ) {
+	 private static String[] getExciterDataFields ( final String str ) {
 			
 	    	
 	    	final String[] strAry = new String[19];	
@@ -805,14 +806,8 @@ public class BPADynamicExciterRecord {
 					
 				}
 	    	}catch (Exception e){
-	    		adapter.logErr(e.toString());
+	    		ODMLogger.getLogger().severe(e.toString());
 	    	}
-			
-			
-			
 	        return strAry;
-	        
 	    }
-	
-
 }

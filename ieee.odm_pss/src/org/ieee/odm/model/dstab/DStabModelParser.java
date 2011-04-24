@@ -24,9 +24,16 @@
 
 package org.ieee.odm.model.dstab;
 
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 
 /**
@@ -34,25 +41,8 @@ import org.ieee.odm.schema.NetworkXmlType;
  */
 
 public class DStabModelParser extends AclfModelParser {
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param xmlString
-	 * @throws XmlException
-	 */
-//	public DStabModelParser(String xmlString) throws Exception {
-//		super(xmlString);
-//	}
-	
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param in
-	 * @throws Exception
-	 */
-//	public DStabModelParser(InputStream in) throws Exception {
-//		super(in);
-//	}
+	// some input file might carry DStab Simu data;
+	private DStabSimulationXmlType tranSimu = null;
 	
 	/**
 	 * Default Constructor 
@@ -71,6 +61,12 @@ public class DStabModelParser extends AclfModelParser {
 		return (DStabNetXmlType)getBaseCase();
 	}
 	
+	public DStabSimulationXmlType getDStabSimu() {
+		if (this.tranSimu == null)
+			this.tranSimu = this.getFactory().createDStabSimulationXmlType();
+		return this.tranSimu;
+	}
+	
 	/**
 	 * create the base case object of type DStabNetXmlType
 	 */
@@ -81,7 +77,36 @@ public class DStabModelParser extends AclfModelParser {
 			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
 			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
+			this.tranSimu = this.getFactory().createDStabSimulationXmlType();
 		}
 		return getStudyCase().getBaseCase().getValue();
 	}
+	
+	/*
+	 * 		Bus functions
+	 * 		=============
+	 */
+
+	/**
+	 * get the bus object using the id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public DStabBusXmlType getDStabBus(String id) throws ODMException {
+		BusXmlType bus = getBus(id);
+		if (bus != null) {
+			if (!(bus instanceof DStabBusXmlType)) {
+				if (bus instanceof LoadflowBusXmlType) {
+					DStabBusXmlType dbus = (DStabBusXmlType)ModelStringUtil.casting(bus, "aclfBus", "dstabBus");
+					this.replaceBus(id, dbus);
+					return dbus;
+				}
+			}
+			else
+				return (DStabBusXmlType)bus;
+		}
+		throw new ODMException("Bus not found in the DStabNet, id: " + id);
+	}
+	
 }

@@ -24,17 +24,21 @@
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.ClassicMachineXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.LoadCharacteristicXmlType;
 
 
 public class BPADynamicSequenceRecord {
 
-	public static void processSequenceData(String str, TransientSimulationXmlType tranSimu
-			,XBeanODMModelParser parser, BPAAdapter adapter){				
+	public static void processSequenceData(String str, DStabModelParser parser){				
 		
-		final String strAry[]=getSequenceDataFields(str,adapter);
+		final String strAry[]=getSequenceDataFields(str);
+		
+/*		
 		// positive sequence data		
 		// to do  
 		// zero sequence data		
@@ -161,11 +165,11 @@ public class BPADynamicSequenceRecord {
 			double x0=ModelStringUtil.getDouble(strAry[12], 0.0);
 			mutZero.setXM(x0);
 		}
+*/		
 	}
 	
-	public static void processNegativeData(XBeanODMModelParser parser,
-			TransientSimulationXmlType tranSimu){
-		
+	public static void processNegativeData( DStabModelParser parser){
+/*		
 		// negative sequence generator data
 		
 		for(GeneratorXmlType gen:tranSimu.getDynamicDataList().getBusDynDataList()
@@ -234,10 +238,11 @@ public class BPADynamicSequenceRecord {
 // TODO: hard coded values
 			loadNeg.setRNeg(0.19);
 			loadNeg.setXNeg(0.36);
-		}	
+		}
+*/			
 	}	
 	
-	private static String[] getSequenceDataFields(String str,BPAAdapter adapter){
+	private static String[] getSequenceDataFields(String str){
 		final String[] strAry= new String[13];
 		
 		try{
@@ -322,7 +327,7 @@ public class BPADynamicSequenceRecord {
 	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,74, 80).trim();
 			}
 		}catch(Exception e){
-			adapter.logErr(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 		}
 				
 		return strAry;

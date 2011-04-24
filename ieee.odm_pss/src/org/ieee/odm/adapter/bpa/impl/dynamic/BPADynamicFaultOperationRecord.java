@@ -24,12 +24,15 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchFaultXmlType;
 import org.ieee.odm.schema.BusFaultXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DcLineFaultXmlType;
 import org.ieee.odm.schema.GenChangeDynamicEventXmlType;
 import org.ieee.odm.schema.LoadChangeDynamicEventXmlType;
@@ -39,12 +42,21 @@ import org.ieee.odm.schema.ZUnitType;
 
 public class BPADynamicFaultOperationRecord {
 	
-public static void processFaultOperationData(String str,TransientSimulationXmlType tranSimu
-		            ,BPAAdapter adapter){ 
+public static void processFaultOperationData(String str, DStabModelParser parser ) throws ODMException { 
     	
     	int mode =new Integer(str.substring(35, 37).trim()).intValue();
-    	final String strAry[] = getFaultOperationDataFields(str, mode,adapter);
+    	final String strAry[] = getFaultOperationDataFields(str, mode);
     	
+    	String busId = strAry[1];
+    	if (busId.startsWith("-")) {
+    		busId = busId.substring(1);
+    	}
+    	DStabBusXmlType bus = parser.getDStabBus(busId);
+    	
+    	// TODO comment out to pass compile
+    	
+    	/*    		
+
     	if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){    		
     		
     		boolean breaker1Opened=true;    		
@@ -89,6 +101,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		if(!strAry[12].trim().equals("")){
     			faultLocation= new Double(strAry[11]).doubleValue();
     		} 
+    		
     		// bus fault
     		if(mode==1||mode==-1||mode==2||mode==-2){ 
     			FaultXmlType fault=
@@ -396,10 +409,10 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     				 durationTime, TimePeriodUnitType.CYCLE); 
     	  }
       }
+*/      
     }
 
-private static String[] getFaultOperationDataFields ( final String str, int mode,
-                                  BPAAdapter adapter) {
+private static String[] getFaultOperationDataFields ( final String str, int mode) {
 	final String[] strAry = new String[13];		
 	try{
 		if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){
@@ -444,7 +457,7 @@ private static String[] getFaultOperationDataFields ( final String str, int mode
 			strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,58, 63).trim();			
 		}
 	}catch(Exception e){
-		adapter.logErr(e.toString());
+		ODMLogger.getLogger().severe(e.toString());
 	}
 	
 	

@@ -25,7 +25,10 @@
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.StabilizerXmlType;
@@ -35,10 +38,9 @@ import org.ieee.odm.schema.VoltageUnitType;
 
 public class BPADynamicPSSRecord {
 	
-	public static void processPSSData(String str,TransientSimulationXmlType tranSimu,
-    		XBeanODMModelParser parser, BPAAdapter adapter){
-    	final String[] strAry= getPSSDataFields(str,adapter);
-    	
+	public static void processPSSData(String str, DStabModelParser parser){
+    	final String[] strAry= getPSSDataFields(str);
+/*    	
     	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
     			||str.substring(0, 3).trim().equals("SG")){
     		StabilizerXmlType pss=XBeanTranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
@@ -279,10 +281,10 @@ public class BPADynamicPSSRecord {
     		double vsmin=ModelStringUtil.getDouble(strAry[12], 0.0);
     		dualInputPss.setVSMIN(vsmin);
     		}
-    	
+*/    	
     }
 	
-	private static String[] getPSSDataFields(String str, BPAAdapter adapter){
+	private static String[] getPSSDataFields(String str){
     	final String[] strAry= new String[20];
     	
     	try{
@@ -398,7 +400,7 @@ public class BPADynamicPSSRecord {
         		
         	}
     	}catch (Exception e){
-    		adapter.logErr(e.toString());
+    		ODMLogger.getLogger().severe(e.toString());
     	}
     	
     	    	

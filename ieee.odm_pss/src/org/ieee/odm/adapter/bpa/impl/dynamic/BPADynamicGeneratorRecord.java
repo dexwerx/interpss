@@ -24,24 +24,23 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import java.text.NumberFormat;
-
-import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
-import org.ieee.odm.schema.ClassicMachineXmlType;
-import org.ieee.odm.schema.EquiMachineXmlType;
-import org.ieee.odm.schema.TimePeriodUnitType;
-import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.DStabBusXmlType;
 
 public class BPADynamicGeneratorRecord {
 	
-	public static void processGeneratorData(String str,TransientSimulationXmlType tranSimu,
-    		PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
+	public static void processGeneratorData(String str, DStabModelParser parser) throws ODMException {
+    	final String strAry[]=getGeneratorDataFields(str);
     	
-    	final String strAry[]=getGeneratorDataFields(str, adapter);
-    	
+    	String busId = BusRecord.getBusId(strAry[1]);
+    	DStabBusXmlType bus = parser.getDStabBus(busId);
+
+    	// TODO comment out to pass compile
+    	/*    	
     	PostiveSequenceDataListXmlType.GeneratorPostiveList.GerneratorPostive posGen=
 			tranSimu.getDynamicDataList().getSequenceDataList().getPostiveSequenceDataList().
 		                  getGeneratorPostiveList().addNewGerneratorPostive();
@@ -429,16 +428,15 @@ public class BPADynamicGeneratorRecord {
 				Vol5=new Double(strAry[10]).doubleValue();
 			}
 		}
-    	   	
+    */	   	
     	
     }
 	
-	private static String[] getGeneratorDataFields ( final String str,BPAAdapter adapter) {
+	private static String[] getGeneratorDataFields ( final String str) {
 		final String[] strAry = new String[19];
 		
 		try{
 			if(str.substring(0, 2).trim().equals("M")){
-				
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
@@ -452,7 +450,8 @@ public class BPADynamicGeneratorRecord {
 				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 51).trim();
 				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 55).trim();			
 				
-			}else if(str.substring(0, 2).trim().equals("MC")||str.substring(0, 2).trim().equals("MF")){
+			}
+			else if(str.substring(0, 2).trim().equals("MC")||str.substring(0, 2).trim().equals("MF")){
 				
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
@@ -473,8 +472,8 @@ public class BPADynamicGeneratorRecord {
 				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,69, 73).trim();
 				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();
 				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,78, 80).trim();
-			}else if(str.substring(0, 2).trim().equals("LN")){
-				
+			}
+			else if(str.substring(0, 2).trim().equals("LN")){
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
@@ -488,10 +487,8 @@ public class BPADynamicGeneratorRecord {
 				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,72, 75).trim();
 			}
 		}catch(Exception e){
-			adapter.logErr(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 		}
-		
-			
 		
 		return strAry;
     }

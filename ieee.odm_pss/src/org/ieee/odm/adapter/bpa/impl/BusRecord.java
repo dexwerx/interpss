@@ -54,6 +54,7 @@ public class BusRecord {
 	 */
 	private static long busCnt = 0;
 	private static Hashtable<String,String> busIdLookupTable = null;
+	
 	/**
 	 * reset the bus count and lookup table
 	 */

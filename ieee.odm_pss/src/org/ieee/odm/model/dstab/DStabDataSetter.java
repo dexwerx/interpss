@@ -25,7 +25,12 @@
 package org.ieee.odm.model.dstab;
 
 import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.LoadCharacteristicXmlType;
 
 
 public class DStabDataSetter extends AclfDataSetter {
+	public static LoadCharacteristicXmlType addNewLoad(DStabSimulationXmlType tranSimu) {
+		return null;	
+	}
 }

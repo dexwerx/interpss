@@ -25,15 +25,19 @@
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.LoadCharacteristicXmlType;
 
 public class BPADynamicLoadCharacteristicRecord {
 	
-public static void processLoadCharacteristicData(String str,TransientSimulationXmlType tranSimu,
-	        LoadCharacteristicXmlType load,BPAAdapter adapter){
-	final String[] strAry= getLoadDataFields(str ,adapter); 	
-
+public static void processLoadCharacteristicData(String str, LoadCharacteristicXmlType load){
+	final String[] strAry= getLoadDataFields(str); 	
+	
+	// TODO comment out to pass compile
+	
+/*
 	//busId
 	String busId="";
 	if(!strAry[1].equals("")){
@@ -129,8 +133,9 @@ public static void processLoadCharacteristicData(String str,TransientSimulationX
 	}else if(strAry[0].equals("MI")){
 	// to do	
 	}
+*/	
 }
-private static String[] getLoadDataFields(String str, BPAAdapter adapter){
+private static String[] getLoadDataFields(String str){
 	final String[] strAry= new String[19];
 	
 	try{
@@ -171,7 +176,7 @@ private static String[] getLoadDataFields(String str, BPAAdapter adapter){
 		 }
 	
 	}catch( Exception e){
-		adapter.logErr(e.toString());
+		ODMLogger.getLogger().severe(e.toString());
 	}
 	return strAry;
 }

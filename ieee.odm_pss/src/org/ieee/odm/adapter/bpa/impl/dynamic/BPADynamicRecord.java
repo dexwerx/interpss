@@ -25,26 +25,72 @@
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabDataSetter;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.AclfAlgorithmXmlType;
+import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.LfMethodEnumType;
 
 public class BPADynamicRecord {	
-	
-	static int dataType=0;
-	final static int header=1;
-	final static int faultOperation=2;
-	final static int generatorData=3;
-	final static int exciterData=4;
-	final static int pssData=5;
-	final static int turbine_governorData=6;
-	final static int loadData=7;
-	final static int sequenceData=8;
+	private final static int header=1;
+	private final static int faultOperation=2;
+	private final static int generatorData=3;
+	private final static int exciterData=4;
+	private final static int pssData=5;
+	private final static int turbine_governorData=6;
+	private final static int loadData=7;
+	private final static int sequenceData=8;
 	
 	
-	public static int getDataType(String str,BPAAdapter adapter){	
-		
-				
-			
+	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
+		DStabSimulationXmlType tranSimu = parser.getDStabSimu();
+		String str;
+		do{
+			str= din.readLine();
+			if(!str.startsWith("90")){
+				int dataType = getDataType(str);
+				try{
+					if(dataType==header){
+						processHeaderData(str, tranSimu);
+					}
+					else if(dataType==generatorData){
+						BPADynamicGeneratorRecord.processGeneratorData(str, parser);
+					}
+					else if(dataType==faultOperation){
+						BPADynamicFaultOperationRecord.processFaultOperationData(str, parser);
+					}
+					else if(dataType==exciterData){
+						BPADynamicExciterRecord.processExciterData(str, parser);
+					}
+					else if(dataType==turbine_governorData){
+						BPADynamicTurbineGovernorRecord.processTurbineGovernorData(str, parser);
+					}
+					else if(dataType==pssData){
+						BPADynamicPSSRecord.processPSSData(str, parser);
+					}
+					else if(dataType==loadData){
+						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, DStabDataSetter.addNewLoad(tranSimu));
+					}
+					else if(dataType==sequenceData){
+						BPADynamicSequenceRecord.processSequenceData(str, parser);
+					}
+					else if(dataType==0){
+						
+					}
+				}catch (final Exception e){				
+					e.printStackTrace();
+				}				
+			}			
+		} while (!str.startsWith("90"));
+		// when all the data is converted, calculate negative sequence data
+		BPADynamicSequenceRecord.processNegativeData(parser);		
+	}
+	
+	private static int getDataType(String str){	
+		int dataType=0;
 		 if (str.startsWith(".")&& str.startsWith("")){
 				dataType=0;
 			}else if(str.startsWith("CASE")||str.startsWith("SOL")) {
@@ -55,7 +101,6 @@ public class BPADynamicRecord {
 					str.substring(0, 2).trim().equals("MF")||
 					str.substring(0, 2).trim().equals("MC")||
 					str.substring(0, 2).trim().equals("LN")){
-				
 				dataType=generatorData;
 			}else if (str.substring(0, 2).trim().equals("FA")||
 					str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
@@ -82,72 +127,25 @@ public class BPADynamicRecord {
 					||str.substring(0, 2).trim().equals("XR")||str.substring(0, 2).trim().equals("LM")){
 				dataType=sequenceData;
 			}else {				
-				adapter.logErr("This line data is not processed"+"   "+"'"+str+"'");
-				
+				ODMLogger.getLogger().warning("This line data is not processed"+"   "+"'"+str+"'");
 			}		 
 		 return dataType;
 	}
-	
-	public static void processDynamicData(String str, TransientSimulationXmlType tranSimu, 
-			final IFileReader din,
-			XBeanODMModelParser parser ,BPAAdapter adapter) throws Exception{
-		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
+
+	public static void processHeaderData(String str, DStabSimulationXmlType tranSimu){
+		final String strAry[]= getHeaderDataFields(str);
 		
-		do{
-			str= din.readLine();
-			if(!str.startsWith("90")){
-				getDataType(str,adapter);
-				try{
-					if(dataType==header){
-						processHeaderData(str, tranSimu,adapter);
-					}else if(dataType==faultOperation){
-						BPADynamicFaultOperationRecord.processFaultOperationData(str, tranSimu,adapter);
-					}else if(dataType==generatorData){
-						BPADynamicGeneratorRecord.processGeneratorData(str, tranSimu, baseCaseNet,adapter);
-					}else if(dataType==exciterData){
-						BPADynamicExciterRecord.processExciterData(str, tranSimu, parser,adapter);
-					}else if(dataType==turbine_governorData){
-						BPADynamicTurbineGovernorRecord.processTurbineGovernorData(str, tranSimu, 
-								                        parser,adapter);
-					}else if(dataType==pssData){
-						BPADynamicPSSRecord.processPSSData(str, tranSimu, parser,adapter);
-					}else if(dataType==loadData){
-						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, 
-								tranSimu, XBeanTranStabSimuHelper.addNewLoad(tranSimu),adapter);
-					}else if(dataType==sequenceData){
-						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser,adapter);
-					}else if(dataType==0){
-						
-					}
-					
-				}catch (final Exception e){				
-					e.printStackTrace();
-				}				
-			}			
-		}while (!str.startsWith("90"));
-		// when all the data is converted, calculate negative sequence data
-		BPADynamicSequenceRecord.processNegativeData(parser, tranSimu);		
-	}
-	
-	public static void processHeaderData(String str,TransientSimulationXmlType tranSimu
-			,BPAAdapter adapter){
-		final String strAry[]= getHeaderDataFields(str,adapter);
-		
-		TransientSimulationXmlType.PowerFlowInitialization pfInitial=
-			tranSimu.getPowerFlowInitialization();
+		AclfAlgorithmXmlType aclfAlgo = tranSimu.getAclfInitialization();
 		
 		// network solution card--SOL
 		if(str.startsWith("SOL")){			
-			String powerFlowMethod="PQ";
 			if(!strAry[2].equals("")){
 				if(new Integer(strAry[2]).intValue()==1){
-					powerFlowMethod="NR";
-					pfInitial.setPowerFlowMethod(TransientSimulationXmlType.
-							PowerFlowInitialization.PowerFlowMethod.NR);
+					aclfAlgo.setLfMethod(LfMethodEnumType.NR);
 				}
-			}else{
-				pfInitial.setPowerFlowMethod(TransientSimulationXmlType.
-						PowerFlowInitialization.PowerFlowMethod.PQ);
+			}
+			else{
+				aclfAlgo.setLfMethod(LfMethodEnumType.PQ);
 			}			
 		}
 		// CASE card
@@ -158,7 +156,8 @@ public class BPADynamicRecord {
 			//pfInitial.setPowerFlowCase(pfCase);
 		}		
 	}
-    private static String[] getHeaderDataFields ( final String str,BPAAdapter adapter) {
+	
+    private static String[] getHeaderDataFields ( final String str) {
 		final String[] strAry = new String[16];
 		
 		try{// for SOL card
@@ -187,7 +186,7 @@ public class BPADynamicRecord {
 				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,75, 80);			
 			}
 			}catch(Exception e){
-				adapter.logErr(e.toString());
+				ODMLogger.getLogger().severe(e.toString());
 			}
 		
 		return strAry;

@@ -24,7 +24,10 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.model.ModelStringUtil;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
 import org.ieee.odm.schema.GovHydroTurbineXmlType;
 import org.ieee.odm.schema.GovHydroXmlType;
@@ -37,12 +40,9 @@ import org.ieee.odm.schema.VoltageUnitType;
 
 public class BPADynamicTurbineGovernorRecord {
 	
-	public static void processTurbineGovernorData(String str,TransientSimulationXmlType tranSimu,
-    		XBeanODMModelParser parser,BPAAdapter adapter){
-    	
-    	
-    	final String strAry[]=getTGDataFields(str,adapter);
-    	
+	public static void processTurbineGovernorData(String str, DStabModelParser parser){
+    	final String strAry[]=getTGDataFields(str);
+/*    	
     	if(strAry[0].equals("GG")){ 
     		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
@@ -254,10 +254,10 @@ public class BPADynamicTurbineGovernorRecord {
     		        		        			
     		}    
     	}
-    	
+*/    	
     }
 	
-	 private static String[] getTGDataFields ( final String str,BPAAdapter adapter) {
+	 private static String[] getTGDataFields ( final String str) {
 		   	
 	    	final String[] strAry = new String[19];
 	    	
@@ -377,7 +377,7 @@ public class BPADynamicTurbineGovernorRecord {
 					
 		    	}
 	    	}catch(Exception e){
-	    		adapter.logErr(e.toString());
+	    		ODMLogger.getLogger().severe(e.toString());
 	    	}
 	    	return strAry;
 		
