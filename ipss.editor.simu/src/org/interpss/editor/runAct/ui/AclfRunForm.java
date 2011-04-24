@@ -86,70 +86,14 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
     public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		boolean converge = false;
-//		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
-//			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
-//		} else {
-			if (this.xmlGridOpt.isEnableGridRun()) {
-				if (this.contingencyAnalysis) {
-					IpssLogger.getLogger().info("Run Grid contingency analysis");
+		if (this.xmlGridOpt.isEnableGridRun()) {
+			final AclfNetwork aclfNet = simuCtx.getAclfNet();
+			if (this.contingencyAnalysis) {
+				IpssLogger.getLogger().info("Run Grid contingency analysis");
 
-					try {
-						GridContingencyAnalysis analysis = GridObjectFactory
-								.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
-					  	analysis.setLimitRunCase(this.xmlContingency.isLimitRunCases());
-					  	if (analysis.isLimitRunCase())
-					  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
-						
-					  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
-						PluginSpringCtx.getXml2LfAlgorithmMapper()
-								.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
-						analysis.perform(algo, ContingencyAnalysisType.N1);
-						//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
-						//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
-
-						IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
-						StringBuffer buffer = new StringBuffer();
-						buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
-						buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
-						dialog.display(buffer);					
-					} catch (InterpssException e) {
-						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
-								"Grid Aclf Error", e.toString());
-						return false;
-					}
-				}
-				else {
-					Grid grid = GridEnvHelper.getDefaultGrid();
-					String nodeId = GridEnvHelper.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
-					DStabSingleJobTask.RemoteNodeId = nodeId;
-					GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
-					try {
-						RemoteMessageTable result = new GridRunner(
-								grid, "InterPSS Grid Aclf Calculation", simuCtx.getLoadflowAlgorithm())
-								.executeTask(this.xmlGridOpt.getTimeout());
-						String str = result.getSerializedAclfNet();
-						AclfNetwork adjNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
-						adjNet.rebuildLookupTable();
-						simuCtx.setAclfNet(adjNet);
-						converge = adjNet.isLfConverged();
-						if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
-							IOutputTextDialog dialog = UISpringAppContext
-									.getOutputTextDialog("Loadflow Analysis Run by Remote "
-											+ this.xmlGridOpt.getRemoteNodeName());
-							dialog.display(adjNet);
-						}
-					} catch (GridException e) {
-						CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
-								"Grid Aclf Error", e.toString());
-						return false;
-					}
-				}
-			} else {
-				if (this.contingencyAnalysis) {
-					IpssLogger.getLogger().info("Run contingency analysis");
-					
-				  	ContingencyAnalysis analysis = SimuObjectFactory.createContingencyAnalysis(
-				  			SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
+				try {
+					GridContingencyAnalysis analysis = GridObjectFactory
+							.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
 				  	analysis.setLimitRunCase(this.xmlContingency.isLimitRunCases());
 				  	if (analysis.isLimitRunCase())
 				  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
@@ -157,15 +101,69 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
 					PluginSpringCtx.getXml2LfAlgorithmMapper()
 							.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
-					analysis.analysis(algo, ContingencyAnalysisType.N1);
-					
+					analysis.perform(algo, ContingencyAnalysisType.N1);
+					//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
+					//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
+
 					IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
-					dialog.display(ContingencyOutFunc.securityMargin(analysis));					
+					StringBuffer buffer = new StringBuffer();
+					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
+					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
+					dialog.display(buffer);					
+				} catch (InterpssException e) {
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+							"Grid Aclf Error", e.toString());
+					return false;
 				}
-				else
-					converge = runLoadflow(simuCtx.getAclfNet(), simuCtx);
 			}
-//		}
+			else {
+				Grid grid = GridEnvHelper.getDefaultGrid();
+				String nodeId = GridEnvHelper.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
+				DStabSingleJobTask.RemoteNodeId = nodeId;
+				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
+				try {
+					RemoteMessageTable result = new GridRunner(
+							grid, "InterPSS Grid Aclf Calculation", simuCtx.getLoadflowAlgorithm())
+							.executeTask(this.xmlGridOpt.getTimeout());
+					String str = result.getSerializedAclfNet();
+					AclfNetwork adjNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
+					adjNet.rebuildLookupTable();
+					simuCtx.setAclfNet(adjNet);
+					converge = adjNet.isLfConverged();
+					if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
+						IOutputTextDialog dialog = UISpringAppContext
+								.getOutputTextDialog("Loadflow Analysis Run by Remote "
+										+ this.xmlGridOpt.getRemoteNodeName());
+						dialog.display(adjNet);
+					}
+				} catch (GridException e) {
+					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+							"Grid Aclf Error", e.toString());
+					return false;
+				}
+			}
+			simuCtx.setAclfNet(aclfNet);
+		} else {
+			if (this.contingencyAnalysis) {
+				IpssLogger.getLogger().info("Run contingency analysis");
+				
+			  	ContingencyAnalysis analysis = SimuObjectFactory.createContingencyAnalysis(
+			  			SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
+			  	analysis.setLimitRunCase(this.xmlContingency.isLimitRunCases());
+			  	if (analysis.isLimitRunCase())
+			  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
+				
+			  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
+				PluginSpringCtx.getXml2LfAlgorithmMapper()
+						.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
+				analysis.analysis(algo, ContingencyAnalysisType.N1);
+				
+				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
+				dialog.display(ContingencyOutFunc.securityMargin(analysis));					
+			}
+			else
+				converge = runLoadflow(simuCtx.getAclfNet(), simuCtx);
+		}
 		return converge;
 	}
 
