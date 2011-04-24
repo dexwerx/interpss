@@ -25,7 +25,7 @@
 	<element name="eq11Ed11MachModel" type="pss:Eq11Ed11MachineXmlType" substitutionGroup="pss:machineModel"/>
 	<element name="eq11MachModel" type="pss:Eq11MachineXmlType" substitutionGroup="pss:machineModel"/>
 
-	<complexType name="DynamicMachineXmlType">
+	<complexType name="DynamicGeneratorXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
@@ -62,8 +62,7 @@
 				from Loadflow analysis
 				</documentation></annotation>
 				<choice>
-					<element name="equivSource" minOccurs="0" type="pss:ScEquivSourceXmlType">
-					</element>
+					<element name="equivSource" minOccurs="0" type="pss:ScEquivSourceXmlType"></element>
 					<element name="equivGen" minOccurs="0">
 						<complexType>
 							<sequence>

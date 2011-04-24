@@ -65,13 +65,13 @@
 		<complexContent>
 			<extension base="pss:ShortCircuitBusXmlType">
 				<sequence>
-					<element name="machineList" minOccurs="0" maxOccurs="1">
+					<element name="dynamicGenList" minOccurs="0" maxOccurs="1">
 						<annotation><documentation>
 						0-* machines could be defined at a DStab Bus.
 						</documentation></annotation>
 						<complexType>
 							<sequence>
-								<element name="machine" type="pss:DynamicMachineXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+								<element name="dynamicGen" type="pss:DynamicGeneratorXmlType" minOccurs="1" maxOccurs="unbounded"></element>
 							</sequence>
 						</complexType>
 					</element>
