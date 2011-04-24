@@ -24,6 +24,7 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -47,11 +48,8 @@ public static void processFaultOperationData(String str, DStabModelParser parser
     	int mode =new Integer(str.substring(35, 37).trim()).intValue();
     	final String strAry[] = getFaultOperationDataFields(str, mode);
     	
-    	String busId = strAry[1];
-    	if (busId.startsWith("-")) {
-    		busId = busId.substring(1);
-    	}
-    	DStabBusXmlType bus = parser.getDStabBus(busId);
+    	String fromBusId = BusRecord.getBusId(strAry[2]);
+    	String toBusId = BusRecord.getBusId(strAry[5]);
     	
     	// TODO comment out to pass compile
     	

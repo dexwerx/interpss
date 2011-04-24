@@ -29,7 +29,10 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.model.dstab.DStabParserHelper;
+import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DynamicGeneratorXmlType;
 
 public class BPADynamicGeneratorRecord {
 	
@@ -38,8 +41,9 @@ public class BPADynamicGeneratorRecord {
     	
     	String busId = BusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
+    	
+    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
 
-    	// TODO comment out to pass compile
     	/*    	
     	PostiveSequenceDataListXmlType.GeneratorPostiveList.GerneratorPostive posGen=
 			tranSimu.getDynamicDataList().getSequenceDataList().getPostiveSequenceDataList().
@@ -48,9 +52,94 @@ public class BPADynamicGeneratorRecord {
     	                  .getZeroSequenceDataList().getGeneratorZeroList().addNewGeneratorZero();    	
     	zeroGen.setZRZer(0);
     	zeroGen.setZXZer(0);
-    	if(str.substring(0, 2).trim().equals("M")){
-    		GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().
+    	*/
+    	
+    	if (str.substring(0,2).trim().equals("MC")){
+    		ClassicMachineXmlType mach = DStabParserHelper.createClassicMachine(dynGen);
+/*			
+			GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().
 	         getGeneratorDataList().addNewGenerator();
+			String busId=strAry[1];
+			posGen.addNewBusId().setName(busId);
+	   		gen.addNewLocatedBus().setName(busId);
+	   		zeroGen.addNewBusId().setName(busId);
+	   		double ratedVoltage=0.0;
+	   		if(!strAry[2].equals("")){
+	   			ratedVoltage= new Double(strAry[2]).doubleValue();
+	   			XBeanDataSetter.setVoltageData(gen.addNewBusRatedVoltage(), 
+	   					ratedVoltage, VoltageUnitType.KV);    		
+	   		}
+	   		gen.setGeneratorType(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL);
+	   		ClassicMachineXmlType claGen=gen.
+	   		                    addNewGeneratorModel().addNewClassicalModel();
+	   		String genId="1";
+	   		if(!strAry[3].equals("")){
+	   			genId=strAry[3];	   			
+	   		}
+	   		gen.addNewGenId().setName(genId);
+	   		posGen.addNewMacId().setName(genId);
+	   		zeroGen.addNewMacId().setName(genId);
+	   		double Emws=0.0;
+			if(!strAry[4].equals("")){
+				Emws=new Double(strAry[4]).doubleValue();
+			}
+			// infinit bus
+			double xd1=0.0;
+			if(Emws==999999){
+				claGen.setH(999999);				
+				if(!strAry[9].equals("")){
+					xd1=new Double(strAry[9]).doubleValue();
+	    			claGen.setXd1(xd1);	    			
+	    		}
+			} else{
+				double MvaBase=0.0;
+				if(!strAry[7].equals("")){
+					MvaBase=new Double(strAry[7]).doubleValue();
+				}else {
+					MvaBase=baseCaseNet.getBasePower().getValue();
+				}
+				double h=0.0;
+				if(Emws!=0.0){
+					h=Emws/MvaBase;
+					NumberFormat ddf1= NumberFormat.getInstance();
+					ddf1.setMaximumFractionDigits(4);
+					h= new Double(ddf1.format(h)).doubleValue();
+					claGen.setH(h);
+				}	   		
+		   		double pContri=0.0,qContri=0.0;
+				if(!strAry[5].equals("")){
+					pContri=new Double(strAry[5]).doubleValue();
+					if(pContri<=1.0&&qContri!=0.0){
+						pContri=pContri*100;
+					}
+					gen.setPContribution(pContri);
+				}
+				if(!strAry[6].equals("")){
+					qContri=new Double(strAry[6]).doubleValue();
+					if(qContri<=1.0&&qContri!=0.0){
+						qContri=qContri*100;
+					}
+					gen.setQContribution(qContri);
+				}
+				
+				XBeanDataSetter.setActivePower(claGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
+				if(!strAry[9].equals("")){
+					xd1=new Double(strAry[9]).doubleValue();
+	    			claGen.setXd1(xd1);
+	    		}				
+			}
+			posGen.setZRPos(0.0);
+    		posGen.setZXPos(xd1);
+			double D=2.0;
+			if(!strAry[18].equals("")){
+				D=new Double(strAry[18]).doubleValue();    			
+		    }
+			claGen.setD(D);
+*/			
+    	}
+    	else if(str.substring(0, 2).trim().equals("M")){
+/*    		
+    		GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().getGeneratorDataList().addNewGenerator();
     		String busId=strAry[1];
     		gen.addNewLocatedBus().setName(busId);
     		posGen.addNewBusId().setName(busId);
@@ -89,9 +178,10 @@ public class BPADynamicGeneratorRecord {
     		double tq011=ModelStringUtil.getDouble(strAry[11], 0.0);
     		XBeanDataSetter.setTimePeriodData(subTranGen.addNewTq011(), 
 					tq011, TimePeriodUnitType.SEC);    		
-    		
-		}else if(str.substring(0, 2).trim().equals("MF")){
-			
+*/    		
+		}
+    	else if(str.substring(0, 2).trim().equals("MF")){
+/*			
 			String busId=strAry[1];
 			String genId="1";			
 			posGen.addNewBusId().setName(busId);
@@ -181,192 +271,10 @@ public class BPADynamicGeneratorRecord {
 					D=new Double(strAry[18]).doubleValue();    			
 			    }
 				subTranGen.setD(D);
-				
-			}else if(gen==null){
-				GeneratorXmlType newGen=tranSimu.getDynamicDataList().getBusDynDataList().
-		         getGeneratorDataList().addNewGenerator();
-				newGen.addNewLocatedBus().setName(busId);
-				double ratedVoltage=0.0;
-	    		if(!strAry[2].equals("")){
-	    			ratedVoltage= new Double(strAry[2]).doubleValue();
-	    			XBeanDataSetter.setVoltageData(newGen.addNewBusRatedVoltage(), 
-	    					ratedVoltage, VoltageUnitType.KV);    		
-	    		}
-	    		if(!genId.equals("")){
-	    			newGen.addNewGenId().setName(genId);
-	    			posGen.addNewMacId().setName(genId);
-	    			zeroGen.addNewMacId().setName(genId);
-	    		}
-	    		
-	    		newGen.setGeneratorType(GeneratorXmlType.GeneratorType.TRANSIENT_MODEL);
-	    		TransientMachineXmlType tranGen= newGen.addNewGeneratorModel().
-	    		         addNewTransModel();
-	    		
-	    		double pContri=0.0,qContri=0.0;
-				if(!strAry[5].equals("")){
-					pContri=new Double(strAry[5]).doubleValue();
-					if(pContri<=1.0&&qContri!=0.0){
-						pContri=pContri*100;
-					}
-					newGen.setPContribution(pContri);
-				}
-				if(!strAry[6].equals("")){
-					qContri=new Double(strAry[6]).doubleValue();
-					if(qContri<=1.0&&qContri!=0.0){
-						qContri=qContri*100;
-					}
-					newGen.setQContribution(qContri);
-				}
-				double Emws=0.0;
-				if(!strAry[4].equals("")){
-					Emws=new Double(strAry[4]).doubleValue();
-				}
-				double MvaBase=0.0;
-				if(!strAry[7].equals("")){
-					MvaBase=new Double(strAry[7]).doubleValue();
-				}else {
-					MvaBase=baseCaseNet.getBasePower().getValue();
-				}
-				XBeanDataSetter.setActivePower(tranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
-				double h=0.0;
-				if(Emws!=0.0){
-					h=Emws/MvaBase;
-					NumberFormat ddf1= NumberFormat.getInstance();
-					ddf1.setMaximumFractionDigits(4);
-					h= new Double(ddf1.format(h)).doubleValue();
-					tranGen.setH(h);
-				}
-				
-				double ra=ModelStringUtil.getDouble(strAry[8], 0.0);
-				tranGen.setRa(ra);	    			
-	    		
-				double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
-				tranGen.setXd1(xd1);	    			
-	    		
-				
-	    		posGen.setZRPos(0.0);
-	    		posGen.setZXPos(xd1);
-				
-				double xq1=ModelStringUtil.getDouble(strAry[10], 0.0);
-				tranGen.setXq1(xq1);	    			
-	    		
-				double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
-				tranGen.setXd(xd);	    			
-	    		
-				double xq=ModelStringUtil.getDouble(strAry[12], 0.0);
-				tranGen.setXq(xq);	    			
-	    		
-				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
-	    		XBeanDataSetter.setTimePeriodData(tranGen.addNewTdo1(), 
-	    					td01, TimePeriodUnitType.SEC);
-	    		
-	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
-	    		XBeanDataSetter.setTimePeriodData(tranGen.addNewTq01(), 
-	    					tq01, TimePeriodUnitType.SEC);
-	    			    		
-				double E1=1.0, SE1=0.0;
-				if(!strAry[16].equals("")){
-					SE1=new Double(strAry[16]).doubleValue();					
-				}
-				tranGen.setE1(1.0);
-				tranGen.setSE1(SE1);
-				double E2=1.2, SE2=0.0;
-				if(!strAry[17].equals("")){
-					SE2=new Double(strAry[17]).doubleValue();					
-				}
-				tranGen.setE2(1.2);
-				tranGen.setSE2(SE2);
-				double D=2.0;
-				if(!strAry[18].equals("")){
-					D=new Double(strAry[18]).doubleValue();    			
-			    }
-				tranGen.setD(D);
+*/				
 			}
-			
-		// classical model 	
-		}else if(str.substring(0,2).trim().equals("MC")){
-			
-			GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().
-	         getGeneratorDataList().addNewGenerator();
-			String busId=strAry[1];
-			posGen.addNewBusId().setName(busId);
-	   		gen.addNewLocatedBus().setName(busId);
-	   		zeroGen.addNewBusId().setName(busId);
-	   		double ratedVoltage=0.0;
-	   		if(!strAry[2].equals("")){
-	   			ratedVoltage= new Double(strAry[2]).doubleValue();
-	   			XBeanDataSetter.setVoltageData(gen.addNewBusRatedVoltage(), 
-	   					ratedVoltage, VoltageUnitType.KV);    		
-	   		}
-	   		gen.setGeneratorType(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL);
-	   		ClassicMachineXmlType claGen=gen.
-	   		                    addNewGeneratorModel().addNewClassicalModel();
-	   		String genId="1";
-	   		if(!strAry[3].equals("")){
-	   			genId=strAry[3];	   			
-	   		}
-	   		gen.addNewGenId().setName(genId);
-	   		posGen.addNewMacId().setName(genId);
-	   		zeroGen.addNewMacId().setName(genId);
-	   		double Emws=0.0;
-			if(!strAry[4].equals("")){
-				Emws=new Double(strAry[4]).doubleValue();
-			}
-			// infinit bus
-			double xd1=0.0;
-			if(Emws==999999){
-				claGen.setH(999999);				
-				if(!strAry[9].equals("")){
-					xd1=new Double(strAry[9]).doubleValue();
-	    			claGen.setXd1(xd1);	    			
-	    		}
-			} else{
-				double MvaBase=0.0;
-				if(!strAry[7].equals("")){
-					MvaBase=new Double(strAry[7]).doubleValue();
-				}else {
-					MvaBase=baseCaseNet.getBasePower().getValue();
-				}
-				double h=0.0;
-				if(Emws!=0.0){
-					h=Emws/MvaBase;
-					NumberFormat ddf1= NumberFormat.getInstance();
-					ddf1.setMaximumFractionDigits(4);
-					h= new Double(ddf1.format(h)).doubleValue();
-					claGen.setH(h);
-				}	   		
-		   		double pContri=0.0,qContri=0.0;
-				if(!strAry[5].equals("")){
-					pContri=new Double(strAry[5]).doubleValue();
-					if(pContri<=1.0&&qContri!=0.0){
-						pContri=pContri*100;
-					}
-					gen.setPContribution(pContri);
-				}
-				if(!strAry[6].equals("")){
-					qContri=new Double(strAry[6]).doubleValue();
-					if(qContri<=1.0&&qContri!=0.0){
-						qContri=qContri*100;
-					}
-					gen.setQContribution(qContri);
-				}
-				
-				XBeanDataSetter.setActivePower(claGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
-				if(!strAry[9].equals("")){
-					xd1=new Double(strAry[9]).doubleValue();
-	    			claGen.setXd1(xd1);
-	    		}				
-			}
-			posGen.setZRPos(0.0);
-    		posGen.setZXPos(xd1);
-			double D=2.0;
-			if(!strAry[18].equals("")){
-				D=new Double(strAry[18]).doubleValue();    			
-		    }
-			claGen.setD(D);
-   		
-		}else if(str.substring(0, 2).trim().equals("LN")){
-			
+    	else if(str.substring(0, 2).trim().equals("LN")){
+/*			
 			String bus1="";
 			double Vol1=0.0;
 			if(!strAry[1].equals("")){
@@ -427,8 +335,112 @@ public class BPADynamicGeneratorRecord {
 			if(!strAry[10].equals("")){
 				Vol5=new Double(strAry[10]).doubleValue();
 			}
+*/			
 		}
-    */	   	
+/*    	
+		else if(gen==null){
+/*			
+			GeneratorXmlType newGen=tranSimu.getDynamicDataList().getBusDynDataList().
+	         getGeneratorDataList().addNewGenerator();
+			newGen.addNewLocatedBus().setName(busId);
+			double ratedVoltage=0.0;
+    		if(!strAry[2].equals("")){
+    			ratedVoltage= new Double(strAry[2]).doubleValue();
+    			XBeanDataSetter.setVoltageData(newGen.addNewBusRatedVoltage(), 
+    					ratedVoltage, VoltageUnitType.KV);    		
+    		}
+    		if(!genId.equals("")){
+    			newGen.addNewGenId().setName(genId);
+    			posGen.addNewMacId().setName(genId);
+    			zeroGen.addNewMacId().setName(genId);
+    		}
+    		
+    		newGen.setGeneratorType(GeneratorXmlType.GeneratorType.TRANSIENT_MODEL);
+    		TransientMachineXmlType tranGen= newGen.addNewGeneratorModel().
+    		         addNewTransModel();
+    		
+    		double pContri=0.0,qContri=0.0;
+			if(!strAry[5].equals("")){
+				pContri=new Double(strAry[5]).doubleValue();
+				if(pContri<=1.0&&qContri!=0.0){
+					pContri=pContri*100;
+				}
+				newGen.setPContribution(pContri);
+			}
+			if(!strAry[6].equals("")){
+				qContri=new Double(strAry[6]).doubleValue();
+				if(qContri<=1.0&&qContri!=0.0){
+					qContri=qContri*100;
+				}
+				newGen.setQContribution(qContri);
+			}
+			double Emws=0.0;
+			if(!strAry[4].equals("")){
+				Emws=new Double(strAry[4]).doubleValue();
+			}
+			double MvaBase=0.0;
+			if(!strAry[7].equals("")){
+				MvaBase=new Double(strAry[7]).doubleValue();
+			}else {
+				MvaBase=baseCaseNet.getBasePower().getValue();
+			}
+			XBeanDataSetter.setActivePower(tranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
+			double h=0.0;
+			if(Emws!=0.0){
+				h=Emws/MvaBase;
+				NumberFormat ddf1= NumberFormat.getInstance();
+				ddf1.setMaximumFractionDigits(4);
+				h= new Double(ddf1.format(h)).doubleValue();
+				tranGen.setH(h);
+			}
+			
+			double ra=ModelStringUtil.getDouble(strAry[8], 0.0);
+			tranGen.setRa(ra);	    			
+    		
+			double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			tranGen.setXd1(xd1);	    			
+    		
+			
+    		posGen.setZRPos(0.0);
+    		posGen.setZXPos(xd1);
+			
+			double xq1=ModelStringUtil.getDouble(strAry[10], 0.0);
+			tranGen.setXq1(xq1);	    			
+    		
+			double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
+			tranGen.setXd(xd);	    			
+    		
+			double xq=ModelStringUtil.getDouble(strAry[12], 0.0);
+			tranGen.setXq(xq);	    			
+    		
+			double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		XBeanDataSetter.setTimePeriodData(tranGen.addNewTdo1(), 
+    					td01, TimePeriodUnitType.SEC);
+    		
+    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		XBeanDataSetter.setTimePeriodData(tranGen.addNewTq01(), 
+    					tq01, TimePeriodUnitType.SEC);
+    			    		
+			double E1=1.0, SE1=0.0;
+			if(!strAry[16].equals("")){
+				SE1=new Double(strAry[16]).doubleValue();					
+			}
+			tranGen.setE1(1.0);
+			tranGen.setSE1(SE1);
+			double E2=1.2, SE2=0.0;
+			if(!strAry[17].equals("")){
+				SE2=new Double(strAry[17]).doubleValue();					
+			}
+			tranGen.setE2(1.2);
+			tranGen.setSE2(SE2);
+			double D=2.0;
+			if(!strAry[18].equals("")){
+				D=new Double(strAry[18]).doubleValue();    			
+		    }
+			tranGen.setD(D);
+		}
+	}
+*/		
     	
     }
 	

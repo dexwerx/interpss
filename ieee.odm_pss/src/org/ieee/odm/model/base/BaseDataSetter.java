@@ -132,6 +132,13 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		return time;
 	}
 
+	public static TimePeriodXmlType createTimeConstSec(double t){
+		TimePeriodXmlType time = getFactory().createTimePeriodXmlType();
+		time.setValue(t);
+		time.setUnit(TimePeriodUnitType.SEC);
+		return time;
+	}
+
 	/**
 	 * convert the time oboject to unit sec
 	 */

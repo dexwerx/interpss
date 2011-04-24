@@ -27,10 +27,17 @@ package org.ieee.odm.adapter.bpa.impl.dynamic;
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.ExcBPAFJXmlType;
+import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
+import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
+import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
+import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 
 public class BPADynamicExciterRecord {
 	private final static int EA=1;
@@ -45,107 +52,79 @@ public class BPADynamicExciterRecord {
 	
 	public static void processExciterData(String str, DStabModelParser parser ) throws ODMException {
     	final String strAry[]=getExciterDataFields(str);
+    	int type= getExcType(strAry[0]);
     	
     	String busId = BusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	int type=0;
+    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     	
-    	if(strAry[0].equals("EA")){
-    		type=EA;
-    	}else if(strAry[0].equals("EC")){
-    		type=EC;
-    	}else if(strAry[0].equals("EK")){
-    		type=EK;
-    	}else if(strAry[0].equals("FJ")){
-    		type=FJ;
-    	}else if(strAry[0].equals("FK")){
-    		type=FK;
-    	}else if(strAry[0].equals("FQ")){
-    		type=FQ;
-    	}else if(strAry[0].equals("FV")){
-    		type=FV;
-    	}else if(strAry[0].equals("FF")){
-    		type=FF;
-    	}else if(strAry[0].equals("FA")){
-    		type=FA;
-    	}
-    	
-    	// TODO comment out to pass compile
-    	
-/*    	
     	if(type==EA||type==EC||type==EK){
-    		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
-    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1968_TYPE_1);
-    		ExcIEEE1968Type1XmlType type1968= exc.
-    		                       addNewExciterModel().addNewIEEE1968Type1();
-    		//busId
-    		String busId=strAry[1];
-    		exc.addNewLocatedBus().setName(busId);  
-    		//bus Voltage 
-    		double voltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-    		XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
-    	    					voltage, VoltageUnitType.KV);
-    		   		    		
+    		ExcIEEE1968Type1XmlType exc = DStabParserHelper.createExcIEEE1968Type1XmlType(dynGen);
+
     		//excId
     		String excId="1";
     		if(!strAry[3].equals("")){
     			excId=strAry[3];
     		} 
-    		exc.addNewExcId().setName(excId);
+    		exc.setDesc("IEEE1968 Type1 excId-" + excId);
+    		
     		//TR
     		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		XBeanDataSetter.setTimePeriodData(type1968.addNewTR(), Tr, TimePeriodUnitType.SEC);
+    		exc.setTR(BaseDataSetter.createTimeConstSec(Tr));
     		    		
     		//KA for all, KV for EE
     		double Ka=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		type1968.setKA(Ka);
+    		exc.setKA(Ka);
     		   		
     		//TA for all, TRH for EE
     		double Ta=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		XBeanDataSetter.setTimePeriodData(type1968.addNewTA(), Ta, TimePeriodUnitType.SEC);
+    		exc.setTA(BaseDataSetter.createTimeConstSec(Ta));
     		
     		//VRminMult, VRmax*multi=Vrmin. VRmin for ED EJ
     		double multi=ModelStringUtil.getDouble(strAry[8], 0.0);
     		// KE
     		double Ke=ModelStringUtil.getDouble(strAry[9], 0.0);
-    		type1968.setKE(Ke);
+    		exc.setKE(Ke);
     		    		
     		//TE
     		double Te= ModelStringUtil.getDouble(strAry[10], 0.0);
-    		XBeanDataSetter.setTimePeriodData(type1968.addNewTE(), Te, TimePeriodUnitType.SEC);
+    		exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     		
     		//SE0.75MAX for all, KI for DD
-    		type1968.setE1(0.75);
+    		exc.setE1(0.75);
     		double SE1= ModelStringUtil.getDouble(strAry[11], 0.0);
-    		type1968.setSE1(SE1);    		
+    		exc.setSE1(SE1);    		
     		
     		//EFDMin
     		double Efdmin=ModelStringUtil.getDouble(strAry[13], 0.0);
-    		type1968.setEFDMIN(Efdmin);
+    		exc.setEFDMIN(Efdmin);
     		
     		//EFDMax for all, VNmax for ED
     		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);  		
     		// SEmax for all, Kp for DD
-    		type1968.setE2(Efdmax);
+    		exc.setE2(Efdmax);
     		double SE2= ModelStringUtil.getDouble(strAry[12], 0.0);
-    		type1968.setSE2(SE2);    		
+    		exc.setSE2(SE2);    		
     		//KF
     		double Kf= ModelStringUtil.getDouble(strAry[15], 0.0);
-    		type1968.setKF(Kf);
+    		exc.setKF(Kf);
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
-    		XBeanDataSetter.setTimePeriodData(type1968.addNewTF(), Tf, TimePeriodUnitType.SEC);    		
+    		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
     		double VRmax=(SE2+Ke)*Efdmax;
     		double VRmin=VRmax*multi;
-    		type1968.setVRMAX(VRmax);
-    		type1968.setVRMIN(VRmin);
-    		
+    		exc.setVRMAX(VRmax);
+    		exc.setVRMIN(VRmin);
+    	}
+    	else if(type==FA){
     		//EXDC2
-    	}else if(type==FA){
+    		ExcIEEETypeDC2XmlType exc = DStabParserHelper.createExcIEEETypeDC2XmlType(dynGen);
+    		
+    		/*
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2);
     		ExcIEEETypeDC2XmlType exc_dc2= exc.addNewExciterModel().addNewIEEETypeDC2();
@@ -198,9 +177,13 @@ public class BPADynamicExciterRecord {
 			//Te
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
 			XBeanDataSetter.setTimePeriodData(exc_dc2.addNewTE(), Te, TimePeriodUnitType.SEC);
-			
+		*/	
+    	}
+    	else if(type==FK){
 			// IEEE 1981 ST1
-    	}else if(type==FK){
+    		ExcIEEE1981ST1XmlType exc = DStabParserHelper.createExcIEEE1981ST1XmlType(dynGen);
+    		
+    		/*
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_ST_1);
     		ExcIEEE1981ST1XmlType exc_st1= exc.addNewExciterModel().addNewIEEE1981ST1();
@@ -253,7 +236,12 @@ public class BPADynamicExciterRecord {
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);	
 			exc_st1.setVRMIN(Vrmin);
-    	}else if(type==FJ){
+			*/
+    	}
+    	else if(type==FJ){
+    		ExcBPAFJXmlType exc = DStabParserHelper.createExcBPAFJXmlType(dynGen);
+    			    		
+    		/*
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.BPAFJ);
     		ExcBPAFJXmlType BPAFJ= exc.addNewExciterModel().addNewBPAFJ();
@@ -292,7 +280,12 @@ public class BPADynamicExciterRecord {
 			//VRmin, Vamin
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
 			BPAFJ.setVRMIN(Vrmin);
-    	}else if(type==FQ||type==FV){
+			*/
+    	}
+    	else if(type==FQ||type==FV){
+    		ExcIEEE1981NewExcSystemXmlType exc = DStabParserHelper.createExcIEEE1981NewExcSystemXmlType(dynGen);
+    		
+    		/*
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_NEW_EXC_SYSTEM);
     		ExcIEEE1981NewExcSystemXmlType newExc=exc.addNewExciterModel().addNewIEEE1981NewExcSystem();
@@ -365,9 +358,11 @@ public class BPADynamicExciterRecord {
 			//KH
 			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
 			newExc.setKh(kh);
+			*/
 			
-			
-    	}else if(type==FF){
+    	}
+    	else if(type==FF){
+    		/*
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2);
     		ExcIEEE1981TypeAC2XmlType newExc=exc.addNewExciterModel().addNewIEEE1981TypeAC2();
@@ -429,9 +424,11 @@ public class BPADynamicExciterRecord {
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
 			XBeanDataSetter.setTimePeriodData(newExc.addNewTE(), Te, TimePeriodUnitType.SEC);
 		  		
-    		
-    	}else if(str.substring(0, 2).trim().equals("FZ")||
+    		*/
+    	}
+    	else if(str.substring(0, 2).trim().equals("FZ")||
     			str.substring(0, 2).trim().equals("F+")){
+    		/*
     		String busId=str.substring(3, 11).trim();
         	String excId="1";
         	if(!str.substring(15, 16).trim().equals("")){
@@ -534,9 +531,10 @@ public class BPADynamicExciterRecord {
         			double vlr= ModelStringUtil.getDouble(strAry[15], 0.0);
             		exc.getExciterModel().getIEEE1981TypeAC2().setVLR(vlr);
             	}
-        		
-        	}else if(str.substring(0, 2).trim().equals("F+")){
-        		
+        		*/
+        	}
+    	else if(str.substring(0, 2).trim().equals("F+")){
+        /*		
         		ExcIEEE1981NewExcSystemXmlType newExc=exc.
         		                   getExciterModel().getIEEE1981NewExcSystem();        		
         		//VAMAX 
@@ -602,12 +600,35 @@ public class BPADynamicExciterRecord {
         			SE2=new Double(strAry[11]).doubleValue();
         			newExc.setE2(EFDMAX);
         			newExc.setSE2(SE2);
-        		}    		
+        		}
         	}    		
+        		*/    		
     	}	
-    	*/	
 	}
 	
+	private static int getExcType(String str) {
+		int type = 0;
+    	if(str.equals("EA")){
+    		type=EA;
+    	}else if(str.equals("EC")){
+    		type=EC;
+    	}else if(str.equals("EK")){
+    		type=EK;
+    	}else if(str.equals("FJ")){
+    		type=FJ;
+    	}else if(str.equals("FK")){
+    		type=FK;
+    	}else if(str.equals("FQ")){
+    		type=FQ;
+    	}else if(str.equals("FV")){
+    		type=FV;
+    	}else if(str.equals("FF")){
+    		type=FF;
+    	}else if(str.equals("FA")){
+    		type=FA;
+    	}		
+    	return type;
+	}
 	 private static String[] getExciterDataFields ( final String str ) {
 			
 	    	
