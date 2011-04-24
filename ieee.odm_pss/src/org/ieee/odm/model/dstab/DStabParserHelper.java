@@ -47,6 +47,22 @@ import org.ieee.odm.schema.ExcIEEEModified1968Type1XmlType;
 import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExcTSATTypeEXC34XmlType;
+import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
+import org.ieee.odm.schema.GovHydroTurbineXmlType;
+import org.ieee.odm.schema.GovHydroXmlType;
+import org.ieee.odm.schema.GovIEEE1981Type1XmlType;
+import org.ieee.odm.schema.GovIEEE1981Type2XmlType;
+import org.ieee.odm.schema.GovIEEE1981Type3XmlType;
+import org.ieee.odm.schema.GovSimpleTypeXmlType;
+import org.ieee.odm.schema.GovSteamNRXmlType;
+import org.ieee.odm.schema.GovSteamTCSRXmlType;
+import org.ieee.odm.schema.GovSteamTDSRXmlType;
+import org.ieee.odm.schema.PssIEE2STXmlType;
+import org.ieee.odm.schema.PssIEEE1981TypeXmlType;
+import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
+import org.ieee.odm.schema.PssIEEE1AXmlType;
+import org.ieee.odm.schema.PssIEEEDualInputXmlType;
+import org.ieee.odm.schema.PssSimpleTypeXmlType;
 
 public class DStabParserHelper extends AclfParserHelper {
 	
@@ -195,4 +211,110 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setExciter(getFactory().createExcBPAFJ(exc));
 		return exc;
 	}
+	
+	/*
+	 * Governor model creation functions
+	 * =================================
+	 */
+	public static GovSimpleTypeXmlType createGovSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
+		GovSimpleTypeXmlType gov = getFactory().createGovSimpleTypeXmlType();
+		gen.setGovernor(getFactory().createGovSimpleType(gov));
+		return gov;
+	}
+
+	public static GovIEEE1981Type1XmlType createGovIEEE1981Type1XmlType(DynamicGeneratorXmlType gen) {
+		GovIEEE1981Type1XmlType gov = getFactory().createGovIEEE1981Type1XmlType();
+		gen.setGovernor(getFactory().createGovIEEE1981Type1(gov));
+		return gov;
+	}
+
+	public static GovIEEE1981Type2XmlType createGovIEEE1981Type2XmlType(DynamicGeneratorXmlType gen) {
+		GovIEEE1981Type2XmlType gov = getFactory().createGovIEEE1981Type2XmlType();
+		gen.setGovernor(getFactory().createGovIEEE1981Type2(gov));
+		return gov;
+	}
+
+	public static GovIEEE1981Type3XmlType createGovIEEE1981Type3XmlType(DynamicGeneratorXmlType gen) {
+		GovIEEE1981Type3XmlType gov = getFactory().createGovIEEE1981Type3XmlType();
+		gen.setGovernor(getFactory().createGovIEEE1981Type3(gov));
+		return gov;
+	}
+
+	public static GovHydroXmlType createGovHydroXmlType(DynamicGeneratorXmlType gen) {
+		GovHydroXmlType gov = getFactory().createGovHydroXmlType();
+		gen.setGovernor(getFactory().createGovHydro(gov));
+		return gov;
+	}
+
+	public static GovHydroTurbineXmlType createGovHydroTurbineXmlType(DynamicGeneratorXmlType gen) {
+		GovHydroTurbineXmlType gov = getFactory().createGovHydroTurbineXmlType();
+		gen.setGovernor(getFactory().createGovHydroTurbine(gov));
+		return gov;
+	}
+
+	public static GovHydroSteamGeneralModelXmlType createGovHydroSteamGeneralModelXmlType(DynamicGeneratorXmlType gen) {
+		GovHydroSteamGeneralModelXmlType gov = getFactory().createGovHydroSteamGeneralModelXmlType();
+		gen.setGovernor(getFactory().createGovHydroSteamGeneralModel(gov));
+		return gov;
+	}
+	
+	public static GovSteamNRXmlType createGovSteamNRXmlType(DynamicGeneratorXmlType gen) {
+		GovSteamNRXmlType gov = getFactory().createGovSteamNRXmlType();
+		gen.setGovernor(getFactory().createGovSteamNR(gov));
+		return gov;
+	}
+
+	public static GovSteamTCSRXmlType createGovSteamTCSRXmlType(DynamicGeneratorXmlType gen) {
+		GovSteamTCSRXmlType gov = getFactory().createGovSteamTCSRXmlType();
+		gen.setGovernor(getFactory().createGovSteamTCSR(gov));
+		return gov;
+	}
+
+	public static GovSteamTDSRXmlType createGovSteamTDSRXmlType(DynamicGeneratorXmlType gen) {
+		GovSteamTDSRXmlType gov = getFactory().createGovSteamTDSRXmlType();
+		gen.setGovernor(getFactory().createGovSteamTDSR(gov));
+		return gov;
+	}
+
+	/*
+	 * PSS model creation functions
+	 * ============================
+	 */
+	
+	public static PssSimpleTypeXmlType createPssSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
+		PssSimpleTypeXmlType pss = getFactory().createPssSimpleTypeXmlType();
+		gen.setStabilizer(getFactory().createPssSimpleType(pss));
+		return pss;
+	}
+
+	public static PssIEEE1981TypeXmlType createPssIEEE1981TypeXmlType(DynamicGeneratorXmlType gen) {
+		PssIEEE1981TypeXmlType pss = getFactory().createPssIEEE1981TypeXmlType();
+		gen.setStabilizer(getFactory().createPssIEEE1981Type(pss));
+		return pss;
+	}
+
+	public static PssIEEE1992Type2AXmlType createPssIEEE1992Type2AXmlType(DynamicGeneratorXmlType gen) {
+		PssIEEE1992Type2AXmlType pss = getFactory().createPssIEEE1992Type2AXmlType();
+		gen.setStabilizer(getFactory().createPssIEEE1992Type2A(pss));
+		return pss;
+	}
+
+	public static PssIEEE1AXmlType createPssIEEE1AXmlType(DynamicGeneratorXmlType gen) {
+		PssIEEE1AXmlType pss = getFactory().createPssIEEE1AXmlType();
+		gen.setStabilizer(getFactory().createPssIEEEType1A(pss));
+		return pss;
+	}
+
+	public static PssIEE2STXmlType createPssIEE2STXmlType(DynamicGeneratorXmlType gen) {
+		PssIEE2STXmlType pss = getFactory().createPssIEE2STXmlType();
+		gen.setStabilizer(getFactory().createPssIEE2ST(pss));
+		return pss;
+	}
+
+	public static PssIEEEDualInputXmlType createPssIEEEDualInputXmlType(DynamicGeneratorXmlType gen) {
+		PssIEEEDualInputXmlType pss = getFactory().createPssIEEEDualInputXmlType();
+		gen.setStabilizer(getFactory().createPssIEEEDualInput(pss));
+		return pss;
+	}
+	
 }
