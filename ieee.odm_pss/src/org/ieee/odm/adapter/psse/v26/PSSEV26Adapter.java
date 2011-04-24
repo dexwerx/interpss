@@ -25,12 +25,15 @@ package org.ieee.odm.adapter.psse.v26;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.PSSEBusRecord;
 import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
@@ -152,4 +155,9 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
                  
    	   return parser;
 	}
+	
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+		throw new ODMException("not implemented yet");
+	}
+	
 }

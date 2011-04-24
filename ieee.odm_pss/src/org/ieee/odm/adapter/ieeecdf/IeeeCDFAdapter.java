@@ -28,8 +28,11 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -152,6 +155,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		return parser;
 	}
 
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+		throw new ODMException("not implemented yet");
+	}
+	
 	/*
 	 *   Network data
 	 *   ============ 

@@ -29,7 +29,10 @@ import java.util.List;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -184,6 +187,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	return parser;
     }
 
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+		throw new ODMException("not implemented yet");
+	}
+	
     /*
      * ##C section
      */

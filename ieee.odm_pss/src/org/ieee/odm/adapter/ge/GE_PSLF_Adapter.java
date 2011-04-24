@@ -24,16 +24,17 @@
 
 package org.ieee.odm.adapter.ge;
 
-import java.util.logging.Logger;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ge.impl.BranchSecDataRec;
 import org.ieee.odm.adapter.ge.impl.BusDataRec;
 import org.ieee.odm.adapter.ge.impl.GenDataRec;
 import org.ieee.odm.adapter.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -302,4 +303,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		return parser;
 	}
 
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+		throw new ODMException("not implemented yet");
+	}
 }

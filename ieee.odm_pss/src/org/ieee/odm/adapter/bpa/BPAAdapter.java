@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.adapter.bpa.impl.GenLoadDataModifyRecord;
 import org.ieee.odm.adapter.bpa.impl.LineBranchRecord;
@@ -168,6 +169,10 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			return parser;
 		}
 		throw new ODMException("Only LF info could be prcessed");
+	}
+	
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+		throw new ODMException("not implemented yet");
 	}
 	
 	/**

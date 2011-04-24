@@ -29,14 +29,28 @@ import java.io.InputStream;
 import org.ieee.odm.model.IODMModelParser;
 
 public interface IODMAdapter {
+	public static enum NetType {
+				AclfNet, AcscNet, DStabNet, OPFNet,
+				DcSystemNet, DistributionNet, };
+	
 	/**
-	 * parse the input file into a ODM model according the the ODM schema
+	 * parse the input file into a ODM model according the the ODM schema, in
+	 * general this method is for AclfNet implementation
 	 * 
 	 * @param filename file name
 	 * @return
 	 */
 	boolean parseInputFile(String filename);
 	
+	/**
+	 * parse the input file into a ODM model according the the ODM schema, the 
+	 * base case AclfNet file should put first in the filenames array
+	 * 
+	 * @param filename file name
+	 * @return
+	 */
+	boolean parseInputFile(NetType type, String[] filenames);
+
 	/**
 	 * parse the input file into a ODM model according the the ODM schema
 	 * 

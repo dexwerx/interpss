@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.PSSEBusRecord;
 import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
@@ -36,7 +37,9 @@ import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -340,6 +343,10 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 			AclfParserHelper.createBusEquivData(parser);
   		
    	   	return parser;
+	}
+	
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+		throw new ODMException("not implemented yet");
 	}
 	
 	/**
