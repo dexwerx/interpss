@@ -13,7 +13,7 @@
 	<element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEE1992Type2A" type="pss:PssIEEE1992Type2AXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssIEEEType1A" type="pss:PssIeeePss1AXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEEType1A" type="pss:PssIEEE1AXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
 
@@ -145,7 +145,7 @@
 		</complexContent>		
 	</complexType>
 	
-	<complexType name="PssIeeePss1AXmlType">
+	<complexType name="PssIEEE1AXmlType">
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>			
@@ -218,7 +218,7 @@
 			</element>
 			<element name="IEEE1992Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1992Type2AXmlType">
 			</element>
-			<element name="IEEEPSS1A" maxOccurs="1" minOccurs="0" type="pss:PssIeeePss1AXmlType">
+			<element name="IEEEPSS1A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1AXmlType">
 			</element>
 			<element name="IEE2ST" maxOccurs="1" minOccurs="0" type="pss:PssIEE2STXmlType">
 			</element>
