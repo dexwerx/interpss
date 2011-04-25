@@ -23,27 +23,32 @@
  */
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
-import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.model.dstab.DStabParserHelper;
+import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
-import org.ieee.odm.schema.GovHydroTurbineXmlType;
-import org.ieee.odm.schema.GovHydroXmlType;
-import org.ieee.odm.schema.SteamTurbineXmlType;
-import org.ieee.odm.schema.TimePeriodUnitType;
-import org.ieee.odm.schema.TurbineGovernorXmlType;
-import org.ieee.odm.schema.TurbineXmlType;
-import org.ieee.odm.schema.VoltageUnitType;
 
 
 public class BPADynamicTurbineGovernorRecord {
 	
-	public static void processTurbineGovernorData(String str, DStabModelParser parser){
+	public static void processTurbineGovernorData(String str, DStabModelParser parser) throws ODMException {
     	final String strAry[]=getTGDataFields(str);
-/*    	
+    	
+    	String busId = BusRecord.getBusId(strAry[1]);
+    	DStabBusXmlType bus = parser.getDStabBus(busId);
+    	
+    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);    	
+    	
     	if(strAry[0].equals("GG")){ 
+    		GovHydroSteamGeneralModelXmlType gov = DStabParserHelper.createGovHydroSteamGeneralModelXmlType(dynGen);
+    		
+    		
+/*
     		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
     		GovHydroSteamGeneralModelXmlType gg=
@@ -92,8 +97,11 @@ public class BPADynamicTurbineGovernorRecord {
 			//F
 		    double f=ModelStringUtil.getDouble(strAry[11], 0.0);
     		gg.setF(f);
-			
-    	}else if(strAry[0].equals("GH")){
+*/			
+    	}
+    	else if(strAry[0].equals("GH")){
+    		
+/*    		
     		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER_AND_TURBINE);
     		GovHydroTurbineXmlType gh=
@@ -144,8 +152,11 @@ public class BPADynamicTurbineGovernorRecord {
 			
 			//Dd
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
-    		gh.setD4(Dd);		
-    	}else if(strAry[0].equals("GS")){
+    		gh.setD4(Dd);
+    		*/		
+    	}
+    	else if(strAry[0].equals("GS")){
+    		/*
     		TurbineGovernorXmlType tg=XBeanTranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER);
     		GovHydroXmlType gs=
@@ -194,7 +205,11 @@ public class BPADynamicTurbineGovernorRecord {
 			//FVELCLOSE
     		double Uc=ModelStringUtil.getDouble(strAry[11], 0.0);
     		gs.setUC(Uc);
-    	}else if(strAry[0].equals("TA")){
+    		*/
+    	}
+    	else if(strAry[0].equals("TA")){
+    		
+    		/*
     		//busId
     		String busId=strAry[1];    		
     		String tgId="";
@@ -214,8 +229,10 @@ public class BPADynamicTurbineGovernorRecord {
     		    double k1=new Double(strAry[5]).doubleValue();
     		    steamTur.setK(k1);
     		}
-    		
-    	}else if(strAry[0].equals("TB")){
+    	*/	
+    	}
+    	else if(strAry[0].equals("TB")){
+    	/*
     		//busId
     		String busId=strAry[1];    		
     		String tgId="";
@@ -251,10 +268,9 @@ public class BPADynamicTurbineGovernorRecord {
     			// FLP
     		    double FLP=ModelStringUtil.getDouble(strAry[9], 0.0);
        		    steamTur.setFLP(FLP);
-    		        		        			
     		}    
+    		*/        		        			
     	}
-*/    	
     }
 	
 	 private static String[] getTGDataFields ( final String str) {

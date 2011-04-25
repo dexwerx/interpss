@@ -33,6 +33,8 @@ import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
+import org.ieee.odm.schema.EquiMachineXmlType;
 
 public class BPADynamicGeneratorRecord {
 	
@@ -138,6 +140,8 @@ public class BPADynamicGeneratorRecord {
 */			
     	}
     	else if(str.substring(0, 2).trim().equals("M")){
+    		Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
+    		
 /*    		
     		GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().getGeneratorDataList().addNewGenerator();
     		String busId=strAry[1];
@@ -181,6 +185,8 @@ public class BPADynamicGeneratorRecord {
 */    		
 		}
     	else if(str.substring(0, 2).trim().equals("MF")){
+    		Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
+    		
 /*			
 			String busId=strAry[1];
 			String genId="1";			
@@ -274,6 +280,8 @@ public class BPADynamicGeneratorRecord {
 */				
 			}
     	else if(str.substring(0, 2).trim().equals("LN")){
+    		EquiMachineXmlType mach = DStabParserHelper.createEquiMachine(dynGen);
+    		
 /*			
 			String bus1="";
 			double Vol1=0.0;

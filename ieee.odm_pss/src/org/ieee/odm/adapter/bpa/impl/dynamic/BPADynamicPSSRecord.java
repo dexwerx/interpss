@@ -24,25 +24,33 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.model.dstab.DStabParserHelper;
+import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
-import org.ieee.odm.schema.StabilizerXmlType;
-import org.ieee.odm.schema.TimePeriodUnitType;
-import org.ieee.odm.schema.VoltageUnitType;
 
 
 public class BPADynamicPSSRecord {
 	
-	public static void processPSSData(String str, DStabModelParser parser){
+	public static void processPSSData(String str, DStabModelParser parser) throws ODMException {
     	final String[] strAry= getPSSDataFields(str);
-/*    	
+    	
+    	String busId = BusRecord.getBusId(strAry[1]);
+    	DStabBusXmlType bus = parser.getDStabBus(busId);
+    	
+    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);   
+    	
     	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
     			||str.substring(0, 3).trim().equals("SG")){
+    		PssIEE2STXmlType pss = DStabParserHelper.createPssIEE2STXmlType(dynGen);
+    		
+/*    			
     		StabilizerXmlType pss=XBeanTranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
     		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEE_2_ST);
     		PssIEE2STXmlType tstpss=pss.
@@ -145,9 +153,13 @@ public class BPADynamicPSSRecord {
 			    		
     		//KQS MVAbase for SP SG
     		double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
-    				
+  */  				
     		
-    	}else if(str.substring(0, 3).trim().equals("SI")){
+    	}
+    	else if(str.substring(0, 3).trim().equals("SI")){
+    		PssIEEEDualInputXmlType pss = DStabParserHelper.createPssIEEEDualInputXmlType(dynGen);
+    		
+    		/*
     		StabilizerXmlType pss=XBeanTranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
     		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEEE_DUAL_INPUT);
     		PssIEEEDualInputXmlType dualInputPss=pss.
@@ -233,9 +245,12 @@ public class BPADynamicPSSRecord {
     					.SecondInputSignal.GENERATOR_ACCELERATING_POWER);
     		}
     		
+    	*/	
+    	}
+    	else if(str.substring(0, 3).trim().equals("SI+")){
+    		PssIEEEDualInputXmlType pss = DStabParserHelper.createPssIEEEDualInputXmlType(dynGen);
     		
-    	}else if(str.substring(0, 3).trim().equals("SI+")){
-    		
+    	/*	
     		String busId=strAry[1];    		
     		//bus Voltage    		   		    		
     		//excId
@@ -280,8 +295,8 @@ public class BPADynamicPSSRecord {
     		// VSMIN
     		double vsmin=ModelStringUtil.getDouble(strAry[12], 0.0);
     		dualInputPss.setVSMIN(vsmin);
-    		}
-*/    	
+    		*/
+   		}
     }
 	
 	private static String[] getPSSDataFields(String str){

@@ -37,6 +37,7 @@ import org.ieee.odm.schema.ExcBPAFJXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
 import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
+import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
 import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 
 public class BPADynamicExciterRecord {
@@ -362,6 +363,8 @@ public class BPADynamicExciterRecord {
 			
     	}
     	else if(type==FF){
+    		ExcIEEE1981TypeAC2XmlType exc = DStabParserHelper.createExcIEEE1981TypeAC2XmlType(dynGen);
+    		
     		/*
     		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2);
@@ -449,7 +452,8 @@ public class BPADynamicExciterRecord {
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
             		exc.getExciterModel().getIEEE1981ST1().setKC(Kc); 
-            	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.BPAFJ)){        		
+            	}
+            	else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.BPAFJ)){        		
             		//EFDmax
             		double EFDmax= ModelStringUtil.getDouble(strAry[7], 0.0);
         			exc.getExciterModel().getBPAFJ().setEFDMAX(EFDmax);
@@ -469,7 +473,8 @@ public class BPADynamicExciterRecord {
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
             		exc.getExciterModel().getBPAFJ().setKC(Kc);
-            	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2)){
+            	}
+            	else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2)){
             		           		
             		//Se1            		
             		double SE1=ModelStringUtil.getDouble(strAry[4], 0.0);  
@@ -491,7 +496,8 @@ public class BPADynamicExciterRecord {
         			XBeanDataSetter.setTimePeriodData(exc.getExciterModel().getIEEETypeDC2().addNewTF1(), 
         					TF, TimePeriodUnitType.SEC);
         			
-            	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2)){
+            	}
+            	else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2)){
             		           		
             		//Se1            		
             		double SE1=ModelStringUtil.getDouble(strAry[4], 0.0);  
@@ -534,6 +540,8 @@ public class BPADynamicExciterRecord {
         		*/
         	}
     	else if(str.substring(0, 2).trim().equals("F+")){
+    		ExcIEEE1981NewExcSystemXmlType exc = DStabParserHelper.createExcIEEE1981NewExcSystemXmlType(dynGen);
+    		
         /*		
         		ExcIEEE1981NewExcSystemXmlType newExc=exc.
         		                   getExciterModel().getIEEE1981NewExcSystem();        		
