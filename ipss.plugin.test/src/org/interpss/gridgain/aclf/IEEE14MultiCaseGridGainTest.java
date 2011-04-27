@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.interpss.grid.gridgain.GridConstants;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
@@ -92,7 +93,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		/*
 		 * Step-4 define study options
 		 */
-		boolean reJobCreation = true;
+		boolean reJobCreation = false;
 		mCaseContainer.setRemoteJobCreation(reJobCreation);
 		mCaseContainer.getAclfGridOption().setReturnCase(ReturnRemoteCaseOpt.ALL_STUDY_CASE);
 		mCaseContainer.getAclfGridOption().setCalculateViolation(true);

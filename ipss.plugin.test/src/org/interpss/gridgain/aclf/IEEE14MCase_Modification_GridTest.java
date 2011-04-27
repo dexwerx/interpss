@@ -108,7 +108,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * Step-4 define study options
 		 */
-		boolean reJobCreation = true;
+		boolean reJobCreation = false;
 		mCaseContainer.setRemoteJobCreation(reJobCreation);
 		mCaseContainer.getAclfGridOption().setReturnCase(ReturnRemoteCaseOpt.ALL_STUDY_CASE);
 		mCaseContainer.getAclfGridOption().setCalculateViolation(true);

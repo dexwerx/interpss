@@ -86,7 +86,7 @@ public class DStab_5BusGridGainTest extends GridBaseTestSetup {
  */        	
    		DStabSingleJobTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
     		
-   		RemoteMessageTable result = new GridRunner(grid, "Grid DStab 5-Bus Sample system", algo).executeTask(0);
+   		RemoteMessageTable result = new GridRunner(grid, "Grid DStab 5-Bus Sample system", algo).executeSingleJobTask(0);
        	assertTrue(result.getReturnStatus());
 	}
 }

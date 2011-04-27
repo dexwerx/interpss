@@ -63,7 +63,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		// network id needs to be set. It is used for identification purpose
 		net.setId("IEEE 14_Bus");
 
-		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", net).executeTask(0);
+		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", net).executeSingleJobTask(0);
     	assertTrue(result.getReturnStatus());
 		
 		String str = result.getSerializedAclfNet();
@@ -97,7 +97,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
-		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", algo).executeTask(0);
+		RemoteMessageTable result = new GridRunner(grid, "Grid Aclf IEEE 14-Bus system", algo).executeSingleJobTask(0);
 		//System.out.println(result);
     	assertTrue(result.getReturnStatus());
 		
