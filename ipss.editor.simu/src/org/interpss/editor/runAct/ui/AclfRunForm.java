@@ -88,12 +88,13 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 		boolean converge = false;
 		if (this.xmlGridOpt.isEnableGridRun()) {
 			final AclfNetwork aclfNet = simuCtx.getAclfNet();
+			Grid grid = GridEnvHelper.getDefaultGrid();
 			if (this.contingencyAnalysis) {
 				IpssLogger.getLogger().info("Run Grid contingency analysis");
 
 				try {
 					GridContingencyAnalysis analysis = GridObjectFactory
-							.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
+							.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet(), grid);
 				  	analysis.setLimitRunCase(this.xmlContingency.isLimitRunCases());
 				  	if (analysis.isLimitRunCase())
 				  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
@@ -117,7 +118,6 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				}
 			}
 			else {
-				Grid grid = GridEnvHelper.getDefaultGrid();
 				String nodeId = GridEnvHelper.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
 				DStabSingleJobTask.RemoteNodeId = nodeId;
 				GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
