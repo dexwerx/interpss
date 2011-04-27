@@ -42,7 +42,7 @@ public class ExtendIpssGridImpl {
 	    	try {
 	    		// sent the adjNet object to a remote grid node for loadflow calculation
 	    		// the custom class MyAclfSingleJobTaskImpl will be used to perform the simulation
-        		RemoteMessageTable result = new GridRunner(grid).executeTask(CustomSingleLocalTask.class, adjNet, 0);
+        		RemoteMessageTable result = new GridRunner(grid).executeSingleJobTask(CustomSingleLocalTask.class, adjNet, 0);
         		
         		// de-serialized the returning results
         		adjNet = CoreObjectFactory.createAclfNetwork(result.getSerializedAclfNet());
