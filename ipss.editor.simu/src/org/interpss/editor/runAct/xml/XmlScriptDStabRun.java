@@ -138,7 +138,7 @@ public class XmlScriptDStabRun {
 						RemoteMessageTable result = new GridRunner(
 										grid,
 										"InterPSS Transient Stability Simulation",
-										dstabAlgo).executeTask(ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout());
+										dstabAlgo).executeSingleJobTask(ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout());
 						// init the Net object for plotting purpose.
 						dstabNet.initialization();
 						// set the DStabNet object back to the SimuCtx

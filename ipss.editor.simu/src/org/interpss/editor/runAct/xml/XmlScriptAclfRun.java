@@ -192,7 +192,7 @@ public class XmlScriptAclfRun {
 			GridRunner.MasterNodeId = grid.getLocalNode().getId().toString();
 			try {
 				RemoteMessageTable result = new GridRunner(
-						grid, "InterPSS Grid Aclf Calculation", algo).executeTask(timeout);
+						grid, "InterPSS Grid Aclf Calculation", algo).executeSingleJobTask(timeout);
 				String str = result.getSerializedAclfNet();
 				aclfNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 				aclfNet.rebuildLookupTable();

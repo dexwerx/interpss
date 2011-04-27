@@ -214,7 +214,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			PluginSpringCtx.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			RemoteMessageTable result = new GridRunner(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
-							.getDynSimuAlgorithm()).executeTask(timeout);
+							.getDynSimuAlgorithm()).executeSingleJobTask(timeout);
 			// init the Net object for plotting purpose. it is inited at the remote grid node
 			// before DStab simulation.
 			simuCtx.setDStabilityNet(net);
