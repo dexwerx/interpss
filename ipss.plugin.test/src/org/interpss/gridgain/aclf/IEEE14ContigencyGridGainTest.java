@@ -68,7 +68,8 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
+		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(),
+				simuCtx.getAclfNet(), GridEnvHelper.getDefaultGrid());
 		analysis.perform(ContingencyAnalysisType.N1);
 
 //		System.out.println("---->" + analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
@@ -100,7 +101,8 @@ public class IEEE14ContigencyGridGainTest extends GridBaseTestSetup {
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
-		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(), simuCtx.getAclfNet());
+		GridContingencyAnalysis analysis = GridObjectFactory.createGridContingencyAnalysis(simuCtx.getNetType(), 
+				simuCtx.getAclfNet(), GridEnvHelper.getDefaultGrid());
 		analysis.perform(algo, ContingencyAnalysisType.N1);
     	for (StudyCase scase : analysis.getStudyCaseList()) {
     		if (scase.getNetModelString() != null) {
