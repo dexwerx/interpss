@@ -49,7 +49,7 @@ public class CustomMultiLocalTask extends AbstractMultiJobSplitTask {
 		// use grid session to sent network model to the remote node at the
 		// starting of calculation
 		getSession().setAttribute(GridConstants.SeKey_RemoteJobCreation, Boolean.TRUE);
-		getSession().setAttribute(GridConstants.SeKey_BaseStudyCaseNetworkModel, aclfModel.getBaseNetModelString());
+		getSession().setAttribute(GridConstants.SeKey_BaseStudyCaseNetModel, aclfModel.getBaseNetModelString());
 	}
 
 	// this method is called to send a study case from the master node to a slave grid node

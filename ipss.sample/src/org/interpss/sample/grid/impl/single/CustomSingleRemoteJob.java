@@ -34,7 +34,7 @@ public class CustomSingleRemoteJob extends GridAclfReJob {
 			 * de-serialize the job object
 			 */
 			AclfNetwork net = CoreObjectFactory.createAclfNetwork();
-			net = (AclfNetwork)net.deserialize(inRemoteMsg.getStudyCaseNetworkModel());
+			net = (AclfNetwork)net.deserialize(inRemoteMsg.getSerializedAclfNet());
 			
 			/*
 			 * Perform Loadflow calculation. One can do anyting to the AclfNetwork object

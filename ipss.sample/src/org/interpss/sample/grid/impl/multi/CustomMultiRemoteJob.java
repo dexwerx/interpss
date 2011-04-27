@@ -24,7 +24,7 @@ public class CustomMultiRemoteJob extends GridAclfReJob {
 		try {
 			// get the cached base network object 
 			AclfNetwork net = CoreObjectFactory.createAclfNetwork(
-					getSessionStringAttrib(GridConstants.SeKey_BaseStudyCaseNetworkModel));
+					getSessionStringAttrib(GridConstants.SeKey_BaseStudyCaseNetModel));
 			
 			// get the GML graph object and create sub-network
 			String anyString = inRemoteMsg.getStudyCaseModification();
