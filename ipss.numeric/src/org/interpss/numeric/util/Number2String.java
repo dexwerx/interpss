@@ -164,6 +164,11 @@ public class Number2String {
 		return f.format(d);
 	}
 
+	public static String toStr(final Double d, final String pattern) {
+		final DecimalFormat f = new DecimalFormat(pattern);
+		return f.format(d==null?0.0:d);
+	}
+
 	/**
 	 * Format a double to the specified format pattern. White space will be patched at the begining to
 	 * make formatted string length = pattern string length.
