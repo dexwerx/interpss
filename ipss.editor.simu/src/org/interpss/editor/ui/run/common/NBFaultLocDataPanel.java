@@ -146,8 +146,9 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         branchReclosureCheckboxActionPerformed(null);
 	    atReclosureTimeTextField.setText(Number2String.toStr(xmlFaultData.getReclosureTime(), "0.00"));
 
-	    if (this.distanceTextField.isEnabled())
+	    if (this.distanceTextField.isEnabled()) {
         	this.distanceTextField.setText(Number2String.toStr(xmlFaultData.getDistance(), "#0.##"));
+	    }
 
         if (xmlFaultData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_3_P) 
             this.type3PRadioButton.setSelected(true);
@@ -162,14 +163,25 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
         setLabelText();
 		
-		if (this.rLGTextField.isEnabled())
-			this.rLGTextField.setText(Number2String.toStr(xmlFaultData.getZLG().getRe(), "#0.0000"));
-        if (this.xLGTextField.isEnabled())
-        	this.xLGTextField.setText(Number2String.toStr(xmlFaultData.getZLG().getIm(), "#0.0000"));
-        if (this.rLLTextField.isEnabled())
-        	this.rLLTextField.setText(Number2String.toStr(xmlFaultData.getZLL().getRe(), "#0.0000"));
-        if (this.xLLTextField.isEnabled())
-        	this.xLLTextField.setText(Number2String.toStr(xmlFaultData.getZLL().getIm(), "#0.0000"));
+		if (this.rLGTextField.isEnabled()) {
+			double r = 0.0, i = 0.0;
+			if (xmlFaultData.getZLG() != null) {
+				r = xmlFaultData.getZLG().getRe();
+				i = xmlFaultData.getZLG().getIm();
+			}
+			this.rLGTextField.setText(Number2String.toStr(r, "#0.0000"));
+        	this.xLGTextField.setText(Number2String.toStr(i, "#0.0000"));
+		}
+
+		if (this.rLLTextField.isEnabled()) {
+			double r = 0.0, i = 0.0;
+			if (xmlFaultData.getZLL() != null) {
+				r = xmlFaultData.getZLL().getRe();
+				i = xmlFaultData.getZLL().getIm();
+			}
+        	this.rLLTextField.setText(Number2String.toStr(r, "#0.0000"));
+        	this.xLLTextField.setText(Number2String.toStr(i, "#0.0000"));
+		}
 
         return true;
 	}

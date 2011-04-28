@@ -261,14 +261,14 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	
     	//this.nonDivergeCheckBox.setEnabled(xmlCaseData.getNonDivergent());
 
-    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseAlgo.getAccFactor(), "#0.0#"));
+    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseAlgo.getAccFactor()==null?1.0:xmlCaseAlgo.getAccFactor(), "#0.0#"));
         this.errPUTextField.setText(Number2String.toStr(xmlCaseAlgo.getTolerance(), "#0.#####"));
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
         this.errKVATextField.setText(Number2String.toStr(xmlCaseAlgo.getTolerance()*baseKva, "#0.####"));
         this.maxItrTextField.setText(new Integer(xmlCaseAlgo.getMaxIterations()).toString());
-        this.nonDivergeCheckBox.setSelected(xmlCaseAlgo.isNonDivergent());
-        this.initVoltCheckBox.setSelected(xmlCaseAlgo.isInitBusVoltage());
-		this.lfSummaryCheckBox.setSelected(xmlCaseAlgo.isDisplaySummary());
+        this.nonDivergeCheckBox.setSelected(xmlCaseAlgo.isNonDivergent() == null? false : xmlCaseAlgo.isNonDivergent());
+        this.initVoltCheckBox.setSelected(xmlCaseAlgo.isInitBusVoltage()==null?false:xmlCaseAlgo.isInitBusVoltage());
+		this.lfSummaryCheckBox.setSelected(xmlCaseAlgo.isDisplaySummary()==null?false:xmlCaseAlgo.isDisplaySummary());
 		
 		if (gridComputing) {
 			gridLfPanel.setForm2Editor();

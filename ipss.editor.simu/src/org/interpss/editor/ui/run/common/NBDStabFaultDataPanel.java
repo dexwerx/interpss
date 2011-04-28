@@ -29,6 +29,7 @@ import java.util.Vector;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
+import org.interpss.xml.schema.DynamicEventDataType;
 import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
@@ -119,6 +120,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
             	this.xmlEventData.setDurationSec(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
+        this.xmlEventData.setEventType(DynamicEventDataType.FAULT);
         _faultLocDataPanel.saveEditor2Form(errMsg);
 
         return errMsg.size() == 0;
