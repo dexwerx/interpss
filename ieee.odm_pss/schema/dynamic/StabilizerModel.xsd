@@ -16,6 +16,7 @@
 	<element name="pssIEEEType1A" type="pss:PssIEEE1AXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssBPADualInput" type="pss:PssBPADualInputXmlType" substitutionGroup="pss:stabilizer"/>
 
 	<complexType name="StabilizerModelXmlType" abstract="true">
 		<sequence>
@@ -159,7 +160,7 @@
 			<element name="VSTMAX" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="VSTMIN" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="A1" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="A2" type="double" maxOccurs="1" minOccurs="0"></element>			
+			<element name="A2" type="double" maxOccurs="1" minOccurs="0"></element>	
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -197,6 +198,16 @@
 			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="VSMAX" type="double" maxOccurs="1" minOccurs="1"></element>
 			<element name="VSMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+
+	<complexType name="PssBPADualInputXmlType">
+		<complexContent>
+		<extension base="pss:PssIEEEDualInputXmlType">
+		<sequence>
+			<element name="KrBaseMVA" type="double" maxOccurs="1" minOccurs="0"></element>	
 		</sequence>
 		</extension>
 		</complexContent>		
