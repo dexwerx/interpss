@@ -727,20 +727,4 @@ public class PssIEEEDualInputXmlType
     public void setVSMIN(double value) {
         this.vsmin = value;
     }
-
-	/**
-	 * @return the krBaseMVA
-	 */
-	public double getKrBaseMVA() {
-		return krBaseMVA;
-	}
-
-	/**
-	 * @param krBaseMVA the krBaseMVA to set
-	 */
-	public void setKrBaseMVA(double krBaseMVA) {
-		this.krBaseMVA = krBaseMVA;
-	}
-
-
 }
