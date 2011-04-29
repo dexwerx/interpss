@@ -33,6 +33,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.PssBPADualInputXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.StabilizerInputSignalEnumType;
@@ -221,7 +222,7 @@ public class BPADynamicPSSRecord {
     	}
     	// SI+ is to store the rest data of DualInputPss Model
     	else if(str.substring(0, 3).trim().equals("SI+")){ 
-    		PssIEEEDualInputXmlType dualPss=(PssIEEEDualInputXmlType) dynGen.getStabilizer().getValue();
+    		PssBPADualInputXmlType dualPss=(PssBPADualInputXmlType) dynGen.getStabilizer().getValue();
 
     		//KP
     		double kp= ModelStringUtil.getDouble(strAry[4], 0.0); 
@@ -265,8 +266,6 @@ public class BPADynamicPSSRecord {
     			krBaseMVA=dynGen.getRatedPower().getValue();
     		}
     		dualPss.setKrBaseMVA(krBaseMVA);
-    		
-    		
    		}
     }
 	

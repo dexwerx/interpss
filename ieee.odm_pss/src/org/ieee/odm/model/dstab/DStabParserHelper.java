@@ -57,6 +57,7 @@ import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
+import org.ieee.odm.schema.PssBPADualInputXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEE1981TypeXmlType;
 import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
@@ -317,4 +318,9 @@ public class DStabParserHelper extends AclfParserHelper {
 		return pss;
 	}
 	
+	public static PssBPADualInputXmlType createPssBPADualInputXmlType(DynamicGeneratorXmlType gen) {
+		PssBPADualInputXmlType pss = getFactory().createPssBPADualInputXmlType();
+		gen.setStabilizer(getFactory().createPssBPADualInput(pss));
+		return pss;
+	}
 }

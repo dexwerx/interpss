@@ -30,7 +30,6 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
-import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
 
