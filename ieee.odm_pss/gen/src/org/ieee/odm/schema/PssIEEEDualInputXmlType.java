@@ -141,6 +141,8 @@ public class PssIEEEDualInputXmlType
     protected double vsmax;
     @XmlElement(name = "VSMIN")
     protected double vsmin;
+    @XmlElement(name = "KR_BASEMVA")
+    protected double krBaseMVA;
 
     /**
      * Gets the value of the firstInputSignal property.
@@ -725,5 +727,20 @@ public class PssIEEEDualInputXmlType
     public void setVSMIN(double value) {
         this.vsmin = value;
     }
+
+	/**
+	 * @return the krBaseMVA
+	 */
+	public double getKrBaseMVA() {
+		return krBaseMVA;
+	}
+
+	/**
+	 * @param krBaseMVA the krBaseMVA to set
+	 */
+	public void setKrBaseMVA(double krBaseMVA) {
+		this.krBaseMVA = krBaseMVA;
+	}
+
 
 }
