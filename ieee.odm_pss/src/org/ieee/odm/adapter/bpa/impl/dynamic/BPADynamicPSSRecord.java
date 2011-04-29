@@ -27,6 +27,7 @@ package org.ieee.odm.adapter.bpa.impl.dynamic;
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
@@ -34,6 +35,7 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
+import org.ieee.odm.schema.StabilizerInputSignalEnumType;
 
 
 public class BPADynamicPSSRecord {
@@ -49,96 +51,81 @@ public class BPADynamicPSSRecord {
     	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
     			||str.substring(0, 3).trim().equals("SG")){
     		PssIEE2STXmlType pss = DStabParserHelper.createPssIEE2STXmlType(dynGen);
-    		
-/*    			
-    		StabilizerXmlType pss=XBeanTranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
-    		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEE_2_ST);
-    		PssIEE2STXmlType tstpss=pss.
-    		                     addNewStabilizerModel().addNewIEE2ST();
-    		
-    		if(str.substring(0, 3).trim().equals("SS")){
-    			tstpss.setFirstInputSignal(PssIEE2STXmlType.FirstInputSignal
-    					.ROTOR_SPEED_DEVIATION);    			                 
-    		}else if(str.substring(0, 3).trim().equals("SP")){
-    			tstpss.setFirstInputSignal(PssIEE2STXmlType.FirstInputSignal
-    					.GENERATOR_ACCELERATING_POWER);
-    		}else{
-    			tstpss.setFirstInputSignal(PssIEE2STXmlType.FirstInputSignal
-    					.GENERATOR_ELECTRICAL_POWER);
-    		}
-    		//busId
-    		String busId=strAry[1];
-    		pss.addNewLocatedBus().setName(busId);
-    		//bus Voltage
-    		double v=new Double(strAry[2]).doubleValue();
-    		XBeanDataSetter.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageUnitType.KV);
-    		    		
+
     		//excId
     		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
-    			
     		} 
+    		pss.setDesc("IEEE1968 Type1 excId-" + macId);
+
+    		if(str.substring(0, 3).trim().equals("SS")){
+    			pss.setFirstInputSignal(StabilizerInputSignalEnumType.ROTOR_SPEED_DEVIATION);    			                 
+    		}
+    		else if(str.substring(0, 3).trim().equals("SP")){
+    			pss.setFirstInputSignal(StabilizerInputSignalEnumType.GENERATOR_ACCELERATING_POWER);
+    		}
+    		else{
+    			pss.setFirstInputSignal(StabilizerInputSignalEnumType.GENERATOR_ELECTRICAL_POWER);
+    		}
+/*    		    		
     		// for local input mode, remote input is set to 0;
-    		tstpss.setFirstRemoteBusId("0");
-    		tstpss.setSecondInputSignal(PssIEE2STXmlType.SecondInputSignal.X_0);
-    		tstpss.setSecondRemoteBusId("0");
+    		pss.setFirstRemoteBusId("0");
+    		// TODO
+    		//pss.setSecondInputSignal(StabilizerInputSignalEnumType.X_0);
+    		pss.setSecondRemoteBusId("0");
     		
-    		pss.addNewMacId().setName(macId);
     		//KQV 
     		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		tstpss.setK1(KQV);
+    		pss.setK1(KQV);
     		    		
     		//TQV
     		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT1(), TQV, TimePeriodUnitType.SEC);
-    				
+    		pss.setT.setTqv(BaseDataSetter.createTimeConstSec(TQV));
     		
     		//KQS
     		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
-    		tstpss.setK2(KQS);
+    		pss.setK2(KQS);
     		
     		//TQS
     		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT2(), TQS, TimePeriodUnitType.SEC);
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		
     		//TQ
     		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT3(), TQ, TimePeriodUnitType.SEC);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT4(), TQ, TimePeriodUnitType.SEC);
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
+
     		// TQ1
     		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT6(), TQ1, TimePeriodUnitType.SEC);
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		    		
     		//TQ11
     		double TQ11= ModelStringUtil.getDouble(strAry[10], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT5(), TQ11, TimePeriodUnitType.SEC);
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		
     		//TQ2
     		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT8(), TQ2, TimePeriodUnitType.SEC);
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		
     		// TQ21
     		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT7(), TQ21, TimePeriodUnitType.SEC);
-    		   		
-    		
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
+    		   		    		
     		//TQ31
     		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT9(), TQ31, TimePeriodUnitType.SEC);
-    		    		
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));    		    		
     		  		
     		//TQ3
     		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
-    		XBeanDataSetter.setTimePeriodData(tstpss.addNewT10(), TQ3, TimePeriodUnitType.SEC);
+    		pss.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		    		
     		//VSMAX
     		double vsmax=ModelStringUtil.getDouble(strAry[15], 0.0);
-    		tstpss.setVSMAX(vsmax);
+    		pss.setVSMAX(vsmax);
     			
     		//VCUTOFF
     		double vcut=ModelStringUtil.getDouble(strAry[16], 0.0);
-    		tstpss.setVCUTOFF(vcut);
+    		pss.setVCUTOFF(vcut);
     		    		
     		//VSLOW
     		double vsmin=0.0;
@@ -149,11 +136,11 @@ public class BPADynamicPSSRecord {
     		}else {
     			vsmin=-Vslow;
     		}
-    		tstpss.setVSMIN(vsmin);
+    		pss.setVSMIN(vsmin);
 			    		
     		//KQS MVAbase for SP SG
     		double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
-  */  				
+*/    		
     		
     	}
     	else if(str.substring(0, 3).trim().equals("SI")){
@@ -177,9 +164,9 @@ public class BPADynamicPSSRecord {
     		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
-    			
     		}    		
     		pss.addNewMacId().setName(macId);
+
     		//TRW
     		double  trw=ModelStringUtil.getDouble(strAry[4], 0.0);;
     		XBeanDataSetter.setTimePeriodData(dualInputPss.addNewTrw(), trw, TimePeriodUnitType.SEC);
@@ -244,7 +231,6 @@ public class BPADynamicPSSRecord {
     			dualInputPss.setSecondInputSignal(PssIEEEDualInputXmlType
     					.SecondInputSignal.GENERATOR_ACCELERATING_POWER);
     		}
-    		
     	*/	
     	}
     	else if(str.substring(0, 3).trim().equals("SI+")){
@@ -254,6 +240,7 @@ public class BPADynamicPSSRecord {
     		String busId=strAry[1];    		
     		//bus Voltage    		   		    		
     		//excId
+
     		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];

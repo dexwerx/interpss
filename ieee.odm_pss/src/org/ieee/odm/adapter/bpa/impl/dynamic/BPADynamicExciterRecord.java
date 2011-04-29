@@ -125,163 +125,130 @@ public class BPADynamicExciterRecord {
     		//EXDC2
     		ExcIEEETypeDC2XmlType exc = DStabParserHelper.createExcIEEETypeDC2XmlType(dynGen);
     		
-    		/*
-    		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
-    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2);
-    		ExcIEEETypeDC2XmlType exc_dc2= exc.addNewExciterModel().addNewIEEETypeDC2();
-			//busId
-    		String busId=strAry[1];
-			exc.addNewLocatedBus().setName(busId);		
-			
-			//bus Voltage
-			double voltage= ModelStringUtil.getDouble(strAry[2], 0.0);
-			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}	
-			exc.addNewExcId().setName(excId);
-			//TR
+    		exc.setDesc("IEEE Type DC2 excId-" + excId);
 			
+			//TR
 			double Tr= ModelStringUtil.getDouble(strAry[6], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_dc2.addNewTR(), Tr, TimePeriodUnitType.SEC);			
+			exc.setTR(BaseDataSetter.createTimeConstSec(Tr));			
 			
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_dc2.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//TC
 			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_dc2.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 			
 			//KA, KV for FE
 			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
-			exc_dc2.setKA(Ka);			
+			exc.setKa(Ka);			
+			
 			// TA, TRH for FE
 			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_dc2.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//VRmax, Vamax for FH
 			double Vrmax= ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc_dc2.setVRMAX(Vrmax);
+			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);	
-			
-			exc_dc2.setVRMIN(Vrmin);
+			exc.setVrmin(Vrmin);
 			
 			//Ke
 			double ke=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc_dc2.setKE(ke);
+			exc.setKE(ke);
 			
 			//Te
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_dc2.addNewTE(), Te, TimePeriodUnitType.SEC);
-		*/	
+			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
     	else if(type==FK){
 			// IEEE 1981 ST1
     		ExcIEEE1981ST1XmlType exc = DStabParserHelper.createExcIEEE1981ST1XmlType(dynGen);
     		
-    		/*
-    		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
-    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_ST_1);
-    		ExcIEEE1981ST1XmlType exc_st1= exc.addNewExciterModel().addNewIEEE1981ST1();
-			//busId
-    		String busId=strAry[1];
-			exc.addNewLocatedBus().setName(busId);		
-			
-			//bus Voltage
-			double voltage= ModelStringUtil.getDouble(strAry[2], 0.0);
-			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];
-				
 			}	
-			exc.addNewExcId().setName(excId);
+    		exc.setDesc("IEEE1981 ST1 Type excId-" + excId);
+
 			//TR
-			
 			double Tr= ModelStringUtil.getDouble(strAry[6], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_st1.addNewTR(), Tr, TimePeriodUnitType.SEC);
+			exc.setTR(BaseDataSetter.createTimeConstSec(Tr));
 			
 			//VIMax for G K L,VAmax for FF
 			double Vimax= ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc_st1.setVIMAX(Vimax);
+			exc.setVIMAX(Vimax);
 			
 			//VIMin for G K L,VAmin for FF
 			//VIMax for G K L,VAmax for FF
 			double Vimin= ModelStringUtil.getDouble(strAry[8], 0.0);
-			exc_st1.setVIMIN(Vimin);
+			exc.setVIMIN(Vimin);
+
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_st1.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//TC
 			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_st1.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 			
 			//KA, KV for FE
 			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
-			exc_st1.setKA(Ka);			
+			exc.setKa(Ka);
+			
 			// TA, TRH for FE
 			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
-			XBeanDataSetter.setTimePeriodData(exc_st1.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//VRmax, Vamax for FH
 			double Vrmax= ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc_st1.setVRMAX(Vrmax);
+			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);	
-			exc_st1.setVRMIN(Vrmin);
-			*/
+			exc.setVrmin(Vrmin);
     	}
     	else if(type==FJ){
     		ExcBPAFJXmlType exc = DStabParserHelper.createExcBPAFJXmlType(dynGen);
     			    		
-    		/*
-    		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
-    		exc.setExciterType(ExciterXmlType.ExciterType.BPAFJ);
-    		ExcBPAFJXmlType BPAFJ= exc.addNewExciterModel().addNewBPAFJ();
-			//busId
-    		String busId=strAry[1];
-			exc.addNewLocatedBus().setName(busId);		
-			
-			//bus Voltage
-			double voltage= ModelStringUtil.getDouble(strAry[2], 0.0);
-			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}	
-			exc.addNewExcId().setName(excId);
+    		exc.setDesc("BPAJ Type excId-" + excId);
+			
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
-			XBeanDataSetter.setTimePeriodData(BPAFJ.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//TC
 			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
-			XBeanDataSetter.setTimePeriodData(BPAFJ.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 			
 			//KA, KV for FE
 			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
-			BPAFJ.setKA(Ka);			
+			exc.setKa(Ka);			
+			
 			// TA, TRH for FE
 			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
-			XBeanDataSetter.setTimePeriodData(BPAFJ.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//VRmax, Vamax for FH
 			double Vrmax=ModelStringUtil.getDouble(strAry[13], 0.0);
-			BPAFJ.setVRMAX(Vrmax);
+			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
-			BPAFJ.setVRMIN(Vrmin);
-			*/
+			exc.setVrmin(Vrmin);
     	}
     	else if(type==FQ||type==FV){
     		ExcIEEE1981NewExcSystemXmlType exc = DStabParserHelper.createExcIEEE1981NewExcSystemXmlType(dynGen);
@@ -297,70 +264,70 @@ public class BPADynamicExciterRecord {
 			//bus Voltage
 			double voltage=ModelStringUtil.getDouble(strAry[2], 0.0);
 			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
-					voltage, VoltageUnitType.KV);			
+					voltage, VoltageUnitType.KV);
+					*/			
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}			
-			exc.addNewExcId().setName(excId);
-			//Rc
+    		exc.setDesc("IEEE1981 new exc system excId-" + excId);
+
+    		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			newExc.setRc(Rc);
+			exc.setRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			newExc.setXc(Xc);
+			exc.setXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTr(), Tr, TimePeriodUnitType.SEC);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
 						
 			//K
 			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
-			newExc.setK(k);
+			exc.setK(k);
 						
 			//Kv
 			double kv=ModelStringUtil.getDouble(strAry[8], 0.0);
-			newExc.setKv(kv);
+			exc.setKv(kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewT1(), T1, TimePeriodUnitType.SEC);
+			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
 			
 			//T2
 			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewT2(), T2, TimePeriodUnitType.SEC);
+			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
 						
 			//T3			
 			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewT3(), T3, TimePeriodUnitType.SEC);
+			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
 						
 			// T4			
 			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewT4(), T4, TimePeriodUnitType.SEC);
+			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
 						
 			//KA
 			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
-			newExc.setKa(ka);
+			exc.setKa(ka);
 					
 			//TA
 			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTa(), Ta, TimePeriodUnitType.SEC);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
 			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			newExc.setKf(kf);
+			exc.setKf(kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTf(), Tf, TimePeriodUnitType.SEC);
+			exc.setTf(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
 			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
-			newExc.setKh(kh);
-			*/
-			
+			exc.setKh(kh);
     	}
     	else if(type==FF){
     		ExcIEEE1981TypeAC2XmlType exc = DStabParserHelper.createExcIEEE1981TypeAC2XmlType(dynGen);
@@ -376,58 +343,58 @@ public class BPADynamicExciterRecord {
 			//bus Voltage
 			double voltage=ModelStringUtil.getDouble(strAry[2], 0.0);
 			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
-					voltage, VoltageUnitType.KV);			
+					voltage, VoltageUnitType.KV);
+			*/					
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}			
-			exc.addNewExcId().setName(excId);
+    		exc.setDesc("IEEE1981 AC2 Type excId-" + excId);
+
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTR(), Tr, TimePeriodUnitType.SEC);
+			exc.setTR(BaseDataSetter.createTimeConstSec(Tr));
 						
 			//Vamax
 			double Vamax=ModelStringUtil.getDouble(strAry[7], 0.0);
-			newExc.setVAMAX(Vamax);
+			exc.setVAMAX(Vamax);
 						
 			//Vamin
 			double Vamin=ModelStringUtil.getDouble(strAry[8], 0.0);
-			newExc.setVAMIN(Vamin);
+			exc.setVAMIN(Vamin);
 						
 			// Tb
 			double Tb=ModelStringUtil.getDouble(strAry[9], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//Tc
 			double Tc=ModelStringUtil.getDouble(strAry[10], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 						
 			//Ka			
 			double Ka=ModelStringUtil.getDouble(strAry[11], 0.0);
-			newExc.setKA(Ka);
+			exc.setKa(Ka);
 						
 			// Ta			
 			double Ta=ModelStringUtil.getDouble(strAry[12], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//Vrmax
 			double Vrmax=ModelStringUtil.getDouble(strAry[13], 0.0);
-			newExc.setVRMAX(Vrmax);
+			exc.setVrmin(Vrmax);
 						
 			//Vrmin
 			double Vrmin=ModelStringUtil.getDouble(strAry[14], 0.0);
-			newExc.setVRMIN(Vrmin);
+			exc.setVrmin(Vrmin);
 									
 			//Ke
 			double ke=ModelStringUtil.getDouble(strAry[15], 0.0);
-			newExc.setKE(ke);
+			exc.setKE(ke);
 			
 			//Te
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
-			XBeanDataSetter.setTimePeriodData(newExc.addNewTE(), Te, TimePeriodUnitType.SEC);
-		  		
-    		*/
+			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
     	else if(str.substring(0, 2).trim().equals("FZ")||
     			str.substring(0, 2).trim().equals("F+")){
@@ -541,76 +508,71 @@ public class BPADynamicExciterRecord {
         	}
     	else if(str.substring(0, 2).trim().equals("F+")){
     		ExcIEEE1981NewExcSystemXmlType exc = DStabParserHelper.createExcIEEE1981NewExcSystemXmlType(dynGen);
+    		//VAMAX 
+    		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
+    		exc.setVAmax(Vamax);    		
+			
+			//VAMIN 
+    		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
+    		exc.setVAmin(Vamin);
     		
-        /*		
-        		ExcIEEE1981NewExcSystemXmlType newExc=exc.
-        		                   getExciterModel().getIEEE1981NewExcSystem();        		
-        		//VAMAX 
-        		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-        		newExc.setVAmax(Vamax);    		
+			strAry[5]=str.substring(21, 26).trim();
+			//KB
+			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setKb(Kb);
+    		    			
+			//T5
+    		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
+			exc.setT5(BaseDataSetter.createTimeConstSec(T5));
+    					
+			//KE
+    		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		exc.setKe(Ke);
     			
-    			//VAMIN 
-        		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-        		newExc.setVAmin(Vamin);
-    			strAry[5]=str.substring(21, 26).trim();
-    			//KB
-    			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
-        		newExc.setKb(Kb);
-        		    			
-    			//T5
-        		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
-        		XBeanDataSetter.setTimePeriodData(newExc.addNewT5(), 
-        					T5, TimePeriodUnitType.SEC);
-        					
-    			//KE
-        		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
-        		newExc.setKe(Ke);
-        			
-    			// TE
-        		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
-        		XBeanDataSetter.setTimePeriodData(newExc.addNewTe(), 
-        					Te, TimePeriodUnitType.SEC);
-        				
-    			//SE1-0.75
-        		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
-        		    newExc.setE1(0.75);
-        			newExc.setSE1(SE1);
-        				
-    			// VRMAX
-    			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-        		newExc.setVRmax(Vrmax); 			
-    			//VRMIN
-    			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
-        		newExc.setVRmin(Vrmin);			
-    			//KC
-        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-        		newExc.setKc(KC);
-        		    					
-    			//KD
-        		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
-        		newExc.setKd(Kd);
-        					
-    			//KL1
-        		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
-        		newExc.setKL1(KL1);
-        				
-    			//VLIR
-        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
-        		newExc.setVL1R(VLIR);
-        					
-    			//EFDMAX
-        		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
-        		
-        		newExc.setEFDmax(EFDMAX);
-        		//SE2--EFDMAX
-        		double SE2=0.0;
-        		if(!strAry[11].equals("")){
-        			SE2=new Double(strAry[11]).doubleValue();
-        			newExc.setE2(EFDMAX);
-        			newExc.setSE2(SE2);
-        		}
-        	}    		
-        		*/    		
+			// TE
+    		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
+			exc.setTe(BaseDataSetter.createTimeConstSec(Te));
+    				
+			//SE1-0.75
+    		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+    		exc.setE1(0.75);
+    		exc.setSE1(SE1);
+    				
+			// VRMAX
+			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
+			exc.setVrmax(Vrmax); 			
+			
+			//VRMIN
+			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+			exc.setVrmin(Vrmin);			
+			
+			//KC
+    		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		exc.setKc(KC);
+    		    					
+			//KD
+    		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		exc.setKd(Kd);
+    					
+			//KL1
+    		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		exc.setKL1(KL1);
+    				
+			//VLIR
+    		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
+    		exc.setVL1R(VLIR);
+    					
+			//EFDMAX
+    		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
+    		exc.setEFDmax(EFDMAX);
+
+    		//SE2--EFDMAX
+    		double SE2=0.0;
+    		if(!strAry[11].equals("")){
+    			SE2=new Double(strAry[11]).doubleValue();
+    			exc.setE2(EFDMAX);
+    			exc.setSE2(SE2);
+    		}
     	}	
 	}
 	
@@ -637,206 +599,204 @@ public class BPADynamicExciterRecord {
     	}		
     	return type;
 	}
-	 private static String[] getExciterDataFields ( final String str ) {
-			
-	    	
-	    	final String[] strAry = new String[19];	
-	    	
-	    	try{
-	    		if(str.substring(0,1).trim().equals("E")){
-					strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-					//busId
-					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-					//bus Voltage
-					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-					//excId
-					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-					//TR
-					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 20).trim();
-					//KA for all, KV for EE
-					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,21, 25).trim();
-					//TA for all, TRH for EE
-					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,26, 29).trim();
-					//TA1
-					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,30, 33).trim();
-					//VRminMult, VRmax, VRmin for ED EJ
-					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,34, 37).trim();
-					// KE
-					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,38, 41).trim();
-					//TE
-					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,42, 45).trim();
-					//SE0.75MAX for all, KI for DD
-					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,46, 49).trim();
-					// SEmax for all, Kp for DD
-					strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,50, 53).trim();
-					//EFDMin
-					strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,54, 58).trim();
-					//EFDMax for all, VNmax for ED
-					strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,59, 62).trim();
-					//KF
-					strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,63, 66).trim();
-					//TF
-					strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,67, 70).trim();
-					// XL for ED
-					strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,71, 75).trim();
-					//TF1 for ED
-					strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,76, 80).trim();
-					
-				}else if(str.substring(0, 2).trim().equals("FA")||
-						str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
-						||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||
-						str.substring(0, 2).trim().equals("FF")||str.substring(0, 2).trim().equals("FG")
-						||str.substring(0, 2).trim().equals("FH")||str.substring(0, 2).trim().equals("FJ")
-						||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
-						){
-					
-					strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-					//busId
-					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-					//bus Voltage
-					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-					//excId
-					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-					//Rc
-					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
-					//Xc
-					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
-					//TR
-					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 31).trim();
-					//VIMax for G K L,VAmax for FF
-					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,32, 36).trim();
-					//VIMin for G K L,VAmin for FF
-					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
-					// TB
-					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,42, 46).trim();
-					//TC
-					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
-					//KA, KV for FE
-					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
-					// TA, TRH for FE
-					strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,57, 61).trim();
-					//VRmax, Vamax for FH
-					strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,62, 66).trim();					
-					//VRmin, Vamin
-					strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,67, 71).trim();
-					//KE, KJ for FL
-					strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,72, 76).trim();
-					//TE
-					strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
-				}else if(str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")){
-					
-					strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-					//busId
-					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-					//bus Voltage
-					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-					//excId
-					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-					//Rc
-					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 20).trim();
-					//Xc
-					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,21, 24).trim();
-					//TR
-					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,25, 29).trim();
-					//K
-					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,30, 34).trim();
-					//Kv
-					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 37).trim();
-					// T1
-					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
-					//T2
-					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
-					//K3
-					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
-					// T4
-					strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
-					//KA
-					strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
-					//TA
-					strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
-					//KF
-					strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,68, 72).trim();
-					//TF
-					strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,73, 76).trim();
-					//KH
-					strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
-				}
-				else if(str.substring(0,2).trim().equals("FZ")){
-					strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-					//busId
-					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-					//bus Voltage
-					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-					//excId
-					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-					//SE1, 
-					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
-					//SE2, 
-					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
-					//EFDmin
-					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 31).trim();
-					//
-					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,32, 36).trim();
-					//KF
-					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
-					// TF
-					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,42, 46).trim();
-					//KC
-					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
-					//KD
-					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
-					// 
-					strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,57, 61).trim();
-					//
-					strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,62, 66).trim();
-					//
-					strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,67, 71).trim();
-					//
-					strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,72, 76).trim();			
-					
-				}else if(str.substring(0,2).trim().equals("F+")){
-					strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-					//busId
-					strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-					//bus Voltage
-					strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-					//excId
-					strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-					//VAMAX 
-					strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
-					//VAMIN 
-					strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
-					//KB
-					strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
-					//T5
-					strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,31, 34).trim();
-					//KE
-					strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();
-					// TE
-					strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,40, 42).trim();
-					//SE1-0.75
-					strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
-					//SE2--EFDMAX
-					strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
-					// VRMAX
-					strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,53, 56).trim();
-					//VRMIN
-					strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,57, 60).trim();
-					//KC
-					strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,61, 64).trim();
-					//KD
-					strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,65, 68).trim();	
-					//KL1
-					strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,69, 72).trim();
-					//VLIR
-					strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,73, 76).trim();
-					//EFDMAX
-					strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
-					
-				}
-	    	}catch (Exception e){
-	    		ODMLogger.getLogger().severe(e.toString());
-	    	}
-	        return strAry;
-	    }
+	
+	private static String[] getExciterDataFields ( final String str ) {
+    	final String[] strAry = new String[19];	
+    	try{
+    		if(str.substring(0,1).trim().equals("E")){
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//busId
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//bus Voltage
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//excId
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				//TR
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 20).trim();
+				//KA for all, KV for EE
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,21, 25).trim();
+				//TA for all, TRH for EE
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,26, 29).trim();
+				//TA1
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,30, 33).trim();
+				//VRminMult, VRmax, VRmin for ED EJ
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,34, 37).trim();
+				// KE
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,38, 41).trim();
+				//TE
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,42, 45).trim();
+				//SE0.75MAX for all, KI for DD
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,46, 49).trim();
+				// SEmax for all, Kp for DD
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,50, 53).trim();
+				//EFDMin
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,54, 58).trim();
+				//EFDMax for all, VNmax for ED
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,59, 62).trim();
+				//KF
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,63, 66).trim();
+				//TF
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,67, 70).trim();
+				// XL for ED
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,71, 75).trim();
+				//TF1 for ED
+				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,76, 80).trim();
+				
+			}else if(str.substring(0, 2).trim().equals("FA")||
+					str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
+					||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||
+					str.substring(0, 2).trim().equals("FF")||str.substring(0, 2).trim().equals("FG")
+					||str.substring(0, 2).trim().equals("FH")||str.substring(0, 2).trim().equals("FJ")
+					||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
+					){
+				
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//busId
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//bus Voltage
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//excId
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				//Rc
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
+				//Xc
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
+				//TR
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 31).trim();
+				//VIMax for G K L,VAmax for FF
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,32, 36).trim();
+				//VIMin for G K L,VAmin for FF
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
+				// TB
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,42, 46).trim();
+				//TC
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
+				//KA, KV for FE
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
+				// TA, TRH for FE
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,57, 61).trim();
+				//VRmax, Vamax for FH
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,62, 66).trim();					
+				//VRmin, Vamin
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,67, 71).trim();
+				//KE, KJ for FL
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,72, 76).trim();
+				//TE
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
+			}else if(str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")){
+				
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//busId
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//bus Voltage
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//excId
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				//Rc
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 20).trim();
+				//Xc
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,21, 24).trim();
+				//TR
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,25, 29).trim();
+				//K
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,30, 34).trim();
+				//Kv
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 37).trim();
+				// T1
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
+				//T2
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
+				//K3
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
+				// T4
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
+				//KA
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
+				//TA
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,63, 67).trim();
+				//KF
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,68, 72).trim();
+				//TF
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,73, 76).trim();
+				//KH
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
+			}
+			else if(str.substring(0,2).trim().equals("FZ")){
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//busId
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//bus Voltage
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//excId
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				//SE1, 
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
+				//SE2, 
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
+				//EFDmin
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 31).trim();
+				//
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,32, 36).trim();
+				//KF
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
+				// TF
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,42, 46).trim();
+				//KC
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
+				//KD
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
+				// 
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,57, 61).trim();
+				//
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,62, 66).trim();
+				//
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,67, 71).trim();
+				//
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,72, 76).trim();			
+				
+			}else if(str.substring(0,2).trim().equals("F+")){
+				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//busId
+				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//bus Voltage
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//excId
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				//VAMAX 
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
+				//VAMIN 
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 26).trim();
+				//KB
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
+				//T5
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,31, 34).trim();
+				//KE
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();
+				// TE
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,40, 42).trim();
+				//SE1-0.75
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
+				//SE2--EFDMAX
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
+				// VRMAX
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,53, 56).trim();
+				//VRMIN
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,57, 60).trim();
+				//KC
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,61, 64).trim();
+				//KD
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,65, 68).trim();	
+				//KL1
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,69, 72).trim();
+				//VLIR
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,73, 76).trim();
+				//EFDMAX
+				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
+				
+			}
+    	}catch (Exception e){
+    		ODMLogger.getLogger().severe(e.toString());
+    	}
+        return strAry;
+	}
 }
