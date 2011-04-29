@@ -10,20 +10,22 @@ package org.ieee.odm.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for ActivePowerLimitXmlType complex type.
+ * <p>Java class for PssBPADualInputXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ActivePowerLimitXmlType">
+ * &lt;complexType name="PssBPADualInputXmlType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}LimitXmlType">
- *       &lt;attribute name="unit" use="required" type="{http://www.ieee.org/odm/Schema/2008}ActivePowerUnitType" />
+ *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}PssIEEEDualInputXmlType">
+ *       &lt;sequence>
+ *         &lt;element name="KrBaseMVA" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -32,36 +34,38 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivePowerLimitXmlType")
-public class ActivePowerLimitXmlType
-    extends LimitXmlType
+@XmlType(name = "PssBPADualInputXmlType", propOrder = {
+    "krBaseMVA"
+})
+public class PssBPADualInputXmlType
+    extends PssIEEEDualInputXmlType
 {
 
-    @XmlAttribute(required = true)
-    protected ActivePowerUnitType unit;
+    @XmlElement(name = "KrBaseMVA")
+    protected Double krBaseMVA;
 
     /**
-     * Gets the value of the unit property.
+     * Gets the value of the krBaseMVA property.
      * 
      * @return
      *     possible object is
-     *     {@link ActivePowerUnitType }
+     *     {@link Double }
      *     
      */
-    public ActivePowerUnitType getUnit() {
-        return unit;
+    public Double getKrBaseMVA() {
+        return krBaseMVA;
     }
 
     /**
-     * Sets the value of the unit property.
+     * Sets the value of the krBaseMVA property.
      * 
      * @param value
      *     allowed object is
-     *     {@link ActivePowerUnitType }
+     *     {@link Double }
      *     
      */
-    public void setUnit(ActivePowerUnitType value) {
-        this.unit = value;
+    public void setKrBaseMVA(Double value) {
+        this.krBaseMVA = value;
     }
 
 }
