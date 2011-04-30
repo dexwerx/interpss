@@ -209,7 +209,7 @@ public class DStabParserHelper extends AclfParserHelper {
 
 	public static ExcBPAFJXmlType createExcBPAFJXmlType(DynamicGeneratorXmlType gen) {
 		ExcBPAFJXmlType exc = getFactory().createExcBPAFJXmlType();
-		gen.setExciter(getFactory().createExcBPAFJ(exc));
+		gen.setExciter(getFactory().createExcBPATypeFJ(exc));
 		return exc;
 	}
 	
