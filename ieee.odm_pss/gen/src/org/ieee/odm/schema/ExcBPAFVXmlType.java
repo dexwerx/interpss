@@ -15,24 +15,28 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for GovHydroSteamGeneralModelXmlType complex type.
+ * <p>Java class for ExcBPAFVXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="GovHydroSteamGeneralModelXmlType">
+ * &lt;complexType name="ExcBPAFVXmlType">
  *   &lt;complexContent>
- *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}GovernorModelXmlType">
+ *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}ExcSimpleTypeXmlType">
  *       &lt;sequence>
- *         &lt;element name="R" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="K" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="KV" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="T1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="T2" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
+ *         &lt;element name="T1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType" minOccurs="0"/>
+ *         &lt;element name="T2" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType" minOccurs="0"/>
+ *         &lt;element name="VA1MAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VA1MIN" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="T3" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="T4" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="T5" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="PMAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="F" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VAMAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VAMIN" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="KF" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="TF" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
+ *         &lt;element name="KC" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -42,54 +46,66 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GovHydroSteamGeneralModelXmlType", propOrder = {
-    "r",
+@XmlType(name = "ExcBPAFVXmlType", propOrder = {
+    "k",
     "kv",
     "t1",
     "t2",
+    "va1MAX",
+    "va1MIN",
     "t3",
     "t4",
-    "t5",
-    "pmax",
-    "f"
+    "vamax",
+    "vamin",
+    "kf",
+    "tf",
+    "kc"
 })
-public class GovHydroSteamGeneralModelXmlType
-    extends GovernorModelXmlType
+public class ExcBPAFVXmlType
+    extends ExcSimpleTypeXmlType
 {
 
-    @XmlElement(name = "R")
-    protected double r;
+    @XmlElement(name = "K")
+    protected double k;
     @XmlElement(name = "KV")
     protected double kv;
-    @XmlElement(name = "T1", required = true)
+    @XmlElement(name = "T1")
     protected TimePeriodXmlType t1;
-    @XmlElement(name = "T2", required = true)
+    @XmlElement(name = "T2")
     protected TimePeriodXmlType t2;
+    @XmlElement(name = "VA1MAX")
+    protected double va1MAX;
+    @XmlElement(name = "VA1MIN")
+    protected double va1MIN;
     @XmlElement(name = "T3", required = true)
     protected TimePeriodXmlType t3;
     @XmlElement(name = "T4", required = true)
     protected TimePeriodXmlType t4;
-    @XmlElement(name = "T5", required = true)
-    protected TimePeriodXmlType t5;
-    @XmlElement(name = "PMAX")
-    protected double pmax;
-    @XmlElement(name = "F")
-    protected double f;
+    @XmlElement(name = "VAMAX")
+    protected double vamax;
+    @XmlElement(name = "VAMIN")
+    protected double vamin;
+    @XmlElement(name = "KF")
+    protected double kf;
+    @XmlElement(name = "TF", required = true)
+    protected TimePeriodXmlType tf;
+    @XmlElement(name = "KC")
+    protected double kc;
 
     /**
-     * Gets the value of the r property.
+     * Gets the value of the k property.
      * 
      */
-    public double getR() {
-        return r;
+    public double getK() {
+        return k;
     }
 
     /**
-     * Sets the value of the r property.
+     * Sets the value of the k property.
      * 
      */
-    public void setR(double value) {
-        this.r = value;
+    public void setK(double value) {
+        this.k = value;
     }
 
     /**
@@ -157,6 +173,38 @@ public class GovHydroSteamGeneralModelXmlType
     }
 
     /**
+     * Gets the value of the va1MAX property.
+     * 
+     */
+    public double getVA1MAX() {
+        return va1MAX;
+    }
+
+    /**
+     * Sets the value of the va1MAX property.
+     * 
+     */
+    public void setVA1MAX(double value) {
+        this.va1MAX = value;
+    }
+
+    /**
+     * Gets the value of the va1MIN property.
+     * 
+     */
+    public double getVA1MIN() {
+        return va1MIN;
+    }
+
+    /**
+     * Sets the value of the va1MIN property.
+     * 
+     */
+    public void setVA1MIN(double value) {
+        this.va1MIN = value;
+    }
+
+    /**
      * Gets the value of the t3 property.
      * 
      * @return
@@ -205,59 +253,91 @@ public class GovHydroSteamGeneralModelXmlType
     }
 
     /**
-     * Gets the value of the t5 property.
+     * Gets the value of the vamax property.
+     * 
+     */
+    public double getVAMAX() {
+        return vamax;
+    }
+
+    /**
+     * Sets the value of the vamax property.
+     * 
+     */
+    public void setVAMAX(double value) {
+        this.vamax = value;
+    }
+
+    /**
+     * Gets the value of the vamin property.
+     * 
+     */
+    public double getVAMIN() {
+        return vamin;
+    }
+
+    /**
+     * Sets the value of the vamin property.
+     * 
+     */
+    public void setVAMIN(double value) {
+        this.vamin = value;
+    }
+
+    /**
+     * Gets the value of the kf property.
+     * 
+     */
+    public double getKF() {
+        return kf;
+    }
+
+    /**
+     * Sets the value of the kf property.
+     * 
+     */
+    public void setKF(double value) {
+        this.kf = value;
+    }
+
+    /**
+     * Gets the value of the tf property.
      * 
      * @return
      *     possible object is
      *     {@link TimePeriodXmlType }
      *     
      */
-    public TimePeriodXmlType getT5() {
-        return t5;
+    public TimePeriodXmlType getTF() {
+        return tf;
     }
 
     /**
-     * Sets the value of the t5 property.
+     * Sets the value of the tf property.
      * 
      * @param value
      *     allowed object is
      *     {@link TimePeriodXmlType }
      *     
      */
-    public void setT5(TimePeriodXmlType value) {
-        this.t5 = value;
+    public void setTF(TimePeriodXmlType value) {
+        this.tf = value;
     }
 
     /**
-     * Gets the value of the pmax property.
+     * Gets the value of the kc property.
      * 
      */
-    public double getPMAX() {
-        return pmax;
+    public double getKC() {
+        return kc;
     }
 
     /**
-     * Sets the value of the pmax property.
+     * Sets the value of the kc property.
      * 
      */
-    public void setPMAX(double value) {
-        this.pmax = value;
-    }
-
-    /**
-     * Gets the value of the f property.
-     * 
-     */
-    public double getF() {
-        return f;
-    }
-
-    /**
-     * Sets the value of the f property.
-     * 
-     */
-    public void setF(double value) {
-        this.f = value;
+    public void setKC(double value) {
+        this.kc = value;
     }
 
 }

@@ -15,34 +15,32 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for ExcTSATTypeEXC34XmlType complex type.
+ * <p>Java class for ExcIEEE1992TypeST1AXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ExcTSATTypeEXC34XmlType">
+ * &lt;complexType name="ExcIEEE1992TypeST1AXmlType">
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.ieee.org/odm/Schema/2008}ExcSimpleTypeXmlType">
  *       &lt;sequence>
- *         &lt;element name="IVUEL" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="IVOEL" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="LVS" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VIMAX" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *         &lt;element name="VIMIN" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
  *         &lt;element name="TB" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="TC" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="TC1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="TB1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="TF" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="KF" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="VIMAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="VIMIN" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="TC1" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="VAMAX" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="VAMIN" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="KF" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="TF" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
  *         &lt;element name="KC" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="KLR" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="ILR" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="TR" type="{http://www.ieee.org/odm/Schema/2008}TimePeriodXmlType"/>
- *         &lt;element name="RC" type="{http://www.w3.org/2001/XMLSchema}double"/>
- *         &lt;element name="XC" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="VUEL" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *         &lt;element name="VUEL_INPUT_POSITION" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+ *         &lt;element name="UOEL" type="{http://www.w3.org/2001/XMLSchema}double" minOccurs="0"/>
+ *         &lt;element name="VS_INPUT_POSITION" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -52,116 +50,110 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ExcTSATTypeEXC34XmlType", propOrder = {
-    "ivuel",
-    "ivoel",
-    "lvs",
-    "tb",
-    "tc",
-    "tc1",
-    "tb1",
-    "tf",
-    "kf",
+@XmlType(name = "ExcIEEE1992TypeST1AXmlType", propOrder = {
     "vimax",
     "vimin",
+    "tb",
+    "tc",
+    "tb1",
+    "tc1",
     "vamax",
     "vamin",
+    "kf",
+    "tf",
     "kc",
     "klr",
     "ilr",
-    "tr",
-    "rc",
-    "xc"
+    "vuel",
+    "vuelinputposition",
+    "uoel",
+    "vsinputposition"
 })
-public class ExcTSATTypeEXC34XmlType
+public class ExcIEEE1992TypeST1AXmlType
     extends ExcSimpleTypeXmlType
 {
 
-    @XmlElement(name = "IVUEL")
-    protected double ivuel;
-    @XmlElement(name = "IVOEL")
-    protected double ivoel;
-    @XmlElement(name = "LVS")
-    protected double lvs;
+    @XmlElement(name = "VIMAX")
+    protected Double vimax;
+    @XmlElement(name = "VIMIN")
+    protected Double vimin;
     @XmlElement(name = "TB", required = true)
     protected TimePeriodXmlType tb;
     @XmlElement(name = "TC", required = true)
     protected TimePeriodXmlType tc;
-    @XmlElement(name = "TC1", required = true)
-    protected TimePeriodXmlType tc1;
     @XmlElement(name = "TB1", required = true)
     protected TimePeriodXmlType tb1;
-    @XmlElement(name = "TF", required = true)
-    protected TimePeriodXmlType tf;
-    @XmlElement(name = "KF")
-    protected double kf;
-    @XmlElement(name = "VIMAX")
-    protected double vimax;
-    @XmlElement(name = "VIMIN")
-    protected double vimin;
+    @XmlElement(name = "TC1", required = true)
+    protected TimePeriodXmlType tc1;
     @XmlElement(name = "VAMAX")
     protected double vamax;
     @XmlElement(name = "VAMIN")
     protected double vamin;
+    @XmlElement(name = "KF")
+    protected double kf;
+    @XmlElement(name = "TF", required = true)
+    protected TimePeriodXmlType tf;
     @XmlElement(name = "KC")
     protected double kc;
     @XmlElement(name = "KLR")
     protected double klr;
     @XmlElement(name = "ILR")
     protected double ilr;
-    @XmlElement(name = "TR", required = true)
-    protected TimePeriodXmlType tr;
-    @XmlElement(name = "RC")
-    protected double rc;
-    @XmlElement(name = "XC")
-    protected double xc;
+    @XmlElement(name = "VUEL")
+    protected Double vuel;
+    @XmlElement(name = "VUEL_INPUT_POSITION")
+    protected Integer vuelinputposition;
+    @XmlElement(name = "UOEL")
+    protected Double uoel;
+    @XmlElement(name = "VS_INPUT_POSITION")
+    protected Integer vsinputposition;
 
     /**
-     * Gets the value of the ivuel property.
+     * Gets the value of the vimax property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Double }
+     *     
      */
-    public double getIVUEL() {
-        return ivuel;
+    public Double getVIMAX() {
+        return vimax;
     }
 
     /**
-     * Sets the value of the ivuel property.
+     * Sets the value of the vimax property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Double }
+     *     
      */
-    public void setIVUEL(double value) {
-        this.ivuel = value;
+    public void setVIMAX(Double value) {
+        this.vimax = value;
     }
 
     /**
-     * Gets the value of the ivoel property.
+     * Gets the value of the vimin property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Double }
+     *     
      */
-    public double getIVOEL() {
-        return ivoel;
+    public Double getVIMIN() {
+        return vimin;
     }
 
     /**
-     * Sets the value of the ivoel property.
+     * Sets the value of the vimin property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Double }
+     *     
      */
-    public void setIVOEL(double value) {
-        this.ivoel = value;
-    }
-
-    /**
-     * Gets the value of the lvs property.
-     * 
-     */
-    public double getLVS() {
-        return lvs;
-    }
-
-    /**
-     * Sets the value of the lvs property.
-     * 
-     */
-    public void setLVS(double value) {
-        this.lvs = value;
+    public void setVIMIN(Double value) {
+        this.vimin = value;
     }
 
     /**
@@ -213,30 +205,6 @@ public class ExcTSATTypeEXC34XmlType
     }
 
     /**
-     * Gets the value of the tc1 property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TimePeriodXmlType }
-     *     
-     */
-    public TimePeriodXmlType getTC1() {
-        return tc1;
-    }
-
-    /**
-     * Sets the value of the tc1 property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TimePeriodXmlType }
-     *     
-     */
-    public void setTC1(TimePeriodXmlType value) {
-        this.tc1 = value;
-    }
-
-    /**
      * Gets the value of the tb1 property.
      * 
      * @return
@@ -261,75 +229,27 @@ public class ExcTSATTypeEXC34XmlType
     }
 
     /**
-     * Gets the value of the tf property.
+     * Gets the value of the tc1 property.
      * 
      * @return
      *     possible object is
      *     {@link TimePeriodXmlType }
      *     
      */
-    public TimePeriodXmlType getTF() {
-        return tf;
+    public TimePeriodXmlType getTC1() {
+        return tc1;
     }
 
     /**
-     * Sets the value of the tf property.
+     * Sets the value of the tc1 property.
      * 
      * @param value
      *     allowed object is
      *     {@link TimePeriodXmlType }
      *     
      */
-    public void setTF(TimePeriodXmlType value) {
-        this.tf = value;
-    }
-
-    /**
-     * Gets the value of the kf property.
-     * 
-     */
-    public double getKF() {
-        return kf;
-    }
-
-    /**
-     * Sets the value of the kf property.
-     * 
-     */
-    public void setKF(double value) {
-        this.kf = value;
-    }
-
-    /**
-     * Gets the value of the vimax property.
-     * 
-     */
-    public double getVIMAX() {
-        return vimax;
-    }
-
-    /**
-     * Sets the value of the vimax property.
-     * 
-     */
-    public void setVIMAX(double value) {
-        this.vimax = value;
-    }
-
-    /**
-     * Gets the value of the vimin property.
-     * 
-     */
-    public double getVIMIN() {
-        return vimin;
-    }
-
-    /**
-     * Sets the value of the vimin property.
-     * 
-     */
-    public void setVIMIN(double value) {
-        this.vimin = value;
+    public void setTC1(TimePeriodXmlType value) {
+        this.tc1 = value;
     }
 
     /**
@@ -362,6 +282,46 @@ public class ExcTSATTypeEXC34XmlType
      */
     public void setVAMIN(double value) {
         this.vamin = value;
+    }
+
+    /**
+     * Gets the value of the kf property.
+     * 
+     */
+    public double getKF() {
+        return kf;
+    }
+
+    /**
+     * Sets the value of the kf property.
+     * 
+     */
+    public void setKF(double value) {
+        this.kf = value;
+    }
+
+    /**
+     * Gets the value of the tf property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TimePeriodXmlType }
+     *     
+     */
+    public TimePeriodXmlType getTF() {
+        return tf;
+    }
+
+    /**
+     * Sets the value of the tf property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePeriodXmlType }
+     *     
+     */
+    public void setTF(TimePeriodXmlType value) {
+        this.tf = value;
     }
 
     /**
@@ -413,59 +373,99 @@ public class ExcTSATTypeEXC34XmlType
     }
 
     /**
-     * Gets the value of the tr property.
+     * Gets the value of the vuel property.
      * 
      * @return
      *     possible object is
-     *     {@link TimePeriodXmlType }
+     *     {@link Double }
      *     
      */
-    public TimePeriodXmlType getTR() {
-        return tr;
+    public Double getVUEL() {
+        return vuel;
     }
 
     /**
-     * Sets the value of the tr property.
+     * Sets the value of the vuel property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TimePeriodXmlType }
+     *     {@link Double }
      *     
      */
-    public void setTR(TimePeriodXmlType value) {
-        this.tr = value;
+    public void setVUEL(Double value) {
+        this.vuel = value;
     }
 
     /**
-     * Gets the value of the rc property.
+     * Gets the value of the vuelinputposition property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
      */
-    public double getRC() {
-        return rc;
+    public Integer getVUELINPUTPOSITION() {
+        return vuelinputposition;
     }
 
     /**
-     * Sets the value of the rc property.
+     * Sets the value of the vuelinputposition property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
      */
-    public void setRC(double value) {
-        this.rc = value;
+    public void setVUELINPUTPOSITION(Integer value) {
+        this.vuelinputposition = value;
     }
 
     /**
-     * Gets the value of the xc property.
+     * Gets the value of the uoel property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Double }
+     *     
      */
-    public double getXC() {
-        return xc;
+    public Double getUOEL() {
+        return uoel;
     }
 
     /**
-     * Sets the value of the xc property.
+     * Sets the value of the uoel property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Double }
+     *     
      */
-    public void setXC(double value) {
-        this.xc = value;
+    public void setUOEL(Double value) {
+        this.uoel = value;
+    }
+
+    /**
+     * Gets the value of the vsinputposition property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getVSINPUTPOSITION() {
+        return vsinputposition;
+    }
+
+    /**
+     * Sets the value of the vsinputposition property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setVSINPUTPOSITION(Integer value) {
+        this.vsinputposition = value;
     }
 
 }
