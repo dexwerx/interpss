@@ -23,6 +23,16 @@
 	<element name="excIEEE1968Type4" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type4XmlType"/>
 	<element name="excIEEE1968Type3" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type3XmlType"/>
 	<element name="excBPATypeFJ" substitutionGroup="pss:exciter" type="pss:ExcBPAFJXmlType"/>
+	<element name="excBPATypeFK" substitutionGroup="pss:exciter" type="pss:ExcBPAFKXmlType"/>
+	<element name="excBPATypeFM" substitutionGroup="pss:exciter" type="pss:ExcBPAFMXmlType"/>
+	<element name="excBPATypeFN" substitutionGroup="pss:exciter" type="pss:ExcBPAFNXmlType"/>
+	<element name="excBPATypeFO" substitutionGroup="pss:exciter" type="pss:ExcBPAFOXmlType"/>
+	<element name="excBPATypeFP" substitutionGroup="pss:exciter" type="pss:ExcBPAFPXmlType"/>
+	<element name="excBPATypeFQ" substitutionGroup="pss:exciter" type="pss:ExcBPAFQXmlType"/>
+	<element name="excBPATypeFR" substitutionGroup="pss:exciter" type="pss:ExcBPAFRXmlType"/>
+	<element name="excBPATypeFS" substitutionGroup="pss:exciter" type="pss:ExcBPAFSXmlType"/>
+	<element name="excBPATypeFT" substitutionGroup="pss:exciter" type="pss:ExcBPAFTXmlType"/>
+	<element name="excBPATypeFU" substitutionGroup="pss:exciter" type="pss:ExcBPAFUXmlType"/>
 	<element name="excBPATypeFV" substitutionGroup="pss:exciter" type="pss:ExcBPAFVXmlType"/>
 
 	<complexType abstract="true" name="ExciterModelXmlType">
@@ -300,17 +310,17 @@
 		<complexContent>
 			<extension base="pss:ExcSimpleTypeXmlType">
 				<sequence>
-					<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="KE" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="TE" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="TF1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
+					<element maxOccurs="1" minOccurs="1" name="TR" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TB" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TC" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -320,29 +330,33 @@
 		<complexContent>
 			<extension base="pss:ExcSimpleTypeXmlType">
 				<sequence>
-					<element name="IVUEL" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="IVOEL" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="LVS" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="TB" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="TC" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="TC1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="TB1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="TF" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="KF" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="VIMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="VIMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="VAMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="VAMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="KC" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="KLR" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="ILR" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="RC" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="XC" type="double" maxOccurs="1" minOccurs="1"></element>
+					<element maxOccurs="1" minOccurs="1" name="IVUEL" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="IVOEL" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="LVS" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TB" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TC" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TC1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TB1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VIMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VIMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KLR" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="ILR" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TR" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="RC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="XC" type="double"/>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
+	
+ <!--
+       BPA new exciter model sets
+  -->
 
 	<complexType name="ExcBPAFJXmlType">
 		<complexContent>
@@ -361,14 +375,33 @@
 		</complexContent>
 	</complexType>
 	
-	<complexType name="ExcBPAFVXmlType">
+	<complexType name="ExcBPAFKXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+					<element maxOccurs="1" minOccurs="0" name="TR" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VIMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VIMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TB" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="TC" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	
+	
+    <complexType name="ExcBPAFMXmlType">
 		<complexContent>
 			<extension base="pss:ExcSimpleTypeXmlType">
 				<sequence>
 				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="0" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
@@ -377,9 +410,323 @@
 					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
+	
+	<!--
+	new BPA exciter FN,FO,FP,FQ,FR, FS,FT type have the same data as FM type, their differences lie in real modeling 
+	-->
+	
+	<complexType name="ExcBPAFNXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="ExcBPAFOXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="ExcBPAFPXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="ExcBPAFQXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="ExcBPAFRXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	
+	<complexType name="ExcBPAFSXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>	
+	
+	<complexType name="ExcBPAFTXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+				    <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KH" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KB" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KD" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="VL1R" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	
+
+	
+
+	
+	<complexType name="ExcBPAFUXmlType">
+          <complexContent>
+               <extension base="pss:ExcSimpleTypeXmlType">
+                          <sequence>
+                                <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+                                 <element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="0" name="T2" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+                          </sequence>
+               </extension>
+         </complexContent>
+    </complexType>
+    
+    <complexType name="ExcBPAFVXmlType">
+          <complexContent>
+               <extension base="pss:ExcSimpleTypeXmlType">
+                          <sequence>
+                                 <element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+                                 <element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="0" name="T2" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VA1MIN" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VAMAX" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="VAMIN" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+                                 <element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+                                 <element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
+                          </sequence> 
+               </extension>
+         </complexContent>
+    </complexType>
+	
+	
 </schema>
