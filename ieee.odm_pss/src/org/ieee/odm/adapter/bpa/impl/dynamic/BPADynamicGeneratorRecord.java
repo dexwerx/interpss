@@ -108,6 +108,10 @@ public class BPADynamicGeneratorRecord {
     		double D=ModelStringUtil.getDouble(strAry[18], 2.0);// why 2.0 by default?
 			mach.setD(D);
     	}
+    	/*
+    	 * M record is only to store the sub-transient info, 
+    	 * this, together with MF/MG record,represents a full machine model considering damper.
+    	 */
     	else if(str.substring(0, 2).trim().equals("M")){
     		String busId = BusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
@@ -153,8 +157,8 @@ public class BPADynamicGeneratorRecord {
     		DynamicGeneratorXmlType dynGen=bus.getDynamicGenList().getDynamicGen().get(new Integer(dynGenId).intValue()-1);
     		
     		// sub-transient model
-			if(dynGen!=null){
-				Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
+			if(dynGen!=null){// 
+				Eq11Ed11MachineXmlType mach = (Eq11Ed11MachineXmlType) dynGen.getMachineModel().getValue();
 				
 				double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
 		   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
@@ -217,7 +221,8 @@ public class BPADynamicGeneratorRecord {
 				double D=ModelStringUtil.getDouble(strAry[18], 0.0);
 				mach.setD(D);			
 			}
-			//transient model	
+			
+			//only MF record(there is no M record prior to MF record) represents a transient type machine model(Eq1Ed1) 
 			else if(dynGen==null){
 				dynGen = DStabParserHelper.getDynamicGenRec(bus);
 				Eq1Ed1MachineXmlType mach = DStabParserHelper.createEq1Ed1Machine(dynGen);
@@ -241,7 +246,8 @@ public class BPADynamicGeneratorRecord {
 				double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);				
 				double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
 				dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));
-				
+				//TODO Mike,  this is the baseMVA for the per unit system in BPA, I don't think this is the same as the rated power of a machine. 
+				// sometimes, these two are set differently, such as the baseMVA would be chosen equal to system baseMVA .
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -300,39 +306,39 @@ public class BPADynamicGeneratorRecord {
 				//BusRecordXmlType busRec=XBeanParserHelper.findBusRecord(bus1, baseCaseNet);
 				
 				
-				if(busRec!=null){
+				if(busRec!=null&&busRec.getLoadflowData().getGenData().getEquivGen()!=null){
 					double pGen=busRec.getLoadflowData().getGenData().
 					              getEquivGen().getPower().getRe();
-					mach.getEquivGen().setEquiPgen(pGen);
+					mach.getEquivGen().setEquiPgen(pGen);//TODO why only pGen, for equivalence, qGen should be included
 					mach.getEquivGen().setPGenUnit(ApparentPowerUnitType.MVA);					
 				}else{
 					mach.getEquivGen().setDCLineBus(true);
 				}		
 	
-			}
-			String busId2="";
-			if(!strAry[3].equals("")){
-				busId2=BusRecord.getBusId(strAry[3]);
-			}
-			double Vol2=ModelStringUtil.getDouble(strAry[4], 0.0);
-			
-			String busId3="";
-			if(!strAry[5].equals("")){
-				busId3=BusRecord.getBusId(strAry[5]);
-			}
-			double Vol3=ModelStringUtil.getDouble(strAry[6], 0.0);
-			
-			String busId4="";
-			if(!strAry[7].equals("")){
-				busId4=BusRecord.getBusId(strAry[7]);
-			}
-			double Vol4=ModelStringUtil.getDouble(strAry[8], 0.0);
-			
-			String busId5="";
-			if(!strAry[9].equals("")){
-				busId5=BusRecord.getBusId(strAry[9]);
-			}
-			double Vol5=ModelStringUtil.getDouble(strAry[10], 0.0);
+			  }
+//			String busId2="";
+//			if(!strAry[3].equals("")){
+//				busId2=BusRecord.getBusId(strAry[3]);
+//			}
+//			double Vol2=ModelStringUtil.getDouble(strAry[4], 0.0);
+//			
+//			String busId3="";
+//			if(!strAry[5].equals("")){
+//				busId3=BusRecord.getBusId(strAry[5]);
+//			}
+//			double Vol3=ModelStringUtil.getDouble(strAry[6], 0.0);
+//			
+//			String busId4="";
+//			if(!strAry[7].equals("")){
+//				busId4=BusRecord.getBusId(strAry[7]);
+//			}
+//			double Vol4=ModelStringUtil.getDouble(strAry[8], 0.0);
+//			
+//			String busId5="";
+//			if(!strAry[9].equals("")){
+//				busId5=BusRecord.getBusId(strAry[9]);
+//			}
+//			double Vol5=ModelStringUtil.getDouble(strAry[10], 0.0);
     	}    	
     }
 	
