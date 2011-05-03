@@ -125,6 +125,15 @@ public class BaseJaxbHelper {
 		return null;
 	}
 	
+	public static BusXmlType getBus(String BusId,NetworkXmlType net){
+		for (JAXBElement<? extends BusXmlType> b : net.getBusList().getBus()) {
+			BusXmlType bus = b.getValue();
+			if (bus.getId().equals(BusId))
+				return bus;
+		}		
+		return null;
+	}
+	
 	/**
 	 * warp the branch object for substitutionGroup
 	 * 
