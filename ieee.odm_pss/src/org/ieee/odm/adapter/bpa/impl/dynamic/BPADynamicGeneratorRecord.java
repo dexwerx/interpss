@@ -157,7 +157,7 @@ public class BPADynamicGeneratorRecord {
     		DynamicGeneratorXmlType dynGen=bus.getDynamicGenList().getDynamicGen().get(new Integer(dynGenId).intValue()-1);
     		
     		// sub-transient model
-			if(dynGen!=null){// 
+			if(dynGen!=null){
 				Eq11Ed11MachineXmlType mach = (Eq11Ed11MachineXmlType) dynGen.getMachineModel().getValue();
 				
 				double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
@@ -302,7 +302,7 @@ public class BPADynamicGeneratorRecord {
 				EquiMachineXmlType mach = DStabParserHelper.createEquiMachine(dynGen);
 				
 		
-				BusRecordXmlType busRec=(BusRecordXmlType)DStabParserHelper.getBus(busId1,net);
+				BusRecordXmlType busRec=(BusRecordXmlType) parser.getBus(busId1);
 				//BusRecordXmlType busRec=XBeanParserHelper.findBusRecord(bus1, baseCaseNet);
 				
 				
