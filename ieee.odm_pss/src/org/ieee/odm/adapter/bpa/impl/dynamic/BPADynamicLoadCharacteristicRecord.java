@@ -25,45 +25,66 @@
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import org.ieee.odm.adapter.bpa.BPAAdapter;
+import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.DynamicLoadIEEEStaticLoadXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
+import org.ieee.odm.schema.LoadCharacteristicLocationEnumType;
+import org.ieee.odm.schema.LoadCharacteristicModelListXmlType;
+import org.ieee.odm.schema.LoadCharacteristicTypeEnumType;
 import org.ieee.odm.schema.LoadCharacteristicXmlType;
 
 public class BPADynamicLoadCharacteristicRecord {
 	
-public static void processLoadCharacteristicData(String str, LoadCharacteristicXmlType load){
+public static void processLoadCharacteristicData(String str, DStabModelParser parser,LoadCharacteristicXmlType load){
 	final String[] strAry= getLoadDataFields(str); 	
 	
 	// TODO comment out to pass compile
 	
-/*
+
 	//busId
-	String busId="";
+	String busName="";
 	if(!strAry[1].equals("")){
-		busId=strAry[1];
-		load.setLocation(LoadCharacteristicXmlType.Location.AT_BUS);
-		load.addNewLocationId().setName(busId);
+		busName=strAry[1];
+		String BusId="";
+		try {
+			BusId = BusRecord.getBusId(busName);
+		} catch (ODMException e) {
+			e.printStackTrace();
+		}
+		BusXmlType bus = parser.getBus(BusId);
+		load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
+		//TODO add the bus Id ref record
+//		load.setLocationId(bus);
+		
+		
 	}		
 	//zone name
 	String zoneId="";
 	if(!strAry[3].equals("")){
 		zoneId=strAry[3];
-		load.setLocation(LoadCharacteristicXmlType.Location.AT_ZONE);
-		load.addNewLocationId().setName(zoneId);
+		load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
+		//TODO
+//		load.setLocationId(parser.getDStabNet().get)
      }
 	//area name
 	String areaId="";
 	if(!strAry[4].equals("")){
 		areaId=strAry[4];
-		load.setLocation(LoadCharacteristicXmlType.Location.AT_AREA);
-		load.addNewLocationId().setName(areaId);
+		load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
+		//TODO
+//		load.setLocationId(value)
 	}
 	if(strAry[0].equals("LA")||strAry[0].equals("LB")){
-		load.setLoadXmlType(LoadCharacteristicXmlType.LoadXmlType.IEEE_STATIC_LOAD);
-		DLoadIEEEStaticLoadXmlType staLoad=
-			 load.addNewLoadModel().addNewIEEEStaticLoad();
-		//pz
+		load.setLoadXmlType(LoadCharacteristicTypeEnumType.IEEE_STATIC_LOAD);
+		DynamicLoadIEEEStaticLoadXmlType staLoad=parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
+
+		
 		double a1=0.0;
 		if(!strAry[5].equals("")){
 			a1= new Double(strAry[5]).doubleValue();
@@ -127,13 +148,18 @@ public static void processLoadCharacteristicData(String str, LoadCharacteristicX
 		double a8=0.0;
 		if(!strAry[14].equals("")){
 			a8= new Double(strAry[14]).doubleValue();
-			staLoad.setA8(a8);				
-		}			
-		
-	}else if(strAry[0].equals("MI")){
-	// to do	
+			staLoad.setA8(a8);
+			
+			
+		LoadCharacteristicModelListXmlType loadModelList=parser.getFactory().createLoadCharacteristicModelListXmlType();
+		loadModelList.setIEEEStaticLoad(staLoad);//TODO why a setter but not an "adder" is used here? 
+		load.setLoadModel(loadModelList);			
+		}
 	}
-*/	
+//	else if(strAry[0].equals("MI")){
+//	// to do	
+//	}
+	
 }
 private static String[] getLoadDataFields(String str){
 	final String[] strAry= new String[19];

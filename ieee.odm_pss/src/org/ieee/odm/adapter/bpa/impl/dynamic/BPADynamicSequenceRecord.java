@@ -64,14 +64,9 @@ public class BPADynamicSequenceRecord {
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
 			}
-			//BusRefRecordXmlType busa=parser.createBusRef(fromId);
-			//BusRefRecordXmlType busb=parser.createBusRef(toId);
-			
-			//PSXfrShortCircuitXmlType xfr=new PSXfrShortCircuitXmlType();			
-			//XFormerDistBranchXmlType xfr=new XFormerDistBranchXmlType();
+
 			XfrShortCircuitXmlType xfr =(XfrShortCircuitXmlType)parser.createXfrBranch(fromId, toId, cirId);
-			//xfr.setFromBus(busa);
-			//xfr.setToBus(busb);
+
 			double fVbase=ModelStringUtil.getDouble(strAry[2], 0.0);
 			xfr.getXfrInfo().setFromRatedVoltage(DStabDataSetter.createVoltageValue(fVbase, VoltageUnitType.KV));
 			double tVbase=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -94,73 +89,20 @@ public class BPADynamicSequenceRecord {
 			double r0=ModelStringUtil.getDouble(strAry[8], 0.0);
 			xfr.getZ0().setIm(r0);
 		}			
-/*		
-		// positive sequence data		
-		// to do  
-		// zero sequence data		
-		if(strAry[0].equals("XO")){
-			ZeroSequenceDataListXmlType.XfrZeroList.XfrZero xfrZero=
-				XBeanTranStabSimuHelper.addNewXfrZero(tranSimu);		
-			
-			//bus1
-			String bus1=strAry[1];
-			xfrZero.addNewBusI().setName(bus1);			
-			//bus2
-			String bus2=strAry[3];
-			xfrZero.addNewBusJ().setName(bus2);			
-			//zrLocation
-			int location= new Integer(strAry[5]).intValue();
-			if(location==1){
-				xfrZero.setConectionLocation(ZeroSequenceDataListXmlType.
-						 XfrZeroList.XfrZero.ConectionLocation.AT_BUS_1);
-			}else if(location==2){
-				xfrZero.setConectionLocation(ZeroSequenceDataListXmlType.
-						 XfrZeroList.XfrZero.ConectionLocation.AT_BUS_2);
-			}else {
-				xfrZero.setConectionLocation(ZeroSequenceDataListXmlType.
-						 XfrZeroList.XfrZero.ConectionLocation.BETWEEN_BUS_1_AND_BUS_2);
-			}			
-			//par
-			String cirId="1";
-			if(!strAry[6].equals("")){
-				cirId=strAry[6];				
-			}			
-			xfrZero.setCirId(cirId);
-			//X0
-			double x0=ModelStringUtil.getDouble(strAry[7], 0.0);
-			xfrZero.setX1(x0);
-						
-			//R0
-			double r0=ModelStringUtil.getDouble(strAry[8], 0.0);
-			xfrZero.setR1(r0);
-			
-		}*/
+
 	    else if(strAry[0].equals("XR")){
 	    	String busName =  strAry[1];
 	    	String busId = BusRecord.getBusId(busName);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
-        	//还要不要设置其基准电压？
-        	double busBase = ModelStringUtil.getDouble(strAry[2], 0.0);
-        	bus.setBaseVoltage(DStabDataSetter.createVoltageValue(busBase, VoltageUnitType.KV));
+//        	//还要不要设置其基准电压？--> not necessary.
+//        	double busBase = ModelStringUtil.getDouble(strAry[2], 0.0);
+//        	bus.setBaseVoltage(DStabDataSetter.createVoltageValue(busBase, VoltageUnitType.KV));
         	double r0 = ModelStringUtil.getDouble(strAry[3], 0.0);
         	double x0 = ModelStringUtil.getDouble(strAry[4], 0.0);
         	bus.getScShuntLoadData().getZeroZ().setRe(r0);
         	bus.getScShuntLoadData().getZeroZ().setIm(x0);
 	    }
-/*        	
-	    	ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero SHZero=
-				XBeanTranStabSimuHelper.addNewShuntLoadZero(tranSimu);		
-			//bus1
-			String bus1=strAry[1];
-			SHZero.addNewBusId().setName(bus1);	    	
-    		//r0
-			double r0=ModelStringUtil.getDouble(strAry[3], 0.0);
-			SHZero.setRZer(r0);
-			  		
-    		//x0
-			double x0=ModelStringUtil.getDouble(strAry[4], 0.0);
-			SHZero.setXZer(x0);
-*/
+
 	    else if(strAry[0].equals("LO")){
 	    	final String fName =  strAry[1];
 			final String tName =  strAry[3];
@@ -171,7 +113,7 @@ public class BPADynamicSequenceRecord {
 				cirId=strAry[6];				
 			}
 			LineShortCircuitXmlType line=(LineShortCircuitXmlType)parser.createLineBranch(fId, tId, cirId);
-			//TODO BPA中数据是标幺值
+			//TODO all data in BPA format is in PU unit.  BPA中数据是标幺值   
 			//R0			
 			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
 			line.getZ0().setRe(r0);
@@ -196,47 +138,7 @@ public class BPADynamicSequenceRecord {
 			double b2=ModelStringUtil.getDouble(strAry[12], 0.0);
 			line.getY0ShuntToSide().setIm(b2);
 	    }
-/*
-		}else if(strAry[0].equals("LO")){
-			ZeroSequenceDataListXmlType.LineZeroList.LineZero lineZero=
-				XBeanTranStabSimuHelper.addNewLineZero(tranSimu);
-			//bus1
-			String bus1=strAry[1];
-			lineZero.addNewFBusId().setName(bus1);			
-			//bus2
-			String bus2=strAry[3];
-		    lineZero.addNewTBusId().setName(bus2);	
-    		
-		    //par
-			String cirId="";
-			if(!strAry[6].equals("")){
-				cirId=strAry[6];
-				lineZero.setCirId(cirId);
-			}			
-    		//R0			
-			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
-			lineZero.setRLineZer(r0);
-			    		
-    		//X0
-			double x0=ModelStringUtil.getDouble(strAry[8], 0.0);
-			lineZero.setXLineZer(x0);
-			     		
-    		//G1
-			double g1=ModelStringUtil.getDouble(strAry[9], 0.0);
-			lineZero.setGfZer(g1);
-			   		
-    		//B1
-			double b1=ModelStringUtil.getDouble(strAry[10], 0.0);
-			lineZero.setBfZer(b1);
-			     		
-    		//G2
-    		double g2=ModelStringUtil.getDouble(strAry[11], 0.0);
-			lineZero.setGtZer(g2);
-			     		
-    		//B2
-			double b2=ModelStringUtil.getDouble(strAry[12], 0.0);
-			lineZero.setBtZer(b2);
-*/
+
 	    else if(strAry[0].equals("LM")){
 	    	String line1fName =  strAry[1];
 			String line1tName =  strAry[3];
@@ -257,13 +159,14 @@ public class BPADynamicSequenceRecord {
 				line2cirId=strAry[10];				
 			}
 			LineShortCircuitXmlType line2=(LineShortCircuitXmlType)parser.createLineBranch(line2fId, line2tId, line2cirId);
-			//TODO
+			
 			double rm=ModelStringUtil.getDouble(strAry[11], 0.0);
 			double xm=ModelStringUtil.getDouble(strAry[12], 0.0);
+			//TODO what should the list index be?
 			line1.getLineMutualZeroZ().get(1).getZM().setRe(rm);
-			line1.getLineMutualZeroZ().get(1).getZM().setRe(xm);
+			line1.getLineMutualZeroZ().get(1).getZM().setIm(xm);
 			line2.getLineMutualZeroZ().get(1).getZM().setRe(rm);
-			line2.getLineMutualZeroZ().get(1).getZM().setRe(xm);			
+			line2.getLineMutualZeroZ().get(1).getZM().setIm(xm);			
 	    }
 /*
 		}else if(strAry[0].equals("LM")){
@@ -416,83 +319,180 @@ public class BPADynamicSequenceRecord {
 		try{
 			if(str.substring(0, 2).startsWith("XO")){
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-	    		//bus1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
-	    		//bus1 Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
-	    		//bus2
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
-	    		//bus2 Voltage
-	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
+//	    		//bus1
+//	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+//	    		//bus1 Voltage
+//	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	 
+	            //From side	of a transformer
+				
+	    		//----to process the Chinese characters in the fromBus name, if any.
+	    		String tem=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//from bus name
+	    		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,5, 12-chnCharNum1).trim();
+	    		//from bus basekV
+	    		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,13-chnCharNum1, 16-chnCharNum1).trim();
+
+	            //To side  	
+	    		
+	    		//---to process the Chinese characters in the toBus name, if any.
+	    		tem=ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1).trim();
+	    		int chnCharNum2=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//to bus name
+	    		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1-chnCharNum2).trim();
+	    		
+	    		//--- replace all the Chinese Characters, since they are not used in the following processing.
+	    		String str2=ModelStringUtil.replaceChineseChar(str);
+	    		
+//	    		//bus2
+//	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+//	    		//bus2 Voltage
+//	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
 	    		//zrLocation
-	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,32, 32).trim();
+	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str2,32, 32).trim();
 	    		//par
-	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,34, 34).trim();
+	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str2,34, 34).trim();
 	    		//X0
-	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,38, 44).trim();
+	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str2,38, 44).trim();
 	    		//R0
-	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,45, 51).trim();			
+	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str2,45, 51).trim();			
 				
 			}else if(str.substring(0, 2).startsWith("XR")){			
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+				
+	    		String tem=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//from bus name
+	    		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,5, 12-chnCharNum1).trim();
+			
+	    		String str2=ModelStringUtil.replaceChineseChar(str);
 	    		//bus1 Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str2,13, 16).trim();
 	    		//R0
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,22, 28).trim();
+	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str2,22, 28).trim();
 	    		//X0
-	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,29, 35).trim();
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str2,29, 35).trim();
 			}else if(str.substring(0, 2).startsWith("LO")){			
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-	    		//bus1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
-	    		//bus1 Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
-	    		//bus2
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+				
+	    		//----to process the Chinese characters in the fromBus name, if any.
+	    		String tem=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//from bus name
+	    		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,5, 12-chnCharNum1).trim();
+	    		//from bus basekV
+	    		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,13-chnCharNum1, 16-chnCharNum1).trim();
+
+	    		
+	    		//---to process the Chinese characters in the toBus name, if any.
+	    		tem=ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1).trim();
+	    		int chnCharNum2=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//to bus name
+	    		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1-chnCharNum2).trim();
+	    		
+	    		//--- replace all the Chinese Characters, since they are not used in the following processing.
+	    		String str2=ModelStringUtil.replaceChineseChar(str);
+				
+//	    		//bus1
+//	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+//	    		//bus1 Voltage
+//	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+//	    		//bus2
+//	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
-	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str2,27, 30).trim();    		
 	    		//par
-	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
+	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str2,33, 33).trim();
 	    		//R0
-	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,36, 42).trim();
+	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str2,36, 42).trim();
 	    		//X0
-	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,43, 49).trim();
+	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str2,43, 49).trim();
 	    		//G1
-	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,50, 56).trim();
+	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str2,50, 56).trim();
 	    		//B1
-	    		strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,57, 63).trim();
+	    		strAry[10]=ModelStringUtil.getStringReturnEmptyString(str2,57, 63).trim();
 	    		//G2
-	    		strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,64, 70).trim();
+	    		strAry[11]=ModelStringUtil.getStringReturnEmptyString(str2,64, 70).trim();
 	    		//B2
-	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,71, 77).trim();
+	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str2,71, 77).trim();
 			}else if(str.substring(0, 2).startsWith("LM")){
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-	    		//busI line 1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
-	    		//busI Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
-	    		//busJ line 1
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+				
+		//Line 1
+				
+	    		//----to process the Chinese characters in the fromBus name, if any.
+	    		String tem=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		int chnCharNum1=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//from bus name
+	    		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,5, 12-chnCharNum1).trim();
+	    		//from bus basekV
+	    		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,13-chnCharNum1, 16-chnCharNum1).trim();
+
+	    		
+	    		//---to process the Chinese characters in the toBus name, if any.
+	    		tem=ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1).trim();
+	    		int chnCharNum2=ModelStringUtil.getChineseCharNum(tem);
+	    		
+	    		//to bus name
+	    		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1-chnCharNum2).trim();
+	    		
+	    		//--- replace all the Chinese Characters, since they are not used in the following processing.
+	    		String str2=ModelStringUtil.replaceChineseChar(str);
+//				
+//	    		//busI line 1
+//	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+//	    		//busI Voltage
+//	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+//	    		//busJ line 1
+//	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//busJ Voltage
-	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
+	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str2,27, 30).trim();    		
 	    		//par1
-	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
-	    		//busK line2
-	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,36, 43).trim();
-	    		//busK voltage
-	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,44, 47).trim();
-	    		//busL line2
-	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,50, 57).trim();
+	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str2,33, 33).trim();
+	    		
+	    		//----to process the Chinese characters in the fromBus name, if any.
+	    		String temp=ModelStringUtil.getStringReturnEmptyString(str2,36, 43).trim();
+	    		int chnCharNum3=ModelStringUtil.getChineseCharNum(temp);
+	    		
+	    		//from bus name
+	    		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str2,36, 43-chnCharNum3).trim();
+	    		//from bus basekV
+	    		strAry[7] = ModelStringUtil.getStringReturnEmptyString(str2,44-chnCharNum3, 47-chnCharNum3).trim();
+
+	   //Line 2 		
+	    		//---to process the Chinese characters in the toBus name, if any.
+	    		temp=ModelStringUtil.getStringReturnEmptyString(str2,50-chnCharNum3, 57-chnCharNum3).trim();
+	    		int chnCharNum4=ModelStringUtil.getChineseCharNum(temp);
+	    		
+	    		//to bus name
+	    		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str2,50-chnCharNum3, 57-chnCharNum3-chnCharNum4).trim();
+	    		
+	    		//--- replace all the Chinese Characters, since they are not used in the following processing.
+	    		String str3=ModelStringUtil.replaceChineseChar(str2);
+	    			    		
+//	    		//busK line2
+//	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,36, 43).trim();
+//	    		//busK voltage
+//	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,44, 47).trim();
+//	    		//busL line2
+//	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,50, 57).trim();
+	    		
 	    		//busL voltage
-	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,58, 61).trim();
+	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str3,58, 61).trim();
 	    		//par2
-	    		strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,64, 64).trim();
+	    		strAry[10]=ModelStringUtil.getStringReturnEmptyString(str3,64, 64).trim();
 	    		//Rm
-	    		strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,67, 73).trim();
+	    		strAry[11]=ModelStringUtil.getStringReturnEmptyString(str3,67, 73).trim();
 	    		//Xm
-	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,74, 80).trim();
+	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str3,74, 80).trim();
 			}
 		}catch(Exception e){
 			ODMLogger.getLogger().severe(e.toString());
