@@ -43,9 +43,6 @@ public class BPADynamicLoadCharacteristicRecord {
 	
 public static void processLoadCharacteristicData(String str, DStabModelParser parser,LoadCharacteristicXmlType load){
 	final String[] strAry= getLoadDataFields(str); 	
-	
-	// TODO comment out to pass compile
-	
 
 	//busId
 	String busName="";
@@ -59,7 +56,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 		}
 		BusXmlType bus = parser.getBus(BusId);
 		load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
-		//TODO add the bus Id ref record
+		//TODO add the bus Id ref record here, but we can not get such a parameter now.
 //		load.setLocationId(bus);
 		
 		
@@ -78,7 +75,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 		areaId=strAry[4];
 		load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
 		//TODO
-//		load.setLocationId(value)
+		load.setLocationId(null);
 	}
 	if(strAry[0].equals("LA")||strAry[0].equals("LB")){
 		load.setLoadXmlType(LoadCharacteristicTypeEnumType.IEEE_STATIC_LOAD);
