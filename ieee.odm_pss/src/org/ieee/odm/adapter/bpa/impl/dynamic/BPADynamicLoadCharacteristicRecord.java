@@ -24,25 +24,24 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicLoadIEEEStaticLoadXmlType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
+import org.ieee.odm.schema.DynamicLoadModelSelectionXmlType;
+import org.ieee.odm.schema.DynamicLoadXmlType;
 import org.ieee.odm.schema.LoadCharacteristicLocationEnumType;
-import org.ieee.odm.schema.LoadCharacteristicModelListXmlType;
 import org.ieee.odm.schema.LoadCharacteristicTypeEnumType;
-import org.ieee.odm.schema.LoadCharacteristicXmlType;
 
 public class BPADynamicLoadCharacteristicRecord {
 	
-public static void processLoadCharacteristicData(String str, DStabModelParser parser,LoadCharacteristicXmlType load){
+public static void processLoadCharacteristicData(String str, DStabModelParser parser) throws ODMException {
 	final String[] strAry= getLoadDataFields(str); 	
+
+	DStabBusXmlType bus = null;
 
 	//busId
 	String busName="";
@@ -54,33 +53,42 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 		} catch (ODMException e) {
 			e.printStackTrace();
 		}
-		BusXmlType bus = parser.getBus(BusId);
-		load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
-		//TODO add the bus Id ref record here, but we can not get such a parameter now.
-//		load.setLocationId(bus);
-		
-		
-	}		
+		bus = (DStabBusXmlType)parser.getBus(BusId);
+		if (bus == null) 
+			throw new ODMException("Bus not found for Load Char rec: " + str);
+	}
+	
+	if (bus.getDynamicLoad() == null) {
+		bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+	}
+
+	DynamicLoadXmlType load = bus.getDynamicLoad();
+	
+	load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
 	//zone name
 	String zoneId="";
 	if(!strAry[3].equals("")){
 		zoneId=strAry[3];
 		load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
-		//TODO
-//		load.setLocationId(parser.getDStabNet().get)
-     }
+		// assume the zone id is the same as bus.zoneName
+		if (!zoneId.equals(bus.getZoneName())) {
+			throw new ODMException("BPA DynamicLoad, zoneId <> bus.zoneName, zoneId: " + zoneId);
+		}
+    }
 	//area name
 	String areaId="";
 	if(!strAry[4].equals("")){
 		areaId=strAry[4];
 		load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
-		//TODO
-		load.setLocationId(null);
+		// assume the zone id is the same as bus.zoneName
+		if (!areaId.equals(bus.getAreaName())) {
+			throw new ODMException("BPA DynamicLoad, areaId <> bus.areaName, areaId: " + areaId);
+		}
 	}
+	
 	if(strAry[0].equals("LA")||strAry[0].equals("LB")){
 		load.setLoadXmlType(LoadCharacteristicTypeEnumType.IEEE_STATIC_LOAD);
 		DynamicLoadIEEEStaticLoadXmlType staLoad=parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
-
 		
 		double a1=0.0;
 		if(!strAry[5].equals("")){
@@ -88,6 +96,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			staLoad.setA1(a1);
 			staLoad.setN1(2);
 		}
+
 		//qz
 		double a4=0.0;
 		if(!strAry[6].equals("")){
@@ -95,6 +104,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			staLoad.setA4(a4);
 			staLoad.setN4(2);
 		}			
+		
 		//pi
 		double a2=0.0;
 		if(!strAry[7].equals("")){
@@ -147,13 +157,14 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			a8= new Double(strAry[14]).doubleValue();
 			staLoad.setA8(a8);
 			
-			
-		LoadCharacteristicModelListXmlType loadModelList=parser.getFactory().createLoadCharacteristicModelListXmlType();
-		loadModelList.setIEEEStaticLoad(staLoad);//TODO why a setter but not an "adder" is used here? 
-		load.setLoadModel(loadModelList);			
+			DynamicLoadModelSelectionXmlType loadModel = parser.getFactory().createDynamicLoadModelSelectionXmlType();
+			load.setLoadModel(loadModel);		
+			DynamicLoadIEEEStaticLoadXmlType ieeeModel = parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
+			loadModel.setIEEEStaticLoad(ieeeModel); 
 		}
 	}
-//	else if(strAry[0].equals("MI")){
+
+	//	else if(strAry[0].equals("MI")){
 //	// to do	
 //	}
 	

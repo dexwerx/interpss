@@ -71,7 +71,7 @@ public class BPADynamicRecord {
 						BPADynamicPSSRecord.processPSSData(str, parser);
 					}
 					else if(dataType==loadData){
-						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, DStabDataSetter.addNewLoad(tranSimu));
+						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, parser);
 					}
 					else if(dataType==sequenceData){
 						BPADynamicSequenceRecord.processSequenceData(str, parser);
