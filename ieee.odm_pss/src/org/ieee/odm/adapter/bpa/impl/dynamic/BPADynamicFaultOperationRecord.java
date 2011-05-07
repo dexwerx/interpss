@@ -283,6 +283,7 @@ public static void processFaultOperationData(String str, DStabModelParser parser
  		        double faultR=ModelStringUtil.getDouble(strAry[8], 0.0);
  		        dcFault.setFaultZ(DStabDataSetter.createZValue(faultR, 0.0, ZUnitType.PU));  	    	  
       	    }else{
+      	    	// DC line currently is not considered. We will deal with it late
       	    	String bus1Id = BusRecord.getBusId(strAry[1]);
       	    	BusRefRecordXmlType bus1=parser.createBusRef(bus1Id);
       	    	String bus2Id = BusRecord.getBusId(strAry[3]);
@@ -290,12 +291,12 @@ public static void processFaultOperationData(String str, DStabModelParser parser
       		  
       	    	//TODO I can't find the method to get the existed dcFault ,as the previous method:
       	    	//"DcLineFaultXmlType dcFault=XBeanParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);"
-      	    	DcLineFaultXmlType dcFault=;		
+      	    	//DcLineFaultXmlType dcFault=;		
       		  
-      	    	double clearedTime= new Double(strAry[7]).doubleValue();
-      	    	double durationTime=clearedTime-dcFault.getStartTime().getValue();
-      	    	dcFault.setDurationTime(DStabDataSetter.createTimePeriodValue(durationTime, TimePeriodUnitType.CYCLE));
-      	    	dcFault.setPermanentFault(false);  		  
+      	    	//double clearedTime= new Double(strAry[7]).doubleValue();
+      	    	//double durationTime=clearedTime-dcFault.getStartTime().getValue();
+      	    	//dcFault.setDurationTime(DStabDataSetter.createTimePeriodValue(durationTime, TimePeriodUnitType.CYCLE));
+      	    	//dcFault.setPermanentFault(false);  		  
       	    }
         }  
 }

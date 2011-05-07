@@ -31,6 +31,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
@@ -38,27 +39,37 @@ import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.GeneratorEnumType;
-import org.ieee.odm.schema.LineShortCircuitXmlType;
+import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.XfrShortCircuitXmlType;
+import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrZeroSeqConnectLocationEnumType;
 import org.ieee.odm.schema.ZUnitType;
 
 
 public class BPADynamicSequenceRecord {
 
-	public static void processSequenceData(String str, DStabModelParser parser) throws ODMException{				
+	public static void processSequenceData(String str, DStabModelParser parser) throws ODMException {				
 		
 		final String strAry[]=getSequenceDataFields(str);
+
+		final String fromId = BusRecord.getBusId(strAry[1]);
+		final String toId = BusRecord.getBusId(strAry[3]);
+		String cirId="1";
+		if(!strAry[6].equals("")){
+			cirId=strAry[6];				
+		}
+		
+		// retrieve the branch from the parser
+		BranchXmlType branch = (BranchXmlType)parser.getBranch(fromId, toId, cirId);
+		if (branch == null) {
+			throw new ODMException("Branch not found " + fromId + "->" + toId + "(" + cirId + ")");
+		}
+		
 		if(strAry[0].equals("XO")){
-			final String fromId = BusRecord.getBusId(strAry[1]);
-			final String toId = BusRecord.getBusId(strAry[3]);
-			String cirId="1";
-			if(!strAry[6].equals("")){
-				cirId=strAry[6];				
-			}
+            // cast the branch from aclfXfr to dstabXfr
+			XfrDStabXmlType xfr = (XfrDStabXmlType)ModelStringUtil.casting(branch, "aclfXfr", "dstabXfr");
+			
 			//TODO "get" or "create"?In other data cards have the same problem exists.
-			XfrShortCircuitXmlType xfr =(XfrShortCircuitXmlType)parser.createXfrBranch(fromId, toId, cirId);
 			//XfrShortCircuitXmlType xfr =(XfrShortCircuitXmlType)parser.getXfrBranch(fromId, toId, cirId);
 			//TODO Do we have to set the following rated Voltage?
 			//When we get the XfrBranch with the method"parser.getXfrBranch()",if these Info are included?
@@ -95,13 +106,9 @@ public class BPADynamicSequenceRecord {
         	bus.getScShuntLoadData().getZeroZ().setIm(x0);
 	    }
 	    else if(strAry[0].equals("LO")){
-			final String fId =  BusRecord.getBusId(strAry[1]);
-			final String tId =  BusRecord.getBusId(strAry[3]);
-			String cirId="1";
-			if(!strAry[6].equals("")){
-				cirId=strAry[6];				
-			}
-			LineShortCircuitXmlType line=(LineShortCircuitXmlType)parser.createLineBranch(fId, tId, cirId);
+			LineDStabXmlType line = (LineDStabXmlType)ModelStringUtil.casting(branch, "aclfLine", "dstabLine");
+
+			//LineShortCircuitXmlType line=(LineShortCircuitXmlType)parser.createLineBranch(fromId, toId, cirId);
 			//LineShortCircuitXmlType line=(LineShortCircuitXmlType)parser.getLineBranch(fId, tId, cirId);
 			//TODO can't set the rated voltage of frombus and tobus 
 			
@@ -130,13 +137,9 @@ public class BPADynamicSequenceRecord {
 			line.getY0ShuntToSide().setIm(b2);
 	    }
 	    else if(strAry[0].equals("LM")){
-			final String line1fId =  BusRecord.getBusId(strAry[1]);
-			final String line1tId =  BusRecord.getBusId(strAry[3]);
-			String line1cirId="1";
-			if(!strAry[5].equals("")){
-				line1cirId=strAry[5];				
-			}
-			LineShortCircuitXmlType line1=(LineShortCircuitXmlType)parser.createLineBranch(line1fId, line1tId, line1cirId);
+			LineDStabXmlType line = (LineDStabXmlType)ModelStringUtil.casting(branch, "aclfLine", "dstabLine");
+
+			//LineShortCircuitXmlType line1=(LineShortCircuitXmlType)parser.createLineBranch(fromId, toId, cirId);
 			//LineShortCircuitXmlType line1=(LineShortCircuitXmlType)parser.getLineBranch(line1fId, line1tId, line1cirId);
 			
 			final String line2fId =  BusRecord.getBusId(strAry[6]);
@@ -145,14 +148,15 @@ public class BPADynamicSequenceRecord {
 			if(!strAry[10].equals("")){
 				line2cirId=strAry[10];				
 			}
-			LineShortCircuitXmlType line2=(LineShortCircuitXmlType)parser.createLineBranch(line2fId, line2tId, line2cirId);
+			BranchXmlType branch2 = (BranchXmlType)parser.getBranch(line2fId, line2tId, line2cirId);
+			LineDStabXmlType line2 = (LineDStabXmlType)ModelStringUtil.casting(branch2, "aclfLine", "dstabLine");
 			//LineShortCircuitXmlType line2=(LineShortCircuitXmlType)parser.getLineBranch(line2fId, line2tId, line2cirId);
 			
 			//TODO How to get the zero-sequence mutual inductance between line1 and line2?
 			double rm=ModelStringUtil.getDouble(strAry[11], 0.0);
 			double xm=ModelStringUtil.getDouble(strAry[12], 0.0);
-			line1.getLineMutualZeroZ().get(1).getZM().setRe(rm);
-			line1.getLineMutualZeroZ().get(1).getZM().setRe(xm);
+			line.getLineMutualZeroZ().get(1).getZM().setRe(rm);
+			line.getLineMutualZeroZ().get(1).getZM().setRe(xm);
 			line2.getLineMutualZeroZ().get(1).getZM().setRe(rm);
 			line2.getLineMutualZeroZ().get(1).getZM().setRe(xm);			
 	    }
