@@ -35,7 +35,7 @@ import javax.swing.JTextField;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
 
-public class EditUtilFunct {
+public class EditHelper {
 	/**
 	 * Set the TextFeild (double) with the data in the format
 	 * 

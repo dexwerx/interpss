@@ -25,7 +25,7 @@ package org.interpss.dstab.control.exc.ieee.y1968.type1;
 
 import java.util.Vector;
 
-import org.interpss.dstab.control.base.EditUtilFunct;
+import org.interpss.dstab.control.base.EditHelper;
 import org.interpss.ui.ICustomPluginEditor;
 
 public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
@@ -71,18 +71,18 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor(String desc) {
-    	EditUtilFunct.setDblTextFiled(kaTextField, 	_data.getKa(), "#0.00");
-    	EditUtilFunct.setDblTextFiled(taTextField, 	_data.getTa(), "#0.000");
-    	EditUtilFunct.setDblTextFiled(vrmaxTextField, 	_data.getVrmax(), "#0.00");
-    	EditUtilFunct.setDblTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
-    	EditUtilFunct.setDblTextFiled(keTextField, 	_data.getKe(), "#0.00");
-    	EditUtilFunct.setDblTextFiled(teTextField, 	_data.getTe(), "#0.000");
-    	EditUtilFunct.setDblTextFiled(e1TextField, 	_data.getE1(), "#0.000");
-    	EditUtilFunct.setDblTextFiled(seE1TextField, 	_data.getSeE1(), "#0.000");
-    	EditUtilFunct.setDblTextFiled(e2TextField, 	_data.getE2(), "#0.000");
-    	EditUtilFunct.setDblTextFiled(seE2TextField, 	_data.getSeE2(), "#0.000");
-    	EditUtilFunct.setDblTextFiled(kfTextField, 	_data.getKf(), "#0.00");
-    	EditUtilFunct.setDblTextFiled(tfTextField, 	_data.getTf(), "#0.000");
+    	EditHelper.setDblTextFiled(kaTextField, 	_data.getKa(), "#0.00");
+    	EditHelper.setDblTextFiled(taTextField, 	_data.getTa(), "#0.000");
+    	EditHelper.setDblTextFiled(vrmaxTextField, 	_data.getVrmax(), "#0.00");
+    	EditHelper.setDblTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
+    	EditHelper.setDblTextFiled(keTextField, 	_data.getKe(), "#0.00");
+    	EditHelper.setDblTextFiled(teTextField, 	_data.getTe(), "#0.000");
+    	EditHelper.setDblTextFiled(e1TextField, 	_data.getE1(), "#0.000");
+    	EditHelper.setDblTextFiled(seE1TextField, 	_data.getSeE1(), "#0.000");
+    	EditHelper.setDblTextFiled(e2TextField, 	_data.getE2(), "#0.000");
+    	EditHelper.setDblTextFiled(seE2TextField, 	_data.getSeE2(), "#0.000");
+    	EditHelper.setDblTextFiled(kfTextField, 	_data.getKf(), "#0.00");
+    	EditHelper.setDblTextFiled(tfTextField, 	_data.getTf(), "#0.000");
 
     	return true;
 	}
@@ -96,18 +96,18 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
     public boolean saveEditorData(Vector<String> errMsg) throws Exception {
     	errMsg.clear();
     	
-    	EditUtilFunct.saveDblTextField(_data, kaTextField, "ka", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, taTextField, "ta", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, vrmaxTextField, "vrmax", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, vrminTextField, "vrmin", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, keTextField, "ke", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, teTextField, "te", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, e1TextField, "e1", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, seE1TextField, "seE1", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, e2TextField, "e2", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, seE2TextField, "seE2", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, kfTextField, "kf", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, tfTextField, "tf", errMsg);
+    	EditHelper.saveDblTextField(_data, kaTextField, "ka", errMsg);
+    	EditHelper.saveDblTextField(_data, taTextField, "ta", errMsg);
+    	EditHelper.saveDblTextField(_data, vrmaxTextField, "vrmax", errMsg);
+    	EditHelper.saveDblTextField(_data, vrminTextField, "vrmin", errMsg);
+    	EditHelper.saveDblTextField(_data, keTextField, "ke", errMsg);
+    	EditHelper.saveDblTextField(_data, teTextField, "te", errMsg);
+    	EditHelper.saveDblTextField(_data, e1TextField, "e1", errMsg);
+    	EditHelper.saveDblTextField(_data, seE1TextField, "seE1", errMsg);
+    	EditHelper.saveDblTextField(_data, e2TextField, "e2", errMsg);
+    	EditHelper.saveDblTextField(_data, seE2TextField, "seE2", errMsg);
+    	EditHelper.saveDblTextField(_data, kfTextField, "kf", errMsg);
+    	EditHelper.saveDblTextField(_data, tfTextField, "tf", errMsg);
 
     	return errMsg.size() == 0;
 	}
@@ -361,29 +361,29 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
        		try {
        			// data field verification rules
     			if ( input == kaTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "ka");
+    				return EditHelper.checkDblDataRange(input, _data, "ka");
     			if ( input == taTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "ta");
+    				return EditHelper.checkDblDataRange(input, _data, "ta");
     			if ( input == vrmaxTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "vrmax");
+    				return EditHelper.checkDblDataRange(input, _data, "vrmax");
     			if ( input == vrminTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "vrmin");
+    				return EditHelper.checkDblDataRange(input, _data, "vrmin");
     			if ( input == keTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "ke");
+    				return EditHelper.checkDblDataRange(input, _data, "ke");
     			if ( input == teTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "te");
+    				return EditHelper.checkDblDataRange(input, _data, "te");
     			if ( input == e1TextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "e1");
+    				return EditHelper.checkDblDataRange(input, _data, "e1");
     			if ( input == seE1TextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "seE1");
+    				return EditHelper.checkDblDataRange(input, _data, "seE1");
     			if ( input == e2TextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "e2");
+    				return EditHelper.checkDblDataRange(input, _data, "e2");
     			if ( input == seE2TextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "seE2");
+    				return EditHelper.checkDblDataRange(input, _data, "seE2");
     			if ( input == kfTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "kf");
+    				return EditHelper.checkDblDataRange(input, _data, "kf");
     			if ( input == tfTextField)
-    				return EditUtilFunct.checkDblDataRange(input, _data, "tf");
+    				return EditHelper.checkDblDataRange(input, _data, "tf");
     			
  	       	} catch (Exception e) {
  	    		return false;
