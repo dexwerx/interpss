@@ -33,9 +33,9 @@ import com.interpss.dstab.datatype.LimitExpression;
 
 public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		ILimitExpression {
-	private double k = 0.0;
-	private double t = 0.0;
-	private LimitExpression limit = null;
+	protected double k = 0.0;
+	protected double t = 0.0;
+	protected LimitExpression limit = null;
 
 	public DelayControlBlock(double k, double t) {
 		setType(IStaticBlock.Type.NoLimit);

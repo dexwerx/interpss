@@ -30,9 +30,9 @@ import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class PIControlBlock extends ControlBlock1stOrderAdapter {
-	private double kp = 0.0;
-	private double ki = 0.0;
-	private LimitType limit = null;
+	protected double kp = 0.0;
+	protected double ki = 0.0;
+	protected LimitType limit = null;
 
 	public PIControlBlock(double kp, double ki) {
 		setType(IStaticBlock.Type.NoLimit);

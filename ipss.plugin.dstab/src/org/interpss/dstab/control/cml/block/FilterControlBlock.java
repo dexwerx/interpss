@@ -31,10 +31,10 @@ import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class FilterControlBlock extends ControlBlock1stOrderAdapter {
-	private double k = 0.0;
-	private double t1 = 0.0;
-	private double t2 = 0.0;
-	private LimitType limit = null;
+	protected double k = 0.0;
+	protected double t1 = 0.0;
+	protected double t2 = 0.0;
+	protected LimitType limit = null;
 
 	public FilterControlBlock(double k, double t1, double t2) {
 		setType(IStaticBlock.Type.NoLimit);

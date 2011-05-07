@@ -32,8 +32,8 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
-	private double k = 0.0;
-	private double t = 0.0;
+	protected double k = 0.0;
+	protected double t = 0.0;
 
 	public WashoutControlBlock(double k, double t) {
 		this.k = k;
