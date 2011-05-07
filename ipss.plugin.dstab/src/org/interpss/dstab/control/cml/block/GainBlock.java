@@ -30,8 +30,8 @@ import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 
 public class GainBlock extends StaticBlockAdapter {
-	private double k = 0.0;
-	private LimitType limit = null;
+	protected double k = 0.0;
+	protected LimitType limit = null;
 
 	public GainBlock() {
 		this(1.0);
@@ -107,12 +107,6 @@ public class GainBlock extends StaticBlockAdapter {
 		return limit;
 	}
 	
-	/**
-	 */
-	public void setLimit(LimitType limit) {
-		this.limit = limit;
-	}
-
 	@Override
 	public String toString() {
 		String str = "type, k, limit: " + getType() + ", " + k + ", " + limit;
