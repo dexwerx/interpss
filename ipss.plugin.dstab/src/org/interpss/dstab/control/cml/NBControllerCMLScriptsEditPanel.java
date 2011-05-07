@@ -34,7 +34,7 @@ import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
-	private BaseCMLScriptingController controller = null;
+	private AbstractCMLScriptingController controller = null;
 	
     /** Creates new form FaultLocDataPanel */
     public NBControllerCMLScriptsEditPanel() {
@@ -45,7 +45,7 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
      * Init the editor panel, which will be called from its parent editor
      */
 	public void init(Object cntler) {
-		this.controller = (BaseCMLScriptingController)cntler;
+		this.controller = (AbstractCMLScriptingController)cntler;
     	if (controller.getScripts() == null || controller.getScripts().trim().equals(""))
     		loadTemplate2Textarea();
 	}

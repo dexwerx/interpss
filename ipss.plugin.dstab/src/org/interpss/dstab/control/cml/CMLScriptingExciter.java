@@ -24,12 +24,11 @@
 
 package org.interpss.dstab.control.cml;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
-public class CMLScriptingExciter extends BaseCMLScriptingController {
+public class CMLScriptingExciter extends AbstractCMLScriptingController {
 	public static String BaseClass = "AnnotateExciter";
 	
 	// define UI Editor panel for editing the controller data

@@ -48,14 +48,14 @@ import com.interpss.dstab.mach.impl.MachineControllerImpl;
  * @author mzhou
  *
  */
-public abstract class BaseCMLScriptingController extends MachineControllerImpl implements ICMLScriptingController {
+public abstract class AbstractCMLScriptingController extends MachineControllerImpl implements ICMLScriptingController {
 	private AbstractAnnotateController anController = null;
 	
 	/**
 	 * default constructor
 	 *
 	 */
-	public BaseCMLScriptingController() {
+	public AbstractCMLScriptingController() {
 		this("controllerId", "ScriptingController", "InterPSS", null); 
 	}
 	
@@ -67,7 +67,7 @@ public abstract class BaseCMLScriptingController extends MachineControllerImpl i
 	 * @param caty controller category
 	 * @param type controller type
 	 */
-	public BaseCMLScriptingController(final String id, final String name, final String caty, final MachineControllerType type) {
+	public AbstractCMLScriptingController(final String id, final String name, final String caty, final MachineControllerType type) {
 		setId(id);
 		setName(name);
 		setCategory(caty);

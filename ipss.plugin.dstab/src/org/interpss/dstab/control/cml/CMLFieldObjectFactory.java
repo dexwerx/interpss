@@ -68,7 +68,7 @@ import com.interpss.dstab.datatype.ExpCalculator;
  * @author mzhou
  *
  */
-public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
+public class CMLFieldObjectFactory implements IFieldObjectFactory {
 	/**
 	 * Create a control block object based on the annotation filed and parameters
 	 * 

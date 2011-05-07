@@ -29,7 +29,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
-public class CMLScriptingGovernor extends BaseCMLScriptingController {
+public class CMLScriptingGovernor extends AbstractCMLScriptingController {
 	public static String BaseClass = "AnnotateGovernor";
 	
 	// define UI Editor panel for editing the controller data

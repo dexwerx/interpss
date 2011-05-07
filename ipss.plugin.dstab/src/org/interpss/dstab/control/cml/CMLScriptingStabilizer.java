@@ -29,7 +29,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
-public class CMLScriptingStabilizer extends BaseCMLScriptingController {
+public class CMLScriptingStabilizer extends AbstractCMLScriptingController {
 	public static String BaseClass = "AnnotateStabilizer";
 
 	// define UI Editor panel for editing the controller data
