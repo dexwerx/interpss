@@ -24,8 +24,6 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import javax.xml.bind.annotation.XmlAccessType;
-
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -38,7 +36,6 @@ import org.ieee.odm.schema.BranchFaultXmlType;
 import org.ieee.odm.schema.BusFaultXmlType;
 import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
-import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DcLineFaultEnumType;
 import org.ieee.odm.schema.DcLineFaultXmlType;
 import org.ieee.odm.schema.GenChangeDynamicEventXmlType;
@@ -52,13 +49,12 @@ public class BPADynamicFaultOperationRecord {
 public static void processFaultOperationData(String str, DStabModelParser parser ) throws ODMException { 
     	
     	int mode =new Integer(str.substring(36, 37).trim()).intValue();
-    	final String strAry[] = getFaultOperationDataFields(str, mode);
-    	
+    	final String strAry[] = getFaultOperationDataFields(str, mode);    	
     	
         if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){    		
-    		String bus1Id = BusRecord.getBusId(strAry[2]);
+    		final String bus1Id = BusRecord.getBusId(strAry[2]);
     		BusRefRecordXmlType bus1=parser.createBusRef(bus1Id);
-    		String bus2Id = BusRecord.getBusId(strAry[5]);
+    		final String bus2Id = BusRecord.getBusId(strAry[5]);
     		BusRefRecordXmlType bus2=parser.createBusRef(bus2Id);
     		
     		boolean breaker1Opened=true;    		
@@ -68,7 +64,8 @@ public static void processFaultOperationData(String str, DStabModelParser parser
     		boolean breaker2Opened=true;
     		if(strAry[4].equals("")){
     			breaker2Opened=false;
-    		}    		
+    		}
+    		//TODO the parallel branch ID can't be set here
     		String parId="";
     		if(!strAry[7].equals("")){
     			parId=strAry[7];   			
@@ -89,11 +86,11 @@ public static void processFaultOperationData(String str, DStabModelParser parser
     			// not permanent bus fault;
                 if(mode==1||mode==-1){ 	    			
  	    			if(breaker1Opened==false&&breaker2Opened==false){	    				
- 	    				busFault.setFaultStartTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));
  	    				busFault.setFaultedBus(bus1);
  	    				busFault.setFaultedBusRatedV(DStabDataSetter.createVoltageValue(bus1RatedV, VoltageUnitType.KV));
  	    				busFault.setRemoteEndBus(bus2);
- 	    				busFault.setRemoteEndBusRatedV(DStabDataSetter.createVoltageValue(bus2RatedV, VoltageUnitType.KV)); 	    				 	        			
+ 	    				busFault.setRemoteEndBusRatedV(DStabDataSetter.createVoltageValue(bus2RatedV, VoltageUnitType.KV)); 
+ 	    				busFault.setFaultStartTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));	    				 	        			
  	    			}else if(breaker1Opened==true&&breaker2Opened==false){	    				
  	    				if(busFault!=null){
  	    					busFault.setFirstOperationTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));
@@ -118,13 +115,13 @@ public static void processFaultOperationData(String str, DStabModelParser parser
                 }
             	// permanent bus fault
     			else if(mode==2||mode==-2){
-    				if(mode==2){	                    
-    					busFault.setFaultStartTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));
-    					busFault.setFaultCategory(AcscFaultCategoryEnumType.FAULT_3_PHASE);
+    				if(mode==2){
     					busFault.setFaultedBus(bus1);
  	    				busFault.setFaultedBusRatedV(DStabDataSetter.createVoltageValue(bus1RatedV, VoltageUnitType.KV));
  	    				busFault.setRemoteEndBus(bus2);
- 	    				busFault.setRemoteEndBusRatedV(DStabDataSetter.createVoltageValue(bus2RatedV, VoltageUnitType.KV));   
+ 	    				busFault.setRemoteEndBusRatedV(DStabDataSetter.createVoltageValue(bus2RatedV, VoltageUnitType.KV)); 
+    					busFault.setFaultCategory(AcscFaultCategoryEnumType.FAULT_3_PHASE);  
+    					busFault.setFaultStartTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));
     					busFault.setPermanentFault(true);        			
     				}else{	
     					if(busFault!=null){
@@ -135,6 +132,7 @@ public static void processFaultOperationData(String str, DStabModelParser parser
             			}
     				}
     			}
+                
 				if(r!=0.0||x!=0.0){
     				busFault.setFaultZ(DStabDataSetter.createZValue(r, x, ZUnitType.PU));
 				}
@@ -148,9 +146,9 @@ public static void processFaultOperationData(String str, DStabModelParser parser
         			braFault.setFromBus(bus1);
         			braFault.setFromBusRatedV(DStabDataSetter.createVoltageValue(bus1RatedV, VoltageUnitType.KV));
         			braFault.setToBus(bus2);
-        			braFault.setToBusRatedV(DStabDataSetter.createVoltageValue(bus2RatedV, VoltageUnitType.KV));
-        			braFault.setFaultStartTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));        			
+        			braFault.setToBusRatedV(DStabDataSetter.createVoltageValue(bus2RatedV, VoltageUnitType.KV));        			
         			braFault.setFaultLocationFromFromSide(faultLocation);
+        			braFault.setFaultStartTime(DStabDataSetter.createTimePeriodValue(operationTime, TimePeriodUnitType.CYCLE));
         			braFault.setPermanentFault(true);
     			}else if((breaker1Opened==true&&breaker2Opened==false)||(breaker1Opened==false&&breaker2Opened==true)){    				
     				if(braFault!=null){
@@ -173,6 +171,7 @@ public static void processFaultOperationData(String str, DStabModelParser parser
             			}            			
             		}
     			}
+				
 				if(r!=0.0||x!=0.0){
 					braFault.setFaultZ(DStabDataSetter.createZValue(r, x, ZUnitType.PU));
     			} 
@@ -206,7 +205,9 @@ public static void processFaultOperationData(String str, DStabModelParser parser
        		    if(pz!=0.0||qz!=0.0){
        		    	loadChange.setConstantZChange(DStabDataSetter.createPowerValue(pz, qz, ApparentPowerUnitType.MVA));
        		    }
-    		}else {
+    		}
+    		//power change
+    		else{
     			String busId = BusRecord.getBusId(strAry[1]);
         		BusRefRecordXmlType bus=parser.createBusRef(busId);
     			GenChangeDynamicEventXmlType genChange= parser.getFactory().createGenChangeDynamicEventXmlType();
@@ -287,14 +288,14 @@ public static void processFaultOperationData(String str, DStabModelParser parser
       	    	String bus2Id = BusRecord.getBusId(strAry[3]);
       	    	BusRefRecordXmlType bus2=parser.createBusRef(bus2Id);
       		  
-      	    	//TODO I can't find the method to get the existed dcFault
-      	    	DcLineFaultXmlType dcFault=parser;  		      
-      	    	//DcLineFaultXmlType dcFault=XBeanParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);
+      	    	//TODO I can't find the method to get the existed dcFault ,as the previous method:
+      	    	//"DcLineFaultXmlType dcFault=XBeanParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);"
+      	    	DcLineFaultXmlType dcFault=;		
       		  
-      	    	dcFault.setPermanentFault(false);
       	    	double clearedTime= new Double(strAry[7]).doubleValue();
       	    	double durationTime=clearedTime-dcFault.getStartTime().getValue();
-      	    	dcFault.setDurationTime(DStabDataSetter.createTimePeriodValue(durationTime, TimePeriodUnitType.CYCLE));      		  
+      	    	dcFault.setDurationTime(DStabDataSetter.createTimePeriodValue(durationTime, TimePeriodUnitType.CYCLE));
+      	    	dcFault.setPermanentFault(false);  		  
       	    }
         }  
 }
@@ -321,6 +322,9 @@ private static String[] getFaultOperationDataFields ( final String str, int mode
 			strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 			strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 			strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,17, 17).trim();
+			//omit these two BPA data：
+			//32 MOTOR，填写字符M，表示切除马达；否则，表示切除发电机 
+			//34 ILE，如果要切除配电网支路的静态负荷，填写LE卡对应的支路号 
 			strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,37, 37).trim();
 			strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,40, 45).trim();
 			strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,46, 50).trim();
@@ -328,7 +332,7 @@ private static String[] getFaultOperationDataFields ( final String str, int mode
 			strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,56, 60).trim();
 			strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,61, 65).trim();
 			strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,66, 70).trim();
-			strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,72, 75).trim();
+			strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,71, 75).trim();
 			strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,76, 80).trim();
 		}else if(mode==5){
 			strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
@@ -345,12 +349,7 @@ private static String[] getFaultOperationDataFields ( final String str, int mode
 		}
 	}catch(Exception e){
 		ODMLogger.getLogger().severe(e.toString());
-	}
-	
-	
+	}	
 	return strAry;
 }
-
-
-
 }
