@@ -9,7 +9,7 @@
 	<import resource="classpath:org/interpss/spring/DstabStabilizerSpringCtx.xml"/>	
 
 	<bean id="cmlFieldObjectFactory" 
-	      class="org.interpss.dstab.control.cml.CMLFieldObjectFactoryImpl"	
+	      class="org.interpss.dstab.control.cml.CMLFieldObjectFactory"	
 		  scope="singleton">	
 	</bean>
 
