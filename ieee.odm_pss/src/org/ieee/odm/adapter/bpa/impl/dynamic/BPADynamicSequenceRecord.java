@@ -59,15 +59,9 @@ public class BPADynamicSequenceRecord {
 			cirId=strAry[6];				
 		}
 		
-		// retrieve the branch from the parser
-		BranchXmlType branch = (BranchXmlType)parser.getBranch(fromId, toId, cirId);
-		if (branch == null) {
-			throw new ODMException("Branch not found " + fromId + "->" + toId + "(" + cirId + ")");
-		}
-		
 		if(strAry[0].equals("XO")){
             // cast the branch from aclfXfr to dstabXfr
-			XfrDStabXmlType xfr = (XfrDStabXmlType)ModelStringUtil.casting(branch, "aclfXfr", "dstabXfr");
+			XfrDStabXmlType xfr = parser.getDStabXfr(fromId, toId, cirId);
 			
 			//TODO "get" or "create"?In other data cards have the same problem exists.
 			//XfrShortCircuitXmlType xfr =(XfrShortCircuitXmlType)parser.getXfrBranch(fromId, toId, cirId);
@@ -106,7 +100,7 @@ public class BPADynamicSequenceRecord {
         	bus.getScShuntLoadData().getZeroZ().setIm(x0);
 	    }
 	    else if(strAry[0].equals("LO")){
-			LineDStabXmlType line = (LineDStabXmlType)ModelStringUtil.casting(branch, "aclfLine", "dstabLine");
+			LineDStabXmlType line = parser.getDStabLine(fromId, toId, cirId);
 
 			//LineShortCircuitXmlType line=(LineShortCircuitXmlType)parser.createLineBranch(fromId, toId, cirId);
 			//LineShortCircuitXmlType line=(LineShortCircuitXmlType)parser.getLineBranch(fId, tId, cirId);
@@ -137,7 +131,7 @@ public class BPADynamicSequenceRecord {
 			line.getY0ShuntToSide().setIm(b2);
 	    }
 	    else if(strAry[0].equals("LM")){
-			LineDStabXmlType line = (LineDStabXmlType)ModelStringUtil.casting(branch, "aclfLine", "dstabLine");
+			LineDStabXmlType line = parser.getDStabLine(fromId, toId, cirId);
 
 			//LineShortCircuitXmlType line1=(LineShortCircuitXmlType)parser.createLineBranch(fromId, toId, cirId);
 			//LineShortCircuitXmlType line1=(LineShortCircuitXmlType)parser.getLineBranch(line1fId, line1tId, line1cirId);
