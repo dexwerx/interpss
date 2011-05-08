@@ -396,7 +396,17 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return this.getBranch(id);
 	}	
 	
-
+	/**
+	 * First remove the branch with the braId and then add the branch record
+	 * 
+	 * @param branchId id of the branch to be removed
+	 * @param branch branch object to be added
+	 */
+	public void replaceBranch(String branchId, BranchXmlType branch) {
+		this.removeBus(branchId);
+		this.addBranch(branch);
+	}
+	
 	protected void intiBranchData(BaseBranchXmlType branch) {
 		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		branch.setOffLine(false);
