@@ -83,7 +83,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
     public boolean setForm2Editor() {
     	stratTimeTextField.setText(Number2String.toStr(this.xmlEventData.getStartTimeSec(), "#0.0#"));
 
-       	if (this.xmlEventData.isPermanent()) {
+       	if (this.xmlEventData.isPermanent() != null && this.xmlEventData.isPermanent()) {
            	permanetCheckBox.setSelected(true);
         }
         else {

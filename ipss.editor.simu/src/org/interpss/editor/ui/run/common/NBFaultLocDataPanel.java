@@ -142,7 +142,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
 
-	    reclosureCheckBox.setSelected(xmlFaultData.isBranchReclosure());		
+	    reclosureCheckBox.setSelected(xmlFaultData.isBranchReclosure() != null && xmlFaultData.isBranchReclosure());		
         branchReclosureCheckboxActionPerformed(null);
 	    atReclosureTimeTextField.setText(Number2String.toStr(xmlFaultData.getReclosureTime(), "0.00"));
 
