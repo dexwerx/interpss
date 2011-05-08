@@ -19,16 +19,21 @@
  * 
  *   Revision History
  *   ================
+ * v1.1
+ * Data 06/05/2011
  *
  */
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
+
+import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicLoadIEEEStaticLoadXmlType;
 import org.ieee.odm.schema.DynamicLoadModelSelectionXmlType;
@@ -43,132 +48,149 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 
 	DStabBusXmlType bus = null;
 
-	//busId
-	String busName="";
-	if(!strAry[1].equals("")){
-		busName=strAry[1];
-		String BusId="";
-		try {
-			BusId = BusRecord.getBusId(busName);
-		} catch (ODMException e) {
-			e.printStackTrace();
-		}
-		bus = (DStabBusXmlType)parser.getBus(BusId);
-		if (bus == null) 
-			throw new ODMException("Bus not found for Load Char rec: " + str);
-	}
-	
-	if (bus.getDynamicLoad() == null) {
-		bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
-	}
-
-	DynamicLoadXmlType load = bus.getDynamicLoad();
-	
-	load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
-	//zone name
-	String zoneId="";
-	if(!strAry[3].equals("")){
-		zoneId=strAry[3];
-		load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
-		// assume the zone id is the same as bus.zoneName
-		if (!zoneId.equals(bus.getZoneName())) {
-			throw new ODMException("BPA DynamicLoad, zoneId <> bus.zoneName, zoneId: " + zoneId);
-		}
-    }
-	//area name
-	String areaId="";
-	if(!strAry[4].equals("")){
-		areaId=strAry[4];
-		load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
-		// assume the zone id is the same as bus.zoneName
-		if (!areaId.equals(bus.getAreaName())) {
-			throw new ODMException("BPA DynamicLoad, areaId <> bus.areaName, areaId: " + areaId);
-		}
-	}
-	
 	if(strAry[0].equals("LA")||strAry[0].equals("LB")){
-		load.setLoadXmlType(LoadCharacteristicTypeEnumType.IEEE_STATIC_LOAD);
-		DynamicLoadIEEEStaticLoadXmlType staLoad=parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
+		
+		DynamicLoadIEEEStaticLoadXmlType ieeeStaLoad=parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
 		
 		double a1=0.0;
 		if(!strAry[5].equals("")){
 			a1= new Double(strAry[5]).doubleValue();
-			staLoad.setA1(a1);
-			staLoad.setN1(2);
+			ieeeStaLoad.setA1(a1);
+			ieeeStaLoad.setN1(2);
 		}
 
 		//qz
 		double a4=0.0;
 		if(!strAry[6].equals("")){
 			a4= new Double(strAry[6]).doubleValue();
-			staLoad.setA4(a4);
-			staLoad.setN4(2);
+			ieeeStaLoad.setA4(a4);
+			ieeeStaLoad.setN4(2);
 		}			
 		
 		//pi
 		double a2=0.0;
 		if(!strAry[7].equals("")){
 			a2= new Double(strAry[7]).doubleValue();
-			staLoad.setA2(a2);
-			staLoad.setN2(1);
+			ieeeStaLoad.setA2(a2);
+			ieeeStaLoad.setN2(1);
 		}
 		//qi
 		double a5=0.0;
 		if(!strAry[8].equals("")){
 			a5= new Double(strAry[8]).doubleValue();
-			staLoad.setA5(a5);
-			staLoad.setN5(1);
+			ieeeStaLoad.setA5(a5);
+			ieeeStaLoad.setN5(1);
 		}
 		// pp
 		double a3=0.0;
 		if(!strAry[9].equals("")){
 			a3= new Double(strAry[9]).doubleValue();
-			staLoad.setA3(a3);
-			staLoad.setN3(0);
+			ieeeStaLoad.setA3(a3);
+			ieeeStaLoad.setN3(0);
 		}
 		//qp
 		double a6=0.0;
 		if(!strAry[10].equals("")){
 			a6= new Double(strAry[10]).doubleValue();
-			staLoad.setA6(a6);
-			staLoad.setN6(0);
+			ieeeStaLoad.setA6(a6);
+			ieeeStaLoad.setN6(0);
 		}			
 		//pf
 		double a9=0.0;
 		if(!strAry[11].equals("")){
 			a9= new Double(strAry[11]).doubleValue();
-			staLoad.setA9(a9);				
+			ieeeStaLoad.setA9(a9);				
 		}
 		// qf
 		double a10=0.0;
 		if(!strAry[12].equals("")){
 			a10= new Double(strAry[12]).doubleValue();
-			staLoad.setA10(a10);				
+			ieeeStaLoad.setA10(a10);				
 		}
 		//Ldp
 		double a7=0.0;
 		if(!strAry[13].equals("")){
 			a7= new Double(strAry[13]).doubleValue();
-			staLoad.setA7(a7);				
+			ieeeStaLoad.setA7(a7);				
 		}		
 		//Ldq
 		double a8=0.0;
 		if(!strAry[14].equals("")){
 			a8= new Double(strAry[14]).doubleValue();
-			staLoad.setA8(a8);
-			
-			DynamicLoadModelSelectionXmlType loadModel = parser.getFactory().createDynamicLoadModelSelectionXmlType();
-			load.setLoadModel(loadModel);		
-			DynamicLoadIEEEStaticLoadXmlType ieeeModel = parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
-			loadModel.setIEEEStaticLoad(ieeeModel); 
+			ieeeStaLoad.setA8(a8);
+
+		}
+		DynamicLoadModelSelectionXmlType loadModel = parser.getFactory().createDynamicLoadModelSelectionXmlType();
+				
+		loadModel.setIEEEStaticLoad(ieeeStaLoad); 
+		
+		// The following processing sequence is arranged according to their priorities.
+		
+		//area name
+		String areaName="";
+		if(!strAry[4].equals("")){
+			areaName=strAry[4];
+			for(JAXBElement<? extends BusXmlType> busElem:parser.getDStabNet().getBusList().getBus()){
+				bus=(DStabBusXmlType)busElem.getValue();
+				// assume the zone id is the same as bus.zoneName
+				if(areaName.equals(bus.getAreaName())){
+					if(bus.getLoadData().getEquivLoad()!=null){
+					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+					   DynamicLoadXmlType load = bus.getDynamicLoad();
+					   load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
+					   load.setLoadModel(loadModel);
+					}
+					
+				}
+			}
+		}
+		
+	    //zone name
+		String zoneName="";
+		if(!strAry[3].equals("")){
+			zoneName=strAry[3];
+			for(JAXBElement<? extends BusXmlType> busElem:parser.getDStabNet().getBusList().getBus()){
+				bus=(DStabBusXmlType)busElem.getValue();
+				// assume the zone id is the same as bus.zoneName
+				if(zoneName.equals(bus.getZoneName())){
+					if(bus.getLoadData().getEquivLoad()!=null){
+					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+					   DynamicLoadXmlType load = bus.getDynamicLoad();
+					   load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
+					   load.setLoadModel(loadModel);
+					}
+					
+				}
+			}
+	    }
+		
+		//busId
+		String busName="";
+		if(!strAry[1].equals("")){
+			busName=strAry[1];
+			String BusId="";
+			try {
+				BusId = BusRecord.getBusId(busName);
+			} catch (ODMException e) {
+				e.printStackTrace();
+			}
+			bus = (DStabBusXmlType)parser.getBus(BusId);
+			if (bus !=null) {
+				if (bus.getDynamicLoad() == null) {
+			        bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+		        }
+
+		     DynamicLoadXmlType load = bus.getDynamicLoad();
+		     load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
+		     load.setLoadModel(loadModel);
+		}
+			else throw new ODMException("Bus not found for Load Char rec: " + str);
+		
 		}
 	}
-
-	//	else if(strAry[0].equals("MI")){
-//	// to do	
-//	}
-	
 }
+		
+
 private static String[] getLoadDataFields(String str){
 	final String[] strAry= new String[19];
 	
