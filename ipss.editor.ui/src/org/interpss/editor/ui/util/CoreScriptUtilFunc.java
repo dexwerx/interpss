@@ -32,7 +32,14 @@ public class CoreScriptUtilFunc {
 	public final static String ScriptDynamicBusControllerPackageName = "dsl/device/";
 	public final static String RunCaseScriptingPackageName = "script/run_case";
 	
-	public static String Tag_AclfScript_Begin_Code = "package <package>; \n import org.apache.commons.math.complex.Complex;\n import com.interpss.common.datatype.*;\n import com.interpss.common.util.MemoryJavaCompiler;\n import com.interpss.core.aclf.*;\n import com.interpss.core.aclf.impl.*;\n public class <classname> extends <baseClassname>";
+	public static String Tag_AclfScript_Begin_Code = 
+			"package <package>; \n " +
+			"import org.apache.commons.math.complex.Complex;\n " +
+			"import com.interpss.common.datatype.*;\n " +
+			"import com.interpss.common.util.MemoryJavaCompiler;\n " +
+			"import com.interpss.core.aclf.*;\n " +
+			"import com.interpss.core.aclf.impl.*;\n " +
+			"public class <classname> extends <baseClassname>";
 	public static String Tag_AclfScriptBus_Begin = "<AclfBusScriptingClassname>";
 	public final static String Tag_AclfScriptBus_Baseclass = "BaseAclfBusImpl";
 	public static String Tag_AclfScriptBranch_Begin = "<AclfBranchScriptingClassname>";
@@ -40,7 +47,16 @@ public class CoreScriptUtilFunc {
 	public static String AclfBusTemplateFilename = "template/AclfBusScriptingTemplate.txt";
 	public static String AclfBranchTemplateFilename = "template/AclfBranchScriptingTemplate.txt";
 
-	public static String Tag_AcscScript_Begin_Code = "package <package>; \n import org.apache.commons.math.complex.Complex;\n import com.interpss.common.datatype.*;\n import com.interpss.common.util.MemoryJavaCompiler;\n import com.interpss.core.aclf.*;\n import com.interpss.core.aclf.impl.*;\n import com.interpss.core.acsc.*;\n import com.interpss.core.acsc.impl.*;\n public class <classname> extends <baseClassname>";
+	public static String Tag_AcscScript_Begin_Code = 
+			"package <package>; \n " +
+			"import org.apache.commons.math.complex.Complex;\n " +
+			"import com.interpss.common.datatype.*;\n " +
+			"import com.interpss.common.util.MemoryJavaCompiler;\n " +
+			"import com.interpss.core.aclf.*;\n " +
+			"import com.interpss.core.aclf.impl.*;\n " +
+			"import com.interpss.core.acsc.*;\n " +
+			"import com.interpss.core.acsc.impl.*;\n " +
+			"public class <classname> extends <baseClassname>";
 	public static String Tag_AcscScriptBus_Begin = "<AcscBusScriptingClassname>";
 	public final static String Tag_AcscScriptBus_Baseclass = "BaseAcscBusImpl";
 	public static String Tag_AcscScriptBranch_Begin = "<AcscBranchScriptingClassname>";
@@ -63,8 +79,26 @@ public class CoreScriptUtilFunc {
 	 *  set from the configuration file
 	 */
 	// CML contrller specific tags
-	public static String Tag_ControllerDescBegin_Code = "package dsl.controller;\n import java.lang.reflect.Field;\n import com.interpss.dstab.controller.annotate.*;\n import com.interpss.dstab.controller.block.*;\n import com.interpss.dstab.controller.block.adapt.*;\n import org.interpss.dstab.control.cml.block.*;\n import org.interpss.dstab.control.cml.func.*;\n import com.interpss.dstab.mach.Controller;\n import com.interpss.common.func.*;\n import com.interpss.common.datatype.*;\n";
-	public static String Tag_ControllerFieldDescEnd_Code = "public AnController getAnController() {\n return (AnController)getClass().getAnnotation(AnController.class);  }\npublic Field getField(String fieldName) throws Exception {\n return getClass().getField(fieldName);   }\n public Object getFieldObject(Field field) throws Exception {\n return field.get(this);    }\n}";
+	public static String Tag_ControllerDescBegin_Code = 
+				"package dsl.controller;\n " +
+				"import java.lang.reflect.Field;\n " +
+				"import com.interpss.dstab.controller.annotate.*;\n " +
+				"import com.interpss.dstab.controller.block.*;\n " +
+				"import com.interpss.dstab.controller.block.adapt.*;\n " +
+				"import org.interpss.dstab.control.cml.block.*;\n " +
+				"import org.interpss.dstab.control.cml.func.*;\n " +
+				"import com.interpss.dstab.mach.MachineController;\n " +
+				"import com.interpss.common.func.*;\n " +
+				"import com.interpss.dstab.datatype.*;\n" +
+				"import com.interpss.common.datatype.*;\n";
+	public static String Tag_ControllerFieldDescEnd_Code = 
+				"public AnController getAnController() {\n " +
+				"return (AnController)getClass().getAnnotation(AnController.class);  }\n" +
+				"public Field getField(String fieldName) throws Exception {\n " +
+				"return getClass().getField(fieldName);   }\n " +
+				"public Object getFieldObject(Field field) throws Exception {\n " +
+				"return field.get(this);    }\n" +
+				"}";
 
 	public static String Tag_ControllerDescBegin = "<ControllerDescriptionBegin>";
 	public static String Tag_ControllerDescEnd = "<ControllerDescriptionEnd>";
@@ -72,8 +106,15 @@ public class CoreScriptUtilFunc {
 	public static String Tag_ControllerFieldDescEnd = "<ControllerFieldDescriptionEnd>";
 
 	// DStab output scripting specific tags
-	public static String Tag_DStabOutScriptDescBegin_Code = "package ipss.tools; \n	import org.interpss.dstab.script.AnDStabOutputScripting; \n import org.interpss.dstab.script.IDStabOutputScripting;\n";
-	public static String Tag_DStabOutScriptDescEnd_Code = "public class DStabOutputScripting implements IDStabOutputScripting {\n public AnDStabOutputScripting getAnOutputScripting() { \n return (AnDStabOutputScripting)getClass().getAnnotation(AnDStabOutputScripting.class);  } \n}";
+	public static String Tag_DStabOutScriptDescBegin_Code = 
+				"package ipss.tools; \n	" +
+				"import org.interpss.dstab.script.AnDStabOutputScripting; \n " +
+				"import org.interpss.dstab.script.IDStabOutputScripting;\n";
+	public static String Tag_DStabOutScriptDescEnd_Code = 
+				"public class DStabOutputScripting implements IDStabOutputScripting {\n " +
+				"public AnDStabOutputScripting getAnOutputScripting() { \n " +
+				"return (AnDStabOutputScripting)getClass().getAnnotation(AnDStabOutputScripting.class);  } \n" +
+				"}";
 	public static String Tag_DStabOutScriptDescBegin = "<DStabOutScriptDescriptionBegin>";
 	public static String Tag_DStabOutScriptDescEnd = "<DStabOutScriptDescriptionEnd>";
 	
