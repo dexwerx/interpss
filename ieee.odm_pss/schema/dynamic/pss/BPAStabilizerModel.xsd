@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+    xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+
+	<include schemaLocation="../../common/DataType.xsd"></include>
+	<include schemaLocation="IEEEStabilizerModel.xsd"></include>
+
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+	
+	<!--
+		define models for BPA Governor, Turbine
+		   Naming convention
+		       pssBPA* for element
+		       PssBPA* for complex type 
+	-->
+	
+	<element name="pssBPADualInput" type="pss:PssBPADualInputXmlType" substitutionGroup="pss:stabilizer"/>
+
+	<complexType name="PssBPADualInputXmlType">
+		<complexContent>
+		<extension base="pss:PssIEEEDualInputXmlType">
+		<sequence>
+			<element name="KrBaseMVA" type="double" maxOccurs="1" minOccurs="0"></element>	
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+</schema>

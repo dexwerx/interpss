@@ -5,9 +5,12 @@
 
 	<include schemaLocation="../common/DataType.xsd"></include>
 	
-	<include schemaLocation="ExciterModel.xsd"></include>
-	<include schemaLocation="GovernorModel.xsd"></include>
-	<include schemaLocation="StabilizerModel.xsd"></include>
+	<include schemaLocation="exc/IEEEExciterModel.xsd"></include>
+	<include schemaLocation="exc/BPAExciterModel.xsd"></include>
+	<include schemaLocation="gov/IEEEGovernorModel.xsd"></include>
+	<include schemaLocation="gov/BPAGovernorModel.xsd"></include>
+	<include schemaLocation="pss/IEEEStabilizerModel.xsd"></include>
+	<include schemaLocation="pss/BPAStabilizerModel.xsd"></include>
 	
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>

@@ -7,9 +7,9 @@
     <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
 
 	<include schemaLocation="../dynamic/MachineModel.xsd"></include>
-	<include schemaLocation="../dynamic/ExciterModel.xsd"></include>
-	<include schemaLocation="../dynamic/GovernorModel.xsd"></include>
-	<include schemaLocation="../dynamic/StabilizerModel.xsd"></include>
+	<include schemaLocation="../dynamic/exc/ExciterModel.xsd"></include>
+	<include schemaLocation="../dynamic/gov/IEEEGovernorModel.xsd"></include>
+	<include schemaLocation="../dynamic/pss/StabilizerModel.xsd"></include>
 	<include schemaLocation="../dynamic/DynamicLoadModel.xsd"></include>
 
 	<annotation>

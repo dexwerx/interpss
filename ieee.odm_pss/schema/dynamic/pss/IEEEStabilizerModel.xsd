@@ -3,43 +3,25 @@
     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="../common/DataType.xsd"></include>
+	<include schemaLocation="../../common/DataType.xsd"></include>
+	<include schemaLocation="StabilizerModel.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 	
-	<element name="stabilizer" type="pss:StabilizerModelXmlType"/>
-	<element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer"/>
+	<!-- 
+		define models for those found in IEEE std
+			Naming convention
+			    pssIEEE*, PssIEEE* : for IEEE types  
+	 -->	
+	 	
 	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEE1992Type2A" type="pss:PssIEEE1992Type2AXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEEType1A" type="pss:PssIEEE1AXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
 	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssBPADualInput" type="pss:PssBPADualInputXmlType" substitutionGroup="pss:stabilizer"/>
 
-	<complexType name="StabilizerModelXmlType" abstract="true">
-		<sequence>
-			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
-
-	<complexType name="PssSimpleTypeXmlType">
-		<complexContent>
-		<extension base="pss:StabilizerModelXmlType">
-		<sequence>
-			<element name="Ks" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="Vsmax" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Vsmin" type="double" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-		</extension>
-		</complexContent>		
-	</complexType>
 
 	<complexType name="PssIEEE1981TypeXmlType">
 		<complexContent>
@@ -84,11 +66,9 @@
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>
-			<element name="firstInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">
-			</element>
+			<element name="firstInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType"></element>
 			<element name="firstRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="secondInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">
-			</element>
+			<element name="secondInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">	</element>
 			<element name="secondRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="M" type="int" maxOccurs="1" minOccurs="1"></element>
 			<element name="N" type="int" maxOccurs="1" minOccurs="1"></element>
@@ -201,40 +181,5 @@
 		</sequence>
 		</extension>
 		</complexContent>		
-	</complexType>
-
-	<complexType name="PssBPADualInputXmlType">
-		<complexContent>
-		<extension base="pss:PssIEEEDualInputXmlType">
-		<sequence>
-			<element name="KrBaseMVA" type="double" maxOccurs="1" minOccurs="0"></element>	
-		</sequence>
-		</extension>
-		</complexContent>		
-	</complexType>
-
-<!-- below net used -->
-	<complexType name="StabilizerXmlType">
-		<sequence>
-			<element name="machId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="stabilizerModel" type="pss:StabilizerModelXmlType" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-	</complexType>
-
-	<complexType name="StabilizerModelSelectionXmlType">
-		<choice>
-			<element name="IEEE1981Type" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1981TypeXmlType">
-			</element>
-			<element name="IEEE1992Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1992Type2AXmlType">
-			</element>
-			<element name="IEEEPSS1A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1AXmlType">
-			</element>
-			<element name="IEE2ST" maxOccurs="1" minOccurs="0" type="pss:PssIEE2STXmlType">
-			</element>
-			<element name="IEEEDualInput" maxOccurs="1" minOccurs="0" type="pss:PssIEEEDualInputXmlType">
-			</element>
-		</choice>
 	</complexType>
 </schema>

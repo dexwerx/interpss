@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+    xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+
+	<include schemaLocation="../../common/DataType.xsd"></include>
+
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+	
+	<!-- 
+		define base types for Stabilizer
+	 -->
+	 	
+	<element name="stabilizer" type="pss:StabilizerModelXmlType"/>
+	
+	<!--
+	    define a simple stabilizer for testing purpose 
+ 	-->	
+	<element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer"/>
+
+	<complexType name="StabilizerModelXmlType" abstract="true">
+		<sequence>
+			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="PssSimpleTypeXmlType">
+		<complexContent>
+		<extension base="pss:StabilizerModelXmlType">
+		<sequence>
+			<element name="Ks" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="Vsmax" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="Vsmin" type="double" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+</schema>
