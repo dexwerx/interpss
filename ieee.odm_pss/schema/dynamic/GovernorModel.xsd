@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
-     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified" targetNamespace="http://www.ieee.org/odm/Schema/2008">
 
-	<include schemaLocation="../common/DataType.xsd"></include>
+	<include schemaLocation="../common/DataType.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
@@ -12,27 +10,36 @@
 	<element name="turbine" type="pss:TurbineModelXmlType"/>
 	<element name="turbineSteam" type="pss:SteamTurbineXmlType"/>
 	<element name="turbineHydraulic" type="pss:HydraulicTurbineXmlType"/>
+	<element name="govStreamSRBPATB" substitutionGroup="pss:turbine" type="pss:SteamTurbineBPATBModelXmlType"/>
 
 	<element name="governor" type="pss:GovernorModelXmlType"/>
-	<element name="govSimpleType" type="pss:GovSimpleTypeXmlType" substitutionGroup="pss:governor"/>
-	<element name="govIEEE1981Type1" type="pss:GovIEEE1981Type1XmlType" substitutionGroup="pss:governor"/>
-	<element name="govIEEE1981Type2" type="pss:GovIEEE1981Type2XmlType" substitutionGroup="pss:governor"/>
-	<element name="govIEEE1981Type3" type="pss:GovIEEE1981Type3XmlType" substitutionGroup="pss:governor"/>
-	<element name="govHydro" type="pss:GovHydroXmlType" substitutionGroup="pss:governor"/>
-	<element name="govHydroTurbine" type="pss:GovHydroTurbineXmlType" substitutionGroup="pss:governor"/>
-	<element name="govHydroSteamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType" substitutionGroup="pss:governor"/>
+	<element name="govSimpleType" substitutionGroup="pss:governor" type="pss:GovSimpleTypeXmlType"/>
+	<element name="govIEEE1981Type1" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type1XmlType"/>
+	<element name="govIEEE1981Type2" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type2XmlType"/>
+	<element name="govIEEE1981Type3" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type3XmlType"/>
+	<element name="govHydro" substitutionGroup="pss:governor" type="pss:GovHydroXmlType"/>
+	<element name="govHydroTurbine" substitutionGroup="pss:governor" type="pss:GovHydroTurbineXmlType"/>
+	<element name="govHydroSteamGeneralModel" substitutionGroup="pss:governor" type="pss:GovHydroSteamGeneralModelXmlType"/>
 	
-	<element name="govSteamNR" type="pss:GovSteamNRXmlType" substitutionGroup="pss:governor"/>
-	<element name="govSteamTCSR" type="pss:GovSteamTCSRXmlType" substitutionGroup="pss:governor"/>
-	<element name="govSteamTDSR" type="pss:GovSteamTDSRXmlType" substitutionGroup="pss:governor"/>
+	<element name="govSteamNR" substitutionGroup="pss:governor" type="pss:GovSteamNRXmlType"/>
+	<element name="govSteamTCSR" substitutionGroup="pss:governor" type="pss:GovSteamTCSRXmlType"/>
+	<element name="govSteamTDSR" substitutionGroup="pss:governor" type="pss:GovSteamTDSRXmlType"/>
+	
+	<element name="govHydroTurbinBPAGH" substitutionGroup="pss:governor" type="pss:GovHydroTurbineBPAGHXmlType"/>
+	<element name="govBPAGSModel" substitutionGroup="pss:governor" type="pss:GOVBPAGSModelXmlType"/>
+	<element name="govBPAReguGIModel" substitutionGroup="pss:governor" type="pss:GOVBPARegGIModelXmlType"/>
+	<element name="govBPAServoGAModel" substitutionGroup="pss:governor" type="pss:GOVBPAServoGAModelXmlType"/>
+	
+	
+	
 
 
-	<complexType name="GovernorModelXmlType" abstract="true">
+	<complexType abstract="true" name="GovernorModelXmlType">
 		<sequence>
-			<element name="name" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="basePower" minOccurs="0" maxOccurs="1" type="pss:ApparentPowerXmlType">	</element>
-			<element ref="pss:turbine" maxOccurs="1" minOccurs="0"></element>
+			<element maxOccurs="1" minOccurs="1" name="name" type="string"/>
+			<element maxOccurs="1" minOccurs="0" name="desc" type="string"/>
+			<element maxOccurs="1" minOccurs="0" name="basePower" type="pss:ApparentPowerXmlType">	</element>
+			<element maxOccurs="1" minOccurs="0" ref="pss:turbine"/>
 		</sequence>
 	</complexType>
 
@@ -40,10 +47,10 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="Pmax" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Pmin" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="Pmax" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="Pmin" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -53,15 +60,15 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>			
-			<element name="PMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Pup" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Pdown" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TCH" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>			
+			<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>			
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="PMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="Pup" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="Pdown" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TCH" type="pss:TimePeriodXmlType"/>			
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -71,11 +78,11 @@
 		<complexContent>
 		<extension base="pss:GovSteamNRXmlType">
 		<sequence>			
-			<element name="TRH" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TCO" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>						
-			<element name="FCH" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="FIP" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="FLP" type="double" maxOccurs="1" minOccurs="1"></element>						
+			<element maxOccurs="1" minOccurs="1" name="TRH" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TCO" type="pss:TimePeriodXmlType"/>						
+			<element maxOccurs="1" minOccurs="1" name="FCH" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="FIP" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="FLP" type="double"/>						
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -85,13 +92,13 @@
 		<complexContent>
 		<extension base="pss:GovSteamNRXmlType">
 		<sequence>			
-			<element name="TRH1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TRH2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TCO" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>	
-			<element name="FVHP" type="double" maxOccurs="1" minOccurs="1"></element>					
-			<element name="FHP" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="FIP" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="FLP" type="double" maxOccurs="1" minOccurs="1"></element>						
+			<element maxOccurs="1" minOccurs="1" name="TRH1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TRH2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TCO" type="pss:TimePeriodXmlType"/>	
+			<element maxOccurs="1" minOccurs="1" name="FVHP" type="double"/>					
+			<element maxOccurs="1" minOccurs="1" name="FHP" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="FIP" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="FLP" type="double"/>						
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -101,26 +108,26 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="U0" maxOccurs="1" minOccurs="1" type="double"></element>
-			<element name="UC" maxOccurs="1" minOccurs="1" type="double"></element>
-			<element name="PMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="K1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="K2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="K3" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="K4" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="K5" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="K6" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T7" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="K7" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="K8" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="U0" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="UC" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="PMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="K1" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="K2" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="K3" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="K4" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T6" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="K5" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="K6" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T7" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="K7" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="K8" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -130,13 +137,13 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMAX" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMIN" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="PMIN" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -146,20 +153,20 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="TG" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TP" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="U0" maxOccurs="1" minOccurs="1" type="pss:TimePeriodUnitType">			</element>
-			<element name="UC" maxOccurs="1" minOccurs="1" type="pss:TimePeriodUnitType">			</element>
-			<element name="PMAX" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMIN" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="SIGMA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="DELTA" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TR" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="a11" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="a13" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="a21" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="a23" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="TG" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TP" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="U0" type="pss:TimePeriodUnitType"/>
+			<element maxOccurs="1" minOccurs="1" name="UC" type="pss:TimePeriodUnitType"/>
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="PMIN" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="SIGMA" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="DELTA" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TR" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="a11" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="a13" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="a21" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="a23" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -169,15 +176,15 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="R" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="KV" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="F" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="R" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="F" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -187,13 +194,13 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="K" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="TWhalf" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="PMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TWhalf" type="pss:TimePeriodXmlType"/>
 			
 		</sequence>
 		</extension>
@@ -204,14 +211,26 @@
 		<complexContent>
 		<extension base="pss:GovernorModelXmlType">
 		<sequence>
-			<element name="PMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="PMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="R" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="U0" maxOccurs="1" minOccurs="1" type="double"></element>
-			<element name="UC" maxOccurs="1" minOccurs="1" type="double"></element>
+			<element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="PMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="R" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="U0" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="UC" type="double"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
+	<!--BPA GOV and Hydro turbine type -->
+	
+	<complexType name="GovHydroTurbineBPAGHXmlType">
+		<complexContent>
+		<extension base="pss:GovIEEE1981Type3XmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="Epsilon" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -221,10 +240,10 @@
 	Turbine Model
 	=============
  -->
-	<complexType name="TurbineModelXmlType" abstract="true">
+	<complexType abstract="true" name="TurbineModelXmlType">
 		<sequence>
-			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element maxOccurs="1" minOccurs="0" name="name" type="string"/>
+			<element maxOccurs="1" minOccurs="0" name="desc" type="string"/>
 		</sequence>
 	</complexType>
 
@@ -232,13 +251,13 @@
 		<complexContent>
 		<extension base="pss:TurbineModelXmlType">
 		<sequence>
-			<element name="K" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="TCH" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="FHP" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="TRH" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="FIP" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="TCO" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="FLP" type="double" maxOccurs="1" minOccurs="0"></element>
+			<element maxOccurs="1" minOccurs="0" name="K" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="TCH" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="FHP" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="TRH" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="FIP" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="TCO" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="FLP" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -247,6 +266,21 @@
 	<complexType name="HydraulicTurbineXmlType">
 		<complexContent>
 		<extension base="pss:TurbineModelXmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="0" name="TW" type="double"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
+	<!-- BPA turbine model -->
+	
+	<complexType name="SteamTurbineBPATBModelXmlType">
+		<complexContent>
+		<extension base="pss:SteamTurbineXmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="Lambda" type="double"/>
+		</sequence>
 		</extension>
 		</complexContent>		
 	</complexType>
@@ -254,45 +288,45 @@
 <!-- below not used -->
 	<complexType name="TurbineGovernorXmlType">
 		<sequence>
-			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="turbineGovernorType" maxOccurs="1" minOccurs="1" type="pss:TurbineGovernorEnumType">
+			<element maxOccurs="1" minOccurs="1" name="locatedBus" type="pss:IDRefRecordXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="busRatedVoltage" type="pss:VoltageXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="turbineGovernorType" type="pss:TurbineGovernorEnumType">
 			</element>
-			<element name="turbineGovernorModel" type="pss:GovernorModelXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="tgId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element maxOccurs="1" minOccurs="1" name="turbineGovernorModel" type="pss:GovernorModelXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="tgId" type="pss:IDRefRecordXmlType"/>
 		</sequence>
 	</complexType>
 
 	<simpleType name="TurbineGovernorEnumType">
 		<restriction base="string">
-			<enumeration value="IEEE1981Type1"></enumeration>
-			<enumeration value="IEEE1981Type2"></enumeration>
-			<enumeration value="IEEE1981Type3"></enumeration>
-			<enumeration value="HydroStreamGeneralModel"></enumeration>
-			<enumeration value="HydroGovernerAndTurbine"></enumeration>
-			<enumeration value="HydroGoverner"></enumeration>
+			<enumeration value="IEEE1981Type1"/>
+			<enumeration value="IEEE1981Type2"/>
+			<enumeration value="IEEE1981Type3"/>
+			<enumeration value="HydroStreamGeneralModel"/>
+			<enumeration value="HydroGovernerAndTurbine"/>
+			<enumeration value="HydroGoverner"/>
 		</restriction>
 	</simpleType>
 
 	<complexType name="TurbineGovernorModelListXmlType">
 		<sequence>
-			<element name="IEEE1981Type1" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type1XmlType">
+			<element maxOccurs="1" minOccurs="0" name="IEEE1981Type1" type="pss:GovIEEE1981Type1XmlType">
 			</element>
-			<element name="IEEE1981Type2" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type2XmlType">
+			<element maxOccurs="1" minOccurs="0" name="IEEE1981Type2" type="pss:GovIEEE1981Type2XmlType">
 			</element>
-			<element name="IEEE1981Type3" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type3XmlType">
+			<element maxOccurs="1" minOccurs="0" name="IEEE1981Type3" type="pss:GovIEEE1981Type3XmlType">
 			</element>
-			<element name="hydroStreamGeneralModel" maxOccurs="1" minOccurs="0" type="pss:GovHydroSteamGeneralModelXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydroStreamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType">
 			</element>
-			<element name="hydroGovernerAndTurbine" maxOccurs="1" minOccurs="0" type="pss:GovHydroTurbineXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydroGovernerAndTurbine" type="pss:GovHydroTurbineXmlType">
 			</element>
-			<element name="hydroGoverner" maxOccurs="1" minOccurs="0" type="pss:GovHydroXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydroGoverner" type="pss:GovHydroXmlType">
 			</element>
-			<element name="SteamNRModel" maxOccurs="1" minOccurs="0" type="pss:GovSteamNRXmlType">
+			<element maxOccurs="1" minOccurs="0" name="SteamNRModel" type="pss:GovSteamNRXmlType">
 			</element>
-			<element name="SteamTDSRModel" maxOccurs="1" minOccurs="0" type="pss:GovSteamTDSRXmlType">
+			<element maxOccurs="1" minOccurs="0" name="SteamTDSRModel" type="pss:GovSteamTDSRXmlType">
 			</element>
-			<element name="SteamTCSRModel" maxOccurs="1" minOccurs="0" type="pss:GovSteamTCSRXmlType">
+			<element maxOccurs="1" minOccurs="0" name="SteamTCSRModel" type="pss:GovSteamTCSRXmlType">
 			</element>
 			
 		</sequence>
@@ -300,34 +334,119 @@
 
 	<complexType name="TurbineXmlType">
 		<sequence>
-			<element name="steamTurbine " maxOccurs="1" minOccurs="0" type="pss:SteamTurbineXmlType">
+			<element maxOccurs="1" minOccurs="0" name="steamTurbine " type="pss:SteamTurbineXmlType">
 			</element>
-			<element name="hydraulicTurbine " maxOccurs="1" minOccurs="0" type="pss:HydraulicTurbineXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydraulicTurbine " type="pss:HydraulicTurbineXmlType">
 			</element>
 		</sequence>
 	</complexType>
 
 	<complexType name="TurbineGovernorModelSelectionXmlType">
 		<choice>
-			<element name="IEEE1981Type1" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type1XmlType">
+			<element maxOccurs="1" minOccurs="0" name="IEEE1981Type1" type="pss:GovIEEE1981Type1XmlType">
 			</element>
-			<element name="IEEE1981Type2" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type2XmlType">
+			<element maxOccurs="1" minOccurs="0" name="IEEE1981Type2" type="pss:GovIEEE1981Type2XmlType">
 			</element>
-			<element name="IEEE1981Type3" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type3XmlType">
+			<element maxOccurs="1" minOccurs="0" name="IEEE1981Type3" type="pss:GovIEEE1981Type3XmlType">
 			</element>
-			<element name="hydroStreamGeneralModel" maxOccurs="1" minOccurs="0" type="pss:GovHydroSteamGeneralModelXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydroStreamGeneralModel" type="pss:GovHydroSteamGeneralModelXmlType">
 			</element>
-			<element name="hydroGovernerAndTurbine" maxOccurs="1" minOccurs="0" type="pss:GovHydroTurbineXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydroGovernerAndTurbine" type="pss:GovHydroTurbineXmlType">
 			</element>
-			<element name="hydroGoverner" maxOccurs="1" minOccurs="0" type="pss:GovHydroXmlType">
+			<element maxOccurs="1" minOccurs="0" name="hydroGoverner" type="pss:GovHydroXmlType">
 			</element>
-			<element name="SteamNRModel" maxOccurs="1" minOccurs="0" type="pss:GovSteamNRXmlType">
+			<element maxOccurs="1" minOccurs="0" name="SteamNRModel" type="pss:GovSteamNRXmlType">
 			</element>
-			<element name="SteamTDSRModel" maxOccurs="1" minOccurs="0" type="pss:GovSteamTDSRXmlType">
+			<element maxOccurs="1" minOccurs="0" name="SteamTDSRModel" type="pss:GovSteamTDSRXmlType">
 			</element>
-			<element name="SteamTCSRModel" maxOccurs="1" minOccurs="0" type="pss:GovSteamTCSRXmlType">
+			<element maxOccurs="1" minOccurs="0" name="SteamTCSRModel" type="pss:GovSteamTCSRXmlType">
 			</element>
 		</choice>
 	</complexType>
+	
+	<!-- BPA GOV  model sets
+	-->
+
+	
+	<complexType name="GOVBPAGSModelXmlType">
+		<complexContent>
+		<extension base="pss:GovernorModelXmlType">
+		<sequence>
+		    <element maxOccurs="1" minOccurs="0" name="Pmax" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="Pmin" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="R" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="VELOPEN" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="VELCLOSE" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="Epsilon" type="double"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
+	<!-- BPA GOV Regulator part model
+	-->
+	
+	<complexType name="GOVBPARegGIModelXmlType">
+		<complexContent>
+		<extension base="pss:GovernorModelXmlType">
+		<sequence>
+		    <element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
+		    <element maxOccurs="1" minOccurs="0" name="Epsilon" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="K" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="loadSwichOff" type="boolean"/>
+		    <element maxOccurs="1" minOccurs="0" name="Kp1" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="Kd1" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="Ki1" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="INTG_MAX1" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="INTG_MIN1" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="PID_MAX1" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="PID_MIN1" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="loadForwardSwitchOff" type="boolean"/>
+		    <element maxOccurs="1" minOccurs="0" name="presserSwitchOff" type="boolean"/>
+		    <element maxOccurs="1" minOccurs="0" name="Kp2" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="Kd2" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="Ki2" type="double"/>
+		    <element maxOccurs="1" minOccurs="0" name="INTG_MAX2" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="INTG_MIN2" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="PID_MAX2" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="PID_MIN2" type="double"/>		    
+			<element maxOccurs="1" minOccurs="0" name="Con_Max" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="Con_Min" type="double"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
+	
+	<!-- BPA GOV servo part model
+	-->
+	<complexType name="GOVBPAServoGAModelXmlType">
+		<complexContent>
+		<extension base="pss:GovernorModelXmlType">
+		<sequence>
+		    <element maxOccurs="1" minOccurs="0" name="Pe" type="double"/>   
+			<element maxOccurs="1" minOccurs="0" name="Tc" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="To" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="VELOPEN" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="VELCLOSE" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="Pmax" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="Pmin" type="double"/>			
+			<element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="Kp" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="Kd" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="Ki" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="INTG_MAX" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="INTG_MIN" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="PID_MAX" type="double"/>
+            <element maxOccurs="1" minOccurs="0" name="PID_MIN" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="PGV_RELAY" type="pss:TimePeriodXmlType"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
 
 </schema>
