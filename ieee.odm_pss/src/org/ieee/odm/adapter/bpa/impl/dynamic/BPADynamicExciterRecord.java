@@ -43,13 +43,17 @@ import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 public class BPADynamicExciterRecord {
 	private final static int EA=1;
 	private final static int EC=2;
-	private final static int EK=3;    	
-	private final static int FJ=4;
-	private final static int FK=5;
-	private final static int FQ=6;
-	private final static int FV=7;
-	private final static int FF=8;
-	private final static int FA=9;
+	private final static int EK=3;
+	private final static int FA=4;
+	private final static int FF=5;
+	private final static int FJ=6;
+	private final static int FK=7;
+	private final static int FQ=8;
+	private final static int FR=9;
+	private final static int FS=10;
+	private final static int FU=11;
+	private final static int FV=12;
+	
 	
 	public static void processExciterData(String str, DStabModelParser parser ) throws ODMException {
     	final String strAry[]=getExciterDataFields(str);
@@ -250,7 +254,7 @@ public class BPADynamicExciterRecord {
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
 			exc.setVrmin(Vrmin);
     	}
-    	else if(type==FQ||type==FV){
+    	else if(type==FQ||type==FR||type==FS||type==FU||type==FV){
     		ExcIEEE1981NewExcSystemXmlType exc = DStabParserHelper.createExcIEEE1981NewExcSystemXmlType(dynGen);
     		
     		/*
@@ -577,6 +581,21 @@ public class BPADynamicExciterRecord {
 	}
 	
 	private static int getExcType(String str) {
+		/*
+		 * 	
+    private final static int EA=1;
+	private final static int EC=2;
+	private final static int EK=3;
+	private final static int FA=4;
+	private final static int FF=5;
+	private final static int FJ=6;
+	private final static int FK=7;
+	private final static int FQ=8;
+	private final static int FR=9;
+	private final static int FS=10;
+	private final static int FU=11;
+	private final static int FV=12;
+		 */
 		int type = 0;
     	if(str.equals("EA")){
     		type=EA;
@@ -596,7 +615,13 @@ public class BPADynamicExciterRecord {
     		type=FF;
     	}else if(str.equals("FA")){
     		type=FA;
-    	}		
+		}else if(str.equals("FR")){
+		 type=FR;
+	    }else if(str.equals("FS")){
+		 type=FS;
+	    }else if(str.equals("FU")){
+		   type=FU;
+	    }
     	return type;
 	}
 	
@@ -683,7 +708,11 @@ public class BPADynamicExciterRecord {
 				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,72, 76).trim();
 				//TE
 				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
-			}else if(str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")){
+			}else if(str.substring(0, 2).trim().equals("FM")||str.substring(0, 2).trim().equals("FN")
+					||str.substring(0, 2).trim().equals("FO")||str.substring(0, 2).trim().equals("FP")
+					||str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FR")
+					||str.substring(0, 2).trim().equals("FS")||str.substring(0, 2).trim().equals("FU")
+					||str.substring(0, 2).trim().equals("FV")){
 				
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
@@ -774,9 +803,9 @@ public class BPADynamicExciterRecord {
 				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();
 				// TE
 				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,40, 42).trim();
-				//SE1-0.75
+				//SE1--@EFDMAX
 				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
-				//SE2--EFDMAX
+				//SE2--@75%EFDMAX
 				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
 				// VRMAX
 				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,53, 56).trim();

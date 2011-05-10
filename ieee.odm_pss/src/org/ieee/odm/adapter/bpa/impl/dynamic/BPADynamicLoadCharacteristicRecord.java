@@ -137,7 +137,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 					if(bus.getLoadData().getEquivLoad()!=null){
 					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
 					   DynamicLoadXmlType load = bus.getDynamicLoad();
-					   load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
+					   load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
 					   load.setLoadModel(loadModel);
 					}
 					
