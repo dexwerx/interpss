@@ -90,16 +90,7 @@
 
 	<group name="ShortCircuitBusDataGroup">
 		<sequence>
-			<element name="scGenData" minOccurs="0">
-				<complexType>
-					<sequence>
-						<element name="potiveZ" type="pss:ZXmlType" minOccurs="1"></element>
-						<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
-						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
-						<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
-					</sequence>
-				</complexType>
-			</element>
+			<element name="scGenData" minOccurs="0" type="pss:ScGenDadaXmlType"></element>
 			<element name="scShuntLoadData" minOccurs="0">
 				<complexType>
 					<sequence>
@@ -116,7 +107,16 @@
 				</complexType>
 			</element>
 		</sequence>
-	</group>	
+	</group>
+
+	<complexType name="ScGenDadaXmlType">
+		<sequence>
+			<element name="potiveZ" type="pss:ZXmlType" minOccurs="1"></element>
+			<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
+			<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
+			<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
+		</sequence>
+	</complexType>
 	
 <!-- 
 		Branch objects
