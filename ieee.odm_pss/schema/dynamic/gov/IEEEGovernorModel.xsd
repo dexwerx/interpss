@@ -14,7 +14,9 @@
 			    gov*, Gov* : for generic types
 			    govIEEE*, GovIEEE* : for IEEE types  
 	 -->	
-	<element name="turbineSteam" substitutionGroup="pss:turbine" type="pss:SteamTurbineXmlType"/>
+	<element name="turbineSteamNR" substitutionGroup="pss:turbine" type="pss:SteamTurbineNRXmlType"/>
+	<element name="turbineSteamTCSR" substitutionGroup="pss:turbine" type="pss:SteamTurbineTCSRXmlType"/>
+	<element name="turbineSteamTCDR" substitutionGroup="pss:turbine" type="pss:SteamTurbineTCDRXmlType"/>
 	<element name="turbineHydraulic" substitutionGroup="pss:turbine" type="pss:HydraulicTurbineXmlType"/>
 	
 	<element name="govHydro" substitutionGroup="pss:governor" type="pss:GovHydroXmlType"/>
@@ -29,14 +31,43 @@
 	<element name="govIEEE1981Type2" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type2XmlType"/>
 	<element name="govIEEE1981Type3" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type3XmlType"/>
 
-	<complexType name="SteamTurbineXmlType">
+	<complexType name="SteamTurbineNRXmlType">
 		<complexContent>
 		<extension base="pss:TurbineModelXmlType">
 		<sequence>
 			<element maxOccurs="1" minOccurs="0" name="K" type="double"/>
 			<element maxOccurs="1" minOccurs="0" name="TCH" type="pss:TimePeriodXmlType"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
+	
+    <!-- Tandem compound,single reheat stream turbine model-->
+	<complexType name="SteamTurbineTCSRXmlType">
+		<complexContent>
+		<extension base="pss:SteamTurbineNRXmlType">
+		<sequence>
 			<element maxOccurs="1" minOccurs="0" name="FHP" type="double"/>
 			<element maxOccurs="1" minOccurs="0" name="TRH" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="FIP" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="TCO" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="FLP" type="double"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+	
+	
+	<!-- Tandem compound,double reheat stream turbine model-->
+	<complexType name="SteamTurbineTCDRXmlType">
+		<complexContent>
+		<extension base="pss:SteamTurbineNRXmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="0" name="FVHP" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="TRH1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="FHP" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="TRH2" type="pss:TimePeriodXmlType"/>
 			<element maxOccurs="1" minOccurs="0" name="FIP" type="double"/>
 			<element maxOccurs="1" minOccurs="0" name="TCO" type="pss:TimePeriodXmlType"/>
 			<element maxOccurs="1" minOccurs="0" name="FLP" type="double"/>

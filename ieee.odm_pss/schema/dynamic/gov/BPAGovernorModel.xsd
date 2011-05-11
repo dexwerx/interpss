@@ -14,18 +14,20 @@
 		       GovBPA* SteamTurbineBPA* for complex type 
 	-->
 	
-	<element name="govBPAStreamSRTB" substitutionGroup="pss:turbine" type="pss:SteamTurbineBPATBModelXmlType"/>
-
-	<element name="govBPAHydroTurbinGH" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType"/>
-	<element name="govBPAGSModel" substitutionGroup="pss:governor" type="pss:GovBPAGSModelXmlType"/>
-	<element name="govBPARegServoModel" substitutionGroup="pss:governor" type="pss:GovBPARegServoXmlType"/>
+	<element name="streamTurbineBPATB" substitutionGroup="pss:turbine" type="pss:SteamTurbineBPATBModelXmlType"/>
 	
+	<element name="speedGovBPAGSModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAGSModelXmlType"/>
+	<element name="speedGovBPARegServoModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPARegServoXmlType"/>
+	
+	<element name="govBPAHydroTurbinGH" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType"/>
+
 	<!--BPA GOV and Hydro turbine type -->
 	
 	<complexType name="GovBPAHydroTurbineGHXmlType">
 		<complexContent>
 		<extension base="pss:GovIEEE1981Type3XmlType">
 		<sequence>
+		    <element maxOccurs="1" minOccurs="1" name="R" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="Epsilon" type="double"/>
 		</sequence>
 		</extension>
@@ -36,7 +38,7 @@
 	
 	<complexType name="SteamTurbineBPATBModelXmlType">
 		<complexContent>
-		<extension base="pss:SteamTurbineXmlType">
+		<extension base="pss:SteamTurbineTCSRXmlType">
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="Lambda" type="double"/>
 		</sequence>
@@ -46,9 +48,9 @@
 
 	<!-- BPA GOV  model sets -->
 	
-	<complexType name="GovBPAGSModelXmlType">
+	<complexType name="SpeedGovBPAGSModelXmlType">
 		<complexContent>
-		<extension base="pss:GovernorModelXmlType">
+		<extension base="pss:SpeedGovModelXmlType">
 		<sequence>
 		    <element maxOccurs="1" minOccurs="0" name="Pmax" type="double"/>
 		    <element maxOccurs="1" minOccurs="0" name="Pmin" type="double"/>
@@ -63,10 +65,11 @@
 		</extension>
 		</complexContent>		
 	</complexType>
+    
 
-	<complexType name="GovBPARegServoXmlType">
+	<complexType name="SpeedGovBPARegServoXmlType">
 		<complexContent>
-		<extension base="pss:GovernorModelXmlType">
+		<extension base="pss:SpeedGovModelXmlType">
 		<sequence>
 		    <element maxOccurs="1" minOccurs="1" name="regulator" type="pss:GovBPARegGIModelXmlType"/>
 		    <element maxOccurs="1" minOccurs="1" name="servo" type="pss:GovBPAServoGAModelXmlType"/>
@@ -79,7 +82,7 @@
 	
 	<complexType name="GovBPARegGIModelXmlType">
 		<complexContent>
-		<extension base="pss:GovernorModelXmlType">
+		<extension base="pss:SpeedGovModelXmlType">
 		<sequence>
 		    <element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
 		    <element maxOccurs="1" minOccurs="0" name="Epsilon" type="double"/>
@@ -111,7 +114,7 @@
 	<!-- BPA GOV servo part model -->
 	<complexType name="GovBPAServoGAModelXmlType">
 		<complexContent>
-		<extension base="pss:GovernorModelXmlType">
+		<extension base="pss:SpeedGovModelXmlType">
 		<sequence>
 		    <element maxOccurs="1" minOccurs="0" name="Pe" type="double"/>   
 			<element maxOccurs="1" minOccurs="0" name="Tc" type="pss:TimePeriodXmlType"/>
