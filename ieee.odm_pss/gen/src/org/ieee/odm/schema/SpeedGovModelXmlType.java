@@ -10,17 +10,16 @@ package org.ieee.odm.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for StabilizerModelXmlType complex type.
+ * <p>Java class for SpeedGovModelXmlType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="StabilizerModelXmlType">
+ * &lt;complexType name="SpeedGovModelXmlType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -35,19 +34,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StabilizerModelXmlType", propOrder = {
+@XmlType(name = "SpeedGovModelXmlType", propOrder = {
     "name",
     "desc"
 })
-@XmlSeeAlso({
-    PssIEE2STXmlType.class,
-    PssIEEEDualInputXmlType.class,
-    PssSimpleTypeXmlType.class,
-    PssIEEE1981TypeXmlType.class,
-    PssIEEE1AXmlType.class,
-    PssIEEE1992Type2AXmlType.class
-})
-public abstract class StabilizerModelXmlType {
+public abstract class SpeedGovModelXmlType {
 
     protected String name;
     protected String desc;
