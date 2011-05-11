@@ -47,7 +47,6 @@ import org.ieee.odm.schema.ExcIEEEModified1968Type1XmlType;
 import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExcTSATTypeEXC34XmlType;
-import org.ieee.odm.schema.GovBPAGSModelXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
 import org.ieee.odm.schema.GovHydroTurbineXmlType;
@@ -66,6 +65,7 @@ import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
 import org.ieee.odm.schema.PssIEEE1AXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
+import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 
 public class DStabParserHelper extends AclfParserHelper {
@@ -286,15 +286,15 @@ public class DStabParserHelper extends AclfParserHelper {
 		return gov;
 	}
 
-	public static GovBPAGSModelXmlType createGovBPAGSModelXmlType(DynamicGeneratorXmlType gen) {
-		GovBPAGSModelXmlType gov = getFactory().createGovBPAGSModelXmlType();
-		gen.setGovernor(getFactory().createGovBPAGSModel(gov));
+	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(DynamicGeneratorXmlType gen) {
+		SpeedGovBPAGSModelXmlType gov = getFactory().createSpeedGovBPAGSModelXmlType();
+		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGovBPAGSModel(gov));
 		return gov;
 	}
 
 	public static SteamTurbineBPATBModelXmlType createSteamTurbineBPATBModelXmlType(DynamicGeneratorXmlType gen) {
 		SteamTurbineBPATBModelXmlType tur = getFactory().createSteamTurbineBPATBModelXmlType();
-		gen.getGovernor().getValue().setTurbine(getFactory().createGovBPAStreamSRTB(tur));
+		gen.getGovernor().getValue().setTurbine(getFactory().createStreamTurbineBPATB(tur));
 		return tur;
 	}
 	

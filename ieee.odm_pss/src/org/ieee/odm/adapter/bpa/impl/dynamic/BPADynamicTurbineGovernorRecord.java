@@ -32,9 +32,9 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
-import org.ieee.odm.schema.GovBPAGSModelXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 
 
@@ -137,7 +137,7 @@ public class BPADynamicTurbineGovernorRecord {
     				
     	}
     	else if(strAry[0].equals("GS")){
-    		GovBPAGSModelXmlType gov = DStabParserHelper.createGovBPAGSModelXmlType(dynGen);
+    		SpeedGovBPAGSModelXmlType gov = DStabParserHelper.createSpeedGovBPAGSModelXmlType(dynGen);
 			
 			//machine Id
     		String tgId="";
