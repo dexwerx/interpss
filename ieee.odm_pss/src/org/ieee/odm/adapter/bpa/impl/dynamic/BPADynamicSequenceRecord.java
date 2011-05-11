@@ -40,9 +40,13 @@ import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.GeneratorEnumType;
 import org.ieee.odm.schema.LineDStabXmlType;
+import org.ieee.odm.schema.MutualZeroZXmlType;
+import org.ieee.odm.schema.ScSimpleBusXmlType;
+import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrZeroSeqConnectLocationEnumType;
+import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 
@@ -58,40 +62,31 @@ public class BPADynamicSequenceRecord {
 			String cirId="1";
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
-			}			
-			// retrieve the branch from the parser
-			BranchXmlType branch = (BranchXmlType)parser.getBranch(fromId, toId, cirId);
-			if (branch == null) {
-				throw new ODMException("Branch not found " + fromId + "->" + toId + "(" + cirId + ")");
 			}
-			// cast the branch from aclfXfr to dstabXfr
-			XfrDStabXmlType xfr = (XfrDStabXmlType)ModelStringUtil.casting(branch, "aclfXfr", "dstabXfr");
+			XfrDStabXmlType xfr =parser.getDStabXfr(fromId, toId, cirId);
 			
-			//TODO "get" or "create"?In other data cards have the same problem exists.
-			//XfrDStabXmlType xfr =(XfrDStabXmlType)parser.getXfrBranch(fromId, toId, cirId);
 			//TODO Do we have to set the following rated Voltage?
-			//When we get the XfrBranch with the method"parser.getXfrBranch()",if these Info are included?
+			//When we get the DStabXfr with the method"parser.getDStabXfr(fromId, toId, cirId)",if these Info are included?
 			double fVbase=ModelStringUtil.getDouble(strAry[2], 0.0);
 			xfr.getXfrInfo().setFromRatedVoltage(DStabDataSetter.createVoltageValue(fVbase, VoltageUnitType.KV));
 			double tVbase=ModelStringUtil.getDouble(strAry[4], 0.0);
 			xfr.getXfrInfo().setToRatedVoltage(DStabDataSetter.createVoltageValue(tVbase, VoltageUnitType.KV));
 			
+			TransformerZeroSeqXmlType xfrZeroSeq =new TransformerZeroSeqXmlType();
 			int location= new Integer(strAry[5]).intValue();
 			if(location==1){
-				xfr.getXfrZeroSeq().setConectionLocation(XfrZeroSeqConnectLocationEnumType.AT_BUS_1);
+				xfrZeroSeq.setConectionLocation(XfrZeroSeqConnectLocationEnumType.AT_BUS_1);
 			}else if(location==2){
-				xfr.getXfrZeroSeq().setConectionLocation(XfrZeroSeqConnectLocationEnumType.AT_BUS_2);
+				xfrZeroSeq.setConectionLocation(XfrZeroSeqConnectLocationEnumType.AT_BUS_2);
 			}else {
-				xfr.getXfrZeroSeq().setConectionLocation(XfrZeroSeqConnectLocationEnumType.BETWEEN_BUS_1_N_BUS_2);
+				xfrZeroSeq.setConectionLocation(XfrZeroSeqConnectLocationEnumType.BETWEEN_BUS_1_N_BUS_2);
 			}
+			xfr.setXfrZeroSeq(xfrZeroSeq);
 			xfr.setCircuitId(cirId);
-			//X0
+			//Z0
 			double x0=ModelStringUtil.getDouble(strAry[7], 0.0);
-			xfr.getZ0().setRe(x0);
-						
-			//R0
 			double r0=ModelStringUtil.getDouble(strAry[8], 0.0);
-			xfr.getZ0().setIm(r0);
+			xfr.setZ0(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
 		}
 	    else if(strAry[0].equals("XR")){
 	    	final String busId = BusRecord.getBusId(strAry[1]);
@@ -100,8 +95,9 @@ public class BPADynamicSequenceRecord {
         	bus.setBaseVoltage(DStabDataSetter.createVoltageValue(busBase, VoltageUnitType.KV));
         	double r0 = ModelStringUtil.getDouble(strAry[3], 0.0);
         	double x0 = ModelStringUtil.getDouble(strAry[4], 0.0);
-        	bus.getScShuntLoadData().getZeroZ().setRe(r0);
-        	bus.getScShuntLoadData().getZeroZ().setIm(x0);
+        	ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
+        	scsld.setZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
+        	bus.setScShuntLoadData(scsld);
 	    }
 	    else if(strAry[0].equals("LO")){
 	    	final String fromId = BusRecord.getBusId(strAry[1]);
@@ -115,32 +111,23 @@ public class BPADynamicSequenceRecord {
 			if (branch == null) {
 				throw new ODMException("Branch not found " + fromId + "->" + toId + "(" + cirId + ")");
 			}
-	    	LineDStabXmlType line = (LineDStabXmlType)ModelStringUtil.casting(branch, "aclfLine", "dstabLine");
+	    	LineDStabXmlType line = parser.getDStabLine(fromId, toId, cirId);
 			//TODO can't set the rated voltage of frombus and tobus .When we get the branch,these info have been included?
 			
-			//R0			
+			//Z0			
 			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
-			line.getZ0().setRe(r0);
-			    		
-    		//X0
 			double x0=ModelStringUtil.getDouble(strAry[8], 0.0);
-			line.getZ0().setIm(x0);
+			line.setZ0(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
 			     		
-    		//G1
+    		//Y1
 			double g1=ModelStringUtil.getDouble(strAry[9], 0.0);
-			line.getY0ShuntFromSide().setRe(g1);
-			   		
-    		//B1
 			double b1=ModelStringUtil.getDouble(strAry[10], 0.0);
-			line.getY0ShuntFromSide().setIm(b1);
+			line.setY0ShuntFromSide(DStabDataSetter.createYValue(g1, b1, YUnitType.PU));
 			     		
-    		//G2
+    		//Y2
     		double g2=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		line.getY0ShuntToSide().setRe(g2);
-			     		
-    		//B2
 			double b2=ModelStringUtil.getDouble(strAry[12], 0.0);
-			line.getY0ShuntToSide().setIm(b2);
+    		line.setY0ShuntToSide(DStabDataSetter.createYValue(g2, b2, YUnitType.PU));
 	    }
 	    else if(strAry[0].equals("LM")){
 	    	final String line1fId = BusRecord.getBusId(strAry[1]);
@@ -148,13 +135,8 @@ public class BPADynamicSequenceRecord {
 			String line1cirId="1";
 			if(!strAry[6].equals("")){
 				line1cirId=strAry[5];				
-			}			
-			// retrieve the branch from the parser
-			BranchXmlType branch1 = (BranchXmlType)parser.getBranch(line1fId, line1tId, line1cirId);
-			if (branch1 == null) {
-				throw new ODMException("Branch not found " + line1fId + "->" + line1tId + "(" + line1cirId + ")");
 			}
-	    	LineDStabXmlType line1 = (LineDStabXmlType)ModelStringUtil.casting(branch1, "aclfLine", "dstabLine");
+	    	LineDStabXmlType line1 = parser.getDStabLine(line1fId, line1tId, line1cirId);
 			
 			final String line2fId =  BusRecord.getBusId(strAry[6]);
 			final String line2tId =  BusRecord.getBusId(strAry[8]);
@@ -162,64 +144,25 @@ public class BPADynamicSequenceRecord {
 			if(!strAry[10].equals("")){
 				line2cirId=strAry[10];				
 			}
-			BranchXmlType branch2 = (BranchXmlType)parser.getBranch(line2fId, line2tId, line2cirId);
-			if (branch2 == null) {
-				throw new ODMException("Branch not found " + line2fId + "->" + line2tId + "(" + line2cirId + ")");
-			}
-			LineDStabXmlType line2 = (LineDStabXmlType)ModelStringUtil.casting(branch2, "aclfLine", "dstabLine");
+			LineDStabXmlType line2 = parser.getDStabLine(line2fId, line2tId, line2cirId);
 			
 			//TODO How to get the zero-sequence mutual inductance between line1 and line2?
 			double rm=ModelStringUtil.getDouble(strAry[11], 0.0);
 			double xm=ModelStringUtil.getDouble(strAry[12], 0.0);
-			line1.getLineMutualZeroZ().get(0).getZM().setRe(rm);
-			line1.getLineMutualZeroZ().get(0).getZM().setRe(xm);
-			line2.getLineMutualZeroZ().get(0).getZM().setRe(rm);
-			line2.getLineMutualZeroZ().get(0).getZM().setRe(xm);			
+			MutualZeroZXmlType mutualZ0 =new MutualZeroZXmlType();
+			mutualZ0.setZM(DStabDataSetter.createZValue(rm, xm, ZUnitType.PU));
+			line1.getLineMutualZeroZ().add(mutualZ0);
+			line2.getLineMutualZeroZ().add(mutualZ0);			
 	    }
 	}
-/*
-		}else if(strAry[0].equals("LM")){
-			ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero mutZero=
-				XBeanTranStabSimuHelper.addNewMutualZero(tranSimu);
-			//bus1
-			String bus1=strAry[1];
-			mutZero.addNewBranch1BusI().setName(bus1);			
-			//bus2
-			String bus2=strAry[3];
-			mutZero.addNewBranch1BuJ().setName(bus2);
-			//par
-			String cirId="";
-			if(!strAry[5].equals("")){
-				cirId=strAry[5];
-				mutZero.setBranch1CirId(cirId);
-			}	    		
-    		//busK line2
-			String bus3=strAry[6];
-			mutZero.addNewBranch2BusK().setName(bus3);			
-			//bus2
-			String bus4=strAry[8];
-			mutZero.addNewBranch2BusL().setName(bus4);    		
-    		//par2
-			String cir2Id="";
-			if(!strAry[10].equals("")){
-				cirId=strAry[10];
-				mutZero.setBranch2CirId(cir2Id);
-			}	    		
-			//R0			
-			double r0=ModelStringUtil.getDouble(strAry[11], 0.0);
-			mutZero.setRM(r0);
-			
-    		//X0
-			double x0=ModelStringUtil.getDouble(strAry[12], 0.0);
-			mutZero.setXM(x0);
-		}
-*/		
-	public static void processNegativeData( DStabModelParser parser){
+
+	public static void processNegativeData( DStabModelParser parser) throws ODMException{
 		// negative sequence generator data
 		for( JAXBElement<? extends BusXmlType> busXml:parser.getDStabNet().getBusList().getBus()){
-			DStabBusXmlType bus=(DStabBusXmlType)busXml.getValue();
+			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
+			if(bus.getDynamicGenList()!=null)
 			for(DynamicGeneratorXmlType dynGen:bus.getDynamicGenList().getDynamicGen()){
-		//for(DynamicGeneratorXmlType dynGen:parser.getFactory().createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
+		    //for(DynamicGeneratorXmlType dynGen:parser.getFactory().createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
 				double xd1=0.0;
 				double x2=0.0;
 				double tq01=0.0;
@@ -247,8 +190,10 @@ public class BPADynamicSequenceRecord {
 					x2=0.65*xd1;
 				}
 				//TODO How to set the negative sequence impedance to associate to generator?
-				bus.getScGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 				//How about the case that several generators is in parallel on the bus?
+				ScSimpleBusXmlType.ScGenData scgd =new ScSimpleBusXmlType.ScGenData();
+				scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
+				bus.setScGenData(scgd);
 				
 				//parser.getFactory().createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 			}			
@@ -298,14 +243,16 @@ public class BPADynamicSequenceRecord {
 */
 		// negative sequence load data
 		for( JAXBElement<? extends BusXmlType> busXml:parser.getDStabNet().getBusList().getBus()){
-			DStabBusXmlType bus=(DStabBusXmlType)busXml.getValue();
+			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
 			//TODO Judge whether this node is load node?
-			if(!bus.getLoadData().getEquivLoad().equals(null)){
+			if(bus.getLoadData()!=null)
+				if(bus.getLoadData().getEquivLoad()!=null){
 				//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
 				//hard coded values
-				bus.getScShuntLoadData().getNegativeZ().setRe(0.19);
-				bus.getScShuntLoadData().getNegativeZ().setIm(0.36);
-			}
+				ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
+		        scsld.setNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
+		        bus.setScShuntLoadData(scsld);
+				}
 		}		
 /*
 		for( LoadCharacteristicXmlType load: tranSimu.getDynamicDataList().
