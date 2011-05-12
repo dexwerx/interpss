@@ -49,7 +49,7 @@ public class ShortCircuitBusXmlType
     extends LoadflowBusXmlType
 {
 
-    protected ScGenDadaXmlType scGenData;
+    protected ScGenDataXmlType scGenData;
     protected org.ieee.odm.schema.ScSimpleBusXmlType.ScShuntLoadData scShuntLoadData;
     protected org.ieee.odm.schema.ScSimpleBusXmlType.ScSwithedShuntLoadData scSwithedShuntLoadData;
     @XmlAttribute(required = true)
@@ -60,10 +60,10 @@ public class ShortCircuitBusXmlType
      * 
      * @return
      *     possible object is
-     *     {@link ScGenDadaXmlType }
+     *     {@link ScGenDataXmlType }
      *     
      */
-    public ScGenDadaXmlType getScGenData() {
+    public ScGenDataXmlType getScGenData() {
         return scGenData;
     }
 
@@ -72,10 +72,10 @@ public class ShortCircuitBusXmlType
      * 
      * @param value
      *     allowed object is
-     *     {@link ScGenDadaXmlType }
+     *     {@link ScGenDataXmlType }
      *     
      */
-    public void setScGenData(ScGenDadaXmlType value) {
+    public void setScGenData(ScGenDataXmlType value) {
         this.scGenData = value;
     }
 

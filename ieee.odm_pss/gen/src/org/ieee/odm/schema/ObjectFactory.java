@@ -2317,11 +2317,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ScGenDadaXmlType }
+     * Create an instance of {@link ScGenDataXmlType }
      * 
      */
-    public ScGenDadaXmlType createScGenDadaXmlType() {
-        return new ScGenDadaXmlType();
+    public ScGenDataXmlType createScGenDataXmlType() {
+        return new ScGenDataXmlType();
     }
 
     /**

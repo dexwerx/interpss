@@ -45,7 +45,7 @@ public class ScSimpleBusXmlType
     extends BusXmlType
 {
 
-    protected ScGenDadaXmlType scGenData;
+    protected ScGenDataXmlType scGenData;
     protected ScSimpleBusXmlType.ScShuntLoadData scShuntLoadData;
     protected ScSimpleBusXmlType.ScSwithedShuntLoadData scSwithedShuntLoadData;
     @XmlAttribute(required = true)
@@ -56,10 +56,10 @@ public class ScSimpleBusXmlType
      * 
      * @return
      *     possible object is
-     *     {@link ScGenDadaXmlType }
+     *     {@link ScGenDataXmlType }
      *     
      */
-    public ScGenDadaXmlType getScGenData() {
+    public ScGenDataXmlType getScGenData() {
         return scGenData;
     }
 
@@ -68,10 +68,10 @@ public class ScSimpleBusXmlType
      * 
      * @param value
      *     allowed object is
-     *     {@link ScGenDadaXmlType }
+     *     {@link ScGenDataXmlType }
      *     
      */
-    public void setScGenData(ScGenDadaXmlType value) {
+    public void setScGenData(ScGenDataXmlType value) {
         this.scGenData = value;
     }
 
