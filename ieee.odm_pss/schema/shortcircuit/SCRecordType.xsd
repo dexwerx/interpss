@@ -1,48 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified" targetNamespace="http://www.ieee.org/odm/Schema/2008">
 
-    <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
+    <include schemaLocation="../loadflow/LFRecordType.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
-	<element name="acscNet" type="pss:ShortCircuitNetXmlType" substitutionGroup="pss:baseCase">
-		<annotation><documentation>
+	<element name="acscNet" substitutionGroup="pss:baseCase" type="pss:ShortCircuitNetXmlType">
+		<annotation>
+      <documentation>
 		Network for AC Short circuit analysis. acscBus or acscNoLFBus could be
 		used define bus; acscLine/aclfLine, aclfXfr/aclfXfr and acscPSXfr/aclfPSXfr
 		could be used to define branch 
-		</documentation></annotation>
+		</documentation>
+    </annotation>
 	</element>
 	
-	<element name="acscBus" type="pss:ShortCircuitBusXmlType" substitutionGroup="pss:bus">
-		<annotation><documentation>
+	<element name="acscBus" substitutionGroup="pss:bus" type="pss:ShortCircuitBusXmlType">
+		<annotation>
+      <documentation>
 		Bus record for AC short circuit analysis. It is a child type of LoadflowBusXmlType, therefore
 		Loadflow info for init voltage are included.
-		</documentation></annotation>
+		</documentation>
+    </annotation>
 	</element>
-	<element name="acscNoLFBus" type="pss:ScSimpleBusXmlType" substitutionGroup="pss:bus">
-		<annotation><documentation>
+	<element name="acscNoLFBus" substitutionGroup="pss:bus" type="pss:ScSimpleBusXmlType">
+		<annotation>
+      <documentation>
 		Bus record for AC short circuit analysis without Loadflow info. Unit voltage is used for the 
 		bus init voltage.
-		</documentation></annotation>
+		</documentation>
+    </annotation>
 	</element>
 	
-	<element name="acscLine" type="pss:LineShortCircuitXmlType" substitutionGroup="pss:branch">
-		<annotation><documentation>
+	<element name="acscLine" substitutionGroup="pss:branch" type="pss:LineShortCircuitXmlType">
+		<annotation>
+      <documentation>
 		Line Branch record for acsc analysis
-		</documentation></annotation>
+		</documentation>
+    </annotation>
 	</element>
-	<element name="acscXfr"  type="pss:XfrShortCircuitXmlType" substitutionGroup="pss:branch">
-		<annotation><documentation>
+	<element name="acscXfr" substitutionGroup="pss:branch" type="pss:XfrShortCircuitXmlType">
+		<annotation>
+      <documentation>
 		Xfr Branch record for acsc analysis
-		</documentation></annotation>
+		</documentation>
+    </annotation>
 	</element>
-	<element name="acscPSXfr"  type="pss:PSXfrShortCircuitXmlType" substitutionGroup="pss:branch">
-		<annotation><documentation>
+	<element name="acscPSXfr" substitutionGroup="pss:branch" type="pss:PSXfrShortCircuitXmlType">
+		<annotation>
+      <documentation>
 		PSXfr Branch record for acsc analysis
-		</documentation></annotation>
+		</documentation>
+    </annotation>
 	</element>
 
 <!-- 
@@ -56,8 +67,8 @@
 		<complexContent>
 			<extension base="pss:LoadflowNetXmlType">
 				<sequence>
-					<element name="hasLoadflowData" type="boolean"></element>
-					<element name="positiveSeqDataOnly" type="boolean"></element>
+					<element name="hasLoadflowData" type="boolean"/>
+					<element name="positiveSeqDataOnly" type="boolean"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -67,54 +78,58 @@
 		Bus objects
  	-->	
 	<complexType name="ShortCircuitBusXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
+		<annotation>
+      <documentation>
+		</documentation>
+    </annotation>
 		<complexContent>
 			<extension base="pss:LoadflowBusXmlType">
 				<group ref="pss:ShortCircuitBusDataGroup"/>
-				<attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="required"></attribute>
+				<attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="required"/>
 			</extension>
 		</complexContent>
 	</complexType>
 
 	<complexType name="ScSimpleBusXmlType">
-		<annotation><documentation>
-		</documentation></annotation>	
+		<annotation>
+      <documentation>
+		</documentation>
+    </annotation>	
 		<complexContent>
 			<extension base="pss:BusXmlType">
 				<group ref="pss:ShortCircuitBusDataGroup"/>
-				<attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="required"></attribute>
+				<attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="required"/>
 			</extension>
 		</complexContent>
 	</complexType>
 
 	<group name="ShortCircuitBusDataGroup">
 		<sequence>
-			<element name="scGenData" minOccurs="0" type="pss:ScGenDadaXmlType"></element>
-			<element name="scShuntLoadData" minOccurs="0">
+			<element minOccurs="0" name="scGenData" type="pss:ScGenDataXmlType"/>
+			<element minOccurs="0" name="scShuntLoadData">
 				<complexType>
 					<sequence>
-						<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
-						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
+						<element minOccurs="0" name="negativeZ" type="pss:ZXmlType"/>
+						<element minOccurs="0" name="zeroZ" type="pss:ZXmlType"/>
 					</sequence>
 				</complexType>
 			</element>
-			<element name="scSwithedShuntLoadData" minOccurs="0">
+			<element minOccurs="0" name="scSwithedShuntLoadData">
 				<complexType>
 					<sequence>
-						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
+						<element minOccurs="0" name="zeroZ" type="pss:ZXmlType"/>
 					</sequence>
 				</complexType>
 			</element>
 		</sequence>
 	</group>
 
-	<complexType name="ScGenDadaXmlType">
+	<complexType name="ScGenDataXmlType">
 		<sequence>
-			<element name="potiveZ" type="pss:ZXmlType" minOccurs="1"></element>
-			<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
-			<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
-			<element name="grounding" type="pss:GroundingXmlType" minOccurs="0"></element>
+			<element minOccurs="1" name="potiveZ" type="pss:ZXmlType"/>
+			<element minOccurs="0" name="negativeZ" type="pss:ZXmlType"/>
+			<element minOccurs="0" name="zeroZ" type="pss:ZXmlType"/>
+			<element minOccurs="0" name="grounding" type="pss:GroundingXmlType"/>
 		</sequence>
 	</complexType>
 	
@@ -126,11 +141,11 @@
 		<complexContent>
 			<extension base="pss:LineBranchXmlType">
 				<sequence>
-					<element name="z0" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-					<element name="y0Shunt" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-					<element name="y0ShuntFromSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-					<element name="y0ShuntToSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-					<element name="lineMutualZeroZ" type="pss:MutualZeroZXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+					<element maxOccurs="1" minOccurs="0" name="z0" type="pss:ZXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="y0Shunt" type="pss:YXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="y0ShuntFromSide" type="pss:YXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="y0ShuntToSide" type="pss:YXmlType"/>
+					<element maxOccurs="unbounded" minOccurs="0" name="lineMutualZeroZ" type="pss:MutualZeroZXmlType"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -140,10 +155,10 @@
 		<complexContent>
 			<extension base="pss:XfrBranchXmlType">
 				<sequence>
-			<element name="z0" type="pss:ZXmlType" minOccurs="0"></element>
-			<element name="fromSideConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
-			<element name="toSideConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
-			<element name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType" minOccurs="0"></element>
+			<element minOccurs="0" name="z0" type="pss:ZXmlType"/>
+			<element minOccurs="0" name="fromSideConnection" type="pss:XformerConnectionXmlType"/>
+			<element minOccurs="0" name="toSideConnection" type="pss:XformerConnectionXmlType"/>
+			<element minOccurs="0" name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -162,10 +177,10 @@
 		<complexContent>
 			<extension base="pss:PSXfrBranchXmlType">
 				<sequence>
-			<element name="z0" type="pss:ZXmlType" minOccurs="0"></element>
-			<element name="fromSideConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
-			<element name="toSideConnection" type="pss:XformerConnectionXmlType" minOccurs="0"></element>
-			<element name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType" minOccurs="0"></element>
+			<element minOccurs="0" name="z0" type="pss:ZXmlType"/>
+			<element minOccurs="0" name="fromSideConnection" type="pss:XformerConnectionXmlType"/>
+			<element minOccurs="0" name="toSideConnection" type="pss:XformerConnectionXmlType"/>
+			<element minOccurs="0" name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType"/>
 				</sequence>
 			</extension>
 		</complexContent>
