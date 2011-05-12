@@ -66,6 +66,9 @@ import org.ieee.odm.schema.PssIEEE1AXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPARegServoXmlType;
+import org.ieee.odm.schema.SpeedGovBPAServoGAModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 
 public class DStabParserHelper extends AclfParserHelper {
@@ -279,25 +282,63 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setGovernor(getFactory().createGovSteamTDSR(gov));
 		return gov;
 	}
+	
+	// The following are BPA GOV models
+	
 
-	public static GovBPAHydroTurbineGHXmlType createGovBPAHydroTurbineGHXmlType(DynamicGeneratorXmlType gen) {
-		GovBPAHydroTurbineGHXmlType gov = getFactory().createGovBPAHydroTurbineGHXmlType();
+	public static GovBPAHydroTurbineGHXmlType createGovBPAHydroTurbineGHXmlType(
+			DynamicGeneratorXmlType gen) {
+		GovBPAHydroTurbineGHXmlType gov=getFactory().createGovBPAHydroTurbineGHXmlType();
 		gen.setGovernor(getFactory().createGovBPAHydroTurbinGH(gov));
 		return gov;
 	}
+	//TODO GS is a speed Governing model, but there is no method in DynamicGeneratorXmlType for such model now 
+	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(
+			DynamicGeneratorXmlType gen) {
+		SpeedGovBPAGSModelXmlType spdgov=getFactory().createSpeedGovBPAGSModelXmlType();
+        //create a governor when it is none in a generator;
+		//TODO
+		//if(gen.getGovernor()==null)gen.setGovernor(getFactory().createGovernorModelXmlType());
+		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
+		return spdgov;
+		
+	}
+	//  GI/I+ model is  a regulator, part of a speed Governing model,
+	public static SpeedGovBPARegGIModelXmlType createSpeedGovBPARegGIModelXmlType(
+			DynamicGeneratorXmlType gen) {
+		SpeedGovBPARegGIModelXmlType govReg =getFactory().createSpeedGovBPARegGIModelXmlType();
+		//TODO before linking a regulator to a gen,  it need to be first connected to SpeedGov.
+		return govReg;
 
-	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(DynamicGeneratorXmlType gen) {
-		SpeedGovBPAGSModelXmlType gov = getFactory().createSpeedGovBPAGSModelXmlType();
-		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGovBPAGSModel(gov));
-		return gov;
 	}
 
-	public static SteamTurbineBPATBModelXmlType createSteamTurbineBPATBModelXmlType(DynamicGeneratorXmlType gen) {
-		SteamTurbineBPATBModelXmlType tur = getFactory().createSteamTurbineBPATBModelXmlType();
-		gen.getGovernor().getValue().setTurbine(getFactory().createStreamTurbineBPATB(tur));
+	public static SpeedGovBPARegServoXmlType createSpeedGovBPARegServoXmlType(
+			DynamicGeneratorXmlType gen) {
+		SpeedGovBPARegServoXmlType spdgov=getFactory().createSpeedGovBPARegServoXmlType();
+        //create a governor when it is none in a generator;
+		//TODO
+		//if(gen.getGovernor()==null)gen.setGovernor(getFactory().createGovernorModelXmlType());
+		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
+		return spdgov;
+	}
+	//GA model is a servo motor model, part of a speed Governing model.
+	public static SpeedGovBPAServoGAModelXmlType createSpeedGovBPAServoGAModelXmlType(
+			DynamicGeneratorXmlType dynGen) {
+		SpeedGovBPAServoGAModelXmlType govReg =getFactory().createSpeedGovBPAServoGAModelXmlType();
+		//TODO before linking a servo to a gen,  it need to be first connected to SpeedGov.
+		return govReg;
+	}
+	public static SteamTurbineBPATBModelXmlType createSteamTurbineBPATBModelXmlType(
+			DynamicGeneratorXmlType gen) {
+		SteamTurbineBPATBModelXmlType tur=getFactory().createSteamTurbineBPATBModelXmlType();
+        //create a governor when it is none in a generator;
+		//TODO
+		//if(gen.getGovernor()==null)gen.setGovernor(getFactory().createGovernorModelXmlType());
+		gen.getGovernor().getValue().setTurbine(getFactory().createTurbine(tur));
 		return tur;
 	}
 	
+
 	/*
 	 * PSS model creation functions
 	 * ============================
@@ -344,4 +385,5 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setStabilizer(getFactory().createPssBPADualInput(pss));
 		return pss;
 	}
+
 }
