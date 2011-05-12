@@ -36,9 +36,12 @@ import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
+import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -141,13 +144,13 @@ public class DStabModelParser extends AclfModelParser {
 	public LineDStabXmlType getDStabLine(String fromId, String toId, String cirId) throws ODMException {
 		BaseBranchXmlType branch = this.getBranch(fromId, toId, cirId);
 		if (branch != null) {
-			if (!(branch instanceof XfrDStabXmlType)) {
+			if (!(branch instanceof LineDStabXmlType)) {
 				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 				LineDStabXmlType dbra = null;
 				if (branch instanceof LineBranchXmlType) {
 					dbra = (LineDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfLine", "dstabLine");
 				}
-				else if (branch instanceof XfrShortCircuitXmlType) {
+				else if (branch instanceof LineShortCircuitXmlType) {
 					dbra = (LineDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscLine", "dstabLine");
 				}
 				else
@@ -208,10 +211,10 @@ public class DStabModelParser extends AclfModelParser {
 			if (!(branch instanceof PSXfrDStabXmlType)) {
 				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 				PSXfrDStabXmlType dbra = null;
-				if (branch instanceof XfrBranchXmlType) {
+				if (branch instanceof PSXfrBranchXmlType) {
 					dbra = (PSXfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfPSXfr", "dstabPSXfr");
 				}
-				else if (branch instanceof XfrShortCircuitXmlType) {
+				else if (branch instanceof PSXfrShortCircuitXmlType) {
 					dbra = (PSXfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscPSXfr", "dstabPSXfr");
 				}
 				else

@@ -403,7 +403,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param branch branch object to be added
 	 */
 	public void replaceBranch(String branchId, BranchXmlType branch) {
-		this.removeBus(branchId);
+		this.removeBranch(branchId);
 		this.addBranch(branch);
 	}
 	
