@@ -41,6 +41,7 @@ import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.GeneratorEnumType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
+import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -191,7 +192,7 @@ public class BPADynamicSequenceRecord {
 				}
 				//TODO How to set the negative sequence impedance to associate to generator?
 				//How about the case that several generators is in parallel on the bus?
-				ScSimpleBusXmlType.ScGenData scgd =new ScSimpleBusXmlType.ScGenData();
+				ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
 				scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 				bus.setScGenData(scgd);
 				
