@@ -40,6 +40,7 @@ import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.GeneratorEnumType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
@@ -101,7 +102,6 @@ public class BPADynamicSequenceRecord {
 				x0=x0/10000;
 			}
         	ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
-        	//ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
         	scsld.setZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
         	bus.setScShuntLoadData(scsld);
 	    }
@@ -177,7 +177,6 @@ public class BPADynamicSequenceRecord {
 				xm=xm/10000;
 			}
 			MutualZeroZXmlType mutualZ0 =parser.getFactory().createMutualZeroZXmlType();
-			//MutualZeroZXmlType mutualZ0 =new MutualZeroZXmlType();
 			mutualZ0.setZM(DStabDataSetter.createZValue(rm, xm, ZUnitType.PU));
 			line1.getLineMutualZeroZ().add(mutualZ0);
 			line2.getLineMutualZeroZ().add(mutualZ0);			
@@ -185,48 +184,65 @@ public class BPADynamicSequenceRecord {
 	}
 
 	public static void processNegativeData( DStabModelParser parser) throws ODMException{
-		// negative sequence generator data
-		for( JAXBElement<? extends BusXmlType> busXml:parser.getDStabNet().getBusList().getBus()){
-			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
-			if(bus.getDynamicGenList()!=null)
-			for(DynamicGeneratorXmlType dynGen:bus.getDynamicGenList().getDynamicGen()){
-		    //for(DynamicGeneratorXmlType dynGen:parser.getFactory().createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
-				double xd1=0.0;
-				double x2=0.0;
-				double tq01=0.0;
-				if(dynGen.getMachineModel().equals(GeneratorEnumType.SUB_TRANSIENT)){
-					Eq11Ed11MachineXmlType subGen=(Eq11Ed11MachineXmlType)dynGen.getMachineModel().getValue();
-					xd1=subGen.getXd1();
-					tq01=subGen.getTq01().getValue();				
-				}else if(dynGen.getMachineModel().equals(GeneratorEnumType.TRANSIENT)){
-					Eq1Ed1MachineXmlType tranGen=(Eq1Ed1MachineXmlType)dynGen.getMachineModel().getValue();
-					xd1=tranGen.getXd1();
-					tq01=tranGen.getTq01().getValue();
-				}else if(dynGen.getMachineModel().equals(GeneratorEnumType.CLASSICAL)){
-					ClassicMachineXmlType claGen=(ClassicMachineXmlType)dynGen.getMachineModel().getValue();
-					xd1=claGen.getXd1();
-					tq01=0.0;  //TODO Why the tq01 in classic model is equal to 0.0?		
+		NetworkXmlType.BusList busList=parser.getDStabNet().getBusList();
+		for(int i=0;i<busList.getBus().size();i++){
+			BusXmlType Bus = busList.getBus().get(i).getValue();
+			if(!(Bus instanceof DStabBusXmlType)) i--;
+			DStabBusXmlType bus=parser.getDStabBus(Bus.getId());
+//		for( JAXBElement<? extends BusXmlType> busXml:parser.getDStabNet().getBusList().getBus()){
+//			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
+
+			// negative sequence generator data
+			if(bus.getDynamicGenList()!=null){
+				for(DynamicGeneratorXmlType dynGen:bus.getDynamicGenList().getDynamicGen()){
+				    //for(DynamicGeneratorXmlType dynGen:parser.getFactory().createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
+					double xd1=0.0;
+					double x2=0.0;
+					double tq01=0.0;
+					if(dynGen.getMachineModel().equals(GeneratorEnumType.SUB_TRANSIENT)){
+						Eq11Ed11MachineXmlType subGen=(Eq11Ed11MachineXmlType)dynGen.getMachineModel().getValue();
+						xd1=subGen.getXd1();
+						tq01=subGen.getTq01().getValue();				
+					}else if(dynGen.getMachineModel().equals(GeneratorEnumType.TRANSIENT)){
+						Eq1Ed1MachineXmlType tranGen=(Eq1Ed1MachineXmlType)dynGen.getMachineModel().getValue();
+						xd1=tranGen.getXd1();
+						tq01=tranGen.getTq01().getValue();
+					}else if(dynGen.getMachineModel().equals(GeneratorEnumType.CLASSICAL)){
+						ClassicMachineXmlType claGen=(ClassicMachineXmlType)dynGen.getMachineModel().getValue();
+						xd1=claGen.getXd1();
+						tq01=0.0;  //TODO Why the tq01 in classic model is equal to 0.0?		
+					}
+					//TODO b= X”d/X’d , b can be set in the CASE card,the default value is 0.65 .
+					//so how can we get the b value from the CASE card?
+					//non-salient pole machine
+					if(tq01!=0.0){
+						x2=1.22*0.65*xd1;
+					}
+					//salient pole generator 
+					else{
+						x2=0.65*xd1;
+					}
+					//TODO How to set the negative sequence impedance to associate to generator?
+					//How about the case that several generators is in parallel on the bus?
+					ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
+					scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
+					bus.setScGenData(scgd);
+					
+					//parser.getFactory().createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));	
 				}
-				//TODO b= X”d/X’d , b can be set in the CASE card,the default value is 0.65 .
-				//so how can we get the b value from the CASE card?
-				//non-salient pole machine
-				if(tq01!=0.0){
-					x2=1.22*0.65*xd1;
+			}
+			//negative sequence load data 
+			if(bus.getLoadData()!=null){
+				if(bus.getLoadData().getEquivLoad()!=null){
+					//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
+					//hard coded values
+					ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+			        scsld.setNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
+			        bus.setScShuntLoadData(scsld);
 				}
-				//salient pole generator 
-				else{
-					x2=0.65*xd1;
-				}
-				//TODO How to set the negative sequence impedance to associate to generator?
-				//How about the case that several generators is in parallel on the bus?
-				ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
-				//ScGenDataXmlType scgd =new ScGenDataXmlType();
-				scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
-				bus.setScGenData(scgd);
-				
-				//parser.getFactory().createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
-			}			
-		}		
+			}
+		}
+	}
 /*						
 		for(GeneratorXmlType gen:tranSimu.getDynamicDataList().getBusDynDataList()
 				.getGeneratorDataList().getGeneratorArray()){
@@ -269,23 +285,6 @@ public class BPADynamicSequenceRecord {
 			xfrNeg.addNewBusId().setName(busId);
 			xfrNeg.setZXNeg(x2);			
 		}
-*/
-		// negative sequence load data
-		for( JAXBElement<? extends BusXmlType> busXml:parser.getDStabNet().getBusList().getBus()){
-			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
-			//TODO Judge whether this node is load node?
-			if(bus.getLoadData()!=null)
-				if(bus.getLoadData().getEquivLoad()!=null){
-					//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
-					//hard coded values
-					ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
-					//ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
-			        scsld.setNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
-			        bus.setScShuntLoadData(scsld);
-				}
-		}		
-	}
-/*
 		for( LoadCharacteristicXmlType load: tranSimu.getDynamicDataList().
 				getBusDynDataList().getLoadCharacteristicDataList().getLoadArray() ){
 			NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative loadNeg=
@@ -303,7 +302,7 @@ public class BPADynamicSequenceRecord {
 						ShuntLoadNegative.LoadLocation.AT_ZONE);
 			}			
 			loadNeg.addNewLocationId().setName(load.getLocationId().getName());
-// TODO: hard coded values
+			// TODO: hard coded values
 			loadNeg.setRNeg(0.19);
 			loadNeg.setXNeg(0.36);
 		}
