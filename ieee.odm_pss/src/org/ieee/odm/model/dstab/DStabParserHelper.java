@@ -42,6 +42,8 @@ import org.ieee.odm.schema.ExcIEEE1968Type4XmlType;
 import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
 import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
+import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
+import org.ieee.odm.schema.ExcIEEE1981TypeDC2XmlType;
 import org.ieee.odm.schema.ExcIEEE1992TypeAC1AXmlType;
 import org.ieee.odm.schema.ExcIEEEModified1968Type1XmlType;
 import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
@@ -71,6 +73,8 @@ import org.ieee.odm.schema.SpeedGovBPARegServoXmlType;
 import org.ieee.odm.schema.SpeedGovBPAServoGAModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 import org.ieee.odm.schema.SteamTurbineNRXmlType;
+import org.ieee.odm.schema.SteamTurbineTCDRXmlType;
+import org.ieee.odm.schema.SteamTurbineTCSRXmlType;
 
 public class DStabParserHelper extends AclfParserHelper {
 	
@@ -153,7 +157,17 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setExciter(getFactory().createExcIEEE1981TypeAC2(exc));
 		return exc;
 	}
-
+	public static ExcIEEE1981TypeDC1XmlType createExcIEEE1981TypeDC1XmlType(DynamicGeneratorXmlType gen) {
+		ExcIEEE1981TypeDC1XmlType exc = getFactory().createExcIEEE1981TypeDC1XmlType();
+		gen.setExciter(getFactory().createExcIEEE1981TypeDC1(exc));
+		return exc;
+	}
+	public static ExcIEEE1981TypeDC2XmlType createExcIEEE1981TypeDC2XmlType(DynamicGeneratorXmlType gen) {
+		ExcIEEE1981TypeDC2XmlType exc = getFactory().createExcIEEE1981TypeDC2XmlType();
+		gen.setExciter(getFactory().createExcIEEE1981TypeDC2(exc));
+		return exc;
+	}
+	
 	public static ExcIEEE1981ST1XmlType createExcIEEE1981ST1XmlType(DynamicGeneratorXmlType gen) {
 		ExcIEEE1981ST1XmlType exc = getFactory().createExcIEEE1981ST1XmlType();
 		gen.setExciter(getFactory().createExcIEEE1981ST1(exc));
@@ -202,11 +216,7 @@ public class DStabParserHelper extends AclfParserHelper {
 		return exc;
 	}
 	
-	public static ExcIEEETypeDC2XmlType createExcIEEETypeDC2XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEETypeDC2XmlType exc = getFactory().createExcIEEETypeDC2XmlType();
-		gen.setExciter(getFactory().createExcIEEETypeDC2(exc));
-		return exc;
-	}
+
 
 	public static ExcTSATTypeEXC34XmlType createExcTSATTypeEXC34XmlType(DynamicGeneratorXmlType gen) {
 		ExcTSATTypeEXC34XmlType exc = getFactory().createExcTSATTypeEXC34XmlType();
@@ -283,13 +293,29 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setGovernor(getFactory().createGovSteamTDSR(gov));
 		return gov;
 	}
-	
-	public static SteamTurbineNRXmlType createSteamTurbineNRXmlType(DynamicGeneratorXmlType gen) {
-		SteamTurbineNRXmlType tur = getFactory().createSteamTurbineNRXmlType();
-		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamNR(tur));
-		return tur;
+	/*  Stream turbine  models: NR, TCSR,TCDR type
+	 * ====================
+	 */
+	public static SteamTurbineNRXmlType createSteamTurbineNRXmlType(DynamicGeneratorXmlType gen){
+		SteamTurbineNRXmlType stNR=getFactory().createSteamTurbineNRXmlType();
+		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamNR(stNR));
+		return stNR;
+		
 	}
-
+	public static SteamTurbineTCSRXmlType createSteamTurbineTCSRRXmlType(DynamicGeneratorXmlType gen){
+		SteamTurbineTCSRXmlType stTCSR=getFactory().createSteamTurbineTCSRXmlType();
+		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamTCSR(stTCSR));
+		return stTCSR;
+		
+	}
+	public static SteamTurbineTCDRXmlType createSteamTurbineTCDRXmlType(DynamicGeneratorXmlType gen){
+		SteamTurbineTCDRXmlType stTCDR=getFactory().createSteamTurbineTCDRXmlType();
+		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamNR(stTCDR));
+		return stTCDR;
+		
+	}
+	
+	
 	// The following are BPA GOV models
 	
 
@@ -324,10 +350,11 @@ public class DStabParserHelper extends AclfParserHelper {
 		SpeedGovBPARegServoXmlType spdgov=getFactory().createSpeedGovBPARegServoXmlType();
         //create a governor when it is none in a generator;
 		//TODO
-		//if(gen.getGovernor()==null)gen.setGovernor(getFactory().createGovernorModelXmlType());
 		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
 		return spdgov;
 	}
+
+	
 	//GA model is a servo motor model, part of a speed Governing model.
 	public static SpeedGovBPAServoGAModelXmlType createSpeedGovBPAServoGAModelXmlType(
 			DynamicGeneratorXmlType dynGen) {

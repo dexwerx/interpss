@@ -170,7 +170,7 @@ public class LineBranchRecord {
 					rpu=rpu/100000;
 				}
 				rpu=ModelStringUtil.getNumberFormat(rpu);
-				if(Math.abs(rpu)>0.01)
+				if(Math.abs(rpu)>1)
 					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
 							+rpu+" ,seems to be out of normal range, please check!");
 			}
@@ -181,7 +181,7 @@ public class LineBranchRecord {
 					xpu=xpu/100000;
 				}
 				xpu=ModelStringUtil.getNumberFormat(xpu);
-				if(Math.abs(xpu)>0.1)
+				if(Math.abs(xpu)>1)
 					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the reactance now is"
 							+xpu+" ,seems to be out of normal range, please check!");
 			}
