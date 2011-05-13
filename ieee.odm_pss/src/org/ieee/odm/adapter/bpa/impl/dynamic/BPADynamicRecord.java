@@ -42,6 +42,7 @@ public class BPADynamicRecord {
 	private final static int turbine_governorData=6;
 	private final static int loadData=7;
 	private final static int sequenceData=8;
+
 	
 	
 	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
@@ -101,15 +102,18 @@ public class BPADynamicRecord {
 					str.substring(0, 2).trim().equals("MC")||
 					str.substring(0, 2).trim().equals("LN")){
 				dataType=generatorData;
-			}else if (str.substring(0, 2).trim().equals("FA")||
-					str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
+			}else if (str.substring(0, 2).trim().equals("EA")||str.substring(0, 2).trim().equals("EG")||
+					str.substring(0, 1).trim().equals("F")&&!str.substring(0, 2).trim().equals("FF")){
+				/*
+				 * ||str.substring(0, 2).trim().equals("FC")
 					||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||
 					str.substring(0, 2).trim().equals("FG")
 					||str.substring(0, 2).trim().equals("FH")||str.substring(0, 2).trim().equals("FJ")
 					||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
 					||str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")
 					||str.substring(0, 1).trim().equals("E")||
-					str.substring(0, 2).trim().equals("FZ")||str.substring(0, 2).trim().equals("F+")){
+					str.substring(0, 2).trim().equals("FZ")||str.substring(0, 2).trim().equals("F+")
+				 */
 				dataType=exciterData;
 			}else if(str.substring(0, 2).trim().equals("SS")||
 					str.substring(0, 2).trim().equals("SP")||str.substring(0, 2).trim().equals("SG")
