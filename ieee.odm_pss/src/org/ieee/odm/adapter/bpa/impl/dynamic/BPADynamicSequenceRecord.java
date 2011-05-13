@@ -23,8 +23,6 @@
  */
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import javax.xml.bind.JAXBElement;
-
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -41,7 +39,6 @@ import org.ieee.odm.schema.GeneratorEnumType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -224,7 +221,7 @@ public class BPADynamicSequenceRecord {
 					}
 					//TODO How to set the negative sequence impedance to associate to generator?
 					//How about the case that several generators is in parallel on the bus?
-					ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
+					ScSimpleBusXmlType.ScGenData scgd = parser.getFactory().createScSimpleBusXmlTypeScGenData();
 					scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 					bus.setScGenData(scgd);
 					
