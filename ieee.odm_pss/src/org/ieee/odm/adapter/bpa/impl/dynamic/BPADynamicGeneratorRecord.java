@@ -35,13 +35,13 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
+import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -72,7 +72,7 @@ public class BPADynamicGeneratorRecord {
 			// infinite bus
 			if(Emws==999999){
 				mach.setH(999999);				
-			} else{
+			}else{
 				double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
 				
 				double h=0.0;
@@ -84,26 +84,25 @@ public class BPADynamicGeneratorRecord {
 					mach.setH(h);
 				}
 				
-				double pContri=ModelStringUtil.getDouble(strAry[5], 1.0);
-				double qContri=ModelStringUtil.getDouble(strAry[6], 1.0);
-				
-				if(pContri<=1.0&&pContri!=0.0){
-				    pContri=pContri*100;				
-					dynGen.setPContributionPercent(pContri);
-				}
-				if(qContri<=1.0&&qContri!=0.0){
-					qContri=qContri*100;
-					dynGen.setQContributionPercent(qContri);
-				}
+				double pContri=ModelStringUtil.getDouble(strAry[5], 100.0);//% in InterPSS
+				double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
+				dynGen.setPContributionPercent(pContri);
+				dynGen.setQContributionPercent(qContri);
 				//TODO
 				dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));				
 			}
 			
 			double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				xd1=xd1/10000;
+			}
     		mach.setXd1(xd1);
     			
-    		double D=ModelStringUtil.getDouble(strAry[18], 2.0);// why 2.0 by default?
-			mach.setD(D);
+    		double D=ModelStringUtil.getDouble(strAry[18], 0.0);// Recommended value is 2
+    		if(!strAry[18].contains(".")){
+    			D=D/10000;
+    		}
+			mach.setD(D*2);//DIPSS=DBPA*2
     	}
     	/*
     	 * M record is only to store the sub-transient info, 
@@ -130,16 +129,28 @@ public class BPADynamicGeneratorRecord {
     		}
     		dynGen.setOwnerName(owner);
     		
-    		double xd11=ModelStringUtil.getDouble(strAry[8], 0.0);  
+    		double xd11=ModelStringUtil.getDouble(strAry[8], 0.0); 
+    		if(!strAry[8].contains(".")){
+    			xd11=xd11/10000;
+    		}
     		mach.setXd11(xd11);
     		
     		double xq11=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")){
+    			xq11=xq11/10000;
+    		}
     		mach.setXq11(xq11);
     		
     		double td011=ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")){
+    			td011=td011/10000;
+    		}
     		mach.setTd011(DStabDataSetter.createTimePeriodValue(td011, TimePeriodUnitType.SEC));
     		
     		double tq011=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")){
+    			tq011=tq011/10000;
+    		}
     		mach.setTq011(DStabDataSetter.createTimePeriodValue(tq011, TimePeriodUnitType.SEC));
     	}
     	else if(str.substring(0, 2).trim().equals("MF")){
@@ -150,32 +161,28 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[3].equals("")){
     		    dynGenId=strAry[3];
     		}
-    		
-    		DynamicGeneratorXmlType dynGen=bus.getDynamicGenList().getDynamicGen().get(new Integer(dynGenId).intValue()-1);
-    		
+    		DynamicGeneratorXmlType dynGen=null;
+    		if(bus.getDynamicGenList()!=null)
+    			dynGen=bus.getDynamicGenList().getDynamicGen().get(new Integer(dynGenId).intValue()-1);
+
     		// sub-transient model
 			if(dynGen!=null){
-				Eq11Ed11MachineXmlType mach = (Eq11Ed11MachineXmlType) dynGen.getMachineModel().getValue();
-				
-				double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-		   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
+				Eq11Ed11MachineXmlType mach = (Eq11Ed11MachineXmlType)dynGen.getMachineModel().getValue();
+				//the ratedVoltage of the dynGen has been set
+				//double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
+		   		//dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
 		   				   		
-				double pContri=ModelStringUtil.getDouble(strAry[5], 1.0);
-				double qContri=ModelStringUtil.getDouble(strAry[6], 1.0);
-				
-				if(pContri<=1.0&&pContri!=0.0){
-				    pContri=pContri*100;				
-					dynGen.setPContributionPercent(pContri);
-				}
-				if(qContri<=1.0&&qContri!=0.0){
-					qContri=qContri*100;
-					dynGen.setQContributionPercent(qContri);
-				}
-				
-				double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);				
+				double pContri=ModelStringUtil.getDouble(strAry[5], 100.0);//% in InterPSS
+				double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
+				dynGen.setPContributionPercent(pContri);
+				dynGen.setQContributionPercent(qContri);
+							
 				double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
 				dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));
- 
+				//TODO Mike,  this is the baseMVA for the per unit system in BPA, I don't think this is the same as the rated power of a machine. 
+				// sometimes, these two are set differently, such as the baseMVA would be chosen equal to system baseMVA .
+				
+				double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);	
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -186,41 +193,80 @@ public class BPADynamicGeneratorRecord {
 				}
 				
 				double ra=ModelStringUtil.getDouble(strAry[8], 0.0);
+				if(!strAry[8].contains(".")){
+					ra=ra/10000;
+				}
 				mach.setRa(ra);	    			
 	    		
 				double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
+				if(!strAry[9].contains(".")){
+					xd1=xd1/10000;
+				}
 				mach.setXd1(xd1);	    			
 	    		
 				double xq1=ModelStringUtil.getDouble(strAry[10], 0.0);
+				if(!strAry[10].contains(".")){
+					xq1=xq1/10000;
+				}
 				mach.setXq1(xq1);	    			
 	    		
 				double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
+				if(!strAry[11].contains(".")){
+					xd=xd/10000;
+				}
 				mach.setXd(xd);	    			
 	    		
 				double xq=ModelStringUtil.getDouble(strAry[12], 0.0);
+				if(!strAry[12].contains(".")){
+					xq=xq/10000;
+				}
 				mach.setXq(xq);	    			
 	    		
 				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
-				mach.setTd01(DStabDataSetter.createTimePeriodValue(td01,TimePeriodUnitType.SEC));
+				if(!strAry[13].contains(".")){
+					td01=td01/100;
+				}
+				mach.setTd01(DStabDataSetter.createTimeConstSec(td01));
 	    		
 	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
-	    		mach.setTq01(DStabDataSetter.createTimePeriodValue(tq01,TimePeriodUnitType.SEC));
-	    			    		
-	    		double xl=ModelStringUtil.getDouble(strAry[15], 0.0);
-				mach.setXl(xl); 	
+	    		if(!strAry[14].contains(".")){
+	    			tq01=tq01/100;
+	    		}
+	    		mach.setTq01(DStabDataSetter.createTimeConstSec(tq01));	 
 	    		
+	    		double xl=ModelStringUtil.getDouble(strAry[15], 0.0);
+	    		if(!strAry[15].contains(".")){
+	    			xl=xl/10000;
+	    		}
+				mach.setXl(xl); 
+	    			    		
+	    		Eq1MachineXmlType.SeFmt1 seFmt1=parser.getFactory().createEq1MachineXmlTypeSeFmt1();
 				double SE1=ModelStringUtil.getDouble(strAry[16], 0.0);
-				mach.getSeFmt1().setSe100(SE1);
-				
+				if(!strAry[16].contains(".")){
+					SE1=SE1/10000;
+				}
+				seFmt1.setSe100(SE1*100);//SE1% in InterPSS.			
 				double SE2=ModelStringUtil.getDouble(strAry[17], 0.0);
-				mach.getSeFmt1().setSe120(SE2);
+				if(!strAry[17].contains(".")){
+					SE2=SE2/1000;
+				}
+				seFmt1.setSe120(SE2*100);
+				mach.setSeFmt1(seFmt1);	
 				
+//	    		double SE1=ModelStringUtil.getDouble(strAry[16], 0.0);
+//				mach.getSeFmt1().setSe100(SE1);				
+//				double SE2=ModelStringUtil.getDouble(strAry[17], 0.0);
+//				mach.getSeFmt1().setSe120(SE2);
+								
 				double D=ModelStringUtil.getDouble(strAry[18], 0.0);
-				mach.setD(D);			
+				if(!strAry[18].contains(".")){
+					D=D/100;				
+				}
+				mach.setD(D*2);//DIPSS=DBPA*2		
 			}
 			
 			//only MF record(there is no M record prior to MF record) represents a transient type machine model(Eq1Ed1) 
-			else if(dynGen==null){
+			else{
 				dynGen = DStabParserHelper.getDynamicGenRec(bus);
 				Eq1Ed1MachineXmlType mach = DStabParserHelper.createEq1Ed1Machine(dynGen);
 				dynGen.setId(dynGenId);
@@ -228,23 +274,15 @@ public class BPADynamicGeneratorRecord {
 				double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
 		   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
 	    				   		    		
-		   		double pContri=ModelStringUtil.getDouble(strAry[5], 1.0);
-				double qContri=ModelStringUtil.getDouble(strAry[6], 1.0);
-				
-				if(pContri<=1.0&&pContri!=0.0){
-				    pContri=pContri*100;				
-					dynGen.setPContributionPercent(pContri);
-				}
-				if(qContri<=1.0&&qContri!=0.0){
-					qContri=qContri*100;
-					dynGen.setQContributionPercent(qContri);
-				}
-				
-				double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);				
+		   		double pContri=ModelStringUtil.getDouble(strAry[5], 100.0);//% in InterPSS
+				double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
+				dynGen.setPContributionPercent(pContri);
+				dynGen.setQContributionPercent(qContri);
+							
 				double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
 				dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));
-				//TODO Mike,  this is the baseMVA for the per unit system in BPA, I don't think this is the same as the rated power of a machine. 
-				// sometimes, these two are set differently, such as the baseMVA would be chosen equal to system baseMVA .
+				
+				double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);	
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -255,34 +293,71 @@ public class BPADynamicGeneratorRecord {
 				}
 				
 				double ra=ModelStringUtil.getDouble(strAry[8], 0.0);
+				if(!strAry[8].contains(".")){
+					ra=ra/10000;
+				}
 				mach.setRa(ra);	    			
 	    		
 				double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
+				if(!strAry[9].contains(".")){
+					xd1=xd1/10000;
+				}
 				mach.setXd1(xd1);	    			
 	    		
 				double xq1=ModelStringUtil.getDouble(strAry[10], 0.0);
+				if(!strAry[10].contains(".")){
+					xq1=xq1/10000;
+				}
 				mach.setXq1(xq1);	    			
 	    		
 				double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
+				if(!strAry[11].contains(".")){
+					xd=xd/10000;
+				}
 				mach.setXd(xd);	    			
 	    		
 				double xq=ModelStringUtil.getDouble(strAry[12], 0.0);
+				if(!strAry[12].contains(".")){
+					xq=xq/10000;
+				}
 				mach.setXq(xq);	    			
 	    		
 				double td01=ModelStringUtil.getDouble(strAry[13], 0.0);
+				if(!strAry[13].contains(".")){
+					td01=td01/100;
+				}
 				mach.setTd01(DStabDataSetter.createTimeConstSec(td01));
 	    		
 	    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
-	    		mach.setTq01(DStabDataSetter.createTimeConstSec(tq01));
+	    		if(!strAry[14].contains(".")){
+	    			tq01=tq01/100;
+	    		}
+	    		mach.setTq01(DStabDataSetter.createTimeConstSec(tq01));	 
+	    		
+	    		double xl=ModelStringUtil.getDouble(strAry[15], 0.0);
+	    		if(!strAry[15].contains(".")){
+	    			xl=xl/10000;
+	    		}
+				mach.setXl(xl); 
 	    			    		
-	    		double SE1=ModelStringUtil.getDouble(strAry[16], 0.0);
-				mach.getSeFmt1().setSe100(SE1);
-				
+	    		Eq1MachineXmlType.SeFmt1 seFmt1=new Eq1MachineXmlType.SeFmt1();
+				double SE1=ModelStringUtil.getDouble(strAry[16], 0.0);
+				if(!strAry[16].contains(".")){
+					SE1=SE1/10000;
+				}
+				seFmt1.setSe100(SE1*100);//SE1% in InterPSS.			
 				double SE2=ModelStringUtil.getDouble(strAry[17], 0.0);
-				mach.getSeFmt1().setSe120(SE2);
-				
+				if(!strAry[17].contains(".")){
+					SE2=SE2/1000;
+				}
+				seFmt1.setSe120(SE2*100);
+				mach.setSeFmt1(seFmt1);	
+								
 				double D=ModelStringUtil.getDouble(strAry[18], 0.0);
-				mach.setD(D);
+				if(!strAry[18].contains(".")){
+					D=D/100;				
+				}
+				mach.setD(D*2);//DIPSS=DBPA*2
 			}			
 		}
     	else if(str.substring(0, 2).trim().equals("LN")){    		
@@ -298,21 +373,18 @@ public class BPADynamicGeneratorRecord {
 				dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(Vol1, VoltageUnitType.KV));
 				EquiMachineXmlType mach = DStabParserHelper.createEquiMachine(dynGen);
 				
-		
-				BusRecordXmlType busRec=(BusRecordXmlType) parser.getBus(busId1);
-				//BusRecordXmlType busRec=XBeanParserHelper.findBusRecord(bus1, baseCaseNet);
-				
-				
-				if(busRec!=null&&busRec.getLoadflowData().getGenData().getEquivGen()!=null){
-					double pGen=busRec.getLoadflowData().getGenData().
-					              getEquivGen().getPower().getRe();
-					mach.getEquivGen().setEquiPgen(pGen);//TODO why only pGen, for equivalence, qGen should be included
-					mach.getEquivGen().setPGenUnit(ApparentPowerUnitType.MVA);					
+				EquiMachineXmlType.EquivGen equGen =new EquiMachineXmlType.EquivGen();
+				if(bus1.getGenData()!=null){
+					double pGen=bus1.getGenData().getEquivGen().getPower().getRe();
+					equGen.setEquiPgen(pGen);//TODO why only pGen, for equivalence, qGen should be included
+					equGen.setPGenUnit(ApparentPowerUnitType.MVA);
+					mach.setEquivGen(equGen);
 				}else{
-					mach.getEquivGen().setDCLineBus(true);
-				}		
-	
-			  }
+					equGen.setDCLineBus(true);
+					mach.setEquivGen(equGen);
+				}
+			}
+			
 //			String busId2="";
 //			if(!strAry[3].equals("")){
 //				busId2=BusRecord.getBusId(strAry[3]);
