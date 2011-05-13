@@ -185,8 +185,8 @@
 		<sequence>
 			<element maxOccurs="1" minOccurs="1" name="TG" type="pss:TimePeriodXmlType"/>
 			<element maxOccurs="1" minOccurs="1" name="TP" type="pss:TimePeriodXmlType"/>
-			<element maxOccurs="1" minOccurs="1" name="U0" type="pss:TimePeriodUnitType"/>
-			<element maxOccurs="1" minOccurs="1" name="UC" type="pss:TimePeriodUnitType"/>
+			<element maxOccurs="1" minOccurs="1" name="U0" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="UC" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="PMIN" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="SIGMA" type="double"/>
