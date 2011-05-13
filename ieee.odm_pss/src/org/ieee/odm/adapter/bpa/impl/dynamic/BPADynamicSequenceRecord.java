@@ -31,7 +31,6 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
@@ -66,13 +65,6 @@ public class BPADynamicSequenceRecord {
 			}
 			XfrDStabXmlType xfr =parser.getDStabXfr(fromId, toId, cirId);
 			
-			//TODO Do we have to set the following rated Voltage?
-			//When we get the DStabXfr with the method"parser.getDStabXfr(fromId, toId, cirId)",if these Info are included?
-			double fVbase=ModelStringUtil.getDouble(strAry[2], 0.0);
-			xfr.getXfrInfo().setFromRatedVoltage(DStabDataSetter.createVoltageValue(fVbase, VoltageUnitType.KV));
-			double tVbase=ModelStringUtil.getDouble(strAry[4], 0.0);
-			xfr.getXfrInfo().setToRatedVoltage(DStabDataSetter.createVoltageValue(tVbase, VoltageUnitType.KV));
-			
 			TransformerZeroSeqXmlType xfrZeroSeq =new TransformerZeroSeqXmlType();
 			int location= new Integer(strAry[5]).intValue();
 			if(location==1){
@@ -83,10 +75,16 @@ public class BPADynamicSequenceRecord {
 				xfrZeroSeq.setConectionLocation(XfrZeroSeqConnectLocationEnumType.BETWEEN_BUS_1_N_BUS_2);
 			}
 			xfr.setXfrZeroSeq(xfrZeroSeq);
-			xfr.setCircuitId(cirId);
+			
 			//Z0
 			double x0=ModelStringUtil.getDouble(strAry[7], 0.0);
 			double r0=ModelStringUtil.getDouble(strAry[8], 0.0);
+			if(!strAry[7].contains(".")){
+				x0=x0/10000;
+			}
+			if(!strAry[8].contains(".")){
+				r0=r0/10000;
+			}
 			xfr.setZ0(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
 		}
 	    else if(strAry[0].equals("XR")){
@@ -96,7 +94,14 @@ public class BPADynamicSequenceRecord {
         	bus.setBaseVoltage(DStabDataSetter.createVoltageValue(busBase, VoltageUnitType.KV));
         	double r0 = ModelStringUtil.getDouble(strAry[3], 0.0);
         	double x0 = ModelStringUtil.getDouble(strAry[4], 0.0);
-        	ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
+        	if(!strAry[3].contains(".")){
+				r0=r0/10000;
+			}
+        	if(!strAry[4].contains(".")){
+				x0=x0/10000;
+			}
+        	ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+        	//ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
         	scsld.setZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
         	bus.setScShuntLoadData(scsld);
 	    }
@@ -106,28 +111,44 @@ public class BPADynamicSequenceRecord {
 			String cirId="1";
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
-			}			
-			// retrieve the branch from the parser
-			BranchXmlType branch = (BranchXmlType)parser.getBranch(fromId, toId, cirId);
-			if (branch == null) {
-				throw new ODMException("Branch not found " + fromId + "->" + toId + "(" + cirId + ")");
 			}
 	    	LineDStabXmlType line = parser.getDStabLine(fromId, toId, cirId);
 			//TODO can't set the rated voltage of frombus and tobus .When we get the branch,these info have been included?
-			
+
+//	    	BusRefRecordXmlType frombsr=parser.createBusRef(fromId);
+//	    	line.setFromBus(frombr);
+	    	
 			//Z0			
 			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
 			double x0=ModelStringUtil.getDouble(strAry[8], 0.0);
+			if(!strAry[7].contains(".")){
+				r0=r0/10000;
+			}
+			if(!strAry[8].contains(".")){
+				x0=x0/10000;
+			}
 			line.setZ0(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
 			     		
     		//Y1
 			double g1=ModelStringUtil.getDouble(strAry[9], 0.0);
 			double b1=ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[9].contains(".")){
+				g1=g1/10000;
+			}
+			if(!strAry[10].contains(".")){
+				b1=b1/10000;
+			}
 			line.setY0ShuntFromSide(DStabDataSetter.createYValue(g1, b1, YUnitType.PU));
 			     		
     		//Y2
-    		double g2=ModelStringUtil.getDouble(strAry[11], 0.0);
+			double g2=ModelStringUtil.getDouble(strAry[11], 0.0);
 			double b2=ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[11].contains(".")){
+				g2=g2/10000;
+			}
+			if(!strAry[12].contains(".")){
+				b2=b2/10000;
+			}
     		line.setY0ShuntToSide(DStabDataSetter.createYValue(g2, b2, YUnitType.PU));
 	    }
 	    else if(strAry[0].equals("LM")){
@@ -147,10 +168,16 @@ public class BPADynamicSequenceRecord {
 			}
 			LineDStabXmlType line2 = parser.getDStabLine(line2fId, line2tId, line2cirId);
 			
-			//TODO How to get the zero-sequence mutual inductance between line1 and line2?
 			double rm=ModelStringUtil.getDouble(strAry[11], 0.0);
 			double xm=ModelStringUtil.getDouble(strAry[12], 0.0);
-			MutualZeroZXmlType mutualZ0 =new MutualZeroZXmlType();
+			if(!strAry[11].contains(".")){
+				rm=rm/10000;
+			}
+			if(!strAry[12].contains(".")){
+				xm=xm/10000;
+			}
+			MutualZeroZXmlType mutualZ0 =parser.getFactory().createMutualZeroZXmlType();
+			//MutualZeroZXmlType mutualZ0 =new MutualZeroZXmlType();
 			mutualZ0.setZM(DStabDataSetter.createZValue(rm, xm, ZUnitType.PU));
 			line1.getLineMutualZeroZ().add(mutualZ0);
 			line2.getLineMutualZeroZ().add(mutualZ0);			
@@ -193,6 +220,7 @@ public class BPADynamicSequenceRecord {
 				//TODO How to set the negative sequence impedance to associate to generator?
 				//How about the case that several generators is in parallel on the bus?
 				ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
+				//ScGenDataXmlType scgd =new ScGenDataXmlType();
 				scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 				bus.setScGenData(scgd);
 				
@@ -248,13 +276,15 @@ public class BPADynamicSequenceRecord {
 			//TODO Judge whether this node is load node?
 			if(bus.getLoadData()!=null)
 				if(bus.getLoadData().getEquivLoad()!=null){
-				//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
-				//hard coded values
-				ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
-		        scsld.setNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
-		        bus.setScShuntLoadData(scsld);
+					//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
+					//hard coded values
+					ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+					//ScSimpleBusXmlType.ScShuntLoadData scsld =new ScSimpleBusXmlType.ScShuntLoadData();
+			        scsld.setNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
+			        bus.setScShuntLoadData(scsld);
 				}
 		}		
+	}
 /*
 		for( LoadCharacteristicXmlType load: tranSimu.getDynamicDataList().
 				getBusDynDataList().getLoadCharacteristicDataList().getLoadArray() ){
@@ -277,9 +307,7 @@ public class BPADynamicSequenceRecord {
 			loadNeg.setRNeg(0.19);
 			loadNeg.setXNeg(0.36);
 		}
-*/			
-	}	
-	
+*/	
 	private static String[] getSequenceDataFields(String str){
 		final String[] strAry= new String[13];
 		
