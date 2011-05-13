@@ -36,6 +36,7 @@ import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
+import org.ieee.odm.schema.SteamTurbineNRXmlType;
 
 
 public class BPADynamicTurbineGovernorRecord {
@@ -51,12 +52,12 @@ public class BPADynamicTurbineGovernorRecord {
     	if(strAry[0].equals("GG")){ 
     		GovHydroSteamGeneralModelXmlType gov = DStabParserHelper.createGovHydroSteamGeneralModelXmlType(dynGen);
     					
-			//excId
+			//machine Id
     		String tgId = "";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
     		}	
-    		gov.setDesc("Gov Hydro Steam General Model govId-" + tgId);
+    		gov.setDesc("Gov Hydro Steam General Model, MachId-" + tgId);
     		
 			//PMAX 
     		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -97,15 +98,15 @@ public class BPADynamicTurbineGovernorRecord {
     		String id;
     		if(!strAry[3].equals("")){
     			id=strAry[3];
-    			gov.setDesc("GOV Hydro Turbine GH type machId-"+id);
+    			gov.setDesc("GOV Hydro Turbine GH type, machId-"+id);
     		}	
-    		//TODO 
-//			//PMAX 
-//    		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
-//    		gh.setPMAX(pmax);
-//    		//R
-//    		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
-//    		gh.setR(r);
+    		
+			//PMAX 
+    		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		gov.setPMAX(pmax);
+    		//R
+    		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		gov.setR(r);
 			//TG
     		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
     		
@@ -118,15 +119,16 @@ public class BPADynamicTurbineGovernorRecord {
 		    gov.setTR(BaseDataSetter.createTimeConstSec(Td));			
 			// TW/2
 		    double Twhalf= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    gov.setTW(BaseDataSetter.createTimeConstSec(Twhalf*2));		
+		    gov.setTW(BaseDataSetter.createTimeConstSec(Twhalf*2));	
+		    // NOTE: Both VELCLOSE and VELOPEN is in PU based on PMAX.
 			//VELCLOSE
 		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
-		    //TODO the required timePeriodUnitType is not found
-//    		gov.setUC(BaseDataSetter.c);
+		    //TODO change it to a double
+    		gov.setUC(Uc);
 			
 			//FVELOPEN
-//    		double Uo=ModelStringUtil.getDouble(strAry[11], 0.0);
-//    		gov.setUo(Uo);
+    		double Uo=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		gov.setUO(Uo);
 			
 			//Dd
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
@@ -176,42 +178,32 @@ public class BPADynamicTurbineGovernorRecord {
     	}
     	else if(strAry[0].equals("TA")){
     		//TODO now we use a general stream turbine to represent 
-    		/*
-    		SteamTurbineXmlType st=DStabParserHelper.createGovIEEE1981Type3XmlType(gen)
     		
-    		
-    		//busId
-    		String busId=strAry[1];    		
+    		SteamTurbineNRXmlType st=DStabParserHelper.createSteamTurbineNRXmlType(dynGen);
+    		//Machine Id   		
     		String tgId="";
     		if(!strAry[3].equals("")){
-    			tgId=strAry[3];    			
-    		}
+    			tgId=strAry[3];
+    			st.setDesc("GOV Steam Turbine BPA TA type(non reheat), machId-"+tgId);
+    		}	
+    		//TCH
+    		double TCH= new Double(strAry[4]).doubleValue();
+    		st.setTCH(BaseDataSetter.createTimeConstSec(TCH));    			
+    		st.setK(1.0);
     		
-    			
-    		if(tgOld.getTurbineGovernorType().equals
-    				(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER)){
-    			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();
-    			SteamTurbineXmlType steamTur=tur.addNewSteamTurbine();
-    			//TCH
-    			double TCH= new Double(strAry[4]).doubleValue();
-    		    XBeanDataSetter.setTimePeriodData(steamTur.addNewTCH(),
-    		    		TCH, TimePeriodUnitType.SEC);	    			
-    			//k1
-    		    double k1=new Double(strAry[5]).doubleValue();
-    		    steamTur.setK(k1);
-    		}
-    */
+    
     	}
     	else if(strAry[0].equals("TB")){
     		// since tur is part of the parent governor, it is assume that the parent genernor has been
     		// created
+    		//TODO How to create one if there is no governor defined yet.
     		assert(dynGen.getGovernor() != null);
     		SteamTurbineBPATBModelXmlType st=DStabParserHelper.createSteamTurbineBPATBModelXmlType(dynGen);
     		//busId   		
     		String tgId="";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			st.setDesc("GOV Steam Turbine TB type, machId-"+tgId);
+    			st.setDesc("GOV Steam Turbine BPA TB type, machId-"+tgId);
     		}
                
     			//TCH
