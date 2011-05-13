@@ -124,11 +124,11 @@ public class BPADynamicTurbineGovernorRecord {
 			//VELCLOSE
 		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
 		    //TODO change it to a double
-    		gov.setUC(Uc);
+    		gov.setVClose(Uc);
 			
 			//FVELOPEN
     		double Uo=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		gov.setUO(Uo);
+    		gov.setVOpen(Uo);
 			
 			//Dd
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);

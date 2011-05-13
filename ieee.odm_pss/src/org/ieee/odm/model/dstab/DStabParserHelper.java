@@ -70,6 +70,7 @@ import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPARegServoXmlType;
 import org.ieee.odm.schema.SpeedGovBPAServoGAModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
+import org.ieee.odm.schema.SteamTurbineNRXmlType;
 
 public class DStabParserHelper extends AclfParserHelper {
 	
@@ -283,6 +284,12 @@ public class DStabParserHelper extends AclfParserHelper {
 		return gov;
 	}
 	
+	public static SteamTurbineNRXmlType createSteamTurbineNRXmlType(DynamicGeneratorXmlType gen) {
+		SteamTurbineNRXmlType tur = getFactory().createSteamTurbineNRXmlType();
+		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamNR(tur));
+		return tur;
+	}
+
 	// The following are BPA GOV models
 	
 
