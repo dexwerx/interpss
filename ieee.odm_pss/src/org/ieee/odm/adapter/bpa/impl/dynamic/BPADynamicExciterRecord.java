@@ -97,7 +97,7 @@ public class BPADynamicExciterRecord {
     		exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     		
     		//SE0.75MAX for all, KI for DD
-    		exc.setE1(0.75);
+    		//exc.setE1(0.75); e1=0.75*EfdMax,so it is set after processing EfdMax
     		double SE1= ModelStringUtil.getDouble(strAry[11], 0.0);
     		exc.setSE1(SE1);    		
     		
@@ -108,6 +108,7 @@ public class BPADynamicExciterRecord {
     		//EFDMax for all, VNmax for ED
     		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);  		
     		// SEmax for all, Kp for DD
+    		exc.setE1(0.75*Efdmax);
     		exc.setE2(Efdmax);
     		double SE2= ModelStringUtil.getDouble(strAry[12], 0.0);
     		exc.setSE2(SE2);    		
