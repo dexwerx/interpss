@@ -25,7 +25,7 @@
 package org.interpss.dstab.control.cml.func;
 
 /**
- * A function to select high input value y = max[u1Expression, u2Expression]. u1, u2 are expression of
+ * A function to select low input value y = min[u1Expression, u2Expression]. u1, u2 are expression of
  * system variables, for example, "mach.vt - this.delay.y" 
  * 
  * @author mzhou
