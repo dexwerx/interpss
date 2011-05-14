@@ -64,6 +64,9 @@ public class Number2String {
 	public static String toStr(final double d) {
 		return toStr("#0.0000#", d);
 	}
+	public static String toDebugStr(final double d) {
+		return toStr("#0.0000000#", d);
+	}
 
 	/**
 	 * Format a double to the specified format pattern. White space will be patched at the begining to
