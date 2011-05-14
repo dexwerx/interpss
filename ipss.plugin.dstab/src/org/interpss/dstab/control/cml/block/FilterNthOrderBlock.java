@@ -49,6 +49,18 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 
 	private FilterControlBlock[] filterBlockList = null;
 	private DelayControlBlock[] delayBlockList = null;
+	public String getState() { 
+		String str = "";
+		if (delayBlockList != null)
+			for (int i = delayBlockList.length - 1; i >= 0; i--) {
+				str += delayBlockList[i].getState() + ", ";
+			}
+		if (filterBlockList != null)
+			for (int i = filterBlockList.length - 1; i >= 0; i--) {
+				str = filterBlockList[i].getState() + ", ";
+			}
+		return str + ", " + super.getState(); 
+	}
 
 	public FilterNthOrderBlock(double t1, double t2, int m, int n) {
 		setType(IStaticBlock.Type.NoLimit);

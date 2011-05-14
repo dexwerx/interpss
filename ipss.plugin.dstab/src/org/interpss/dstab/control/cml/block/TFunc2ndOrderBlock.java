@@ -25,6 +25,7 @@
 package org.interpss.dstab.control.cml.block;
 
 import org.interpss.numeric.datatype.LimitType;
+import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.block.IStaticBlock;
@@ -63,6 +64,9 @@ public class TFunc2ndOrderBlock extends ControlBlock1stOrderAdapter {
 	private double stateX2 = 0.0;
 	private double dX2_dt = 0.0;
 
+	public String getState() { return "x2 = " + Number2String.toDebugStr(this.stateX2) + ", " + "dx2_dt = " + 
+		                                 Number2String.toDebugStr(this.dX2_dt) + ", " + super.getState(); }
+	
 	public TFunc2ndOrderBlock(double k, double a, double b) {
 		setType(IStaticBlock.Type.NoLimit);
 		this.k = k;
