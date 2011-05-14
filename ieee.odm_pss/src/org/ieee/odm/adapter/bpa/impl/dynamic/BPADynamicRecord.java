@@ -86,24 +86,24 @@ public class BPADynamicRecord {
 			}			
 		} while (!str.startsWith("90"));
 		// when all the data is converted, calculate negative sequence data
-		BPADynamicSequenceRecord.processNegativeData(parser);		
+//		BPADynamicSequenceRecord.processNegativeData(parser);		
 	}
 	
 	private static int getDataType(String str){	
 		int dataType=0;
-		 if (str.startsWith(".")&& str.startsWith("")){
+		 if (str.startsWith(".")|| str.trim().length()<1){//filter out the comment lines and blank lines
 				dataType=0;
 			}else if(str.startsWith("CASE")||str.startsWith("SOL")) {
 				dataType=header;
 			}else if(str.startsWith("LS")){
 				dataType=faultOperation;
-			}else if(str.substring(0, 2).trim().equals("M")||
+			}else if(str.substring(0, 1).trim().equals("M")||
 					str.substring(0, 2).trim().equals("MF")||
 					str.substring(0, 2).trim().equals("MC")||
 					str.substring(0, 2).trim().equals("LN")){
 				dataType=generatorData;
 			}else if (str.substring(0, 2).trim().equals("EA")||str.substring(0, 2).trim().equals("EG")||
-					str.substring(0, 1).trim().equals("F")&&!str.substring(0, 2).trim().equals("FF")){
+					str.substring(0, 1).trim().equals("F")&&!str.substring(3, 4).trim().equals("")){//There are two FF records
 				/*
 				 * ||str.substring(0, 2).trim().equals("FC")
 					||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||

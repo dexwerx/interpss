@@ -165,7 +165,8 @@ public class BPADynamicExciterRecord {
 			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin			
-			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);	
+			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
 			exc.setVrmin(Vrmin);
 			
 			//Ke
@@ -221,7 +222,8 @@ public class BPADynamicExciterRecord {
 			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin			
-			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);	
+			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
 			exc.setVrmin(Vrmin);
     	}
     	else if(type==FJ){
@@ -256,6 +258,7 @@ public class BPADynamicExciterRecord {
 			
 			//VRmin, Vamin
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
 			exc.setVrmin(Vrmin);
     	}
     	else if(type==FQ||type==FR||type==FS||type==FU||type==FV){// all the known new exciter types in usage.
@@ -394,6 +397,7 @@ public class BPADynamicExciterRecord {
 						
 			//Vrmin
 			double Vrmin=ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
 			exc.setVrmin(Vrmin);
 									
 			//Ke
@@ -405,7 +409,7 @@ public class BPADynamicExciterRecord {
 			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
     	else if(str.substring(0, 2).trim().equals("FZ")||
-    			str.substring(0, 2).trim().equals("F+")){
+    			str.substring(0, 2).trim().equals("F+")){// continued record for BPA Exciter models.
     		ExciterModelXmlType exc=parser.getDStabBus(busId).
     		                        getDynamicGenList().getDynamicGen().get(0).getExciter().getValue();   	
         	
@@ -429,6 +433,7 @@ public class BPADynamicExciterRecord {
         			
         			//EFDmin
         			double EFDmin= ModelStringUtil.getDouble(strAry[6], 0.0);
+        			if(EFDmin>0)ODMLogger.getLogger().warning("the input EFDmin >0, exc info:"+exc.getDesc());
         			((ExcBPAFJXmlType)exc).setEFDMIN(EFDmin);    		
         			//KF
             		double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
@@ -443,29 +448,31 @@ public class BPADynamicExciterRecord {
         			((ExcBPAFJXmlType)exc).setKC(Kc);
             	}
         		//TODO This need to be changed
-            	else if(exc instanceof ExcIEEETypeDC2XmlType){//FA
+            	else if(exc instanceof ExcIEEE1981TypeDC1XmlType){//FA
             		           		
             		//Se1            		
             		double SE1=ModelStringUtil.getDouble(strAry[4], 0.0);  
-            		((ExcIEEETypeDC2XmlType)exc).setSE1(SE1);
+            		((ExcIEEE1981TypeDC1XmlType)exc).setSE1(SE1);
             		//Se2            		
             		double SE2=ModelStringUtil.getDouble(strAry[5], 0.0);  
-            		((ExcIEEETypeDC2XmlType)exc).setSE2(SE2);
+            		((ExcIEEE1981TypeDC1XmlType)exc).setSE2(SE2);
             		// e1
             		double E1=ModelStringUtil.getDouble(strAry[7], 0.0);  
-            		((ExcIEEETypeDC2XmlType)exc).setE1(E1);
+            		((ExcIEEE1981TypeDC1XmlType)exc).setE1(E1);
             		// e2
             		double E2=0.75*ModelStringUtil.getDouble(strAry[7], 0.0);  
-            		((ExcIEEETypeDC2XmlType)exc).setE1(E2);
+            		((ExcIEEE1981TypeDC1XmlType)exc).setE2(E2);
             		//Kf
         			double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
-        			((ExcIEEETypeDC2XmlType)exc).setKF(Kf);
+        			((ExcIEEE1981TypeDC1XmlType)exc).setKF(Kf);
             		// TF
             		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
-            		((ExcIEEETypeDC2XmlType)exc).setTF1(BaseDataSetter.createTimeConstSec(TF));
+            		((ExcIEEE1981TypeDC1XmlType)exc).setTF(BaseDataSetter.createTimeConstSec(TF));
         			
+            	}else if(exc instanceof ExcIEEE1981NewExcSystemXmlType){// BPA new exciter models based on IEEE 1981
+            		
             	}
-            	else ODMLogger.getLogger().severe("processor for this type is not implmented yet!");
+            	else ODMLogger.getLogger().severe("processor for this type excitor is not implmented yet!");
 //            	else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2)){//BPA FF
 //            		           		
 //            		//Se1            		
