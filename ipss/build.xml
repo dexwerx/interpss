@@ -60,6 +60,8 @@
     	<echo message="- jar odm lib files -"/>
      	<jar destfile="${lib_ieee}/ieee.odm_pss.jar" 
      	  		basedir="${dev_base}/ieee.odm_pss/runtime" excludes="CVS/**,model/**" />	
+     	<jar destfile="${lib_ieee}/ieee.odm.schema.jar" 
+     	  		basedir="${dev_base}/ieee.odm.schema/runtime" excludes="CVS/**,model/**" />	
     	
     	<!-- Plugin lib -->
     	<echo message="- jar plugin lib files -"/>
@@ -120,6 +122,7 @@
     	<!-- copy to ipss.web -->
     	<echo message="- copy lib files to ipss.web -"/>
   	  	<copy file="${lib_ieee}/ieee.odm_pss.jar" 	todir="${web_lib}"/>
+  	  	<copy file="${lib_ieee}/ieee.odm.schema.jar" 	todir="${web_lib}"/>
 
     	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${web_lib}"/>
   	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${web_lib}"/>
@@ -131,6 +134,7 @@
     	<!-- copy to GEditor -->
     	<echo message="- copy lib files to GEditor -"/>
   	  	<copy file="${lib_ieee}/ieee.odm_pss.jar" 	todir="${dist_lib.ieee}"/>
+  	  	<copy file="${lib_ieee}/ieee.odm.schema.jar" 	todir="${dist_lib.ieee}"/>
 
     	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${dist_lib.ipss}"/>
   	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${dist_lib.ipss}"/>
