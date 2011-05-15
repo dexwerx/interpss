@@ -7,10 +7,11 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+
+import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
-import com.interpss.dstab.controller.annotate.AnnotateGovernor;
 import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;

@@ -52,8 +52,8 @@ import org.interpss.numeric.datatype.Point;
 import com.interpss.common.CommonObjectFactory;
 import com.interpss.common.func.ILookupTable;
 import com.interpss.common.util.StringUtil;
+import com.interpss.dstab.controller.ICMLFieldObjectFactory;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
-import com.interpss.dstab.controller.annotate.IFieldObjectFactory;
 import com.interpss.dstab.controller.annotate.util.CMLSymbolMapper;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.controller.block.IFunction;
@@ -68,7 +68,7 @@ import com.interpss.dstab.datatype.ExpCalculator;
  * @author mzhou
  *
  */
-public class CMLFieldObjectFactory implements IFieldObjectFactory {
+public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	/**
 	 * Create a control block object based on the annotation filed and parameters
 	 * 

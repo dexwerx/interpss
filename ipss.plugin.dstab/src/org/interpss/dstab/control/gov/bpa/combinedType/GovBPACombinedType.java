@@ -8,10 +8,10 @@ import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.PIControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
+import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
-import com.interpss.dstab.controller.annotate.AnnotateGovernor;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.controller.block.IStaticBlock;

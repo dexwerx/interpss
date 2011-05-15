@@ -32,9 +32,9 @@ import org.interpss.dstab.control.cml.block.GainBlock;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.annotate.AnnotateGovernor;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 

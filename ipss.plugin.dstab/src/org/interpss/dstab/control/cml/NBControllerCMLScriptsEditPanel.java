@@ -29,7 +29,7 @@ import java.util.Vector;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.ui.ICustomPluginEditor;
 
-import com.interpss.dstab.controller.annotate.ICMLScriptingController;
+import com.interpss.dstab.controller.ICMLScriptingController;
 
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
