@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
+import java.text.NumberFormat;
+
 import org.ieee.odm.adapter.bpa.impl.BusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -35,11 +37,11 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
-import org.ieee.odm.schema.GeneratorEnumType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScSimpleBusXmlType;
+import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -182,13 +184,17 @@ public class BPADynamicSequenceRecord {
 
 	public static void processNegativeData( DStabModelParser parser) throws ODMException{
 		NetworkXmlType.BusList busList=parser.getDStabNet().getBusList();
-		for(int i=0;i<busList.getBus().size();i++){
+		int size=busList.getBus().size();
+		for(int i=0;i<size;i++){
 			BusXmlType Bus = busList.getBus().get(i).getValue();
-			if(!(Bus instanceof DStabBusXmlType)) i--;
+			if(!(Bus instanceof DStabBusXmlType)){
+				i--;
+				size--;
+			}
 			DStabBusXmlType bus=parser.getDStabBus(Bus.getId());
 //		for( JAXBElement<? extends BusXmlType> busXml:parser.getDStabNet().getBusList().getBus()){
 //			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
-
+			
 			// negative sequence generator data
 			if(bus.getDynamicGenList()!=null){
 				for(DynamicGeneratorXmlType dynGen:bus.getDynamicGenList().getDynamicGen()){
@@ -196,15 +202,15 @@ public class BPADynamicSequenceRecord {
 					double xd1=0.0;
 					double x2=0.0;
 					double tq01=0.0;
-					if(dynGen.getMachineModel().equals(GeneratorEnumType.SUB_TRANSIENT)){
+					if(dynGen.getMachineModel().getValue().getClass().toString().equals("class org.ieee.odm.schema.Eq11Ed11MachineXmlType")){
 						Eq11Ed11MachineXmlType subGen=(Eq11Ed11MachineXmlType)dynGen.getMachineModel().getValue();
 						xd1=subGen.getXd1();
-						tq01=subGen.getTq01().getValue();				
-					}else if(dynGen.getMachineModel().equals(GeneratorEnumType.TRANSIENT)){
+						tq01=subGen.getTq01().getValue();
+					}else if(dynGen.getMachineModel().getValue().getClass().toString().equals("class org.ieee.odm.schema.Eq1Ed1MachineXmlType")){
 						Eq1Ed1MachineXmlType tranGen=(Eq1Ed1MachineXmlType)dynGen.getMachineModel().getValue();
 						xd1=tranGen.getXd1();
 						tq01=tranGen.getTq01().getValue();
-					}else if(dynGen.getMachineModel().equals(GeneratorEnumType.CLASSICAL)){
+					}else if(dynGen.getMachineModel().getValue().getClass().toString().equals("class org.ieee.odm.schema.ClassicMachineXmlType")){
 						ClassicMachineXmlType claGen=(ClassicMachineXmlType)dynGen.getMachineModel().getValue();
 						xd1=claGen.getXd1();
 						tq01=0.0;  //TODO Why the tq01 in classic model is equal to 0.0?		
@@ -219,9 +225,13 @@ public class BPADynamicSequenceRecord {
 					else{
 						x2=0.65*xd1;
 					}
+					//4 decimal places specified
+					NumberFormat ddf1= NumberFormat.getInstance();
+					ddf1.setMaximumFractionDigits(4);
+					x2= new Double(ddf1.format(x2)).doubleValue();
 					//TODO How to set the negative sequence impedance to associate to generator?
 					//How about the case that several generators is in parallel on the bus?
-					ScSimpleBusXmlType.ScGenData scgd = parser.getFactory().createScSimpleBusXmlTypeScGenData();
+					ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
 					scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 					bus.setScGenData(scgd);
 					
