@@ -31,7 +31,7 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.AnController;
@@ -68,12 +68,12 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 	      @Override
 		public boolean initStateY0(double y0) {
 	         if ( y0 > vbmax || y0 < 0.0) {
-	            getMsgHub().sendWarnMsg("CustomBlock init problem: y0 > vbmax or y0 < 0.0");
+	            IpssLogger.getLogger().warning("CustomBlock init problem: y0 > vbmax or y0 < 0.0");
 	            return false;
 	         }
 	         double x = calFunc();
 	         if ( this.A_gt_1 && y0 != 0.0 ) {
-	            getMsgHub().sendWarnMsg("CustomBlock init problem: A > 1 and y0 != 0.0");
+	        	 IpssLogger.getLogger().warning("CustomBlock init problem: A > 1 and y0 != 0.0");
 	            return false;         
 	         }
 	         this.u = y0 - x;
