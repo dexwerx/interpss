@@ -5,9 +5,9 @@ import java.lang.reflect.Field;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 
+import com.interpss.dstab.controller.AnnotateStabilizer;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 
 // User custom code begin 

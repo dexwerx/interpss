@@ -6,6 +6,8 @@ InterPSS implementation of the IEEE 1968 Type-1 excitation system
 */
 
 import java.lang.reflect.Field;
+
+import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.*;
 import com.interpss.dstab.controller.block.*;
 import com.interpss.dstab.controller.block.adapt.*;
