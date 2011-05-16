@@ -1,5 +1,5 @@
 /*
- * @(#)BPADynamicRecord.java   
+ * @(#)BPADynamicFaultOperationRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -46,9 +46,12 @@ import org.ieee.odm.schema.ZUnitType;
 
 public class BPADynamicFaultOperationRecord {
 	
-public static void processFaultOperationData(String str, DStabModelParser parser ) throws ODMException { 
-    	
-    	int mode =new Integer(str.substring(36, 37).trim()).intValue();
+	public static void processFaultOperationData(String str, DStabModelParser parser ) throws ODMException { 
+		// TODO: Get: what is the default value for mode, in case mode field is not defined?
+    	int mode = 0;
+    	if (!str.substring(36, 37).trim().equals(""))
+    		mode = new Integer(str.substring(36, 37).trim()).intValue();
+
     	final String strAry[] = getFaultOperationDataFields(str, mode);    	
     	
         if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){    		
@@ -299,9 +302,9 @@ public static void processFaultOperationData(String str, DStabModelParser parser
       	    	//dcFault.setPermanentFault(false);  		  
       	    }
         }  
-}
+	}
 
-private static String[] getFaultOperationDataFields ( final String str, int mode) {
+	private static String[] getFaultOperationDataFields ( final String str, int mode) {
 	final String[] strAry = new String[13];		
 	try{
 		if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){
