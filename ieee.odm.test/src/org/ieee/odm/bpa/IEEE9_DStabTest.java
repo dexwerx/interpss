@@ -39,6 +39,17 @@ public class IEEE9_DStabTest {
 				new String[] { "testdata/bpa/IEEE9.dat", 
 				               "testdata/bpa/IEEE9-dyn.swi"}));
 		
+		//DStabModelParser parser = (DStabModelParser)adapter.getModel();
+		//parser.stdout();
+	}
+
+	@Test
+	public void testCase05162011() throws Exception {
+		IODMAdapter adapter = new BPAAdapter();
+		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
+				new String[] { "testdata/bpa/IEEE9.dat", 
+				               "testdata/bpa/IEEE9-dyn_05162011.swi"}));
+		
 		DStabModelParser parser = (DStabModelParser)adapter.getModel();
 		parser.stdout();
 	}
