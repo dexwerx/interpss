@@ -213,21 +213,24 @@ public class ModelStringUtil {
 	/**
 	 * casting branch objects
 	 * 
-	 * @param from from branch object
+	 * @param fromBranch from branch object
 	 * @param fromType
 	 * @param toType
 	 * @return
 	 * @throws Exception
 	 */
-	public static BranchXmlType casting(BranchXmlType from, String fromType, String toType) throws ODMException {
+	public static BranchXmlType casting(BranchXmlType fromBranch, String fromType, String toType) throws ODMException {
 		AclfModelParser parser = new AclfModelParser();
-		parser.getAclfNet().getBranchList().getBranch().add(BaseJaxbHelper.branch(from));
+		parser.getAclfNet().getBranchList().getBranch().add(BaseJaxbHelper.branch(fromBranch));
 		String braStr = parser.toXmlDoc(true)
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
 		parser = new AclfModelParser();
 		parser.parse(braStr);
-		return (BranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+		BranchXmlType toBranch = (BranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+		toBranch.setFromBus(fromBranch.getFromBus());
+		toBranch.setToBus(fromBranch.getToBus());
+		return toBranch;
 	}	
 
 	/**
