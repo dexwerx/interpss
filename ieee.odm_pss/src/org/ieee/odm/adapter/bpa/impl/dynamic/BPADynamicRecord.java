@@ -27,11 +27,8 @@ package org.ieee.odm.adapter.bpa.impl.dynamic;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.AclfAlgorithmXmlType;
-import org.ieee.odm.schema.DStabSimulationXmlType;
-import org.ieee.odm.schema.LfMethodEnumType;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 
 public class BPADynamicRecord {	
 	private final static int header=1;
@@ -46,7 +43,9 @@ public class BPADynamicRecord {
 	
 	
 	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
-		DStabSimulationXmlType tranSimu = parser.getDStabSimu();
+		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
+		//DStabSimulationXmlType tranSimu = parser.getDStabSimu();
+
 		String str;
 		do{
 			str= din.readLine();
@@ -54,7 +53,7 @@ public class BPADynamicRecord {
 				int dataType = getDataType(str);
 				try{
 					if(dataType==header){
-						processHeaderData(str, tranSimu);
+						processHeaderData(str);
 					}
 					else if(dataType==generatorData){
 						BPADynamicGeneratorRecord.processGeneratorData(str, parser);
@@ -135,22 +134,22 @@ public class BPADynamicRecord {
 		 return dataType;
 	}
 
-	public static void processHeaderData(String str, DStabSimulationXmlType tranSimu){
+	public static void processHeaderData(String str){
 		final String strAry[]= getHeaderDataFields(str);
 		
-		AclfAlgorithmXmlType aclfAlgo = tranSimu.getAclfInitialization();
+//		AclfAlgorithmXmlType aclfAlgo = tranSimu.getAclfInitialization();
 		
 		// network solution card--SOL
-		if(str.startsWith("SOL")){			
-			if(!strAry[2].equals("")){
-				if(new Integer(strAry[2]).intValue()==1){
-					aclfAlgo.setLfMethod(LfMethodEnumType.NR);
-				}
-			}
-			else{
-				aclfAlgo.setLfMethod(LfMethodEnumType.PQ);
-			}			
-		}
+//		if(str.startsWith("SOL")){			
+//			if(!strAry[2].equals("")){
+//				if(new Integer(strAry[2]).intValue()==1){
+//					aclfAlgo.setLfMethod(LfMethodEnumType.NR);
+//				}
+//			}
+//			else{
+//				aclfAlgo.setLfMethod(LfMethodEnumType.PQ);
+//			}			
+//		}
 		// CASE card
 		if(str.startsWith("CASE")){
 			//TransientSimulationXmlType.SimulationSetting simuSet= tranSimu.getSimulationSetting();
