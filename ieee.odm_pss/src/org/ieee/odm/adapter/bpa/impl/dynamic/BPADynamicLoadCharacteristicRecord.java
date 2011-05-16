@@ -174,7 +174,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			} catch (ODMException e) {
 				e.printStackTrace();
 			}
-			bus = (DStabBusXmlType)parser.getBus(BusId);
+			bus = parser.getDStabBus(BusId);
 			if (bus !=null) {
 				if (bus.getDynamicLoad() == null) {
 			        bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
