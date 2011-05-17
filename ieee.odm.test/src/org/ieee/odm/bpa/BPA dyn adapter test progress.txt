@@ -1,0 +1,33 @@
+BPA dynamic adapter test doc
+
+1. Exciter
+   -EA
+    Note: for BPA F* type exciter, it extends from IEEE model with load compensation part(Vc=[Vt+i*(Rc+jXc)]).
+   -FA
+   -FJ(liyujiang)
+   -FK(maoming)
+   -FQ*
+   Note: there is a FZ type record following FQ in DAYAWAN ? 
+   -FR
+   -FS
+   -FU
+   -FV((dominant exciter model))
+   
+2. PSS
+   -SI/SI+(dominant pss model)
+   -SS
+   -SP
+   -SG
+   
+   
+
+3. Gov&Turbine
+   -GH
+   -
+
+但目前都还没考虑中文名
+-GEN
+
+在bus casting 里面报错， 注意是 UTF-8不支持中文
+
+   

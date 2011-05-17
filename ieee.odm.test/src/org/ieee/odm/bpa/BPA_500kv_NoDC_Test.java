@@ -15,15 +15,15 @@ public class BPA_500kv_NoDC_Test {
 	public void bpaTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 //		IODMAdapter adapter =new PSSEV30Adapter();
-		assertTrue(adapter.parseInputFile("testB.dat"));//EQ_0907_500KV-N0DC.dat
+		assertTrue(adapter.parseInputFile("EQ_0907_500KV-NoDC.dat"));//EQ_0907_500KV-N0DC.dat
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		parser.stdout();
-		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("500kvNoDC_BPA_ODM_0405.xml"));
-		out.write(xml.getBytes());
-		out.flush();
-		out.close();
+//		String xml=parser.toXmlDoc(false);
+//		FileOutputStream out=new FileOutputStream(new File("500kvNoDC_BPA_ODM_0408.xml"));
+//		out.write(xml.getBytes());
+//		out.flush();
+//		out.close();
 		
 	}
 }

@@ -39,8 +39,8 @@ public class IEEE9_DStabTest {
 				new String[] { "testdata/bpa/IEEE9.dat", 
 				               "testdata/bpa/IEEE9-dyn.swi"}));
 		
-		//DStabModelParser parser = (DStabModelParser)adapter.getModel();
-		//parser.stdout();
+		DStabModelParser parser = (DStabModelParser)adapter.getModel();
+		parser.stdout();
 	}
 
 	@Test
@@ -49,6 +49,16 @@ public class IEEE9_DStabTest {
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
 				new String[] { "testdata/bpa/IEEE9.dat", 
 				               "testdata/bpa/IEEE9-dyn_05162011.swi"}));
+		
+		DStabModelParser parser = (DStabModelParser)adapter.getModel();
+		parser.stdout();
+	}
+	@Test
+	public void testCasewithChinese() throws Exception {
+		IODMAdapter adapter = new BPAAdapter();
+		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
+				new String[] { "testdata/bpa/IEEE9_cn.dat", 
+				               "testdata/bpa/IEEE9-dyn_cn.swi"}));
 		
 		DStabModelParser parser = (DStabModelParser)adapter.getModel();
 		parser.stdout();
