@@ -57,7 +57,7 @@ public class BPADynamicTurbineGovernorRecord {
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
     		}	
-    		gov.setDesc("Gov Hydro Steam General Model, MachId-" + tgId);
+    		gov.setDesc("Gov Hydro Steam General Model, MachId#" + tgId);
     		
 			//PMAX 
     		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -98,7 +98,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String id;
     		if(!strAry[3].equals("")){
     			id=strAry[3];
-    			gov.setDesc("GOV Hydro Turbine GH type, machId-"+id);
+    			gov.setDesc("GOV Hydro Turbine GH type, machId#"+id);
     		}	
     		
 			//PMAX 
@@ -107,6 +107,7 @@ public class BPADynamicTurbineGovernorRecord {
     		//R
     		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gov.setR(r);
+    		gov.setSIGMA(r);
 			//TG
     		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
     		
@@ -116,7 +117,8 @@ public class BPADynamicTurbineGovernorRecord {
 		    gov.setTP(BaseDataSetter.createTimeConstSec(Tp));		
 			//TD is corresponding to the TR in the ieee model
 		    double Td= ModelStringUtil.getDouble(strAry[8], 0.0);
-		    gov.setTR(BaseDataSetter.createTimeConstSec(Td));			
+		    gov.setTR(BaseDataSetter.createTimeConstSec(Td));
+		    
 			// TW/2
 		    double Twhalf= ModelStringUtil.getDouble(strAry[9], 0.0);
 		    gov.setTW(BaseDataSetter.createTimeConstSec(Twhalf*2));	
@@ -136,6 +138,11 @@ public class BPADynamicTurbineGovernorRecord {
     		//Epsilon
     		double Epsilon=ModelStringUtil.getDouble(strAry[13], 0.0);
     		gov.setEpsilon(Epsilon);
+    		gov.setA11(0.5);
+    		gov.setA13(1.5);
+    		gov.setA21(1.0);
+    		gov.setA23(1.0);
+    		
     				
     	}
     	else if(strAry[0].equals("GS")){
@@ -145,7 +152,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String tgId="";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			gov.setDesc("GOV Hydro Turbine GH type, machId-"+tgId);
+    			gov.setDesc("GOV Hydro Turbine GH type, machId#"+tgId);
     		}			
 			//PMAX 
     		double pmax=new Double(strAry[4]).doubleValue();
@@ -184,7 +191,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String tgId="";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			st.setDesc("GOV Steam Turbine BPA TA type(non reheat), machId-"+tgId);
+    			st.setDesc("GOV Steam Turbine BPA TA type(non reheat), machId#"+tgId);
     		}	
     		//TCH
     		double TCH= new Double(strAry[4]).doubleValue();
@@ -203,7 +210,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String tgId="";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			st.setDesc("GOV Steam Turbine BPA TB type, machId-"+tgId);
+    			st.setDesc("GOV Steam Turbine BPA TB type, machId#"+tgId);
     		}
                
     			//TCH
@@ -239,8 +246,15 @@ public class BPADynamicTurbineGovernorRecord {
     	try{
     		if(str.substring(0, 2).trim().equals("GG")){
 	    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		
+//				//to process the Chinese characters first, if any.
+//				int chineseCharNum=ModelStringUtil.getChineseCharNum(str);
+//				//Columns 6-13 busName  
+//				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+//				
+//				String str2=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId

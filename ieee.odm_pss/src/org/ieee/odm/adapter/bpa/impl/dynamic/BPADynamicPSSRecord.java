@@ -58,15 +58,18 @@ public class BPADynamicPSSRecord {
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
     		} 
-    		pss.setDesc("machine Id-" + macId);
+    		
 
     		if(str.substring(0, 3).trim().equals("SS")){
+    			pss.setDesc("BPA SS type PSS, machine Id-" + macId);
     			pss.setFirstInputSignal(StabilizerInputSignalEnumType.ROTOR_SPEED_DEVIATION);    			                 
     		}
     		else if(str.substring(0, 3).trim().equals("SP")){
+    			pss.setDesc("BPA SP type PSS,machine Id-" + macId);
     			pss.setFirstInputSignal(StabilizerInputSignalEnumType.GENERATOR_ACCELERATING_POWER);
     		}
     		else{
+    			pss.setDesc("BPA SG type PSS,machine Id-" + macId);
     			pss.setFirstInputSignal(StabilizerInputSignalEnumType.GENERATOR_ELECTRICAL_POWER);
     		}
 
@@ -101,7 +104,7 @@ public class BPADynamicPSSRecord {
     		    		
     		//TQ11
     		double TQ11= ModelStringUtil.getDouble(strAry[10], 0.0);
-    		pss.setT5(BaseDataSetter.createTimeConstSec(TQ1));
+    		pss.setT5(BaseDataSetter.createTimeConstSec(TQ11));
     		
     		//TQ2
     		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
@@ -147,14 +150,14 @@ public class BPADynamicPSSRecord {
     		
     	}
     	else if(str.substring(0, 3).trim().equals("SI")){
-    		PssIEEEDualInputXmlType dualPss= DStabParserHelper.createPssIEEEDualInputXmlType(dynGen);
+    		PssBPADualInputXmlType dualPss= DStabParserHelper.createPssBPADualInputXmlType(dynGen);
     		
     		//machine Id
     		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
     		} 
-    		dualPss.setDesc("machine Id-" + macId);
+    		dualPss.setDesc("BPA SI Type Dual Input Pss model,machine Id-" + macId);
 
     		//TRW
     		double  Trw=ModelStringUtil.getDouble(strAry[4], 0.0);;
@@ -181,30 +184,30 @@ public class BPADynamicPSSRecord {
     		
     		//TW
     		double  Tw=ModelStringUtil.getDouble(strAry[10], 0.0);
-    		dualPss.setTW(BaseDataSetter.createTimeConstSec(T7));
+    		dualPss.setTW(BaseDataSetter.createTimeConstSec(Tw));
     		
     		//TW1
     		double  Tw1=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		dualPss.setTW1(BaseDataSetter.createTimeConstSec(T7));
+    		dualPss.setTW1(BaseDataSetter.createTimeConstSec(Tw1));
     		
     		// TW2
     		double  Tw2=ModelStringUtil.getDouble(strAry[12], 0.0);
-    		dualPss.setTW2(BaseDataSetter.createTimeConstSec(T7));
+    		dualPss.setTW2(BaseDataSetter.createTimeConstSec(Tw2));
     		
     		//KS
     		double Ks= ModelStringUtil.getDouble(strAry[13], 0.0);
     		dualPss.setKS(Ks);    	
     		//T9
     		double  T9=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		dualPss.setT9(BaseDataSetter.createTimeConstSec(T7));
+    		dualPss.setT9(BaseDataSetter.createTimeConstSec(T9));
     		
     		//T10
     		double T10=ModelStringUtil.getDouble(strAry[15], 0.0);
-    		dualPss.setT10(BaseDataSetter.createTimeConstSec(T7));
+    		dualPss.setT10(BaseDataSetter.createTimeConstSec(T10));
     		
     		//T12
     		double T12=ModelStringUtil.getDouble(strAry[16], 0.0);
-    		dualPss.setT12(BaseDataSetter.createTimeConstSec(T7));
+    		dualPss.setT12(BaseDataSetter.createTimeConstSec(T12));
     	    
     		//INP input signal:0 for speed deviation(delta_w) and generator accelerating power(delta_Pg), 
     		//1 for only delta_w, 2 for only delta_pg
@@ -245,7 +248,7 @@ public class BPADynamicPSSRecord {
     		
     		// T3
     		double  t3=ModelStringUtil.getDouble(strAry[9], 0.0);
-    		dualPss.setT14(BaseDataSetter.createTimeConstSec(t3));
+    		dualPss.setT3(BaseDataSetter.createTimeConstSec(t3));
     		
     		//T4
     		double  t4=ModelStringUtil.getDouble(strAry[10], 0.0);

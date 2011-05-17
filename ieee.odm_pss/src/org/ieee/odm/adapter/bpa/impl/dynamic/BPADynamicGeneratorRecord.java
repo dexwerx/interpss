@@ -321,42 +321,62 @@ public class BPADynamicGeneratorRecord {
 		try{
 			if(str.substring(0, 2).trim().equals("M")){
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
-				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 25).trim();
-				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,31, 32).trim();
-				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,34, 36).trim();
-				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
-				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
-				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 51).trim();
-				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,52, 55).trim();				
+				
+				//to process the Chinese characters first, if any.
+				int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
+				//Columns 6-13 busName  
+				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+				
+				String str2=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
+				
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str2,12, 15).trim();
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str2,16, 16).trim();
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str2,17, 21).trim();
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str2,23, 25).trim();
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str2,31, 32).trim();
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str2,34, 36).trim();
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str2,38, 42).trim();
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str2,43, 47).trim();
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str2,48, 51).trim();
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str2,52, 55).trim();				
 			}
 			else if(str.substring(0, 2).trim().equals("MC")||str.substring(0, 2).trim().equals("MF")){
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
-				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
-				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 25).trim();
-				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,26, 28).trim();
-				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,29, 32).trim();
-				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,33, 36).trim();
-				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,37, 41).trim();
-				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,42, 46).trim();
-				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,47, 51).trim();
-				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,52, 56).trim();
-				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,57, 60).trim();
-				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,61, 63).trim();
-				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,64, 68).trim();
-				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,69, 73).trim();
-				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,74, 77).trim();
-				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,78, 80).trim();
+				//to process the Chinese characters first, if any.
+				int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());;
+				//Columns 6-13 busName  
+				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+				
+				String str2=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str2,4, 11).trim();
+				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str2,12, 15).trim();
+				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str2,16, 16).trim();
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str2,17, 22).trim();
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str2,23, 25).trim();
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str2,26, 28).trim();
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str2,29, 32).trim();
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str2,33, 36).trim();
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str2,37, 41).trim();
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str2,42, 46).trim();
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str2,47, 51).trim();
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str2,52, 56).trim();
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str2,57, 60).trim();
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str2,61, 63).trim();
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str2,64, 68).trim();
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str2,69, 73).trim();
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str2,74, 77).trim();
+				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str2,78, 80).trim();
 			}
 			else if(str.substring(0, 2).trim().equals("LN")){
 				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//to process the Chinese characters first, if any.
+				int chineseCharNum=ModelStringUtil.getChineseCharNum(str);
+				//Columns 6-13 busName  
+				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+				
+				String str2=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
