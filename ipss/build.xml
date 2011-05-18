@@ -96,7 +96,10 @@
 
     	<jar destfile="${lib_ipss}/ipss_xml.jar" 
    	  		basedir="${dev_base}/ipss.xml.schema/runtime" 
-   	  		excludes="CVS/**,model/**" />	
+   	  		excludes="CVS/**,model/**,org/interpss/xml/schema/*" />	
+    	<jar destfile="${lib_ipss}/ipss.xml.schema.jar" 
+   	  		basedir="${dev_base}/ipss.xml.schema/runtime" 
+   	  		excludes="CVS/**,model/**,org/interpss/xml/*,org/interpss/xml/base/*,test/**" />	
     	
    	  	<jar destfile="${lib_ipss}/ipss_editor_ui.jar" 
    	  		basedir="${dev_base}/ipss.editor.ui/runtime" 
