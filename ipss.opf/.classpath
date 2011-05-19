@@ -5,9 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
-
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_ext.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/spring/spring-2.5.6.jar"/>
