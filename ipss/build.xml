@@ -28,7 +28,6 @@
     	<echo message="** build ipss lib files **"/>
     	
     	<!-- Core lib
-    	-->
     	<echo message="- jar core lib files -"/>
      	<jar destfile="${lib_ipss}/ipss_core.jar">
      	  	<fileset dir="${dev_base}/ipss.numeric/runtime" excludes="CVS/**,model/**" />	
@@ -55,6 +54,7 @@
         <jar destfile="${lib_ipss}/ipss_ext.jar">
      	  	<fileset dir="${dev_base}/ipss.opf/bin" excludes="CVS/**,model/**" />	
   	  	</jar>		
+    	-->
 
     	<!-- ODM -->
     	<echo message="- jar odm lib files -"/>
@@ -127,12 +127,15 @@
   	  	<copy file="${lib_ieee}/ieee.odm_pss.jar" 	todir="${web_lib}"/>
   	  	<copy file="${lib_ieee}/ieee.odm.schema.jar" 	todir="${web_lib}"/>
 
-    	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${web_lib}"/>
-  	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${web_lib}"/>
+    	<!--copy file="${lib_ipss}/ipss_core.jar" 		todir="${web_lib}"/>
+  	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${web_lib}"/
+  	  	-->
+    	
   	  	<copy file="${lib_ipss}/ipss_plugin.jar" 	todir="${web_lib}"/>
     	
-  	  	<copy file="${lib.dev_ipss}/ipss_dcsys.jar" todir="${web_lib}"/>
-  	  	<copy file="${lib.dev_ipss}/ipss_dist.jar" 	todir="${web_lib}"/>
+  	  	<!--copy file="${lib.dev_ipss}/ipss_dcsys.jar" todir="${web_lib}"/>
+  	  	<copy file="${lib.dev_ipss}/ipss_dist.jar" 	todir="${web_lib}"/
+  	  	-->
     	
     	<!-- copy to GEditor -->
     	<echo message="- copy lib files to GEditor -"/>
