@@ -19,5 +19,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry kind="lib" path="lib/javacsv.jar"/>
 	<classpathentry kind="lib" path="lib/jxl.jar" sourcepath="G:/Software/java/jexcelapi_2_6_12.zip"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
