@@ -65,11 +65,15 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	 *  single files 
 	 */
 	
-	public boolean parseInputStream(InputStream stream) {
+	public boolean parseInputStream(InputStream input) {
+		return parseInputStream(input, IODMModelParser.defaultEncoding);
+	}
+	
+	public boolean parseInputStream(InputStream stream, String encoding) {
 		try {
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 			ODMLogger.getLogger().info("Parse input stream and create the parser object");
-			this.parser = parseInputFile(din);
+			this.parser = parseInputFile(din, encoding);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
@@ -93,7 +97,11 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		}
 	}
 
-	public boolean parseFileContent(String fileContent){
+	public boolean parseFileContent(String fileContent) {
+		return parseFileContent(fileContent, IODMModelParser.defaultEncoding);
+	}
+	
+	public boolean parseFileContent(String fileContent, String encoding) {
 		try {
 			final String[] strList = fileContent.split("\n");
 			ODMLogger.getLogger().info("Parse input fileContent and create the parser object, first line: " + strList[0]);
@@ -105,7 +113,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 					else
 						return null;
 				}
-			});
+			}, encoding);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
@@ -116,9 +124,9 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	}
 	
 	protected IODMModelParser parseInputFile(
-			final java.io.BufferedReader din) throws Exception {
+			final java.io.BufferedReader din, String encoding) throws Exception {
 		FileReader reader = new FileReader(din);
-		return parseInputFile(reader);
+		return parseInputFile(reader, encoding);
 	}	
 
 	/*
@@ -130,14 +138,14 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	 * @param streamAry
 	 * @return
 	 */
-	private boolean parseInputStream(IODMAdapter.NetType type, InputStream[] streamAry) {
+	private boolean parseInputStream(IODMAdapter.NetType type, InputStream[] streamAry, String encoding) {
 		try {
 			final BufferedReader[] dinAry = new BufferedReader[streamAry.length];
 			int cnt = 0;
 			for (InputStream stream : streamAry) {
 				dinAry[cnt++] = new BufferedReader(new InputStreamReader(stream));
 			}
-			this.parser = parseInputFile(type, dinAry);
+			this.parser = parseInputFile(type, dinAry, encoding);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
@@ -147,7 +155,11 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		return status;
 	}
 
-	public boolean parseInputFile(IODMAdapter.NetType type, String[] filenameAry) {
+	public boolean parseInputFile(NetType type, String[] filenames) {
+		return parseInputFile(type, filenames, IODMModelParser.defaultEncoding);
+	}
+	
+	public boolean parseInputFile(IODMAdapter.NetType type, String[] filenameAry, String encoding) {
 		try {
 			final InputStream[] streamAry = new InputStream[filenameAry.length];
 			int cnt = 0;
@@ -157,7 +169,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 				ODMLogger.getLogger().info("Parse input file and create the parser object, " + filename);
 				streamAry[cnt++] = stream;
 			}
-			return parseInputStream(type, streamAry);
+			return parseInputStream(type, streamAry, encoding);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
@@ -167,20 +179,20 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	}
 	
 	protected IODMModelParser parseInputFile(IODMAdapter.NetType type,
-			final java.io.BufferedReader[] dinAry) throws Exception {
+			final java.io.BufferedReader[] dinAry, String encoding) throws Exception {
 		IFileReader[] fAry = new FileReader[dinAry.length];
 		int cnt = 0;
 		for (java.io.BufferedReader din: dinAry) {
 			fAry[cnt++] = new FileReader(din);
 		}
-		return parseInputFile(type, fAry);
+		return parseInputFile(type, fAry, encoding);
 	}	
 
 	/*
 	 * abstract methods to be implemented
 	 */
-	abstract protected IODMModelParser parseInputFile(IFileReader din) throws Exception;
-	abstract protected IODMModelParser parseInputFile(IODMAdapter.NetType type, IFileReader[] din) throws Exception;
+	abstract protected IODMModelParser parseInputFile(IFileReader din, String encoding) throws Exception;
+	abstract protected IODMModelParser parseInputFile(IODMAdapter.NetType type, IFileReader[] din, String encoding) throws Exception;
 	
 
 	private class FileReader implements IFileReader {

@@ -104,8 +104,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 	@Override
 	protected AclfModelParser parseInputFile(
-			final IFileReader din) throws Exception {
-		AclfModelParser parser = new AclfModelParser();
+			final IFileReader din, String encoding) throws Exception {
+		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.setLFTransInfo(OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
@@ -187,7 +187,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	return parser;
     }
 
-	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din, String encoding) throws Exception {
 		throw new ODMException("not implemented yet");
 	}
 	

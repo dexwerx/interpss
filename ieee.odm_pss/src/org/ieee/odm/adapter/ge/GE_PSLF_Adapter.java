@@ -88,10 +88,10 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	 
 	@Override
 	protected AclfModelParser parseInputFile(
-			final IFileReader din) throws Exception {
+			final IFileReader din, String encoding) throws Exception {
 		VersionNo version = VersionNo.PSLF15;
 		
-		AclfModelParser parser = new AclfModelParser();
+		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.setLFTransInfo(OriginalDataFormatEnumType.GE_PSLF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
@@ -303,7 +303,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		return parser;
 	}
 
-	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din, String encoding) throws Exception {
 		throw new ODMException("not implemented yet");
 	}
 }

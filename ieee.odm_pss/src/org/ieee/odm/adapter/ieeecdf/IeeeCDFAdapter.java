@@ -89,8 +89,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 
 	@Override
 	protected AclfModelParser parseInputFile(
-			final IFileReader din) throws Exception {
-		AclfModelParser parser = new AclfModelParser();
+			final IFileReader din, String encoding) throws Exception {
+		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.setLFTransInfo(OriginalDataFormatEnumType.IEEE_CDF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
@@ -155,7 +155,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		return parser;
 	}
 
-	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din, String encoding) throws Exception {
 		throw new ODMException("not implemented yet");
 	}
 	

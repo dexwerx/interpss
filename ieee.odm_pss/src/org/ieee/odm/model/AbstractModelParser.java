@@ -65,6 +65,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	// add "Bus" pre-fix to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
 	
+	private String encoding = IODMModelParser.defaultEncoding;
+	
 	/*
 	 *	property definition
 	 * 	=================== 
@@ -85,10 +87,22 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	
 	/**
-	 * Constructor using an Xml file
+	 * Default Constructor 
 	 * 
-	 * @param xmlFile
 	 */
+	public AbstractModelParser() {
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		if (!(this instanceof ODMModelParser)) {
+			this.getStudyCase().setId("ODM_StudyCase");
+			this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
+		}
+	}
+
+	public AbstractModelParser(String encoding) {
+		this();
+		this.encoding = encoding;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public boolean parse(File xmlFile) {
 		try {
@@ -98,11 +112,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		} catch (JAXBException e) { e.printStackTrace(); return false;}
 	}
 
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param xmlString
-	 */
 	@SuppressWarnings("unchecked")
 	public boolean parse(String xmlString) {
 		try {
@@ -113,11 +122,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		} catch (JAXBException e) { e.printStackTrace(); return false;}
 	}
 	
-	/**
-	 * Constructor using an Xml string
-	 * 
-	 * @param in
-	 */
 	@SuppressWarnings("unchecked")
 	public boolean parse(InputStream in) {
 		try {
@@ -139,18 +143,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			this.objectCache.put(b.getId(), b);
 		}
 		return true;
-	}
-	
-	/**
-	 * Default Constructor 
-	 * 
-	 */
-	public AbstractModelParser() {
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		if (!(this instanceof ODMModelParser)) {
-			this.getStudyCase().setId("ODM_StudyCase");
-			this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
-		}
 	}
 	
 	/*
@@ -446,6 +438,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		if (unmarshaller == null) {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
 			unmarshaller = jaxbContext.createUnmarshaller();
+			//unmarshaller.setProperty(Marshaller.JAXB_ENCODING, "GB18030");
 		}
 		return unmarshaller;
 	}	
@@ -462,6 +455,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			JAXBContext jaxbContext	= JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
 			marshaller = jaxbContext.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			//marshaller.setProperty(Marshaller.JAXB_ENCODING, "GB18030");
+			marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
 		}
 		return marshaller;
 	}

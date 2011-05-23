@@ -54,6 +54,9 @@ public class AclfModelParser extends AbstractModelParser {
 		super();
 	}	
 	
+	public AclfModelParser(String encoding) {
+		super(encoding);
+	}	
 	/**
 	 * get the base case object of type LoadflowXmlType
 	 * 

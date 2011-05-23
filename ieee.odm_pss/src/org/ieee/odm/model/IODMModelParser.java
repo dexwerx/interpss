@@ -35,6 +35,9 @@ import org.ieee.odm.schema.StudyCaseXmlType;
  */
 
 public interface IODMModelParser {
+	final static String defaultEncoding = "UTF-8";
+	final static String chineseEncoding = "GB18030";
+	
 	boolean parse(File xmlFile);
 	
 	boolean parse(String xmlString);

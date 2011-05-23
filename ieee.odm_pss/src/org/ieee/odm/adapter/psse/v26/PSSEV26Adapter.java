@@ -66,7 +66,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	
 	@Override
 	protected AclfModelParser parseInputFile(
-			final IFileReader din) throws Exception {
+			final IFileReader din, String encoding) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
 		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
@@ -156,7 +156,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
    	   return parser;
 	}
 	
-	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din) throws Exception {
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] din, String encoding) throws Exception {
 		throw new ODMException("not implemented yet");
 	}
 	

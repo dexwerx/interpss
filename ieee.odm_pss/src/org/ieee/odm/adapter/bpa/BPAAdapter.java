@@ -65,7 +65,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		this.factory = new ObjectFactory();		
 	}
 	
-	protected IODMModelParser parseInputFile(final IFileReader din) throws Exception {
+	protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
 		String str="";
 		// first line, as a sign to run power flow data or transient data
 		// there may be comments starting with . or blank line
@@ -74,7 +74,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		} while (str.startsWith(".") || str.trim().equals(""));
 		
 		if(str.equals("loadflow") || str.contains("POWERFLOW")){
-			AclfModelParser parser = new AclfModelParser();
+			AclfModelParser parser = new AclfModelParser(encoding);
 			parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
 			parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
 
@@ -84,9 +84,9 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		throw new ODMException("Only LF info could be prcessed");
 	}
 	
-	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] dinAry) throws Exception {
+	protected IODMModelParser parseInputFile(IODMAdapter.NetType type, final IFileReader[] dinAry, String encoding) throws Exception {
 		if (type == IODMAdapter.NetType.DStabNet) {
-			DStabModelParser parser = new DStabModelParser();
+			DStabModelParser parser = new DStabModelParser(encoding);
 			parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
 			parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
 			

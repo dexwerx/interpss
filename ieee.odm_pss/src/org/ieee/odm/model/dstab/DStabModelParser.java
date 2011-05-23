@@ -63,6 +63,10 @@ public class DStabModelParser extends AclfModelParser {
 		super();
 	}	
 	
+	public DStabModelParser(String encoding) {
+		super(encoding);
+	}	
+
 	/**
 	 * get the base case object of type DStabNetXmlType
 	 * 

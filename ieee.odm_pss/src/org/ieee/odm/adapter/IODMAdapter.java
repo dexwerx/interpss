@@ -52,6 +52,16 @@ public interface IODMAdapter {
 	boolean parseInputFile(NetType type, String[] filenames);
 
 	/**
+	 * parse the input file into a ODM model according the the ODM schema, the 
+	 * base case AclfNet file should put first in the filenames array
+	 * 
+	 * @param filename file name
+	 * @param encoding
+	 * @return
+	 */
+	boolean parseInputFile(NetType type, String[] filenames, String encoding);
+
+	/**
 	 * parse the input file into a ODM model according the the ODM schema
 	 * 
 	 * @param filename file name
