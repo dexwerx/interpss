@@ -6,6 +6,7 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.AnnotateGovernor;
@@ -17,11 +18,12 @@ import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlockAdapter;
 import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 
 /**
- * This type includes three parts: regulator,server motor and turbine, 
- * normally saved separately in three parts, namely GI/I+, GA/A+ and TB model
+ * This type includes three parts: regulator,servo and turbine, 
+ * normally saved in three parts separately, namely the GI/I+, GA/A+ and TB model in BPA
  * 
  * @author Tony Huang
  * date: 05/04/2011
@@ -30,7 +32,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 	@AnController(
 			   input="mach.speed-1",
 			   output="(1+this.lamba)*this.fhp*this.tchDelayBlock.y+(this.fip-this.lambda*this.fhp)*this.trhDelayBlock.y+this.flp*this.tcoDelayBlock.y",
-			   refPoint="thiscustomLoadControlBlock.u0 + this.tranducerBlock.y",
+			   refPoint="thiscustomLoadControlBlock.u0 + this.delayBlock.y",
 			   display= {"str.Pm,this.output"})
 	public class GovBPACombinedType extends AnnotateGovernor{
 
@@ -39,15 +41,15 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		 *   -freqDeadBandFunc
 		 *   -delayBlock
 		 *   -customLoadControlBlock(shuntPID)
-		 *   -customPresserControlBlock
+		 *   -customPresserControlBlock(shuntPID)
 		 *   -gainBlock
 		 *  
 		 */
 		
-		//1.1freqDeadBandFunc
+		//1.1 freqDeadBandFunc
 		public double freqDeadBand=0.002;
 		@AnFunctionField( input="mach.speed-1" )
-		public IFunction freqDeadBandFunc = new FunctionAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number;
+		public IFunction freqDeadBandFunc = new FunctionAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number?
 		    public double eval(double[] dAry) { 
 		    	if(Math.abs(dAry[0])<0.5*freqDeadBand) return 0;
 		    	else return dAry[0];
@@ -110,7 +112,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 			   };			
 			
            //1.4 customPresserControlBlock
-			   //TODO not consider presser switch state now
+			   //TODO not consider presser switch state yet
 			   public double kp2=1, kd2=0.02,ki2=0.05,intg2Max=99,intg2Min=-99,pid2Max=105,pid2Min=-5;boolean presserSwitchOff=true;
 				@AnControllerField(
 			            type= CMLFieldEnum.ControlBlock,
@@ -160,7 +162,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		    @AnControllerField(
 			 type= CMLFieldEnum.StaticBlock,
 			 input="this.customPresserControlBlock.y",
-			 parameter={"type.NoLimit", "this.k1", "this.con_Max","this.con_Min"},
+			 parameter={"type.Limit", "this.k1", "this.con_Max","this.con_Min"},
 			 y0="elechydrControlBlock.u0"	)
 	      GainBlock gainBlock;					   
 					  
@@ -168,7 +170,8 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		/*
 		 * 2. servo
 		 *   -elecHydrControlBlock(shuntPID)
-		 *   -openCloseSwitchBlock
+		 *   -velLimitBlock
+		 *   -rateLimitBlock
 		 *   -servoMotorBlock
 		 *   -timeDelayBlock
 		 *   
@@ -221,14 +224,74 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 				       }
 		   };  
 		   
-		   //2.2 openCloseSwitchBlock
+		   //2.2 velLimitBlock
+		
+		   public double kVEL = 1.0,VELOpen=2.34,VELClose=-0.53;
+		    @AnControllerField(
+			 type= CMLFieldEnum.StaticBlock,
+			 input="this.customPresserControlBlock.y",
+			 parameter={"type.Limit", "this.kVEL", "this.VELOpen","this.VELClose"},
+			 y0="rateLimitBlock.u0"	)
+	      GainBlock velLimitBlock;
+		   
+		   //2.3 rateLimitBlock
+			public double risingLimit=0.25 /*1/Topen*/,fallingLimit=-2.336 /*-1/Tclose*/;
+			@AnControllerField(
+		            type= CMLFieldEnum.StaticBlock,
+		            input="this.velLimitBlock.y",
+		            y0="this.servoMotorBlock.u0"	)
+			public IStaticBlock rateLimitBlock = new StaticBlockAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number?
+			    double y_last=0;
+			    double deltaY=0;
+			    double rate=0;
+			    boolean rateLimitViolated=false;
+			    LimitType rateLimit=new LimitType(risingLimit,fallingLimit);
+			    @Override
+				public boolean initStateY0(double y0) {//TODO not sure what need to be implemented in this method.
+			        this.u=y0;
+			        return true;	
+			       }
+			       @Override
+				public double getU0(){
+			         return this.u;
+			       }  
+			       @Override
+				public void eulerStep1(double u, double dt){
+                     this.u=u;
+                     this.rate=(this.u-y_last)/dt;
+                     rateLimitViolated=rateLimit.isViolated(rate);
+                     if(rateLimitViolated){
+                    	 this.rate=rateLimit.limit(this.rate);
+                    	 deltaY=this.rate*dt;
+                     }
+
+			       }
+			       @Override
+				public void eulerStep2(double u, double dt){
+			    	   this.u=u;
+			    	   rate=(this.u-y_last)/dt;
+	                     rateLimitViolated=rateLimit.isViolated(rate);
+	                     if(rateLimitViolated){
+	                    	 this.rate=rateLimit.limit(this.rate);
+	                    	 deltaY=this.rate*dt;
+	                     }
+			       }
+			       @Override
+				public double getY(){
+				      double y=0;
+				      if(rateLimitViolated) y=y_last+deltaY;
+				      else y=this.u;
+				      y_last=y;
+				      return y;
+			       }    
+			};
 		   
 		   
-		   //2.3 servoMotorBlock
+		   //2.4 servoMotorBlock
 		   public double one = 1.0, pmax = 0.2, pmin = -0.2;
 		   @AnControllerField(
 		           type= CMLFieldEnum.ControlBlock,
-		           input= "openCloseSwitchBlock.y",
+		           input= "rateLimitBlock.y",
 		           parameter={"type.NonWindup", "this.one", "this.pmax", "this.pmin"},
 		           y0="tchDelayBlock.u0")
 		   IntegrationControlBlock servoMotorBlock;
@@ -245,7 +308,6 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		   //2.5 timeDelayBlock -- not used in most of the time
 		   
 		   
-		    
 		
 		/*
 		 * 3. turbine 
@@ -258,15 +320,16 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		 *  
 		 */
 		   
-		//3.1 tchDelayBlock
+		
 		public double fhp=0.3,fip=0.3,flp=0.4,lambda=0.4;
 		
+		//3.1 tchDelayBlock
 		public double kch=1.0, tch=0.02;
 		@AnControllerField(
 		            type= CMLFieldEnum.ControlBlock,
 		            input="this.servoMotorBlock.y",
 		            parameter={"type.NoLimit", "this.kch", "this.tch"},
-		            y0="this.trhDelayBlock.u0")//TODO not sure whether the y0 need to be set?
+		            y0="this.trhDelayBlock.u0")
 		DelayControlBlock tchDelayBlock;
 		
 		//3.2 trhDelayBlock
@@ -276,7 +339,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		            type= CMLFieldEnum.ControlBlock,
 		            input="this.servoMotorBlock.y",
 		            parameter={"type.NoLimit", "this.krh", "this.trh"},
-		            y0="this.tcoDelayBlock.u0")//TODO not sure whether the y0 need to be set?
+		            y0="this.tcoDelayBlock.u0")
 		DelayControlBlock trhDelayBlock;
 		
 		//3.3 tcoDelayBlock
@@ -286,10 +349,8 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		            type= CMLFieldEnum.ControlBlock,
 		            input="this.servoMotorBlock.y",
 		            parameter={"type.NoLimit", "this.kco", "this.tco"},
-		            y0="this.factor*mach.pm")//TODO not sure whether the y0 need to be set?
+		            y0="this.factor*mach.pm")
 		DelayControlBlock tcoDelayBlock;
-		
-
 		
 	    @Override
 		public AnController getAnController() {
