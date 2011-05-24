@@ -163,7 +163,7 @@ public class BPADynamicGeneratorRecord {
     		}
     		DynamicGeneratorXmlType dynGen=null;
     		if(bus.getDynamicGenList()!=null)
-    			dynGen=bus.getDynamicGenList().getDynamicGen().get(new Integer(dynGenId).intValue()-1);
+    			dynGen=bus.getDynamicGenList().getDynamicGen().get(0);
     		
     		Eq1Ed1MachineXmlType mach =null;    		
 			if(dynGen==null){//only MF record(there is no M record prior to MF record) represents a transient type machine model(Eq1Ed1) 

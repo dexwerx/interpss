@@ -27,6 +27,7 @@ package org.ieee.odm.model.base;
 import java.text.DecimalFormat;
 
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -243,12 +244,12 @@ public class ModelStringUtil {
 	 * @throws Exception
 	 */
 	public static BusXmlType casting(BusXmlType from, String fromType, String toType) throws ODMException {
-		AclfModelParser parser = new AclfModelParser();
+		AclfModelParser parser = new AclfModelParser(IODMModelParser.chineseEncoding);
 		parser.getAclfNet().getBusList().getBus().add(BaseJaxbHelper.bus(from));
 		String busStr = parser.toXmlDoc(true)
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
-		parser = new AclfModelParser();
+		parser = new AclfModelParser(IODMModelParser.chineseEncoding);
 		parser.parse(busStr);
 		return (BusXmlType)parser.getAclfNet().getBusList().getBus().get(0).getValue();
 	}	

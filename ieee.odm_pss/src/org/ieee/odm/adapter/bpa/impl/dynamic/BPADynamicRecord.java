@@ -51,6 +51,7 @@ public class BPADynamicRecord {
 			str= din.readLine();
 			if(!str.startsWith("90")){
 				int dataType = getDataType(str);
+				System.out.println("processing line--"+str);
 				try{
 					if(dataType==header){
 						processHeaderData(str);
@@ -58,9 +59,12 @@ public class BPADynamicRecord {
 					else if(dataType==generatorData){
 						BPADynamicGeneratorRecord.processGeneratorData(str, parser);
 					}
-					else if(dataType==faultOperation){
-						BPADynamicFaultOperationRecord.processFaultOperationData(str, parser);
-					}
+					 /*since ODM should only deal with dynamic network data and 
+					  fault setting is usually analysis/software-dependent
+					 */
+					//else if(dataType==faultOperation){
+						//BPADynamicFaultOperationRecord.processFaultOperationData(str, parser);
+				    //}
 					else if(dataType==exciterData){
 						BPADynamicExciterRecord.processExciterData(str, parser);
 					}
