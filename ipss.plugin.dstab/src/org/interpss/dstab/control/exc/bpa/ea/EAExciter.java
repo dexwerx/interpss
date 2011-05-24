@@ -16,7 +16,7 @@ import org.interpss.dstab.control.cml.func.SeFunction;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
-import com.interpss.dstab.controller.annotate.AnnotateExciter;
+import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 
 /*

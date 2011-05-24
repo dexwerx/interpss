@@ -16,7 +16,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AbstractChildAnnotateController;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
+import com.interpss.dstab.controller.AnnotateStabilizer;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
