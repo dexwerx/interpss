@@ -240,23 +240,21 @@ public class BPADynamicTurbineGovernorRecord {
     	}
     }
 	
-	private static String[] getTGDataFields ( final String str) {
+	private static String[] getTGDataFields ( String str) {
     	final String[] strAry = new String[19];
-    	
+    	strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+    	//to process the Chinese characters first, if any.
+		int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
+		//Columns 6-13 busName  
+		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+		str=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
+		//bus Voltage
+		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
     	try{
     		if(str.substring(0, 2).trim().equals("GG")){
-	    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		
-//				//to process the Chinese characters first, if any.
-//				int chineseCharNum=ModelStringUtil.getChineseCharNum(str);
-//				//Columns 6-13 busName  
-//				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
-//				
-//				String str2=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
-				//busId
-				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				//bus Voltage
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
 				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 				//PMAX 
@@ -278,11 +276,11 @@ public class BPADynamicTurbineGovernorRecord {
 				
 	    		
 	    	}else if(str.substring(0, 2).trim().equals("GH")){
-	    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
 				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 				//PMAX 
@@ -309,11 +307,11 @@ public class BPADynamicTurbineGovernorRecord {
 	    		
 	    	}
 	    	else if(str.substring(0, 2).trim().equals("GS")){
-	    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
 				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 				//PMAX 
@@ -334,11 +332,11 @@ public class BPADynamicTurbineGovernorRecord {
 				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,55, 60).trim();			
 	    		
 	    	}else if(str.substring(0, 2).trim().equals("TA")){
-	    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
 				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
 				//TCH
@@ -346,11 +344,11 @@ public class BPADynamicTurbineGovernorRecord {
 				//k1
 				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 26).trim();
 	    	}else if(str.substring(0, 2).trim().equals("TB")){
-	    		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
-				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
 				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,14, 16).trim();
 				//tch

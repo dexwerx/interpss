@@ -635,13 +635,21 @@ public class BPADynamicExciterRecord {
     	return type;
 	}
 	
-	private static String[] getExciterDataFields ( final String str ) {
+	private static String[] getExciterDataFields (String str ) {
     	final String[] strAry = new String[19];	
+    	strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+    	//to process the Chinese characters first, if any.
+		int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
+		//Columns 6-13 busName  
+		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+		
+		str=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
     	try{
     		if(str.substring(0,1).trim().equals("E")){
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				
+				
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
@@ -685,9 +693,9 @@ public class BPADynamicExciterRecord {
 					||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
 					){
 				
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
@@ -724,9 +732,9 @@ public class BPADynamicExciterRecord {
 					||str.substring(0, 2).trim().equals("FS")||str.substring(0, 2).trim().equals("FU")
 					||str.substring(0, 2).trim().equals("FV")){
 				
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
@@ -761,9 +769,9 @@ public class BPADynamicExciterRecord {
 				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,77, 80).trim();
 			}
 			else if(str.substring(0,2).trim().equals("FZ")){
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId
@@ -794,9 +802,9 @@ public class BPADynamicExciterRecord {
 				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,72, 76).trim();			
 				
 			}else if(str.substring(0,2).trim().equals("F+")){
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 				//busId
-				strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
 				//bus Voltage
 				strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 				//excId

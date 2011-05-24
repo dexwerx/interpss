@@ -274,13 +274,19 @@ public class BPADynamicPSSRecord {
 	
 	private static String[] getPSSDataFields(String str){
     	final String[] strAry= new String[20];
-    	
+    	strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+    	//to process the Chinese characters first, if any.
+		int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
+		//Columns 6-13 busName  
+		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
+		
+		str=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
     	try{
     		if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
         			||str.substring(0, 3).trim().equals("SG")){
-        		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+        		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
         		//busId
-        		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+        		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
         		//bus Voltage
         		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
         		//excId
@@ -320,9 +326,9 @@ public class BPADynamicPSSRecord {
         		
         	}else if(str.substring(0, 3).trim().equals("SI")){
         		
-        		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+        		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
         		//busId
-        		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+        		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
         		//bus Voltage
         		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
         		//excId
@@ -358,9 +364,9 @@ public class BPADynamicPSSRecord {
         		
         		
         	}else if(str.substring(0, 3).trim().equals("SI+")){
-        		strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 3).trim();
+        		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 3).trim();
         		//busId
-        		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+        		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
         		//bus Voltage
         		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
         		//excId

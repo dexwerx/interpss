@@ -316,16 +316,37 @@ public class BPADynamicSequenceRecord {
 */	
 	private static String[] getSequenceDataFields(String str){
 		final String[] strAry= new String[13];
+		// line type
+		strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+		
+		//----to process the Chinese characters in the fromBus name, if any.
+		String temp=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+		int chnCharNum1=ModelStringUtil.getChineseCharNum(temp);
+		
+		//from bus name
+		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,5, 12-chnCharNum1).trim();
+		//from bus basekV
+		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,13-chnCharNum1, 16-chnCharNum1).trim();
+		
+		//---to process the Chinese characters in the toBus name, if any.
+		temp=ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1).trim();
+		int chnCharNum2=ModelStringUtil.getChineseCharNum(temp);
+		
+		//to bus name
+		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1-chnCharNum2).trim();
+		
+		//--- replace all the Chinese Characters, since they are not used in the following processing.
+		if(chnCharNum1>0||chnCharNum2>0)str=ModelStringUtil.replaceChineseChar(str);
 		
 		try{
 			if(str.substring(0, 2).startsWith("XO")){
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//bus2
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		//strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
 	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
 	    		//zrLocation
@@ -338,23 +359,23 @@ public class BPADynamicSequenceRecord {
 	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,45, 51).trim();		
 				
 			}else if(str.substring(0, 2).startsWith("XR")){			
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//R0
 	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,22, 28).trim();
 	    		//X0
 	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,29, 35).trim();
 			}else if(str.substring(0, 2).startsWith("LO")){			
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//bus1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//bus2
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		//strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
 	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
 	    		//par
@@ -372,13 +393,13 @@ public class BPADynamicSequenceRecord {
 	    		//B2
 	    		strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,71, 77).trim();
 			}else if(str.substring(0, 2).startsWith("LM")){
-				strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
 	    		//busI line 1
-	    		strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//busI Voltage
-	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//busJ line 1
-	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		//strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//busJ Voltage
 	    		strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
 	    		//par1
