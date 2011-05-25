@@ -95,11 +95,11 @@ public class BPADynamicTurbineGovernorRecord {
     		GovBPAHydroTurbineGHXmlType gov = DStabParserHelper.createGovBPAHydroTurbineGHXmlType(dynGen);
 		
 			//machine Id
-    		String id;
+    		String id="1";
     		if(!strAry[3].equals("")){
     			id=strAry[3];
-    			gov.setDesc("GOV Hydro Turbine GH type, machId#"+id);
-    		}	
+    		}
+    		gov.setDesc("GOV Hydro Turbine GH type, machId#"+id);
     		
 			//PMAX 
     		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);

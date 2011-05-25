@@ -31,6 +31,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.BusRefRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
@@ -113,9 +114,9 @@ public class BPADynamicSequenceRecord {
 			}
 	    	LineDStabXmlType line = parser.getDStabLine(fromId, toId, cirId);
 			//TODO can't set the rated voltage of frombus and tobus .When we get the branch,these info have been included?
-
-//	    	BusRefRecordXmlType frombsr=parser.createBusRef(fromId);
-//	    	line.setFromBus(frombr);
+	    	
+	    	BusRefRecordXmlType frombr=parser.createBusRef(fromId);
+	    	line.setFromBus(frombr);
 	    	
 			//Z0			
 			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -154,7 +155,7 @@ public class BPADynamicSequenceRecord {
 	    	final String line1fId = BusRecord.getBusId(strAry[1]);
 			final String line1tId = BusRecord.getBusId(strAry[3]);
 			String line1cirId="1";
-			if(!strAry[6].equals("")){
+			if(!strAry[5].equals("")){
 				line1cirId=strAry[5];				
 			}
 	    	LineDStabXmlType line1 = parser.getDStabLine(line1fId, line1tId, line1cirId);
@@ -321,19 +322,30 @@ public class BPADynamicSequenceRecord {
 		
 		//----to process the Chinese characters in the fromBus name, if any.
 		String temp=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
-		int chnCharNum1=ModelStringUtil.getChineseCharNum(temp);
-		
+		int chnCharNum1=ModelStringUtil.getChineseCharNum(temp);		
 		//from bus name
 		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,5, 12-chnCharNum1).trim();
-		//from bus basekV
-		strAry[2] = ModelStringUtil.getStringReturnEmptyString(str,13-chnCharNum1, 16-chnCharNum1).trim();
 		
 		//---to process the Chinese characters in the toBus name, if any.
 		temp=ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1).trim();
 		int chnCharNum2=ModelStringUtil.getChineseCharNum(temp);
-		
 		//to bus name
 		strAry[3] = ModelStringUtil.getStringReturnEmptyString(str,19-chnCharNum1, 26-chnCharNum1-chnCharNum2).trim();
+		
+		//LM card have 4 buses
+		if(str.substring(0, 2).startsWith("LM")){
+			//----to process the Chinese characters in the fromBus name 0f line2, if any.
+    		temp=ModelStringUtil.getStringReturnEmptyString(str,36-chnCharNum1-chnCharNum2, 43-chnCharNum1-chnCharNum2).trim();
+    		int chnCharNum3=ModelStringUtil.getChineseCharNum(temp);
+    		//from bus name
+    		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,36-chnCharNum1-chnCharNum2, 43-chnCharNum1-chnCharNum2-chnCharNum3).trim();
+    		
+    		//---to process the Chinese characters in the toBus name of line2, if any.
+    		temp=ModelStringUtil.getStringReturnEmptyString(str,50-chnCharNum1-chnCharNum2-chnCharNum3, 57-chnCharNum1-chnCharNum2-chnCharNum3).trim();
+    		int chnCharNum4=ModelStringUtil.getChineseCharNum(temp);
+    		//to bus name
+    		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str,50-chnCharNum1-chnCharNum2-chnCharNum3, 57-chnCharNum1-chnCharNum2-chnCharNum3-chnCharNum4).trim();
+		}
 		
 		//--- replace all the Chinese Characters, since they are not used in the following processing.
 		if(chnCharNum1>0||chnCharNum2>0)str=ModelStringUtil.replaceChineseChar(str);
@@ -344,7 +356,7 @@ public class BPADynamicSequenceRecord {
 	    		//bus1
 	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//bus2
 	    		//strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
@@ -363,7 +375,7 @@ public class BPADynamicSequenceRecord {
 	    		//bus1
 	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//R0
 	    		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,22, 28).trim();
 	    		//X0
@@ -373,7 +385,7 @@ public class BPADynamicSequenceRecord {
 	    		//bus1
 	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//bus1 Voltage
-	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//bus2
 	    		//strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//bus2 Voltage
@@ -397,7 +409,7 @@ public class BPADynamicSequenceRecord {
 	    		//busI line 1
 	    		//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,5, 12).trim();
 	    		//busI Voltage
-	    		//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//busJ line 1
 	    		//strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,19, 26).trim();
 	    		//busJ Voltage
@@ -405,11 +417,11 @@ public class BPADynamicSequenceRecord {
 	    		//par1
 	    		strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
 	    		//busK line2
-	    		strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,36, 43).trim();
+	    		//strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,36, 43).trim();
 	    		//busK voltage
 	    		strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,44, 47).trim();
 	    		//busL line2
-	    		strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,50, 57).trim();
+	    		//strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,50, 57).trim();
 	    		//busL voltage
 	    		strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,58, 61).trim();
 	    		//par2

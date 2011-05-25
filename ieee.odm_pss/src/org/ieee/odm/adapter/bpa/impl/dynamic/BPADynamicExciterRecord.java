@@ -39,7 +39,6 @@ import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
 import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
-import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 
 public class BPADynamicExciterRecord {
@@ -69,12 +68,12 @@ public class BPADynamicExciterRecord {
     	if(type==EA||type==EC||type==EK){
     		ExcIEEE1968Type1XmlType exc = DStabParserHelper.createExcIEEE1968Type1XmlType(dynGen);
 
-    		//excId
-    		String excId="1";
+    		//machine Id
+    		String id="1";
     		if(!strAry[3].equals("")){
-    			excId=strAry[3];
+    			id=strAry[3];
     		} 
-    		exc.setDesc("IEEE1968 Type1 excId-" + excId);
+    		exc.setDesc("IEEE1968 Type1, machId#" + id);
     		
     		//TR
     		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
