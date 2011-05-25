@@ -88,57 +88,7 @@ public class LineBranchRecord {
 			if(!strAry[7].equals("")){
 				tVol= new Double(strAry[4]).doubleValue();
 			}
-			
-//			// measure location for power interchange, 1--from side, 2- to side
-//			//set transfer power measured location in tie line data 
-//			int measureLocation=0;
-//			if(!strAry[5].equals("")){
-//				measureLocation= new Integer(strAry[5]).intValue();
-//				try{
-//					if(measureLocation==1){
-//						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
-//						// set tieline data
-//						tieLine.addNewMeteredBus().setName(fid);
-//						tieLine.addNewNonMeteredBus().setName(tid);	
-//						
-//						BusRecordXmlType busRecFrom=XBeanParserHelper.findBusRecord(fid, baseCaseNet);
-//						busRecFrom.getZoneNumber();
-//						NetAreaXmlType areaFrom=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
-//						tieLine.setMeteredArea(areaFrom.getName());
-//						
-//						BusRecordXmlType busRecTo=XBeanParserHelper.findBusRecord(tid, baseCaseNet);
-//						busRecTo.getZoneNumber();
-//						NetAreaXmlType areaTo=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
-//						tieLine.setNonMeteredArea(areaTo.getName());
-//						// to do: set area number
-//						
-//					}
-//					else{
-//						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
-//
-//						tieLine.addNewMeteredBus().setName(tid);
-//						tieLine.addNewNonMeteredBus().setName(fid);					
-//						XBeanParserHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
-//						
-//						BusRecordXmlType busRecFrom=XBeanParserHelper.findBusRecord(tid, baseCaseNet);
-//						busRecFrom.getZoneNumber();
-//						NetAreaXmlType areaFrom=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
-//						tieLine.setMeteredArea(areaFrom.getName());
-//						
-//						BusRecordXmlType busRecTo=XBeanParserHelper.findBusRecord(fid, baseCaseNet);
-//						busRecTo.getZoneNumber();
-//						NetAreaXmlType areaTo=XBeanParserHelper.
-//						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
-//						tieLine.setNonMeteredArea(areaTo.getName());						
-//					}
-//				} catch (final Exception e){
-//					e.printStackTrace();
-//				}
-//			}
-			
+						
 			branchRec.setId(ModelStringUtil.formBranchId(fid, tid, cirId));			
 			
 			String multiSectionId="";
