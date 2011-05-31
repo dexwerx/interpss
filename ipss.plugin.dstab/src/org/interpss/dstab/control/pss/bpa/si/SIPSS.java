@@ -186,7 +186,7 @@ class CustomExciter2 extends AbstractChildAnnotateController {
 
 
     // UI Editor panel
-    private static SIPSSEditPanel _editPanel = new SIPSSEditPanel();
+    private static NBSIPSSEditPanel _editPanel = new NBSIPSSEditPanel();
 
 /*
  * Part-2: Define the contructors
