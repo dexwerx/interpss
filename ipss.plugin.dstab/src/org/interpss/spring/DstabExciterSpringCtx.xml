@@ -93,6 +93,23 @@
 	    p:category="InterPSS Sample"
 	    p:desc="A sample custom exciter plugin implementation" />
 -->	    
+
+<!-- BPA Exciter List
+ -->
+	<bean id="bpa_eaExciter" 
+	      class="org.interpss.dstab.control.exc.bpa.ea.EAExciter"
+	      scope="prototype"	
+	      p:name="BPA EA"
+	      p:category="BPA-Exciter"
+	      p:desc="The BAP EA Type exciter implementation" />
+
+	<bean id="bpa_faExciter" 
+	      class="org.interpss.dstab.control.exc.bpa.fa.FAExciter"
+	      scope="prototype"	
+	      p:name="BPA FA"
+	      p:category="BPA-Exciter"
+	      p:desc="The BAP FA Type exciter implementation" />
+
 	<bean id="exciterList" 
 	      class="java.util.ArrayList"
 	      scope="singleton">	
@@ -105,6 +122,9 @@
 				<ref bean="ieee1968Type2Exciter"/>
 				<ref bean="ieee1968Type3Exciter"/>
 				<ref bean="ieee1968Type4Exciter"/>
+				<!-- BPA -->
+				<ref bean="bpa_eaExciter"/>
+				<ref bean="bpa_faExciter"/>
 				<!-- ref bean="sampleCustomExciter"/ -->
 			</list>
 		</constructor-arg>
