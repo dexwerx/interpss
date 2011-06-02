@@ -57,6 +57,10 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	}
 	
 	protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
+		AclfModelParser parser = new AclfModelParser(encoding);
+		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
+
 		String str="";
 		// first line, as a sign to run power flow data or transient data
 		// there may be comments starting with . or blank line
@@ -65,10 +69,6 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		} while (str.startsWith(".") || str.trim().equals(""));  // bypass lines starts with . or blank lines
 		
 		if(str.equals("loadflow") || str.contains("POWERFLOW")){
-			AclfModelParser parser = new AclfModelParser(encoding);
-			parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
-			parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
-
 			BPALoadflowRecord.processLfData(parser, din);			
 			return parser;
 		}
