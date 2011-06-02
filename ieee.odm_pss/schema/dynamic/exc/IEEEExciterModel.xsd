@@ -22,7 +22,6 @@
 	<element name="excIEEE1981ST1" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981ST1XmlType"/>
 	<element name="excIEEE1981TypeDC1" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981TypeDC1XmlType"/>
 	<element name="excIEEE1981TypeDC2" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981TypeDC2XmlType"/>
-	<element name="excIEEE1981NewExcSystem" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981NewExcSystemXmlType"/>
     
     <!-- IEEE std 1968--> 
 	<element name="excIEEE1968Type1" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type1XmlType"/>
@@ -237,42 +236,6 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="ExcIEEE1981NewExcSystemXmlType">
-		<complexContent>
-			<extension base="pss:ExcSimpleTypeXmlType">
-				<sequence>
-					<element maxOccurs="1" minOccurs="1" name="Rc" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Xc" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Tr" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Kv" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="0" name="Kb" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Kf" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Tf" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="Kh" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="VAmax" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="VAmin" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="K5" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="Ke" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Te" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="0" name="SE1" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="SE2" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Kc" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Kd" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="KL1" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="VL1r" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="EFDmax" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
  
  <!-- 
 		IEEE 1992 model set

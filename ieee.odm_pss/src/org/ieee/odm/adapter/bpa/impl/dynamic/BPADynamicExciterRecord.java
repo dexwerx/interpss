@@ -34,8 +34,12 @@ import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
+import org.ieee.odm.schema.ExcBPAFQXmlType;
+import org.ieee.odm.schema.ExcBPAFRXmlType;
+import org.ieee.odm.schema.ExcBPAFSXmlType;
+import org.ieee.odm.schema.ExcBPAFUXmlType;
+import org.ieee.odm.schema.ExcBPAFVXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
-import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
 import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
@@ -65,7 +69,7 @@ public class BPADynamicExciterRecord {
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     	
-    	if(type==EA||type==EC||type==EK){
+    	if(type==EA){
     		ExcIEEE1968Type1XmlType exc = DStabParserHelper.createExcIEEE1968Type1XmlType(dynGen);
 
     		//machine Id
@@ -128,7 +132,7 @@ public class BPADynamicExciterRecord {
     		exc.setVRMIN(VRmin);
     	}
     	else if(type==FA){
-    		//EXDC2
+    		
             //BPA exciter FA type is the same as IEEE 1981 DC1 type or IEEE 2005 DC1A type
     		ExcIEEE1981TypeDC1XmlType exc = DStabParserHelper.createExcIEEE1981TypeDC1XmlType(dynGen);
     		
@@ -139,9 +143,17 @@ public class BPADynamicExciterRecord {
 			}	
     		exc.setDesc("IEEE Type DC1 excId-" + excId);
 			
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
 			//TR
-			double Tr= ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTR(BaseDataSetter.createTimeConstSec(Tr));			
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));			
 			
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
@@ -187,9 +199,17 @@ public class BPADynamicExciterRecord {
 			}	
     		exc.setDesc("IEEE1981 ST1 Type excId-" + excId);
 
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
 			//TR
-			double Tr= ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTR(BaseDataSetter.createTimeConstSec(Tr));
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
 			
 			//VIMax for G K L,VAmax for FF
 			double Vimax= ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -233,8 +253,18 @@ public class BPADynamicExciterRecord {
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}	
-    		exc.setDesc("BPAJ Type excId-" + excId);
-			
+    		exc.setDesc("BPA FJ Type Exciter, excId-" + excId);
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
+			//TR
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
 			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
@@ -260,28 +290,14 @@ public class BPADynamicExciterRecord {
 			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
 			exc.setVrmin(Vrmin);
     	}
-    	else if(type==FQ||type==FR||type==FS||type==FU||type==FV){// all the known new exciter types in usage.
-    		ExcIEEE1981NewExcSystemXmlType exc = DStabParserHelper.createExcIEEE1981NewExcSystemXmlType(dynGen);
-    		
-    		/*
-    		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
-    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_NEW_EXC_SYSTEM);
-    		ExcIEEE1981NewExcSystemXmlType newExc=exc.addNewExciterModel().addNewIEEE1981NewExcSystem();
-    		
-			//busId
-    		String busId=strAry[1];
-			exc.addNewLocatedBus().setName(busId);
-			//bus Voltage
-			double voltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
-					voltage, VoltageUnitType.KV);
-					*/			
-			//excId
+    	else if(type==FQ){
+    		ExcBPAFQXmlType exc = DStabParserHelper.createExcBPAFQXmlType(dynGen);
+    
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}			
-    		exc.setDesc("IEEE1981 new exc system excId-" + excId);
+    		exc.setDesc("BPA Eeciter FQ type, excId-" + excId);
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -300,8 +316,8 @@ public class BPADynamicExciterRecord {
 			exc.setK(k);
 						
 			//Kv
-			double kv=ModelStringUtil.getDouble(strAry[8], 0.0);
-			exc.setKv(kv);
+			int kv=ModelStringUtil.getInt(strAry[8], 0);
+			exc.setKV(kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
@@ -329,33 +345,278 @@ public class BPADynamicExciterRecord {
 						
 			//KF
 			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKf(kf);
+			exc.setKF(kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
-			exc.setTf(BaseDataSetter.createTimeConstSec(Tf));
+			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
 			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
-			exc.setKh(kh);
+			exc.setKH(kh);
+    	}
+    	  //type==FR
+    	else if(type==FR){
+    		ExcBPAFRXmlType exc = DStabParserHelper.createExcBPAFRXmlType(dynGen);
+    
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}			
+    		exc.setDesc("BPA Eeciter FR type, excId-" + excId);
+
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
+			//TR
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+						
+			//K
+			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
+			exc.setK(k);
+						
+			//Kv
+			int kv=ModelStringUtil.getInt(strAry[8], 0);
+			exc.setKV(kv);
+						
+			// T1
+			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
+			
+			//T2
+			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
+						
+			//T3			
+			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
+						
+			// T4			
+			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
+						
+			//KA
+			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			exc.setKa(ka);
+					
+			//TA
+			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
+						
+			//KF
+			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			exc.setKF(kf);
+			
+			//TF
+			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+					
+			//KH
+			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
+			exc.setKH(kh);
+    	}
+    	//type==FS
+    	else if(type==FS){
+    		ExcBPAFSXmlType exc = DStabParserHelper.createExcBPAFSXmlType(dynGen);
+    
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}			
+    		exc.setDesc("BPA Eeciter FS type, excId-" + excId);
+
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
+			//TR
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+						
+			//K
+			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
+			exc.setK(k);
+						
+			//Kv
+			int kv=ModelStringUtil.getInt(strAry[8], 0);
+			exc.setKV(kv);
+						
+			// T1
+			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
+			
+			//T2
+			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
+						
+			//T3			
+			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
+						
+			// T4			
+			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
+						
+			//KA
+			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			exc.setKa(ka);
+					
+			//TA
+			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
+						
+			//KF
+			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			exc.setKF(kf);
+			
+			//TF
+			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+					
+			//KH
+			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
+			exc.setKH(kh);
+    	}
+    	//type==FU
+    	else if(type==FU){
+    		ExcBPAFUXmlType exc = DStabParserHelper.createExcBPAFUXmlType(dynGen);
+    
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}			
+    		exc.setDesc("BPA Eeciter FQ type, excId-" + excId);
+
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
+			//TR
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+						
+			//K
+			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
+			exc.setK(k);
+						
+			//Kv
+			int kv=ModelStringUtil.getInt(strAry[8], 0);
+			exc.setKV(kv);
+						
+			// T1
+			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
+			
+			//T2
+			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
+						
+			//T3			
+			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
+						
+			// T4			
+			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
+						
+			//KA
+			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			exc.setKa(ka);
+					
+			//TA
+			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
+						
+			//KF
+			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			exc.setKF(kf);
+			
+			//TF
+			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+
+    	}
+    	//type==FV
+    	else if(type==FV){
+    		ExcBPAFVXmlType exc = DStabParserHelper.createExcBPAFVXmlType(dynGen);
+    
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}			
+    		exc.setDesc("BPA Eeciter FQ type, excId-" + excId);
+
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setXc(Xc);
+						
+			//TR
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+						
+			//K
+			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
+			exc.setK(k);
+						
+			//Kv
+			int kv=ModelStringUtil.getInt(strAry[8], 0);
+			exc.setKV(kv);
+						
+			// T1
+			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
+			
+			//T2
+			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
+						
+			//T3			
+			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
+						
+			// T4			
+			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
+						
+			//KA
+			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			exc.setKa(ka);
+					
+			//TA
+			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
+						
+			//KF
+			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			exc.setKF(kf);
+			
+			//TF
+			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+
     	}
     	else if(type==FF){
     		ExcIEEE1981TypeAC2XmlType exc = DStabParserHelper.createExcIEEE1981TypeAC2XmlType(dynGen);
     		
-    		/*
-    		ExciterXmlType exc=XBeanTranStabSimuHelper.addNewExciter(tranSimu);
-    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2);
-    		ExcIEEE1981TypeAC2XmlType newExc=exc.addNewExciterModel().addNewIEEE1981TypeAC2();
-    		
-			//busId
-    		String busId=strAry[1];
-			exc.addNewLocatedBus().setName(busId);
-			//bus Voltage
-			double voltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-			XBeanDataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
-					voltage, VoltageUnitType.KV);
-			*/					
-			//excId
+
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
@@ -413,19 +674,8 @@ public class BPADynamicExciterRecord {
     		                        getDynamicGenList().getDynamicGen().get(0).getExciter().getValue();   	
         	
         	if(str.substring(0, 2).trim().equals("FZ")){
-        		if(exc instanceof ExcIEEE1981ST1XmlType){ // the same as BPA FK.       		
-            		//KF
-            		double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
-            		((ExcIEEE1981ST1XmlType) exc).setKF(Kf);
-            					
-        			// TF
-            		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
-            		((ExcIEEE1981ST1XmlType) exc).setTF(BaseDataSetter.createTimeConstSec(TF));
-        			//KC
-        			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
-        			((ExcIEEE1981ST1XmlType) exc).setKC(Kc); 
-            	}
-            	else if(exc instanceof ExcBPAFJXmlType){     //ExciterType.BPAFJ   		
+        		
+            	if(exc instanceof ExcBPAFJXmlType){     //ExciterType.BPAFJ   		
             		//EFDmax
             		double EFDmax= ModelStringUtil.getDouble(strAry[7], 0.0);
             		((ExcBPAFJXmlType)exc).setEFDMAX(EFDmax);
@@ -446,8 +696,20 @@ public class BPADynamicExciterRecord {
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
         			((ExcBPAFJXmlType)exc).setKC(Kc);
             	}
-        		//TODO This need to be changed
-            	else if(exc instanceof ExcIEEE1981TypeDC1XmlType){//FA
+            	else if(exc instanceof ExcIEEE1981ST1XmlType){ // the same as BPA FK.       		
+            		//KF
+            		double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
+            		((ExcIEEE1981ST1XmlType) exc).setKF(Kf);
+            					
+        			// TF
+            		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		((ExcIEEE1981ST1XmlType) exc).setTF(BaseDataSetter.createTimeConstSec(TF));
+        			//KC
+        			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
+        			((ExcIEEE1981ST1XmlType) exc).setKC(Kc); 
+            	}
+            	//BPA FA
+            	else if(exc instanceof ExcIEEE1981TypeDC1XmlType){ 
             		           		
             		//Se1            		
             		double SE1=ModelStringUtil.getDouble(strAry[4], 0.0);  
@@ -468,8 +730,6 @@ public class BPADynamicExciterRecord {
             		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
             		((ExcIEEE1981TypeDC1XmlType)exc).setTF(BaseDataSetter.createTimeConstSec(TF));
         			
-            	}else if(exc instanceof ExcIEEE1981NewExcSystemXmlType){// BPA new exciter models based on IEEE 1981
-            		
             	}
             	else ODMLogger.getLogger().severe("processor for this type excitor is not implmented yet!");
 //            	else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2)){//BPA FF
@@ -514,78 +774,260 @@ public class BPADynamicExciterRecord {
 //            	}
         		
         	}
-    	else if(str.substring(0, 2).trim().equals("F+")&& exc instanceof ExcIEEE1981NewExcSystemXmlType){
-    		
-    		
-    		//VAMAX 
-    		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setVAmax(Vamax);    		
-			
-			//VAMIN 
-    		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setVAmin(Vamin);
-    		
-			strAry[5]=str.substring(21, 26).trim();
-			//KB
-			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
-			((ExcIEEE1981NewExcSystemXmlType)exc).setKb(Kb);
-    		    			
-			//T5
-    		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
-    					
-			//KE
-    		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setKe(Ke);
+    	else if(str.substring(0, 2).trim().equals("F+")){
+    		if(exc instanceof ExcBPAFQXmlType){
+    			//VAMAX 
+        		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
+        		((ExcBPAFQXmlType)exc).setVAMAX(Vamax);    		
     			
-			// TE
-    		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setTe(BaseDataSetter.createTimeConstSec(Te));
-    				
-			//SE1-->EfdMax
-    		// e1 for SE1 is set latter. 
-    		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
-    		
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setSE1(SE1);
-    				
-			// VRMAX
-			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-			((ExcIEEE1981NewExcSystemXmlType)exc).setVrmax(Vrmax); 			
-			
-			//VRMIN
-			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
-			((ExcIEEE1981NewExcSystemXmlType)exc).setVrmin(Vrmin);			
-			
-			//KC
-    		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setKc(KC);
-    		    					
-			//KD
-    		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setKd(Kd);
-    					
-			//KL1
-    		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setKL1(KL1);
-    				
-			//VLIR
-    		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setVL1R(VLIR);
-    					
-			//EFDMAX
-    		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setEFDmax(EFDMAX);
-    		//set e1,e2 for saturation calculation
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setE1(EFDMAX);
-    		((ExcIEEE1981NewExcSystemXmlType)exc).setE2(EFDMAX*0.75);
-    		
-    		//SE2-->75%EFDMAX
-    		double SE2=0.0;
-    		if(!strAry[11].equals("")){
-    			SE2=new Double(strAry[11]).doubleValue();
-    			((ExcIEEE1981NewExcSystemXmlType)exc).setSE2(SE2);
-    		}
-    	} // end of BPA new Exciter
+    			//VAMIN 
+        		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
+        		((ExcBPAFQXmlType)exc).setVAMIN(Vamin);
+        		
+    			strAry[5]=str.substring(21, 26).trim();
+    			//KB
+    			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
+    			((ExcBPAFQXmlType)exc).setKB(Kb);
+        		    			
+    			//T5
+        		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
+        		((ExcBPAFQXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
+        					
+    			//KE
+        		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
+        		((ExcBPAFQXmlType)exc).setKE(Ke);
+        			
+    			// TE
+        		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
+        		((ExcBPAFQXmlType)exc).setTE(BaseDataSetter.createTimeConstSec(Te));
+        				
+    			//SE1-->EfdMax
+        		// e1 for SE1 is set latter. 
+        		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+        		
+        		((ExcBPAFQXmlType)exc).setSE1(SE1);
+        				
+    			// VRMAX
+    			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
+    			((ExcBPAFQXmlType)exc).setVrmax(Vrmax); 			
+    			
+    			//VRMIN
+    			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			((ExcBPAFQXmlType)exc).setVrmin(Vrmin);			
+    			
+    			//KC
+        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		((ExcBPAFQXmlType)exc).setKC(KC);
+        		    					
+    			//KD
+        		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
+        		((ExcBPAFQXmlType)exc).setKD(Kd);
+        					
+    			//KL1
+        		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
+        		((ExcBPAFQXmlType)exc).setKL1(KL1);
+        				
+    			//VLIR
+        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
+        		((ExcBPAFQXmlType)exc).setVL1R(VLIR);
+        					
+    			//EFDMAX
+        		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
+        		((ExcBPAFQXmlType)exc).setEFDmax(EFDMAX);
+        		//set e1,e2 for saturation calculation
+        		((ExcBPAFQXmlType)exc).setE1(EFDMAX);
+        		((ExcBPAFQXmlType)exc).setE2(EFDMAX*0.75);
+        		
+        		//SE2-->75%EFDMAX
+        		double SE2=0.0;
+        		if(!strAry[11].equals("")){
+        			SE2=new Double(strAry[11]).doubleValue();
+        			((ExcBPAFQXmlType)exc).setSE2(SE2);
+        		}
+        	}
+    		else if(exc instanceof ExcBPAFRXmlType){
+    			//VAMAX 
+        		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
+        		((ExcBPAFRXmlType)exc).setVAMAX(Vamax);    		
+    			
+    			//VAMIN 
+        		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
+        		((ExcBPAFRXmlType)exc).setVAMIN(Vamin);
+        		
+    			strAry[5]=str.substring(21, 26).trim();
+    			//KB
+    			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
+    			((ExcBPAFRXmlType)exc).setKB(Kb);
+        		    			
+    			//T5
+        		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
+        		((ExcBPAFRXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
+        					
+    			//KE
+        		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
+        		((ExcBPAFRXmlType)exc).setKE(Ke);
+        			
+    			// TE
+        		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
+        		((ExcBPAFRXmlType)exc).setTE(BaseDataSetter.createTimeConstSec(Te));
+        				
+    			//SE1-->EfdMax
+        		// e1 for SE1 is set latter. 
+        		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+        		
+        		((ExcBPAFRXmlType)exc).setSE1(SE1);
+        				
+    			// VRMAX
+    			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
+    			((ExcBPAFRXmlType)exc).setVrmax(Vrmax); 			
+    			
+    			//VRMIN
+    			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			((ExcBPAFRXmlType)exc).setVrmin(Vrmin);			
+    			
+    			//KC
+        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		((ExcBPAFRXmlType)exc).setKC(KC);
+        		    					
+    			//KD
+        		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
+        		((ExcBPAFRXmlType)exc).setKD(Kd);
+        					
+    			//KL1
+        		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
+        		((ExcBPAFRXmlType)exc).setKL1(KL1);
+        				
+    			//VLIR
+        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
+        		((ExcBPAFRXmlType)exc).setVL1R(VLIR);
+        					
+    			//EFDMAX
+        		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
+        		((ExcBPAFRXmlType)exc).setEFDmax(EFDMAX);
+        		//set e1,e2 for saturation calculation
+        		((ExcBPAFRXmlType)exc).setE1(EFDMAX);
+        		((ExcBPAFRXmlType)exc).setE2(EFDMAX*0.75);
+        		
+        		//SE2-->75%EFDMAX
+        		double SE2=0.0;
+        		if(!strAry[11].equals("")){
+        			SE2=new Double(strAry[11]).doubleValue();
+        			((ExcBPAFRXmlType)exc).setSE2(SE2);
+        		}
+    	  } //end of FR
+    		else if(exc instanceof ExcBPAFSXmlType){
+    			//VAMAX 
+        		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
+        		((ExcBPAFSXmlType)exc).setVAMAX(Vamax);    		
+    			
+    			//VAMIN 
+        		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
+        		((ExcBPAFSXmlType)exc).setVAMIN(Vamin);
+        		
+    			strAry[5]=str.substring(21, 26).trim();
+    			//KB
+    			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
+    			((ExcBPAFSXmlType)exc).setKB(Kb);
+        		    			
+    			//T5
+        		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
+        		((ExcBPAFSXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
+        					
+    			//KE
+        		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
+        		((ExcBPAFSXmlType)exc).setKE(Ke);
+        			
+    			// TE
+        		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
+        		((ExcBPAFSXmlType)exc).setTE(BaseDataSetter.createTimeConstSec(Te));
+        				
+    			//SE1-->EfdMax
+        		// e1 for SE1 is set latter. 
+        		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+        		
+        		((ExcBPAFSXmlType)exc).setSE1(SE1);
+        				
+    			// VRMAX
+    			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
+    			((ExcBPAFSXmlType)exc).setVrmax(Vrmax); 			
+    			
+    			//VRMIN
+    			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			((ExcBPAFSXmlType)exc).setVrmin(Vrmin);			
+    			
+    			//KC
+        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		((ExcBPAFSXmlType)exc).setKC(KC);
+        		    					
+    			//KD
+        		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
+        		((ExcBPAFSXmlType)exc).setKD(Kd);
+        					
+    			//KL1
+        		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
+        		((ExcBPAFSXmlType)exc).setKL1(KL1);
+        				
+    			//VLIR
+        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
+        		((ExcBPAFSXmlType)exc).setVL1R(VLIR);
+        					
+    			//EFDMAX
+        		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
+        		((ExcBPAFSXmlType)exc).setEFDmax(EFDMAX);
+        		//set e1,e2 for saturation calculation
+        		((ExcBPAFSXmlType)exc).setE1(EFDMAX);
+        		((ExcBPAFSXmlType)exc).setE2(EFDMAX*0.75);
+        		
+        		//SE2-->75%EFDMAX
+        		double SE2=0.0;
+        		if(!strAry[11].equals("")){
+        			SE2=new Double(strAry[11]).doubleValue();
+        			((ExcBPAFSXmlType)exc).setSE2(SE2);
+        		}
+    	  } //end of FS
+    		else if(exc instanceof ExcBPAFUXmlType){
+    			//VAMAX 
+        		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
+        		((ExcBPAFUXmlType)exc).setVAMAX(Vamax);    		
+    			
+    			//VAMIN 
+        		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
+        		((ExcBPAFUXmlType)exc).setVAMIN(Vamin);
+        		        				
+    			// VRMAX
+    			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
+    			((ExcBPAFUXmlType)exc).setVrmax(Vrmax); 			
+    			
+    			//VRMIN
+    			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			((ExcBPAFUXmlType)exc).setVrmin(Vrmin);			
+    			
+    			//KC
+        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		((ExcBPAFUXmlType)exc).setKC(KC);
+    	  } //end of FU
+    		else if(exc instanceof ExcBPAFVXmlType){
+    			//VAMAX 
+        		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
+        		((ExcBPAFVXmlType)exc).setVAMAX(Vamax);    		
+    			
+    			//VAMIN 
+        		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
+        		((ExcBPAFVXmlType)exc).setVAMIN(Vamin);
+        		        				
+    			// VRMAX
+    			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
+    			((ExcBPAFVXmlType)exc).setVrmax(Vrmax); 			
+    			
+    			//VRMIN
+    			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			((ExcBPAFVXmlType)exc).setVrmin(Vrmin);			
+    			
+    			//KC
+        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		((ExcBPAFVXmlType)exc).setKC(KC);
+    	  } //end of FV
+    	}//END OF F+
       }
 	}
 	

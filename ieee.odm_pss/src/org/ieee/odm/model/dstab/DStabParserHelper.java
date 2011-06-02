@@ -34,12 +34,16 @@ import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
+import org.ieee.odm.schema.ExcBPAFQXmlType;
+import org.ieee.odm.schema.ExcBPAFRXmlType;
+import org.ieee.odm.schema.ExcBPAFSXmlType;
+import org.ieee.odm.schema.ExcBPAFUXmlType;
+import org.ieee.odm.schema.ExcBPAFVXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1SXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type2XmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type3XmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type4XmlType;
-import org.ieee.odm.schema.ExcIEEE1981NewExcSystemXmlType;
 import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
@@ -174,12 +178,6 @@ public class DStabParserHelper extends AclfParserHelper {
 		return exc;
 	}
 
-	public static ExcIEEE1981NewExcSystemXmlType createExcIEEE1981NewExcSystemXmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1981NewExcSystemXmlType exc = getFactory().createExcIEEE1981NewExcSystemXmlType();
-		gen.setExciter(getFactory().createExcIEEE1981NewExcSystem(exc));
-		return exc;
-	}
-
 	public static ExcIEEE1968Type1XmlType createExcIEEE1968Type1XmlType(DynamicGeneratorXmlType gen) {
 		ExcIEEE1968Type1XmlType exc = getFactory().createExcIEEE1968Type1XmlType();
 		gen.setExciter(getFactory().createExcIEEE1968Type1(exc));
@@ -227,6 +225,41 @@ public class DStabParserHelper extends AclfParserHelper {
 	public static ExcBPAFJXmlType createExcBPAFJXmlType(DynamicGeneratorXmlType gen) {
 		ExcBPAFJXmlType exc = getFactory().createExcBPAFJXmlType();
 		gen.setExciter(getFactory().createExcBPATypeFJ(exc));
+		return exc;
+	}
+	
+	public static ExcBPAFQXmlType createExcBPAFQXmlType(
+			DynamicGeneratorXmlType gen) {
+		ExcBPAFQXmlType exc = getFactory().createExcBPAFQXmlType();
+		gen.setExciter(getFactory().createExcBPATypeFQ(exc));
+		return exc;
+	}
+	
+	public static ExcBPAFRXmlType createExcBPAFRXmlType(
+			DynamicGeneratorXmlType gen) {
+		ExcBPAFRXmlType exc = getFactory().createExcBPAFRXmlType();
+		gen.setExciter(getFactory().createExcBPATypeFR(exc));
+		return exc;
+	}
+	
+	public static ExcBPAFSXmlType createExcBPAFSXmlType(
+			DynamicGeneratorXmlType gen) {
+		ExcBPAFSXmlType exc = getFactory().createExcBPAFSXmlType();
+		gen.setExciter(getFactory().createExcBPATypeFS(exc));
+		return exc;
+	}
+	
+	public static ExcBPAFUXmlType createExcBPAFUXmlType(
+			DynamicGeneratorXmlType gen) {
+		ExcBPAFUXmlType exc = getFactory().createExcBPAFUXmlType();
+		gen.setExciter(getFactory().createExcBPATypeFU(exc));
+		return exc;
+	}
+	
+	public static ExcBPAFVXmlType createExcBPAFVXmlType(
+			DynamicGeneratorXmlType gen) {
+		ExcBPAFVXmlType exc = getFactory().createExcBPAFVXmlType();
+		gen.setExciter(getFactory().createExcBPATypeFV(exc));
 		return exc;
 	}
 	
@@ -419,5 +452,7 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setStabilizer(getFactory().createPssBPADualInput(pss));
 		return pss;
 	}
+
+
 
 }
