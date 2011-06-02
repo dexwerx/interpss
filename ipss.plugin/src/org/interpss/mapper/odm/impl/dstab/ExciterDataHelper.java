@@ -208,9 +208,9 @@ public class ExciterDataHelper {
 
 			if(kv==0)  {
 				FVkv0Exciter exc = ExciterObjectFactory.createBPAFVKv0TypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);
-				exc.getData().setRc(excXml.getRc());
-				exc.getData().setXc(excXml.getXc());
-				exc.getData().setTr(excXml.getTr().getValue());
+				exc.getData().setRc(excXml.getTransRc());
+				exc.getData().setXc(excXml.getTransXc());
+				exc.getData().setTr(excXml.getTransTr().getValue());
 				exc.getData().setT1(excXml.getT1().getValue());
 				exc.getData().setT2(excXml.getT2().getValue());
 				exc.getData().setT3(excXml.getT3().getValue());
@@ -226,9 +226,9 @@ public class ExciterDataHelper {
 		    else {
 		   
 		    	FVkv1Exciter exc=ExciterObjectFactory.createBPAFVKv1TypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
-				exc.getData().setRc(excXml.getRc());
-				exc.getData().setXc(excXml.getXc());
-				exc.getData().setTr(excXml.getTr().getValue());
+				exc.getData().setRc(excXml.getTransRc());
+				exc.getData().setXc(excXml.getTransXc());
+				exc.getData().setTr(excXml.getTransTr().getValue());
 				exc.getData().setT1(excXml.getT1().getValue());
 				exc.getData().setT2(excXml.getT2().getValue());
 				exc.getData().setT3(excXml.getT3().getValue());
