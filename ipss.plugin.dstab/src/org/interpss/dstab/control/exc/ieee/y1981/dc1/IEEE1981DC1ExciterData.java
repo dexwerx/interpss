@@ -1,5 +1,5 @@
  /*
-  * @(#)FKExciterData.java
+  * @(#)FAExciterData.java
   *
   * Copyright (C) 2011 www.interpss.org
   *
@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab.control.exc.bpa.fk;
+package org.interpss.dstab.control.exc.ieee.y1981.dc1;
 
 /**
  * Define controller plugin data here. The class has to following the JavaBean
@@ -32,52 +32,25 @@ package org.interpss.dstab.control.exc.bpa.fk;
  * @author Sherlock_Li
  */
 
-public class FKExciterData {
-    public FKExciterData() {}
+public class IEEE1981DC1ExciterData {
+    public IEEE1981DC1ExciterData() {}
 
     // We need to put the default values here, so that the controller could be
     // properly initialized
-    private double vimax        = 1.4;
-    private double vimin       = 0.0;
-    private double tc       = 0.16;
-    private double tb       = 0.01;
-    private double ka       = 1.0;
-    private double ta       = 0.003;
-    private double vrmax    = 5.0;
-    private double vrmin    = -3.0;
-    private double kc       = 0.067;
-
-
-	private double kf       = 0.1;
-    private double tf       = 1.0;
-
-    /**
-     * @return the vimax
-     */
-    public double getVimax() {
-        return vimax;
-    }
-
-    /**
-     * @param vimax the vimax to set
-     */
-    public void setVimax(double vimax) {
-        this.vimax = vimax;
-    }
-
-    /**
-     * @return the vimin
-     */
-    public double getVimin() {
-        return vimin;
-    }
-
-    /**
-     * @param vimin the vimin to set
-     */
-    public void setVimin(double vimin) {
-        this.vimin = vimin;
-    }
+    private double tc       = 21.84;
+    private double tb       = 52.73;
+    private double ka       = 39.35;
+    private double ta       = 0.02;
+    private double vrmax    = 6.0;
+    private double vrmin    = -6.0;
+    private double ke       = 1.0;
+    private double te       = 2.0;
+    private double e1    = 6.0;
+    private double e2    = 7.2;
+    private double se_e1    = 0.1;
+    private double se_e2    = 0.05;
+    private double kf       = 0.03;
+    private double tf       = 0.350;
 
     /**
      * @return the tc
@@ -164,47 +137,116 @@ public class FKExciterData {
     }
 
     /**
-     * @return the kc
+     * @return the ke
      */
-    public double getKc() {
-        return kc;
+    public double getKe() {
+        return ke;
     }
 
     /**
-     * @param kc the kc to set
+     * @param ke the ke to set
      */
-    public void setKc(double kc) {
-        this.kc = kc;
+    public void setKe(double ke) {
+        this.ke = ke;
     }
+
     /**
-	 * @return the kf
+     * @return the te
+     */
+    public double getTe() {
+        return te;
+    }
+
+    /**
+     * @param te the te to set
+     */
+    public void setTe(double te) {
+        this.te = te;
+    }
+
+    /**
+	 * @return the e1
 	 */
-	public double getKf() {
-		return kf;
+	public double getE1() {
+		return e1;
 	}
 
 	/**
-	 * @return the tf
+	 * @return the e2
 	 */
-	public double getTf() {
-		return tf;
+	public double getE2() {
+		return e2;
 	}
 
 	/**
-	 * @param kf the kf to set
+	 * @param e1 the e1 to set
 	 */
-	public void setKf(double kf) {
-		this.kf = kf;
+	public void setE1(double e1) {
+		this.e1 = e1;
 	}
 
 	/**
-	 * @param tf the tf to set
+	 * @param e2 the e2 to set
 	 */
-	public void setTf(double tf) {
-		this.tf = tf;
+	public void setE2(double e2) {
+		this.e2 = e2;
 	}
 
+	/**
+     * @return the se_e1
+     */
+    public double getSe_e1() {
+        return se_e1;
+    }
 
+    /**
+     * @param se_e1 the se_e1 to set
+     */
+    public void setSe_e1(double se_e1) {
+        this.se_e1 = se_e1;
+    }
+
+    /**
+     * @return the se_e2
+     */
+    public double getSe_e2() {
+        return se_e2;
+    }
+
+    /**
+     * @param se_e2 the se_e2 to set
+     */
+    public void setSe_e2(double se_e2) {
+        this.se_e2 = se_e2;
+    }
+
+    /**
+     * @return the kf
+     */
+    public double getKf() {
+        return kf;
+    }
+
+    /**
+     * @param kf the kf to set
+     */
+    public void setKf(double kf) {
+        this.kf = kf;
+    }
+
+    /**
+     * @return the tf
+     */
+    public double getTf() {
+        return tf;
+    }
+
+    /**
+     * @param tf the tf to set
+     */
+    public void setTf(double tf) {
+        this.tf = tf;
+    }
 
 
 
