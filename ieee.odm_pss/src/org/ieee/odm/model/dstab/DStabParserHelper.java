@@ -50,7 +50,6 @@ import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeDC2XmlType;
 import org.ieee.odm.schema.ExcIEEE1992TypeAC1AXmlType;
 import org.ieee.odm.schema.ExcIEEEModified1968Type1XmlType;
-import org.ieee.odm.schema.ExcIEEETypeDC2XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExcTSATTypeEXC34XmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
