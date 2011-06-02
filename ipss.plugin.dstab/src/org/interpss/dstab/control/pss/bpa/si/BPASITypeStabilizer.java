@@ -32,7 +32,7 @@ import com.interpss.dstab.mach.Machine;
        					  "str.pe,mach.pe"        }
 )
 
-public class SIPSS extends AnnotateStabilizer {
+public class BPASITypeStabilizer extends AnnotateStabilizer {
     public double trw = 0.0, t5 = 5, t6 = 5.0, t7 = 5.0;
     @AnControllerField(
             type= CMLFieldEnum.Controller,
@@ -84,7 +84,7 @@ public class SIPSS extends AnnotateStabilizer {
             y0="this.filterBlock3.u0"	)
     FilterControlBlock filterBlock2;
 
-    public double t3 = 0.32, t4 = 0.03, vmax = 0.1, vmin = -0.1;
+    public double t3 = 0.32, t4 = 0.03, vsmax = 0.1, vsmin = -0.1;
     @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
             input="this.filterBlock2.y",
@@ -130,11 +130,14 @@ class CustomExciter1 extends AbstractChildAnnotateController {
             y0="this.output"	)
     DelayControlBlock delayBlock;
 
-    public AnController getAnController() {
-    	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public Field getField(String fieldName) throws Exception {
+    @Override
+	public AnController getAnController() {
+    	return getClass().getAnnotation(AnController.class);  }
+    @Override
+	public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    public Object getFieldObject(Field field) throws Exception {
+    @Override
+	public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
 }
 
@@ -176,17 +179,20 @@ class CustomExciter2 extends AbstractChildAnnotateController {
             y0="this.output"	)
     DelayControlBlock delayBlock;
 
-    public AnController getAnController() {
-    	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public Field getField(String fieldName) throws Exception {
+    @Override
+	public AnController getAnController() {
+    	return getClass().getAnnotation(AnController.class);  }
+    @Override
+	public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    public Object getFieldObject(Field field) throws Exception {
+    @Override
+	public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
 }
 
 
     // UI Editor panel
-    private static NBSIPSSEditPanel _editPanel = new NBSIPSSEditPanel();
+    private static NBBpaSITypeStabilizerEditPanel _editPanel = new NBBpaSITypeStabilizerEditPanel();
 
 /*
  * Part-2: Define the contructors
@@ -197,8 +203,8 @@ class CustomExciter2 extends AbstractChildAnnotateController {
      * Default Constructor
      *
      */
-	public SIPSS() {
-            this.setName("SIPSS");
+	public BPASITypeStabilizer() {
+            this.setName("BpaSITypePSS");
             this.setCategory("BPA");
 	}
 
@@ -209,10 +215,10 @@ class CustomExciter2 extends AbstractChildAnnotateController {
      * @param name exciter name
      * @param caty exciter category
      */
-	public SIPSS(final String id, final String name, final String caty) {
+	public BPASITypeStabilizer(final String id, final String name, final String caty) {
             super(id, name, caty);
             // _data is defined in the parent class. However init it here is a MUST
-            _data = new SIPSSData();
+            _data = new BpaSITypeStabilizerData();
 	}
 
 /*
@@ -225,8 +231,8 @@ class CustomExciter2 extends AbstractChildAnnotateController {
      *
      * @return the data object
      */
-    public SIPSSData getData() {
-        return (SIPSSData)_data;
+    public BpaSITypeStabilizerData getData() {
+        return (BpaSITypeStabilizerData)_data;
     }
 
     /**
@@ -259,8 +265,8 @@ class CustomExciter2 extends AbstractChildAnnotateController {
         this.t14 = getData().getT14();
         this.t3 = getData().getT3();
         this.t4 = getData().getT4();
-        this.vmax = getData().getVmax();
-        this.vmin = getData().getVmin();
+        this.vsmax = getData().getVsMax();
+        this.vsmin = getData().getVsMin();
         // always add the following statement
         return super.initStates(bus, mach);
     }

@@ -32,8 +32,8 @@ package org.interpss.dstab.control.pss.bpa.si;
  * @author Sherlock_Li
  */
 
-public class SIPSSData {
-    public SIPSSData() {}
+public class BpaSITypeStabilizerData {
+    public BpaSITypeStabilizerData() {}
 
     // We need to put the default values here, so that the controller could be
     // properly initialized
@@ -57,8 +57,8 @@ public class SIPSSData {
     private double t14       = 0.0;
     private double t3        = 0.32;
     private double t4        = 0.03;
-    private double vmax      = 0.1;
-    private double vmin      = -0.1;
+    private double vsMax      = 0.1;
+    private double vsMin      = -0.1;
 
     /**
      * @return the trw
@@ -340,33 +340,33 @@ public class SIPSSData {
         this.t4 = t4;
     }
 
-    /**
-     * @return the vmax
-     */
-    public double getVmax() {
-        return vmax;
-    }
+	/**
+	 * @return the vsMax
+	 */
+	public double getVsMax() {
+		return vsMax;
+	}
 
-    /**
-     * @param vmax the vmax to set
-     */
-    public void setVmax(double vmax) {
-        this.vmax = vmax;
-    }
+	/**
+	 * @return the vsMin
+	 */
+	public double getVsMin() {
+		return vsMin;
+	}
 
-    /**
-     * @return the vmin
-     */
-    public double getVmin() {
-        return vmin;
-    }
+	/**
+	 * @param vsMax the vsMax to set
+	 */
+	public void setVsMax(double vsMax) {
+		this.vsMax = vsMax;
+	}
 
-    /**
-     * @param vmin the vmin to set
-     */
-    public void setVmin(double vmin) {
-        this.vmin = vmin;
-    }
+	/**
+	 * @param vsMin the vsMin to set
+	 */
+	public void setVsMin(double vsMin) {
+		this.vsMin = vsMin;
+	}
 
 
 

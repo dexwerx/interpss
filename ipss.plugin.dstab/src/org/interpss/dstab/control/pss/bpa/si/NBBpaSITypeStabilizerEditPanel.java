@@ -29,17 +29,17 @@ import java.util.Vector;
 import org.interpss.dstab.control.base.EditHelper;
 import org.interpss.ui.ICustomPluginEditor;
 
-public class NBSIPSSEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
+public class NBBpaSITypeStabilizerEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
-	SIPSSData _data;
+	BpaSITypeStabilizerData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBSIPSSEditPanel() {
+    public NBBpaSITypeStabilizerEditPanel() {
         initComponents();
         // init the field to the default values
-        _data = new SIPSSData();
+        _data = new BpaSITypeStabilizerData();
         setData2Editor("");
         
         // associate the editing fields with the verifier class defined at the end of this calss
@@ -63,7 +63,7 @@ public class NBSIPSSEditPanel extends javax.swing.JPanel implements ICustomPlugi
      */
 	public void init(Object controller) {
 		// init the data object from the bus object being edited
-		_data = ((SIPSSData)controller).getData();
+		_data = ((BPASITypeStabilizer)controller).getData();
 	}
 	
 	/**
@@ -79,11 +79,12 @@ public class NBSIPSSEditPanel extends javax.swing.JPanel implements ICustomPlugi
     	EditHelper.setDblTextFiled(t4TextField, 	_data.getT4(), "#0.000");
     	EditHelper.setDblTextFiled(t5TextField, 	_data.getT5(), "#0.000");
     	EditHelper.setDblTextFiled(t6TextField, 	_data.getT6(), "#0.000");
-    	EditHelper.setDblTextFiled(vstmaxTextField, _data.getVstmax(), "#0.00");
-    	EditHelper.setDblTextFiled(vstminTextField, _data.getVstmin(), "#0.000");
-    	EditHelper.setDblTextFiled(k1TextField, 	_data.getK1(), "#0.000");
-    	EditHelper.setDblTextFiled(a1TextField, 	_data.getA1(), "#0.000");
-    	EditHelper.setDblTextFiled(a2TextField, 	_data.getA2(), "#0.000");
+    	EditHelper.setDblTextFiled(vstmaxTextField, _data.getVsMax(), "#0.00");
+    	EditHelper.setDblTextFiled(vstminTextField, _data.getVsMin(), "#0.000");
+    	//TODO
+//    	EditHelper.setDblTextFiled(k1TextField, 	_data.getKr(), "#0.000");
+//    	EditHelper.setDblTextFiled(a1TextField, 	_data.getA1(), "#0.000");
+//    	EditHelper.setDblTextFiled(a2TextField, 	_data.getA2(), "#0.000");
 
     	return true;
 	}
@@ -96,19 +97,19 @@ public class NBSIPSSEditPanel extends javax.swing.JPanel implements ICustomPlugi
 	*/
     public boolean saveEditorData(Vector<String> errMsg) throws Exception {
     	errMsg.clear();
-    	
-    	EditHelper.saveDblTextField(_data, ksTextField, "ks", errMsg);
-    	EditHelper.saveDblTextField(_data, t1TextField, "t1", errMsg);
-    	EditHelper.saveDblTextField(_data, t2TextField, "t2", errMsg);
-    	EditHelper.saveDblTextField(_data, t3TextField, "t3", errMsg);
-    	EditHelper.saveDblTextField(_data, t4TextField, "t4", errMsg);
-    	EditHelper.saveDblTextField(_data, t5TextField, "t5", errMsg);
-    	EditHelper.saveDblTextField(_data, t6TextField, "t6", errMsg);
-    	EditHelper.saveDblTextField(_data, vstmaxTextField, "vstmax", errMsg);
-    	EditHelper.saveDblTextField(_data, vstminTextField, "vstmin", errMsg);
-    	EditHelper.saveDblTextField(_data, k1TextField, "k1", errMsg);
-    	EditHelper.saveDblTextField(_data, a1TextField, "a1", errMsg);
-    	EditHelper.saveDblTextField(_data, a2TextField, "a2", errMsg);
+    	//TODO
+//    	EditHelper.saveDblTextField(_data, ksTextField, "ks", errMsg);
+//    	EditHelper.saveDblTextField(_data, t1TextField, "t1", errMsg);
+//    	EditHelper.saveDblTextField(_data, t2TextField, "t2", errMsg);
+//    	EditHelper.saveDblTextField(_data, t3TextField, "t3", errMsg);
+//    	EditHelper.saveDblTextField(_data, t4TextField, "t4", errMsg);
+//    	EditHelper.saveDblTextField(_data, t5TextField, "t5", errMsg);
+//    	EditHelper.saveDblTextField(_data, t6TextField, "t6", errMsg);
+//    	EditHelper.saveDblTextField(_data, vstmaxTextField, "vstmax", errMsg);
+//    	EditHelper.saveDblTextField(_data, vstminTextField, "vstmin", errMsg);
+//    	EditHelper.saveDblTextField(_data, k1TextField, "k1", errMsg);
+//    	EditHelper.saveDblTextField(_data, a1TextField, "a1", errMsg);
+//    	EditHelper.saveDblTextField(_data, a2TextField, "a2", errMsg);
 
     	return errMsg.size() == 0;
 	}
@@ -365,30 +366,30 @@ public class NBSIPSSEditPanel extends javax.swing.JPanel implements ICustomPlugi
 				return false;
        		try {
        			// data field verification rules
-    			if ( input == ksTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "ks");
-    			if ( input == k1TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "k1");
-    			if ( input == t1TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "t1");
-    			if ( input == t2TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "t2");
-    			if ( input == t3TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "t3");
-    			if ( input == t4TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "t4");
-    			if ( input == t5TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "t5");
-    			if ( input == t6TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "t6");
-    			if ( input == vstmaxTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "vstmax");
-    			if ( input == vstminTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "vstmin");
-    			if ( input == a1TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "a1");
-    			if ( input == a2TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "a2");
+//    			if ( input == ksTextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "ks");
+//    			if ( input == k1TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "k1");
+//    			if ( input == t1TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "t1");
+//    			if ( input == t2TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "t2");
+//    			if ( input == t3TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "t3");
+//    			if ( input == t4TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "t4");
+//    			if ( input == t5TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "t5");
+//    			if ( input == t6TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "t6");
+//    			if ( input == vstmaxTextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "vstmax");
+//    			if ( input == vstminTextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "vstmin");
+//    			if ( input == a1TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "a1");
+//    			if ( input == a2TextField)
+//    				return EditHelper.checkDblDataRange(input, _data, "a2");
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
