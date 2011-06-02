@@ -26,7 +26,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.native"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.schema"/>
-	<classpathentry kind="lib" path="/ipss.build/lib/ipss_core.impl.jar"/>
-	<classpathentry kind="lib" path="/ipss.build/lib/ipss_core.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
