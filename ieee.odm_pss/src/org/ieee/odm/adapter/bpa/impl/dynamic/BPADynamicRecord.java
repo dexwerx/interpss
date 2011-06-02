@@ -39,19 +39,16 @@ public class BPADynamicRecord {
 	private final static int turbine_governorData=6;
 	private final static int loadData=7;
 	private final static int sequenceData=8;
-
-	
 	
 	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
 		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
-		//DStabSimulationXmlType tranSimu = parser.getDStabSimu();
 
 		String str;
 		do{
 			str= din.readLine();
 			if(!str.startsWith("90")){
 				int dataType = getDataType(str);
-				System.out.println("processing line--"+str);
+				//System.out.println("processing line--"+str);
 				try{
 					if(dataType==header){
 						processHeaderData(str);
@@ -61,10 +58,10 @@ public class BPADynamicRecord {
 					}
 					 /*since ODM should only deal with dynamic network data and 
 					  fault setting is usually analysis/software-dependent
+					else if(dataType==faultOperation){
+						BPADynamicFaultOperationRecord.processFaultOperationData(str, parser);
+				    }
 					 */
-					//else if(dataType==faultOperation){
-						//BPADynamicFaultOperationRecord.processFaultOperationData(str, parser);
-				    //}
 					else if(dataType==exciterData){
 						BPADynamicExciterRecord.processExciterData(str, parser);
 					}
@@ -94,9 +91,9 @@ public class BPADynamicRecord {
 	
 	private static int getDataType(String str){	
 		int dataType=0;
-		 if (str.startsWith(".")|| str.trim().length()<1){//filter out the comment lines and blank lines
+		 if (str.startsWith(".") || str.startsWith("C") || str.trim().length()<1){//filter out the comment lines and blank lines
 				dataType=0;
-			}else if(str.startsWith("CASE")||str.startsWith("SOL")) {
+			}else if(str.startsWith("CASE")||str.startsWith("SOL") || str.startsWith("Bus.")) {
 				dataType=header;
 			}else if(str.startsWith("LS")){
 				dataType=faultOperation;
@@ -197,5 +194,4 @@ public class BPADynamicRecord {
 		
 		return strAry;
     }
-
 }

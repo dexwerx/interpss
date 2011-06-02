@@ -25,7 +25,6 @@ package org.ieee.odm.adapter.bpa.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -41,7 +40,7 @@ public class NetRecord {
 	 *   Network data
 	 *   ============ 
 	 */
-	public static void processReadComment(final String str, final LoadflowNetXmlType baseCaseNet, BPAAdapter adapter){
+	public static void processReadComment(final String str, final LoadflowNetXmlType baseCaseNet){
 		
 	//	adapter.logErr("This line is for comment only:  "+str);
 		// to do in future
@@ -78,9 +77,9 @@ public class NetRecord {
 	 */
 
 	public static void processAreaData(final String str,final AclfModelParser parser ,
-			final LoadflowNetXmlType baseCaseNet, BPAAdapter adapter, int areaId	) {
+			final LoadflowNetXmlType baseCaseNet, int areaId	) {
 		
-		final String[] strAry = getAreaDataFields(str, adapter);
+		final String[] strAry = getAreaDataFields(str);
 		int zoneId=0;
 	
 		if(str.trim().startsWith("A")||str.trim().startsWith("AC")){	
@@ -207,7 +206,7 @@ public class NetRecord {
 	   return strAry;
 	}
 	
-	private static String[] getAreaDataFields(final String str, BPAAdapter adapter) {
+	private static String[] getAreaDataFields(final String str) {
 		final String[] strAry = new String[7];
 		
 		try{
@@ -240,8 +239,7 @@ public class NetRecord {
 				strAry[4] = ModelStringUtil.getStringReturnEmptyString(str, 27, 34);		
 			}	
 		}	catch (Exception e){
-			adapter.logErr("error there is");
-			adapter.logErr(e.toString());
+			ODMLogger.getLogger().severe(e.toString());
 		}
 		return strAry;
 	}
