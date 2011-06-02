@@ -25,16 +25,17 @@
 		</sequence>
 	</complexType>
 	
-    <!-- add Terminal voltage tranducer and Load compensation element
+    <!-- add Terminal voltage transdusor and Load compensation element
     the related elements are Rc,Xc,Tr.
     --> 
 	<complexType name="ExcSimpleTypeXmlType">
 		<complexContent>
 			<extension base="pss:ExciterModelXmlType">
 				<sequence>
-				    <element maxOccurs="1" minOccurs="0" name="Rc" type="double"/>
-				    <element maxOccurs="1" minOccurs="0" name="Xc" type="double"/>
-				    <element maxOccurs="1" minOccurs="0" name="Tr" type="pss:TimePeriodXmlType"/>
+				<!-- add trans pre-fix, since Tr has been used -->
+				    <element maxOccurs="1" minOccurs="0" name="transRc" type="double"/>
+				    <element maxOccurs="1" minOccurs="0" name="transXc" type="double"/>
+				    <element maxOccurs="1" minOccurs="0" name="transTr" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="Ka" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="Ta" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="Vrmax" type="double"/>

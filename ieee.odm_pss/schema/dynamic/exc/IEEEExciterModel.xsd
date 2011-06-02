@@ -31,7 +31,6 @@
 	<element name="excIEEE1968Type4" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type4XmlType"/>
 	<element name="excIEEE1968Type3" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type3XmlType"/>
 	
-    
 	<element name="excTSATTypeEXC34" substitutionGroup="pss:exciter" type="pss:ExcTSATTypeEXC34XmlType"/>
 
 <!-- 
@@ -317,9 +316,11 @@
 					<element maxOccurs="1" minOccurs="1" name="KC" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="KLR" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="ILR" type="double"/>
+<!-- moved to the parent ExcSimpleTypeXmlType 
 					<element maxOccurs="1" minOccurs="1" name="TR" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="RC" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="XC" type="double"/>
+ -->
 				</sequence>
 			</extension>
 		</complexContent>
