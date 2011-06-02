@@ -29,8 +29,8 @@ package org.ieee.odm.adapter.bpa;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.bpa.impl.BPLoadflowRecord;
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.BPALoadflowRecord;
+import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.adapter.bpa.impl.dynamic.BPADynamicRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
@@ -53,7 +53,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	
 	public BPAAdapter() {
 		super();
-		BusRecord.resetBusCnt();
+		BPABusRecord.resetBusCnt();
 	}
 	
 	protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
@@ -69,7 +69,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
 			parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
 
-			BPLoadflowRecord.processLfData(parser, din);			
+			BPALoadflowRecord.processLfData(parser, din);			
 			return parser;
 		}
 		throw new ODMException("Only LF data file could be prcessed by this method");
@@ -94,7 +94,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			} while (str.startsWith(".") || str.trim().equals(""));
 			
 			if(str.equals("loadflow") || str.contains("POWERFLOW")){
-				BPLoadflowRecord.processLfData(parser, din);			
+				BPALoadflowRecord.processLfData(parser, din);			
 			}
 			
 			// parse DStab file

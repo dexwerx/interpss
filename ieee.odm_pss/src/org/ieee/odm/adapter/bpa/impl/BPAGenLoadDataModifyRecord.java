@@ -3,19 +3,14 @@ package org.ieee.odm.adapter.bpa.impl;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.PowerXmlType;
-import org.ieee.odm.schema.VoltageUnitType;
 
-public class GenLoadDataModifyRecord {
+public class BPAGenLoadDataModifyRecord {
 	/*
 	 * only AC Bus will be considered for generation and/or load data modification.
 	 */

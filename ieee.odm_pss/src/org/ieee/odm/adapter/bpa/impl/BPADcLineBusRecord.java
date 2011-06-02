@@ -1,5 +1,5 @@
 /*
- * @(#)BPABusRecord.java   
+ * @(#)BPADcLineBusRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -23,23 +23,7 @@
  */
 package org.ieee.odm.adapter.bpa.impl;
 
-import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfDataSetter;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.LFGenCodeEnumType;
-import org.ieee.odm.schema.LFLoadCodeEnumType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.YUnitType;
-
-public class DcLineBusRecord {
+public class BPADcLineBusRecord {
 	/*	
 	public static void processDCLineBusData(final String str,final DCLineBusRecordXmlType dcBus,  
 			BPAAdapter adapter) {

@@ -1,5 +1,5 @@
 /*
- * @(#)LineBranchRecord.java   
+ * @(#)BPALineBranchRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -23,24 +23,20 @@
  */
 package org.ieee.odm.adapter.bpa.impl;
 
-import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.YUnitType;
-import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class LineBranchRecord {
+public class BPALineBranchRecord {
 	public static void processBranchData(final String str,	AclfModelParser parser)  throws ODMException {	
 		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
 		// symmetry line data
@@ -56,8 +52,8 @@ public class LineBranchRecord {
 			
 			final String fname =  strAry[3];
 			final String tname =  strAry[6];
-			final String fid =  BusRecord.getBusId(fname);
-			final String tid =  BusRecord.getBusId(tname);
+			final String fid =  BPABusRecord.getBusId(fname);
+			final String tid =  BPABusRecord.getBusId(tname);
 			ODMLogger.getLogger().fine("Branch data loaded, from-Bus, to-Bus: " + fid + ", " + tid);
 
 			// set cirId, if not specified, set to 1
@@ -185,8 +181,8 @@ public class LineBranchRecord {
 			final String[] strAry = getBranchDataFields(str);
 			final String fname =  strAry[3];
 			final String tname =  strAry[6]; 
-			final String fid =  BusRecord.getBusId(fname);
-			final String tid =  BusRecord.getBusId(tname);
+			final String fid =  BPABusRecord.getBusId(fname);
+			final String tid =  BPABusRecord.getBusId(tname);
 			if(!strAry[9].equals("")){
 				final double fromShuntVar=new Double(strAry[9]).doubleValue();
 				double fShuntVar=ModelStringUtil.getNumberFormat(fromShuntVar/baseMVA); // x(pu)=Var/baseMVA

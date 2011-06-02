@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import java.text.NumberFormat;
 
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -54,7 +54,7 @@ public class BPADynamicGeneratorRecord {
     	DStabNetXmlType net = parser.getDStabNet();
     	
     	if (str.substring(0,2).trim().equals("MC")){
-    		String busId = BusRecord.getBusId(strAry[1]);
+    		String busId = BPABusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
     		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     		ClassicMachineXmlType mach = DStabParserHelper.createClassicMachine(dynGen);
@@ -109,7 +109,7 @@ public class BPADynamicGeneratorRecord {
     	 * this, together with MF/MG record,represents a full machine model considering damper.
     	 */
     	else if(str.substring(0, 2).trim().equals("M")){
-    		String busId = BusRecord.getBusId(strAry[1]);
+    		String busId = BPABusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
     		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     		Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
@@ -154,7 +154,7 @@ public class BPADynamicGeneratorRecord {
     		mach.setTq011(DStabDataSetter.createTimePeriodValue(tq011, TimePeriodUnitType.SEC));
     	}
     	else if(str.substring(0, 2).trim().equals("MF")){
-    		String busId = BusRecord.getBusId(strAry[1]);
+    		String busId = BPABusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
         	
     		String dynGenId="1";
@@ -267,7 +267,7 @@ public class BPADynamicGeneratorRecord {
     	else if(str.substring(0, 2).trim().equals("LN")){    		
     		String busId1="";
 			if(!strAry[1].equals("")){
-				busId1 = BusRecord.getBusId(strAry[1]);
+				busId1 = BPABusRecord.getBusId(strAry[1]);
 			}
 			double Vol1=ModelStringUtil.getDouble(strAry[2], 0.0);
 			

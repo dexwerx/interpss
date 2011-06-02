@@ -28,7 +28,7 @@ package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import javax.xml.bind.JAXBElement;
 
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -170,7 +170,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			busName=strAry[1];
 			String BusId="";
 			try {
-				BusId = BusRecord.getBusId(busName);
+				BusId = BPABusRecord.getBusId(busName);
 			} catch (ODMException e) {
 				e.printStackTrace();
 			}

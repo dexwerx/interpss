@@ -25,7 +25,7 @@ package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import java.text.NumberFormat;
 
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -58,8 +58,8 @@ public class BPADynamicSequenceRecord {
 		final String strAry[]=getSequenceDataFields(str);		
 		
 		if(strAry[0].equals("XO")){
-			final String fromId = BusRecord.getBusId(strAry[1]);
-			final String toId = BusRecord.getBusId(strAry[3]);
+			final String fromId = BPABusRecord.getBusId(strAry[1]);
+			final String toId = BPABusRecord.getBusId(strAry[3]);
 			String cirId="1";
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
@@ -89,7 +89,7 @@ public class BPADynamicSequenceRecord {
 			xfr.setZ0(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
 		}
 	    else if(strAry[0].equals("XR")){
-	    	final String busId = BusRecord.getBusId(strAry[1]);
+	    	final String busId = BPABusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
         	double busBase = ModelStringUtil.getDouble(strAry[2], 0.0);
         	bus.setBaseVoltage(DStabDataSetter.createVoltageValue(busBase, VoltageUnitType.KV));
@@ -106,8 +106,8 @@ public class BPADynamicSequenceRecord {
         	bus.setScShuntLoadData(scsld);
 	    }
 	    else if(strAry[0].equals("LO")){
-	    	final String fromId = BusRecord.getBusId(strAry[1]);
-			final String toId = BusRecord.getBusId(strAry[3]);
+	    	final String fromId = BPABusRecord.getBusId(strAry[1]);
+			final String toId = BPABusRecord.getBusId(strAry[3]);
 			String cirId="1";
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
@@ -152,16 +152,16 @@ public class BPADynamicSequenceRecord {
     		line.setY0ShuntToSide(DStabDataSetter.createYValue(g2, b2, YUnitType.PU));
 	    }
 	    else if(strAry[0].equals("LM")){
-	    	final String line1fId = BusRecord.getBusId(strAry[1]);
-			final String line1tId = BusRecord.getBusId(strAry[3]);
+	    	final String line1fId = BPABusRecord.getBusId(strAry[1]);
+			final String line1tId = BPABusRecord.getBusId(strAry[3]);
 			String line1cirId="1";
 			if(!strAry[5].equals("")){
 				line1cirId=strAry[5];				
 			}
 	    	LineDStabXmlType line1 = parser.getDStabLine(line1fId, line1tId, line1cirId);
 			
-			final String line2fId =  BusRecord.getBusId(strAry[6]);
-			final String line2tId =  BusRecord.getBusId(strAry[8]);
+			final String line2fId =  BPABusRecord.getBusId(strAry[6]);
+			final String line2tId =  BPABusRecord.getBusId(strAry[8]);
 			String line2cirId="1";
 			if(!strAry[10].equals("")){
 				line2cirId=strAry[10];				

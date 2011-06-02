@@ -1,5 +1,5 @@
 /*
- * @(#)XfrBranchRecord.java   
+ * @(#)BPAXfrBranchRecord.java   
  *
  * Copyright (C) 2006-2011 www.interpss.org
  *
@@ -43,7 +43,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class XfrBranchRecord {
+public class BPAXfrBranchRecord {
 	static final int transformer=1;
 	static final int phaseShiftXfr=2;
 	static final int transformerAndPhaseShiftXfr=3;
@@ -66,8 +66,8 @@ public class XfrBranchRecord {
 			
 		final String fname =  strAry[3];
 		final String tname =  strAry[6];
-		final String fid =  BusRecord.getBusId(fname);
-		final String tid =  BusRecord.getBusId(tname);
+		final String fid =  BPABusRecord.getBusId(fname);
+		final String tid =  BPABusRecord.getBusId(tname);
 		ODMLogger.getLogger().fine("Branch data loaded, from-bus, to-bus: " + fid + ", " + tid);
 		
 		String cirId="1";

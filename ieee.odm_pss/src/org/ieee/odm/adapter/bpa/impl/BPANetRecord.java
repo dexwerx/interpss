@@ -1,5 +1,5 @@
 /*
- * @(#)BPABusRecord.java   
+ * @(#)BPANetRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -35,7 +35,7 @@ import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 
-public class NetRecord {
+public class BPANetRecord {
 	/*
 	 *   Network data
 	 *   ============ 

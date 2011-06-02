@@ -23,7 +23,7 @@
  */
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -44,7 +44,7 @@ public class BPADynamicTurbineGovernorRecord {
 	public static void processTurbineGovernorData(String str, DStabModelParser parser) throws ODMException {
     	final String strAry[]=getTGDataFields(str);
     	
-    	String busId = BusRecord.getBusId(strAry[1]);
+    	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);    	

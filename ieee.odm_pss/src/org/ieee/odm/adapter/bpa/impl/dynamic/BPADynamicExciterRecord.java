@@ -24,7 +24,7 @@
 
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -64,7 +64,7 @@ public class BPADynamicExciterRecord {
     	final String strAry[]=getExciterDataFields(str);
     	int type= getExcType(strAry[0]);
     	
-    	String busId = BusRecord.getBusId(strAry[1]);
+    	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);

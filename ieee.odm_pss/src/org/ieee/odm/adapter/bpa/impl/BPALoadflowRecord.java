@@ -1,5 +1,5 @@
 /*
- * @(#)BPLoadflowRecord.java   
+ * @(#)BPALoadflowRecord.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
@@ -43,7 +43,7 @@ import org.ieee.odm.schema.NameValuePairListXmlType;
  * @author mzhou
  *
  */
-public class BPLoadflowRecord {
+public class BPALoadflowRecord {
 	public final static String Token_CaseType = "Type";
 	public final static String Token_ProjectName = "Original Project Name";
 	public final static String Token_CaseId = "Case Identification";
@@ -77,15 +77,15 @@ public class BPLoadflowRecord {
 					else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
 							||str.startsWith(">")){
 						ODMLogger.getLogger().fine("load header data");
-						NetRecord.processNetData(str,nvList,baseCaseNet);
+						BPANetRecord.processNetData(str,nvList,baseCaseNet);
 					}
 					else if(str.startsWith("A")||str.trim().startsWith("I")){
-						NetRecord.processAreaData(str, parser,	baseCaseNet, areaId++);
+						BPANetRecord.processAreaData(str, parser,	baseCaseNet, areaId++);
 					}
 					else if(str.trim().startsWith("B")||str.trim().startsWith("+")
 							||str.trim().startsWith("X")){
 						ODMLogger.getLogger().fine("load AC bus data");						
-						BusRecord.processBusData(str, parser);
+						BPABusRecord.processBusData(str, parser);
 //						System.out.println(str); //for test
 					}
 					else if( str.trim().startsWith("L") || str.trim().startsWith("E") ||
@@ -101,10 +101,10 @@ public class BPLoadflowRecord {
 					else if( str.trim().startsWith("PA")||str.trim().startsWith("PZ")||str.trim().startsWith("PO")
 							||str.trim().startsWith("PC")||str.trim().startsWith("PB")){
 						ODMLogger.getLogger().fine("load Gen AND Load modification data");
-						GenLoadDataModifyRecord.processGenLoadModificationData(str,parser);
+						BPAGenLoadDataModifyRecord.processGenLoadModificationData(str,parser);
 					}
 					else{
-						NetRecord.processReadComment(str, baseCaseNet);
+						BPANetRecord.processReadComment(str, baseCaseNet);
 					}						
 				}
 				catch (final Exception e) {
@@ -131,15 +131,15 @@ public class BPLoadflowRecord {
 		for (String str : strList) {
 			if( str.trim().startsWith("L")||str.trim().startsWith("E")){
 				ODMLogger.getLogger().fine("load AC line data");
-				LineBranchRecord.processBranchData(str, parser);
+				BPALineBranchRecord.processBranchData(str, parser);
 			}
 			else if( str.trim().startsWith("T")){
 				ODMLogger.getLogger().fine("load transformer data");
-				XfrBranchRecord.processXfrData(str, parser);
+				BPAXfrBranchRecord.processXfrData(str, parser);
 			}
 			else if(str.trim().startsWith("R")){
 				ODMLogger.getLogger().fine("load transformer adjustment data");
-				XfrBranchRecord.processXfrAdjustData(str, parser);
+				BPAXfrBranchRecord.processXfrAdjustData(str, parser);
 			}
 			else if( str.trim().startsWith("LD")||str.trim().startsWith("LM") ||
 					 str.trim().startsWith("BD")||str.trim().startsWith("BM")){

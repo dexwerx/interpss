@@ -1,7 +1,5 @@
-
-
 /*
- * @(#)BPABranchRecord.java   
+ * @(#)DcLineBranchRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -25,32 +23,7 @@
  */
 package org.ieee.odm.adapter.bpa.impl;
 
-import java.text.NumberFormat;
-
-import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfDataSetter;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.AdjustmentModeEnumType;
-import org.ieee.odm.schema.AngleAdjustmentXmlType;
-import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.CurrentUnitType;
-import org.ieee.odm.schema.LengthUnitType;
-import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.PSXfrBranchXmlType;
-import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
-import org.ieee.odm.schema.TapAdjustmentXmlType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.XfrBranchXmlType;
-import org.ieee.odm.schema.YUnitType;
-import org.ieee.odm.schema.ZUnitType;
-
-public class DcLineBranchRecord {
+public class BPADcLineBranchRecord {
 /*	
 	public static void processDCLineBranchData(final String str, 
 			final DCLineBranchRecordXmlType dcBranch, 
