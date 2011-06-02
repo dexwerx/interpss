@@ -24,19 +24,30 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.ExcBPAFJXmlType;
+import org.ieee.odm.schema.ExcBPAFKXmlType;
+import org.ieee.odm.schema.ExcBPAFVXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1SXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type2XmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type3XmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type4XmlType;
+import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
+import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.interpss.dstab.control.exc.ExciterObjectFactory;
+import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
+import org.interpss.dstab.control.exc.bpa.fk.FKExciter;
+import org.interpss.dstab.control.exc.bpa.fvkv0.FVkv0Exciter;
+import org.interpss.dstab.control.exc.bpa.fvkv1.FVkv1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1s.Ieee1968Type1sExciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type2.Ieee1968Type2Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type3.Ieee1968Type3Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type4.Ieee1968Type4Exciter;
+import org.interpss.dstab.control.exc.ieee.y1981.dc1.IEEE1981DC1Exciter;
+import org.interpss.dstab.control.exc.ieee.y1981.st1.IEEE1981ST1Exciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 
 import com.interpss.common.exp.InterpssException;
@@ -136,9 +147,101 @@ public class ExciterDataHelper {
 			exc.getData().setSeE2(excXml.getSE2());			
 			exc.getData().setKf(excXml.getKF());			
 			exc.getData().setTf(excXml.getTF().getValue());	
-								
-		}else {	
-			throw new InterpssException("Exciter type invalid or not implemented, type " + excXmlRec.getClass().getSimpleName());
-		}
+			
+		// IEEE 1981 DC1 Type ,the same as BPA FA Type	
+			
+		} else if (excXmlRec instanceof ExcIEEE1981TypeDC1XmlType){
+			ExcIEEE1981TypeDC1XmlType excXml =(ExcIEEE1981TypeDC1XmlType) excXmlRec;
+			IEEE1981DC1Exciter exc=ExciterObjectFactory.createIeee1981DC1Exciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			
+			exc.getData().setKa(excXml.getKa());
+			exc.getData().setTa(excXml.getTa().getValue());
+			exc.getData().setVrmax(excXml.getVrmax());
+			exc.getData().setVrmin(excXml.getVrmin());
+			exc.getData().setTc(excXml.getTC().getValue());
+			exc.getData().setTb(excXml.getTB().getValue());		
+			exc.getData().setKf(excXml.getKF());			
+			exc.getData().setTf(excXml.getTF().getValue());
+			exc.getData().setE1(excXml.getE1());
+			exc.getData().setSe_e1(excXml.getSE1());
+			exc.getData().setE2(excXml.getE2());
+			exc.getData().setSe_e2(excXml.getSE2());
+			exc.getData().setKe(excXml.getKE());
+					
+			//IEEE 1981 ST1 Type ,the same as BPA FK Type					
+		} else if (excXmlRec instanceof ExcIEEE1981ST1XmlType){
+			ExcIEEE1981ST1XmlType excXml =(ExcIEEE1981ST1XmlType) excXmlRec;
+			IEEE1981ST1Exciter exc=ExciterObjectFactory.createIeee1981ST1Exciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			
+			exc.getData().setKa(excXml.getKa());
+			exc.getData().setTa(excXml.getTa().getValue());
+			exc.getData().setVrmax(excXml.getVrmax());
+			exc.getData().setVrmin(excXml.getVrmin());
+			exc.getData().setTc(excXml.getTC().getValue());
+			exc.getData().setTb(excXml.getTB().getValue());		
+			exc.getData().setKf(excXml.getKF());			
+			exc.getData().setTf(excXml.getTF().getValue());
+			exc.getData().setKc(excXml.getKC());
+			exc.getData().setVimax(excXml.getVIMAX());
+			exc.getData().setVimin(excXml.getVIMIN());
+			//BPA FJ Type					
+		} else if (excXmlRec instanceof ExcBPAFJXmlType){
+			ExcBPAFJXmlType excXml =(ExcBPAFJXmlType) excXmlRec;
+			FJExciter exc=ExciterObjectFactory.createBPAFJTypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			
+			exc.getData().setKa(excXml.getKa());
+			exc.getData().setTa(excXml.getTa().getValue());
+			exc.getData().setVrmax(excXml.getVrmax());
+			exc.getData().setVrmin(excXml.getVrmin());
+			exc.getData().setEfdmax(excXml.getEFDMAX());
+			exc.getData().setEfdmin(excXml.getEFDMIN());
+			exc.getData().setTc(excXml.getTC().getValue());
+			exc.getData().setTb(excXml.getTB().getValue());		
+			exc.getData().setKf(excXml.getKF());			
+			exc.getData().setTf(excXml.getTF().getValue());
+			exc.getData().setKc(excXml.getKC());
+			//BPA FV(kv=0) Type
+		} else if (excXmlRec instanceof ExcBPAFVXmlType){
+		    ExcBPAFVXmlType excXml =(ExcBPAFVXmlType) excXmlRec;
+		    int kv=excXml.getKV();
+		    
+
+			if(kv==0)  {
+				FVkv0Exciter exc = ExciterObjectFactory.createBPAFVKv0TypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);
+				exc.getData().setRc(excXml.getRc());
+				exc.getData().setXc(excXml.getXc());
+				exc.getData().setTr(excXml.getTr().getValue());
+				exc.getData().setT1(excXml.getT1().getValue());
+				exc.getData().setT2(excXml.getT2().getValue());
+				exc.getData().setT3(excXml.getT3().getValue());
+				exc.getData().setT4(excXml.getT4().getValue());
+				exc.getData().setKa(excXml.getKa());
+				exc.getData().setTa(excXml.getTa().getValue());
+				exc.getData().setVrmax(excXml.getVrmax());
+				exc.getData().setVrmin(excXml.getVrmin());
+				exc.getData().setKf(excXml.getKF());
+				exc.getData().setTf(excXml.getTF().getValue());
+				exc.getData().setKc(excXml.getKC());
+			}
+		    else {
+		   
+		    	FVkv1Exciter exc=ExciterObjectFactory.createBPAFVKv1TypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+				exc.getData().setRc(excXml.getRc());
+				exc.getData().setXc(excXml.getXc());
+				exc.getData().setTr(excXml.getTr().getValue());
+				exc.getData().setT1(excXml.getT1().getValue());
+				exc.getData().setT2(excXml.getT2().getValue());
+				exc.getData().setT3(excXml.getT3().getValue());
+				exc.getData().setT4(excXml.getT4().getValue());
+				exc.getData().setKa(excXml.getKa());
+				exc.getData().setTa(excXml.getTa().getValue());
+				exc.getData().setVrmax(excXml.getVrmax());
+				exc.getData().setVrmin(excXml.getVrmin());
+				exc.getData().setKf(excXml.getKF());
+				exc.getData().setTf(excXml.getTF().getValue());
+				exc.getData().setKc(excXml.getKC());
+	      }
+		
+	  }
 	}
 }
