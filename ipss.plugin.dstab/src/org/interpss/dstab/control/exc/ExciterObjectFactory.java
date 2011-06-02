@@ -30,6 +30,7 @@ import org.interpss.dstab.control.exc.ieee.y1968.type2.Ieee1968Type2Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type3.Ieee1968Type3Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type4.Ieee1968Type4Exciter;
 import org.interpss.dstab.control.exc.ieee.y1981.dc1.IEEE1981DC1Exciter;
+import org.interpss.dstab.control.exc.ieee.y1981.st1.IEEE1981ST1Exciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.dstab.control.exc.bpa.ea.EAExciter;
 import org.interpss.dstab.control.exc.bpa.fa.FAExciter;
@@ -79,9 +80,18 @@ public class ExciterObjectFactory {
 		return exc;
   	}
 	
+	public static IEEE1981ST1Exciter createIeee1981ST1Exciter(String id, String name, Machine machine) {
+		IEEE1981ST1Exciter exc = new IEEE1981ST1Exciter (id, name, "InterPSS");
+		exc.setMachine(machine); 
+		return exc;
+  	}
+	
+	
 	/*
 	 * IEEE 1992 Exciter set
 	 */
+	
+	
 	/*
 	 * BPA Exciter set
 	 */

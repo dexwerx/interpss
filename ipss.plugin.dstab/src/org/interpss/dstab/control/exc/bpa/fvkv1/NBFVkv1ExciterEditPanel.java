@@ -47,9 +47,11 @@ public class NBFVkv1ExciterEditPanel extends javax.swing.JPanel implements ICust
      */
 	public void init(Object controller) {
 		// init the data object from the bus object being edited
-		_data = ((FVkv1ExciterData)controller).getData();
+		_data = ((FVkv1Exciter)controller).getData();
 	}
 	
+	
+	//TODO 
 	/**
 	*	Set controller data to the editor
 	*
@@ -57,16 +59,16 @@ public class NBFVkv1ExciterEditPanel extends javax.swing.JPanel implements ICust
 	*/
     public boolean setData2Editor(String desc) {
   	    kaTextField.setText(Number2String.toStr(_data.getKa(), "#0.00"));
-  	    taTextField.setText(Number2String.toStr(_data.getTa(), "#0.000"));
-            trTextField.setText(Number2String.toStr(_data.getTr(), "#0.000"));
-            ta1TextField.setText(Number2String.toStr(_data.getTa1(), "#0.000"));
-            semaxTextField.setText(Number2String.toStr(_data.getSemax(), "#0.000"));
-            efdmaxTextField.setText(Number2String.toStr(_data.getEfdmax(), "#0.000"));
-            keTextField.setText(Number2String.toStr(_data.getKe(), "#0.000"));
-            teTextField.setText(Number2String.toStr(_data.getTe(), "#0.000"));
-            se_e2TextField.setText(Number2String.toStr(_data.getSe_e2(), "#0.000"));
-            kfTextField.setText(Number2String.toStr(_data.getKf(), "#0.000"));
-  	    trTextField.setText(Number2String.toStr(_data.getTf(), "#0.000"));
+ 	    taTextField.setText(Number2String.toStr(_data.getTa(), "#0.000"));
+//            trTextField.setText(Number2String.toStr(_data.getTr(), "#0.000"));
+//            ta1TextField.setText(Number2String.toStr(_data.getTa1(), "#0.000"));
+//            semaxTextField.setText(Number2String.toStr(_data.getSemax(), "#0.000"));
+//            efdmaxTextField.setText(Number2String.toStr(_data.getEfdmax(), "#0.000"));
+//            keTextField.setText(Number2String.toStr(_data.getKe(), "#0.000"));
+//            teTextField.setText(Number2String.toStr(_data.getTe(), "#0.000"));
+//            se_e2TextField.setText(Number2String.toStr(_data.getSe_e2(), "#0.000"));
+//            kfTextField.setText(Number2String.toStr(_data.getKf(), "#0.000"));
+//  	    trTextField.setText(Number2String.toStr(_data.getTf(), "#0.000"));
         return true;
 	}
     
@@ -91,29 +93,29 @@ public class NBFVkv1ExciterEditPanel extends javax.swing.JPanel implements ICust
 			"Tr is out of the range [0.001, 10]"))
 		_data.setTr(SwingInputVerifyUtil.getDouble(trTextField));
 
-	if (SwingInputVerifyUtil.within(this.ta1TextField, 0.001, 10.0, errMsg,
-			"Ta1 is out of the range [0.001, 10]"))
-		_data.setTa1(SwingInputVerifyUtil.getDouble(ta1TextField));
-
-	if (SwingInputVerifyUtil.within(this.semaxTextField, 0.001, 10.0, errMsg,
-			"Semax is out of the range [0.001, 10]"))
-		_data.setSemax(SwingInputVerifyUtil.getDouble(semaxTextField));
-
-	if (SwingInputVerifyUtil.within(this.efdmaxTextField, 0.01, 100.0, errMsg,
-			"Efdmax is out of the range [0.01, 100.0]"))
-		_data.setEfdmax(SwingInputVerifyUtil.getDouble(efdmaxTextField));
-
-	if (SwingInputVerifyUtil.within(this.keTextField, 0.001, 10.0, errMsg,
-			"Ke is out of the range [0.001, 10]"))
-		_data.setKe(SwingInputVerifyUtil.getDouble(keTextField));
-
-	if (SwingInputVerifyUtil.within(this.teTextField, 0.001, 10.0, errMsg,
-			"Te is out of the range [0.001, 10]"))
-		_data.setTe(SwingInputVerifyUtil.getDouble(teTextField));
-
-	if (SwingInputVerifyUtil.within(this.se_e2TextField, 0.001, 10.0, errMsg,
-			"Se_e2 is out of the range [0.001, 10]"))
-		_data.setSe_e2(SwingInputVerifyUtil.getDouble(se_e2TextField));
+//	if (SwingInputVerifyUtil.within(this.ta1TextField, 0.001, 10.0, errMsg,
+//			"Ta1 is out of the range [0.001, 10]"))
+//		_data.setTa1(SwingInputVerifyUtil.getDouble(ta1TextField));
+//
+//	if (SwingInputVerifyUtil.within(this.semaxTextField, 0.001, 10.0, errMsg,
+//			"Semax is out of the range [0.001, 10]"))
+//		_data.setSemax(SwingInputVerifyUtil.getDouble(semaxTextField));
+//
+//	if (SwingInputVerifyUtil.within(this.efdmaxTextField, 0.01, 100.0, errMsg,
+//			"Efdmax is out of the range [0.01, 100.0]"))
+//		_data.setEfdmax(SwingInputVerifyUtil.getDouble(efdmaxTextField));
+//
+//	if (SwingInputVerifyUtil.within(this.keTextField, 0.001, 10.0, errMsg,
+//			"Ke is out of the range [0.001, 10]"))
+//		_data.setKe(SwingInputVerifyUtil.getDouble(keTextField));
+//
+//	if (SwingInputVerifyUtil.within(this.teTextField, 0.001, 10.0, errMsg,
+//			"Te is out of the range [0.001, 10]"))
+//		_data.setTe(SwingInputVerifyUtil.getDouble(teTextField));
+//
+//	if (SwingInputVerifyUtil.within(this.se_e2TextField, 0.001, 10.0, errMsg,
+//			"Se_e2 is out of the range [0.001, 10]"))
+//		_data.setSe_e2(SwingInputVerifyUtil.getDouble(se_e2TextField));
 
 	if (SwingInputVerifyUtil.within(this.kfTextField, 0.1, 1000.0, errMsg,
 			"Kf is out of the range [0.1, 1000.0]"))

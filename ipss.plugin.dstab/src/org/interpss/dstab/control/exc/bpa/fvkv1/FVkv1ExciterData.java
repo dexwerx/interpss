@@ -37,6 +37,9 @@ public class FVkv1ExciterData {
 
     // We need to put the default values here, so that the controller could be
     // properly initialized
+    private double rc        = 0;
+    private double xc        = 0;
+    private double tr        = 1.0;
     private double k        = 22;
     private double kv       = 1.0;
     private double t1       = 1.0;
@@ -54,6 +57,48 @@ public class FVkv1ExciterData {
     private double tf       = 100.0;
 
     /**
+	 * @return the rc
+	 */
+	public double getRc() {
+		return rc;
+	}
+
+	/**
+	 * @return the xc
+	 */
+	public double getXc() {
+		return xc;
+	}
+
+	/**
+	 * @return the tr
+	 */
+	public double getTr() {
+		return tr;
+	}
+
+	/**
+	 * @param rc the rc to set
+	 */
+	public void setRc(double rc) {
+		this.rc = rc;
+	}
+
+	/**
+	 * @param xc the xc to set
+	 */
+	public void setXc(double xc) {
+		this.xc = xc;
+	}
+
+	/**
+	 * @param tr the tr to set
+	 */
+	public void setTr(double tr) {
+		this.tr = tr;
+	}
+
+	/**
      * @return the k
      */
     public double getK() {
