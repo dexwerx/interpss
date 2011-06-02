@@ -33,8 +33,8 @@
 			<extension base="pss:ExciterModelXmlType">
 				<sequence>
 				<!-- add trans pre-fix, since Tr has been used -->
-				    <element maxOccurs="1" minOccurs="0" name="transRc" type="double"/>
-				    <element maxOccurs="1" minOccurs="0" name="transXc" type="double"/>
+				    <element maxOccurs="1" minOccurs="0" name="loadRc" type="double"/>
+				    <element maxOccurs="1" minOccurs="0" name="loadXc" type="double"/>
 				    <element maxOccurs="1" minOccurs="0" name="transTr" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="Ka" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="Ta" type="pss:TimePeriodXmlType"/>
