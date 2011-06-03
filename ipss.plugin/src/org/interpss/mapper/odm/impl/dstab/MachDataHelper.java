@@ -199,7 +199,7 @@ public class MachDataHelper {
 		setEq1Ed1Data(mach, machXml);
 		mach.setXq11(machXml.getXq11());
 		mach.setTq011(machXml.getTq011().getValue());
-		mach.setXq11(machXml.getXd11());
+		mach.setXd11(machXml.getXd11());
 		mach.setTd011(machXml.getTd011().getValue());
 	}
 	
