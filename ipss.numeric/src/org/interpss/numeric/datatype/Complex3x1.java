@@ -27,6 +27,7 @@ package org.interpss.numeric.datatype;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
 import org.interpss.numeric.NumericConstant;
+import org.interpss.numeric.util.Number2String;
 
 /**
  * Data structure class for manipulating 3x1 [a,b,c] or [0,1,2] complex number vector
@@ -109,8 +110,8 @@ public class Complex3x1 implements java.io.Serializable {
 	 */
 	@Override
 	public String toString() {
-		return ComplexFormat.formatComplex(a_0) + "  "
-				+ ComplexFormat.formatComplex(b_1) + "  "
-				+ ComplexFormat.formatComplex(c_2);
+		return Number2String.toStr(a_0) + "  "
+				+ Number2String.toStr(b_1) + "  "
+				+ Number2String.toStr(c_2);
 	}
 }

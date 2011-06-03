@@ -29,20 +29,21 @@ import org.interpss.numeric.datatype.Complex3x1;
 public class TestUtilFunc {
 	public static boolean compare(Complex3x1 iPU_012, double zeroRe,
 			double zeroIm, double oneRe, double oneIm, double twoRe,
-			double twoIm) {
-		if (!(NumericUtil.equals(iPU_012.a_0.getReal(), zeroRe)
-				&& NumericUtil.equals(iPU_012.a_0.getImaginary(), zeroIm)
-				&& NumericUtil.equals(iPU_012.b_1.getReal(), oneRe)
-				&& NumericUtil.equals(iPU_012.b_1.getImaginary(), oneIm)
-				&& NumericUtil.equals(iPU_012.c_2.getReal(), twoRe) && NumericUtil.equals(iPU_012.c_2
-				.getImaginary(), twoIm))) {
+			double twoIm, double err) {
+		boolean ok = NumericUtil.equals(iPU_012.a_0.getReal(), zeroRe, err)
+				&& NumericUtil.equals(iPU_012.a_0.getImaginary(), zeroIm, err)
+				&& NumericUtil.equals(iPU_012.b_1.getReal(), oneRe, err)
+				&& NumericUtil.equals(iPU_012.b_1.getImaginary(), oneIm, err)
+				&& NumericUtil.equals(iPU_012.c_2.getReal(), twoRe, err) 
+				&& NumericUtil.equals(iPU_012.c_2.getImaginary(), twoIm, err);
+		if (!ok) 
 			System.out.println("iPU_012 = " + iPU_012);
-		}
-		return NumericUtil.equals(iPU_012.a_0.getReal(), zeroRe)
-				&& NumericUtil.equals(iPU_012.a_0.getImaginary(), zeroIm)
-				&& NumericUtil.equals(iPU_012.b_1.getReal(), oneRe)
-				&& NumericUtil.equals(iPU_012.b_1.getImaginary(), oneIm)
-				&& NumericUtil.equals(iPU_012.c_2.getReal(), twoRe)
-				&& NumericUtil.equals(iPU_012.c_2.getImaginary(), twoIm);
+		return ok;
+	}
+
+	public static boolean compare(Complex3x1 iPU_012, double zeroRe,
+			double zeroIm, double oneRe, double oneIm, double twoRe,
+			double twoIm) {
+		return compare(iPU_012, zeroRe, zeroIm, oneRe, oneIm, twoRe, twoIm, 0.0001);
 	}
 }
