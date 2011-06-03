@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.pss;
 
+import org.interpss.dstab.control.pss.bpa.si.BPASITypeStabilizer;
 import org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer;
 import org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer;
 import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
@@ -46,5 +47,9 @@ public class StabilizerObjectFactory {
 		pss.setMachine(machine); 
 		return pss;
   	}
-	
+	public static BPASITypeStabilizer createBpaSITypeStabilizer(String id, String name, Machine machine) {
+		BPASITypeStabilizer pss = new BPASITypeStabilizer(id, name, "InterPSS");
+		pss.setMachine(machine); 
+		return pss;
+  	}
 }
