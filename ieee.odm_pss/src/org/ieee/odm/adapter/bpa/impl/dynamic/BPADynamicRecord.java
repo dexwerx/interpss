@@ -39,6 +39,7 @@ public class BPADynamicRecord {
 	private final static int turbine_governorData=6;
 	private final static int loadData=7;
 	private final static int sequenceData=8;
+	private final static int simuData=9;
 	
 	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
 		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
@@ -76,6 +77,9 @@ public class BPADynamicRecord {
 					}
 					else if(dataType==sequenceData){
 						BPADynamicSequenceRecord.processSequenceData(str, parser);
+					}
+					else if(dataType==simuData){
+						// not used
 					}
 					else if(dataType==0){
 						
@@ -129,6 +133,8 @@ public class BPADynamicRecord {
 			}else if(str.substring(0, 2).trim().equals("LO")||str.substring(0, 2).trim().equals("XO")
 					||str.substring(0, 2).trim().equals("XR")||str.substring(0, 2).trim().equals("LM")){
 				dataType=sequenceData;
+			}else if(str.substring(0, 2).trim().equals("FF")){
+				dataType=simuData;
 			}else {				
 				ODMLogger.getLogger().warning("This line data is not processed"+"   "+"'"+str+"'");
 			}		 
