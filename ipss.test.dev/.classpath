@@ -10,7 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.path"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
