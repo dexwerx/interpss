@@ -124,6 +124,8 @@ public class GovernorDataHelper {
 			gov.getData().setPmin(govXml.getPMIN());			
 			gov.getData().setTw(govXml.getTWhalf().getValue());			
 		}
+		//GovBPAHydroTurbineGHXmlType
+		//
 		else {
 			throw new InterpssException("Governor type invalid or not implemented, type " + govXmlRec.getClass().getSimpleName());
 		}
