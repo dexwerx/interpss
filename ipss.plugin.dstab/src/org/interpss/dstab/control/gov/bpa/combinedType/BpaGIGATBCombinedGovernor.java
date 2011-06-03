@@ -34,7 +34,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 			   output="(1+this.lamba)*this.fhp*this.tchDelayBlock.y+(this.fip-this.lambda*this.fhp)*this.trhDelayBlock.y+this.flp*this.tcoDelayBlock.y",
 			   refPoint="thiscustomLoadControlBlock.u0 + this.delayBlock.y",
 			   display= {"str.Pm,this.output"})
-	public class GovBPACombinedType extends AnnotateGovernor{
+	public class BpaGIGATBCombinedGovernor extends AnnotateGovernor{
 
 		/*
 		 * 1. regulator 

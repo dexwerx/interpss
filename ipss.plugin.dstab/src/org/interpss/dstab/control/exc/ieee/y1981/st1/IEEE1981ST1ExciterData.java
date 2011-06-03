@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.control.exc.ieee.y1981.st1;
 
+import org.interpss.dstab.control.base.BaseControllerData;
+
 /**
  * Define controller plugin data here. The class has to following the JavaBean
  * specification with the getter/setter(s), so that it could be serialized/deserialized
@@ -32,7 +34,7 @@ package org.interpss.dstab.control.exc.ieee.y1981.st1;
  * @author Sherlock_Li
  */
 
-public class IEEE1981ST1ExciterData {
+public class IEEE1981ST1ExciterData extends BaseControllerData {
     public IEEE1981ST1ExciterData() {}
 
     // We need to put the default values here, so that the controller could be
@@ -46,8 +48,6 @@ public class IEEE1981ST1ExciterData {
     private double vrmax    = 5.0;
     private double vrmin    = -3.0;
     private double kc       = 0.067;
-
-
 	private double kf       = 0.1;
     private double tf       = 1.0;
 
@@ -202,6 +202,18 @@ public class IEEE1981ST1ExciterData {
 	 */
 	public void setTf(double tf) {
 		this.tf = tf;
+	}
+
+	@Override
+	public void setValue(String name, double value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setValue(String name, int value) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
