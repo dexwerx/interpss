@@ -145,15 +145,15 @@ public class BPADynamicExciterRecord {
 			
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));			
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));			
 			
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
@@ -201,15 +201,15 @@ public class BPADynamicExciterRecord {
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 			
 			//VIMax for G K L,VAmax for FF
 			double Vimax= ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -256,15 +256,15 @@ public class BPADynamicExciterRecord {
     		exc.setDesc("BPA FJ Type Exciter, excId-" + excId);
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
 			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
@@ -301,15 +301,15 @@ public class BPADynamicExciterRecord {
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
 			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -367,15 +367,15 @@ public class BPADynamicExciterRecord {
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
 			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -433,15 +433,15 @@ public class BPADynamicExciterRecord {
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
 			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -499,15 +499,15 @@ public class BPADynamicExciterRecord {
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
 			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
@@ -562,15 +562,15 @@ public class BPADynamicExciterRecord {
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setRc(Rc);
+			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setXc(Xc);
+			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTr(BaseDataSetter.createTimeConstSec(Tr));
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
 			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
