@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.IpssPlugin;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -48,5 +49,8 @@ public class SampleLoadflow {
 		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
   		assertTrue(algo.loadflow());
-    }	
+  		System.out.println(AclfOutFunc.loadFlowSummary(net));
+  		
+    }
+
 }
