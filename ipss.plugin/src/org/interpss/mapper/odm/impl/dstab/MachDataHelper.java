@@ -79,7 +79,7 @@ public class MachDataHelper {
 			RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
 								createMachine(machId, machXml.getName(), MachineType.EQ11_ED11_ROUND_ROTOR, 
 								(DStabilityNetwork)this.dstabBus.getNetwork(), dstabBus.getId());
-			setEq11Eq11Data(mach, machXml);
+			setEq11Ed11Data(mach, machXml);
 			return mach;
 		}
 		else if (machXmlRec instanceof Eq11MachineXmlType) {
@@ -120,8 +120,8 @@ public class MachDataHelper {
 		}
 		else if (machXmlRec instanceof EquiMachineXmlType) {
 			EquiMachineXmlType machXml = (EquiMachineXmlType)machXmlRec;
-			Complex z1 = calSourceZ1(machXml);;
-			Complex z0 = calSourceZ0(machXml, z1);;
+			Complex z1 = calSourceZ1(machXml);
+			Complex z0 = calSourceZ0(machXml, z1);
 			return DStabObjectFactory.createInfiniteMachine(machId, machXml.getName(), 
 					z1, z0, (DStabilityNetwork)this.dstabBus.getNetwork(), this.dstabBus.getId());
 		}
@@ -161,7 +161,8 @@ public class MachDataHelper {
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
 		// base kva and bus base voltage
 		mach.setMultiFactors(dstabBus);
-		mach.setPoles(machXml.getPoles()==null? 2 : machXml.getPoles());
+		// There is no poles info for some data format,such as BPA
+		mach.setPoles(machXml.getPoles()==null?2:machXml.getPoles());
 		mach.setH(machXml.getH());
 		mach.setD(machXml.getD());
 		mach.setXd1(machXml.getXd1());
@@ -193,13 +194,13 @@ public class MachDataHelper {
 		mach.setXd11(machXml.getXd11());
 		mach.setTd011(machXml.getTd011().getValue());
 	}
-	
-	private void setEq11Eq11Data(RoundRotorMachine mach, Eq11Ed11MachineXmlType machXml) throws InterpssException {
+	//TODO a typo?
+	private void setEq11Ed11Data(RoundRotorMachine mach, Eq11Ed11MachineXmlType machXml) throws InterpssException {
 		setEq1Ed1Data(mach, machXml);
 		mach.setXq11(machXml.getXq11());
 		mach.setTq011(machXml.getTq011().getValue());
 		mach.setXq11(machXml.getXd11());
-		mach.setTq011(machXml.getTd011().getValue());
+		mach.setTd011(machXml.getTd011().getValue());
 	}
 	
 	private Complex calSourceZ1(EquiMachineXmlType machXml) {
