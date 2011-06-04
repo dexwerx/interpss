@@ -290,7 +290,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				event.setType(DynamicEventType.BUS_FAULT);
 				AcscBusFault fault = CoreObjectFactory
 						.createAcscBusFault(Constants.Token_BusFaultId
-								+ fdata.getBusBranchId());
+								+ fdata.getBusBranchId(), dstabNet);
 				Xml2AlgorithmMapperImpl.acscFaultData2AcscBusFaultMapping(
 						fdata, fault);
 				event.setBusFault(fault);

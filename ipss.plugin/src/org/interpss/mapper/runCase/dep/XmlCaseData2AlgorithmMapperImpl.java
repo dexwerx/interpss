@@ -120,7 +120,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 				return false;
 			}
 
-			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + faultBus.getId());
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + faultBus.getId(), faultNet);
 			acscFaultData2AcscBusFaultMapping(xmlCaseData.getFaultData(), fault);
 			if (xmlCaseData.getFaultData().getFaultCategory() == AcscFaultCategoryDataType.FAULT_ALL) {
 				addAllFaultCategory(faultBus.getId(), faultIdStr, fault, algo);
@@ -139,7 +139,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 
 			AcscBranchFault fault = CoreObjectFactory
 					.createAcscBranchFault(Constants.Token_BranchFaultId
-							+ faultBranch.getId());
+							+ faultBranch.getId(), faultNet);
 			acscFaultData2AcscBranchFaultMapping(xmlCaseData.getFaultData(), fault);
 			if (xmlCaseData.getFaultData().getFaultCategory() == AcscFaultCategoryDataType.FAULT_ALL) {
 				addAllFaultCategory(faultBranch.getId(), faultIdStr, fault,
@@ -333,7 +333,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			} 
 			else if (fdata.getFaultType() == AcscFaultDataType.BUS_FAULT) {
 				event.setType(DynamicEventType.BUS_FAULT);
-				AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + fdata.getBusBranchId());
+				AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + fdata.getBusBranchId(), dstabNet);
 				XmlCaseData2AlgorithmMapperImpl.acscFaultData2AcscBusFaultMapping(fdata, fault);
 				event.setBusFault(fault);
 				DStabBus bus = dstabNet.getDStabBus(NetUtilFunc.getBusIdFromDisplayNameId(fdata.getBusBranchId()));

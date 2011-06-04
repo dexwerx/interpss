@@ -68,7 +68,8 @@ public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudy
 				return false;
 			}
 
-			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + faultBus.getId());
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(
+					Constants.Token_BusFaultId + faultBus.getId(), faultNet);
 			RunCaseMapperHelper.acscFaultData2AcscBusFaultMapping(xmlCaseData.getFaultData(), fault);
 			if (xmlCaseData.getFaultData().getFaultCategory() == AcscFaultCategoryDataType.FAULT_ALL) {
 				addAllFaultCategory(faultBus.getId(), faultIdStr, fault, algo);
@@ -85,9 +86,8 @@ public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudy
 				return false;
 			}
 
-			AcscBranchFault fault = CoreObjectFactory
-					.createAcscBranchFault(Constants.Token_BranchFaultId
-							+ faultBranch.getId());
+			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault(
+					Constants.Token_BranchFaultId+faultBranch.getId(), faultNet);
 			RunCaseMapperHelper.acscFaultData2AcscBranchFaultMapping(xmlCaseData.getFaultData(), fault);
 			if (xmlCaseData.getFaultData().getFaultCategory() == AcscFaultCategoryDataType.FAULT_ALL) {
 				addAllFaultCategory(faultBranch.getId(), faultIdStr, fault,

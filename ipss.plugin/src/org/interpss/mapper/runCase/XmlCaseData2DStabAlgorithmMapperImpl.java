@@ -236,7 +236,8 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 			} 
 			else if (fdata.getFaultType() == AcscFaultDataType.BUS_FAULT) {
 				event.setType(DynamicEventType.BUS_FAULT);
-				AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + fdata.getBusBranchId());
+				AcscBusFault fault = CoreObjectFactory.createAcscBusFault(
+						Constants.Token_BusFaultId + fdata.getBusBranchId(), dstabNet);
 				RunCaseMapperHelper.acscFaultData2AcscBusFaultMapping(fdata, fault);
 				event.setBusFault(fault);
 				DStabBus bus = dstabNet.getDStabBus(NetUtilFunc.getBusIdFromDisplayNameId(fdata.getBusBranchId()));

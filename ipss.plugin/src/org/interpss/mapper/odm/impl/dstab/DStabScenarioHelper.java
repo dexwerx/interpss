@@ -205,7 +205,7 @@ public class DStabScenarioHelper {
 			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BUS_FAULT) {
 				eventObj.setType(DynamicEventType.BUS_FAULT);
 				String faultBusId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
-				AcscBusFault busFault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId+faultBusId);
+				AcscBusFault busFault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId+faultBusId, dstabNet);
 				AcscBus bus = this.dstabNet.getAcscBus(faultBusId);
 				busFault.setFaultBus(bus);
 				

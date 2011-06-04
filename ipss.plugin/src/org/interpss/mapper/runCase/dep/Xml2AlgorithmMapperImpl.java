@@ -100,9 +100,8 @@ public class Xml2AlgorithmMapperImpl {
 				return false;
 			}
 
-			AcscBusFault fault = CoreObjectFactory
-					.createAcscBusFault(Constants.Token_BusFaultId
-							+ faultBus.getId());
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(
+					Constants.Token_BusFaultId+faultBus.getId(), faultNet);
 			acscFaultData2AcscBusFaultMapping(acscCase.getFaultData(), fault);
 			algo.addBusFault(faultBus.getId(), faultIdStr, fault);
 		} else {
@@ -117,8 +116,7 @@ public class Xml2AlgorithmMapperImpl {
 			}
 
 			AcscBranchFault fault = CoreObjectFactory
-					.createAcscBranchFault(Constants.Token_BranchFaultId
-							+ faultBranch.getId());
+					.createAcscBranchFault(Constants.Token_BranchFaultId+faultBranch.getId(), faultNet);
 			acscFaultData2AcscBranchFaultMapping(acscCase.getFaultData(), fault);
 			algo.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		}

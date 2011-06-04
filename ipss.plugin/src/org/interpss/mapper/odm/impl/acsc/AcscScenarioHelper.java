@@ -106,7 +106,7 @@ public class AcscScenarioHelper {
 		AcscFaultXmlType faultXml = scAnalysisXml.getFault();
 		if(faultXml.getFaultType() == AcscFaultTypeEnumType.BUS_FAULT){			
 			String faultBusId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
-			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId);
+			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId, acscFaultNet);
 			acscAglo.addBusFault(faultBusId, idStr, acscBusFault);
 
 			AcscBus bus = acscFaultNet.getAcscBus(faultBusId);
@@ -117,7 +117,7 @@ public class AcscScenarioHelper {
 		}
 		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_FAULT){
 			String faultBranchId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
-			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId);
+			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId, acscFaultNet);
 			acscAglo.addBranchFault(faultBranchId, idStr, acscBraFault);
 
 			AcscBranch acscBra = acscFaultNet.getAcscBranch(faultBranchId);
