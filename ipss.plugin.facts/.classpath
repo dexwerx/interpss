@@ -14,7 +14,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
