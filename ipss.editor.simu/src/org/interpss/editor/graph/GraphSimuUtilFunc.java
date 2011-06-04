@@ -109,14 +109,11 @@ public class GraphSimuUtilFunc {
 					AcscBusFault fBus = (AcscBusFault) simuCtx.getSimpleFaultAlgorithm().getFaultList()
 							.get(0);
 					if (fBus != null) {
-						double vpu = fBus.getFaultResult().getFaultVoltage_012(
-								bus.getSortNumber()).b_1.abs();
+						double vpu = fBus.getFaultResult().getBusResult().getFaultVoltage_012(bus.getSortNumber()).b_1.abs();
 						if (LABEL_ACT_ACSC_NEGATIVE.equals(action))
-							vpu = fBus.getFaultResult().getFaultVoltage_012(
-									bus.getSortNumber()).c_2.abs();
+							vpu = fBus.getFaultResult().getBusResult().getFaultVoltage_012(bus.getSortNumber()).c_2.abs();
 						else if (LABEL_ACT_ACSC_ZERO.equals(action))
-							vpu = fBus.getFaultResult().getFaultVoltage_012(
-									bus.getSortNumber()).a_0.abs();
+							vpu = fBus.getFaultResult().getBusResult().getFaultVoltage_012(bus.getSortNumber()).a_0.abs();
 						String vpuStr = Number2String.toStr("0.000", vpu);
 						String vVoltStr = Number2String.toStr("0.0", vpu
 								* bus.getBaseVoltage());
