@@ -46,7 +46,7 @@ public class LGFault  extends PluginTestSetup {
 		//System.out.println(simuCtx.getAcscFaultNet().net2String());
   		
 	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
-	  			-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0) );  		
+	  			-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0, 0.0001) );  		
 
 		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 	}			

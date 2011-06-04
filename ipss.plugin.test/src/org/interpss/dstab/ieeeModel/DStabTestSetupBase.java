@@ -86,7 +86,7 @@ public class DStabTestSetupBase extends PluginTestSetup{
 		event1.setDurationSec(0.1);
 		
 		DStabBus faultBus = net.getDStabBus("0003");
-		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@0003" );
+		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@0003", net);
   		fault.setAcscBus(faultBus);
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(NumericConstant.SmallScZ);
