@@ -193,11 +193,10 @@ public class MachDataHelper {
 		setEq1Data(mach, machXml);
 		mach.setXd11(machXml.getXd11());
 		mach.setTd011(machXml.getTd011().getValue());
-		//TODO  the Xq11 Tq011 info is missing ?
 		mach.setXq11(machXml.getXq11());
 		mach.setTq011(machXml.getTq011().getValue());
 	}
-	//TODO a typo?
+
 	private void setEq11Ed11Data(RoundRotorMachine mach, Eq11Ed11MachineXmlType machXml) throws InterpssException {
 		setEq1Ed1Data(mach, machXml);
 		mach.setXq11(machXml.getXq11());
