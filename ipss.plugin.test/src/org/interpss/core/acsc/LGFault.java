@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
-import org.interpss.display.AcscOutFunc;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
@@ -48,7 +47,7 @@ public class LGFault  extends PluginTestSetup {
 	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
 	  			-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0, 0.0001) );  		
 
-		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
+		//System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 	}			
 
 	@Test
@@ -77,12 +76,12 @@ public class LGFault  extends PluginTestSetup {
    fault amps(0):     -0.05 + 0.01i pu    128.42442(169.09466) amps
      		 */
 		//System.out.println(simuCtx.getAcscFaultNet().net2String());
-  		
-	  	//assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
-	  	//		-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0) );  		
 
-		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
+	  	// iPU_012 = 0 - 0i  0.69 + 0.07i  -0.62 - 0.07i
+	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
+	  			0.0,0.0, 0.69,0.07, -0.62,-0.07, 0.01) );  		
 
+		//System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 	}			
 
 	@Test
@@ -112,9 +111,10 @@ public class LGFault  extends PluginTestSetup {
      		 */
 		//System.out.println(simuCtx.getAcscFaultNet().net2String());
   		
-	  	//assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
-	  	//		-0.15071023628251298, 0.029036786613257246, 0.0, 0.0, 0.0, 0.0) );  		
+	  	//iPU_012 = 0  0.65 + 0.07i  -0.65 - 0.07i
+	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
+	  			0.0,0.0,  0.65,0.07,  -0.65,-0.07, 0.01) );  		
 
-		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
+//		System.out.println(AcscOutFunc.faultResult2String(faultNet, algo));
 	}			
 }

@@ -7,6 +7,8 @@ import org.interpss.contigency.N11Analysis_IEEE14BusTest;
 import org.interpss.contigency.N1Analysis_IEEE14BusTest;
 import org.interpss.contigency.N2Analysis_IEEE14BusTest;
 import org.interpss.core.aclf.IEEE14ChangeRecorderTest;
+import org.interpss.core.acsc.Acsc5Bus;
+import org.interpss.core.acsc.LGFault;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
@@ -51,6 +53,10 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEE14ChangeRecorderTest.class,
 	IEEE14_WalkThroughTest.class,
 	SparseEqnDoubleTest.class,
+	
+	// acsc
+	LGFault.class,
+	Acsc5Bus.class,
 	
 	// DStab controller building blocks
 	DelayControlBlockTests.class,
