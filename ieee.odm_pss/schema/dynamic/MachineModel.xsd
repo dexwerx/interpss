@@ -1,79 +1,77 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified" targetNamespace="http://www.ieee.org/odm/Schema/2008">
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+     targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+     xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
 
-	<include schemaLocation="../common/DataType.xsd"/>
+	<include schemaLocation="../common/DataType.xsd"></include>
 	
-	<include schemaLocation="exc/IEEEExciterModel.xsd"/>
-	<include schemaLocation="exc/BPAExciterModel.xsd"/>
-	<include schemaLocation="gov/IEEEGovernorModel.xsd"/>
-	<include schemaLocation="gov/BPAGovernorModel.xsd"/>
-	<include schemaLocation="pss/IEEEStabilizerModel.xsd"/>
-	<include schemaLocation="pss/BPAStabilizerModel.xsd"/>
+	<include schemaLocation="exc/IEEEExciterModel.xsd"></include>
+	<include schemaLocation="exc/BPAExciterModel.xsd"></include>
+	<include schemaLocation="gov/IEEEGovernorModel.xsd"></include>
+	<include schemaLocation="gov/BPAGovernorModel.xsd"></include>
+	<include schemaLocation="pss/IEEEStabilizerModel.xsd"></include>
+	<include schemaLocation="pss/BPAStabilizerModel.xsd"></include>
 	
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 		
 	<element name="machineModel" type="pss:MachineModelXmlType"/>
-	<element name="equiMachModel" substitutionGroup="pss:machineModel" type="pss:EquiMachineXmlType"/>
-	<element name="classicMachModel" substitutionGroup="pss:machineModel" type="pss:ClassicMachineXmlType"/>
+	<element name="equiMachModel" type="pss:EquiMachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="classicMachModel" type="pss:ClassicMachineXmlType" substitutionGroup="pss:machineModel"/>
 	<!--  transientMachModel and eq1Ed1MachMode are the same -->
-	<element name="transientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq1Ed1MachineXmlType"/>
-	<element name="eq1Ed1MachModel" substitutionGroup="pss:machineModel" type="pss:Eq1Ed1MachineXmlType"/>
-	<element name="eq1MachModel" substitutionGroup="pss:machineModel" type="pss:Eq1MachineXmlType"/>
+	<element name="transientMachModel" type="pss:Eq1Ed1MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq1Ed1MachModel" type="pss:Eq1Ed1MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq1MachModel" type="pss:Eq1MachineXmlType" substitutionGroup="pss:machineModel"/>
 	<!--  subTransientMachModel and eq11Ed11MachMode are the same -->
-	<element name="subTransientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType"/>
-	<element name="eq11Ed11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType"/>
-	<element name="eq11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11MachineXmlType"/>
+	<element name="subTransientMachModel" type="pss:Eq11Ed11MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq11Ed11MachModel" type="pss:Eq11Ed11MachineXmlType" substitutionGroup="pss:machineModel"/>
+	<element name="eq11MachModel" type="pss:Eq11MachineXmlType" substitutionGroup="pss:machineModel"/>
 
 	<complexType name="DynamicGeneratorXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element maxOccurs="1" minOccurs="0" name="ownerName" type="string"/>
-					<element maxOccurs="1" minOccurs="0" name="ratedPower" type="pss:ActivePowerXmlType"/>
-					<element maxOccurs="1" minOccurs="0" name="ratedVoltage" type="pss:VoltageXmlType"/>
-					<element maxOccurs="1" minOccurs="0" name="pContributionPercent" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="qContributionPercent" type="double"/>
-					<element maxOccurs="1" minOccurs="1" ref="pss:machineModel"/>
-					<element minOccurs="0" ref="pss:exciter"/>
-					<element minOccurs="0" ref="pss:governor"/>
-					<element minOccurs="0" ref="pss:stabilizer"/>
-					<element maxOccurs="1" minOccurs="0" name="grounding" type="pss:GroundingXmlType"/>
+					<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
+					<element name="ratedPower" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
+					<element name="qContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
+					<element ref="pss:machineModel" maxOccurs="1" minOccurs="1"></element>
+					<element ref="pss:exciter" minOccurs="0"></element>
+					<element ref="pss:governor" minOccurs="0"></element>
+					<element ref="pss:stabilizer" minOccurs="0"></element>
+					<element name="grounding" type="pss:GroundingXmlType" minOccurs="0" maxOccurs="1"></element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 
-	<complexType abstract="true" name="MachineModelXmlType">
-		<annotation>
-      <documentation>
+	<complexType name="MachineModelXmlType" abstract="true">
+		<annotation><documentation>
 		Parent type for all machine model types
-		</documentation>
-    </annotation>
+		</documentation></annotation>
 		<sequence>
-			<element maxOccurs="1" minOccurs="0" name="name" type="string"/>
-			<element maxOccurs="1" minOccurs="0" name="desc" type="string"/>
+			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="desc" type="string" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
 	<complexType name="EquiMachineXmlType">
 		<complexContent>
 			<extension base="pss:MachineModelXmlType">
-				<annotation>
-          <documentation>
+				<annotation><documentation>
 				There are two ways to define an equivalent machine: equivalent source data or equivalent gen data
 				from Loadflow analysis
-				</documentation>
-        </annotation>
+				</documentation></annotation>
 				<choice>
-					<element minOccurs="0" name="equivSource" type="pss:ScEquivSourceXmlType"/>
-					<element minOccurs="0" name="equivGen">
+					<element name="equivSource" minOccurs="0" type="pss:ScEquivSourceXmlType"></element>
+					<element name="equivGen" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element maxOccurs="1" minOccurs="0" name="equiPgen" type="double"/>
-								<element maxOccurs="1" minOccurs="0" name="pGenUnit" type="pss:ApparentPowerUnitType"/>
-								<element maxOccurs="1" minOccurs="0" name="DCLineBus" type="boolean"/>
+								<element name="equiPgen" type="double" maxOccurs="1" minOccurs="0"></element>
+								<element name="pGenUnit" maxOccurs="1" minOccurs="0" type="pss:ApparentPowerUnitType"></element>
+								<element name="DCLineBus" type="boolean" maxOccurs="1" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -82,13 +80,13 @@
 		</complexContent>
 	</complexType>
 
-	<complexType abstract="true" name="AbstractMachineXmlType">
+	<complexType name="AbstractMachineXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:MachineModelXmlType">
 				<sequence>
-					<element maxOccurs="1" minOccurs="1" name="H" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="D" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="poles" type="int"/>
+					<element name="H" maxOccurs="1" minOccurs="1" type="double"></element>
+					<element name="D" maxOccurs="1" minOccurs="1" type="double"></element>
+					<element name="poles" type="int" maxOccurs="1" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -98,7 +96,7 @@
 		<complexContent>
 			<extension base="pss:AbstractMachineXmlType">
 				<sequence>
-					<element maxOccurs="1" minOccurs="1" name="xd1" type="double"/>
+					<element name="xd1" maxOccurs="1" minOccurs="1" type="double"></element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -108,38 +106,36 @@
 		<complexContent>
 			<extension base="pss:AbstractMachineXmlType">
 				<sequence>
-					<element maxOccurs="1" minOccurs="0" name="xl" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="x0" type="double"/>
-					<element maxOccurs="1" minOccurs="0" name="x2" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="ra" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="xd" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="xq" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="xd1" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Td01" type="pss:TimePeriodXmlType"/>
+					<element name="xl" maxOccurs="1" minOccurs="0" type="double"/>
+					<element name="x0" maxOccurs="1" minOccurs="0" type="double"/>
+					<element name="x2" maxOccurs="1" minOccurs="0" type="double"/>
+					<element name="ra" maxOccurs="1" minOccurs="1" type="double"/>
+					<element name="xd" maxOccurs="1" minOccurs="1" type="double"/>
+					<element name="xq" maxOccurs="1" minOccurs="1" type="double"/>
+					<element name="xd1" maxOccurs="1" minOccurs="1" type="double"></element>
+					<element name="Td01" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
 					<choice>
-						<annotation>
-              <documentation>
+						<annotation><documentation>
 						Two ways to define machine saturation. format-1: se100, se120 and sliner; 
 						format-2: e1, e2, se1, se2 and af
-						</documentation>
-            </annotation>
+						</documentation></annotation>
 						<element name="seFmt1">
 							<complexType>
 								<sequence>
-									<element maxOccurs="1" minOccurs="1" name="se100" type="double"/>
-									<element maxOccurs="1" minOccurs="1" name="se120" type="double"/>
-									<element maxOccurs="1" minOccurs="1" name="sliner" type="double"/>
+									<element name="se100" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se120" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="sliner" type="double" maxOccurs="1" minOccurs="1"/>
 								</sequence>
 							</complexType>
 						</element>
 						<element name="seFmt2">
 							<complexType>
 								<sequence>
-									<element maxOccurs="1" minOccurs="1" name="e1" type="double"/>
-									<element maxOccurs="1" minOccurs="1" name="e2" type="double"/>
-									<element maxOccurs="1" minOccurs="1" name="se1" type="double"/>
-									<element maxOccurs="1" minOccurs="1" name="se2" type="double"/>
-									<element maxOccurs="1" minOccurs="0" name="af" type="double"/>
+									<element name="e1" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="e2" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se1" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="se2" type="double" maxOccurs="1" minOccurs="1"/>
+									<element name="af" type="double" maxOccurs="1" minOccurs="0"/>
 								</sequence>
 							</complexType>
 						</element>
@@ -153,36 +149,32 @@
 		<complexContent>
 			<extension base="pss:Eq1MachineXmlType">
 				<sequence>
-					<element maxOccurs="1" minOccurs="1" name="xq1" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Tq01" type="pss:TimePeriodXmlType"/>
+					<element name="xq1" maxOccurs="1" minOccurs="1" type="double"/>
+					<element name="Tq01" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType"/>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-	
-    <!-- Eq11MachineXmlType is for modeling salient type machine sub-transient -->
+
 	<complexType name="Eq11MachineXmlType">
 		<complexContent>
 		<extension base="pss:Eq1MachineXmlType">
 		<sequence>
-			<element maxOccurs="1" minOccurs="1" name="xd11" type="double"/>
-			<element maxOccurs="1" minOccurs="1" name="Td011" type="pss:TimePeriodXmlType">	</element>
-			<element maxOccurs="1" minOccurs="1" name="xq11" type="double">	</element>
-			<element maxOccurs="1" minOccurs="1" name="Tq011" type="pss:TimePeriodXmlType">
-			</element>		
+			<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element name="Td011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">	</element>
 		</sequence>
 		</extension>
 		</complexContent>		
 	</complexType>
-   <!-- Eq11Ed11MachineXmlType is for modeling round type machine sub-transient -->
+
 	<complexType name="Eq11Ed11MachineXmlType">
 		<complexContent>
 			<extension base="pss:Eq1Ed1MachineXmlType">
 				<sequence>
-					<element maxOccurs="1" minOccurs="1" name="xd11" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="Td011" type="pss:TimePeriodXmlType">	</element>
-					<element maxOccurs="1" minOccurs="1" name="xq11" type="double">	</element>
-					<element maxOccurs="1" minOccurs="1" name="Tq011" type="pss:TimePeriodXmlType">
+					<element name="xd11" type="double" maxOccurs="1" minOccurs="1"></element>
+					<element name="Td011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">	</element>
+					<element name="xq11" type="double" maxOccurs="1" minOccurs="1">	</element>
+					<element name="Tq011" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1">
 					</element>
 				</sequence>
 			</extension>
@@ -193,29 +185,29 @@
 
 	<simpleType name="GeneratorEnumType">
 		<restriction base="string">
-			<enumeration value="EquivGenUnit"/>
-			<enumeration value="Classical"/>
-			<enumeration value="Transient"/>
-			<enumeration value="SubTransient"/>
+			<enumeration value="EquivGenUnit"></enumeration>
+			<enumeration value="Classical"></enumeration>
+			<enumeration value="Transient"></enumeration>
+			<enumeration value="SubTransient"></enumeration>
 		</restriction>
 	</simpleType>
 
 	<complexType name="GeneratorModelListXmlType">
 		<sequence>
-			<element maxOccurs="1" minOccurs="0" name="equivGenUnit" type="pss:EquiMachineXmlType">	</element>
-			<element maxOccurs="1" minOccurs="0" name="classicalModel" type="pss:ClassicMachineXmlType"/>
-			<element maxOccurs="1" minOccurs="0" name="transModel" type="pss:Eq1Ed1MachineXmlType">	</element>
-			<element maxOccurs="1" minOccurs="0" name="subTransientModel" type="pss:Eq11Ed11MachineXmlType">
+			<element name="equivGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">	</element>
+			<element name="classicalModel" maxOccurs="1" minOccurs="0" type="pss:ClassicMachineXmlType"></element>
+			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:Eq1Ed1MachineXmlType">	</element>
+			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:Eq11Ed11MachineXmlType">
 			</element>
 		</sequence>
 	</complexType>
 
 	<complexType name="MachineModelSelectionXmlType">
 		<choice>
-			<element maxOccurs="1" minOccurs="0" name="equiGenUnit" type="pss:EquiMachineXmlType">			</element>
-			<element maxOccurs="1" minOccurs="0" name="classicalModel" type="pss:ClassicMachineXmlType">			</element>
-			<element maxOccurs="1" minOccurs="0" name="transModel" type="pss:Eq1Ed1MachineXmlType">			</element>
-			<element maxOccurs="1" minOccurs="0" name="subTransientModel" type="pss:Eq11Ed11MachineXmlType">			</element>
+			<element name="equiGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">			</element>
+			<element name="classicalModel" maxOccurs="1" minOccurs="0" type="pss:ClassicMachineXmlType">			</element>
+			<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:Eq1Ed1MachineXmlType">			</element>
+			<element name="subTransientModel" maxOccurs="1" minOccurs="0" type="pss:Eq11Ed11MachineXmlType">			</element>
 		</choice>
 	</complexType>
 </schema>
