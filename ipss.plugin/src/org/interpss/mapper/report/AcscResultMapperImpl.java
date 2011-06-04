@@ -99,14 +99,12 @@ public class AcscResultMapperImpl {
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus3P);
 						bean.setBusName(bus.getName());
 						bean.setBusId(bus.getId());
-						double vpu = fault.getFaultResult().getBusResult()
-								.getFaultVoltage_012(bus.getSortNumber()).b_1
-								.abs();
-						Complex3x1 ampPu = fault.getFaultResult().getBusResult()
-								.getContriAmps_012(bus.getSortNumber());
-						Complex3x1 amps = fault.getFaultResult().getBusResult()
-								.getContriAmps_012(bus.getSortNumber(),
-										UnitType.Amp, bus.getBaseVoltage(),
+						double vpu = fault.getFaultResult()
+								.getBusVoltage_012(bus).b_1.abs();
+						Complex3x1 ampPu = fault.getFaultResult()
+								.getBusContriAmps_012(bus);
+						Complex3x1 amps = fault.getFaultResult()
+								.getBusContriAmps_012(bus,	UnitType.Amp, bus.getBaseVoltage(),
 										baseKva);
 						bean.setBusFaultVoltpu(Number2String.toStr("####0.##",
 								vpu));
@@ -126,8 +124,8 @@ public class AcscResultMapperImpl {
 						bean.setBusName(bus.getName());
 						bean.setBusId(bus.getId());
 
-						Complex3x1 v012 = fault.getFaultResult().getBusResult()
-								.getFaultVoltage_012(bus.getSortNumber());
+						Complex3x1 v012 = fault.getFaultResult()
+								.getBusVoltage_012(bus);
 						double vpu1 = v012.b_1.abs();
 						bean.setBusFaultVoltpu(Number2String.toStr("####0.##",
 								vpu1));
@@ -146,10 +144,10 @@ public class AcscResultMapperImpl {
 						bean.setBusFaultVolt2(Number2String.toStr("######0.#",
 								vpu2 * bus.getBaseVoltage()));
 
-						Complex3x1 ampPu = fault.getFaultResult().getBusResult()
-								.getContriAmps_012(bus.getSortNumber());
-						Complex3x1 amps = fault.getFaultResult().getBusResult()
-								.getContriAmps_012(bus.getSortNumber(),
+						Complex3x1 ampPu = fault.getFaultResult()
+								.getBusContriAmps_012(bus);
+						Complex3x1 amps = fault.getFaultResult()
+								.getBusContriAmps_012(bus,
 										UnitType.Amp, bus.getBaseVoltage(),
 										baseKva);
 						bean.setBusContribAmpspu(Number2String.toStr(
@@ -166,8 +164,8 @@ public class AcscResultMapperImpl {
 						bean.setBusName(bus.getName());
 						bean.setBusId(bus.getId());
 
-						Complex3x1 v012 = fault.getFaultResult().getBusResult()
-								.getFaultVoltage_012(bus.getSortNumber());
+						Complex3x1 v012 = fault.getFaultResult()
+								.getBusVoltage_012(bus);
 						Complex3x1 vabc = Complex3x1.z12_to_abc(v012);
 
 						double vpu1 = vabc.a_0.abs();
@@ -188,10 +186,10 @@ public class AcscResultMapperImpl {
 						bean.setBusFaultVoltC(Number2String.toStr("######0.#",
 								vpu2 * bus.getBaseVoltage()));
 
-						Complex3x1 ampPu = fault.getFaultResult().getBusResult()
-								.getContriAmps_012(bus.getSortNumber());
-						Complex3x1 amps = fault.getFaultResult().getBusResult()
-								.getContriAmps_012(bus.getSortNumber(),
+						Complex3x1 ampPu = fault.getFaultResult()
+								.getBusContriAmps_012(bus);
+						Complex3x1 amps = fault.getFaultResult()
+								.getBusContriAmps_012(bus,
 										UnitType.Amp, bus.getBaseVoltage(),
 										baseKva);
 						bean.setBusContribAmpspu(Number2String.toStr(
@@ -213,10 +211,10 @@ public class AcscResultMapperImpl {
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_Branch3P);
 						bean.setBranchId(bra.getId());
 						bean.setBranchName(bra.getName());
-						Complex3x1 cpu = fault.getFaultResult().getBranchResult()
-								.getFaultAmps_012From2To(++cnt);
-						Complex3x1 camp = fault.getFaultResult().getBranchResult()
-								.getFaultAmps_012From2To(cnt, UnitType.Amp,
+						Complex3x1 cpu = fault.getFaultResult()
+								.getBranchAmpsFrom2To_012(++cnt);
+						Complex3x1 camp = fault.getFaultResult()
+								.getBranchAmpsFrom2To_012(cnt, UnitType.Amp,
 										bra.getFromBus().getBaseVoltage(),
 										baseKva);
 						bean.setBranchFaultAmpspu(Number2String.toStr(
@@ -243,10 +241,10 @@ public class AcscResultMapperImpl {
 						beanTo2From.setBranchName("");
 
 						try {
-							Complex3x1 cpu = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_012From2To(++cnt);
-							Complex3x1 camp = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_012From2To(cnt, UnitType.Amp,
+							Complex3x1 cpu = fault.getFaultResult()
+									.getBranchAmpsFrom2To_012(++cnt);
+							Complex3x1 camp = fault.getFaultResult()
+									.getBranchAmpsFrom2To_012(cnt, UnitType.Amp,
 											bra.getFromBus().getBaseVoltage(),
 											faultNet.getBaseKva());
 							beanFrom2To.setBranchFaultAmpspu(Number2String
@@ -262,10 +260,9 @@ public class AcscResultMapperImpl {
 							beanFrom2To.setBranchFaultAmps2(Number2String
 									.toStr("######0.#", camp.c_2.abs()));
 
-							cpu = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_012To2From(cnt);
-							camp = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_012To2From(cnt, UnitType.Amp,
+							cpu = fault.getFaultResult().getBranchAmpsTo2From_012(cnt);
+							camp = fault.getFaultResult()
+									.getBranchAmpsTo2From_012(cnt, UnitType.Amp,
 											bra.getToBus().getBaseVoltage(),
 											faultNet.getBaseKva());
 							beanTo2From.setBranchFaultAmpspu(Number2String
@@ -303,10 +300,9 @@ public class AcscResultMapperImpl {
 						beanTo2From.setBranchName("");
 
 						try {
-							Complex3x1 cpu = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_abcFrom2To(++cnt);
-							Complex3x1 camp = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_abcFrom2To(cnt, UnitType.Amp,
+							Complex3x1 cpu = fault.getFaultResult().getBranchAmpsFrom2To_abc(++cnt);
+							Complex3x1 camp = fault.getFaultResult()
+									.getBranchAmpsFrom2To_abc(cnt, UnitType.Amp,
 											bra.getFromBus().getBaseVoltage(),
 											faultNet.getBaseKva());
 							beanFrom2To.setBranchFaultAmpsApu(Number2String
@@ -322,10 +318,10 @@ public class AcscResultMapperImpl {
 							beanFrom2To.setBranchFaultAmpsC(Number2String
 									.toStr("######0.#", camp.c_2.abs()));
 
-							cpu = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_abcTo2From(cnt);
-							camp = fault.getFaultResult().getBranchResult()
-									.getFaultAmps_abcTo2From(cnt, UnitType.Amp,
+							cpu = fault.getFaultResult()
+									.getBranchAmpsTo2From_abc(cnt);
+							camp = fault.getFaultResult()
+									.getBranchAmpsTo2From_abc(cnt, UnitType.Amp,
 											bra.getToBus().getBaseVoltage(),
 											faultNet.getBaseKva());
 							beanTo2From.setBranchFaultAmpsApu(Number2String
