@@ -429,10 +429,10 @@ public class BPADynamicGeneratorRecord {
 	}
 	private static void setSubTransientData(Eq1MachineXmlType mach){
 		if(mach instanceof Eq11MachineXmlType){
-			((Eq11MachineXmlType)mach).setXd11(SubTransientData.get("xd11"));
-			((Eq11MachineXmlType)mach).setTd011(DStabDataSetter.createTimeConstSec(SubTransientData.get("td011")));
-			((Eq11MachineXmlType)mach).setXq11(SubTransientData.get("xq11"));
-			((Eq11MachineXmlType)mach).setTq011(DStabDataSetter.createTimeConstSec(SubTransientData.get("tq011")));
+			((Eq11Ed11MachineXmlType)mach).setXd11(SubTransientData.get("xd11"));
+			((Eq11Ed11MachineXmlType)mach).setTd011(DStabDataSetter.createTimeConstSec(SubTransientData.get("td011")));
+			((Eq11Ed11MachineXmlType)mach).setXq11(SubTransientData.get("xq11"));
+			((Eq11Ed11MachineXmlType)mach).setTq011(DStabDataSetter.createTimeConstSec(SubTransientData.get("tq011")));
 		}
 		else if(mach instanceof Eq11Ed11MachineXmlType){
 			((Eq11Ed11MachineXmlType)mach).setXd11(SubTransientData.get("xd11"));
