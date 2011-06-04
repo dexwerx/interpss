@@ -5,10 +5,12 @@ import static org.junit.Assert.assertTrue;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
@@ -40,9 +42,10 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 		LoadflowAlgorithm lfAlgo = dstabAlgo.getAclfAlgorithm();
 		lfAlgo.loadflow();
 		assertTrue(dstabNet.isLfConverged());
-		//System.out.println(
-		//assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageMag() - 0.86011) < 0.0001);
-		//assertTrue(Math.abs(dstabNet.getDStabBus("Bus-1").getVoltageAng(UnitType.Deg) + 4.8) < 0.1);
+		//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
+		//System.out.println("bus2 Angle(deg)="+dstabNet.getDStabBus("Bus2").getVoltageAng(UnitType.Deg));
+		assertTrue(Math.abs(dstabNet.getDStabBus("Bus2").getVoltageMag() - 1.039) < 0.001);
+		assertTrue(Math.abs(dstabNet.getDStabBus("Bus2").getVoltageAng(UnitType.Deg) + 3.43) < 0.01);
 	}
 
 }
