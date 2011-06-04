@@ -132,7 +132,7 @@ public class DStabParserHelper extends AclfParserHelper {
 		return mach;
 	}
 	
-	public static Eq11Ed11MachineXmlType createEq11Ed11MachineXmlType(DynamicGeneratorXmlType gen) {
+	public static Eq11Ed11MachineXmlType createEq11Ed11Machine(DynamicGeneratorXmlType gen) {
 		Eq11Ed11MachineXmlType mach = getFactory().createEq11Ed11MachineXmlType();
 		gen.setMachineModel(getFactory().createEq11Ed11MachModel(mach));
 		return mach;

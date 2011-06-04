@@ -25,6 +25,9 @@
 package org.ieee.odm.adapter.bpa.impl.dynamic;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
 import org.ieee.odm.common.ODMException;
@@ -40,13 +43,19 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
+import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 
+
+
 public class BPADynamicGeneratorRecord {
+	
+	private static List<String> subTransBusIdList=new ArrayList<String>();
+	private static Hashtable<String,Double>SubTransientData =new Hashtable<String,Double>();
 	
 	public static void processGeneratorData(String str, DStabModelParser parser) throws ODMException {
     	final String strAry[]=getGeneratorDataFields(str);
@@ -108,51 +117,61 @@ public class BPADynamicGeneratorRecord {
     	 * M record is only to store the sub-transient info, 
     	 * this, together with MF/MG record,represents a full machine model considering damper.
     	 */
+    	
     	else if(str.substring(0, 2).trim().equals("M")){
     		String busId = BPABusRecord.getBusId(strAry[1]);
-        	DStabBusXmlType bus = parser.getDStabBus(busId);
-    		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
-    		Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
-    		
-    		double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-	   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
-	   			   		
-	   		String dynGenId="1";
-    		if(!strAry[3].equals("")){
-    			dynGenId=strAry[3];    			
-    		}
-	   		dynGen.setId(dynGenId);
-	   		
-	   		String owner="";
-    		if(!strAry[7].equals("")){
-    			owner= strAry[7];
-    		}
-    		dynGen.setOwnerName(owner);
+    		subTransBusIdList.add(busId);
+//        	DStabBusXmlType bus = parser.getDStabBus(busId);
+//    		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+//    		
+//    		Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
+//    		
+//    		double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
+//	   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
+//	   			   		
+//	   		String dynGenId="1";
+//    		if(!strAry[3].equals("")){
+//    			dynGenId=strAry[3];    			
+//    		}
+//	   		dynGen.setId(dynGenId);
+//	   		
+//	   		String owner="";
+//    		if(!strAry[7].equals("")){
+//    			owner= strAry[7];
+//    		}
+//    		dynGen.setOwnerName(owner);
     		
     		double xd11=ModelStringUtil.getDouble(strAry[8], 0.0); 
     		if(!strAry[8].contains(".")){
     			xd11=xd11/10000;
     		}
-    		mach.setXd11(xd11);
+    		SubTransientData.put("xd11", xd11);
+    		
     		
     		double xq11=ModelStringUtil.getDouble(strAry[9], 0.0);
     		if(!strAry[9].contains(".")){
     			xq11=xq11/10000;
     		}
-    		mach.setXq11(xq11);
+    		SubTransientData.put("xq11", xq11);
+    		
     		
     		double td011=ModelStringUtil.getDouble(strAry[10], 0.0);
     		if(!strAry[10].contains(".")){
     			td011=td011/10000;
     		}
-    		mach.setTd011(DStabDataSetter.createTimePeriodValue(td011, TimePeriodUnitType.SEC));
+    		SubTransientData.put("td011", td011);
     		
     		double tq011=ModelStringUtil.getDouble(strAry[11], 0.0);
     		if(!strAry[11].contains(".")){
     			tq011=tq011/10000;
     		}
-    		mach.setTq011(DStabDataSetter.createTimePeriodValue(tq011, TimePeriodUnitType.SEC));
+    		SubTransientData.put("tq011", tq011);
     	}
+    	/*
+    	 * only MF record(there is no M record prior to MF record) 
+    	 * represents a transient type machine model(Eq1Ed1)
+    	 * while M and MF records together represent sub-transient;
+    	 */
     	else if(str.substring(0, 2).trim().equals("MF")){
     		String busId = BPABusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
@@ -161,22 +180,29 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[3].equals("")){
     		    dynGenId=strAry[3];
     		}
-    		DynamicGeneratorXmlType dynGen=null;
-    		if(bus.getDynamicGenList()!=null)
-    			dynGen=bus.getDynamicGenList().getDynamicGen().get(0);
+    		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+    		dynGen.setId(dynGenId);
+			double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
+		   	dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
     		
-    		Eq1Ed1MachineXmlType mach =null;    		
-			if(dynGen==null){//only MF record(there is no M record prior to MF record) represents a transient type machine model(Eq1Ed1) 
-				dynGen = DStabParserHelper.getDynamicGenRec(bus);
-				mach = DStabParserHelper.createEq1Ed1Machine(dynGen);
-				dynGen.setId(dynGenId);
-				
-				double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-		   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
-			}else{// sub-transient model
-				mach = (Eq11Ed11MachineXmlType)dynGen.getMachineModel().getValue();
-			}			
-							   		
+		   	Eq1MachineXmlType mach=null; 
+	        boolean isEq1Ed1=true;
+	        boolean isSalient=false;
+    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(tq01<1E-5){// Tq01==0.0
+    			isEq1Ed1=false;
+    			isSalient=true;
+    			mach=DStabParserHelper.createEq1Machine(dynGen);
+    		}
+    		else mach=DStabParserHelper.createEq1Ed1Machine(dynGen);
+    		
+            //TODO can such object creation overlap the existing Machine created before?
+    		if(isSubTransientModel(busId)){
+    			if(isSalient) mach = DStabParserHelper.createEq11Machine(dynGen);
+    			else mach=DStabParserHelper.createEq11Ed11Machine(dynGen);
+    			// set the subTransient data saved before in the hashtable to machine.
+                setSubTransientData(mach);
+			}					   		
 			double pContri=ModelStringUtil.getDouble(strAry[5], 100.0);//% in InterPSS
 			double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
 			dynGen.setPContributionPercent(pContri);
@@ -213,7 +239,10 @@ public class BPADynamicGeneratorRecord {
 			if(!strAry[10].contains(".")){
 				xq1=xq1/10000;
 			}
-			mach.setXq1(xq1);	    			
+			if(isEq1Ed1){
+				((Eq1Ed1MachineXmlType)mach).setXq1(xq1);
+			}
+				    			
     		
 			double xd=ModelStringUtil.getDouble(strAry[11], 0.0);
 			if(!strAry[11].contains(".")){
@@ -233,11 +262,11 @@ public class BPADynamicGeneratorRecord {
 			}
 			mach.setTd01(DStabDataSetter.createTimeConstSec(td01));
     		
-    		double tq01=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		
     		if(!strAry[14].contains(".")){
     			tq01=tq01/100;
     		}
-    		mach.setTq01(DStabDataSetter.createTimeConstSec(tq01));	 
+    		if(isEq1Ed1) ((Eq1Ed1MachineXmlType)mach).setTq01(DStabDataSetter.createTimeConstSec(tq01));	 
     		
     		double xl=ModelStringUtil.getDouble(strAry[15], 0.0);
     		if(!strAry[15].contains(".")){
@@ -262,7 +291,8 @@ public class BPADynamicGeneratorRecord {
 			if(!strAry[18].contains(".")){
 				D=D/100;				
 			}
-			mach.setD(D*2);//DIPSS=DBPA*2				
+			mach.setD(D*2);//DIPSS=DBPA*2
+			
 		}
     	else if(str.substring(0, 2).trim().equals("LN")){    		
     		String busId1="";
@@ -393,4 +423,22 @@ public class BPADynamicGeneratorRecord {
 		
 		return strAry;
     }
+	
+	private static boolean isSubTransientModel(String busId){
+		return subTransBusIdList.contains(busId);
+	}
+	private static void setSubTransientData(Eq1MachineXmlType mach){
+		if(mach instanceof Eq11MachineXmlType){
+			((Eq11MachineXmlType)mach).setXd11(SubTransientData.get("xd11"));
+			((Eq11MachineXmlType)mach).setTd011(DStabDataSetter.createTimeConstSec(SubTransientData.get("td011")));
+			((Eq11MachineXmlType)mach).setXq11(SubTransientData.get("xq11"));
+			((Eq11MachineXmlType)mach).setTq011(DStabDataSetter.createTimeConstSec(SubTransientData.get("tq011")));
+		}
+		else if(mach instanceof Eq11Ed11MachineXmlType){
+			((Eq11Ed11MachineXmlType)mach).setXd11(SubTransientData.get("xd11"));
+			((Eq11Ed11MachineXmlType)mach).setTd011(DStabDataSetter.createTimeConstSec(SubTransientData.get("td011")));
+			((Eq11Ed11MachineXmlType)mach).setXq11(SubTransientData.get("xq11"));
+			((Eq11Ed11MachineXmlType)mach).setTq011(DStabDataSetter.createTimeConstSec(SubTransientData.get("tq011")));
+		}
+	}
 }
