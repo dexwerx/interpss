@@ -109,11 +109,11 @@ public class GraphSimuUtilFunc {
 					AcscBusFault fBus = (AcscBusFault) simuCtx.getSimpleFaultAlgorithm().getFaultList()
 							.get(0);
 					if (fBus != null) {
-						double vpu = fBus.getFaultResult().getBusResult().getFaultVoltage_012(bus.getSortNumber()).b_1.abs();
+						double vpu = fBus.getFaultResult().getBusVoltage_012(bus).b_1.abs();
 						if (LABEL_ACT_ACSC_NEGATIVE.equals(action))
-							vpu = fBus.getFaultResult().getBusResult().getFaultVoltage_012(bus.getSortNumber()).c_2.abs();
+							vpu = fBus.getFaultResult().getBusVoltage_012(bus).c_2.abs();
 						else if (LABEL_ACT_ACSC_ZERO.equals(action))
-							vpu = fBus.getFaultResult().getBusResult().getFaultVoltage_012(bus.getSortNumber()).a_0.abs();
+							vpu = fBus.getFaultResult().getBusVoltage_012(bus).a_0.abs();
 						String vpuStr = Number2String.toStr("0.000", vpu);
 						String vVoltStr = Number2String.toStr("0.0", vpu
 								* bus.getBaseVoltage());
@@ -158,9 +158,9 @@ public class GraphSimuUtilFunc {
 					if (fBus != null) {
 						try {
 							Complex3x1 ampFrom2To = fBus.getFaultResult()
-									.branchScAmpFrom2To(branch);
+									.calBranchScAmpFrom2To(branch);
 							Complex3x1 ampTo2From = fBus.getFaultResult()
-									.branchScAmpTo2From(branch);
+									.calBranchScAmpTo2From(branch);
 							String iFromPu = "";
 							String iFromAmps = "";
 							String iToPu = "";
