@@ -44,6 +44,17 @@
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>	
 
+	<bean id="fileAdapterBPAFormatDStab" 
+	      class="org.interpss.custom.fadpter.BPAFormat"
+	      scope="singleton"	
+	      p:name="BPA Format DStab"
+	      p:fileFilterString="dat"
+	      p:extension="bpa_lf"
+	      p:description="BPA Format for DStab">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+
 	<bean id="fileAdapterIeeeODMXml" 
 	      class="org.interpss.custom.fadpter.ODMFormat"
 	      scope="singleton"	
@@ -126,6 +137,7 @@
 		<constructor-arg>
 			<list>
 				<ref bean="fileAdapterBPAFormat"/>
+				<ref bean="fileAdapterBPAFormatDStab"/>
 				<ref bean="fileAdapterPSSEFormat"/>
 				<ref bean="fileAdapterGEFormat"/>
 				<ref bean="fileAdapterUCTEFormat"/>
