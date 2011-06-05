@@ -73,16 +73,6 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		}
 	}
 	
-	protected void loadByODMTransformation(final IODMAdapter adapter, final SimuContext simuCtx, final String[] filepathAry, 
-			final IPSSMsgHub msg, boolean debug)  throws Exception{		
-		adapter.parseInputFile(IODMAdapter.NetType.DStabNet, filepathAry);
-		this.parser = adapter.getModel();
-		if (debug)
-			System.out.println(adapter.getModel().toXmlDoc(false));
-		
-		// TODO
-	}
-
 	@Override
 	public IODMModelParser getODMModelParser() {
 		return this.parser;

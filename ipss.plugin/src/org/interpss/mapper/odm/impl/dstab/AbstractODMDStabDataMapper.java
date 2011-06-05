@@ -69,6 +69,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
 
 public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscDataMapper<Tfrom> {
 	public AbstractODMDStabDataMapper(IPSSMsgHub msg) {
@@ -95,6 +96,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				// create a DStabilityNetwork object and map the net info 
 				DStabilityNetwork dstabNet = mapDStabNetworkData(xmlNet);
 				simuCtx.setDStabilityNet(dstabNet);
+				simuCtx.setNetType(SimuCtxType.DSTABILITY_NET);
 				
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(
 						dstabNet, new DatabaseSimuOutputHandler(), simuCtx.getMsgHub() );

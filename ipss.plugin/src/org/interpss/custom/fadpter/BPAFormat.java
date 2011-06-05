@@ -24,13 +24,22 @@
 
 package org.interpss.custom.fadpter;
 
+import java.io.File;
+
 import org.ieee.odm.ODMFileFormatEnum;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
+import org.interpss.mapper.odm.ODMDStabDataMapper;
+import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
 
 public class BPAFormat extends IpssFileAdapterBase {
 	public BPAFormat(IPSSMsgHub msgHub) {
@@ -53,6 +62,19 @@ public class BPAFormat extends IpssFileAdapterBase {
 	@Override
 	public void load(final SimuContext simuCtx, final String[] filepathAry, boolean debug) throws Exception{
 		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
-		loadByODMTransformation(adapter, simuCtx, filepathAry, msgHub, debug);
+		adapter.parseInputFile(IODMAdapter.NetType.DStabNet, filepathAry);
+		this.parser = adapter.getModel();
+		if (debug)
+			System.out.println(adapter.getModel().toXmlDoc(false));
+
+		String filepath = filepathAry[0];
+		if (PluginSpringCtx.getOdm2DStabMapper().map2Model((DStabModelParser)adapter.getModel(), simuCtx)) {
+  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+		}
+		else {
+			msgHub.sendErrorMsg("Error to load file: " + filepath);
+  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+		}		
  	}
 }
