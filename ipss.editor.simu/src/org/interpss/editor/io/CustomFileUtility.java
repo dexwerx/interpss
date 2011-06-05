@@ -36,8 +36,7 @@ public class CustomFileUtility {
 		IpssLogger.getLogger().info("Custom file path: " + filepath);
 
 		String ext = filepath.substring(filepath.lastIndexOf('.') + 1);
-		IpssFileAdapter adapter = PluginSpringCtx
-				.getCustomFileAdapter(ext);
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter(ext);
 		if (adapter == null) {
 			IpssLogger.getLogger().severe(
 					"Custom Input File Adapter not found, file : " + filepath);
@@ -46,7 +45,13 @@ public class CustomFileUtility {
 
 		try {
 			adapter.setVersionSelected(version);
-			adapter.load(simuCtx, filepath, false);
+			if (ext.equals("bpa_lf")) {
+				// for BPA *.bpa_lf", DStab info assumed stored in *.bpa_dstab
+				String[] fileAry = {filepath, filepath.replace("bpa_lf", "bpa_dstab")};
+				adapter.load(simuCtx, fileAry, false);
+			}
+			else 
+				adapter.load(simuCtx, filepath, false);
 		} catch (Exception e) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"Custom Data File Loading Error", e.toString());
