@@ -46,7 +46,8 @@ public class BPABusRecord {
 	private static final int swingBus=1;
 	private static final int pqBus=2;
 	private static final int pvBus=3;		
-	private static final int pvBusNoQLimit=4;		
+	private static final int pvBusNoQLimit=4;
+	private static final int supplementaryBusInfo=5;
 	
 	/*
 	 *  BPA data format does not have bus number, only has bus name. 
@@ -108,6 +109,9 @@ public class BPABusRecord {
 		else if(stemp.equals("BS")){
 			busType=swingBus;
 		}
+		else if (stemp.equals("+")){
+			busType=supplementaryBusInfo;
+		}
 		
 		/*
 		 * set bus record attributes
@@ -135,7 +139,7 @@ public class BPABusRecord {
 		busRec.setName(busName);
 		
 		// TODO set bus owner
-
+        //busRec.getOwnerList().getOwner().get(0).setName(ownerName);
 		//basekv
 		double baseKv=100.0;
 		if(!strAry[4].equals("")){
@@ -144,10 +148,12 @@ public class BPABusRecord {
 		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 
 		// TODO area name??
-		
+		//busRec.setAreaName(value);
 		//zone name
 		final String zoneName= strAry[5];
 		busRec.setZoneName(zoneName);
+		
+		
 		
 		/*
 		 * Parse Loadflow data
@@ -311,7 +317,7 @@ public class BPABusRecord {
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					busRec.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit( 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR));	
-					// for "BE" type the limit if disabled
+				// for "BE" type the limit if disabled
 					if (busType==pvBusNoQLimit)
 						busRec.getGenData().getEquivGen().getQLimit().setActive(false);
 				}
@@ -321,6 +327,29 @@ public class BPABusRecord {
 							pGenMax, 0, ActivePowerUnitType.MW));
 				}	
 				
+			}
+			//a bus recored starting with"+", is to supplement
+			// info(e.g.,ZIP type load and generation) to an existing bus record with the same busId
+			if(busType==supplementaryBusInfo){
+				
+				LoadflowBusXmlType Bus=parser.getAclfBus(busId);
+				final String loadType=strAry[5];
+				//loadType: *I or 01 for constI,  and *P or 02 for constP
+				final double p=new Double(strAry[6]).doubleValue();
+				final double q=new Double(strAry[7]).doubleValue();
+				//TODO how to set constI type load
+				
+				if(!strAry[9].equals("")||!strAry[8].equals("")){
+					final double ShuntG=new Double(strAry[8]).doubleValue();
+					final double ShuntB=new Double(strAry[9]).doubleValue();
+					
+					double re=ModelStringUtil.getNumberFormat(ShuntG/baseMVA); // x(pu)=Var/baseMVA
+					double im=ModelStringUtil.getNumberFormat(ShuntB/baseMVA);
+					if(re!=0.0||im!=0.0){
+						AclfDataSetter.addBusShuntY(Bus, re, im, YUnitType.PU);	
+					}
+					
+				}
 			}
 				
 			//for BG and BX, controlled bus name and voltage
@@ -338,6 +367,8 @@ public class BPABusRecord {
 							controlledBusRatedVol, VoltageUnitType.PU));
 				}
 			}
+			
+			
 		}						
 	}
 	
@@ -365,7 +396,7 @@ B     XIANLS= 500.XX305.3 -215.
 		//14-17 rated voltage
 		strAry[4] = ModelStringUtil.getStringReturnEmptyString(str2,15, 18).trim();
 
-		//Columns 18-19   zone name
+		//Columns 18-19   zone name for Bus card, load type for complementary Bus card.
 		strAry[5] = ModelStringUtil.getStringReturnEmptyString(str2,19, 20).trim();
 		//Columns 20-24   Load MW [F] *
 		//Columns 25-29   Load MVAR [F] *
@@ -376,7 +407,7 @@ B     XIANLS= 500.XX305.3 -215.
 		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str2,31, 34).trim();
 		strAry[9] = ModelStringUtil.getStringReturnEmptyString(str2,35, 38).trim();	
 		// Columns 38-41 pmax
-		// Columns 42-46 pmax
+		// Columns 42-46 pgen
 		strAry[10] = ModelStringUtil.getStringReturnEmptyString(str2,39, 42).trim();			
 		strAry[11] = ModelStringUtil.getStringReturnEmptyString(str2,43, 47).trim();
 		//Qmax Qmin
@@ -392,6 +423,9 @@ B     XIANLS= 500.XX305.3 -215.
 		strAry[18]= ModelStringUtil.getStringReturnEmptyString(str2,78, 80).trim();
 		return strAry;
 	}
+	
+	
+	
 }
 	
 	
