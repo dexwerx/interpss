@@ -137,7 +137,7 @@
 		<constructor-arg>
 			<list>
 				<ref bean="fileAdapterBPAFormat"/>
-				<ref bean="fileAdapterBPAFormatDStab"/>
+				<!-- ref bean="fileAdapterBPAFormatDStab"/-->
 				<ref bean="fileAdapterPSSEFormat"/>
 				<ref bean="fileAdapterGEFormat"/>
 				<ref bean="fileAdapterUCTEFormat"/>
