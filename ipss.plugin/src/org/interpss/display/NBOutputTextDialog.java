@@ -35,6 +35,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.interpss.dstab.output.DStabOutFunc;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.IOutputTextDialog;
