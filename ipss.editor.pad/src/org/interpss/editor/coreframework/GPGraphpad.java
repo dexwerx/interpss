@@ -957,13 +957,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// Mike else if (item.getName().endsWith("ipssdat")) { we do not put
 			// any restriction here
 			// else if (item.getName().endsWith("ipssdat")) {
-			else if (Utilities.haveExt(PluginSpringCtx
-					.getCustomFileAdapterList(), item.getFileExt())) {
+			else if (Utilities.haveExt(PluginSpringCtx.getCustomFileAdapterList(), item.getFileExt())) {
 				try {
 					// at this point, we open a file, for exmple PSS/E raw. version should be 
 					// inside the file
-					IpssCustomFile file = Utilities.OpenCustomFile(this, item
-							.getName(), "");
+					IpssCustomFile file = Utilities.OpenCustomFile(this, item.getName(), "");
 
 					if (file == null)
 						return;
