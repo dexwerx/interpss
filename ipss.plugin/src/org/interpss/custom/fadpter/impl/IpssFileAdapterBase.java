@@ -63,7 +63,6 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		if (debug)
 			System.out.println(adapter.getModel().toXmlDoc(false));
 		
-		
 		if (PluginSpringCtx.getOdm2AclfMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
@@ -74,6 +73,16 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		}
 	}
 	
+	protected void loadByODMTransformation(final IODMAdapter adapter, final SimuContext simuCtx, final String[] filepathAry, 
+			final IPSSMsgHub msg, boolean debug)  throws Exception{		
+		adapter.parseInputFile(IODMAdapter.NetType.DStabNet, filepathAry);
+		this.parser = adapter.getModel();
+		if (debug)
+			System.out.println(adapter.getModel().toXmlDoc(false));
+		
+		// TODO
+	}
+
 	@Override
 	public IODMModelParser getODMModelParser() {
 		return this.parser;
@@ -138,6 +147,10 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	}
 
 	public void load(SimuContext simuCtx, String filepath, boolean debug) throws Exception {
+		throw new InvalidOperationException("Load need to implemented");
+	}
+
+	public void load(SimuContext simuCtx, String[] filepathAry, boolean debug) throws Exception {
 		throw new InvalidOperationException("Load need to implemented");
 	}
 

@@ -50,18 +50,9 @@ public class BPAFormat extends IpssFileAdapterBase {
 		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug);
  	}
 	
-	/**
-	 * Create a SimuContext object and Load the data in the data file, specified by the filepath, into the object. 
-	 * An AclfAdjNetwork object will be created to hold the data for loadflow analysis.
-	 * 
-	 * @param filepath full path path of the input file
-	 * @param msg the SessionMsg object
-	 * @return the created SimuContext object.
-	 */
-//	@Override
-//	public SimuContext load(final String filepath) throws Exception{
-//  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-//  		load(simuCtx, filepath);
-//  		return simuCtx;
-//	}
+	@Override
+	public void load(final SimuContext simuCtx, final String[] filepathAry, boolean debug) throws Exception{
+		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
+		loadByODMTransformation(adapter, simuCtx, filepathAry, msgHub, debug);
+ 	}
 }
