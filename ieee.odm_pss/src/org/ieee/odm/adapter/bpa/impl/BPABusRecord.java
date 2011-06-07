@@ -185,7 +185,7 @@ public class BPABusRecord {
 
 		// set pGenMax
 		double pGenMax=0.0;
-		if(!strAry[10].equals("")){
+		if(!strAry[10].equals("")&&!strAry[10].equals(".")){
 			pGenMax= new Double(strAry[10]).doubleValue();
 		}
 		double pGen=0.0;
@@ -335,13 +335,13 @@ public class BPABusRecord {
 				LoadflowBusXmlType Bus=parser.getAclfBus(busId);
 				final String loadType=strAry[5];
 				//loadType: *I or 01 for constI,  and *P or 02 for constP
-				final double p=new Double(strAry[6]).doubleValue();
-				final double q=new Double(strAry[7]).doubleValue();
+				final double p=strAry[6].equals("")?0:new Double(strAry[6]).doubleValue();
+				final double q=strAry[7].equals("")?0:new Double(strAry[7]).doubleValue();
 				//TODO how to set constI type load
 				
 				if(!strAry[9].equals("")||!strAry[8].equals("")){
-					final double ShuntG=new Double(strAry[8]).doubleValue();
-					final double ShuntB=new Double(strAry[9]).doubleValue();
+					final double ShuntG=strAry[8].equals("")?0:new Double(strAry[8]).doubleValue();
+					final double ShuntB=strAry[9].equals("")?0:new Double(strAry[9]).doubleValue();
 					
 					double re=ModelStringUtil.getNumberFormat(ShuntG/baseMVA); // x(pu)=Var/baseMVA
 					double im=ModelStringUtil.getNumberFormat(ShuntB/baseMVA);
