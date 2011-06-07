@@ -124,10 +124,13 @@ public class BPABusRecord {
 		final String ownerName=strAry[2];
 		//Name
 		final String busName = strAry[3];
-		final String busId =  createBusId(busName);
-		ODMLogger.getLogger().fine("Bus data loaded, busName: " + busId);
+
 
 		LoadflowBusXmlType busRec = null;
+		
+	    if(busType==pqBus||busType==pvBus||busType==pvBusNoQLimit||busType==swingBus){
+		    final String busId =  createBusId(busName);
+			ODMLogger.getLogger().fine("Bus data loaded, busName: " + busId);	
 		try {
 			busRec = parser.createAclfBus(busId);
 			busRec.setName(busName);
@@ -178,7 +181,7 @@ public class BPABusRecord {
 		if(!strAry[8].trim().equals("") && !strAry[8].trim().equals(".")){
 			shuntMw= new Double(strAry[8]).doubleValue();
 		}		
-		if(!strAry[9].equals("")){
+		if(!strAry[9].equals("")&&!strAry[9].trim().equals(".")){
 			shuntVar= new Double(strAry[9]).doubleValue();
 		}		       
 		final double g=ModelStringUtil.getNumberFormat(shuntMw/baseMVA);
@@ -239,10 +242,10 @@ public class BPABusRecord {
 		 * process data and map to the ODM bus record
 		 * ==========================================
 		 */
-		if(loadMw != 0.0 || loadMvar != 0.0 || 
-				pGen!=0.0|| qGenOrQGenMax!=0.0 ||vpu!=0.0||
-				vMinOrAngDeg!=0.0||pGenMax!=0.0
-				||g!=0||b!=0) {
+		//if(loadMw != 0.0 || loadMvar != 0.0 || 
+			//	pGen!=0.0|| qGenOrQGenMax!=0.0 ||vpu!=0.0||
+			//	vMinOrAngDeg!=0.0||pGenMax!=0.0
+			//	||g!=0||b!=0) {
 			// set G B
 			if (g != 0.0 || b != 0.0) {
 				busRec.setShuntY(BaseDataSetter.createYValue(g, b,YUnitType.PU));
@@ -328,33 +331,40 @@ public class BPABusRecord {
 							pGenMax, 0, ActivePowerUnitType.MW));
 				}	
 				
-			}
-			//a bus recored starting with"+", is to supplement
-			// info(e.g.,ZIP type load and generation) to an existing bus record with the same busId
+			 }//end of PV bus data parsing
+			
+		    }//end of load flow data mapping
+		
+//	      }//end of normal type bus data processing.
+		
+			/*a bus recored starting with"+", is to supplement
+			 info(e.g.,ZIP type load and generation) to an existing bus record with the same busId
+			*/
 			if(busType==supplementaryBusInfo){
 				
-				LoadflowBusXmlType Bus=parser.getAclfBus(busId);
+				LoadflowBusXmlType Bus=parser.getAclfBus(getBusId(busName));
 				final String loadType=strAry[5];
 				//loadType: *I or 01 for constI,  and *P or 02 for constP
 				final double p=strAry[6].equals("")?0:new Double(strAry[6]).doubleValue();
 				final double q=strAry[7].equals("")?0:new Double(strAry[7]).doubleValue();
 				//TODO how to set constI type load
 				
-				if(!strAry[9].equals("")||!strAry[8].equals("")){
+		        if(!strAry[9].equals("")||!strAry[8].equals("")){
 					final double ShuntG=strAry[8].equals("")?0:new Double(strAry[8]).doubleValue();
 					final double ShuntB=strAry[9].equals("")?0:new Double(strAry[9]).doubleValue();
-					
+					System.out.println("Shunt G +B="+ShuntG+","+ShuntB);
 					double re=ModelStringUtil.getNumberFormat(ShuntG/baseMVA); // x(pu)=Var/baseMVA
 					double im=ModelStringUtil.getNumberFormat(ShuntB/baseMVA);
 					if(re!=0.0||im!=0.0){
 						AclfDataSetter.addBusShuntY(Bus, re, im, YUnitType.PU);	
 					}
-					
+					System.out.println("Im="+im+",Shunt B="+Bus.getShuntY().getIm());
 				}
 			}
 				
-			//for BG and BX, controlled bus name and voltage
-			// desired bus voltage is specified in strAry[14], equals to vpu
+			/*for BG and BX, controlled bus name and voltage
+			 desired bus voltage is specified in strAry[14], equals to vpu
+			 */
 			final String controlledBus= strAry[16];
 			double controlledBusRatedVol=0.0;
 			if(!strAry[17].equals("")){
@@ -370,7 +380,7 @@ public class BPABusRecord {
 			}
 			
 			
-		}						
+								
 	}
 	
 	private static String[] getBusDataFields(final String str) throws Exception {
@@ -399,12 +409,12 @@ B     XIANLS= 500.XX305.3 -215.
 
 		//Columns 18-19   zone name for Bus card, load type for complementary Bus card.
 		strAry[5] = ModelStringUtil.getStringReturnEmptyString(str2,19, 20).trim();
-		//Columns 20-24   Load MW [F] *
-		//Columns 25-29   Load MVAR [F] *
+		//Columns 21-25   Load MW [F] *
+		//Columns 26-30   Load MVAR [F] *
 		strAry[6] = ModelStringUtil.getStringReturnEmptyString(str2,21, 25).trim();
 		strAry[7] = ModelStringUtil.getStringReturnEmptyString(str2,26, 30).trim();			
-		//Columns 30-33   shunt MW [F] *
-		//Columns 34-39   shunt MVAR [F] *
+		//Columns 31-34   shunt MW [F] *
+		//Columns 35-38   shunt MVAR [F] *
 		strAry[8] = ModelStringUtil.getStringReturnEmptyString(str2,31, 34).trim();
 		strAry[9] = ModelStringUtil.getStringReturnEmptyString(str2,35, 38).trim();	
 		// Columns 38-41 pmax
