@@ -55,16 +55,13 @@ public class BPALineBranchRecord {
 			final String fid =  BPABusRecord.getBusId(fname);
 			final String tid =  BPABusRecord.getBusId(tname);
 			ODMLogger.getLogger().fine("Branch data loaded, from-Bus, to-Bus: " + fid + ", " + tid);
-
+			
 			// set cirId, if not specified, set to 1
-			String cirId="";
+			//TODO change 1->0, since one uses "1" while CirId for the other is missing for some parallel branches in BPA
+			String cirId="0";
 			if(!strAry[8].equals("")){
 				cirId = strAry[8];
 			}
-			else{
-				cirId="1";
-			}			
-			
 			LineBranchXmlType branchRec = null;
 			try {
 				branchRec = parser.createLineBranch(fid, tid, cirId);
@@ -112,45 +109,45 @@ public class BPALineBranchRecord {
 				rpu = new Double(strAry[12]).doubleValue();
 				/* it is due to  the data storage fomat, for example , when it stores 000123, it is ,in fact, 1.23E-3
 					fix digital points by default five				 */
-				if(Math.abs(rpu)>1.0){
+				if(Math.abs(rpu)>=1.0&&!strAry[12].contains(".")){
 					rpu=rpu/100000;
 				}
 				rpu=ModelStringUtil.getNumberFormat(rpu);
 				if(Math.abs(rpu)>1)
-					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
-							+rpu+" ,seems to be out of normal range, please check!");
+					ODMLogger.getLogger().warning("Line#"+fname+"-to-"+tname+",the resistance now is"
+							+rpu+" ,seems to be out of normal range[0~1.0]pu, please check!");
 			}
 			
 			if(!strAry[13].equals("")){
 				xpu = new Double(strAry[13]).doubleValue();
-				if(Math.abs(xpu)>1.0){
+				if(Math.abs(xpu)>=1.0&&!strAry[13].contains(".")){
 					xpu=xpu/100000;
 				}
 				xpu=ModelStringUtil.getNumberFormat(xpu);
-				if(Math.abs(xpu)>1)
-					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the reactance now is"
-							+xpu+" ,seems to be out of normal range, please check!");
+				if(Math.abs(xpu)>1||Math.abs(xpu)<1E-5)
+					ODMLogger.getLogger().warning("Line#"+fname+"-to-"+tname+",the reactance now is"
+							+xpu+" ,seems to be out of normal range[1E-5~1]pu, please check!");
 			}
 			
 			if(!strAry[14].equals("")){
 				halfGpu = new Double(strAry[14]).doubleValue();
-				if(Math.abs(halfGpu)>10.0){
+				if(Math.abs(halfGpu)>=1.0&&!strAry[14].contains(".")){
 					halfGpu=halfGpu/100000;
 				}
 				if(Math.abs(halfGpu)>1)
-					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the line charging G/2 now is"
-							+halfGpu+" ,seems to be out of normal range, please check!");
+					ODMLogger.getLogger().warning("Line#"+fname+"-to-"+tname+",the line charging G/2 now is"
+							+halfGpu+" ,seems to be out of normal range[0,1]pu, please check!");
 			}
 			
 			if(!strAry[15].equals("")){
 				halfBpu = new Double(strAry[15]).doubleValue();
-				if(Math.abs(halfBpu)>10.0){
+				if(Math.abs(halfBpu)>=1.0&&!strAry[15].contains(".")){
 					halfBpu=halfBpu/100000;
 					
 				}
 				if(Math.abs(halfBpu)>5){
-					ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the line charging B/2 now is"
-							+halfBpu+" ,seems to be out of normal range, please check!");
+					ODMLogger.getLogger().warning("Line#"+fname+"-to-"+tname+",the line charging B/2 now is"
+							+halfBpu+" ,seems to be out of normal range[-5,+5](pu), please check!");
 				}
 			}
 			

@@ -69,8 +69,8 @@ public class BPAXfrBranchRecord {
 		final String fid =  BPABusRecord.getBusId(fname);
 		final String tid =  BPABusRecord.getBusId(tname);
 		ODMLogger.getLogger().fine("Branch data loaded, from-bus, to-bus: " + fid + ", " + tid);
-		
-		String cirId="1";
+		//TODO change 1->0, since one uses "1" while CirId for the other is missing for some parallel branches in BPA
+		String cirId="0";
 		if(!strAry[8].equals("")){
 			cirId = strAry[8];
 		}
@@ -150,33 +150,33 @@ public class BPAXfrBranchRecord {
 		double rpu=0.0, xpu=0.0001, Gpu=0.0, Bpu=0.0;
 		if(!strAry[12].equals("")){
 			rpu = new Double(strAry[12]).doubleValue();
-			if(Math.abs(rpu)>1.0){
+			if(Math.abs(rpu)>=1.0&&!strAry[12].contains(".")){
 				rpu=rpu*0.00001;   //F6.5
 			}
 			rpu=ModelStringUtil.getNumberFormat(rpu);
-			if(Math.abs(rpu)>0.01)
-				ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
-						+rpu+" ,seems to be out of normal range, please check!");
+			if(Math.abs(rpu)>0.1)
+				ODMLogger.getLogger().warning("Tranformer#"+fname+"-to-"+tname +
+						", the Resistance(R) now is"+rpu+" ,seems to be out of normal range[0~0.1]pu, please check!");
 		}
 		if(!strAry[13].equals("")){
 			xpu = new Double(strAry[13]).doubleValue();
-			if(Math.abs(xpu)>1.0){
+			if(Math.abs(xpu)>=1&&!strAry[13].contains(".")){
 				xpu=xpu*0.00001;  //F6.5
 			}
 			xpu=ModelStringUtil.getNumberFormat(xpu);
 			if(Math.abs(xpu)>0.5)
-				ODMLogger.getLogger().warning("for line#"+branchRec.getId()+",the resistance now is"
-						+xpu+" ,seems to be out of normal range, please check!");
+				ODMLogger.getLogger().warning("Tranformer#"+fname+"-to-"+tname+",the Reactance(X) now is"
+						+xpu+" ,seems to be out of normal range[0~0.5]pu, please check!");
 		}
 		if(!strAry[14].equals("")){
 			Gpu = new Double(strAry[14]).doubleValue();
-			if(Math.abs(Gpu)>10.0){
+			if(Math.abs(Gpu)>=1.0&&!strAry[14].contains(".")){
 				Gpu=Gpu*1e-5;  //F6.5
 			}
 		}
 		if(!strAry[15].equals("")){
 			Bpu = new Double(strAry[15]).doubleValue();
-			if(Math.abs(Bpu)>10.0){
+			if(Math.abs(Bpu)>=1.0&&!strAry[15].contains(".")){
 				Bpu=Bpu*1e-5;  //F6.5
 			}
 		}

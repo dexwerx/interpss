@@ -130,6 +130,7 @@ public class BPABusRecord {
 		LoadflowBusXmlType busRec = null;
 		try {
 			busRec = parser.createAclfBus(busId);
+			busRec.setName(busName);
 		} catch (ODMException e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;
