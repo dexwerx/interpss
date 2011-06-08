@@ -6,6 +6,7 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+import org.interpss.dstab.control.gov.bpa.gsTb.BpaGsTbCombineGovernordata;
 import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.common.util.IpssLogger;
@@ -352,7 +353,25 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		            y0="this.factor*mach.pm")
 		DelayControlBlock tcoDelayBlock;
 		
-	    @Override
+		
+		
+		 /**
+	     * Default Constructor
+	     *
+	     */
+	    public BpaGIGATBCombinedGovernor() {
+			this("id", "name", "caty");
+	        this.setName("Bpa GI+GA+TB combined type Governor");
+	        this.setCategory("BPA");
+	    }
+	    
+		
+	    public BpaGIGATBCombinedGovernor(String id, String name, String caty) {
+	    	 super(id, name, caty);
+	         // _data is defined in the parent class. However init it here is a MUST
+	         _data = new BpaGIGATBCombinedData();
+		}
+		@Override
 		public AnController getAnController() {
 	    	return getClass().getAnnotation(AnController.class);  }
 	    @Override
