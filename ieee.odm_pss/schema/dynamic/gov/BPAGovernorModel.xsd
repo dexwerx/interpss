@@ -17,11 +17,38 @@
 	<element name="streamTurbineBPATB" substitutionGroup="pss:turbine" type="pss:SteamTurbineBPATBModelXmlType"/>
 	
 	<element name="speedGovBPAGSModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAGSModelXmlType"/>
-	<element name="speedGovBPARegServoModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPARegServoXmlType"/>
+	<element name="speedGovBPAGiGaCombinedModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAGiGaCombinedXmlType"/>
 	<element name="speedGovBPARegGIModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPARegGIModelXmlType"/>
 	<element name="speedGovBPAServoModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAServoGAModelXmlType"/>
-	<element name="govBPAHydroTurbinGH" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType"/>
-
+	<element name="govBPAHydroTurbineGH" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType"/>
+    <element name="govBPAGsTbCombined" substitutionGroup="pss:governor" type="pss:GovBPAGsTbCombinedModelXmlType"/>
+    
+    
+    <!--BPA GOV and steam turbine type -->
+    
+    <complexType name="GovBPAGsTbCombinedModelXmlType">
+		<complexContent>
+		<extension base="pss:GovernorModelXmlType">
+		<sequence>
+		    <element maxOccurs="1" minOccurs="1" ref="pss:speedGovBPAGSModel"/>
+		    <element maxOccurs="1" minOccurs="1" ref="pss:streamTurbineBPATB"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+    
+    
+    <complexType name="GovBPAGiGaTbCombinedModelXmlType">
+		<complexContent>
+		<extension base="pss:GovernorModelXmlType">
+		<sequence>
+		    <element maxOccurs="1" minOccurs="1" ref="pss:speedGovBPAGiGaCombinedModel"/>
+		    <element maxOccurs="1" minOccurs="1" ref="pss:streamTurbineBPATB"/>
+		</sequence>
+		</extension>
+		</complexContent>		
+	</complexType>
+    
 	<!--BPA GOV and Hydro turbine type -->
 	
 	<complexType name="GovBPAHydroTurbineGHXmlType">
@@ -76,7 +103,7 @@
 	</complexType>
     
 
-	<complexType name="SpeedGovBPARegServoXmlType">
+	<complexType name="SpeedGovBPAGiGaCombinedXmlType">
 		<complexContent>
 		<extension base="pss:SpeedGovModelXmlType">
 		<sequence>
