@@ -1,8 +1,8 @@
 package org.interpss.dstab.control.gov.bpa.gsTb;
 
-import org.interpss.dstab.control.gov.bpa.combinedType.BpaTBTurbineData;
+import org.interpss.dstab.control.gov.turbine.BpaTBTurbineData;
 
-public class BpaGsTBCombinedData {
+public class BpaGsTbCombineGovernordata {
 	
 	private BpaTBTurbineData tbData=null;
 	private BpaGsSpeedGovData gsData=null;
