@@ -52,6 +52,8 @@ import org.ieee.odm.schema.ExcIEEE1992TypeAC1AXmlType;
 import org.ieee.odm.schema.ExcIEEEModified1968Type1XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExcTSATTypeEXC34XmlType;
+import org.ieee.odm.schema.GovBPAGiGaTbCombinedModelXmlType;
+import org.ieee.odm.schema.GovBPAGsTbCombinedModelXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
 import org.ieee.odm.schema.GovHydroTurbineXmlType;
@@ -71,8 +73,8 @@ import org.ieee.odm.schema.PssIEEE1AXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPAGiGaCombinedXmlType;
 import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
-import org.ieee.odm.schema.SpeedGovBPARegServoXmlType;
 import org.ieee.odm.schema.SpeedGovBPAServoGAModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 import org.ieee.odm.schema.SteamTurbineNRXmlType;
@@ -348,13 +350,15 @@ public class DStabParserHelper extends AclfParserHelper {
 	}
 	
 	
-	// The following are BPA GOV models
+	// The following are BPA Governor models, including speedGov and turbine 
 	
-
+	
+	//GH 
 	public static GovBPAHydroTurbineGHXmlType createGovBPAHydroTurbineGHXmlType(
 			DynamicGeneratorXmlType gen) {
 		GovBPAHydroTurbineGHXmlType gov=getFactory().createGovBPAHydroTurbineGHXmlType();
-		gen.setGovernor(getFactory().createGovBPAHydroTurbinGH(gov));
+		gen.setGovernor(getFactory().createGovBPAHydroTurbineGHModel(gov));
+		
 		return gov;
 	}
 	//TODO GS is a speed Governing model, but there is no method in DynamicGeneratorXmlType for such model now 
@@ -377,9 +381,9 @@ public class DStabParserHelper extends AclfParserHelper {
 
 	}
 
-	public static SpeedGovBPARegServoXmlType createSpeedGovBPARegServoXmlType(
+	public static SpeedGovBPAGiGaCombinedXmlType createSpeedGovBPAGiGaCombinedXmlType(
 			DynamicGeneratorXmlType gen) {
-		SpeedGovBPARegServoXmlType spdgov=getFactory().createSpeedGovBPARegServoXmlType();
+		SpeedGovBPAGiGaCombinedXmlType spdgov=getFactory().createSpeedGovBPAGiGaCombinedXmlType();
         //create a governor when it is none in a generator;
 		//TODO
 		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
@@ -403,7 +407,24 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.getGovernor().getValue().setTurbine(getFactory().createTurbine(tur));
 		return tur;
 	}
-	
+
+	//GS+TB
+	public static GovBPAGsTbCombinedModelXmlType createGovBPAGsTbCombinedModelXmlType(
+			DynamicGeneratorXmlType gen) {
+		GovBPAGsTbCombinedModelXmlType gov=getFactory().createGovBPAGsTbCombinedModelXmlType();
+		gen.setGovernor(getFactory().createGovBPAGsTbCombinedModel(gov));
+		return gov;
+	}
+	//GI+GA+TB
+	public static GovBPAGiGaTbCombinedModelXmlType createGovBPAGiGaTbCombinedModelXmlType(
+			DynamicGeneratorXmlType gen) {
+		GovBPAGiGaTbCombinedModelXmlType gov=getFactory().createGovBPAGiGaTbCombinedModelXmlType();
+		gen.setGovernor(getFactory().createGovBPAGiGaTbCombinedModel(gov));
+				
+		return gov;
+		
+	}
+    
 
 	/*
 	 * PSS model creation functions
