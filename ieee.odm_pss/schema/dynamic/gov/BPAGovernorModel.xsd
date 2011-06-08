@@ -26,9 +26,17 @@
 	
 	<complexType name="GovBPAHydroTurbineGHXmlType">
 		<complexContent>
-		<extension base="pss:GovIEEE1981Type3XmlType">
+		<extension base="pss:GovernorModelXmlType">
 		<sequence>
+		    <element maxOccurs="1" minOccurs="1" name="PMAX" type="double"/>
 		    <element maxOccurs="1" minOccurs="1" name="R" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TG" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TP" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="Td" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TwHalf" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VOpen" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VClose" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="Dd" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="Epsilon" type="double"/>
 		</sequence>
 		</extension>
