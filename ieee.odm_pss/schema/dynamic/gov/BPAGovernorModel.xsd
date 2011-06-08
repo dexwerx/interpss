@@ -20,9 +20,9 @@
 	<element name="speedGovBPAGiGaCombinedModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAGiGaCombinedXmlType"/>
 	<element name="speedGovBPARegGIModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPARegGIModelXmlType"/>
 	<element name="speedGovBPAServoModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAServoGAModelXmlType"/>
-	<element name="govBPAHydroTurbineGH" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType"/>
-    <element name="govBPAGsTbCombined" substitutionGroup="pss:governor" type="pss:GovBPAGsTbCombinedModelXmlType"/>
-    
+	<element name="govBPAHydroTurbineGHModel" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType"/>
+    <element name="govBPAGsTbCombinedModel" substitutionGroup="pss:governor" type="pss:GovBPAGsTbCombinedModelXmlType"/>
+    <element name="govBPAGiGaTbCombinedModel" substitutionGroup="pss:governor" type="pss:GovBPAGiGaTbCombinedModelXmlType"/>
     
     <!--BPA GOV and steam turbine type -->
     
