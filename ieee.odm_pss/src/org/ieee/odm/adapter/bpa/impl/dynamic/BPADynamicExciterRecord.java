@@ -496,7 +496,7 @@ public class BPADynamicExciterRecord {
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}			
-    		exc.setDesc("BPA Eeciter FQ type, excId-" + excId);
+    		exc.setDesc("BPA Eeciter FU type, excId-" + excId);
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -559,7 +559,7 @@ public class BPADynamicExciterRecord {
 			if(!strAry[3].equals("")){
 				excId=strAry[3];				
 			}			
-    		exc.setDesc("BPA Eeciter FQ type, excId-" + excId);
+    		exc.setDesc("BPA Eeciter FV type, excId-" + excId);
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
