@@ -6,7 +6,7 @@
 /NEW_BASE,FILE=IEEE90.BSE\
 /PF_MAP,FILE = IEEE90.MAP\
 /NETWORK_DATA\
-A  NF        Gen1     16.5           01    
+.A  NF        Gen1     16.5           01    
 BS    Gen1    16.501                      999. 999.      1.01    
 B     Bus1    230.01                  
 B     BusA    230.01 125. 70.0     20.         
