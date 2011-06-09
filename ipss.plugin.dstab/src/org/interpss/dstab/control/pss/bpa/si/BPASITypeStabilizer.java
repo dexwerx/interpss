@@ -88,7 +88,7 @@ public class BPASITypeStabilizer extends AnnotateStabilizer {
     @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
             input="this.filterBlock2.y",
-            parameter={"type.Limit", "this.one", "this.t3", "this.t4", "this.vmax", "this.vmin"},
+            parameter={"type.Limit", "this.one", "this.t3", "this.t4", "this.vsmax", "this.vsmin"},
             y0="pss.vs"	)
     FilterControlBlock filterBlock3;
 
