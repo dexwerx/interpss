@@ -35,6 +35,7 @@ import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 import org.ieee.odm.schema.SteamTurbineNRXmlType;
 
@@ -183,6 +184,46 @@ public class BPADynamicTurbineGovernorRecord {
     		gov.setVELCLOSE(Vclose);
     		
     	}
+    	else if(strAry[0].equals("GI")){
+    		SpeedGovBPARegGIModelXmlType gov = DStabParserHelper.createSpeedGovBPARegGIModelXmlType(dynGen);
+			
+			//machine Id
+    		String tgId="";
+    		if(!strAry[3].equals("")){
+    			tgId=strAry[3];
+    			gov.setDesc("GOV Speed Governing GI type, machId#"+tgId);
+    		}
+    		//TODO Get, start from this
+    		/*
+			//PMAX 
+    		double pmax=new Double(strAry[4]).doubleValue();
+    		gov.setT1();
+    		//PMIN
+    		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		gov.setPmin(pmin);	
+    			
+    		//R
+    		double r=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		gov.setR(r);
+			//T1
+    		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		gov.setT1(BaseDataSetter.createTimeConstSec(T1));
+    		    					
+			//T2
+    		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		gov.setT2(BaseDataSetter.createTimeConstSec(T2));
+    				    		
+			// T3
+		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));			
+			//VELOPEN
+		    double Vopen=ModelStringUtil.getDouble(strAry[4], 0.0);
+		    gov.setVELOPEN(Vopen);			
+			//FVELCLOSE
+    		double Vclose=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		gov.setVELCLOSE(Vclose);
+    		*/
+    	}
     	else if(strAry[0].equals("TA")){
     		//TODO now we use a general stream turbine to represent 
     		
@@ -242,7 +283,7 @@ public class BPADynamicTurbineGovernorRecord {
 	
 	private static String[] getTGDataFields ( String str) {
     	final String[] strAry = new String[19];
-    	strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
+    	strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 3).trim();
     	//to process the Chinese characters first, if any.
 		int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
 		//Columns 6-13 busName  
@@ -250,13 +291,11 @@ public class BPADynamicTurbineGovernorRecord {
 		str=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
 		//bus Voltage
 		strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
+		//Id
+		strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
     	try{
     		if(str.substring(0, 2).trim().equals("GG")){
-	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-	    		
-				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				//excId
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+
 				//PMAX 
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
 				//R
@@ -276,13 +315,7 @@ public class BPADynamicTurbineGovernorRecord {
 				
 	    		
 	    	}else if(str.substring(0, 2).trim().equals("GH")){
-	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				//busId
-				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				//bus Voltage
-				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				//excId
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+	    	
 				//PMAX 
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
 				//R
@@ -307,13 +340,7 @@ public class BPADynamicTurbineGovernorRecord {
 	    		
 	    	}
 	    	else if(str.substring(0, 2).trim().equals("GS")){
-	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				//busId
-				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				//bus Voltage
-				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				//excId
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+	    		
 				//PMAX 
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
 				//PMIN
@@ -331,26 +358,82 @@ public class BPADynamicTurbineGovernorRecord {
 				//FVELCLOSE
 				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,55, 60).trim();			
 	    		
-	    	}else if(str.substring(0, 2).trim().equals("TA")){
-	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				//busId
-				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				//bus Voltage
-				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				//excId
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,16, 16).trim();
+	    	}
+	    	else if(str.substring(0, 2).trim().equals("GI")){
+	    		
+				
+				//T1
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
+				//Epsilon
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,22, 27).trim();
+				//K
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();
+				//LOAD AUTO SWITCH
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,33, 33).trim();
+				//Kp1
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,34, 38).trim();
+				//Kd1
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,39, 43).trim();
+				//Ki1
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,44, 48).trim();
+				//INTG_MAX1
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,49, 53).trim();
+				//INTG_MIN1
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,54, 58).trim();
+				
+				//PID_MAX1
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,59, 63).trim();
+				//PID_MIN1
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,64, 68).trim();
+				
+				//LOAD Forward Back SWITCH
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,69, 69).trim();
+
+				//W_MAX
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,70, 74).trim();
+				//W_MIN
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,75, 79).trim();
+				
+				
+	    	}else if(str.substring(0, 3).trim().equals("GI+")){
+	    		
+	    		//PRESSER AUTO SWITCH
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 17).trim();
+				//Kp2
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,18, 22).trim();
+				////Kd2
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 27).trim();
+				//Ki2
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();
+		
+				//INTG_MAX2
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,33, 37).trim();
+				//INTG_MIN2
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
+				
+				//PID_MAX1
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
+				//PID_MIN1
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
+				
+				
+				//CON_MAX
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
+				//CON_MIN
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
+				
+				
+	    	}
+	    	
+	    	else if(str.substring(0, 2).trim().equals("TA")){
+	    		
 				//TCH
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
 				//k1
 				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 26).trim();
 	    	}else if(str.substring(0, 2).trim().equals("TB")){
-	    		//strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-				//busId
-				//strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
-				//bus Voltage
-				//strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
-				//excId
-				strAry[3]=ModelStringUtil.getStringReturnEmptyString(str,14, 16).trim();
+	    		
+				
 				//tch
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 21).trim();
 				//FHP
