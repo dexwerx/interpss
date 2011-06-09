@@ -44,6 +44,7 @@
 					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
 					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="EFDMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDMIN" type="double"/>
 				</sequence>
 			</extension>
 		</complexContent>
