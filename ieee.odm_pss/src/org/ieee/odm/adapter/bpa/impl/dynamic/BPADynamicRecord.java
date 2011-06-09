@@ -49,7 +49,7 @@ public class BPADynamicRecord {
 			str= din.readLine();
 			if(!str.startsWith("90")){
 				int dataType = getDataType(str);
-				//System.out.println("processing line--"+str);
+				System.out.println("processing line--"+str);
 				try{
 					if(dataType==header){
 						processHeaderData(str);

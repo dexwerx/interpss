@@ -60,11 +60,17 @@ public class BPADynamicSequenceRecord {
 		if(strAry[0].equals("XO")){
 			final String fromId = BPABusRecord.getBusId(strAry[1]);
 			final String toId = BPABusRecord.getBusId(strAry[3]);
-			String cirId="1";
+			//TODO Change 1->0;
+			String cirId="0";
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
 			}
-			XfrDStabXmlType xfr =parser.getDStabXfr(fromId, toId, cirId);
+			XfrDStabXmlType xfr=null;
+			if(parser.getBranch(fromId, toId, cirId)!=null)
+			     xfr =parser.getDStabXfr(fromId, toId, cirId);
+			else if (parser.getBranch(toId, fromId, cirId)!=null)
+				 xfr =parser.getDStabXfr(toId, fromId, cirId);
+			else throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "-" + toId + "(" + cirId + ")");
 			
 			TransformerZeroSeqXmlType xfrZeroSeq =new TransformerZeroSeqXmlType();
 			int location= new Integer(strAry[5]).intValue();
@@ -108,11 +114,20 @@ public class BPADynamicSequenceRecord {
 	    else if(strAry[0].equals("LO")){
 	    	final String fromId = BPABusRecord.getBusId(strAry[1]);
 			final String toId = BPABusRecord.getBusId(strAry[3]);
-			String cirId="1";
+			//TODO Change 1->0, since id=1 already exists in one of some parallel branches,while info for the other one is missing
+			// also such change is consistent with Load Flow positive sequence processing
+			String cirId="0";
 			if(!strAry[6].equals("")){
 				cirId=strAry[6];				
 			}
-	    	LineDStabXmlType line = parser.getDStabLine(fromId, toId, cirId);
+	    	LineDStabXmlType line =null;
+	    	
+	    	if(parser.getBranch(fromId, toId, cirId)!=null)
+			     line =parser.getDStabLine(fromId, toId, cirId);
+			else if (parser.getBranch(toId, fromId, cirId)!=null)
+				 line =parser.getDStabLine(toId, fromId, cirId);
+			else throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "-" + toId + "(" + cirId + ")");
+	    	//parser.getDStabLine(fromId, toId, cirId);
 			//TODO can't set the rated voltage of frombus and tobus .When we get the branch,these info have been included?
 	    	
 	    	BusRefRecordXmlType frombr=parser.createBusRef(fromId);
