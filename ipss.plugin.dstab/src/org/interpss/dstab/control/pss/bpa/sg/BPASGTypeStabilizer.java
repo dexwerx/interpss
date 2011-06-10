@@ -124,7 +124,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
 
 
     // UI Editor panel
-    private static NBBpaSGTypeStabilizerEditPanel _editPanel = new NBBpaSGTypeStabilizerEditPanel();
+//TODO    private static NBBpaSGTypeStabilizerEditPanel _editPanel = new NBBpaSGTypeStabilizerEditPanel();
 
 /*
  * Part-2: Define the contructors
@@ -202,11 +202,11 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
      *
      * @return the editor panel object
      */
-    @Override
-    public Object getEditPanel() {
-        _editPanel.init(this);
-        return _editPanel;
-    }
+//    @Override
+//    public Object getEditPanel() {
+//        _editPanel.init(this);
+//        return _editPanel;
+//    }
 
 /*
  * do not modify the following part

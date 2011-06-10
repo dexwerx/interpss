@@ -112,7 +112,7 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
 	DelayControlBlock tcoDelayBlock;
 			 	
 	// UI Editor panel
-	private static BpaGsTbCombineGovernorEditPanel _editPanel = new BpaGsTbCombineGovernorEditPanel();	
+//TODO	private static BpaGsTbCombineGovernorEditPanel _editPanel = new BpaGsTbCombineGovernorEditPanel();	
 	 /**
      * Default Constructor
      *
