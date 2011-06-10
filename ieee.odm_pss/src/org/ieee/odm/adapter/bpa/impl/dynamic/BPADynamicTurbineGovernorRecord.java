@@ -108,7 +108,7 @@ public class BPADynamicTurbineGovernorRecord {
     		//R
     		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gov.setR(r);
-    		gov.setSIGMA(r);
+// TODO: comment out to pass compile    		gov.setSIGMA(r);
 			//TG
     		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
     		
@@ -118,11 +118,11 @@ public class BPADynamicTurbineGovernorRecord {
 		    gov.setTP(BaseDataSetter.createTimeConstSec(Tp));		
 			//TD is corresponding to the TR in the ieee model
 		    double Td= ModelStringUtil.getDouble(strAry[8], 0.0);
-		    gov.setTR(BaseDataSetter.createTimeConstSec(Td));
+// TODO: comment out to pass compile		    gov.setTR(BaseDataSetter.createTimeConstSec(Td));
 		    
 			// TW/2
 		    double Twhalf= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    gov.setTW(BaseDataSetter.createTimeConstSec(Twhalf*2));	
+// TODO: comment out to pass compile		    gov.setTW(BaseDataSetter.createTimeConstSec(Twhalf*2));	
 		    // NOTE: Both VELCLOSE and VELOPEN is in PU based on PMAX.
 			//VELCLOSE
 		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
@@ -135,14 +135,14 @@ public class BPADynamicTurbineGovernorRecord {
 			
 			//Dd
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
-    		gov.setDELTA(Dd);
+// TODO: comment out to pass compile    		gov.setDELTA(Dd);
     		//Epsilon
     		double Epsilon=ModelStringUtil.getDouble(strAry[13], 0.0);
     		gov.setEpsilon(Epsilon);
-    		gov.setA11(0.5);
-    		gov.setA13(1.5);
-    		gov.setA21(1.0);
-    		gov.setA23(1.0);
+// TODO: comment out to pass compile    		gov.setA11(0.5);
+// TODO: comment out to pass compile    		gov.setA13(1.5);
+// TODO: comment out to pass compile    		gov.setA21(1.0);
+// TODO: comment out to pass compile    		gov.setA23(1.0);
     		
     				
     	}
