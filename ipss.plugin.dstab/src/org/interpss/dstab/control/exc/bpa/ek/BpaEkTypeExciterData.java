@@ -39,6 +39,8 @@ public class BpaEkTypeExciterData {
     // properly initialized
     private double ka       = 40.0;
     private double ta       = 0.05;
+    private double vrMax   = 8;
+    private double vrMin   = 0;
     private double ta1      = 0.02;
     private double se_e1    = 0.860;
     private double efdmax   = 5.5;
@@ -47,6 +49,10 @@ public class BpaEkTypeExciterData {
     private double se_e2   = 0.50;
     private double kf      = 0.03;
     private double tf      = 0.350;
+    private double e1      = 5.5;//efdmax
+    private double e2      = 4.125;//0.75*efdmax
+    
+    
 
     
 
@@ -79,6 +85,34 @@ public class BpaEkTypeExciterData {
     }
 
     /**
+	 * @return the vrMax
+	 */
+	public double getVrMax() {
+		return vrMax;
+	}
+
+	/**
+	 * @return the vrMin
+	 */
+	public double getVrMin() {
+		return vrMin;
+	}
+
+	/**
+	 * @param vrMax the vrMax to set
+	 */
+	public void setVrMax(double vrMax) {
+		this.vrMax = vrMax;
+	}
+
+	/**
+	 * @param vrMin the vrMin to set
+	 */
+	public void setVrMin(double vrMin) {
+		this.vrMin = vrMin;
+	}
+
+	/**
      * @return the ta1
      */
     public double getTa1() {
@@ -189,5 +223,34 @@ public class BpaEkTypeExciterData {
     public void setTf(double tf) {
         this.tf = tf;
     }
+
+	/**
+	 * @return the e1
+	 */
+	public double getE1() {
+		return e1;
+	}
+
+	/**
+	 * @return the e2
+	 */
+	public double getE2() {
+		return e2;
+	}
+
+	/**
+	 * @param e1 the e1 to set
+	 */
+	public void setE1(double e1) {
+		this.e1 = e1;
+	}
+
+	/**
+	 * @param e2 the e2 to set
+	 */
+	public void setE2(double e2) {
+		this.e2 = e2;
+	}
+
 
 }

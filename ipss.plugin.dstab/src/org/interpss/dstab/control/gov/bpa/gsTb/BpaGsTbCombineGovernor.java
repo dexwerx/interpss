@@ -6,17 +6,11 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
-import org.interpss.dstab.control.cml.block.WashoutControlBlock;
-import org.interpss.dstab.control.cml.func.SeFunction;
-import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1ExciterData;
-import org.interpss.dstab.control.exc.ieee.y1968.type1.NBIeee1968Type1EditPanel;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
-import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
@@ -112,7 +106,7 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
 	DelayControlBlock tcoDelayBlock;
 			 	
 	// UI Editor panel
-//TODO	private static BpaGsTbCombineGovernorEditPanel _editPanel = new BpaGsTbCombineGovernorEditPanel();	
+	//private static BpaGsTbCombineGovernorEditPanel _editPanel = new BpaGsTbCombineGovernorEditPanel();	
 	 /**
      * Default Constructor
      *
