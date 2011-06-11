@@ -65,9 +65,14 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			return;
 		}	
+		System.out.println(simuCtx.getDStabilityNet().net2String());
+		
 		
 		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 		
+		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+		aclfAlgo.loadflow();
+
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
 		dstabAlgo.setTotalSimuTimeSec(0.01);
@@ -78,5 +83,4 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 			dstabAlgo.performSimulation(msg);
 		}		
 	}
-
 }
