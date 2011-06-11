@@ -31,11 +31,18 @@ import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
 
 public class TextSimuOutputHandler extends AbstractSimuOutputHandler {
+	private boolean titlePrinted = false;
+	
 	public TextSimuOutputHandler() {
 	}
 
 	@Override
 	public void onMsgEvent(IpssMessage event) {
+		if (!this.titlePrinted) {
+			this.titlePrinted = true;
+			System.out.println(DStabOutFunc.getStateTitleStr());
+		}
+		
 		// Plot step outout message processing
 		DStabSimuAction e = (DStabSimuAction) event;
 		if (e.getType() == DStabSimuAction.PlotStepMachineStates) {
@@ -45,20 +52,7 @@ public class TextSimuOutputHandler extends AbstractSimuOutputHandler {
 			} catch (Exception exp) {
 				exp.printStackTrace();
 			}
-		} else if (e.getType() == DStabSimuAction.PlotStepBusStates) {
-			// Hashtable<String, Object> busVariables = e.getHashtableData();
-		} else if (e.getType() == DStabSimuAction.PlotStepScriptDynamicBusDeviceStates) {
-			// Hashtable<String, Double> scriptVariables = e.getHashtableData();
-		}
-
-		// Simulaiton time step outout message processing
-		if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
-			// Hashtable<String, Object> machStates = e.getHashtableData();
-		} else if (e.getType() == DStabSimuAction.TimeStepBusStates) {
-			// Hashtable<String, Object> busVariables = e.getHashtableData();
-		} else if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
-			// Hashtable<String, Object> scriptVariables = e.getHashtableData();
-		}
+		} 
 	}
 
 	@Override
