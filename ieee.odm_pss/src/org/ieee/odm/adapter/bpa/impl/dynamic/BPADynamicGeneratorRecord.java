@@ -274,19 +274,22 @@ public class BPADynamicGeneratorRecord {
     		}
 			mach.setXl(xl); 
     			    		
-    		Eq1MachineXmlType.SeFmt1 seFmt1=parser.getFactory().createEq1MachineXmlTypeSeFmt1();
+    		Eq1MachineXmlType.SeFmt1 seFmt1 = DStabParserHelper.createMachineSeFmt1();
 			double SE1=ModelStringUtil.getDouble(strAry[16], 0.0);
 			if(!strAry[16].contains(".")){
 				SE1=SE1/10000;
 			}
-			seFmt1.setSe100(SE1*100);//SE1% in InterPSS.			
 			double SE2=ModelStringUtil.getDouble(strAry[17], 0.0);
 			if(!strAry[17].contains(".")){
 				SE2=SE2/1000;
 			}
-			seFmt1.setSe120(SE2*100);
-			//TODO Sliner =0.8 by default
-			seFmt1.setSliner(0.8);
+
+			// if SE1 or SE2 not defined, use the default value
+			if (SE1 > 0.0 && SE2 > 0.0) {
+				seFmt1.setSe100(SE1*100);//SE1% in InterPSS.			
+				seFmt1.setSe120(SE2*100);
+				seFmt1.setSliner(0.8);
+			}
 			mach.setSeFmt1(seFmt1);	
 			
 				

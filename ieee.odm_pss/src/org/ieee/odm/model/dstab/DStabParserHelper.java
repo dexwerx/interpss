@@ -144,6 +144,14 @@ public class DStabParserHelper extends AclfParserHelper {
 		return mach;
 	}
 	
+	public static Eq1MachineXmlType.SeFmt1 createMachineSeFmt1() {
+		Eq1MachineXmlType.SeFmt1 seFmt1 = getFactory().createEq1MachineXmlTypeSeFmt1();
+		seFmt1.setSe100(0.0);			
+		seFmt1.setSe120(0.0);
+		seFmt1.setSliner(10.0);	// this means the machine will never get into saturation	
+		return seFmt1;
+	}
+	
 	/*
 	 * Exciter model creation functions
 	 * ================================

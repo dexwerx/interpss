@@ -25,6 +25,7 @@
 package org.ieee.odm.model.dstab;
 
 import org.ieee.odm.model.aclf.AclfDataSetter;
+import org.ieee.odm.schema.Eq1MachineXmlType;
 
 
 public class DStabDataSetter extends AclfDataSetter {
