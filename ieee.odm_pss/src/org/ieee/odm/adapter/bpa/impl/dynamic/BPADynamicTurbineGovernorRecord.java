@@ -34,6 +34,7 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
+import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
@@ -49,7 +50,7 @@ public class BPADynamicTurbineGovernorRecord {
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);    	
-    	
+    	//GovernorModelXmlType gov=DStabParserHelper.createGovSimpleTypeXmlType(dynGen);
     	if(strAry[0].equals("GG")){ 
     		GovHydroSteamGeneralModelXmlType gov = DStabParserHelper.createGovHydroSteamGeneralModelXmlType(dynGen);
     					
@@ -108,7 +109,7 @@ public class BPADynamicTurbineGovernorRecord {
     		//R
     		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gov.setR(r);
-// TODO: comment out to pass compile    		gov.setSIGMA(r);
+    		
 			//TG
     		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
     		
@@ -118,11 +119,11 @@ public class BPADynamicTurbineGovernorRecord {
 		    gov.setTP(BaseDataSetter.createTimeConstSec(Tp));		
 			//TD is corresponding to the TR in the ieee model
 		    double Td= ModelStringUtil.getDouble(strAry[8], 0.0);
-// TODO: comment out to pass compile		    gov.setTR(BaseDataSetter.createTimeConstSec(Td));
+		    gov.setTd(BaseDataSetter.createTimeConstSec(Td));
 		    
 			// TW/2
 		    double Twhalf= ModelStringUtil.getDouble(strAry[9], 0.0);
-// TODO: comment out to pass compile		    gov.setTW(BaseDataSetter.createTimeConstSec(Twhalf*2));	
+		    gov.setTwHalf(BaseDataSetter.createTimeConstSec(Twhalf));	
 		    // NOTE: Both VELCLOSE and VELOPEN is in PU based on PMAX.
 			//VELCLOSE
 		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
@@ -135,95 +136,119 @@ public class BPADynamicTurbineGovernorRecord {
 			
 			//Dd
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
-// TODO: comment out to pass compile    		gov.setDELTA(Dd);
+    		gov.setDd(Dd);
     		//Epsilon
     		double Epsilon=ModelStringUtil.getDouble(strAry[13], 0.0);
     		gov.setEpsilon(Epsilon);
-// TODO: comment out to pass compile    		gov.setA11(0.5);
-// TODO: comment out to pass compile    		gov.setA13(1.5);
-// TODO: comment out to pass compile    		gov.setA21(1.0);
-// TODO: comment out to pass compile    		gov.setA23(1.0);
     		
     				
     	}
     	else if(strAry[0].equals("GS")){
-    		SpeedGovBPAGSModelXmlType gov = DStabParserHelper.createSpeedGovBPAGSModelXmlType(dynGen);
-			
+    		SpeedGovBPAGSModelXmlType spdGov =null;
+    		if(dynGen.getGovernor().getValue()==null) DStabParserHelper.createGovBPAGsTbCombinedModelXmlType(dynGen);
+    		spdGov = DStabParserHelper.createSpeedGovBPAGSModelXmlType(dynGen);
+    		
 			//machine Id
     		String tgId="";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			gov.setDesc("GOV Hydro Turbine GH type, machId#"+tgId);
+    			spdGov.setDesc("BPA speed governing GS type, machId#"+tgId);
     		}			
 			//PMAX 
     		double pmax=new Double(strAry[4]).doubleValue();
-    		gov.setPmax(pmax);
+    		spdGov.setPmax(pmax);
     		//PMIN
     		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		gov.setPmin(pmin);	
+    		spdGov.setPmin(pmin);	
     			
     		//R
     		double r=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		gov.setR(r);
+    		spdGov.setR(r);
 			//T1
     		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
-    		gov.setT1(BaseDataSetter.createTimeConstSec(T1));
+    		spdGov.setT1(BaseDataSetter.createTimeConstSec(T1));
     		    					
 			//T2
     		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		gov.setT2(BaseDataSetter.createTimeConstSec(T2));
+    		spdGov.setT2(BaseDataSetter.createTimeConstSec(T2));
     				    		
 			// T3
 		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));			
+		    spdGov.setT3(BaseDataSetter.createTimeConstSec(T3));			
 			//VELOPEN
 		    double Vopen=ModelStringUtil.getDouble(strAry[4], 0.0);
-		    gov.setVELOPEN(Vopen);			
+		    spdGov.setVELOPEN(Vopen);			
 			//FVELCLOSE
     		double Vclose=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		gov.setVELCLOSE(Vclose);
+    		spdGov.setVELCLOSE(Vclose);
     		
     	}
     	else if(strAry[0].equals("GI")){
-    		SpeedGovBPARegGIModelXmlType gov = DStabParserHelper.createSpeedGovBPARegGIModelXmlType(dynGen);
-			
+    		//make sure the governor and GiGa model are already there.
+    		SpeedGovBPARegGIModelXmlType regGi=null;
+    		if(dynGen.getGovernor().getValue()==null) 
+    			DStabParserHelper.createGovBPAGiGaTbCombinedModelXmlType(dynGen);
+    		if(dynGen.getGovernor().getValue().getSpeedGov()==null)
+    			DStabParserHelper.createSpeedGovBPAGiGaCombinedXmlType(dynGen);
+    		regGi = DStabParserHelper.createSpeedGovBPARegGIModelXmlType(dynGen);
+    		
 			//machine Id
     		String tgId="";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			gov.setDesc("GOV Speed Governing GI type, machId#"+tgId);
+    			regGi.setDesc("GOV Speed Governing GI type, machId#"+tgId);
     		}
-    		//TODO Get, start from this
-    		/*
-			//PMAX 
-    		double pmax=new Double(strAry[4]).doubleValue();
-    		gov.setT1();
-    		//PMIN
-    		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		gov.setPmin(pmin);	
+    		
+    
+    		//T1 
+    		double t1=new Double(strAry[4]).doubleValue();
+    		regGi.setT1(BaseDataSetter.createTimeConstSec(t1));
+    		//Epsilon
+    		double epsilon=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		regGi.setEpsilon(epsilon);	
     			
-    		//R
-    		double r=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		gov.setR(r);
-			//T1
-    		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
-    		gov.setT1(BaseDataSetter.createTimeConstSec(T1));
+    		//k
+    		double k=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		regGi.setK(k);
+			
+    		int off=ModelStringUtil.getInt(strAry[7], 2);
+    		boolean offState=(off==1)?false:true;
+    		regGi.setLoadForwardSwitchOff(offState);
     		    					
-			//T2
-    		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		gov.setT2(BaseDataSetter.createTimeConstSec(T2));
+			//kp1
+    		double kp1=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		regGi.setKp1(kp1);
     				    		
-			// T3
-		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));			
-			//VELOPEN
-		    double Vopen=ModelStringUtil.getDouble(strAry[4], 0.0);
-		    gov.setVELOPEN(Vopen);			
-			//FVELCLOSE
-    		double Vclose=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		gov.setVELCLOSE(Vclose);
-    		*/
+			// kd1
+		    double kd1= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    regGi.setKd1(kd1);
+		    
+		    // ki1
+		    double ki1= ModelStringUtil.getDouble(strAry[10], 0.0);
+		    regGi.setKi1(ki1);
+		    
+		    // INTG_MAX1
+		    double intg_max1= ModelStringUtil.getDouble(strAry[11], 0.0);
+		    regGi.setINTGMAX1(intg_max1);
+		    
+		    // INTG_MAX1
+		    double intg_min1= ModelStringUtil.getDouble(strAry[12], 0.0);
+		    regGi.setINTGMIN1(intg_min1);
+			
+		    // PID_MAX1
+		    double pid_max1= ModelStringUtil.getDouble(strAry[13], 0.0);
+		    regGi.setINTGMAX1(pid_max1);
+		    
+		    // INTG_MAX1
+		    double pid_min1= ModelStringUtil.getDouble(strAry[14], 0.0);
+		    regGi.setINTGMIN1(pid_min1);  
+		    
+		    int loadSwitch=ModelStringUtil.getInt(strAry[15], 2);
+    		boolean loadOff=(loadSwitch==1)?false:true;
+    		regGi.setLoadForwardSwitchOff(loadOff);
+    		
     	}
+    	
     	else if(strAry[0].equals("TA")){
     		//TODO now we use a general stream turbine to represent 
     		
