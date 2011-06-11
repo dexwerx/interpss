@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
@@ -16,15 +17,23 @@ import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
+import org.interpss.numeric.NumericConstant;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.acsc.fault.AcscBusFault;
+import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.DStabObjectFactory;
+import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
+import com.interpss.dstab.devent.DynamicEvent;
+import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -83,16 +92,16 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
 				new String[] { "testdata/bpa/07c.dat", 
-				               "testdata/bpa/07c_onlyMach.swi"}));
+				               "testdata/bpa/07c_Mach_Exc.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		
 		DStabModelParser parser = (DStabModelParser)adapter.getModel();
 		
-//		parser.stdout();
-//		String xml=parser.toXmlDoc(false);
-//		FileOutputStream out=new FileOutputStream(new File("07c_2010_BPA_ODM_0608.xml"));
-//		out.write(xml.getBytes());
-//		out.flush();
-//		out.close();
+		//parser.stdout();
+		String xml=parser.toXmlDoc(false);
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc_0609.xml"));
+		out.write(xml.getBytes());
+		out.flush();
+		out.close();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
@@ -113,8 +122,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		}		
 	}
 	@Test
-	public void testCase() throws Exception {
-		File file = new File("testData/ieee_odm/07c_2010_BPA_ODM_0608.xml");
+	public void sys2010_XMLtestCase() throws Exception {
+		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc_0609.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -125,18 +134,35 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 				return;
 			}
+			 DStabilityNetwork net = simuCtx.getDStabilityNet();
+			 setDynamicEventData(net);
 			 DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 				
 				dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-				dstabAlgo.setSimuStepSec(0.001);
-				dstabAlgo.setTotalSimuTimeSec(0.01);
+				dstabAlgo.setSimuStepSec(0.01);
+				dstabAlgo.setTotalSimuTimeSec(1);
 				
 				dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 				if (dstabAlgo.getSolver().initialization()) {
 					System.out.println("Running DStab simulation ...");
-					dstabAlgo.performSimulation(msg);
+					assertTrue(dstabAlgo.performSimulation(msg));
 				}		
 		}
       
 	}
+	private void setDynamicEventData(DStabilityNetwork net) {
+		// define a bus fault event
+		DynamicEvent event1 = DStabObjectFactory.createDEvent("BusFault3P@Bus3", "Bus Fault 3P@Bus3", 
+				DynamicEventType.BUS_FAULT, net);
+		event1.setStartTimeSec(0.5);
+		event1.setDurationSec(0.1);
+		
+		DStabBus faultBus = net.getDStabBus("Bus3");
+		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@Bus3", net);
+  		fault.setAcscBus(faultBus);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
+		fault.setZLGFault(NumericConstant.SmallScZ);
+		fault.setZLLFault(new Complex(0.0, 0.0));
+		event1.setBusFault(fault);		
+	}	
 }
