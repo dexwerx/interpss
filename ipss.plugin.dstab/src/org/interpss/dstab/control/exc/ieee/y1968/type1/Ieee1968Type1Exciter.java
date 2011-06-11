@@ -50,7 +50,8 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	      type= CMLFieldEnum.ControlBlock,
 	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
 	      parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
-	      y0="this.delayBlock.u0 + this.seFunc.y"	)
+	      y0="this.delayBlock.u0 + this.seFunc.y" // ,debug=true
+	   )
 	   DelayControlBlock kaDelayBlock;
 
 	   public double ke1 = 1.0 /* ke1 = 1/Ke  */, te_ke = 0.1 /* te_ke = Te/Ke */;
@@ -58,7 +59,8 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	      type= CMLFieldEnum.ControlBlock,
 	      input="this.kaDelayBlock.y - this.seFunc.y",
 	      parameter={"type.NoLimit", "this.ke1", "this.te_ke"},
-	      y0="mach.efd"	)
+	      y0="mach.efd"  // ,debug=true
+	   )
 	   DelayControlBlock delayBlock;
 
 	   public double e1 = 3.1, seE1 = 0.33, e2 = 2.3, seE2 = 0.1;
@@ -72,7 +74,8 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	      type= CMLFieldEnum.ControlBlock,
 	      input="this.delayBlock.y",
 	      parameter={"type.NoLimit", "this.k", "this.tf"},
-	      feedback = true	)
+	      feedback = true  // ,debug=true
+	   )
 	   WashoutControlBlock washoutBlock;
  	
     // UI Editor panel
