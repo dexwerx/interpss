@@ -2,6 +2,8 @@ package org.interpss.dstab.bpa;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.logging.Level;
+
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.model.dstab.DStabModelParser;
@@ -11,6 +13,7 @@ import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
@@ -29,7 +32,7 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 		
 		DStabModelParser parser = (DStabModelParser)adapter.getModel();
 		
-		parser.stdout();
+		//parser.stdout();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
@@ -65,8 +68,6 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			return;
 		}	
-		System.out.println(simuCtx.getDStabilityNet().net2String());
-		
 		
 		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 		
@@ -77,8 +78,13 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 		dstabAlgo.setSimuStepSec(0.001);
 		dstabAlgo.setTotalSimuTimeSec(0.01);
 		
+		IpssLogger.getLogger().setLevel(Level.INFO);
 		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.getSolver().initialization()) {
+			// we need to print out the DStab object after the init, since
+			// machine annotation controllers need to be initialized
+			//System.out.println(simuCtx.getDStabilityNet().net2String());
+			
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation(msg);
 		}		
