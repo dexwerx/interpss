@@ -133,6 +133,7 @@ public class BPADynamicExciterRecord {
     		exc.setVRMAX(VRmax);
     		exc.setVRMIN(VRmin);
     	}
+    	//BPA EC type
     	else if(type==EK){
     		ExcBPAEKXmlType exc = DStabParserHelper.createExcBPAEKXmlType(dynGen);
 

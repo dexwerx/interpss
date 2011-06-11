@@ -24,6 +24,7 @@
 
 package org.ieee.odm.model.dstab;
 
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
@@ -66,6 +67,7 @@ import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
+import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.PssBPADualInputXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEE1981TypeXmlType;
@@ -77,6 +79,7 @@ import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGiGaCombinedXmlType;
 import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAServoGAModelXmlType;
+import org.ieee.odm.schema.SpeedGovModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 import org.ieee.odm.schema.SteamTurbineNRXmlType;
 import org.ieee.odm.schema.SteamTurbineTCDRXmlType;
@@ -275,6 +278,15 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * Governor model creation functions
 	 * =================================
 	 */
+	//GovernorModelXmlType is an abstract type, can not initiated.
+	/*
+	public static GovernorModelXmlType createGovernorModelXmlType(DynamicGeneratorXmlType gen) {
+		GovernorModelXmlType gov = new GovernorModelXmlType();
+			getFactory().createGovernor();
+		gen.setGovernor(getFactory().createGovSimpleType(gov));
+		return gov;
+	}
+	*/
 	public static GovSimpleTypeXmlType createGovSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
 		GovSimpleTypeXmlType gov = getFactory().createGovSimpleTypeXmlType();
 		gen.setGovernor(getFactory().createGovSimpleType(gov));
@@ -370,29 +382,39 @@ public class DStabParserHelper extends AclfParserHelper {
 	}
 	//TODO GS is a speed Governing model, but there is no method in DynamicGeneratorXmlType for such model now 
 	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(
-			DynamicGeneratorXmlType gen) {
+			DynamicGeneratorXmlType gen) throws ODMException {
 		SpeedGovBPAGSModelXmlType spdgov=getFactory().createSpeedGovBPAGSModelXmlType();
-        //create a governor when it is none in a generator;
-		//TODO
-		//if(gen.getGovernor()==null)gen.setGovernor(getFactory().createGovernorModelXmlType());
+        if(gen.getGovernor().getValue()!=null){
 		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
 		return spdgov;
+        }
+        else throw new ODMException("Error: Governernor need to be created first!");
 		
 	}
 	//  GI/I+ model is  a regulator, part of a speed Governing model,
 	public static SpeedGovBPARegGIModelXmlType createSpeedGovBPARegGIModelXmlType(
-			DynamicGeneratorXmlType gen) {
-		SpeedGovBPARegGIModelXmlType govReg =getFactory().createSpeedGovBPARegGIModelXmlType();
+			DynamicGeneratorXmlType gen) throws ODMException {
+		SpeedGovBPARegGIModelXmlType regGi =getFactory().createSpeedGovBPARegGIModelXmlType();
 		//TODO before linking a regulator to a gen,  it need to be first connected to SpeedGov.
-		return govReg;
+		SpeedGovModelXmlType spdGov=null;
+		if(gen.getGovernor().getValue().getSpeedGov().getValue()!=null){
+			spdGov=gen.getGovernor().getValue().getSpeedGov().getValue();
+		
+		   if (spdGov instanceof SpeedGovBPAGiGaCombinedXmlType) {
+				SpeedGovBPAGiGaCombinedXmlType giGa = (SpeedGovBPAGiGaCombinedXmlType) spdGov;
+				giGa.setRegulator(regGi);
+			}
+		  return regGi;
+	    }
+		throw new ODMException("Error:SpeedGov not created yet!");
 
 	}
 
 	public static SpeedGovBPAGiGaCombinedXmlType createSpeedGovBPAGiGaCombinedXmlType(
 			DynamicGeneratorXmlType gen) {
 		SpeedGovBPAGiGaCombinedXmlType spdgov=getFactory().createSpeedGovBPAGiGaCombinedXmlType();
+		
         //create a governor when it is none in a generator;
-		//TODO
 		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
 		return spdgov;
 	}
@@ -400,10 +422,22 @@ public class DStabParserHelper extends AclfParserHelper {
 	
 	//GA model is a servo motor model, part of a speed Governing model.
 	public static SpeedGovBPAServoGAModelXmlType createSpeedGovBPAServoGAModelXmlType(
-			DynamicGeneratorXmlType dynGen) {
-		SpeedGovBPAServoGAModelXmlType govReg =getFactory().createSpeedGovBPAServoGAModelXmlType();
+			DynamicGeneratorXmlType dynGen) throws ODMException {
+		SpeedGovBPAServoGAModelXmlType servoGa =getFactory().createSpeedGovBPAServoGAModelXmlType();
 		//TODO before linking a servo to a gen,  it need to be first connected to SpeedGov.
-		return govReg;
+		
+		SpeedGovModelXmlType spdGov=null;
+		if(dynGen.getGovernor().getValue().getSpeedGov().getValue()!=null){
+			spdGov=dynGen.getGovernor().getValue().getSpeedGov().getValue();
+		
+		   if (spdGov instanceof SpeedGovBPAGiGaCombinedXmlType) {
+				SpeedGovBPAGiGaCombinedXmlType giGa = (SpeedGovBPAGiGaCombinedXmlType) spdGov;
+				giGa.setServo(servoGa);
+			}
+		  return servoGa;
+	    }
+		throw new ODMException("SpeedGov not created yet!");
+
 	}
 	public static SteamTurbineBPATBModelXmlType createSteamTurbineBPATBModelXmlType(
 			DynamicGeneratorXmlType gen) {
@@ -426,8 +460,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	public static GovBPAGiGaTbCombinedModelXmlType createGovBPAGiGaTbCombinedModelXmlType(
 			DynamicGeneratorXmlType gen) {
 		GovBPAGiGaTbCombinedModelXmlType gov=getFactory().createGovBPAGiGaTbCombinedModelXmlType();
-		gen.setGovernor(getFactory().createGovBPAGiGaTbCombinedModel(gov));
-				
+		gen.setGovernor(getFactory().createGovBPAGiGaTbCombinedModel(gov));		
 		return gov;
 		
 	}

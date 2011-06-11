@@ -106,7 +106,7 @@ public class BPADynamicRecord {
 					str.substring(0, 2).trim().equals("MC")||
 					str.substring(0, 2).trim().equals("LN")){
 				dataType=generatorData;
-			}else if (str.substring(0, 2).trim().equals("EA")||str.substring(0, 2).trim().equals("EG")||
+			}else if (str.substring(0, 1).trim().equals("E")||
 					str.substring(0, 1).trim().equals("F")&&!str.substring(3, 4).trim().equals("")){//There are two FF records
 				/*
 				 * ||str.substring(0, 2).trim().equals("FC")

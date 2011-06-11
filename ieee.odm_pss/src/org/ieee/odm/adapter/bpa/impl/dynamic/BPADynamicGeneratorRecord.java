@@ -285,8 +285,11 @@ public class BPADynamicGeneratorRecord {
 				SE2=SE2/1000;
 			}
 			seFmt1.setSe120(SE2*100);
+			//TODO Sliner =0.8 by default
+			seFmt1.setSliner(0.8);
 			mach.setSeFmt1(seFmt1);	
-							
+			
+				
 			double D=ModelStringUtil.getDouble(strAry[18], 0.0);
 			if(!strAry[18].contains(".")){
 				D=D/100;				
