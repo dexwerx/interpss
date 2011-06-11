@@ -88,4 +88,10 @@ public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
 	public double getT() {
 		return t;
 	}
+	
+	@Override
+	public String toString() {
+		String str = "type, k, t: " + getType() + ", " + k + ", " + t;
+		return str;
+	}	
 }

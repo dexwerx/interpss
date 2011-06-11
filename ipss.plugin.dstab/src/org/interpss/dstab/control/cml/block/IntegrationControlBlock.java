@@ -103,4 +103,10 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	public LimitType getLimit() {
 		return limit;
 	}
+	
+	@Override
+	public String toString() {
+		String str = "type, k, limit: " + getType() + ", " + k + ", " + limit;
+		return str;
+	}	
 }

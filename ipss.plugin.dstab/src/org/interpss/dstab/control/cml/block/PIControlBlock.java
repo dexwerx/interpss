@@ -125,4 +125,10 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	public double getKi() {
 		return ki;
 	}
+	
+	@Override
+	public String toString() {
+		String str = "type, kp, ki, limit: " + getType() + ", " + kp + ", " + ki + ", " + limit;
+		return str;
+	}	
 }
