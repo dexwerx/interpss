@@ -55,14 +55,18 @@ public class GovernorDataHelper {
 	 * @param govXmlRec ODM governor model record
 	 */
 	public void createGovernor(GovernorModelXmlType govXmlRec) throws InterpssException  {
-		if (govXmlRec instanceof GovSimpleTypeXmlType) {
-			GovSimpleTypeXmlType govXml = (GovSimpleTypeXmlType)govXmlRec;
-			SimpleGovernor gov = GovernorObjectFactory.createSimpleGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
-			gov.getData().setK(govXml.getK());
-			gov.getData().setT1(govXml.getT1().getValue());
-			gov.getData().setPmax(govXml.getPmax());
-			gov.getData().setPmin(govXml.getPmin());
-		}
+		if (govXmlRec == null) { throw new InterpssException("Programming error in createGovernor()"); }
+
+		// we need to put the if statements in the reverse order of the inheritance hierarchy 
+		
+		////////////////////////////////////////////
+		////    BPA           //////////////////////
+		////////////////////////////////////////////
+		
+		////////////////////////////////////////////
+		////    IEEE          //////////////////////
+		////////////////////////////////////////////
+		
 		else if (govXmlRec instanceof GovSteamNRXmlType) {
 			GovSteamNRXmlType govXml = (GovSteamNRXmlType)govXmlRec;
 			IeeeSteamNRGovernor gov = GovernorObjectFactory.createIeeeSteamNRGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
@@ -124,11 +128,18 @@ public class GovernorDataHelper {
 			gov.getData().setPmin(govXml.getPMIN());			
 			gov.getData().setTw(govXml.getTWhalf().getValue());			
 		}
-		//GovBPAHydroTurbineGHXmlType
-		//
+		
+		else if (govXmlRec instanceof GovSimpleTypeXmlType) {
+			GovSimpleTypeXmlType govXml = (GovSimpleTypeXmlType)govXmlRec;
+			SimpleGovernor gov = GovernorObjectFactory.createSimpleGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
+			gov.getData().setK(govXml.getK());
+			gov.getData().setT1(govXml.getT1().getValue());
+			gov.getData().setPmax(govXml.getPmax());
+			gov.getData().setPmin(govXml.getPmin());
+		}
+
 		else {
 			throw new InterpssException("Governor type invalid or not implemented, type " + govXmlRec.getClass().getSimpleName());
 		}
-		
 	}
 }

@@ -53,17 +53,46 @@ public class StabilizerDataHelper {
 	 * @param pssXmlRec ODM stabilizer model record
 	 */
 	public void createStabilizer(StabilizerModelXmlType pssXmlRec) throws InterpssException {
-		if (pssXmlRec instanceof PssSimpleTypeXmlType) {
-			PssSimpleTypeXmlType pssXml = (PssSimpleTypeXmlType)pssXmlRec;
-			SimpleStabilizer pss = StabilizerObjectFactory.createSimpleStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
-			pss.getData().setKs(pssXml.getKs());
+		if (pssXmlRec == null) { throw new InterpssException("Programming error in createStabilizer()"); }
+
+		// we need to put the if statements in the reverse order of the inheritance hierarchy 
+		
+		////////////////////////////////////////////
+		////    BPA           //////////////////////
+		////////////////////////////////////////////
+		
+		else if (pssXmlRec instanceof PssBPADualInputXmlType) {
+			PssBPADualInputXmlType pssXml = (PssBPADualInputXmlType)pssXmlRec;
+			BPASITypeStabilizer pss = StabilizerObjectFactory.createBpaSITypeStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKr(pssXml.getKr());	
+			pss.getData().setTrp(pssXml.getTrp().getValue());
+			pss.getData().setTrw(pssXml.getTrw().getValue());
+			pss.getData().setTw(pssXml.getTW().getValue());
+			pss.getData().setTw1(pssXml.getTW1().getValue());
+			pss.getData().setTw2(pssXml.getTW2().getValue());
+			pss.getData().setKs(pssXml.getKS());
+			pss.getData().setKp(pssXml.getKp());
 			pss.getData().setT1(pssXml.getT1().getValue());
 			pss.getData().setT2(pssXml.getT2().getValue());
 			pss.getData().setT3(pssXml.getT3().getValue());
 			pss.getData().setT4(pssXml.getT4().getValue());
-			pss.getData().setVsmax(pssXml.getVsmax());
-			pss.getData().setVsmin(pssXml.getVsmin());
+			pss.getData().setT5(pssXml.getT5().getValue());
+			pss.getData().setT6(pssXml.getT6().getValue());	
+			pss.getData().setT7(pssXml.getT7().getValue());
+			pss.getData().setT9(pssXml.getT9().getValue());
+			pss.getData().setT10(pssXml.getT10().getValue());
+			pss.getData().setT12(pssXml.getT12().getValue());
+			pss.getData().setT13(pssXml.getT13().getValue());
+			pss.getData().setT14(pssXml.getT14().getValue());
+			pss.getData().setVsMax(pssXml.getVSMAX());
+			pss.getData().setVsMin(pssXml.getVSMIN());
+					
 		}
+		
+		////////////////////////////////////////////
+		////    IEEE-1992     //////////////////////
+		////////////////////////////////////////////
+		
 		else if (pssXmlRec instanceof PssIEEE1992Type2AXmlType) {
 			PssIEEE1992Type2AXmlType pssXml = (PssIEEE1992Type2AXmlType)pssXmlRec;
 			Ieee1992PSS2AStabilizer pss = StabilizerObjectFactory.createIeee1992PSS2AStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
@@ -101,33 +130,19 @@ public class StabilizerDataHelper {
 			pss.getData().setA1(pssXml.getA1());	
 			pss.getData().setA2(pssXml.getA2());				
 		}
-		else if (pssXmlRec instanceof PssBPADualInputXmlType) {
-			PssBPADualInputXmlType pssXml = (PssBPADualInputXmlType)pssXmlRec;
-			BPASITypeStabilizer pss = StabilizerObjectFactory.createBpaSITypeStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
-			pss.getData().setKr(pssXml.getKr());	
-			pss.getData().setTrp(pssXml.getTrp().getValue());
-			pss.getData().setTrw(pssXml.getTrw().getValue());
-			pss.getData().setTw(pssXml.getTW().getValue());
-			pss.getData().setTw1(pssXml.getTW1().getValue());
-			pss.getData().setTw2(pssXml.getTW2().getValue());
-			pss.getData().setKs(pssXml.getKS());
-			pss.getData().setKp(pssXml.getKp());
+		
+		else if (pssXmlRec instanceof PssSimpleTypeXmlType) {
+			PssSimpleTypeXmlType pssXml = (PssSimpleTypeXmlType)pssXmlRec;
+			SimpleStabilizer pss = StabilizerObjectFactory.createSimpleStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKs(pssXml.getKs());
 			pss.getData().setT1(pssXml.getT1().getValue());
 			pss.getData().setT2(pssXml.getT2().getValue());
 			pss.getData().setT3(pssXml.getT3().getValue());
 			pss.getData().setT4(pssXml.getT4().getValue());
-			pss.getData().setT5(pssXml.getT5().getValue());
-			pss.getData().setT6(pssXml.getT6().getValue());	
-			pss.getData().setT7(pssXml.getT7().getValue());
-			pss.getData().setT9(pssXml.getT9().getValue());
-			pss.getData().setT10(pssXml.getT10().getValue());
-			pss.getData().setT12(pssXml.getT12().getValue());
-			pss.getData().setT13(pssXml.getT13().getValue());
-			pss.getData().setT14(pssXml.getT14().getValue());
-			pss.getData().setVsMax(pssXml.getVSMAX());
-			pss.getData().setVsMin(pssXml.getVSMIN());
-					
+			pss.getData().setVsmax(pssXml.getVsmax());
+			pss.getData().setVsmin(pssXml.getVsmin());
 		}
+
 		else {
 			throw new InterpssException("Stabilizer type invalid or not implemented, type " + pssXmlRec.getClass().getSimpleName());
 		}
