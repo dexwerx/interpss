@@ -34,9 +34,10 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
-import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPAGiGaCombinedXmlType;
 import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPAServoGAModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
 import org.ieee.odm.schema.SteamTurbineNRXmlType;
 
@@ -50,7 +51,7 @@ public class BPADynamicTurbineGovernorRecord {
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);    	
-    	//GovernorModelXmlType gov=DStabParserHelper.createGovSimpleTypeXmlType(dynGen);
+    	
     	if(strAry[0].equals("GG")){ 
     		GovHydroSteamGeneralModelXmlType gov = DStabParserHelper.createGovHydroSteamGeneralModelXmlType(dynGen);
     					
@@ -144,121 +145,269 @@ public class BPADynamicTurbineGovernorRecord {
     				
     	}
     	else if(strAry[0].equals("GS")){
-    		SpeedGovBPAGSModelXmlType spdGov =null;
-    		if(dynGen.getGovernor().getValue()==null) DStabParserHelper.createGovBPAGsTbCombinedModelXmlType(dynGen);
-    		spdGov = DStabParserHelper.createSpeedGovBPAGSModelXmlType(dynGen);
-    		
+    		SpeedGovBPAGSModelXmlType gov = DStabParserHelper.createSpeedGovBPAGSModelXmlType(dynGen);
+			
 			//machine Id
-    		String tgId="";
+    		String tgId="1";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			spdGov.setDesc("BPA speed governing GS type, machId#"+tgId);
-    		}			
+    		}
+    		gov.setDesc("GOV Hydro Turbine GH type, machId#"+tgId);			
 			//PMAX 
     		double pmax=new Double(strAry[4]).doubleValue();
-    		spdGov.setPmax(pmax);
+    		gov.setPmax(pmax);
     		//PMIN
     		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		spdGov.setPmin(pmin);	
+    		gov.setPmin(pmin);	
     			
     		//R
     		double r=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		spdGov.setR(r);
+    		gov.setR(r);
 			//T1
     		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
-    		spdGov.setT1(BaseDataSetter.createTimeConstSec(T1));
+    		gov.setT1(BaseDataSetter.createTimeConstSec(T1));
     		    					
 			//T2
     		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		spdGov.setT2(BaseDataSetter.createTimeConstSec(T2));
+    		gov.setT2(BaseDataSetter.createTimeConstSec(T2));
     				    		
 			// T3
 		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    spdGov.setT3(BaseDataSetter.createTimeConstSec(T3));			
+		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));			
 			//VELOPEN
 		    double Vopen=ModelStringUtil.getDouble(strAry[4], 0.0);
-		    spdGov.setVELOPEN(Vopen);			
+		    gov.setVELOPEN(Vopen);			
 			//FVELCLOSE
     		double Vclose=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		spdGov.setVELCLOSE(Vclose);
+    		gov.setVELCLOSE(Vclose);
     		
     	}
     	else if(strAry[0].equals("GI")){
     		//make sure the governor and GiGa model are already there.
     		SpeedGovBPARegGIModelXmlType regGi=null;
-    		if(dynGen.getGovernor().getValue()==null) 
+    		if(dynGen.getGovernor()==null) 
     			DStabParserHelper.createGovBPAGiGaTbCombinedModelXmlType(dynGen);
     		if(dynGen.getGovernor().getValue().getSpeedGov()==null)
     			DStabParserHelper.createSpeedGovBPAGiGaCombinedXmlType(dynGen);
     		regGi = DStabParserHelper.createSpeedGovBPARegGIModelXmlType(dynGen);
-    		
+			
 			//machine Id
-    		String tgId="";
+    		String tgId="1";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			regGi.setDesc("GOV Speed Governing GI type, machId#"+tgId);
     		}
+    		regGi.setDesc("GOV Speed Governing GI type, machId#"+tgId);
+			//T1 
+    		double T1=new Double(strAry[4]).doubleValue();
+    		regGi.setT1(BaseDataSetter.createTimeConstSec(T1));
     		
-    
-    		//T1 
-    		double t1=new Double(strAry[4]).doubleValue();
-    		regGi.setT1(BaseDataSetter.createTimeConstSec(t1));
     		//Epsilon
-    		double epsilon=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		regGi.setEpsilon(epsilon);	
+    		double Epsilon=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		regGi.setEpsilon(Epsilon);
     			
-    		//k
-    		double k=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		regGi.setK(k);
-			
-    		int off=ModelStringUtil.getInt(strAry[7], 2);
-    		boolean offState=(off==1)?false:true;
-    		regGi.setLoadForwardSwitchOff(offState);
-    		    					
-			//kp1
-    		double kp1=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		regGi.setKp1(kp1);
-    				    		
-			// kd1
-		    double kd1= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    regGi.setKd1(kd1);
-		    
-		    // ki1
-		    double ki1= ModelStringUtil.getDouble(strAry[10], 0.0);
-		    regGi.setKi1(ki1);
-		    
-		    // INTG_MAX1
-		    double intg_max1= ModelStringUtil.getDouble(strAry[11], 0.0);
-		    regGi.setINTGMAX1(intg_max1);
-		    
-		    // INTG_MAX1
-		    double intg_min1= ModelStringUtil.getDouble(strAry[12], 0.0);
-		    regGi.setINTGMIN1(intg_min1);
-			
-		    // PID_MAX1
-		    double pid_max1= ModelStringUtil.getDouble(strAry[13], 0.0);
-		    regGi.setINTGMAX1(pid_max1);
-		    
-		    // INTG_MAX1
-		    double pid_min1= ModelStringUtil.getDouble(strAry[14], 0.0);
-		    regGi.setINTGMIN1(pid_min1);  
-		    
-		    int loadSwitch=ModelStringUtil.getInt(strAry[15], 2);
-    		boolean loadOff=(loadSwitch==1)?false:true;
-    		regGi.setLoadForwardSwitchOff(loadOff);
+    		//K
+    		double K=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		regGi.setK(K);
     		
+			//LoadSwich
+    		double LoadSwich=ModelStringUtil.getDouble(strAry[7], 2.0);
+    		regGi.setLoadSwichOff(LoadSwich==1.0?false:true);
+    		    					
+			//Kp1
+    		double Kp1=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		regGi.setKp1(Kp1);    				    		
+			//Kd1
+		    double Kd1= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    regGi.setKd1(Kd1);			
+			//Ki1
+		    double Ki1=ModelStringUtil.getDouble(strAry[10], 0.0);
+		    regGi.setKi1(Ki1);
+		    
+			//INTGMAX1
+		    double INTGMAX1=0.0;
+		    if(!strAry[11].equals(""))
+    			INTGMAX1=new Double(strAry[11]).doubleValue();
+    		INTGMAX1=INTGMAX1==0.0?9999.0:INTGMAX1;
+    		regGi.setINTGMAX1(INTGMAX1);
+    		//INTGMIN1
+    		double INTGMIN1=0.0;
+		    if(!strAry[12].equals(""))
+    			INTGMIN1=new Double(strAry[12]).doubleValue();
+    		INTGMIN1=INTGMIN1==0.0?-9999.0:INTGMIN1;
+    		regGi.setINTGMIN1(INTGMIN1);
+    		
+    		//PIDMAX1
+		    double PIDMAX1=0.0;
+		    if(!strAry[13].equals(""))
+		    	PIDMAX1=new Double(strAry[13]).doubleValue();
+		    PIDMAX1=(PIDMAX1==0.0)?9999.0:PIDMAX1;
+    		regGi.setPIDMAX1(PIDMAX1);
+    		//PIDMIN1
+    		double PIDMIN1=0.0;
+		    if(!strAry[14].equals(""))
+		    	PIDMIN1=new Double(strAry[14]).doubleValue();
+		    PIDMIN1=(PIDMIN1==0.0)?-9999.0:PIDMIN1;
+    		regGi.setPIDMIN1(PIDMIN1);
+    		
+    		//LoadForwardSwitch
+    		double LoadForwardSwitch=ModelStringUtil.getDouble(strAry[15], 2.0);
+    		regGi.setLoadForwardSwitchOff(LoadForwardSwitch==1.0?false:true);
+    		
+    		//一次调频负荷上限 
+    		//一次调频负荷下限 
     	}
-    	
+    	else if(strAry[0].equals("GI+")){
+    		SpeedGovBPARegGIModelXmlType regGi = ((SpeedGovBPAGiGaCombinedXmlType)dynGen.getGovernor().getValue().getSpeedGov().getValue()).getRegulator();
+			
+			//machine Id
+    		String tgId="1";
+    		if(!strAry[3].equals("")){
+    			tgId=strAry[3];
+    		}    		
+    		regGi.setDesc("GOV Speed Governing GI/GI+ type, machId#"+tgId);
+			//PresserSwitch 
+    		double PresserSwitch=ModelStringUtil.getDouble(strAry[4], 2.0);
+    		regGi.setPresserSwitchOff(PresserSwitch==1.0?false:true);
+    		
+    		//Kp2
+    		double Kp2=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		regGi.setKp2(Kp2);
+    		//Kd2
+    		double Kd2=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		regGi.setKd2(Kd2);
+    		//Ki2
+    		double Ki2=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		regGi.setKi2(Ki2);
+    				    
+			//INTGMAX2
+		    double INTGMAX2=0.0;
+		    if(!strAry[8].equals(""))
+    			INTGMAX2=new Double(strAry[8]).doubleValue();
+    		INTGMAX2=INTGMAX2==0.0?9999.0:INTGMAX2;
+    		regGi.setINTGMAX2(INTGMAX2);
+    		//INTGMIN2
+    		double INTGMIN2=0.0;
+		    if(!strAry[9].equals(""))
+    			INTGMIN2=new Double(strAry[9]).doubleValue();
+    		INTGMIN2=INTGMIN2==0.0?-9999.0:INTGMIN2;
+    		regGi.setINTGMIN2(INTGMIN2);
+    		
+    		//PIDMAX2
+		    double PIDMAX2=0.0;
+		    if(!strAry[10].equals(""))
+		    	PIDMAX2=new Double(strAry[10]).doubleValue();
+		    PIDMAX2=(PIDMAX2==0.0)?9999.0:PIDMAX2;
+    		regGi.setPIDMAX2(PIDMAX2);
+    		//PIDMIN2
+    		double PIDMIN2=0.0;
+		    if(!strAry[11].equals(""))
+		    	PIDMIN2=new Double(strAry[11]).doubleValue();
+		    PIDMIN2=(PIDMIN2==0.0)?-9999.0:PIDMIN2;
+    		regGi.setPIDMIN2(PIDMIN2);
+    		
+    		//ConMax
+		    double ConMax=0.0;
+		    if(!strAry[12].equals(""))
+		    	ConMax=new Double(strAry[12]).doubleValue();
+		    ConMax=(ConMax==0.0)?9999.0:ConMax;
+    		regGi.setConMax(ConMax);
+    		//ConMin
+    		double ConMin=0.0;
+		    if(!strAry[13].equals(""))
+		    	ConMin=new Double(strAry[13]).doubleValue();
+		    ConMin=(ConMin==0.0)?-9999.0:ConMin;
+    		regGi.setConMin(ConMin);
+    	}
+    	else if(strAry[0].equals("GA")){
+    		//make sure the governor and GiGa model are already there.
+    		SpeedGovBPAServoGAModelXmlType serGa=null;
+    		if(dynGen.getGovernor()==null) 
+    			DStabParserHelper.createGovBPAGiGaTbCombinedModelXmlType(dynGen);
+    		if(dynGen.getGovernor().getValue().getSpeedGov()==null)
+    			DStabParserHelper.createSpeedGovBPAGiGaCombinedXmlType(dynGen);
+    		serGa = DStabParserHelper.createSpeedGovBPAServoGAModelXmlType(dynGen);
+			
+			//machine Id
+    		String tgId="1";
+    		if(!strAry[3].equals("")){
+    			tgId=strAry[3];
+    		}
+    		serGa.setDesc("GOV Speed Governing GA type, machId#"+tgId);
+			//Pe 
+    		double Pe=new Double(strAry[4]).doubleValue();
+    		serGa.setPe(Pe);
+    		
+    		//Tc
+    		double Tc=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		serGa.setTc(BaseDataSetter.createTimeConstSec(Tc));    			
+    		//To
+    		double To=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		serGa.setTo(BaseDataSetter.createTimeConstSec(To));
+    		
+			//VELCLOSE
+    		double VELCLOSE=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		serGa.setVELCLOSE(VELCLOSE);    		    					
+			//VELOPEN
+    		double VELOPEN=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		serGa.setVELOPEN(VELOPEN);
+    		
+			//PMAX
+		    double PMAX= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    serGa.setPmax(PMAX);			
+			//PMIN
+		    double PMIN=ModelStringUtil.getDouble(strAry[10], 0.0);
+		    serGa.setPmin(PMIN);
+		    
+			//T1
+		    double T1=ModelStringUtil.getDouble(strAry[11], 0.0);
+		    serGa.setT1(BaseDataSetter.createTimeConstSec(T1));
+		    
+		    //Kp
+    		double Kp=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		serGa.setKp(Kp);
+    		//Kd
+    		double Kd=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		serGa.setKd(Kd);
+    		//Ki
+    		double Ki=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		serGa.setKi(Ki);
+    		
+    		//INTGMAX
+		    double INTGMAX=0.0;
+		    if(!strAry[15].equals(""))
+    			INTGMAX=new Double(strAry[15]).doubleValue();
+    		INTGMAX=INTGMAX==0.0?9999.0:INTGMAX;
+    		serGa.setINTGMAX(INTGMAX);
+    		//INTGMIN
+    		double INTGMIN=0.0;
+		    if(!strAry[16].equals(""))
+    			INTGMIN=new Double(strAry[16]).doubleValue();
+    		INTGMIN=INTGMIN==0.0?-9999.0:INTGMIN;
+    		serGa.setINTGMIN(INTGMIN);
+    		
+    		//PIDMAX
+		    double PIDMAX=0.0;
+		    if(!strAry[17].equals(""))
+		    	PIDMAX=new Double(strAry[17]).doubleValue();
+		    PIDMAX=(PIDMAX==0.0)?9999.0:PIDMAX;
+    		serGa.setPIDMAX(PIDMAX);
+    		//PIDMIN
+    		double PIDMIN=0.0;
+		    if(!strAry[18].equals(""))
+		    	PIDMIN=new Double(strAry[18]).doubleValue();
+		    PIDMIN=(PIDMIN==0.0)?-9999.0:PIDMIN;
+    		serGa.setPIDMIN(PIDMIN);
+    	}
     	else if(strAry[0].equals("TA")){
     		//TODO now we use a general stream turbine to represent 
     		
     		SteamTurbineNRXmlType st=DStabParserHelper.createSteamTurbineNRXmlType(dynGen);
     		//Machine Id   		
-    		String tgId="";
+    		String tgId="1";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			st.setDesc("GOV Steam Turbine BPA TA type(non reheat), machId#"+tgId);
-    		}	
+    		}
+    		st.setDesc("GOV Steam Turbine BPA TA type(non reheat), machId#"+tgId);	
     		//TCH
     		double TCH= new Double(strAry[4]).doubleValue();
     		st.setTCH(BaseDataSetter.createTimeConstSec(TCH));    			
@@ -273,35 +422,34 @@ public class BPADynamicTurbineGovernorRecord {
     		assert(dynGen.getGovernor() != null);
     		SteamTurbineBPATBModelXmlType st=DStabParserHelper.createSteamTurbineBPATBModelXmlType(dynGen);
     		//busId   		
-    		String tgId="";
+    		String tgId="1";
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
-    			st.setDesc("GOV Steam Turbine BPA TB type, machId#"+tgId);
     		}
+    		st.setDesc("GOV Steam Turbine BPA TB type, machId#"+tgId);
                
-    			//TCH
-    			double TCH= ModelStringUtil.getDouble(strAry[4], 0.0);
-    			st.setTCH(BaseDataSetter.createTimeConstSec(TCH));	  
-    			//FHP
-    		    double FHP= ModelStringUtil.getDouble(strAry[5], 0.0);
-    			st.setFHP(FHP);
-    			//TRH
-    		    double TRH= ModelStringUtil.getDouble(strAry[6], 0.0);
-    		    st.setTRH(BaseDataSetter.createTimeConstSec(TRH));	    			
-    			//FIP
-    		    double FIP= ModelStringUtil.getDouble(strAry[7], 0.0);
-    		    st.setFIP(FIP);   			
-    			//TCO
-    		    double TCO=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		    st.setTCO(BaseDataSetter.createTimeConstSec(TCO));
-    		       		    	    			
-    			// FLP
-    		    double FLP=ModelStringUtil.getDouble(strAry[9], 0.0);
-       		    st.setFLP(FLP);
-       		    //Lambda
-       		   double Lambda=ModelStringUtil.getDouble(strAry[10], 0.0);
-       		    st.setLambda(Lambda);
-    		   
+    		//TCH
+			double TCH= ModelStringUtil.getDouble(strAry[4], 0.0);
+			st.setTCH(BaseDataSetter.createTimeConstSec(TCH));	  
+			//FHP
+		    double FHP= ModelStringUtil.getDouble(strAry[5], 0.0);
+			st.setFHP(FHP);
+			//TRH
+		    double TRH= ModelStringUtil.getDouble(strAry[6], 0.0);
+		    st.setTRH(BaseDataSetter.createTimeConstSec(TRH));	    			
+			//FIP
+		    double FIP= ModelStringUtil.getDouble(strAry[7], 0.0);
+		    st.setFIP(FIP);   			
+			//TCO
+		    double TCO=ModelStringUtil.getDouble(strAry[8], 0.0);
+		    st.setTCO(BaseDataSetter.createTimeConstSec(TCO));
+		       		    	    			
+			// FLP
+		    double FLP=ModelStringUtil.getDouble(strAry[9], 0.0);
+   		    st.setFLP(FLP);
+   		    //Lambda
+   		    double Lambda=ModelStringUtil.getDouble(strAry[10], 0.0);
+   		    st.setLambda(Lambda);    		   
     		       		        			
     	}
     }
@@ -310,7 +458,7 @@ public class BPADynamicTurbineGovernorRecord {
     	final String[] strAry = new String[19];
     	strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 3).trim();
     	//to process the Chinese characters first, if any.
-		int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
+		int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,11).trim());
 		//Columns 6-13 busName  
 		strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();
 		str=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
@@ -384,7 +532,7 @@ public class BPADynamicTurbineGovernorRecord {
 				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,55, 60).trim();			
 	    		
 	    	}
-	    	else if(str.substring(0, 2).trim().equals("GI")){
+	    	else if(str.substring(0, 3).trim().equals("GI")){
 	    		
 				
 				//T1
@@ -422,31 +570,66 @@ public class BPADynamicTurbineGovernorRecord {
 				
 	    	}else if(str.substring(0, 3).trim().equals("GI+")){
 	    		
-	    		//PRESSER AUTO SWITCH
+				
+				//Pressure automatic switch
 				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 17).trim();
 				//Kp2
-				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,18, 22).trim();
-				////Kd2
-				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 27).trim();
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,18, 22).trim();
+				//Kd2
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,23, 27).trim();
 				//Ki2
-				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();
-		
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,28, 32).trim();
 				//INTG_MAX2
-				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,33, 37).trim();
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,33, 37).trim();
 				//INTG_MIN2
-				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
-				
-				//PID_MAX1
-				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
-				//PID_MIN1
-				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
-				
-				
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
+				//PID_MAX2
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
+				//PID_MIN2
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,48, 52).trim();
 				//CON_MAX
-				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,53, 57).trim();
 				//CON_MIN
-				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,58, 62).trim();
+					
+	    	}else if(str.substring(0, 2).trim().equals("GA")){
+	    		
+	    		//Pe
+				strAry[4]=ModelStringUtil.getStringReturnEmptyString(str,17, 22).trim();
+				//Tc
+				strAry[5]=ModelStringUtil.getStringReturnEmptyString(str,23, 26).trim();
+				//To
+				strAry[6]=ModelStringUtil.getStringReturnEmptyString(str,27, 30).trim();
+		
+				//VELclose
+				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,31, 34).trim();
+				//VELopen
+				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();
 				
+				//PMAX
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,39, 42).trim();
+				//PMIN
+				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 46).trim();
+								
+				//T1
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,47, 50).trim();
+				
+				//Kp
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,51, 54).trim();
+				//Kd
+				strAry[13]=ModelStringUtil.getStringReturnEmptyString(str,55, 58).trim();
+				//Ki
+				strAry[14]=ModelStringUtil.getStringReturnEmptyString(str,59, 62).trim();
+				
+				//INTG_MAX
+				strAry[15]=ModelStringUtil.getStringReturnEmptyString(str,63, 66).trim();
+				//INTG_MIN
+				strAry[16]=ModelStringUtil.getStringReturnEmptyString(str,67, 70).trim();
+				
+				//PID_MAX
+				strAry[17]=ModelStringUtil.getStringReturnEmptyString(str,71, 74).trim();
+				//PID_MIN
+				strAry[18]=ModelStringUtil.getStringReturnEmptyString(str,75, 78).trim();
 				
 	    	}
 	    	
