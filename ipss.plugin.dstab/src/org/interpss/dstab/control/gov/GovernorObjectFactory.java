@@ -26,7 +26,7 @@ package org.interpss.dstab.control.gov;
 
 import org.interpss.dstab.control.gov.bpa.combinedType.BpaGIGATBCombinedGovernor;
 import org.interpss.dstab.control.gov.bpa.gsTb.BpaGsTbCombineGovernor;
-import org.interpss.dstab.control.gov.bpa.hydro.BPAGHTypeGovernor;
+import org.interpss.dstab.control.gov.bpa.hydro.BpaGHTypeHydroGovernor;
 import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor;
 import org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor;
 import org.interpss.dstab.control.gov.ieee.ieeeST2.IeeeST2Governor;
@@ -73,8 +73,8 @@ public class GovernorObjectFactory {
 		gov.setMachine(machine); 
 		return gov;
   	}
-	public static BPAGHTypeGovernor createBPAGHTypeGovernor(String id, String name, Machine machine) {
-		BPAGHTypeGovernor gov = new BPAGHTypeGovernor(id, name, "BPA");
+	public static BpaGHTypeHydroGovernor createBPAGHTypeGovernor(String id, String name, Machine machine) {
+		BpaGHTypeHydroGovernor gov = new BpaGHTypeHydroGovernor(id, name, "BPA");
 		gov.setMachine(machine); 
 		return gov;
   	}

@@ -7,7 +7,6 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
-import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernorData;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateGovernor;
@@ -30,7 +29,7 @@ import com.interpss.dstab.mach.Machine;
         output="this.wFilterBlock.y",
         refPoint="this.gainBlock.y + this.gainFBBlock.y+this.washoutFBBlock.y+this.freqDeadBandFunc.u0",//TODO can a function accesses a u0
 		display= {"str.Pm,this.output"})
-public class BPAGHTypeGovernor extends AnnotateGovernor{
+public class BpaGHTypeHydroGovernor extends AnnotateGovernor{
 	public double pmax=1.7;
 	public double epsilon=0D;
 	
@@ -96,7 +95,7 @@ public class BPAGHTypeGovernor extends AnnotateGovernor{
 	            y0="mach.pm"	)
 	FilterControlBlock wFilterBlock;
 	    
-	    public BPAGHTypeGovernor() {
+	    public BpaGHTypeHydroGovernor() {
 	        this.setName("bpaGHTypeGovernor");
 	        this.setCategory("BPA");
 	    }
@@ -107,7 +106,7 @@ public class BPAGHTypeGovernor extends AnnotateGovernor{
 	     * @param id excitor id
 	     * @param name excitor name
 	     */
-	    public BPAGHTypeGovernor(String id, String name, String caty) {
+	    public BpaGHTypeHydroGovernor(String id, String name, String caty) {
 	        super(id, name, caty);
 	        // _data is defined in the parent class. However init it here is a MUST
 	        _data = new BPAGHTypeGovernorData();
