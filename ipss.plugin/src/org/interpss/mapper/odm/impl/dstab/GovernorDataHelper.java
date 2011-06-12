@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroTurbineXmlType;
 import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
@@ -31,6 +32,7 @@ import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.interpss.dstab.control.gov.GovernorObjectFactory;
+import org.interpss.dstab.control.gov.bpa.hydro.BpaGHTypeHydroGovernor;
 import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor;
 import org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor;
 import org.interpss.dstab.control.gov.ieee.steamTCSR.IeeeSteamTCSRGovernor;
@@ -62,6 +64,22 @@ public class GovernorDataHelper {
 		////////////////////////////////////////////
 		////    BPA           //////////////////////
 		////////////////////////////////////////////
+		
+		else if (govXmlRec instanceof GovBPAHydroTurbineGHXmlType) {
+			GovBPAHydroTurbineGHXmlType govXml = (GovBPAHydroTurbineGHXmlType)govXmlRec;
+			BpaGHTypeHydroGovernor gov = GovernorObjectFactory.createBPAGHTypeGovernor(mach.getId()+"_Gov", govXml.getName(), mach);						
+			gov.getData().setPmax(govXml.getPMAX());
+			
+			gov.getData().setR(govXml.getR());
+			gov.getData().setTg(govXml.getTG().getValue());
+			gov.getData().setTp(govXml.getTP().getValue());
+			gov.getData().setTd(govXml.getTd().getValue());			
+			gov.getData().setTw(govXml.getTwHalf().getValue()*2);
+			gov.getData().setVelClose(govXml.getVClose());
+			gov.getData().setVelOpen(govXml.getVOpen());
+			gov.getData().setDelta(govXml.getDd());
+			gov.getData().setEpsilon(govXml.getEpsilon());
+		}
 		
 		////////////////////////////////////////////
 		////    IEEE          //////////////////////
