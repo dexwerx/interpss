@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.GovBPAGsTbCombinedModelXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroTurbineXmlType;
 import org.ieee.odm.schema.GovSimpleTypeXmlType;
@@ -31,7 +32,11 @@ import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
+import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
+import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
+import org.ieee.odm.schema.TurbineModelXmlType;
 import org.interpss.dstab.control.gov.GovernorObjectFactory;
+import org.interpss.dstab.control.gov.bpa.gsTb.BpaGsTbCombineGovernor;
 import org.interpss.dstab.control.gov.bpa.hydro.BpaGHTypeHydroGovernor;
 import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor;
 import org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor;
@@ -79,6 +84,28 @@ public class GovernorDataHelper {
 			gov.getData().setVelOpen(govXml.getVOpen());
 			gov.getData().setDelta(govXml.getDd());
 			gov.getData().setEpsilon(govXml.getEpsilon());
+		}
+		else if (govXmlRec instanceof GovBPAGsTbCombinedModelXmlType) {
+			GovBPAGsTbCombinedModelXmlType govXml = (GovBPAGsTbCombinedModelXmlType)govXmlRec;
+			BpaGsTbCombineGovernor gov = GovernorObjectFactory.createBPAGsTbCombineGovernor(mach.getId()+"_Gov", govXml.getName(), mach);						
+			SpeedGovBPAGSModelXmlType spdGov =(SpeedGovBPAGSModelXmlType) govXml.getSpeedGov().getValue();
+			SteamTurbineBPATBModelXmlType tb=(SteamTurbineBPATBModelXmlType) govXml.getTurbine().getValue();
+			gov.getData().getGsData().setPmax(spdGov.getPmax());
+			gov.getData().getGsData().setPmin(spdGov.getPmin());
+			gov.getData().getGsData().setR(spdGov.getR());
+			gov.getData().getGsData().setT1(spdGov.getT1().getValue());
+			gov.getData().getGsData().setT2(spdGov.getT2().getValue());
+			gov.getData().getGsData().setT3(spdGov.getT3().getValue());
+			gov.getData().getGsData().setVelClose(spdGov.getVELCLOSE());
+			gov.getData().getGsData().setVelOpen(spdGov.getVELOPEN());
+			gov.getData().getGsData().setEpsilon(spdGov.getEpsilon());
+			gov.getData().getTbData().setFhp(tb.getFHP());
+			gov.getData().getTbData().setFip(tb.getFIP());
+			gov.getData().getTbData().setFlp(tb.getFLP());
+			gov.getData().getTbData().setTch(tb.getTCH().getValue());
+			gov.getData().getTbData().setTrh(tb.getTRH().getValue());
+			gov.getData().getTbData().setTco(tb.getTCO().getValue());
+			gov.getData().getTbData().setLambda(tb.getLambda());
 		}
 		
 		////////////////////////////////////////////
