@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.ODMObjectFactory;
@@ -21,6 +22,7 @@ import org.interpss.numeric.NumericConstant;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.junit.Test;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
@@ -90,18 +92,19 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	//@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-				new String[] { "testdata/bpa/07c.dat", 
-				               "testdata/bpa/07c_Mach_Exc.swi"}));//"testdata/bpa/07c_onlyMach.swi"
-		
-		DStabModelParser parser = (DStabModelParser)adapter.getModel();
+//		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
+//				new String[] { "testdata/bpa/07c.dat", 
+//				               "testdata/bpa/07c_onlyMach_xq.swi"}));//"testdata/bpa/07c_onlyMach.swi"
+		assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
+		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		
 		//parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc_0609.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_lf.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
+		/*
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
@@ -110,6 +113,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		}	
 		
 		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
+	
 		
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
@@ -119,11 +123,19 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		if (dstabAlgo.getSolver().initialization()) {
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation(msg);
-		}		
+		}
+		*/		
 	}
 	@Test
-	public void sys2010_XMLtestCase() throws Exception {
-		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc_0609.xml");
+	public void sys2010_XmlDstabtestCase() throws Exception {
+		/*
+		 * test data:
+		 * 1) only machine: 07c_2010_OnlyMach.xml
+		 * 2) machine and exciter: 07c_2010_Mach_Exc_0609.xml
+		 * 
+		 */
+		
+		File file = new File("testData/ieee_odm/07c_2010_OnlyMach.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -135,18 +147,82 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				return;
 			}
 			 DStabilityNetwork net = simuCtx.getDStabilityNet();
-			 setDynamicEventData(net);
+			 assertTrue(net.checkData());
+			 assertTrue(net.getBranchList().size()==308);
+			 assertTrue(net.getBusList().size()==141);
+			 
+			 //System.out.println(net.net2String());
+			 /*
+			 //setDynamicEventData(net);
+			 FileOutputStream out=new FileOutputStream(new File("d:/07c_2010_OnlyMach_netString.txt"));
+				out.write(net.net2String().getBytes());
+				out.flush();
+				out.close();
+			 
+			  
+			 System.out.println(AclfOutFunc.loadFlowSummary(net));
+			 */
 			 DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
+				/*
+				 * Run Loadflow
+				 */
+				LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+				aclfAlgo.loadflow();
+				System.out.println(AclfOutFunc.loadFlowSummary(net));
 				
+				
+				dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
 				dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 				dstabAlgo.setSimuStepSec(0.01);
-				dstabAlgo.setTotalSimuTimeSec(1);
-				
+				dstabAlgo.setTotalSimuTimeSec(0.02);
+				IpssLogger.getLogger().setLevel(Level.INFO);
 				dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 				if (dstabAlgo.getSolver().initialization()) {
 					System.out.println("Running DStab simulation ...");
 					assertTrue(dstabAlgo.performSimulation(msg));
 				}		
+		}
+      
+	}
+	
+	@Test
+	public void sys2010_XmlLftestCase() throws Exception {
+		/*
+		 * lf test data:
+		 * 1) 07c_2010_OnlyMach_lf.xml
+		 */
+		
+		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_lf.xml");
+		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
+		if (parser.parse(new FileInputStream(file))) {
+			//System.out.println(parser.toXmlDoc(false));
+
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+			if (!new ODMAclfDataMapper(msg)
+						.map2Model(parser, simuCtx)) {
+				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+				return;
+			}
+			
+			 AclfNetwork net=simuCtx.getAclfNet();
+			 assertTrue(net.checkData());
+			 assertTrue(net.getBranchList().size()==308);
+			 assertTrue(net.getBusList().size()==141);
+			 //System.out.println(net.net2String());
+			/*
+			 FileOutputStream out=new FileOutputStream(new File("d:/07c_2010_OnlyMach_netString.txt"));
+				out.write(net.net2String().getBytes());
+				out.flush();
+				out.close();
+			 */
+			  
+				/*
+				 * Run Loadflow
+				 */
+			
+				LoadflowAlgorithm aclfAlgo =CoreObjectFactory.createLoadflowAlgorithm(net);
+				aclfAlgo.loadflow();
+				System.out.println(AclfOutFunc.loadFlowSummary(net));
 		}
       
 	}
