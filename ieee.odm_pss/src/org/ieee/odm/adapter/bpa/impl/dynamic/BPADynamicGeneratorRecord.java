@@ -196,7 +196,7 @@ public class BPADynamicGeneratorRecord {
     		}
     		else mach=DStabParserHelper.createEq1Ed1Machine(dynGen);
     		
-            //TODO can such object creation overlap the existing Machine created before?
+      
     		if(isSubTransientModel(busId)){
     			if(isSalient) mach = DStabParserHelper.createEq11Machine(dynGen);
     			else mach=DStabParserHelper.createEq11Ed11Machine(dynGen);
@@ -272,6 +272,7 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[15].contains(".")){
     			xl=xl/10000;
     		}
+    		if(xl<1E-6) xl=0.95*xd1;// set a default value, also a BPA approach.
 			mach.setXl(xl); 
     			    		
     		Eq1MachineXmlType.SeFmt1 seFmt1 = DStabParserHelper.createMachineSeFmt1();
