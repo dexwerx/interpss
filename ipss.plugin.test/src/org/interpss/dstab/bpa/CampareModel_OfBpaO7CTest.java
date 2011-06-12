@@ -58,8 +58,13 @@ public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 			
 			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
 			
+			System.out.println("LF Net as the base net for comparison");
 			new NetModelComparator(baseNet)
 					.compare(dstabNet, false, netCompRules, busCompRules, branchCompRules);
+
+			System.out.println("DStab Net as the base net for comparison");
+			new NetModelComparator(dstabNet)
+				.compare(baseNet, false, netCompRules, busCompRules, branchCompRules);
 		}
 	}
 
