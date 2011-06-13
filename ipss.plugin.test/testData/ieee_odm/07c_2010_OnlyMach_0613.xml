@@ -6620,7 +6620,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus110_to_Bus109_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus109"/>
+                <fromBus idRef="Bus110"/>
                 <toBus idRef="Bus109"/>
                 <z unit="PU" im="0.11913" re="0.01547"/>
                 <ratingLimit/>
@@ -6631,7 +6631,7 @@
             </dstabLine>
             <dstabLine circuitId="3" id="Bus99_to_Bus86_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus86"/>
+                <fromBus idRef="Bus99"/>
                 <toBus idRef="Bus86"/>
                 <z unit="PU" im="0.05959" re="0.0024"/>
                 <ratingLimit/>
@@ -6642,7 +6642,7 @@
             </dstabLine>
             <dstabLine circuitId="3" id="Bus105_to_Bus89_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus89"/>
+                <fromBus idRef="Bus105"/>
                 <toBus idRef="Bus89"/>
                 <z unit="PU" im="0.0903" re="0.00454"/>
                 <ratingLimit/>
@@ -6675,7 +6675,7 @@
             </dstabLine>
             <dstabLine circuitId="3" id="Bus137_to_Bus125_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus125"/>
+                <fromBus idRef="Bus137"/>
                 <toBus idRef="Bus125"/>
                 <z unit="PU" im="0.12205" re="0.0062"/>
                 <ratingLimit/>
@@ -6708,7 +6708,7 @@
             </dstabLine>
             <dstabLine circuitId="3" id="Bus47_to_Bus31_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus31"/>
+                <fromBus idRef="Bus47"/>
                 <toBus idRef="Bus31"/>
                 <z unit="PU" im="0.02128" re="0.0"/>
                 <ratingLimit/>
@@ -6719,7 +6719,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus42_to_Bus21_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus21"/>
+                <fromBus idRef="Bus42"/>
                 <toBus idRef="Bus21"/>
                 <z unit="PU" im="0.01814" re="0.00136"/>
                 <ratingLimit/>
@@ -6741,7 +6741,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus42_to_Bus23_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus23"/>
+                <fromBus idRef="Bus42"/>
                 <toBus idRef="Bus23"/>
                 <z unit="PU" im="0.03846" re="0.00289"/>
                 <ratingLimit/>
@@ -6752,7 +6752,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus49_to_Bus24_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus24"/>
+                <fromBus idRef="Bus49"/>
                 <toBus idRef="Bus24"/>
                 <z unit="PU" im="0.02679" re="0.0"/>
                 <ratingLimit/>
@@ -6786,7 +6786,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus25_to_Bus40_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus40"/>
+                <fromBus idRef="Bus25"/>
                 <toBus idRef="Bus40"/>
                 <z unit="PU" im="0.12108" re="0.01213"/>
                 <ratingLimit/>
@@ -6808,7 +6808,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus3_to_Bus1_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus1"/>
+                <fromBus idRef="Bus3"/>
                 <toBus idRef="Bus1"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -6819,7 +6819,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus10_to_Bus9_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus9"/>
+                <fromBus idRef="Bus10"/>
                 <toBus idRef="Bus9"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -6830,7 +6830,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus11_to_Bus102_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus102"/>
+                <fromBus idRef="Bus11"/>
                 <toBus idRef="Bus102"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -6841,7 +6841,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus14_to_Bus12_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus12"/>
+                <fromBus idRef="Bus14"/>
                 <toBus idRef="Bus12"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -6852,7 +6852,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus16_to_Bus15_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus15"/>
+                <fromBus idRef="Bus16"/>
                 <toBus idRef="Bus15"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -7034,7 +7034,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus46_to_Bus30_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus30"/>
+                <fromBus idRef="Bus46"/>
                 <toBus idRef="Bus30"/>
                 <z unit="PU" im="0.04454" re="0.0"/>
                 <ratingLimit/>

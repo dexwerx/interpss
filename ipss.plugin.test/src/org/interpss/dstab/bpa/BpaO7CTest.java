@@ -92,15 +92,16 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	//@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-//		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-//				new String[] { "testdata/bpa/07c.dat", 
-//				               "testdata/bpa/07c_onlyMach_xq.swi"}));//"testdata/bpa/07c_onlyMach.swi"
-		assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
-		AclfModelParser parser = (AclfModelParser)adapter.getModel();
+		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
+				new String[] { "testdata/bpa/07c.dat", 
+				               "testdata/bpa/07c_onlyMach_xq.swi"}));//"testdata/bpa/07c_onlyMach.swi"
+		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
+		DStabModelParser parser=(DStabModelParser) adapter.getModel();
+		//AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		
 		//parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_lf.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_0613.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
@@ -129,14 +130,14 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	
 	/***************************************************
 	 * test data:
-	 * 1) only machine: 07c_2010_OnlyMach.xml
+	 * 1) only machine: 07c_2010_OnlyMach_0613.xml
 	 * 2) machine and exciter: 07c_2010_Mach_Exc_0609.xml
 	 * 
 	 */
 	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
-		File file = new File("testData/ieee_odm/07c_2010_OnlyMach.xml");
+		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_0613.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -168,7 +169,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				 * Run Loadflow
 				 */
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-			aclfAlgo.loadflow();
+			assertTrue(aclfAlgo.loadflow());
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 				
 /*				
@@ -194,7 +195,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 * Status:
 	 * 06/12 Mike : Lf run can converge
 	 */
-	@Test
+	//@Test
 	public void sys2010_XmlLftestCase() throws Exception {
 		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_lf.xml");
 		AclfModelParser parser = ODMObjectFactory.createAclfModelParser();
