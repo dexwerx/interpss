@@ -214,19 +214,19 @@ public class ModelStringUtil {
 	/**
 	 * casting branch objects
 	 * 
-	 * @param fromBranch from branch object
+	 * @param fromBranch from branch object, it has to be an AclfBranch object
 	 * @param fromType
 	 * @param toType
 	 * @return
 	 * @throws Exception
 	 */
-	public static BranchXmlType casting(BranchXmlType fromBranch, String fromType, String toType) throws ODMException {
-		AclfModelParser parser = new AclfModelParser();
+	public static BranchXmlType casting(BranchXmlType fromBranch, String fromType, String toType, String encoding) throws ODMException {
+		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.getAclfNet().getBranchList().getBranch().add(BaseJaxbHelper.branch(fromBranch));
 		String braStr = parser.toXmlDoc(true)
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
-		parser = new AclfModelParser();
+		parser = new AclfModelParser(encoding);
 		parser.parse(braStr);
 		BranchXmlType toBranch = (BranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
 		toBranch.setFromBus(fromBranch.getFromBus());
@@ -237,19 +237,19 @@ public class ModelStringUtil {
 	/**
 	 * casting bus objects
 	 * 
-	 * @param from from bus object
+	 * @param from from bus object. It has to be AclfBus object
 	 * @param fromType
 	 * @param toType
 	 * @return
 	 * @throws Exception
 	 */
-	public static BusXmlType casting(BusXmlType from, String fromType, String toType) throws ODMException {
-		AclfModelParser parser = new AclfModelParser(IODMModelParser.chineseEncoding);
+	public static BusXmlType casting(BusXmlType from, String fromType, String toType, String encoding) throws ODMException {
+		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.getAclfNet().getBusList().getBus().add(BaseJaxbHelper.bus(from));
 		String busStr = parser.toXmlDoc(true)
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
-		parser = new AclfModelParser(IODMModelParser.chineseEncoding);
+		parser = new AclfModelParser(encoding);
 		parser.parse(busStr);
 		return (BusXmlType)parser.getAclfNet().getBusList().getBus().get(0).getValue();
 	}	
