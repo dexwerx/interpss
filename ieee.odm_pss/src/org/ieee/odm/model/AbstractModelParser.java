@@ -65,7 +65,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	// add "Bus" pre-fix to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
 	
-	private String encoding = IODMModelParser.defaultEncoding;
+	protected String encoding = IODMModelParser.defaultEncoding;
+	public String getEncoding() { return this.encoding; }
 	
 	/*
 	 *	property definition
