@@ -66,12 +66,30 @@ public class BPADynamicSequenceRecord {
 				cirId=strAry[6];				
 			}
 			XfrDStabXmlType xfr=null;
-			if(parser.getBranch(fromId, toId, cirId)!=null)
+			BusRefRecordXmlType fromBusRef=null;
+	    	BusRefRecordXmlType toBusRef=null;
+	    	/*
+	    	 * BPA Branch data does NOT have a strict requirement of the sequence fromId and toId, 
+	    	 * it seems that an exchange of them is also supported, namely,"fromId-to-toId" and "toId-to-fromId" are the same in BPA.
+	    	 * The following processing is to consider this kind of special case.
+	    	 */
+	    	if(parser.getBranch(fromId, toId, cirId)!=null){
 			     xfr =parser.getDStabXfr(fromId, toId, cirId);
-			else if (parser.getBranch(toId, fromId, cirId)!=null)
-				 xfr =parser.getDStabXfr(toId, fromId, cirId);
+			     fromBusRef=parser.createBusRef(fromId);
+			     toBusRef=parser.createBusRef(toId);
+			     }
+	    	
+			else if (parser.getBranch(toId, fromId, cirId)!=null){
+				xfr =parser.getDStabXfr(toId, fromId, cirId);
+			     fromBusRef=parser.createBusRef(toId);
+			     toBusRef=parser.createBusRef(fromId);
+			     }
 			else throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "-" + toId + "(" + cirId + ")");
-			
+	    	
+	    	
+	    	xfr.setFromBus(fromBusRef);
+	    	xfr.setToBus(toBusRef);
+	    	
 			TransformerZeroSeqXmlType xfrZeroSeq =new TransformerZeroSeqXmlType();
 			int location= new Integer(strAry[5]).intValue();
 			if(location==1){
@@ -121,17 +139,31 @@ public class BPADynamicSequenceRecord {
 				cirId=strAry[6];				
 			}
 	    	LineDStabXmlType line =null;
-	    	
-	    	if(parser.getBranch(fromId, toId, cirId)!=null)
+	    	BusRefRecordXmlType fromBusRef=null;
+	    	BusRefRecordXmlType toBusRef=null;
+	    	/*
+	    	 * BPA Branch data does NOT have a strict requirement of sequence of  fromId and toId, 
+	    	 * it seems that an exchange of them is also supported.
+	    	 * The following processing is to consider this kind of special case.
+	    	 */
+	    	if(parser.getBranch(fromId, toId, cirId)!=null){
 			     line =parser.getDStabLine(fromId, toId, cirId);
-			else if (parser.getBranch(toId, fromId, cirId)!=null)
+			     fromBusRef=parser.createBusRef(fromId);
+			     toBusRef=parser.createBusRef(toId);
+			     }
+	    	
+			else if (parser.getBranch(toId, fromId, cirId)!=null){
 				 line =parser.getDStabLine(toId, fromId, cirId);
+			     fromBusRef=parser.createBusRef(toId);
+			     toBusRef=parser.createBusRef(fromId);
+			     }
 			else throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "-" + toId + "(" + cirId + ")");
 	    	//parser.getDStabLine(fromId, toId, cirId);
 			//TODO can't set the rated voltage of frombus and tobus .When we get the branch,these info have been included?
 	    	
-	    	BusRefRecordXmlType frombr=parser.createBusRef(fromId);
-	    	line.setFromBus(frombr);
+	    	line.setFromBus(fromBusRef);
+	    	line.setToBus(toBusRef);
+
 	    	
 			//Z0			
 			double r0=ModelStringUtil.getDouble(strAry[7], 0.0);
