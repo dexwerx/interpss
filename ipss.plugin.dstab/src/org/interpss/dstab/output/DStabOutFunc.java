@@ -43,8 +43,8 @@ import com.interpss.dstab.mach.MachineType;
 
 public class DStabOutFunc {
 	public static String getStateTitleStr() {
-		String str = "Time      MachId       Angle        Speed          Pe           Pm        Voltage        E/Eq1        Efd        Vs(pss)\n"
-				+ "-----   ----------   ----------   ----------   ----------   ----------   ----------   ----------   ----------   ----------";
+		String str = "Time        MachId         Angle        Speed          Pe           Pm        Voltage        E/Eq1        Efd        Vs(pss)\n"
+				   + "-----    -------------   ----------   ----------   ----------   ----------   ----------   ----------   ----------   ----------";
 		return str;
 	}
 
@@ -62,9 +62,9 @@ public class DStabOutFunc {
 						.doubleValue();
 		str += Number2String.toStr("00.000", time) + " ";
 
-		str += Number2String.toStr(10, (String) table
+		str += Number2String.toStr(15, (String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_ID))
-				+ "   ";
+				+ " ";
 
 		double angle = strFmt ? new Double((String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_ANG)).doubleValue()
