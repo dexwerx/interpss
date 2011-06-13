@@ -300,6 +300,23 @@
                             <xq11>0.0038</xq11>
                             <Tq011 unit="Sec" value="0.3653"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.03"/>
+                            <Ka>50.0</Ka>
+                            <Ta unit="Sec" value="0.05"/>
+                            <Vrmax>5.48</Vrmax>
+                            <Vrmin>-4.65</Vrmin>
+                            <VIMAX>10.0</VIMAX>
+                            <VIMIN>-10.0</VIMIN>
+                            <TB unit="Sec" value="0.2"/>
+                            <TC unit="Sec" value="0.2"/>
+                            <KF>0.01</KF>
+                            <TF unit="Sec" value="0.5"/>
+                            <KC>0.1</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -336,9 +353,9 @@
                             <xd1>0.0046</xd1>
                             <Td01 unit="Sec" value="8.55"/>
                             <seFmt1>
-<se100>6.93</se100>
-<se120>28.499999999999996</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0087</xq1>
                             <Tq01 unit="Sec" value="1.6"/>
@@ -347,6 +364,23 @@
                             <xq11>0.0033</xq11>
                             <Tq011 unit="Sec" value="0.2803"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.01"/>
+                            <Ka>0.1</Ka>
+                            <Ta unit="Sec" value="0.02"/>
+                            <Vrmax>8.4</Vrmax>
+                            <Vrmin>0.0</Vrmin>
+                            <VIMAX>28.4</VIMAX>
+                            <VIMIN>-25.0</VIMIN>
+                            <TB unit="Sec" value="0.02"/>
+                            <TC unit="Sec" value="0.125"/>
+                            <KF>0.1</KF>
+                            <TF unit="Sec" value="1.0"/>
+                            <KC>0.12</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -383,9 +417,9 @@
                             <xd1>0.0042</xd1>
                             <Td01 unit="Sec" value="6.43"/>
                             <seFmt1>
-<se100>6.04</se100>
-<se120>28.9</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0096</xq1>
                             <Tq01 unit="Sec" value="1.09"/>
@@ -394,6 +428,23 @@
                             <xq11>0.0034</xq11>
                             <Tq011 unit="Sec" value="0.2073"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.03"/>
+                            <Ka>12.4</Ka>
+                            <Ta unit="Sec" value="0.03"/>
+                            <Vrmax>3.72</Vrmax>
+                            <Vrmin>0.0</Vrmin>
+                            <VIMAX>3.72</VIMAX>
+                            <VIMIN>0.0</VIMIN>
+                            <TB unit="Sec" value="0.0"/>
+                            <TC unit="Sec" value="0.0"/>
+                            <KF>0.1</KF>
+                            <TF unit="Sec" value="1.0"/>
+                            <KC>0.12</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -441,6 +492,23 @@
                             <xq11>0.2638</xq11>
                             <Tq011 unit="Sec" value="0.174"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.03"/>
+                            <Ka>20.0</Ka>
+                            <Ta unit="Sec" value="0.05"/>
+                            <Vrmax>5.56</Vrmax>
+                            <Vrmin>-4.73</Vrmin>
+                            <VIMAX>10.0</VIMAX>
+                            <VIMIN>-10.0</VIMIN>
+                            <TB unit="Sec" value="0.2"/>
+                            <TC unit="Sec" value="0.2"/>
+                            <KF>0.01</KF>
+                            <TF unit="Sec" value="0.5"/>
+                            <KC>0.1</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -477,9 +545,9 @@
                             <xd1>0.0035</xd1>
                             <Td01 unit="Sec" value="6.61"/>
                             <seFmt1>
-<se100>4.04</se100>
-<se120>12.3</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0058</xq1>
                             <Tq01 unit="Sec" value="1.14"/>
@@ -571,9 +639,9 @@
                             <xd1>0.0027</xd1>
                             <Td01 unit="Sec" value="4.67"/>
                             <seFmt1>
-<se100>1.55</se100>
-<se120>4.7</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0051</xq1>
                             <Tq01 unit="Sec" value="1.45"/>
@@ -629,6 +697,23 @@
                             <xq11>0.0189</xq11>
                             <Tq011 unit="Sec" value="0.3467"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.0"/>
+                            <KA>40.0</KA>
+                            <VRMAX>8.25</VRMAX>
+                            <VRMIN>-8.25</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="2.0"/>
+                            <KF>0.03</KF>
+                            <TF unit="Sec" value="0.35"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>5.5</E1>
+                            <SE1>0.86</SE1>
+                            <E2>4.125</E2>
+                            <SE2>0.5</SE2>
+                            <TA unit="Sec" value="0.05"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -665,9 +750,9 @@
                             <xd1>0.0165</xd1>
                             <Td01 unit="Sec" value="5.05"/>
                             <seFmt1>
-<se100>6.88</se100>
-<se120>20.599999999999998</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0266</xq1>
                             <Tq01 unit="Sec" value="3.84"/>
@@ -723,6 +808,23 @@
                             <xq11>0.0054</xq11>
                             <Tq011 unit="Sec" value="0.6441"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.0"/>
+                            <KA>40.0</KA>
+                            <VRMAX>8.25</VRMAX>
+                            <VRMIN>-8.25</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="2.0"/>
+                            <KF>0.03</KF>
+                            <TF unit="Sec" value="0.35"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>5.5</E1>
+                            <SE1>0.86</SE1>
+                            <E2>4.125</E2>
+                            <SE2>0.5</SE2>
+                            <TA unit="Sec" value="0.05"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -770,6 +872,23 @@
                             <xq11>0.0168</xq11>
                             <Tq011 unit="Sec" value="0.5725"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.0"/>
+                            <KA>40.0</KA>
+                            <VRMAX>8.25</VRMAX>
+                            <VRMIN>-8.25</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="2.0"/>
+                            <KF>0.03</KF>
+                            <TF unit="Sec" value="0.35"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>5.5</E1>
+                            <SE1>0.86</SE1>
+                            <E2>4.125</E2>
+                            <SE2>0.5</SE2>
+                            <TA unit="Sec" value="0.05"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -817,6 +936,23 @@
                             <xq11>0.0063</xq11>
                             <Tq011 unit="Sec" value="0.1607"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.03"/>
+                            <Ka>50.0</Ka>
+                            <Ta unit="Sec" value="0.05"/>
+                            <Vrmax>5.48</Vrmax>
+                            <Vrmin>-4.65</Vrmin>
+                            <VIMAX>10.0</VIMAX>
+                            <VIMIN>-10.0</VIMIN>
+                            <TB unit="Sec" value="0.2"/>
+                            <TC unit="Sec" value="0.2"/>
+                            <KF>0.01</KF>
+                            <TF unit="Sec" value="0.5"/>
+                            <KC>0.1</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -853,9 +989,9 @@
                             <xd1>0.0080</xd1>
                             <Td01 unit="Sec" value="8.14"/>
                             <seFmt1>
-<se100>11.14</se100>
-<se120>33.4</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0122</xq1>
                             <Tq01 unit="Sec" value="0.87"/>
@@ -911,6 +1047,23 @@
                             <xq11>0.0105</xq11>
                             <Tq011 unit="Sec" value="0.0898"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>20.0</KA>
+                            <VRMAX>5.10024</VRMAX>
+                            <VRMIN>-5.10024</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.65"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.715"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>4.74</E1>
+                            <SE1>0.297</SE1>
+                            <E2>3.555</E2>
+                            <SE2>0.076</SE2>
+                            <TA unit="Sec" value="0.03"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -955,6 +1108,23 @@
                             <xd11>0.222</xd11>
                             <Td011 unit="Sec" value="0.1"/>
                         </eq11MachModel>
+                        <excBPATypeFJ>
+                            <desc>BPA FJ Type Exciter, excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.0020"/>
+                            <Ka>330.0</Ka>
+                            <Ta unit="Sec" value="0.02"/>
+                            <Vrmax>5.3</Vrmax>
+                            <Vrmin>-3.6</Vrmin>
+                            <EFDMAX>4.8</EFDMAX>
+                            <EFDMIN>-3.0</EFDMIN>
+                            <TB unit="Sec" value="15.0"/>
+                            <TC unit="Sec" value="1.0"/>
+                            <KF>1.0E-4</KF>
+                            <TF unit="Sec" value="100.0"/>
+                            <KC>0.1</KC>
+                        </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -999,6 +1169,23 @@
                             <xd11>0.222</xd11>
                             <Td011 unit="Sec" value="0.1"/>
                         </eq11MachModel>
+                        <excBPATypeFJ>
+                            <desc>BPA FJ Type Exciter, excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.0020"/>
+                            <Ka>330.0</Ka>
+                            <Ta unit="Sec" value="0.02"/>
+                            <Vrmax>5.3</Vrmax>
+                            <Vrmin>-3.6</Vrmin>
+                            <EFDMAX>4.8</EFDMAX>
+                            <EFDMIN>-3.0</EFDMIN>
+                            <TB unit="Sec" value="15.0"/>
+                            <TC unit="Sec" value="1.0"/>
+                            <KF>1.0E-4</KF>
+                            <TF unit="Sec" value="100.0"/>
+                            <KC>0.1</KC>
+                        </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1035,9 +1222,9 @@
                             <xd1>0.0132</xd1>
                             <Td01 unit="Sec" value="8.14"/>
                             <seFmt1>
-<se100>4.18</se100>
-<se120>11.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0277</xq1>
                             <Tq01 unit="Sec" value="0.48"/>
@@ -1046,6 +1233,23 @@
                             <xq11>0.0091</xq11>
                             <Tq011 unit="Sec" value="0.1411"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.02"/>
+                            <Ka>58.37</Ka>
+                            <Ta unit="Sec" value="0.03"/>
+                            <Vrmax>6.06</Vrmax>
+                            <Vrmin>-4.15</Vrmin>
+                            <VIMAX>6.06</VIMAX>
+                            <VIMIN>-4.15</VIMIN>
+                            <TB unit="Sec" value="0.0"/>
+                            <TC unit="Sec" value="0.0"/>
+                            <KF>0.0</KF>
+                            <TF unit="Sec" value="0.0"/>
+                            <KC>0.2</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1082,9 +1286,9 @@
                             <xd1>0.0133</xd1>
                             <Td01 unit="Sec" value="9.45"/>
                             <seFmt1>
-<se100>4.3</se100>
-<se120>11.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0291</xq1>
                             <Tq01 unit="Sec" value="14.0"/>
@@ -1093,6 +1297,23 @@
                             <xq11>0.0090</xq11>
                             <Tq011 unit="Sec" value="0.0846"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1981ST1>
+                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.0"/>
+                            <Ka>20.0</Ka>
+                            <Ta unit="Sec" value="0.03"/>
+                            <Vrmax>5.3</Vrmax>
+                            <Vrmin>-5.11</Vrmin>
+                            <VIMAX>5.3</VIMAX>
+                            <VIMIN>-5.11</VIMIN>
+                            <TB unit="Sec" value="0.0"/>
+                            <TC unit="Sec" value="0.0"/>
+                            <KF>0.0</KF>
+                            <TF unit="Sec" value="0.0"/>
+                            <KC>0.14</KC>
+                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1123,9 +1344,9 @@
                             <xd1>0.0040</xd1>
                             <Td01 unit="Sec" value="9.6"/>
                             <seFmt1>
-<se100>7.4399999999999995</se100>
-<se120>29.799999999999997</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0084</xq1>
                             <Tq01 unit="Sec" value="2.79"/>
@@ -1134,6 +1355,23 @@
                             <xq11>0.0033</xq11>
                             <Tq011 unit="Sec" value="0.1472"/>
                         </eq11Ed11MachModel>
+                        <excBPATypeFJ>
+                            <desc>BPA FJ Type Exciter, excId-1</desc>
+                            <loadRc>0.0</loadRc>
+                            <loadXc>0.0</loadXc>
+                            <transTr unit="Sec" value="0.0"/>
+                            <Ka>30.0</Ka>
+                            <Ta unit="Sec" value="0.04"/>
+                            <Vrmax>5.0</Vrmax>
+                            <Vrmin>-5.0</Vrmin>
+                            <EFDMAX>4.03</EFDMAX>
+                            <EFDMIN>-3.22</EFDMIN>
+                            <TB unit="Sec" value="0.01"/>
+                            <TC unit="Sec" value="0.01"/>
+                            <KF>0.01</KF>
+                            <TF unit="Sec" value="0.7"/>
+                            <KC>0.1</KC>
+                        </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1181,6 +1419,23 @@
                             <xq11>0.0087</xq11>
                             <Tq011 unit="Sec" value="0.1364"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>20.0</KA>
+                            <VRMAX>5.380000000000001</VRMAX>
+                            <VRMIN>-5.380000000000001</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.65"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.715"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>5.0</E1>
+                            <SE1>0.297</SE1>
+                            <E2>3.75</E2>
+                            <SE2>0.076</SE2>
+                            <TA unit="Sec" value="0.03"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1228,6 +1483,23 @@
                             <xq11>0.0367</xq11>
                             <Tq011 unit="Sec" value="0.1196"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>50.0</KA>
+                            <VRMAX>2.148</VRMAX>
+                            <VRMIN>-2.148</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.5"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.715"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>2.0</E1>
+                            <SE1>0.267</SE1>
+                            <E2>1.5</E2>
+                            <SE2>0.074</SE2>
+                            <TA unit="Sec" value="0.03"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1273,6 +1545,23 @@
                             <xd11>0.0376</xd11>
                             <Td011 unit="Sec" value="0.07"/>
                         </eq11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.02"/>
+                            <KA>25.0</KA>
+                            <VRMAX>5.49</VRMAX>
+                            <VRMIN>-5.49</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.5"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.715"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>4.5</E1>
+                            <SE1>0.95</SE1>
+                            <E2>3.375</E2>
+                            <SE2>0.22</SE2>
+                            <TA unit="Sec" value="0.03"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1320,6 +1609,23 @@
                             <xq11>0.0051</xq11>
                             <Tq011 unit="Sec" value="0.1305"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>20.0</KA>
+                            <VRMAX>5.0478000000000005</VRMAX>
+                            <VRMIN>-5.0478000000000005</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.65"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.715"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>4.7</E1>
+                            <SE1>0.267</SE1>
+                            <E2>3.5250000000000004</E2>
+                            <SE2>0.074</SE2>
+                            <TA unit="Sec" value="0.03"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1348,7 +1654,7 @@
                         <qContributionPercent>100.0</qContributionPercent>
                         <eq11Ed11MachModel>
                             <H>31.103</H>
-                            <D>0.0</D>
+                            <D>0.08</D>
                             <xl>0.0017</xl>
                             <ra>0.0</ra>
                             <xd>0.147</xd>
@@ -1356,9 +1662,9 @@
                             <xd1>0.0256</xd1>
                             <Td01 unit="Sec" value="4.95"/>
                             <seFmt1>
-<se100>1.77</se100>
-<se120>6.4</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0476</xq1>
                             <Tq01 unit="Sec" value="5.29"/>
@@ -1367,6 +1673,23 @@
                             <xq11>0.0182</xq11>
                             <Tq011 unit="Sec" value="0.1402"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>20.0</KA>
+                            <VRMAX>5.37</VRMAX>
+                            <VRMIN>-5.37</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.25"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.715"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>5.0</E1>
+                            <SE1>0.267</SE1>
+                            <E2>3.75</E2>
+                            <SE2>0.074</SE2>
+                            <TA unit="Sec" value="0.03"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1403,9 +1726,9 @@
                             <xd1>0.0112</xd1>
                             <Td01 unit="Sec" value="7.62"/>
                             <seFmt1>
-<se100>7.9799999999999995</se100>
-<se120>21.3</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0245</xq1>
                             <Tq01 unit="Sec" value="5.1"/>
@@ -1414,6 +1737,23 @@
                             <xq11>0.0081</xq11>
                             <Tq011 unit="Sec" value="0.0617"/>
                         </eq11Ed11MachModel>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>30.0</KA>
+                            <VRMAX>3.7800000000000002</VRMAX>
+                            <VRMIN>-3.7800000000000002</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.5"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.75"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>3.5</E1>
+                            <SE1>0.3</SE1>
+                            <E2>2.625</E2>
+                            <SE2>0.08</SE2>
+                            <TA unit="Sec" value="0.05"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1450,9 +1790,9 @@
                             <xd1>0.0039</xd1>
                             <Td01 unit="Sec" value="7.19"/>
                             <seFmt1>
-<se100>8.62</se100>
-<se120>21.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0090</xq1>
                             <Tq01 unit="Sec" value="1.61"/>
@@ -1487,7 +1827,7 @@
                         <ratedVoltage unit="KV" value="20.0"/>
                         <pContributionPercent>100.0</pContributionPercent>
                         <qContributionPercent>100.0</qContributionPercent>
-                        <eq11Ed11MachModel>
+                        <eq1Ed1MachModel>
                             <H>5.3162</H>
                             <D>0.0</D>
                             <xl>0.1787</xl>
@@ -1497,17 +1837,13 @@
                             <xd1>0.2564</xd1>
                             <Td01 unit="Sec" value="7.47"/>
                             <seFmt1>
-<se100>12.61</se100>
-<se120>34.599999999999994</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.5413</xq1>
                             <Tq01 unit="Sec" value="2.24"/>
-                            <xd11>0.1891</xd11>
-                            <Td011 unit="Sec" value="0.0964"/>
-                            <xq11>0.2072</xq11>
-                            <Tq011 unit="Sec" value="0.4644"/>
-                        </eq11Ed11MachModel>
+                        </eq1Ed1MachModel>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1591,9 +1927,9 @@
                             <xd1>0.0079</xd1>
                             <Td01 unit="Sec" value="6.7"/>
                             <seFmt1>
-<se100>18.509999999999998</se100>
-<se120>56.49999999999999</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0132</xq1>
                             <Tq01 unit="Sec" value="1.8"/>
@@ -1638,9 +1974,9 @@
                             <xd1>0.0101</xd1>
                             <Td01 unit="Sec" value="6.7"/>
                             <seFmt1>
-<se100>18.3</se100>
-<se120>55.50000000000001</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0171</xq1>
                             <Tq01 unit="Sec" value="1.8"/>
@@ -1679,9 +2015,9 @@
                             <xd1>0.33</xd1>
                             <Td01 unit="Sec" value="12.1"/>
                             <seFmt1>
-<se100>15.0</se100>
-<se120>40.0</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.2</xq1>
                             <Tq01 unit="Sec" value="0.09"/>
@@ -1720,9 +2056,9 @@
                             <xd1>0.305</xd1>
                             <Td01 unit="Sec" value="12.6"/>
                             <seFmt1>
-<se100>10.0</se100>
-<se120>40.0</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.6</xq1>
                             <Tq01 unit="Sec" value="0.06"/>
@@ -1767,9 +2103,9 @@
                             <xd1>0.0077</xd1>
                             <Td01 unit="Sec" value="6.08"/>
                             <seFmt1>
-<se100>1.46</se100>
-<se120>4.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.014</xq1>
                             <Tq01 unit="Sec" value="29.0"/>
@@ -1814,9 +2150,9 @@
                             <xd1>0.0167</xd1>
                             <Td01 unit="Sec" value="6.31"/>
                             <seFmt1>
-<se100>18.04</se100>
-<se120>80.7</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0324</xq1>
                             <Tq01 unit="Sec" value="1.55"/>
@@ -1861,9 +2197,9 @@
                             <xd1>0.0097</xd1>
                             <Td01 unit="Sec" value="5.67"/>
                             <seFmt1>
-<se100>5.25</se100>
-<se120>17.4</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0192</xq1>
                             <Tq01 unit="Sec" value="13.0"/>
@@ -1908,9 +2244,9 @@
                             <xd1>0.0082</xd1>
                             <Td01 unit="Sec" value="5.8"/>
                             <seFmt1>
-<se100>1.1900000000000002</se100>
-<se120>4.2</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq11>0.0076</xq11>
                             <Tq011 unit="Sec" value="0.2016"/>
@@ -2000,9 +2336,9 @@
                             <xd1>0.2903</xd1>
                             <Td01 unit="Sec" value="5.02"/>
                             <seFmt1>
-<se100>3.02</se100>
-<se120>10.6</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq11>0.2363</xq11>
                             <Tq011 unit="Sec" value="0.1074"/>
