@@ -115,10 +115,10 @@ public class DStabModelParser extends AclfModelParser {
 			if (!(bus instanceof DStabBusXmlType)) {
 				DStabBusXmlType dbus = null;
 				if (bus instanceof LoadflowBusXmlType) {
-					dbus = (DStabBusXmlType)ModelStringUtil.casting(bus, "aclfBus", "dstabBus");
+					dbus = (DStabBusXmlType)ModelStringUtil.casting(bus, "aclfBus", "dstabBus", this.encoding);
 				}
 				else if (bus instanceof ShortCircuitBusXmlType) {
-					dbus = (DStabBusXmlType)ModelStringUtil.casting(bus, "acscBus", "dstabBus");
+					dbus = (DStabBusXmlType)ModelStringUtil.casting(bus, "acscBus", "dstabBus", this.encoding);
 				}
 				else
 					throw new ODMException("Bus not found in the DStabNet, id: " + id);
@@ -152,10 +152,10 @@ public class DStabModelParser extends AclfModelParser {
 				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 				LineDStabXmlType dbra = null;
 				if (branch instanceof LineBranchXmlType) {
-					dbra = (LineDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfLine", "dstabLine");
+					dbra = (LineDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfLine", "dstabLine", this.encoding);
 				}
 				else if (branch instanceof LineShortCircuitXmlType) {
-					dbra = (LineDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscLine", "dstabLine");
+					dbra = (LineDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscLine", "dstabLine", this.encoding);
 				}
 				else
 					throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
@@ -184,10 +184,10 @@ public class DStabModelParser extends AclfModelParser {
 				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 				XfrDStabXmlType dbra = null;
 				if (branch instanceof XfrBranchXmlType) {
-					dbra = (XfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfXfr", "dstabXfr");
+					dbra = (XfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfXfr", "dstabXfr", this.encoding);
 				}
 				else if (branch instanceof XfrShortCircuitXmlType) {
-					dbra = (XfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscXfr", "dstabXfr");
+					dbra = (XfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscXfr", "dstabXfr", this.encoding);
 				}
 				else
 					throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
@@ -216,10 +216,10 @@ public class DStabModelParser extends AclfModelParser {
 				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 				PSXfrDStabXmlType dbra = null;
 				if (branch instanceof PSXfrBranchXmlType) {
-					dbra = (PSXfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfPSXfr", "dstabPSXfr");
+					dbra = (PSXfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfPSXfr", "dstabPSXfr", this.encoding);
 				}
 				else if (branch instanceof PSXfrShortCircuitXmlType) {
-					dbra = (PSXfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscPSXfr", "dstabPSXfr");
+					dbra = (PSXfrDStabXmlType)ModelStringUtil.casting((BranchXmlType)branch, "acscPSXfr", "dstabPSXfr", this.encoding);
 				}
 				else
 					throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
