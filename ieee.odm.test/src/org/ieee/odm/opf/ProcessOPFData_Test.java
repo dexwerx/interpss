@@ -63,7 +63,8 @@ public class ProcessOPFData_Test {
 		
 		// a file could be used to store all Opf related info and
 		// load here
-		OpfGenBusXmlType opfGenBus = (OpfGenBusXmlType)ModelStringUtil.casting(aclfBus, "aclfBus", "opfGenBus");
+		OpfGenBusXmlType opfGenBus = (OpfGenBusXmlType)ModelStringUtil.casting(
+				aclfBus, "aclfBus", "opfGenBus", parser.getEncoding());
 		opfGenBus.setCoeffA(1.0);
 		opfGenBus.setCoeffB(0.5);
 		parser.replaceBus("Bus2", opfGenBus);

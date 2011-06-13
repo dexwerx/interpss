@@ -38,7 +38,8 @@ public class FuncTestCase {
 		if (parser.parse(str)) {
 			XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
 			
-			PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(xfr, "aclfXfr", "aclfPSXfr");
+			PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(
+							xfr, "aclfXfr", "aclfPSXfr", parser.getEncoding());
 			assertTrue(psXfr.getId() != null);
 			assertTrue(psXfr.getFromBus() != null);
 			assertTrue(psXfr.getZ().getIm() == .20912);
