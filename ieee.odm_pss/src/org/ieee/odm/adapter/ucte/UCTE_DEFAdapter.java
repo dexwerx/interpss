@@ -595,7 +595,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
 			
-			PSXfrBranchXmlType psXfrBranch = (PSXfrBranchXmlType)ModelStringUtil.casting(xfrBranch, "XfrBranchXmlType", "PSXfrBranchXmlType");
+			PSXfrBranchXmlType psXfrBranch = (PSXfrBranchXmlType)ModelStringUtil.casting(
+					xfrBranch, "XfrBranchXmlType", "PSXfrBranchXmlType", parser.getEncoding());
 			
 			psXfrBranch.setToAngle(BaseDataSetter.createAngleValue(-ang*ModelContansts.Rad2Deg, AngleUnitType.DEG));
 			psXfrBranch.setToTurnRatio(BaseDataSetter.createTurnRatioPU(ratioFactor/x));
