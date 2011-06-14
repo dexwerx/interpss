@@ -14,6 +14,7 @@ import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.display.impl.AclfOut_PSSE.Format;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
@@ -24,10 +25,12 @@ import org.junit.Test;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.net.Bus;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -64,10 +67,13 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		
 	    
 	}
-	//@Test
+	/*Test data: 
+	 * 07c_0614 : explicitly add switch shuntVar to compensate the un-planned shuntVar of BPA for BE type Bus
+	 */
+	@Test
 	public void sys2010_lfTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile("testData/bpa/07c.dat")); 
+		assertTrue(adapter.parseInputFile("testData/bpa/07c_0614.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!new ODMAclfDataMapper(msg)
@@ -83,7 +89,20 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		
 		LoadflowAlgorithm  algo=CoreObjectFactory.createLoadflowAlgorithm(net);
 		net.accept(algo);
-		System.out.println(AclfOutFunc.loadFlowSummary(net));
+		//System.out.println(AclfOutFunc.lf4Google(net));
+		//get the genResult
+		
+		for(Bus b:net.getBusList()){
+			AclfBus bus=(AclfBus) b;
+			if(bus.isGen()){
+				System.out.println(bus.getName()+", "+bus.getId()+" ,p= "+bus.getGenResults().getReal()+",q= "+bus.getGenResults().getImaginary());
+			}
+		}
+		
+		FileOutputStream out=new FileOutputStream(new File("d:/07c_2010_lfResult.txt"));
+		out.write(AclfOutFunc.lfResultsPsseStyle(net, Format.GUI).getBytes());
+		out.flush();
+		out.close();
 		assertTrue(Math.abs(net.getAclfBus("Bus1").getVoltageMag()-1.02484)<0.0001);
 		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
 		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
@@ -92,7 +111,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-				new String[] { "testdata/bpa/07c.dat", 
+				new String[] { "testdata/bpa/07c_0614.dat", 
 				               "testdata/bpa/07c_onlyMach_noSe.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
 		DStabModelParser parser=(DStabModelParser) adapter.getModel();
@@ -100,30 +119,30 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		
 		//parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_noSe.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_noSe0614.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
 		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
-		if (!new ODMDStabDataMapper(msg)
-					.map2Model(parser, simuCtx)) {
-			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-			return;
-		}	
-		
-		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
-	
-		
-		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-		dstabAlgo.setSimuStepSec(0.001);
-		dstabAlgo.setTotalSimuTimeSec(0.01);
-		
-		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-		if (dstabAlgo.getSolver().initialization()) {
-			System.out.println("Running DStab simulation ...");
-			dstabAlgo.performSimulation(msg);
-		}
+//		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+//		if (!new ODMDStabDataMapper(msg)
+//					.map2Model(parser, simuCtx)) {
+//			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+//			return;
+//		}	
+//		
+//		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
+//	
+//		
+//		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
+//		dstabAlgo.setSimuStepSec(0.001);
+//		dstabAlgo.setTotalSimuTimeSec(0.01);
+//		
+//		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+//		if (dstabAlgo.getSolver().initialization()) {
+//			System.out.println("Running DStab simulation ...");
+//			dstabAlgo.performSimulation(msg);
+//		}
 				
 	}
 	
@@ -131,12 +150,13 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 * test data:
 	 * 1) only machine: 07c_2010_OnlyMach_0613.xml
 	 * 2) machine and exciter: 07c_2010_Mach_Exc_0609.xml
-	 * 3) machine and exciter, not consider saturation: 07c_2010_Mach_Exc_noSe.xmll
+	 * 3) machine and exciter, not consider saturation: 07c_2010_Mach_Exc_noSe0614.xml
+	 * 14/06 Tony: with 07c_2010_Mach_Exc_noSe0614.xml, the initial machine angles are the same!
 	 */
-	@Test
+	//@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
-		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc_noSe.xml");
+		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_noSe0614.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -165,7 +185,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			
 			 */ 
 
-/*			 
+		 
 			 DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 			
 			
@@ -186,7 +206,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 					System.out.println("Running DStab simulation ...");
 					assertTrue(dstabAlgo.performSimulation(msg));
 				}
-*/						
+					
 		}
       
 	}

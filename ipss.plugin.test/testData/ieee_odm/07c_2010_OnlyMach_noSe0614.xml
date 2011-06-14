@@ -12,6 +12,18 @@
         <nvPairList/>
         <basePower unit="MVA" value="100.0"/>
         <busList>
+            <aclfBus id="Bus3" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="ANSHHLZ1">
+                <nvPairList/>
+                <baseVoltage unit="KV" value="525.0"/>
+                <genData>
+                    <equivGen code="NoneGen"/>
+                </genData>
+                <loadData>
+                    <equivLoad code="CONST_P">
+                        <constPLoad unit="MVA" im="1557.0" re="3001.0"/>
+                    </equivLoad>
+                </loadData>
+            </aclfBus>
             <aclfBus id="Bus4" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="BEIJIAO1">
                 <nvPairList/>
                 <baseVoltage unit="KV" value="230.0"/>
@@ -58,7 +70,7 @@
                         <desiredVoltage unit="PU" value="0.994"/>
                     </equivGen>
                 </genData>
-                <shuntY unit="PU" im="30.0" re="0.0"/>
+                <shuntY unit="PU" im="30.81" re="0.0"/>
             </aclfBus>
             <aclfBus id="Bus9" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="HUIZ-HLZ">
                 <nvPairList/>
@@ -146,6 +158,7 @@
                         <desiredVoltage unit="PU" value="1.0010000000000001"/>
                     </equivGen>
                 </genData>
+                <shuntY unit="PU" im="16.14" re="0.0"/>
             </aclfBus>
             <aclfBus id="Bus92" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="SC-BS1">
                 <nvPairList/>
@@ -223,7 +236,7 @@
                         <eq11Ed11MachModel>
                             <H>2.1724</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.26789999999999997</xl>
                             <ra>0.0</ra>
                             <xd>1.822</xd>
                             <xq>1.802</xq>
@@ -241,46 +254,8 @@
                             <xq11>0.236</xq11>
                             <Tq011 unit="Sec" value="0.27"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1968Type1>
-                            <desc>IEEE1968 Type1, machId#1</desc>
-                            <TR unit="Sec" value="0.03"/>
-                            <KA>20.0</KA>
-                            <VRMAX>5.0478000000000005</VRMAX>
-                            <VRMIN>-5.0478000000000005</VRMIN>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.65"/>
-                            <KF>0.04</KF>
-                            <TF unit="Sec" value="0.715"/>
-                            <EFDMIN>0.0</EFDMIN>
-                            <E1>4.7</E1>
-                            <SE1>0.267</SE1>
-                            <E2>3.5250000000000004</E2>
-                            <SE2>0.074</SE2>
-                            <TA unit="Sec" value="0.03"/>
-                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.3</a1>
-                            <a2>0.4</a2>
-                            <a3>0.3</a3>
-                            <a4>0.3</a4>
-                            <a5>0.4</a5>
-                            <a6>0.3</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus63" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG019">
                 <nvPairList/>
@@ -298,7 +273,7 @@
                         <constPLoad unit="MVA" im="401.9" re="818.6"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-3.36" re="5.13"/>
+                <shuntY unit="PU" im="0.0" re="5.13"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -345,27 +320,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0996</a1>
-                            <a2>0.5145</a2>
-                            <a3>0.3859</a3>
-                            <a4>0.1023</a4>
-                            <a5>0.513</a5>
-                            <a6>0.3847</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus69" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG028">
                 <nvPairList/>
@@ -383,7 +337,7 @@
                         <constPLoad unit="MVA" im="684.5" re="1761.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-9.99" re="13.6"/>
+                <shuntY unit="PU" im="-4.98" re="13.6"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -400,9 +354,9 @@
                             <xd1>0.0046</xd1>
                             <Td01 unit="Sec" value="8.55"/>
                             <seFmt1>
-<se100>6.93</se100>
-<se120>28.499999999999996</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0087</xq1>
                             <Tq01 unit="Sec" value="1.6"/>
@@ -430,27 +384,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0452</a1>
-                            <a2>0.5456</a2>
-                            <a3>0.4092</a3>
-                            <a4>0.0596</a4>
-                            <a5>0.5374</a5>
-                            <a6>0.403</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus66" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG023">
                 <nvPairList/>
@@ -468,7 +401,7 @@
                         <constPLoad unit="MVA" im="683.0" re="1394.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-6.32" re="2.6"/>
+                <shuntY unit="PU" im="0.0" re="2.6"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -485,9 +418,9 @@
                             <xd1>0.0042</xd1>
                             <Td01 unit="Sec" value="6.43"/>
                             <seFmt1>
-<se100>6.04</se100>
-<se120>28.9</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0096</xq1>
                             <Tq01 unit="Sec" value="1.09"/>
@@ -515,27 +448,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0631</a1>
-                            <a2>0.5354</a2>
-                            <a3>0.4015</a3>
-                            <a4>0.065</a4>
-                            <a5>0.5343</a5>
-                            <a6>0.4007</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus57" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG004">
                 <nvPairList/>
@@ -553,7 +465,7 @@
                         <constPLoad unit="MVA" im="1059.0" re="2488.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-5.3" re="20.93"/>
+                <shuntY unit="PU" im="0.0" re="20.93"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="7130.0"/>
@@ -563,7 +475,7 @@
                         <eq11Ed11MachModel>
                             <H>3.3022</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.304855</xl>
                             <ra>0.0</ra>
                             <xd>2.103</xd>
                             <xq>2.004</xq>
@@ -600,27 +512,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.013</a1>
-                            <a2>0.0174</a2>
-                            <a3>0.9696</a3>
-                            <a4>0.0153</a4>
-                            <a5>0.0204</a5>
-                            <a6>0.9643</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus19" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG001">
                 <nvPairList/>
@@ -635,10 +526,10 @@
                 </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
-                        <constPLoad unit="MVA" im="391.6" re="1047.0"/>
+                        <constPLoad unit="MVA" im="1580.0" re="1047.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-9.99" re="25.61"/>
+                <shuntY unit="PU" im="0.0" re="25.61"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -655,9 +546,9 @@
                             <xd1>0.0035</xd1>
                             <Td01 unit="Sec" value="6.61"/>
                             <seFmt1>
-<se100>4.04</se100>
-<se120>12.3</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0058</xq1>
                             <Tq01 unit="Sec" value="1.14"/>
@@ -668,27 +559,6 @@
                         </eq11Ed11MachModel>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.1723</a1>
-                            <a2>0.473</a2>
-                            <a3>0.3547</a3>
-                            <a4>0.1812</a4>
-                            <a5>0.4679</a5>
-                            <a6>0.3509</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus61" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG016">
                 <nvPairList/>
@@ -706,7 +576,7 @@
                         <constPLoad unit="MVA" im="284.7" re="599.7"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-9.81" re="7.82"/>
+                <shuntY unit="PU" im="-4.06" re="7.82"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="3450.0"/>
@@ -716,7 +586,7 @@
                         <eq11Ed11MachModel>
                             <H>3.3357</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.33107499999999995</xl>
                             <ra>0.0</ra>
                             <xd>2.18</xd>
                             <xq>2.073</xq>
@@ -736,27 +606,6 @@
                         </eq11Ed11MachModel>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0695</a1>
-                            <a2>0.5317</a2>
-                            <a3>0.3988</a3>
-                            <a4>0.0758</a4>
-                            <a5>0.5281</a5>
-                            <a6>0.3961</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus65" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG021">
                 <nvPairList/>
@@ -774,7 +623,7 @@
                         <constPLoad unit="MVA" im="1526.0" re="3076.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-9.84" re="5.22"/>
+                <shuntY unit="PU" im="0.0" re="5.22"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -791,9 +640,9 @@
                             <xd1>0.0027</xd1>
                             <Td01 unit="Sec" value="4.67"/>
                             <seFmt1>
-<se100>1.55</se100>
-<se120>4.7</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0051</xq1>
                             <Tq01 unit="Sec" value="1.45"/>
@@ -804,27 +653,6 @@
                         </eq11Ed11MachModel>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0519</a1>
-                            <a2>0.5418</a2>
-                            <a3>0.4063</a3>
-                            <a4>0.0522</a4>
-                            <a5>0.5416</a5>
-                            <a6>0.4062</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus62" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG018">
                 <nvPairList/>
@@ -842,7 +670,7 @@
                         <constPLoad unit="MVA" im="177.2" re="432.5"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-2.65" re="1.99"/>
+                <shuntY unit="PU" im="0.0" re="1.99"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -889,27 +717,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0333</a1>
-                            <a2>0.5524</a2>
-                            <a3>0.4143</a3>
-                            <a4>0.0406</a4>
-                            <a5>0.5482</a5>
-                            <a6>0.4112</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus59" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG011">
                 <nvPairList/>
@@ -927,7 +734,7 @@
                         <constPLoad unit="MVA" im="172.3" re="442.5"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-5.92" re="2.2"/>
+                <shuntY unit="PU" im="-0.98" re="2.2"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -944,9 +751,9 @@
                             <xd1>0.0165</xd1>
                             <Td01 unit="Sec" value="5.05"/>
                             <seFmt1>
-<se100>6.88</se100>
-<se120>20.599999999999998</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0266</xq1>
                             <Tq01 unit="Sec" value="3.84"/>
@@ -957,27 +764,6 @@
                         </eq11Ed11MachModel>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0529</a1>
-                            <a2>0.5412</a2>
-                            <a3>0.4059</a3>
-                            <a4>0.0627</a4>
-                            <a5>0.5356</a5>
-                            <a6>0.4017</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus67" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG022">
                 <nvPairList/>
@@ -995,7 +781,7 @@
                         <constPLoad unit="MVA" im="597.8" re="1524.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-6.35" re="5.6"/>
+                <shuntY unit="PU" im="0.0" re="5.6"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1042,27 +828,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0272</a1>
-                            <a2>0.5559</a2>
-                            <a3>0.4169</a3>
-                            <a4>0.0347</a4>
-                            <a5>0.5516</a5>
-                            <a6>0.4137</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus60" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG015">
                 <nvPairList/>
@@ -1080,7 +845,7 @@
                         <constPLoad unit="MVA" im="150.2" re="258.2"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-2.89" re="2.94"/>
+                <shuntY unit="PU" im="-0.22" re="2.94"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1127,27 +892,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0557</a1>
-                            <a2>0.5396</a2>
-                            <a3>0.4047</a3>
-                            <a4>0.048</a4>
-                            <a5>0.544</a5>
-                            <a6>0.408</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus64" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG020">
                 <nvPairList/>
@@ -1165,7 +909,7 @@
                         <constPLoad unit="MVA" im="688.6" re="1768.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-8.03" re="8.29"/>
+                <shuntY unit="PU" im="0.0" re="8.29"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1212,27 +956,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0198</a1>
-                            <a2>0.5601</a2>
-                            <a3>0.4201</a3>
-                            <a4>0.0266</a4>
-                            <a5>0.5562</a5>
-                            <a6>0.4172</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus68" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG024">
                 <nvPairList/>
@@ -1250,7 +973,7 @@
                         <constPLoad unit="MVA" im="245.5" re="649.9"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-9.23" re="4.36"/>
+                <shuntY unit="PU" im="-3.72" re="4.36"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1267,9 +990,9 @@
                             <xd1>0.0080</xd1>
                             <Td01 unit="Sec" value="8.14"/>
                             <seFmt1>
-<se100>11.14</se100>
-<se120>33.4</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0122</xq1>
                             <Tq01 unit="Sec" value="0.87"/>
@@ -1280,27 +1003,6 @@
                         </eq11Ed11MachModel>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0885</a1>
-                            <a2>0.5209</a2>
-                            <a3>0.3906</a3>
-                            <a4>0.1121</a4>
-                            <a5>0.5074</a5>
-                            <a6>0.3805</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus56" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG007">
                 <nvPairList/>
@@ -1318,7 +1020,7 @@
                         <constPLoad unit="MVA" im="256.2" re="658.5"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-5.01" re="3.21"/>
+                <shuntY unit="PU" im="0.0" re="3.21"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1365,27 +1067,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0219</a1>
-                            <a2>0.5589</a2>
-                            <a3>0.4192</a3>
-                            <a4>0.0305</a4>
-                            <a5>0.554</a5>
-                            <a6>0.4155</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus58" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG010">
                 <nvPairList/>
@@ -1403,6 +1084,7 @@
                         <constPLoad unit="MVA" im="10.0" re="15.0"/>
                     </equivLoad>
                 </loadData>
+                <shuntY unit="PU" im="0.06" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="1665.0"/>
@@ -1412,7 +1094,7 @@
                         <eq11MachModel>
                             <H>3.4054</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.3135</xl>
                             <ra>0.0</ra>
                             <xd>1.21</xd>
                             <xq>0.75</xq>
@@ -1447,27 +1129,6 @@
                         </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.3</a1>
-                            <a2>0.4</a2>
-                            <a3>0.3</a3>
-                            <a4>0.3</a4>
-                            <a5>0.4</a5>
-                            <a6>0.3</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus55" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="EQG013">
                 <nvPairList/>
@@ -1485,6 +1146,7 @@
                         <constPLoad unit="MVA" im="8.0" re="12.0"/>
                     </equivLoad>
                 </loadData>
+                <shuntY unit="PU" im="0.063" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="1332.0"/>
@@ -1494,7 +1156,7 @@
                         <eq11MachModel>
                             <H>3.4054</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.3135</xl>
                             <ra>0.0</ra>
                             <xd>1.21</xd>
                             <xq>0.75</xq>
@@ -1529,27 +1191,6 @@
                         </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.3</a1>
-                            <a2>0.4</a2>
-                            <a3>0.3</a3>
-                            <a4>0.3</a4>
-                            <a5>0.4</a5>
-                            <a6>0.3</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus104" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG026">
                 <nvPairList/>
@@ -1567,7 +1208,6 @@
                         <constPLoad unit="MVA" im="31.23" re="0.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-7.62" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1584,9 +1224,9 @@
                             <xd1>0.0132</xd1>
                             <Td01 unit="Sec" value="8.14"/>
                             <seFmt1>
-<se100>4.18</se100>
-<se120>11.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0277</xq1>
                             <Tq01 unit="Sec" value="0.48"/>
@@ -1614,27 +1254,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus100" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG025">
                 <nvPairList/>
@@ -1652,7 +1271,7 @@
                         <constPLoad unit="MVA" im="263.9" re="314.9"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.54" re="3.28"/>
+                <shuntY unit="PU" im="-0.016" re="3.28"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1669,9 +1288,9 @@
                             <xd1>0.0133</xd1>
                             <Td01 unit="Sec" value="9.45"/>
                             <seFmt1>
-<se100>4.3</se100>
-<se120>11.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0291</xq1>
                             <Tq01 unit="Sec" value="14.0"/>
@@ -1699,27 +1318,6 @@
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0133</a1>
-                            <a2>0.5638</a2>
-                            <a3>0.4229</a3>
-                            <a4>0.0079</a4>
-                            <a5>0.5669</a5>
-                            <a6>0.4252</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus79" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG017">
                 <nvPairList/>
@@ -1732,6 +1330,7 @@
                         <qLimit unit="MVAR" active="false" min="0.0" max="1179.0"/>
                     </equivGen>
                 </genData>
+                <shuntY unit="PU" im="15.05" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1744,13 +1343,13 @@
                             <xl>0.0015</xl>
                             <ra>0.0</ra>
                             <xd>0.0134</xd>
-                            <xq>0.0084</xq>
+                            <xq>0.0104</xq>
                             <xd1>0.0040</xd1>
                             <Td01 unit="Sec" value="9.6"/>
                             <seFmt1>
-<se100>7.4399999999999995</se100>
-<se120>29.799999999999997</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0084</xq1>
                             <Tq01 unit="Sec" value="2.79"/>
@@ -1795,7 +1394,7 @@
                         <constPLoad unit="MVA" im="181.0" re="464.2"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-3.86" re="-3.02"/>
+                <shuntY unit="PU" im="0.0" re="-3.02"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1805,7 +1404,7 @@
                         <eq11Ed11MachModel>
                             <H>55.11</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.01083</xl>
                             <ra>0.0</ra>
                             <xd>0.0625</xd>
                             <xq>0.0522</xq>
@@ -1842,27 +1441,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0734</a1>
-                            <a2>0.5295</a2>
-                            <a3>0.3971</a3>
-                            <a4>0.045</a4>
-                            <a5>0.5457</a5>
-                            <a6>0.4093</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus71" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG002">
                 <nvPairList/>
@@ -1880,7 +1458,7 @@
                         <constPLoad unit="MVA" im="139.2" re="234.4"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-2.07" re="1.21"/>
+                <shuntY unit="PU" im="0.0" re="1.21"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1890,10 +1468,10 @@
                         <eq11Ed11MachModel>
                             <H>13.382</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.04199</xl>
                             <ra>0.0</ra>
                             <xd>0.1309</xd>
-                            <xq>0.0871</xq>
+                            <xq>0.1087</xq>
                             <xd1>0.0442</xd1>
                             <Td01 unit="Sec" value="6.56"/>
                             <seFmt1>
@@ -1927,27 +1505,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus74" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG003">
                 <nvPairList/>
@@ -1965,7 +1522,7 @@
                         <constPLoad unit="MVA" im="79.42" re="152.8"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.48" re="0.755"/>
+                <shuntY unit="PU" im="0.0" re="0.755"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -1975,7 +1532,7 @@
                         <eq11MachModel>
                             <H>27.375</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.04959</xl>
                             <ra>0.0</ra>
                             <xd>0.1672</xd>
                             <xq>0.1089</xq>
@@ -2010,27 +1567,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus76" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG006">
                 <nvPairList/>
@@ -2048,7 +1584,7 @@
                         <constPLoad unit="MVA" im="873.9" re="1212.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="0.128" re="2.19"/>
+                <shuntY unit="PU" im="0.222" re="2.19"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2058,7 +1594,7 @@
                         <eq11Ed11MachModel>
                             <H>95.857</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.0062699999999999995</xl>
                             <ra>0.0</ra>
                             <xd>0.0254</xd>
                             <xq>0.0197</xq>
@@ -2095,27 +1631,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0392</a1>
-                            <a2>0.549</a2>
-                            <a3>0.4118</a3>
-                            <a4>0.0156</a4>
-                            <a5>0.5625</a5>
-                            <a6>0.4219</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus82" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="EQG012">
                 <nvPairList/>
@@ -2133,7 +1648,7 @@
                         <constPLoad unit="MVA" im="239.9" re="481.1"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="0.125" re="1.87"/>
+                <shuntY unit="PU" im="0.222" re="1.87"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2142,7 +1657,7 @@
                         <qContributionPercent>100.0</qContributionPercent>
                         <eq11Ed11MachModel>
                             <H>31.103</H>
-                            <D>0.0</D>
+                            <D>0.08</D>
                             <xl>0.0017</xl>
                             <ra>0.0</ra>
                             <xd>0.147</xd>
@@ -2150,9 +1665,9 @@
                             <xd1>0.0256</xd1>
                             <Td01 unit="Sec" value="4.95"/>
                             <seFmt1>
-<se100>1.77</se100>
-<se120>6.4</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0476</xq1>
                             <Tq01 unit="Sec" value="5.29"/>
@@ -2180,27 +1695,6 @@
                         </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0324</a1>
-                            <a2>0.5529</a2>
-                            <a3>0.4147</a3>
-                            <a4>0.0179</a4>
-                            <a5>0.5612</a5>
-                            <a6>0.4209</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus115" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="EQG031">
                 <nvPairList/>
@@ -2218,7 +1712,7 @@
                         <constPLoad unit="MVA" im="327.1" re="593.9"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-3.95" re="3.53"/>
+                <shuntY unit="PU" im="0.0" re="3.53"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2235,9 +1729,9 @@
                             <xd1>0.0112</xd1>
                             <Td01 unit="Sec" value="7.62"/>
                             <seFmt1>
-<se100>7.9799999999999995</se100>
-<se120>21.3</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0245</xq1>
                             <Tq01 unit="Sec" value="5.1"/>
@@ -2246,52 +1740,25 @@
                             <xq11>0.0081</xq11>
                             <Tq011 unit="Sec" value="0.0617"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeFV>
-                            <desc>BPA Eeciter FV type, excId-1</desc>
-                            <loadRc>0.0</loadRc>
-                            <loadXc>0.0</loadXc>
-                            <transTr unit="Sec" value="0.01"/>
-                            <Ka>2.4</Ka>
-                            <Ta unit="Sec" value="0.01"/>
-                            <Vrmax>6.0</Vrmax>
-                            <Vrmin>-5.0</Vrmin>
-                            <K>48.0</K>
-                            <KV>0</KV>
-                            <T1 unit="Sec" value="1.0"/>
-                            <T2 unit="Sec" value="4.0"/>
-                            <VA1MAX>0.0</VA1MAX>
-                            <VA1MIN>0.0</VA1MIN>
-                            <T3 unit="Sec" value="2.0"/>
-                            <T4 unit="Sec" value="2.0"/>
-                            <VAMAX>10.0</VAMAX>
-                            <VAMIN>-10.0</VAMIN>
-                            <KF>0.0</KF>
-                            <TF unit="Sec" value="1.0"/>
-                            <KC>0.09</KC>
-                        </excBPATypeFV>
+                        <excIEEE1968Type1>
+                            <desc>IEEE1968 Type1, machId#1</desc>
+                            <TR unit="Sec" value="0.03"/>
+                            <KA>30.0</KA>
+                            <VRMAX>3.7800000000000002</VRMAX>
+                            <VRMIN>-3.7800000000000002</VRMIN>
+                            <KE>1.0</KE>
+                            <TE unit="Sec" value="0.5"/>
+                            <KF>0.04</KF>
+                            <TF unit="Sec" value="0.75"/>
+                            <EFDMIN>0.0</EFDMIN>
+                            <E1>3.5</E1>
+                            <SE1>0.3</SE1>
+                            <E2>2.625</E2>
+                            <SE2>0.08</SE2>
+                            <TA unit="Sec" value="0.05"/>
+                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0142</a1>
-                            <a2>0.5633</a2>
-                            <a3>0.4225</a3>
-                            <a4>0.0137</a4>
-                            <a5>0.5636</a5>
-                            <a6>0.4227</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus117" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="EQG035">
                 <nvPairList/>
@@ -2309,7 +1776,7 @@
                         <constPLoad unit="MVA" im="771.7" re="1036.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-7.54" re="7.49"/>
+                <shuntY unit="PU" im="0.0" re="7.49"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2326,9 +1793,9 @@
                             <xd1>0.0039</xd1>
                             <Td01 unit="Sec" value="7.19"/>
                             <seFmt1>
-<se100>8.62</se100>
-<se120>21.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0090</xq1>
                             <Tq01 unit="Sec" value="1.61"/>
@@ -2337,48 +1804,8 @@
                             <xq11>0.0033</xq11>
                             <Tq011 unit="Sec" value="0.3962"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeEK>
-                            <desc>BPA EK Type Exciter , machId#1</desc>
-                            <transTr unit="Sec" value="0.0"/>
-                            <Ka>60.0</Ka>
-                            <Ta unit="Sec" value="0.04"/>
-                            <Vrmax>5.5449</Vrmax>
-                            <Vrmin>-5.5449</Vrmin>
-                            <STA1>0.0</STA1>
-                            <KF>0.05</KF>
-                            <TF unit="Sec" value="0.7"/>
-                            <E1>5.49</E1>
-                            <SE1>0.07</SE1>
-                            <E2>4.1175</E2>
-                            <SE2>0.01</SE2>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.35"/>
-                            <EFDMAX>0.0</EFDMAX>
-                            <EFDMIN>0.0</EFDMIN>
-                        </excBPATypeEK>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0807</a1>
-                            <a2>0.5253</a2>
-                            <a3>0.394</a3>
-                            <a4>0.0576</a4>
-                            <a5>0.5385</a5>
-                            <a6>0.4039</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus108" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="EQG009">
                 <nvPairList/>
@@ -2396,14 +1823,14 @@
                         <constPLoad unit="MVA" im="423.9" re="546.2"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.48" re="6.0"/>
+                <shuntY unit="PU" im="1.64" re="6.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="2590.0"/>
                         <ratedVoltage unit="KV" value="20.0"/>
                         <pContributionPercent>100.0</pContributionPercent>
                         <qContributionPercent>100.0</qContributionPercent>
-                        <eq11Ed11MachModel>
+                        <eq1Ed1MachModel>
                             <H>5.3162</H>
                             <D>0.0</D>
                             <xl>0.1787</xl>
@@ -2413,63 +1840,15 @@
                             <xd1>0.2564</xd1>
                             <Td01 unit="Sec" value="7.47"/>
                             <seFmt1>
-<se100>12.61</se100>
-<se120>346.0</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.5413</xq1>
                             <Tq01 unit="Sec" value="2.24"/>
-                            <xd11>0.1891</xd11>
-                            <Td011 unit="Sec" value="0.0964"/>
-                            <xq11>0.2072</xq11>
-                            <Tq011 unit="Sec" value="0.4644"/>
-                        </eq11Ed11MachModel>
-                        <excBPATypeFV>
-                            <desc>BPA Eeciter FV type, excId-1</desc>
-                            <loadRc>0.0</loadRc>
-                            <loadXc>0.0</loadXc>
-                            <transTr unit="Sec" value="0.02"/>
-                            <Ka>1.0</Ka>
-                            <Ta unit="Sec" value="0.01"/>
-                            <Vrmax>5.43</Vrmax>
-                            <Vrmin>4.89</Vrmin>
-                            <K>30.0</K>
-                            <KV>0</KV>
-                            <T1 unit="Sec" value="0.6"/>
-                            <T2 unit="Sec" value="3.6"/>
-                            <VA1MAX>0.0</VA1MAX>
-                            <VA1MIN>0.0</VA1MIN>
-                            <T3 unit="Sec" value="0.1"/>
-                            <T4 unit="Sec" value="0.01"/>
-                            <VAMAX>10.0</VAMAX>
-                            <VAMIN>-10.0</VAMIN>
-                            <KF>0.01</KF>
-                            <TF unit="Sec" value="100.0"/>
-                            <KC>0.088</KC>
-                        </excBPATypeFV>
+                        </eq1Ed1MachModel>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0725</a1>
-                            <a2>0.53</a2>
-                            <a3>0.3975</a3>
-                            <a4>0.051</a4>
-                            <a5>0.5423</a5>
-                            <a6>0.4067</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus2" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="EQG029">
                 <nvPairList/>
@@ -2487,7 +1866,7 @@
                         <constPLoad unit="MVA" im="442.6" re="700.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-1.4" re="5.3"/>
+                <shuntY unit="PU" im="0.129" re="5.3"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2515,48 +1894,8 @@
                             <xq11>0.0037</xq11>
                             <Tq011 unit="Sec" value="0.1907"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeEK>
-                            <desc>BPA EK Type Exciter , machId#1</desc>
-                            <transTr unit="Sec" value="0.0"/>
-                            <Ka>5.0</Ka>
-                            <Ta unit="Sec" value="0.04"/>
-                            <Vrmax>5.5449</Vrmax>
-                            <Vrmin>-5.5449</Vrmin>
-                            <STA1>0.0</STA1>
-                            <KF>0.05</KF>
-                            <TF unit="Sec" value="0.7"/>
-                            <E1>5.49</E1>
-                            <SE1>0.07</SE1>
-                            <E2>4.1175</E2>
-                            <SE2>0.01</SE2>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.35"/>
-                            <EFDMAX>0.0</EFDMAX>
-                            <EFDMIN>0.0</EFDMIN>
-                        </excBPATypeEK>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.1079</a1>
-                            <a2>0.5098</a2>
-                            <a3>0.3823</a3>
-                            <a4>0.0921</a4>
-                            <a5>0.5188</a5>
-                            <a6>0.3891</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus13" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="EQG027">
                 <nvPairList/>
@@ -2574,7 +1913,6 @@
                         <constPLoad unit="MVA" im="72.0" re="144.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-7.47" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2591,9 +1929,9 @@
                             <xd1>0.0079</xd1>
                             <Td01 unit="Sec" value="6.7"/>
                             <seFmt1>
-<se100>18.509999999999998</se100>
-<se120>56.49999999999999</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0132</xq1>
                             <Tq01 unit="Sec" value="1.8"/>
@@ -2602,46 +1940,8 @@
                             <xq11>0.0063</xq11>
                             <Tq011 unit="Sec" value="0.0675"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1968Type1>
-                            <desc>IEEE1968 Type1, machId#1</desc>
-                            <TR unit="Sec" value="0.03"/>
-                            <KA>30.0</KA>
-                            <VRMAX>5.4</VRMAX>
-                            <VRMIN>-5.4</VRMIN>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.5"/>
-                            <KF>0.04</KF>
-                            <TF unit="Sec" value="0.75"/>
-                            <EFDMIN>0.0</EFDMIN>
-                            <E1>5.0</E1>
-                            <SE1>0.3</SE1>
-                            <E2>3.75</E2>
-                            <SE2>0.08</SE2>
-                            <TA unit="Sec" value="0.05"/>
-                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.3</a1>
-                            <a2>0.4</a2>
-                            <a3>0.3</a3>
-                            <a4>0.3</a4>
-                            <a5>0.4</a5>
-                            <a6>0.3</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus107" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="EQG005">
                 <nvPairList/>
@@ -2659,7 +1959,7 @@
                         <constPLoad unit="MVA" im="52.0" re="104.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-4.77" re="0.0"/>
+                <shuntY unit="PU" im="-0.87" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2676,9 +1976,9 @@
                             <xd1>0.0101</xd1>
                             <Td01 unit="Sec" value="6.7"/>
                             <seFmt1>
-<se100>18.3</se100>
-<se120>55.50000000000001</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0171</xq1>
                             <Tq01 unit="Sec" value="1.8"/>
@@ -2687,46 +1987,8 @@
                             <xq11>0.0081</xq11>
                             <Tq011 unit="Sec" value="0.0675"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1968Type1>
-                            <desc>IEEE1968 Type1, machId#1</desc>
-                            <TR unit="Sec" value="0.03"/>
-                            <KA>20.0</KA>
-                            <VRMAX>5.0478000000000005</VRMAX>
-                            <VRMIN>-5.0478000000000005</VRMIN>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.65"/>
-                            <KF>0.04</KF>
-                            <TF unit="Sec" value="0.715"/>
-                            <EFDMIN>0.0</EFDMIN>
-                            <E1>4.7</E1>
-                            <SE1>0.267</SE1>
-                            <E2>3.5250000000000004</E2>
-                            <SE2>0.074</SE2>
-                            <TA unit="Sec" value="0.03"/>
-                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.3</a1>
-                            <a2>0.4</a2>
-                            <a3>0.3</a3>
-                            <a4>0.3</a4>
-                            <a5>0.4</a5>
-                            <a6>0.3</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus126" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="EQG032">
                 <nvPairList/>
@@ -2739,6 +2001,7 @@
                         <qLimit unit="MVAR" active="false" min="0.0" max="223.5"/>
                     </equivGen>
                 </genData>
+                <shuntY unit="PU" im="0.04" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="1334.0"/>
@@ -2755,9 +2018,9 @@
                             <xd1>0.33</xd1>
                             <Td01 unit="Sec" value="12.1"/>
                             <seFmt1>
-<se100>15.0</se100>
-<se120>40.0</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.2</xq1>
                             <Tq01 unit="Sec" value="0.09"/>
@@ -2766,29 +2029,6 @@
                             <xq11>0.198</xq11>
                             <Tq011 unit="Sec" value="0.086"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeFV>
-                            <desc>BPA Eeciter FV type, excId-1</desc>
-                            <loadRc>0.0</loadRc>
-                            <loadXc>0.0</loadXc>
-                            <transTr unit="Sec" value="0.02"/>
-                            <Ka>1.0</Ka>
-                            <Ta unit="Sec" value="0.01"/>
-                            <Vrmax>5.43</Vrmax>
-                            <Vrmin>4.89</Vrmin>
-                            <K>300.0</K>
-                            <KV>0</KV>
-                            <T1 unit="Sec" value="0.6"/>
-                            <T2 unit="Sec" value="3.6"/>
-                            <VA1MAX>0.0</VA1MAX>
-                            <VA1MIN>0.0</VA1MIN>
-                            <T3 unit="Sec" value="0.1"/>
-                            <T4 unit="Sec" value="0.01"/>
-                            <VAMAX>10.0</VAMAX>
-                            <VAMIN>-10.0</VAMIN>
-                            <KF>0.01</KF>
-                            <TF unit="Sec" value="100.0"/>
-                            <KC>0.088</KC>
-                        </excBPATypeFV>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2803,6 +2043,7 @@
                         <qLimit unit="MVAR" active="false" min="0.0" max="425.8"/>
                     </equivGen>
                 </genData>
+                <shuntY unit="PU" im="0.113" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="2334.0"/>
@@ -2819,9 +2060,9 @@
                             <xd1>0.305</xd1>
                             <Td01 unit="Sec" value="12.6"/>
                             <seFmt1>
-<se100>10.0</se100>
-<se120>40.0</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.6</xq1>
                             <Tq01 unit="Sec" value="0.06"/>
@@ -2830,23 +2071,6 @@
                             <xq11>0.241</xq11>
                             <Tq011 unit="Sec" value="0.304"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeFJ>
-                            <desc>BPA FJ Type Exciter, excId-1</desc>
-                            <loadRc>0.0</loadRc>
-                            <loadXc>0.0</loadXc>
-                            <transTr unit="Sec" value="0.0"/>
-                            <Ka>30.0</Ka>
-                            <Ta unit="Sec" value="0.04"/>
-                            <Vrmax>5.0</Vrmax>
-                            <Vrmin>-5.0</Vrmin>
-                            <EFDMAX>4.03</EFDMAX>
-                            <EFDMIN>-3.22</EFDMIN>
-                            <TB unit="Sec" value="0.01"/>
-                            <TC unit="Sec" value="0.01"/>
-                            <KF>0.01</KF>
-                            <TF unit="Sec" value="0.7"/>
-                            <KC>0.1</KC>
-                        </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2866,7 +2090,7 @@
                         <constPLoad unit="MVA" im="562.0" re="551.1"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.22" re="3.95"/>
+                <shuntY unit="PU" im="0.0" re="3.95"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2883,9 +2107,9 @@
                             <xd1>0.0077</xd1>
                             <Td01 unit="Sec" value="6.08"/>
                             <seFmt1>
-<se100>1.46</se100>
-<se120>4.5</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.014</xq1>
                             <Tq01 unit="Sec" value="29.0"/>
@@ -2894,46 +2118,8 @@
                             <xq11>0.0073</xq11>
                             <Tq011 unit="Sec" value="0.18"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1968Type1>
-                            <desc>IEEE1968 Type1, machId#1</desc>
-                            <TR unit="Sec" value="0.04"/>
-                            <KA>20.0</KA>
-                            <VRMAX>3.228</VRMAX>
-                            <VRMIN>-3.228</VRMIN>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.9"/>
-                            <KF>0.04</KF>
-                            <TF unit="Sec" value="0.7"/>
-                            <EFDMIN>0.0</EFDMIN>
-                            <E1>3.0</E1>
-                            <SE1>0.267</SE1>
-                            <E2>2.25</E2>
-                            <SE2>0.076</SE2>
-                            <TA unit="Sec" value="0.04"/>
-                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.098</a1>
-                            <a2>0.3866</a2>
-                            <a3>0.5154</a3>
-                            <a4>0.048</a4>
-                            <a5>0.408</a5>
-                            <a6>0.544</a6>
-                            <a7>0.0</a7>
-                            <a8>0.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus118" offLine="false" zoneName="y1" zoneNumber="1" areaNumber="1" name="EQG030">
                 <nvPairList/>
@@ -2951,7 +2137,7 @@
                         <constPLoad unit="MVA" im="49.14" re="95.33"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-6.01" re="3.03"/>
+                <shuntY unit="PU" im="-2.15" re="3.03"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -2968,9 +2154,9 @@
                             <xd1>0.0167</xd1>
                             <Td01 unit="Sec" value="6.31"/>
                             <seFmt1>
-<se100>18.04</se100>
-<se120>80.7</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0324</xq1>
                             <Tq01 unit="Sec" value="1.55"/>
@@ -2979,52 +2165,8 @@
                             <xq11>0.013</xq11>
                             <Tq011 unit="Sec" value="0.0583"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeFV>
-                            <desc>BPA Eeciter FV type, excId-1</desc>
-                            <loadRc>0.0</loadRc>
-                            <loadXc>0.0</loadXc>
-                            <transTr unit="Sec" value="0.02"/>
-                            <Ka>1.0</Ka>
-                            <Ta unit="Sec" value="0.01"/>
-                            <Vrmax>7.48</Vrmax>
-                            <Vrmin>-2.7</Vrmin>
-                            <K>500.0</K>
-                            <KV>0</KV>
-                            <T1 unit="Sec" value="1.0"/>
-                            <T2 unit="Sec" value="10.0"/>
-                            <VA1MAX>0.0</VA1MAX>
-                            <VA1MIN>0.0</VA1MIN>
-                            <T3 unit="Sec" value="0.1"/>
-                            <T4 unit="Sec" value="0.1"/>
-                            <VAMAX>10.0</VAMAX>
-                            <VAMIN>-10.0</VAMIN>
-                            <KF>0.0</KF>
-                            <TF unit="Sec" value="1.0"/>
-                            <KC>0.099</KC>
-                        </excBPATypeFV>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.9442</a1>
-                            <a2>0.0239</a2>
-                            <a3>0.0319</a3>
-                            <a4>0.9158</a4>
-                            <a5>0.0361</a5>
-                            <a6>0.0481</a6>
-                            <a7>0.0</a7>
-                            <a8>0.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus119" offLine="false" zoneName="y1" zoneNumber="1" areaNumber="1" name="EQG036">
                 <nvPairList/>
@@ -3042,7 +2184,7 @@
                         <constPLoad unit="MVA" im="781.0" re="779.2"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.29" re="3.0"/>
+                <shuntY unit="PU" im="0.626" re="3.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="100.0"/>
@@ -3059,9 +2201,9 @@
                             <xd1>0.0097</xd1>
                             <Td01 unit="Sec" value="5.67"/>
                             <seFmt1>
-<se100>5.25</se100>
-<se120>17.4</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq1>0.0192</xq1>
                             <Tq01 unit="Sec" value="13.0"/>
@@ -3070,46 +2212,8 @@
                             <xq11>0.0072</xq11>
                             <Tq011 unit="Sec" value="0.155"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
-                            <loadRc>0.0</loadRc>
-                            <loadXc>0.0</loadXc>
-                            <transTr unit="Sec" value="0.025"/>
-                            <Ka>20.0</Ka>
-                            <Ta unit="Sec" value="0.025"/>
-                            <Vrmax>4.0</Vrmax>
-                            <Vrmin>-3.0</Vrmin>
-                            <VIMAX>10.0</VIMAX>
-                            <VIMIN>-10.0</VIMIN>
-                            <TB unit="Sec" value="0.02"/>
-                            <TC unit="Sec" value="0.02"/>
-                            <KF>0.0</KF>
-                            <TF unit="Sec" value="0.5"/>
-                            <KC>0.1</KC>
-                        </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0546</a1>
-                            <a2>0.4052</a2>
-                            <a3>0.5402</a3>
-                            <a4>0.0307</a4>
-                            <a5>0.4154</a5>
-                            <a6>0.5539</a6>
-                            <a7>0.0</a7>
-                            <a8>0.0</a8>
-                            <n1>2.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus140" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="EQG038">
                 <nvPairList/>
@@ -3144,55 +2248,17 @@
                             <xd1>0.0082</xd1>
                             <Td01 unit="Sec" value="5.8"/>
                             <seFmt1>
-<se100>1.1900000000000002</se100>
-<se120>4.2</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq11>0.0076</xq11>
                             <Tq011 unit="Sec" value="0.2016"/>
                             <xd11>0.0073</xd11>
                             <Td011 unit="Sec" value="0.0905"/>
                         </eq11MachModel>
-                        <excIEEE1968Type1>
-                            <desc>IEEE1968 Type1, machId#1</desc>
-                            <TR unit="Sec" value="0.04"/>
-                            <KA>5.0</KA>
-                            <VRMAX>3.228</VRMAX>
-                            <VRMIN>-3.228</VRMIN>
-                            <KE>1.0</KE>
-                            <TE unit="Sec" value="0.9"/>
-                            <KF>0.04</KF>
-                            <TF unit="Sec" value="0.7"/>
-                            <EFDMIN>0.0</EFDMIN>
-                            <E1>3.0</E1>
-                            <SE1>0.267</SE1>
-                            <E2>2.25</E2>
-                            <SE2>0.076</SE2>
-                            <TA unit="Sec" value="0.04"/>
-                        </excIEEE1968Type1>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus130" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="EQG034">
                 <nvPairList/>
@@ -3210,7 +2276,6 @@
                         <constPLoad unit="MVA" im="19.41" re="36.04"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.8" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="3100.0"/>
@@ -3220,10 +2285,10 @@
                         <eq11Ed11MachModel>
                             <H>4.6797</H>
                             <D>0.0</D>
-                            <xl>0.0</xl>
+                            <xl>0.279775</xl>
                             <ra>0.0</ra>
                             <xd>1.014</xd>
-                            <xq>0.6758</xq>
+                            <xq>0.8675</xq>
                             <xd1>0.2945</xd1>
                             <Td01 unit="Sec" value="9.33"/>
                             <seFmt1>
@@ -3238,52 +2303,8 @@
                             <xq11>0.2139</xq11>
                             <Tq011 unit="Sec" value="0.197"/>
                         </eq11Ed11MachModel>
-                        <excBPATypeFV>
-                            <desc>BPA Eeciter FV type, excId-1</desc>
-                            <loadRc>-0.0</loadRc>
-                            <loadXc>-0.04</loadXc>
-                            <transTr unit="Sec" value="0.02"/>
-                            <Ka>1.0</Ka>
-                            <Ta unit="Sec" value="0.01"/>
-                            <Vrmax>5.75</Vrmax>
-                            <Vrmin>-3.4</Vrmin>
-                            <K>7.817</K>
-                            <KV>0</KV>
-                            <T1 unit="Sec" value="1.0E-4"/>
-                            <T2 unit="Sec" value="1.0"/>
-                            <VA1MAX>0.0</VA1MAX>
-                            <VA1MIN>0.0</VA1MIN>
-                            <T3 unit="Sec" value="8.147"/>
-                            <T4 unit="Sec" value="0.0010"/>
-                            <VAMAX>10.0</VAMAX>
-                            <VAMIN>-10.0</VAMIN>
-                            <KF>0.0</KF>
-                            <TF unit="Sec" value="0.0"/>
-                            <KC>0.064</KC>
-                        </excBPATypeFV>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus128" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="EQG033">
                 <nvPairList/>
@@ -3301,7 +2322,7 @@
                         <constPLoad unit="MVA" im="158.4" re="228.1"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="9.08" re="0.0"/>
+                <shuntY unit="PU" im="6.59" re="0.0"/>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="6750.0"/>
@@ -3318,61 +2339,17 @@
                             <xd1>0.2903</xd1>
                             <Td01 unit="Sec" value="5.02"/>
                             <seFmt1>
-<se100>3.02</se100>
-<se120>10.6</se120>
-<sliner>0.8</sliner>
+<se100>0.0</se100>
+<se120>0.0</se120>
+<sliner>10.0</sliner>
                             </seFmt1>
                             <xq11>0.2363</xq11>
                             <Tq011 unit="Sec" value="0.1074"/>
                             <xd11>0.1958</xd11>
                             <Td011 unit="Sec" value="0.0471"/>
                         </eq11MachModel>
-                        <excBPATypeFV>
-                            <desc>BPA Eeciter FV type, excId-1</desc>
-                            <loadRc>-0.05</loadRc>
-                            <loadXc>-0.04</loadXc>
-                            <transTr unit="Sec" value="0.02"/>
-                            <Ka>1.0</Ka>
-                            <Ta unit="Sec" value="0.01"/>
-                            <Vrmax>5.75</Vrmax>
-                            <Vrmin>-3.4</Vrmin>
-                            <K>7.817</K>
-                            <KV>0</KV>
-                            <T1 unit="Sec" value="1.0E-4"/>
-                            <T2 unit="Sec" value="1.0"/>
-                            <VA1MAX>0.0</VA1MAX>
-                            <VA1MIN>0.0</VA1MIN>
-                            <T3 unit="Sec" value="8.147"/>
-                            <T4 unit="Sec" value="0.0010"/>
-                            <VAMAX>10.0</VAMAX>
-                            <VAMIN>-10.0</VAMIN>
-                            <KF>0.0</KF>
-                            <TF unit="Sec" value="0.0"/>
-                            <KC>0.064</KC>
-                        </excBPATypeFV>
                     </dynamicGen>
                 </dynamicGenList>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus70" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="BS-H">
                 <nvPairList/>
@@ -3389,27 +2366,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.039049" re="0.002139"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus80" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="GL-H">
                 <nvPairList/>
@@ -3426,31 +2382,10 @@
                         <constPLoad unit="MVA" im="191.4" re="322.9"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="2.47" re="1.98"/>
+                <shuntY unit="PU" im="-5.27" re="1.98"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.056226" re="0.001212"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus109" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="GUIY">
                 <nvPairList/>
@@ -3471,27 +2406,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.00848" re="0.001224"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus81" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="HC-H">
                 <nvPairList/>
@@ -3508,31 +2422,10 @@
                         <constPLoad unit="MVA" im="125.6" re="340.5"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="0.0" re="0.855"/>
+                <shuntY unit="PU" im="-3.67" re="0.855"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.054093" re="0.002179"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus110" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="HUISHUI">
                 <nvPairList/>
@@ -3549,31 +2442,10 @@
                         <constPLoad unit="MVA" im="181.1" re="468.4"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-1.95" re="3.56"/>
+                <shuntY unit="PU" im="-1.99" re="3.56"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.025494" re="0.001591"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus73" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="HZ-H">
                 <nvPairList/>
@@ -3590,31 +2462,10 @@
                         <constPLoad unit="MVA" im="109.6" re="237.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="2.95" re="1.02"/>
+                <shuntY unit="PU" im="-1.46" re="1.02"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.069124" re="0.001198"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus83" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="KGZ">
                 <nvPairList/>
@@ -3646,27 +2497,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.032838" re="8.96E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus90" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="PG-H">
                 <nvPairList/>
@@ -3683,31 +2513,10 @@
                         <constPLoad unit="MVA" im="174.9" re="352.5"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.76" re="1.68"/>
+                <shuntY unit="PU" im="-5.77" re="1.68"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.046526" re="4.58E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus112" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="QDONG">
                 <nvPairList/>
@@ -3724,31 +2533,10 @@
                         <constPLoad unit="MVA" im="237.7" re="800.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="11.28" re="4.35"/>
+                <shuntY unit="PU" im="11.59" re="4.35"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.014523" re="0.001721"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus103" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="TSQB-H">
                 <nvPairList/>
@@ -3765,31 +2553,10 @@
                         <constPLoad unit="MVA" im="14.71" re="0.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.55" re="0.0"/>
+                <shuntY unit="PU" im="-3.32" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.008358" re="-5.0E-5"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus72" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="WZ-H">
                 <nvPairList/>
@@ -3806,31 +2573,10 @@
                         <constPLoad unit="MVA" im="123.4" re="335.4"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="1.78" re="1.58"/>
+                <shuntY unit="PU" im="-0.96" re="1.58"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.025024" re="9.55E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus116" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="kaiguan">
                 <nvPairList/>
@@ -3851,27 +2597,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.00591" re="4.44E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus137" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="wenshang">
                 <nvPairList/>
@@ -3892,27 +2617,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.033159" re="0.001241"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus1" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="ANSH-HLZ">
                 <nvPairList/>
@@ -3955,27 +2659,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.034373" re="0.0"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus77" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="GG-H">
                 <nvPairList/>
@@ -3992,31 +2675,10 @@
                         <constPLoad unit="MVA" im="129.9" re="180.1"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="2.34" re="1.5"/>
+                <shuntY unit="PU" im="2.44" re="1.5"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.015968" re="2.27E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus84" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="LB-H">
                 <nvPairList/>
@@ -4037,27 +2699,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.012095" re="2.85E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus86" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="LD-H">
                 <nvPairList/>
@@ -4078,27 +2719,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.063973" re="0.001566"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus88" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="LT-5G">
                 <nvPairList/>
@@ -4110,7 +2730,12 @@
                         <desiredVoltage unit="PU" value="1.027"/>
                     </equivGen>
                 </genData>
-                <shuntY unit="PU" im="-1.28" re="0.0"/>
+                <loadData>
+                    <equivLoad code="CONST_P">
+                        <constPLoad unit="MVA" im="1983.0" re="0.0"/>
+                    </equivLoad>
+                </loadData>
+                <shuntY unit="PU" im="-1.04" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.002754" re="0.0"/>
                 </scShuntLoadData>
@@ -4130,27 +2755,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.06478" re="0.001059"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus113" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="QDONG3">
                 <nvPairList/>
@@ -4167,31 +2771,10 @@
                         <constPLoad unit="MVA" im="588.3" re="800.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="3.41" re="1.18"/>
+                <shuntY unit="PU" im="-1.45" re="1.18"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.031397" re="0.001957"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus99" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="ST-H">
                 <nvPairList/>
@@ -4208,31 +2791,10 @@
                         <constPLoad unit="MVA" im="318.4" re="678.4"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-1.23" re="3.2"/>
+                <shuntY unit="PU" im="-4.97" re="3.2"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.026251" re="5.32E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus101" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="TSQD-H">
                 <nvPairList/>
@@ -4249,6 +2811,7 @@
                         <constPLoad unit="MVA" im="0.0" re="80.0"/>
                     </equivLoad>
                 </loadData>
+                <shuntY unit="PU" im="-1.07" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="-0.42464" re="0.0"/>
                 </scShuntLoadData>
@@ -4272,27 +2835,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.006936" re="3.41E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus114" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="XINREN">
                 <nvPairList/>
@@ -4309,31 +2851,10 @@
                         <constPLoad unit="MVA" im="251.6" re="378.3"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="0.276" re="2.11"/>
+                <shuntY unit="PU" im="0.48" re="2.11"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.056188" re="0.002888"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus12" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="XREN-HLZ">
                 <nvPairList/>
@@ -4365,31 +2886,10 @@
                         <constPLoad unit="MVA" im="399.7" re="769.2"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="4.85" re="7.6"/>
+                <shuntY unit="PU" im="-0.35" re="7.6"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.016347" re="7.87E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus87" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="YT-5G">
                 <nvPairList/>
@@ -4401,7 +2901,7 @@
                         <desiredVoltage unit="PU" value="1.026"/>
                     </equivGen>
                 </genData>
-                <shuntY unit="PU" im="0.501" re="0.0"/>
+                <shuntY unit="PU" im="-0.5" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.008133" re="0.0"/>
                 </scShuntLoadData>
@@ -4421,27 +2921,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.022738" re="6.54E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus122" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="caopug">
                 <nvPairList/>
@@ -4458,27 +2937,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.022613" re="5.35E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus123" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="changkg">
                 <nvPairList/>
@@ -4495,31 +2953,10 @@
                         <constPLoad unit="MVA" im="83.35" re="98.4"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-1.83" re="10.07"/>
+                <shuntY unit="PU" im="-1.16" re="10.07"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.010377" re="9.63E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus131" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="dacs500g">
                 <nvPairList/>
@@ -4536,27 +2973,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.013306" re="5.4E-5"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus124" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="dianxig">
                 <nvPairList/>
@@ -4573,27 +2989,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.019748" re="0.001171"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus125" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="hongheg">
                 <nvPairList/>
@@ -4614,27 +3009,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.017664" re="8.25E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus127" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="jinganqg">
                 <nvPairList/>
@@ -4662,31 +3036,10 @@
                         <constPLoad unit="MVA" im="141.5" re="164.4"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-2.07" re="3.51"/>
+                <shuntY unit="PU" im="-3.87" re="3.51"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.038619" re="0.001492"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus129" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="lixianjg">
                 <nvPairList/>
@@ -4707,27 +3060,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.011758" re="9.51E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus134" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="luopingg">
                 <nvPairList/>
@@ -4744,27 +3076,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.017978" re="7.33E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus132" offLine="false" zoneName="xn" zoneNumber="1" areaNumber="1" name="manw500g">
                 <nvPairList/>
@@ -4781,31 +3092,10 @@
                         <constPLoad unit="MVA" im="6.917" re="14.7"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-1.08" re="0.25"/>
+                <shuntY unit="PU" im="-0.99" re="0.25"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.00844" re="0.0"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus135" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="qidiang">
                 <nvPairList/>
@@ -4822,31 +3112,10 @@
                         <constPLoad unit="MVA" im="19.43" re="27.68"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-2.92" re="10.02"/>
+                <shuntY unit="PU" im="-1.08" re="10.02"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.021345" re="4.79E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus136" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="qujingbg">
                 <nvPairList/>
@@ -4863,27 +3132,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.013291" re="0.001757"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus139" offLine="false" zoneName="yn" zoneNumber="1" areaNumber="1" name="xiaowang">
                 <nvPairList/>
@@ -4895,7 +3143,7 @@
                         <desiredVoltage unit="PU" value="1.029"/>
                     </equivGen>
                 </genData>
-                <shuntY unit="PU" im="-3.28" re="0.0"/>
+                <shuntY unit="PU" im="-5.04" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.00875" re="0.0"/>
                 </scShuntLoadData>
@@ -4915,27 +3163,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.033036" re="6.63E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.4286</a2>
-                            <a3>0.5714</a3>
-                            <a4>0.0</a4>
-                            <a5>0.4286</a5>
-                            <a6>0.5714</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus111" offLine="false" zoneName="gz" zoneNumber="1" areaNumber="1" name="LIPING">
                 <nvPairList/>
@@ -4952,31 +3179,10 @@
                         <constPLoad unit="MVA" im="94.4" re="209.3"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.43" re="0.974"/>
+                <shuntY unit="PU" im="-3.12" re="0.974"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.067544" re="8.0E-6"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.2</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus5" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="BEIJIAO">
                 <nvPairList/>
@@ -4993,31 +3199,10 @@
                         <constPLoad unit="MVA" im="467.3" re="1849.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="0.0" re="8.65"/>
+                <shuntY unit="PU" im="12.63" re="8.65"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.0079" re="3.21E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>0.0</a7>
-                            <a8>0.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus27" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="BAIHD0H">
                 <nvPairList/>
@@ -5034,31 +3219,10 @@
                         <constPLoad unit="MVA" im="522.1" re="1418.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="5.71" re="5.86"/>
+                <shuntY unit="PU" im="21.22" re="5.86"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.010507" re="2.99E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus28" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="BEIJ0H">
                 <nvPairList/>
@@ -5075,31 +3239,10 @@
                         <constPLoad unit="MVA" im="3.193" re="8.914"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="-0.92" re="0.0422"/>
+                <shuntY unit="PU" im="-1.09" re="0.0422"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="1.35711" re="0.168112"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus29" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="BOLUO0H">
                 <nvPairList/>
@@ -5116,27 +3259,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.016477" re="5.65E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus30" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="DAYW50P">
                 <nvPairList/>
@@ -5153,27 +3275,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.012063" re="0.0"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.0</a2>
-                            <a3>1.0</a3>
-                            <a4>0.0</a4>
-                            <a5>0.0</a5>
-                            <a6>1.0</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>0.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>0.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus31" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="DONGG0H">
                 <nvPairList/>
@@ -5190,27 +3291,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.011027" re="1.3E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus32" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="DONGG20H">
                 <nvPairList/>
@@ -5227,27 +3307,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.007893" re="1.46E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus33" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="GAOM0H">
                 <nvPairList/>
@@ -5264,31 +3323,10 @@
                         <constPLoad unit="MVA" im="254.7" re="796.5"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="4.12" re="3.23"/>
+                <shuntY unit="PU" im="4.18" re="3.23"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.012919" re="5.95E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus34" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="GAOME0H">
                 <nvPairList/>
@@ -5305,31 +3343,10 @@
                         <constPLoad unit="MVA" im="121.1" re="366.7"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="0.718" re="1.59"/>
+                <shuntY unit="PU" im="1.11" re="1.59"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.032881" re="7.4E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus20" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="GUANGN0H">
                 <nvPairList/>
@@ -5346,31 +3363,10 @@
                         <constPLoad unit="MVA" im="501.9" re="1232.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="6.26" re="7.8"/>
+                <shuntY unit="PU" im="6.79" re="7.8"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.012262" re="3.47E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus21" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="HEY50H">
                 <nvPairList/>
@@ -5387,31 +3383,10 @@
                         <constPLoad unit="MVA" im="41.69" re="193.7"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="2.97" re="0.684"/>
+                <shuntY unit="PU" im="3.03" re="0.684"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.026739" re="0.001727"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus35" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="HONGM0H">
                 <nvPairList/>
@@ -5428,27 +3403,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.01037" re="1.36E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus22" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="HUADU0H">
                 <nvPairList/>
@@ -5469,27 +3423,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.008439" re="7.24E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus36" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="HUICH50H">
                 <nvPairList/>
@@ -5506,27 +3439,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.018197" re="3.09E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus23" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="HUIZ0H">
                 <nvPairList/>
@@ -5547,27 +3459,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.006432" re="6.67E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus37" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="HUIZXN0P">
                 <nvPairList/>
@@ -5594,31 +3485,10 @@
                         <constPLoad unit="MVA" im="194.0" re="570.2"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="2.8" re="2.59"/>
+                <shuntY unit="PU" im="3.34" re="2.59"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.01834" re="4.06E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus38" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="KAIP0H">
                 <nvPairList/>
@@ -5635,27 +3505,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.035617" re="0.001627"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus39" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="LONGG0H">
                 <nvPairList/>
@@ -5672,27 +3521,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.007712" re="3.63E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus40" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="LUODO0H">
                 <nvPairList/>
@@ -5709,31 +3537,10 @@
                         <constPLoad unit="MVA" im="638.7" re="1465.0"/>
                     </equivLoad>
                 </loadData>
-                <shuntY unit="PU" im="2.88" re="7.33"/>
+                <shuntY unit="PU" im="-2.03" re="7.33"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.012526" re="5.09E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus41" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="MAOM0H">
                 <nvPairList/>
@@ -5750,27 +3557,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.011152" re="0.001275"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus42" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="MEIZH0H">
                 <nvPairList/>
@@ -5787,27 +3573,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.007388" re="8.58E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus43" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="NANSHA0H">
                 <nvPairList/>
@@ -5824,27 +3589,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.018368" re="5.47E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus44" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="PENGC0H">
                 <nvPairList/>
@@ -5861,27 +3605,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.010319" re="2.4E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus46" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="SHENZ0H">
                 <nvPairList/>
@@ -5898,27 +3621,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.007457" re="3.66E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.3761</a2>
-                            <a3>0.6239</a3>
-                            <a4>0.0</a4>
-                            <a5>0.404</a5>
-                            <a6>0.596</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus25" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="QINGY50H">
                 <nvPairList/>
@@ -5939,27 +3641,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.032693" re="0.001843"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus45" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="SANX50H">
                 <nvPairList/>
@@ -5976,27 +3657,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.005853" re="3.61E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus26" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="SHAJ50P">
                 <nvPairList/>
@@ -6008,7 +3668,7 @@
                         <desiredVoltage unit="PU" value="1.0"/>
                     </equivGen>
                 </genData>
-                <shuntY unit="PU" im="-0.65" re="0.0"/>
+                <shuntY unit="PU" im="-1.59" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.003466" re="0.0"/>
                 </scShuntLoadData>
@@ -6028,27 +3688,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.008822" re="4.7E-5"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus48" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="SHUNDE0H">
                 <nvPairList/>
@@ -6065,27 +3704,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.00994" re="6.12E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus49" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="XINHUI0H">
                 <nvPairList/>
@@ -6102,27 +3720,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.0075" re="7.92E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus50" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="XUNENG1P">
                 <nvPairList/>
@@ -6153,27 +3750,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.009552" re="8.76E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus52" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="ZENGC0H">
                 <nvPairList/>
@@ -6190,27 +3766,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.011298" re="6.82E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus53" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="ZHAOQ0H">
                 <nvPairList/>
@@ -6231,27 +3786,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.012386" re="7.96E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
             <dstabBus id="Bus54" offLine="false" zoneName="GD" zoneNumber="1" areaNumber="1" name="ZHONGS0H">
                 <nvPairList/>
@@ -6268,60 +3802,6 @@
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.010312" re="2.76E-4"/>
                 </scShuntLoadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>0.0</a1>
-                            <a2>0.5714</a2>
-                            <a3>0.4286</a3>
-                            <a4>0.0</a4>
-                            <a5>0.5714</a5>
-                            <a6>0.4286</a6>
-                            <a7>1.8</a7>
-                            <a8>-2.0</a8>
-                            <n1>0.0</n1>
-                            <n2>1.0</n2>
-                            <n3>0.0</n3>
-                            <n4>0.0</n4>
-                            <n5>1.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
-            </dstabBus>
-            <dstabBus id="Bus3" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="ANSHHLZ1">
-                <nvPairList/>
-                <baseVoltage unit="KV" value="525.0"/>
-                <genData>
-                    <equivGen code="NoneGen"/>
-                </genData>
-                <loadData>
-                    <equivLoad code="CONST_P">
-                        <constPLoad unit="MVA" im="1557.0" re="3001.0"/>
-                    </equivLoad>
-                </loadData>
-                <dynamicLoad>
-                    <location>atBus</location>
-                    <LoadModel>
-                        <IEEEStaticLoad>
-                            <a1>1.0</a1>
-                            <a2>0.0</a2>
-                            <a3>0.0</a3>
-                            <a4>1.0</a4>
-                            <a5>0.0</a5>
-                            <a6>0.0</a6>
-                            <a7>0.0</a7>
-                            <a8>0.0</a8>
-                            <n1>2.0</n1>
-                            <n2>0.0</n2>
-                            <n3>0.0</n3>
-                            <n4>2.0</n4>
-                            <n5>0.0</n5>
-                            <n6>0.0</n6>
-                        </IEEEStaticLoad>
-                    </LoadModel>
-                </dynamicLoad>
             </dstabBus>
         </busList>
         <branchList>
@@ -9483,10 +6963,10 @@
                 <y0ShuntFromSide unit="PU" im="0.0" re="0.0"/>
                 <y0ShuntToSide unit="PU" im="0.0" re="0.0"/>
             </dstabLine>
-            <dstabLine circuitId="0" id="Bus110_to_Bus109_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
+            <dstabLine circuitId="0" id="Bus109_to_Bus110_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
                 <fromBus idRef="Bus109"/>
-                <toBus idRef="Bus109"/>
+                <toBus idRef="Bus110"/>
                 <z unit="PU" im="0.11913" re="0.01547"/>
                 <ratingLimit/>
                 <lineInfo/>
@@ -9494,10 +6974,10 @@
                 <y0ShuntFromSide unit="PU" im="0.0" re="0.0"/>
                 <y0ShuntToSide unit="PU" im="0.0" re="0.0"/>
             </dstabLine>
-            <dstabLine circuitId="3" id="Bus99_to_Bus86_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
+            <dstabLine circuitId="3" id="Bus86_to_Bus99_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
                 <fromBus idRef="Bus86"/>
-                <toBus idRef="Bus86"/>
+                <toBus idRef="Bus99"/>
                 <z unit="PU" im="0.05959" re="0.0024"/>
                 <ratingLimit/>
                 <lineInfo/>
@@ -9505,10 +6985,10 @@
                 <y0ShuntFromSide unit="PU" im="0.0" re="0.0"/>
                 <y0ShuntToSide unit="PU" im="0.0" re="0.0"/>
             </dstabLine>
-            <dstabLine circuitId="3" id="Bus105_to_Bus89_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
+            <dstabLine circuitId="3" id="Bus89_to_Bus105_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
                 <fromBus idRef="Bus89"/>
-                <toBus idRef="Bus89"/>
+                <toBus idRef="Bus105"/>
                 <z unit="PU" im="0.0903" re="0.00454"/>
                 <ratingLimit/>
                 <lineInfo/>
@@ -9540,7 +7020,7 @@
             </dstabLine>
             <dstabLine circuitId="3" id="Bus137_to_Bus125_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus125"/>
+                <fromBus idRef="Bus137"/>
                 <toBus idRef="Bus125"/>
                 <z unit="PU" im="0.12205" re="0.0062"/>
                 <ratingLimit/>
@@ -9573,7 +7053,7 @@
             </dstabLine>
             <dstabLine circuitId="3" id="Bus47_to_Bus31_cirId_3" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus31"/>
+                <fromBus idRef="Bus47"/>
                 <toBus idRef="Bus31"/>
                 <z unit="PU" im="0.02128" re="0.0"/>
                 <ratingLimit/>
@@ -9584,7 +7064,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus42_to_Bus21_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus21"/>
+                <fromBus idRef="Bus42"/>
                 <toBus idRef="Bus21"/>
                 <z unit="PU" im="0.01814" re="0.00136"/>
                 <ratingLimit/>
@@ -9606,7 +7086,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus42_to_Bus23_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus23"/>
+                <fromBus idRef="Bus42"/>
                 <toBus idRef="Bus23"/>
                 <z unit="PU" im="0.03846" re="0.00289"/>
                 <ratingLimit/>
@@ -9617,7 +7097,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus49_to_Bus24_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus24"/>
+                <fromBus idRef="Bus49"/>
                 <toBus idRef="Bus24"/>
                 <z unit="PU" im="0.02679" re="0.0"/>
                 <ratingLimit/>
@@ -9651,7 +7131,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus25_to_Bus40_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus40"/>
+                <fromBus idRef="Bus25"/>
                 <toBus idRef="Bus40"/>
                 <z unit="PU" im="0.12108" re="0.01213"/>
                 <ratingLimit/>
@@ -9673,7 +7153,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus3_to_Bus1_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus1"/>
+                <fromBus idRef="Bus3"/>
                 <toBus idRef="Bus1"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -9684,7 +7164,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus10_to_Bus9_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus9"/>
+                <fromBus idRef="Bus10"/>
                 <toBus idRef="Bus9"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -9695,7 +7175,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus11_to_Bus102_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus102"/>
+                <fromBus idRef="Bus11"/>
                 <toBus idRef="Bus102"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -9706,7 +7186,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus14_to_Bus12_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus12"/>
+                <fromBus idRef="Bus14"/>
                 <toBus idRef="Bus12"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -9717,7 +7197,7 @@
             </dstabLine>
             <dstabLine circuitId="0" id="Bus16_to_Bus15_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
-                <fromBus idRef="Bus15"/>
+                <fromBus idRef="Bus16"/>
                 <toBus idRef="Bus15"/>
                 <z unit="PU" im="1.0E-4" re="0.0"/>
                 <ratingLimit/>
@@ -9897,10 +7377,10 @@
                 <y0ShuntFromSide unit="PU" im="1.021" re="0.0"/>
                 <y0ShuntToSide unit="PU" im="0.0" re="0.0"/>
             </dstabLine>
-            <dstabLine circuitId="0" id="Bus46_to_Bus30_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
+            <dstabLine circuitId="0" id="Bus30_to_Bus46_cirId_0" offLine="false" zoneNumber="1" areaNumber="1">
                 <nvPairList/>
                 <fromBus idRef="Bus30"/>
-                <toBus idRef="Bus30"/>
+                <toBus idRef="Bus46"/>
                 <z unit="PU" im="0.04454" re="0.0"/>
                 <ratingLimit/>
                 <lineInfo/>
