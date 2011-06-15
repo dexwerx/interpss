@@ -168,15 +168,15 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 				return;
 			}
-			 DStabilityNetwork net = simuCtx.getDStabilityNet();
-			 assertTrue(net.checkData());
-			 assertTrue(net.getBranchList().size()==308);
-			 assertTrue(net.getBusList().size()==141);
+			DStabilityNetwork net = simuCtx.getDStabilityNet();
+			assertTrue(net.checkData());
+			assertTrue(net.getBranchList().size()==308);
+			assertTrue(net.getBusList().size()==141);
 			 
-			 //System.out.println(net.net2String());
+			//System.out.println(net.net2String());
 			 
-			 //setDynamicEventData(net);
-			 System.out.println(net.getMachine("Bus59-mach1").getMachData().toString());
+			//setDynamicEventData(net);
+			// System.out.println(net.getMachine("Bus59-mach1").getMachData().toString());
 			// System.out.println(net.getMachine("Bus56-mach1").getMachData().getXl());
 			/* 
 			 FileOutputStream out=new FileOutputStream(new File("d:/07c_2010_MachExc_noSe_netString.txt"));
@@ -185,10 +185,12 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				out.close();
 			
 			 */ 
-
 		 
-			 DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
-			
+			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
+			dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
+			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
+			dstabAlgo.setSimuStepSec(0.01);
+			dstabAlgo.setTotalSimuTimeSec(1.0);
 			
 			// run load flow test case
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
@@ -196,20 +198,15 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 				
-				
-				dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
-				dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-				dstabAlgo.setSimuStepSec(0.01);
-				dstabAlgo.setTotalSimuTimeSec(0.02);
-				IpssLogger.getLogger().setLevel(Level.INFO);
-				dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-				if (dstabAlgo.getSolver().initialization()) {
-					System.out.println("Running DStab simulation ...");
-					assertTrue(dstabAlgo.performSimulation(msg));
-				}
-					
+			create3PFaultEvent(net, "Bus10", "HUIZHLZ1");
+
+			//IpssLogger.getLogger().setLevel(Level.INFO);
+			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+			if (dstabAlgo.getSolver().initialization()) {
+				System.out.println("Running DStab simulation ...");
+				assertTrue(dstabAlgo.performSimulation(msg));
+			}
 		}
-      
 	}
 	
 	/************************************************
@@ -254,19 +251,23 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		}
 	}
 	
-	private void setDynamicEventData(DStabilityNetwork net) {
+	private void create3PFaultEvent(DStabilityNetwork net, String busId, String busName) {
 		// define a bus fault event
-		DynamicEvent event1 = DStabObjectFactory.createDEvent("BusFault3P@Bus3", "Bus Fault 3P@Bus3", 
+		DynamicEvent event1 = DStabObjectFactory.createDEvent(
+				"BusFault3P@"+busId, "Bus Fault 3P @"+busName, 
 				DynamicEventType.BUS_FAULT, net);
-		event1.setStartTimeSec(0.5);
+		event1.setStartTimeSec(0.0);
 		event1.setDurationSec(0.1);
 		
-		DStabBus faultBus = net.getDStabBus("Bus3");
-		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@Bus3", net);
+		// define a 3P fault
+		DStabBus faultBus = net.getDStabBus(busId);
+		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@"+busId, net);
   		fault.setAcscBus(faultBus);
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(NumericConstant.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
+		
+		// add the fault to the event
 		event1.setBusFault(fault);		
 	}	
 }
