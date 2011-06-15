@@ -28,8 +28,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.logging.Level;
 
-import org.gridgain.grid.GridException;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.display.AclfOutFunc;
@@ -38,46 +38,18 @@ import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
-import com.interpss.common.exp.InterpssException;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DStab_5BusNoRegulator extends DStabTestSetupBase {
-	//@Test
-	public void testDStab5BusCase() throws InterpssException, GridException {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
-		loadCaseData("testData/dstab_test/DStab-5BusNoReg.ipss", simuCtx);
-		
-		DStabilityNetwork net = simuCtx.getDStabilityNet();
-		// System.out.println(net.net2String());
-
-		DynamicSimuAlgorithm dstabAlgo = createDStabAlgo(net);
-		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-		assertTrue(aclfAlgo.loadflow());
-		//System.out.println(AclfOutFunc.loadFlowSummary(net));
-			
-		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-		dstabAlgo.setSimuStepSec(0.001);
-		dstabAlgo.setTotalSimuTimeSec(0.01);
-		
-		//IpssLogger.getLogger().setLevel(Level.INFO);
-		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-		if (dstabAlgo.getSolver().initialization()) {
-			//System.out.println(net.net2String());
-
-			System.out.println("Running DStab simulation ...");
-			assertTrue(dstabAlgo.performSimulation(msg));
-		}
-	}
-	
+public class DStab_2Bus extends DStabTestSetupBase {
 	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
-		File file = new File("testData/ieee_odm/Tran_5Bus.xml");
+		File file = new File("testData/ieee_odm/Tran_2Bus.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -90,6 +62,7 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 			}
 			//System.out.println(simuCtx.getDStabilityNet().net2String());
 			
+			//IpssLogger.getLogger().setLevel(Level.INFO);
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
