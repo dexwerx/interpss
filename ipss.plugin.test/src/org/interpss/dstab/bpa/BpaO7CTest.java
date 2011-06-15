@@ -68,12 +68,13 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	    
 	}
 	/*Test data: 
-	 * 07c_0614 : explicitly add switch shuntVar to compensate the un-planned shuntVar of BPA for BE type Bus
+	 * 07c_0615 : explicitly add switch shuntVar to compensate the un-planned shuntVar of BPA for BE type Bus
+	 * [test data updated by Tony 06/15]
 	 */
-	@Test
+	//@Test
 	public void sys2010_lfTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile("testData/bpa/07c_0614.dat")); 
+		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!new ODMAclfDataMapper(msg)
@@ -111,7 +112,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-				new String[] { "testdata/bpa/07c_0614.dat", 
+				new String[] { "testdata/bpa/07c_0615.dat", 
 				               "testdata/bpa/07c_onlyMach_noSe.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
 		DStabModelParser parser=(DStabModelParser) adapter.getModel();
@@ -153,7 +154,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 * 3) machine and exciter, not consider saturation: 07c_2010_Mach_Exc_noSe0614.xml
 	 * 14/06 Tony: with 07c_2010_Mach_Exc_noSe0614.xml, the initial machine angles are the same!
 	 */
-	//@Test
+	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
 		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_noSe0614.xml");
@@ -175,8 +176,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			 //System.out.println(net.net2String());
 			 
 			 //setDynamicEventData(net);
-			 System.out.println(net.getMachine("Bus56-mach1").getMachData().getXq());
-			 System.out.println(net.getMachine("Bus56-mach1").getMachData().getXl());
+			 System.out.println(net.getMachine("Bus59-mach1").getMachData().toString());
+			// System.out.println(net.getMachine("Bus56-mach1").getMachData().getXl());
 			/* 
 			 FileOutputStream out=new FileOutputStream(new File("d:/07c_2010_MachExc_noSe_netString.txt"));
 				out.write(net.net2String().getBytes());
