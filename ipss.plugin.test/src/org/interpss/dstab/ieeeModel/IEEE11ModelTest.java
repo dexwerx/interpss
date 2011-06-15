@@ -33,8 +33,8 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.DStabOutSymbol;
-import com.interpss.dstab.test.StateVariableTestRecorder;
-import com.interpss.dstab.test.YMatrixChangeTestRecorder;
+import com.interpss.dstab.cache.StateVariableRecorder;
+import com.interpss.dstab.cache.YMatrixChangeRecorder;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -64,19 +64,19 @@ public class IEEE11ModelTest extends DStabTestSetupBase {
 		aclfAlgo.loadflow();
 	  	assertTrue(simuCtx.getDStabilityNet().isLfConverged());
 		
-		StateVariableTestRecorder stateTestRecorder = new StateVariableTestRecorder(0.0001);
-		stateTestRecorder.addTestRecords("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
+		StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
+		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
-		stateTestRecorder.addTestRecords("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
+		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 		algo.setSimuOutputHandler(stateTestRecorder);
 
 	  	
-		YMatrixChangeTestRecorder yTestRecorder = new YMatrixChangeTestRecorder(0.0001);
+		YMatrixChangeRecorder yTestRecorder = new YMatrixChangeRecorder(0.0001);
 		// a 3P fault at t = 1.0, duration = 0.1, Y matrix should change
-		yTestRecorder.addTestRecord(new YMatrixChangeTestRecorder.TestRecord("0003", 1.0));
+		yTestRecorder.addTestRecord(new YMatrixChangeRecorder.Record("0003", 1.0));
 		// The fault cleared at t = 1.1, Y matrix should change again.
-		yTestRecorder.addTestRecord(new YMatrixChangeTestRecorder.TestRecord("0003", 1.1));
+		yTestRecorder.addTestRecord(new YMatrixChangeRecorder.Record("0003", 1.1));
 		yTestRecorder.initBusNumber(net);
 		net.setNetChangeListener(yTestRecorder);	
 
@@ -87,9 +87,9 @@ public class IEEE11ModelTest extends DStabTestSetupBase {
 			algo.performSimulation(msg);
 		}
 
-		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType_Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
-		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType_Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 
 		// check 3P fault at t = 1.0
