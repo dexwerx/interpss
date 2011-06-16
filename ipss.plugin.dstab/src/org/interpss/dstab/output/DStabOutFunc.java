@@ -70,7 +70,7 @@ public class DStabOutFunc {
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_ANG)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_ANG))
 						.doubleValue();
-		str += Number2String.toStr(10, Number2String.toStr("0.00", angle))
+		str += Number2String.toStr(10, Number2String.toStr("0.0000", angle))
 				+ "   ";
 
 		double speed = strFmt ? new Double((String) table
