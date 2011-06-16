@@ -66,9 +66,9 @@ public class IEEE22ModelTest extends DStabTestSetupBase {
 	  	assertTrue(simuCtx.getDStabilityNet().isLfConverged());
 		
 		StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
+		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
-		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
+		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 		algo.setSimuOutputHandler(stateTestRecorder);
 
@@ -86,9 +86,9 @@ public class IEEE22ModelTest extends DStabTestSetupBase {
 			algo.performSimulation(msg);
 		}
 
-		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType_Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
-		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType_Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 
 		// check 3P fault at t = 1.0

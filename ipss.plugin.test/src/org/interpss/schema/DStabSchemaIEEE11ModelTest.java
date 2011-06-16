@@ -102,7 +102,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				double[] timePoints    = {0.0,  0.5,  1.0},
 		     	 machAngPoints = {49.460, 49.460, 49.460};
 				StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
+				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 			  	
@@ -111,7 +111,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 					algo.performSimulation(msg);
 				}
 				
-				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType_Machine, 
+				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
 			}
 	  		else if (caseCnt == 2) {
@@ -142,9 +142,9 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				         	yClear = new Complex(1.2595,-12.97521);
 				
 				StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
+				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
-				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType_Machine, 
+				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 
@@ -166,7 +166,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
 */						
-				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType_Machine, 
+				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 
 				// check 3P fault at t = 1.0
