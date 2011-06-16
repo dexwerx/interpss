@@ -34,7 +34,7 @@ import com.interpss.dstab.mach.Machine;
 
 public class BPASSTypeStabilizer extends AnnotateStabilizer {
 	//1.1 kqsDelayBlock
-	public double kqs = 0.5, tqs = 0.0;
+	public double kqs = 12.0, tqs = 0.0;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="mach.speed-this.refPoint",
@@ -52,7 +52,7 @@ public class BPASSTypeStabilizer extends AnnotateStabilizer {
 	WashoutControlBlock tqWashoutBlock;		  
 	  
 	//1.3 tq1FilterBlock
-	public double tq11 = 1.3, tq1 = 0.2;
+	public double tq11 = 0.45, tq1 = 0.05;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tqWashoutBlock.y",
@@ -61,7 +61,7 @@ public class BPASSTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq1FilterBlock;		 	  
 	  
 	//1.4 tq2FilterBlock
-	public double tq21 = 1.3, tq2 = 0.02;
+	public double tq21 = 0.0, tq2 = 0.0;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tq1FilterBlock.y",
@@ -79,7 +79,7 @@ public class BPASSTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq3FilterBlock;	
 	  
 	//1.6 gainBlock
-	public double vsmax = 0.05, vsmin =-0.05;
+	public double vsmax = 0.1, vsmin = -vsmax;
 	@AnControllerField(
 	  	type= CMLFieldEnum.StaticBlock,
 	  	input="this.tq3FilterBlock.y",
@@ -122,7 +122,7 @@ public class BPASSTypeStabilizer extends AnnotateStabilizer {
 
 
     // UI Editor panel
-   // private static NBBpaSSTypeStabilizerEditPanel _editPanel = new NBBpaSSTypeStabilizerEditPanel();
+	// TODO    private static NBBpaSSTypeStabilizerEditPanel _editPanel = new NBBpaSSTypeStabilizerEditPanel();
 
 /*
  * Part-2: Define the contructors
@@ -201,13 +201,12 @@ public class BPASSTypeStabilizer extends AnnotateStabilizer {
      *
      * @return the editor panel object
      */
-    /*
-    @Override
-    public Object getEditPanel() {
-        _editPanel.init(this);
-        return _editPanel;
-    }
-    */
+ //   @Override
+ //   public Object getEditPanel() {
+ //       _editPanel.init(this);
+ //       return _editPanel;
+ //   }
+
 /*
  * do not modify the following part
  */
