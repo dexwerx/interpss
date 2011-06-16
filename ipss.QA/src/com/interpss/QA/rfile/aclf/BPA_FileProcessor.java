@@ -1,6 +1,6 @@
 package com.interpss.QA.rfile.aclf;
 
-import org.ieee.odm.adapter.bpa.impl.BusRecord;
+import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.interpss.numeric.util.NumericUtil;
 
@@ -43,7 +43,7 @@ public class BPA_FileProcessor extends Base_FileProcessor {
  */
 					this.totalBus++;
 					String busName = lineStr.substring(0, 11);
-					this.busId = BusRecord.getBusId(busName);
+					this.busId = BPABusRecord.getBusId(busName);
 					//System.out.println(busid.trim() + ":" + lineStr);
 					String str = lineStr.substring(113,125);
 					String[] ary = str.split("/");
