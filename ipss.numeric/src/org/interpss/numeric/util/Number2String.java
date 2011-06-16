@@ -27,7 +27,6 @@ package org.interpss.numeric.util;
 import java.text.DecimalFormat;
 
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.complex.ComplexFormat;
 
 /**
  * Num2Str class is for formated output. It is based on the DicimalFormat class.
@@ -131,7 +130,7 @@ public class Number2String {
 	 * @return formatted string 
 	 */
 	public static String toStr(final Complex c) {
-		return ComplexFormat.formatComplex(c);
+		return toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
 	}
 
 	/**
