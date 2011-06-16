@@ -25,25 +25,26 @@ import com.interpss.dstab.mach.Machine;
  * =================================================
  */
 @AnController(
-        input="mach.pe",
+        input="this.refPoint - mach.pe",
         output="this.gainCustomBlock.y",
-        refPoint="1.0",
+        refPoint="mach.pe + this.kqsDelayBlock.u0",
         display= {"str.speed,mach.speed",
        		"str.pe,mach.pe"        }
 )
 
 public class BPASGTypeStabilizer extends AnnotateStabilizer {
+	
 	//1.1 kqsDelayBlock
-	public double kqs = 0.5, tqs = 0.0;
+	public double kqs = 2.10, tqs = 0.1;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
-		input="mach.pe-this.refPoint",
+		input="this.refPoint - mach.pe",
 		parameter={"type.NoLimit", "this.kqs", "this.tqs"},
 		y0="this.tqWashoutBlock.u0"	)
 	DelayControlBlock kqsDelayBlock;	
 	  
 	//1.2 tqWashoutBlock
-	public double one = 1.0/*constant*/, tq = 10.0;
+	public double one = 1.0/*constant*/, tq = 5.0;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.kqsDelayBlock.y",
@@ -52,7 +53,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
 	WashoutControlBlock tqWashoutBlock;		  
 	  
 	//1.3 tq1FilterBlock
-	public double tq11 = 1.3, tq1 = 0.2;
+	public double tq11 = 0.15, tq1 = 4.0;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tqWashoutBlock.y",
@@ -61,7 +62,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq1FilterBlock;		 	  
 	  
 	//1.4 tq2FilterBlock
-	public double tq21 = 1.3, tq2 = 0.02;
+	public double tq21 = 0.3, tq2 = 0.05;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tq1FilterBlock.y",
@@ -70,7 +71,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq2FilterBlock;	
 	  
 	//1.5 tq3FilterBlock
-	public double tq31 = 0.0, tq3 = 0.0;
+	public double tq31 = 0.25, tq3 = 0.03;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tq2FilterBlock.y",
@@ -79,7 +80,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq3FilterBlock;	
 	  
 	//1.6 gainBlock
-	public double vsmax = 0.05, vsmin = -0.05;
+	public double vsmax = 0.05, vsmin = -vsmax;
 	@AnControllerField(
 	  	type= CMLFieldEnum.StaticBlock,
 	  	input="this.tq3FilterBlock.y",
