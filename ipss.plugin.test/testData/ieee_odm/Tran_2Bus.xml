@@ -25,6 +25,7 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
                         <pss:constPLoad unit="PU" im="0.2" re="0.2"/>
                     </pss:equivLoad>
                 </pss:loadData>	
+                <!-- pss:shuntY unit="PU" im="-0.1763285" re="0.1763285"/-->
 				<pss:dynamicGenList>
 					<pss:dynamicGen id="m1">
 						<pss:ratedPower unit="MW" value="600"></pss:ratedPower>
