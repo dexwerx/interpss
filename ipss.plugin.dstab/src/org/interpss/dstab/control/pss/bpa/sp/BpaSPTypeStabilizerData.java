@@ -105,6 +105,19 @@ public class BpaSPTypeStabilizerData {
 		Vcutoff = vcutoff;
 	}
 
+	/**
+	 * @param vsmin the vsmin to set
+	 */
+	public void setVsmin(double vsmin) {
+		this.vsmin = vsmin;
+	}
+	/**
+	 * @return the vsmin
+	 */
+	public double getVsmin() {
+		return vsmin;
+	}
+
 	private double tqs       = 0.0;
     private double tq        = 10.0;
     private double tq11      = 1.3;
@@ -115,6 +128,8 @@ public class BpaSPTypeStabilizerData {
     private double tq3       = 5.0;
     private double vsmax     = 0.1;
     private double Vcutoff   = 1.0;
+    private double vsmin     = -0.1;
+
 
 
 

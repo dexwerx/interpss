@@ -79,7 +79,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq3FilterBlock;	
 	  
 	//1.6 gainBlock
-	public double vsmax = 0.05, vsmin = -vsmax;
+	public double vsmax = 0.05, vsmin = -0.05;
 	@AnControllerField(
 	  	type= CMLFieldEnum.StaticBlock,
 	  	input="this.tq3FilterBlock.y",
@@ -185,7 +185,7 @@ public class BPASGTypeStabilizer extends AnnotateStabilizer {
         this.tq3 = getData().getTq3();
         this.vsmax = getData().getVsmax();
         this.Vcutoff = getData().getVcutoff();
-
+        this.vsmin=getData().getVsmin();
         // always add the following statement
         return super.initStates(bus, mach);
     }

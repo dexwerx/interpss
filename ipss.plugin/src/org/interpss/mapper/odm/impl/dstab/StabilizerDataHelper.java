@@ -25,12 +25,18 @@
 package org.interpss.mapper.odm.impl.dstab;
 
 import org.ieee.odm.schema.PssBPADualInputXmlType;
+import org.ieee.odm.schema.PssBpaSgTypeXmlType;
+import org.ieee.odm.schema.PssBpaSpTypeXmlType;
+import org.ieee.odm.schema.PssBpaSsTypeXmlType;
 import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
 import org.ieee.odm.schema.PssIEEE1AXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.interpss.dstab.control.pss.StabilizerObjectFactory;
+import org.interpss.dstab.control.pss.bpa.sg.BPASGTypeStabilizer;
 import org.interpss.dstab.control.pss.bpa.si.BPASITypeStabilizer;
+import org.interpss.dstab.control.pss.bpa.sp.BPASPTypeStabilizer;
+import org.interpss.dstab.control.pss.bpa.ss.BPASSTypeStabilizer;
 import org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer;
 import org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer;
 import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
@@ -86,6 +92,57 @@ public class StabilizerDataHelper {
 			pss.getData().setT14(pssXml.getT14().getValue());
 			pss.getData().setVsMax(pssXml.getVSMAX());
 			pss.getData().setVsMin(pssXml.getVSMIN());
+					
+		}
+		else if (pssXmlRec instanceof PssBpaSgTypeXmlType) {
+			PssBpaSgTypeXmlType pssXml = (PssBpaSgTypeXmlType)pssXmlRec;
+			BPASGTypeStabilizer pss = StabilizerObjectFactory.createBpaSgTypeStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKqs(pssXml.getKQS());	
+			pss.getData().setTqs(pssXml.getTQS().getValue());
+			pss.getData().setKqs(pssXml.getKQS());	
+			pss.getData().setTq(pssXml.getTQ().getValue());
+			pss.getData().setTq1(pssXml.getTQ1().getValue());
+			pss.getData().setTq11(pssXml.getT1Q1().getValue());
+			pss.getData().setTq2(pssXml.getTQ2().getValue());
+			pss.getData().setTq21(pssXml.getT1Q2().getValue());
+			pss.getData().setTq3(pssXml.getTQ3().getValue());
+			pss.getData().setTq31(pssXml.getT1Q3().getValue());
+			pss.getData().setVsmax(pssXml.getVSMAX());
+			pss.getData().setVsmin(pssXml.getVSMIN());
+					
+		}
+		else if (pssXmlRec instanceof PssBpaSpTypeXmlType) {
+			PssBpaSpTypeXmlType pssXml = (PssBpaSpTypeXmlType)pssXmlRec;
+			BPASPTypeStabilizer pss = StabilizerObjectFactory.createBpaSpTypeStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKqs(pssXml.getKQS());	
+			pss.getData().setTqs(pssXml.getTQS().getValue());
+			pss.getData().setKqs(pssXml.getKQS());	
+			pss.getData().setTq(pssXml.getTQ().getValue());
+			pss.getData().setTq1(pssXml.getTQ1().getValue());
+			pss.getData().setTq11(pssXml.getT1Q1().getValue());
+			pss.getData().setTq2(pssXml.getTQ2().getValue());
+			pss.getData().setTq21(pssXml.getT1Q2().getValue());
+			pss.getData().setTq3(pssXml.getTQ3().getValue());
+			pss.getData().setTq31(pssXml.getT1Q3().getValue());
+			pss.getData().setVsmax(pssXml.getVSMAX());
+			pss.getData().setVsmin(pssXml.getVSMIN());
+					
+		}
+		else if (pssXmlRec instanceof PssBpaSsTypeXmlType) {
+			PssBpaSsTypeXmlType pssXml = (PssBpaSsTypeXmlType)pssXmlRec;
+			BPASSTypeStabilizer pss = StabilizerObjectFactory.createBpaSsTypeStabilizer(mach.getId()+"_Pss", pssXml.getName(), mach);
+			pss.getData().setKqs(pssXml.getKQS());	
+			pss.getData().setTqs(pssXml.getTQS().getValue());
+			pss.getData().setKqs(pssXml.getKQS());	
+			pss.getData().setTq(pssXml.getTQ().getValue());
+			pss.getData().setTq1(pssXml.getTQ1().getValue());
+			pss.getData().setTq11(pssXml.getT1Q1().getValue());
+			pss.getData().setTq2(pssXml.getTQ2().getValue());
+			pss.getData().setTq21(pssXml.getT1Q2().getValue());
+			pss.getData().setTq3(pssXml.getTQ3().getValue());
+			pss.getData().setTq31(pssXml.getT1Q3().getValue());
+			pss.getData().setVsmax(pssXml.getVSMAX());
+			pss.getData().setVsmin(pssXml.getVSMIN());
 					
 		}
 		
