@@ -21,11 +21,11 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.bpa.impl.dynamic;
+package org.ieee.odm.adapter.bpa.dynamic;
 
 import java.text.NumberFormat;
 
-import org.ieee.odm.adapter.bpa.impl.BPABusRecord;
+import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;

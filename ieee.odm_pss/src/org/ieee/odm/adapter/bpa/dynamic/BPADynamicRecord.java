@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.adapter.bpa.impl.dynamic;
+package org.ieee.odm.adapter.bpa.dynamic;
 
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.common.ODMLogger;

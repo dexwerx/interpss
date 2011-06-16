@@ -1,4 +1,4 @@
-package org.ieee.odm.adapter.bpa.impl;
+package org.ieee.odm.adapter.bpa.lf;
 
 import javax.xml.bind.JAXBElement;
 

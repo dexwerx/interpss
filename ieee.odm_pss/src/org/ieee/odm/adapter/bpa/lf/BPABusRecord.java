@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.bpa.impl;
+package org.ieee.odm.adapter.bpa.lf;
 
 import java.util.Hashtable;
 
@@ -324,6 +324,9 @@ public class BPABusRecord {
 				// for "BE" type the limit if disabled
 					if (busType==pvBusNoQLimit)
 						busRec.getGenData().getEquivGen().getQLimit().setActive(false);
+					   //TODO BPA automatically balance the shuntVar at BE Type Bus, 
+					   // considering Ipss does not support such function, set it  to zero here.
+					  // AclfDataSetter.setBusShuntVar(busRec, 0, YUnitType.PU);
 				}
 				// set P limit
 				if(pGenMax!=0.0){

@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.bpa.impl;
+package org.ieee.odm.adapter.bpa.lf;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
