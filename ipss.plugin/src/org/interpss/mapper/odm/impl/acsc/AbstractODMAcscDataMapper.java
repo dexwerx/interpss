@@ -209,9 +209,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 
 	private static void setNonContributeBusFormInfo(AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.NON_CONTRI);
-		acscBus.setZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
-		acscBus.setZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
-		acscBus.setZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
+		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
+		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
+		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
 		acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		acscBus.getGrounding().setZ(NumericConstant.LargeBusZ);
 	}
@@ -246,9 +246,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 	private static void setBusScZ(AcscBus bus, double baseKVA, 
 			ZXmlType z1, ZXmlType z2, ZXmlType z0) {
 		byte zUnit = ODMXmlHelper.toUnit(z1.getUnit());
-		bus.setZ(new Complex(z1.getRe(), z1.getIm()), SequenceCode.POSITIVE, zUnit);
-		bus.setZ(new Complex(z2.getRe(), z2.getIm()), SequenceCode.NEGATIVE, zUnit);
-		bus.setZ(new Complex(z0.getRe(), z0.getIm()), SequenceCode.ZERO, zUnit);
+		bus.setScZ(new Complex(z1.getRe(), z1.getIm()), SequenceCode.POSITIVE, zUnit);
+		bus.setScZ(new Complex(z2.getRe(), z2.getIm()), SequenceCode.NEGATIVE, zUnit);
+		bus.setScZ(new Complex(z0.getRe(), z0.getIm()), SequenceCode.ZERO, zUnit);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA, GroundingXmlType g) {

@@ -227,9 +227,9 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 	private static boolean setNonContributeBusFormInfo(AcscBusData busData,
 			AcscBus bus, AcscNetwork net) {
 		bus.setScCode(BusScCode.NON_CONTRI);
-		bus.setZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
-		bus.setZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
-		bus.setZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
+		bus.setScZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
+		bus.setScZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
+		bus.setScZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
 		bus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		bus.getGrounding().setZ(NumericConstant.LargeBusZ);
 		return true;
@@ -237,9 +237,9 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, double r1,
 			double x1, double r2, double x2, double r0, double x0, byte zUnit) {
-		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
-		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
-		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
+		bus.setScZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
+		bus.setScZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
+		bus.setScZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
