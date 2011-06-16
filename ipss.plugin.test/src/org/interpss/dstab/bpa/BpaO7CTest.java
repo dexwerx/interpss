@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.logging.Level;
+import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.ODMObjectFactory;
@@ -16,13 +16,11 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.impl.AclfOut_PSSE.Format;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.numeric.NumericConstant;
 import org.junit.Test;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -36,6 +34,9 @@ import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
+import com.interpss.dstab.cache.StateVariableRecorder;
+import com.interpss.dstab.cache.StateVariableRecorder.Record;
+import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
@@ -198,13 +199,40 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			System.out.println(AclfOutFunc.loadFlowSummary(net));
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 				
+			// create fault
 			create3PFaultEvent(net, "Bus10", "HUIZHLZ1");
 
+			// create state variable recorder to record simulation results
+			StateVariableRecorder stateRecorder = new StateVariableRecorder(0.0001);
+			stateRecorder.addCacheRecords("Bus63-mach1",      // mach id 
+					StateVariableRecorder.RecType.Machine,    // record type
+					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
+					0.1,                                      // time steps for recording 
+					10);                                      // total points to record 
+			stateRecorder.addCacheRecords("Bus63-mach1", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 10);
+			dstabAlgo.setSimuOutputHandler(stateRecorder);
+			
 			//IpssLogger.getLogger().setLevel(Level.INFO);
-			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+			//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 			if (dstabAlgo.getSolver().initialization()) {
 				System.out.println("Running DStab simulation ...");
 				assertTrue(dstabAlgo.performSimulation(msg));
+			}
+
+			// output recorded simulation results
+			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
+					"Bus63-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+			System.out.println("Machine Anagle");
+			for (Record rec : list) {
+				System.out.println(rec.t + ", " + rec.variableValue);
+			}
+			
+			list = stateRecorder.getMachineRecords(
+					"Bus63-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
+			System.out.println("Machine Power");
+			for (Record rec : list) {
+				System.out.println(rec.t + ", " + rec.variableValue);
 			}
 		}
 	}
