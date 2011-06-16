@@ -24,7 +24,6 @@
 
 package org.interpss.dstab.control.cml;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;

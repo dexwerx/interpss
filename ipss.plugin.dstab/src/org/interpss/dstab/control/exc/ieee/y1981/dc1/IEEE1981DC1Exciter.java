@@ -6,20 +6,19 @@
 package org.interpss.dstab.control.exc.ieee.y1981.dc1;
 
 import java.lang.reflect.Field;
-import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.mach.Machine;
 
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
-import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
+import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.dstab.control.cml.func.SeFunction;
-import org.interpss.dstab.control.exc.bpa.fa.NBFAExciterEditPanel;
 
+import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
-import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
+import com.interpss.dstab.mach.Machine;
 
 /*
  * Part-1: Define your controller using CML as usual

@@ -24,6 +24,13 @@
 
 package org.interpss.dstab.control.exc;
 
+import org.interpss.dstab.control.exc.bpa.ea.EAExciter;
+import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
+import org.interpss.dstab.control.exc.bpa.fa.FAExciter;
+import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
+import org.interpss.dstab.control.exc.bpa.fk.FKExciter;
+import org.interpss.dstab.control.exc.bpa.fvkv0.FVkv0Exciter;
+import org.interpss.dstab.control.exc.bpa.fvkv1.FVkv1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1s.Ieee1968Type1sExciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type2.Ieee1968Type2Exciter;
@@ -32,13 +39,7 @@ import org.interpss.dstab.control.exc.ieee.y1968.type4.Ieee1968Type4Exciter;
 import org.interpss.dstab.control.exc.ieee.y1981.dc1.IEEE1981DC1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1981.st1.IEEE1981ST1Exciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
-import org.interpss.dstab.control.exc.bpa.ea.EAExciter;
-import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
-import org.interpss.dstab.control.exc.bpa.fa.FAExciter;
-import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
-import org.interpss.dstab.control.exc.bpa.fk.FKExciter;
-import org.interpss.dstab.control.exc.bpa.fvkv0.FVkv0Exciter;
-import org.interpss.dstab.control.exc.bpa.fvkv1.FVkv1Exciter;
+
 import com.interpss.dstab.mach.Machine;
 
 public class ExciterObjectFactory {

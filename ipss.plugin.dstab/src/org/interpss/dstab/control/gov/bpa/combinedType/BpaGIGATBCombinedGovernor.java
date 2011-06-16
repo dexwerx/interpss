@@ -6,7 +6,6 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
-import org.interpss.dstab.control.gov.bpa.gsTb.BpaGsTbCombineGovernordata;
 import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.common.util.IpssLogger;
