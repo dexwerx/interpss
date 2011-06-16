@@ -34,7 +34,7 @@ import com.interpss.dstab.mach.Machine;
 
 public class BPASPTypeStabilizer extends AnnotateStabilizer {
 	//1.1 kqsDelayBlock
-	public double kqs = 0.5, tqs = 0.0;
+	public double kqs = 0.02, tqs = 0.03;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="mach.pm - mach.pe - this.refPoint",
@@ -43,7 +43,7 @@ public class BPASPTypeStabilizer extends AnnotateStabilizer {
 	DelayControlBlock kqsDelayBlock;	
 	  
 	//1.2 tqWashoutBlock
-	public double one = 1.0/*constant*/, tq = 10.0;
+	public double one = 1.0/*constant*/, tq = 2.0;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.kqsDelayBlock.y",
@@ -52,7 +52,7 @@ public class BPASPTypeStabilizer extends AnnotateStabilizer {
 	WashoutControlBlock tqWashoutBlock;		  
 	  
 	//1.3 tq1FilterBlock
-	public double tq11 = 1.3, tq1 = 0.2;
+	public double tq11 = 0.05, tq1 = 0.35;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tqWashoutBlock.y",
@@ -61,7 +61,7 @@ public class BPASPTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq1FilterBlock;		 	  
 	  
 	//1.4 tq2FilterBlock
-	public double tq21 = 1.3, tq2 = 0.02;
+	public double tq21 = 0.0, tq2 = 0.0;
 	@AnControllerField(
 		type= CMLFieldEnum.ControlBlock,
 		input="this.tq1FilterBlock.y",
@@ -79,7 +79,7 @@ public class BPASPTypeStabilizer extends AnnotateStabilizer {
 	FilterControlBlock tq3FilterBlock;	
 	  
 	//1.6 gainBlock
-	public double vsmax = 0.05, vsmin = -0.05;
+	public double vsmax = 0.1, vsmin = -vsmax;
 	@AnControllerField(
 	  	type= CMLFieldEnum.StaticBlock,
 	  	input="this.tq3FilterBlock.y",
