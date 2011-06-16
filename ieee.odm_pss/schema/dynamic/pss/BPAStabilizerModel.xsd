@@ -1,31 +1,105 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
-    xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified" targetNamespace="http://www.ieee.org/odm/Schema/2008">
 
-	<include schemaLocation="../../common/DataType.xsd"></include>
-	<include schemaLocation="IEEEStabilizerModel.xsd"></include>
+	<include schemaLocation="../../common/DataType.xsd"/>
+	<include schemaLocation="IEEEStabilizerModel.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
 	</annotation>
 	
 	<!--
-		define models for BPA Governor, Turbine
+		define models for BPA Stabilizer
 		   Naming convention
 		       pssBPA* for element
 		       PssBPA* for complex type 
 	-->
 	
-	<element name="pssBPADualInput" type="pss:PssBPADualInputXmlType" substitutionGroup="pss:stabilizer"/>
-
+	<element name="pssBPADualInput" substitutionGroup="pss:stabilizer" type="pss:PssBPADualInputXmlType"/>
+    <element name="pssBPASs" substitutionGroup="pss:stabilizer" type="pss:PssBpaSsTypeXmlType"/>
+    <element name="pssBPASp" substitutionGroup="pss:stabilizer" type="pss:PssBpaSpTypeXmlType"/>
+    <element name="pssBPASg" substitutionGroup="pss:stabilizer" type="pss:PssBpaSgTypeXmlType"/>
+    
 	<complexType name="PssBPADualInputXmlType">
 		<complexContent>
 		<extension base="pss:PssIEEEDualInputXmlType">
 		<sequence>
-			<element name="KrBaseMVA" type="double" maxOccurs="1" minOccurs="0"></element>	
+			<element maxOccurs="1" minOccurs="0" name="KrBaseMVA" type="double"/>	
 		</sequence>
 		</extension>
 		</complexContent>		
 	</complexType>
+	
+	<complexType name="PssBpaSsTypeXmlType">
+		<complexContent>
+		<extension base="pss:StabilizerModelXmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="KQV" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TQV" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KQS" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TQS" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VCU" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="VCL" type="string"/>
+		</sequence>
+		</extension>
+		</complexContent>	
+	</complexType>
+	
+	<complexType name="PssBpaSpTypeXmlType">
+		<complexContent>
+		<extension base="pss:StabilizerModelXmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="KQV" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TQV" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KQS" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TQS" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VCU" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="VCL" type="string"/>
+		</sequence>
+		</extension>
+		</complexContent>	
+	</complexType>
+	
+	<complexType name="PssBpaSgTypeXmlType">
+		<complexContent>
+		<extension base="pss:StabilizerModelXmlType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="1" name="KQV" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TQV" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KQS" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="TQS" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TQ3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T1Q3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VCU" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="VCL" type="string"/>
+		</sequence>
+		</extension>
+		</complexContent>	
+	</complexType>
+	
 </schema>
