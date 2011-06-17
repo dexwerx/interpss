@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
+import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
