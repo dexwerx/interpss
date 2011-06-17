@@ -88,8 +88,10 @@ public class AclfOut_BusStyle {
 
 				Complex pq = new Complex(0.0, 0.0);
 				double amp = 0.0, fromRatio = 1.0, toRatio = 1.0, fromAng = 0.0, toAng = 0.0;
+				AclfBus toBus = null;
 				if (bra.isActive()) {
-					if (bus.equals(bra.getFromAclfBus())) {
+					if (bus.getId().equals(bra.getFromAclfBus().getId())) {
+						toBus = bra.getToAclfBus();
 						pq = bra.powerFrom2To(UnitType.mVA);
 						amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus().getBaseVoltage(),
 								baseKVA, UnitType.PU, UnitType.Amp);
@@ -103,6 +105,7 @@ public class AclfOut_BusStyle {
 							}
 						}
 					} else {
+						toBus = bra.getFromAclfBus();
 						pq = bra.powerTo2From(UnitType.mVA);
 						amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getToAclfBus().getBaseVoltage(),
 								baseKVA, UnitType.PU, UnitType.Amp);
@@ -120,8 +123,8 @@ public class AclfOut_BusStyle {
 				if (cnt++ > 0)
 					str.append(Number2String.toStr(67, " ")	+ "    ");
 				id = style == AclfOutFunc.BusIdStyle.BusId_No?
-						AclfOutFunc.getBusId(bus, net.getOriginalDataFormat()):
-						bus.getName().trim();
+						AclfOutFunc.getBusId(toBus, net.getOriginalDataFormat()):
+						toBus.getName().trim();
 				str.append(" " + Number2String.toStr(-12, id) + " ");
 				str.append(Number2String.toStr("####0.00", pq.getReal()) + " ");
 				str.append(Number2String.toStr("####0.00", pq.getImaginary()) + " ");
