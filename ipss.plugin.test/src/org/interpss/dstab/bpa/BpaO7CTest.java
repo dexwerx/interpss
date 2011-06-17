@@ -197,12 +197,12 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
 			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 			dstabAlgo.setSimuStepSec(0.001);
-			dstabAlgo.setTotalSimuTimeSec(1);
+			dstabAlgo.setTotalSimuTimeSec(0.01);
 			
 			// run load flow test case
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
-			System.out.println(AclfOutFunc.loadFlowSummary(net));
+			System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 				
 			// create fault
@@ -226,7 +226,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			dstabAlgo.setSimuOutputHandler(stateRecorder);
 			
 			//IpssLogger.getLogger().setLevel(Level.INFO);
-			//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 			if (dstabAlgo.getSolver().initialization()) {
 				System.out.println("Running DStab simulation ...");
 				assertTrue(dstabAlgo.performSimulation(msg));
