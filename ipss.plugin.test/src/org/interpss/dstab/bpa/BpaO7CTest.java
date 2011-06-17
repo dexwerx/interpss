@@ -16,6 +16,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.impl.AclfOut_PSSE.Format;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
+import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.numeric.NumericConstant;
@@ -69,13 +70,14 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	    
 	}
 	/*Test data: 
-	 * 07c_0615 : explicitly add switch shuntVar to compensate the un-planned shuntVar of BPA for BE type Bus
+	 * 07c_0615.dat : explicitly add switch shuntVar to compensate the un-planned shuntVar of BPA for BE type Bus
 	 * [test data updated by Tony 06/15]
+	 * 07c_0616.dat : all the loads at the terminal of Gen buses are converted to shuntY format
 	 */
 	//@Test
 	public void sys2010_lfTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615.dat")); 
+		assertTrue(adapter.parseInputFile("testData/bpa/07c_0616.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!new ODMAclfDataMapper(msg)
@@ -90,8 +92,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		assertTrue(net.getBusList().size()==141);
 		
 		LoadflowAlgorithm  algo=CoreObjectFactory.createLoadflowAlgorithm(net);
-		net.accept(algo);
-		//System.out.println(AclfOutFunc.lf4Google(net));
+		assertTrue(net.accept(algo));
+
 		//get the genResult
 		
 		for(Bus b:net.getBusList()){
@@ -105,60 +107,64 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		out.write(AclfOutFunc.lfResultsPsseStyle(net, Format.GUI).getBytes());
 		out.flush();
 		out.close();
-		assertTrue(Math.abs(net.getAclfBus("Bus1").getVoltageMag()-1.02484)<0.0001);
-		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
-		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
+//		assertTrue(Math.abs(net.getAclfBus("Bus1").getVoltageMag()-1.02484)<0.0001);
+//		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
+//		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
 	}
 	//@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-				new String[] { "testdata/bpa/07c_0615.dat", 
-				               "testdata/bpa/07c_onlyMach_noSe.swi"}));//"testdata/bpa/07c_onlyMach.swi"
+				new String[] { "testdata/bpa/07c_0616.dat", 
+				               "testdata/bpa/07c_onlymach_noSe.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
 		DStabModelParser parser=(DStabModelParser) adapter.getModel();
 		//AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		
 		//parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_noSe0614.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_noSe0616.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
 		
-//		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
-//		if (!new ODMDStabDataMapper(msg)
-//					.map2Model(parser, simuCtx)) {
-//			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
-//			return;
-//		}	
-//		
-//		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
-//	
-//		
-//		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-//		dstabAlgo.setSimuStepSec(0.001);
-//		dstabAlgo.setTotalSimuTimeSec(0.01);
-//		
-//		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-//		if (dstabAlgo.getSolver().initialization()) {
-//			System.out.println("Running DStab simulation ...");
-//			dstabAlgo.performSimulation(msg);
-//		}
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		if (!new ODMDStabDataMapper(msg)
+					.map2Model(parser, simuCtx)) {
+			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+			return;
+		}	
+		
+		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
+	
+		
+		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
+		dstabAlgo.setSimuStepSec(0.001);
+		dstabAlgo.setTotalSimuTimeSec(0.01);
+		
+		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+		if (dstabAlgo.getSolver().initialization()) {
+			System.out.println("Running DStab simulation ...");
+			dstabAlgo.performSimulation(msg);
+		}
 				
 	}
 	
 	/***************************************************
 	 * test data:
-	 * 1) only machine: 07c_2010_OnlyMach_0613.xml
-	 * 2) machine and exciter: 07c_2010_Mach_Exc_0609.xml
-	 * 3) machine and exciter, not consider saturation: 07c_2010_Mach_Exc_noSe0614.xml
-	 * 14/06 Tony: with 07c_2010_Mach_Exc_noSe0614.xml, the initial machine angles are the same!
+	 * 1)  07c_2010_Mach_Exc_noSe0614.xml: machine and exciter, not consider saturation
+	 * 2)  07c_2010_OnlyMach_noSe0615.xml :has normal load  type(P+j*Q) at Gen buses 
+	 * 3)  07c_2010_OnlyMach_noSe0616.xml :load at Gen buses changed to shuntY format:
+	 * 
+	 * 14/06 [Tony]: with 07c_2010_Mach_Exc_noSe0614.xml, the initial machine angles are the same!
+	 * 17/06 [Tony]: test with normal load type at Gen bus data (07c_2010_OnlyMach_noSe0615.xml) not stable,
+	 *  but it was stable once they are changed to shuntY format(with 07c_2010_OnlyMach_noSe0616.xml)
+	 * 
 	 */
 	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
-		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_noSe0614.xml");
+		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_noSe0615.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -190,8 +196,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 			dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
 			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
-			dstabAlgo.setSimuStepSec(0.01);
-			dstabAlgo.setTotalSimuTimeSec(1.0);
+			dstabAlgo.setSimuStepSec(0.001);
+			dstabAlgo.setTotalSimuTimeSec(1);
 			
 			// run load flow test case
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
@@ -200,17 +206,23 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 				
 			// create fault
-			create3PFaultEvent(net, "Bus10", "HUIZHLZ1");
+			//create3PFaultEvent(net, "Bus134", "luopingg");
 
 			// create state variable recorder to record simulation results
-			StateVariableRecorder stateRecorder = new StateVariableRecorder(0.0001);
-			stateRecorder.addCacheRecords("Bus63-mach1",      // mach id 
+			StateVariableRecorder ssRecorder = new StateVariableRecorder(0.0001);
+			ssRecorder.addCacheRecords("Bus78-mach1",      // mach id 
 					StateVariableRecorder.RecType.Machine,    // record type
 					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
-					0.1,                                      // time steps for recording 
-					10);                                      // total points to record 
-			stateRecorder.addCacheRecords("Bus63-mach1", StateVariableRecorder.RecType.Machine, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 10);
+					0.01,                                      // time steps for recording 
+					100);                                      // total points to record 
+			StateVariableRecorder stateRecorder = new StateVariableRecorder(0.0001);
+			stateRecorder.addCacheRecords("Bus64-mach1",      // mach id 
+					StateVariableRecorder.RecType.Machine,    // record type
+					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
+					0.01,                                      // time steps for recording 
+					100);                                      // total points to record 
+			stateRecorder.addCacheRecords("Bus64-mach1", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.01, 100);
 			dstabAlgo.setSimuOutputHandler(stateRecorder);
 			
 			//IpssLogger.getLogger().setLevel(Level.INFO);
@@ -219,21 +231,22 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				System.out.println("Running DStab simulation ...");
 				assertTrue(dstabAlgo.performSimulation(msg));
 			}
-
+          
 			// output recorded simulation results
 			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
-					"Bus63-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
 			System.out.println("Machine Anagle");
 			for (Record rec : list) {
 				System.out.println(rec.t + ", " + rec.variableValue);
 			}
 			
 			list = stateRecorder.getMachineRecords(
-					"Bus63-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
+					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
 			System.out.println("Machine Power");
 			for (Record rec : list) {
 				System.out.println(rec.t + ", " + rec.variableValue);
 			}
+			
 		}
 	}
 	
