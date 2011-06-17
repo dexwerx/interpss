@@ -32,9 +32,7 @@ import java.io.FileInputStream;
 import org.gridgain.grid.GridException;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
@@ -43,12 +41,14 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
+import com.interpss.dstab.cache.StateVariableRecorder;
+import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class DStab_5BusNoRegulator extends DStabTestSetupBase {
-	//@Test
+	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		loadCaseData("testData/dstab_test/DStab-5BusNoReg.ipss", simuCtx);
@@ -65,19 +65,35 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 		dstabAlgo.setSimuStepSec(0.001);
 		dstabAlgo.setTotalSimuTimeSec(0.01);
 		
+		double[] timePoints   = {0.0,      0.004,    0.007,    0.01},
+ 			     machPePoints = {0.8333,   0.8333,   0.8333,   0.8333},
+ 			     machVPoints  = {1.0795,   1.0795,   1.0795,   1.0795};
+
+		StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
+		stateTestRecorder.addTestRecords("Mach@0004", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1, timePoints, machVPoints);
+		stateTestRecorder.addTestRecords("Mach@0004", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
+		dstabAlgo.setSimuOutputHandler(stateTestRecorder);
+
 		//IpssLogger.getLogger().setLevel(Level.INFO);
-		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+		//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.getSolver().initialization()) {
 			//System.out.println(net.net2String());
 
-			System.out.println("Running DStab simulation ...");
+			//System.out.println("Running DStab simulation ...");
 			assertTrue(dstabAlgo.performSimulation(msg));
 		}
+
+		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
+				DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.01);
+		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
+				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);			
 	}
 	
 	@Test
-	public void sys2010_XmlDstabtestCase() throws Exception {
-		File file = new File("testData/ieee_odm/Tran_5Bus.xml");
+	public void odmTestCase() throws Exception {
+		File file = new File("testData/ieee_odm/Tran_5Bus_062011.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -93,20 +109,36 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
-			System.out.println(AclfOutFunc.loadFlowSummary(simuCtx.getDStabilityNet()));
+			//System.out.println(AclfOutFunc.loadFlowSummary(simuCtx.getDStabilityNet()));
 				
 			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 			dstabAlgo.setSimuStepSec(0.001);
 			dstabAlgo.setTotalSimuTimeSec(0.01);
 			
+			double[] timePoints   = {0.0,      0.004,    0.007,    0.01},
+		             machPePoints = {0.8422,   0.8422,   0.8422,   0.8422},
+		             machVPoints  = {1.0976,   1.0976,   1.0976,   1.0976};
+
+			StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
+			stateTestRecorder.addTestRecords("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1, timePoints, machVPoints);
+			stateTestRecorder.addTestRecords("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
+			dstabAlgo.setSimuOutputHandler(stateTestRecorder);
+			
 			//IpssLogger.getLogger().setLevel(Level.INFO);
-			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+			//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 			if (dstabAlgo.getSolver().initialization()) {
 				//System.out.println(simuCtx.getDStabilityNet().net2String());
 
-				System.out.println("Running DStab simulation ...");
+//				System.out.println("Running DStab simulation ...");
 				assertTrue(dstabAlgo.performSimulation(msg));
 			}
+			
+			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.01);
+			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);			
 		}
 	}
 }
