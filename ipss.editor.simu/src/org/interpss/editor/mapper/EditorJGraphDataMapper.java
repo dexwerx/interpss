@@ -69,7 +69,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 			return false;
 		}
 
-		msg.sendStatusMsg("SimuContext data is dirty, map editor date from GFormContainer to simuCtx");
+		msg.sendStatusMsg("SimuContext data is dirty, map editor data from GFormContainer to simuCtx");
 		Object net = null;
 		try {
 			net = createMappingObject(gFormContainer, GFormContainer.class);
@@ -93,7 +93,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 					simuCtx.setNetwork(net, SimuCtxType.ACSC_NET);
 				}
 		}
-		msg.sendStatusMsg("Editor date mapped to simuCtx");
+		msg.sendStatusMsg("Editor data mapped to simuCtx");
 
 		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
