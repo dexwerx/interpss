@@ -64,12 +64,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.994"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.994"/>
-                    </equivGen>
-                </genData>
                 <shuntY unit="PU" im="30.81" re="0.0"/>
             </aclfBus>
             <aclfBus id="Bus9" offLine="false" zoneName="DC" zoneNumber="1" areaNumber="1" name="HUIZ-HLZ">
@@ -152,12 +146,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0010000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0010000000000001"/>
-                    </equivGen>
-                </genData>
                 <shuntY unit="PU" im="16.14" re="0.0"/>
             </aclfBus>
             <aclfBus id="Bus92" offLine="false" zoneName="GX" zoneNumber="1" areaNumber="1" name="SC-BS1">
@@ -222,11 +210,6 @@
                         <qLimit unit="MVAR" min="0.0" max="300.0"/>
                     </equivGen>
                 </genData>
-                <loadData>
-                    <equivLoad code="CONST_P">
-                        <constPLoad unit="MVA" im="150.0" re="42.84"/>
-                    </equivLoad>
-                </loadData>
                 <dynamicGenList>
                     <dynamicGen id="1">
                         <ratedPower unit="MW" value="667.0"/>
@@ -2031,12 +2014,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.992"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.992"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="191.4" re="322.9"/>
@@ -2051,12 +2028,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.022"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.022"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="323.8" re="973.1"/>
@@ -2071,12 +2042,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0150000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0150000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="125.6" re="340.5"/>
@@ -2091,12 +2056,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0190000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0190000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="181.1" re="468.4"/>
@@ -2111,12 +2070,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.984"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.984"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="109.6" re="237.0"/>
@@ -2142,12 +2095,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0070000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0070000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="560.1" re="1096.0"/>
@@ -2162,12 +2109,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0150000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0150000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="174.9" re="352.5"/>
@@ -2182,12 +2123,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0190000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0190000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="237.7" re="800.0"/>
@@ -2202,12 +2137,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.026"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.026"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="14.71" re="0.0"/>
@@ -2222,12 +2151,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.991"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.991"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="123.4" re="335.4"/>
@@ -2242,12 +2165,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.027"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.027"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="299.8" re="710.1"/>
@@ -2262,12 +2179,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.034"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.034"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="243.5" re="338.2"/>
@@ -2304,12 +2215,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0170000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0170000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="146.6" re="404.5"/>
@@ -2324,12 +2229,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0150000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0150000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="129.9" re="180.1"/>
@@ -2344,12 +2243,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.012"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.012"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="103.9" re="161.2"/>
@@ -2364,12 +2257,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.996"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.996"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="138.7" re="316.4"/>
@@ -2384,12 +2271,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.027"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.027"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="1983.0" re="0.0"/>
@@ -2420,12 +2301,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.99"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.99"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="588.3" re="800.0"/>
@@ -2440,12 +2315,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.992"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.992"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="318.4" re="678.4"/>
@@ -2460,12 +2329,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.026"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.026"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="0.0" re="80.0"/>
@@ -2480,12 +2343,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="230.0"/>
                 <voltage unit="PU" value="1.031"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.031"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="23.43" re="35.0"/>
@@ -2500,12 +2357,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0210000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0210000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="251.6" re="378.3"/>
@@ -2520,12 +2371,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0230000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0230000000000001"/>
-                    </equivGen>
-                </genData>
                 <shuntY unit="PU" im="18.98" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.009604" re="0.001726"/>
@@ -2535,12 +2380,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.999"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.999"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="399.7" re="769.2"/>
@@ -2555,12 +2394,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.026"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.026"/>
-                    </equivGen>
-                </genData>
                 <shuntY unit="PU" im="-0.5" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.008133" re="0.0"/>
@@ -2602,12 +2435,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.018"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.018"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="83.35" re="98.4"/>
@@ -2654,12 +2481,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.022"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.022"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="489.5" re="618.3"/>
@@ -2685,12 +2506,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0130000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0130000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="141.5" re="164.4"/>
@@ -2705,12 +2520,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.028"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.028"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="17.24" re="86.34"/>
@@ -2741,12 +2550,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.032"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.032"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="6.917" re="14.7"/>
@@ -2761,12 +2564,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.02"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.02"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="19.43" re="27.68"/>
@@ -2797,12 +2594,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.029"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.029"/>
-                    </equivGen>
-                </genData>
                 <shuntY unit="PU" im="-5.04" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.00875" re="0.0"/>
@@ -2828,12 +2619,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.989"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.989"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="94.4" re="209.3"/>
@@ -2848,12 +2633,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="230.0"/>
                 <voltage unit="PU" value="0.966"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.966"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="467.3" re="1849.0"/>
@@ -2868,12 +2647,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.991"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.991"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="522.1" re="1418.0"/>
@@ -2888,12 +2661,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.988"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.988"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="3.193" re="8.914"/>
@@ -2972,12 +2739,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.991"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.991"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="254.7" re="796.5"/>
@@ -2992,12 +2753,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0010000000000001"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0010000000000001"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="121.1" re="366.7"/>
@@ -3012,12 +2767,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.999"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.999"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="501.9" re="1232.0"/>
@@ -3032,12 +2781,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.01"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.01"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="41.69" re="193.7"/>
@@ -3068,12 +2811,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.994"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.994"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="224.6" re="965.9"/>
@@ -3104,12 +2841,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.002"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.002"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="300.5" re="1020.0"/>
@@ -3134,12 +2865,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.997"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.997"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="194.0" re="570.2"/>
@@ -3186,12 +2911,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.984"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.984"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="638.7" re="1465.0"/>
@@ -3286,12 +3005,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.002"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.002"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="56.28" re="0.0"/>
@@ -3322,12 +3035,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0"/>
-                    </equivGen>
-                </genData>
                 <shuntY unit="PU" im="-1.59" re="0.0"/>
                 <scShuntLoadData>
                     <zeroZ unit="PU" im="0.003466" re="0.0"/>
@@ -3395,12 +3102,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="0.999"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="0.999"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="161.1" re="525.6"/>
@@ -3431,12 +3132,6 @@
                 <nvPairList/>
                 <baseVoltage unit="KV" value="525.0"/>
                 <voltage unit="PU" value="1.0"/>
-                <genData>
-                    <equivGen code="PV">
-                        <power unit="MVA" im="0.0" re="0.0"/>
-                        <desiredVoltage unit="PU" value="1.0"/>
-                    </equivGen>
-                </genData>
                 <loadData>
                     <equivLoad code="CONST_P">
                         <constPLoad unit="MVA" im="350.0" re="985.2"/>
@@ -7049,7 +6744,7 @@
                 <y0ShuntToSide unit="PU" im="0.0" re="0.0"/>
             </dstabLine>
         </branchList>
-        <hasLoadflowData>false</hasLoadflowData>
+        <hasLoadflowData>true</hasLoadflowData>
         <positiveSeqDataOnly>false</positiveSeqDataOnly>
         <saturatedMachineParameter>false</saturatedMachineParameter>
     </dstabNet>
