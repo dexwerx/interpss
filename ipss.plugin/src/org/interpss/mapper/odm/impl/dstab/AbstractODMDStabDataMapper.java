@@ -193,6 +193,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 		DStabilityNetwork dstabNet = DStabObjectFactory.createDStabilityNetwork();
 		mapAcscNetworkData(dstabNet, xmlNet);
 		dstabNet.setSaturatedMachineParameter(xmlNet.isSaturatedMachineParameter());
+		dstabNet.setLfDataLoaded(true);
 		return dstabNet;
 	}	
 	
