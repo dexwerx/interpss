@@ -93,9 +93,9 @@ public class DStab_2Bus extends DStabTestSetupBase {
 			}
 			
 			assertTrue(stateTestRecorder.diffTotal("Bus-1-mach1", StateVariableRecorder.RecType.Machine, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.01);
+					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.0001);
 			assertTrue(stateTestRecorder.diffTotal("Bus-1-mach1", StateVariableRecorder.RecType.Machine, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);			
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.0001);			
 		}
 	}
 }

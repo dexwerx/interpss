@@ -86,9 +86,9 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
-				DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.01);
+				DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.0001);
 		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
-				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);			
+				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.0001);			
 	}
 	
 	@Test
@@ -136,9 +136,9 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 			}
 			
 			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.01);
+					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.0001);
 			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);			
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.001);			
 		}
 	}
 }
