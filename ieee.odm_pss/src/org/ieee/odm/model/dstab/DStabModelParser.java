@@ -101,6 +101,22 @@ public class DStabModelParser extends AclfModelParser {
 	 * 		Bus functions
 	 * 		=============
 	 */
+	
+	/**
+	 * add a new Bus record to the base case
+	 * 
+	 * @return
+	 */
+	@Override
+	public LoadflowBusXmlType createAclfBus() {
+		DStabBusXmlType busRec = this.getFactory().createDStabBusXmlType();
+		busRec.setOffLine(false);
+		busRec.setAreaNumber(1);
+		busRec.setZoneNumber(1);
+		busRec.setNvPairList(this.getFactory().createNameValuePairListXmlType());
+		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
+		return busRec;
+	}
 
 	/**
 	 * get the DStab bus object using the id. If the bus object is of type aclfBus or acscBus,
