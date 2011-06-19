@@ -43,6 +43,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -152,6 +153,46 @@ public class DStabModelParser extends AclfModelParser {
 	 * 		================
 	 */
 
+	/**
+	 * create a LineBranchXmlType object
+	 * 
+	 * @return
+	 */
+	@Override
+	public LineDStabXmlType createLineBranch() {
+		LineDStabXmlType branch = this.getFactory().createLineDStabXmlType();
+		branch.setRatingLimit(this.getFactory().createBranchRatingLimitXmlType());
+		branch.setLineInfo(this.getFactory().createLineBranchInfoXmlType());
+		branch.setNvPairList(this.getFactory().createNameValuePairListXmlType());
+		intiBranchData(branch);
+		return branch;
+	}
+	
+	/**
+	 * create a XfrBranchXmlType object
+	 * 
+	 * @return
+	 */
+	@Override
+	public XfrDStabXmlType createXfrBranch() {
+		XfrDStabXmlType branch = this.getFactory().createXfrDStabXmlType();
+		branch.setXfrInfo(this.getFactory().createTransformerInfoXmlType());
+		intiBranchData(branch);
+		return branch;
+	}
+
+	/**
+	 * create a PSXfrBranchXmlType object
+	 * 
+	 * @return
+	 */
+	@Override
+	public PSXfrDStabXmlType createPSXfrBranch() {
+		PSXfrDStabXmlType branch = this.getFactory().createPSXfrDStabXmlType();
+		intiBranchData(branch);
+		return branch;
+	}
+	
 	/**
 	 * get the DStab Line object using the id. If the branch object is of type aclfLine or acscLine,
 	 * cast it to the dstabLine type

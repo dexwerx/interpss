@@ -77,13 +77,13 @@ public class BPADynamicSequenceRecord {
 			     xfr =parser.getDStabXfr(fromId, toId, cirId);
 			     fromBusRef=parser.createBusRef(fromId);
 			     toBusRef=parser.createBusRef(toId);
-			     }
+			}
 	    	
 			else if (parser.getBranch(toId, fromId, cirId)!=null){
 				xfr =parser.getDStabXfr(toId, fromId, cirId);
 			     fromBusRef=parser.createBusRef(toId);
 			     toBusRef=parser.createBusRef(fromId);
-			     }
+			}
 			else throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "-" + toId + "(" + cirId + ")");
 	    	
 	    	
