@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.gov;
 
-import org.interpss.dstab.control.gov.bpa.combinedType.BpaGIGATBCombinedGovernor;
+import org.interpss.dstab.control.gov.bpa.giGaTbcombinedType.BpaGIGATBCombinedGovernor;
 import org.interpss.dstab.control.gov.bpa.gsTb.BpaGsTbCombineGovernor;
 import org.interpss.dstab.control.gov.bpa.hydro.BpaGHTypeHydroGovernor;
 import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor;

@@ -1,4 +1,4 @@
-package org.interpss.dstab.control.gov.bpa.combinedType;
+package org.interpss.dstab.control.gov.bpa.giGaTbcombinedType;
 
 import java.lang.reflect.Field;
 
