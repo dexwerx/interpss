@@ -9,9 +9,9 @@
 		<pss:adapterProviderName>Stephen.Hou</pss:adapterProviderName>
 		<pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
 	</pss:contentInfo>
-	<pss:dstabNet xsi:type="pss:DStabNetXmlType" id="TwoAreaBaseCase">
 		<pss:networkCategory>Transmission</pss:networkCategory>
 		<pss:analysisCategory>TransientStability</pss:analysisCategory>
+	<pss:dstabNet xsi:type="pss:DStabNetXmlType" id="TwoAreaBaseCase">
 		<pss:basePower unit="MVA" value="100"></pss:basePower>
 		<pss:busList>
 			<pss:dstabBus scCode="Contributing" id="Bus1" name="AR1GEN1" offLine="false" areaNumber="1" zoneNumber="1">
@@ -25,8 +25,8 @@
 						<pss:qLimit unit="MVAR" min="-150.0" max="500.0" />
 					</pss:equivGen>
 				</pss:genData>
-				<pss:machineList>
-					<pss:machine>
+				<pss:dynamicGenList>
+					<pss:dynamicGen>
 						<pss:genId id="AR1BUS1GEN1"></pss:genId>
 						<pss:ownerName>BUS1</pss:ownerName>
 						<pss:ratedPower unit="MW" value="900" />
@@ -73,8 +73,8 @@
 							<pss:XC>0</pss:XC>
 						</pss:excTSATTypeEXC34>
 						<pss:grounding connection="Ungrounded"></pss:grounding>
-					</pss:machine>
-				</pss:machineList>
+					</pss:dynamicGen>
+				</pss:dynamicGenList>
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus2" areaNumber="1" name="AR1GEN2" offLine="false" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="230" />
@@ -87,8 +87,8 @@
 						<pss:qLimit unit="MVAR" min="-150.0" max="500.0" />
 					</pss:equivGen>
 				</pss:genData>
-				<pss:machineList>
-					<pss:machine>
+				<pss:dynamicGenList>
+					<pss:dynamicGen>
 						<pss:genId id="AR1BUS2GEN1"></pss:genId>
 						<pss:ownerName>BUS2</pss:ownerName>
 						<pss:ratedPower unit="MW" value="900" />
@@ -135,8 +135,8 @@
 							<pss:XC>0</pss:XC>
 						</pss:excTSATTypeEXC34>
 						<pss:grounding connection="Ungrounded"></pss:grounding>
-					</pss:machine>
-				</pss:machineList>
+					</pss:dynamicGen>
+				</pss:dynamicGenList>
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus3" areaNumber="2" offLine="false" zoneNumber="2" name="AR2GEN1">
 				<pss:baseVoltage unit="KV" value="230" />
@@ -149,8 +149,8 @@
 						<pss:desiredAngle unit="DEG" value="0.0" />
 					</pss:equivGen>
 				</pss:genData>
-				<pss:machineList>
-					<pss:machine>
+				<pss:dynamicGenList>
+					<pss:dynamicGen>
 						<pss:genId id="AR2BUS3GEN1"></pss:genId>
 						<pss:ownerName>BUS3</pss:ownerName>
 						<pss:ratedPower unit="MW" value="900" />
@@ -197,8 +197,8 @@
 							<pss:XC>0</pss:XC>
 						</pss:excTSATTypeEXC34>
 						<pss:grounding connection="Ungrounded"></pss:grounding>
-					</pss:machine>
-				</pss:machineList>
+					</pss:dynamicGen>
+				</pss:dynamicGenList>
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus4" areaNumber="2" zoneNumber="2" offLine="false" name="AR2GEN2">
 				<pss:baseVoltage unit="KV" value="230" />

@@ -9,9 +9,9 @@
 		<pss:originalDataFormat>InterPSS</pss:originalDataFormat>
 		<pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
 	</pss:contentInfo>
-	<pss:dstabNet id="idvalue1">
 		<pss:networkCategory>Transmission</pss:networkCategory>
 		<pss:analysisCategory>TransientStability</pss:analysisCategory>
+	<pss:dstabNet id="idvalue1">
 		<pss:basePower unit="MVA" value="100" />
 		<pss:frequency unit="Hz" value="50" />
 		<pss:busList>
@@ -55,8 +55,8 @@
 						<pss:desiredVoltage unit="PU" value="1.05" />
 					</pss:equivGen>
 				</pss:genData>
-				<pss:machineList>
-					<pss:machine id="mach_Bus-4">
+				<pss:dynamicGenList>
+					<pss:dynamicGen id="mach_Bus-4">
 						<pss:ratedPower unit="MW" value="600"></pss:ratedPower>
 						<pss:ratedVoltage unit="KV" value="1" />
 						<pss:eq1MachModel>
@@ -100,8 +100,8 @@
 							<pss:Vsmin>-0.2</pss:Vsmin>
 						</pss:pssSimpleType>
 						<pss:grounding groundingConnection="Ungrounded"></pss:grounding>
-					</pss:machine>
-				</pss:machineList>
+					</pss:dynamicGen>
+				</pss:dynamicGenList>
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus-5" offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="4" />
@@ -113,8 +113,8 @@
 						<pss:desiredAngle unit="DEG" value="0.0" />
 					</pss:equivGen>
 				</pss:genData>
-				<pss:machineList>
-					<pss:machine  id="mach_Bus-5">
+				<pss:dynamicGenList>
+					<pss:dynamicGen  id="mach_Bus-5">
 						<pss:equiMachModel>
 							<pss:equivSource>
 								<pss:scMva3Phase>10000.00</pss:scMva3Phase>
@@ -123,8 +123,8 @@
 								<pss:xOverR1Phase>20</pss:xOverR1Phase>
 							</pss:equivSource>
 						</pss:equiMachModel>
-					</pss:machine>
-				</pss:machineList>
+					</pss:dynamicGen>
+				</pss:dynamicGenList>
 			</pss:dstabBus>
 		</pss:busList>
 		<pss:branchList>

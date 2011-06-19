@@ -7,9 +7,9 @@
 		<pss:originalDataFormat>InterPSS</pss:originalDataFormat>
 		<pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
 	</pss:contentInfo>
+	<pss:networkCategory>Transmission</pss:networkCategory>
+	<pss:analysisCategory>ShortCircuit</pss:analysisCategory>
 	<pss:acscNet id="acsc_5bus_net">
-		<pss:networkCategory>Transmission</pss:networkCategory>
-		<pss:analysisCategory>ShortCircuit</pss:analysisCategory>
 		<pss:basePower unit="MVA" value="100" ></pss:basePower>
 		<pss:frequency unit="Hz" value="50" />
 		<pss:busList>

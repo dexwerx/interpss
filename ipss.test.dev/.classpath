@@ -29,5 +29,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/ipss.vstab/lib/jxl.jar" sourcepath="G:/Software/java/jexcelapi_2_6_12.zip"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
