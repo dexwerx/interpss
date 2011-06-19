@@ -29,6 +29,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.interpss.numeric.util.PerformanceTimer;
 
 public class BPADynamicRecord {	
 	private final static int header=1;
@@ -44,18 +45,22 @@ public class BPADynamicRecord {
 	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
 		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
 
+		//PerformanceTimer timer = new PerformanceTimer(ODMLogger.getLogger());
+
 		String str;
 		do{
 			str= din.readLine();
 			if(!str.startsWith("90")){
 				int dataType = getDataType(str);
-				System.out.println("processing line--"+str);
+				//System.out.println("processing line--"+str);
 				try{
 					if(dataType==header){
 						processHeaderData(str);
 					}
 					else if(dataType==generatorData){
+						//timer.start();
 						BPADynamicGeneratorRecord.processGeneratorData(str, parser);
+						//timer.logStd("processGeneratorData");
 					}
 					 /*since ODM should only deal with dynamic network data and 
 					  fault setting is usually analysis/software-dependent
@@ -64,19 +69,29 @@ public class BPADynamicRecord {
 				    }
 					 */
 					else if(dataType==exciterData){
+						//timer.start();
 						BPADynamicExciterRecord.processExciterData(str, parser);
+						//timer.logStd("processExciterData");
 					}
 					else if(dataType==turbine_governorData){
+						//timer.start();
 						BPADynamicTurbineGovernorRecord.processTurbineGovernorData(str, parser);
+						//timer.logStd("processTurbineGovernorData");
 					}
 					else if(dataType==pssData){
+						//timer.start();
 						BPADynamicPSSRecord.processPSSData(str, parser);
+						//timer.logStd("processPSSData");
 					}
 					else if(dataType==loadData){
+						//timer.start();
 						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, parser);
+						//timer.logStd("processLoadCharacteristicData");
 					}
 					else if(dataType==sequenceData){
+						//timer.start();
 						BPADynamicSequenceRecord.processSequenceData(str, parser);
+						//timer.logStd("processSequenceData");
 					}
 					else if(dataType==simuData){
 						// not used

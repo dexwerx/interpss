@@ -49,6 +49,7 @@ import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
+import org.interpss.numeric.util.PerformanceTimer;
 
 
 
@@ -174,7 +175,8 @@ public class BPADynamicGeneratorRecord {
     	 */
     	else if(str.substring(0, 2).trim().equals("MF")){
     		String busId = BPABusRecord.getBusId(strAry[1]);
-        	DStabBusXmlType bus = parser.getDStabBus(busId);
+        	
+    		DStabBusXmlType bus = parser.getDStabBus(busId);
         	
     		String dynGenId="1";
     		if(!strAry[3].equals("")){
