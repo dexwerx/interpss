@@ -23,7 +23,7 @@ import com.interpss.dstab.mach.Machine;
 		   display= {"str.Pm,this.output"})
 public class BpaGsTbCombineGovernor extends AnnotateExciter {
 	//1.1 GainBlock
-	public double pmax0 = 1500, pmin0 = 0.0, p0 = 100;
+	public double pmax0 = 790, pmin0 = 0.0, p0 = 100;
 	public double pmax = pmax0/p0, r = 0.05, k = pmax/r;
 	@AnControllerField(
 		 				type= CMLFieldEnum.StaticBlock,
@@ -65,7 +65,7 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
 	@AnControllerField(
 		 				type= CMLFieldEnum.ControlBlock,
 		 				input="this.pGainBlock.y",
-		 				parameter={"type.NonWindup", "this.one", "this.pmax", "this.pmin"},
+		 				parameter={"type.Limit", "this.one", "this.pmax", "this.pmin"},
 						y0="this.tchDelayBlock.u0"	)
     IntegrationControlBlock intBlock;	  	
 
