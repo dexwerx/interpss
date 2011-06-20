@@ -80,6 +80,8 @@ public class OmibTest extends DStabTestSetupBase{
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
 				0.1,                                      // time steps for recording 
 				300);                                      // total points to record 
+		// set the output handler
+		dstabAlgo.setSimuOutputHandler(ssRecorder);
 		
 		//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.getSolver().initialization()) {
