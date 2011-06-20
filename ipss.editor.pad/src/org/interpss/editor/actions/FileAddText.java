@@ -48,7 +48,7 @@ public class FileAddText extends IpssAbstractProjectAction {
 			if (graphpad.getProjectPanel().isProjectSelected())
 				graphpad.addTextDocument(dstfile,project, file);
 			else
-				graphpad.addTextDocument(dstfile,graphpad.getCurrentProjectItem(), file);
+				graphpad.addTextDocument(dstfile,graphpad.getCurrentProjectItem(), file, true);
 			
 		}
 		graphpad.saveProject(project);

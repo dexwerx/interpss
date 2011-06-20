@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractProjectAction;
 import org.interpss.editor.coreframework.IpssCustomFile;
+import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.project.IpssNewCustomDialog;
@@ -36,20 +37,24 @@ public class FileAddCustom extends IpssAbstractProjectAction {
 			return;
 		}
 		
-		String dstfileDstab = fileSelector.getDstabFileName();
-		if (!Utilities.copy(fileSelector.getDstabSrcFileName(),dstfileDstab)) {
-			graphpad.error("Can't create Dstab Data file.");
-			return;
+		if (fileSelector.hasDstabFile()) {
+			String dstfileDstab = fileSelector.getDstabFileName();
+			if (!Utilities.copy(fileSelector.getDstabSrcFileName(),dstfileDstab)) {
+				graphpad.error("Can't create Dstab Data file.");
+				return;
+			}
 		}
 
-		IpssCustomFile file;
 		try {
 			// we open a file with version number selected by user, we should check if the number 
 			// is correct.
-			file = org.interpss.editor.util.Utilities.OpenCustomFile(graphpad,dstfile, fileSelector.getVersion());
+			IpssCustomFile file = org.interpss.editor.util.Utilities.OpenCustomFile(graphpad,dstfile, fileSelector.getVersion());
 			IpssProjectItem item = graphpad.addCustomDocument(dstfile, project, file);
-			// add the dstab file as a child of the lf file
-			// TODO
+			if (fileSelector.hasDstabFile()) {
+				String dstfileDstab = fileSelector.getDstabFileName();
+				IpssTextFile fileDstab = new IpssTextFile(dstfileDstab);
+				graphpad.addTextDocument(dstfileDstab, item, fileDstab, false);
+			}
 			org.interpss.editor.util.Utilities.loadProjectData(item);
 		} catch (Exception e1) {
 			e1.printStackTrace();

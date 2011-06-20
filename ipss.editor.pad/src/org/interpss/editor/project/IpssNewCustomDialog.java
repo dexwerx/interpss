@@ -33,6 +33,9 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 	private String docName;
 	private String filepath;
 	private String srcFileName;
+	
+	private boolean dstabFile = false;
+	public boolean hasDstabFile() { return this.dstabFile; }
 	private String dstabFilepath;
 	private String dstabSrcFileName;
 
@@ -53,6 +56,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 	}
 	
 	private void enableDStab(boolean b) {
+		this.dstabFile = b;
 		dstabDirLabel.setEnabled(b);
 		dstabDirTextField.setEnabled(b);
 		dstabBrowseButton.setEnabled(b);

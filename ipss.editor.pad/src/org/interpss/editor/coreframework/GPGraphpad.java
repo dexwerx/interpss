@@ -679,11 +679,10 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public void addTextDocument(String name, IpssProjectItem item) {
-		addTextDocument(name, item, null);
+		addTextDocument(name, item, null, true);
 	}
 
-	public void addTextDocument(String name, IpssProjectItem item,
-			IpssTextFile file) {
+	public void addTextDocument(String name, IpssProjectItem item, IpssTextFile file, boolean openfile) {
 
 		if (item == null)
 			return;
@@ -692,7 +691,8 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 				name, file);
 
 		item.addDocument(doc, 0);
-		addDocument2Frame(doc);
+		if (openfile)
+			addDocument2Frame(doc);
 
 		this.getProjectPanel().addNewProjectItem(item, doc);
 
