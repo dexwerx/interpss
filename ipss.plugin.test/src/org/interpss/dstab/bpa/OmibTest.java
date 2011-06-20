@@ -18,6 +18,7 @@ import org.junit.Test;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
+import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -56,6 +57,9 @@ public class OmibTest extends DStabTestSetupBase{
 		
 		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 	
+		// run load flow test case
+		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+		assertTrue(aclfAlgo.loadflow());
 		
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
@@ -68,6 +72,7 @@ public class OmibTest extends DStabTestSetupBase{
 		}
 				
 	}
+	
 	private void create3PFaultEvent(DStabilityNetwork net, String busId, 
 			String busName, double startTime,double duration) {
 		// define a bus fault event
