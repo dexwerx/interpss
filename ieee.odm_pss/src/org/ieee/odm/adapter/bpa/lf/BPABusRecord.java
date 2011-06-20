@@ -265,14 +265,10 @@ public class BPABusRecord {
 				busRec.setAngle(BaseDataSetter.createAngleValue(vMinOrAngDeg, AngleUnitType.DEG));
 				
 				//set gen data
-				if(pGen!=0.0||qGenOrQGenMax!=0.0){				
-					AclfDataSetter.setGenData(busRec,
+				AclfDataSetter.setGenData(busRec,
 							LFGenCodeEnumType.SWING,
 							vpu, VoltageUnitType.PU,
-							vMinOrAngDeg, AngleUnitType.DEG,
-							pGen, 0.0, ApparentPowerUnitType.MVA);
-				}
-				
+							vMinOrAngDeg, AngleUnitType.DEG,0,0, ApparentPowerUnitType.MVA);
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					busRec.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit( 

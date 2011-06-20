@@ -79,12 +79,11 @@ public class BPADynamicGeneratorRecord {
 	   		dynGen.setId(dynGenId);
 	   		
 	   		double Emws=ModelStringUtil.getDouble(strAry[4], 0.0);
+	   		double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
 			// infinite bus
 			if(Emws==999999){
 				mach.setH(999999);				
 			}else{
-				double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
-				
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -93,14 +92,12 @@ public class BPADynamicGeneratorRecord {
 					h= new Double(ddf1.format(h)).doubleValue();
 					mach.setH(h);
 				}
-				
-				double pContri=ModelStringUtil.getDouble(strAry[5], 100.0);//% in InterPSS
-				double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
-				dynGen.setPContributionPercent(pContri);
-				dynGen.setQContributionPercent(qContri);
-				//TODO
-				dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));				
 			}
+		    double pContri=ModelStringUtil.getDouble(strAry[5], 100.0);//% in InterPSS
+			double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
+			dynGen.setPContributionPercent(pContri);
+			dynGen.setQContributionPercent(qContri);
+			dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));
 			
 			double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
 			if(!strAry[9].contains(".")){
@@ -122,25 +119,6 @@ public class BPADynamicGeneratorRecord {
     	else if(str.substring(0, 2).trim().equals("M")){
     		String busId = BPABusRecord.getBusId(strAry[1]);
     		subTransBusIdList.add(busId);
-//        	DStabBusXmlType bus = parser.getDStabBus(busId);
-//    		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
-//    		
-//    		Eq11Ed11MachineXmlType mach = DStabParserHelper.createEq11Ed11MachineXmlType(dynGen);
-//    		
-//    		double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-//	   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
-//	   			   		
-//	   		String dynGenId="1";
-//    		if(!strAry[3].equals("")){
-//    			dynGenId=strAry[3];    			
-//    		}
-//	   		dynGen.setId(dynGenId);
-//	   		
-//	   		String owner="";
-//    		if(!strAry[7].equals("")){
-//    			owner= strAry[7];
-//    		}
-//    		dynGen.setOwnerName(owner);
     		
     		double xd11=ModelStringUtil.getDouble(strAry[8], 0.0); 
     		if(!strAry[8].contains(".")){
