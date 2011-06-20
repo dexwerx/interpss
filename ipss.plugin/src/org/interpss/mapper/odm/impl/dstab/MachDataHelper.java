@@ -142,7 +142,7 @@ public class MachDataHelper {
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
 		// base kva and bus base voltage
 		mach.setMultiFactors(dstabBus);
-		mach.setPoles(machXml.getPoles());
+		mach.setPoles(machXml.getPoles()==null?2:machXml.getPoles());
 		mach.setH(machXml.getH());
 		mach.setD(machXml.getD());
 		mach.setXd1(machXml.getXd1());
