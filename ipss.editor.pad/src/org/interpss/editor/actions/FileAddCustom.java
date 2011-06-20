@@ -47,7 +47,9 @@ public class FileAddCustom extends IpssAbstractProjectAction {
 			// we open a file with version number selected by user, we should check if the number 
 			// is correct.
 			file = org.interpss.editor.util.Utilities.OpenCustomFile(graphpad,dstfile, fileSelector.getVersion());
-			IpssProjectItem item = graphpad.addCustomDocument(dstfile,project, file);
+			IpssProjectItem item = graphpad.addCustomDocument(dstfile, project, file);
+			// add the dstab file as a child of the lf file
+			// TODO
 			org.interpss.editor.util.Utilities.loadProjectData(item);
 		} catch (Exception e1) {
 			e1.printStackTrace();
