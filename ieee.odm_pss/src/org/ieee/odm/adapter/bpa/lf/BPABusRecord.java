@@ -351,13 +351,13 @@ public class BPABusRecord {
 		        if(!strAry[9].equals("")||!strAry[8].equals("")){
 					final double ShuntG=strAry[8].equals("")?0:new Double(strAry[8]).doubleValue();
 					final double ShuntB=strAry[9].equals("")?0:new Double(strAry[9]).doubleValue();
-					System.out.println("Shunt G +B="+ShuntG+","+ShuntB);
+					//System.out.println("Shunt G +B="+ShuntG+","+ShuntB);
 					double re=ModelStringUtil.getNumberFormat(ShuntG/baseMVA); // x(pu)=Var/baseMVA
 					double im=ModelStringUtil.getNumberFormat(ShuntB/baseMVA);
 					if(re!=0.0||im!=0.0){
 						AclfDataSetter.addBusShuntY(Bus, re, im, YUnitType.PU);	
 					}
-					System.out.println("Im="+im+",Shunt B="+Bus.getShuntY().getIm());
+					//System.out.println("Im="+im+",Shunt B="+Bus.getShuntY().getIm());
 				}
 			}
 				
