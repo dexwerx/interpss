@@ -30,6 +30,10 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 
 public interface IpssFileAdapter extends IpssCustomAdapter {
+	public static final String
+		BPA_DStab_LF_ext    = "bpa_lf",
+		BPA_DStab_Dstab_ext = "bpa_dstab";
+	
 	public static enum FileFormat { 
 			IEEECDF, PSSE, GE_PSLF, 
 			UCTE, IEEE_ODM, BPA, 

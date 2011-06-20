@@ -27,7 +27,7 @@ package org.interpss.custom;
 
 public interface IpssCustomAdapter {
 	/**
-	 * get the adapter name
+	 * get the adapter name. 
 	 * 
 	 * @return
 	 */
