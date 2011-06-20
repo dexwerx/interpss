@@ -36,6 +36,9 @@ public class CustomFileUtility {
 		IpssLogger.getLogger().info("Custom file path: " + filepath);
 
 		String ext = filepath.substring(filepath.lastIndexOf('.') + 1);
+		/*
+		 * assumption adapter type is uniquely identified by file extension
+		 */
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter(ext);
 		if (adapter == null) {
 			IpssLogger.getLogger().severe(
@@ -45,9 +48,11 @@ public class CustomFileUtility {
 
 		try {
 			adapter.setVersionSelected(version);
-			if (ext.equals("bpa_lf")) {
+			if (ext.equals(IpssFileAdapter.BPA_DStab_LF_ext)) {
 				// for BPA *.bpa_lf", DStab info assumed stored in *.bpa_dstab
-				String[] fileAry = {filepath, filepath.replace("bpa_lf", "bpa_dstab")};
+				String filepathDstab = filepath.replace(IpssFileAdapter.BPA_DStab_LF_ext, 
+						IpssFileAdapter.BPA_DStab_Dstab_ext);
+				String[] fileAry = {filepath, filepathDstab};
 				adapter.load(simuCtx, fileAry, false);
 			}
 			else 
