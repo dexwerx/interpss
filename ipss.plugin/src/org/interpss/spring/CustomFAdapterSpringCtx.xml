@@ -50,6 +50,7 @@
 	      p:name="BPA Format DStab"
 	      p:fileFilterString="dat"
 	      p:extension="bpa_lf"
+	      p:extensionDstab="bpa_dstab"
 	      p:description="BPA Format for DStab">
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
