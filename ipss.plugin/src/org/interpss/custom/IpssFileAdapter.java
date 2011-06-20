@@ -46,6 +46,13 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	String getExtension();
 	
 	/**
+	 * get the file DStab extension of the adapter
+	 * 
+	 * @return
+	 */
+	String getExtensionDstab();
+
+	/**
 	 * get the file filter string for the adapter
 	 * 
 	 * @return

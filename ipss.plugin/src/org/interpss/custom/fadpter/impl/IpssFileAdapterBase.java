@@ -46,6 +46,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	private String name;
 	private String[] versionList = null;
 	private String extension;
+	private String extensionDstab;
 	private String description;
 	private String fileFilterString;
 	private String versionSelected;
@@ -126,6 +127,14 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	
 	public void setExtension(String s) {
 		extension = s;
+	}
+
+	public String getExtensionDstab() {
+		return extensionDstab;
+	}
+	
+	public void setExtensionDstab(String s) {
+		extensionDstab = s;
 	}
 
 	public String getDescription() {
