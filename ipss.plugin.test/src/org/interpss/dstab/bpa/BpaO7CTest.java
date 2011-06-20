@@ -112,7 +112,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 //		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
 //		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
 	}
-	//@Test
+	@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
@@ -123,12 +123,13 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		//AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		
 		//parser.stdout();
+		/*
 		String xml=parser.toXmlDoc(false);
 		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_noSe0616.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
-		
+		*/
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
@@ -138,10 +139,14 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		
 		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 	
-		
+		dstabAlgo.setRefMachine(simuCtx.getDStabilityNet().getMachine("Bus78-mach1"));
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
 		dstabAlgo.setTotalSimuTimeSec(0.01);
+		
+		// run load flow first before initialization 
+		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+		assertTrue(aclfAlgo.loadflow());
 		
 		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.getSolver().initialization()) {
@@ -162,7 +167,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 *  but it was stable once they are changed to shuntY format(with 07c_2010_OnlyMach_noSe0616.xml)
 	 * 
 	 */
-	@Test
+	//@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
 		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_noSe0615.xml");
@@ -302,13 +307,13 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		}
 	}
 	
-	private void create3PFaultEvent(DStabilityNetwork net, String busId, String busName) {
+	private void create3PFaultEvent(DStabilityNetwork net, String busId, String busName, double startTime,double duration) {
 		// define a bus fault event
 		DynamicEvent event1 = DStabObjectFactory.createDEvent(
 				"BusFault3P@"+busId, "Bus Fault 3P @"+busName, 
 				DynamicEventType.BUS_FAULT, net);
-		event1.setStartTimeSec(0.0);
-		event1.setDurationSec(0.1);
+		event1.setStartTimeSec(startTime);
+		event1.setDurationSec(duration);
 		
 		// define a 3P fault
 		DStabBus faultBus = net.getDStabBus(busId);
@@ -320,5 +325,5 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		
 		// add the fault to the event
 		event1.setBusFault(fault);		
-	}	
+	}
 }
