@@ -19,32 +19,34 @@ public class FileAddCustom extends IpssAbstractProjectAction {
 		
 		IpssProject project = graphpad.getCurrentProject();
 		
-		IpssNewCustomDialog editor = new IpssNewCustomDialog(graphpad, project.getProjectName()+" - "+defaultname);
-		editor.init(project,defaultname);
+		IpssNewCustomDialog fileSelector = new IpssNewCustomDialog(graphpad, project.getProjectName()+" - "+defaultname);
+		fileSelector.init(project,defaultname);
 		
-		if (editor.isCancelExit()) return;
+		if (fileSelector.isCancelExit()) return;
 		
-		
-		String fileName = editor.getSrcFileName();
-		
+		String fileName = fileSelector.getSrcFileName();
 		if (fileName==null){
 			graphpad.error("Target Data file is error.");
 			return;	
 		}
 		
-		String dstfile= editor.getFileName();
-		if (!Utilities.copy(editor.getSrcFileName(),dstfile)) 
-		{
+		String dstfile= fileSelector.getFileName();
+		if (!Utilities.copy(fileSelector.getSrcFileName(),dstfile)) {
 			graphpad.error("Can't create Data file.");
 			return;
 		}
 		
-		
+		String dstfileDstab = fileSelector.getDstabFileName();
+		if (!Utilities.copy(fileSelector.getDstabSrcFileName(),dstfileDstab)) {
+			graphpad.error("Can't create Dstab Data file.");
+			return;
+		}
+
 		IpssCustomFile file;
 		try {
 			// we open a file with version number selected by user, we should check if the number 
 			// is correct.
-			file = org.interpss.editor.util.Utilities.OpenCustomFile(graphpad,dstfile, editor.getVersion());
+			file = org.interpss.editor.util.Utilities.OpenCustomFile(graphpad,dstfile, fileSelector.getVersion());
 			IpssProjectItem item = graphpad.addCustomDocument(dstfile,project, file);
 			org.interpss.editor.util.Utilities.loadProjectData(item);
 		} catch (Exception e1) {
