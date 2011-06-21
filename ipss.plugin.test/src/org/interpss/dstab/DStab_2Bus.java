@@ -85,7 +85,7 @@ public class DStab_2Bus extends DStabTestSetupBase {
 			
 			//IpssLogger.getLogger().setLevel(Level.INFO);
 			//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-			if (dstabAlgo.getSolver().initialization()) {
+			if (dstabAlgo.initialization()) {
 				//System.out.println(simuCtx.getDStabilityNet().net2String());
 
 				System.out.println("Running DStab simulation ...");

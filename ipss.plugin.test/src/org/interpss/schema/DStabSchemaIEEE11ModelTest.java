@@ -106,7 +106,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 			  	
-				if (algo.getSolver().initialization()) {
+				if (algo.initialization()) {
 					System.out.println("Running DStab simulation ...");
 					algo.performSimulation(msg);
 				}
@@ -158,7 +158,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 
 				//TextSimuOutputHandler handler = new TextSimuOutputHandler();
 				//algo.setSimuOutputHandler(handler);
-				if (algo.getSolver().initialization()) {
+				if (algo.initialization()) {
 					System.out.println("Running DStab simulation ...");
 					algo.performSimulation(msg);
 				}

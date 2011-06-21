@@ -79,7 +79,7 @@ public class IEEE21ModelTest extends DStabTestSetupBase {
 		yTestRecorder.initBusNumber(net);
 		net.setNetChangeListener(yTestRecorder);	
 
-		if (algo.getSolver().initialization()) {
+		if (algo.initialization()) {
 			System.out.println("Running DStab simulation ...");
 			algo.performSimulation(msg);
 		}

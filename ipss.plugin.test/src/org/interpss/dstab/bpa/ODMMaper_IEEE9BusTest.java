@@ -111,7 +111,7 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 		 */
 		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 
-		if (dstabAlgo.getSolver().initialization()) {
+		if (dstabAlgo.initialization()) {
 			/*
 			 * Print out DStab object
 			 */

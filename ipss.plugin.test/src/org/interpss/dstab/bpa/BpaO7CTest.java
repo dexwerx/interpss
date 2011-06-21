@@ -149,7 +149,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		assertTrue(aclfAlgo.loadflow());
 		
 		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-		if (dstabAlgo.getSolver().initialization()) {
+		if (dstabAlgo.initialization()) {
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation(msg);
 		}
@@ -235,7 +235,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			
 			//IpssLogger.getLogger().setLevel(Level.INFO);
 			//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-			if (dstabAlgo.getSolver().initialization()) {
+			if (dstabAlgo.initialization()) {
 				System.out.println("Running DStab simulation ...");
 				assertTrue(dstabAlgo.performSimulation(msg));
 			}
