@@ -89,7 +89,7 @@ public class DStab_2Bus extends DStabTestSetupBase {
 				//System.out.println(simuCtx.getDStabilityNet().net2String());
 
 				System.out.println("Running DStab simulation ...");
-				assertTrue(dstabAlgo.performSimulation(msg));
+				assertTrue(dstabAlgo.performSimulation());
 			}
 			
 			assertTrue(stateTestRecorder.diffTotal("Bus-1-mach1", StateVariableRecorder.RecType.Machine, 

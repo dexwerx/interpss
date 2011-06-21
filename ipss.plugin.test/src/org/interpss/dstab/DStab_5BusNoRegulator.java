@@ -82,7 +82,7 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 			//System.out.println(net.net2String());
 
 			//System.out.println("Running DStab simulation ...");
-			assertTrue(dstabAlgo.performSimulation(msg));
+			assertTrue(dstabAlgo.performSimulation());
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
@@ -132,7 +132,7 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 				//System.out.println(simuCtx.getDStabilityNet().net2String());
 
 //				System.out.println("Running DStab simulation ...");
-				assertTrue(dstabAlgo.performSimulation(msg));
+				assertTrue(dstabAlgo.performSimulation());
 			}
 			
 			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 

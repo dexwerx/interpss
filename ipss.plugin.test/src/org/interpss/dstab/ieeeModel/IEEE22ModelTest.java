@@ -83,7 +83,7 @@ public class IEEE22ModelTest extends DStabTestSetupBase {
 
 		if (algo.initialization()) {
 			System.out.println("Running DStab simulation ...");
-			algo.performSimulation(msg);
+			algo.performSimulation();
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 

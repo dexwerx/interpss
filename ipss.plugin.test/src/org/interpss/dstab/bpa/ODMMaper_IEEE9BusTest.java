@@ -120,7 +120,7 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 			//System.out.println(simuCtx.getDStabilityNet().net2String());
 			
 			System.out.println("Running DStab simulation ...");
-			dstabAlgo.performSimulation(msg);
+			dstabAlgo.performSimulation();
 		}		
 	}
 }
