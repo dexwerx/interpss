@@ -32,12 +32,14 @@ import com.interpss.dstab.mach.Machine;
 		   						"str.GA,this.servoMotorBlock.y",
 		   						"str.Pm,this.output"})
 public class BpaGHTypeHydroGovernor extends AnnotateGovernor{
-	public double pmax0 = 650, pmin0 = 0.0, p0 = 100;
-	public double pmax = pmax0/p0;
+	public double pmax = 650, pmin0 = 0.0;
+	public double p0=this.getMachine().getRating();
+	public double pmax_pu = pmax/p0;
 	public double r = 0.05;
+	public double epsilon=999D;//the corresponding deadBand block NOT implemented yet
 
 	//1.1 GainBlock	
-	public double k1=pmax; 
+	public double k1=pmax_pu; 
 	@AnControllerField(
         type= CMLFieldEnum.StaticBlock,
         input="mach.speed - 1.0",
@@ -82,7 +84,7 @@ public double delta = 0.5, td =5.0;
 WashoutControlBlock washoutBlock;
 
 	//1.6 wFilterBlock
- public double ktw = 1.0/*constant*/, tw_2=0.5, t1 = -2*tw_2;
+ public double ktw = 1.0/*constant*/, tw=1.0,tw_2=0.5*tw, t1 = -tw;
     @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
             input="this.intBlock.y",
@@ -132,7 +134,7 @@ FilterControlBlock wFilterBlock;
 	        this.velClose=getData().getVelClose();
 	        this.velOpen=getData().getVelOpen();
 	        this.tw = getData().getTw();
-	        this.epsilon=getData().getEpsilon();
+	        this.epsilon=getData().getEpsilon(); 
 	        this.delta=getData().getDelta();
 	        return super.initStates(bus, mach);
 	    }
