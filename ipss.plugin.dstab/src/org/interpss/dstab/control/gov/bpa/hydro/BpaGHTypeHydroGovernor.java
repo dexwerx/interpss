@@ -25,75 +25,71 @@ import com.interpss.dstab.mach.Machine;
  * date: 05/05/2011
  */
 @AnController(
-        input="mach.speed - 1.0",
-        output="this.wFilterBlock.y",
-        refPoint="this.gainBlock.y + this.gainFBBlock.y+this.washoutFBBlock.y+this.freqDeadBandFunc.u0",//TODO can a function accesses a u0
-		display= {"str.Pm,this.output"})
+		   input="mach.speed-1.0",
+		   output="this.wFilterBlock.y",
+		   refPoint="this.delayBlock.u0/this.r + this.rGainBlock.y/this.r + this.washoutBlock.y/this.r + this.gainBlock.y/this.r",
+		   display= {"str.GI,this.gainBlock.y",
+		   						"str.GA,this.servoMotorBlock.y",
+		   						"str.Pm,this.output"})
 public class BpaGHTypeHydroGovernor extends AnnotateGovernor{
-	public double pmax=1.7;
-	public double epsilon=0D;
-	
-	public double k1=1.0/pmax; /* k1=1/Pmax*/;
-    @AnControllerField(
-            type= CMLFieldEnum.StaticBlock,
-            input="mach.speed - 1.0",
-            parameter={"type.NoLimit", "this.k1"},
-            y0="this.wFilterBlock.u0"	)
-    GainBlock gainBlock;
-    
-    //freq dead band block
-	public double freqDeadBand=epsilon;
-	@AnFunctionField( input="this.refPoint-this.gainBlock.y - this.gainFBBlock.y-this.washoutFBBlock.y" )
-	public IFunction freqDeadBandFunc = new FunctionAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number;
-	    public double eval(double[] dAry) { 
-	    	if(Math.abs(dAry[0])<0.5*freqDeadBand) return 0;
-	    	else return dAry[0];
-	    }          
-	};
-	
-	
-	public double tg=2,k_tg=1/tg, /*k_tg=1/tg */ tp=2,
-	velClose=0.2, velOpen=0.3,p_up=velOpen,p_down=-velClose;
+	public double pmax0 = 650, pmin0 = 0.0, p0 = 100;
+	public double pmax = pmax0/p0;
+	public double r = 0.05;
+
+	//1.1 GainBlock	
+	public double k1=pmax; 
 	@AnControllerField(
-            type= CMLFieldEnum.ControlBlock,
-            input="this.freqDeadBandFunc.y",
-            parameter={"type.Limit", "this.k_tg", "this.t1","this.p_up","this.p_down"},
-            y0="this.intgBlock.u0"	)
-    DelayControlBlock delayBlock;
+        type= CMLFieldEnum.StaticBlock,
+        input="mach.speed - 1.0",
+        parameter={"type.NoLimit", "this.k1"},
+        y0="this.refPoint*this.r - this.delayBlock.u0 - this.rGainBlock.y - this.washoutBlock.y"	)
+GainBlock gainBlock;
+
+	//1.2 delayBlock
+	public double tg=0.25, k_tg=1/tg, tp=0.04, velClose=0.2, velOpen=0.3, pup = velOpen*pmax, pdown = -velClose*pmax;
+		@AnControllerField(
+        type= CMLFieldEnum.ControlBlock,
+        input="this.refPoint*this.r - this.rGainBlock.y - this.washoutBlock.y - this.gainBlock.y",
+        parameter={"type.NonWindup", "this.k_tg", "this.tp","this.pup","this.pdown"},
+        y0="this.intBlock.u0"	)
+DelayControlBlock delayBlock;
+
+	//1.3 intBlock
+	public double k_it=1.0/*constant*/ ,pmin=pmin0/p0;
+		@AnControllerField(
+        type= CMLFieldEnum.ControlBlock,
+        input="this.delayBlock.y",
+        parameter={"type.Limit", "this.k_it", "this.pmax","this.pmin"},
+        y0="this.wFilterBlock.u0"	)
+IntegrationControlBlock intBlock;
 	
-	public double k_it=1 ,pmin=0;
+	//1.4 rGainBlock
+	public double t = 0.0;
 	@AnControllerField(
-            type= CMLFieldEnum.ControlBlock,
-            input="this.delayBlock.y",
-            parameter={"type.Limit", "this.k_it", "this.pmax","this.pmin"},
-            y0="this.wFilterBlock.u0"	)
-    IntegrationControlBlock intBlock;
-	
-	
-	public double r=0.05;
+        type= CMLFieldEnum.ControlBlock,
+        input="this.intBlock.y",
+        parameter={"type.NoLimit", "this.r", "this.t"},
+        feedback=true)
+DelayControlBlock rGainBlock;
+
+//1.5 washoutBlock
+public double delta = 0.5, td =5.0;
+	@AnControllerField(
+  			type= CMLFieldEnum.ControlBlock,
+  			input= "this.intBlock.y",
+   			parameter={"type.NoLimit", "this.delta", "this.td"},
+  			feedback=true)
+WashoutControlBlock washoutBlock;
+
+	//1.6 wFilterBlock
+ public double ktw = 1.0/*constant*/, tw_2=0.5, t1 = -2*tw_2;
     @AnControllerField(
-            type= CMLFieldEnum.StaticBlock,
+            type= CMLFieldEnum.ControlBlock,
             input="this.intBlock.y",
-            parameter={"type.NoLimit", "this.r"},
-            feedback=true)//TODO no y0?
-    GainBlock rGainBlock;
-    
-    
-    public double delta = 0.3, td =5;
-    @AnControllerField(
-       type= CMLFieldEnum.ControlBlock,
-       input= "this.intBlock.y",
-       parameter={"type.NoLimit", "this.delta", "this.td"},
-       feedback=true)
-    WashoutControlBlock washoutBlock;
-	
-	 public double ktw = 1.0,tw=0.2, tw_2 = 0.5*tw, t1 = -tw;
-	    @AnControllerField(
-	            type= CMLFieldEnum.ControlBlock,
-	            input="this.gainBlock.y",
-	            parameter={"type.NoLimit", "this.ktw", "this.t1", "this.tw_2"},
-	            y0="mach.pm"	)
-	FilterControlBlock wFilterBlock;
+            parameter={"type.NoLimit", "this.ktw", "this.t1", "this.tw_2"},
+            y0="mach.pm"	)
+FilterControlBlock wFilterBlock;
+
 	    
 	    public BpaGHTypeHydroGovernor() {
 	        this.setName("bpaGHTypeGovernor");
