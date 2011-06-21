@@ -89,7 +89,7 @@ public class OmibTest extends DStabTestSetupBase{
 		dstabAlgo.setSimuOutputHandler(ssRecorder);
 		
 		//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-		if (dstabAlgo.getSolver().initialization()) {
+		if (dstabAlgo.initialization()) {
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation(msg);
 		}
@@ -142,7 +142,7 @@ public class OmibTest extends DStabTestSetupBase{
 				dstabAlgo.setSimuOutputHandler(ssRecorder);
 				
 				dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-				if (dstabAlgo.getSolver().initialization()) {
+				if (dstabAlgo.initialization()) {
 					System.out.println("Running DStab simulation ...");
 					dstabAlgo.performSimulation(msg);
 				}
