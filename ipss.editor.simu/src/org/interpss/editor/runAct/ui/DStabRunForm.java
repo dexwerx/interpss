@@ -147,7 +147,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		if (simuCtx.getDynSimuAlgorithm().initialization()) {
 			displaySummaryResult(simuCtx);
-			simuCtx.getDynSimuAlgorithm().performSimulation(msg);
+			simuCtx.getDynSimuAlgorithm().performSimulation();
 		}
 
 		if (this.xmCaseData.getOutputScripting().isScripting()) {

@@ -321,7 +321,7 @@ public class XmlScriptDStabRun {
 		}
 
 		if (dstabAlgo.initialization()) {
-			dstabAlgo.performSimulation(msg);
+			dstabAlgo.performSimulation();
 		}
 		return true;
 	}
