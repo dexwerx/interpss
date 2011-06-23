@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.ODMObjectFactory;
@@ -23,6 +24,7 @@ import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.util.Number2String;
 import org.junit.Test;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -112,24 +114,24 @@ public class BpaO7CTest extends DStabTestSetupBase{
 //		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
 //		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
 	}
-	@Test
+	//@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-				new String[] { "testdata/bpa/07c_0616.dat", 
-				               "testdata/bpa/07c_onlymach_noSe.swi"}));//"testdata/bpa/07c_onlyMach.swi"
+				new String[] { "testdata/bpa/07c_0615_notBE.dat", 
+				               "testdata/bpa/07c_mach_exc_noSE.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
 		DStabModelParser parser=(DStabModelParser) adapter.getModel();
 		//AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		
 		//parser.stdout();
-		/*
+		
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_OnlyMach_noSe0616.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
-		*/
+		
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
@@ -158,19 +160,20 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	
 	/***************************************************
 	 * test data:
-	 * 1)  07c_2010_Mach_Exc_noSe0614.xml: machine and exciter, not consider saturation
+	 * 1)  07c_2010_Mach_Exc.xml:  machine and exciter, not consider saturation
 	 * 2)  07c_2010_OnlyMach_noSe0615.xml :has normal load  type(P+j*Q) at Gen buses 
 	 * 3)  07c_2010_OnlyMach_noSe0616.xml :load at Gen buses changed to shuntY format:
+	 * 4)  07c_2010_Mach_Exc.xml:  machine and exciter, not consider saturation
 	 * 
 	 * 14/06 [Tony]: with 07c_2010_Mach_Exc_noSe0614.xml, the initial machine angles are the same!
 	 * 17/06 [Tony]: test with normal load type at Gen bus data (07c_2010_OnlyMach_noSe0615.xml) not stable,
 	 *  but it was stable once they are changed to shuntY format(with 07c_2010_OnlyMach_noSe0616.xml)
-	 * 
+	 * 22/06[Tony]
 	 */
-	//@Test
+	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
-		File file = new File("testData/ieee_odm/07c_2010_OnlyMach_noSe0615.xml");
+		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -203,12 +206,12 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
 			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 			dstabAlgo.setSimuStepSec(0.001);
-			dstabAlgo.setTotalSimuTimeSec(10.0);
+			dstabAlgo.setTotalSimuTimeSec(0.002);
 			
 			// run load flow test case
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
-			System.out.println(AclfOutFunc.lfResultsBusStyle(net));
+			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 				
 			// create fault
@@ -231,10 +234,11 @@ public class BpaO7CTest extends DStabTestSetupBase{
 					100);                                      // total points to record 
 			stateRecorder.addCacheRecords("Bus64-mach1", StateVariableRecorder.RecType.Machine, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 100);
+			
 			dstabAlgo.setSimuOutputHandler(stateRecorder);
 			
-			//IpssLogger.getLogger().setLevel(Level.INFO);
-			//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+			IpssLogger.getLogger().setLevel(Level.INFO);
+			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 			if (dstabAlgo.initialization()) {
 				System.out.println("Running DStab simulation ...");
 				assertTrue(dstabAlgo.performSimulation());

@@ -43,14 +43,14 @@ public class OmibTest extends DStabTestSetupBase{
 	public void OMIBTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
-				new String[] { "testdata/bpa/EQG007_omib.dat", 
-				               "testdata/bpa/EQG007_omib.swi"}));//"testdata/bpa/07c_onlyMach.swi"
+				new String[] { "testdata/bpa/EQG017_omib.dat", 
+				               "testdata/bpa/EQG017_omib.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
 		
 		DStabModelParser parser=(DStabModelParser) adapter.getModel();
 
 		
-		//parser.stdout();
+		parser.stdout();
 		String xml=parser.toXmlDoc(false);
 		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/EQG007_OMIB.xml"));
 		out.write(xml.getBytes());
@@ -73,7 +73,7 @@ public class OmibTest extends DStabTestSetupBase{
 		
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
-		dstabAlgo.setTotalSimuTimeSec(30);
+		dstabAlgo.setTotalSimuTimeSec(0.03);
 		dstabAlgo.setRefMachine(net.getMachine("Bus3-mach1"));
 		
 		// create fault
@@ -88,19 +88,19 @@ public class OmibTest extends DStabTestSetupBase{
 		// set the output handler
 		dstabAlgo.setSimuOutputHandler(ssRecorder);
 		
-		//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.initialization()) {
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation();
 		}
 		
 		// output recorded simulation results
-		List<StateVariableRecorder.Record> list = ssRecorder.getMachineRecords(
-				"Bus2-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
-		System.out.println("\n\n Bus1 Machine Anagle");
-		for (Record rec : list) {
-			System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-		}
+//		List<StateVariableRecorder.Record> list = ssRecorder.getMachineRecords(
+//				"Bus2-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+//		System.out.println("\n\n Bus1 Machine Anagle");
+//		for (Record rec : list) {
+//			System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+//		}
 				
 	}
 	//@Test
