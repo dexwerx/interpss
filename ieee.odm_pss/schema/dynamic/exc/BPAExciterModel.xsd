@@ -14,8 +14,9 @@
 		       excBPA* for element
 		       ExcBPA* for complex type 
 	-->
-	<element name="excBPATypeEK" substitutionGroup="pss:exciter" type="pss:ExcBPAEKXmlType"/>
-
+	<element name="excBPATypeEC" substitutionGroup="pss:exciter" type="pss:ExcBPAECXmlType"/>
+    <element name="excBPATypeEK" substitutionGroup="pss:exciter" type="pss:ExcBPAEKXmlType"/>
+    
 	<element name="excBPATypeFJ" substitutionGroup="pss:exciter" type="pss:ExcBPAFJXmlType"/>
 	<element name="excBPATypeFK" substitutionGroup="pss:exciter" type="pss:ExcBPAFKXmlType"/>
 	<element name="excBPATypeFM" substitutionGroup="pss:exciter" type="pss:ExcBPAFMXmlType"/>
@@ -30,6 +31,26 @@
 	<element name="excBPATypeFV" substitutionGroup="pss:exciter" type="pss:ExcBPAFVXmlType"/>
 
     <!--BPA 1968 exciter, extends from IEEE 1968 model sets-->
+    <complexType name="ExcBPAECXmlType">
+		<complexContent>
+			<extension base="pss:ExcSimpleTypeXmlType">
+				<sequence>
+					<element maxOccurs="1" minOccurs="1" name="STA1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KF" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TF" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="0" name="E1" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE1" type="double"/>
+					<element maxOccurs="1" minOccurs="0" name="E2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="SE2" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="KE" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="TE" type="pss:TimePeriodXmlType"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDMAX" type="double"/>
+					<element maxOccurs="1" minOccurs="1" name="EFDMIN" type="double"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+    
     <complexType name="ExcBPAEKXmlType">
 		<complexContent>
 			<extension base="pss:ExcSimpleTypeXmlType">
