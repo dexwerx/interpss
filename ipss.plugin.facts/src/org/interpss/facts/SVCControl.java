@@ -282,7 +282,7 @@ public class SVCControl extends AbstractAclfBus {
     public void update(SparseEqnMatrix2x2 lfEqn) {
         vsh -= lfEqn.getX(this.position).x;
         thetash -= lfEqn.getX(this.position).y;
-//        System.out.println("vsh: " + vsh + ", thetash: " + thetash);
+        System.out.println("vsh: " + vsh + ", thetash: " + thetash);
         // TODO: at this point, we can check if there is any limit violation. If yes,
         //       change SVC control mode, for example from ConstV to ConstQ
     }
