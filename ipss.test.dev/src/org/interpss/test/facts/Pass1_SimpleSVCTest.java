@@ -55,7 +55,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 //            Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
             
             //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
-            //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());
+//            System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());
             /*
     			yshunt=(-2.7383583558709127E-9)+i(-0.8501256427294784)
     			Vsh, Thedash: 0.8299748714541043, -0.10016742050169442
@@ -69,7 +69,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 
 	}
 
-//	@Test
+	@Test
 	public void ConstQ_testCase() {
 		AclfNetwork net = createNet();
 		
@@ -120,7 +120,7 @@ public class Pass1_SimpleSVCTest extends DevTestSetup {
 
 	}
 
-//	@Test
+	@Test
 	public void ConstB_testCase() {
 		AclfNetwork net = createNet();
 		
