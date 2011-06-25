@@ -75,12 +75,12 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	/*Test data: 
 	 * 07c_0615.dat : explicitly add switch shuntVar to compensate the un-planned shuntVar of BPA for BE type Bus
 	 * [test data updated by Tony 06/15]
-	 * 07c_0616.dat : all the loads at the terminal of Gen buses are converted to shuntY format
+	 * 07c_0615_notBE.dat: change BE type for non-Gen Buses to B type.
 	 */
-	//@Test
+	@Test
 	public void sys2010_lfTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
-		assertTrue(adapter.parseInputFile("testData/bpa/07c_0616.dat")); 
+		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615_notBE.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		if (!new ODMAclfDataMapper(msg)
@@ -88,6 +88,12 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;
 	    }
+		String xml=parser.toXmlDoc(false);
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_0615_notBE.xml"));
+		out.write(xml.getBytes());
+		out.flush();
+		out.close();
+		
 		AclfNetwork net=simuCtx.getAclfNet();
 		System.out.print("branch num="+net.getBranchList().size());
 		System.out.print("bus num="+net.getBusList().size());
@@ -105,29 +111,24 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				System.out.println(bus.getName()+", "+bus.getId()+" ,p= "+bus.getGenResults().getReal()+",q= "+bus.getGenResults().getImaginary());
 			}
 		}
-		
-		FileOutputStream out=new FileOutputStream(new File("d:/07c_2010_lfResult.txt"));
-		out.write(AclfOutFunc.lfResultsPsseStyle(net, Format.GUI).getBytes());
-		out.flush();
-		out.close();
-//		assertTrue(Math.abs(net.getAclfBus("Bus1").getVoltageMag()-1.02484)<0.0001);
-//		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
-//		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
+
+		assertTrue(Math.abs(net.getAclfBus("Bus1").getVoltageMag()-1.02484)<0.0001);
+		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
+		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
 	}
-	//@Test
+	@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
 				new String[] { "testdata/bpa/07c_0615_notBE.dat", 
 				               "testdata/bpa/07c_mach_exc_noSE.swi"}));//"testdata/bpa/07c_onlyMach.swi"
-		//assertTrue(adapter.parseInputFile("testdata/bpa/07c.dat" ));
-		DStabModelParser parser=(DStabModelParser) adapter.getModel();
-		//AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		
+		DStabModelParser parser=(DStabModelParser) adapter.getModel();
+	
 		//parser.stdout();
 		
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc0625.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
@@ -140,22 +141,48 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		}	
 		
 		DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
-	
+		
+		DStabilityNetwork net=simuCtx.getDStabilityNet();
 		dstabAlgo.setRefMachine(simuCtx.getDStabilityNet().getMachine("Bus78-mach1"));
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
-		dstabAlgo.setTotalSimuTimeSec(0.01);
+		dstabAlgo.setTotalSimuTimeSec(0.001);
 		
 		// run load flow first before initialization 
-		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-		assertTrue(aclfAlgo.loadflow());
+		//LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+		LoadflowAlgorithm  algo=CoreObjectFactory.createLoadflowAlgorithm(net);
+		assertTrue(net.accept(algo));
+		//get the genResult
 		
+		System.out.println("Dstab network lf result");
+		for(Bus b:net.getBusList()){
+			AclfBus bus=(AclfBus) b;
+			if(bus.isGen()){
+				System.out.println(bus.getName()+", "+bus.getId()+" ,p= "+bus.getGenResults().getReal()+",q= "+bus.getGenResults().getImaginary());
+			}
+		}
+		/*
 		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.initialization()) {
+			for(Bus b:net.getBusList()){
+				AclfBus bus=(AclfBus) b;
+				if( bus.isGen()){
+					String id=b.getId();
+					System.out.println("Machine:"+b.getName()+","+net.getDStabBus(id).getMachine().getEfd());
+				}
+					
+			}
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation();
 		}
-				
+		for(Bus b:net.getBusList()){
+			AclfBus bus=(AclfBus) b;
+			if( bus.isGen()){
+				String id=b.getId();
+				System.out.println("Machine:"+b.getName()+","+net.getDStabBus(id).getMachine().getEfd());
+			}
+		}
+		*/	
 	}
 	
 	/***************************************************
@@ -170,10 +197,10 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 *  but it was stable once they are changed to shuntY format(with 07c_2010_OnlyMach_noSe0616.xml)
 	 * 22/06[Tony]
 	 */
-	@Test
+	//@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
-		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc.xml");
+		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc0625.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -212,7 +239,14 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
-			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
+			//get the genResult
+			System.out.println("Dstab network lf result");
+			for(Bus b:net.getBusList()){
+				AclfBus bus=(AclfBus) b;
+				if(bus.isGen()){
+					System.out.println(bus.getName()+", "+bus.getId()+" ,p= "+bus.getGenResults().getReal()+",q= "+bus.getGenResults().getImaginary());
+				}
+			}
 				
 			// create fault
 			//create3PFaultEvent(net, "Bus134", "luopingg");
@@ -237,34 +271,34 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			
 			dstabAlgo.setSimuOutputHandler(stateRecorder);
 			
-			IpssLogger.getLogger().setLevel(Level.INFO);
-			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-			if (dstabAlgo.initialization()) {
-				System.out.println("Running DStab simulation ...");
-				assertTrue(dstabAlgo.performSimulation());
-			}
-          
-			// output recorded simulation results
-			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
-					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
-			System.out.println("\n\nMachine Anagle");
-			for (Record rec : list) {
-				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-			}
-			
-			list = stateRecorder.getMachineRecords(
-					"Bus78-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
-			System.out.println("\n\nMachine Power");
-			for (Record rec : list) {
-				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-			}
-
-			list = stateRecorder.getMachineRecords(
-					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
-			System.out.println("\n\nMachine Power");
-			for (Record rec : list) {
-				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-			}
+//			IpssLogger.getLogger().setLevel(Level.INFO);
+//			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+//			if (dstabAlgo.initialization()) {
+//				System.out.println("Running DStab simulation ...");
+//				assertTrue(dstabAlgo.performSimulation());
+//			}
+//          
+//			// output recorded simulation results
+//			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
+//					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+//			System.out.println("\n\nMachine Anagle");
+//			for (Record rec : list) {
+//				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+//			}
+//			
+//			list = stateRecorder.getMachineRecords(
+//					"Bus78-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
+//			System.out.println("\n\nMachine Power");
+//			for (Record rec : list) {
+//				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+//			}
+//
+//			list = stateRecorder.getMachineRecords(
+//					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
+//			System.out.println("\n\nMachine Power");
+//			for (Record rec : list) {
+//				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+//			}
 			
 		}
 	}

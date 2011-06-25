@@ -70,7 +70,7 @@ public class OmibTest extends DStabTestSetupBase{
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		assertTrue(aclfAlgo.loadflow());
 		System.out.println(AclfOutFunc.lfResultsBusStyle(net));
-		
+		System.out.println("GENq="+net.getAclfBus("Bus2").getGenResults().getImaginary());
 		dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 		dstabAlgo.setSimuStepSec(0.001);
 		dstabAlgo.setTotalSimuTimeSec(0.03);
