@@ -34,6 +34,7 @@ import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
+import org.ieee.odm.schema.ExcBPAECXmlType;
 import org.ieee.odm.schema.ExcBPAEKXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
 import org.ieee.odm.schema.ExcBPAFQXmlType;
@@ -235,6 +236,11 @@ public class DStabParserHelper extends AclfParserHelper {
 		return exc;
 	}
 	
+	public static ExcBPAECXmlType createExcBPAECXmlType(DynamicGeneratorXmlType gen) {
+		ExcBPAECXmlType exc = getFactory().createExcBPAECXmlType();
+		gen.setExciter(getFactory().createExcBPATypeEC(exc));
+		return exc;
+	}
 	public static ExcBPAEKXmlType createExcBPAEKXmlType(DynamicGeneratorXmlType gen) {
 		ExcBPAEKXmlType exc = getFactory().createExcBPAEKXmlType();
 		gen.setExciter(getFactory().createExcBPATypeEK(exc));

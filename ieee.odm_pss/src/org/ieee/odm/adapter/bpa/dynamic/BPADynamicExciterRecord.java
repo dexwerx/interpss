@@ -33,6 +33,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.ExcBPAECXmlType;
 import org.ieee.odm.schema.ExcBPAEKXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
 import org.ieee.odm.schema.ExcBPAFQXmlType;
@@ -134,6 +135,69 @@ public class BPADynamicExciterRecord {
     		exc.setVRMIN(VRmin);
     	}
     	//BPA EC type
+    	else if(type==EC){
+    		ExcBPAECXmlType exc = DStabParserHelper.createExcBPAECXmlType(dynGen);
+
+    		//machine Id
+    		String id="1";
+    		if(!strAry[3].equals("")){
+    			id=strAry[3];
+    		} 
+    		exc.setDesc("BPA EK Type Exciter , machId#" + id);
+    		
+    		//TR
+    		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));
+    		    		
+    		//KA for all, KV for EE
+    		double Ka=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		exc.setKa(Ka);
+    		   		
+    		//TA for all, TRH for EE
+    		double Ta=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
+    		
+    		//VRminMult, VRmax*multi=Vrmin. VRmin for ED EJ
+    		double multi=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		// KE
+    		double Ke=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		exc.setKE(Ke);
+    		    		
+    		//TE
+    		double Te= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		exc.setTE(BaseDataSetter.createTimeConstSec(Te));
+    		
+    		//rule: E1 > E2, Se(E1) > Se(E2) 
+    		//SE0.75MAX for all, KI for DD
+    		//e1=EfdMax, e2=0.75*EfdMax,so it is set after processing EfdMax
+    		double SE2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		exc.setSE2(SE2);    		
+    		
+    		//EFDMin
+    		double Efdmin=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		exc.setEFDMIN(Efdmin);
+    		
+    		//EFDMax for all, VNmax for ED
+    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);  		
+    		// SEmax for all, Kp for DD
+    		exc.setE1(Efdmax);
+    		exc.setE2(0.75*Efdmax);
+    		double SE1= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		exc.setSE1(SE1);    		
+    		//KF
+    		double Kf= ModelStringUtil.getDouble(strAry[15], 0.0);
+    		exc.setKF(Kf);
+    		    		
+    		//TF    		
+    		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+    		//VRmax=(SE2+Ke)*EFDmax,Vrmin
+    		
+    		double VRmax=(SE2+Ke)*Efdmax;
+    		double VRmin=VRmax*multi;
+    		exc.setVrmax(VRmax);
+    		exc.setVrmin(VRmin);
+    	}
     	else if(type==EK){
     		ExcBPAEKXmlType exc = DStabParserHelper.createExcBPAEKXmlType(dynGen);
 
