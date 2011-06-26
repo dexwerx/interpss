@@ -1,0 +1,1 @@
+Inherit AclfNetwork to model the network with STATCOM

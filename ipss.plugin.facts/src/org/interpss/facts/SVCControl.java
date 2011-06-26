@@ -115,7 +115,7 @@ public class SVCControl extends AbstractAclfBus {
 		Vector_xy pq = getBi();
 		// extra load on the same bus
 		Complex load = new Complex(getLoadP(), getLoadQ());
-		return new Complex(pq.x,pq.y).subtract(load).subtract(pIn2Net);
+		return new Complex(pq.x,pq.y).add(load).subtract(pIn2Net);
 	}
 	
 	// define extra load on the same bus
@@ -151,10 +151,10 @@ public class SVCControl extends AbstractAclfBus {
     	double thetai = getBus().getVoltageAng();
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
-        m.xy = -(-(2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))) * vi); // dPi/dVi
-        m.xx = -(vi * vsh * (-gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash))); // dPi/dthetai
-        m.yy = -((2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) * vi); // dQi/dVi
-        m.yx = -(vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash))); // dQi/dthetai
+        m.xy = 2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVi
+        m.xx = -vi * vsh * (-gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPi/dthetai
+        m.yy = -2 * vi * bsh - vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVi
+        m.yx = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetai
         return m;
     }
     
@@ -168,7 +168,7 @@ public class SVCControl extends AbstractAclfBus {
     	double thetai = getBus().getVoltageAng();
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
-        m.yx = (2 * vsh * gsh - vi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash))); // dPeq/dVsh
+        m.yx = 2 * vsh * gsh - vi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)); // dPeq/dVsh
         m.yy = -vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetash
         if (this.ctype == SVCControlType.ConstV) {
             m.xx = 0.0; // dFSVC/dVsh
@@ -196,10 +196,10 @@ public class SVCControl extends AbstractAclfBus {
     	double thetai = getBus().getVoltageAng();
         
     	Matrix_xy m = new Matrix_xy();
-    	m.xx = -(vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dPi/dVsh
-        m.xy = -(vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dPi/dthetash
-        m.yx = -(vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dQi/dVsh
-        m.yy = -(-vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dQi/dthetash
+    	m.xx = -vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVsh
+        m.xy = -vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dPi/dthetash
+        m.yx = -vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVsh
+        m.yy = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetash
     
         return m;
     }
@@ -215,10 +215,10 @@ public class SVCControl extends AbstractAclfBus {
     	double thetai = getBus().getVoltageAng();
         Matrix_xy m = new Matrix_xy();
         
-        m.yy = -vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)) * vi; // dPeq/dVi
+        m.yy = -vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)); // dPeq/dVi
         m.yx = vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetai
         if (this.ctype == SVCControlType.ConstV) {
-            m.xy = 1.0 * vi; // dFSVC/dVi
+            m.xy = 1.0; // dFSVC/dVi
             m.xx = 0.0; // dFSVC/dthetai
         }
         else if (this.ctype == SVCControlType.ConstQ) {
@@ -244,8 +244,8 @@ public class SVCControl extends AbstractAclfBus {
         double thetai = getBus().getVoltageAng();
         
         Vector_xy b = new Vector_xy();
-        b.x = (vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash))); // dFpi/Vi
-        b.y = -(vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dFqi/Vi
+        b.x = vi * vi * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFpi
+        b.y = -vi * vi * bsh - vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dFqi
         return b;
     }
     
@@ -261,9 +261,9 @@ public class SVCControl extends AbstractAclfBus {
         
         Vector_xy b = new Vector_xy();
         // dPeq
-        b.y = (vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)));
+        b.y = vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
         if (this.ctype == SVCControlType.ConstV) {	// dVi
-            b.x = -(vi - qc);
+            b.x = vi - qc;
         }
         else if (this.ctype == SVCControlType.ConstQ) {	// dQi
             b.x = ((vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) + qc);
