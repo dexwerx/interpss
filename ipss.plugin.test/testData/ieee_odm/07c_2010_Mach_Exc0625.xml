@@ -1255,7 +1255,7 @@
                             <VAMIN>-10.0</VAMIN>
                             <KF>0.01</KF>
                             <TF unit="Sec" value="100.0"/>
-                            <KC>0.088</KC>
+                            <KC>0.0</KC>
                         </excBPATypeFV>
                     </dynamicGen>
                 </dynamicGenList>
@@ -1724,7 +1724,7 @@
                             <TC unit="Sec" value="0.01"/>
                             <KF>0.01</KF>
                             <TF unit="Sec" value="0.7"/>
-                            <KC>0.1</KC>
+                            <KC>0.0</KC>
                         </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>
@@ -1852,7 +1852,7 @@
                             <TC unit="Sec" value="0.2"/>
                             <KF>0.01</KF>
                             <TF unit="Sec" value="0.5"/>
-                            <KC>0.1</KC>
+                            <KC>0.0</KC>
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2091,7 +2091,7 @@
                             <TC unit="Sec" value="0.0"/>
                             <KF>0.1</KF>
                             <TF unit="Sec" value="1.0"/>
-                            <KC>0.12</KC>
+                            <KC>0.0</KC>
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2202,7 +2202,7 @@
                             <TC unit="Sec" value="0.0"/>
                             <KF>0.0</KF>
                             <TF unit="Sec" value="0.0"/>
-                            <KC>0.14</KC>
+                            <KC>0.0</KC>
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2265,7 +2265,7 @@
                             <TC unit="Sec" value="0.0"/>
                             <KF>0.0</KF>
                             <TF unit="Sec" value="0.0"/>
-                            <KC>0.2</KC>
+                            <KC>0.0</KC>
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2392,7 +2392,7 @@
                             <TC unit="Sec" value="0.125"/>
                             <KF>0.1</KF>
                             <TF unit="Sec" value="1.0"/>
-                            <KC>0.12</KC>
+                            <KC>0.0</KC>
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2644,7 +2644,7 @@
                             <VAMIN>-10.0</VAMIN>
                             <KF>0.01</KF>
                             <TF unit="Sec" value="100.0"/>
-                            <KC>0.088</KC>
+                            <KC>0.0</KC>
                         </excBPATypeFV>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2892,7 +2892,7 @@
                             <TC unit="Sec" value="0.02"/>
                             <KF>0.0</KF>
                             <TF unit="Sec" value="0.5"/>
-                            <KC>0.1</KC>
+                            <KC>0.0</KC>
                         </excIEEE1981ST1>
                     </dynamicGen>
                 </dynamicGenList>
@@ -2951,7 +2951,7 @@
                             <TC unit="Sec" value="0.01"/>
                             <KF>0.01</KF>
                             <TF unit="Sec" value="0.7"/>
-                            <KC>0.1</KC>
+                            <KC>0.0</KC>
                         </excBPATypeFJ>
                     </dynamicGen>
                 </dynamicGenList>

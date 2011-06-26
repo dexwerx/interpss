@@ -77,7 +77,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 * [test data updated by Tony 06/15]
 	 * 07c_0615_notBE.dat: change BE type for non-Gen Buses to B type.
 	 */
-	@Test
+	//@Test
 	public void sys2010_lfTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615_notBE.dat")); 
@@ -153,7 +153,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		LoadflowAlgorithm  algo=CoreObjectFactory.createLoadflowAlgorithm(net);
 		assertTrue(net.accept(algo));
 		//get the genResult
-		
+		/*
 		System.out.println("Dstab network lf result");
 		for(Bus b:net.getBusList()){
 			AclfBus bus=(AclfBus) b;
@@ -161,6 +161,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 				System.out.println(bus.getName()+", "+bus.getId()+" ,p= "+bus.getGenResults().getReal()+",q= "+bus.getGenResults().getImaginary());
 			}
 		}
+		*/
 		/*
 		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.initialization()) {
@@ -197,7 +198,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	 *  but it was stable once they are changed to shuntY format(with 07c_2010_OnlyMach_noSe0616.xml)
 	 * 22/06[Tony]
 	 */
-	//@Test
+	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
 		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc0625.xml");
@@ -230,15 +231,16 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			 */ 
 		 
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
-			dstabAlgo.setRefMachine(net.getMachine("Bus78-mach1"));
+			dstabAlgo.setRefMachine(net.getMachine("Bus141-mach1"));
 			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 			dstabAlgo.setSimuStepSec(0.001);
-			dstabAlgo.setTotalSimuTimeSec(0.002);
+			dstabAlgo.setTotalSimuTimeSec(0.004);
 			
 			// run load flow test case
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
 			//System.out.println(AclfOutFunc.lfResultsBusStyle(net));
+			/*
 			//get the genResult
 			System.out.println("Dstab network lf result");
 			for(Bus b:net.getBusList()){
@@ -247,7 +249,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 					System.out.println(bus.getName()+", "+bus.getId()+" ,p= "+bus.getGenResults().getReal()+",q= "+bus.getGenResults().getImaginary());
 				}
 			}
-				
+			*/	
 			// create fault
 			//create3PFaultEvent(net, "Bus134", "luopingg");
 
@@ -255,8 +257,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			StateVariableRecorder ssRecorder = new StateVariableRecorder(0.0001);
 			ssRecorder.addCacheRecords("Bus78-mach1",      // mach id 
 					StateVariableRecorder.RecType.Machine,    // record type
-					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
-					0.1,                                      // time steps for recording 
+					DStabOutSymbol.OUT_SYMBOL_EXC_EFD,       // state variable name
+					0.001,                                      // time steps for recording 
 					100);                                      // total points to record 
 			StateVariableRecorder stateRecorder = new StateVariableRecorder(0.0001);
 			stateRecorder.addCacheRecords("Bus78-mach1", StateVariableRecorder.RecType.Machine, 
@@ -269,36 +271,36 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			stateRecorder.addCacheRecords("Bus64-mach1", StateVariableRecorder.RecType.Machine, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 100);
 			
-			dstabAlgo.setSimuOutputHandler(stateRecorder);
+			//dstabAlgo.setSimuOutputHandler(stateRecorder);
 			
-//			IpssLogger.getLogger().setLevel(Level.INFO);
-//			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
-//			if (dstabAlgo.initialization()) {
-//				System.out.println("Running DStab simulation ...");
-//				assertTrue(dstabAlgo.performSimulation());
-//			}
-//          
-//			// output recorded simulation results
-//			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
-//					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
-//			System.out.println("\n\nMachine Anagle");
-//			for (Record rec : list) {
-//				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-//			}
-//			
-//			list = stateRecorder.getMachineRecords(
-//					"Bus78-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
-//			System.out.println("\n\nMachine Power");
-//			for (Record rec : list) {
-//				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-//			}
-//
-//			list = stateRecorder.getMachineRecords(
-//					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
-//			System.out.println("\n\nMachine Power");
-//			for (Record rec : list) {
-//				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
-//			}
+			IpssLogger.getLogger().setLevel(Level.INFO);
+			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+			if (dstabAlgo.initialization()) {
+				System.out.println("Running DStab simulation ...");
+				assertTrue(dstabAlgo.performSimulation());
+			}
+          
+			// output recorded simulation results
+			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
+					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+			System.out.println("\n\nMachine Anagle");
+			for (Record rec : list) {
+				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+			}
+			
+			list = stateRecorder.getMachineRecords(
+					"Bus78-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_EXC_EFD);
+			System.out.println("\n\n Bus78-mach1 Efd");
+			for (Record rec : list) {
+				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+			}
+
+			list = stateRecorder.getMachineRecords(
+					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
+			System.out.println("\n\nMachine Power");
+			for (Record rec : list) {
+				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
+			}
 			
 		}
 	}
