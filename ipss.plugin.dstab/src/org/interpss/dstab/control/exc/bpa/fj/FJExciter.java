@@ -76,21 +76,21 @@ public class FJExciter extends AnnotateExciter {
 		  @Override
 		  public double getY() {
 				if(super.getY() > calLimit(efdmax)) {
-				  return calLimit(vrmax);
+				  return calLimit(efdmax);
 			  }else if(super.getY() < calLimit(efdmin)) {
-				  return calLimit(vrmin);
+				  return calLimit(efdmin);
 			  }else {
 				  return super.getY();
 			  }
 
 		  }
 
-		  private double calLimit(double vrlimit) {
+		  private double calLimit(double vlimit) {
 			  	Machine mach = getMachine();
 		      DStabBus dbus = mach.getDStabBus();
 		      double vt = mach.getVdq(dbus).abs();
 		      double ifd = mach.calculateIfd(dbus);
-		      return vt * vrlimit - kc * ifd;
+		      return vt * vlimit - kc * ifd;
 		  }
 	   };
 
