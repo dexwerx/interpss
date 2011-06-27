@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
-import org.interpss.dstab.control.exc.ExcUtil;
+import org.interpss.dstab.control.exc.ExciterUtil;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
@@ -90,7 +90,7 @@ public class IEEE1981ST1Exciter extends AnnotateExciter {
 		      DStabBus dbus = mach.getDStabBus();
 		      double vt = mach.getVdq(dbus).abs();
 		     // double ifd = mach.calculateIfd(dbus);
-		      double ifd_Exc_pu=ExcUtil.getExciterBasedIfd(mach);
+		      double ifd_Exc_pu=ExciterUtil.getExciterBasedIfd(mach);
 		     // System.out.println(mach.getDStabBus().getId()+", exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus));
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		     // return vt * vrlimit - kc * ifd;
