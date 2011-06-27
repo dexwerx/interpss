@@ -116,19 +116,19 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
 		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
 	}
-	@Test
+	//@Test
 	public void sys2010_noFaultTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
 				new String[] { "testdata/bpa/07c_0615_notBE.dat", 
-				               "testdata/bpa/07c_mach_exc_noSE.swi"}));//"testdata/bpa/07c_onlyMach.swi"
+				               "testdata/bpa/07c_mach_exc_noSE_EA_FJ_FK.swi"}));//"testdata/bpa/07c_onlyMach.swi"
 		
 		DStabModelParser parser=(DStabModelParser) adapter.getModel();
 	
 		//parser.stdout();
 		
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc0625.xml"));
+		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc0627.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();
@@ -162,20 +162,13 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			}
 		}
 		*/
-		/*
-		dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
+		
+		//dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 		if (dstabAlgo.initialization()) {
-			for(Bus b:net.getBusList()){
-				AclfBus bus=(AclfBus) b;
-				if( bus.isGen()){
-					String id=b.getId();
-					System.out.println("Machine:"+b.getName()+","+net.getDStabBus(id).getMachine().getEfd());
-				}
-					
-			}
 			System.out.println("Running DStab simulation ...");
 			dstabAlgo.performSimulation();
 		}
+		/*
 		for(Bus b:net.getBusList()){
 			AclfBus bus=(AclfBus) b;
 			if( bus.isGen()){
@@ -201,7 +194,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	@Test
 	public void sys2010_XmlDstabtestCase() throws Exception {
 		
-		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc0625.xml");
+		File file = new File("testData/ieee_odm/07c_2010_Mach_Exc0627.xml");
 		DStabModelParser parser = ODMObjectFactory.createDStabModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
@@ -234,7 +227,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			dstabAlgo.setRefMachine(net.getMachine("Bus141-mach1"));
 			dstabAlgo.setSimuMethod(DynamicSimuMethod.MODIFIED_EULER);
 			dstabAlgo.setSimuStepSec(0.001);
-			dstabAlgo.setTotalSimuTimeSec(0.004);
+			dstabAlgo.setTotalSimuTimeSec(0.002);
 			
 			// run load flow test case
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
@@ -251,29 +244,31 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			}
 			*/	
 			// create fault
-			//create3PFaultEvent(net, "Bus134", "luopingg");
+			//create3PFaultEvent(net, "Bus50", "luopingg", 0.2, 0.04);
 
 			// create state variable recorder to record simulation results
-			StateVariableRecorder ssRecorder = new StateVariableRecorder(0.0001);
-			ssRecorder.addCacheRecords("Bus78-mach1",      // mach id 
-					StateVariableRecorder.RecType.Machine,    // record type
-					DStabOutSymbol.OUT_SYMBOL_EXC_EFD,       // state variable name
-					0.001,                                      // time steps for recording 
-					100);                                      // total points to record 
+
 			StateVariableRecorder stateRecorder = new StateVariableRecorder(0.0001);
+			
+			stateRecorder.addCacheRecords("Bus85-mach1",      // mach id 
+					StateVariableRecorder.RecType.Machine,    // record type
+					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
+					0.1,                                      // time steps for recording 
+					300);
 			stateRecorder.addCacheRecords("Bus78-mach1", StateVariableRecorder.RecType.Machine, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 100);
+			
 			stateRecorder.addCacheRecords("Bus64-mach1",      // mach id 
 					StateVariableRecorder.RecType.Machine,    // record type
 					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
 					0.1,                                      // time steps for recording 
-					100);                                      // total points to record 
+					300);                                      // total points to record 
 			stateRecorder.addCacheRecords("Bus64-mach1", StateVariableRecorder.RecType.Machine, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 100);
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 300);
 			
 			//dstabAlgo.setSimuOutputHandler(stateRecorder);
 			
-			IpssLogger.getLogger().setLevel(Level.INFO);
+			//IpssLogger.getLogger().setLevel(Level.INFO);
 			dstabAlgo.setSimuOutputHandler(new TextSimuOutputHandler());
 			if (dstabAlgo.initialization()) {
 				System.out.println("Running DStab simulation ...");
@@ -281,6 +276,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			}
           
 			// output recorded simulation results
+			/*
 			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
 					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
 			System.out.println("\n\nMachine Anagle");
@@ -289,8 +285,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			}
 			
 			list = stateRecorder.getMachineRecords(
-					"Bus78-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_EXC_EFD);
-			System.out.println("\n\n Bus78-mach1 Efd");
+					"Bus85-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+			System.out.println("\n\n Bus85-mach1 (EQG030) Angle");
 			for (Record rec : list) {
 				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 			}
@@ -301,7 +297,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			for (Record rec : list) {
 				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 			}
-			
+			*/
 		}
 	}
 	
