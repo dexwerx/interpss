@@ -12,6 +12,7 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.PIControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+import org.interpss.dstab.control.exc.ExcUtil;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
@@ -112,8 +113,9 @@ public class FVkv0Exciter extends AnnotateExciter {
 			  	Machine mach = getMachine();
 		      DStabBus dbus = mach.getDStabBus();
 		      double vt = mach.getVdq(dbus).abs();
-		      double ifd = mach.calculateIfd(dbus);
-		      return vt * vrlimit - kc * ifd;
+		      //double ifd = mach.calculateIfd(dbus);
+		      double ifd_Exc_pu=ExcUtil.getExciterBasedIfd(mach);
+		      return vt * vrlimit - kc * ifd_Exc_pu;
 		  }
 	   };
 
