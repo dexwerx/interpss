@@ -70,6 +70,7 @@ public class BPADynamicExciterRecord {
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+
     	
     	if(type==EA){
     		ExcIEEE1968Type1XmlType exc = DStabParserHelper.createExcIEEE1968Type1XmlType(dynGen);
@@ -126,7 +127,10 @@ public class BPADynamicExciterRecord {
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+    		
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
     		double VRmax=(SE2+Ke)*Efdmax;
@@ -190,6 +194,8 @@ public class BPADynamicExciterRecord {
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
@@ -253,6 +259,8 @@ public class BPADynamicExciterRecord {
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
@@ -474,11 +482,13 @@ public class BPADynamicExciterRecord {
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
-			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKF(kf);
+			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
@@ -540,11 +550,13 @@ public class BPADynamicExciterRecord {
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
-			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKF(kf);
+			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
@@ -580,6 +592,7 @@ public class BPADynamicExciterRecord {
 			//Kv
 			int kv=ModelStringUtil.getInt(strAry[8], 0);
 			exc.setKV(kv);
+			
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
@@ -611,6 +624,8 @@ public class BPADynamicExciterRecord {
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
@@ -677,6 +692,8 @@ public class BPADynamicExciterRecord {
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 
     	}
@@ -707,8 +724,12 @@ public class BPADynamicExciterRecord {
 			exc.setK(k);
 						
 			//Kv
+			
 			int kv=ModelStringUtil.getInt(strAry[8], 0);
+			if(strAry[8].endsWith("1.")||strAry[8].endsWith("1.0"))kv=1;
 			exc.setKV(kv);
+			System.out.println(busId+",kvString="+strAry[8]+",kv="+kv);
+			
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
@@ -740,6 +761,8 @@ public class BPADynamicExciterRecord {
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+    		if(kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 
     	}
@@ -819,8 +842,10 @@ public class BPADynamicExciterRecord {
             		((ExcBPAFJXmlType)exc).setKF(Kf);
             					
         			// TF
-            		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
-            		((ExcBPAFJXmlType)exc).setTF(BaseDataSetter.createTimeConstSec(TF));
+            		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+            		if(Kf==0.0&&Tf==0.0)Tf=1.0;
+            		((ExcBPAFJXmlType)exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
         			
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
@@ -832,8 +857,10 @@ public class BPADynamicExciterRecord {
             		((ExcIEEE1981ST1XmlType) exc).setKF(Kf);
             					
         			// TF
-            		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
-            		((ExcIEEE1981ST1XmlType) exc).setTF(BaseDataSetter.createTimeConstSec(TF));
+            		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+            		if(Kf==0.0&&Tf==0.0)Tf=1.0;
+            		((ExcIEEE1981ST1XmlType) exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
         			((ExcIEEE1981ST1XmlType) exc).setKC(Kc); 
@@ -857,8 +884,10 @@ public class BPADynamicExciterRecord {
         			double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
         			((ExcIEEE1981TypeDC1XmlType)exc).setKF(Kf);
             		// TF
-            		double TF= ModelStringUtil.getDouble(strAry[9], 0.0);
-            		((ExcIEEE1981TypeDC1XmlType)exc).setTF(BaseDataSetter.createTimeConstSec(TF));
+            		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
+            		if(Kf==0.0&&Tf==0.0)Tf=1.0;
+            		((ExcIEEE1981TypeDC1XmlType)exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
         			
             	}
             	else ODMLogger.getLogger().severe("processor for this type excitor is not implmented yet!");
@@ -1320,6 +1349,7 @@ public class BPADynamicExciterRecord {
 				strAry[7]=ModelStringUtil.getStringReturnEmptyString(str,30, 34).trim();
 				//Kv
 				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 37).trim();
+				
 				// T1
 				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,38, 42).trim();
 				//T2
