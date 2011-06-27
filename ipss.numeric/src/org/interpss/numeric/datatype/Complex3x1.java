@@ -25,7 +25,6 @@
 package org.interpss.numeric.datatype;
 
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.complex.ComplexFormat;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.util.Number2String;
 

@@ -35,8 +35,7 @@ public class ComplexFunc {
 	/**
 	 * Create a Complex object
 	 * 
-	 * @param a
-	 *            a complex object
+	 * @param a complex object
 	 * @return the resulting complex object
 	 */
 	public static Complex createComplex(final Complex a) {
@@ -46,8 +45,7 @@ public class ComplexFunc {
 	/**
 	 * Create a Complex object
 	 * 
-	 * @param str
-	 *            a string of format a + jb
+	 * @param str string of format a + jb
 	 * @return the resulting complex object
 	 */
 	public static Complex createComplex(final String str) {
@@ -68,8 +66,7 @@ public class ComplexFunc {
 	/**
 	 * Make a copy of the Vector_xy object and Create a Complex object
 	 * 
-	 * @param a
-	 *            Vector_xy object
+	 * @param a Vector_xy object
 	 * @return the resulting complex object
 	 */
 	public static Complex createComplex(final Vector_xy a) {
@@ -79,10 +76,8 @@ public class ComplexFunc {
 	/**
 	 * Construct a complex number by using mag<ang(rad)
 	 * 
-	 * @param mag
-	 *            magnitude
-	 * @param ang
-	 *            angle in rad
+	 * @param mag magnitude
+	 * @param ang angle in rad
 	 * @return the resulting complex number
 	 */
 	public static Complex polar(final double mag, final double angle) {
@@ -92,8 +87,7 @@ public class ComplexFunc {
 	/**
 	 * Check if this obj is equal to c
 	 * 
-	 * @param c
-	 *            a complex number
+	 * @param c a complex number
 	 * @return true/false
 	 */
 	public static boolean sameValue(final Complex a, final Complex b) {
@@ -104,10 +98,8 @@ public class ComplexFunc {
 	/**
 	 * Add two complex numbers togather
 	 * 
-	 * @param a
-	 *            a complex number
-	 * @param b
-	 *            a complex number
+	 * @param a complex number
+	 * @param b complex number
 	 * @return result
 	 */
 	public static Complex add(final Complex a, final Complex b) {
@@ -118,27 +110,21 @@ public class ComplexFunc {
 	/**
 	 * Add three complex numbers togather
 	 * 
-	 * @param a
-	 *            a complex number
-	 * @param b
-	 *            a complex number
-	 * @param c
-	 *            a complex number
+	 * @param a complex number
+	 * @param b complex number
+	 * @param c complex number
 	 * @return result
 	 */
 	public static Complex add(final Complex a, final Complex b, final Complex c) {
-		return new Complex(a.getReal() + b.getReal() + c.getReal(), a
-				.getImaginary()
-				+ b.getImaginary() + c.getImaginary());
+		return new Complex(a.getReal() + b.getReal() + c.getReal(), 
+				           a.getImaginary()	+ b.getImaginary() + c.getImaginary());
 	}
 
 	/**
 	 * Subtract a - b
 	 * 
-	 * @param a
-	 *            a complex number
-	 * @param b
-	 *            a complex number
+	 * @param a complex number
+	 * @param b complex number
 	 * @return result
 	 */
 	public static Complex sub(final Complex a, final Complex b) {
@@ -149,10 +135,8 @@ public class ComplexFunc {
 	/**
 	 * Division function, return d/c
 	 * 
-	 * @param d
-	 *            a double divider
-	 * @param c
-	 *            a complex number
+	 * @param d double divider
+	 * @param c complex number
 	 * @return the resulting complex number
 	 */
 	public static Complex div(final double d, final Complex c) {
@@ -165,10 +149,8 @@ public class ComplexFunc {
 	/**
 	 * Division function, return d/c
 	 * 
-	 * @param d
-	 *            a double divider
-	 * @param c
-	 *            a complex number
+	 * @param d double divider
+	 * @param c complex number
 	 * @return the resulting complex number
 	 */
 	public static Complex div(final Complex d, final Complex c) {
@@ -179,10 +161,8 @@ public class ComplexFunc {
 	/**
 	 * Division function, return c/d
 	 * 
-	 * @param c
-	 *            a complex number
-	 * @param d
-	 *            a double divider
+	 * @param c complex number
+	 * @param d double divider
 	 * @return the resulting complex number
 	 */
 	public static Complex div(final Complex c, final double d) {
@@ -192,10 +172,8 @@ public class ComplexFunc {
 	/**
 	 * Multiplying function, return d*c
 	 * 
-	 * @param d
-	 *            a double number
-	 * @param c
-	 *            a complex number
+	 * @param d double number
+	 * @param c complex number
 	 * @return the complex number
 	 */
 	public static Complex mul(final double d, final Complex c) {
@@ -205,10 +183,8 @@ public class ComplexFunc {
 	/**
 	 * Multiplying function, return d*c
 	 * 
-	 * @param d
-	 *            a complex number
-	 * @param c
-	 *            a complex number
+	 * @param d complex number
+	 * @param c complex number
 	 * @return the complex number
 	 */
 	public static Complex mul(final Complex d, final Complex c) {

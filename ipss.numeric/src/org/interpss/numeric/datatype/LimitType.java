@@ -37,6 +37,8 @@ import org.interpss.numeric.util.Number2String;
 
 public class LimitType implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
+	
+//	public static boolean Debug = false;
 
 	protected double _max = 0.0, _min = 0.0;
 
@@ -139,8 +141,14 @@ public class LimitType implements java.io.Serializable {
 	 */
 	public double limit(final double x) {
 		if (x > getMax()) {
+//			if (Debug) {
+//				NumericLogger.getLogger().info("Limit violation, x, max: " + x + ", " + getMax());
+//			}
 			return getMax();
 		} else if (x < getMin()) {
+//			if (Debug) {
+//				NumericLogger.getLogger().info("Limit violation, x, min: " + x + ", " + getMin());
+//			}
 			return getMin();
 		} else {
 			return x;
