@@ -1,1 +1,4 @@
-Inherit AclfNetwork to model the network with STATCOM
+// LFSolverWithStatcom
+1. Update network with STATCOM injection
+2. Solve the traditional load flow
+3. Update states of STATCOMs by recalculate vsh, considering of control type

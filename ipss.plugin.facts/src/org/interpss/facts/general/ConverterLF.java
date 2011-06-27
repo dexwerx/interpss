@@ -15,8 +15,9 @@ public class ConverterLF {
 	private Complex ysh;	// Equivalent admittance of the converter's Thevenin equivalent circuit
 	
 	// Constructor
-	public ConverterLF(String idi, String idj, Complex ysh) {
+	public ConverterLF(AclfNetwork net, String idi, String idj, Complex ysh) {
 		super();
+		this.net = net;
 		this.idi = idi;
 		this.idj = idj;
 		this.ysh = ysh;
@@ -28,9 +29,12 @@ public class ConverterLF {
 		double vmi = net.getAclfBus(idi).getVoltageMag();
 		double thetai = net.getAclfBus(idi).getVoltageAng();
 		Complex vi = new Complex(vmi * Math.cos(thetai), vmi * Math.sin(thetai));
-		double vmj = net.getAclfBus(idj).getVoltageMag();
-		double thetaj = net.getAclfBus(idj).getVoltageAng();
-		Complex vj = new Complex(vmj * Math.cos(thetaj), vmj * Math.sin(thetaj));
+		Complex vj = new Complex(0.0, 0.0);
+		if (!idj.equals("GROUND")) {
+			double vmj = net.getAclfBus(idj).getVoltageMag();
+			double thetaj = net.getAclfBus(idj).getVoltageAng();
+			vj = new Complex(vmj * Math.cos(thetaj), vmj * Math.sin(thetaj));
+		}
 		Complex dv = vi.subtract(vj).subtract(vsh);
 		return vi.multiply(dv.conjugate()).multiply(ysh.conjugate());
 	}
@@ -40,9 +44,12 @@ public class ConverterLF {
 		double vmi = net.getAclfBus(idi).getVoltageMag();
 		double thetai = net.getAclfBus(idi).getVoltageAng();
 		Complex vi = new Complex(vmi * Math.cos(thetai), vmi * Math.sin(thetai));
-		double vmj = net.getAclfBus(idj).getVoltageMag();
-		double thetaj = net.getAclfBus(idj).getVoltageAng();
-		Complex vj = new Complex(vmj * Math.cos(thetaj), vmj * Math.sin(thetaj));
+		Complex vj = new Complex(0.0, 0.0);
+		if (!idj.equals("GROUND")) {
+			double vmj = net.getAclfBus(idj).getVoltageMag();
+			double thetaj = net.getAclfBus(idj).getVoltageAng();
+			vj = new Complex(vmj * Math.cos(thetaj), vmj * Math.sin(thetaj));
+		}
 		Complex dv = vj.add(vsh).subtract(vi);
 		return vj.multiply(dv.conjugate()).multiply(ysh.conjugate());
 	}
