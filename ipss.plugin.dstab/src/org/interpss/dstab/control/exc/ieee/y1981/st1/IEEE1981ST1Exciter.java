@@ -19,6 +19,7 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.MachineIfdBase;
 
 /*
  * Part-1: Define your controller using CML as usual
@@ -90,7 +91,7 @@ public class IEEE1981ST1Exciter extends AnnotateExciter {
 		      DStabBus dbus = mach.getDStabBus();
 		      double vt = mach.getVdq(dbus).abs();
 		     // double ifd = mach.calculateIfd(dbus);
-		      double ifd_Exc_pu=ExciterUtil.getExciterBasedIfd(mach);
+		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
 		     // System.out.println(mach.getDStabBus().getId()+", exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus));
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		     // return vt * vrlimit - kc * ifd;

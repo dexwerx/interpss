@@ -1,5 +1,5 @@
 /*
- * @(#)ExciterObjectFactory.java   
+ * @(#)ExciterUtil.java   
  *
  * Copyright (C) 2008-2010 www.interpss.org
  *
@@ -24,7 +24,6 @@
 
 package org.interpss.dstab.control.exc;
 
-import com.interpss.dstab.mach.Machine;
 
 public class ExciterUtil {
 	/**
@@ -33,9 +32,9 @@ public class ExciterUtil {
 	 * @param mach
 	 * @return
 	 */
-	public static double getExciterBasedIfd(Machine mach){
-		double xad=mach.getMachData().getXd()-mach.getMachData().getXl();
-		// by default, Ifd is based on machine rating
-		return mach.calculateIfd(mach.getDStabBus())*xad;
-	}
+//	public static double getExciterBasedIfd(Machine mach){
+//		double xad=mach.getMachData().getXd()-mach.getMachData().getXl();
+//		// by default, Ifd is based on machine rating
+//		return mach.calculateIfd(mach.getDStabBus())*xad;
+//	}
 }

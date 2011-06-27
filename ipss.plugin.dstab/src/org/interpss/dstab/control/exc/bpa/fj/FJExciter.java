@@ -20,6 +20,7 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.MachineIfdBase;
 
 /*
  * Part-1: Define your controller using CML as usual
@@ -91,7 +92,7 @@ public class FJExciter extends AnnotateExciter {
 		      DStabBus dbus = mach.getDStabBus();
 		      double vt = mach.getVdq(dbus).abs();
 		      //double ifd = mach.calculateIfd(dbus);//based on machine pu system
-		      double ifd_Exc_pu=ExciterUtil.getExciterBasedIfd(mach);
+		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
 		      return vt * vlimit - kc * ifd_Exc_pu;
 		  }
 	   };

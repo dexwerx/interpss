@@ -40,6 +40,7 @@ import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.MachineIfdBase;
 
 @AnController(
 		   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
@@ -116,7 +117,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 
 	         // calculate sqrt( 1 - A )
 	         double xad = mach.getMachData().getXd() - mach.getMachData().getXl();
-	         double ifd = mach.calculateIfd(dbus);
+	         double ifd = mach.calculateIfd(dbus, MachineIfdBase.MACHINE);
 	         double a = 0.78 * xad * ifd * ifd / ve;
 	         if (a > 1.0) {
 	            //System.out.println("ve, xad, ifd, a: " + ve + ", " + xad + ", " + ifd + ", " + a);
