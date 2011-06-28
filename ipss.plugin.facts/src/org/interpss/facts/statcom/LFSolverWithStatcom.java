@@ -24,24 +24,29 @@ public class LFSolverWithStatcom {
 		int i = 0;
 		while (!converged) {
 			AclfNetwork tempNetwork = CoreObjectFactory.createAclfNetwork(net.serialize());
+			// Test
+//			LoadflowAlgorithm prealgo = CoreObjectFactory.createLoadflowAlgorithm(tempNetwork);
+			
 			// 1. Update the network with current states of all the STATCOMs
 			for (StatcomLF thisSTATCOM : statcomArray) {
 				String statcomId = thisSTATCOM.getId();
-				double loadP = tempNetwork.getAclfBus(statcomId).getLoadP() + thisSTATCOM.getSsh().getReal();
-				double loadQ = tempNetwork.getAclfBus(statcomId).getLoadQ() + thisSTATCOM.getSsh().getImaginary();
+				double loadP = tempNetwork.getAclfBus(statcomId).getLoadP() - thisSTATCOM.getSsh().getReal();
+				double loadQ = tempNetwork.getAclfBus(statcomId).getLoadQ() - thisSTATCOM.getSsh().getImaginary();
 				tempNetwork.getAclfBus(statcomId).setLoadP(loadP);
 				tempNetwork.getAclfBus(statcomId).setLoadQ(loadQ);
 			}
 			// 2. Solve the traditional load flow with current injections
             LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(tempNetwork);
-            algo.loadflow();
+            tempNetwork.accept(algo);
+//            algo.loadflow();
 			// 3. Update all the STATCOMs
     		double err = 0.0;
             for (StatcomLF thisSTATCOM : statcomArray) {
-            	System.out.println("Vi = " + net.getAclfBus(thisSTATCOM.getId()).getVoltageMag());
+            	System.out.println("Vi = " + tempNetwork.getAclfBus(thisSTATCOM.getId()).getVoltageMag() +  ", thetai = " + tempNetwork.getAclfBus(thisSTATCOM.getId()).getVoltageAng());
             	thisSTATCOM.update();	// Key point of the calculation
             	err = Math.max(err, thisSTATCOM.getErr());
-            	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs());
+            	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs() + ", thetash = " + 
+            			Math.atan2(thisSTATCOM.getConverter().getVsh().getImaginary(), thisSTATCOM.getConverter().getVsh().getReal()));
             }
             if (err < 0.0001)
             	converged = true;

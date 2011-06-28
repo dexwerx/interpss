@@ -44,18 +44,19 @@ public class StatcomLF {
 	// Update vsh inside the statcom converter
 	public void update() {
 		Complex vi = net.getAclfBus(id).getVoltage();
+		Complex vsh1 = this.converter.getVsh();
 		if (type == StatcomControlType.ConstB) {	// Control of constant shunt admittance 
-			
+			Complex ycomp = new Complex(0.0, tunedValue);
+			this.converter.setVsh(vi.multiply((new Complex(1.0, 0.0)).subtract(ycomp.divide(this.converter.getYsh()))));
 		}
 		else if (type == StatcomControlType.ConstQ) {	// Control of constant shunt reactive power compensation
-			Complex vsh1 = this.converter.getVsh();
 			Complex si = new Complex(0.0, tunedValue);
 			this.converter.setVsh(vi.add((si.divide(vi)).conjugate().divide(this.converter.getYsh())));
-			Complex vsh2 = this.converter.getVsh();
-			err = (vsh1.subtract(vsh2)).abs();
 		}
 		else if (type == StatcomControlType.ConstV) {	// Control of constant voltage magnitude
 			
 		}
+		Complex vsh2 = this.converter.getVsh();
+		err = (vsh1.subtract(vsh2)).abs();
 	}
 }
