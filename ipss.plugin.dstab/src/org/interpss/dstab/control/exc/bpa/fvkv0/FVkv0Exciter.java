@@ -31,12 +31,7 @@ import com.interpss.dstab.mach.MachineIfdBase;
    input="this.refPoint - mach.vt + pss.vs",
    output="this.gainCustomBlock.y",
    refPoint="this.piBlock.u0 - pss.vs + mach.vt",
-   display= { "str.piBlock, this.piBlock.y",
-              "str.filterBlock, this.filterBlock.y",
-              "str.kaDelayBlock, this.kaDelayBlock.y",
-	      "str.gainCustomBlock, this.gainCustomBlock.y",
-              "str.washoutBlock, this.washoutBlock.y"
-            }
+   display= {}
 )
 
 public class FVkv0Exciter extends AnnotateExciter {

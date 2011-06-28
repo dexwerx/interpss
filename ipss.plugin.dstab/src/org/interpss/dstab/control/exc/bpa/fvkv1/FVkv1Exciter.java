@@ -28,12 +28,9 @@ import com.interpss.dstab.mach.MachineIfdBase;
  */
 @AnController(
    input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
-   output="this.delayBlock.y",
+   output="this.gainCustomBlock.y",
    refPoint="this.filterBlock.u - pss.vs + mach.vt + this.washoutBlock.y",
-   display= { "str.kaDelayBlock, this.kaDelayBlock.y",
-              "str.kvFilterBlock, this.kvFilterBlock.y",
-              "str.washoutBlock, this.washoutBlock.y"
-            }
+   display= {}
 )
 
 public class FVkv1Exciter extends AnnotateExciter {
