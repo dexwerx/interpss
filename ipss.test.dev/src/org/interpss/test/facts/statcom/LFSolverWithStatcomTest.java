@@ -4,33 +4,33 @@ import static org.junit.Assert.*;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.statcom.LFSolverWithStatcom;
+import org.interpss.facts.statcom.StatcomControlType;
 import org.interpss.facts.statcom.StatcomLF;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
+import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class LFSolverWithStatcomTest {
 
 	@Test
-	public void testLFSolverWithStatcom() {
+	public void testLFSolverWithStatcomConstQ() throws InterpssException {
 		AclfNetwork net = createNet();
-        AclfBus bus = net.getAclfBus("Bus2");
-        
-        StatcomLF[] statcomArray = {};
+        StatcomLF myStatcom = new StatcomLF(net, "Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstQ, 0.6);
+        StatcomLF[] statcomArray = {myStatcom};
         LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
         
-        // create a Loadflow algo object
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-
         // output loadflow calculation results
-        assertTrue(algo.loadflow());
+        assertTrue(solver.solveLF());
+        assertTrue(Math.abs(-myStatcom.getSsh().getReal()) < 0.0001);
+        assertTrue(Math.abs(-myStatcom.getSsh().getImaginary() - 0.6) < 0.0001);
 	}
 	
 	private static AclfNetwork createNet() {
@@ -56,6 +56,9 @@ public class LFSolverWithStatcomTest {
         AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
         bus2.setAttributes("Bus 2", "");
         bus2.setBaseVoltage(4000.0);
+        bus2.setLoadCode(AclfLoadCode.CONST_P);
+        bus2.setLoadP(1.0);
+        bus2.setLoadQ(0.8);
 
         // create an AclfBranch object
         AclfBranch branch = CoreObjectFactory.createAclfBranch();
