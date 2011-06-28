@@ -36,6 +36,7 @@ import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExcBPAECXmlType;
 import org.ieee.odm.schema.ExcBPAEKXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
+import org.ieee.odm.schema.ExcBPAFKXmlType;
 import org.ieee.odm.schema.ExcBPAFQXmlType;
 import org.ieee.odm.schema.ExcBPAFRXmlType;
 import org.ieee.odm.schema.ExcBPAFSXmlType;
@@ -327,15 +328,15 @@ public class BPADynamicExciterRecord {
 			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
     	else if(type==FK){
-			// IEEE 1981 ST1
-    		ExcIEEE1981ST1XmlType exc = DStabParserHelper.createExcIEEE1981ST1XmlType(dynGen);
+			
+    		ExcBPAFKXmlType exc = DStabParserHelper.createExcBPAFKXmlType(dynGen);
     		
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];
 			}	
-    		exc.setDesc("IEEE1981 ST1 Type excId-" + excId);
+    		exc.setDesc("BPA FK Type Exciter,excId-" + excId);
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
@@ -728,7 +729,6 @@ public class BPADynamicExciterRecord {
 			int kv=ModelStringUtil.getInt(strAry[8], 0);
 			if(strAry[8].endsWith("1.")||strAry[8].endsWith("1.0"))kv=1;
 			exc.setKV(kv);
-			System.out.println(busId+",kvString="+strAry[8]+",kv="+kv);
 			
 						
 			// T1
