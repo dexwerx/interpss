@@ -50,7 +50,7 @@ public class StatcomLF {
 		else if (type == StatcomControlType.ConstQ) {	// Control of constant shunt reactive power compensation
 			Complex vsh1 = this.converter.getVsh();
 			Complex si = new Complex(0.0, tunedValue);
-			this.converter.setVsh(vi.add(si.divide(this.converter.getYsh())));
+			this.converter.setVsh(vi.add((si.divide(vi)).conjugate().divide(this.converter.getYsh())));
 			Complex vsh2 = this.converter.getVsh();
 			err = (vsh1.subtract(vsh2)).abs();
 		}
