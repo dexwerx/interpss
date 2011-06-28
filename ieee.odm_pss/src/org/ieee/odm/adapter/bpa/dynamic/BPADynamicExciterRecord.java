@@ -137,6 +137,11 @@ public class BPADynamicExciterRecord {
     		double VRmax=(SE2+Ke)*Efdmax;
     		double VRmin=VRmax*multi;
     		exc.setVRMAX(VRmax);
+			if(VRmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-VRmin) );
+				VRmin*=-1;
+			}
     		exc.setVRMIN(VRmin);
     	}
     	//BPA EC type
@@ -203,6 +208,11 @@ public class BPADynamicExciterRecord {
     		double VRmax=(SE2+Ke)*Efdmax;
     		double VRmin=VRmax*multi;
     		exc.setVrmax(VRmax);
+			if(VRmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-VRmin) );
+				VRmin*=-1;
+			}
     		exc.setVrmin(VRmin);
     	}
     	else if(type==EK){
@@ -265,10 +275,15 @@ public class BPADynamicExciterRecord {
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
-    		double VRmax=(SE2+Ke)*Efdmax;
-    		double VRmin=VRmax*multi;
-    		exc.setVrmax(VRmax);
-    		exc.setVrmin(VRmin);
+    		double Vrmax=(SE2+Ke)*Efdmax;
+    		double Vrmin=Vrmax*multi;
+    		exc.setVrmax(Vrmax);
+			if(Vrmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-Vrmin) );
+				Vrmin*=-1;
+			}
+    		exc.setVrmin(Vrmin);
     	}
     	else if(type==FA){
     		
@@ -316,7 +331,11 @@ public class BPADynamicExciterRecord {
 			
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
-			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
+			if(Vrmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-Vrmin) );
+				Vrmin*=-1;
+			}
 			exc.setVrmin(Vrmin);
 			
 			//Ke
@@ -327,7 +346,57 @@ public class BPADynamicExciterRecord {
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
 			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
-    	else if(type==FK){
+    	
+    	else if(type==FJ){
+    		ExcBPAFJXmlType exc = DStabParserHelper.createExcBPAFJXmlType(dynGen);
+    			    		
+			//excId
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}	
+    		exc.setDesc("BPA FJ Type Exciter, excId-" + excId);
+    		//Rc
+			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			exc.setLoadRc(Rc);
+						
+			//Xc
+			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			exc.setLoadXc(Xc);
+						
+			//TR
+			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
+			// TB
+			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
+			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
+			
+			//TC
+			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
+			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
+			
+			//KA, KV for FE
+			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
+			exc.setKa(Ka);			
+			
+			// TA, TRH for FE
+			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
+			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
+			
+			//VRmax, Vamax for FH
+			double Vrmax=ModelStringUtil.getDouble(strAry[13], 0.0);
+			exc.setVrmax(Vrmax);
+			
+			//VRmin, Vamin
+			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(Vrmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-Vrmin) );
+				Vrmin*=-1;
+			}
+			exc.setVrmin(Vrmin);
+    	}
+else if(type==FK){
 			
     		ExcBPAFKXmlType exc = DStabParserHelper.createExcBPAFKXmlType(dynGen);
     		
@@ -381,52 +450,11 @@ public class BPADynamicExciterRecord {
 			
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
-			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
-			exc.setVrmin(Vrmin);
-    	}
-    	else if(type==FJ){
-    		ExcBPAFJXmlType exc = DStabParserHelper.createExcBPAFJXmlType(dynGen);
-    			    		
-			//excId
-			String excId="1";
-			if(!strAry[3].equals("")){
-				excId=strAry[3];				
-			}	
-    		exc.setDesc("BPA FJ Type Exciter, excId-" + excId);
-    		//Rc
-			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
-			exc.setLoadRc(Rc);
-						
-			//Xc
-			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
-			exc.setLoadXc(Xc);
-						
-			//TR
-			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
-			// TB
-			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
-			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
-			
-			//TC
-			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
-			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
-			
-			//KA, KV for FE
-			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
-			exc.setKa(Ka);			
-			
-			// TA, TRH for FE
-			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
-			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
-			
-			//VRmax, Vamax for FH
-			double Vrmax=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setVrmax(Vrmax);
-			
-			//VRmin, Vamin
-			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
-			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
+			if(Vrmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-Vrmin) );
+				Vrmin*=-1;
+			}
 			exc.setVrmin(Vrmin);
     	}
     	else if(type==FQ){
@@ -810,7 +838,11 @@ public class BPADynamicExciterRecord {
 						
 			//Vrmin
 			double Vrmin=ModelStringUtil.getDouble(strAry[14], 0.0);
-			if(Vrmin>0)ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc());
+			if(Vrmin>0){
+				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+						", automatically change it to: "+(-Vrmin) );
+				Vrmin*=-1;
+			}
 			exc.setVrmin(Vrmin);
 									
 			//Ke
@@ -972,6 +1004,11 @@ public class BPADynamicExciterRecord {
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(Vrmin>0){
+    				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+    						", automatically change it to: "+(-Vrmin) );
+    				Vrmin*=-1;
+    			}
     			((ExcBPAFQXmlType)exc).setVrmin(Vrmin);			
     			
     			//KC
@@ -1042,6 +1079,11 @@ public class BPADynamicExciterRecord {
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(Vrmin>0){
+    				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+    						", automatically change it to: "+(-Vrmin) );
+    				Vrmin*=-1;
+    			}
     			((ExcBPAFRXmlType)exc).setVrmin(Vrmin);			
     			
     			//KC
@@ -1112,6 +1154,11 @@ public class BPADynamicExciterRecord {
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(Vrmin>0){
+    				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+    						", automatically change it to: "+(-Vrmin) );
+    				Vrmin*=-1;
+    			}
     			((ExcBPAFSXmlType)exc).setVrmin(Vrmin);			
     			
     			//KC
@@ -1159,6 +1206,11 @@ public class BPADynamicExciterRecord {
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(Vrmin>0){
+    				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+    						", automatically change it to: "+(-Vrmin) );
+    				Vrmin*=-1;
+    			}
     			((ExcBPAFUXmlType)exc).setVrmin(Vrmin);			
     			
     			//KC
@@ -1180,6 +1232,11 @@ public class BPADynamicExciterRecord {
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(Vrmin>0){
+    				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
+    						", automatically change it to: "+(-Vrmin) );
+    				Vrmin*=-1;
+    			}
     			((ExcBPAFVXmlType)exc).setVrmin(Vrmin);			
     			
     			//KC
