@@ -27,20 +27,23 @@ import com.interpss.dstab.mach.MachineIfdBase;
  * =================================================
  */
 @AnController(
-   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
+   input="this.refPoint - mach.vt + pss.vs",
    output="this.gainCustomBlock.y",
-   refPoint="this.filterBlock.u - pss.vs + mach.vt + this.washoutBlock.y",
-   display= {}
+   refPoint="this.filterBlock.u0 - pss.vs + mach.vt",
+   display= {"str.kvFilterBlock,this.kvFilterBlock.u",
+		   },
+   debug=true
 )
 
 public class FVkv1Exciter extends AnnotateExciter {
 	   //kvFilterBlock----K(1+sT1)/(Kv+sT2)
-	   public double kv = 1.0, k = 22.0, t1 = 1.0, t2 = 4.0, kv1 = k/kv, t21 = t2/kv;
+	   public double kv = 1.0, k = 22.0, t1 = 1.0, t2 = 4.0;
 	   @AnControllerField(
 	      type= CMLFieldEnum.ControlBlock,
 	      input="this.refPoint - mach.vt + pss.vs",
-	      parameter={"type.NoLimit", "this.kv1", "this.t1", "this.t21"},
-	      y0="this.filterBlock.u0"	)
+	      parameter={"type.NoLimit", "this.k", "this.t1", "this.t2"},
+	      y0="this.filterBlock.u0",	
+	    	  debug=true)
 	   FilterControlBlock kvFilterBlock;
 
 	   //filterBlock----(1+sT3)/(1+sT4)
@@ -49,7 +52,8 @@ public class FVkv1Exciter extends AnnotateExciter {
 		   type=CMLFieldEnum.ControlBlock,
 		   input="this.kvFilterBlock.y",
 		   parameter={"type.NoLimit", "this.k1", "this.t3", "this.t4"},
-		   y0="this.kaDelayBlock.u0 + this.washoutBlock.y"  )
+		   y0="this.kaDelayBlock.u0 + this.washoutBlock.y",
+		   debug=true)
 	   FilterControlBlock filterBlock;
 
 	   //kaDelayBlock----Ka/(1+sTa) with limits
@@ -58,7 +62,8 @@ public class FVkv1Exciter extends AnnotateExciter {
 		   type=CMLFieldEnum.ControlBlock,
 		   input="this.filterBlock.y - this.washoutBlock.y",
 		   parameter={"type.NonWindup", "this.ka", "this.ta", "this.vamax", "this.vamin"},
-		   y0="this.gainCustomBlock.u0"  )
+		   y0="this.gainCustomBlock.u0" ,
+		   debug=true)
 	   DelayControlBlock kaDelayBlock;
 
 	   //washoutBlock----sKf/(1+sTf)
@@ -70,11 +75,12 @@ public class FVkv1Exciter extends AnnotateExciter {
 		   feedback=true  )
 	   WashoutControlBlock washoutBlock;
 
-	public double kg = 1.0/*constant*/, kc = 0.065, vrmax = 6.25, vrmin = -5.14;
+	  public double kg = 1.0/*constant*/, kc = 0.065, vrmax = 6.25, vrmin = -5.14;
 	   @AnControllerField(
 	      type=CMLFieldEnum.StaticBlock,
 	      input="this.kaDelayBlock.y",
-	      y0="mach.efd"  )
+	      y0="mach.efd",
+	      debug=true)
 	   // extend the GainBlock to reuse its functionality
 	   public IStaticBlock gainCustomBlock = new GainBlock() {
 		  @Override
@@ -95,10 +101,12 @@ public class FVkv1Exciter extends AnnotateExciter {
 		  	}
 		  	//restrict the output
 				if(super.getY() > calLimit(vrmax)) {
-				//	System.out.println("FVKV1 Exciter.gainCustomBlock limit violation: y, max - " + super.getY() + ", " + calLimit(vrmax));
+					System.out.println(mach.getDStabBus().getId()+"FVKV1 Exciter.gainCustomBlock limit violation:" +
+							" y, max - " + super.getY() + ", " + calLimit(vrmax));
 				  return calLimit(vrmax);
 			  }else if(super.getY() < calLimit(vrmin)) {
-				 // System.out.println("FVKV1 Exciter.gainCustomBlock limit violation: y, min - " + super.getY() + ", " + calLimit(vrmin));
+				  System.out.println(mach.getDStabBus().getId()+"FVKV1 Exciter.gainCustomBlock limit violation: " +
+				  		"y, min - " + super.getY() + ", " + calLimit(vrmin));
 				  return calLimit(vrmin);
 			  }else {
 				  return super.getY();
@@ -112,7 +120,7 @@ public class FVkv1Exciter extends AnnotateExciter {
 		      double vt = mach.getVdq(dbus).abs();
 		      //double ifd = mach.calculateIfd(dbus);
 		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
-		     // System.out.println(mach.getDStabBus().getId()+", FVkv1 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
+		      //System.out.println(mach.getDStabBus().getId()+", FVkv1 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		  }
 	   };
