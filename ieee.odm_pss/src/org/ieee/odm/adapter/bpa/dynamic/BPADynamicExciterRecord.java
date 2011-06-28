@@ -851,19 +851,19 @@ public class BPADynamicExciterRecord {
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
         			((ExcBPAFJXmlType)exc).setKC(Kc);
             	}
-            	else if(exc instanceof ExcIEEE1981ST1XmlType){ // the same as BPA FK.       		
+            	else if(exc instanceof ExcBPAFKXmlType){ // the same as BPA FK.       		
             		//KF
             		double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
-            		((ExcIEEE1981ST1XmlType) exc).setKF(Kf);
+            		((ExcBPAFKXmlType) exc).setKF(Kf);
             					
         			// TF
             		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
             		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
             		if(Kf==0.0&&Tf==0.0)Tf=1.0;
-            		((ExcIEEE1981ST1XmlType) exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
+            		((ExcBPAFKXmlType) exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
-        			((ExcIEEE1981ST1XmlType) exc).setKC(Kc); 
+        			((ExcBPAFKXmlType) exc).setKC(Kc); 
             	}
             	//BPA FA
             	else if(exc instanceof ExcIEEE1981TypeDC1XmlType){ 
