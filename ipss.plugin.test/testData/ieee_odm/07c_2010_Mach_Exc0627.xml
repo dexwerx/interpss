@@ -978,8 +978,8 @@
                             <xq11>0.2638</xq11>
                             <Tq011 unit="Sec" value="0.174"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.03"/>
@@ -994,7 +994,7 @@
                             <KF>0.01</KF>
                             <TF unit="Sec" value="0.5"/>
                             <KC>0.1</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1242,9 +1242,9 @@
                             <Ka>1.0</Ka>
                             <Ta unit="Sec" value="0.01"/>
                             <Vrmax>5.43</Vrmax>
-                            <Vrmin>4.89</Vrmin>
+                            <Vrmin>-4.89</Vrmin>
                             <K>30.0</K>
-                            <KV>0</KV>
+                            <KV>1</KV>
                             <T1 unit="Sec" value="0.6"/>
                             <T2 unit="Sec" value="3.6"/>
                             <VA1MAX>0.0</VA1MAX>
@@ -1837,8 +1837,8 @@
                             <xq11>0.0038</xq11>
                             <Tq011 unit="Sec" value="0.3653"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.03"/>
@@ -1853,7 +1853,7 @@
                             <KF>0.01</KF>
                             <TF unit="Sec" value="0.5"/>
                             <KC>0.1</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -1901,8 +1901,8 @@
                             <xq11>0.0063</xq11>
                             <Tq011 unit="Sec" value="0.1607"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.03"/>
@@ -1917,7 +1917,7 @@
                             <KF>0.01</KF>
                             <TF unit="Sec" value="0.5"/>
                             <KC>0.1</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2076,8 +2076,8 @@
                             <xq11>0.0034</xq11>
                             <Tq011 unit="Sec" value="0.2073"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.03"/>
@@ -2092,7 +2092,7 @@
                             <KF>0.1</KF>
                             <TF unit="Sec" value="1.0"/>
                             <KC>0.12</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2187,8 +2187,8 @@
                             <xq11>0.0090</xq11>
                             <Tq011 unit="Sec" value="0.0846"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.0"/>
@@ -2201,9 +2201,9 @@
                             <TB unit="Sec" value="0.0"/>
                             <TC unit="Sec" value="0.0"/>
                             <KF>0.0</KF>
-                            <TF unit="Sec" value="0.0"/>
+                            <TF unit="Sec" value="1.0"/>
                             <KC>0.14</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2250,8 +2250,8 @@
                             <xq11>0.0091</xq11>
                             <Tq011 unit="Sec" value="0.1411"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.02"/>
@@ -2264,9 +2264,9 @@
                             <TB unit="Sec" value="0.0"/>
                             <TC unit="Sec" value="0.0"/>
                             <KF>0.0</KF>
-                            <TF unit="Sec" value="0.0"/>
+                            <TF unit="Sec" value="1.0"/>
                             <KC>0.2</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2377,8 +2377,8 @@
                             <xq11>0.0033</xq11>
                             <Tq011 unit="Sec" value="0.2803"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.01"/>
@@ -2393,7 +2393,7 @@
                             <KF>0.1</KF>
                             <TF unit="Sec" value="1.0"/>
                             <KC>0.12</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
@@ -2498,7 +2498,7 @@
                             <Vrmax>7.48</Vrmax>
                             <Vrmin>-2.7</Vrmin>
                             <K>500.0</K>
-                            <KV>0</KV>
+                            <KV>1</KV>
                             <T1 unit="Sec" value="1.0"/>
                             <T2 unit="Sec" value="10.0"/>
                             <VA1MAX>0.0</VA1MAX>
@@ -2568,7 +2568,7 @@
                             <Vrmax>6.0</Vrmax>
                             <Vrmin>-5.0</Vrmin>
                             <K>48.0</K>
-                            <KV>0</KV>
+                            <KV>1</KV>
                             <T1 unit="Sec" value="1.0"/>
                             <T2 unit="Sec" value="4.0"/>
                             <VA1MAX>0.0</VA1MAX>
@@ -2631,9 +2631,9 @@
                             <Ka>1.0</Ka>
                             <Ta unit="Sec" value="0.01"/>
                             <Vrmax>5.43</Vrmax>
-                            <Vrmin>4.89</Vrmin>
+                            <Vrmin>-4.89</Vrmin>
                             <K>300.0</K>
-                            <KV>0</KV>
+                            <KV>1</KV>
                             <T1 unit="Sec" value="0.6"/>
                             <T2 unit="Sec" value="3.6"/>
                             <VA1MAX>0.0</VA1MAX>
@@ -2877,8 +2877,8 @@
                             <xq11>0.0072</xq11>
                             <Tq011 unit="Sec" value="0.155"/>
                         </eq11Ed11MachModel>
-                        <excIEEE1981ST1>
-                            <desc>IEEE1981 ST1 Type excId-1</desc>
+                        <excBPATypeFK>
+                            <desc>BPA FK Type Exciter,excId-1</desc>
                             <loadRc>0.0</loadRc>
                             <loadXc>0.0</loadXc>
                             <transTr unit="Sec" value="0.025"/>
@@ -2893,7 +2893,7 @@
                             <KF>0.0</KF>
                             <TF unit="Sec" value="0.5"/>
                             <KC>0.1</KC>
-                        </excIEEE1981ST1>
+                        </excBPATypeFK>
                     </dynamicGen>
                 </dynamicGenList>
             </dstabBus>
