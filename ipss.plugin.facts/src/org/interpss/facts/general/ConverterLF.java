@@ -53,4 +53,17 @@ public class ConverterLF {
 		Complex dv = vj.add(vsh).subtract(vi);
 		return vj.multiply(dv.conjugate()).multiply(ysh.conjugate());
 	}
+
+	public Complex getYsh() {
+		return ysh;
+	}
+
+	public Complex getVsh() {
+		return vsh;
+	}
+
+	public void setVsh(Complex vsh) {
+		this.vsh = vsh;
+	}
+	
 }

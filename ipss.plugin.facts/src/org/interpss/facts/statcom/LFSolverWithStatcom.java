@@ -3,6 +3,7 @@ package org.interpss.facts.statcom;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 // Solve load flow with STATCOM
 public class LFSolverWithStatcom {
@@ -20,9 +21,10 @@ public class LFSolverWithStatcom {
 	// Solve the load flow
 	public boolean solveLF() throws InterpssException {
 		boolean converged = false;
+		int i = 0;
 		while (!converged) {
 			AclfNetwork tempNetwork = CoreObjectFactory.createAclfNetwork(net.serialize());
-			// Update the network with current states of all the STATCOMs
+			// 1. Update the network with current states of all the STATCOMs
 			for (StatcomLF thisSTATCOM : statcomArray) {
 				String statcomId = thisSTATCOM.getId();
 				double loadP = tempNetwork.getAclfBus(statcomId).getLoadP() + thisSTATCOM.getSsh().getReal();
@@ -30,8 +32,21 @@ public class LFSolverWithStatcom {
 				tempNetwork.getAclfBus(statcomId).setLoadP(loadP);
 				tempNetwork.getAclfBus(statcomId).setLoadQ(loadQ);
 			}
-			// Solve the traditional load flow with current injections
-			// Update all the STATCOMs
+			// 2. Solve the traditional load flow with current injections
+            LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(tempNetwork);
+            algo.loadflow();
+			// 3. Update all the STATCOMs
+    		double err = 0.0;
+            for (StatcomLF thisSTATCOM : statcomArray) {
+            	System.out.println("Vi = " + net.getAclfBus(thisSTATCOM.getId()).getVoltageMag());
+            	thisSTATCOM.update();	// Key point of the calculation
+            	err = Math.max(err, thisSTATCOM.getErr());
+            	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs());
+            }
+            if (err < 0.0001)
+            	converged = true;
+            if (i++ > 50)
+            	break;
 		}
 		return converged;
 	}
