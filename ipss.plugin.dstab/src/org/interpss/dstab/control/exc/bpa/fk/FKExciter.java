@@ -90,9 +90,7 @@ public class FKExciter extends AnnotateExciter {
 			  Machine mach = getMachine();
 		      DStabBus dbus = mach.getDStabBus();
 		      double vt = mach.getVdq(dbus).abs();
-		      //double ifd = mach.calculateIfd(dbus);
 		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
-		      System.out.println(mach.getDStabBus().getId()+", exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		  }
 	   };

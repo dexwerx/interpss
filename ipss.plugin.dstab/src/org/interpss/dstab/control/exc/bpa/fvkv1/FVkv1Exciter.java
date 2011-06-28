@@ -95,8 +95,10 @@ public class FVkv1Exciter extends AnnotateExciter {
 		  	}
 		  	//restrict the output
 				if(super.getY() > calLimit(vrmax)) {
+				//	System.out.println("FVKV1 Exciter.gainCustomBlock limit violation: y, max - " + super.getY() + ", " + calLimit(vrmax));
 				  return calLimit(vrmax);
 			  }else if(super.getY() < calLimit(vrmin)) {
+				 // System.out.println("FVKV1 Exciter.gainCustomBlock limit violation: y, min - " + super.getY() + ", " + calLimit(vrmin));
 				  return calLimit(vrmin);
 			  }else {
 				  return super.getY();
@@ -110,7 +112,7 @@ public class FVkv1Exciter extends AnnotateExciter {
 		      double vt = mach.getVdq(dbus).abs();
 		      //double ifd = mach.calculateIfd(dbus);
 		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
-		      System.out.println(mach.getDStabBus().getId()+", FVkv1 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
+		     // System.out.println(mach.getDStabBus().getId()+", FVkv1 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		  }
 	   };

@@ -111,7 +111,7 @@ public class FVkv0Exciter extends AnnotateExciter {
 		      double vt = mach.getVdq(dbus).abs();
 		      //double ifd = mach.calculateIfd(dbus);
 		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
-		      System.out.println(mach.getDStabBus().getId()+",FVkv0 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
+		      //System.out.println(mach.getDStabBus().getId()+",FVkv0 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		  }
 	   };
