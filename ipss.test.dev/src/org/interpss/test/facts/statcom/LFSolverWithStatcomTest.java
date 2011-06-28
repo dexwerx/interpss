@@ -23,14 +23,30 @@ public class LFSolverWithStatcomTest {
 	@Test
 	public void testLFSolverWithStatcomConstQ() throws InterpssException {
 		AclfNetwork net = createNet();
-        StatcomLF myStatcom = new StatcomLF(net, "Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstQ, 0.6);
+        StatcomLF myStatcom = new StatcomLF(net, "Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstQ, 0.5);
         StatcomLF[] statcomArray = {myStatcom};
         LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
         
         // output loadflow calculation results
         assertTrue(solver.solveLF());
-        assertTrue(Math.abs(-myStatcom.getSsh().getReal()) < 0.0001);
-        assertTrue(Math.abs(-myStatcom.getSsh().getImaginary() - 0.6) < 0.0001);
+        assertTrue(Math.abs(myStatcom.getSsh().getReal()) < 0.0001);
+        assertTrue(Math.abs(myStatcom.getSsh().getImaginary() - 0.5) < 0.0001);
+	}
+	
+	@Test
+	public void testLFSolverWithStatcomConstB() throws InterpssException {
+		AclfNetwork net = createNet();
+        StatcomLF myStatcom = new StatcomLF(net, "Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstB, 2.0);
+        StatcomLF[] statcomArray = {myStatcom};
+        LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
+        
+        // output loadflow calculation results
+        assertTrue(solver.solveLF());
+        double vi = net.getAclfBus("Bus2").getVoltageMag();
+        double thetai = net.getAclfBus("Bus2").getVoltageAng();
+        
+        assertTrue(Math.abs(myStatcom.getSsh().getImaginary() / vi / vi - (2.0)) < 0.0001);
+        
 	}
 	
 	private static AclfNetwork createNet() {
