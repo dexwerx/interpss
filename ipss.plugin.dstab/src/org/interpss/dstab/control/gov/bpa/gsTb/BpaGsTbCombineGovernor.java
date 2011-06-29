@@ -72,12 +72,13 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
     IntegrationControlBlock intBlock;	  	
 
 	//1.7 feedback
+	public double kf=1.0, t=0.0;
 	@AnControllerField(
-		 				type= CMLFieldEnum.StaticBlock,
-		 				input="this.intBlock.y",
-		 				parameter={"type.NoLimit", "this.one"},
-						feedback=true )
-    GainBlock fbGainBlock;		
+	          type= CMLFieldEnum.ControlBlock,
+	          input="this.intBlock.y",
+	          parameter={"type.NoLimit", "this.kf", "this.t"},
+	          feedback=true)
+	DelayControlBlock fbGainBlock;		
 
 	public double fhp=0.33,fip=0.67,flp=0.0, lambda=0.0;
 	//2.1 tchDelayBlock
