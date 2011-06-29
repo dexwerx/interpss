@@ -25,6 +25,7 @@
 package org.interpss.dstab.control.exc;
 
 import org.interpss.dstab.control.exc.bpa.ea.EAExciter;
+import org.interpss.dstab.control.exc.bpa.ec.BpaEcTypeExciter;
 import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fa.FAExciter;
 import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
@@ -102,6 +103,12 @@ public class ExciterObjectFactory {
 		exc.setMachine(machine); 
 		return exc;
   	}
+	public static  BpaEcTypeExciter createBPAEcTypeExciter(String id, String name, Machine machine) {
+		BpaEcTypeExciter exc = new BpaEcTypeExciter(id, name, "BPA");
+		exc.setMachine(machine); 
+		return exc;
+  	}
+
 	public static  BpaEkTypeExciter createBPAEKExciter(String id, String name, Machine machine) {
 		BpaEkTypeExciter exc = new BpaEkTypeExciter(id, name, "BPA");
 		exc.setMachine(machine); 

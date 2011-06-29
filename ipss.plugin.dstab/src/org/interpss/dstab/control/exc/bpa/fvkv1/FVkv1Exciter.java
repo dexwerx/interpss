@@ -29,10 +29,10 @@ import com.interpss.dstab.mach.MachineIfdBase;
 @AnController(
    input="this.refPoint - mach.vt + pss.vs",
    output="this.gainCustomBlock.y",
-   refPoint="this.filterBlock.u0 - pss.vs + mach.vt",
+   refPoint="this.kvFilterBlock.u0 - pss.vs + mach.vt",
    display= {"str.kvFilterBlock,this.kvFilterBlock.u",
-		   },
-   debug=true
+		   }
+   
 )
 
 public class FVkv1Exciter extends AnnotateExciter {
@@ -42,8 +42,8 @@ public class FVkv1Exciter extends AnnotateExciter {
 	      type= CMLFieldEnum.ControlBlock,
 	      input="this.refPoint - mach.vt + pss.vs",
 	      parameter={"type.NoLimit", "this.k", "this.t1", "this.t2"},
-	      y0="this.filterBlock.u0",	
-	    	  debug=true)
+	      y0="this.filterBlock.u0"	
+	    	  )
 	   FilterControlBlock kvFilterBlock;
 
 	   //filterBlock----(1+sT3)/(1+sT4)
@@ -52,8 +52,8 @@ public class FVkv1Exciter extends AnnotateExciter {
 		   type=CMLFieldEnum.ControlBlock,
 		   input="this.kvFilterBlock.y",
 		   parameter={"type.NoLimit", "this.k1", "this.t3", "this.t4"},
-		   y0="this.kaDelayBlock.u0 + this.washoutBlock.y",
-		   debug=true)
+		   y0="this.kaDelayBlock.u0 + this.washoutBlock.y"
+		  )
 	   FilterControlBlock filterBlock;
 
 	   //kaDelayBlock----Ka/(1+sTa) with limits
@@ -62,8 +62,8 @@ public class FVkv1Exciter extends AnnotateExciter {
 		   type=CMLFieldEnum.ControlBlock,
 		   input="this.filterBlock.y - this.washoutBlock.y",
 		   parameter={"type.NonWindup", "this.ka", "this.ta", "this.vamax", "this.vamin"},
-		   y0="this.gainCustomBlock.u0" ,
-		   debug=true)
+		   y0="this.gainCustomBlock.u0" 
+		   )
 	   DelayControlBlock kaDelayBlock;
 
 	   //washoutBlock----sKf/(1+sTf)
@@ -72,7 +72,7 @@ public class FVkv1Exciter extends AnnotateExciter {
 		   type=CMLFieldEnum.ControlBlock,
 		   input="this.kaDelayBlock.y",
 		   parameter={"type.NoLimit", "this.kf1", "this.tf"},
-		   feedback=true  )
+		   feedback=true)
 	   WashoutControlBlock washoutBlock;
 
 	  public double kg = 1.0/*constant*/, kc = 0.065, vrmax = 6.25, vrmin = -5.14;

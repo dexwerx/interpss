@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import org.ieee.odm.schema.ExcBPAECXmlType;
 import org.ieee.odm.schema.ExcBPAEKXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
 import org.ieee.odm.schema.ExcBPAFKXmlType;
@@ -38,6 +39,7 @@ import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
 import org.ieee.odm.schema.ExcSimpleTypeXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.interpss.dstab.control.exc.ExciterObjectFactory;
+import org.interpss.dstab.control.exc.bpa.ec.BpaEcTypeExciter;
 import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
 import org.interpss.dstab.control.exc.bpa.fk.FKExciter;
@@ -75,7 +77,26 @@ public class ExciterDataHelper {
 		////////////////////////////////////////////
 		////    BPA           //////////////////////
 		////////////////////////////////////////////
-		
+		//BPA EC type
+		else if (excXmlRec instanceof ExcBPAECXmlType){
+			ExcBPAECXmlType excXml =(ExcBPAECXmlType) excXmlRec;
+			BpaEcTypeExciter exc=ExciterObjectFactory.createBPAEcTypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			exc.getData().setTa(excXml.getTa().getValue());
+			exc.getData().setKa(excXml.getKa());
+			exc.getData().setTe(excXml.getTE().getValue());
+			exc.getData().setKe(excXml.getKE());
+			exc.getData().setKf(excXml.getKF());			
+			exc.getData().setTf(excXml.getTF().getValue());
+			exc.getData().setE1(excXml.getE1());
+			exc.getData().setSe_e1(excXml.getSE1());
+			exc.getData().setE2(excXml.getE2());
+			exc.getData().setSe_e2(excXml.getSE2());
+			exc.getData().setVrMax(excXml.getVrmax());
+			exc.getData().setVrMin(excXml.getVrmin());	
+			exc.getData().setEfdmax(excXml.getEFDMAX());
+			exc.getData().setEfdmin(excXml.getEFDMIN());
+			
+		}
 		//BPA EK type
 		else if (excXmlRec instanceof ExcBPAEKXmlType){
 			ExcBPAEKXmlType excXml =(ExcBPAEKXmlType) excXmlRec;

@@ -32,7 +32,7 @@ import com.interpss.dstab.mach.Machine;
    display= { }
 )
 
-public class ECExciter extends AnnotateExciter {
+public class BpaEcTypeExciter extends AnnotateExciter {
 	//kaDelayBlock----Ka/(1+sTa)   
 	public double ka = 80.0, ta = 0.02;
 	   @AnControllerField(
@@ -43,7 +43,7 @@ public class ECExciter extends AnnotateExciter {
 	   DelayControlBlock kaDelayBlock;
 
 		   //ka1DelayBlock----1/(1+sTa1) limited
-		   public double ka1 = 1.0/*constant*/, ta1 = 0.0, semax = 0.656, efdmax = 4.0, ke = 1.0, vrmax = (semax+ke)*efdmax, vrmin = -vrmax;
+		   public double ka1 = 1.0/*constant*/, ta1 = 0.0,   vrmax = 5, vrmin = -5.0;
 		   @AnControllerField(
 		      type= CMLFieldEnum.ControlBlock,
 		      input="this.kaDelayBlock.y",
@@ -52,7 +52,7 @@ public class ECExciter extends AnnotateExciter {
 		   DelayControlBlock ka1DelayBlock;
 
 			 //delayBlock----1/(Ke+sTe)	
-		   public double ke1 = 1/ke, te = 0.8, te_ke = te/ke ;
+		   public double ke = 1.0,ke1 = 1/ke, te = 0.8, te_ke = te/ke ;
 		   @AnControllerField(
 		      type= CMLFieldEnum.ControlBlock,
 		      input="this.ka1DelayBlock.y - this.seFunc.y",
@@ -61,14 +61,14 @@ public class ECExciter extends AnnotateExciter {
 		   DelayControlBlock delayBlock;
 
 		   //seFunc----Se
-		   public double e1 = efdmax, se_e1 = semax, e2 = 0.75*efdmax, se_e2 = 0.459;
+		   public double e1 = 1.0, se_e1 = 0.36, e2 = 0.75, se_e2 = 0.13;
 		   @AnFunctionField(
 		      input= {"this.delayBlock.y"},
 		      parameter={"this.e1", "this.se_e1", "this.e2", "this.se_e2"}	)
 		   SeFunction seFunc;
 		   
 		   //gainBlock----set EFDmax and EFDmin
-		   public double one = 1.0/*constant*/, efdmin = 0.0;
+		   public double one = 1.0/*constant*/,efdmax=5.0, efdmin = 0.0;
 		   @AnControllerField(
 		      type= CMLFieldEnum.StaticBlock,
 		      input="this.delayBlock.y",
@@ -77,7 +77,7 @@ public class ECExciter extends AnnotateExciter {
 		   GainBlock gainBlock;
 
 		   //keGainBlockBlock----Ke	
-				public double t = 0.0;
+			public double t = 0.0;
 	    	@AnControllerField(
 	        type= CMLFieldEnum.ControlBlock,
 	        input="this.delayBlock.y",
@@ -103,10 +103,10 @@ public class ECExciter extends AnnotateExciter {
      * Default Constructor
      *
      */
-    public ECExciter() {
+    public BpaEcTypeExciter() {
 	this("id", "name", "caty");
-        this.setName("SimpleExcitor");
-        this.setCategory("InterPSS");
+        this.setName("BPA EC type Exciter");
+        this.setCategory("BPA");
     }
 
      /**
@@ -116,7 +116,7 @@ public class ECExciter extends AnnotateExciter {
      * @param name exciter name
      * @param caty exciter category
      */
-    public ECExciter(String id, String name, String caty) {
+    public BpaEcTypeExciter(String id, String name, String caty) {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
@@ -133,8 +133,8 @@ public class ECExciter extends AnnotateExciter {
      *
      * @return the data object
      */
-    public EAExciterData getData() {
-        return (EAExciterData)_data;
+    public BpaEcTypeExciterData getData() {
+        return (BpaEcTypeExciterData)_data;
     }
 
     /**
@@ -150,13 +150,19 @@ public class ECExciter extends AnnotateExciter {
         this.ka = getData().getKa();
         this.ta = getData().getTa();
         this.ta1 = getData().getTa1();
-        this.semax = getData().getSemax();
-        this.efdmax = getData().getEfdmax();
-        this.ke = getData().getKe();
+        this.e1 = getData().getE1();
+        this.se_e1= getData().getSe_e1();
+        this.e2=  getData().getE2();
         this.te = getData().getTe();
         this.se_e2 = getData().getSe_e2();
+        this.ke = getData().getKe();
+        this.te = getData().getTe();
         this.kf = getData().getKf();
         this.tf = getData().getTf();
+        this.efdmax=getData().getEfdmax();
+        this.efdmin=getData().getEfdmin();
+        this.vrmax=getData().getVrMax();
+        this.vrmin=getData().getVrMin();
         // always add the following statement
         return super.initStates(bus, mach);
     }
