@@ -105,7 +105,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	public double getY() {
 		double u = getU();
 		double y = 0.0;
-		;
+		
 		if (getT2() > 0.0)
 			y = getStateX() + getU1(u);
 		else
