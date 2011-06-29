@@ -41,8 +41,8 @@ import org.ieee.odm.schema.ExciterModelXmlType;
 import org.interpss.dstab.control.exc.ExciterObjectFactory;
 import org.interpss.dstab.control.exc.bpa.ec.BpaEcTypeExciter;
 import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
-import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
-import org.interpss.dstab.control.exc.bpa.fk.FKExciter;
+import org.interpss.dstab.control.exc.bpa.fj.BpaFjTypeExciter;
+import org.interpss.dstab.control.exc.bpa.fk.BpaFkTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fvkv0.FVkv0Exciter;
 import org.interpss.dstab.control.exc.bpa.fvkv1.FVkv1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
@@ -120,7 +120,7 @@ public class ExciterDataHelper {
 		//BPA FJ Type					
 		else if (excXmlRec instanceof ExcBPAFJXmlType){
 			ExcBPAFJXmlType excXml =(ExcBPAFJXmlType) excXmlRec;
-			FJExciter exc=ExciterObjectFactory.createBPAFJTypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			BpaFjTypeExciter exc=ExciterObjectFactory.createBPAFJTypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
 			
 			exc.getData().setKa(excXml.getKa());
 			exc.getData().setTa(excXml.getTa().getValue());
@@ -136,7 +136,7 @@ public class ExciterDataHelper {
 			
 		} else if (excXmlRec instanceof ExcBPAFKXmlType){
 			ExcBPAFKXmlType excXml =(ExcBPAFKXmlType) excXmlRec;
-			FKExciter exc=ExciterObjectFactory.createBPAFKTypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
+			BpaFkTypeExciter exc=ExciterObjectFactory.createBPAFKTypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);			
 			
 			exc.getData().setKa(excXml.getKa());
 			exc.getData().setTa(excXml.getTa().getValue());
