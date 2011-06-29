@@ -29,7 +29,7 @@ import org.interpss.dstab.control.exc.bpa.ec.BpaEcTypeExciter;
 import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fa.BpaFaTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fj.BpaFjTypeExciter;
-import org.interpss.dstab.control.exc.bpa.fk.BapFkTypeExciter;
+import org.interpss.dstab.control.exc.bpa.fk.BpaFkTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fvkv0.FVkv0Exciter;
 import org.interpss.dstab.control.exc.bpa.fvkv1.FVkv1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
@@ -124,8 +124,8 @@ public class ExciterObjectFactory {
 		exc.setMachine(machine); 
 		return exc;
   	}
-	public static  BapFkTypeExciter createBPAFKTypeExciter(String id, String name, Machine machine) {
-		BapFkTypeExciter exc = new BapFkTypeExciter(id, name, "BPA");
+	public static  BpaFkTypeExciter createBPAFKTypeExciter(String id, String name, Machine machine) {
+		BpaFkTypeExciter exc = new BpaFkTypeExciter(id, name, "BPA");
 		exc.setMachine(machine); 
 		return exc;
   	}

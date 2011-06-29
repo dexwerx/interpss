@@ -97,7 +97,7 @@
 <!-- BPA Exciter List
  -->
 	<bean id="bpa_eaExciter" 
-	      class="org.interpss.dstab.control.exc.bpa.ea.EAExciter"
+	      class="org.interpss.dstab.control.exc.bpa.ea.BpaEaTypeExciter"
 	      scope="prototype"	
 	      p:name="BPA EA"
 	      p:category="BPA-Exciter"
@@ -111,18 +111,32 @@
 	      p:desc="The BAP EC Type exciter implementation" />
 
 	<bean id="bpa_ekExciter" 
-	      class="org.interpss.dstab.control.exc.bpa.ek.BpaEkExciter"
+	      class="org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter"
 	      scope="prototype"	
 	      p:name="BPA EK"
 	      p:category="BPA-Exciter"
 	      p:desc="The BAP EK Type exciter implementation" />
 
 	<bean id="bpa_faExciter" 
-	      class="org.interpss.dstab.control.exc.bpa.fa.FAExciter"
+	      class="org.interpss.dstab.control.exc.bpa.fa.BpaFaTypeExciter"
 	      scope="prototype"	
 	      p:name="BPA FA"
 	      p:category="BPA-Exciter"
 	      p:desc="The BAP FA Type exciter implementation" />
+
+	<bean id="bpa_fjExciter" 
+	      class="org.interpss.dstab.control.exc.bpa.fj.BpaFjTypeExciter"
+	      scope="prototype"	
+	      p:name="BPA FJ"
+	      p:category="BPA-Exciter"
+	      p:desc="The BAP FJ Type exciter implementation" />
+
+	<bean id="bpa_fkExciter" 
+	      class="org.interpss.dstab.control.exc.bpa.fk.BpaFkTypeExciter"
+	      scope="prototype"	
+	      p:name="BPA FK"
+	      p:category="BPA-Exciter"
+	      p:desc="The BAP FK Type exciter implementation" />
 
 	<bean id="exciterList" 
 	      class="java.util.ArrayList"
@@ -138,7 +152,11 @@
 				<ref bean="ieee1968Type4Exciter"/>
 				<!-- BPA -->
 				<ref bean="bpa_eaExciter"/>
+				<ref bean="bpa_ecExciter"/>
+				<ref bean="bpa_ekExciter"/>
 				<ref bean="bpa_faExciter"/>
+				<ref bean="bpa_fjExciter"/>
+				<ref bean="bpa_fkExciter"/>
 				<!-- ref bean="sampleCustomExciter"/ -->
 			</list>
 		</constructor-arg>
