@@ -32,7 +32,7 @@ import com.interpss.dstab.mach.MachineIfdBase;
 		   display= {}
 )
 
-public class BapFkTypeExciter extends AnnotateExciter {
+public class BpaFkTypeExciter extends AnnotateExciter {
 	   //gainBlock----kg1 = 1.0 uses for set the limits
 	   public double kg1 = 1.0/*constant*/, vimax = 5.30, vimin = -5.11;
 	   @AnControllerField(
@@ -107,7 +107,7 @@ public class BapFkTypeExciter extends AnnotateExciter {
      * Default Constructor
      *
      */
-    public BapFkTypeExciter() {
+    public BpaFkTypeExciter() {
 	this("id", "name", "caty");
         this.setName("SimpleExcitor");
         this.setCategory("InterPSS");
@@ -120,7 +120,7 @@ public class BapFkTypeExciter extends AnnotateExciter {
      * @param name exciter name
      * @param caty exciter category
      */
-    public BapFkTypeExciter(String id, String name, String caty) {
+    public BpaFkTypeExciter(String id, String name, String caty) {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
