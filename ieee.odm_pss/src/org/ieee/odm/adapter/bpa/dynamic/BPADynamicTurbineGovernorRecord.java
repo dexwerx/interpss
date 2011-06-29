@@ -50,7 +50,8 @@ public class BPADynamicTurbineGovernorRecord {
     	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);    	
+    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+    	double ratedPower=dynGen.getRatedPower().getValue();
     	
     	if(strAry[0].equals("GG")){ 
     		GovHydroSteamGeneralModelXmlType gov = DStabParserHelper.createGovHydroSteamGeneralModelXmlType(dynGen);
@@ -64,7 +65,7 @@ public class BPADynamicTurbineGovernorRecord {
     		
 			//PMAX 
     		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		gov.setPMAX(pmax);
+    		gov.setPMAX(pmax/ratedPower);
     		
 			//R
     		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
@@ -106,7 +107,7 @@ public class BPADynamicTurbineGovernorRecord {
     		
 			//PMAX 
     		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		gov.setPMAX(pmax);
+    		gov.setPMAX(pmax/ratedPower);//in machine based pu unit;
     		//R
     		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
     		gov.setR(r);
@@ -152,12 +153,14 @@ public class BPADynamicTurbineGovernorRecord {
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];
     		}
-    		gov.setDesc("GOV Hydro Turbine GH type, machId#"+tgId);			
+    		gov.setDesc("GOV Hydro Turbine GS type, machId#"+tgId);			
 			//PMAX 
     		double pmax=new Double(strAry[4]).doubleValue();
+    		pmax=pmax/ratedPower;
     		gov.setPmax(pmax);
     		//PMIN
     		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		pmin=pmin/ratedPower;
     		gov.setPmin(pmin);	
     			
     		//R
@@ -175,11 +178,13 @@ public class BPADynamicTurbineGovernorRecord {
 		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
 		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));			
 			//VELOPEN
-		    double Vopen=ModelStringUtil.getDouble(strAry[4], 0.0);
+		    double Vopen=ModelStringUtil.getDouble(strAry[10], 0.0);
 		    gov.setVELOPEN(Vopen);			
 			//FVELCLOSE
     		double Vclose=ModelStringUtil.getDouble(strAry[11], 0.0);
     		gov.setVELCLOSE(Vclose);
+    		double epsilon=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		gov.setEpsilon(epsilon);
     		
     	}
     	else if(strAry[0].equals("GI")){
@@ -528,8 +533,10 @@ public class BPADynamicTurbineGovernorRecord {
 				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,44, 48).trim();
 				//VELOPEN
 				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,49, 54).trim();
-				//FVELCLOSE
-				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,55, 60).trim();			
+				//VELCLOSE
+				strAry[11]=ModelStringUtil.getStringReturnEmptyString(str,55, 60).trim();
+				//Epsilon
+				strAry[12]=ModelStringUtil.getStringReturnEmptyString(str,61, 66).trim();
 	    		
 	    	}
 	    	else if(str.substring(0, 3).trim().equals("GI")){

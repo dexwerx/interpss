@@ -71,6 +71,9 @@ import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.PssBPADualInputXmlType;
+import org.ieee.odm.schema.PssBpaSgTypeXmlType;
+import org.ieee.odm.schema.PssBpaSpTypeXmlType;
+import org.ieee.odm.schema.PssBpaSsTypeXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEE1981TypeXmlType;
 import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
@@ -405,11 +408,15 @@ public class DStabParserHelper extends AclfParserHelper {
 	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(
 			DynamicGeneratorXmlType gen) throws ODMException {
 		SpeedGovBPAGSModelXmlType spdgov=getFactory().createSpeedGovBPAGSModelXmlType();
-        if(gen.getGovernor().getValue()!=null){
+		if(gen.getGovernor()==null){
+			gen.setGovernor(getFactory().createGovBPAGsTbCombinedModel(
+					createGovBPAGsTbCombinedModelXmlType(gen)));
+		}
+		if(gen.getGovernor()!=null){
 		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
+		}
 		return spdgov;
-        }
-        else throw new ODMException("Error: Governernor need to be created first!");
+       
 		
 	}
 	//  GI/I+ model is  a regulator, part of a speed Governing model,
@@ -533,7 +540,21 @@ public class DStabParserHelper extends AclfParserHelper {
 		gen.setStabilizer(getFactory().createPssBPADualInput(pss));
 		return pss;
 	}
-
+	public static PssBpaSsTypeXmlType createPssBPASsXmlType(DynamicGeneratorXmlType gen) {
+		PssBpaSsTypeXmlType pss = getFactory().createPssBpaSsTypeXmlType();
+		gen.setStabilizer(getFactory().createPssBPASs(pss));
+		return pss;
+	}
+	public static PssBpaSgTypeXmlType createPssBPASgXmlType(DynamicGeneratorXmlType gen) {
+		PssBpaSgTypeXmlType pss = getFactory().createPssBpaSgTypeXmlType();
+		gen.setStabilizer(getFactory().createPssBPASg(pss));
+		return pss;
+	}
+	public static PssBpaSpTypeXmlType createPssBPASpXmlType(DynamicGeneratorXmlType gen) {
+		PssBpaSpTypeXmlType pss = getFactory().createPssBpaSpTypeXmlType();
+		gen.setStabilizer(getFactory().createPssBPASp(pss));
+		return pss;
+	}
 
 
 

@@ -34,6 +34,9 @@ import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.PssBPADualInputXmlType;
+import org.ieee.odm.schema.PssBpaSgTypeXmlType;
+import org.ieee.odm.schema.PssBpaSpTypeXmlType;
+import org.ieee.odm.schema.PssBpaSsTypeXmlType;
 import org.ieee.odm.schema.PssIEE2STXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.StabilizerInputSignalEnumType;
@@ -48,79 +51,62 @@ public class BPADynamicPSSRecord {
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);   
-    	
-    	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
-    			||str.substring(0, 3).trim().equals("SG")){
-    		PssIEE2STXmlType pss = DStabParserHelper.createPssIEE2STXmlType(dynGen);
-
-    		//machine Id
-    		String macId="1";
-    		if(!strAry[3].equals("")){
+    	//machine Id
+    	String macId="1";
+    	if(!strAry[3].equals("")){
     			macId=strAry[3];
-    		} 
+    	}
+    	if(str.substring(0, 3).trim().equals("SS")){
     		
-
-    		if(str.substring(0, 3).trim().equals("SS")){
-    			pss.setDesc("BPA SS type PSS, machine Id-" + macId);
-    			pss.setFirstInputSignal(StabilizerInputSignalEnumType.ROTOR_SPEED_DEVIATION);    			                 
-    		}
-    		else if(str.substring(0, 3).trim().equals("SP")){
-    			pss.setDesc("BPA SP type PSS,machine Id-" + macId);
-    			pss.setFirstInputSignal(StabilizerInputSignalEnumType.GENERATOR_ACCELERATING_POWER);
-    		}
-    		else{
-    			pss.setDesc("BPA SG type PSS,machine Id-" + macId);
-    			pss.setFirstInputSignal(StabilizerInputSignalEnumType.GENERATOR_ELECTRICAL_POWER);
-    		}
+    		PssBpaSsTypeXmlType pss = DStabParserHelper.createPssBPASsXmlType(dynGen);
+    		pss.setDesc("BPA SS type PSS, machine Id-" + macId);
 
     		// QV block is rarely used.
     		//KQV
     		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		pss.setK1(-KQV);// since the sign of QV block is opposite to that of IEE2ST
+    		pss.setKQV(KQV);// since the sign of QV block is opposite to that of IEE2ST
     		    		
     		//TQV
     		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		pss.setT1(BaseDataSetter.createTimeConstSec(TQV));
+    		pss.setTQV(BaseDataSetter.createTimeConstSec(TQV));
     		
     		//KQS
     		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
-    		pss.setK2(KQS);
+    		pss.setKQS(KQS);
     		
     		//TQS
     		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
-    		pss.setT2(BaseDataSetter.createTimeConstSec(TQS));
+    		pss.setTQS(BaseDataSetter.createTimeConstSec(TQS));
     		
     		//TQ
     		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
-    		pss.setT3(BaseDataSetter.createTimeConstSec(TQ));
-
-    		pss.setT4(BaseDataSetter.createTimeConstSec(TQ)); // In BPA model, T3=T4
+    		pss.setTQ(BaseDataSetter.createTimeConstSec(TQ));
 
     		// TQ1
     		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
-    		pss.setT6(BaseDataSetter.createTimeConstSec(TQ1));
+    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));
     		
     		
     		    		
     		//TQ11
     		double TQ11= ModelStringUtil.getDouble(strAry[10], 0.0);
-    		pss.setT5(BaseDataSetter.createTimeConstSec(TQ11));
+    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(TQ11));
     		
     		//TQ2
     		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
-    		pss.setT8(BaseDataSetter.createTimeConstSec(TQ2));
+    		pss.setTQ2(BaseDataSetter.createTimeConstSec(TQ2));
     		
     		// TQ21
     		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
-    		pss.setT7(BaseDataSetter.createTimeConstSec(TQ21));
+    		pss.setT1Q2(BaseDataSetter.createTimeConstSec(TQ21));
     		
     		//TQ3
     		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
-    		pss.setT10(BaseDataSetter.createTimeConstSec(TQ3));
+    		pss.setTQ3(BaseDataSetter.createTimeConstSec(TQ3));
     		   		    		
     		//TQ31
     		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		pss.setT9(BaseDataSetter.createTimeConstSec(TQ31));    		    		
+    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));    		    		
     		  		
 
     		    		
@@ -149,14 +135,157 @@ public class BPADynamicPSSRecord {
     		
     		
     	}
+    	else if(str.substring(0, 3).trim().equals("SP")){
+    		
+    		PssBpaSpTypeXmlType pss = DStabParserHelper.createPssBPASpXmlType(dynGen);
+    		pss.setDesc("BPA SP type PSS, machine Id-" + macId);
+
+    		// QV block is rarely used.
+    		//KQV
+    		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		pss.setKQV(KQV);// since the sign of QV block is opposite to that of IEE2ST
+    		    		
+    		//TQV
+    		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		pss.setTQV(BaseDataSetter.createTimeConstSec(TQV));
+    		
+    		//KQS
+    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
+    		pss.setKQS(KQS);
+    		
+    		//TQS
+    		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
+    		pss.setTQS(BaseDataSetter.createTimeConstSec(TQS));
+    		
+    		//TQ
+    		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
+    		pss.setTQ(BaseDataSetter.createTimeConstSec(TQ));
+
+    		// TQ1
+    		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
+    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));
+    		
+    		
+    		    		
+    		//TQ11
+    		double T1Q1= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(T1Q1));
+    		
+    		//TQ2
+    		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		pss.setTQ2(BaseDataSetter.createTimeConstSec(TQ2));
+    		
+    		// TQ21
+    		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		pss.setT1Q2(BaseDataSetter.createTimeConstSec(TQ21));
+    		
+    		//TQ3
+    		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		pss.setTQ3(BaseDataSetter.createTimeConstSec(TQ3));
+    		   		    		
+    		//TQ31
+    		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));    		    		
+   		
+    		//VSMAX
+    		double vsmax=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		pss.setVSMAX(vsmax);
+    			
+    		//VCUTOFF
+    		double vcut=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		pss.setVCUTOFF(vcut);
+    		    		
+    		//VSLOW
+    		double vsmin=0.0;
+    		double Vslow=ModelStringUtil.getDouble(strAry[17], 0.0);
+    		   		
+    		if(Vslow<=0){
+    			vsmin=-vsmax;
+    		}else {
+    			vsmin=-Vslow;
+    		}
+    		pss.setVSMIN(vsmin);		    		
+//    		//KQS MVAbase for SP SG
+//    		double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
+    		
+    		
+    	}
+    	else if(str.substring(0, 3).trim().equals("SG")){
+    		
+    		PssBpaSgTypeXmlType pss = DStabParserHelper.createPssBPASgXmlType(dynGen);
+    		pss.setDesc("BPA SP type PSS, machine Id-" + macId);
+
+    		// QV block is rarely used.
+    		//KQV
+    		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		pss.setKQV(KQV);// since the sign of QV block is opposite to that of IEE2ST
+    		    		
+    		//TQV
+    		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		pss.setTQV(BaseDataSetter.createTimeConstSec(TQV));
+    		
+    		//KQS
+    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
+    		pss.setKQS(KQS);
+    		
+    		//TQS
+    		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
+    		pss.setTQS(BaseDataSetter.createTimeConstSec(TQS));
+    		
+    		//TQ
+    		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
+    		pss.setTQ(BaseDataSetter.createTimeConstSec(TQ));
+
+    		// TQ1
+    		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
+    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));
+    		
+    		    		
+    		//TQ11
+    		double T1Q1= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(T1Q1));
+    		
+    		//TQ2
+    		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		pss.setTQ2(BaseDataSetter.createTimeConstSec(TQ2));
+    		
+    		// TQ21
+    		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		pss.setT1Q2(BaseDataSetter.createTimeConstSec(TQ21));
+    		
+    		//TQ3
+    		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		pss.setTQ3(BaseDataSetter.createTimeConstSec(TQ3));
+    		   		    		
+    		//TQ31
+    		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));    		    		
+   		
+    		//VSMAX
+    		double vsmax=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		pss.setVSMAX(vsmax);
+    			
+    		//VCUTOFF
+    		double vcut=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		pss.setVCUTOFF(vcut);
+    		    		
+    		//VSLOW
+    		double vsmin=0.0;
+    		double Vslow=ModelStringUtil.getDouble(strAry[17], 0.0);
+    		   		
+    		if(Vslow<=0){
+    			vsmin=-vsmax;
+    		}else {
+    			vsmin=-Vslow;
+    		}
+    		pss.setVSMIN(vsmin);		    		
+//    		//TODO KQS MVAbase for SP SG
+           //double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
+            //pss.setKQSBase
+    	}
     	else if(str.substring(0, 3).trim().equals("SI")){
     		PssBPADualInputXmlType dualPss= DStabParserHelper.createPssBPADualInputXmlType(dynGen);
     		
-    		//machine Id
-    		String macId="1";
-    		if(!strAry[3].equals("")){
-    			macId=strAry[3];
-    		} 
     		dualPss.setDesc("BPA SI Type Dual Input Pss model,machine Id-" + macId);
 
     		//TRW
