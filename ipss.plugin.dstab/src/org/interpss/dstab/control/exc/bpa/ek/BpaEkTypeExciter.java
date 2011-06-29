@@ -27,7 +27,7 @@ import com.interpss.dstab.mach.Machine;
 @AnController(
 		   input="this.refPoint - mach.vt + pss.vs - this.fbBlock.y",
 		   output="this.gainBlock.y",
-		   refPoint="this.delayBlock.u0 - pss.vs + mach.vt + this.fbBlock.y",
+		   refPoint="this.kaDelayBlock.u0 - pss.vs + mach.vt + this.fbBlock.y",
 		   display= {} 
 )
 

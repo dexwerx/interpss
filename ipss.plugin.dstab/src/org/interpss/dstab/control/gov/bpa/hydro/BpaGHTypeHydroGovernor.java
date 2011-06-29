@@ -8,6 +8,7 @@ import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
@@ -28,18 +29,15 @@ import com.interpss.dstab.mach.Machine;
 		   input="mach.speed-1.0",
 		   output="this.wFilterBlock.y",
 		   refPoint="this.delayBlock.u0/this.r + this.rGainBlock.y/this.r + this.washoutBlock.y/this.r + this.gainBlock.y/this.r",
-		   display= {"str.GI,this.gainBlock.y",
-		   						"str.GA,this.servoMotorBlock.y",
-		   						"str.Pm,this.output"})
+		   display= {})
 public class BpaGHTypeHydroGovernor extends AnnotateGovernor{
-	public double pmax = 650, pmin0 = 0.0;
-	public double p0=this.getMachine().getRating();
-	public double pmax_pu = pmax/p0;
+	public double pmin = 0.0;
+	public double pmax = 6.5;
 	public double r = 0.05;
 	public double epsilon=999D;//the corresponding deadBand block NOT implemented yet
 
 	//1.1 GainBlock	
-	public double k1=pmax_pu; 
+	public double k1=pmax; 
 	@AnControllerField(
         type= CMLFieldEnum.StaticBlock,
         input="mach.speed - 1.0",
@@ -57,7 +55,7 @@ GainBlock gainBlock;
 DelayControlBlock delayBlock;
 
 	//1.3 intBlock
-	public double k_it=1.0/*constant*/ ,pmin=pmin0/p0;
+	public double k_it=1.0/*constant*/ ;
 		@AnControllerField(
         type= CMLFieldEnum.ControlBlock,
         input="this.delayBlock.y",
@@ -89,7 +87,7 @@ WashoutControlBlock washoutBlock;
             type= CMLFieldEnum.ControlBlock,
             input="this.intBlock.y",
             parameter={"type.NoLimit", "this.ktw", "this.t1", "this.tw_2"},
-            y0="mach.pm"	)
+            y0="mach.pm")
 FilterControlBlock wFilterBlock;
 
 	    
@@ -131,6 +129,7 @@ FilterControlBlock wFilterBlock;
 	        this.tp = getData().getTp();
 	        this.td = getData().getTd();
 	        this.pmax = getData().getPmax();
+	        this.pmin=0;
 	        this.velClose=getData().getVelClose();
 	        this.velOpen=getData().getVelOpen();
 	        this.tw = getData().getTw();

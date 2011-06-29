@@ -79,8 +79,7 @@ public class FVkv1Exciter extends AnnotateExciter {
 	   @AnControllerField(
 	      type=CMLFieldEnum.StaticBlock,
 	      input="this.kaDelayBlock.y",
-	      y0="mach.efd",
-	      debug=true)
+	      y0="mach.efd")
 	   // extend the GainBlock to reuse its functionality
 	   public IStaticBlock gainCustomBlock = new GainBlock() {
 		  @Override
@@ -101,12 +100,12 @@ public class FVkv1Exciter extends AnnotateExciter {
 		  	}
 		  	//restrict the output
 				if(super.getY() > calLimit(vrmax)) {
-					System.out.println(mach.getDStabBus().getId()+"FVKV1 Exciter.gainCustomBlock limit violation:" +
-							" y, max - " + super.getY() + ", " + calLimit(vrmax));
+					//System.out.println(mach.getDStabBus().getId()+"FVKV1 Exciter.gainCustomBlock limit violation:" +
+					//		" y, max - " + super.getY() + ", " + calLimit(vrmax));
 				  return calLimit(vrmax);
 			  }else if(super.getY() < calLimit(vrmin)) {
-				  System.out.println(mach.getDStabBus().getId()+"FVKV1 Exciter.gainCustomBlock limit violation: " +
-				  		"y, min - " + super.getY() + ", " + calLimit(vrmin));
+				  //System.out.println(mach.getDStabBus().getId()+"FVKV1 Exciter.gainCustomBlock limit violation: " +
+				  //		"y, min - " + super.getY() + ", " + calLimit(vrmin));
 				  return calLimit(vrmin);
 			  }else {
 				  return super.getY();

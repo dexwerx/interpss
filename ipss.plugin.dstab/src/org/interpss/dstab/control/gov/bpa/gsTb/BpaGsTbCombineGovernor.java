@@ -20,11 +20,12 @@ import com.interpss.dstab.mach.Machine;
 		   input="mach.speed-1",
 		   output="this.fhp*this.tchDelayBlock.y+this.lambda*this.fhp*this.tchDelayBlock.y+this.fip*this.trhDelayBlock.y-this.lambda*this.fhp*this.trhDelayBlock.y+this.flp*this.tcoDelayBlock.y",
 		   refPoint="this.filterBlock.y+this.t3GainBlock.u0+this.fbGainBlock.y",
-		   display= {"str.Pm,this.output"})
+		   display= {})
 public class BpaGsTbCombineGovernor extends AnnotateExciter {
 	//1.1 GainBlock
-	public double pmax0 = 790, pmin0 = 0.0, p0 = 100;
-	public double pmax = pmax0/p0, r = 0.05, k = pmax/r;
+	public double pmax=7.90;
+	public double r=0.05;
+	public double k=pmax/r;
 	@AnControllerField(
 		 				type= CMLFieldEnum.StaticBlock,
 		 				input="mach.speed-1",
@@ -38,7 +39,8 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
 		 				type= CMLFieldEnum.ControlBlock,
 		 				input="this.kGainBlock.y",
 		 				parameter={"type.NoLimit", "this.one", "this.t2", "this.t1"},
-						y0="this.refPoint-this.t3GainBlock.u0-this.fbGainBlock.y"	)
+						y0="this.refPoint-this.t3GainBlock.u0-this.fbGainBlock.y",	
+							debug=true)
     FilterControlBlock filterBlock;	  
 
 	
@@ -61,7 +63,7 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
     GainBlock pGainBlock;		
   
     //1.6 intBlock
-    public double pmin = pmin0/p0;
+    public double pmin = 0;
 	@AnControllerField(
 		 				type= CMLFieldEnum.ControlBlock,
 		 				input="this.pGainBlock.y",
@@ -155,18 +157,23 @@ public class BpaGsTbCombineGovernor extends AnnotateExciter {
 	
 	@Override
 	public boolean initStates(DStabBus bus, Machine mach) {
-//        this.ka = getData().getKa();
-//        this.ta = getData().getTa();
-//        this.vrmax = getData().getVrmax();
-//        this.vrmin = getData().getVrmin();
-//		this.ke1 = 1.0/getData().getKe();
-//		this.te_ke = getData().getTe() / getData().getKe();
-//		this.e1 = getData().getE1();
-//		this.seE1 = getData().getSeE1();
-//		this.e2 = getData().getE2();
-//		this.seE2 = getData().getSeE2();
-//		this.k = getData().getKf()/getData().getTf();
-//		this.tf = getData().getTf();
+        this.pmax = getData().getGsData().getPmax();
+    	this.pmin =getData().getGsData().getPmin();
+    	this.r    =getData().getGsData().getR();
+    	this.t1   =getData().getGsData().getT1();
+    	this.t2   =getData().getGsData().getT2();
+    	this.t3   =getData().getGsData().getT3();
+    	this.VELopen=getData().getGsData().getVelOpen();
+    	this.VELclose=getData().getGsData().getVelClose();
+    	this.tch=getData().getTbData().getTch();
+    	this.fhp=getData().getTbData().getFhp();
+    	this.trh=getData().getTbData().getTrh();
+    	this.fip=getData().getTbData().getFip();
+    	this.tco=getData().getTbData().getTco();
+    	this.flp=getData().getTbData().getFlp();
+    	this.lambda=getData().getTbData().getLambda();
+    	//this.epsilon=0; not used at this stage.
+    	
         return super.initStates(bus, mach);
     }
 

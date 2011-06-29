@@ -11,7 +11,7 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.dstab.control.cml.func.SeFunction;
-import org.interpss.dstab.control.exc.bpa.ea.BpaEaTypeExciterData;
+import org.interpss.dstab.control.exc.bpa.ea.EAExciterData;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
@@ -120,7 +120,7 @@ public class BpaEcTypeExciter extends AnnotateExciter {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
-        _data = new BpaEaTypeExciterData();
+        _data = new BpaEcTypeExciterData();
     }
 
 /*
