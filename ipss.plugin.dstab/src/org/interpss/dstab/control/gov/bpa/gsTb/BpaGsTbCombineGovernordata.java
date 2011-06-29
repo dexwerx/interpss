@@ -4,8 +4,8 @@ import org.interpss.dstab.control.gov.turbine.BpaTBTurbineData;
 
 public class BpaGsTbCombineGovernordata {
 	
-	private BpaTBTurbineData tbData=new BpaTBTurbineData() ;
-	private BpaGsSpeedGovData gsData=new BpaGsSpeedGovData();
+	private BpaTBTurbineData tbData=null;
+	private BpaGsSpeedGovData gsData=null;
 	/**
 	 * @return the tbData
 	 */
@@ -29,6 +29,11 @@ public class BpaGsTbCombineGovernordata {
 	 */
 	public void setGsData(BpaGsSpeedGovData gsData) {
 		this.gsData = gsData;
+	}
+	
+	public BpaGsTbCombineGovernordata(){
+		this.tbData=new BpaTBTurbineData();
+		this.gsData=new BpaGsSpeedGovData();
 	}
 
 }

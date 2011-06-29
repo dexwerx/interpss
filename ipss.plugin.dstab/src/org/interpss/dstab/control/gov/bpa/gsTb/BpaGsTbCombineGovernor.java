@@ -9,6 +9,7 @@ import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
+import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.datatype.CMLFieldEnum;
@@ -20,8 +21,10 @@ import com.interpss.dstab.mach.Machine;
 		   input="mach.speed-1",
 		   output="this.fhp*this.tchDelayBlock.y+this.lambda*this.fhp*this.tchDelayBlock.y+this.fip*this.trhDelayBlock.y-this.lambda*this.fhp*this.trhDelayBlock.y+this.flp*this.tcoDelayBlock.y",
 		   refPoint="this.filterBlock.y+this.t3GainBlock.u0+this.fbGainBlock.y",
-		   display= {})
-public class BpaGsTbCombineGovernor extends AnnotateExciter {
+		   display= {},
+		   debug=true
+		   )
+public class BpaGsTbCombineGovernor extends AnnotateGovernor {
 	//1.1 GainBlock
 	public double pmax=7.90;
 	public double r=0.05;
