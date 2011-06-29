@@ -9,7 +9,7 @@
  * @author  Sherlock_Li
  */
 
-package org.interpss.dstab.control.exc.bpa.ea;
+package org.interpss.dstab.control.exc.bpa.fk;
 
 import java.util.Vector;
 
@@ -17,14 +17,14 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.SwingInputVerifyUtil;
 
-public class NBEAExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
+public class NBBpaFkTypeExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
-	EAExciterData _data;
+	BpaFkTypeExciterData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBEAExciterEditPanel() {
+    public NBBpaFkTypeExciterEditPanel() {
         initComponents();
 
         // associate the editing fields with the verifier class defined at the end of this calss
@@ -47,7 +47,9 @@ public class NBEAExciterEditPanel extends javax.swing.JPanel implements ICustomP
      */
 	public void init(Object controller) {
 		// init the data object from the bus object being edited
-		_data = ((EAExciter)controller).getData();
+/* TODO comment out for avoiding compiling errors  	    
+		_data = ((FKExciterData)controller).getData();
+*/		
 	}
 	
 	/**
@@ -58,6 +60,7 @@ public class NBEAExciterEditPanel extends javax.swing.JPanel implements ICustomP
     public boolean setData2Editor(String desc) {
   	    kaTextField.setText(Number2String.toStr(_data.getKa(), "#0.00"));
   	    taTextField.setText(Number2String.toStr(_data.getTa(), "#0.000"));
+/* TODO comment out for avoiding compiling errors  	    
             trTextField.setText(Number2String.toStr(_data.getTr(), "#0.000"));
             ta1TextField.setText(Number2String.toStr(_data.getTa1(), "#0.000"));
             semaxTextField.setText(Number2String.toStr(_data.getSemax(), "#0.000"));
@@ -65,6 +68,7 @@ public class NBEAExciterEditPanel extends javax.swing.JPanel implements ICustomP
             keTextField.setText(Number2String.toStr(_data.getKe(), "#0.000"));
             teTextField.setText(Number2String.toStr(_data.getTe(), "#0.000"));
             se_e2TextField.setText(Number2String.toStr(_data.getSe_e2(), "#0.000"));
+*/
             kfTextField.setText(Number2String.toStr(_data.getKf(), "#0.000"));
   	    trTextField.setText(Number2String.toStr(_data.getTf(), "#0.000"));
         return true;
@@ -87,6 +91,8 @@ public class NBEAExciterEditPanel extends javax.swing.JPanel implements ICustomP
 			"Ta is out of the range [0.001, 10]"))
 		_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
 
+/* TODO comment out for avoiding compiling errors  	    
+	
 	if (SwingInputVerifyUtil.within(this.trTextField, 0.001, 10.0, errMsg,
 			"Tr is out of the range [0.001, 10]"))
 		_data.setTr(SwingInputVerifyUtil.getDouble(trTextField));
@@ -114,7 +120,7 @@ public class NBEAExciterEditPanel extends javax.swing.JPanel implements ICustomP
 	if (SwingInputVerifyUtil.within(this.se_e2TextField, 0.001, 10.0, errMsg,
 			"Se_e2 is out of the range [0.001, 10]"))
 		_data.setSe_e2(SwingInputVerifyUtil.getDouble(se_e2TextField));
-
+*/
 	if (SwingInputVerifyUtil.within(this.kfTextField, 0.1, 1000.0, errMsg,
 			"Kf is out of the range [0.1, 1000.0]"))
 		_data.setKf(SwingInputVerifyUtil.getDouble(kfTextField));

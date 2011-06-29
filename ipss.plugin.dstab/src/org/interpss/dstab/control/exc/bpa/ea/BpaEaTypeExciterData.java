@@ -32,8 +32,8 @@ package org.interpss.dstab.control.exc.bpa.ea;
  * @author Sherlock_Li
  */
 
-public class EAExciterData {
-    public EAExciterData() {}
+public class BpaEaTypeExciterData {
+    public BpaEaTypeExciterData() {}
 
     // We need to put the default values here, so that the controller could be
     // properly initialized

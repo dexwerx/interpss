@@ -3,102 +3,79 @@
  * and open the template in the editor.
  */
 
-package org.interpss.dstab.control.exc.bpa.fj;
+package org.interpss.dstab.control.exc.bpa.fa;
 
 import java.lang.reflect.Field;
 
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
-import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
-import org.interpss.dstab.control.exc.ExciterUtil;
+import org.interpss.dstab.control.cml.func.SeFunction;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.mach.MachineIfdBase;
 
 /*
  * Part-1: Define your controller using CML as usual
  * =================================================
  */
 @AnController(
-		   input="this.refPoint - mach.vt + pss.vs",
-		   output="this.gainCustomBlock.y",
-		   refPoint="this.filterBlock.u0 - pss.vs + mach.vt",
-		   display= {}
+   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
+   output="this.delayBlock.y",
+   refPoint="this.filterBlock.u - pss.vs + mach.vt + this.washoutBlock.y",
+   display= {  }
 )
 
-public class FJExciter extends AnnotateExciter {
+public class BpaFaTypeExciter extends AnnotateExciter {
 	   //filterBlock----(1+sTc)/(1+sTb)
-	   public double k = 1.0/*constant*/, tc = 1.0, tb = 6.0;
+	   public double k1 = 1.0/*constant*/, tc = 52.73, tb = 21.84;
 	   @AnControllerField(
 		   type=CMLFieldEnum.ControlBlock,
 		   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
-		   parameter={"type.NoLimit", "this.k", "this.tc", "this.tb"},
+		   parameter={"type.NoLimit", "this.k1", "this.tc", "this.tb"},
 		   y0="this.kaDelayBlock.u0"  )
 	   FilterControlBlock filterBlock;
 
-	   //kaDelayBlock----Ka/(1+sTa) with limits
-	   public double ka = 248.0, ta = 0.03, vrmax = 4.8, vrmin = -3.0;
+	   public double ka = 39.35, ta = 0.02, vrmax = 6.0, vrmin = -6.0;
 	   @AnControllerField(
-		   type=CMLFieldEnum.ControlBlock,
-		   input="this.filterBlock.y",
-		   parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
-		   y0="this.gainCustomBlock.u0"  )
+	      type= CMLFieldEnum.ControlBlock,
+	      input="this.filterBlock.y",
+	      parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
+	      y0="this.delayBlock.u0 + this.seFunc.y"	)
 	   DelayControlBlock kaDelayBlock;
 
-	   //washoutBlock----sKf/(1+sTf)
-	   public double kf = 0.0001, tf = 100.0, kf1 = kf/tf;
+
+	   public double ke = 1.0, ke1 = 1/ke, te = 0.6, te_ke = te/ke ;
 	   @AnControllerField(
-		   type=CMLFieldEnum.ControlBlock,
-		   input="this.kaDelayBlock.y",
-		   parameter={"type.NoLimit", "this.kf1", "this.tf"},
-		   feedback=true  )
+	      type= CMLFieldEnum.ControlBlock,
+	      input="this.kaDelayBlock.y - this.seFunc.y",
+	      parameter={"type.NoLimit", "this.ke1", "this.te_ke"},
+	      y0="mach.efd"	)
+	   DelayControlBlock delayBlock;
+
+	   //seFunc----Se
+	   public double efd1 = 6.0, e1 = efd1, se_e1 = 1.0, e2 = 0.75 * efd1, se_e2 = 0.05;
+	   @AnFunctionField(
+	      input= {"this.delayBlock.y"},
+	      parameter={"this.e1", "this.se_e1", "this.e2", "this.se_e2"}	)
+	   SeFunction seFunc;
+
+	   //washoutBlock----sKf/(1+sTf)
+	   public double kf = 0.0001, tf = 1.0, k = kf/tf;
+	   @AnControllerField(
+	      type= CMLFieldEnum.ControlBlock,
+	      input="this.delayBlock.y",
+	      parameter={"type.NoLimit", "this.k", "this.tf"},
+	      feedback = true	)
 	   WashoutControlBlock washoutBlock;
 
-	public double kg = 1.0/*constant*/, kc = 0.1, efdmax = 4.80, efdmin = -3.0;
-	   @AnControllerField(
-	      type=CMLFieldEnum.StaticBlock,
-	      input="this.kaDelayBlock.y",
-	      y0="mach.efd"  )
-	   // extend the GainBlock to reuse its functionality
-	   public IStaticBlock gainCustomBlock = new GainBlock() {
-		  @Override
-		  public boolean initStateY0(double y0) {
-			  // at the initial point, set the gain block gain
-			  super.k = kg;
-			  return super.initStateY0(y0);
-		  }
-
-		  @Override
-		  public double getY() {
-				if(super.getY() > calLimit(efdmax)) {
-				  return calLimit(efdmax);
-			  }else if(super.getY() < calLimit(efdmin)) {
-				  return calLimit(efdmin);
-			  }else {
-				  return super.getY();
-			  }
-
-		  }
-
-		  private double calLimit(double vlimit) {
-			  	Machine mach = getMachine();
-		      DStabBus dbus = mach.getDStabBus();
-		      double vt = mach.getVdq(dbus).abs();
-		      //double ifd = mach.calculateIfd(dbus);//based on machine pu system
-		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
-		      return vt * vlimit - kc * ifd_Exc_pu;
-		  }
-	   };
-
     // UI Editor panel
-    private static NBFJExciterEditPanel _editPanel = new NBFJExciterEditPanel();
+    private static NBBpaFaTypeExciterEditPanel _editPanel = new NBBpaFaTypeExciterEditPanel();
 
 /*
  * Part-2: Define the contructors
@@ -109,7 +86,7 @@ public class FJExciter extends AnnotateExciter {
      * Default Constructor
      *
      */
-    public FJExciter() {
+    public BpaFaTypeExciter() {
 	this("id", "name", "caty");
         this.setName("SimpleExcitor");
         this.setCategory("InterPSS");
@@ -122,11 +99,11 @@ public class FJExciter extends AnnotateExciter {
      * @param name exciter name
      * @param caty exciter category
      */
-    public FJExciter(String id, String name, String caty) {
+    public BpaFaTypeExciter(String id, String name, String caty) {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
-        _data = new FJExciterData();
+        _data = new BpaFaTypeExciterData();
     }
 
 /*
@@ -139,8 +116,8 @@ public class FJExciter extends AnnotateExciter {
      *
      * @return the data object
      */
-    public FJExciterData getData() {
-        return (FJExciterData)_data;
+    public BpaFaTypeExciterData getData() {
+        return (BpaFaTypeExciterData)_data;
     }
 
     /**
@@ -153,17 +130,19 @@ public class FJExciter extends AnnotateExciter {
     @Override
     public boolean initStates(DStabBus bus, Machine mach) {
         // pass the plugin data object values to the controller
-        this.tc = getData().getTc();
-        this.tb = getData().getTb();
         this.ka = getData().getKa();
         this.ta = getData().getTa();
+        this.tc = getData().getTc();
+        this.tb = getData().getTb();
         this.vrmax = getData().getVrmax();
         this.vrmin = getData().getVrmin();
+        this.ke = getData().getKe();
+        this.te = getData().getTe();
+        this.efd1 = getData().getEfd1();
+        this.se_e1 = getData().getSe_e1();
+        this.se_e2 = getData().getSe_e2();
         this.kf = getData().getKf();
         this.tf = getData().getTf();
-        this.kc = getData().getKc();
-        this.efdmax = getData().getEfdmax();
-        this.efdmin = getData().getEfdmin();
         // always add the following statement
         return super.initStates(bus, mach);
     }

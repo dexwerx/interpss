@@ -32,8 +32,8 @@ package org.interpss.dstab.control.exc.bpa.fk;
  * @author Sherlock_Li
  */
 
-public class FKExciterData {
-    public FKExciterData() {}
+public class BpaFkTypeExciterData {
+    public BpaFkTypeExciterData() {}
 
     // We need to put the default values here, so that the controller could be
     // properly initialized

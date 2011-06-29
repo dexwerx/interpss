@@ -32,7 +32,7 @@ import com.interpss.dstab.mach.MachineIfdBase;
 		   display= {}
 )
 
-public class FKExciter extends AnnotateExciter {
+public class BapFkTypeExciter extends AnnotateExciter {
 	   //gainBlock----kg1 = 1.0 uses for set the limits
 	   public double kg1 = 1.0/*constant*/, vimax = 5.30, vimin = -5.11;
 	   @AnControllerField(
@@ -96,7 +96,7 @@ public class FKExciter extends AnnotateExciter {
 	   };
 
     // UI Editor panel
-    private static NBFKExciterEditPanel _editPanel = new NBFKExciterEditPanel();
+    private static NBBpaFkTypeExciterEditPanel _editPanel = new NBBpaFkTypeExciterEditPanel();
 
 /*
  * Part-2: Define the contructors
@@ -107,7 +107,7 @@ public class FKExciter extends AnnotateExciter {
      * Default Constructor
      *
      */
-    public FKExciter() {
+    public BapFkTypeExciter() {
 	this("id", "name", "caty");
         this.setName("SimpleExcitor");
         this.setCategory("InterPSS");
@@ -120,11 +120,11 @@ public class FKExciter extends AnnotateExciter {
      * @param name exciter name
      * @param caty exciter category
      */
-    public FKExciter(String id, String name, String caty) {
+    public BapFkTypeExciter(String id, String name, String caty) {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
-        _data = new FKExciterData();
+        _data = new BpaFkTypeExciterData();
     }
 
 /*
@@ -137,8 +137,8 @@ public class FKExciter extends AnnotateExciter {
      *
      * @return the data object
      */
-    public FKExciterData getData() {
-        return (FKExciterData)_data;
+    public BpaFkTypeExciterData getData() {
+        return (BpaFkTypeExciterData)_data;
     }
 
     /**

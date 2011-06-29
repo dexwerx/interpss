@@ -30,7 +30,7 @@ import com.interpss.dstab.mach.Machine;
    display= { }
 )
 
-public class EAExciter extends AnnotateExciter {
+public class BpaEaTypeExciter extends AnnotateExciter {
     //krDelayBlock----1/(1+sTr)
     public double kr = 1.0/*constant*/,tr = 0.04;
     @AnControllerField(
@@ -94,7 +94,7 @@ public class EAExciter extends AnnotateExciter {
      * Default Constructor
      *
      */
-    public EAExciter() {
+    public BpaEaTypeExciter() {
 	this("id", "name", "caty");
         this.setName("SimpleExcitor");
         this.setCategory("InterPSS");
@@ -107,11 +107,11 @@ public class EAExciter extends AnnotateExciter {
      * @param name exciter name
      * @param caty exciter category
      */
-    public EAExciter(String id, String name, String caty) {
+    public BpaEaTypeExciter(String id, String name, String caty) {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
-        _data = new EAExciterData();
+        _data = new BpaEaTypeExciterData();
     }
 
 /*
@@ -124,8 +124,8 @@ public class EAExciter extends AnnotateExciter {
      *
      * @return the data object
      */
-    public EAExciterData getData() {
-        return (EAExciterData)_data;
+    public BpaEaTypeExciterData getData() {
+        return (BpaEaTypeExciterData)_data;
     }
 
     /**
@@ -169,7 +169,7 @@ public class EAExciter extends AnnotateExciter {
         return _editPanel;
     }
     // UI Editor panel
-    private static NBEAExciterEditPanel _editPanel = new NBEAExciterEditPanel();
+    private static NBBpaEaTypeExciterEditPanel _editPanel = new NBBpaEaTypeExciterEditPanel();
 
 /*
  * do not modify the following part

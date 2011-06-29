@@ -17,14 +17,14 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.SwingInputVerifyUtil;
 
-public class NBFAExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
+public class NBBpaFaTypeExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
-	FAExciterData _data;
+	BpaFaTypeExciterData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBFAExciterEditPanel() {
+    public NBBpaFaTypeExciterEditPanel() {
         initComponents();
 
         // associate the editing fields with the verifier class defined at the end of this calss
@@ -47,7 +47,7 @@ public class NBFAExciterEditPanel extends javax.swing.JPanel implements ICustomP
      */
 	public void init(Object controller) {
 		// init the data object from the bus object being edited
-		_data = ((FAExciter)controller).getData();
+		_data = ((BpaFaTypeExciter)controller).getData();
 	}
 	
 	/**

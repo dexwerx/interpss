@@ -17,14 +17,14 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.SwingInputVerifyUtil;
 
-public class NBFJExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
+public class NBBpaFjTypeExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
-	FJExciterData _data;
+	BpaFjTypeExciterData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBFJExciterEditPanel() {
+    public NBBpaFjTypeExciterEditPanel() {
         initComponents();
 
         // associate the editing fields with the verifier class defined at the end of this calss

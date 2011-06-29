@@ -1,5 +1,5 @@
  /*
-  * @(#)FJExciterData.java
+  * @(#)FAExciterData.java
   *
   * Copyright (C) 2011 www.interpss.org
   *
@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab.control.exc.bpa.fj;
+package org.interpss.dstab.control.exc.bpa.fa;
 
 /**
  * Define controller plugin data here. The class has to following the JavaBean
@@ -32,22 +32,24 @@ package org.interpss.dstab.control.exc.bpa.fj;
  * @author Sherlock_Li
  */
 
-public class FJExciterData {
-    public FJExciterData() {}
+public class BpaFaTypeExciterData {
+    public BpaFaTypeExciterData() {}
 
     // We need to put the default values here, so that the controller could be
     // properly initialized
-    private double tc       = 1.0;
-    private double tb       = 6.0;
-    private double ka       = 248.0;
-    private double ta       = 0.03;
-    private double vrmax    = 4.8;
-    private double vrmin    = -3.0;
-    private double kf       = 0.0001;
-    private double tf       = 100.0;
-    private double kc       = 0.1;
-    private double efdmax    = 4.8;
-    private double efdmin    = -3.0;
+    private double tc       = 21.84;
+    private double tb       = 52.73;
+    private double ka       = 39.35;
+    private double ta       = 0.02;
+    private double vrmax    = 6.0;
+    private double vrmin    = -6.0;
+    private double ke       = 1.0;
+    private double te       = 2.0;
+    private double efd1     = 6.0;
+    private double se_e1    = 0.1;
+    private double se_e2    = 0.05;
+    private double kf       = 0.03;
+    private double tf       = 0.350;
 
     /**
      * @return the tc
@@ -134,6 +136,76 @@ public class FJExciterData {
     }
 
     /**
+     * @return the ke
+     */
+    public double getKe() {
+        return ke;
+    }
+
+    /**
+     * @param ke the ke to set
+     */
+    public void setKe(double ke) {
+        this.ke = ke;
+    }
+
+    /**
+     * @return the te
+     */
+    public double getTe() {
+        return te;
+    }
+
+    /**
+     * @param te the te to set
+     */
+    public void setTe(double te) {
+        this.te = te;
+    }
+
+    /**
+     * @return the efd1
+     */
+    public double getEfd1() {
+        return efd1;
+    }
+
+    /**
+     * @param efd1 the efd1 to set
+     */
+    public void setEfd1(double efd1) {
+        this.efd1 = efd1;
+    }
+
+    /**
+     * @return the se_e1
+     */
+    public double getSe_e1() {
+        return se_e1;
+    }
+
+    /**
+     * @param se_e1 the se_e1 to set
+     */
+    public void setSe_e1(double se_e1) {
+        this.se_e1 = se_e1;
+    }
+
+    /**
+     * @return the se_e2
+     */
+    public double getSe_e2() {
+        return se_e2;
+    }
+
+    /**
+     * @param se_e2 the se_e2 to set
+     */
+    public void setSe_e2(double se_e2) {
+        this.se_e2 = se_e2;
+    }
+
+    /**
      * @return the kf
      */
     public double getKf() {
@@ -159,48 +231,6 @@ public class FJExciterData {
      */
     public void setTf(double tf) {
         this.tf = tf;
-    }
-
-    /**
-     * @return the kc
-     */
-    public double getKc() {
-        return kc;
-    }
-
-    /**
-     * @param kc the kc to set
-     */
-    public void setKc(double kc) {
-        this.kc = kc;
-    }
-
-    /**
-     * @return the efdmax
-     */
-    public double getEfdmax() {
-        return efdmax;
-    }
-
-    /**
-     * @param efdmax the efdmax to set
-     */
-    public void setEfdmax(double efdmax) {
-        this.efdmax = efdmax;
-    }
-
-    /**
-     * @return the efdmin
-     */
-    public double getEfdmin() {
-        return efdmin;
-    }
-
-    /**
-     * @param efdmin the efdmin to set
-     */
-    public void setEfdmin(double efdmin) {
-        this.efdmin = efdmin;
     }
 
 
