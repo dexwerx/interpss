@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
-    xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified" targetNamespace="http://www.ieee.org/odm/Schema/2008">
 
-	<include schemaLocation="../../common/DataType.xsd"></include>
-	<include schemaLocation="StabilizerModel.xsd"></include>
+	<include schemaLocation="../../common/DataType.xsd"/>
+	<include schemaLocation="StabilizerModel.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
@@ -16,36 +14,36 @@
 			    pssIEEE*, PssIEEE* : for IEEE types  
 	 -->	
 	 	
-	<element name="pssIEEE1981Type" type="pss:PssIEEE1981TypeXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssIEEE1992Type2A" type="pss:PssIEEE1992Type2AXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssIEEEType1A" type="pss:PssIEEE1AXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssIEE2ST" type="pss:PssIEE2STXmlType" substitutionGroup="pss:stabilizer"/>
-	<element name="pssIEEEDualInput" type="pss:PssIEEEDualInputXmlType" substitutionGroup="pss:stabilizer"/>
+	<element name="pssIEEE1981Type" substitutionGroup="pss:stabilizer" type="pss:PssIEEE1981TypeXmlType"/>
+	<element name="pssIEEE1992Type2A" substitutionGroup="pss:stabilizer" type="pss:PssIEEE1992Type2AXmlType"/>
+	<element name="pssIEEEType1A" substitutionGroup="pss:stabilizer" type="pss:PssIEEE1AXmlType"/>
+	<element name="pssIEE2ST" substitutionGroup="pss:stabilizer" type="pss:PssIEE2STXmlType"/>
+	<element name="pssIEEEDualInput" substitutionGroup="pss:stabilizer" type="pss:PssIEEEDualInputXmlType"/>
 
 
 	<complexType name="PssIEEE1981TypeXmlType">
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>
-			<element name="inputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType"></element>
-			<element name="remoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="A1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="A2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="A3" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="A4" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="A5" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="A6" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KS" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="LSMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="LSMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VCU" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="VCL" type="string" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="inputSignal" type="pss:StabilizerInputSignalEnumType"/>
+			<element maxOccurs="1" minOccurs="0" name="remoteBusId" type="pss:IDRefRecordXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="A1" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="A2" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="A3" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="A4" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="A5" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="A6" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T6" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KS" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="LSMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="LSMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VCU" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VCL" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>	
@@ -53,12 +51,12 @@
 
 	<simpleType name="StabilizerInputSignalEnumType">
 		<restriction base="string">
-			<enumeration value="rotor_speed_deviation"></enumeration>
-			<enumeration value="bus_frequency_deviation"></enumeration>
-			<enumeration value="generator_electrical_power"></enumeration>
-			<enumeration value="generator_accelerating_power"></enumeration>
-			<enumeration value="bus_voltage"></enumeration>
-			<enumeration value="deriavative_of_bus_voltage"></enumeration>
+			<enumeration value="rotor_speed_deviation"/>
+			<enumeration value="bus_frequency_deviation"/>
+			<enumeration value="generator_electrical_power"/>
+			<enumeration value="generator_accelerating_power"/>
+			<enumeration value="bus_voltage"/>
+			<enumeration value="deriavative_of_bus_voltage"/>
 		</restriction>
 	</simpleType>
 
@@ -66,29 +64,29 @@
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>
-			<element name="firstInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType"></element>
-			<element name="firstRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="secondInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">	</element>
-			<element name="secondRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="M" type="int" maxOccurs="1" minOccurs="1"></element>
-			<element name="N" type="int" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T7" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KS2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="KS3" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T8" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T9" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KS1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSTMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSTMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="1" name="firstInputSignal" type="pss:StabilizerInputSignalEnumType"/>
+			<element maxOccurs="1" minOccurs="1" name="firstRemoteBusId" type="pss:IDRefRecordXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="secondInputSignal" type="pss:StabilizerInputSignalEnumType">	</element>
+			<element maxOccurs="1" minOccurs="1" name="secondRemoteBusId" type="pss:IDRefRecordXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="M" type="int"/>
+			<element maxOccurs="1" minOccurs="1" name="N" type="int"/>
+			<element maxOccurs="1" minOccurs="1" name="TW1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T6" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T7" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KS2" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="KS3" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T8" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T9" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KS1" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VSTMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSTMIN" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>
@@ -98,29 +96,29 @@
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>
-			<element name="firstInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">
+			<element maxOccurs="1" minOccurs="1" name="firstInputSignal" type="pss:StabilizerInputSignalEnumType">
 			</element>
-			<element name="firstRemoteBusId" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="secondInputSignal" maxOccurs="1" minOccurs="0" type="pss:StabilizerInputSignalEnumType">
+			<element maxOccurs="1" minOccurs="1" name="firstRemoteBusId" type="string"/>
+			<element maxOccurs="1" minOccurs="0" name="secondInputSignal" type="pss:StabilizerInputSignalEnumType">
 			</element>
-			<element name="secondRemoteBusId" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="K1" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="K2" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T7" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T8" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T9" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T10" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VCU" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="VCL" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="VCUTOFF" type="double" maxOccurs="1" minOccurs="0"></element>
+			<element maxOccurs="1" minOccurs="0" name="secondRemoteBusId" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="K1" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="K2" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T6" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T7" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T8" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T9" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T10" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="VCU" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="VCL" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="VCUTOFF" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -130,17 +128,17 @@
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>			
-			<element name="KS" type="double" maxOccurs="1" minOccurs="1"></element>			
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>			
-			<element name="VSTMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSTMIN" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="A1" type="double" maxOccurs="1" minOccurs="0"></element>
-			<element name="A2" type="double" maxOccurs="1" minOccurs="0"></element>	
+			<element maxOccurs="1" minOccurs="1" name="KS" type="double"/>			
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T6" type="pss:TimePeriodXmlType"/>			
+			<element maxOccurs="1" minOccurs="1" name="VSTMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSTMIN" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="A1" type="double"/>
+			<element maxOccurs="1" minOccurs="0" name="A2" type="double"/>	
 		</sequence>
 		</extension>
 		</complexContent>		
@@ -150,34 +148,34 @@
 		<complexContent>
 		<extension base="pss:StabilizerModelXmlType">
 		<sequence>
-			<element name="firstInputSignal" maxOccurs="1" minOccurs="1" type="pss:StabilizerInputSignalEnumType">
+			<element maxOccurs="1" minOccurs="1" name="firstInputSignal" type="pss:StabilizerInputSignalEnumType">
 			</element>
-			<element name="firstRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="secondInputSignal" maxOccurs="1" minOccurs="0" type="pss:StabilizerInputSignalEnumType">
+			<element maxOccurs="1" minOccurs="1" name="firstRemoteBusId" type="pss:IDRefRecordXmlType"/>
+			<element maxOccurs="1" minOccurs="0" name="secondInputSignal" type="pss:StabilizerInputSignalEnumType">
 			</element>
-			<element name="secondRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="Trw" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T6" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T7" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="Kr" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="Trp" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="TW2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="KS" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T9" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T10" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T12" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="Kp" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="T1" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T2" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T13" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T14" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T3" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="T4" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSMAX" type="double" maxOccurs="1" minOccurs="1"></element>
-			<element name="VSMIN" type="double" maxOccurs="1" minOccurs="1"></element>
+			<element maxOccurs="1" minOccurs="0" name="secondRemoteBusId" type="pss:IDRefRecordXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="Trw" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T5" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T6" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T7" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="Kr" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="Trp" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="TW2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="KS" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T9" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T10" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T12" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="Kp" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T13" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T14" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="T4" type="pss:TimePeriodXmlType"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
+			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>		

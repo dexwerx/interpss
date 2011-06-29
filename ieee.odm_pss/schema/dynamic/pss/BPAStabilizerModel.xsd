@@ -47,8 +47,7 @@
 			<element maxOccurs="1" minOccurs="1" name="T1Q3" type="pss:TimePeriodXmlType"/>
 			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
-			<element maxOccurs="1" minOccurs="1" name="VCU" type="string"/>
-			<element maxOccurs="1" minOccurs="1" name="VCL" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="VCUTOFF" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>	
@@ -71,8 +70,7 @@
 			<element maxOccurs="1" minOccurs="1" name="T1Q3" type="pss:TimePeriodXmlType"/>
 			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
-			<element maxOccurs="1" minOccurs="1" name="VCU" type="string"/>
-			<element maxOccurs="1" minOccurs="1" name="VCL" type="string"/>
+			<element maxOccurs="1" minOccurs="1" name="VCUTOFF" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>	
@@ -95,8 +93,7 @@
 			<element maxOccurs="1" minOccurs="1" name="T1Q3" type="pss:TimePeriodXmlType"/>
 			<element maxOccurs="1" minOccurs="1" name="VSMAX" type="double"/>
 			<element maxOccurs="1" minOccurs="1" name="VSMIN" type="double"/>
-			<element maxOccurs="1" minOccurs="1" name="VCU" type="string"/>
-			<element maxOccurs="1" minOccurs="1" name="VCL" type="string"/>
+            <element maxOccurs="1" minOccurs="1" name="VCUTOFF" type="double"/>
 		</sequence>
 		</extension>
 		</complexContent>	
