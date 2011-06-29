@@ -24,12 +24,12 @@
 
 package org.interpss.dstab.control.exc;
 
-import org.interpss.dstab.control.exc.bpa.ea.EAExciter;
+import org.interpss.dstab.control.exc.bpa.ea.BpaEaTypeExciter;
 import org.interpss.dstab.control.exc.bpa.ec.BpaEcTypeExciter;
 import org.interpss.dstab.control.exc.bpa.ek.BpaEkTypeExciter;
-import org.interpss.dstab.control.exc.bpa.fa.FAExciter;
-import org.interpss.dstab.control.exc.bpa.fj.FJExciter;
-import org.interpss.dstab.control.exc.bpa.fk.FKExciter;
+import org.interpss.dstab.control.exc.bpa.fa.BpaFaTypeExciter;
+import org.interpss.dstab.control.exc.bpa.fj.BpaFjTypeExciter;
+import org.interpss.dstab.control.exc.bpa.fk.BapFkTypeExciter;
 import org.interpss.dstab.control.exc.bpa.fvkv0.FVkv0Exciter;
 import org.interpss.dstab.control.exc.bpa.fvkv1.FVkv1Exciter;
 import org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter;
@@ -98,8 +98,8 @@ public class ExciterObjectFactory {
 	/*
 	 * BPA Exciter set
 	 */
-	public static  EAExciter createBPAEATypeExciter(String id, String name, Machine machine) {
-		EAExciter exc = new EAExciter(id, name, "BPA");
+	public static  BpaEaTypeExciter createBPAEATypeExciter(String id, String name, Machine machine) {
+		BpaEaTypeExciter exc = new BpaEaTypeExciter(id, name, "BPA");
 		exc.setMachine(machine); 
 		return exc;
   	}
@@ -114,18 +114,18 @@ public class ExciterObjectFactory {
 		exc.setMachine(machine); 
 		return exc;
   	}
-	public static  FAExciter createBPAFATypeExciter(String id, String name, Machine machine) {
-		FAExciter exc = new FAExciter(id, name, "BPA");
+	public static  BpaFaTypeExciter createBPAFATypeExciter(String id, String name, Machine machine) {
+		BpaFaTypeExciter exc = new BpaFaTypeExciter(id, name, "BPA");
 		exc.setMachine(machine); 
 		return exc;
   	}
-	public static  FJExciter createBPAFJTypeExciter(String id, String name, Machine machine) {
-		FJExciter exc = new FJExciter(id, name, "BPA");
+	public static  BpaFjTypeExciter createBPAFJTypeExciter(String id, String name, Machine machine) {
+		BpaFjTypeExciter exc = new BpaFjTypeExciter(id, name, "BPA");
 		exc.setMachine(machine); 
 		return exc;
   	}
-	public static  FKExciter createBPAFKTypeExciter(String id, String name, Machine machine) {
-		FKExciter exc = new FKExciter(id, name, "BPA");
+	public static  BapFkTypeExciter createBPAFKTypeExciter(String id, String name, Machine machine) {
+		BapFkTypeExciter exc = new BapFkTypeExciter(id, name, "BPA");
 		exc.setMachine(machine); 
 		return exc;
   	}

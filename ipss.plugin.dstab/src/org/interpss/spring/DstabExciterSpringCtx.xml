@@ -103,6 +103,20 @@
 	      p:category="BPA-Exciter"
 	      p:desc="The BAP EA Type exciter implementation" />
 
+	<bean id="bpa_ecExciter" 
+	      class="org.interpss.dstab.control.exc.bpa.ec.BpaEcTypeExciter"
+	      scope="prototype"	
+	      p:name="BPA ECA"
+	      p:category="BPA-Exciter"
+	      p:desc="The BAP EC Type exciter implementation" />
+
+	<bean id="bpa_ekExciter" 
+	      class="org.interpss.dstab.control.exc.bpa.ek.BpaEkExciter"
+	      scope="prototype"	
+	      p:name="BPA EK"
+	      p:category="BPA-Exciter"
+	      p:desc="The BAP EK Type exciter implementation" />
+
 	<bean id="bpa_faExciter" 
 	      class="org.interpss.dstab.control.exc.bpa.fa.FAExciter"
 	      scope="prototype"	
