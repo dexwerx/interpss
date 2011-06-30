@@ -30,8 +30,8 @@ public class LFSolverWithStatcom {
 			// 1. Update the network with current states of all the STATCOMs
 			for (StatcomLF thisSTATCOM : statcomArray) {
 				String statcomId = thisSTATCOM.getId();
-				double loadP = tempNetwork.getAclfBus(statcomId).getLoadP() - thisSTATCOM.getSsh().getReal();
-				double loadQ = tempNetwork.getAclfBus(statcomId).getLoadQ() - thisSTATCOM.getSsh().getImaginary();
+				double loadP = tempNetwork.getAclfBus(statcomId).getLoadP() - thisSTATCOM.getSsh(tempNetwork).getReal();
+				double loadQ = tempNetwork.getAclfBus(statcomId).getLoadQ() - thisSTATCOM.getSsh(tempNetwork).getImaginary();
 				tempNetwork.getAclfBus(statcomId).setLoadP(loadP);
 				tempNetwork.getAclfBus(statcomId).setLoadQ(loadQ);
 			}
@@ -43,7 +43,7 @@ public class LFSolverWithStatcom {
     		double err = 0.0;
             for (StatcomLF thisSTATCOM : statcomArray) {
             	System.out.println("Vi = " + tempNetwork.getAclfBus(thisSTATCOM.getId()).getVoltageMag() +  ", thetai = " + tempNetwork.getAclfBus(thisSTATCOM.getId()).getVoltageAng());
-            	thisSTATCOM.update();	// Key point of the calculation
+            	thisSTATCOM.update(tempNetwork);	// Key point of the calculation
             	err = Math.max(err, thisSTATCOM.getErr());
             	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs() + ", thetash = " + 
             			Math.atan2(thisSTATCOM.getConverter().getVsh().getImaginary(), thisSTATCOM.getConverter().getVsh().getReal()));

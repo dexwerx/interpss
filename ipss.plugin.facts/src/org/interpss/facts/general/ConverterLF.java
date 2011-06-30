@@ -7,7 +7,6 @@ import com.interpss.core.aclf.AclfNetwork;
 // VSC converter model in load flow
 public class ConverterLF {
 
-	private AclfNetwork net;	// Power network which the converter will be installed
 	private String idi;	// ID for the first terminal
 	private String idj; // ID for the second terminal
 	
@@ -15,9 +14,8 @@ public class ConverterLF {
 	private Complex ysh;	// Equivalent admittance of the converter's Thevenin equivalent circuit
 	
 	// Constructor
-	public ConverterLF(AclfNetwork net, String idi, String idj, Complex ysh) {
+	public ConverterLF(String idi, String idj, Complex ysh) {
 		super();
-		this.net = net;
 		this.idi = idi;
 		this.idj = idj;
 		this.ysh = ysh;
@@ -25,31 +23,21 @@ public class ConverterLF {
 	}
 	
 	// Equivalent complex power from bus i to bus j through this converter
-	public Complex getSij() {
-		double vmi = net.getAclfBus(idi).getVoltageMag();
-		double thetai = net.getAclfBus(idi).getVoltageAng();
-		Complex vi = new Complex(vmi * Math.cos(thetai), vmi * Math.sin(thetai));
+	public Complex getSij(AclfNetwork net) {
+		Complex vi = net.getAclfBus(idi).getVoltage();
 		Complex vj = new Complex(0.0, 0.0);
-		if (!idj.equals("GROUND")) {
-			double vmj = net.getAclfBus(idj).getVoltageMag();
-			double thetaj = net.getAclfBus(idj).getVoltageAng();
-			vj = new Complex(vmj * Math.cos(thetaj), vmj * Math.sin(thetaj));
-		}
+		if (!idj.equals("GROUND"))
+			vj = net.getAclfBus(idj).getVoltage();
 		Complex dv = vi.subtract(vj).subtract(vsh);
 		return vi.multiply(dv.conjugate()).multiply(ysh.conjugate());
 	}
 	
 	// Equivalent complex power from bus i to bus j through this converter
-	public Complex getSji() {
-		double vmi = net.getAclfBus(idi).getVoltageMag();
-		double thetai = net.getAclfBus(idi).getVoltageAng();
-		Complex vi = new Complex(vmi * Math.cos(thetai), vmi * Math.sin(thetai));
+	public Complex getSji(AclfNetwork net) {
+		Complex vi = net.getAclfBus(idi).getVoltage();
 		Complex vj = new Complex(0.0, 0.0);
-		if (!idj.equals("GROUND")) {
-			double vmj = net.getAclfBus(idj).getVoltageMag();
-			double thetaj = net.getAclfBus(idj).getVoltageAng();
-			vj = new Complex(vmj * Math.cos(thetaj), vmj * Math.sin(thetaj));
-		}
+		if (!idj.equals("GROUND"))
+			vj = net.getAclfBus(idj).getVoltage();
 		Complex dv = vj.add(vsh).subtract(vi);
 		return vj.multiply(dv.conjugate()).multiply(ysh.conjugate());
 	}

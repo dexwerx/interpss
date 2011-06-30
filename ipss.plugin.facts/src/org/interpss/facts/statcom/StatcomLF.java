@@ -8,7 +8,6 @@ import com.interpss.core.aclf.AclfNetwork;
 // STATCOM model in load flow
 public class StatcomLF {
 
-	AclfNetwork net;	// Power network which the STACOM will installed in
 	private String id;	// ID of the shunt compensation bus
 	private ConverterLF converter;	// Equivalent admittance of the converter's Thevenin equivalent circuit
 	private StatcomControlType type;	// Control type of the STATCOM
@@ -16,11 +15,10 @@ public class StatcomLF {
 	private double err;	// Error to the control object
 	
 	// Constructor
-	public StatcomLF(AclfNetwork net, String id, Complex ysh, StatcomControlType type, double tunedValue) {
+	public StatcomLF(String id, Complex ysh, StatcomControlType type, double tunedValue) {
 		super();
-		this.net = net;
 		this.id = id;
-		this.converter = new ConverterLF(net, id, "GROUND", ysh);
+		this.converter = new ConverterLF(id, "GROUND", ysh);
 		this.type = type;
 		this.tunedValue = tunedValue;
 	}
@@ -29,8 +27,8 @@ public class StatcomLF {
 		return id;
 	}
 	
-	public Complex getSsh() {
-		return new Complex(-converter.getSij().getReal(), -converter.getSij().getImaginary());
+	public Complex getSsh(AclfNetwork net) {
+		return new Complex(-converter.getSij(net).getReal(), -converter.getSij(net).getImaginary());
 	}
 
 	public double getErr() {
@@ -42,7 +40,7 @@ public class StatcomLF {
 	}
 
 	// Update vsh inside the statcom converter
-	public void update() {
+	public void update(AclfNetwork net) {
 		Complex vi = net.getAclfBus(id).getVoltage();
 		Complex vsh1 = this.converter.getVsh();
 		if (type == StatcomControlType.ConstB) {	// Control of constant shunt admittance 

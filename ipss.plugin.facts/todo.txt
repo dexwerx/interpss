@@ -4,4 +4,4 @@
 3. Update states of STATCOMs by recalculate vsh, considering of control type
 
 Problems:
-1. Check the formula of ConstB control
+1. Check why the active power is changed if only compensate constant reactive power
