@@ -87,15 +87,21 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         setBusBranchFaultPanel();
 	}
 */	
-	public void setFaultData(AcscFaultXmlType data) {
+	/**
+	 * this function might be called by setForm2Edtior (saveData = false) or 
+	 * saveEditor2Form (saveData = true))
+	 */
+	public void setFaultData(AcscFaultXmlType data, boolean saveData) {
 		this.xmlFaultData = data;
-		if (xmlFaultData.getZLG() == null) {
-			xmlFaultData.setZLG(IpssXmlDataSetter.createComplexXmlType(0.0, 0.0));
+		if (!saveData) {
+			if (xmlFaultData.getZLG() == null) {
+				xmlFaultData.setZLG(IpssXmlDataSetter.createComplexXmlType(0.0, 0.0));
+			}
+			if (xmlFaultData.getZLL() == null) {
+				xmlFaultData.setZLL(IpssXmlDataSetter.createComplexXmlType(0.0, 0.0));
+			}
+	        setBusBranchFaultPanel();
 		}
-		if (xmlFaultData.getZLL() == null) {
-			xmlFaultData.setZLL(IpssXmlDataSetter.createComplexXmlType(0.0, 0.0));
-		}
-        setBusBranchFaultPanel();
 	}
 
 	public void setBranchReclosureStatus(boolean status) {

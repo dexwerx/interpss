@@ -67,7 +67,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 	
 	public void setDStabDEventData(DynamicEventXmlType xmlEventData) {
 		this.xmlEventData = xmlEventData;
-		_faultLocDataPanel.setFaultData(xmlEventData.getFault());
+		_faultLocDataPanel.setFaultData(xmlEventData.getFault(), false);
 	}
 
 	public void refresh() {

@@ -94,18 +94,18 @@ public class ChartManager {
 		} else if (cell instanceof BusCell) {
 			menu.addSeparator();
 			final IGBusForm bus = ((BusCell) cell).getBusForm();
-//			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET
-//					&& simuCtx.getDistNet().getLoadNetData()
-//							.getSchedulePoints() > 0
-//					&& appSimuCtx.isLfConverged()) {
-//				menu.add(new AbstractAction("Plot Load Curve") {
-//					private static final long serialVersionUID = 1L;
-//
-//					public void actionPerformed(ActionEvent e) {
-//						ChartManager.chartBusLoadCurve(bus.getId());
-//					}
-//				});
-//			} 
+			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET
+					&& simuCtx.getDistNet().getLoadNetData()
+							.getSchedulePoints() > 0
+					&& appSimuCtx.isLfConverged()) {
+				menu.add(new AbstractAction("Plot Load Curve") {
+					private static final long serialVersionUID = 1L;
+
+					public void actionPerformed(ActionEvent e) {
+						ChartManager.chartBusLoadCurve(bus.getId());
+					}
+				});
+			} 
 			if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				int caseId = appSimuCtx.getDbSimuCaseId();
 				if (caseId > 0) {

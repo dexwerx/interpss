@@ -241,7 +241,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
 			this.descTextArea.setText(scase.getRecDesc());
 			// set the case data to the actual data editing panel
-			_acscCaseInfoPanel.setXmlCaseData(scase);
+			_acscCaseInfoPanel.setXmlCaseDatax(scase, false);
 			// set the case data to the actual data editing panel
 			_acscCaseInfoPanel.setForm2Editor();
 		}
@@ -379,7 +379,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			}
 			scase.setRecDesc(this.descTextArea.getText());
 			projData.setAcscCaseName(casename);
-			_acscCaseInfoPanel.setXmlCaseData(scase);
+			_acscCaseInfoPanel.setXmlCaseDatax(scase, true);
 			_acscCaseInfoPanel.saveEditor2Form(errMsg);
 			EditorSimuSpringCtx.getAcscRunForm().setXmlCaseData(scase);
 		}

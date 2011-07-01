@@ -79,7 +79,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		}
 		
 		if (gFormContainer.getGNetForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
-			//simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET);
+			simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET);
 		} else {
 			if (gFormContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_DStabilityNet)) {
 				simuCtx.setNetwork(net, SimuCtxType.DSTABILITY_NET);

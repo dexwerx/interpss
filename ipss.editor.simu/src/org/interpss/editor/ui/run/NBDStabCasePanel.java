@@ -51,6 +51,8 @@ import org.interpss.xml.schema.ValueChangeDataType;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.core.util.CoreUtilFunc;
+import com.interpss.dstab.util.DStabUtilFunc;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxHelper;
 
@@ -167,16 +169,18 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     }
 
     private void setOutputVarList() {
-    	if (this.netContainer != null) {
-    		outputVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().toArray()));
-    	}
+   		outputVarList.setModel(new javax.swing.DefaultComboBoxModel(
+   			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().toArray()));
     }
 
     private void setMachOutVarList() {
     	if (this.netContainer != null) {
     		machOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
     			this.netContainer.getMachIdArray()));
+    	}
+    	else {
+    		machOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    				DStabUtilFunc.getMachIdArray(simuCtx.getDStabilityNet())));
     	}
     }
     
@@ -185,12 +189,20 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     		busOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
     			this.netContainer.getBusIdArray()));
     	}
+    	else {
+    		busOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    				CoreUtilFunc.getBusIdArray(simuCtx.getDStabilityNet())));
+    	}
     }
 
     private void setBranchOutVarList() {
     	if (this.netContainer != null) {
     		branchOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
     			this.netContainer.getBranchIdArray()));
+    	}
+    	else {
+    		branchOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    				CoreUtilFunc.getBranchIdArray(simuCtx.getDStabilityNet())));
     	}
     }
 /*
@@ -1064,18 +1076,28 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private void removeOurVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOurVarButtonActionPerformed
     	DynamicOutputConfigXmlType.OutputVarList outVarList = this.xmlCaseData.getOutputConfig().getOutputVarList();
     	for (Object obj : this.outputVarList.getSelectedValues())
-    		StringUtil.remove(outVarList.getVariableName(), (String)obj);
+    		outVarList.getVariableName().remove(obj);
     	setOutputVarList();
     }//GEN-LAST:event_removeOurVarButtonActionPerformed
 
     private void addAllOutVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAllOutVarButtonActionPerformed
     	DynamicOutputConfigXmlType.OutputVarList outVarList = this.xmlCaseData.getOutputConfig().getOutputVarList();
-    	for (Object obj : this.netContainer.getMachIdArray())
-    		if (!StringUtil.contain(outVarList.getVariableName(), (String)obj))
-    			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().add((String)obj);
-    	for (Object obj : this.netContainer.getBusIdArray())
-    		if (!StringUtil.contain(outVarList.getVariableName(), (String)obj))
-    			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().add((String)obj);
+    	if (this.netContainer != null) {
+        	for (Object obj : this.netContainer.getMachIdArray())
+        		if (!StringUtil.contain(outVarList.getVariableName(), (String)obj))
+        			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().add((String)obj);
+        	for (Object obj : this.netContainer.getBusIdArray())
+        		if (!StringUtil.contain(outVarList.getVariableName(), (String)obj))
+        			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().add((String)obj);
+    	}
+    	else {
+        	for (Object obj : DStabUtilFunc.getMachIdArray(simuCtx.getDStabilityNet()))
+        		if (!StringUtil.contain(outVarList.getVariableName(), (String)obj))
+        			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().add((String)obj);
+        	for (Object obj : CoreUtilFunc.getBusIdArray(simuCtx.getDStabilityNet()))
+        		if (!StringUtil.contain(outVarList.getVariableName(), (String)obj))
+        			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableName().add((String)obj);
+    	}
     	setOutputVarList();
     }//GEN-LAST:event_addAllOutVarButtonActionPerformed
 

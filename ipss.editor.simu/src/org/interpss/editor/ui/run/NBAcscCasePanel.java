@@ -78,9 +78,13 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     }
     */
     
-    public void setXmlCaseData(AcscStudyCaseXmlType data) {
+	/**
+	 * this function might be called by setForm2Edtior (saveData = false) or 
+	 * saveEditor2Form (saveData = true))
+	 */
+    public void setXmlCaseDatax(AcscStudyCaseXmlType data, boolean saveData) {
     	this.xmlCaseData = data;
-        _faultLocDataPanel.setFaultData(data.getFaultData());
+        _faultLocDataPanel.setFaultData(data.getFaultData(), saveData);
     }
     
 	/**

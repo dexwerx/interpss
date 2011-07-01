@@ -64,17 +64,17 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		simuCtx.getSimpleFaultAlgorithm().removeAllFault();
-//		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
-//			runShortCircuit(simuCtx.getDistNet(), simuCtx
-//					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
-//		} 
-//		else {
+		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
+			runShortCircuit(simuCtx.getDistNet(), simuCtx
+					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
+		} 
+		else {
 			if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				simuCtx.getDStabilityNet().initialization();
 			}
 			runShortCircuit(simuCtx.getAcscNet(), simuCtx
 					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
-//		}
+		}
 		return true;
 	}
 
