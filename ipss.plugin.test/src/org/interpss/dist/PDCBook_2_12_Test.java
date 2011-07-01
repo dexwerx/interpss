@@ -26,12 +26,18 @@ package org.interpss.dist;
 
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.acsc.AcscNetwork;
+import com.interpss.core.acsc.fault.AcscBusFault;
+import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.simu.SimuContext;
@@ -58,6 +64,22 @@ public class PDCBook_2_12_Test  extends PluginTestSetup {
 	  	//System.out.println(bus.getAcscBus().getGenResults().getImaginary());
 	  	assertTrue(Math.abs(bus.getAcscBus().getGenResults().getReal() + 0.034149) < 0.001);
 	  	assertTrue(Math.abs(bus.getAcscBus().getGenResults().getImaginary() + 0.023523) < 0.0001);
+	  	
+	  	AcscNetwork faultNet = distNet.getFaultNet();
+	  	SimpleFaultAlgorithm scAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
+
+		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("0005", scAlgo);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
+		fault.setZLGFault(new Complex(0.0, 0.0));
+		fault.setZLLFault(new Complex(0.0, 0.0));
+		
+	  	scAlgo.calculateBusFault(fault);
+  		//System.out.println(fault.toString(fault.getAcscBus().getBaseVoltage(), faultNet));
+
+  		//System.out.println(fault.getFaultResult().getSCCurrent_abc());
+  		// -0.18885 + j 1.16724   1.10528 + j-0.42007  -0.91644 + j-0.74717
+	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_abc(), 
+	  			-0.18885, 1.16724, 1.10528, -0.42007, -0.91644, -0.74717) );  	  	
 	}
 	
 }
