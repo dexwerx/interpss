@@ -49,12 +49,41 @@ public class StatcomLF {
 		}
 		else if (type == StatcomControlType.ConstQ) {	// Control of constant shunt reactive power compensation
 			Complex si = new Complex(0.0, tunedValue);
-			this.converter.setVsh(vi.add((si.divide(vi)).conjugate().divide(this.converter.getYsh())));
+			Complex vsh = solveConstQ(vsh1, vi, this.converter, tunedValue);
+			this.converter.setVsh(vsh);
 		}
 		else if (type == StatcomControlType.ConstV) {	// Control of constant voltage magnitude
 			
 		}
 		Complex vsh2 = this.converter.getVsh();
 		err = (vsh1.subtract(vsh2)).abs();
+	}
+
+	// Calculate Vsh to match the tuned constant Q
+	private Complex solveConstQ(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) {
+		double qerr = 100.0;
+		Complex vsh = vsh1;
+		double vmsh = vsh.abs();
+		double thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
+		double vmi = vi.abs();
+		double thetai = Math.atan2(vi.getImaginary(), vi.getReal());
+		double gsh = converter.getYsh().getReal();
+		double bsh = converter.getYsh().getImaginary();
+		// Iteration by Newton method
+		while (qerr > 0.0001) {
+			// Active power balance equation Fp: active output of v source = 0
+			double fp = vmsh * vmsh * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
+			// Reactive power balance equation Fq: reactive injection at bus i = Qsh
+			double fq = tunedValue + vmi * vmi * bsh + vmi * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
+			// Update the mismatch
+			qerr = Math.max(Math.abs(fp), Math.abs(fq));
+			// Jacobian
+			double jpv = 2 * vmsh * gsh - vmi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));	// dFp/dVsh
+			double jptheta = - vmi * vmsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash));	// dFp/dThetash
+			double jqv = vmi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// dFq/dVsh
+			double jqtheta = - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));	// dFq/dThetash
+			// TODO: Solve the mismatch equation, update Vsh and thetash
+		}
+		return vsh;
 	}
 }
