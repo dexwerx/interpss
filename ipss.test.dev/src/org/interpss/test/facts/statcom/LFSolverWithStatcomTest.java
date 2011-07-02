@@ -43,8 +43,8 @@ public class LFSolverWithStatcomTest {
         // output loadflow calculation results
         assertTrue(solver.solveLF());
         double vi = net.getAclfBus("Bus2").getVoltageMag();
-        double thetai = net.getAclfBus("Bus2").getVoltageAng();
         
+        assertTrue(Math.abs(myStatcom.getSsh(net).getReal() / vi / vi) < 0.0001);
         assertTrue(Math.abs(myStatcom.getSsh(net).getImaginary() / vi / vi - (2.0)) < 0.0001);
         
 	}
