@@ -43,7 +43,7 @@ public class LFSolverWithStatcom {
             	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs() + ", thetash = " + 
             			Math.atan2(thisSTATCOM.getConverter().getVsh().getImaginary(), thisSTATCOM.getConverter().getVsh().getReal()));
             }
-            if (err < 0.0001)
+            if (err < 0.00001)
             	converged = true;
             if (i++ > 50)
             	break;
