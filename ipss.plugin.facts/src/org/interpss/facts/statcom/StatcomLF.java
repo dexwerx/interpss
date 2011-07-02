@@ -48,7 +48,6 @@ public class StatcomLF {
 			this.converter.setVsh(vi.multiply((new Complex(1.0, 0.0)).subtract(ycomp.divide(this.converter.getYsh()))));
 		}
 		else if (type == StatcomControlType.ConstQ) {	// Control of constant shunt reactive power compensation
-			Complex si = new Complex(0.0, tunedValue);
 			Complex vsh = solveConstQ(vsh1, vi, this.converter, tunedValue);
 			this.converter.setVsh(vsh);
 		}
@@ -73,17 +72,23 @@ public class StatcomLF {
 		while (qerr > 0.0001) {
 			// Active power balance equation Fp: active output of v source = 0
 			double fp = vmsh * vmsh * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
-			// Reactive power balance equation Fq: reactive injection at bus i = Qsh
-			double fq = tunedValue + vmi * vmi * bsh + vmi * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
+			// Reactive power balance equation Fq: reactive injection at bus i = -Qsh ("-" means injecting other than absorbing)
+			double fq = -tunedValue + vmi * vmi * bsh + vmi * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
 			// Update the mismatch
 			qerr = Math.max(Math.abs(fp), Math.abs(fq));
 			// Jacobian
-			double jpv = 2 * vmsh * gsh - vmi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));	// dFp/dVsh
-			double jptheta = - vmi * vmsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash));	// dFp/dThetash
-			double jqv = vmi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// dFq/dVsh
-			double jqtheta = - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));	// dFq/dThetash
-			// TODO: Solve the mismatch equation, update Vsh and thetash
+			double a = 2 * vmsh * gsh - vmi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));	// dFp/dVsh
+			double b = - vmi * vmsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash));	// dFp/dThetash
+			double c = vmi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// dFq/dVsh
+			double d = - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));	// dFq/dThetash
+			// Solve the mismatch equation
+			double det = a * d - b * c;
+			double dvmsh = (d * fp - b * fq) / det;
+			double dthetash = (-c * fp + a * fq) / det;
+			// Update Vsh and thetash
+			vmsh -= dvmsh;
+			thetash -= dthetash;
 		}
-		return vsh;
+		return new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
 	}
 }
