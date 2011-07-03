@@ -3,6 +3,8 @@ package org.interpss.facts.statcom;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.general.ConverterLF;
 
+import com.interpss.common.exp.InterpssException;
+import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 
 // STATCOM model in load flow
@@ -14,13 +16,16 @@ public class StatcomLF {
 	private double tunedValue;	// Tuned value under current control type
 	private double err;	// Error to the control object
 	
+	private AclfNetwork net;
+	
 	// Constructor
-	public StatcomLF(String id, Complex ysh, StatcomControlType type, double tunedValue) {
+	public StatcomLF(String id, Complex ysh, StatcomControlType type, double tunedValue, AclfNetwork net) {
 		super();
 		this.id = id;
 		this.converter = new ConverterLF(id, "GROUND", ysh);
 		this.type = type;
 		this.tunedValue = tunedValue;
+		this.net = net;
 	}
 
 	public String getId() {
@@ -40,7 +45,7 @@ public class StatcomLF {
 	}
 
 	// Update vsh inside the statcom converter
-	public void update(AclfNetwork net) {
+	public void update(AclfNetwork net) throws InterpssException {
 		Complex vi = net.getAclfBus(id).getVoltage();
 		Complex vsh1 = this.converter.getVsh();
 		if (type == StatcomControlType.ConstB) {	// Control of constant shunt admittance
@@ -60,7 +65,7 @@ public class StatcomLF {
 	}
 
 	// Calculate Vsh to match the tuned constant V
-	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) {
+	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) throws InterpssException {
 		double verr = 100.0;
 		Complex vsh = vsh1;
 		double vmsh = vsh.abs();
@@ -72,18 +77,24 @@ public class StatcomLF {
 		double rsh = gsh / (gsh * gsh + bsh * bsh);
 		double xsh = -bsh / (gsh * gsh + bsh * bsh);
 		double psh = vmi * vmi * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));
-		double qsh = -tunedValue * tunedValue * bsh - tunedValue * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
+		double qsh = tunedValue * tunedValue * bsh + tunedValue * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
 		// Iteration by Newton method
 		while (verr > 0.000001) {
-			Complex newVi = new Complex(tunedValue * Math.cos(thetash), tunedValue * Math.sin(thetash));
-			thetai = Math.atan2(newVi.getImaginary(), newVi.getReal());
-			vsh = solveConstQ(vsh1, newVi, converter, -qsh);
-			vmsh = vsh.abs();
-			thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
-			verr = Math.abs(vsh.abs() - vsh1.abs());
-			qsh = -tunedValue * tunedValue * bsh - tunedValue * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
-			vsh1 = vsh;
+			AclfNetwork originalNet = CoreObjectFactory.createAclfNetwork(this.net.serialize());
+			StatcomLF tempSTATCOM = new StatcomLF(id, converter.getYsh(), StatcomControlType.ConstQ, qsh, originalNet);
+			StatcomLF[] tempStatcomArray = {tempSTATCOM};
+	        LFSolverWithStatcom solver = new LFSolverWithStatcom(originalNet, tempStatcomArray);
+	        solver.solveLF();
+	        vi = originalNet.getAclfBus(id).getVoltage();
+	        vsh = solveConstQ(vsh, vi, converter, qsh);
+	        thetai = Math.atan2(vi.getImaginary(), vi.getReal());
+	        vmsh = vsh.abs();
+	        thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
+	        verr = tunedValue - vi.abs();
+	        qsh -= verr * (2 * tunedValue * bsh + vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
+	        verr = Math.abs(verr);
 		}
+		// TODO: Calculate vsh from 0+jqsh
 		return vsh;
 	}
 
