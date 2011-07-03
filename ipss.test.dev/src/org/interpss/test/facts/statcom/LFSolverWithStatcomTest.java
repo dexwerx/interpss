@@ -49,6 +49,22 @@ public class LFSolverWithStatcomTest {
         
 	}
 	
+	@Test
+	public void testLFSolverWithStatcomConstV() throws InterpssException {
+		AclfNetwork net = createNet();
+        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstV, 0.9);
+        StatcomLF[] statcomArray = {myStatcom};
+        LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
+        
+        // output loadflow calculation results
+        assertTrue(solver.solveLF());
+        double vi = net.getAclfBus("Bus2").getVoltageMag();
+        
+        assertTrue(Math.abs(myStatcom.getSsh(net).getReal() / vi / vi) < 0.0001);
+        assertTrue(Math.abs(vi - 0.9) < 0.0001);
+        
+	}
+	
 	private static AclfNetwork createNet() {
         // create a sample 5-bus system for Loadflow
         AclfNetwork net = CoreObjectFactory.createAclfNetwork();
