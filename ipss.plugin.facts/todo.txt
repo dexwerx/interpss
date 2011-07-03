@@ -4,4 +4,4 @@
 3. Update states of STATCOMs by recalculate vsh, considering of control type
 
 Problems:
-1. How to deal constV control? (Iteration of modifying constQ control)
+1. How to deal constV control? (Iteration of modifying constQ control, how to modify the specified Q?)
