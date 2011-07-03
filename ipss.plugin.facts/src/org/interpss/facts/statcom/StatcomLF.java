@@ -52,15 +52,44 @@ public class StatcomLF {
 			this.converter.setVsh(vsh);
 		}
 		else if (type == StatcomControlType.ConstV) {	// Control of constant voltage magnitude
-			
+			Complex vsh = solveConstV(vsh1, vi, this.converter, tunedValue);
+			this.converter.setVsh(vsh);
 		}
 		Complex vsh2 = this.converter.getVsh();
 		err = (vsh1.subtract(vsh2)).abs();
 	}
 
+	// Calculate Vsh to match the tuned constant V
+	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) {
+		double verr = 100.0;
+		Complex vsh = vsh1;
+		double vmsh = vsh.abs();
+		double thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
+		double vmi = vi.abs();
+		double thetai = Math.atan2(vi.getImaginary(), vi.getReal());
+		double gsh = converter.getYsh().getReal();
+		double bsh = converter.getYsh().getImaginary();
+		double rsh = gsh / (gsh * gsh + bsh * bsh);
+		double xsh = -bsh / (gsh * gsh + bsh * bsh);
+		double psh = vmi * vmi * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));
+		double qsh = -tunedValue * tunedValue * bsh - tunedValue * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
+		// Iteration by Newton method
+		while (verr > 0.000001) {
+			Complex newVi = new Complex(tunedValue * Math.cos(thetash), tunedValue * Math.sin(thetash));
+			thetai = Math.atan2(newVi.getImaginary(), newVi.getReal());
+			vsh = solveConstQ(vsh1, newVi, converter, -qsh);
+			vmsh = vsh.abs();
+			thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
+			verr = Math.abs(vsh.abs() - vsh1.abs());
+			qsh = -tunedValue * tunedValue * bsh - tunedValue * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
+			vsh1 = vsh;
+		}
+		return vsh;
+	}
+
 	// Calculate Vsh to match the tuned constant B
 	private Complex solveConstB(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) {
-		double qerr = 100.0;
+		double berr = 100.0;
 		Complex vsh = vsh1;
 		double vmsh = vsh.abs();
 		double thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
@@ -69,13 +98,13 @@ public class StatcomLF {
 		double gsh = converter.getYsh().getReal();
 		double bsh = converter.getYsh().getImaginary();
 		// Iteration by Newton method
-		while (qerr > 0.00001) {
+		while (berr > 0.00001) {
 			// Active power balance equation Fp: active output of v source = 0
 			double fp = vmsh * vmsh * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
 			// Shunt admittance equation Fb: shunt admittance at bus i = Vi / Ishunt
 			double fb = vmsh * (gsh * Math.sin(thetash - thetai) + bsh * Math.cos(thetash - thetai)) + vmi * (tunedValue - bsh);
 			// Update the mismatch
-			qerr = Math.max(Math.abs(fp), Math.abs(fb));
+			berr = Math.max(Math.abs(fp), Math.abs(fb));
 			// Jacobian
 			double a = 2 * vmsh * gsh - vmi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));	// dFp/dVsh
 			double b = - vmi * vmsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash));	// dFp/dThetash

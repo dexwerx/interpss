@@ -43,9 +43,9 @@ public class LFSolverWithStatcom {
             	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs() + ", thetash = " + 
             			Math.atan2(thisSTATCOM.getConverter().getVsh().getImaginary(), thisSTATCOM.getConverter().getVsh().getReal()));
             }
-            if (err < 0.00001)
+            if (err < 0.000001)
             	converged = true;
-            if (i++ > 50)
+            if (i++ > 100)
             	break;
 			// 2. Update the network with current states of all the STATCOMs
 			for (StatcomLF thisSTATCOM : statcomArray) {
