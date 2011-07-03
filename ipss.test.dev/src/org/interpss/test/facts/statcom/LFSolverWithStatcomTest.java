@@ -23,7 +23,7 @@ public class LFSolverWithStatcomTest {
 	@Test
 	public void testLFSolverWithStatcomConstQ() throws InterpssException {
 		AclfNetwork net = createNet();
-        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstQ, 0.5);
+        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstQ, 0.5, net);
         StatcomLF[] statcomArray = {myStatcom};
         LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
         
@@ -36,7 +36,7 @@ public class LFSolverWithStatcomTest {
 	@Test
 	public void testLFSolverWithStatcomConstB() throws InterpssException {
 		AclfNetwork net = createNet();
-        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstB, 2.0);
+        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstB, 2.0, net);
         StatcomLF[] statcomArray = {myStatcom};
         LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
         
@@ -52,7 +52,7 @@ public class LFSolverWithStatcomTest {
 	@Test
 	public void testLFSolverWithStatcomConstV() throws InterpssException {
 		AclfNetwork net = createNet();
-        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstV, 0.9);
+        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstV, 0.9, net);
         StatcomLF[] statcomArray = {myStatcom};
         LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
         
