@@ -66,36 +66,8 @@ public class StatcomLF {
 
 	// Calculate Vsh to match the tuned constant V
 	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) throws InterpssException {
-		double verr = 100.0;
-		Complex vsh = vsh1;
-		double vmsh = vsh.abs();
-		double thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
-		double vmi = vi.abs();
-		double thetai = Math.atan2(vi.getImaginary(), vi.getReal());
-		double gsh = converter.getYsh().getReal();
-		double bsh = converter.getYsh().getImaginary();
-		double rsh = gsh / (gsh * gsh + bsh * bsh);
-		double xsh = -bsh / (gsh * gsh + bsh * bsh);
-		double psh = vmi * vmi * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));
-		double qsh = tunedValue * tunedValue * bsh + tunedValue * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
-		// Iteration by Newton method
-		while (verr > 0.000001) {
-			AclfNetwork originalNet = CoreObjectFactory.createAclfNetwork(this.net.serialize());
-			StatcomLF tempSTATCOM = new StatcomLF(id, converter.getYsh(), StatcomControlType.ConstQ, qsh, originalNet);
-			StatcomLF[] tempStatcomArray = {tempSTATCOM};
-	        LFSolverWithStatcom solver = new LFSolverWithStatcom(originalNet, tempStatcomArray);
-	        solver.solveLF();
-	        vi = originalNet.getAclfBus(id).getVoltage();
-	        vsh = solveConstQ(vsh, vi, converter, qsh);
-	        thetai = Math.atan2(vi.getImaginary(), vi.getReal());
-	        vmsh = vsh.abs();
-	        thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
-	        verr = tunedValue - vi.abs();
-	        qsh -= verr * (2 * tunedValue * bsh + vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)));
-	        verr = Math.abs(verr);
-		}
-		// TODO: Calculate vsh from 0+jqsh
-		return vsh;
+		// 1. Change the bus type to be PV bus, Solve the load flow, get the Qsh to be compensated
+		// 2. Calculate Vsh with constantQ control, control to Qsh
 	}
 
 	// Calculate Vsh to match the tuned constant B
