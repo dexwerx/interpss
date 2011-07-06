@@ -5,7 +5,9 @@ import org.interpss.facts.general.ConverterLF;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 // STATCOM model in load flow
 public class StatcomLF {
@@ -61,13 +63,30 @@ public class StatcomLF {
 			this.converter.setVsh(vsh);
 		}
 		Complex vsh2 = this.converter.getVsh();
-		err = (vsh1.subtract(vsh2)).abs();
+		if (type != StatcomControlType.ConstV)
+			err = (vsh1.subtract(vsh2)).abs();
 	}
 
 	// Calculate Vsh to match the tuned constant V
 	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) throws InterpssException {
 		// 1. Change the bus type to be PV bus, Solve the load flow, get the Qsh to be compensated
+		AclfNetwork tempNetwork = CoreObjectFactory.createAclfNetwork(this.net.serialize());
+		tempNetwork.getAclfBus(id).setGenCode(AclfGenCode.GEN_PV);
+		tempNetwork.getAclfBus(id).setVoltageMag(tunedValue);
+		double p = tempNetwork.getAclfBus(id).getLoadP();
+		double q = tempNetwork.getAclfBus(id).getLoadQ();
+		tempNetwork.getAclfBus(id).setGenP(-p);
+		tempNetwork.getAclfBus(id).setLoadP(0.0);
+		tempNetwork.getAclfBus(id).setLoadQ(0.0);
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(tempNetwork);
+        tempNetwork.accept(algo);
+		double qsh = tempNetwork.getAclfBus(id).getGenResults().getImaginary() + q;
 		// 2. Calculate Vsh with constantQ control, control to Qsh
+		Complex vsh = solveConstQ(converter.getVsh(), tempNetwork.getAclfBus(id).getVoltage(), converter, qsh);
+		net.getAclfBus(id).setVoltage(tempNetwork.getAclfBus(id).getVoltage());	// Bus voltage should be updated, otherwise there will be a non-zero p
+//		System.out.println(converter.getSij(net).getReal() + "+j" + converter.getSij(net).getImaginary());
+		err = 0.0;
+		return vsh;
 	}
 
 	// Calculate Vsh to match the tuned constant B
@@ -135,6 +154,7 @@ public class StatcomLF {
 			vmsh -= dvmsh;
 			thetash -= dthetash;
 		}
+		System.out.println("thetai=" + thetai + ", thetash=" + thetash);
 		return new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
 	}
 }
