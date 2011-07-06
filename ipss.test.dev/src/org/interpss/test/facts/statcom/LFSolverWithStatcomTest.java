@@ -52,7 +52,7 @@ public class LFSolverWithStatcomTest {
 	@Test
 	public void testLFSolverWithStatcomConstV() throws InterpssException {
 		AclfNetwork net = createNet();
-        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstV, 0.9, net);
+        StatcomLF myStatcom = new StatcomLF("Bus2", new Complex(0.0, -5.0), StatcomControlType.ConstV, 0.95, net);
         StatcomLF[] statcomArray = {myStatcom};
         LFSolverWithStatcom solver = new LFSolverWithStatcom(net, statcomArray);
         
@@ -61,7 +61,7 @@ public class LFSolverWithStatcomTest {
         double vi = net.getAclfBus("Bus2").getVoltageMag();
         
         assertTrue(Math.abs(myStatcom.getSsh(net).getReal() / vi / vi) < 0.0001);
-        assertTrue(Math.abs(vi - 0.9) < 0.0001);
+        assertTrue(Math.abs(vi - 0.95) < 0.0001);
         
 	}
 	
