@@ -222,7 +222,7 @@ public class ComplexFunc {
 	 */
 	public static String toMagAng(final Complex c) {
 		return Number2String.toStr(c.abs()) + "("
-				+ Number2String.toStr(Math.toDegrees(arg(c))) + ")";
+				+ Number2String.toStr("###0.#", Math.toDegrees(arg(c))) + ")";
 	}
 
 	/**
