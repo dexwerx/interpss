@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Complex3x1;
+import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.UnitType;
@@ -116,7 +117,7 @@ public class AcscOutFunc {
 			Complex ipu = bf.getFaultResult().getSCCurrent_012().b_1;
 			Complex amp = bf.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV,	baseKVA).b_1;
 
-			str.append("          Fault current: " + String.format("%5.4f", ipu.abs()) + " pu");
+			str.append("          Fault current: " + ComplexFunc.toMagAng(ipu) + " pu");
 			str.append("    " + String.format("%5.2f", amp.abs()) + " amps\n");
 
 			if (bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA).abs() > 0.0)
@@ -131,11 +132,11 @@ public class AcscOutFunc {
 			Complex ipuc = bf.getFaultResult().getSCCurrent_abc().c_2;
 			Complex ampc = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).c_2;
 
-			str.append("          Fault current (A): " + String.format("%5.4f", ipua.abs()) + " pu");
+			str.append("          Fault current (A): " + ComplexFunc.toMagAng(ipua) + " pu");
 			str.append("    " + String.format("%5.2f", ampa.abs()) + " amps\n");
-			str.append("          Fault current (B): " + String.format("%5.4f", ipub.abs()) + " pu");
+			str.append("          Fault current (B): " + ComplexFunc.toMagAng(ipub) + " pu");
 			str.append("    " + String.format("%5.2f", ampb.abs()) + " amps\n");
-			str.append("          Fault current (C): " + String.format("%5.4f", ipuc.abs()) + " pu");
+			str.append("          Fault current (C): " + ComplexFunc.toMagAng(ipuc) + " pu");
 			str.append("    " + String.format("%5.2f", ampc.abs()) + " amps\n");
 		}
 		return str.toString();
@@ -153,19 +154,20 @@ public class AcscOutFunc {
 		StringBuffer str = new StringBuffer("");
 		if (bf.getFaultCode() == SimpleFaultCode.GROUND_3P) {
 			str.append("\n");
-			str.append("      BusID         FaultVoltage            ContribAmps\n");
-			str.append("                 (pu)        (volts)      (pu)       (amps)\n");
-			str.append("     --------   --------   ----------   --------   ----------\n");
+			str.append("      BusID            FaultVoltage            ContribAmps\n");
+			str.append("                    (pu)          (volts)      (pu)       (amps)\n");
+			str.append("     --------  ---------------   --------   --------   ----------\n");
 			for (Bus b : net.getBusList()) {
 				AcscBus bus = (AcscBus) b;
 				str.append("     " + Number2String.toStr(-8, bus.getId()) + " ");
-				double vpu = bf.getFaultResult().getBusVoltage_012(bus).b_1.abs();
+				Complex v1 = bf.getFaultResult().getBusVoltage_012(bus).b_1;
+				double vpu = v1.abs();
 				Complex3x1 ampPu = bf.getFaultResult().getBusContriAmps_012(bus);
 				Complex3x1 amps = bf.getFaultResult().getBusContriAmps_012(bus, UnitType.Amp,
 						bus.getBaseVoltage(), net.getBaseKva());
-				str.append(Number2String.toStr("#####0.###", vpu) + "   ");
+				str.append(ComplexFunc.toMagAng(v1));
 				str.append(Number2String.toStr("#######0.#", vpu
-						* bus.getBaseVoltage()));
+						* bus.getBaseVoltage()) + "   ");
 				str.append(Number2String.toStr("#####0.###", ampPu.b_1.abs())
 						+ "   ");
 				str.append(Number2String.toStr("#######0.#", amps.b_1.abs())
@@ -173,31 +175,30 @@ public class AcscOutFunc {
 			}
 		} else {
 			str.append("\n\n");
-			str.append("      BusID         FaultVolt(1)           FaultVolt(0)           FaultVolt(2)\n");
-			str.append("                  (pu)      (volts)      (pu)      (volts)      (pu)      (volts)\n");
-			str.append("     --------   --------   ----------  --------   ----------  --------   ----------\n");
+			str.append("      BusID            FaultVolt(1)                 FaultVolt(0)                FaultVolt(2)\n");
+			str.append("                    (pu)          (volts)         (pu)         (volts)         (pu)         (volts)\n");
+			str.append("     --------  ---------------   --------   ---------------   --------   ---------------   --------\n");
+			
 			for (Bus b : net.getBusList()) {
 				AcscBus bus = (AcscBus) b;
 				str.append("     " + Number2String.toStr(-8, bus.getId()) + " ");
+				double vbase = bus.getBaseVoltage();
 				Complex3x1 v012 = bf.getFaultResult().getBusVoltage_012(bus);
 				double vpu1 = v012.b_1.abs();
-				str.append(Number2String.toStr("#####0.###", vpu1) + "   ");
-				str.append(Number2String.toStr("#######0.#", vpu1
-						* bus.getBaseVoltage())	+ "");
+				str.append(ComplexFunc.toMagAng(v012.b_1));
+				str.append(Number2String.toStr("#######0.#", vpu1*vbase)	+ "   ");
 				double vpu0 = v012.a_0.abs();
-				str.append(Number2String.toStr("#####0.###", vpu0) + "   ");
-				str.append(Number2String.toStr("#######0.#", vpu0
-						* bus.getBaseVoltage())	+ "");
+				str.append(ComplexFunc.toMagAng(v012.a_0));
+				str.append(Number2String.toStr("#######0.#", vpu0*vbase)	+ "   ");
 				double vpu2 = v012.c_2.abs();
-				str.append(Number2String.toStr("#####0.###", vpu2) + " ");
-				str.append(Number2String.toStr("#######0.#", vpu2
-						* bus.getBaseVoltage())	+ "\n");
+				str.append(ComplexFunc.toMagAng(v012.c_2));
+				str.append(Number2String.toStr("#######0.#", vpu2*vbase)	+ "\n");
 			}
 
 			str.append("\n\n");
-			str.append("      BusID         FaultVolt(a)          FaultVolt(b)           FaultVolt(c)\n");
-			str.append("                  (pu)       (volts)    (pu)        (volts)    (pu)        (volts)\n");
-			str.append("     --------   --------   ----------  --------   ----------  --------   ----------\n");
+			str.append("      BusID            FaultVolt(a)                 FaultVolt(b)                 FaultVolt(c)\n");
+			str.append("                    (pu)          (volts)         (pu)         (volts)         (pu)         (volts)\n");
+			str.append("     --------  ---------------   --------   ---------------   --------   ---------------   --------\n");
 			for (Bus b : net.getBusList()) {
 				AcscBus bus = (AcscBus) b;
 				str.append("     " + Number2String.toStr(-8, bus.getId()) + " ");
@@ -205,13 +206,13 @@ public class AcscOutFunc {
 				Complex3x1 vabc = Complex3x1.z12_to_abc(v012);
 				double vphase = bus.getBaseVoltage() / NumericConstant.SqrtRoot3;
 				double vpu1 = vabc.a_0.abs();
-				str.append(Number2String.toStr("#####0.###", vpu1) + "   ");
-				str.append(Number2String.toStr("#######0.#", vpu1*vphase)	+ "");
+				str.append(ComplexFunc.toMagAng(vabc.b_1));
+				str.append(Number2String.toStr("#######0.#", vpu1*vphase) + "   ");
 				double vpu0 = vabc.b_1.abs();
-				str.append(Number2String.toStr("#####0.###", vpu0) + "   ");
-				str.append(Number2String.toStr("#######0.#", vpu0*vphase)	+ "");
+				str.append(ComplexFunc.toMagAng(vabc.a_0));
+				str.append(Number2String.toStr("#######0.#", vpu0*vphase) + "   ");
 				double vpu2 = vabc.c_2.abs();
-				str.append(Number2String.toStr("#####0.###", vpu2) + " ");
+				str.append(ComplexFunc.toMagAng(vabc.c_2));
 				str.append(Number2String.toStr("#######0.#", vpu2*vphase)	+ "\n");
 			}
 		}
