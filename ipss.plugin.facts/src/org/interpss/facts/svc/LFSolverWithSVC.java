@@ -43,7 +43,7 @@ public class LFSolverWithSVC {
             	System.out.println("Vsh = " + thisSVC.getConverter().getVsh().abs() + ", thetash = " + 
             			Math.atan2(thisSVC.getConverter().getVsh().getImaginary(), thisSVC.getConverter().getVsh().getReal()));
             }
-            if (err < 0.000001)
+            if (err < 0.00000001)
             	converged = true;
             if (i++ > 100)
             	break;

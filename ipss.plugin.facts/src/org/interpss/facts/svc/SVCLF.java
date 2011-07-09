@@ -70,7 +70,8 @@ public class SVCLF {
 	// Calculate Vsh to match the tuned constant V
 	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) throws InterpssException {
 		// 1. Change the bus type to be PV bus, Solve the load flow, get the Qsh to be compensated
-		AclfNetwork tempNetwork = CoreObjectFactory.createAclfNetwork(this.net.serialize());
+//		AclfNetwork tempNetwork = CoreObjectFactory.createAclfNetwork(this.net.serialize());
+		AclfNetwork tempNetwork = (AclfNetwork) this.net.deserialize(net.serialize());
 		tempNetwork.getAclfBus(id).setGenCode(AclfGenCode.GEN_PV);
 		tempNetwork.getAclfBus(id).setVoltageMag(tunedValue);
 		double p = tempNetwork.getAclfBus(id).getLoadP();
@@ -100,7 +101,7 @@ public class SVCLF {
 		double gsh = converter.getYsh().getReal();
 		double bsh = converter.getYsh().getImaginary();
 		// Iteration by Newton method
-		while (berr > 0.00001) {
+		while (berr > 0.0000001) {
 			// Active power balance equation Fp: active output of v source = 0
 			double fp = vmsh * vmsh * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
 			// Shunt admittance equation Fb: shunt admittance at bus i = Vi / Ishunt
@@ -134,7 +135,7 @@ public class SVCLF {
 		double gsh = converter.getYsh().getReal();
 		double bsh = converter.getYsh().getImaginary();
 		// Iteration by Newton method
-		while (qerr > 0.0001) {
+		while (qerr > 0.0000001) {
 			// Active power balance equation Fp: active output of v source = 0
 			double fp = vmsh * vmsh * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
 			// Reactive power balance equation Fq: reactive injection at bus i = -Qsh ("-" means injecting other than absorbing)
