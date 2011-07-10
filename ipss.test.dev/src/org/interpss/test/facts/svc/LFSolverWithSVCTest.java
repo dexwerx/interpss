@@ -152,16 +152,48 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 		for (Bus thisBus : net.getBusList()) {
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
-			if (net.getAclfBus(thisID).getLoadCode() == AclfLoadCode.CONST_P) {
+			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
+				IpssFileAdapter newAdapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
+				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.2, net);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.1, newNet);
+		        SVCLF[] statcomArray = {mySVC};
+		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
-		        assertTrue(Math.abs(myStatcom.getSsh(net).getReal()) < 0.0001);
-		        assertTrue(Math.abs(myStatcom.getSsh(net).getImaginary() - (0.2)) < 0.0001);
+		        
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getReal()) < 0.0001);
+		        
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getImaginary() - (-0.1)) < 0.0001);
+			}
+		}
+	}
+	
+	@Test
+	public void testLFSolverWithSVCConstQ118() throws Exception {
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
+		AclfNetwork net = simuCtx.getAclfNet();
+		for (Bus thisBus : net.getBusList()) {
+			// Test SVC on load bus
+			String thisID = thisBus.getId();
+			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
+				IpssFileAdapter newAdapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
+				AclfNetwork newNet = newSimuCtx.getAclfNet();
+				System.out.println("Testing " + thisID);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.3, newNet);
+		        SVCLF[] statcomArray = {mySVC};
+		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        
+		        // output loadflow calculation results
+		        assertTrue(solver.solveLF());
+		        
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getReal()) < 0.0001);
+		        
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getImaginary() - (0.3)) < 0.0001);
 			}
 		}
 	}
@@ -174,19 +206,54 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 		for (Bus thisBus : net.getBusList()) {
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
-			if (net.getAclfBus(thisID).getLoadCode() == AclfLoadCode.CONST_P) {
+			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
+				IpssFileAdapter newAdapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
+				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, net);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet);
+		        SVCLF[] statcomArray = {mySVC};
+		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
-		        System.out.println(myStatcom.getSsh(net).getReal());
-		        System.out.println(myStatcom.getSsh(net).getImaginary());
+//		        System.out.println(mySVC.getSsh(newNet).getReal());
+//		        System.out.println(mySVC.getSsh(newNet).getImaginary());
 		        
-		        assertTrue(Math.abs(myStatcom.getSsh(net).getReal()) < 0.0001);
-		        assertTrue(Math.abs(myStatcom.getSsh(net).getImaginary() - (0.1)) < 0.0001);
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getReal()) < 0.0001);
+		        
+		        double vmi = newNet.getAclfBus(thisID).getVoltageMag();
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getImaginary() / vmi / vmi - (0.1)) < 0.0001);
+			}
+		}
+	}
+	
+	@Test
+	public void testLFSolverWithSVCConstB118() throws Exception {
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
+		AclfNetwork net = simuCtx.getAclfNet();
+		for (Bus thisBus : net.getBusList()) {
+			// Test SVC on load bus
+			String thisID = thisBus.getId();
+			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
+				IpssFileAdapter newAdapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
+				AclfNetwork newNet = newSimuCtx.getAclfNet();
+				System.out.println("Testing " + thisID);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet);
+		        SVCLF[] statcomArray = {mySVC};
+		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        
+		        // output loadflow calculation results
+		        assertTrue(solver.solveLF());
+//		        System.out.println(mySVC.getSsh(newNet).getReal());
+//		        System.out.println(mySVC.getSsh(newNet).getImaginary());
+		        
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getReal()) < 0.0001);
+		        
+		        double vmi = newNet.getAclfBus(thisID).getVoltageMag();
+		        assertTrue(Math.abs(mySVC.getSsh(newNet).getImaginary() / vmi / vmi - (0.1)) < 0.0001);
 			}
 		}
 	}
