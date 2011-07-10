@@ -16,7 +16,7 @@ public class SVCLF {
 	private ConverterLF converter;	// Equivalent admittance of the converter's Thevenin equivalent circuit
 	private SVCControlType type;	// Control type of the SVC
 	private double tunedValue;	// Tuned value under current control type
-	private double err;	// Error to the control object
+//	private double err;	// Error to the control object
 	
 	private AclfNetwork net;
 	
@@ -28,6 +28,7 @@ public class SVCLF {
 		this.type = type;
 		this.tunedValue = tunedValue;
 		this.net = net;
+//		this.err = 0.0;
 	}
 
 	public String getId() {
@@ -39,6 +40,16 @@ public class SVCLF {
 	}
 
 	public double getErr() {
+		double err = 100.0;
+		Complex vi = net.getAclfBus(id).getVoltage();
+		if (type == SVCControlType.ConstB) {
+			double vmi = vi.abs();
+			err = Math.abs(this.getSsh(net).getImaginary() / vmi / vmi - tunedValue);
+		}
+		else if (type == SVCControlType.ConstQ)
+			err = Math.abs(this.getSsh(net).getImaginary() - tunedValue);
+		else if (type == SVCControlType.ConstV)
+			err = Math.abs(vi.abs() - tunedValue);
 		return err;
 	}
 
@@ -53,6 +64,7 @@ public class SVCLF {
 		if (type == SVCControlType.ConstB) {	// Control of constant shunt admittance
 			Complex vsh = solveConstB(vsh1, vi, this.converter, tunedValue);
 			this.converter.setVsh(vsh);
+//			double vmi = vi.abs();
 		}
 		else if (type == SVCControlType.ConstQ) {	// Control of constant shunt reactive power compensation
 			Complex vsh = solveConstQ(vsh1, vi, this.converter, tunedValue);
@@ -62,9 +74,6 @@ public class SVCLF {
 			Complex vsh = solveConstV(vsh1, vi, this.converter, tunedValue);
 			this.converter.setVsh(vsh);
 		}
-		Complex vsh2 = this.converter.getVsh();
-		if (type != SVCControlType.ConstV)
-			err = (vsh1.subtract(vsh2)).abs();
 	}
 
 	// Calculate Vsh to match the tuned constant V
@@ -86,7 +95,7 @@ public class SVCLF {
 		Complex vsh = solveConstQ(converter.getVsh(), tempNetwork.getAclfBus(id).getVoltage(), converter, qsh);
 		net.getAclfBus(id).setVoltage(tempNetwork.getAclfBus(id).getVoltage());	// Bus voltage should be updated, otherwise there will be a non-zero p
 //		System.out.println(converter.getSij(net).getReal() + "+j" + converter.getSij(net).getImaginary());
-		err = 0.0;
+//		err = 0.0;
 		return vsh;
 	}
 
@@ -120,6 +129,7 @@ public class SVCLF {
 			// Update Vsh and thetash
 			vmsh -= dvmsh;
 			thetash -= dthetash;
+//			err = Math.max(Math.abs(dvmsh), Math.abs(dthetash));
 		}
 		return new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
 	}
@@ -154,6 +164,7 @@ public class SVCLF {
 			// Update Vsh and thetash
 			vmsh -= dvmsh;
 			thetash -= dthetash;
+//			err = Math.max(err, Math.max(Math.abs(dvmsh), Math.abs(dthetash)));
 		}
 		System.out.println("thetai=" + thetai + ", thetash=" + thetash);
 		return new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
