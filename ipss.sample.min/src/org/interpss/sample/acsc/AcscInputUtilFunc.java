@@ -53,9 +53,9 @@ public class AcscInputUtilFunc {
 		bus.setName(name);
 		bus.setScCode(BusScCode.CONTRIBUTE);
 		bus.setBaseVoltage(baseVolt, UnitType.Volt );
-		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
-		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
-		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
+		bus.setScZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
+		bus.setScZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
+		bus.setScZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
 		bus.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gCode));
 		bus.getGrounding().setZ(new Complex(rg,xg), gzUnit, bus.getBaseVoltage(), net.getBaseKva());
 		return bus;
@@ -78,9 +78,9 @@ public class AcscInputUtilFunc {
 		bus.setName(name);
 		bus.setScCode(BusScCode.NON_CONTRI);
 		bus.setBaseVoltage(baseV, UnitType.Volt );
-		bus.setZ(new Complex(0.0, 1.0e10), SequenceCode.POSITIVE);
-		bus.setZ(new Complex(0.0, 1.0e10), SequenceCode.NEGATIVE);
-		bus.setZ(new Complex(0.0, 1.0e10), SequenceCode.ZERO);
+		bus.setScZ(new Complex(0.0, 1.0e10), SequenceCode.POSITIVE);
+		bus.setScZ(new Complex(0.0, 1.0e10), SequenceCode.NEGATIVE);
+		bus.setScZ(new Complex(0.0, 1.0e10), SequenceCode.ZERO);
 		return bus;
 	}
 	
