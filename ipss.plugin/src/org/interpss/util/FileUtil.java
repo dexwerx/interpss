@@ -25,7 +25,12 @@
 package org.interpss.util;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.interpss.common.util.IpssLogger;
@@ -51,4 +56,24 @@ public class FileUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] readFile(File file) throws IOException {
+		InputStream inStream = new FileInputStream(file);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		int n;
+		byte[] buf = new byte[4096];
+		do {
+			n = inStream.read(buf);
+			if (n >= 0)
+				bos.write(buf, 0, n);
+		} while (n > 0);
+		return bos.toByteArray();
+	}	
 }
