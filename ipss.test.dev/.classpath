@@ -30,5 +30,7 @@
 	<classpathentry kind="lib" path="/ipss.vstab/lib/jxl.jar" sourcepath="G:/Software/java/jexcelapi_2_6_12.zip"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
+	<classpathentry kind="src" path="/ipss.plugin.test"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.change.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
