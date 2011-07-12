@@ -48,5 +48,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/gridgain2.1.1/xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/gridgain2.1.1/xstream-1.3.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
