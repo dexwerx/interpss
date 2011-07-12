@@ -54,7 +54,7 @@ public class LFSolverWithSVC {
 			}
 			// 3. Solve the traditional load flow with current injections
             LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-            net.accept(algo);
+            algo.loadflow();
             // 4. Update the mismatch
             for (SVCLF thisSVC : svcArray) {
             	err = Math.max(err, thisSVC.getErr());
