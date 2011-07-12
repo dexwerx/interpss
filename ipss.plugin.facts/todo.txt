@@ -4,4 +4,4 @@
 3. Update states of STATCOMs by recalculate vsh, considering of control type
 
 Problems:
-1. Calculate Vsh with the method in the comment
+1. Errors when testing SVC constant V control on bus 7 of the ieee14 system

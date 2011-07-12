@@ -1,6 +1,7 @@
 package org.interpss.facts.svc;
 
 import org.apache.commons.math.complex.Complex;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.facts.general.ConverterLF;
 
 import com.interpss.common.exp.InterpssException;
@@ -79,23 +80,28 @@ public class SVCLF {
 	// Calculate Vsh to match the tuned constant V
 	private Complex solveConstV(Complex vsh1, Complex vi, ConverterLF converter, double tunedValue) throws InterpssException {
 		// 1. Change the bus type to be PV bus, Solve the load flow, get the Qsh to be compensated
-//		AclfNetwork tempNetwork = CoreObjectFactory.createAclfNetwork(this.net.serialize());
-		AclfNetwork tempNetwork = (AclfNetwork) this.net.deserialize(net.serialize());
-		tempNetwork.getAclfBus(id).setGenCode(AclfGenCode.GEN_PV);
-		tempNetwork.getAclfBus(id).setVoltageMag(tunedValue);
-		double p = tempNetwork.getAclfBus(id).getLoadP();
-		double q = tempNetwork.getAclfBus(id).getLoadQ();
-		tempNetwork.getAclfBus(id).setGenP(-p);
-		tempNetwork.getAclfBus(id).setLoadP(0.0);
-		tempNetwork.getAclfBus(id).setLoadQ(0.0);
-        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(tempNetwork);
-        tempNetwork.accept(algo);
-		double qsh = tempNetwork.getAclfBus(id).getGenResults().getImaginary() + q;
+		AclfGenCode oldGenCode = net.getAclfBus(id).getGenCode();
+		if (oldGenCode != AclfGenCode.GEN_PV)
+			net.getAclfBus(id).setGenCode(AclfGenCode.GEN_PV);
+		else {
+			System.out.println("This bus cannot be tuned to the target value.");
+			return null;
+		}
+		net.getAclfBus(id).setVoltageMag(tunedValue);
+		double p = net.getAclfBus(id).getLoadP();
+		double q = net.getAclfBus(id).getLoadQ();
+		net.getAclfBus(id).setGenP(-p);
+		net.getAclfBus(id).setLoadP(0.0);
+		net.getAclfBus(id).setLoadQ(0.0);
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+        net.accept(algo);
+		double qsh = net.getAclfBus(id).getGenResults().getImaginary() + q;
 		// 2. Calculate Vsh with constantQ control, control to Qsh
-		Complex vsh = solveConstQ(converter.getVsh(), tempNetwork.getAclfBus(id).getVoltage(), converter, qsh);
-		net.getAclfBus(id).setVoltage(tempNetwork.getAclfBus(id).getVoltage());	// Bus voltage should be updated, otherwise there will be a non-zero p
-//		System.out.println(converter.getSij(net).getReal() + "+j" + converter.getSij(net).getImaginary());
-//		err = 0.0;
+		Complex vsh = solveConstQ(converter.getVsh(), net.getAclfBus(id).getVoltage(), converter, qsh);
+//		Complex targetVoltage = net.getAclfBus(id).getVoltage();
+//		net.getAclfBus(id).setVoltage(targetVoltage);	// Bus voltage should be updated, otherwise there will be a non-zero p
+		// Roll back the gen type of this bus
+		net.getAclfBus(id).setGenCode(oldGenCode);
 		return vsh;
 	}
 
@@ -164,9 +170,7 @@ public class SVCLF {
 			// Update Vsh and thetash
 			vmsh -= dvmsh;
 			thetash -= dthetash;
-//			err = Math.max(err, Math.max(Math.abs(dvmsh), Math.abs(dthetash)));
 		}
-		System.out.println("thetai=" + thetai + ", thetash=" + thetash);
 		return new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
 	}
 }

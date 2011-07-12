@@ -37,14 +37,14 @@ public class LFSolverWithSVC {
 			// 1. Update all the SVCs
     		double err = 0.0;
             for (SVCLF thisSVC : svcArray) {
-            	System.out.println("Vi = " + net.getAclfBus(thisSVC.getId()).getVoltageMag() +  ", thetai = " + net.getAclfBus(thisSVC.getId()).getVoltageAng());
             	thisSVC.update(net);	// Key point of the calculation
+            	System.out.println("Vi = " + net.getAclfBus(thisSVC.getId()).getVoltageMag() +  ", thetai = " + net.getAclfBus(thisSVC.getId()).getVoltageAng());
             	System.out.println("Vsh = " + thisSVC.getConverter().getVsh().abs() + ", thetash = " + 
             			Math.atan2(thisSVC.getConverter().getVsh().getImaginary(), thisSVC.getConverter().getVsh().getReal()));
             }
             if (i++ > 100)
             	break;
-			// 2. Update the network with current states of all the STATCOMs
+			// 2. Update the network with current states of all the SVCs
 			for (SVCLF thisSVC : svcArray) {
 				String svcId = thisSVC.getId();
 				double loadP = this.svcLoad.get(thisSVC).getReal() - thisSVC.getSsh(net).getReal();
@@ -55,7 +55,6 @@ public class LFSolverWithSVC {
 			// 3. Solve the traditional load flow with current injections
             LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
             net.accept(algo);
-            boolean lfconverged = algo.loadflow();
             // 4. Update the mismatch
             for (SVCLF thisSVC : svcArray) {
             	err = Math.max(err, thisSVC.getErr());
