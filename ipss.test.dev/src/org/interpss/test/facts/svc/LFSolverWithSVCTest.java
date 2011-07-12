@@ -57,7 +57,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstV() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 0.95, net);
+        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 1.05, net);
         SVCLF[] statcomArray = {myStatcom};
         LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
         
@@ -66,7 +66,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
         double vi = net.getAclfBus("Bus2").getVoltageMag();
         
         assertTrue(Math.abs(myStatcom.getSsh(net).getReal() / vi / vi) < 0.0001);
-        assertTrue(Math.abs(vi - 0.95) < 0.0001);
+        assertTrue(Math.abs(vi - 1.05) < 0.0001);
         
 	}
 	
@@ -128,9 +128,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			AclfNetwork newNet = newSimuCtx.getAclfNet();
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
-			if (newNet.getAclfBus(thisID).getGenCode() == AclfGenCode.NON_GEN) {
+			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.0, newNet);
+		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.95, newNet);
 		        SVCLF[] statcomArray = {myStatcom};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -139,7 +139,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 		        double vi = newNet.getAclfBus(thisID).getVoltageMag();
 		        
 		        assertTrue(Math.abs(myStatcom.getSsh(newNet).getReal() / vi / vi) < 0.0001);
-		        assertTrue(Math.abs(vi - 1.0) < 0.0001);
+		        assertTrue(Math.abs(vi - 0.95) < 0.0001);
 			}
 		}
 	}

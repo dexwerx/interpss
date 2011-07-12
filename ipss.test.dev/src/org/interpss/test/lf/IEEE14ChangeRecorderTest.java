@@ -3,7 +3,9 @@ package org.interpss.test.lf;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.interpss.PluginTestSetup;
+import org.interpss.custom.IpssFileAdapter;
+import org.interpss.spring.PluginSpringCtx;
+import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -16,14 +18,12 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
-public class IEEE14ChangeRecorderTest  extends PluginTestSetup {
+public class IEEE14ChangeRecorderTest  extends DevTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		AclfNetwork net = simuCtx.getAclfNet();
 		
