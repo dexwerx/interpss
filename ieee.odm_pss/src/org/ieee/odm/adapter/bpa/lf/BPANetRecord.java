@@ -142,13 +142,9 @@ public class BPANetRecord {
             		
             		zone.setName(zoneName);
             		
-            		if(str.startsWith("AC+")) zoneId=area.getZoneList().getZone().size()+1;
-            		else zoneId+=1;
-            		String zoneRanking =new  Integer(areaNumber).toString()+ new Integer(zoneId).toString();            		
-            		int out= new Integer(zoneRanking).intValue();
-            		
-            		zone.setNumber(out);
-            		zone.setId("zone-"+out);         		
+            		int zoneNumber =baseCaseNet.getLossZoneList().getLossZone().size()+1;           		
+            		zone.setNumber(zoneNumber);
+            		zone.setId("zone-"+zoneNumber);         		
             	}            	
             }
 		}
