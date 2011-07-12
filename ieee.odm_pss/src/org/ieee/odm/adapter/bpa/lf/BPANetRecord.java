@@ -25,15 +25,23 @@ package org.ieee.odm.adapter.bpa.lf;
 
 import java.util.StringTokenizer;
 
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
+import org.ieee.odm.schema.ExchangeAreaXmlType;
+import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
 
 public class BPANetRecord {
 	/*
@@ -77,62 +85,74 @@ public class BPANetRecord {
 	 */
 
 	public static void processAreaData(final String str,final AclfModelParser parser ,
-			final LoadflowNetXmlType baseCaseNet, int areaId	) {
+			final LoadflowNetXmlType baseCaseNet, int areaNumber	) throws ODMException {
 		
 		final String[] strAry = getAreaDataFields(str);
 		int zoneId=0;
 	
-		if(str.trim().startsWith("A")||str.trim().startsWith("AC")){	
-			NetAreaXmlType area = parser.createNetworkArea();
+		if(str.trim().startsWith("A")||str.trim().startsWith("AC")){
+			if (baseCaseNet.getAreaList() == null)
+				baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
 			
-			final String areaType=strAry[0];			
-			if(!strAry[1].equals("")){
-				final String modCode=strAry[1];				
-			}
 			String areaName="";
 			if(!strAry[2].equals("")){
 				areaName=strAry[2];
-				area.setName(areaName);
-				area.setNumber(areaId);
 			}
 			
-//			String slackBusId;
-//			double ratedVoltage;
-//			if(!strAry[3].equals("")){
-//				slackBusId=strAry[3];
-//				area.addNewSwingBusId().setName(slackBusId);
-//			}
-//            if(!strAry[4].equals("")){
-//				ratedVoltage =new Double(strAry[4]).doubleValue();
-//				area.setRatedVoltage(BaseDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
-//			}
-//            double exchangeMW=0.0;
-//            if(!strAry[5].equals("")){            	
-//            	AclfDataSetter.setPowerData(area.addNewTotalExchangePower(),
-//            			           exchangeMW, 0, ApparentPowerUnitType.MVA);            	
-//            }        
+			ExchangeAreaXmlType  area =null;
+			if(!str.startsWith("AC+")) {
+				area= parser.getFactory().createExchangeAreaXmlType();
+				baseCaseNet.getAreaList().getArea().add(area);
+				area.setName(areaName);
+			    area.setNumber(areaNumber);
+			}
+			else area=(ExchangeAreaXmlType) getAreaByName(baseCaseNet, areaName);
+			
+			String slackBusName="";
+			double ratedVoltage=0;
+			if(!strAry[3].equals("")){
+				slackBusName=strAry[3];
+				String slackBusId=BPABusRecord.getBusId(slackBusName);
+				area.setSwingBusId(parser.createBusRef(slackBusId));
+				
+			}
+            if(!strAry[4].equals("")){
+				ratedVoltage =new Double(strAry[4]).doubleValue();
+				area.setRatedVoltage(BaseDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
+			}
+            double exchangeMW=0.0;
+            if(!strAry[5].equals("")){            	
+            	area.setDesiredExchangePower(BaseDataSetter.createActivePowerValue(exchangeMW, ActivePowerUnitType.MW));            	
+            }        
             
             if(!strAry[6].trim().equals("")){
-            	int Str6length=strAry[6].length();
+            	if (baseCaseNet.getLossZoneList() == null)
+        			baseCaseNet.setLossZoneList(parser.getFactory().createNetworkXmlTypeLossZoneList());
             	
-            	final String[] s= new String[20];
-            	int cnt=0, i=0;            	
-            	while((!strAry[6].substring(i, i+2).equals(""))&& i+2<=Str6length){            		
-            		s[cnt]=strAry[6].trim().substring(i, i+2);            		
+            	if (area.getZoneList()==null)
+            		area.setZoneList(parser.getFactory().createNetAreaXmlTypeZoneList());
+            	StringTokenizer st = new StringTokenizer(strAry[6]);
+            	String zoneName="";        	
+            	while(st.hasMoreTokens()){            		
+            		zoneName=st.nextToken().trim();          		
             		NetZoneXmlType zone= parser.createNetworkLossZone();
-            		zone.setName(s[cnt]);
+            		area.getZoneList().getZone().add(zone);
+            		//TODO what is loss zone?
+            		//baseCaseNet.getLossZoneList().getLossZone().add(zone);
             		
-            		String zoneRanking =new  Integer(areaId).toString()+ new Integer(zoneId++).toString();            		
-            		int out= new Integer(zoneRanking).intValue();           		
+            		zone.setName(zoneName);
+            		
+            		if(str.startsWith("AC+")) zoneId=area.getZoneList().getZone().size()+1;
+            		else zoneId+=1;
+            		String zoneRanking =new  Integer(areaNumber).toString()+ new Integer(zoneId).toString();            		
+            		int out= new Integer(zoneRanking).intValue();
+            		
             		zone.setNumber(out);
-            		if(i+2==Str6length){
-            			break;
-            		}
-            		i=i+3;
-            		cnt=cnt+1;            		
+            		zone.setId("zone-"+out);         		
             	}            	
             }
 		}
+		/*
 		else if(str.trim().startsWith("AO")){
 			final String dataType=strAry[0];
 			
@@ -140,11 +160,11 @@ public class BPANetRecord {
 				final String modCode= strAry[1];
 			}
 			if(!strAry[2].trim().equals("")){
-//				String areaName=strAry[2];
-//				NetAreaXmlType area=BaseJaxbHelper.getAreaRecordByAreaName(areaName, baseCaseNet);
-//				if(area==null){
-//					area.setName(areaName);
-//				}
+				String areaName=strAry[2];
+				NetAreaXmlType area=BaseJaxbHelper.getAreaRecordByAreaName(areaName, baseCaseNet);
+				if(area==null){
+					area.setName(areaName);
+				}
 			}
 			if(!strAry[3].trim().equals("")){
 				// suppose there is a maximum of 40 areas
@@ -152,29 +172,40 @@ public class BPANetRecord {
             	int cnt=0, i=0;            	
             }
 		}
-		else if(str.trim().startsWith("I")){
-			final String dataType=strAry[0];
-			if(!strAry[1].equals("")){
-				final String modCode= strAry[1];
-			}
-			String fBus="";
+		*/
+		else if(str.trim().startsWith("I")){// I Record defines the inter-area power exchange
+			if (baseCaseNet.getInterchangeList() == null)
+				baseCaseNet.setInterchangeList(parser.getFactory().createLoadflowNetXmlTypeInterchangeList());
+
+			String fAreaName="";
 			if(!strAry[2].equals("")){
-			    fBus= strAry[2];			    
+			    fAreaName= strAry[2];			    
 			}
-			String tBus="";
+			String tAreaName="";
 			if(!strAry[3].equals("")){
-			    tBus= strAry[3];
+			    tAreaName= strAry[3];
 			}
 			double exchangePower=0.0;
 			if(!strAry[4].equals("")){
 				exchangePower= new Double(strAry[4]).doubleValue();				
 			}			
-			if(!fBus.equals("")&& exchangePower!=0){				
-//				NetAreaXmlType area=BaseJaxbHelper.getAreaRecordByAreaName(fBus, baseCaseNet);	
-//				NetAreaXmlType.ExchangePower exchange=area.addNewExchangePower();
-//				exchange.setToArea(tBus);
-//				XBeanDataSetter.setPowerData(exchange.addNewExchangePower(),
-//     			    exchangePower, 0, ApparentPowerUnitType.MVA);				
+			if(!fAreaName.equals("")&& exchangePower!=0){
+				InterchangeXmlType interchange = parser.getFactory().createInterchangeXmlType();
+				baseCaseNet.getInterchangeList().getInterchange().add(interchange);
+				
+				InterchangeXmlType.AreaTransfer transfer = parser.getFactory().createInterchangeXmlTypeAreaTransfer(); 
+				interchange.setAreaTransfer(transfer);
+				
+				//get area data
+				NetAreaXmlType fArea=getAreaByName(baseCaseNet, fAreaName);
+				NetAreaXmlType tArea=getAreaByName(baseCaseNet, tAreaName);
+				// define an transfer id
+				String trId="Trans_"+fAreaName+"_to_"+tAreaName;
+				
+				transfer.setFromArea(fArea.getNumber());
+				transfer.setToArea(tArea.getNumber());
+				transfer.setId(trId);
+				transfer.setAmountMW(exchangePower);			
 			}			
 		}	
 		
@@ -210,7 +241,7 @@ public class BPANetRecord {
 		final String[] strAry = new String[7];
 		
 		try{
-			if (str.trim().startsWith("A")||str.trim().startsWith("AC")){			
+			if (str.trim().startsWith("A")||str.trim().startsWith("AC")||str.trim().startsWith("AC+")){			
 				strAry[0] = ModelStringUtil.getStringReturnEmptyString(str, 1, 2);
 				strAry[1] = ModelStringUtil.getStringReturnEmptyString(str, 3, 3);
 				strAry[2] = ModelStringUtil.getStringReturnEmptyString(str, 4, 13);
@@ -219,8 +250,8 @@ public class BPANetRecord {
 				strAry[5] = ModelStringUtil.getStringReturnEmptyString(str, 26, 34);
 				// zones within area
 				int strlength=str.trim().length();
-				
-				strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,36, strlength);;
+				if(strlength<=36) strAry[6]="";
+				else strAry[6] = ModelStringUtil.getStringReturnEmptyString(str,36, strlength);
 			}
 			else if(str.trim().startsWith("AO")){ 
 			    strAry[0] = ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
@@ -242,6 +273,16 @@ public class BPANetRecord {
 			ODMLogger.getLogger().severe(e.toString());
 		}
 		return strAry;
+	}
+	private static NetAreaXmlType getAreaByName(final LoadflowNetXmlType baseCaseNet, final String areaName) throws ODMException{
+		NetAreaXmlType targetArea=null;
+		for(NetAreaXmlType area:baseCaseNet.getAreaList().getArea()){
+			if(area.getName().equals(areaName))
+			{targetArea=area;break;}
+		}
+		if(targetArea!=null)return targetArea;
+		else throw new ODMException("the target area with NAME #"+areaName+"# is not found!,please check the input name");
+		
 	}
 }
 	

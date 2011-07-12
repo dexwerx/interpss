@@ -61,10 +61,13 @@ public class BPALoadflowRecord {
 		
 		int areaId=1;// used to arrange a number to each area 
 
-		// BAP Loadflow file does not guarantee that all bus records are put
+		// BPA Loadflow file does not guarantee that all bus records are put
 		// in front of branch records. Therefore the branch line are cached first
 		List<String> branchInputList = new ArrayList<String>(100);
 		
+		// BPA put AREA and AREA Interchange data at the beginning of the network data ,
+		// need to be cached for processing later
+		List<String> areaList = new ArrayList<String>(10);
 		String str;
 		do{
 			str = din.readLine();					
@@ -80,7 +83,8 @@ public class BPALoadflowRecord {
 						BPANetRecord.processNetData(str,nvList,baseCaseNet);
 					}
 					else if(str.startsWith("A")||str.trim().startsWith("I")){
-						BPANetRecord.processAreaData(str, parser,	baseCaseNet, areaId++);
+						areaList.add(str);
+						//BPANetRecord.processAreaData(str, parser,	baseCaseNet, areaId++);
 					}
 					else if(str.trim().startsWith("B")||str.trim().startsWith("+")
 							||str.trim().startsWith("X")){
@@ -117,7 +121,10 @@ public class BPALoadflowRecord {
 		// processing branch info after all bus info are processed 
 		processBranchInfo(branchInputList, parser);
 		
-		//process Gen and Load Modification Data 
+		//process inter-area exchange data
+		processInterAreaExchangeData(areaList,parser);
+		
+		//TODO set the area info after getting the area data
 	}
 	
 	/**
@@ -147,6 +154,14 @@ public class BPALoadflowRecord {
 				// *** BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
 				// ***		parser,baseCaseNet, this);
 			}
+		}
+	}
+	private static void processInterAreaExchangeData(List<String> strList,AclfModelParser parser) throws ODMException{
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		int areaNumber=0;
+		for (String str : strList) {
+			if(str.startsWith("AC ")||str.startsWith("A ")) areaNumber++; //only AC,NOT AC+
+			BPANetRecord.processAreaData(str, parser, baseCaseNet,areaNumber );
 		}
 	}
 }
