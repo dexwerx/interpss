@@ -32,7 +32,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.junit.Test;
 
 public class IEEE9_DStabTest { 
-	@Test
+//	@Test
 	public void testCaseNew() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,
@@ -53,7 +53,7 @@ public class IEEE9_DStabTest {
 		DStabModelParser parser = (DStabModelParser)adapter.getModel();
 		parser.stdout();
 	}
-	@Test
+	//@Test
 	public void testCasewithChinese() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile(IODMAdapter.NetType.DStabNet,

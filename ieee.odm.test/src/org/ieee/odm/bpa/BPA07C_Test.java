@@ -41,12 +41,12 @@ public class BPA07C_Test {
 	public void bpaTestCase() throws Exception {
 		IODMAdapter adapter = new BPAAdapter();
 //		IODMAdapter adapter =new PSSEV30Adapter();
-		assertTrue(adapter.parseInputFile("07c.dat"));
+		assertTrue(adapter.parseInputFile("testdata/bpa/07c-dc2load.dat"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 //		parser.stdout();
 		String xml=parser.toXmlDoc(false);
-		FileOutputStream out=new FileOutputStream(new File("07c_BPA_ODM_0403.xml"));
+		FileOutputStream out=new FileOutputStream(new File("07c_BPA_ODM_0607.xml"));
 		out.write(xml.getBytes());
 		out.flush();
 		out.close();

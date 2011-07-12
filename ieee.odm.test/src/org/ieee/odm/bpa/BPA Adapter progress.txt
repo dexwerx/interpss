@@ -1,6 +1,10 @@
 BPA Adapter test progress
 
 ------------------ Open -------------------
+
+[Tony 12/07/2011]
+1. refactor the code for inter-area exchange power
+2.  
 [Mike 04/03/2011]
 
 A utility is under development to compare two ODM models. When used to compare 07c file models by PSS/E and BPA, 
@@ -120,6 +124,8 @@ should the vmin be included?  ---> fixed
  e.g., <fromTurnRatio unit="PU" value="0.9523809523809523"/>
                 <toTurnRatio unit="PU" value="0.0"/>
 by default, it should be 1.   ---> fixed Mike
+
+
       
                 
 

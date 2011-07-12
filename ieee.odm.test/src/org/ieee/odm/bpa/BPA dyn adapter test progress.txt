@@ -25,11 +25,9 @@ BPA dynamic adapter test doc
    -GH
    -
 
-但目前都还没考虑中文名
--GEN
+中文名 -GEN [finished]
 
-在bus casting 里面报错， 注意是 UTF-8不支持中文
-//TODO
+
 load characteristics
 
    

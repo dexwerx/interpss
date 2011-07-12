@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class TestChineseName {
 
-	@Test
+	//@Test
 	public void TestChinese() throws Exception {
 		final String s="B  yn MW50    525.MW-173 -76.7";//""B     ц╥аж2M  110.xg";
         final String str="T     PANNANG122.0 PANNAN50525.  720.1      0.0202            22.0 536.";//"L     DCZQ=   500. YANDU=  500.2 5000 .00001.00015      .00525 1.0                        4*720/1.0";
@@ -62,6 +62,8 @@ public class TestChineseName {
 		while(m.find())count++; 
 		return count; 
 		} 
+	
+
 
 
 
