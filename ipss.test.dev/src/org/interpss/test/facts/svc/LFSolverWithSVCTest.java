@@ -28,7 +28,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstQ() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.5, net);
+        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.5, net, 2.0, -1.0);
         SVCLF[] statcomArray = {myStatcom};
         LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
         
@@ -41,7 +41,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstB() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstB, 2.0, net);
+        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstB, 2.0, net, 2.0, -1.0);
         SVCLF[] statcomArray = {myStatcom};
         LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
         
@@ -57,7 +57,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstV() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 1.05, net);
+        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 1.05, net, 2.0, -1.0);
         SVCLF[] statcomArray = {myStatcom};
         LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
         
@@ -80,7 +80,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			String thisID = thisBus.getId();
 			if (net.getAclfBus(thisID).getGenCode() == AclfGenCode.NON_GEN) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.2, net);
+		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.2, net, 2.0, -1.0);
 		        SVCLF[] statcomArray = {myStatcom};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
 		        
@@ -104,7 +104,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			String thisID = thisBus.getId();
 			if (newNet.getAclfBus(thisID).getGenCode() == AclfGenCode.NON_GEN) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, -0.5, newNet);
+		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, -0.5, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {myStatcom};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -131,7 +131,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV) && 
 					(net.getAclfBus(thisID).getGenCode() != AclfGenCode.CAPACITOR) && (net.getAclfBus(thisID).getLoadCode() != AclfLoadCode.NON_LOAD)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet);
+		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {myStatcom};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -140,7 +140,14 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 		        double vi = newNet.getAclfBus(thisID).getVoltageMag();
 		        
 		        assertTrue(Math.abs(myStatcom.getSsh(newNet).getReal() / vi / vi) < 0.0001);
-		        assertTrue(Math.abs(vi - 0.9) < 0.0001);
+		        if (myStatcom.getType() == SVCControlType.ConstV)
+		        	assertTrue(Math.abs(vi - 0.9) < 0.0001);
+		        else {
+		        	if (solver.isMaxBViolated())
+		        		assertTrue(Math.abs(myStatcom.getB() - myStatcom.getMaxB()) < 0.0001);
+		        	else if (solver.isMinBViolated())
+		        		assertTrue(Math.abs(myStatcom.getB() - myStatcom.getMinB()) < 0.0001);
+		        }
 			}
 		}
 	}
@@ -159,7 +166,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV) && 
 					(net.getAclfBus(thisID).getGenCode() != AclfGenCode.CAPACITOR) && (net.getAclfBus(thisID).getLoadCode() != AclfLoadCode.NON_LOAD)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet);
+		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {myStatcom};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -168,7 +175,14 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 		        double vi = newNet.getAclfBus(thisID).getVoltageMag();
 		        
 		        assertTrue(Math.abs(myStatcom.getSsh(newNet).getReal() / vi / vi) < 0.0001);
-		        assertTrue(Math.abs(vi - 0.9) < 0.0001);
+		        if (myStatcom.getType() == SVCControlType.ConstV)
+		        	assertTrue(Math.abs(vi - 0.9) < 0.0001);
+		        else {
+		        	if (solver.isMaxBViolated())
+		        		assertTrue(Math.abs(myStatcom.getB() - myStatcom.getMaxB()) < 0.0001);
+		        	else if (solver.isMinBViolated())
+		        		assertTrue(Math.abs(myStatcom.getB() - myStatcom.getMinB()) < 0.0001);
+		        }
 			}
 		}
 	}
@@ -187,7 +201,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV) && 
 					(net.getAclfBus(thisID).getGenCode() != AclfGenCode.CAPACITOR) && (net.getAclfBus(thisID).getLoadCode() != AclfLoadCode.NON_LOAD)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.0, newNet);
+		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.0, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {myStatcom};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -214,7 +228,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.1, newNet);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.1, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {mySVC};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -241,7 +255,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.3, newNet);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.3, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {mySVC};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -268,7 +282,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {mySVC};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
@@ -298,7 +312,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet);
+		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet, 2.0, -1.0);
 		        SVCLF[] statcomArray = {mySVC};
 		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
 		        
