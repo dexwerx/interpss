@@ -15,6 +15,9 @@ public class LFSolverWithSVC {
 	private AclfNetwork net;
 	private SVCLF[] svcArray = null;
 	private HashMap<SVCLF, Complex> svcLoad;
+
+	private boolean maxBViolated = false;
+	private boolean minBViolated = false;
 	
 	// Constructor
 	public LFSolverWithSVC(AclfNetwork net, SVCLF[] svcArray) {
@@ -29,6 +32,14 @@ public class LFSolverWithSVC {
 		}
 	}
 	
+	public boolean isMaxBViolated() {
+		return maxBViolated;
+	}
+
+	public boolean isMinBViolated() {
+		return minBViolated;
+	}
+
 	// Solve the load flow
 	public boolean solveLF() throws InterpssException {
 		boolean converged = false;
@@ -38,6 +49,12 @@ public class LFSolverWithSVC {
     		double err = 0.0;
             for (SVCLF thisSVC : svcArray) {
             	thisSVC.update(net);	// Key point of the calculation
+            	// Check possible violations
+            	SVCSusceptanceViolation thisSVCBVio = new SVCSusceptanceViolation(thisSVC);
+            	thisSVCBVio.checkViolate();
+            	this.maxBViolated = thisSVCBVio.isMaxViolated();
+            	this.minBViolated = thisSVCBVio.isMinViolated();
+            	
             	System.out.println("Vi = " + net.getAclfBus(thisSVC.getId()).getVoltageMag() +  ", thetai = " + net.getAclfBus(thisSVC.getId()).getVoltageAng());
             	System.out.println("Vsh = " + thisSVC.getConverter().getVsh().abs() + ", thetash = " + 
             			Math.atan2(thisSVC.getConverter().getVsh().getImaginary(), thisSVC.getConverter().getVsh().getReal()));

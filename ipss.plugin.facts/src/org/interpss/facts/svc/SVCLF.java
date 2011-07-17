@@ -1,7 +1,6 @@
 package org.interpss.facts.svc;
 
 import org.apache.commons.math.complex.Complex;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.facts.general.ConverterLF;
 
 import com.interpss.common.exp.InterpssException;
@@ -17,19 +16,22 @@ public class SVCLF {
 	private ConverterLF converter;	// Equivalent admittance of the converter's Thevenin equivalent circuit
 	private SVCControlType type;	// Control type of the SVC
 	private double tunedValue;	// Tuned value under current control type
-//	private double err;	// Error to the control object
 	
 	private AclfNetwork net;
 	
+	private double maxB;
+	private double minB;
+	
 	// Constructor
-	public SVCLF(String id, Complex ysh, SVCControlType type, double tunedValue, AclfNetwork net) {
+	public SVCLF(String id, Complex ysh, SVCControlType type, double tunedValue, AclfNetwork net, double maxB, double minB) {
 		super();
 		this.id = id;
 		this.converter = new ConverterLF(id, "GROUND", ysh);
 		this.type = type;
 		this.tunedValue = tunedValue;
 		this.net = net;
-//		this.err = 0.0;
+		this.maxB = maxB;
+		this.minB = minB;
 	}
 
 	public String getId() {
@@ -54,8 +56,33 @@ public class SVCLF {
 		return err;
 	}
 
+	public SVCControlType getType() {
+		return type;
+	}
+
 	public ConverterLF getConverter() {
 		return converter;
+	}
+
+	public double getMaxB() {
+		return maxB;
+	}
+
+	public double getMinB() {
+		return minB;
+	}
+	
+	public double getB() {
+		double vi = this.net.getAclfBus(this.id).getVoltageMag();
+		return this.getSsh(net).getImaginary() / vi / vi;
+	}
+
+	public void setType(SVCControlType type) {
+		this.type = type;
+	}
+
+	public void setTunedValue(double tunedValue) {
+		this.tunedValue = tunedValue;
 	}
 
 	// Update vsh inside the svc converter
