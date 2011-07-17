@@ -88,18 +88,11 @@ public class SVCLF {
 			return null;
 		}
 		net.getAclfBus(id).setVoltageMag(tunedValue);
-		double p = net.getAclfBus(id).getLoadP();
-		double q = net.getAclfBus(id).getLoadQ();
-		net.getAclfBus(id).setGenP(-p);
-		net.getAclfBus(id).setLoadP(0.0);
-		net.getAclfBus(id).setLoadQ(0.0);
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-        net.accept(algo);
-		double qsh = net.getAclfBus(id).getGenResults().getImaginary() + q;
+        algo.loadflow();
+		double qsh = net.getAclfBus(id).getGenResults().getImaginary();
 		// 2. Calculate Vsh with constantQ control, control to Qsh
 		Complex vsh = solveConstQ(converter.getVsh(), net.getAclfBus(id).getVoltage(), converter, qsh);
-//		Complex targetVoltage = net.getAclfBus(id).getVoltage();
-//		net.getAclfBus(id).setVoltage(targetVoltage);	// Bus voltage should be updated, otherwise there will be a non-zero p
 		// Roll back the gen type of this bus
 		net.getAclfBus(id).setGenCode(oldGenCode);
 		return vsh;
