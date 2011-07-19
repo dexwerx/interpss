@@ -56,8 +56,8 @@ public class LFSolverWithSVC {
             	this.minBViolated = thisSVCBVio.isMinViolated();
             	
             	System.out.println("Vi = " + net.getAclfBus(thisSVC.getId()).getVoltageMag() +  ", thetai = " + net.getAclfBus(thisSVC.getId()).getVoltageAng());
-            	System.out.println("Vsh = " + thisSVC.getConverter().getVsh().abs() + ", thetash = " + 
-            			Math.atan2(thisSVC.getConverter().getVsh().getImaginary(), thisSVC.getConverter().getVsh().getReal()));
+            	System.out.println("Vsh = " + thisSVC.getConverter().getVth().abs() + ", thetash = " + 
+            			Math.atan2(thisSVC.getConverter().getVth().getImaginary(), thisSVC.getConverter().getVth().getReal()));
             }
             if (i++ > 100)
             	break;

@@ -40,8 +40,8 @@ public class LFSolverWithStatcom {
             	System.out.println("Vi = " + net.getAclfBus(thisSTATCOM.getId()).getVoltageMag() +  ", thetai = " + net.getAclfBus(thisSTATCOM.getId()).getVoltageAng());
             	thisSTATCOM.update(net);	// Key point of the calculation
             	err = Math.max(err, thisSTATCOM.getErr());
-            	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVsh().abs() + ", thetash = " + 
-            			Math.atan2(thisSTATCOM.getConverter().getVsh().getImaginary(), thisSTATCOM.getConverter().getVsh().getReal()));
+            	System.out.println("Vsh = " + thisSTATCOM.getConverter().getVth().abs() + ", thetash = " + 
+            			Math.atan2(thisSTATCOM.getConverter().getVth().getImaginary(), thisSTATCOM.getConverter().getVth().getReal()));
             }
             if (err < 0.000001)
             	converged = true;

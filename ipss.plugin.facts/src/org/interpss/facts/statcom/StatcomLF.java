@@ -49,20 +49,20 @@ public class StatcomLF {
 	// Update vsh inside the statcom converter
 	public void update(AclfNetwork net) throws InterpssException {
 		Complex vi = net.getAclfBus(id).getVoltage();
-		Complex vsh1 = this.converter.getVsh();
+		Complex vsh1 = this.converter.getVth();
 		if (type == StatcomControlType.ConstB) {	// Control of constant shunt admittance
 			Complex vsh = solveConstB(vsh1, vi, this.converter, tunedValue);
-			this.converter.setVsh(vsh);
+			this.converter.setVth(vsh);
 		}
 		else if (type == StatcomControlType.ConstQ) {	// Control of constant shunt reactive power compensation
 			Complex vsh = solveConstQ(vsh1, vi, this.converter, tunedValue);
-			this.converter.setVsh(vsh);
+			this.converter.setVth(vsh);
 		}
 		else if (type == StatcomControlType.ConstV) {	// Control of constant voltage magnitude
 			Complex vsh = solveConstV(vsh1, vi, this.converter, tunedValue);
-			this.converter.setVsh(vsh);
+			this.converter.setVth(vsh);
 		}
-		Complex vsh2 = this.converter.getVsh();
+		Complex vsh2 = this.converter.getVth();
 		if (type != StatcomControlType.ConstV)
 			err = (vsh1.subtract(vsh2)).abs();
 	}
@@ -82,7 +82,7 @@ public class StatcomLF {
         tempNetwork.accept(algo);
 		double qsh = tempNetwork.getAclfBus(id).getGenResults().getImaginary() + q;
 		// 2. Calculate Vsh with constantQ control, control to Qsh
-		Complex vsh = solveConstQ(converter.getVsh(), tempNetwork.getAclfBus(id).getVoltage(), converter, qsh);
+		Complex vsh = solveConstQ(converter.getVth(), tempNetwork.getAclfBus(id).getVoltage(), converter, qsh);
 		net.getAclfBus(id).setVoltage(tempNetwork.getAclfBus(id).getVoltage());	// Bus voltage should be updated, otherwise there will be a non-zero p
 //		System.out.println(converter.getSij(net).getReal() + "+j" + converter.getSij(net).getImaginary());
 		err = 0.0;
@@ -97,8 +97,8 @@ public class StatcomLF {
 		double thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
 		double vmi = vi.abs();
 		double thetai = Math.atan2(vi.getImaginary(), vi.getReal());
-		double gsh = converter.getYsh().getReal();
-		double bsh = converter.getYsh().getImaginary();
+		double gsh = converter.getYth().getReal();
+		double bsh = converter.getYth().getImaginary();
 		// Iteration by Newton method
 		while (berr > 0.00001) {
 			// Active power balance equation Fp: active output of v source = 0
@@ -131,8 +131,8 @@ public class StatcomLF {
 		double thetash = Math.atan2(vsh.getImaginary(), vsh.getReal());
 		double vmi = vi.abs();
 		double thetai = Math.atan2(vi.getImaginary(), vi.getReal());
-		double gsh = converter.getYsh().getReal();
-		double bsh = converter.getYsh().getImaginary();
+		double gsh = converter.getYth().getReal();
+		double bsh = converter.getYth().getImaginary();
 		// Iteration by Newton method
 		while (qerr > 0.0001) {
 			// Active power balance equation Fp: active output of v source = 0
