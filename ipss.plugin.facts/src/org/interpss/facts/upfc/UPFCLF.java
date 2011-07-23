@@ -1,6 +1,8 @@
 package org.interpss.facts.upfc;
 
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealMatrixImpl;
 import org.interpss.facts.general.ConverterLF;
 import org.interpss.facts.svc.SVCControlType;
 
@@ -88,6 +90,7 @@ public class UPFCLF {
 	}
 
 	// Calculate the two vths to match the tuned constant serial power flow
+	@SuppressWarnings("deprecation")
 	private Complex[] solveActiveAndReactivePowerFlow(Complex vth1,	Complex vth2, Complex vi, Complex vj, ConverterLF shuntConverter, 
 			ConverterLF serialConverter, double tunedValue1, double tunedValue2) {
 		double pqerr = 100.0;
@@ -107,27 +110,59 @@ public class UPFCLF {
 		double bse = serialConverter.getYth().getImaginary();
 		// Iteration by Newton method
 		while (pqerr > 0.0000001) {
-			// Active power balance equation Fp: active output of v source = 0
-			double fp = vmsh * vmsh * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
-			// Shunt admittance equation Fb: shunt admittance at bus i = Vi / Ishunt
-			double fb = vmsh * (gsh * Math.sin(thetash - thetai) + bsh * Math.cos(thetash - thetai)) + vmi * (tunedValue - bsh);
-			// Update the mismatch
-			pqerr = Math.max(Math.abs(fp), Math.abs(fb));
+			// expression of F(X)
+			double[] fx = new double[4];
+			// Zero shunt active power equation: active output of v source = 0
+			fx[0] = vmi * vmi * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));
+			pqerr = Math.abs(fx[0]);
+			// Active power balance equation: active power exchange through the DC link is lossless: PEsh - PEse = 0
+			fx[1] = gsh * (vmsh * vmi * Math.cos(thetash - thetai) - vmsh * vmsh) + bsh * vmsh * vmi * Math.sin(thetash - thetai) - 
+					gse * (vmse * vmj * Math.cos(thetase - thetaj) + vmse * vmse - vmse * vmi * Math.cos(thetase - thetai)) - 
+					bse * (vmse * vmj * Math.sin(thetase - thetaj) - vmse * vmi * Math.sin(thetase - thetai));
+			if (pqerr < Math.abs(fx[1]))
+				pqerr = Math.abs(fx[1]);
+			// Controlled active power equation
+			fx[2] = vmj * vmj * gse - vmi * vmj * (gse * Math.cos(thetaj - thetai) + bse * Math.sin(thetaj - thetai)) + 
+					vmj * vmse * (gse * Math.cos(thetaj - thetase) + bse * Math.sin(thetaj - thetase)) - tunedValue1;
+			if (pqerr < Math.abs(fx[2]))
+				pqerr = Math.abs(fx[2]);
+			// Controlled reactive power equation
+			fx[3] = -vmj * vmj * bse - vmi * vmj * (gse * Math.sin(thetaj - thetai) - bse * Math.cos(thetaj - thetai)) + 
+					vmj * vmse * (gse * Math.sin(thetaj - thetase) - bse * Math.cos(thetaj - thetase)) - tunedValue2;
 			// Jacobian
-			double a = 2 * vmsh * gsh - vmi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));	// dFp/dVsh
-			double b = - vmi * vmsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash));	// dFp/dThetash
-			double c = gsh * Math.sin(thetash - thetai) + bsh * Math.cos(thetash - thetai);	// dFb/dVsh
-			double d = vmsh * (gsh * Math.cos(thetash - thetai) - bsh * Math.sin(thetash - thetai));	// dFb/dThetash
+			double[][] jaco = new double[4][4];
+			jaco[0][0] = -vmi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));	// d(dpsh)/dvsh
+			jaco[0][1] = -vmi * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// d(dpsh)/dthetash
+			jaco[0][2] = 0.0;	// d(dpsh)/dvse
+			jaco[0][3] = 0.0;	// d(dpsh)/dthetase
+			jaco[1][0] = gsh * (vmi * Math.cos(thetash - thetai) - 2 * vmsh) + bsh * vmi * Math.sin(thetash - thetai);	// d(dpe)/dvsh
+			jaco[1][1] = -gsh * vmsh * vmi * Math.sin(thetash - thetai) + bsh * vmsh * vmi * Math.cos(thetash - thetai);	// d(dpe)/dthetash
+			jaco[1][2] = -gse * (vmj * Math.cos(thetase - thetaj) + 2 * vmse - vmi * Math.cos(thetase - thetai)) - 
+					bse * (vmj * Math.sin(thetase - thetaj) - vmi * Math.sin(thetase - thetai));	// d(dpe)/dvse
+			jaco[1][3] = gse * (vmse * vmj * Math.sin(thetase - thetaj) - vmse * vmi * Math.sin(thetase - thetai)) - 
+					bse * (vmse * vmj * Math.cos(thetase - thetaj) - vmse * vmi * Math.cos(thetase - thetai));	// d(dpe)/dthetase
+			jaco[2][0] = 0.0;	// d(dpji)/dvsh
+			jaco[2][1] = 0.0;	// d(dpji)/dthetash
+			jaco[2][2] = vmj * (gse * Math.cos(thetaj - thetase) + bse * Math.sin(thetaj - thetase));	// d(dpji)/dvse
+			jaco[2][3] = vmj * vmse * (gse * Math.sin(thetaj - thetase) - bse * Math.cos(thetaj - thetase));	// d(dpji)/dvse
+			jaco[3][0] = 0.0;	// d(dqji)/dvsh
+			jaco[3][1] = 0.0;	// d(dqji)/dthetash
+			jaco[3][2] = vmj * (gse * Math.sin(thetaj - thetase) - bse * Math.cos(thetaj - thetase));	// d(dqji)/dvse
+			jaco[3][3] = -vmj * vmse * (gse * Math.cos(thetaj - thetase) + bse * Math.sin(thetaj - thetase));	// d(dqji)/dvse
 			// Solve the mismatch equation
-			double det = a * d - b * c;
-			double dvmsh = (d * fp - b * fb) / det;
-			double dthetash = (-c * fp + a * fb) / det;
-			// Update Vsh and thetash
-			vmsh -= dvmsh;
-			thetash -= dthetash;
+			RealMatrix jacoMatrix = new RealMatrixImpl(jaco);
+			double[] dx = jacoMatrix.solve(fx);
+			// Update Vsh and Vse
+			vmsh -= dx[0];
+			thetash -= dx[1];
+			vmse -= dx[2];
+			thetase -= dx[3];
 //			err = Math.max(Math.abs(dvmsh), Math.abs(dthetash));
 		}
-		return new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
+		Complex[] vths = new Complex[2];
+		vths[0] = new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
+		vths[1] = new Complex(vmse * Math.cos(thetase), vmse * Math.sin(thetase));
+		return vths;
 	}
 
 }

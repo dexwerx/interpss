@@ -1,8 +1,5 @@
-// LFSolverWithStatcom
-1. Update network with STATCOM injection
-2. Solve the traditional load flow
-3. Update states of STATCOMs by recalculate vsh, considering of control type
+Update errors calculated by UPFCLF
+Design lfsolver with UPFC
+Test codes
 
-Problems:
-1. Errors when testing SVC constant V control on bus 7 of the ieee14 system: the voltage after re-calculate the load flow is not in consist with the
-voltage before the load flow, it seems to be the initial value other than the converged value.
+Refactor the code so that different FACTS types can be installed in the same network
