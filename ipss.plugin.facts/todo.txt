@@ -1,5 +1,4 @@
-Update errors calculated by UPFCLF
-Design lfsolver with UPFC
+The first function should be changed to Vi - Vispec = 0
 Test codes
 
 Refactor the code so that different FACTS types can be installed in the same network

@@ -4,12 +4,14 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.interpss.facts.general.ConverterLF;
-import org.interpss.facts.svc.SVCControlType;
-
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
 // UPFC model in load flow
+@SuppressWarnings("deprecation")
 public class UPFCLF {
 	
 	private String idi;	// ID of the bus with the shunt converter
@@ -23,13 +25,36 @@ public class UPFCLF {
 	private AclfNetwork net;
 
 	// Constructor
-	public UPFCLF(String idi, String idj, ConverterLF shuntConverter, ConverterLF serialConverter, UPFCControlType type, double tunedValue1, 
-			double tunedValue2, AclfNetwork net) {
+	public UPFCLF(String branchID, boolean atFromBus, Complex ysh, Complex yse, UPFCControlType type, double tunedValue1, double tunedValue2, AclfNetwork net) {
 		super();
-		this.idi = idi;
-		this.idj = idj;
-		this.shuntConverter = shuntConverter;
-		this.serialConverter = serialConverter;
+		AclfBranch thisBranch = net.getAclfBranch(branchID);
+		if (atFromBus) {
+			this.idi = thisBranch.getFromBusId();
+			this.idj = thisBranch.getToBusId();
+		}
+		else {
+			this.idj = thisBranch.getFromBusId();
+			this.idi = thisBranch.getToBusId();
+		}
+		// Modify the topology of the original network
+		// ** Create the virual bus
+		String vidj = "UPFC_" + idi + "_" + idj;
+		AclfBus virtualBus = CoreObjectFactory.createAclfBus(vidj, net);
+		// ** Set the terminal of the original transmission line to be the virtual bus
+		if (atFromBus)
+			thisBranch.setFromBus(virtualBus);
+		else
+			thisBranch.setToBus(virtualBus);
+		// ** Install a virtual transmission line to avoid the disconnectivity
+		AclfBranch virtualBranch = CoreObjectFactory.createAclfBranch();
+		virtualBranch.setAttributes("Virtual Branch", "", "1");
+		virtualBranch.setZ(new Complex(0.0, 9999.9));
+		net.addBranch(virtualBranch, idi, idj);
+		this.shuntConverter = new ConverterLF(idi, "GROUND", ysh);
+		this.serialConverter = new ConverterLF(idi, vidj, yse);
+		// Try to avoid the singular Jacobian
+//		this.shuntConverter.setVth(new Complex(1.0, 0.1));
+//		this.serialConverter.setVth(new Complex(1.0, -0.1));
 		this.type = type;
 		this.tunedValue1 = tunedValue1;
 		this.tunedValue2 = tunedValue2;
@@ -62,7 +87,6 @@ public class UPFCLF {
 	// Return the error to current tuning
 	public double getErr() {
 		double err = 100.0;
-		// TODO: To be refined.
 //		Complex vi = net.getAclfBus(id).getVoltage();
 //		if (type == SVCControlType.ConstB) {
 //			double vmi = vi.abs();
@@ -72,9 +96,22 @@ public class UPFCLF {
 //			err = Math.abs(this.getSsh(net).getImaginary() - tunedValue);
 //		else if (type == SVCControlType.ConstV)
 //			err = Math.abs(vi.abs() - tunedValue);
+		if (type == UPFCControlType.ActiveAndReactivePowerFlow) {
+			double perr = Math.abs(getSerialSji(net).getReal() - tunedValue1);
+			double qerr = Math.abs(getSerialSji(net).getImaginary() - tunedValue2);
+			err = Math.max(perr, qerr);
+		}
 		return err;
 	}
 	
+	public ConverterLF getShuntConverter() {
+		return shuntConverter;
+	}
+
+	public ConverterLF getSerialConverter() {
+		return serialConverter;
+	}
+
 	// Update vth inside the two converters
 	public void update(AclfNetwork net) throws InterpssException {
 		Complex vi = net.getAclfBus(idi).getVoltage();
@@ -90,7 +127,6 @@ public class UPFCLF {
 	}
 
 	// Calculate the two vths to match the tuned constant serial power flow
-	@SuppressWarnings("deprecation")
 	private Complex[] solveActiveAndReactivePowerFlow(Complex vth1,	Complex vth2, Complex vi, Complex vj, ConverterLF shuntConverter, 
 			ConverterLF serialConverter, double tunedValue1, double tunedValue2) {
 		double pqerr = 100.0;
@@ -151,6 +187,7 @@ public class UPFCLF {
 			jaco[3][3] = -vmj * vmse * (gse * Math.cos(thetaj - thetase) + bse * Math.sin(thetaj - thetase));	// d(dqji)/dvse
 			// Solve the mismatch equation
 			RealMatrix jacoMatrix = new RealMatrixImpl(jaco);
+			System.out.println(jacoMatrix.toString());
 			double[] dx = jacoMatrix.solve(fx);
 			// Update Vsh and Vse
 			vmsh -= dx[0];
