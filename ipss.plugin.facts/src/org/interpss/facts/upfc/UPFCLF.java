@@ -16,6 +16,7 @@ public class UPFCLF {
 	
 	private String idi;	// ID of the bus with the shunt converter
 	private String idj;	// ID of the bus without the shunt converter
+	private String vidj;
 	private ConverterLF shuntConverter;	// Equivalent admittance of the shunt converter's Thevenin equivalent circuit
 	private ConverterLF serialConverter;	// Equivalent admittance of the serial converter's Thevenin equivalent circuit
 	private UPFCControlType type;	// Control type of the UPFC
@@ -38,7 +39,7 @@ public class UPFCLF {
 		}
 		// Modify the topology of the original network
 		// ** Create the virual bus
-		String vidj = "UPFC_" + idi + "_" + idj;
+		vidj = "UPFC_" + idi + "_" + idj;
 		AclfBus virtualBus = CoreObjectFactory.createAclfBus(vidj, net);
 		// ** Set the terminal of the original transmission line to be the virtual bus
 		if (atFromBus)
@@ -115,11 +116,11 @@ public class UPFCLF {
 	// Update vth inside the two converters
 	public void update(AclfNetwork net) throws InterpssException {
 		Complex vi = net.getAclfBus(idi).getVoltage();
-		Complex vj = net.getAclfBus(idj).getVoltage();
+		Complex vvj = net.getAclfBus(vidj).getVoltage();
 		Complex vth1 = this.shuntConverter.getVth();
 		Complex vth2 = this.serialConverter.getVth();
 		if (type == UPFCControlType.ActiveAndReactivePowerFlow) {	// Control of constant serial power flow injected into the UPFC from terminal j
-			Complex[] vths = solveActiveAndReactivePowerFlow(vth1, vth2, vi, vj, this.shuntConverter, this.serialConverter, tunedValue1, 
+			Complex[] vths = solveActiveAndReactivePowerFlow(vth1, vth2, vi, vvj, this.shuntConverter, this.serialConverter, tunedValue1, 
 					tunedValue2);
 			this.shuntConverter.setVth(vths[0]);
 			this.serialConverter.setVth(vths[1]);
@@ -127,7 +128,7 @@ public class UPFCLF {
 	}
 
 	// Calculate the two vths to match the tuned constant serial power flow
-	private Complex[] solveActiveAndReactivePowerFlow(Complex vth1,	Complex vth2, Complex vi, Complex vj, ConverterLF shuntConverter, 
+	private Complex[] solveActiveAndReactivePowerFlow(Complex vth1,	Complex vth2, Complex vi, Complex vvj, ConverterLF shuntConverter, 
 			ConverterLF serialConverter, double tunedValue1, double tunedValue2) {
 		double pqerr = 100.0;
 		Complex vsh = vth1;
@@ -138,8 +139,8 @@ public class UPFCLF {
 		double thetase = Math.atan2(vse.getImaginary(), vse.getReal());
 		double vmi = vi.abs();
 		double thetai = Math.atan2(vi.getImaginary(), vi.getReal());
-		double vmj = vj.abs();
-		double thetaj = Math.atan2(vj.getImaginary(), vj.getReal());
+		double vmj = vvj.abs();
+		double thetaj = Math.atan2(vvj.getImaginary(), vvj.getReal());
 		double gsh = shuntConverter.getYth().getReal();
 		double bsh = shuntConverter.getYth().getImaginary();
 		double gse = serialConverter.getYth().getReal();
