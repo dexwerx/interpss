@@ -28,8 +28,8 @@ public class LFSolverWithUPFC {
 			String thisIDi = thisUPFC.getIdi();
 			Complex thisLoadi = net.getAclfBus(thisIDi).getLoad();
 			this.upfcLoadi.put(thisUPFC, thisLoadi);
-			String thisIDj = thisUPFC.getIdj();
-			Complex thisLoadj = net.getAclfBus(thisIDj).getLoad();
+			String thisVIDj = thisUPFC.getVidj();
+			Complex thisLoadj = net.getAclfBus(thisVIDj).getLoad();
 			this.upfcLoadj.put(thisUPFC, thisLoadj);
 		}
 	}
@@ -62,12 +62,12 @@ public class LFSolverWithUPFC {
 				double loadQi = this.upfcLoadi.get(thisUPFC).getImaginary() + thisUPFC.getSsh(net).getImaginary() + thisUPFC.getSerialSij(net).getImaginary();
 				net.getAclfBus(upfcIdi).setLoadP(loadPi);
 				net.getAclfBus(upfcIdi).setLoadQ(loadQi);
-				// 2.2. Update bus j
-				String upfcIdj = thisUPFC.getIdj();
+				// 2.2. Update bus vj
+				String upfcVIdj = thisUPFC.getVidj();
 				double loadPj = this.upfcLoadj.get(thisUPFC).getReal() + thisUPFC.getSerialSji(net).getReal();
 				double loadQj = this.upfcLoadj.get(thisUPFC).getImaginary() + thisUPFC.getSerialSji(net).getImaginary();
-				net.getAclfBus(upfcIdj).setLoadP(loadPj);
-				net.getAclfBus(upfcIdj).setLoadQ(loadQj);
+				net.getAclfBus(upfcVIdj).setLoadP(loadPj);
+				net.getAclfBus(upfcVIdj).setLoadQ(loadQj);
 			}
 			// 3. Solve the traditional load flow with current injections
             LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);

@@ -8,7 +8,9 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 // UPFC model in load flow
 @SuppressWarnings("deprecation")
@@ -22,11 +24,12 @@ public class UPFCLF {
 	private UPFCControlType type;	// Control type of the UPFC
 	private double tunedValue1;	// First tuned value under current control type
 	private double tunedValue2;	// Second tuned value under current control type
+	private double tunedVi;	// Tuned voltage at the bus with the shunt converter
 	
 	private AclfNetwork net;
 
 	// Constructor
-	public UPFCLF(String branchID, boolean atFromBus, Complex ysh, Complex yse, UPFCControlType type, double tunedValue1, double tunedValue2, AclfNetwork net) {
+	public UPFCLF(String branchID, boolean atFromBus, Complex ysh, Complex yse, UPFCControlType type, double tunedValue1, double tunedValue2, double tunedVi, AclfNetwork net) {
 		super();
 		AclfBranch thisBranch = net.getAclfBranch(branchID);
 		if (atFromBus) {
@@ -41,6 +44,7 @@ public class UPFCLF {
 		// ** Create the virual bus
 		vidj = "UPFC_" + idi + "_" + idj;
 		AclfBus virtualBus = CoreObjectFactory.createAclfBus(vidj, net);
+		virtualBus.setBaseVoltage(net.getAclfBus(idi).getBaseVoltage());
 		// ** Set the terminal of the original transmission line to be the virtual bus
 		if (atFromBus)
 			thisBranch.setFromBus(virtualBus);
@@ -53,12 +57,10 @@ public class UPFCLF {
 		net.addBranch(virtualBranch, idi, idj);
 		this.shuntConverter = new ConverterLF(idi, "GROUND", ysh);
 		this.serialConverter = new ConverterLF(idi, vidj, yse);
-		// Try to avoid the singular Jacobian
-//		this.shuntConverter.setVth(new Complex(1.0, 0.1));
-//		this.serialConverter.setVth(new Complex(1.0, -0.1));
 		this.type = type;
 		this.tunedValue1 = tunedValue1;
 		this.tunedValue2 = tunedValue2;
+		this.tunedVi = tunedVi;
 		this.net = net;
 	}
 
@@ -88,15 +90,6 @@ public class UPFCLF {
 	// Return the error to current tuning
 	public double getErr() {
 		double err = 100.0;
-//		Complex vi = net.getAclfBus(id).getVoltage();
-//		if (type == SVCControlType.ConstB) {
-//			double vmi = vi.abs();
-//			err = Math.abs(this.getSsh(net).getImaginary() / vmi / vmi - tunedValue);
-//		}
-//		else if (type == SVCControlType.ConstQ)
-//			err = Math.abs(this.getSsh(net).getImaginary() - tunedValue);
-//		else if (type == SVCControlType.ConstV)
-//			err = Math.abs(vi.abs() - tunedValue);
 		if (type == UPFCControlType.ActiveAndReactivePowerFlow) {
 			double perr = Math.abs(getSerialSji(net).getReal() - tunedValue1);
 			double qerr = Math.abs(getSerialSji(net).getImaginary() - tunedValue2);
@@ -111,6 +104,10 @@ public class UPFCLF {
 
 	public ConverterLF getSerialConverter() {
 		return serialConverter;
+	}
+
+	public String getVidj() {
+		return vidj;
 	}
 
 	// Update vth inside the two converters
@@ -145,12 +142,28 @@ public class UPFCLF {
 		double bsh = shuntConverter.getYth().getImaginary();
 		double gse = serialConverter.getYth().getReal();
 		double bse = serialConverter.getYth().getImaginary();
+		// Get the calculated Q injection by set bus i to be a PV bus
+		AclfGenCode oldGenCode = net.getAclfBus(idi).getGenCode();
+		if (oldGenCode != AclfGenCode.GEN_PV)
+			net.getAclfBus(idi).setGenCode(AclfGenCode.GEN_PV);
+		else {
+			System.out.println("This bus cannot be tuned to the target value.");
+			return null;
+		}
+		net.getAclfBus(idi).setVoltageMag(tunedVi);
+		System.out.println(net.net2String());
+        LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+        algo.loadflow();
+        // Calculated Q injection
+		double qin = net.getAclfBus(idi).getGenResults().getImaginary() - net.getAclfBus(idi).getLoadQ();
 		// Iteration by Newton method
 		while (pqerr > 0.0000001) {
 			// expression of F(X)
 			double[] fx = new double[4];
-			// Zero shunt active power equation: active output of v source = 0
-			fx[0] = vmi * vmi * gsh - vmi * vmsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));
+			// Q injection balancing function: Qin - Qsh - Qse = 0
+			fx[0] = qin + vmi * vmi * (bsh + bse) + vmi * vmj * (gse * Math.sin(thetai - thetaj) - bse * Math.cos(thetai - thetaj)) + 
+					vmi * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)) + 
+					vmi * vmse * (gse * Math.sin(thetai - thetase) - bse * Math.cos(thetai - thetase));
 			pqerr = Math.abs(fx[0]);
 			// Active power balance equation: active power exchange through the DC link is lossless: PEsh - PEse = 0
 			fx[1] = gsh * (vmsh * vmi * Math.cos(thetash - thetai) - vmsh * vmsh) + bsh * vmsh * vmi * Math.sin(thetash - thetai) - 
@@ -168,10 +181,10 @@ public class UPFCLF {
 					vmj * vmse * (gse * Math.sin(thetaj - thetase) - bse * Math.cos(thetaj - thetase)) - tunedValue2;
 			// Jacobian
 			double[][] jaco = new double[4][4];
-			jaco[0][0] = -vmi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash));	// d(dpsh)/dvsh
-			jaco[0][1] = -vmi * vmsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// d(dpsh)/dthetash
-			jaco[0][2] = 0.0;	// d(dpsh)/dvse
-			jaco[0][3] = 0.0;	// d(dpsh)/dthetase
+			jaco[0][0] = vmi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// d(dqin)/dvsh
+			jaco[0][1] = vmi * vmsh * (-gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));	// d(dqin)/dthetash
+			jaco[0][2] = vmi * (gse * Math.sin(thetai - thetase) - bse * Math.cos(thetai - thetase));	// d(dqin)/dvse
+			jaco[0][3] = vmi * vmse * (-gse * Math.cos(thetai - thetase) - bse * Math.sin(thetai - thetase));	// d(dqin)/dthetase
 			jaco[1][0] = gsh * (vmi * Math.cos(thetash - thetai) - 2 * vmsh) + bsh * vmi * Math.sin(thetash - thetai);	// d(dpe)/dvsh
 			jaco[1][1] = -gsh * vmsh * vmi * Math.sin(thetash - thetai) + bsh * vmsh * vmi * Math.cos(thetash - thetai);	// d(dpe)/dthetash
 			jaco[1][2] = -gse * (vmj * Math.cos(thetase - thetaj) + 2 * vmse - vmi * Math.cos(thetase - thetai)) - 
@@ -188,7 +201,7 @@ public class UPFCLF {
 			jaco[3][3] = -vmj * vmse * (gse * Math.cos(thetaj - thetase) + bse * Math.sin(thetaj - thetase));	// d(dqji)/dvse
 			// Solve the mismatch equation
 			RealMatrix jacoMatrix = new RealMatrixImpl(jaco);
-			System.out.println(jacoMatrix.toString());
+//			System.out.println(jacoMatrix.toString());
 			double[] dx = jacoMatrix.solve(fx);
 			// Update Vsh and Vse
 			vmsh -= dx[0];
@@ -200,6 +213,8 @@ public class UPFCLF {
 		Complex[] vths = new Complex[2];
 		vths[0] = new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash));
 		vths[1] = new Complex(vmse * Math.cos(thetase), vmse * Math.sin(thetase));
+		// Roll back the gen type of this bus
+		net.getAclfBus(idi).setGenCode(oldGenCode);
 		return vths;
 	}
 
