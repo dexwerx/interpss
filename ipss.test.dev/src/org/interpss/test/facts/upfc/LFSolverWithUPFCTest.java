@@ -31,8 +31,9 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
         String branchID = net.getBranch("Bus1", "Bus2").getId();
         double tunedP = net.getAclfBranch(branchID).powerTo2From().getReal();
         double tunedQ = net.getAclfBranch(branchID).powerTo2From().getImaginary();
+        double tunedV = net.getAclfBus("Bus1").getVoltageMag();
         System.out.println("Power flow before control: pji=" + tunedP + ", qji=" + tunedQ);
-        UPFCLF myUPFC = new UPFCLF(branchID, true, new Complex(0.0, -5.0), new Complex(0.0, -5.0), UPFCControlType.ActiveAndReactivePowerFlow, tunedP * 0.95, tunedQ * 0.95, net);
+        UPFCLF myUPFC = new UPFCLF(branchID, true, new Complex(0.0, -5.0), new Complex(0.0, -5.0), UPFCControlType.ActiveAndReactivePowerFlow, tunedP * 0.95, tunedQ * 0.95, tunedV, net);
         UPFCLF[] upfcArray = {myUPFC};
         LFSolverWithUPFC solver = new LFSolverWithUPFC(net, upfcArray);
         
@@ -48,20 +49,29 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
         AclfNetwork net = CoreObjectFactory.createAclfNetwork();
         double basekVA = 100000.0;
         net.setBaseKva(basekVA);
-        AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1", net);
+        AclfBus bus0 = CoreObjectFactory.createAclfBus("Bus0", net);
         // set bus name and description attributes
-        bus1.setAttributes("Bus 1", "");
+        bus0.setAttributes("Bus 0", "");
         // set bus base voltage
-        bus1.setBaseVoltage(4000.0);
+        bus0.setBaseVoltage(4000.0);
         // set bus to be a swing bus
-        bus1.setGenCode(AclfGenCode.SWING);
+        bus0.setGenCode(AclfGenCode.SWING);
         // adapt the bus object to a swing bus object
-        SwingBusAdapter swingBus = bus1.toSwingBus();
+        SwingBusAdapter swingBus = bus0.toSwingBus();
         // set swing bus attributes
         swingBus.setVoltMag(1.0, UnitType.PU);
         swingBus.setVoltAng(0.0, UnitType.Deg);
         // add the bus into the network
         //net.addBus(bus1);
+        
+        AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1", net);
+        // set bus name and description attributes
+        bus1.setAttributes("Bus 1", "");
+        // set bus base voltage
+        bus1.setBaseVoltage(4000.0);
+        bus1.setLoadCode(AclfLoadCode.CONST_P);
+        bus1.setLoadP(0.2);
+        bus1.setLoadQ(0.1);
 
         AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
         bus2.setAttributes("Bus 2", "");
@@ -70,14 +80,23 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
         bus2.setLoadP(1.0);
         bus2.setLoadQ(0.8);
 
-        // create an AclfBranch object
-        AclfBranch branch = CoreObjectFactory.createAclfBranch();
+        // create first AclfBranch object
+        AclfBranch branch1 = CoreObjectFactory.createAclfBranch();
         // set branch name, description and circuit number
-        branch.setAttributes("Branch 1", "", "1");
+        branch1.setAttributes("Branch 1", "", "1");
         // set branch parameters
-        branch.setZ(new Complex(0.0, 0.1));
+        branch1.setZ(new Complex(0.0, 0.1));
         // add the branch from Bus1 to Bus2
-        net.addBranch(branch, "Bus1", "Bus2");
+        net.addBranch(branch1, "Bus0", "Bus1");
+        
+        // create second AclfBranch object
+        AclfBranch branch2 = CoreObjectFactory.createAclfBranch();
+        // set branch name, description and circuit number
+        branch2.setAttributes("Branch 1", "", "1");
+        // set branch parameters
+        branch2.setZ(new Complex(0.0, 0.1));
+        // add the branch from Bus1 to Bus2
+        net.addBranch(branch2, "Bus1", "Bus2");
         
         return net;
 	}
