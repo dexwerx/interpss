@@ -3,9 +3,11 @@ package org.interpss.test.facts.upfc;
 import static org.junit.Assert.*;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.upfc.LFSolverWithUPFC;
 import org.interpss.facts.upfc.UPFCControlType;
 import org.interpss.facts.upfc.UPFCLF;
+import org.interpss.spring.PluginSpringCtx;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -13,12 +15,15 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.net.Branch;
+import com.interpss.simu.SimuContext;
 
 public class LFSolverWithUPFCTest extends DevTestSetup {
 
@@ -42,6 +47,38 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
         assertTrue(Math.abs(myUPFC.getSsh(net).getReal()) < 0.0001);
         assertTrue(Math.abs(myUPFC.getSerialSji(net).getReal() - tunedP * 0.95) < 0.0001);
         assertTrue(Math.abs(myUPFC.getSerialSji(net).getImaginary() - tunedQ * 0.95) < 0.0001);
+	}
+	
+	@Test
+	public void testConstPQIEEE14() throws Exception {
+		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
+		AclfNetwork net = simuCtx.getAclfNet();
+		
+		for (Branch thisBranch : net.getBranchList()) {
+			String branchID = thisBranch.getId();
+			if (net.getAclfBranch(branchID).getBranchCode() == AclfBranchCode.LINE) {
+				String fromID = thisBranch.getFromBusId();
+				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		        algo.loadflow();
+		        double tunedP = net.getAclfBranch(branchID).powerTo2From().getReal();
+		        double tunedQ = net.getAclfBranch(branchID).powerTo2From().getImaginary();
+		        double tunedV = net.getAclfBus(fromID).getVoltageMag();
+		        System.out.println("[Branch " + branchID + "]Power flow before control: pji=" + tunedP + ", qji=" + tunedQ);
+		        
+				SimuContext newSimuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
+				AclfNetwork newNet = newSimuCtx.getAclfNet();
+		        UPFCLF myUPFC = new UPFCLF(branchID, true, new Complex(0.0, -5.0), new Complex(0.0, -5.0), UPFCControlType.ActiveAndReactivePowerFlow, tunedP * 0.95, tunedQ * 0.95, tunedV, newNet);
+		        UPFCLF[] upfcArray = {myUPFC};
+		        LFSolverWithUPFC solver = new LFSolverWithUPFC(newNet, upfcArray);
+		        
+		        // output loadflow calculation results
+		        assertTrue(solver.solveLF());
+		        assertTrue(Math.abs(myUPFC.getSsh(newNet).getReal()) < 0.0001);
+		        assertTrue(Math.abs(myUPFC.getSerialSji(newNet).getReal() - tunedP * 0.95) < 0.0001);
+		        assertTrue(Math.abs(myUPFC.getSerialSji(newNet).getImaginary() - tunedQ * 0.95) < 0.0001);	        
+			}
+		}		
 	}
 	
 	private static AclfNetwork createNet() {
@@ -77,8 +114,8 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
         bus2.setAttributes("Bus 2", "");
         bus2.setBaseVoltage(4000.0);
         bus2.setLoadCode(AclfLoadCode.CONST_P);
-        bus2.setLoadP(1.0);
-        bus2.setLoadQ(0.8);
+        bus2.setLoadP(0.5);
+        bus2.setLoadQ(0.4);
 
         // create first AclfBranch object
         AclfBranch branch1 = CoreObjectFactory.createAclfBranch();
