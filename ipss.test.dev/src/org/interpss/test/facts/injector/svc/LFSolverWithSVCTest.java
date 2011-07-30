@@ -1,12 +1,12 @@
-package org.interpss.test.facts.svc;
+package org.interpss.test.facts.injector.svc;
 
 import static org.junit.Assert.*;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.facts.svc.LFSolverWithSVC;
-import org.interpss.facts.svc.SVCControlType;
-import org.interpss.facts.svc.SVCLF;
+import org.interpss.facts.injector.svc.LFSolverWithSVC;
+import org.interpss.facts.injector.svc.SVCControlType;
+import org.interpss.facts.injector.svc.SVCLF;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;

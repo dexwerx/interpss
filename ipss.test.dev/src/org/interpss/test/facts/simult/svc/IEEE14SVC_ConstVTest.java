@@ -1,13 +1,13 @@
-package org.interpss.test.facts;
+package org.interpss.test.facts.simult.svc;
 
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.facts.SVCControl;
-import org.interpss.facts.SVCControlType;
-import org.interpss.facts.SVCNrSolver;
+import org.interpss.facts.simult.svc.SVCLF;
+import org.interpss.facts.simult.svc.SVCControlType;
+import org.interpss.facts.simult.svc.SVCNrSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         bus.setVoltageMag(1.05);
         assertTrue(bus != null);
 
-        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstV);
+        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstV);
 
         double vc = 1.05; // voltage ref for the bus, without SVC the bus = 1.0355
 
@@ -53,7 +53,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // init SVC states
         svc.init();
         
-        SVCControl[] svcArray = {svc};
+        SVCLF[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
 		
         // create a Loadflow algo object
@@ -76,7 +76,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus4");
         assertTrue(bus != null);
 
-        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstQ);
+        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstQ);
 
         double qc = 0.1;
 
@@ -92,7 +92,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // init SVC states
         svc.init();
         
-        SVCControl[] svcArray = {svc};
+        SVCLF[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
 		
         // create a Loadflow algo object
@@ -121,7 +121,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus4");
         assertTrue(bus != null);
 
-        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstB);
+        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstB);
 
         double qc = 0.1;
 
@@ -137,7 +137,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // init SVC states
         svc.init();
         
-        SVCControl[] svcArray = {svc};
+        SVCLF[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
 		
         // create a Loadflow algo object

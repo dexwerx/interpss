@@ -1,4 +1,4 @@
-package org.interpss.test.facts;
+package org.interpss.test.facts.simult.svc;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,9 +6,9 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.IpssPlugin;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.facts.SVCControl;
-import org.interpss.facts.SVCControlType;
-import org.interpss.facts.SVCNrSolver;
+import org.interpss.facts.simult.svc.SVCLF;
+import org.interpss.facts.simult.svc.SVCControlType;
+import org.interpss.facts.simult.svc.SVCNrSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 				System.out.println(bus.getId() + ": " + thisBus.getVoltageMag());
 				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
-		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus(), SVCControlType.ConstV);
+		        SVCLF svc = new SVCLF(currentBus, currentNet.getNoBus(), SVCControlType.ConstV);
 		        double vc = currentBus.getVoltageMag();
 		        svc.setQc(vc * 0.9);
 		        svc.setYsh(0.0, -5.0);
@@ -41,7 +41,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        currentBus.setExtensionObject(svc);
 		        
 		        svc.init();
-		        SVCControl[] svcArray = {svc};
+		        SVCLF[] svcArray = {svc};
 		        SVCNrSolver svcNrSolver = new SVCNrSolver(currentNet, svcArray);
 		        
 		        // create a Loadflow algo object
@@ -69,7 +69,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 				IpssPlugin.init();
 				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
-		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus(), SVCControlType.ConstQ);
+		        SVCLF svc = new SVCLF(currentBus, currentNet.getNoBus(), SVCControlType.ConstQ);
 		        double qc = 0.1;
 		        svc.setQc(qc);
 		        svc.setYsh(0.0, -5.0);
@@ -79,7 +79,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        currentBus.setExtensionObject(svc);
 		        
 		        svc.init();
-		        SVCControl[] svcArray = {svc};
+		        SVCLF[] svcArray = {svc};
 		        SVCNrSolver svcNrSolver = new SVCNrSolver(currentNet, svcArray);
 		        
 		        // create a Loadflow algo object
@@ -113,7 +113,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 			if (thisBus.getGenCode() == AclfGenCode.GEN_PQ) {
 				AclfNetwork currentNet = createNet();
 		        AclfBus currentBus = currentNet.getAclfBus(bus.getId());
-		        SVCControl svc = new SVCControl(currentBus, currentNet.getNoBus(), SVCControlType.ConstB);
+		        SVCLF svc = new SVCLF(currentBus, currentNet.getNoBus(), SVCControlType.ConstB);
 		        double qc = 0.05;
 		        svc.setQc(qc);
 		        svc.setYsh(0.0, -5.0);
@@ -123,7 +123,7 @@ public class IEEE14SVCTest extends DevTestSetup {
 		        currentBus.setExtensionObject(svc);
 		        
 		        svc.init();
-		        SVCControl[] svcArray = {svc};
+		        SVCLF[] svcArray = {svc};
 		        SVCNrSolver svcNrSolver = new SVCNrSolver(currentNet, svcArray);
 		        
 		        // create a Loadflow algo object

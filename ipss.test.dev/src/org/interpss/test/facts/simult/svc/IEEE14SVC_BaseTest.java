@@ -1,11 +1,11 @@
-package org.interpss.test.facts;
+package org.interpss.test.facts.simult.svc;
 
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.facts.SVCControl;
-import org.interpss.facts.SVCNrSolver;
+import org.interpss.facts.simult.svc.SVCLF;
+import org.interpss.facts.simult.svc.SVCNrSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class IEEE14SVC_BaseTest extends DevTestSetup {
         // create a Loadflow algo object
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 
-        SVCControl[] svcArray = {};
+        SVCLF[] svcArray = {};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         algo.setNrSolver(svcNrSolver);
         

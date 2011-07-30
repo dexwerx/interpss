@@ -1,6 +1,6 @@
 package org.interpss.test;
 
-import org.interpss.test.facts.Pass1_SimpleSVCTest;
+import org.interpss.test.facts.simult.svc.Pass1_SimpleSVCTest;
 import org.interpss.test.odm.acsc.Acsc_5BusTest;
 import org.interpss.test.odm.dstab.DStab_Ipss5BusTest;
 import org.junit.runner.RunWith;

@@ -1,11 +1,11 @@
-package org.interpss.test.facts;
+package org.interpss.test.facts.simult.svc;
 
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.facts.SVCControl;
-import org.interpss.facts.SVCControlType;
-import org.interpss.facts.SVCNrSolver;
+import org.interpss.facts.simult.svc.SVCLF;
+import org.interpss.facts.simult.svc.SVCControlType;
+import org.interpss.facts.simult.svc.SVCNrSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCControl svc = new SVCControl(bus, net.getNoBus(), SVCControlType.ConstV);
+        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstV);
         svc.setQc(1.0);
         svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8)); // set Load on the SVC bus
@@ -32,7 +32,7 @@ public class SimpleSVCTest extends DevTestSetup {
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
         
-        SVCControl[] svcArray = {svc};
+        SVCLF[] svcArray = {svc};
         SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
         
         // create a Loadflow algo object

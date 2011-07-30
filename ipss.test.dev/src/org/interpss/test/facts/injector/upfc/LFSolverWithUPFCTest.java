@@ -1,12 +1,20 @@
-package org.interpss.test.facts.upfc;
+package org.interpss.test.facts.injector.upfc;
 
 import static org.junit.Assert.*;
 
 import org.apache.commons.math.complex.Complex;
+<<<<<<< .working
+import org.interpss.custom.IpssFileAdapter;
+import org.interpss.facts.injector.upfc.LFSolverWithUPFC;
+import org.interpss.facts.injector.upfc.UPFCControlType;
+import org.interpss.facts.injector.upfc.UPFCLF;
+import org.interpss.spring.PluginSpringCtx;
+=======
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.upfc.LFSolverWithUPFC;
 import org.interpss.facts.upfc.UPFCControlType;
 import org.interpss.facts.upfc.UPFCLF;
+>>>>>>> .merge-right.r5735
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
