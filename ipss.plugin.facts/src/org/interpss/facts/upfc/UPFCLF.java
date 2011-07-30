@@ -4,6 +4,8 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixImpl;
 import org.interpss.facts.general.ConverterLF;
+import org.interpss.numeric.sparse.SparseEqnComplex;
+
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
@@ -144,15 +146,18 @@ public class UPFCLF {
 		double bse = serialConverter.getYth().getImaginary();
 		// Get the calculated Q injection by set bus i to be a PV bus
 		AclfGenCode oldGenCode = net.getAclfBus(idi).getGenCode();
-		if (oldGenCode != AclfGenCode.GEN_PV)
+		if (oldGenCode != AclfGenCode.GEN_PV && oldGenCode != AclfGenCode.SWING)
 			net.getAclfBus(idi).setGenCode(AclfGenCode.GEN_PV);
 		else {
 			System.out.println("This bus cannot be tuned to the target value.");
-			return null;
+			tunedVi = net.getAclfBus(idi).getVoltageMag();
 		}
 		net.getAclfBus(idi).setVoltageMag(tunedVi);
-		System.out.println(net.net2String());
+//		System.out.println(net.net2String());
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+        algo.setId("Load flow with UPFC");
+        SparseEqnComplex m = net.formYMatrix();
+        System.out.println(m);
         algo.loadflow();
         // Calculated Q injection
 		double qin = net.getAclfBus(idi).getGenResults().getImaginary() - net.getAclfBus(idi).getLoadQ();
@@ -179,6 +184,8 @@ public class UPFCLF {
 			// Controlled reactive power equation
 			fx[3] = -vmj * vmj * bse - vmi * vmj * (gse * Math.sin(thetaj - thetai) - bse * Math.cos(thetaj - thetai)) + 
 					vmj * vmse * (gse * Math.sin(thetaj - thetase) - bse * Math.cos(thetaj - thetase)) - tunedValue2;
+			if (pqerr < Math.abs(fx[3]))
+				pqerr = Math.abs(fx[3]);
 			// Jacobian
 			double[][] jaco = new double[4][4];
 			jaco[0][0] = vmi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));	// d(dqin)/dvsh

@@ -1,7 +1,12 @@
 The first function should be changed to Vi - Vispec = 0
 
-Problems: 1. Why the current through bus0->bus1 is different from that through bus1-bus2?
-		2. Is the impedances of the two branches too large?
+Cannot use simple system to test, because treating UPFC as injected powers may cause the network to be disconnected.
+
+IEEE 14 System is tested.
+Calculation of UPFC states has error
+1. Reactive injection of bus1 seems to be too large
+2. Cannot converge for the second update() implementation
+
 Test codes
 
 Refactor the code so that different FACTS types can be installed in the same network
