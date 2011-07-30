@@ -1,4 +1,4 @@
-package org.interpss.facts.upfc;
+package org.interpss.facts.injector.upfc;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.linear.RealMatrix;

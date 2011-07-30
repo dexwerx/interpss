@@ -1,4 +1,4 @@
-package org.interpss.facts.svc;
+package org.interpss.facts.injector.svc;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.general.ConverterLF;

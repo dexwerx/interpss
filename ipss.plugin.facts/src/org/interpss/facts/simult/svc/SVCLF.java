@@ -1,12 +1,15 @@
-package org.interpss.facts;
+package org.interpss.facts.simult.svc;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.facts.general.ConverterLF;
+import org.interpss.facts.injector.svc.SVCControlType;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.impl.AbstractAclfBus;
 
 /**
@@ -30,29 +33,27 @@ import com.interpss.core.aclf.impl.AbstractAclfBus;
  *     
  */
 
-public class SVCControl extends AbstractAclfBus {
+public class SVCLF extends AbstractAclfBus {
 	int position = 0;     // SVC position in the J-matrix
 
 	// SVC variables
-    private double vsh;
-    private double thetash;  
+	private String id;	// ID of the shunt compensation bus
+	private ConverterLF converter;	// Equivalent admittance of the converter's Thevenin equivalent circuit
+	private SVCControlType type;	// Control type of the SVC
+	private double tunedValue;	// Tuned value under current control type
+	
+	private double maxB;
+	private double minB;
     
-    // SVC constants, do not change in the Loadflow calculation process
-    SVCControlType ctype;
-    private double gsh;
-    private double bsh;
-    private double qc;
-    
-    // SVC limit for inequlity control
-    LimitType limit;
-    
-    // bus load - shunt load at the bus
-    private Complex load = new Complex(0.0,0.0);
-    
-	public SVCControl(AclfBus bus, int n, SVCControlType type) {
-		this.setParentAclfBus(bus);
-		this.position = n;
-		this.ctype = type;
+	public SVCLF(String id, Complex ysh, SVCControlType type, double tunedValue, double maxB, double minB, int position) {
+		this.id = id;
+		this.converter = new ConverterLF(id, "GROUND", ysh);
+		this.position = position;
+		this.type = type;
+		this.tunedValue = tunedValue;
+		
+		this.maxB = maxB;
+		this.minB = minB;
 	}
 
 	/**
@@ -61,17 +62,20 @@ public class SVCControl extends AbstractAclfBus {
 	 * @return true if init is successful
 	 */
 	public boolean init() {
-		double vi = this.getBus().getVoltageMag();
+		double vmi = this.getBus().getVoltageMag();
 		double thetai = this.getBus().getVoltageAng();
-		double ysh = Math.sqrt(gsh * gsh + bsh * bsh);
-		double thetaysh = Math.acos(gsh / ysh);
+		double gsh = this.converter.getYth().getReal();
+		double bsh = this.converter.getYth().getImaginary();
+		double ymsh = Math.sqrt(gsh * gsh + bsh * bsh);
+		double thetaysh = Math.acos(gsh / ymsh);
 		
-		vsh = 1.0;
-		thetash = thetai - thetaysh - Math.acos(vi * gsh / vsh / ysh);
+		double vmsh = 1.0;
+		double thetash = thetai - thetaysh - Math.acos(vmi * gsh / vmsh / ymsh);
 		while (thetash < -Math.PI)
 			thetash += 2 * Math.PI;
 		while (thetash > Math.PI)
 			thetash -= 2 * Math.PI;
+		this.converter.setVth(new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash)));
 		// codes to verify the init result is required here
 		return true;
 	}
@@ -84,29 +88,16 @@ public class SVCControl extends AbstractAclfBus {
 		return position;
 	} 
 	
-	public LimitType getLimit() {
-		return this.limit;
-	}
-	
-	public void setLimit(LimitType limit) {
-		this.limit = limit;
-	}
-	
-	public void setQc(double qc) {
-		this.qc = qc;
-	}
-	
 	public double getVsh() {
-		return this.vsh;
+		double vshx = this.converter.getVth().getReal();
+		double vshy = this.converter.getVth().getImaginary();
+		return Math.sqrt(vshx * vshx + vshy * vshy);
 	}
 
 	public double getThedash() {
-		return this.thetash;
-	}
-
-	public void setYsh(double gsh, double bsh) {
-		this.gsh = gsh;
-		this.bsh = bsh;
+		double vshx = this.converter.getVth().getReal();
+		double vshy = this.converter.getVth().getImaginary();
+		return Math.atan2(vshy, vshx);
 	}
 
 	public Complex mismatch() {
@@ -170,15 +161,15 @@ public class SVCControl extends AbstractAclfBus {
         Matrix_xy m = new Matrix_xy();
         m.yx = 2 * vsh * gsh - vi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)); // dPeq/dVsh
         m.yy = -vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetash
-        if (this.ctype == SVCControlType.ConstV) {
+        if (this.type == SVCControlType.ConstV) {
             m.xx = 0.0; // dFSVC/dVsh
             m.xy = 0.0; // dFSVC/dthetash
         }
-        else if (this.ctype == SVCControlType.ConstQ) {
+        else if (this.type == SVCControlType.ConstQ) {
             m.xx = vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dFSVC/dvsh
             m.xy = -vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFSVC/dthetash
         }
-        else if (this.ctype == SVCControlType.ConstB) {
+        else if (this.type == SVCControlType.ConstB) {
         	m.xx = -bsh / vi * Math.cos(thetash - thetai) - gsh / vi * Math.sin(thetash - thetai);// dFSVC/dvsh
         	m.xy = bsh * vsh / vi * Math.sin(thetash - thetai) - gsh * vsh / vi * Math.cos(thetash - thetai);	// dFSVC/dthetash
         }

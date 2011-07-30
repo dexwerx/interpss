@@ -1,4 +1,4 @@
-package org.interpss.facts.svc;
+package org.interpss.facts.injector.svc;
 
 import org.interpss.facts.general.FACTSControlType;
 

@@ -1,4 +1,4 @@
-package org.interpss.facts.upfc;
+package org.interpss.facts.injector.upfc;
 
 import java.util.HashMap;
 

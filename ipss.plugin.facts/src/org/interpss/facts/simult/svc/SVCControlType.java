@@ -1,4 +1,4 @@
-package org.interpss.facts;
+package org.interpss.facts.simult.svc;
 
 public enum SVCControlType {
 	ConstQ, ConstV, ConstB
