@@ -57,7 +57,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstV() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCInjectorLF myStatcom = new SVCInjectorLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 1.05, net, 2.0, -1.0);
+        SVCInjectorLF myStatcom = new SVCInjectorLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, net, 2.0, -1.0);
         SVCInjectorLF[] statcomArray = {myStatcom};
         SVCInjectorSolver solver = new SVCInjectorSolver(net, statcomArray);
         
@@ -66,7 +66,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
         double vi = net.getAclfBus("Bus2").getVoltageMag();
         
         assertTrue(Math.abs(myStatcom.getSsh(net).getReal() / vi / vi) < 0.0001);
-        assertTrue(Math.abs(vi - 1.05) < 0.0001);
+        assertTrue(Math.abs(vi - 0.9) < 0.0001);
         
 	}
 	
