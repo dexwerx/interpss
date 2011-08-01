@@ -1,1 +1,1 @@
-org.interpss.test.facts.simult.svc.SimpleSVCTest.ConctV_testCase(): Active power injection of the SVC is not right (should be 0.0, is 0.5)
+Constant V & B control of SVC model by simultaneous iteration with network is tested in the simple network model. Further tests required.
