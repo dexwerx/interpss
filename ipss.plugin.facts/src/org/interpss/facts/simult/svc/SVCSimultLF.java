@@ -55,35 +55,40 @@ public class SVCSimultLF extends AbstractAclfBus {
 		this.position = position;
 		this.type = type;
 		this.tunedValue = tunedValue;
+
+		this.vsh = 1.0;
+		this.thetash = 0.0;
+		
+		// Cannot converge without these two lines, don't know why
+		if (this.type == SVCControlType.ConstV)
+			this.getParentAclfBus().setVoltageMag(tunedValue);
 		
 		this.maxB = maxB;
 		this.minB = minB;
 	}
 
-	/**
-	 * init SVC state before Loadflow calculation
-	 * 
-	 * @return true if init is successful
-	 */
-	public boolean init() {
-		double vmi = this.getBus().getVoltageMag();
-		double thetai = this.getBus().getVoltageAng();
-		double gsh = this.converter.getYth().getReal();
-		double bsh = this.converter.getYth().getImaginary();
-		double ymsh = Math.sqrt(gsh * gsh + bsh * bsh);
-		double thetaysh = Math.acos(gsh / ymsh);
-		
-		vsh = 1.0;
-		thetash = 0.0;
-//		thetash = thetai - thetaysh - Math.acos(vmi * gsh / vsh / ymsh);
-		while (thetash < -Math.PI)
-			thetash += 2 * Math.PI;
-		while (thetash > Math.PI)
-			thetash -= 2 * Math.PI;
-		this.converter.setVth(new Complex(vsh * Math.cos(thetash), vsh * Math.sin(thetash)));
-		// codes to verify the init result is required here
-		return true;
-	}
+//	/**
+//	 * init SVC state before Loadflow calculation
+//	 * 
+//	 * @return true if init is successful
+//	 */
+//	public boolean init() {
+//		double gsh = this.converter.getYth().getReal();
+//		double bsh = this.converter.getYth().getImaginary();
+//		double ymsh = Math.sqrt(gsh * gsh + bsh * bsh);
+//		double thetaysh = Math.acos(gsh / ymsh);
+//		
+//		vsh = 1.0;
+//		thetash = 0.0;
+////		thetash = thetai - thetaysh - Math.acos(vmi * gsh / vsh / ymsh);
+//		while (thetash < -Math.PI)
+//			thetash += 2 * Math.PI;
+//		while (thetash > Math.PI)
+//			thetash -= 2 * Math.PI;
+//		this.converter.setVth(new Complex(vsh * Math.cos(thetash), vsh * Math.sin(thetash)));
+//		// codes to verify the init result is required here
+//		return true;
+//	}
 	
 	public AclfBus getBus() {
 		return this.getParentAclfBus();
@@ -93,20 +98,20 @@ public class SVCSimultLF extends AbstractAclfBus {
 		return position;
 	} 
 	
-//	public double getVsh() {
-//		double vshx = this.converter.getVth().getReal();
-//		double vshy = this.converter.getVth().getImaginary();
-//		return Math.sqrt(vshx * vshx + vshy * vshy);
-//	}
-//
-//	public double getThedash() {
-//		double vshx = this.converter.getVth().getReal();
-//		double vshy = this.converter.getVth().getImaginary();
-//		return Math.atan2(vshy, vshx);
-//	}
-	
+	public double getVsh() {
+		return vsh;
+	}
+
+	public double getThetash() {
+		return thetash;
+	}
+
 	public Complex getSsh(AclfNetwork net) {
 		return new Complex(-converter.getSij(net).getReal(), -converter.getSij(net).getImaginary());
+	}
+
+	public ConverterLF getConverter() {
+		return converter;
 	}
 
 	public double getTunedValue() {
@@ -118,8 +123,8 @@ public class SVCSimultLF extends AbstractAclfBus {
 		// equivalent P+jQ of SVC
 		Vector_xy pq = getBi();
 		// extra load on the same bus
-		Complex load = new Complex(getLoadP(), getLoadQ());
-		return new Complex(pq.x,pq.y).add(load).subtract(pIn2Net);
+//		Complex load = new Complex(getLoadP(), getLoadQ());
+		return new Complex(pq.x,pq.y).add(this.getParentAclfBus().getLoad()).subtract(pIn2Net);
 	}
 	
 	// define extra load on the same bus
