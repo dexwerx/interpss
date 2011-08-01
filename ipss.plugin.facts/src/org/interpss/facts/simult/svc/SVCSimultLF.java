@@ -2,8 +2,7 @@ package org.interpss.facts.simult.svc;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.general.ConverterLF;
-import org.interpss.facts.injector.svc.SVCControlType;
-import org.interpss.numeric.datatype.LimitType;
+import org.interpss.facts.general.SVCControlType;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
@@ -33,21 +32,26 @@ import com.interpss.core.aclf.impl.AbstractAclfBus;
  *     
  */
 
-public class SVCLF extends AbstractAclfBus {
+public class SVCSimultLF extends AbstractAclfBus {
 	int position = 0;     // SVC position in the J-matrix
 
 	// SVC variables
-	private String id;	// ID of the shunt compensation bus
+//	private String id;	// ID of the shunt compensation bus
 	private ConverterLF converter;	// Equivalent admittance of the converter's Thevenin equivalent circuit
 	private SVCControlType type;	// Control type of the SVC
 	private double tunedValue;	// Tuned value under current control type
+	private Complex load;	// Extra load at the same bus
 	
 	private double maxB;
 	private double minB;
+
+	private double vsh;
+
+	private double thetash;
     
-	public SVCLF(String id, Complex ysh, SVCControlType type, double tunedValue, double maxB, double minB, int position) {
-		this.id = id;
-		this.converter = new ConverterLF(id, "GROUND", ysh);
+	public SVCSimultLF(AclfBus bus, Complex ysh, SVCControlType type, double tunedValue, int position, double maxB, double minB) {
+		this.setParentAclfBus(bus);
+		this.converter = new ConverterLF(bus.getId(), "GROUND", ysh);
 		this.position = position;
 		this.type = type;
 		this.tunedValue = tunedValue;
@@ -69,13 +73,14 @@ public class SVCLF extends AbstractAclfBus {
 		double ymsh = Math.sqrt(gsh * gsh + bsh * bsh);
 		double thetaysh = Math.acos(gsh / ymsh);
 		
-		double vmsh = 1.0;
-		double thetash = thetai - thetaysh - Math.acos(vmi * gsh / vmsh / ymsh);
+		vsh = 1.0;
+		thetash = 0.0;
+//		thetash = thetai - thetaysh - Math.acos(vmi * gsh / vsh / ymsh);
 		while (thetash < -Math.PI)
 			thetash += 2 * Math.PI;
 		while (thetash > Math.PI)
 			thetash -= 2 * Math.PI;
-		this.converter.setVth(new Complex(vmsh * Math.cos(thetash), vmsh * Math.sin(thetash)));
+		this.converter.setVth(new Complex(vsh * Math.cos(thetash), vsh * Math.sin(thetash)));
 		// codes to verify the init result is required here
 		return true;
 	}
@@ -88,16 +93,24 @@ public class SVCLF extends AbstractAclfBus {
 		return position;
 	} 
 	
-	public double getVsh() {
-		double vshx = this.converter.getVth().getReal();
-		double vshy = this.converter.getVth().getImaginary();
-		return Math.sqrt(vshx * vshx + vshy * vshy);
+//	public double getVsh() {
+//		double vshx = this.converter.getVth().getReal();
+//		double vshy = this.converter.getVth().getImaginary();
+//		return Math.sqrt(vshx * vshx + vshy * vshy);
+//	}
+//
+//	public double getThedash() {
+//		double vshx = this.converter.getVth().getReal();
+//		double vshy = this.converter.getVth().getImaginary();
+//		return Math.atan2(vshy, vshx);
+//	}
+	
+	public Complex getSsh(AclfNetwork net) {
+		return new Complex(-converter.getSij(net).getReal(), -converter.getSij(net).getImaginary());
 	}
 
-	public double getThedash() {
-		double vshx = this.converter.getVth().getReal();
-		double vshy = this.converter.getVth().getImaginary();
-		return Math.atan2(vshy, vshx);
+	public double getTunedValue() {
+		return tunedValue;
 	}
 
 	public Complex mismatch() {
@@ -138,8 +151,12 @@ public class SVCLF extends AbstractAclfBus {
      * @return
      */
     public Matrix_xy getJii() {
+    	double gsh = this.converter.getYth().getReal();
+    	double bsh = this.converter.getYth().getImaginary();
+    	
     	double vi = getBus().getVoltageMag();
     	double thetai = getBus().getVoltageAng();
+    	
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
         m.xy = 2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVi
@@ -155,8 +172,12 @@ public class SVCLF extends AbstractAclfBus {
      * @return
      */
     public Matrix_xy getJnn() {
+    	double gsh = this.converter.getYth().getReal();
+    	double bsh = this.converter.getYth().getImaginary();
+    	
     	double vi = getBus().getVoltageMag();
     	double thetai = getBus().getVoltageAng();
+    	
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
         m.yx = 2 * vsh * gsh - vi * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)); // dPeq/dVsh
@@ -183,9 +204,12 @@ public class SVCLF extends AbstractAclfBus {
      * @return
      */
     public Matrix_xy getJin() {
+    	double gsh = this.converter.getYth().getReal();
+    	double bsh = this.converter.getYth().getImaginary();
+
     	double vi = getBus().getVoltageMag();
     	double thetai = getBus().getVoltageAng();
-        
+
     	Matrix_xy m = new Matrix_xy();
     	m.xx = -vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVsh
         m.xy = -vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dPi/dthetash
@@ -202,21 +226,24 @@ public class SVCLF extends AbstractAclfBus {
      * @return
      */
     public Matrix_xy getJni() {
+    	double gsh = this.converter.getYth().getReal();
+    	double bsh = this.converter.getYth().getImaginary();
+
     	double vi = getBus().getVoltageMag();
     	double thetai = getBus().getVoltageAng();
         Matrix_xy m = new Matrix_xy();
-        
+
         m.yy = -vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)); // dPeq/dVi
         m.yx = vi * vsh * (gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPeq/dthetai
-        if (this.ctype == SVCControlType.ConstV) {
+        if (this.type == SVCControlType.ConstV) {
             m.xy = 1.0; // dFSVC/dVi
             m.xx = 0.0; // dFSVC/dthetai
         }
-        else if (this.ctype == SVCControlType.ConstQ) {
+        else if (this.type == SVCControlType.ConstQ) {
             m.xy = (2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) * vi; // dFSVC/dVi
             m.xx = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFSVC/dthetai
         }
-        else if (this.ctype == SVCControlType.ConstB) {
+        else if (this.type == SVCControlType.ConstB) {
         	m.xy = bsh * vsh / vi * Math.cos(thetash - thetai) + gsh * vsh / vi * Math.sin(thetash - thetai); // dFSVC/dVi
         	m.xx = -bsh * vsh / vi * Math.sin(thetash - thetai) + gsh * vsh / vi * Math.cos(thetash - thetai);	// dFSVC/dthetai
         }
@@ -231,9 +258,12 @@ public class SVCLF extends AbstractAclfBus {
      * @return
      */
     public Vector_xy getBi() {
-        double vi = getBus().getVoltageMag();
+    	double gsh = this.converter.getYth().getReal();
+    	double bsh = this.converter.getYth().getImaginary();
+
+    	double vi = getBus().getVoltageMag();
         double thetai = getBus().getVoltageAng();
-        
+
         Vector_xy b = new Vector_xy();
         b.x = vi * vi * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFpi
         b.y = -vi * vi * bsh - vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dFqi
@@ -247,20 +277,23 @@ public class SVCLF extends AbstractAclfBus {
      * @return
      */
     public Vector_xy getBn() {
-        double vi = getBus().getVoltageMag();
+    	double gsh = this.converter.getYth().getReal();
+    	double bsh = this.converter.getYth().getImaginary();
+
+    	double vi = getBus().getVoltageMag();
         double thetai = getBus().getVoltageAng();
-        
+
         Vector_xy b = new Vector_xy();
         // dPeq
         b.y = vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
-        if (this.ctype == SVCControlType.ConstV) {	// dVi
-            b.x = vi - qc;
+        if (this.type == SVCControlType.ConstV) {	// dVi
+            b.x = vi - tunedValue;
         }
-        else if (this.ctype == SVCControlType.ConstQ) {	// dQi
-            b.x = ((vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) + qc);
+        else if (this.type == SVCControlType.ConstQ) {	// dQi
+            b.x = ((vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) + tunedValue);
         }
-        else if (this.ctype == SVCControlType.ConstB) {	// dXi
-        	b.x = (1 - vsh / vi * Math.cos(thetash - thetai)) * bsh - vsh / vi * Math.sin(thetash - thetai) * gsh - qc;
+        else if (this.type == SVCControlType.ConstB) {	// dXi
+        	b.x = (1 - vsh / vi * Math.cos(thetash - thetai)) * bsh - vsh / vi * Math.sin(thetash - thetai) * gsh - tunedValue;
         }
         return b;
     }

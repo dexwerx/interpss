@@ -1,6 +1,5 @@
-package org.interpss.facts.injector.svc;
+package org.interpss.facts.general;
 
-import org.interpss.facts.general.FACTSControlType;
 
 // All possible SVC control types
 public enum SVCControlType implements FACTSControlType {

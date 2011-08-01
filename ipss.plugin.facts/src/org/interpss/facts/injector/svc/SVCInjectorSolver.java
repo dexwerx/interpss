@@ -10,22 +10,22 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 // Solve load flow with SVC
-public class LFSolverWithSVC {
+public class SVCInjectorSolver {
 
 	private AclfNetwork net;
-	private SVCLF[] svcArray = null;
-	private HashMap<SVCLF, Complex> svcLoad;
+	private SVCInjectorLF[] svcArray = null;
+	private HashMap<SVCInjectorLF, Complex> svcLoad;
 
 	private boolean maxBViolated = false;
 	private boolean minBViolated = false;
 	
 	// Constructor
-	public LFSolverWithSVC(AclfNetwork net, SVCLF[] svcArray) {
+	public SVCInjectorSolver(AclfNetwork net, SVCInjectorLF[] svcArray) {
 		super();
 		this.net = net;
 		this.svcArray = svcArray;
-		this.svcLoad = new HashMap<SVCLF, Complex>();
-		for (SVCLF thisSVC : svcArray) {
+		this.svcLoad = new HashMap<SVCInjectorLF, Complex>();
+		for (SVCInjectorLF thisSVC : svcArray) {
 			String thisID = thisSVC.getId();
 			Complex thisLoad = net.getAclfBus(thisID).getLoad();
 			this.svcLoad.put(thisSVC, thisLoad);
@@ -47,7 +47,7 @@ public class LFSolverWithSVC {
 		while (!converged) {
 			// 1. Update all the SVCs
     		double err = 0.0;
-            for (SVCLF thisSVC : svcArray) {
+            for (SVCInjectorLF thisSVC : svcArray) {
             	thisSVC.update(net);	// Key point of the calculation
             	// Check possible violations
             	SVCSusceptanceViolation thisSVCBVio = new SVCSusceptanceViolation(thisSVC);
@@ -62,7 +62,7 @@ public class LFSolverWithSVC {
             if (i++ > 100)
             	break;
 			// 2. Update the network with current states of all the SVCs
-			for (SVCLF thisSVC : svcArray) {
+			for (SVCInjectorLF thisSVC : svcArray) {
 				String svcId = thisSVC.getId();
 				double loadP = this.svcLoad.get(thisSVC).getReal() - thisSVC.getSsh(net).getReal();
 				double loadQ = this.svcLoad.get(thisSVC).getImaginary() - thisSVC.getSsh(net).getImaginary();
@@ -73,7 +73,7 @@ public class LFSolverWithSVC {
             LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
             algo.loadflow();
             // 4. Update the mismatch
-            for (SVCLF thisSVC : svcArray) {
+            for (SVCInjectorLF thisSVC : svcArray) {
             	err = Math.max(err, thisSVC.getErr());
                 if (err < 0.000001)
                 	converged = true;

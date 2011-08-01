@@ -1,12 +1,1 @@
-The first function should be changed to Vi - Vispec = 0
-
-Cannot use simple system to test, because treating UPFC as injected powers may cause the network to be disconnected.
-
-IEEE 14 System is tested.
-Calculation of UPFC states has error
-1. Reactive injection of bus1 seems to be too large
-2. Cannot converge for the second update() implementation
-
-Test codes
-
-Refactor the code so that different FACTS types can be installed in the same network
+org.interpss.test.facts.simult.svc.SimpleSVCTest.ConctV_testCase(): Active power injection of the SVC is not right (should be 0.0, is 0.5)

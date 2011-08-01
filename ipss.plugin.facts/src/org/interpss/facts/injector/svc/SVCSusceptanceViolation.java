@@ -1,15 +1,16 @@
 package org.interpss.facts.injector.svc;
 
 import org.interpss.facts.general.IFACTSInequalityViolation;
+import org.interpss.facts.general.SVCControlType;
 
 // Deal with the violation of the range of the SVC's equivalent susceptance
 public class SVCSusceptanceViolation implements IFACTSInequalityViolation {
 
-	private SVCLF svc;
+	private SVCInjectorLF svc;
 	private boolean maxViolated = false;
 	private boolean minViolated = false;
 	
-	public SVCSusceptanceViolation(SVCLF svc) {
+	public SVCSusceptanceViolation(SVCInjectorLF svc) {
 		super();
 		this.svc = svc;
 	}

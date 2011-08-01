@@ -5,11 +5,11 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.impl.DefaultNrSolver;
 
-public class SVCNrSolver extends DefaultNrSolver {
+public class SVCSimultSolver extends DefaultNrSolver {
 
-	private SVCLF[] svcAry = null;
+	private SVCSimultLF[] svcAry = null;
 	
-    public SVCNrSolver(AclfNetwork net, SVCLF[] svcAry) {
+    public SVCSimultSolver(AclfNetwork net, SVCSimultLF[] svcAry) {
         super(net);
         this.svcAry = svcAry;
     }
@@ -22,7 +22,7 @@ public class SVCNrSolver extends DefaultNrSolver {
         SparseEqnMatrix2x2 lfEqn = this.getAclfNet().formJMatrix(svcLength);
 
         if (svcAry != null) {
-            for (SVCLF svc : svcAry) {
+            for (SVCSimultLF svc : svcAry) {
                 int i = svc.getBus().getSortNumber();
                 int n = svc.getPosition();
                 
@@ -41,7 +41,7 @@ public class SVCNrSolver extends DefaultNrSolver {
         super.setPowerMismatch(lfEqn);
 
         if (svcAry != null) {
-            for (SVCLF svc : svcAry) {
+            for (SVCSimultLF svc : svcAry) {
                 // bi is already added into the mismatch() method
                 //int i = svc.getBus().getSortNumber();
                 //Vector_xy bi = svc.getBi();
@@ -58,7 +58,7 @@ public class SVCNrSolver extends DefaultNrSolver {
         super.updateBusVoltage(lfEqn);
 
         if (svcAry != null) {
-            for (SVCLF svc : svcAry) 
+            for (SVCSimultLF svc : svcAry) 
             	svc.update(lfEqn);
         }
     }

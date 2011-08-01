@@ -2,6 +2,7 @@ package org.interpss.facts.injector.svc;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.general.ConverterLF;
+import org.interpss.facts.general.SVCControlType;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
@@ -10,7 +11,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 // SVC model in load flow
-public class SVCLF {
+public class SVCInjectorLF {
 
 	private String id;	// ID of the shunt compensation bus
 	private ConverterLF converter;	// Equivalent admittance of the converter's Thevenin equivalent circuit
@@ -23,7 +24,7 @@ public class SVCLF {
 	private double minB;
 	
 	// Constructor
-	public SVCLF(String id, Complex ysh, SVCControlType type, double tunedValue, AclfNetwork net, double maxB, double minB) {
+	public SVCInjectorLF(String id, Complex ysh, SVCControlType type, double tunedValue, AclfNetwork net, double maxB, double minB) {
 		super();
 		this.id = id;
 		this.converter = new ConverterLF(id, "GROUND", ysh);
