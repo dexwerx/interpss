@@ -3,9 +3,9 @@ package org.interpss.test.facts.simult.svc;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.facts.simult.svc.SVCLF;
-import org.interpss.facts.simult.svc.SVCControlType;
-import org.interpss.facts.simult.svc.SVCNrSolver;
+import org.interpss.facts.general.SVCControlType;
+import org.interpss.facts.simult.svc.SVCSimultLF;
+import org.interpss.facts.simult.svc.SVCSimultSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -24,42 +24,35 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstV);
-        svc.setQc(1.0);
-        svc.setYsh(0.0, -5.0);
+        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.0, net.getNoBus(), -100.0, 100.0);
+//        svc.setQc(1.0);
+//        svc.setYsh(0.0, -5.0);
         svc.setLoad(new Complex(1.0, 0.8)); // set Load on the SVC bus
+        svc.init();
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
         
-        SVCLF[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        SVCSimultLF[] svcArray = {svc};
+        SVCSimultSolver svcSolver = new SVCSimultSolver(net, svcArray);
         
         // create a Loadflow algo object
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
         // set algo NR solver to the CustomNrSolver
-        algo.setNrSolver(svcNrSolver);
+        algo.setNrSolver(svcSolver);
 
         // run Loadflow
-        net.accept(algo);
+        boolean lfConverged = net.accept(algo);
+//        boolean lfConverged = algo.loadflow();
         // output loadflow calculation results
         //System.out.println(AclfOutFunc.loadFlowSummary(net));
         
-        Complex vic = new Complex(bus.getVoltageMag() * Math.cos(bus.getVoltageAng()), bus.getVoltageMag() * Math.sin(bus.getVoltageAng()));
-        Complex vshc = new Complex(svc.getVsh() * Math.cos(svc.getThedash()), svc.getVsh() * Math.sin(svc.getThedash()));
-        Complex yshc = new Complex(0.0, -5.0);
-        Complex yc = (vic.subtract(vshc)).multiply(yshc).divide(vic);
-        
-        //System.out.println("yshunt=(" + yc.getReal() + ")+i(" + yc.getImaginary() + ")");
-        //System.out.println("Vsh, Thedash: " + svc.getVsh() + ", " + svc.getThedash());
-        /*
-			yshunt=(-2.7383583558709127E-9)+i(-0.8501256427294784)
-			Vsh, Thedash: 0.8299748714541043, -0.10016742050169442
-         */
-	  	assertTrue(Math.abs(yc.getReal()) < 0.00001); 
-	  	assertTrue(Math.abs(yc.getImaginary() + 0.85013) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getVsh() - 0.82998) < 0.00001); 
-	  	assertTrue(Math.abs(svc.getThedash() + 0.10017) < 0.00001); 
+        assertTrue(lfConverged);
+        double vi = net.getAclfBus("Bus2").getVoltageMag();
+
+        assertTrue(Math.abs(svc.getSsh(net).getReal() / vi / vi) < 0.0001);
+        assertTrue(Math.abs(vi - svc.getTunedValue()) < 0.0001);
+
 	}
 
 	public static AclfNetwork createNet() {

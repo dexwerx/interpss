@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.facts.injector.svc.LFSolverWithSVC;
-import org.interpss.facts.injector.svc.SVCControlType;
-import org.interpss.facts.injector.svc.SVCLF;
+import org.interpss.facts.general.SVCControlType;
+import org.interpss.facts.injector.svc.SVCInjectorSolver;
+import org.interpss.facts.injector.svc.SVCInjectorLF;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
@@ -28,9 +28,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstQ() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.5, net, 2.0, -1.0);
-        SVCLF[] statcomArray = {myStatcom};
-        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
+        SVCInjectorLF myStatcom = new SVCInjectorLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.5, net, 2.0, -1.0);
+        SVCInjectorLF[] statcomArray = {myStatcom};
+        SVCInjectorSolver solver = new SVCInjectorSolver(net, statcomArray);
         
         // output loadflow calculation results
         assertTrue(solver.solveLF());
@@ -41,9 +41,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstB() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstB, 2.0, net, 2.0, -1.0);
-        SVCLF[] statcomArray = {myStatcom};
-        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
+        SVCInjectorLF myStatcom = new SVCInjectorLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstB, 2.0, net, 2.0, -1.0);
+        SVCInjectorLF[] statcomArray = {myStatcom};
+        SVCInjectorSolver solver = new SVCInjectorSolver(net, statcomArray);
         
         // output loadflow calculation results
         assertTrue(solver.solveLF());
@@ -57,9 +57,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	@Test
 	public void testLFSolverWithSVCConstV() throws InterpssException {
 		AclfNetwork net = createNet();
-        SVCLF myStatcom = new SVCLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 1.05, net, 2.0, -1.0);
-        SVCLF[] statcomArray = {myStatcom};
-        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
+        SVCInjectorLF myStatcom = new SVCInjectorLF("Bus2", new Complex(0.0, -5.0), SVCControlType.ConstV, 1.05, net, 2.0, -1.0);
+        SVCInjectorLF[] statcomArray = {myStatcom};
+        SVCInjectorSolver solver = new SVCInjectorSolver(net, statcomArray);
         
         // output loadflow calculation results
         assertTrue(solver.solveLF());
@@ -80,9 +80,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			String thisID = thisBus.getId();
 			if (net.getAclfBus(thisID).getGenCode() == AclfGenCode.NON_GEN) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.2, net, 2.0, -1.0);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(net, statcomArray);
+		        SVCInjectorLF myStatcom = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.2, net, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {myStatcom};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(net, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -104,9 +104,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			String thisID = thisBus.getId();
 			if (newNet.getAclfBus(thisID).getGenCode() == AclfGenCode.NON_GEN) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, -0.5, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF myStatcom = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, -0.5, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {myStatcom};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -131,9 +131,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV) && 
 					(net.getAclfBus(thisID).getGenCode() != AclfGenCode.CAPACITOR) && (net.getAclfBus(thisID).getLoadCode() != AclfLoadCode.NON_LOAD)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF myStatcom = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {myStatcom};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -166,9 +166,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV) && 
 					(net.getAclfBus(thisID).getGenCode() != AclfGenCode.CAPACITOR) && (net.getAclfBus(thisID).getLoadCode() != AclfLoadCode.NON_LOAD)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF myStatcom = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 0.9, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {myStatcom};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -201,9 +201,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV) && 
 					(net.getAclfBus(thisID).getGenCode() != AclfGenCode.CAPACITOR) && (net.getAclfBus(thisID).getLoadCode() != AclfLoadCode.NON_LOAD)) {
 				System.out.println("Testing " + thisID);
-		        SVCLF myStatcom = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.0, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {myStatcom};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF myStatcom = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.0, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {myStatcom};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -228,9 +228,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.1, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {mySVC};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF mySVC = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, -0.1, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {mySVC};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -255,9 +255,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.3, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {mySVC};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF mySVC = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.3, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {mySVC};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -282,9 +282,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {mySVC};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF mySVC = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {mySVC};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());
@@ -312,9 +312,9 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
-		        SVCLF mySVC = new SVCLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet, 2.0, -1.0);
-		        SVCLF[] statcomArray = {mySVC};
-		        LFSolverWithSVC solver = new LFSolverWithSVC(newNet, statcomArray);
+		        SVCInjectorLF mySVC = new SVCInjectorLF(thisID, new Complex(0.0, -5.0), SVCControlType.ConstB, 0.1, newNet, 2.0, -1.0);
+		        SVCInjectorLF[] statcomArray = {mySVC};
+		        SVCInjectorSolver solver = new SVCInjectorSolver(newNet, statcomArray);
 		        
 		        // output loadflow calculation results
 		        assertTrue(solver.solveLF());

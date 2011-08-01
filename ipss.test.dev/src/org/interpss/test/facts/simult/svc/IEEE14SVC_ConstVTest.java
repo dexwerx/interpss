@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.facts.simult.svc.SVCLF;
+import org.interpss.facts.simult.svc.SVCSimultLF;
 import org.interpss.facts.simult.svc.SVCControlType;
-import org.interpss.facts.simult.svc.SVCNrSolver;
+import org.interpss.facts.simult.svc.SVCSimultSolver;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         bus.setVoltageMag(1.05);
         assertTrue(bus != null);
 
-        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstV);
+        SVCSimultLF svc = new SVCSimultLF(bus, net.getNoBus(), SVCControlType.ConstV);
 
         double vc = 1.05; // voltage ref for the bus, without SVC the bus = 1.0355
 
@@ -53,8 +53,8 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // init SVC states
         svc.init();
         
-        SVCLF[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        SVCSimultLF[] svcArray = {svc};
+        SVCSimultSolver svcNrSolver = new SVCSimultSolver(net, svcArray);
 		
         // create a Loadflow algo object
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
@@ -76,7 +76,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus4");
         assertTrue(bus != null);
 
-        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstQ);
+        SVCSimultLF svc = new SVCSimultLF(bus, net.getNoBus(), SVCControlType.ConstQ);
 
         double qc = 0.1;
 
@@ -92,8 +92,8 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // init SVC states
         svc.init();
         
-        SVCLF[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        SVCSimultLF[] svcArray = {svc};
+        SVCSimultSolver svcNrSolver = new SVCSimultSolver(net, svcArray);
 		
         // create a Loadflow algo object
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
@@ -121,7 +121,7 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         AclfBus bus = net.getAclfBus("Bus4");
         assertTrue(bus != null);
 
-        SVCLF svc = new SVCLF(bus, net.getNoBus(), SVCControlType.ConstB);
+        SVCSimultLF svc = new SVCSimultLF(bus, net.getNoBus(), SVCControlType.ConstB);
 
         double qc = 0.1;
 
@@ -137,8 +137,8 @@ public class IEEE14SVC_ConstVTest extends DevTestSetup {
         // init SVC states
         svc.init();
         
-        SVCLF[] svcArray = {svc};
-        SVCNrSolver svcNrSolver = new SVCNrSolver(net, svcArray);
+        SVCSimultLF[] svcArray = {svc};
+        SVCSimultSolver svcNrSolver = new SVCSimultSolver(net, svcArray);
 		
         // create a Loadflow algo object
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
