@@ -295,7 +295,7 @@ public class SVCSimultLF extends AbstractAclfBus {
             b.x = vi - tunedValue;
         }
         else if (this.type == SVCControlType.ConstQ) {	// dQi
-            b.x = ((vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) + tunedValue);
+            b.x = ((vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) - tunedValue);
         }
         else if (this.type == SVCControlType.ConstB) {	// dXi
         	b.x = (1 - vsh / vi * Math.cos(thetash - thetai)) * bsh - vsh / vi * Math.sin(thetash - thetai) * gsh - tunedValue;
