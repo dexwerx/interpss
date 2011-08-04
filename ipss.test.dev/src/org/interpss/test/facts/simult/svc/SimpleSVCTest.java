@@ -95,9 +95,6 @@ public class SimpleSVCTest extends DevTestSetup {
 
         // run Loadflow
         boolean lfConverged = net.accept(algo);
-//        boolean lfConverged = algo.loadflow();
-        // output loadflow calculation results
-        //System.out.println(AclfOutFunc.loadFlowSummary(net));
         
         assertTrue(lfConverged);
         double vi = net.getAclfBus("Bus2").getVoltageMag();
@@ -126,7 +123,7 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstB, 2.0, net.getNoBus(), -100.0, 100.0);
+        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.5, net.getNoBus(), -100.0, 100.0);
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
@@ -139,6 +136,7 @@ public class SimpleSVCTest extends DevTestSetup {
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
         // set algo NR solver to the CustomNrSolver
         algo.setNrSolver(svcSolver);
+        algo.setTolerance(1.0E-7);
 
         // run Loadflow
         boolean lfConverged = net.accept(algo);
@@ -163,8 +161,10 @@ public class SimpleSVCTest extends DevTestSetup {
         double pe = vsh * vsh * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash));
         double qsh = vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash));
         
+        System.out.println("Psh=" + pe + ", Qsh=" + qsh);
+        
         assertTrue(Math.abs(pe) < 0.0001);
-        assertTrue(Math.abs(qsh / vi / vi - svc.getTunedValue()) < 0.0001);
+        assertTrue(Math.abs(qsh - svc.getTunedValue()) < 0.0001);
 
 	}
 
