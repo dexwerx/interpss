@@ -4,7 +4,7 @@ import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.interpss.numeric.util.NumericUtil;
 
-import com.interpss.QA.rfile.Base_FileProcessor;
+import com.interpss.QA.rfile.BaseCompareFileProcessor;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
@@ -12,7 +12,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public class BPA_FileProcessor extends Base_FileProcessor {
+public class BPA_FileProcessor extends BaseCompareFileProcessor {
 	private boolean busDataProcessed = false,
 	                busRecordBegin = false,
 	                busRecordEnd = false;

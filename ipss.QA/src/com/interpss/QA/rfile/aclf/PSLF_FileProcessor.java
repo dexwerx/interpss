@@ -2,7 +2,7 @@ package com.interpss.QA.rfile.aclf;
 
 import org.interpss.numeric.util.NumericUtil;
 
-import com.interpss.QA.rfile.Base_FileProcessor;
+import com.interpss.QA.rfile.BaseCompareFileProcessor;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
@@ -11,7 +11,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public class PSLF_FileProcessor extends Base_FileProcessor {
+public class PSLF_FileProcessor extends BaseCompareFileProcessor {
 	private boolean busDataProcessed = false,
 	                busRecordBegin = false,
 	                busDataEnd = true;

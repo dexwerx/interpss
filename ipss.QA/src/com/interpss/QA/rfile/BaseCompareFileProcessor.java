@@ -6,10 +6,10 @@ import java.util.List;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public abstract class Base_FileProcessor implements IFileProcessor {
+public abstract class BaseCompareFileProcessor implements IFileProcessor {
 	protected AclfNetwork net = null;
 	protected boolean baseKvaProcessed = false,
-	                busDataBegin = false;
+	                  busDataBegin = false;
 	protected int totalBus = 0, busDataLineNo = 0;
 	
 	protected int busNo;
