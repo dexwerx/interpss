@@ -31,6 +31,7 @@ package org.ieee.odm.model;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Hashtable;
@@ -489,4 +490,19 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 		return ostream.toString();
 	}	
+
+	public String toXmlDoc(boolean addXsi, String outfile) {
+		if (outfile == null)
+			return toXmlDoc(addXsi);
+		else {
+			try {
+				OutputStream ostream = new FileOutputStream(new File(outfile));
+				JAXBElement<StudyCaseXmlType> element = getFactory().createPssStudyCase(getStudyCase());
+				createMarshaller().marshal( element, ostream );
+			} catch (Exception e) {
+				return e.toString() + " " + outfile;
+			}
+			return "ODM xml doc write to "  + outfile;
+		}
+	}
 }

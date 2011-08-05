@@ -48,5 +48,15 @@ public interface IODMModelParser {
 	
 	String toXmlDoc(boolean addXsi);
 	
+	/**
+	 * If outfile = null, return the Xml doc, otherwise, write the xml doc
+	 * to the file and return a file writng msg
+	 * 
+	 * @param addXsi
+	 * @param outfile
+	 * @return
+	 */
+	String toXmlDoc(boolean addXsi, String outfile);
+
 	StudyCaseXmlType getStudyCase();
 }
