@@ -12,10 +12,10 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public class PSSE_FileProcessor extends BaseCompareFileProcessor {
+public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 	private AclfBus bus = null;
 
-	public PSSE_FileProcessor(AclfNetwork net) {
+	public PSSECompareFileProcessor(AclfNetwork net) {
 		this.net = net;
 		this.baseMva = net == null? 100.0 : net.getBaseKva()*0.001;
 	}

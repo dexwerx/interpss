@@ -11,12 +11,12 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public class PSLF_FileProcessor extends BaseCompareFileProcessor {
+public class PSLFComapreFileProcessor extends BaseCompareFileProcessor {
 	private boolean busDataProcessed = false,
 	                busRecordBegin = false,
 	                busDataEnd = true;
 	
-	public PSLF_FileProcessor(AclfNetwork net) {
+	public PSLFComapreFileProcessor(AclfNetwork net) {
 		this.net = net;
 	}
 	

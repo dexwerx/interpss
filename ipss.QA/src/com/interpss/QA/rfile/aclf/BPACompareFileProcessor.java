@@ -12,14 +12,14 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public class BPA_FileProcessor extends BaseCompareFileProcessor {
+public class BPACompareFileProcessor extends BaseCompareFileProcessor {
 	private boolean busDataProcessed = false,
 	                busRecordBegin = false,
 	                busRecordEnd = false;
 	
 	private AclfBus bus = null;
 	
-	public BPA_FileProcessor(AclfNetwork net) {
+	public BPACompareFileProcessor(AclfNetwork net) {
 		this.net = net;
 	}
 	
