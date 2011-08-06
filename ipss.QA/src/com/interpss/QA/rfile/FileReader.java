@@ -42,12 +42,12 @@ public class FileReader {
 	}
 	
 	public void processFile(IFileProcessor procer) {
+		String str = null;
 		try {
 			final File file = new File(this.filepath);
 			final InputStream stream = new FileInputStream(file);
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));		
 			
-			String str = null;
 	      	do {
 	          	str = din.readLine(); 
 	          	if (str != null)
@@ -55,7 +55,7 @@ public class FileReader {
 	        } while (str != null);
 			
 		} catch (Exception e) {
-			IpssLogger.getLogger().severe(e.toString());
+			IpssLogger.getLogger().severe(e.toString() + ", " + str);
 			e.printStackTrace();
 		}
 	}

@@ -16,6 +16,31 @@ import com.interpss.core.net.Bus;
 
 
 public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
+	//private static String Str_offset = " ";   // " " or ""
+	//private static int Int_offset = 0;        // 0 or -1
+	
+	private static String Str_offset = "";   // " " or ""
+	private static int Int_offset = -1;        // 0 or -1
+
+	private static String TKN_BUSLine = Str_offset + "BUS";
+	private static String TKN_LoadPQ = "TO LOAD-PQ";
+	private static String TKN_BranchLine = Str_offset + " TO";
+	private static String TKN_GEN = "FROM GENERATION";
+	private static String TKN_SHUNT = "TO SHUNT";
+	private static String TKN_SWITCHED_SHUNT = "TO SWITCHED SHUNT";
+	
+	private static int 	BusNo_Begin = 4 + Int_offset,
+	    				BusNo_End = 11 + Int_offset,
+	    				BusVolt_Begin = 63 + Int_offset,
+	    				BusVolt_End = 69 + Int_offset,
+	    				BusAng_Begin = 73 + Int_offset,
+	    				BusAng_End = 79 + Int_offset,
+	    				
+	    				BusP_Begin = 36 + Int_offset,
+	    		    	BusP_End = 43 + Int_offset,
+	    		    	BusQ_Begin = 44 + Int_offset,
+	    		    	BusQ_End = 50 + Int_offset;	    		
+
 	private AclfBus bus = null;
 
 	public PSSECompareFileProcessor(AclfNetwork net) {
@@ -39,13 +64,13 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 	@Override public void postProcessing() {
 		if (this.compareNetworkOnly) {
 			for (Bus b : net.getBusList()) {
-				if (b.getSortNumber() == 0)
+				if (b.getSortNumber() == 0 && b.isActive())
 					addErrMsg("Bus not found in PSS/E result file, " + b.getId());
 			}
-			//for (Branch branch : net.getBranchList()) {
-			//	if (branch.getSortNumber() == 0)
-			//		addErrMsg("Branch not found in PSS/E result file, " + branch.getId());
-			//}
+			for (Branch branch : net.getBranchList()) {
+				if (branch.getSortNumber() == 0 && branch.isActive())
+					addErrMsg("Branch not found in PSS/E result file, " + branch.getId());
+			}
 		}
 	}	
 	
@@ -61,7 +86,7 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 		}
 
 // BUS      2 BUS002      500.00 CKT     MW     MVAR     MVA   % 0.9920PU  -29.93  X--- LOSSES ---X X---- AREA -----X X---- ZONE -----X      2               
-		if (lineStr.startsWith(" BUS")) {
+		if (lineStr.startsWith(TKN_BUSLine)) {
 			busDataBegin = true;
 			totalBus++; this.busDataLineNo = 0;
 			//IpssLogger.getLogger().info("Processing bus: " + totalBus);
@@ -72,11 +97,11 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 			//System.out.println(this.busDataLineNo + ":" + lineStr);
 			if (this.busDataLineNo == 1) {
 				//1: BUS      2 BUS002      500.00 CKT     MW     MVAR     MVA   % 0.9920PU  -29.93  X--- LOSSES ---X X---- AREA -----X X---- ZONE -----X      2
-				String str = lineStr.substring(4,11);
+				String str = lineStr.substring(BusNo_Begin, BusNo_End);
 				this.busNo = new Integer(str.trim()).intValue();
-				str = lineStr.substring(63,69);
+				str = lineStr.substring(BusVolt_Begin,BusVolt_End);
 				this.busVoltage = new Double(str.trim()).doubleValue();  // 0.9920PU
-				str = lineStr.substring(73,79);
+				str = lineStr.substring(BusAng_Begin,BusAng_End);
 				this.busAngle = new Double(str.trim()).doubleValue();
 				//System.out.println(this.busNo + ", " + this.busVoltage + ", " + this.busAngle);
 				bus = this.net.getAclfBus("Bus"+this.busNo);
@@ -112,8 +137,11 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 			
 			// looking for branch info
 			// TO    153 MID230      230.00  2   -301.3   -88.3   314.0  92                       6.11   54.97    1 CENTRAL         3 DISCNT_IN_A1
-			if (lineStr.startsWith("  TO") && !lineStr.contains("TO LOAD-PQ")) {
-				String str = lineStr.substring(4,11);
+			
+			if (lineStr.startsWith(TKN_BranchLine) && 
+					!lineStr.contains(TKN_LoadPQ) &&
+					!lineStr.contains(TKN_SWITCHED_SHUNT)) {
+				String str = lineStr.substring(BusNo_Begin,BusNo_End);
 				int toBusNo = new Integer(str.trim()).intValue();
 				String toId = "Bus"+toBusNo;
 				String fromId = "Bus"+this.busNo;
@@ -127,11 +155,11 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 			}
 			
 			if (!this.compareNetworkOnly) {
-				if (this.busDataLineNo == 3 && lineStr.contains("FROM GENERATION")) {
+				if (this.busDataLineNo == 3 && lineStr.contains(TKN_GEN)) {
 					//3:   FROM GENERATION                    980.0   187.3R  997.7 998 26.390KV               MW     MVAR    1                 3 HK
 					//3:  FROM GENERATION                   9950.0  3027.0R10400.3  80 20.400KV               MW     MVAR    1                 1 ZONE-001
-					this.busP = new Double(lineStr.substring(36, 43)).doubleValue();  // Load as positive direction
-					this.busQ = new Double(lineStr.substring(44, 50)).doubleValue();
+					this.busP = new Double(lineStr.substring(BusP_Begin, BusP_End)).doubleValue();  // Load as positive direction
+					this.busQ = new Double(lineStr.substring(BusQ_Begin, BusQ_End)).doubleValue();
 					Complex busPQ = bus.getGenResults();
 					double mw = busPQ.getReal()*this.baseMva;
 					double mvar = busPQ.getImaginary()*this.baseMva;
@@ -152,7 +180,7 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 					}
 				}
 
-				if (this.busDataLineNo == 5 && lineStr.contains("TO LOAD-PQ")) {
+				if (this.busDataLineNo == 5 && lineStr.contains(TKN_LoadPQ)) {
 					//5:  TO LOAD-PQ                        1750.0   -56.0  1750.9
 					String[] strAry = lineStr.trim().split(" +");  // X+ once or more
 					this.busP = new Double(strAry[2]).doubleValue();  // Load as positive direction
@@ -176,7 +204,7 @@ public class PSSECompareFileProcessor extends BaseCompareFileProcessor {
 					}
 				}
 
-				if (this.busDataLineNo == 7 && lineStr.contains("TO SHUNT")) {
+				if (this.busDataLineNo == 7 && lineStr.contains(TKN_SHUNT)) {
 					//7:  TO SHUNT                             0.0   114.7   114.7
 					this.shuntQ = new Double(lineStr.substring(43, 51)).doubleValue();
 					
