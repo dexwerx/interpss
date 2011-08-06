@@ -55,7 +55,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
@@ -82,7 +82,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	@Override
 	public SimuContext load(final String filepath) throws Exception {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-  		load(simuCtx, filepath, false);
+  		load(simuCtx, filepath, false, null);
   		return simuCtx;
 	}
 	

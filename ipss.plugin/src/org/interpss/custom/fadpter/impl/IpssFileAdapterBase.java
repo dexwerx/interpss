@@ -40,7 +40,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class IpssFileAdapterBase implements IpssFileAdapter{
+public class IpssFileAdapterBase implements IpssFileAdapter {
 	protected IPSSMsgHub msgHub;
 
 	private String name;
@@ -58,11 +58,11 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	}
 	
 	protected void loadByODMTransformation(final IODMAdapter adapter, final SimuContext simuCtx, final String filepath, 
-						final IPSSMsgHub msg, boolean debug)  throws Exception{		
+						final IPSSMsgHub msg, boolean debug, String outfile)  throws Exception{		
 		adapter.parseInputFile(filepath);
 		this.parser = adapter.getModel();
 		if (debug)
-			System.out.println(adapter.getModel().toXmlDoc(false));
+			System.out.println(adapter.getModel().toXmlDoc(false, outfile));
 		
 		if (PluginSpringCtx.getOdm2AclfMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
@@ -145,23 +145,29 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		description = s;
 	}
 
-	public void load(SimuContext simuCtx, String filepath, boolean debug) throws Exception {
+	public void load(SimuContext simuCtx, String filepath, boolean debug, String outfile) throws Exception {
 		throw new InvalidOperationException("Load need to implemented");
 	}
 
-	public void load(SimuContext simuCtx, String[] filepathAry, boolean debug) throws Exception {
+	public void load(SimuContext simuCtx, String[] filepathAry, boolean debug, String outfile) throws Exception {
 		throw new InvalidOperationException("Load need to implemented");
 	}
 
 	public SimuContext load(String filepath) throws Exception {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-  		load(simuCtx, filepath, false);
+  		load(simuCtx, filepath, false, null);
   		return simuCtx;
 	}
 
 	public SimuContext loadDebug(String filepath) throws Exception {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
-  		load(simuCtx, filepath, true);
+  		load(simuCtx, filepath, true, null);
+  		return simuCtx;
+	}
+
+	public SimuContext loadDebug(String filepath, String outfile) throws Exception {
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath, true, outfile);
   		return simuCtx;
 	}
 

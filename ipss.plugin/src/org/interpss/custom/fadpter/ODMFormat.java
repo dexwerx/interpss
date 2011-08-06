@@ -45,9 +45,9 @@ public class ODMFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
 		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug);
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug, outfile);
  	}
 	
 	/**

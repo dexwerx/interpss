@@ -52,10 +52,10 @@ public class IeeeCDFFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
 		//IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.IeeeCDF);
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug);
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug, outfile);
 	}
 	
 	/**

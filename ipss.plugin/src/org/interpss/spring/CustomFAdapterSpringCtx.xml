@@ -183,11 +183,13 @@
 		AclfBus Scripting Custom Plugin List
 		====================================
 	-->	
+<!-- 	    
 	<bean id="inductionGenerator"  
 	  	class="org.interpss.custom.script.aclf.indgen.InductionGenerator"
 	    scope="prototype"	
 	    p:name="Aclf Induction Generator"
 	    p:desc="InterPSS Aclf Induction Generator implementation" />
+ -->
 <!-- 	    
 	<bean id="sampleAclfBusPlugin"  
 	  	class="org.interpss.sample.plugin.aclf.funcload.SampleFuncLoad"
@@ -200,7 +202,7 @@
 	      scope="singleton">	
 		<constructor-arg>
 			<list>
-				<ref bean="inductionGenerator"/>
+				<!-- ref bean="inductionGenerator"/ -->
 				<!-- ref bean="sampleAclfBusPlugin"/ -->
 			</list>
 		</constructor-arg>

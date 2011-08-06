@@ -55,12 +55,12 @@ public class PTIFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
 		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(
 				this.version == IpssFileAdapter.Version.PSSE_30 ? ODMFileFormatEnum.PsseV30 : 
 					(this.version == IpssFileAdapter.Version.PSSE_26? ODMFileFormatEnum.PsseV26 : 
 						ODMFileFormatEnum.NotDefined));
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug);
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug, outfile);
 	}
 	
 	/**
