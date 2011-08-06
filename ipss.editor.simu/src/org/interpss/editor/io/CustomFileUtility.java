@@ -53,10 +53,10 @@ public class CustomFileUtility {
 				String filepathDstab = filepath.replace(IpssFileAdapter.BPA_DStab_LF_ext, 
 						IpssFileAdapter.BPA_DStab_Dstab_ext);
 				String[] fileAry = {filepath, filepathDstab};
-				adapter.load(simuCtx, fileAry, false);
+				adapter.load(simuCtx, fileAry, false, null);
 			}
 			else 
-				adapter.load(simuCtx, filepath, false);
+				adapter.load(simuCtx, filepath, false, null);
 		} catch (Exception e) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
 					"Custom Data File Loading Error", e.toString());
