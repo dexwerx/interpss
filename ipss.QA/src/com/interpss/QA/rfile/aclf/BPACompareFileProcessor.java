@@ -22,6 +22,11 @@ public class BPACompareFileProcessor extends BaseCompareFileProcessor {
 	public BPACompareFileProcessor(AclfNetwork net) {
 		this.net = net;
 	}
+
+	public BPACompareFileProcessor(AclfNetwork net, boolean netOnly) {
+		this(net);
+		this.compareNetworkOnly = netOnly;
+	}
 	
 	@Override
 	public boolean processLine(String lineStr) throws InterpssException, ODMException {

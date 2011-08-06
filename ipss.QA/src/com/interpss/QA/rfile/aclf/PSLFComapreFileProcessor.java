@@ -19,6 +19,11 @@ public class PSLFComapreFileProcessor extends BaseCompareFileProcessor {
 	public PSLFComapreFileProcessor(AclfNetwork net) {
 		this.net = net;
 	}
+
+	public PSLFComapreFileProcessor(AclfNetwork net, boolean netOnly) {
+		this(net);
+		this.compareNetworkOnly = netOnly;
+	}
 	
 	@Override
 	public boolean processLine(String lineStr) throws InterpssException {
