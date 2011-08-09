@@ -41,14 +41,21 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class NumericSpringCtx {
 	private static final String DefaultSparseEqnIntegerId 		= "sparseEqnInteger";
 	// use default sparse solver
-	private static final String DefaultSparseEqnDoubleId 		= "sparseEqnDouble";
-	private static final String DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2";
-	private static final String DefaultSparseEqnComplexId 		= "sparseEqnComplex";
+	public static String DefaultSparseEqnDoubleId 		= "sparseEqnDouble";
+	public static String DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2";
+	public static String DefaultSparseEqnComplexId 		= "sparseEqnComplex";
 
-	// use native sparse solver
-	//private static final String DefaultSparseEqnDoubleId 		= "sparseEqnDoubleNative";
-	//private static final String DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2Native";
-	//private static final String DefaultSparseEqnComplexId 	= "sparseEqnComplexNative";
+	public static void setDefualtSparseEqnSolver() {
+		DefaultSparseEqnDoubleId 		= "sparseEqnDouble";
+		DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2";
+		DefaultSparseEqnComplexId 		= "sparseEqnComplex";
+	}
+
+	public static void setNativeSparseEqnSolver() {
+		DefaultSparseEqnDoubleId 		= "sparseEqnDoubleNative";
+		DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2Native";
+		DefaultSparseEqnComplexId 	= "sparseEqnComplexNative";
+	}
 
 	/**
 	 * Get the SparseEqnInteger(singleton) object from the SpringAppContext.

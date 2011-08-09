@@ -31,6 +31,8 @@ import org.interpss.numeric.exp.IpssNumericException;
  */
 
 public interface SparseEquation {
+	public static enum SolverType {Default, Native};
+	
 	/**
 	 * 	get matrix dimension.
      * 

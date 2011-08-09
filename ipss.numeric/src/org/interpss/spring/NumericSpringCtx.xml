@@ -25,6 +25,7 @@
 
 	<!--
 	To use native solver, ipss.native jar has to be on the class path 
+	 -->
 	<bean id="sparseEqnDoubleNative" 
 	      class="com.interpss.numeric.sparse.SparseEqnDoubleNativeImpl" scope="prototype">
 	</bean>
@@ -36,7 +37,6 @@
 	<bean id="sparseEqnComplexNative" 
 	      class="com.interpss.numveric.sparse.SparseEqnComplexNativeImpl"  scope="prototype">
 	</bean>
-	 -->
 
 	<!--
 	An alternative Double Sparse Eqn implementation   
