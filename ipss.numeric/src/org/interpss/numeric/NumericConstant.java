@@ -32,6 +32,9 @@ import org.apache.commons.math.complex.Complex;
  */
 
 public class NumericConstant {
+	public final static int SparseEqnArrayListInitCapacity = 10;
+	public final static int NativeSparseEqnArrayListInitCapacity = 1000;
+	
 	public final static double
 			//			Pai       = Math.PI,
 			HalfPai = Math.PI * 0.5,
