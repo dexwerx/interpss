@@ -29,7 +29,7 @@ public class SimpleSVCTest extends DevTestSetup {
 //	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.1, net.getNoBus(), -100.0, 100.0);
+        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstV, 1.15, net.getNoBus(), -100.0, 100.0);
 //        svc.setQc(1.0);
 //        svc.setYsh(0.0, -5.0);
 //        svc.setLoad(new Complex(1.0, 0.8)); // set Load on the SVC bus
@@ -78,7 +78,7 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstB, -0.5, net.getNoBus(), -100.0, 100.0);
+        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstB, -0.1, net.getNoBus(), -100.0, 100.0);
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
@@ -123,7 +123,7 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.5, net.getNoBus(), -100.0, 100.0);
+        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.6, net.getNoBus(), -100.0, 100.0);
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
