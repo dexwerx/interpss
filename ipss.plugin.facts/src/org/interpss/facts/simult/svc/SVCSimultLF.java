@@ -167,7 +167,7 @@ public class SVCSimultLF extends AbstractAclfBus {
         m.xy = 2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVi
         m.xx = -vi * vsh * (-gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPi/dthetai
         m.yy = -2 * vi * bsh - vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVi
-        m.yx = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetai
+        m.yx = -vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetai
         return m;
     }
     
@@ -193,7 +193,7 @@ public class SVCSimultLF extends AbstractAclfBus {
         }
         else if (this.type == SVCControlType.ConstQ) {
             m.xx = vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dFSVC/dvsh
-            m.xy = -vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFSVC/dthetash
+            m.xy = vi * vsh * (-gsh * Math.cos(thetai - thetash) - bsh * Math.sin(thetai - thetash)); // dFSVC/dthetash
         }
         else if (this.type == SVCControlType.ConstB) {
         	m.xx = -bsh / vi * Math.cos(thetash - thetai) - gsh / vi * Math.sin(thetash - thetai);// dFSVC/dvsh
@@ -245,7 +245,7 @@ public class SVCSimultLF extends AbstractAclfBus {
             m.xx = 0.0; // dFSVC/dthetai
         }
         else if (this.type == SVCControlType.ConstQ) {
-            m.xy = (2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))) * vi; // dFSVC/dVi
+            m.xy = (2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash))); // dFSVC/dVi
             m.xx = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFSVC/dthetai
         }
         else if (this.type == SVCControlType.ConstB) {

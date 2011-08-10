@@ -23,7 +23,14 @@ public class SVCSimultSolver extends DefaultNrSolver {
 
         if (svcAry != null) {
             for (SVCSimultLF svc : svcAry) {
-                int i = svc.getBus().getSortNumber();
+//		        if (this.getAclfNet().isBusNumberArranged())
+//		        	System.out.println("Arranged.");
+//		        else
+//		        	System.out.println("Not arranged.");
+//            	this.getAclfNet().initBusNumber();
+            	int i = this.getAclfNet().getAclfBus(svc.getBus().getId()).getSortNumber();
+//            	System.out.println("i=" + i);
+//                int i = svc.getBus().getSortNumber();
                 int n = svc.getPosition();
                 
                 lfEqn.setA(svc.getJnn(), n, n);
