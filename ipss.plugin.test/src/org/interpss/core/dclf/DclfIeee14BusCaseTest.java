@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -19,13 +19,13 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
 					.runDclfAnalysis(true);
 
 		//System.out.println(DclfOutFunc.dclfResults(algo));
 		
 		//System.out.println(algo.getBranchFlow("0001", "0002", "1", UnitType.mW));
-		assertTrue(Math.abs(algo.getBranchFlow("0001", "0002", "1", UnitType.mW) - 147.88) < 0.01);
+		assertTrue(Math.abs(algoDsl.branchFlow("0001", "0002", "1", UnitType.mW) - 147.88) < 0.01);
 	}
 
 	@Test
@@ -33,25 +33,22 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
 					.runDclfAnalysis(true);
 
-		double x1 = IpssPTrading.wrapAlgorithm(algo)
-			.setInjectionBusId("0004")
+		double x1 = algoDsl.setInjectionBusId("0004")
 			.setWithdrawBusId("0007")
 			.setBranchFromBusId("0004").toBusId("0007")
 			.getPowerTransferDistFactor();
 		//System.out.println(x1);
 
-		double x2 = IpssPTrading.wrapAlgorithm(algo)
-			.setInjectionBusId("0004")
+		double x2 = algoDsl.setInjectionBusId("0004")
 			.setWithdrawBusId("0007")
 			.setBranchFromBusId("0004").toBusId("0009")
 			.getPowerTransferDistFactor();
 		//System.out.println(x2);
 
-		double x3 = IpssPTrading.wrapAlgorithm(algo)
-			.setInjectionBusId("0004")
+		double x3 = algoDsl.setInjectionBusId("0004")
 			.setWithdrawBusId("0007")
 			.setBranchFromBusId("0005").toBusId("0006")
 			.getPowerTransferDistFactor();
@@ -59,7 +56,7 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 	
 		assertTrue(Math.abs(x1 + x2 + x3 - 1.0) < 0.0001);
 		
-		double pFlow = algo.getBranchFlow("0004", "0007", "1", UnitType.mW);
+		double pFlow = algoDsl.branchFlow("0004", "0007", "1", UnitType.mW);
 		double derating1 = pFlow * x2 / ( 1.0 - x1);
 		double derating2 = pFlow * x3 / ( 1.0 - x1);
 
@@ -69,9 +66,27 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 		assertTrue(Math.abs(derating1 - 14.71922) < 0.0001);
 		assertTrue(Math.abs(derating2 - 14.26586) < 0.0001);
 		
-		AclfBranch outageBranch = algo.getAclfNetwork().getAclfBranch("0004", "0007", "1");
-		AclfBranch transferBranch = algo.getAclfNetwork().getAclfBranch("0004", "0009", "1");
-		double f = algo.getLineOutageDFactor(outageBranch, transferBranch);
+		AclfBranch outageBranch = algoDsl.aclfNet().getAclfBranch("0004", "0007", "1");
+		AclfBranch transferBranch = algoDsl.aclfNet().getAclfBranch("0004", "0009", "1");
+		double f = algoDsl.lineOutageDFactor(outageBranch, transferBranch);
+		//System.out.println("LODF (4->7) -> (4->9): " + f);
+		assertTrue(Math.abs(f - 0.50782) < 0.0001);
+		
+		//System.out.println(DclfOutFunc.lineOutageAnalysisTitle("", outageBranch.getId()));		
+		//System.out.println(DclfOutFunc.lineOutageAnalysisBranchFlow(transferBranch, algo, pFlow, f));		
+	}
+
+	@Test
+	public void lineOutageCaseTest1() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
+					.runDclfAnalysis(true);
+
+		AclfBranch outageBranch = algoDsl.aclfNet().getAclfBranch("0004", "0007", "1");
+		AclfBranch transferBranch = algoDsl.aclfNet().getAclfBranch("0004", "0009", "1");
+		double f = algoDsl.lineOutageDFactor(outageBranch, transferBranch);
 		//System.out.println("LODF (4->7) -> (4->9): " + f);
 		assertTrue(Math.abs(f - 0.50782) < 0.0001);
 		

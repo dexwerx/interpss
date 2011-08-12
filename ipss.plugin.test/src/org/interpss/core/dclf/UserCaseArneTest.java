@@ -13,8 +13,8 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 
 /**
  *   This test case is contributed by Arne Lüllmann 
@@ -23,10 +23,10 @@ import com.interpss.pssl.simu.IpssPTrading;
 public class UserCaseArneTest extends PluginTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
-		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(createTestNet())
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(createTestNet())
 					.runDclfAnalysis(true);
 
-		System.out.println(DclfOutFunc.dclfResults(algo));
+		System.out.println(DclfOutFunc.dclfResults(algoDsl.algo()));
 	}
 	
 	private AclfNetwork createTestNet() {
