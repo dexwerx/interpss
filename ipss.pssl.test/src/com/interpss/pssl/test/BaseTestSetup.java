@@ -5,6 +5,7 @@ import org.interpss.IpssPlugin;
 import org.junit.BeforeClass;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.pssl.simu.BaseDSL;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class BaseTestSetup {
@@ -14,6 +15,7 @@ public class BaseTestSetup {
 	public static void setSpringAppCtx() {
 		IpssPlugin.init();
 		msg = CoreCommonSpringCtx.getIpssMsgHub();
+		BaseDSL.setMsgHub(msg);
 	}
 }
 
