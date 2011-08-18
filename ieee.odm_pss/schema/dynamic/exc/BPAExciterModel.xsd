@@ -418,7 +418,7 @@
 			<extension base="pss:ExcSimpleTypeXmlType">
 				<sequence>
 					<element maxOccurs="1" minOccurs="1" name="K" type="double"/>
-					<element maxOccurs="1" minOccurs="1" name="KV" type="int"/>
+					<element maxOccurs="1" minOccurs="1" name="KV" type="double"/>
 					<element maxOccurs="1" minOccurs="0" name="T1" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="0" name="T2" type="pss:TimePeriodXmlType"/>
 					<element maxOccurs="1" minOccurs="1" name="VA1MAX" type="double"/>

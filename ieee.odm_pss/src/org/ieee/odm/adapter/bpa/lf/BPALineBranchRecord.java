@@ -58,7 +58,7 @@ public class BPALineBranchRecord {
 			
 			// set cirId, if not specified, set to 1
 			//TODO change 1->0, since one uses "1" while CirId for the other is missing for some parallel branches in BPA
-			String cirId="0";
+			String cirId="1";
 			if(!strAry[8].equals("")){
 				cirId = strAry[8];
 			}

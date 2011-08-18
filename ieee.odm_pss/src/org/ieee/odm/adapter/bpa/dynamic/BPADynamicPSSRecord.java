@@ -64,63 +64,73 @@ public class BPADynamicPSSRecord {
     		// QV block is rarely used.
     		//KQV
     		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")) KQV/=1000;
     		pss.setKQV(KQV);// since the sign of QV block is opposite to that of IEE2ST
     		    		
     		//TQV
     		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) TQV/=1000;
     		pss.setTQV(BaseDataSetter.createTimeConstSec(TQV));
     		
     		//KQS
-    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
+    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) KQS/=1000;
     		pss.setKQS(KQS);
     		
     		//TQS
     		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) TQS/=1000;
     		pss.setTQS(BaseDataSetter.createTimeConstSec(TQS));
     		
     		//TQ
     		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) TQ/=100;
     		pss.setTQ(BaseDataSetter.createTimeConstSec(TQ));
 
     		// TQ1
     		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
-    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));
-    		
-    		
+    		if(!strAry[9].contains(".")) TQ1/=1000;
+    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));    		
     		    		
     		//TQ11
     		double TQ11= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")) TQ11/=1000;
     		pss.setT1Q1(BaseDataSetter.createTimeConstSec(TQ11));
     		
     		//TQ2
     		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) TQ2/=1000;
     		pss.setTQ2(BaseDataSetter.createTimeConstSec(TQ2));
     		
     		// TQ21
     		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) TQ21/=1000;
     		pss.setT1Q2(BaseDataSetter.createTimeConstSec(TQ21));
     		
     		//TQ3
     		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) TQ3/=1000;
     		pss.setTQ3(BaseDataSetter.createTimeConstSec(TQ3));
     		   		    		
     		//TQ31
     		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));    		    		
-    		  		
-
+    		if(!strAry[14].contains(".")) TQ31/=1000;
+    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));
     		    		
     		//VSMAX
     		double vsmax=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")) vsmax/=1000;
     		pss.setVSMAX(vsmax);
     			
     		//VCUTOFF
     		double vcut=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")) vcut/=1000;
     		pss.setVCUTOFF(vcut);
     		    		
     		//VSLOW
     		double vsmin=0.0;
     		double Vslow=ModelStringUtil.getDouble(strAry[17], 0.0);
+    		if(!strAry[17].contains(".")) Vslow/=100;
     		   		
     		if(Vslow<=0){
     			vsmin=-vsmax;
@@ -132,8 +142,6 @@ public class BPADynamicPSSRecord {
             //TODO there is no corresponding element in IEE2ST model		    		
 //    		//KQS MVAbase for SP SG
 //    		double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
-    		
-    		
     	}
     	else if(str.substring(0, 3).trim().equals("SP")){
     		
@@ -143,68 +151,80 @@ public class BPADynamicPSSRecord {
     		// QV block is rarely used.
     		//KQV
     		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[5].contains(".")) KQV/=1000;
     		pss.setKQV(KQV);// since the sign of QV block is opposite to that of IEE2ST
     		    		
     		//TQV
     		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) TQV/=1000;
     		pss.setTQV(BaseDataSetter.createTimeConstSec(TQV));
     		
     		//KQS
-    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
+    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) KQS/=1000;
     		pss.setKQS(KQS);
     		
     		//TQS
     		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) TQS/=1000;
     		pss.setTQS(BaseDataSetter.createTimeConstSec(TQS));
     		
     		//TQ
     		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) TQ/=100;
     		pss.setTQ(BaseDataSetter.createTimeConstSec(TQ));
 
     		// TQ1
     		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
-    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));
-    		
-    		
+    		if(!strAry[9].contains(".")) TQ1/=1000;
+    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));    		
     		    		
     		//TQ11
-    		double T1Q1= ModelStringUtil.getDouble(strAry[10], 0.0);
-    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(T1Q1));
+    		double TQ11= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")) TQ11/=1000;
+    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(TQ11));
     		
     		//TQ2
     		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) TQ2/=1000;
     		pss.setTQ2(BaseDataSetter.createTimeConstSec(TQ2));
     		
     		// TQ21
     		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) TQ21/=1000;
     		pss.setT1Q2(BaseDataSetter.createTimeConstSec(TQ21));
     		
     		//TQ3
     		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) TQ3/=1000;
     		pss.setTQ3(BaseDataSetter.createTimeConstSec(TQ3));
     		   		    		
     		//TQ31
     		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));    		    		
-   		
+    		if(!strAry[14].contains(".")) TQ31/=1000;
+    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));
+    		    		
     		//VSMAX
     		double vsmax=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")) vsmax/=1000;
     		pss.setVSMAX(vsmax);
     			
     		//VCUTOFF
     		double vcut=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")) vcut/=1000;
     		pss.setVCUTOFF(vcut);
     		    		
     		//VSLOW
     		double vsmin=0.0;
     		double Vslow=ModelStringUtil.getDouble(strAry[17], 0.0);
+    		if(!strAry[17].contains(".")) Vslow/=100;
     		   		
     		if(Vslow<=0){
     			vsmin=-vsmax;
     		}else {
     			vsmin=-Vslow;
     		}
-    		pss.setVSMIN(vsmin);		    		
+    		pss.setVSMIN(vsmin);    		
 //    		//KQS MVAbase for SP SG
 //    		double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
     		
@@ -218,60 +238,73 @@ public class BPADynamicPSSRecord {
     		// QV block is rarely used.
     		//KQV
     		double KQV=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[5].contains(".")) KQV/=1000;
     		pss.setKQV(KQV);// since the sign of QV block is opposite to that of IEE2ST
     		    		
     		//TQV
     		double TQV=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) TQV/=1000;
     		pss.setTQV(BaseDataSetter.createTimeConstSec(TQV));
     		
     		//KQS
-    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);    			
+    		double KQS= ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) KQS/=1000;
     		pss.setKQS(KQS);
     		
     		//TQS
     		double TQS= ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) TQS/=1000;
     		pss.setTQS(BaseDataSetter.createTimeConstSec(TQS));
     		
     		//TQ
     		double TQ= ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) TQ/=100;
     		pss.setTQ(BaseDataSetter.createTimeConstSec(TQ));
 
     		// TQ1
     		double TQ1= ModelStringUtil.getDouble(strAry[9], 0.0);
-    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));
-    		
+    		if(!strAry[9].contains(".")) TQ1/=1000;
+    		pss.setTQ1(BaseDataSetter.createTimeConstSec(TQ1));    		
     		    		
     		//TQ11
-    		double T1Q1= ModelStringUtil.getDouble(strAry[10], 0.0);
-    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(T1Q1));
+    		double TQ11= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")) TQ11/=1000;
+    		pss.setT1Q1(BaseDataSetter.createTimeConstSec(TQ11));
     		
     		//TQ2
     		double TQ2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) TQ2/=1000;
     		pss.setTQ2(BaseDataSetter.createTimeConstSec(TQ2));
     		
     		// TQ21
     		double TQ21= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) TQ21/=1000;
     		pss.setT1Q2(BaseDataSetter.createTimeConstSec(TQ21));
     		
     		//TQ3
     		double TQ3=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) TQ3/=1000;
     		pss.setTQ3(BaseDataSetter.createTimeConstSec(TQ3));
     		   		    		
     		//TQ31
     		double TQ31=ModelStringUtil.getDouble(strAry[14], 0.0);
-    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));    		    		
-   		
+    		if(!strAry[14].contains(".")) TQ31/=1000;
+    		pss.setT1Q3(BaseDataSetter.createTimeConstSec(TQ31));
+    		    		
     		//VSMAX
     		double vsmax=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")) vsmax/=1000;
     		pss.setVSMAX(vsmax);
     			
     		//VCUTOFF
     		double vcut=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")) vcut/=1000;
     		pss.setVCUTOFF(vcut);
     		    		
     		//VSLOW
     		double vsmin=0.0;
     		double Vslow=ModelStringUtil.getDouble(strAry[17], 0.0);
+    		if(!strAry[17].contains(".")) Vslow/=100;
     		   		
     		if(Vslow<=0){
     			vsmin=-vsmax;
@@ -289,53 +322,65 @@ public class BPADynamicPSSRecord {
     		dualPss.setDesc("BPA SI Type Dual Input Pss model,machine Id-" + macId);
 
     		//TRW
-    		double  Trw=ModelStringUtil.getDouble(strAry[4], 0.0);;
-    		dualPss.setTrw(BaseDataSetter.createTimeConstSec(Trw));
-    		
+    		double  Trw=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")) Trw/=10000;
+    		dualPss.setTrw(BaseDataSetter.createTimeConstSec(Trw));    		
     		
     		//T5
     		double  T5=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) T5/=1000;
     		dualPss.setT5(BaseDataSetter.createTimeConstSec(T5));
     		//T6
     		double  T6=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) T6/=1000;
     		dualPss.setT6(BaseDataSetter.createTimeConstSec(T6));
     		
     		//T7
     		double  T7=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) T7/=1000;
     		dualPss.setT7(BaseDataSetter.createTimeConstSec(T7));
     		
     		//KR
     		double Kr= ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) Kr/=10000;
     		dualPss.setKr(Kr);  		
     		// TRP
     		double  Trp=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")) Trp/=10000;
     		dualPss.setTrp(BaseDataSetter.createTimeConstSec(Trp));
     		
     		//TW
     		double  Tw=ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")) Tw/=1000;
     		dualPss.setTW(BaseDataSetter.createTimeConstSec(Tw));
     		
     		//TW1
     		double  Tw1=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) Tw1/=1000;
     		dualPss.setTW1(BaseDataSetter.createTimeConstSec(Tw1));
     		
     		// TW2
     		double  Tw2=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) Tw2/=1000;
     		dualPss.setTW2(BaseDataSetter.createTimeConstSec(Tw2));
     		
     		//KS
     		double Ks= ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) Ks/=100;
     		dualPss.setKS(Ks);    	
     		//T9
     		double  T9=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(!strAry[14].contains(".")) T9/=1000;
     		dualPss.setT9(BaseDataSetter.createTimeConstSec(T9));
     		
     		//T10
     		double T10=ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")) T10/=1000;
     		dualPss.setT10(BaseDataSetter.createTimeConstSec(T10));
     		
     		//T12
     		double T12=ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")) T12/=1000;
     		dualPss.setT12(BaseDataSetter.createTimeConstSec(T12));
     	    
     		//INP input signal:0 for speed deviation(delta_w) and generator accelerating power(delta_Pg), 
@@ -349,46 +394,54 @@ public class BPADynamicPSSRecord {
     			dualPss.setFirstInputSignal(StabilizerInputSignalEnumType.ROTOR_SPEED_DEVIATION );
     		}else if(INP==2){
     			dualPss.setSecondInputSignal(StabilizerInputSignalEnumType.GENERATOR_ACCELERATING_POWER);
-    		}
-    	
+    		}    	
     	}
     	// SI+ is to store the rest data of DualInputPss Model
     	else if(str.substring(0, 3).trim().equals("SI+")){ 
     		PssBPADualInputXmlType dualPss=(PssBPADualInputXmlType) dynGen.getStabilizer().getValue();
 
     		//KP
-    		double kp= ModelStringUtil.getDouble(strAry[4], 0.0); 
-    		dualPss.setKp(kp);
+    		double Kp= ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")) Kp/=1000;
+    		dualPss.setKp(Kp);
     		//T1
-    		double  t1=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		dualPss.setT1(BaseDataSetter.createTimeConstSec(t1));
+    		double T1=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) T1/=1000;
+    		dualPss.setT1(BaseDataSetter.createTimeConstSec(T1));
    		
     		//T2
-    		double  t2=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		dualPss.setT2(BaseDataSetter.createTimeConstSec(t2));
+    		double T2=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) T2/=1000;
+    		dualPss.setT2(BaseDataSetter.createTimeConstSec(T2));
     		
     		//T13
-    		double  t13=ModelStringUtil.getDouble(strAry[7], 0.0);
-    		dualPss.setT13(BaseDataSetter.createTimeConstSec(t13));
+    		double T13=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) T13/=1000;
+    		dualPss.setT13(BaseDataSetter.createTimeConstSec(T13));
     	
     		//T14
-    		double  t14=ModelStringUtil.getDouble(strAry[8], 0.0);
-    		dualPss.setT14(BaseDataSetter.createTimeConstSec(t14));
+    		double T14=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) T14/=1000;
+    		dualPss.setT14(BaseDataSetter.createTimeConstSec(T14));
     		
     		// T3
-    		double  t3=ModelStringUtil.getDouble(strAry[9], 0.0);
-    		dualPss.setT3(BaseDataSetter.createTimeConstSec(t3));
+    		double T3=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")) T3/=1000;
+    		dualPss.setT3(BaseDataSetter.createTimeConstSec(T3));
     		
     		//T4
-    		double  t4=ModelStringUtil.getDouble(strAry[10], 0.0);
-    		dualPss.setT4(BaseDataSetter.createTimeConstSec(t4));
+    		double T4=ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")) T4/=1000;
+    		dualPss.setT4(BaseDataSetter.createTimeConstSec(T4));
     		
     		//VSMAX
     		double vsmax= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) vsmax/=10000;
     		dualPss.setVSMAX(vsmax);
     		
     		// VSMIN
     		double vsmin=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) vsmin/=10000;
     		dualPss.setVSMIN(vsmin);
     		
     		//krBaseMVA-- the base MVA for the Kr parameter

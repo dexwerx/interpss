@@ -138,9 +138,11 @@ public class BPADynamicRecord {
 					str.substring(0, 2).trim().equals("SP")||str.substring(0, 2).trim().equals("SG")
 					||str.substring(0, 2).trim().equals("SI")||str.substring(0, 3).trim().equals("SI+")){
 				dataType=pssData;
-			}else if(str.substring(0, 2).trim().equals("GS")||
-					str.substring(0, 2).trim().equals("TA")||str.substring(0, 2).trim().equals("TB")
-					||str.substring(0, 2).trim().equals("GH")||str.substring(0, 2).trim().equals("GG")){
+			}else if(str.substring(0, 2).trim().equals("GS")||str.substring(0, 2).trim().equals("GH")
+					||str.substring(0, 2).trim().equals("GG")||str.substring(0, 2).trim().equals("GA")
+					||str.substring(0, 2).trim().equals("GI")||str.substring(0, 3).trim().equals("GI+")
+					||str.substring(0, 2).trim().equals("TA")||str.substring(0, 2).trim().equals("TB")
+					){
 				dataType=turbine_governorData;
 			}else if(str.substring(0, 2).trim().equals("LA")||
 					str.substring(0, 2).trim().equals("LB")||str.substring(0, 2).trim().equals("MI")){

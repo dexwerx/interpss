@@ -1,6 +1,5 @@
-#Sat Apr 02 10:50:40 GMT-05:00 2011
+#Thu Aug 18 11:22:17 CST 2011
 eclipse.preferences.version=1
-encoding//schema/StudyCase.xsd=UTF8
 encoding//schema/common/DataType.xsd=UTF8
 encoding//schema/dcsystem/DcSystemRecordType.xsd=UTF8
 encoding//schema/loadflow/LFRecordType.xsd=UTF8

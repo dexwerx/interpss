@@ -145,19 +145,14 @@ public class BPABusRecord {
 		// TODO set bus owner
         //busRec.getOwnerList().getOwner().get(0).setName(ownerName);
 		//basekv
-		double baseKv=100.0;
-		if(!strAry[4].equals("")){
-			baseKv= new Double(strAry[4]).doubleValue();
-		}
+		double baseKv=ModelStringUtil.getDouble(strAry[4], 100.0);
 		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 
 		// TODO area name??
 		//busRec.setAreaName(value);
 		//zone name
 		final String zoneName= strAry[5];
-		busRec.setZoneName(zoneName);
-		
-		
+		busRec.setZoneName(zoneName);		
 		
 		/*
 		 * Parse Loadflow data
@@ -165,78 +160,35 @@ public class BPABusRecord {
 		 */
 		
 		//load mw and mvar
-		double loadMw=0.0;
-		double loadMvar=0.0;
-		if(!strAry[6].equals("")){
-			loadMw = new Double(strAry[6]).doubleValue();			
-		}
-		if(!strAry[7].equals("")){			
-			loadMvar = new Double(strAry[7]).doubleValue();
-		}
-		
+		double loadMw=ModelStringUtil.getDouble(strAry[6], 0.0);
+		double loadMvar=ModelStringUtil.getDouble(strAry[7], 0.0);
 		//Shunt mw--> G 
 		//Shunt var B -->B
-		double shuntMw=0.0;
-		double shuntVar=0.0;
-		if(!strAry[8].trim().equals("") && !strAry[8].trim().equals(".")){
-			shuntMw= new Double(strAry[8]).doubleValue();
-		}		
-		if(!strAry[9].equals("")&&!strAry[9].trim().equals(".")){
-			shuntVar= new Double(strAry[9]).doubleValue();
-		}		       
+		double shuntMw=ModelStringUtil.getDouble(strAry[8], 0.0);
+		double shuntVar=ModelStringUtil.getDouble(strAry[9], 0.0);	       
 		final double g=ModelStringUtil.getNumberFormat(shuntMw/baseMVA);
 		final double b=ModelStringUtil.getNumberFormat(shuntVar/baseMVA);
 
 		// set pGenMax
-		double pGenMax=0.0;
-		if(!strAry[10].equals("")&&!strAry[10].equals(".")){
-			pGenMax= new Double(strAry[10]).doubleValue();
-		}
-		double pGen=0.0;
-		if(!strAry[11].equals("")){
-			pGen= new Double(strAry[11]).doubleValue();
-		}		
+		double pGenMax=ModelStringUtil.getDouble(strAry[10], 0.0);
+		double pGen=ModelStringUtil.getDouble(strAry[11], 0.0);	
 		
 		// qGen for PQ bus, qGenMax for PV bus
-		double qGenOrQGenMax=0.0;
-		if(!strAry[12].equals("")){
-			qGenOrQGenMax=new Double(strAry[12]).doubleValue();
+		double qGenOrQGenMax=ModelStringUtil.getDouble(strAry[12], 0.0);
+		double qGenMin=ModelStringUtil.getDouble(strAry[13], 0.0);
+		
+		//for swing bus, this value is vpu, for others it is vpuorvmax.
+		double vpu=ModelStringUtil.getDouble(strAry[14], 0.0);
+		if(!strAry[14].contains(".")){
+			vpu/=1000;
 		}
-		
-		// TODO - not sure what its meaning
-		if(strAry[13].equals(".")){
-			ODMLogger.getLogger().info(str+"str 13 is .");
-		}
-		
-		double qGenMin=0.0;
-		if(!strAry[13].equals("")){
-			qGenMin= new Double(strAry[13]).doubleValue();
-		}
-		
-		// TODO - not sure what its meaning
-		if(strAry[14].equals(".")){
-			ODMLogger.getLogger().info(str+"str 14 is .");
-		}
-		
-		double vpu=0.0;
-		if(!strAry[14].equals("")){
-			vpu = new Double(strAry[14]).doubleValue();
-			if(vpu!=0.0) {
-				if(vpu > 10)
-					vpu=vpu*0.001; //F4.3
-			}
-		}		
-		
 		//for swing bus, this value is angle(degrees), for others it is vmin.
-		double vMinOrAngDeg=0.0;
-		if(!strAry[15].equals("")){
-			vMinOrAngDeg= new Double(strAry[15]).doubleValue();			
+		double vMinOrAngDeg=ModelStringUtil.getDouble(strAry[15], 0.0);
+		if(!strAry[15].contains(".")){
+			vMinOrAngDeg/=1000;
 		}	
 		
-		double varSupplied=0.0;
-		if(!strAry[18].equals("")){
-			varSupplied= new Double(strAry[18]).doubleValue();
-		}	
+		double varSupplied=ModelStringUtil.getDouble(strAry[18], 0.0);
 		
 		/*
 		 * process data and map to the ODM bus record
@@ -268,7 +220,7 @@ public class BPABusRecord {
 				AclfDataSetter.setGenData(busRec,
 							LFGenCodeEnumType.SWING,
 							vpu, VoltageUnitType.PU,
-							vMinOrAngDeg, AngleUnitType.DEG,0,0, ApparentPowerUnitType.MVA);
+							vMinOrAngDeg, AngleUnitType.DEG,pGen,0, ApparentPowerUnitType.MVA);
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					busRec.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit( 
@@ -344,13 +296,13 @@ public class BPABusRecord {
 				LoadflowBusXmlType Bus=parser.getAclfBus(getBusId(busName));
 				final String loadType=strAry[5];
 				//loadType: *I or 01 for constI,  and *P or 02 for constP
-				final double p=strAry[6].equals("")?0:new Double(strAry[6]).doubleValue();
-				final double q=strAry[7].equals("")?0:new Double(strAry[7]).doubleValue();
+				final double p=ModelStringUtil.getDouble(strAry[6], 0.0);
+				final double q=ModelStringUtil.getDouble(strAry[7], 0.0);
 				//TODO how to set constI type load
 				
 		        if(!strAry[9].equals("")||!strAry[8].equals("")){
-					final double ShuntG=strAry[8].equals("")?0:new Double(strAry[8]).doubleValue();
-					final double ShuntB=strAry[9].equals("")?0:new Double(strAry[9]).doubleValue();
+					final double ShuntG=ModelStringUtil.getDouble(strAry[8], 0.0);
+					final double ShuntB=ModelStringUtil.getDouble(strAry[9], 0.0);
 					//System.out.println("Shunt G +B="+ShuntG+","+ShuntB);
 					double re=ModelStringUtil.getNumberFormat(ShuntG/baseMVA); // x(pu)=Var/baseMVA
 					double im=ModelStringUtil.getNumberFormat(ShuntB/baseMVA);
@@ -365,10 +317,7 @@ public class BPABusRecord {
 			 desired bus voltage is specified in strAry[14], equals to vpu
 			 */
 			final String controlledBus= strAry[16];
-			double controlledBusRatedVol=0.0;
-			if(!strAry[17].equals("")){
-				controlledBusRatedVol = new Double(strAry[17]).doubleValue();			
-			}
+			double controlledBusRatedVol=ModelStringUtil.getDouble(strAry[17], 0.0);
 			
 			if(strAry[0].equals("BG")||strAry[0].equals("BX")){
 				if(!controlledBus.equals("")) {			

@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Fri Aug 12 19:05:48 CST 2011
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=ieee.odm_pss.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=<po|ipss.numeric>;<po|ieee.odm.schema>;<po|ipss.numeric>;<jar|junit.jar>;<jar|org.hamcrest.core_1.1.0.v20090501071000.jar>;<jar|spring-2.5.6.jar>;<jar|spring-aop2.5.6.jar>;<jar|ieee.odm_pss.jar>;<jar|ieee.odm.schema.jar>;<jar|commons-math-2.2.jar>;<jar|commons-logging.jar>;<jar|spring-2.5.6.jar>
+includes=

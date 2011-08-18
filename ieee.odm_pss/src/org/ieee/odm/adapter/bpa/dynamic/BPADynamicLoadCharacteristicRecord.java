@@ -197,8 +197,12 @@ private static String[] getLoadDataFields(String str){
 	try{
 		if(str.substring(0, 2).trim().equals("LA")||str.substring(0, 2).trim().equals("LB")){
 			strAry[0]=ModelStringUtil.getStringReturnEmptyString(str,1, 2).trim();
-			//busId
-			strAry[1]=ModelStringUtil.getStringReturnEmptyString(str,4, 11).trim();
+			//to process the Chinese characters first, if any.
+			int chineseCharNum=ModelStringUtil.getChineseCharNum(str.substring(3,10).trim());
+			//Columns 6-13 busName  
+			strAry[1] = ModelStringUtil.getStringReturnEmptyString(str,4, 11-chineseCharNum).trim();			
+			str=chineseCharNum==0?str:ModelStringUtil.replaceChineseChar(str);
+			
 			//bus Voltage
 			strAry[2]=ModelStringUtil.getStringReturnEmptyString(str,12, 15).trim();
 			//zone name

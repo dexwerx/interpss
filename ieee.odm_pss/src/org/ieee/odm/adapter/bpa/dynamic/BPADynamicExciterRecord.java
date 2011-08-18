@@ -43,7 +43,6 @@ import org.ieee.odm.schema.ExcBPAFSXmlType;
 import org.ieee.odm.schema.ExcBPAFUXmlType;
 import org.ieee.odm.schema.ExcBPAFVXmlType;
 import org.ieee.odm.schema.ExcIEEE1968Type1XmlType;
-import org.ieee.odm.schema.ExcIEEE1981ST1XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeAC2XmlType;
 import org.ieee.odm.schema.ExcIEEE1981TypeDC1XmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
@@ -85,49 +84,85 @@ public class BPADynamicExciterRecord {
     		
     		//TR
     		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")){
+    			Tr=Tr/1000;
+			}
     		exc.setTR(BaseDataSetter.createTimeConstSec(Tr));
     		    		
     		//KA for all, KV for EE
     		double Ka=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")){
+    			Ka=Ka/100;
+			}
     		exc.setKA(Ka);
     		   		
     		//TA for all, TRH for EE
     		double Ta=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")){
+    			Ta=Ta/100;
+			}
     		exc.setTA(BaseDataSetter.createTimeConstSec(Ta));
     		
     		//VRminMult, VRmax*multi=Vrmin. VRmin for ED EJ
     		double multi=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")){
+    			multi=multi/100;
+			}
     		// KE
     		double Ke=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")){
+    			Ke=Ke/1000;
+			}
     		exc.setKE(Ke);
     		    		
     		//TE
     		double Te= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")){
+    			Te=Te/1000;
+			}
     		exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     		
     		//rule: E1 > E2, Se(E1) > Se(E2) 
     		//SE0.75MAX for all, KI for DD
     		//e1=EfdMax, e2=0.75*EfdMax,so it is set after processing EfdMax
     		double SE2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")){
+    			SE2=SE2/1000;
+			}
     		exc.setSE2(SE2);    		
     		
     		//EFDMin
     		double Efdmin=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")){
+    			Efdmin=Efdmin/1000;
+			}
     		exc.setEFDMIN(Efdmin);
     		
     		//EFDMax for all, VNmax for ED
-    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);  		
+    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(!strAry[14].contains(".")){
+    			Efdmax=Efdmax/1000;
+			}
     		// SEmax for all, Kp for DD
     		exc.setE1(Efdmax);
     		exc.setE2(0.75*Efdmax);
     		double SE1= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")){
+    			SE1=SE1/1000;
+			}
     		exc.setSE1(SE1);    		
     		//KF
     		double Kf= ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")){
+    			Kf=Kf/1000;
+			}
     		exc.setKF(Kf);
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")){
+    			Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
     		if(Kf==0.0&&Tf==0.0)Tf=1.0;
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
@@ -157,52 +192,89 @@ public class BPADynamicExciterRecord {
     		
     		//TR
     		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")){
+    			Tr=Tr/1000;
+			}
     		exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));
     		    		
     		//KA for all, KV for EE
     		double Ka=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")){
+    			Ka=Ka/100;
+			}
     		exc.setKa(Ka);
     		   		
     		//TA for all, TRH for EE
     		double Ta=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")){
+    			Ta=Ta/100;
+			}
     		exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
     		
     		//VRminMult, VRmax*multi=Vrmin. VRmin for ED EJ
     		double multi=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")){
+    			multi=multi/100;
+			}
     		// KE
     		double Ke=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")){
+    			Ke=Ke/1000;
+			}
     		exc.setKE(Ke);
     		    		
     		//TE
     		double Te= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")){
+    			Te=Te/1000;
+			}
     		exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     		
     		//rule: E1 > E2, Se(E1) > Se(E2) 
     		//SE0.75MAX for all, KI for DD
     		//e1=EfdMax, e2=0.75*EfdMax,so it is set after processing EfdMax
     		double SE2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")){
+    			SE2=SE2/1000;
+			}
     		exc.setSE2(SE2);    		
     		
     		//EFDMin
     		double Efdmin=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")){
+    			Efdmin=Efdmin/1000;
+			}
     		exc.setEFDMIN(Efdmin);
     		
     		//EFDMax for all, VNmax for ED
-    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);  		
+    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(!strAry[14].contains(".")){
+    			Efdmax=Efdmax/1000;
+			}
     		// SEmax for all, Kp for DD
     		exc.setE1(Efdmax);
     		exc.setE2(0.75*Efdmax);
     		double SE1= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")){
+    			SE1=SE1/1000;
+			}
     		exc.setSE1(SE1);    		
     		//KF
     		double Kf= ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")){
+    			Kf=Kf/1000;
+			}
     		exc.setKF(Kf);
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")){
+    			Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
     		if(Kf==0.0&&Tf==0.0)Tf=1.0;
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+    		
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
     		double VRmax=(SE2+Ke)*Efdmax;
@@ -227,63 +299,100 @@ public class BPADynamicExciterRecord {
     		
     		//TR
     		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")){
+    			Tr=Tr/1000;
+			}
     		exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));
     		    		
     		//KA for all, KV for EE
     		double Ka=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")){
+    			Ka=Ka/100;
+			}
     		exc.setKa(Ka);
     		   		
     		//TA for all, TRH for EE
     		double Ta=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")){
+    			Ta=Ta/100;
+			}
     		exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
     		
     		//VRminMult, VRmax*multi=Vrmin. VRmin for ED EJ
     		double multi=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")){
+    			multi=multi/100;
+			}
     		// KE
     		double Ke=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")){
+    			Ke=Ke/1000;
+			}
     		exc.setKE(Ke);
     		    		
     		//TE
     		double Te= ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")){
+    			Te=Te/1000;
+			}
     		exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     		
     		//rule: E1 > E2, Se(E1) > Se(E2) 
     		//SE0.75MAX for all, KI for DD
     		//e1=EfdMax, e2=0.75*EfdMax,so it is set after processing EfdMax
     		double SE2= ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")){
+    			SE2=SE2/1000;
+			}
     		exc.setSE2(SE2);    		
     		
     		//EFDMin
     		double Efdmin=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")){
+    			Efdmin=Efdmin/1000;
+			}
     		exc.setEFDMIN(Efdmin);
     		
     		//EFDMax for all, VNmax for ED
-    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);  		
+    		double Efdmax=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(!strAry[14].contains(".")){
+    			Efdmax=Efdmax/1000;
+			}
     		// SEmax for all, Kp for DD
     		exc.setE1(Efdmax);
     		exc.setE2(0.75*Efdmax);
     		double SE1= ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")){
+    			SE1=SE1/1000;
+			}
     		exc.setSE1(SE1);    		
     		//KF
     		double Kf= ModelStringUtil.getDouble(strAry[15], 0.0);
+    		if(!strAry[15].contains(".")){
+    			Kf=Kf/1000;
+			}
     		exc.setKF(Kf);
     		    		
     		//TF    		
     		double Tf= ModelStringUtil.getDouble(strAry[16], 0.0);
+    		if(!strAry[16].contains(".")){
+    			Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
     		if(Kf==0.0&&Tf==0.0)Tf=1.0;
     		exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
+    		
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
-    		double Vrmax=(SE2+Ke)*Efdmax;
-    		double Vrmin=Vrmax*multi;
-    		exc.setVrmax(Vrmax);
-			if(Vrmin>0){
+    		double VRmax=(SE2+Ke)*Efdmax;
+    		double VRmin=VRmax*multi;
+    		exc.setVrmax(VRmax);
+			if(VRmin>0){
 				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
-						", automatically change it to: "+(-Vrmin) );
-				Vrmin*=-1;
+						", automatically change it to: "+(-VRmin) );
+				VRmin*=-1;
 			}
-    		exc.setVrmin(Vrmin);
+    		exc.setVrmin(VRmin);
     	}
     	else if(type==FA){
     		
@@ -299,38 +408,65 @@ public class BPADynamicExciterRecord {
 			
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/10000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/10000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/10000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));			
 			
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				Tb=Tb/1000;
+			}
 			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//TC
 			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				Tc=Tc/1000;
+			}
 			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 			
 			//KA, KV for FE
 			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				Ka=Ka/100;
+			}
 			exc.setKa(Ka);			
 			
 			// TA, TRH for FE
 			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//VRmax, Vamax for FH
 			double Vrmax= ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Vrmax=Vrmax/1000;
+			}
 			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Vrmin=Vrmin/1000;
+			}
 			if(Vrmin>0){
 				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
 						", automatically change it to: "+(-Vrmin) );
@@ -339,11 +475,17 @@ public class BPADynamicExciterRecord {
 			exc.setVrmin(Vrmin);
 			
 			//Ke
-			double ke=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKE(ke);
+			double Ke=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Ke=Ke/1000;
+			}
+			exc.setKE(Ke);
 			
 			//Te
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Te=Te/1000;
+			}
 			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
     	
@@ -358,37 +500,64 @@ public class BPADynamicExciterRecord {
     		exc.setDesc("BPA FJ Type Exciter, excId-" + excId);
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/10000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/10000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/10000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				Tb=Tb/1000;
+			}
 			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//TC
 			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				Tc=Tc/1000;
+			}
 			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 			
 			//KA, KV for FE
 			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				Ka=Ka/100;
+			}
 			exc.setKa(Ka);			
 			
 			// TA, TRH for FE
 			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//VRmax, Vamax for FH
-			double Vrmax=ModelStringUtil.getDouble(strAry[13], 0.0);
+			double Vrmax= ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Vrmax=Vrmax/1000;
+			}
 			exc.setVrmax(Vrmax);
 			
-			//VRmin, Vamin
+			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Vrmin=Vrmin/1000;
+			}
 			if(Vrmin>0){
 				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
 						", automatically change it to: "+(-Vrmin) );
@@ -409,47 +578,80 @@ else if(type==FK){
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/10000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/10000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/10000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 			
 			//VIMax for G K L,VAmax for FF
 			double Vimax= ModelStringUtil.getDouble(strAry[7], 0.0);
+			if(!strAry[7].contains(".")){
+				Vimax=Vimax/1000;
+			}
 			exc.setVIMAX(Vimax);
 			
 			//VIMin for G K L,VAmin for FF
 			//VIMax for G K L,VAmax for FF
 			double Vimin= ModelStringUtil.getDouble(strAry[8], 0.0);
+			if(!strAry[7].contains(".")){
+				Vimin=Vimin/1000;
+			}
 			exc.setVIMIN(Vimin);
 
 			// TB
 			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				Tb=Tb/1000;
+			}
 			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
 			//TC
 			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				Tc=Tc/1000;
+			}
 			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
 			
 			//KA, KV for FE
 			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
-			exc.setKa(Ka);
+			if(!strAry[11].contains(".")){
+				Ka=Ka/100;
+			}
+			exc.setKa(Ka);			
 			
 			// TA, TRH for FE
 			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
 			//VRmax, Vamax for FH
 			double Vrmax= ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Vrmax=Vrmax/1000;
+			}
 			exc.setVrmax(Vrmax);
 			
 			//VRmin, Vamin			
 			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Vrmin=Vrmin/1000;
+			}
 			if(Vrmin>0){
 				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
 						", automatically change it to: "+(-Vrmin) );
@@ -468,61 +670,100 @@ else if(type==FK){
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/1000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/1000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/1000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
-			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc.setK(k);
+			double K=ModelStringUtil.getDouble(strAry[7], 0.0);
+			if(!strAry[7].contains(".")){
+				K=K/1000;
+			}
+			exc.setK(K);
 						
-			//Kv
-			int kv=ModelStringUtil.getInt(strAry[8], 0);
-			exc.setKV(kv);
+			//Kv(F3.0)
+			double Kv=ModelStringUtil.getDouble(strAry[8], 0.0);
+			exc.setKV(Kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				T1=T1/1000;
+			}
 			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
 			
 			//T2
 			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				T2=T2/1000;
+			}
 			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
 						
 			//T3			
 			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				T3=T3/1000;
+			}
 			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
 						
 			// T4			
 			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				T4=T4/1000;
+			}
 			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
 						
 			//KA
-			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setKa(ka);
+			double Ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Ka=Ka/1000;
+			}
+			exc.setKa(Ka);
 					
 			//TA
 			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
 			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Kf=Kf/1000;
+			}
 			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
     		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
-			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
-			exc.setKH(kh);
+			double Kh=ModelStringUtil.getDouble(strAry[17], 0.0);
+			if(!strAry[17].contains(".")){
+				Kh=Kh/100;
+			}
+			exc.setKH(Kh);
     	}
     	  //type==FR
     	else if(type==FR){
@@ -536,61 +777,100 @@ else if(type==FK){
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/1000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/1000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/1000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
-			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc.setK(k);
+			double K=ModelStringUtil.getDouble(strAry[7], 0.0);
+			if(!strAry[7].contains(".")){
+				K=K/1000;
+			}
+			exc.setK(K);
 						
-			//Kv
-			int kv=ModelStringUtil.getInt(strAry[8], 0);
-			exc.setKV(kv);
+			//Kv(F3.0)
+			double Kv=ModelStringUtil.getDouble(strAry[8], 0.0);
+			exc.setKV(Kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				T1=T1/1000;
+			}
 			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
 			
 			//T2
 			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				T2=T2/1000;
+			}
 			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
 						
 			//T3			
 			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				T3=T3/1000;
+			}
 			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
 						
 			// T4			
 			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				T4=T4/1000;
+			}
 			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
 						
 			//KA
-			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setKa(ka);
+			double Ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Ka=Ka/1000;
+			}
+			exc.setKa(Ka);
 					
 			//TA
 			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
 			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Kf=Kf/1000;
+			}
 			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
     		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
-			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
-			exc.setKH(kh);
+			double Kh=ModelStringUtil.getDouble(strAry[17], 0.0);
+			if(!strAry[17].contains(".")){
+				Kh=Kh/100;
+			}
+			exc.setKH(Kh);
     	}
     	//type==FS
     	else if(type==FS){
@@ -604,62 +884,100 @@ else if(type==FK){
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/1000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/1000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/1000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
-			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc.setK(k);
+			double K=ModelStringUtil.getDouble(strAry[7], 0.0);
+			if(!strAry[7].contains(".")){
+				K=K/1000;
+			}
+			exc.setK(K);
 						
-			//Kv
-			int kv=ModelStringUtil.getInt(strAry[8], 0);
-			exc.setKV(kv);
-			
+			//Kv(F3.0)
+			double Kv=ModelStringUtil.getDouble(strAry[8], 0.0);
+			exc.setKV(Kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				T1=T1/1000;
+			}
 			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
 			
 			//T2
 			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				T2=T2/1000;
+			}
 			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
 						
 			//T3			
 			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				T3=T3/1000;
+			}
 			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
 						
 			// T4			
 			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				T4=T4/1000;
+			}
 			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
 						
 			//KA
-			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setKa(ka);
+			double Ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Ka=Ka/1000;
+			}
+			exc.setKa(Ka);
 					
 			//TA
 			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
-			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKF(kf);
+			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Kf=Kf/1000;
+			}
+			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
-    		if(kf==0.0&&Tf==0.0)Tf=1.0;
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
 					
 			//KH
-			double kh=ModelStringUtil.getDouble(strAry[17], 0.0);
-			exc.setKH(kh);
+			double Kh=ModelStringUtil.getDouble(strAry[17], 0.0);
+			if(!strAry[17].contains(".")){
+				Kh=Kh/100;
+			}
+			exc.setKH(Kh);
     	}
     	//type==FU
     	else if(type==FU){
@@ -673,58 +991,93 @@ else if(type==FK){
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/1000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/1000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/1000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
-			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc.setK(k);
+			double K=ModelStringUtil.getDouble(strAry[7], 0.0);
+			if(!strAry[7].contains(".")){
+				K=K/1000;
+			}
+			exc.setK(K);
 						
-			//Kv
-			int kv=ModelStringUtil.getInt(strAry[8], 0);
-			exc.setKV(kv);
+			//Kv(F3.0)
+			double Kv=ModelStringUtil.getDouble(strAry[8], 0.0);
+			exc.setKV(Kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				T1=T1/1000;
+			}
 			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
 			
 			//T2
 			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				T2=T2/1000;
+			}
 			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
 						
 			//T3			
 			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				T3=T3/1000;
+			}
 			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
 						
 			// T4			
 			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				T4=T4/1000;
+			}
 			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
 						
 			//KA
-			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setKa(ka);
+			double Ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Ka=Ka/1000;
+			}
+			exc.setKa(Ka);
 					
 			//TA
 			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
-			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKF(kf);
+			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Kf=Kf/1000;
+			}
+			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
-    		if(kf==0.0&&Tf==0.0)Tf=1.0;
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
-
     	}
     	//type==FV
     	else if(type==FV){
@@ -738,61 +1091,93 @@ else if(type==FK){
 
     		//Rc
 			double Rc=ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")){
+				Rc=Rc/1000;
+			}
 			exc.setLoadRc(Rc);
 						
 			//Xc
 			double Xc=ModelStringUtil.getDouble(strAry[5], 0.0);
+			if(!strAry[5].contains(".")){
+				Xc=Xc/1000;
+			}
 			exc.setLoadXc(Xc);
 						
 			//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/1000;
+			}
 			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));	
 						
 			//K
-			double k=ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc.setK(k);
+			double K=ModelStringUtil.getDouble(strAry[7], 0.0);
+			if(!strAry[7].contains(".")){
+				K=K/1000;
+			}
+			exc.setK(K);
 						
-			//Kv
-			
-			int kv=ModelStringUtil.getInt(strAry[8], 0);
-			if(strAry[8].endsWith("1.")||strAry[8].endsWith("1.0"))kv=1;
-			exc.setKV(kv);
-			
+			//Kv(F3.0)
+			double Kv=ModelStringUtil.getDouble(strAry[8], 0.0);
+			exc.setKV(Kv);
 						
 			// T1
 			double T1=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				T1=T1/1000;
+			}
 			exc.setT1(BaseDataSetter.createTimeConstSec(T1));
 			
 			//T2
 			double T2=ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				T2=T2/1000;
+			}
 			exc.setT2(BaseDataSetter.createTimeConstSec(T2));
 						
 			//T3			
 			double T3=ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				T3=T3/1000;
+			}
 			exc.setT3(BaseDataSetter.createTimeConstSec(T3));
 						
 			// T4			
 			double T4=ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				T4=T4/1000;
+			}
 			exc.setT4(BaseDataSetter.createTimeConstSec(T4));
 						
 			//KA
-			double ka=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setKa(ka);
+			double Ka=ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Ka=Ka/1000;
+			}
+			exc.setKa(Ka);
 					
 			//TA
 			double Ta=ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 						
 			//KF
-			double kf=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKF(kf);
+			double Kf=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Kf=Kf/1000;
+			}
+			exc.setKF(Kf);
 			
 			//TF
 			double Tf=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Tf=Tf/1000;
+			}
     		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
-    		if(kf==0.0&&Tf==0.0)Tf=1.0;
+    		if(Kf==0.0&&Tf==0.0)Tf=1.0;
 			exc.setTF(BaseDataSetter.createTimeConstSec(Tf));
-
     	}
     	else if(type==FF){
     		ExcIEEE1981TypeAC2XmlType exc = DStabParserHelper.createExcIEEE1981TypeAC2XmlType(dynGen);
@@ -804,53 +1189,72 @@ else if(type==FK){
 			}			
     		exc.setDesc("IEEE1981 AC2 Type excId-" + excId);
 
-			//TR
+    		//TR
 			double Tr=ModelStringUtil.getDouble(strAry[6], 0.0);
-			exc.setTR(BaseDataSetter.createTimeConstSec(Tr));
-						
-			//Vamax
-			double Vamax=ModelStringUtil.getDouble(strAry[7], 0.0);
-			exc.setVAMAX(Vamax);
-						
-			//Vamin
-			double Vamin=ModelStringUtil.getDouble(strAry[8], 0.0);
-			exc.setVAMIN(Vamin);
-						
-			// Tb
-			double Tb=ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[6].contains(".")){
+				Tr=Tr/10000;
+			}
+			exc.setTransTr(BaseDataSetter.createTimeConstSec(Tr));			
+			
+			// TB
+			double Tb= ModelStringUtil.getDouble(strAry[9], 0.0);
+			if(!strAry[9].contains(".")){
+				Tb=Tb/1000;
+			}
 			exc.setTB(BaseDataSetter.createTimeConstSec(Tb));
 			
-			//Tc
-			double Tc=ModelStringUtil.getDouble(strAry[10], 0.0);
+			//TC
+			double Tc= ModelStringUtil.getDouble(strAry[10], 0.0);
+			if(!strAry[10].contains(".")){
+				Tc=Tc/1000;
+			}
 			exc.setTC(BaseDataSetter.createTimeConstSec(Tc));
-						
-			//Ka			
-			double Ka=ModelStringUtil.getDouble(strAry[11], 0.0);
-			exc.setKa(Ka);
-						
-			// Ta			
-			double Ta=ModelStringUtil.getDouble(strAry[12], 0.0);
+			
+			//KA, KV for FE
+			double Ka= ModelStringUtil.getDouble(strAry[11], 0.0);
+			if(!strAry[11].contains(".")){
+				Ka=Ka/100;
+			}
+			exc.setKa(Ka);			
+			
+			// TA, TRH for FE
+			double Ta= ModelStringUtil.getDouble(strAry[12], 0.0);
+			if(!strAry[12].contains(".")){
+				Ta=Ta/1000;
+			}
 			exc.setTa(BaseDataSetter.createTimeConstSec(Ta));
 			
-			//Vrmax
-			double Vrmax=ModelStringUtil.getDouble(strAry[13], 0.0);
-			exc.setVrmin(Vrmax);
-						
-			//Vrmin
-			double Vrmin=ModelStringUtil.getDouble(strAry[14], 0.0);
+			//VRmax, Vamax for FH
+			double Vrmax= ModelStringUtil.getDouble(strAry[13], 0.0);
+			if(!strAry[13].contains(".")){
+				Vrmax=Vrmax/1000;
+			}
+			exc.setVrmax(Vrmax);
+			
+			//VRmin, Vamin			
+			double Vrmin= ModelStringUtil.getDouble(strAry[14], 0.0);
+			if(!strAry[14].contains(".")){
+				Vrmin=Vrmin/1000;
+			}
 			if(Vrmin>0){
 				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
 						", automatically change it to: "+(-Vrmin) );
 				Vrmin*=-1;
 			}
 			exc.setVrmin(Vrmin);
-									
+			
 			//Ke
-			double ke=ModelStringUtil.getDouble(strAry[15], 0.0);
-			exc.setKE(ke);
+			double Ke=ModelStringUtil.getDouble(strAry[15], 0.0);
+			if(!strAry[15].contains(".")){
+				Ke=Ke/1000;
+			}
+			exc.setKE(Ke);
 			
 			//Te
 			double Te=ModelStringUtil.getDouble(strAry[16], 0.0);
+			if(!strAry[16].contains(".")){
+				Te=Te/1000;
+			}
 			exc.setTE(BaseDataSetter.createTimeConstSec(Te));
     	}
     	else if(str.substring(0, 2).trim().equals("FZ")||
@@ -860,66 +1264,110 @@ else if(type==FK){
         	
         	if(str.substring(0, 2).trim().equals("FZ")){
         		
-            	if(exc instanceof ExcBPAFJXmlType){     //ExciterType.BPAFJ   		
+            	if(exc instanceof ExcBPAFJXmlType){//ExciterType.BPAFJ   		
+            		ExcBPAFJXmlType excFJ=(ExcBPAFJXmlType)exc;
             		//EFDmax
             		double EFDmax= ModelStringUtil.getDouble(strAry[7], 0.0);
-            		((ExcBPAFJXmlType)exc).setEFDMAX(EFDmax);
+            		if(!strAry[7].contains(".")){
+            			EFDmax=EFDmax/1000;
+        			}
+            		excFJ.setEFDMAX(EFDmax);
         			
         			//EFDmin
         			double EFDmin= ModelStringUtil.getDouble(strAry[6], 0.0);
+        			if(!strAry[6].contains(".")){
+        				EFDmin=EFDmin/1000;
+        			}
         			if(EFDmin>0)ODMLogger.getLogger().warning("the input EFDmin >0, exc info:"+exc.getDesc());
-        			((ExcBPAFJXmlType)exc).setEFDMIN(EFDmin);    		
+        			excFJ.setEFDMIN(EFDmin);    		
         			//KF
             		double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
-            		((ExcBPAFJXmlType)exc).setKF(Kf);
+            		if(!strAry[8].contains(".")){
+        				Kf=Kf/1000;
+        			}
+            		excFJ.setKF(Kf);
             					
         			// TF
             		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		if(!strAry[9].contains(".")){
+            			Tf=Tf/1000;
+        			}
             		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
             		if(Kf==0.0&&Tf==0.0)Tf=1.0;
-            		((ExcBPAFJXmlType)exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
+            		excFJ.setTF(BaseDataSetter.createTimeConstSec(Tf));
         			
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
-        			((ExcBPAFJXmlType)exc).setKC(Kc);
+        			if(!strAry[10].contains(".")){
+        				Kc=Kc/10000;
+        			}
+        			excFJ.setKC(Kc);
             	}
             	else if(exc instanceof ExcBPAFKXmlType){ // the same as BPA FK.       		
+            		ExcBPAFKXmlType excFK=(ExcBPAFKXmlType)exc;
             		//KF
             		double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
-            		((ExcBPAFKXmlType) exc).setKF(Kf);
+            		if(!strAry[8].contains(".")){
+        				Kf=Kf/1000;
+        			}
+            		excFK.setKF(Kf);
             					
         			// TF
             		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		if(!strAry[9].contains(".")){
+            			Tf=Tf/1000;
+        			}
             		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
             		if(Kf==0.0&&Tf==0.0)Tf=1.0;
-            		((ExcBPAFKXmlType) exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
+            		excFK.setTF(BaseDataSetter.createTimeConstSec(Tf));
         			//KC
         			double Kc= ModelStringUtil.getDouble(strAry[10], 0.0);
-        			((ExcBPAFKXmlType) exc).setKC(Kc); 
+        			if(!strAry[10].contains(".")){
+        				Kc=Kc/10000;
+        			}
+        			excFK.setKC(Kc); 
             	}
             	//BPA FA
             	else if(exc instanceof ExcIEEE1981TypeDC1XmlType){ 
-            		           		
+            		ExcIEEE1981TypeDC1XmlType excFA=(ExcIEEE1981TypeDC1XmlType)exc;
             		//Se1            		
-            		double SE1=ModelStringUtil.getDouble(strAry[4], 0.0);  
-            		((ExcIEEE1981TypeDC1XmlType)exc).setSE1(SE1);
+            		double SE1=ModelStringUtil.getDouble(strAry[4], 0.0);
+            		if(!strAry[4].contains(".")){
+            			SE1=SE1/1000;
+        			}
+            		excFA.setSE1(SE1);
             		//Se2            		
-            		double SE2=ModelStringUtil.getDouble(strAry[5], 0.0);  
-            		((ExcIEEE1981TypeDC1XmlType)exc).setSE2(SE2);
+            		double SE2=ModelStringUtil.getDouble(strAry[5], 0.0);
+            		if(!strAry[5].contains(".")){
+            			SE2=SE2/1000;
+        			}
+            		excFA.setSE2(SE2);
             		// e1
-            		double E1=ModelStringUtil.getDouble(strAry[7], 0.0);  
-            		((ExcIEEE1981TypeDC1XmlType)exc).setE1(E1);
+            		double E1=ModelStringUtil.getDouble(strAry[7], 0.0); 
+            		if(!strAry[7].contains(".")){
+            			E1=E1/1000;
+        			}
+            		excFA.setE1(E1);
             		// e2
-            		double E2=0.75*ModelStringUtil.getDouble(strAry[7], 0.0);  
-            		((ExcIEEE1981TypeDC1XmlType)exc).setE2(E2);
+            		double E2=0.75*ModelStringUtil.getDouble(strAry[7], 0.0);
+            		if(!strAry[7].contains(".")){
+            			E2=E2/1000;
+        			}
+            		excFA.setE2(E2);
             		//Kf
         			double Kf= ModelStringUtil.getDouble(strAry[8], 0.0);
-        			((ExcIEEE1981TypeDC1XmlType)exc).setKF(Kf);
+        			if(!strAry[8].contains(".")){
+        				Kf=Kf/1000;
+        			}
+        			excFA.setKF(Kf);
             		// TF
             		double Tf= ModelStringUtil.getDouble(strAry[9], 0.0);
+            		if(!strAry[9].contains(".")){
+            			Tf=Tf/1000;
+        			}
             		if(Tf==0.0)ODMLogger.getLogger().warning("the input TF=0, machine:"+busId);
             		if(Kf==0.0&&Tf==0.0)Tf=1.0;
-            		((ExcIEEE1981TypeDC1XmlType)exc).setTF(BaseDataSetter.createTimeConstSec(Tf));
+            		excFA.setTF(BaseDataSetter.createTimeConstSec(Tf));
         			
             	}
             	else ODMLogger.getLogger().severe("processor for this type excitor is not implmented yet!");
@@ -967,281 +1415,433 @@ else if(type==FK){
         	}
     	else if(str.substring(0, 2).trim().equals("F+")){
     		if(exc instanceof ExcBPAFQXmlType){
+    			ExcBPAFQXmlType excFQ=(ExcBPAFQXmlType)exc;
     			//VAMAX 
         		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-        		((ExcBPAFQXmlType)exc).setVAMAX(Vamax);    		
+        		if(!strAry[4].contains(".")){
+        			Vamax=Vamax/1000;
+    			}
+        		excFQ.setVAMAX(Vamax);    		
     			
     			//VAMIN 
         		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-        		((ExcBPAFQXmlType)exc).setVAMIN(Vamin);
+        		if(!strAry[5].contains(".")){
+        			Vamin=Vamin/1000;
+    			}
+        		excFQ.setVAMIN(Vamin);
         		
-    			strAry[5]=str.substring(21, 26).trim();
     			//KB
     			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
-    			((ExcBPAFQXmlType)exc).setKB(Kb);
+    			if(!strAry[6].contains(".")){
+    				Kb=Kb/100;
+    			}
+    			excFQ.setKB(Kb);
         		    			
     			//T5
         		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
-        		((ExcBPAFQXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
+        		if(!strAry[7].contains(".")){
+        			T5=T5/100;
+    			}
+        		excFQ.setT5(BaseDataSetter.createTimeConstSec(T5));
         					
     			//KE
         		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
-        		((ExcBPAFQXmlType)exc).setKE(Ke);
+        		if(!strAry[8].contains(".")){
+        			Ke=Ke/100;
+    			}
+        		excFQ.setKE(Ke);
         			
     			// TE
         		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
-        		((ExcBPAFQXmlType)exc).setTE(BaseDataSetter.createTimeConstSec(Te));
+        		if(!strAry[9].contains(".")){
+        			Te=Te/100;
+    			}
+        		excFQ.setTE(BaseDataSetter.createTimeConstSec(Te));
         				
     			//SE1-->EfdMax
         		// e1 for SE1 is set latter. 
         		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+        		if(!strAry[10].contains(".")){
+        			SE1=SE1/10000;
+    			}
+        		excFQ.setSE1(SE1);
+        		//SE2-->75%EFDMAX
+        		double SE2=ModelStringUtil.getDouble(strAry[11], 0.0);
+        		if(!strAry[11].contains(".")){
+        			SE2=SE2/10000;
+    			}
+        		excFQ.setSE2(SE2);	
         		
-        		((ExcBPAFQXmlType)exc).setSE1(SE1);
-        				
     			// VRMAX
     			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-    			((ExcBPAFQXmlType)exc).setVrmax(Vrmax); 			
+    			if(!strAry[12].contains(".")){
+    				Vrmax=Vrmax/100;
+    			}
+    			excFQ.setVrmax(Vrmax); 			
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(!strAry[13].contains(".")){
+    				Vrmin=Vrmin/100;
+    			}
     			if(Vrmin>0){
     				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
     						", automatically change it to: "+(-Vrmin) );
     				Vrmin*=-1;
     			}
-    			((ExcBPAFQXmlType)exc).setVrmin(Vrmin);			
+    			excFQ.setVrmin(Vrmin);			
     			
     			//KC
-        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-        		((ExcBPAFQXmlType)exc).setKC(KC);
+        		double Kc=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		if(!strAry[14].contains(".")){
+        			Kc=Kc/100;
+    			}
+        		excFQ.setKC(Kc);
         		    					
     			//KD
         		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
-        		((ExcBPAFQXmlType)exc).setKD(Kd);
+        		if(!strAry[15].contains(".")){
+        			Kd=Kd/100;
+    			}
+        		excFQ.setKD(Kd);
         					
     			//KL1
         		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
-        		((ExcBPAFQXmlType)exc).setKL1(KL1);
+        		if(!strAry[16].contains(".")){
+        			KL1=KL1/100;
+    			}
+        		excFQ.setKL1(KL1);
         				
-    			//VLIR
-        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
-        		((ExcBPAFQXmlType)exc).setVL1R(VLIR);
+    			//VL1R
+        		double VL1R=ModelStringUtil.getDouble(strAry[17], 0.0);
+        		if(!strAry[17].contains(".")){
+        			VL1R=VL1R/100;
+    			}
+        		excFQ.setVL1R(VL1R);
         					
     			//EFDMAX
         		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
-        		((ExcBPAFQXmlType)exc).setEFDmax(EFDMAX);
+        		if(!strAry[18].contains(".")){
+        			EFDMAX=EFDMAX/100;
+    			}
+        		excFQ.setEFDmax(EFDMAX);
         		//set e1,e2 for saturation calculation
-        		((ExcBPAFQXmlType)exc).setE1(EFDMAX);
-        		((ExcBPAFQXmlType)exc).setE2(EFDMAX*0.75);
-        		
-        		//SE2-->75%EFDMAX
-        		double SE2=0.0;
-        		if(!strAry[11].equals("")){
-        			SE2=new Double(strAry[11]).doubleValue();
-        			((ExcBPAFQXmlType)exc).setSE2(SE2);
-        		}
+        		excFQ.setE1(EFDMAX);
+        		excFQ.setE2(EFDMAX*0.75);
         	}
     		else if(exc instanceof ExcBPAFRXmlType){
+    			ExcBPAFRXmlType excFR=(ExcBPAFRXmlType)exc;
     			//VAMAX 
         		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-        		((ExcBPAFRXmlType)exc).setVAMAX(Vamax);    		
+        		if(!strAry[4].contains(".")){
+        			Vamax=Vamax/1000;
+    			}
+        		excFR.setVAMAX(Vamax);    		
     			
     			//VAMIN 
         		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-        		((ExcBPAFRXmlType)exc).setVAMIN(Vamin);
+        		if(!strAry[5].contains(".")){
+        			Vamin=Vamin/1000;
+    			}
+        		excFR.setVAMIN(Vamin);
         		
-    			strAry[5]=str.substring(21, 26).trim();
     			//KB
     			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
-    			((ExcBPAFRXmlType)exc).setKB(Kb);
+    			if(!strAry[6].contains(".")){
+    				Kb=Kb/100;
+    			}
+    			excFR.setKB(Kb);
         		    			
     			//T5
         		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
-        		((ExcBPAFRXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
+        		if(!strAry[7].contains(".")){
+        			T5=T5/100;
+    			}
+        		excFR.setT5(BaseDataSetter.createTimeConstSec(T5));
         					
     			//KE
         		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
-        		((ExcBPAFRXmlType)exc).setKE(Ke);
+        		if(!strAry[8].contains(".")){
+        			Ke=Ke/100;
+    			}
+        		excFR.setKE(Ke);
         			
     			// TE
         		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
-        		((ExcBPAFRXmlType)exc).setTE(BaseDataSetter.createTimeConstSec(Te));
+        		if(!strAry[9].contains(".")){
+        			Te=Te/100;
+    			}
+        		excFR.setTE(BaseDataSetter.createTimeConstSec(Te));
         				
     			//SE1-->EfdMax
         		// e1 for SE1 is set latter. 
         		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+        		if(!strAry[10].contains(".")){
+        			SE1=SE1/10000;
+    			}
+        		excFR.setSE1(SE1);
+        		//SE2-->75%EFDMAX
+        		double SE2=ModelStringUtil.getDouble(strAry[11], 0.0);
+        		if(!strAry[11].contains(".")){
+        			SE2=SE2/10000;
+    			}
+        		excFR.setSE2(SE2);	
         		
-        		((ExcBPAFRXmlType)exc).setSE1(SE1);
-        				
     			// VRMAX
     			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-    			((ExcBPAFRXmlType)exc).setVrmax(Vrmax); 			
+    			if(!strAry[12].contains(".")){
+    				Vrmax=Vrmax/100;
+    			}
+    			excFR.setVrmax(Vrmax); 			
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(!strAry[13].contains(".")){
+    				Vrmin=Vrmin/100;
+    			}
     			if(Vrmin>0){
     				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
     						", automatically change it to: "+(-Vrmin) );
     				Vrmin*=-1;
     			}
-    			((ExcBPAFRXmlType)exc).setVrmin(Vrmin);			
+    			excFR.setVrmin(Vrmin);			
     			
     			//KC
-        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-        		((ExcBPAFRXmlType)exc).setKC(KC);
+        		double Kc=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		if(!strAry[14].contains(".")){
+        			Kc=Kc/100;
+    			}
+        		excFR.setKC(Kc);
         		    					
     			//KD
         		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
-        		((ExcBPAFRXmlType)exc).setKD(Kd);
+        		if(!strAry[15].contains(".")){
+        			Kd=Kd/100;
+    			}
+        		excFR.setKD(Kd);
         					
     			//KL1
         		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
-        		((ExcBPAFRXmlType)exc).setKL1(KL1);
+        		if(!strAry[16].contains(".")){
+        			KL1=KL1/100;
+    			}
+        		excFR.setKL1(KL1);
         				
-    			//VLIR
-        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
-        		((ExcBPAFRXmlType)exc).setVL1R(VLIR);
+    			//VL1R
+        		double VL1R=ModelStringUtil.getDouble(strAry[17], 0.0);
+        		if(!strAry[17].contains(".")){
+        			VL1R=VL1R/100;
+    			}
+        		excFR.setVL1R(VL1R);
         					
     			//EFDMAX
         		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
-        		((ExcBPAFRXmlType)exc).setEFDmax(EFDMAX);
+        		if(!strAry[18].contains(".")){
+        			EFDMAX=EFDMAX/100;
+    			}
+        		excFR.setEFDmax(EFDMAX);
         		//set e1,e2 for saturation calculation
-        		((ExcBPAFRXmlType)exc).setE1(EFDMAX);
-        		((ExcBPAFRXmlType)exc).setE2(EFDMAX*0.75);
-        		
-        		//SE2-->75%EFDMAX
-        		double SE2=0.0;
-        		if(!strAry[11].equals("")){
-        			SE2=new Double(strAry[11]).doubleValue();
-        			((ExcBPAFRXmlType)exc).setSE2(SE2);
-        		}
+        		excFR.setE1(EFDMAX);
+        		excFR.setE2(EFDMAX*0.75);
     	  } //end of FR
     		else if(exc instanceof ExcBPAFSXmlType){
+    			ExcBPAFSXmlType excFS=(ExcBPAFSXmlType)exc;
     			//VAMAX 
         		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-        		((ExcBPAFSXmlType)exc).setVAMAX(Vamax);    		
+        		if(!strAry[4].contains(".")){
+        			Vamax=Vamax/1000;
+    			}
+        		excFS.setVAMAX(Vamax);    		
     			
     			//VAMIN 
         		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-        		((ExcBPAFSXmlType)exc).setVAMIN(Vamin);
+        		if(!strAry[5].contains(".")){
+        			Vamin=Vamin/1000;
+    			}
+        		excFS.setVAMIN(Vamin);
         		
-    			strAry[5]=str.substring(21, 26).trim();
     			//KB
     			double Kb=ModelStringUtil.getDouble(strAry[6], 0.0);
-    			((ExcBPAFSXmlType)exc).setKB(Kb);
+    			if(!strAry[6].contains(".")){
+    				Kb=Kb/100;
+    			}
+    			excFS.setKB(Kb);
         		    			
     			//T5
         		double T5=ModelStringUtil.getDouble(strAry[7], 0.0);
-        		((ExcBPAFSXmlType)exc).setT5(BaseDataSetter.createTimeConstSec(T5));
+        		if(!strAry[7].contains(".")){
+        			T5=T5/100;
+    			}
+        		excFS.setT5(BaseDataSetter.createTimeConstSec(T5));
         					
     			//KE
         		double Ke=ModelStringUtil.getDouble(strAry[8], 0.0);
-        		((ExcBPAFSXmlType)exc).setKE(Ke);
+        		if(!strAry[8].contains(".")){
+        			Ke=Ke/100;
+    			}
+        		excFS.setKE(Ke);
         			
     			// TE
         		double Te=ModelStringUtil.getDouble(strAry[9], 0.0);
-        		((ExcBPAFSXmlType)exc).setTE(BaseDataSetter.createTimeConstSec(Te));
+        		if(!strAry[9].contains(".")){
+        			Te=Te/100;
+    			}
+        		excFS.setTE(BaseDataSetter.createTimeConstSec(Te));
         				
     			//SE1-->EfdMax
         		// e1 for SE1 is set latter. 
         		double SE1=ModelStringUtil.getDouble(strAry[10], 0.0);
+        		if(!strAry[10].contains(".")){
+        			SE1=SE1/10000;
+    			}
+        		excFS.setSE1(SE1);
+        		//SE2-->75%EFDMAX
+        		double SE2=ModelStringUtil.getDouble(strAry[11], 0.0);
+        		if(!strAry[11].contains(".")){
+        			SE2=SE2/10000;
+    			}
+        		excFS.setSE2(SE2);	
         		
-        		((ExcBPAFSXmlType)exc).setSE1(SE1);
-        				
     			// VRMAX
     			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-    			((ExcBPAFSXmlType)exc).setVrmax(Vrmax); 			
+    			if(!strAry[12].contains(".")){
+    				Vrmax=Vrmax/100;
+    			}
+    			excFS.setVrmax(Vrmax); 			
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(!strAry[13].contains(".")){
+    				Vrmin=Vrmin/100;
+    			}
     			if(Vrmin>0){
     				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
     						", automatically change it to: "+(-Vrmin) );
     				Vrmin*=-1;
     			}
-    			((ExcBPAFSXmlType)exc).setVrmin(Vrmin);			
+    			excFS.setVrmin(Vrmin);			
     			
     			//KC
-        		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-        		((ExcBPAFSXmlType)exc).setKC(KC);
+        		double Kc=ModelStringUtil.getDouble(strAry[14], 0.0);
+        		if(!strAry[14].contains(".")){
+        			Kc=Kc/100;
+    			}
+        		excFS.setKC(Kc);
         		    					
     			//KD
         		double Kd=ModelStringUtil.getDouble(strAry[15], 0.0);
-        		((ExcBPAFSXmlType)exc).setKD(Kd);
+        		if(!strAry[15].contains(".")){
+        			Kd=Kd/100;
+    			}
+        		excFS.setKD(Kd);
         					
     			//KL1
         		double KL1=ModelStringUtil.getDouble(strAry[16], 0.0);
-        		((ExcBPAFSXmlType)exc).setKL1(KL1);
+        		if(!strAry[16].contains(".")){
+        			KL1=KL1/100;
+    			}
+        		excFS.setKL1(KL1);
         				
-    			//VLIR
-        		double VLIR=ModelStringUtil.getDouble(strAry[17], 0.0);
-        		((ExcBPAFSXmlType)exc).setVL1R(VLIR);
+    			//VL1R
+        		double VL1R=ModelStringUtil.getDouble(strAry[17], 0.0);
+        		if(!strAry[17].contains(".")){
+        			VL1R=VL1R/100;
+    			}
+        		excFS.setVL1R(VL1R);
         					
     			//EFDMAX
         		double EFDMAX=ModelStringUtil.getDouble(strAry[18], 0.0);
-        		((ExcBPAFSXmlType)exc).setEFDmax(EFDMAX);
+        		if(!strAry[18].contains(".")){
+        			EFDMAX=EFDMAX/100;
+    			}
+        		excFS.setEFDmax(EFDMAX);
         		//set e1,e2 for saturation calculation
-        		((ExcBPAFSXmlType)exc).setE1(EFDMAX);
-        		((ExcBPAFSXmlType)exc).setE2(EFDMAX*0.75);
-        		
-        		//SE2-->75%EFDMAX
-        		double SE2=0.0;
-        		if(!strAry[11].equals("")){
-        			SE2=new Double(strAry[11]).doubleValue();
-        			((ExcBPAFSXmlType)exc).setSE2(SE2);
-        		}
+        		excFS.setE1(EFDMAX);
+        		excFS.setE2(EFDMAX*0.75);
     	  } //end of FS
     		else if(exc instanceof ExcBPAFUXmlType){
+    			ExcBPAFUXmlType excFU=(ExcBPAFUXmlType)exc;
     			//VAMAX 
         		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-        		((ExcBPAFUXmlType)exc).setVAMAX(Vamax);    		
+        		if(!strAry[4].contains(".")){
+        			Vamax=Vamax/1000;
+    			}
+        		excFU.setVAMAX(Vamax);    		
     			
     			//VAMIN 
         		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-        		((ExcBPAFUXmlType)exc).setVAMIN(Vamin);
+        		if(!strAry[5].contains(".")){
+        			Vamin=Vamin/1000;
+    			}
+        		excFU.setVAMIN(Vamin);
         		        				
     			// VRMAX
     			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-    			((ExcBPAFUXmlType)exc).setVrmax(Vrmax); 			
+    			if(!strAry[12].contains(".")){
+        			Vrmax=Vrmax/100;
+    			}
+    			excFU.setVrmax(Vrmax); 			
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(!strAry[13].contains(".")){
+    				Vrmin=Vrmin/100;
+    			}
     			if(Vrmin>0){
     				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
     						", automatically change it to: "+(-Vrmin) );
     				Vrmin*=-1;
     			}
-    			((ExcBPAFUXmlType)exc).setVrmin(Vrmin);			
+    			excFU.setVrmin(Vrmin);			
     			
     			//KC
         		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-        		((ExcBPAFUXmlType)exc).setKC(KC);
+        		if(!strAry[14].contains(".")){
+        			KC=KC/100;
+    			}
+        		excFU.setKC(KC);
     	  } //end of FU
     		else if(exc instanceof ExcBPAFVXmlType){
+    			ExcBPAFVXmlType excFV=(ExcBPAFVXmlType)exc;
     			//VAMAX 
         		double Vamax= ModelStringUtil.getDouble(strAry[4], 0.0);
-        		((ExcBPAFVXmlType)exc).setVAMAX(Vamax);    		
+        		if(!strAry[4].contains(".")){
+        			Vamax=Vamax/1000;
+    			}
+        		excFV.setVAMAX(Vamax);    		
     			
     			//VAMIN 
         		double Vamin= ModelStringUtil.getDouble(strAry[5], 0.0);
-        		((ExcBPAFVXmlType)exc).setVAMIN(Vamin);
+        		if(!strAry[5].contains(".")){
+        			Vamin=Vamin/1000;
+    			}
+        		excFV.setVAMIN(Vamin);
         		        				
     			// VRMAX
     			double Vrmax= ModelStringUtil.getDouble(strAry[12], 0.0);
-    			((ExcBPAFVXmlType)exc).setVrmax(Vrmax); 			
+    			if(!strAry[12].contains(".")){
+        			Vrmax=Vrmax/100;
+    			}
+    			excFV.setVrmax(Vrmax); 			
     			
     			//VRMIN
     			double Vrmin= ModelStringUtil.getDouble(strAry[13], 0.0);
+    			if(!strAry[13].contains(".")){
+    				Vrmin=Vrmin/100;
+    			}
     			if(Vrmin>0){
     				ODMLogger.getLogger().warning("the input Vrmin >0, exc info:"+exc.getDesc()+
     						", automatically change it to: "+(-Vrmin) );
     				Vrmin*=-1;
     			}
-    			((ExcBPAFVXmlType)exc).setVrmin(Vrmin);			
+    			excFV.setVrmin(Vrmin);			
     			
     			//KC
         		double KC=ModelStringUtil.getDouble(strAry[14], 0.0);
-        		((ExcBPAFVXmlType)exc).setKC(KC);
+        		if(!strAry[14].contains(".")){
+        			KC=KC/100;
+    			}
+        		excFV.setKC(KC);
     	  } //end of FV
     	}//END OF F+
       }
@@ -1478,7 +2078,7 @@ else if(type==FK){
 				//KE
 				strAry[8]=ModelStringUtil.getStringReturnEmptyString(str,35, 38).trim();
 				// TE
-				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,40, 42).trim();
+				strAry[9]=ModelStringUtil.getStringReturnEmptyString(str,39, 42).trim();
 				//SE1--@EFDMAX
 				strAry[10]=ModelStringUtil.getStringReturnEmptyString(str,43, 47).trim();
 				//SE2--@75%EFDMAX

@@ -64,36 +64,44 @@ public class BPADynamicTurbineGovernorRecord {
     		gov.setDesc("Gov Hydro Steam General Model, MachId#" + tgId);
     		
 			//PMAX 
-    		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		gov.setPMAX(pmax/ratedPower);
+    		double Pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")) Pmax/=10;
+    		gov.setPMAX(Pmax/ratedPower);
     		
 			//R
-    		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		gov.setR(r);
+    		double R=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) R/=1000;
+    		gov.setR(R);
 			
 			//T1
     		double T1=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) T1/=1000;
     		gov.setT1(BaseDataSetter.createTimeConstSec(T1));
 
     		//T2
     	    double T2=ModelStringUtil.getDouble(strAry[7], 0.0);
+    	    if(!strAry[7].contains(".")) T2/=1000;
     		gov.setT2(BaseDataSetter.createTimeConstSec(T2));
 
     		//T3
 		    double T3=ModelStringUtil.getDouble(strAry[8], 0.0);
+		    if(!strAry[8].contains(".")) T3/=1000;
     		gov.setT3(BaseDataSetter.createTimeConstSec(T3));
 
     		// T4
 		    double T4=ModelStringUtil.getDouble(strAry[9], 0.0);
+		    if(!strAry[9].contains(".")) T4/=1000;
     		gov.setT4(BaseDataSetter.createTimeConstSec(T4));
 
     		//T5
 		    double T5=ModelStringUtil.getDouble(strAry[10], 0.0);
+		    if(!strAry[10].contains(".")) T5/=1000;
     		gov.setT5(BaseDataSetter.createTimeConstSec(T5));
 			
 			//F
-		    double f=ModelStringUtil.getDouble(strAry[11], 0.0);
-    		gov.setF(f);
+		    double F=ModelStringUtil.getDouble(strAry[11], 0.0);
+		    if(!strAry[11].contains(".")) F/=1000;
+    		gov.setF(F);
     	}
     	else if(strAry[0].equals("GH")){
     		GovBPAHydroTurbineGHXmlType gov = DStabParserHelper.createGovBPAHydroTurbineGHXmlType(dynGen);
@@ -106,44 +114,50 @@ public class BPADynamicTurbineGovernorRecord {
     		gov.setDesc("GOV Hydro Turbine GH type, machId#"+id);
     		
 			//PMAX 
-    		double pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
-    		gov.setPMAX(pmax/ratedPower);//in machine based pu unit;
+    		double Pmax=ModelStringUtil.getDouble(strAry[4], 0.0);
+    		if(!strAry[4].contains(".")) Pmax/=10;
+    		gov.setPMAX(Pmax/ratedPower);//in machine based pu unit;
     		//R
-    		double r=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		gov.setR(r);
+    		double R=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) R/=1000;
+    		gov.setR(R);
     		
 			//TG
     		double Tg=ModelStringUtil.getDouble(strAry[6], 0.0);    		
-    		
+    		if(!strAry[6].contains(".")) Tg/=1000;
 		    gov.setTG(BaseDataSetter.createTimeConstSec(Tg));		
 			//TP
 		    double Tp=ModelStringUtil.getDouble(strAry[7], 0.0);
+		    if(!strAry[7].contains(".")) Tp/=1000;
 		    gov.setTP(BaseDataSetter.createTimeConstSec(Tp));		
 			//TD is corresponding to the TR in the ieee model
 		    double Td= ModelStringUtil.getDouble(strAry[8], 0.0);
+		    if(!strAry[8].contains(".")) Td/=1000;
 		    gov.setTd(BaseDataSetter.createTimeConstSec(Td));
 		    
 			// TW/2
 		    double Twhalf= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    if(!strAry[9].contains(".")) Twhalf/=1000;
 		    gov.setTwHalf(BaseDataSetter.createTimeConstSec(Twhalf));	
 		    // NOTE: Both VELCLOSE and VELOPEN is in PU based on PMAX.
 			//VELCLOSE
 		    double Uc=ModelStringUtil.getDouble(strAry[10], 0.0);
-		    //TODO change it to a double
+		    if(!strAry[10].contains(".")) Uc/=1000;
     		gov.setVClose(Uc);
 			
 			//FVELOPEN
     		double Uo=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) Uo/=1000;
     		gov.setVOpen(Uo);
 			
 			//Dd
     		double Dd=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) Dd/=1000;
     		gov.setDd(Dd);
     		//Epsilon
     		double Epsilon=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) Epsilon/=100000;
     		gov.setEpsilon(Epsilon);
-    		
-    				
     	}
     	else if(strAry[0].equals("GS")){
     		SpeedGovBPAGSModelXmlType gov = DStabParserHelper.createSpeedGovBPAGSModelXmlType(dynGen);
@@ -155,36 +169,45 @@ public class BPADynamicTurbineGovernorRecord {
     		}
     		gov.setDesc("GOV Hydro Turbine GS type, machId#"+tgId);			
 			//PMAX 
-    		double pmax=new Double(strAry[4]).doubleValue();
-    		pmax=pmax/ratedPower;
-    		gov.setPmax(pmax);
+    		double Pmax=new Double(strAry[4]).doubleValue();
+    		if(!strAry[4].contains(".")) Pmax/=10;
+    		Pmax=Pmax/ratedPower;
+    		gov.setPmax(Pmax);
     		//PMIN
-    		double pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
-    		pmin=pmin/ratedPower;
-    		gov.setPmin(pmin);	
+    		double Pmin=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) Pmin/=10;
+    		Pmin=Pmin/ratedPower;
+    		gov.setPmin(Pmin);	
     			
     		//R
-    		double r=ModelStringUtil.getDouble(strAry[6], 0.0);
-    		gov.setR(r);
+    		double R=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) R/=1000;
+    		gov.setR(R);
 			//T1
     		double T1=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) T1/=1000;
     		gov.setT1(BaseDataSetter.createTimeConstSec(T1));
-    		    					
 			//T2
     		double T2=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) T2/=1000;
     		gov.setT2(BaseDataSetter.createTimeConstSec(T2));
-    				    		
-			// T3
+			//T3
 		    double T3= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));			
+		    if(!strAry[9].contains(".")) T3/=1000;
+		    gov.setT3(BaseDataSetter.createTimeConstSec(T3));
+		    
 			//VELOPEN
 		    double Vopen=ModelStringUtil.getDouble(strAry[10], 0.0);
+		    if(!strAry[10].contains(".")) Vopen/=10;
 		    gov.setVELOPEN(Vopen);			
 			//FVELCLOSE
     		double Vclose=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) Vclose/=10;
     		gov.setVELCLOSE(Vclose);
-    		double epsilon=ModelStringUtil.getDouble(strAry[12], 0.0);
-    		gov.setEpsilon(epsilon);
+    		//Epsilon
+    		double Epsilon=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) Epsilon/=100000;
+    		gov.setEpsilon(Epsilon);
     		
     	}
     	else if(strAry[0].equals("GI")){
@@ -204,14 +227,17 @@ public class BPADynamicTurbineGovernorRecord {
     		regGi.setDesc("GOV Speed Governing GI type, machId#"+tgId);
 			//T1 
     		double T1=new Double(strAry[4]).doubleValue();
+    		if(!strAry[4].contains(".")) T1/=1000;
     		regGi.setT1(BaseDataSetter.createTimeConstSec(T1));
     		
     		//Epsilon
     		double Epsilon=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) Epsilon/=10000;
     		regGi.setEpsilon(Epsilon);
     			
     		//K
     		double K=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) K/=100;
     		regGi.setK(K);
     		
 			//LoadSwich
@@ -220,37 +246,36 @@ public class BPADynamicTurbineGovernorRecord {
     		    					
 			//Kp1
     		double Kp1=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) Kp1/=1000;
     		regGi.setKp1(Kp1);    				    		
 			//Kd1
 		    double Kd1= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    if(!strAry[9].contains(".")) Kd1/=1000;
 		    regGi.setKd1(Kd1);			
 			//Ki1
 		    double Ki1=ModelStringUtil.getDouble(strAry[10], 0.0);
+		    if(!strAry[10].contains(".")) Ki1/=1000;
 		    regGi.setKi1(Ki1);
 		    
 			//INTGMAX1
-		    double INTGMAX1=0.0;
-		    if(!strAry[11].equals(""))
-    			INTGMAX1=new Double(strAry[11]).doubleValue();
+		    double INTGMAX1=ModelStringUtil.getDouble(strAry[11], 0.0);
+		    if(!strAry[11].contains(".")) INTGMAX1/=1000;
     		INTGMAX1=INTGMAX1==0.0?9999.0:INTGMAX1;
     		regGi.setINTGMAX1(INTGMAX1);
     		//INTGMIN1
-    		double INTGMIN1=0.0;
-		    if(!strAry[12].equals(""))
-    			INTGMIN1=new Double(strAry[12]).doubleValue();
+    		double INTGMIN1=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) INTGMIN1/=1000;
     		INTGMIN1=INTGMIN1==0.0?-9999.0:INTGMIN1;
     		regGi.setINTGMIN1(INTGMIN1);
     		
     		//PIDMAX1
-		    double PIDMAX1=0.0;
-		    if(!strAry[13].equals(""))
-		    	PIDMAX1=new Double(strAry[13]).doubleValue();
+		    double PIDMAX1=ModelStringUtil.getDouble(strAry[13], 0.0);
+		    if(!strAry[13].contains(".")) PIDMAX1/=1000;
 		    PIDMAX1=(PIDMAX1==0.0)?9999.0:PIDMAX1;
     		regGi.setPIDMAX1(PIDMAX1);
     		//PIDMIN1
-    		double PIDMIN1=0.0;
-		    if(!strAry[14].equals(""))
-		    	PIDMIN1=new Double(strAry[14]).doubleValue();
+    		double PIDMIN1=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(!strAry[14].contains(".")) PIDMIN1/=1000;
 		    PIDMIN1=(PIDMIN1==0.0)?-9999.0:PIDMIN1;
     		regGi.setPIDMIN1(PIDMIN1);
     		
@@ -276,50 +301,47 @@ public class BPADynamicTurbineGovernorRecord {
     		
     		//Kp2
     		double Kp2=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) Kp2/=1000;
     		regGi.setKp2(Kp2);
     		//Kd2
     		double Kd2=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) Kd2/=1000;
     		regGi.setKd2(Kd2);
     		//Ki2
     		double Ki2=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) Ki2/=1000;
     		regGi.setKi2(Ki2);
     				    
 			//INTGMAX2
-		    double INTGMAX2=0.0;
-		    if(!strAry[8].equals(""))
-    			INTGMAX2=new Double(strAry[8]).doubleValue();
+		    double INTGMAX2=ModelStringUtil.getDouble(strAry[8], 0.0);
+		    if(!strAry[13].contains(".")) INTGMAX2/=1000;
     		INTGMAX2=INTGMAX2==0.0?9999.0:INTGMAX2;
     		regGi.setINTGMAX2(INTGMAX2);
     		//INTGMIN2
-    		double INTGMIN2=0.0;
-		    if(!strAry[9].equals(""))
-    			INTGMIN2=new Double(strAry[9]).doubleValue();
+    		double INTGMIN2=ModelStringUtil.getDouble(strAry[9], 0.0);
+    		if(!strAry[9].contains(".")) INTGMIN2/=1000;
     		INTGMIN2=INTGMIN2==0.0?-9999.0:INTGMIN2;
     		regGi.setINTGMIN2(INTGMIN2);
     		
     		//PIDMAX2
-		    double PIDMAX2=0.0;
-		    if(!strAry[10].equals(""))
-		    	PIDMAX2=new Double(strAry[10]).doubleValue();
+    		double PIDMAX2=ModelStringUtil.getDouble(strAry[10], 0.0);
+    		if(!strAry[10].contains(".")) PIDMAX2/=1000;
 		    PIDMAX2=(PIDMAX2==0.0)?9999.0:PIDMAX2;
     		regGi.setPIDMAX2(PIDMAX2);
     		//PIDMIN2
-    		double PIDMIN2=0.0;
-		    if(!strAry[11].equals(""))
-		    	PIDMIN2=new Double(strAry[11]).doubleValue();
+    		double PIDMIN2=ModelStringUtil.getDouble(strAry[11], 0.0);
+    		if(!strAry[11].contains(".")) PIDMIN2/=1000;
 		    PIDMIN2=(PIDMIN2==0.0)?-9999.0:PIDMIN2;
     		regGi.setPIDMIN2(PIDMIN2);
     		
     		//ConMax
-		    double ConMax=0.0;
-		    if(!strAry[12].equals(""))
-		    	ConMax=new Double(strAry[12]).doubleValue();
+    		double ConMax=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) ConMax/=1000;
 		    ConMax=(ConMax==0.0)?9999.0:ConMax;
     		regGi.setConMax(ConMax);
     		//ConMin
-    		double ConMin=0.0;
-		    if(!strAry[13].equals(""))
-		    	ConMin=new Double(strAry[13]).doubleValue();
+    		double ConMin=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) ConMin/=1000;
 		    ConMin=(ConMin==0.0)?-9999.0:ConMin;
     		regGi.setConMin(ConMin);
     	}
@@ -340,66 +362,73 @@ public class BPADynamicTurbineGovernorRecord {
     		serGa.setDesc("GOV Speed Governing GA type, machId#"+tgId);
 			//Pe 
     		double Pe=new Double(strAry[4]).doubleValue();
+    		if(!strAry[4].contains(".")) Pe/=100;
     		serGa.setPe(Pe);
     		
     		//Tc
     		double Tc=ModelStringUtil.getDouble(strAry[5], 0.0);
+    		if(!strAry[5].contains(".")) Tc/=100;
     		serGa.setTc(BaseDataSetter.createTimeConstSec(Tc));    			
     		//To
     		double To=ModelStringUtil.getDouble(strAry[6], 0.0);
+    		if(!strAry[6].contains(".")) To/=100;
     		serGa.setTo(BaseDataSetter.createTimeConstSec(To));
     		
 			//VELCLOSE
     		double VELCLOSE=ModelStringUtil.getDouble(strAry[7], 0.0);
+    		if(!strAry[7].contains(".")) VELCLOSE/=100;
     		serGa.setVELCLOSE(VELCLOSE);    		    					
 			//VELOPEN
     		double VELOPEN=ModelStringUtil.getDouble(strAry[8], 0.0);
+    		if(!strAry[8].contains(".")) VELOPEN/=100;
     		serGa.setVELOPEN(VELOPEN);
     		
 			//PMAX
-		    double PMAX= ModelStringUtil.getDouble(strAry[9], 0.0);
-		    serGa.setPmax(PMAX);			
+		    double Pmax= ModelStringUtil.getDouble(strAry[9], 0.0);
+		    if(!strAry[9].contains(".")) Pmax/=100;
+		    serGa.setPmax(Pmax);			
 			//PMIN
-		    double PMIN=ModelStringUtil.getDouble(strAry[10], 0.0);
-		    serGa.setPmin(PMIN);
+		    double Pmin=ModelStringUtil.getDouble(strAry[10], 0.0);
+		    if(!strAry[10].contains(".")) Pmin/=100;
+		    serGa.setPmin(Pmin);
 		    
 			//T1
 		    double T1=ModelStringUtil.getDouble(strAry[11], 0.0);
+		    if(!strAry[11].contains(".")) T1/=100;
 		    serGa.setT1(BaseDataSetter.createTimeConstSec(T1));
 		    
 		    //Kp
     		double Kp=ModelStringUtil.getDouble(strAry[12], 0.0);
+    		if(!strAry[12].contains(".")) Kp/=100;
     		serGa.setKp(Kp);
     		//Kd
     		double Kd=ModelStringUtil.getDouble(strAry[13], 0.0);
+    		if(!strAry[13].contains(".")) Kd/=100;
     		serGa.setKd(Kd);
     		//Ki
     		double Ki=ModelStringUtil.getDouble(strAry[14], 0.0);
+    		if(!strAry[14].contains(".")) Ki/=100;
     		serGa.setKi(Ki);
     		
     		//INTGMAX
-		    double INTGMAX=0.0;
-		    if(!strAry[15].equals(""))
-    			INTGMAX=new Double(strAry[15]).doubleValue();
+		    double INTGMAX=ModelStringUtil.getDouble(strAry[15], 0.0);
+		    if(!strAry[15].contains(".")) INTGMAX/=100;
     		INTGMAX=INTGMAX==0.0?9999.0:INTGMAX;
     		serGa.setINTGMAX(INTGMAX);
     		//INTGMIN
-    		double INTGMIN=0.0;
-		    if(!strAry[16].equals(""))
-    			INTGMIN=new Double(strAry[16]).doubleValue();
+    		double INTGMIN=ModelStringUtil.getDouble(strAry[16], 0.0);
+		    if(!strAry[16].contains(".")) INTGMIN/=100;
     		INTGMIN=INTGMIN==0.0?-9999.0:INTGMIN;
     		serGa.setINTGMIN(INTGMIN);
     		
     		//PIDMAX
-		    double PIDMAX=0.0;
-		    if(!strAry[17].equals(""))
-		    	PIDMAX=new Double(strAry[17]).doubleValue();
+    		double PIDMAX=ModelStringUtil.getDouble(strAry[17], 0.0);
+		    if(!strAry[17].contains(".")) PIDMAX/=100;
 		    PIDMAX=(PIDMAX==0.0)?9999.0:PIDMAX;
     		serGa.setPIDMAX(PIDMAX);
     		//PIDMIN
-    		double PIDMIN=0.0;
-		    if(!strAry[18].equals(""))
-		    	PIDMIN=new Double(strAry[18]).doubleValue();
+    		double PIDMIN=ModelStringUtil.getDouble(strAry[18], 0.0);
+		    if(!strAry[18].contains(".")) PIDMIN/=100;
 		    PIDMIN=(PIDMIN==0.0)?-9999.0:PIDMIN;
     		serGa.setPIDMIN(PIDMIN);
     	}
@@ -414,11 +443,10 @@ public class BPADynamicTurbineGovernorRecord {
     		}
     		st.setDesc("GOV Steam Turbine BPA TA type(non reheat), machId#"+tgId);	
     		//TCH
-    		double TCH= new Double(strAry[4]).doubleValue();
-    		st.setTCH(BaseDataSetter.createTimeConstSec(TCH));    			
+    		double Tch= new Double(strAry[4]).doubleValue();
+    		if(!strAry[4].contains(".")) Tch/=1000;
+    		st.setTCH(BaseDataSetter.createTimeConstSec(Tch));    			
     		st.setK(1.0);
-    		
-    
     	}
     	else if(strAry[0].equals("TB")){
     		// since tur is part of the parent governor, it is assume that the parent genernor has been
@@ -434,26 +462,32 @@ public class BPADynamicTurbineGovernorRecord {
     		st.setDesc("GOV Steam Turbine BPA TB type, machId#"+tgId);
                
     		//TCH
-			double TCH= ModelStringUtil.getDouble(strAry[4], 0.0);
-			st.setTCH(BaseDataSetter.createTimeConstSec(TCH));	  
+			double Tch= ModelStringUtil.getDouble(strAry[4], 0.0);
+			if(!strAry[4].contains(".")) Tch/=1000;
+			st.setTCH(BaseDataSetter.createTimeConstSec(Tch));	  
 			//FHP
-		    double FHP= ModelStringUtil.getDouble(strAry[5], 0.0);
-			st.setFHP(FHP);
+		    double Fhp= ModelStringUtil.getDouble(strAry[5], 0.0);
+		    if(!strAry[5].contains(".")) Fhp/=1000;
+			st.setFHP(Fhp);
 			//TRH
-		    double TRH= ModelStringUtil.getDouble(strAry[6], 0.0);
-		    st.setTRH(BaseDataSetter.createTimeConstSec(TRH));	    			
+		    double Trh= ModelStringUtil.getDouble(strAry[6], 0.0);
+		    if(!strAry[6].contains(".")) Trh/=1000;
+		    st.setTRH(BaseDataSetter.createTimeConstSec(Trh));	    			
 			//FIP
-		    double FIP= ModelStringUtil.getDouble(strAry[7], 0.0);
-		    st.setFIP(FIP);   			
+		    double Fip= ModelStringUtil.getDouble(strAry[7], 0.0);
+		    if(!strAry[7].contains(".")) Fip/=1000;
+		    st.setFIP(Fip);   			
 			//TCO
-		    double TCO=ModelStringUtil.getDouble(strAry[8], 0.0);
-		    st.setTCO(BaseDataSetter.createTimeConstSec(TCO));
-		       		    	    			
+		    double Tco=ModelStringUtil.getDouble(strAry[8], 0.0);
+		    if(!strAry[8].contains(".")) Tco/=1000;
+		    st.setTCO(BaseDataSetter.createTimeConstSec(Tco));
 			// FLP
-		    double FLP=ModelStringUtil.getDouble(strAry[9], 0.0);
-   		    st.setFLP(FLP);
+		    double Flp=ModelStringUtil.getDouble(strAry[9], 0.0);
+		    if(!strAry[9].contains(".")) Flp/=1000;
+   		    st.setFLP(Flp);
    		    //Lambda
    		    double Lambda=ModelStringUtil.getDouble(strAry[10], 0.0);
+   		    if(!strAry[10].contains(".")) Lambda/=100;
    		    st.setLambda(Lambda);    		   
     		       		        			
     	}
