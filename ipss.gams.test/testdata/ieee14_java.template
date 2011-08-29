@@ -1,0 +1,29 @@
+Sets
+
+i   generating unit  
+/ 
+&&Set_genUnit&&
+/
+
+j   load bus         
+/ 
+&&Set_loadBus&&
+/
+
+Parameters
+
+lower(i) lower  bound of each generating unit
+/
+&&Param_lower&&
+/
+
+upper(i) upper bound of each generating unit
+/
+&&Param_upper&&
+/
+
+d(j) demand at load bus j
+/
+&&Param_d&&
+/; 
+
