@@ -1,2 +1,4 @@
 When injecting reactive power, Vsh should larger than Vi, but it is not the case in current code.
 Try Vis = 0.7 and Vis = 1.15 as the example.
+
+[Simple net]If no SVC installed, vi = 0.905539, if a SVC installed at Bus2 but shuntQ = 0.0, vi = 1.07037, there must be some mistakes here.
