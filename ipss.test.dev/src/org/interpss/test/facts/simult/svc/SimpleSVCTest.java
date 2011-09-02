@@ -123,7 +123,13 @@ public class SimpleSVCTest extends DevTestSetup {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
-        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.6, net.getNoBus(), -100.0, 100.0);
+
+        LoadflowAlgorithm initalgo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		initalgo.loadflow();
+        double viinit = net.getAclfBus("Bus2").getVoltageMag();
+        System.out.println("vi_init=" + viinit);
+
+        SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.0, net.getNoBus(), -100.0, 100.0);
 
         // set svc as AclfBus extension
         bus.setExtensionObject(svc);
