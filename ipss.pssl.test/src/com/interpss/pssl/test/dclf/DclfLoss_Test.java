@@ -79,29 +79,29 @@ public class DclfLoss_Test extends BaseTestSetup {
   		
 		System.out.println("Inj - Bus2, withdraw - Bus3");
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		double f = algoDsl.getAlgorithm().lossFactor("Bus2", "Bus3");
+		double f = algoDsl.lossFactor("Bus2", "Bus3");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus3 100%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
 		algoDsl.addWithdrawBus("Bus3", 100.0);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2");
+		f = algoDsl.lossFactor("Bus2");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus14");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2", "Bus14");
+		f = algoDsl.lossFactor("Bus2", "Bus14");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus13");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2", "Bus13");
+		f = algoDsl.lossFactor("Bus2", "Bus13");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus12");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2", "Bus12");
+		f = algoDsl.lossFactor("Bus2", "Bus12");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 50%, Bus13 50%");
@@ -109,7 +109,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
 		algoDsl.addWithdrawBus("Bus14", 50.0);
 		algoDsl.addWithdrawBus("Bus13", 50.0);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2");
+		f = algoDsl.lossFactor("Bus2");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 90%, Bus13 10%");
@@ -117,7 +117,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
 		algoDsl.addWithdrawBus("Bus14", 90.0);
 		algoDsl.addWithdrawBus("Bus13", 10.0);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2");
+		f = algoDsl.lossFactor("Bus2");
 		System.out.println("LossFactor: " + f);
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 40%, Bus13 30%, Bus12 30%");
@@ -126,7 +126,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 		algoDsl.addWithdrawBus("Bus14", 40.0);
 		algoDsl.addWithdrawBus("Bus13", 30.0);
 		algoDsl.addWithdrawBus("Bus12", 30.0);
-		f = algoDsl.getAlgorithm().lossFactor("Bus2");
+		f = algoDsl.lossFactor("Bus2");
 		System.out.println("LossFactor: " + f);
 	}		
 }
