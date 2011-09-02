@@ -86,4 +86,16 @@ public class NumericUtil {
 		return Math.abs(x.getReal() - y.getReal()) < err &&
 				Math.abs(x.getImaginary() - y.getImaginary()) < err;
 	}
+	
+	/**
+	 * check if x and y are with the same sign
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public static boolean sameSign(double x, double y) {
+		return x > 0.0 && y > 0.0 ||
+			   x < 0.0 && y < 0.0;
+	}
 }
