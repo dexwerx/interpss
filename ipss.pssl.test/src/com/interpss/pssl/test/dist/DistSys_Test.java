@@ -46,7 +46,7 @@ public class DistSys_Test extends BaseTestSetup {
 	public void singlePointTest1() {
 		DistNetDSL distNet = IpssDist.createDistNetwork("Sample DistNetwork")      
         						.setBaseKva(100000.0);
-		
+		  
 		UtilityAdapter util = distNet.addUtility("Bus1", 138.0, UnitType.kV);
 		util.setVoltage(1.0, UnitType.PU, 0.0, UnitType.Deg);
 		util.setMvaRating(1000.0, 800.0, UnitType.mVA);

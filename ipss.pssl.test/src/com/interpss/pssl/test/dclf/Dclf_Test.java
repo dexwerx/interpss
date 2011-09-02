@@ -36,7 +36,7 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Dclf_Test extends BaseTestSetup {
-	@Test
+	//@Test
 	public void dclfTest() {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
