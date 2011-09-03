@@ -39,19 +39,19 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 		double x1 = algoDsl.setInjectionBusId("0004")
 			.setWithdrawBusId("0007")
 			.setBranchFromBusId("0004").toBusId("0007")
-			.powerTransferDistFactor();
+			.genShiftFactor();
 		//System.out.println(x1);
 
 		double x2 = algoDsl.setInjectionBusId("0004")
 			.setWithdrawBusId("0007")
 			.setBranchFromBusId("0004").toBusId("0009")
-			.powerTransferDistFactor();
+			.genShiftFactor();
 		//System.out.println(x2);
 
 		double x3 = algoDsl.setInjectionBusId("0004")
 			.setWithdrawBusId("0007")
 			.setBranchFromBusId("0005").toBusId("0006")
-			.powerTransferDistFactor();
+			.genShiftFactor();
 		//System.out.println(x3);
 	
 		assertTrue(Math.abs(x1 + x2 + x3 - 1.0) < 0.0001);

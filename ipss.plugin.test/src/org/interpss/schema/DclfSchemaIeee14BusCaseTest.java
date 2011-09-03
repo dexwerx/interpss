@@ -107,7 +107,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 			if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranch()) {
-					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
+					double ptdf = algo.pTransferDistFactor(inBusId, wdBusId, 
 							branch.getFromBusId(), branch.getToBusId(), "1");
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
@@ -117,7 +117,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 			else if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranch()) {
-					double ptdf = algo.getPTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1");
+					double ptdf = algo.pTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1");
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}
@@ -132,7 +132,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 			if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranch()) {
-					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
+					double ptdf = algo.pTransferDistFactor(inBusId, wdBusId, 
 									branch.getFromBusId(), branch.getToBusId(), "1");
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
