@@ -400,11 +400,11 @@ public class DclfOutFunc {
 		double ptdf = 0.0;
 		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBus().get(0).getBusId();
-			ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
+			ptdf = algo.pTransferDistFactor(inBusId, wdBusId,
 							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
 		}	
 		else 
-			ptdf = algo.getPTransferDistFactor(inBusId, 
+			ptdf = algo.pTransferDistFactor(inBusId, 
 							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
 		return ptdf;
 	}
@@ -428,6 +428,7 @@ public class DclfOutFunc {
 		str += " ]\n\n";
 		return str;
 	}
+	
 	private static void sortPTDFRecList(List<PTDFRec> list) {
 		boolean done = false;
 		while (!done) {
