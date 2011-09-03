@@ -79,55 +79,59 @@ public class DclfLoss_Test extends BaseTestSetup {
   		
 		System.out.println("Inj - Bus2, withdraw - Bus3");
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		double f = algoDsl.lossFactor("Bus2", "Bus3");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+			   .withdrawBusId("Bus3");
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus3 100%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
-		algoDsl.addWithdrawBus("Bus3", 100.0);
-		f = algoDsl.lossFactor("Bus2");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+			   .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
+		       .addWithdrawBus("Bus3", 100.0);
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus14");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		f = algoDsl.lossFactor("Bus2", "Bus14");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+		   	   .withdrawBusId("Bus14");
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus13");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		f = algoDsl.lossFactor("Bus2", "Bus13");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+	   	       .withdrawBusId("Bus13");
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus12");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		f = algoDsl.lossFactor("Bus2", "Bus12");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+	           .withdrawBusId("Bus12");
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 50%, Bus13 50%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
-		algoDsl.addWithdrawBus("Bus14", 50.0);
-		algoDsl.addWithdrawBus("Bus13", 50.0);
-		f = algoDsl.lossFactor("Bus2");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+		       .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
+		       .addWithdrawBus("Bus14", 50.0)
+		       .addWithdrawBus("Bus13", 50.0);
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 90%, Bus13 10%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
-		algoDsl.addWithdrawBus("Bus14", 90.0);
-		algoDsl.addWithdrawBus("Bus13", 10.0);
-		f = algoDsl.lossFactor("Bus2");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+	           .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
+	           .addWithdrawBus("Bus14", 90.0)
+	           .addWithdrawBus("Bus13", 10.0);
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 40%, Bus13 30%, Bus12 30%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		algoDsl.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
-		algoDsl.addWithdrawBus("Bus14", 40.0);
-		algoDsl.addWithdrawBus("Bus13", 30.0);
-		algoDsl.addWithdrawBus("Bus12", 30.0);
-		f = algoDsl.lossFactor("Bus2");
-		System.out.println("LossFactor: " + f);
+		algoDsl.injectionBusId("Bus2")
+               .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
+               .addWithdrawBus("Bus14", 40.0)
+               .addWithdrawBus("Bus13", 30.0)
+               .addWithdrawBus("Bus12", 30.0);
+		System.out.println("LossFactor: " + algoDsl.lossFactor());
 	}		
 }
 
