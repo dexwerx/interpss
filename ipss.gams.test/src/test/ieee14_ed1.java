@@ -37,9 +37,10 @@ public class ieee14_ed1 {
    	   	    writeModelInputData("inputdata.gdx");
    	 			
    	 		GAMSHelper helper = new GAMSHelper();
-   	   	    helper.CallGams("ieee14_java1.gms", 2, 1);
+   	   	    helper.CallGams("ieee14_java1.gms",  
+   	   	    		GAMS.OutLogLevel_List, GAMS.RunLogLevel_WARN);
    	   	        
-   	   	    helper.getReadResult("ieee14_results.gdx", new String[] {"result"}, 
+   	   	    helper.readResult("ieee14_results.gdx", new String[] {"result"}, 
    	   	        			resultReader);
 	 	} catch (GAMSException e) {
 	 		GAMSLogger.getLogger().severe(e.toString());
