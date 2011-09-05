@@ -24,6 +24,9 @@
 
 package com.interpss.pssl.test.dclf;
 
+import static org.junit.Assert.assertTrue;
+
+import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
@@ -46,15 +49,17 @@ public class DclfGSF_Test extends BaseTestSetup {
 			   .withdrawBusId("Bus3");
 		System.out.println("\nInj - Bus2, withdraw - Bus3");
 		
-		System.out.println("monitorBranch - 2->3");
-		System.out.println("GSF: " + 
-					algoDsl.monitorBranch("Bus2", "Bus3")
-						   .genShiftFactor());	
+		double f = algoDsl.monitorBranch("Bus2", "Bus3")
+		   					.genShiftFactor();
+		//System.out.println("monitorBranch - 2->3");
+		//System.out.println("GSF: " + f );	
+		assertTrue(NumericUtil.equals(f, 0.559376, 0.00001));
 
-		System.out.println("monitorBranch - 4->3");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus4", "Bus3")
-						.genShiftFactor());	
+		f = algoDsl.monitorBranch("Bus4", "Bus3")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 4->3");
+		//System.out.println("GSF: " + f );	
+		assertTrue(NumericUtil.equals(f,-0.440623, 0.00001));
 
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
@@ -63,20 +68,23 @@ public class DclfGSF_Test extends BaseTestSetup {
 			   .addWithdrawBus("Bus13", 50.0);
 		System.out.println("\nInj - Bus2, withdraw - Bus14 50%, Bus13 50%");
 		
-		System.out.println("monitorBranch - 9->14");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus9", "Bus14")
-						.genShiftFactor());	
+		f = algoDsl.monitorBranch("Bus9", "Bus14")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 9->14");
+		//System.out.println("GSF: " + f );	
+		assertTrue(NumericUtil.equals(f, 0.424185, 0.00001));
 
-		System.out.println("monitorBranch - 6->13");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus6", "Bus13")
-						.genShiftFactor());	
+		f = algoDsl.monitorBranch("Bus6", "Bus13")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 6->13");
+		//System.out.println("GSF: " + f );	
+		assertTrue(NumericUtil.equals(f, 0.447801, 0.00001));
 
-		System.out.println("monitorBranch - 12->13");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus12", "Bus13")
-						.genShiftFactor());
+		f = algoDsl.monitorBranch("Bus12", "Bus13")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 12->13");
+		//System.out.println("GSF: " + f );
+		assertTrue(NumericUtil.equals(f, 0.128015, 0.00001));
 		
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
@@ -85,20 +93,23 @@ public class DclfGSF_Test extends BaseTestSetup {
 			   .addWithdrawBus("Bus13", 10.0);
 		System.out.println("\nInj - Bus2, withdraw - Bus14 90%, Bus13 10%");
 		
-		System.out.println("monitorBranch - 9->14");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus9", "Bus14")
-						.genShiftFactor());	
+		f = algoDsl.monitorBranch("Bus9", "Bus14")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 9->14");
+		//System.out.println("GSF: " + f );	
+		assertTrue(NumericUtil.equals(f, 0.569027, 0.00001));
 
-		System.out.println("monitorBranch - 6->13");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus6", "Bus13")
-						.genShiftFactor());	
+		f =	algoDsl.monitorBranch("Bus6", "Bus13")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 6->13");
+		//System.out.println("GSF: " + f);	
+		assertTrue(NumericUtil.equals(f, 0.335159, 0.00001));
 
-		System.out.println("monitorBranch - 12->13");
-		System.out.println("GSF: " + 
-				algoDsl.monitorBranch("Bus12", "Bus13")
-						.genShiftFactor());	
+		f = algoDsl.monitorBranch("Bus12", "Bus13")
+					.genShiftFactor();
+		//System.out.println("monitorBranch - 12->13");
+		//System.out.println("GSF: " + f );	
+		assertTrue(NumericUtil.equals(f, 0.095813, 0.00001));
 	}
 }
 

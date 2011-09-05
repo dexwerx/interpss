@@ -28,11 +28,20 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import com.interpss.pssl.test.dclf.DclfGSF_Test;
+import com.interpss.pssl.test.dclf.DclfLODFPaper_Test;
+import com.interpss.pssl.test.dclf.DclfLODF_Test;
+import com.interpss.pssl.test.dclf.DclfLoss_Test;
 import com.interpss.pssl.test.dist.DistSys_Test;
 
 @RunWith(Suite.class)
 @SuiteClasses({
 	DistSys_Test.class,
+	
+	DclfLODFPaper_Test.class,
+	DclfLODF_Test.class,
+	DclfGSF_Test.class,
+	DclfLoss_Test.class,
 })
 public class PSSLTestSuite {
 }

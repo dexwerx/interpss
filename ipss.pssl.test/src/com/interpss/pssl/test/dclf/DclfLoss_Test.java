@@ -27,6 +27,7 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
@@ -81,32 +82,37 @@ public class DclfLoss_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
 			   .withdrawBusId("Bus3");
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.032298, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus3 100%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
 			   .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
 		       .addWithdrawBus("Bus3", 100.0);
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.032298, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus14");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
 		   	   .withdrawBusId("Bus14");
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.095169, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus13");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
 	   	       .withdrawBusId("Bus13");
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.039520, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus12");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
 	           .withdrawBusId("Bus12");
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(),-0.005858, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 50%, Bus13 50%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
@@ -114,7 +120,8 @@ public class DclfLoss_Test extends BaseTestSetup {
 		       .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
 		       .addWithdrawBus("Bus14", 50.0)
 		       .addWithdrawBus("Bus13", 50.0);
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.055101, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 90%, Bus13 10%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
@@ -122,7 +129,8 @@ public class DclfLoss_Test extends BaseTestSetup {
 	           .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
 	           .addWithdrawBus("Bus14", 90.0)
 	           .addWithdrawBus("Bus13", 10.0);
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.083428, 0.00001));
 
 		System.out.println("Inj - Bus2, withdraw - Bus14 40%, Bus13 30%, Bus12 30%");
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
@@ -131,7 +139,8 @@ public class DclfLoss_Test extends BaseTestSetup {
                .addWithdrawBus("Bus14", 40.0)
                .addWithdrawBus("Bus13", 30.0)
                .addWithdrawBus("Bus12", 30.0);
-		System.out.println("LossFactor: " + algoDsl.lossFactor());
+		//System.out.println("LossFactor: " + algoDsl.lossFactor());
+		assertTrue(NumericUtil.equals(algoDsl.lossFactor(), 0.045895, 0.00001));
 	}		
 }
 

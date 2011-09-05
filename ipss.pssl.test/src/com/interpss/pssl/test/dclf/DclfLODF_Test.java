@@ -24,10 +24,12 @@
 
 package com.interpss.pssl.test.dclf;
 
+import static org.junit.Assert.assertTrue;
+
+import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssPTrading;
@@ -44,15 +46,51 @@ public class DclfLODF_Test extends BaseTestSetup {
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 
+		//////////////////////
 		algoDsl.outageBranch("Bus4", "Bus7", "1");
 		
-		System.out.println("LODF (4->7) -> (4->9): " + 
-				algoDsl.monitorBranch("Bus4", "Bus9", "1")
-				       .lineOutageDFactor());
+		double f = algoDsl.monitorBranch("Bus4", "Bus9", "1")
+	       				.lineOutageDFactor();
+		//System.out.println("LODF (x4->7) -> (4->9): " + f);
+		assertTrue(NumericUtil.equals(f, 0.507821, 0.00001));
 
-		System.out.println("LODF (4->7) -> (5->6): " + 
-				algoDsl.monitorBranch("Bus5", "Bus6", "1")
-				       .lineOutageDFactor());
+		f = algoDsl.monitorBranch("Bus5", "Bus6", "1")
+	       			.lineOutageDFactor();
+	    //System.out.println("LODF (x4->7) -> (5->6): " + f );
+		assertTrue(NumericUtil.equals(f, 0.492179, 0.00001));
+
+	    f = algoDsl.monitorBranch("Bus9", "Bus14", "1")
+	       			.lineOutageDFactor();
+	    //System.out.println("LODF (x4->7) -> (9->14): " + f );
+		assertTrue(NumericUtil.equals(f, -0.19580, 0.00001));
+
+	    f =	algoDsl.monitorBranch("Bus12", "Bus13", "1")
+	        		.lineOutageDFactor();
+	    //System.out.println("LODF (x4->7) -> (12->13): " + f );
+		assertTrue(NumericUtil.equals(f, 0.043530, 0.00001));
+		
+		/////////////////////////
+		algoDsl.outageBranch("Bus6", "Bus13", "1");
+		
+		f = algoDsl.monitorBranch("Bus4", "Bus9", "1")
+	       			.lineOutageDFactor();
+		//System.out.println("\nLODF (x6->13) -> (4->9): " + f );
+		assertTrue(NumericUtil.equals(f, 0.062178, 0.00001));
+
+		f = algoDsl.monitorBranch("Bus5", "Bus6", "1")
+	       			.lineOutageDFactor();
+		//System.out.println("LODF (x6->13) -> (5->6): " + f );
+		assertTrue(NumericUtil.equals(f, -0.170541, 0.00001));
+
+		f = algoDsl.monitorBranch("Bus9", "Bus14", "1")
+	       			.lineOutageDFactor();
+		//System.out.println("LODF (x6->13) -> (9->14): " + f );
+		assertTrue(NumericUtil.equals(f, 0.346406, 0.00001));
+
+		f = algoDsl.monitorBranch("Bus12", "Bus13", "1")
+	       			.lineOutageDFactor();
+		//System.out.println("LODF (x6->13) -> (12->13): " + f );
+		assertTrue(NumericUtil.equals(f, 0.653594, 0.00001));
 	}
 
 	@Test
@@ -69,17 +107,33 @@ public class DclfLODF_Test extends BaseTestSetup {
 		double flow_4_9 = algoDsl.branchFlow("Bus4", "Bus9", "1", UnitType.mW);
 		double flow_5_6 = algoDsl.branchFlow("Bus5", "Bus6", "1", UnitType.mW);
 		
-		AclfBranch outageBranch = net.getAclfBranch("Bus4", "Bus7", "1");
+		algoDsl.outageBranch("Bus4", "Bus7", "1");
 		
-		AclfBranch monitorBranch = net.getAclfBranch("Bus4", "Bus9", "1");
-		double f1 = algoDsl.lineOutageDFactor(outageBranch, monitorBranch);
+		double f1_1 = algoDsl.monitorBranch("Bus4", "Bus9", "1")
+						   .lineOutageDFactor();
 
-		monitorBranch = net.getAclfBranch("Bus5", "Bus6", "1");
-		double f2 = algoDsl.lineOutageDFactor(outageBranch, monitorBranch);
+		double f2_1 = algoDsl.monitorBranch("Bus5", "Bus6", "1")
+						    .lineOutageDFactor();
 
 		System.out.println("\nN-1 Contingency Analysis");
-		System.out.println("4->9 before:" + flow_4_9 + ", after: " + (flow_4_9+f1*flow_4_7));
-		System.out.println("5->6 before:" + flow_5_6 + ", after: " + (flow_5_6+f2*flow_4_7));
+		System.out.println("4->9 before:" + flow_4_9 + ", after: " + (flow_4_9+f1_1*flow_4_7));
+		System.out.println("5->6 before:" + flow_5_6 + ", after: " + (flow_5_6+f2_1*flow_4_7));
+		
+		double flow_6_13 = algoDsl.branchFlow("Bus6", "Bus13", "1", UnitType.mW);
+		double flow_9_14 = algoDsl.branchFlow("Bus9", "Bus14", "1", UnitType.mW);
+		double flow_12_13 = algoDsl.branchFlow("Bus12", "Bus13", "1", UnitType.mW);
+
+		algoDsl.outageBranch("Bus6", "Bus13", "1");
+		
+		double f3_2 = algoDsl.monitorBranch("Bus9", "Bus14", "1")
+						   .lineOutageDFactor();
+
+		double f4_2 = algoDsl.monitorBranch("Bus12", "Bus13", "1")
+						    .lineOutageDFactor();
+
+		System.out.println("\nN-1 Contingency Analysis");
+		System.out.println("9->14 before:" + flow_9_14 + ", after: " + (flow_9_14+f3_2*flow_6_13));
+		System.out.println("12->13 before:" + flow_12_13 + ", after: " + (flow_12_13+f4_2*flow_6_13));
 	}
 }
 
