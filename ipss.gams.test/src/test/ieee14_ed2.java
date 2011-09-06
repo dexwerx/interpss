@@ -121,6 +121,12 @@ public class ieee14_ed2 {
         GAMS.gdxDataWriteStr("0008", 0.09);         
         GAMS.gdxDataWriteDone();
 
+/*
+        GAMS.gdxDataWriteStrStart("table", " ...", 2, gamsglobals.dt_par, 0);
+        GAMS.gdxDataWrite2D("0001", "0002", 0.02);
+        GAMS.gdxDataWriteDone();
+ */
+        
         GAMS.gdxClose();
     }
 	
