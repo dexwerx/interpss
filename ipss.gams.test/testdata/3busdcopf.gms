@@ -1,5 +1,5 @@
    Parameter numofbus number of buses in the network;
-       numofbus=3;
+             numofbus=3;
    Sets
        k bus  index    / bus1, bus2, bus3/
 
@@ -18,19 +18,21 @@
              /gen1 10.694
               gen2 18.100
               gen3 37.8896/
+
       bCoeff(i) quantratic  const coefficient at generator i
             /gen1 0.00463
              gen2 0.00612
              gen3 0.01433/
+
       pgmax(i) max real power output at generator i(in pu unit)
               /gen1 2
                gen2 1.5
                gen3 0.2/
+
       pgmin(i) min real power output at generator i(in pu unit)
               /gen1 0.2
                gen2 0.1
                gen3 0.05/;
-
 
    Table b(k,m)  equivalent to the [B] matrix of the network
              bus1     bus2       bus3
@@ -62,13 +64,13 @@
           fkm_lowlim(k,m)     lower limit for branch k->m
           refangle            reference bus angle set to ZERO;
 
-            tvc     ..       z   =e=  sum(i,aCoeff(i)*pg(i)+bCoeff(i)*pg(i)*pg(i));
-       nodepower(k) .. pl(k)-sum(i,busGeneratorAry(k,i)*pg(i))+sum(m,b(k,m)*(angle(k)-angle(m))) =e= 0;
+            tvc     ..   z =e= sum(i,aCoeff(i)*pg(i)+bCoeff(i)*pg(i)*pg(i));
+       nodepower(k) ..   pl(k)-sum(i,busGeneratorAry(k,i)*pg(i))+sum(m,b(k,m)*(angle(k)-angle(m))) =e= 0;
    fkm_uplim(k,m)   ..   b(k,m)*(angle(k)-angle(m))  =g= -branchrating(k,m);
    fkm_lowlim(k,m)  ..   b(k,m)*(angle(k)-angle(m)) =l=  branchrating(k,m);
    pguplim(i)       ..   pg(i) =l= pgmax(i);
    pglowlim(i)      ..   pg(i) =g= pgmin(i);
-   refangle       ..   angle('bus1') =e= 0;
+   refangle         ..   angle('bus1') =e= 0;
 
    Model ieee3busdcopf /all/;
 
