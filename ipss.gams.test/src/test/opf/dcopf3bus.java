@@ -16,7 +16,7 @@ public class dcopf3bus {
    	 			// TODO: pass data to GAMS
 
    	 			GAMSHelper helper = new GAMSHelper();
-   	   	        helper.CallGams("3busdcopf.gms", 2, 2);
+   	   	        helper.CallGams("model\\3busdcopf.gms", 2, 2);
 
    	   	        // TODO: get GAMS result
    	 	} catch (GAMSException e) {

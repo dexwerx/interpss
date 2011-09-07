@@ -47,8 +47,8 @@ public class Ieee14Ed2 {
    	   	    writeModelInputData("inputdata.gdx", net);
    	 			
    	 		GAMSHelper helper = new GAMSHelper();
-   	   	    helper.CallGams("ieee14_java2.gms",  
-   	   	    		GAMS.OutLogLevel_List, GAMS.RunLogLevel_WARN);
+   	   	    helper.CallGams("model\\ieee14_ed1.gms",  
+   	   	    		GAMS.OutLogLevel_Log, GAMS.RunLogLevel_WARN);
    	   	        
    	   	    helper.readResult("ieee14_results.gdx", new String[] {"result"}, 
    	   	        			resultReader);

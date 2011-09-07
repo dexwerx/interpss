@@ -18,7 +18,7 @@ public class example2_1 {
    	 		WriteModelData("demanddata.gdx");
 
    	 		GAMSHelper helper = new GAMSHelper();
-   	   	    helper.CallGams("model2.gms");
+   	   	    helper.CallGams("model\\model2.gms");
 
    	   	    helper.readResult("results.gdx", 
    	   	        		new String[] {"result"}, reader);   	   	        

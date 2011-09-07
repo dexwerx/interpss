@@ -84,7 +84,7 @@ public class example2 {
         }
 
         opt.SetStrStr("SysDir", SysDir);
-        opt.SetStrStr("Input", "model2.gms");
+        opt.SetStrStr("Input", "model\\model2.gms");
         opt.SetIntStr("LogOption", 2);        // write .log and .lst files
 		
         ErrNr[0] = gamsx.RunExecDLL(opt.GetoptPtr(), SysDir, 1, Msg);

@@ -14,7 +14,7 @@ public class Ieee14Ed0 {
    	 		GAMS.init();
    	 		
    	 		GAMSHelper helper = new GAMSHelper();
-   	   	    helper.CallGams("ieee14_java.gms");
+   	   	    helper.CallGams("model\\ieee14_ed.gms");
    	   	        
    	   	    helper.readResult("ieee14_results.gdx", 
    	   	        		new String[] {"result"}, 

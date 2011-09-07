@@ -31,14 +31,15 @@ public class Ieee14Ed3 {
    	 			
    	 		// option-1: use include file
    	 		new ModelIncFileCreator(templateProcessor)
-   	 					.createIncFile("ieee14_java.template", "ieee14_java.inc");
+   	 					.createIncFile("model\\ieee14_ed2.template", 
+   	 							       "ieee14_java.inc");
    	 		
    	 		// option-2: use gdx file
    	   	    writeModelInputData("inputdata.gdx");
    	 			
    	 		GAMSHelper helper = new GAMSHelper();
-   	   	    helper.CallGams("ieee14_java1.gms",  
-   	   	    		GAMS.OutLogLevel_List, GAMS.RunLogLevel_WARN);
+   	   	    helper.CallGams("model\\ieee14_ed2.gms",  
+   	   	    		GAMS.OutLogLevel_Log, GAMS.RunLogLevel_WARN);
    	   	        
    	   	    helper.readResult("ieee14_results.gdx", new String[] {"result"}, 
    	   	        			resultReader);
