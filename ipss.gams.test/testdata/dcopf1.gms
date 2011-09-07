@@ -3,13 +3,11 @@ $EOLCOM //
 
    Sets
        k bus  index
-
        i generator index
 
    Alias(k,m);
    
    Parameters
-
       pl(k) real power load drawn at LSE k
 
       aCoeff(i) linear cost coefficient at generator i
@@ -18,11 +16,10 @@ $EOLCOM //
       pgmax(i) max real power output at generator i(in pu unit)
       pgmin(i) min real power output at generator i(in pu unit);
 
-   Table b(k,m)  equivalent to the B matrix of the network;
-
-   Table branchrating(k,m)  branch rating limit in pu unit;
-
-   Table busGeneratorAry(k,i) bus and generator relationship;
+   Parameters
+      b(k,m)  equivalent to the B matrix of the network
+      branchrating(k,m)  branch rating limit in pu unit
+      busGeneratorAry(k,i) bus and generator relationship;
 
 $GDXIN dcopf_input.gdx
 $LOAD  k=BusIndex,i=GenIndex
@@ -50,7 +47,7 @@ $GDXIN
    fkm_lowlim(k,m)  ..   b(k,m)*(angle(k)-angle(m)) =l=  branchrating(k,m);
    pguplim(i)       ..   pg(i) =l= pgmax(i);
    pglowlim(i)      ..   pg(i) =g= pgmin(i);
-   refangle         ..   angle("bus1") =e= 0;
+   refangle         ..   angle("Bus1") =e= 0;
 
    Model ieee3busdcopf /all/;
 
