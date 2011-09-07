@@ -10,7 +10,11 @@ public class DcOPFSample1 {
 	 public static void main(String[] args) {
 	    	GAMS.GamsDir = "c:\\Program Files (x86)\\GAMS23.7";
 	    	GAMS.JNIDir = "c:/eclipse/JNI";
-	
+	    	
+	    	new DcOPFSample1().run();
+	 }
+	    	
+	 private void run() {	    	
 	 		try {
 	   	 		GAMS.init();
 	   	 			
@@ -28,7 +32,7 @@ public class DcOPFSample1 {
 	   	 	}	
 	 }
 
-	 private static void writeModelInputData(String inputFile) throws GAMSException {
+	 private void writeModelInputData(String inputFile) throws GAMSException {
 		GAMS.gdxOpenWrite(inputFile, "DCOPF");
 
 		GAMS.gdxDataWriteStrStart("BusIndex", "bus index", 1, gamsglobals.dt_set, 0);

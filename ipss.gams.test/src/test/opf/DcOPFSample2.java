@@ -29,11 +29,20 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.spring.CoreCommonSpringCtx;
 
+/**
+ *    ODM -> OpfNetwork object -> GAMS routine -> InterPSS Display 
+ * 
+ */
+
 public class DcOPFSample2 {
 	 public static void main(String[] args) {
 	    	GAMS.GamsDir = "c:\\Program Files (x86)\\GAMS23.7";
 	    	GAMS.JNIDir = "c:/eclipse/JNI";
+	    	
+	    	new DcOPFSample2().run();
+	 }
 	
+	private void run() {
 	 		try {
 	   	 		GAMS.init();
 	   	 			
@@ -50,9 +59,9 @@ public class DcOPFSample2 {
 	 	 	} finally {
 	   	   	    GAMS.free();
 	   	 	}	
-	 }
+	}
 
-	 private static OpfNetwork loadOpfNet(String filename) throws Exception {
+	private OpfNetwork loadOpfNet(String filename) throws Exception {
 		IpssPlugin.init();
 		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 		BaseDSL.setMsgHub(msg);
@@ -72,7 +81,7 @@ public class DcOPFSample2 {
   		throw new Exception("Error: reading file " + filename);
 	 }
 	 
-	 private static void writeModelInputData(String inputFile, OpfNetwork opfNet) throws GAMSException {
+	 private void writeModelInputData(String inputFile, OpfNetwork opfNet) throws GAMSException {
 		double baseMav = opfNet.getBaseKva() * 0.001;
 		 
 		GAMS.gdxOpenWrite(inputFile, "DCOPF");
@@ -135,13 +144,14 @@ public class DcOPFSample2 {
 			int i = bi.getSortNumber(); 
 			for (Bus bj : opfNet.getBusList()) {
 				int j = bj.getSortNumber();
-				GAMS.gdxDataWrite2D(bi.getId(), bj.getId(), (i==j?-eqn.getAij(i, j):eqn.getAij(i, j)));   
+				double b = eqn.getAij(i, j);
+				if (b != 0.0)
+					GAMS.gdxDataWrite2D(bi.getId(), bj.getId(), (i==j?-b:b));   
 			}
 		}
         GAMS.gdxDataWriteDone();
         
         GAMS.gdxDataWriteStrStart("Rating", "branch rating limit in pu unit", 2, gamsglobals.dt_par, 0);
-		
         for (Branch bra : opfNet.getBranchList()) {
 			AclfBranch branch = (AclfBranch)bra;
 	        GAMS.gdxDataWrite2D(bra.getFromBusId(), bra.getToBusId(), branch.getRatingMva1()/baseMav);   

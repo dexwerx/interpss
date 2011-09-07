@@ -9,12 +9,16 @@ public class DcOPFSample {
 	 public static void main(String[] args) {
 	    	GAMS.GamsDir = "c:\\Program Files (x86)\\GAMS23.7";
 	    	GAMS.JNIDir = "c:/eclipse/JNI";
-	
+	    	
+	    	new DcOPFSample().run();
+	 }
+	    	
+   	private void run() {
 	 		try {
 	   	 		GAMS.init();
 	   	 			
 	   	 		GAMSHelper helper = new GAMSHelper();
-	   	   	    helper.CallGams("model\\dcopf.gms", 2, 1);
+	   	   	    helper.CallGams("model\\dcopf.gms");
 	   	   	    
 	   	   	    helper.readResult("results.gdx", new String[] {"result"}, 
 	   	        			helper.getResultReader1D());	   	   	    

@@ -5,7 +5,6 @@ import com.interpss.gams.GAMS;
 import com.interpss.gams.common.GAMSException;
 import com.interpss.gams.common.GAMSLogger;
 import com.interpss.gams.util.GAMSHelper;
-import com.interpss.gams.util.IReadResult;
 
 public class example2_1 {
     public static void main(String[] args) {
@@ -21,7 +20,8 @@ public class example2_1 {
    	   	    helper.CallGams("model\\model2.gms");
 
    	   	    helper.readResult("results.gdx", 
-   	   	        		new String[] {"result"}, reader);   	   	        
+   	   	        		new String[] {"result"}, 
+   	   	        	    helper.getResultReader2D());   	   	        
    	 	} catch (GAMSException e) {
    	 		GAMSLogger.getLogger().severe(e.toString());
    	 	} finally {
@@ -40,24 +40,4 @@ public class example2_1 {
         GAMS.gdxDataWriteDone();
         GAMS.gdxClose();
     }
-    
-	private static IReadResult reader = new IReadResult() {
-       	public void readResult(int dimension) {
-            String[] Indx = new String[gamsglobals.maxdim];
-            double[] Values = new double[gamsglobals.val_max];
-            int[] N = new int[1];
-            
-            while(GAMS.gdxDataReadStr(Indx, Values, N) != 0){
-                if(Values[gamsglobals.val_level] == 0) //skip level = 0.0 is default
-                    continue;
-                for(int D = 0; D < dimension; D++){
-                    System.out.print(Indx[D]);
-                    if(D < dimension-1)
-                        System.out.print(".");
-                }
-                System.out.println(" = " + Values[gamsglobals.val_level]);
-            }
-            System.out.println("All solution values shown");
-        }
-    };    
 }

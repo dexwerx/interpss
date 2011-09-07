@@ -8,11 +8,6 @@ import com.interpss.gams.util.GAMSHelper;
 import com.interpss.gams.util.IReadResult;
 
 /*
- * To run this example,
- * 
- *    - put ieee14_java1.gms and ieee14_java.template in the current dir
- *    - include file ieee14_java.inc and gdx file inputdata.gdx are created during the
- *      running process
  */
 
 public class Ieee14Ed1 {

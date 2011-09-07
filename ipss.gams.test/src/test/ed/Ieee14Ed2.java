@@ -15,12 +15,8 @@ import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.BaseDSL;
 import com.interpss.spring.CoreCommonSpringCtx;
 
-/*
- * To run this example,
- * 
- *    - put ieee14_java1.gms and ieee14_java.template in the current dir
- *    - include file ieee14_java.inc and gdx file inputdata.gdx are created during the
- *      running process
+/**
+     IEEE CDF -> AclfNetwork object -> GAMS routine -> InterPSS Display
  */
 
 public class Ieee14Ed2 {
