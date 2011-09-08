@@ -50,7 +50,5 @@ public class SampleLoadflow {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
   		assertTrue(algo.loadflow());
   		System.out.println(AclfOutFunc.loadFlowSummary(net));
-  		
     }
-
 }
