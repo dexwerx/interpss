@@ -1,7 +1,14 @@
 $Title trnsport model using gdx files
 $EOLCOM //
 
-$include 'ieee14_java.inc'
+        Sets
+                 i   generating unit
+                 j   load bus;
+
+        Parameters
+                lower(i) lower  bound of each generating unit
+                upper(i) upper bound of each generating unit
+                d(j) demand at load bus j;
 
         Parameter A(i) weighting factor A for generation cost function;
         Parameter B(i) weighting factor B for generation cost function;
@@ -9,6 +16,8 @@ $include 'ieee14_java.inc'
                  
 // These lines execute during the compilation phase
 $GDXIN inputdata.gdx                  // open data file
+$LOAD  i=genUnit, j=loadBus
+$LOAD  lower=lowerBound, upper=upperBound, d=demand
 $LOAD  A=FactorA, B=FactorB, c=FactorC                       
 $GDXIN   
 

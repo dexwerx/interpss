@@ -23,7 +23,8 @@ $EOLCOM //
 
 $GDXIN dcopf_input.gdx
 $LOAD  k=BusIndex,i=GenIndex
-$LOAD  pl=RealPower, aCoeff=ACoeff, bCoeff=BCoeff, pgmax=Pgmax, pgmin=Pgmin
+$LOAD  pl=RealPower, pgmax=Pgmax, pgmin=Pgmin
+$LOAD  aCoeff=ACoeff, bCoeff=BCoeff
 $LOAD  b=BMatrix, branchrating=Rating, busGeneratorAry=BusGenRelation
 $GDXIN
 
