@@ -52,6 +52,8 @@
 	<simpleType name="YUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
+			<enumeration value="Mw"></enumeration>
+			<enumeration value="MVar"></enumeration>
 			<enumeration value="MHO"></enumeration>
 			<enumeration value="MICROMHO"></enumeration>
 			<enumeration value="MHOPerMile"></enumeration>
@@ -68,6 +70,8 @@
 	<simpleType name="ZUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
+			<enumeration value="Mw"></enumeration>
+			<enumeration value="MVar"></enumeration>
 			<enumeration value="OHM"></enumeration>
 			<enumeration value="Percent"></enumeration>
 			<enumeration value="OHMPerMile"></enumeration>

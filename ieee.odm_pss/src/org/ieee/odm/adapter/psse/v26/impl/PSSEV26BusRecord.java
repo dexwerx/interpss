@@ -50,6 +50,7 @@ public class PSSEV26BusRecord {
 
 		// I,    NAME        BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,      OWNER
 		// 31212,'ADLIN  1', 115.00,1,    0.00,    0.00,  1,  1,   1.01273, -10.5533,1 
+		// 45035,'CAPJAK 1', 500.00,1,    0.00,  400.00,  8, 11,1.08554,  18.6841,1,    /* [45035_CAPTJACK_500_B2] */ 
 
 		final String busId = AbstractModelParser.BusIdPreFix+strAry[0];
 			// XML requires id start with a char
@@ -115,10 +116,10 @@ public class PSSEV26BusRecord {
 		}
 		
 		//GL BL
-		final double gPU = ModelStringUtil.getDouble(strAry[4], 0.0);
-		final double bPU = ModelStringUtil.getDouble(strAry[5], 0.0);
-		if (gPU != 0.0 || bPU != 0.0) {
-			busRec.setShuntY(BaseDataSetter.createYValue(gPU, bPU, YUnitType.PU));
+		final double gMw = ModelStringUtil.getDouble(strAry[4], 0.0);
+		final double bMvar= ModelStringUtil.getDouble(strAry[5], 0.0);
+		if (gMw != 0.0 || bMvar != 0.0) {
+			busRec.setShuntY(BaseDataSetter.createYValue(gMw, bMvar, YUnitType.M_VAR));
 		}
 		//area zone	
 		final String areaNo = strAry[6];
