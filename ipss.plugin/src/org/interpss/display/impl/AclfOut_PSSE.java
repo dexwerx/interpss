@@ -51,7 +51,7 @@ public class AclfOut_PSSE {
 				AclfBus bus = (AclfBus) b;
 				if (bus.isActive()) {
 					if (format == Format.GUI)
-						str.append("\n" + busGUIForat(bus, baseKVA));
+						str.append("\n" + busGUIFormat(bus, baseKVA));
 					else
 						str.append("\n" + busResults(bus, baseKVA));
 						
@@ -63,7 +63,7 @@ public class AclfOut_PSSE {
 		return str.toString();
 	}
 
-	public static String busGUIForat(AclfBus bus, double baseKVA) {
+	public static String busGUIFormat(AclfBus bus, double baseKVA) {
 		StringBuffer str = new StringBuffer("");
 		double pu2Mva = baseKVA * 0.001;
 		
