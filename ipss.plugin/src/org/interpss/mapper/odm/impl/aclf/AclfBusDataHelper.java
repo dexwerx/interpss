@@ -34,6 +34,7 @@ import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
+import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
 import org.interpss.numeric.datatype.LimitType;
 
@@ -85,10 +86,12 @@ public class AclfBusDataHelper {
 		}
 
 		if (busXmlData.getShuntY() != null) {
-			Complex ypu = UnitType.yConversion(new Complex(busXmlData.getShuntY().getRe(), busXmlData.getShuntY().getIm()),
-					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), ODMXmlHelper.toUnit(busXmlData.getShuntY().getUnit()),
-					UnitType.PU);
-			aclfBus.setShuntY(ypu);			
+			YXmlType shuntY = busXmlData.getShuntY();
+//			byte unit = shuntY.getUnit() == YUnitType.M_VAR? UnitType.mVar : UnitType.PU;
+			byte unit = ODMXmlHelper.toUnit(shuntY.getUnit());
+			Complex ypu = UnitType.yConversion(new Complex(shuntY.getRe(), shuntY.getIm()),
+					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
+			//System.out.println("----------->" + shuntY.getIm() + ", " + shuntY.getUnit() + ", " + ypu.getImaginary());
 		}
 	}
 	
@@ -115,19 +118,23 @@ public class AclfBusDataHelper {
 				PVBusAdapter pvBus = aclfBus.toPVBus();
 				//if (xmlEquivGenData == null)
 				//	System.out.print(busXmlData);
-				pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
+				if (xmlEquivGenData.getPower() != null) {
+					pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
 							ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()));
-				if (vXml == null)
-					throw new InterpssException("For Gen PV bus, equivGenData.desiredVoltage has to be defined, busId: " + aclfBus.getId());
-				double vpu = UnitType.vConversion(vXml.getValue(),
+				
+					if (vXml == null)
+						throw new InterpssException("For Gen PV bus, equivGenData.desiredVoltage has to be defined, busId: " + aclfBus.getId());
+					double vpu = UnitType.vConversion(vXml.getValue(),
 						aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
-				pvBus.setVoltMag(vpu, UnitType.PU);
-				if (xmlEquivGenData.getQLimit() != null) {
-  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(aclfBus);
-  			  		pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
+				
+					pvBus.setVoltMag(vpu, UnitType.PU);
+					if (xmlEquivGenData.getQLimit() != null) {
+  			  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(aclfBus);
+  			  			pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
   			  										xmlEquivGenData.getQLimit().getMin()), 
   			  				ODMXmlHelper.toUnit(xmlEquivGenData.getQLimit().getUnit()));
-  			  		pvLimit.setStatus(xmlEquivGenData.getQLimit().isActive());
+  			  			pvLimit.setStatus(xmlEquivGenData.getQLimit().isActive());
+					}
 				}
 			}
 			else {
