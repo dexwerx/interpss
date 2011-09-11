@@ -28,5 +28,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.schema"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.schema"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
