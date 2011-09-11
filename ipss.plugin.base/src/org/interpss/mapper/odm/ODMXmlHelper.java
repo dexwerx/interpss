@@ -90,7 +90,7 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(ApparentPowerUnitType unit) {
+	public static byte toApparentPowerUnit(ApparentPowerUnitType unit) {
 		if (unit == ApparentPowerUnitType.KVA)
 			return UnitType.kVA;
 		else if (unit == ApparentPowerUnitType.MVA)
@@ -98,23 +98,23 @@ public class ODMXmlHelper {
 		return UnitType.PU;
 	}
 
-	public static byte toUnit(ActivePowerUnitType unit) {
+	public static byte toActivePowerUnit(ActivePowerUnitType unit) {
 		if (unit == ActivePowerUnitType.KW)
-			return UnitType.kVA;
+			return UnitType.kW;
 		else if (unit == ActivePowerUnitType.MW)
-			return UnitType.mVA;
+			return UnitType.mW;
 		return UnitType.PU;
 	}
 
-	public static byte toUnit(ReactivePowerUnitType unit) {
+	public static byte toReactivePowerUnit(ReactivePowerUnitType unit) {
 		if (unit == ReactivePowerUnitType.KVAR)
-			return UnitType.kVA;
+			return UnitType.kVar;
 		else if (unit == ReactivePowerUnitType.MVAR)
-			return UnitType.mVA;
+			return UnitType.mVar;
 		return UnitType.PU;
 	}
 
-	public static byte toUnit(ZUnitType unit) {
+	public static byte toZUnit(ZUnitType unit) {
 		if (unit == ZUnitType.OHM)
 			return UnitType.Ohm;
 		else if (unit == ZUnitType.OHM_PER_FT)
@@ -123,14 +123,10 @@ public class ODMXmlHelper {
 			return UnitType.OhmPerM;
 		else if (unit == ZUnitType.PERCENT)
 			return UnitType.Percent;
-		else if (unit == ZUnitType.M_VAR)
-			return UnitType.mVar;
-		else if (unit == ZUnitType.MW)
-			return UnitType.mW;
-		else if (unit == ZUnitType.K_VAR)
-			return UnitType.kVar;
-		else if (unit == ZUnitType.KW)
-			return UnitType.kW;
+		else if (unit == ZUnitType.MVA)
+			return UnitType.mVA;
+		else if (unit == ZUnitType.KVA)
+			return UnitType.kVA;
 		return UnitType.PU;
 	}
   
@@ -140,19 +136,15 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(YUnitType unit) {
+	public static byte toYUnit(YUnitType unit) {
 		if (unit == YUnitType.MHO)
 			return UnitType.Mho;
 		else if (unit == YUnitType.MICROMHO)
 			return UnitType.MicroMho;
-		else if (unit == YUnitType.M_VAR)
+		else if (unit == YUnitType.MVAR)
 			return UnitType.mVar;
-		else if (unit == YUnitType.MW)
-			return UnitType.mW;
-		else if (unit == YUnitType.K_VAR)
+		else if (unit == YUnitType.KVAR)
 			return UnitType.kVar;
-		else if (unit == YUnitType.KW)
-			return UnitType.kW;
 		return UnitType.PU;
 	}
 
@@ -162,7 +154,7 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(VoltageUnitType unit) {
+	public static byte toVoltageUnit(VoltageUnitType unit) {
 		if (unit == VoltageUnitType.VOLT)
 			return UnitType.Volt;
 		else if (unit == VoltageUnitType.KV)
@@ -176,7 +168,7 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(CurrentUnitType unit) {
+	public static byte toCurrentUnit(CurrentUnitType unit) {
 		if (unit == CurrentUnitType.AMP)
 			return UnitType.Amp;
 		else if (unit == CurrentUnitType.KA)
@@ -190,7 +182,7 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(AngleUnitType unit) {
+	public static byte toAngleUnit(AngleUnitType unit) {
 		if (unit == AngleUnitType.DEG)
 			return UnitType.Deg;
 		return UnitType.Rad;
@@ -202,7 +194,7 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(FactorUnitType unit) {
+	public static byte toFactorUnit(FactorUnitType unit) {
 		if (unit == FactorUnitType.PERCENT)
 			return UnitType.Percent;
 		return UnitType.PU;
@@ -214,7 +206,7 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(LengthUnitType unit) {
+	public static byte toLengthUnit(LengthUnitType unit) {
 		if (unit == LengthUnitType.FT)
 			return UnitType.Ft;
 		else if (unit == LengthUnitType.M)
