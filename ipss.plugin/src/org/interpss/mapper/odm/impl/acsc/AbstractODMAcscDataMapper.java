@@ -49,6 +49,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.ODMXmlUnitHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.NumericConstant;
@@ -245,7 +246,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, 
 			ZXmlType z1, ZXmlType z2, ZXmlType z0) {
-		byte zUnit = ODMXmlHelper.toZUnit(z1.getUnit());
+		byte zUnit = ODMXmlUnitHelper.toZUnit(z1.getUnit());
 		bus.setScZ(new Complex(z1.getRe(), z1.getIm()), SequenceCode.POSITIVE, zUnit);
 		bus.setScZ(new Complex(z2.getRe(), z2.getIm()), SequenceCode.NEGATIVE, zUnit);
 		bus.setScZ(new Complex(z0.getRe(), z0.getIm()), SequenceCode.ZERO, zUnit);
@@ -255,7 +256,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		ZXmlType z = g.getGroundingZ();
 		bus.getGrounding().setCode(ODMXmlHelper.toBusGroundCode(g.getGroundingConnection()));
 		if(z != null){
-			byte zgUnit = ODMXmlHelper.toZUnit(z.getUnit());			
+			byte zgUnit = ODMXmlUnitHelper.toZUnit(z.getUnit());			
 			bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
 		}
 	}
@@ -284,10 +285,10 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
 		ZXmlType z0 = braXml.getZ0();
 		if (z0 != null)
-			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ODMXmlHelper.toZUnit(z0.getUnit()), baseV);
+			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ODMXmlUnitHelper.toZUnit(z0.getUnit()), baseV);
 		YXmlType y0 = braXml.getY0Shunt();
 		if (y0 != null)
-			line.setHB0(0.5*y0.getIm(), ODMXmlHelper.toYUnit(y0.getUnit()), baseV);
+			line.setHB0(0.5*y0.getIm(), ODMXmlUnitHelper.toYUnit(y0.getUnit()), baseV);
 	}
 
 	// for SC, Xfr and PSXfr behave the same
@@ -298,7 +299,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 				AcscXfrAdapter xfr = (AcscXfrAdapter) acscBra.getAdapter(AcscXfrAdapter.class);
 				ZXmlType z0 = braXml.getZ0();
 				if (z0 != null)
-					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlHelper.toZUnit(z0.getUnit()), baseV);
+					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ODMXmlUnitHelper.toZUnit(z0.getUnit()), baseV);
 
 				XformerConnectionXmlType connect = braXml.getFromSideConnection();
 				if(connect != null){
@@ -308,7 +309,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						ZXmlType z = connect.getGrounding().getGroundingZ();
 						if (z != null) 
 							xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
-									ODMXmlHelper.toZUnit(z.getUnit()));
+									ODMXmlUnitHelper.toZUnit(z.getUnit()));
 					}
 				}				
 
@@ -320,7 +321,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						ZXmlType z = connect.getGrounding().getGroundingZ();
 						if (z != null) 
 							xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(z.getRe(), z.getIm()),
-									ODMXmlHelper.toZUnit(z.getUnit()));
+									ODMXmlUnitHelper.toZUnit(z.getUnit()));
 					}
 				}	
 	}
