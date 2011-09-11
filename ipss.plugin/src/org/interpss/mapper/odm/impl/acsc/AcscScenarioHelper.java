@@ -149,11 +149,11 @@ public class AcscScenarioHelper {
 		ZXmlType zLL= scFaultXml.getZLL();			
 		if(zLG!=null){
 			acscBusFault.setZLGFault(new Complex(zLG.getRe(), zLG.getIm()), 
-					ODMXmlHelper.toUnit(zLG.getUnit()), baseV, baseKVA);
+					ODMXmlHelper.toZUnit(zLG.getUnit()), baseV, baseKVA);
 		}
 		if(zLL!=null){
 			acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
-					ODMXmlHelper.toUnit(zLL.getUnit()), baseV, baseKVA);
+					ODMXmlHelper.toZUnit(zLL.getUnit()), baseV, baseKVA);
 		}	
 	}
 

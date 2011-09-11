@@ -132,11 +132,11 @@ public class MachDataHelper {
 	private void setClassicData(EConstMachine mach, ClassicMachineXmlType machXml) throws InterpssException {
 		// set machine data
 		if (this.ratedPower != null)
-			mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+			mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toActivePowerUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
 		else
 			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
 		if (this.ratedVoltage != null)
-			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toUnit(this.ratedVoltage.getUnit()));
+			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toVoltageUnit(this.ratedVoltage.getUnit()));
 		else
 			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
@@ -151,11 +151,11 @@ public class MachDataHelper {
 	private void setEq1Data(Eq1Machine mach, Eq1MachineXmlType machXml) throws InterpssException {
 		// set machine data
 		if (this.ratedPower != null)
-			mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+			mach.setRating(this.ratedPower.getValue(), ODMXmlHelper.toActivePowerUnit(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
 		else
 			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
 		if (this.ratedVoltage != null)
-			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toUnit(this.ratedVoltage.getUnit()));
+			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMXmlHelper.toVoltageUnit(this.ratedVoltage.getUnit()));
 		else
 			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
