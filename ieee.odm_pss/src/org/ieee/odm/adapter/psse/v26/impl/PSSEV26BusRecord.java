@@ -115,7 +115,7 @@ public class PSSEV26BusRecord {
 			busRec.getLoadData().setEquivLoad(parser.getFactory().createLoadflowLoadDataXmlType());
 		}
 		
-		//GL BL
+		//GL BL in Mva
 		final double gMw = ModelStringUtil.getDouble(strAry[4], 0.0);
 		final double bMvar= ModelStringUtil.getDouble(strAry[5], 0.0);
 		if (gMw != 0.0 || bMvar != 0.0) {
@@ -213,6 +213,9 @@ public class PSSEV26BusRecord {
 		//I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
 		//31435,' 1',    8.52,    2.51,   10.00,   -6.00,1.0203,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,    0.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_78] */ 
 		
+		//37585,' 1',    0.00,    0.00,    0.00,    0.00,1.0331,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,0,   100.00, 9999.00,-5322.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_27209] */ 
+		//37585,' 2',   -1.00,  186.48, 1774.00,-1774.00,1.0331,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,-5322.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_20804] */ 
+		
 		// parse the input data line
 	    final String[] strAry = getGenDataFields(str);
 		final String busId = AbstractModelParser.BusIdPreFix+strAry[0];
@@ -293,11 +296,11 @@ public class PSSEV26BusRecord {
 				}
 			}
 		}
-		else {
-			if (genData.getEquivGen() == null)
-				genData.setEquivGen(parser.getFactory().createLoadflowGenDataXmlType());
-			genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
-		}
+//		else {  there might be multiple gen on a bus
+//			if (genData.getEquivGen() == null)
+//				genData.setEquivGen(parser.getFactory().createLoadflowGenDataXmlType());
+//			genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
+//		}
 		
 		//System.out.println(busRec.toString());
     }

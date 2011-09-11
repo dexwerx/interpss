@@ -54,6 +54,8 @@
 			<enumeration value="PU"></enumeration>
 			<enumeration value="Mw"></enumeration>
 			<enumeration value="MVar"></enumeration>
+			<enumeration value="Kw"></enumeration>
+			<enumeration value="KVar"></enumeration>
 			<enumeration value="MHO"></enumeration>
 			<enumeration value="MICROMHO"></enumeration>
 			<enumeration value="MHOPerMile"></enumeration>
@@ -72,6 +74,8 @@
 			<enumeration value="PU"></enumeration>
 			<enumeration value="Mw"></enumeration>
 			<enumeration value="MVar"></enumeration>
+			<enumeration value="Kw"></enumeration>
+			<enumeration value="KVar"></enumeration>
 			<enumeration value="OHM"></enumeration>
 			<enumeration value="Percent"></enumeration>
 			<enumeration value="OHMPerMile"></enumeration>
