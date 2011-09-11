@@ -123,9 +123,17 @@ public class ODMXmlHelper {
 			return UnitType.OhmPerM;
 		else if (unit == ZUnitType.PERCENT)
 			return UnitType.Percent;
+		else if (unit == ZUnitType.M_VAR)
+			return UnitType.mVar;
+		else if (unit == ZUnitType.MW)
+			return UnitType.mW;
+		else if (unit == ZUnitType.K_VAR)
+			return UnitType.kVar;
+		else if (unit == ZUnitType.KW)
+			return UnitType.kW;
 		return UnitType.PU;
 	}
-
+  
 	/**
 	 * convert XML Y unit to Ipss UnitType
 	 * 
@@ -137,6 +145,14 @@ public class ODMXmlHelper {
 			return UnitType.Mho;
 		else if (unit == YUnitType.MICROMHO)
 			return UnitType.MicroMho;
+		else if (unit == YUnitType.M_VAR)
+			return UnitType.mVar;
+		else if (unit == YUnitType.MW)
+			return UnitType.mW;
+		else if (unit == YUnitType.K_VAR)
+			return UnitType.kVar;
+		else if (unit == YUnitType.KW)
+			return UnitType.kW;
 		return UnitType.PU;
 	}
 
