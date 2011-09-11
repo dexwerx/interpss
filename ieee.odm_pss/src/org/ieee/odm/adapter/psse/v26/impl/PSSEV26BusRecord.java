@@ -119,7 +119,7 @@ public class PSSEV26BusRecord {
 		final double gMw = ModelStringUtil.getDouble(strAry[4], 0.0);
 		final double bMvar= ModelStringUtil.getDouble(strAry[5], 0.0);
 		if (gMw != 0.0 || bMvar != 0.0) {
-			busRec.setShuntY(BaseDataSetter.createYValue(gMw, bMvar, YUnitType.M_VAR));
+			busRec.setShuntY(BaseDataSetter.createYValue(gMw, bMvar, YUnitType.MVAR));
 		}
 		//area zone	
 		final String areaNo = strAry[6];
@@ -226,7 +226,7 @@ public class PSSEV26BusRecord {
         	return;
         }
 				
-	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
+	    // ODM allows one equiv gen has many contribute generators
 
 		LoadflowBusXmlType.GenData genData = busRec.getGenData();
 		if (genData == null) {
@@ -235,7 +235,8 @@ public class PSSEV26BusRecord {
 			busRec.getGenData().setEquivGen(parser.getFactory().createLoadflowGenDataXmlType());
 		}
 		LoadflowGenDataXmlType equivGen = genData.getEquivGen();
-	    genData.setContributeGenList(parser.getFactory().createLoadflowBusXmlTypeGenDataContributeGenList());
+	    if (genData.getContributeGenList() == null)
+	    	genData.setContributeGenList(parser.getFactory().createLoadflowBusXmlTypeGenDataContributeGenList());
 	    LoadflowGenDataXmlType contriGen = parser.getFactory().createLoadflowGenDataXmlType(); 
 	    genData.getContributeGenList().getContributeGen().add(contriGen);
 		
@@ -262,8 +263,8 @@ public class PSSEV26BusRecord {
 		int status = ModelStringUtil.getInt(strAry[14], 1);
 		contriGen.setOffLine(status != 1);
 		
-		final double genMw = ModelStringUtil.getDouble(strAry[2], 0.0);
-		final double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
+		double genMw = ModelStringUtil.getDouble(strAry[2], 0.0);
+		double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
 		contriGen.setPower(BaseDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
 		BaseJaxbHelper.addOwner(contriGen, 
@@ -274,6 +275,11 @@ public class PSSEV26BusRecord {
 
 		// processing Equiv Gen Data
 		if (!contriGen.isOffLine()) {
+			// power may exist already
+			if (equivGen.getPower() != null) {
+				genMw += equivGen.getPower().getRe();
+				genMvar += equivGen.getPower().getIm();
+			}
 			equivGen.setPower(BaseDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
 			final double vSpecPu = ModelStringUtil.getDouble(strAry[6], 1.0);
@@ -281,9 +287,13 @@ public class PSSEV26BusRecord {
 				equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
 			}
 			else {
-				// qmax, gmin in Mvar
-				final double max = ModelStringUtil.getDouble(strAry[4], 0.0);
-				final double min = ModelStringUtil.getDouble(strAry[5], 0.0);
+				// qmax, gmin in Mvar. there may exist already
+				double max = ModelStringUtil.getDouble(strAry[4], 0.0);
+				double min = ModelStringUtil.getDouble(strAry[5], 0.0);
+				if (equivGen.getQLimit() != null) {
+					max += equivGen.getQLimit().getMax();
+					min += equivGen.getQLimit().getMin();
+				}
 				equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
 				equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit(max, min, ReactivePowerUnitType.MVAR));
 

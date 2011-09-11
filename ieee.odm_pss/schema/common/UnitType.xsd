@@ -52,10 +52,9 @@
 	<simpleType name="YUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
-			<enumeration value="Mw"></enumeration>
-			<enumeration value="MVar"></enumeration>
-			<enumeration value="Kw"></enumeration>
-			<enumeration value="KVar"></enumeration>
+			<enumeration value="VAR"></enumeration>
+			<enumeration value="KVAR"></enumeration>
+			<enumeration value="MVAR"></enumeration>
 			<enumeration value="MHO"></enumeration>
 			<enumeration value="MICROMHO"></enumeration>
 			<enumeration value="MHOPerMile"></enumeration>
@@ -72,10 +71,9 @@
 	<simpleType name="ZUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
-			<enumeration value="Mw"></enumeration>
-			<enumeration value="MVar"></enumeration>
-			<enumeration value="Kw"></enumeration>
-			<enumeration value="KVar"></enumeration>
+			<enumeration value="VA"></enumeration>
+			<enumeration value="KVA"></enumeration>
+			<enumeration value="MVA"></enumeration>
 			<enumeration value="OHM"></enumeration>
 			<enumeration value="Percent"></enumeration>
 			<enumeration value="OHMPerMile"></enumeration>
