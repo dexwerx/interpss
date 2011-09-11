@@ -24,21 +24,10 @@
 
 package org.interpss.mapper.odm;
 
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.CurrentUnitType;
-import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.GroundingEnumType;
-import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
-import org.ieee.odm.schema.YUnitType;
-import org.ieee.odm.schema.ZUnitType;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.core.net.OriginalDataFormat;
@@ -83,140 +72,6 @@ public class ODMXmlHelper {
 	public static String wrapBranchList(String str) {
 		return BranchListHead + str + BranchListEnd;
 	}
-	
-	/**
-	 * convert XML power unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toApparentPowerUnit(ApparentPowerUnitType unit) {
-		if (unit == ApparentPowerUnitType.KVA)
-			return UnitType.kVA;
-		else if (unit == ApparentPowerUnitType.MVA)
-			return UnitType.mVA;
-		return UnitType.PU;
-	}
-
-	public static byte toActivePowerUnit(ActivePowerUnitType unit) {
-		if (unit == ActivePowerUnitType.KW)
-			return UnitType.kW;
-		else if (unit == ActivePowerUnitType.MW)
-			return UnitType.mW;
-		return UnitType.PU;
-	}
-
-	public static byte toReactivePowerUnit(ReactivePowerUnitType unit) {
-		if (unit == ReactivePowerUnitType.KVAR)
-			return UnitType.kVar;
-		else if (unit == ReactivePowerUnitType.MVAR)
-			return UnitType.mVar;
-		return UnitType.PU;
-	}
-
-	public static byte toZUnit(ZUnitType unit) {
-		if (unit == ZUnitType.OHM)
-			return UnitType.Ohm;
-		else if (unit == ZUnitType.OHM_PER_FT)
-			return UnitType.OhmPerFt;
-		else if (unit == ZUnitType.OHM_PER_M)
-			return UnitType.OhmPerM;
-		else if (unit == ZUnitType.PERCENT)
-			return UnitType.Percent;
-		else if (unit == ZUnitType.MVA)
-			return UnitType.mVA;
-		else if (unit == ZUnitType.KVA)
-			return UnitType.kVA;
-		return UnitType.PU;
-	}
-  
-	/**
-	 * convert XML Y unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toYUnit(YUnitType unit) {
-		if (unit == YUnitType.MHO)
-			return UnitType.Mho;
-		else if (unit == YUnitType.MICROMHO)
-			return UnitType.MicroMho;
-		else if (unit == YUnitType.MVAR)
-			return UnitType.mVar;
-		else if (unit == YUnitType.KVAR)
-			return UnitType.kVar;
-		return UnitType.PU;
-	}
-
-	/**
-	 * convert XML voltage unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toVoltageUnit(VoltageUnitType unit) {
-		if (unit == VoltageUnitType.VOLT)
-			return UnitType.Volt;
-		else if (unit == VoltageUnitType.KV)
-			return UnitType.kV;
-		return UnitType.PU;
-	}
-
-	/**
-	 * convert XML current unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toCurrentUnit(CurrentUnitType unit) {
-		if (unit == CurrentUnitType.AMP)
-			return UnitType.Amp;
-		else if (unit == CurrentUnitType.KA)
-			return UnitType.kAmp;
-		return UnitType.PU;
-	}
-	
-	/**
-	 * convert XML angle unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toAngleUnit(AngleUnitType unit) {
-		if (unit == AngleUnitType.DEG)
-			return UnitType.Deg;
-		return UnitType.Rad;
-	}
-	
-	/**
-	 * convert XML factor unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toFactorUnit(FactorUnitType unit) {
-		if (unit == FactorUnitType.PERCENT)
-			return UnitType.Percent;
-		return UnitType.PU;
-	}	
-	
-	/**
-	 * convert XML length unit to Ipss UnitType
-	 * 
-	 * @param unit power unit 
-	 * @return
-	 */
-	public static byte toLengthUnit(LengthUnitType unit) {
-		if (unit == LengthUnitType.FT)
-			return UnitType.Ft;
-		else if (unit == LengthUnitType.M)
-			return UnitType.M;
-		else if (unit == LengthUnitType.KM)
-			return UnitType.kM;
-		else if (unit == LengthUnitType.MILE)
-			return UnitType.Mile;
-		return UnitType.Ft;
-	}		
 
 	/**
 	 * Convert GroundingEnumType (ODM) to BusGroundCode (Interpss)
