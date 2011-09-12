@@ -53,7 +53,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
-import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
 
@@ -185,7 +185,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 		}
 		
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		return noError;
 	}
 	

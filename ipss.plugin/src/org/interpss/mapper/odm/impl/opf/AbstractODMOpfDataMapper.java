@@ -35,7 +35,7 @@ import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.datatype.LimitType;
@@ -107,7 +107,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 		
 		if (parser.getStudyCase().getContentInfo() != null) {
 			OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-			simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+			simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		} 
 		else {
 			IpssLogger.getLogger().severe( "Error: StudyCase.ContentInfo were not entered");

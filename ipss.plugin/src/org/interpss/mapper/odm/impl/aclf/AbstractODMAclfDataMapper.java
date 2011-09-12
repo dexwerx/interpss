@@ -41,7 +41,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
-import org.interpss.mapper.odm.ODMXmlHelper;
+import org.interpss.mapper.odm.ODMHelper;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -104,7 +104,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		}
 		
 		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-		simuCtx.getNetwork().setOriginalDataFormat(ODMXmlHelper.map(ofmt));		
+		simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		return noError;
 	}
 

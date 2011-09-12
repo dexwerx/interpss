@@ -40,7 +40,7 @@ import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ZXmlType;
-import org.interpss.mapper.odm.ODMXmlUnitHelper;
+import org.interpss.mapper.odm.ODMUnitHelper;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
@@ -149,11 +149,11 @@ public class AcscScenarioHelper {
 		ZXmlType zLL= scFaultXml.getZLL();			
 		if(zLG!=null){
 			acscBusFault.setZLGFault(new Complex(zLG.getRe(), zLG.getIm()), 
-					ODMXmlUnitHelper.toZUnit(zLG.getUnit()), baseV, baseKVA);
+					ODMUnitHelper.toZUnit(zLG.getUnit()), baseV, baseKVA);
 		}
 		if(zLL!=null){
 			acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
-					ODMXmlUnitHelper.toZUnit(zLL.getUnit()), baseV, baseKVA);
+					ODMUnitHelper.toZUnit(zLL.getUnit()), baseV, baseKVA);
 		}	
 	}
 
