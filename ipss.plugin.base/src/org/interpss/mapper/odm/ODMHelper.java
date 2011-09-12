@@ -1,5 +1,5 @@
 /*
- * @(#)ODMXmlHelper.java   
+ * @(#)ODMHelper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -33,7 +33,7 @@ import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.core.net.OriginalDataFormat;
 
 
-public class ODMXmlHelper {
+public class ODMHelper {
 	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/odm/Schema/2008\">";
 	static String PSSStudyCaseEnd = "</PSSStudyCase>";
 	

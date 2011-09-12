@@ -1,5 +1,5 @@
 /*
- * @(#)ODMXmlHelper.java   
+ * @(#)ODMUnitHelper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -38,7 +38,7 @@ import org.ieee.odm.schema.ZUnitType;
 import com.interpss.common.datatype.UnitType;
 
 
-public class ODMXmlUnitHelper {
+public class ODMUnitHelper {
 	/**
 	 * convert XML power unit to Ipss UnitType
 	 * 
