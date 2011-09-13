@@ -5,7 +5,7 @@
     <include schemaLocation="../common/RecordType.xsd"></include>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<complexType name="DCLineData2TXmlType">

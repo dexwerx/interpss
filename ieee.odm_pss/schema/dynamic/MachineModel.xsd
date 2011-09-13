@@ -11,7 +11,7 @@
 	<include schemaLocation="pss/BPAStabilizerModel.xsd"/>
 	
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 		
 	<element name="machineModel" type="pss:MachineModelXmlType"/>

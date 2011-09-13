@@ -4,7 +4,7 @@
 	<include schemaLocation="../../common/DataType.xsd"/>
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<!-- 

@@ -158,6 +158,15 @@
 		<attribute name="number" type="int" use="optional"></attribute>
 	</complexType>
 	
+	<complexType name="InterfaceRecXmlType">
+		<complexContent>
+			<extension base="pss:BaseRecordXmlType">
+				<sequence>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+		
 	<simpleType name="BranchMeterLocationEnumType">
 		<restriction base="string">
 			<enumeration value="FromSide"></enumeration>

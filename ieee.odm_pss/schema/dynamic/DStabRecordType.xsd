@@ -8,7 +8,7 @@
 	<include schemaLocation="DynamicLoadModel.xsd"></include>    
 
 	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 	
 	<element name="dstabNet" type="pss:DStabNetXmlType" substitutionGroup="pss:baseCase">

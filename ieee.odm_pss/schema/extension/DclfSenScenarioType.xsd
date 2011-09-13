@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	elementFormDefault="qualified">
+
+	<include schemaLocation="../common/RecordType.xsd"></include>
+	<include schemaLocation="../StudyScenario.xsd"></include>
+	
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2011</documentation>
+	</annotation>
+
+	<ns:complexType name="DclfSenAnalysisXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<ns:sequence>
+					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="sensitivity" type="pss:DclfBusSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="genShiftFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="pTransferDistFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="areaTransferAnalysis" minOccurs="0" maxOccurs="unbounded" type="pss:AreaTransferAnalysisXmlType">
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+    
+    <ns:complexType name="NodeTransferAnalysisXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:DclfBranchSensitivityXmlType">
+				<ns:sequence>
+					<ns:element name="transderAmountMW" type="ns:double" minOccurs="1"></ns:element>
+					<ns:element name="deratingFactor" type="ns:double" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	    
+    <ns:complexType name="AreaTransferAnalysisXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:NodeTransferAnalysisXmlType">
+    			<ns:sequence>
+    				<ns:element name="fromArea" type="pss:NetAreaXmlType" minOccurs="1"></ns:element>
+    				<ns:element name="toArea" type="pss:NetAreaXmlType" minOccurs="1"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>    
+	<ns:simpleType name="SensitivityEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="PAngle"></ns:enumeration>
+			<ns:enumeration value="QVoltage"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+	
+    <ns:simpleType name="SenBusAnalysisEnumType">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="SingleBus"></ns:enumeration>
+    		<ns:enumeration value="MultipleBus"></ns:enumeration>
+    		<ns:enumeration value="NoBus"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+    
+	<ns:complexType name="SenAnalysisBusXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BusXmlType">
+				<ns:sequence>
+					<ns:element name="percent" type="ns:double" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	    
+	<ns:complexType name="DclfSensitivityXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType">
+				<ns:sequence>
+					<ns:element name="senType" minOccurs="1" maxOccurs="1" type="pss:SensitivityEnumType"/>
+					<ns:element name="injectBusType" minOccurs="1" type="pss:SenBusAnalysisEnumType"></ns:element>
+					<ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="injectBus" type="pss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="withdrawBusType" minOccurs="1" type="pss:SenBusAnalysisEnumType"></ns:element>
+					<ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="pss:SenAnalysisBusXmlType"></ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+    <ns:complexType name="DclfBranchSensitivityXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:DclfSensitivityXmlType">
+    			<ns:sequence>
+    				<ns:element name="branch" type="pss:BranchXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+    				<ns:element name="interface" type="pss:InterfaceRecXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+    <ns:complexType name="DclfBusSensitivityXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:DclfSensitivityXmlType">
+    			<ns:sequence>
+    				<ns:element name="bus" type="pss:BusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+</schema>
