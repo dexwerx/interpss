@@ -152,7 +152,7 @@ public class ExciterDataHelper {
 		} 
 		else if (excXmlRec instanceof ExcBPAFVXmlType){
 		    ExcBPAFVXmlType excXml =(ExcBPAFVXmlType) excXmlRec;
-		    int kv=excXml.getKV();
+		    double kv=excXml.getKV();
 
 			if(kv==0)  {//BPA FV(kv=0) Type
 				FVkv0Exciter exc = ExciterObjectFactory.createBPAFVKv0TypeExciter(mach.getId()+"_Exc", excXml.getName(), mach);
