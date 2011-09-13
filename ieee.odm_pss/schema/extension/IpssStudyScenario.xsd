@@ -71,7 +71,7 @@
 		</documentation></annotation>	
 		<choice>
 			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="pss:AclfAlgorithmXmlType"></element>
-			<element name="senAnalysis" minOccurs="0" maxOccurs="1" type="pss:DclfSenAnalysisXmlType"></element>
+			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="pss:DclfSenAnalysisXmlType"></element>
 			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="pss:AcscFaultAnalysisXmlType"></element>
 			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="pss:DStabSimulationXmlType"></element>
 		</choice>

@@ -61,6 +61,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.StudyCaseXmlType;
+import org.ieee.odm.schema.StudyScenarioXmlType;
 
 public abstract class AbstractModelParser implements IODMModelParser {
 	// add "Bus" pre-fix to the bus number to create Bus Id
@@ -198,6 +199,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 
 	protected NetworkXmlType getBaseCase() {
 		return this.pssStudyCase.getBaseCase().getValue();
+	}
+
+	public StudyScenarioXmlType getStudyScenario() {
+		return this.pssStudyCase.getStudyScenario().getValue();
 	}
 
 	/**

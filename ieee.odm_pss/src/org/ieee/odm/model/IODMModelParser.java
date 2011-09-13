@@ -29,6 +29,7 @@ import java.io.InputStream;
 
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
+import org.ieee.odm.schema.StudyScenarioXmlType;
 
 /**
  * A Xml parser for the IEEE DOM schema. 
@@ -44,6 +45,10 @@ public interface IODMModelParser {
 	
 	boolean parse(InputStream in);
 	
+	StudyCaseXmlType getStudyCase();
+	
+	StudyScenarioXmlType getStudyScenario();	
+
 	BusXmlType getBus(String id);
 	
 	String toXmlDoc(boolean addXsi);
@@ -57,6 +62,4 @@ public interface IODMModelParser {
 	 * @return
 	 */
 	String toXmlDoc(boolean addXsi, String outfile);
-
-	StudyCaseXmlType getStudyCase();
 }
