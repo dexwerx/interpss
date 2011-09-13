@@ -15,7 +15,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<sequence>
-					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="string"/>
+					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="pss:DStabSimuSettingXmlType"/>
 					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType"/>
 					<element name="dynamicEvents" maxOccurs="1" minOccurs="1">
 						<complexType>
@@ -27,7 +27,7 @@
 							</documentation></annotation>
                             <sequence>
 								<element name="disableDynEvents" type="boolean" maxOccurs="1" minOccurs="0"></element>
-								<element name="dynamicEvent" type="string" maxOccurs="unbounded" minOccurs="0"></element>
+								<element name="dynamicEvent" type="pss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
