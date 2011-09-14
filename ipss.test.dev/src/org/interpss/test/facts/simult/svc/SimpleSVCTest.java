@@ -133,7 +133,7 @@ public class SimpleSVCTest extends DevTestSetup {
         SVCSimultLF svc = new SVCSimultLF(bus, new Complex(0.0, -5.0), SVCControlType.ConstQ, 0.0, net.getNoBus(), -100.0, 100.0);
 
         // set svc as AclfBus extension
-        bus.setExtensionObject(svc);
+//        bus.setExtensionObject(svc);
         
         SVCSimultLF[] svcArray = {svc};
 //        SVCSimultLF[] svcArray = null;
