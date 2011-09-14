@@ -164,10 +164,10 @@ public class SVCSimultLF extends AbstractAclfBus {
     	
         // Update A part of the extended Jacobian
         Matrix_xy m = new Matrix_xy();
-        m.xy = 2 * vi * gsh - vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVi
-        m.xx = -vi * vsh * (-gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPi/dthetai
-        m.yy = -2 * vi * bsh - vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVi
-        m.yx = -vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetai
+        m.xy = -2 * vi * gsh + vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVi
+        m.xx = vi * vsh * (-gsh * Math.sin(thetai - thetash) + bsh * Math.cos(thetai - thetash)); // dPi/dthetai
+        m.yy = 2 * vi * bsh + vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVi
+        m.yx = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetai
         return m;
     }
     
@@ -216,10 +216,10 @@ public class SVCSimultLF extends AbstractAclfBus {
     	double thetai = getBus().getVoltageAng();
 
     	Matrix_xy m = new Matrix_xy();
-    	m.xx = -vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVsh
-        m.xy = -vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dPi/dthetash
-        m.yx = -vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVsh
-        m.yy = vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetash
+    	m.xx = vi * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dPi/dVsh
+        m.xy = vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dPi/dthetash
+        m.yx = vi * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dQi/dVsh
+        m.yy = -vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dQi/dthetash
     
         return m;
     }
@@ -268,10 +268,11 @@ public class SVCSimultLF extends AbstractAclfBus {
 
     	double vi = getBus().getVoltageMag();
         double thetai = getBus().getVoltageAng();
+        System.out.println("vi: " + vi + ", thetai: " + thetai);
 
         Vector_xy b = new Vector_xy();
-        b.x = vi * vi * gsh - vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFpi
-        b.y = -vi * vi * bsh - vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dFqi
+        b.x = -vi * vi * gsh + vi * vsh * (gsh * Math.cos(thetai - thetash) + bsh * Math.sin(thetai - thetash)); // dFpi
+        b.y = vi * vi * bsh + vi * vsh * (gsh * Math.sin(thetai - thetash) - bsh * Math.cos(thetai - thetash)); // dFqi
         return b;
     }
     
