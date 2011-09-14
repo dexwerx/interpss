@@ -6,6 +6,7 @@
 
 	<include schemaLocation="common/DataType.xsd"></include>
 	<include schemaLocation="extension/IpssStudyScenario.xsd"></include>
+	<include schemaLocation="Modification.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>

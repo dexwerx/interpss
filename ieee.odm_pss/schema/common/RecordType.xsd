@@ -73,6 +73,7 @@
 	<simpleType name="AnalysisCategoryEnumType">
 		<restriction base="string">
 			<enumeration value="Loadflow"></enumeration>
+			<enumeration value="Sensitivity"></enumeration>
 			<enumeration value="ShortCircuit"></enumeration>
 			<enumeration value="TransientStability"></enumeration>
 			<enumeration value="OPF"></enumeration>
@@ -109,10 +110,18 @@
 		<complexContent>
 			<extension base="pss:CimConnectionRecordType">
 				<sequence>
-					<element name="fromBus" type="pss:BusRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="toBus" type="pss:BusRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="fromBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="toBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="tertiaryBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 				</sequence>
+				<attribute name="fromBusId" type="string" use="optional">
+				<annotation><documentation>
+					fromBusId, toBusId, tertirayBusId are for cases, where ref bus is not defined. For example
+					in defining Study Scenario, where net might not be defined. Using fromBus, toBus and tertiaryBus
+					to define bus ref is recommended </documentation>
+				</annotation></attribute>
+				<attribute name="toBusId" type="string" use="optional"></attribute>
+				<attribute name="tertiaryBusId" type="string" use="optional"></attribute>
 				<attribute name="circuitId" type="string" use="optional"></attribute>
 			</extension>
 		</complexContent>

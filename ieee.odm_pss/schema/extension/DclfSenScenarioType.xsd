@@ -15,8 +15,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
-					<ns:element name="sensitivity" type="pss:DclfBusSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="genShiftFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					<ns:element name="pTransferDistFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					<ns:element name="areaTransferAnalysis" minOccurs="0" maxOccurs="unbounded" type="pss:AreaTransferAnalysisXmlType">
@@ -58,6 +57,10 @@
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="SingleBus"></ns:enumeration>
     		<ns:enumeration value="MultipleBus"></ns:enumeration>
+    		<ns:enumeration value="LoadDistribution">
+    			<annotation>
+    				<documentation>Withdraw bus is defined using load distribution factor.</documentation>
+    			</annotation></ns:enumeration>
     		<ns:enumeration value="NoBus"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
@@ -102,21 +105,24 @@
     	<ns:complexContent>
     		<ns:extension base="pss:DclfSensitivityXmlType">
     			<ns:sequence>
-    				<ns:element name="branch" type="pss:BranchXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-    				<ns:element name="interface" type="pss:InterfaceRecXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+    				<ns:element name="branchSFactor" minOccurs="1" maxOccurs="unbounded">
+    					<complexType>
+    						<sequence>
+    							<element name="shiftFactor" type="double" minOccurs="0"></element>
+    							<element name="branch" type="pss:BranchXmlType" maxOccurs="1"></element>
+    						</sequence>
+    					</complexType></ns:element>
+    				<ns:element name="interfaceSFactor" minOccurs="0" maxOccurs="unbounded">
+    					<complexType>
+    						<sequence>
+    							<element name="shiftFactor" type="double" minOccurs="0"></element>
+    							<element name="interface" type="pss:InterfaceRecXmlType" minOccurs="0" maxOccurs="1"></element>
+    						</sequence>
+    					</complexType></ns:element>
     			</ns:sequence>
     		</ns:extension>
     	</ns:complexContent>
     </ns:complexType>
 
-    <ns:complexType name="DclfBusSensitivityXmlType">
-    	<ns:complexContent>
-    		<ns:extension base="pss:DclfSensitivityXmlType">
-    			<ns:sequence>
-    				<ns:element name="bus" type="pss:BusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-    			</ns:sequence>
-    		</ns:extension>
-    	</ns:complexContent>
-    </ns:complexType>
 
 </schema>
