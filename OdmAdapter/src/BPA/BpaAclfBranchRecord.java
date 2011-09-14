@@ -59,28 +59,22 @@ public class BpaAclfBranchRecord {
 		String owner=StringUtil.getSpace(3);
 		// busName1 ,baseKV1
 		LoadflowBusXmlType fbus= (LoadflowBusXmlType) _braXml.getFromBus().getIdRef();
-		String bus1_Name=fbus.getName();
+		String bus1_Name=StringUtil.addSpace(fbus.getName(),8);
 		
 		double baseKV1=fbus.getBaseVoltage().getValue();
-		String baseKV1Str=(baseKV1>100.0)?String.format("%4.0f", baseKV1):""+baseKV1;
+		String baseKV1Str=StringUtil.format(baseKV1, 4, 0);
 		
 		// busName2 ,baseKV2
 		LoadflowBusXmlType tbus= (LoadflowBusXmlType) _braXml.getToBus().getIdRef();
-		String bus2_Name=tbus.getName();
+		String bus2_Name=StringUtil.addSpace(tbus.getName(),8);
 		
 		double baseKV2=tbus.getBaseVoltage().getValue();
-		String baseKV2Str=(baseKV2>100.0)?String.format("%4.0f", baseKV2):""+baseKV2;
+		String baseKV2Str=StringUtil.format(baseKV2, 4, 0);
 		
 		String meter=StringUtil.getSpace(1);
 		
 		String branchId=_braXml.getCircuitId();
-		String section=StringUtil.getSpace(1);
-		
-		bus1_Name=StringUtil.addSpace(bus1_Name, 8);
-		baseKV1Str=StringUtil.addSpace(baseKV1Str, 4);
-		bus2_Name=StringUtil.addSpace(bus2_Name, 8);
-		baseKV2Str=StringUtil.addSpace(baseKV2Str, 4);
-		
+		String section=StringUtil.getSpace(1);		
 		
 		_branchStr.append(type).append(reviseCode).append(owner).append(bus1_Name)
 		           .append(baseKV1Str).append(meter).append(bus2_Name).append(baseKV2Str)
@@ -115,10 +109,10 @@ public class BpaAclfBranchRecord {
 		LineBranchXmlType line=(LineBranchXmlType) _braXml;
 		String rateAmpStr=StringUtil.getSpace(4);
 		if(line.getRatingLimit().getCurrent()!=null){
-		double rateAmp=line.getRatingLimit().getCurrent().getValue();//assume it is in Ample unit now
-	    if(line.getRatingLimit().getCurrent().getUnit()==CurrentUnitType.KA)
-	    	rateAmp=UnitConverter.convCurrentUnit(rateAmp, CurrentUnitType.KA,  CurrentUnitType.AMP);
-	      rateAmpStr=String.format("%4.0f", rateAmp);
+			double rateAmp=line.getRatingLimit().getCurrent().getValue();//assume it is in Ample unit now
+		    if(line.getRatingLimit().getCurrent().getUnit()==CurrentUnitType.KA)
+		    	rateAmp=UnitConverter.convCurrentUnit(rateAmp, CurrentUnitType.KA,  CurrentUnitType.AMP);
+		    rateAmpStr=StringUtil.format(rateAmp, 4, 0);
 		}
 	    String lineNum=" ";
 	    double rpu=line.getZ().getRe();
@@ -130,29 +124,22 @@ public class BpaAclfBranchRecord {
 	    	rpu=UnitConverter.convZUnit(rpu, line.getZ().getUnit(), ZUnitType.PU, 
 	    		baseKV, _baseMVA);
 	    	xpu=UnitConverter.convZUnit(xpu, line.getZ().getUnit(), ZUnitType.PU, 
-		    		baseKV, _baseMVA);
-	    	
+		    	baseKV, _baseMVA);	    	
 	    }
 	    // String length;  in BPA Rmin=0.0001pu 
-	    String rpuStr=(rpu>=0)?String.format("%6.4f", rpu):(rpu<-1.0)?String.format("% 5.3f", rpu):
-	    	"-"+String.format("%5.4f", rpu).substring(String.format("%5.4f", rpu).indexOf("."));
-	    String xpuStr=(xpu>=0)?String.format("%6.4f", xpu):(xpu<-1.0)?String.format("% 5.3f", xpu):
-	    	"-"+String.format("%5.4f", xpu).substring(String.format("%5.4f", xpu).indexOf("."));
+	    String rpuStr=StringUtil.format(rpu, 6, 5);
+	    String xpuStr=StringUtil.format(xpu, 6, 5);
 	    
-	    double gHalf=line.getTotalShuntY().getRe()/2;
-	    double bHalf=line.getTotalShuntY().getIm()/2;
-	    String gHalfStr=(gHalf>=0)?String.format("%6.4f", gHalf):String.format("% 5.0f", gHalf*1.0e5);
-	    String bHalfStr=(bHalf>=0)?String.format("%6.4f", bHalf):String.format("% 5.0f", bHalf*1.0e5);
-	    
-	    rpuStr=(rpu==0.0)?StringUtil.getSpace(6):StringUtil.addSpace(rpuStr, 6);
-	    xpuStr=StringUtil.addSpace(xpuStr, 6);
-	    gHalfStr=(gHalf==0.0)?StringUtil.getSpace(6):StringUtil.addSpace(gHalfStr, 6);
-	    bHalfStr=StringUtil.addSpace(bHalfStr, 6);
-	    
-	    
+	    String gHalfStr=StringUtil.getSpace(6);
+	    String bHalfStr=StringUtil.getSpace(6);
+	    if(line.getTotalShuntY()!=null){
+		    double gHalf=line.getTotalShuntY().getRe()/2;
+		    double bHalf=line.getTotalShuntY().getIm()/2;
+		    gHalfStr=StringUtil.format(gHalf, 6, 5);
+		    bHalfStr=StringUtil.format(bHalf, 6, 5);
+	    }
 	    _branchStr.append(rateAmpStr).append(lineNum).append(rpuStr)
 	               .append(xpuStr).append(gHalfStr).append(bHalfStr);
-
 	
 	}
 	private static void setXfrLFData(){
@@ -163,39 +150,28 @@ public class BpaAclfBranchRecord {
 		double rateMVA=xfr.getXfrInfo().getRatedPower().getValue();//assume it is in Ample unit now
 	    if(xfr.getXfrInfo().getRatedPower().getUnit()==ApparentPowerUnitType.PU)
 	    	rateMVA*=_baseMVA;
-	      rateMVAStr=String.format("%4.0f", rateMVA);
+	    rateMVAStr=StringUtil.format(rateMVA, 4, 0);
 		}
 	    String xfrNum=" ";
 	    double rpu=xfr.getZ().getRe(); //assume it to be in PU unit;
 	    double xpu=xfr.getZ().getIm();
-	    
-
 	    // String length;  in BPA Rmin=0.0001pu 
-	    String rpuStr=(rpu>=0)?String.format("%6.4f", rpu):(rpu<-1.0)?String.format("% 5.3f", rpu):
-	    	"-"+String.format("%5.4f", rpu).substring(String.format("%5.4f", rpu).indexOf("."));
-	    String xpuStr=(xpu>=0)?String.format("%6.4f", xpu):(xpu<-1.0)?String.format("% 5.3f", xpu):
-	    	"-"+String.format("%5.4f", xpu).substring(String.format("%5.4f", xpu).indexOf("."));
-	    String gStr="";
-	    String bStr="";
+	    String rpuStr=StringUtil.format(rpu, 6, 5);
+	    String xpuStr=StringUtil.format(xpu, 6, 5);
+	    
+	    String gStr=StringUtil.getSpace(6);
+	    String bStr=StringUtil.getSpace(6);
 	    if(xfr.getMagnitizingY()!=null){
 	        double g=xfr.getMagnitizingY().getRe();
 	        double b=xfr.getMagnitizingY().getIm();
-	        gStr=(g>=0)?String.format("%6.4f", g):String.format("% 5.0f", g*1.0e5);
-	        bStr=(b>=0)?String.format("%6.4f", b):String.format("% 5.0f", b*1.0e5);
+	        gStr=StringUtil.format(g, 6, 5);
+	        bStr=StringUtil.format(b, 6, 5);
 	    }
 
 	    double fromTap=xfr.getFromTurnRatio().getValue()*xfr.getXfrInfo().getFromRatedVoltage().getValue();
-	    double toTap=xfr.getToTurnRatio().getValue()*xfr.getXfrInfo().getToRatedVoltage().getValue();
-	    
-	    String fromTapStr=(fromTap<100.0)?String.format("%5.2f", fromTap):String.format("%5.0f", fromTap*100);
-	    String toTapStr  =(toTap<100.0)?String.format("%5.2f", toTap):String.format("%5.0f", toTap*100);
-	    rpuStr=(rpu==0.0)?StringUtil.getSpace(6):StringUtil.addSpace(rpuStr, 6);
-	    xpuStr=StringUtil.addSpace(xpuStr, 6);
-	    gStr=StringUtil.addSpace(gStr, 6);
-	    bStr=StringUtil.addSpace(bStr, 6);
-	    fromTapStr = StringUtil.addSpace(fromTapStr, 5);
-	    toTapStr   = StringUtil.addSpace(toTapStr, 5);
-	    
+	    double toTap=xfr.getToTurnRatio().getValue()*xfr.getXfrInfo().getToRatedVoltage().getValue();	    
+	    String fromTapStr=StringUtil.format(fromTap, 5, 2);
+	    String toTapStr  =StringUtil.format(toTap, 5, 2);	    
 	    
 	    _branchStr.append(rateMVAStr).append(xfrNum).append(rpuStr)
 	               .append(xpuStr).append(gStr).append(bStr).append(fromTapStr).append(toTapStr);
