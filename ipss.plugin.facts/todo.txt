@@ -1,2 +1,1 @@
-[Simple net]If no SVC installed, vi = 0.905539, if a SVC installed at Bus2 but shuntQ = 0.0, vi = 1.07037, there must be some mistakes here.
-[Simple net]If svcArray = {} or svcArray = null, the loadflow cannot converge.
+[Simple net]If no SVC installed, vi = 0.905539, if a SVC installed at Bus2 but shuntQ = 0.0, the load flow cannot converge, there must be some mistakes here.
