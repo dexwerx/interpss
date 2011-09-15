@@ -22,7 +22,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class SimpleSVCTest extends DevTestSetup { 
 	@Test
-	public void ConctV_testCase() {
+	public void ConstV_testCase() {
 		AclfNetwork net = createNet();
 //        LoadflowAlgorithm algoi = CoreObjectFactory.createLoadflowAlgorithm(net);
 //        algoi.loadflow();
@@ -74,7 +74,7 @@ public class SimpleSVCTest extends DevTestSetup {
 	}
 	
 	@Test
-	public void ConctB_testCase() {
+	public void ConstB_testCase() {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
@@ -120,7 +120,7 @@ public class SimpleSVCTest extends DevTestSetup {
 	}
 	
 	@Test
-	public void ConctQ_testCase() {
+	public void ConstQ_testCase() {
 		AclfNetwork net = createNet();
 		
         AclfBus bus = net.getAclfBus("Bus2");
