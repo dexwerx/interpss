@@ -18,6 +18,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.SenAnalysisType;
 import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -66,8 +67,9 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
-					.runSenAnalysis("testData/xml/RunAreaTransferCase.xml");
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet());
+		algoDsl.runAnalysis("testData/xml/RunAreaTransferCase.xml");
+		DclfAlgorithm algo = algoDsl.getAlgorithm();
 			
 		File xmlFile = new File("testData/xml/RunAreaTransferCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
