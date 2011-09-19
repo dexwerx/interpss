@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
@@ -38,7 +39,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODF_Test extends BaseTestSetup {
 	@Test
-	public void lodfTest() {
+	public void lodfTest() throws PSSLException{
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
@@ -94,7 +95,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 	}
 
 	@Test
-	public void n_1Test() {
+	public void n_1Test() throws PSSLException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

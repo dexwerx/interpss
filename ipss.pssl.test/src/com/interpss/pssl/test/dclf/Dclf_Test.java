@@ -47,5 +47,19 @@ public class Dclf_Test extends BaseTestSetup {
 		System.out.println(IpssUtil.outDclfResult(algoDsl)
 				.toString());		
 	}
+
+	@Test
+	public void dclfXmlTest() {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();		
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
+		algoDsl.runAnalysis("testData/aclf/DclfRun.xml");
+
+		System.out.println(IpssUtil.outDclfResult(algoDsl)
+				.toString());		
+	}
 }
 

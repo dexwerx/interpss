@@ -26,9 +26,11 @@ package com.interpss.pssl.test.dclf;
 
 import static org.junit.Assert.assertTrue;
 
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.BusSenAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
@@ -37,6 +39,18 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfGSF_Test extends BaseTestSetup {
+	@Test
+	public void gsfXmlTest() {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();	
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
+		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfGSFRun.xml");
+		System.out.println(parser.toXmlDoc(false));
+	}
+	
 	@Test
 	public void gsfTest() {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
@@ -110,6 +124,19 @@ public class DclfGSF_Test extends BaseTestSetup {
 		//System.out.println("monitorBranch - 12->13");
 		//System.out.println("GSF: " + f );	
 		assertTrue(NumericUtil.equals(f, 0.095813, 0.00001));
+		
+		algoDsl.setRefBus()
+				.addLoadWithdrawBus(5.0, UnitType.mW);		
+		f = algoDsl.injectionBusId("Bus2")
+						.monitorBranch("Bus9", "Bus14")
+						.genShiftFactor();		
+		System.out.print("\nGen 2, monitorBranch - 9->14");
+		System.out.println(" GSF: " + f );		
+
+		f = algoDsl.monitorBranch("Bus6", "Bus13")
+			.genShiftFactor();		
+		System.out.print("\nGen 2, monitorBranch - 6->13");
+		System.out.println(" GSF: " + f );		
 	}
 }
 
