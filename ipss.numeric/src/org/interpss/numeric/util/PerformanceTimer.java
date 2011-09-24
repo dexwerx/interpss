@@ -33,7 +33,11 @@ public class PerformanceTimer {
     private Logger logger = null;
 
     public PerformanceTimer(Logger log) {
+    	this();
     	this.logger = log;
+    }
+
+    public PerformanceTimer() {
     	this.start();
     }
 
@@ -58,7 +62,10 @@ public class PerformanceTimer {
     public String log(String str) {
     	end();
         String s = str + " (sec) = " + getDuration()/1000.0;
-        this.logger.info(s);
+        if (this.logger != null)
+        	this.logger.info(s);
+        else
+            System.out.println(s);
         return s;
     }
 
