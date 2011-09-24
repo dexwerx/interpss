@@ -241,9 +241,8 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		}
 		
 		for (Branch br : bus.getBranchList()) {
-			AclfBranch bra = (AclfBranch) br;
-			if (bra.isActive()) {
-				s += branchResults(bra, bus, baseKVA);
+			if (br.isActive()) {
+				s += branchResults(br, bus, baseKVA);
 			}
 		}
 		
@@ -255,6 +254,14 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		return String.format(" %-16s                 %7.1f %7.1f %7.1f", label, mw, mvar, mva);
 	}
 
+	public static String branchResults(Branch branch, AclfBus fromBus, double baseKVA) {
+		if (branch instanceof AclfBranch) {
+			return branchResults((AclfBranch)branch, fromBus, baseKVA);
+		}
+		else
+			return "";
+	}
+	
 	public static String branchResults(AclfBranch branch, AclfBus fromBus, double baseKVA) {
 		StringBuffer str = new StringBuffer("");
 	

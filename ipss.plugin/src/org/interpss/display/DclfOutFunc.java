@@ -232,7 +232,7 @@ public class DclfOutFunc {
 		str += "   Bud Id       dAng/dP\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBus()) {
-			double pang = algo.getBusSensitivity(SenAnalysisType.PANGLE, busId,
+			double pang = algo.calBusSensitivity(SenAnalysisType.PANGLE, busId,
 					bus.getBusId());
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(pang) + "\n";
@@ -257,7 +257,7 @@ public class DclfOutFunc {
 		str += "   Bud Id         dV/dQ\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBus()) {
-			double x = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId());
+			double x = algo.calBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId());
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(x) + "\n";
 		}
@@ -281,7 +281,7 @@ public class DclfOutFunc {
 		str += "       Branch Id          GSF\n";
 		str += "=========================================\n";
 		for (BranchRecXmlType branch : gsFactor.getBranch()) {
-			double gsf = algo.getGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber());
+			double gsf = algo.calGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber());
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
 					+ "       " + Number2String.toStr(gsf) + "\n";
