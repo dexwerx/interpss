@@ -106,7 +106,7 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="BaseBranchXmlType" abstract="true">
+	<complexType name="BaseBranchXmlType">
 		<complexContent>
 			<extension base="pss:CimConnectionRecordType">
 				<sequence>
