@@ -5,14 +5,60 @@
 	elementFormDefault="qualified">
 	
 	<include schemaLocation="common/DataType.xsd"></include>
-	
+	<include schemaLocation="common/RecordType.xsd"></include>
+		
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 		
-	<complexType name="ModifyRecordXmlType">
+	<complexType name="ModifyRecordXmlType" abstract="true">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType"></extension>
 		</complexContent>
 	</complexType>
+
+	<complexType name="OutageScheduleXmlType" abstract="true">
+		<complexContent>
+			<extension base="pss:ModifyRecordXmlType">
+				<sequence>
+					<element name="branchOutage" type="pss:ScheduledBranchOutageXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ScheduledBranchOutageXmlType" abstract="true">
+		<complexContent>
+			<extension base="pss:BaseBranchXmlType">
+				<sequence>
+					<element name="dueOutDate" type="date" minOccurs="1"></element>
+					<element name="dueBackDate" type="date" minOccurs="1"></element>
+					<element name="resourceType" type="pss:ScheduledOutageResourceEnumType" minOccurs="1"></element>
+					<element name="branchType" type="pss:ScheduledOutageBranchEnumType" minOccurs="1"></element>
+					<element name="voltage" type="double" minOccurs="0"></element>
+					<element name="fromBusNo" type="int" minOccurs="1"></element>
+                    <element name="toBusNo" type="int" minOccurs="1"></element>
+                    <element name="circuitId" type="string" minOccurs="1"></element>
+                    <element name="fromBusName" type="string" minOccurs="0"></element>
+					<element name="fromBusVoltage" type="double" minOccurs="0"></element>
+					<element name="toBusName" type="string" minOccurs="0"></element>
+					<element name="toBusVoltage" type="double" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<simpleType name="ScheduledOutageResourceEnumType">
+		<restriction base="string">
+			<enumeration value="Line"></enumeration>
+			<enumeration value="Xformer"></enumeration>
+		</restriction>
+	</simpleType>	
+	
+	<simpleType name="ScheduledOutageBranchEnumType">
+		<restriction base="string">
+			<enumeration value="Single"></enumeration>
+			<enumeration value="Multiple"></enumeration>
+		</restriction>
+	</simpleType>	
 </schema>

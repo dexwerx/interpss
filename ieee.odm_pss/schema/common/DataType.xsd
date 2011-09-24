@@ -436,7 +436,7 @@
 			<element name="faultCategory" type="pss:AcscFaultCategoryEnumType" maxOccurs="1" minOccurs="0"></element>
 			<element name="fromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="toBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="cirId" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+			<element name="cirId" type="string" minOccurs="0" maxOccurs="1"></element>
 			<element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 	</complexType>
