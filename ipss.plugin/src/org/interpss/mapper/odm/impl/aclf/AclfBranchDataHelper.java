@@ -61,7 +61,7 @@ public class AclfBranchDataHelper {
 	
 	
 	public void setLineBranchData(LineBranchXmlType braLine) throws InterpssException {
-		AclfBranch aclfBra = (AclfBranch)branch;
+		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 
 		aclfBra.setBranchCode(AclfBranchCode.LINE);
@@ -100,7 +100,7 @@ public class AclfBranchDataHelper {
 	}
 	
 	public void setXfrBranchData(XfrBranchXmlType braXfr) throws InterpssException {
-		AclfBranch aclfBra = (AclfBranch)branch;
+		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 		
 		aclfBra.setBranchCode(AclfBranchCode.XFORMER);
@@ -116,7 +116,7 @@ public class AclfBranchDataHelper {
 	}
 	
 	public void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr) throws InterpssException {
-		AclfBranch aclfBra = (AclfBranch)branch;
+		AclfBranch aclfBra = (AclfBranch)this.branch;
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 
 		setXfrBranchData(braPsXfr);
@@ -177,14 +177,14 @@ public class AclfBranchDataHelper {
 	public void setXfr3WBranchData(Xfr3WBranchXmlType xml3WXfr) throws InterpssException {
 		IpssLogger.getLogger().info("Xfr3WBranchXmlType: " + xml3WXfr.getId());
 		
-		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
+		Aclf3WXformer branch3W = (Aclf3WXformer)this.branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_XFORMER);
 		branch3W.create2WBranches(AclfBranchCode.XFORMER);
 		
 		// set winding status
-		branch3W.getFromAclfBranch().setStatus(!xml3WXfr.isWind1OffLine());
-		branch3W.getToAclfBranch().setStatus(!xml3WXfr.isWind2OffLine());
-		branch3W.getTertAclfBranch().setStatus(!xml3WXfr.isWind3OffLine());
+		branch3W.getFromAclfBranch().setStatus(!xml3WXfr.isOffLine() && !xml3WXfr.isWind1OffLine());
+		branch3W.getToAclfBranch().setStatus(!xml3WXfr.isOffLine() && !xml3WXfr.isWind2OffLine());
+		branch3W.getTertAclfBranch().setStatus(!xml3WXfr.isOffLine() && !xml3WXfr.isWind3OffLine());
 		
 		Xfr3WAdapter xfr3W = branch3W.to3WXfr();
 		
@@ -194,7 +194,7 @@ public class AclfBranchDataHelper {
 	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType xmlPsXfr3W) throws InterpssException {
 		IpssLogger.getLogger().info("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
 		
-		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
+		Aclf3WXformer branch3W = (Aclf3WXformer)this.branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_PS_XFORMER);
 		branch3W.create2WBranches(AclfBranchCode.PS_XFORMER);
 		
@@ -226,7 +226,7 @@ public class AclfBranchDataHelper {
 	}
 
 	private void setXfr3WData(Xfr3WBranchXmlType xml3WXfr, Xfr3WAdapter xfr3W) throws InterpssException {
-		Aclf3WXformer branch3W = (Aclf3WXformer)branch;
+		Aclf3WXformer branch3W = (Aclf3WXformer)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 		
 //        <magnitizingY unit="PU" im="-0.0042" re="0.0012"/>
@@ -239,7 +239,6 @@ public class AclfBranchDataHelper {
 		}
 
 //      <meterLocation>ToSide</meterLocation>
-		
 		
 		double fromBaseV = branch3W.getFromBus().getBaseVoltage(), 
 	       		toBaseV = branch3W.getToBus().getBaseVoltage(),
