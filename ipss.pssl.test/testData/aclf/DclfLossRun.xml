@@ -14,15 +14,41 @@
   		<pss:scenario id="idvalue1">
   			<pss:simuAlgo>
   				<pss:senAnalysis>
+  					<pss:caculatelDclf>false</pss:caculatelDclf>
   					<pss:genLossFactor>
   						<pss:senType>PAngle</pss:senType>
   						<pss:injectBusType>SingleBus</pss:injectBusType>
   						<pss:injectBusList>
   							<pss:injectBus>
-  								<pss:busId>pss:busId</pss:busId>
+  								<pss:busId>Bus2</pss:busId>
   							</pss:injectBus>
   						</pss:injectBusList>
   						<pss:withdrawBusType>SingleBus</pss:withdrawBusType>
+  						<pss:withdrawBusList>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus3</pss:busId>
+  							</pss:withdrawBus>
+  						</pss:withdrawBusList>
+  					</pss:genLossFactor>
+  					<pss:genLossFactor>
+  						<pss:senType>PAngle</pss:senType>
+  						<pss:injectBusType>SingleBus</pss:injectBusType>
+  						<pss:injectBusList>
+  							<pss:injectBus>
+  								<pss:busId>Bus2</pss:busId>
+  							</pss:injectBus>
+  						</pss:injectBusList>
+  						<pss:withdrawBusType>SingleBus</pss:withdrawBusType>
+  						<pss:withdrawBusList>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus13</pss:busId>
+  								<pss:percent>50.0</pss:percent>
+  							</pss:withdrawBus>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus14</pss:busId>
+  								<pss:percent>50.0</pss:percent>
+  							</pss:withdrawBus>
+  						</pss:withdrawBusList>
   					</pss:genLossFactor>
   				</pss:senAnalysis>
   			</pss:simuAlgo>
