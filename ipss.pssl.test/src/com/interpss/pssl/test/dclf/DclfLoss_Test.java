@@ -26,6 +26,7 @@ package com.interpss.pssl.test.dclf;
 
 import static org.junit.Assert.assertTrue;
 
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -43,6 +44,23 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLoss_Test extends BaseTestSetup {
+	@Test
+	public void lossFactorTest() {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();	
+		
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setLfMethod(AclfMethod.NR);
+	  	algo.setNonDivergent(true);
+  		assertTrue(algo.loadflow());		
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
+		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLossRun.xml");
+		System.out.println(parser.toXmlDoc(false));
+	}
+	
 	@Test
 	public void lossAllocationStep() throws Exception {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")

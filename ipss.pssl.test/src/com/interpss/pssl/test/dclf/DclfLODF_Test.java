@@ -26,6 +26,7 @@ package com.interpss.pssl.test.dclf;
 
 import static org.junit.Assert.assertTrue;
 
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
@@ -38,6 +39,18 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODF_Test extends BaseTestSetup {
+	@Test
+	public void lodfTest1() throws PSSLException{
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();		
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
+		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLODFRun.xml");
+		System.out.println(parser.toXmlDoc(false));		
+	}
+	
 	@Test
 	public void lodfTest() throws PSSLException{
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
