@@ -16,20 +16,41 @@
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
 					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="genShiftFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="genLossFactor" minOccurs="0" maxOccurs="unbounded">
-						<complexType>
-							<complexContent>
-								<extension base="pss:DclfSensitivityXmlType">
-
-								</extension>
-							</complexContent>
-						</complexType></ns:element>
+					<ns:element name="lineOutageDFactor" minOccurs="0" maxOccurs="unbounded" type="pss:LineOutageDFactorXmlType" />					<ns:element name="genLossFactor" minOccurs="0" maxOccurs="unbounded" type="pss:GenLossFactorXmlType" />
 					<ns:element name="pTransferDistFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					<ns:element name="areaTransferAnalysis" minOccurs="0" maxOccurs="unbounded" type="pss:AreaTransferAnalysisXmlType">
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="GenLossFactorXmlType">
+		<complexContent>
+			<extension base="pss:DclfSensitivityXmlType">
+				<sequence>
+					<element name="lossFactor" type="double" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="LineOutageDFactorXmlType">
+		<annotation>
+			<documentation>lodf is for storing LODF calculation results. It should have the same dimension as the outtageBranch,
+			               meaning for each outage branch, there should be a corresponding lodf</documentation>
+		</annotation>	
+		<sequence>
+			<element name="outageBranch" type="pss:BaseBranchXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+			<element name="monitorBranch" minOccurs="1" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="branch" type="pss:BaseBranchXmlType" minOccurs="1"></element>
+						<element name="lodf" type="double" minOccurs="0" maxOccurs="unbounded"></element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
 	</ns:complexType>	
     
     <ns:complexType name="NodeTransferAnalysisXmlType">
