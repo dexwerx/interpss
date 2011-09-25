@@ -45,8 +45,8 @@ import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.ui.WinUtilities;
 
 import com.interpss.QA.QAObjectFactory;
-import com.interpss.QA.rfile.FileReader;
-import com.interpss.QA.rfile.IFileProcessor;
+import com.interpss.QA.rfile.QAFileReader;
+import com.interpss.QA.rfile.IQAFileProcessor;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
@@ -377,15 +377,15 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 			File file = fChooser.getSelectedFile();
 			String filename = file.getPath();
 		    IpssLogger.getLogger().info("Result file selected: " + filename);
-		    IFileProcessor proc = null;
+		    IQAFileProcessor proc = null;
 		    if (filename.endsWith("psse")) {
-		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, FileReader.Type.PSSEAclfResult);
+		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, QAFileReader.Type.PSSEAclfResult);
 		    }
 		    else if (filename.endsWith("bpa") || filename.endsWith("pfo")) {
-		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, FileReader.Type.BPAAclfResult);
+		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, QAFileReader.Type.BPAAclfResult);
 		    }
 	    	if (proc != null) {
-	    		new FileReader(filename).processFile(proc);	
+	    		new QAFileReader(filename).processFile(proc);	
 	    		textArea.setText("Result comparison:\n" + 
 	    				(proc.getErrMsgList().size() > 0?
 	    						proc.getErrMsgList().toString() :
