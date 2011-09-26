@@ -58,7 +58,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 		for (DclfBusSensitivityXmlType sen : dclfCase.getSensitivity()) {
 			String inBusId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
 			if (sen.getSenType() == SensitivityDataType.P_ANGLE) {
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
+				//algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
 				//System.out.println("P-0013->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0013"));
 				//System.out.println("p-0012->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0012"));
 				/*
@@ -66,13 +66,13 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 				p-0012->-0.06132364240087546
 				*/				
 				for (BusRecXmlType bus : sen.getBus()) {
-					double pang = algo.getBusSensitivity(SenAnalysisType.PANGLE, inBusId, bus.getBusId());
+					double pang = algo.calBusSensitivity(SenAnalysisType.PANGLE, inBusId, bus.getBusId());
 					assertTrue(	Math.abs(pang+0.06163) < 0.0001 ||
 								Math.abs(pang+0.06132) < 0.0001);
 				}
 			}
 			else if (sen.getSenType() == SensitivityDataType.Q_VOLTAGE) {
-				algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId);
+				//algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId);
 				//System.out.println("Q-0013->" + algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, "0013", msg));
 				//System.out.println("Q-0012->" + algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, "0012", msg));
 				/*
@@ -80,7 +80,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 				Q-0012->-0.025252754409984517
 				*/				
 				for (BusRecXmlType bus : sen.getBus()) {
-					double qvolt = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, inBusId, bus.getBusId());
+					double qvolt = algo.calBusSensitivity(SenAnalysisType.QVOLTAGE, inBusId, bus.getBusId());
 					assertTrue(	Math.abs(qvolt+0.060867) < 0.0001 ||
 								Math.abs(qvolt+0.025253) < 0.0001);
 				}
@@ -90,7 +90,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 		for (DclfBranchSensitivityXmlType gsFactor : dclfCase.getGenShiftFactor()) {
 			String inBusId = gsFactor.getInjectBusList().getInjectBus().get(0).getBusId();
 			for (BranchRecXmlType branch : gsFactor.getBranch()) {
-				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1");
+				double gsf = algo.calGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1");
 				//System.out.println("GSF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + gsf);
 				/*
 				GSF 0004->0007 0.011086980682516566

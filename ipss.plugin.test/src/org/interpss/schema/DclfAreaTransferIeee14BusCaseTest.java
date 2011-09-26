@@ -46,12 +46,12 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysis()) {
 			algo.getInjectBusList().clear();
 			for (SenAnalysisBusRecXmlType bus :  atFactor.getInjectBusList().getInjectBus()){
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
+				//algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
 				algo.addInjectBus(bus.getBusId(), bus.getPercent());
 			}
 			algo.getWithdrawBusList().clear();
 			for (SenAnalysisBusRecXmlType bus :  atFactor.getWithdrawBusList().getWithdrawBus()){
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
+				//algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
 				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 			}
 			

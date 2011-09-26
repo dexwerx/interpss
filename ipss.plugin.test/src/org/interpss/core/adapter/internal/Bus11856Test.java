@@ -65,7 +65,7 @@ public class Bus11856Test extends PluginTestSetup {
   	  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	
   			starttime = System.currentTimeMillis() ;
-  			algo.setLfMethod(AclfMethod.NR);
+  			algo.setLfMethod(AclfMethod.PQ);
   		  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
   			algo.loadflow();
   			//	System.out.println(net.net2String());
