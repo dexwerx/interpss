@@ -48,6 +48,76 @@ import com.interpss.core.net.Bus;
 
 public class DclfOutFunc {
 	/**
+	 * dclf branch title 
+	 * 
+	 * @return
+	 */
+	public static String branchFlowTitle() {
+		String str = "\n";
+		str += "       FromId->ToId     Power Flow(Mw)   MWLimit    Loading%  Violation\n";
+		str += "=========================================================================";
+		return str;
+		
+	}
+	
+	/**
+	 * dclf branch flow details
+	 * 
+	 * @param algo
+	 * @return
+	 */
+	public static String branchFlow(DclfAlgorithm algo, double threshhold) {
+		StringBuffer str = new StringBuffer("\n");
+		str.append(branchFlowTitle() + "\n");
+		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
+			AclfBranch aclfBra = (AclfBranch)bra;
+			double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
+			double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
+			double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
+			double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+			double limitMva = aclfBra.getRatingMva1();
+			double loading = Math.abs(100*(mwFlow)/limitMva);
+			boolean v = Math.abs(mwFlow) > limitMva;
+			if (loading >= threshhold) {
+				str.append(Number2String.toFixLengthStr(22, aclfBra.getId()) + "     "	+ String.format("%8.2f",mwFlow));
+				str.append("     " + String.format("%8.2f", limitMva)); 
+				if (limitMva > 0.0)
+					str.append("      " + String.format("%5.1f", loading) + "      " + (v? "x" : " ") + "\n");
+			}
+		}		
+		return str.toString();
+	}
+
+	/**
+	 * Out put Dclf voltage angle results
+	 * 
+	 * @param aclfNet
+	 * @param algo
+	 * @return
+	 */
+	public static String dclfResults(DclfAlgorithm algo) {
+		StringBuffer str = new StringBuffer("\n\n");
+		str.append("      DC Loadflow Results\n\n");
+		str.append("   Bud Id       VoltAng(deg)     Gen/Load\n");
+		str.append("============================================\n");
+		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
+		for (Bus bus : algo.getAclfNetwork().getBusList()) {
+			AclfBus aclfBus = (AclfBus)bus; 
+			int n = bus.getSortNumber();
+			double angle = Math.toDegrees(algo.getBusAngle(n));
+			double p = (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
+			str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
+					+ String.format("%8.2f",angle) + "         "
+					+ ((p != 0.0)? String.format("%8.2f",p) : "") 
+					+ "\n");
+		}
+
+		str.append(branchFlow(algo, 0.0));
+		
+		return str.toString();
+	}
+
+	/**
 	 * line outage analysis output title
 	 * 
 	 * @param name trade name
@@ -93,41 +163,6 @@ public class DclfOutFunc {
 					+ "    " + String.format("%8.2f", deratedLimit); 
 			if (deratedLimit > 0.0)
 				str += "       " + String.format("%5.1f", 100*(mwFlow)/deratedLimit) 
-				+ "      " + (v? "x" : " "); 
-		return str;
-	}
-
-	/**
-	 * dclf branch title 
-	 * 
-	 * @return
-	 */
-	public static String branchFlowTitle() {
-		String str = "\n";
-		str += "       FromId->ToId     Power Flow(Mw)   MWLimit    Loading%  Violation\n";
-		str += "=========================================================================";
-		return str;
-		
-	}
-	
-	/**
-	 * dclf branch flow details
-	 * 
-	 * @param aclfBra
-	 * @param algo
-	 * @return
-	 */
-	public static String branchFlow(AclfBranch aclfBra, DclfAlgorithm algo) {
-		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
-		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
-		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
-		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
-		String str = Number2String.toFixLengthStr(22, aclfBra.getId()) + "     "	+ String.format("%8.2f",mwFlow);
-		double limitMva = aclfBra.getRatingMva1();
-		boolean v = mwFlow > limitMva;
-		str +=  "     " + String.format("%8.2f", limitMva); 
-		if (limitMva > 0.0)
-			str += "      " + String.format("%5.1f", Math.abs(100*(mwFlow)/limitMva)) 
 				+ "      " + (v? "x" : " "); 
 		return str;
 	}
@@ -180,38 +215,6 @@ public class DclfOutFunc {
 			if (limitMva > 0.0)
 				str += "       " + String.format("%5.1f", 100*(newMva)/limitMva) 
 				+ "      " + (v? "x" : " "); 
-		return str;
-	}
-
-	/**
-	 * Out put Dclf voltage angle results
-	 * 
-	 * @param aclfNet
-	 * @param algo
-	 * @return
-	 */
-	public static String dclfResults(DclfAlgorithm algo) {
-		String str = "\n\n";
-		str += "      DC Loadflow Results\n\n";
-		str += "   Bud Id       VoltAng(deg)     Gen/Load\n";
-		str += "============================================\n";
-		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
-		for (Bus bus : algo.getAclfNetwork().getBusList()) {
-			AclfBus aclfBus = (AclfBus)bus; 
-			int n = bus.getSortNumber();
-			double angle = Math.toDegrees(algo.getBusAngle(n));
-			double p = (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
-			str += Number2String.toFixLengthStr(8, bus.getId()) + "        "
-					+ String.format("%8.2f",angle) + "         "
-					+ ((p != 0.0)? String.format("%8.2f",p) : "") 
-					+ "\n";
-		}
-
-		str += "\n";
-		str += branchFlowTitle() + "\n";
-		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
-			str += branchFlow((AclfBranch)bra, algo) + "\n";
-		}
 		return str;
 	}
 
