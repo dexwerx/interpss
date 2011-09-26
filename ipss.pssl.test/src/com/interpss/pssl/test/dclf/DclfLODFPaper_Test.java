@@ -30,8 +30,11 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
+import com.interpss.common.datatype.UnitType;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.LODFSenAnalysisType;
+import com.interpss.core.net.Branch;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
@@ -61,17 +64,40 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 				.getAclfNet();		
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
-										.setRefBus("Bus14");
+										.runDclfAnalysis();
 		
+//		// make sure get branch power flow before set the RefBus
+//		for (Branch bra : net.getBranchList()) {
+//			//System.out.println(bra.getId());
+//			AclfBranch aclfBra = (AclfBranch)bra;
+//			aclfBra.setWeight(algoDsl.branchFlow(aclfBra, UnitType.PU));
+//		}
+
 		algoDsl.setLODFAnalysisType(LODFSenAnalysisType.MULTI_BRANCH)
 				.addOutageBranch("Bus1", "Bus5", "1")
 				.addOutageBranch("Bus3", "Bus4", "1")
 				.addOutageBranch("Bus6", "Bus11", "1");
+
+		algoDsl.setRefBus("Bus14");
 		
 		algoDsl.calLineOutageDFactors();
 		
 		double[] factors = algoDsl.monitorBranch("Bus2", "Bus5", "1")
 								  .getLineOutageDFactors();
+		double sum = 0.0;
+		int cnt = 0;
+		for (Branch bra : algoDsl.outageBranchList()) {
+			//System.out.println(bra.getId());
+			AclfBranch aclfBra = (AclfBranch)bra;
+			double flow = aclfBra.getWeight();
+			sum += flow * factors[cnt++];
+		}
+		//System.out.println("Shifted power flow: " + sum);
+		//System.out.println("Total power flow: " + (sum+algoDsl.getMontorBranch().getWeight()));
+		//	Shifted power flow: 0.28184073631614476
+		//Total power flow: 0.6908804780716143
+		double f = algoDsl.getMontorBranch().toDclfBranch().getPowerFlow(UnitType.PU);
+		assertTrue(NumericUtil.equals(sum+f, 0.690881, 0.00001));
 		//System.out.println(new Array2DRowRealMatrix(factors));
 		// {{0.5551262632496149},{0.4511165014022788},{-0.06373460005412564}}
 		assertTrue(NumericUtil.equals(factors[0], 0.555126, 0.00001));
@@ -80,6 +106,19 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 
 		factors = algoDsl.monitorBranch("Bus6", "Bus13", "1")
 		  				.getLineOutageDFactors();
+		sum = 0.0;
+		cnt = 0;
+		for (Branch bra : algoDsl.outageBranchList()) {
+			//System.out.println(bra.getId());
+			AclfBranch aclfBra = (AclfBranch)bra;
+			double flow = aclfBra.getWeight();
+			sum += flow * factors[cnt++];
+		}
+		//System.out.println("Shifted power flow: " + sum);
+		//System.out.println("Total power flow: " + (sum+algoDsl.getMontorBranch().getWeight()));
+		//Shifted power flow: 0.00846884256008724
+		//Total power flow: 0.17880576075139853		
+		assertTrue(NumericUtil.equals(sum+algoDsl.getMontorBranch().getWeight(), 0.178806, 0.00001));
 		//System.out.println(new Array2DRowRealMatrix(factors));
 		// {{-0.011974841796572601},{0.012142880754380832},{0.31591615777672694}}
 		assertTrue(NumericUtil.equals(factors[0],-0.011975, 0.00001));
