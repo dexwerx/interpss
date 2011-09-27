@@ -54,4 +54,16 @@ public class DateTimeUtil {
 	public static boolean within(Date date, String beginStr, String endStr) throws ParseException {
 		return within(date, df.parse(beginStr), df.parse(endStr));
 	}
+
+	/**
+	 * 
+	 * @param dateStr
+	 * @param beginStr format "8/18/2007"
+	 * @param endStr   format "8/18/2007"
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static boolean within(String dateStr, String beginStr, String endStr) throws ParseException {
+		return within(df.parse(dateStr), df.parse(beginStr), df.parse(endStr));
+	}
 }
