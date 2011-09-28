@@ -42,7 +42,12 @@
 						</documentation></annotation>
 						<complexType>
 							<sequence>
-								<element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0">
+									<annotation><documentation>
+									Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved 
+									using the record id.
+									</documentation></annotation>
+								</element>
 							</sequence>
 						</complexType>
 					</element>
