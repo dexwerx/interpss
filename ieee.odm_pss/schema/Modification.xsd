@@ -17,7 +17,7 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="OutageScheduleXmlType" abstract="true">
+	<complexType name="OutageScheduleXmlType">
 		<complexContent>
 			<extension base="pss:ModifyRecordXmlType">
 				<sequence>
@@ -27,23 +27,20 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="ScheduledBranchOutageXmlType" abstract="true">
+	<complexType name="ScheduledBranchOutageXmlType">
 		<complexContent>
 			<extension base="pss:BaseBranchXmlType">
 				<sequence>
-					<element name="dueOutDate" type="date" minOccurs="1"></element>
-					<element name="dueBackDate" type="date" minOccurs="1"></element>
+					<element name="dueOutDate" type="string" minOccurs="1"></element>
+					<element name="dueBackDate" type="string" minOccurs="1"></element>
 					<element name="resourceType" type="pss:ScheduledOutageResourceEnumType" minOccurs="1"></element>
 					<element name="branchType" type="pss:ScheduledOutageBranchEnumType" minOccurs="1"></element>
 					<element name="voltage" type="double" minOccurs="0"></element>
 					<element name="fromBusNo" type="int" minOccurs="1"></element>
                     <element name="toBusNo" type="int" minOccurs="1"></element>
-                    <element name="circuitId" type="string" minOccurs="1"></element>
                     <element name="fromBusName" type="string" minOccurs="0"></element>
-					<element name="fromBusVoltage" type="double" minOccurs="0"></element>
-					<element name="toBusName" type="string" minOccurs="0"></element>
-					<element name="toBusVoltage" type="double" minOccurs="0"></element>
-				</sequence>
+					<element name="fromBusVoltage" type="double" minOccurs="0"></element>					<element name="toBusName" type="string" minOccurs="0"></element>
+					<element name="toBusVoltage" type="double" minOccurs="0"></element>				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
