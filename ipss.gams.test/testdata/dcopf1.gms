@@ -28,7 +28,6 @@ $LOAD  aCoeff=ACoeff, bCoeff=BCoeff
 $LOAD  b=BMatrix, branchrating=Rating, busGeneratorAry=BusGenRelation
 $GDXIN
 
-
    Variables angle(k)  the bus voltage angle
              pg(i)     real power generation of generator i
              z         the total variable generation cost;

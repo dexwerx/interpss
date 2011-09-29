@@ -1,4 +1,4 @@
-$Title trnsport model using gdx files
+$Title ED model using gdx files
 $EOLCOM //
 
         Sets
