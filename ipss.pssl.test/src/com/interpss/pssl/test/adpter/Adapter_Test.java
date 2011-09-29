@@ -28,24 +28,26 @@ import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.plugin.IpssAdapter;
-import com.interpss.pssl.simu.IpssAclf.AclfNetworkDSL;
+import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Adapter_Test extends BaseTestSetup {
 	@Test
 	public void singlePointTest1() {
-		AclfNetworkDSL netDSL = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
-				.load();		               
+				.load()
+				.getAclfNet();		               
 		
-		netDSL.createLoadflowAlgorithm()                        
+		IpssAclf.createAlgo(net)                        
 		            .lfMethod(AclfMethod.NR)
 		            .tolerance(0.0001, UnitType.PU)
 		            .runLoadflow();               
 
-		System.out.println(AclfOutFunc.loadFlowSummary(netDSL.getAclfNet()));
+		System.out.println(AclfOutFunc.loadFlowSummary(net));
 	}
 }
 

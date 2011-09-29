@@ -34,13 +34,14 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.IpssAclf.AclfNetworkDSL;
+import com.interpss.pssl.simu.IpssAclfNet;
+import com.interpss.pssl.simu.IpssAclfNet.AclfNetworkDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Aclf_Test extends BaseTestSetup {
 	@Test
 	public void singlePointTest1() {
-		AclfNetworkDSL netDsl = IpssAclf.createAclfNetwork("Sample DistNetwork");
+		AclfNetworkDSL netDsl = IpssAclfNet.createAclfNetwork("Sample DistNetwork");
 		netDsl.baseMva(100.0);
 		
 
@@ -58,7 +59,7 @@ public class Aclf_Test extends BaseTestSetup {
 		            .branchCode(AclfBranchCode.LINE)
 		            .z(new Complex(0.05, 0.1), UnitType.PU);       
 		               
-		netDsl.createLoadflowAlgorithm()                        
+		IpssAclf.createAlgo(netDsl.getAclfNet())                        
 		            .lfMethod(AclfMethod.NR)
 		            .tolerance(0.0001, UnitType.PU)
 		            .runLoadflow();               
@@ -67,7 +68,7 @@ public class Aclf_Test extends BaseTestSetup {
 	}
 	
 	public void document() {
-		AclfNetworkDSL netDsl = IpssAclf.createAclfNetwork("Sample DistNetwork");
+		AclfNetworkDSL netDsl = IpssAclfNet.createAclfNetwork("Sample DistNetwork");
 		netDsl.baseMva(100.0);
 		
 		String id = "";
