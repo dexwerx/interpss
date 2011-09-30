@@ -17,6 +17,10 @@
 		</complexContent>
 	</complexType>
 
+<!-- 
+	Scheduled Branch outage
+	======================= 
+ -->
 	<complexType name="OutageScheduleXmlType">
 		<complexContent>
 			<extension base="pss:ModifyRecordXmlType">
@@ -57,5 +61,41 @@
 			<enumeration value="Single"></enumeration>
 			<enumeration value="Multiple"></enumeration>
 		</restriction>
-	</simpleType>	
+	</simpleType>
+	
+<!-- 
+	Scheduled Branch outage
+	======================= 
+ -->
+
+	<complexType name="GenLoadModifyXmlType">
+		<complexContent>
+			<extension base="pss:ModifyRecordXmlType">
+				<sequence>
+					<element name="edRecord" type="pss:EDDailyGenRecXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="EDDailyGenRecXmlType">
+		<sequence>
+			<element name="hourlyDispatch" type="pss:EDHourlyGenRecXmlType"  maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
+		<attribute name="date" type="string"></attribute>
+	</complexType>
+
+	<complexType name="EDHourlyGenRecXmlType">
+		<sequence>
+			<element name="totalGenPM" type="double"></element>
+			<element name="noOfGen" type="int"></element>
+			<element name="gen" type="pss:EDGenItemXmlType" maxOccurs="unbounded" minOccurs="0" />
+		</sequence>
+		<attribute name="hour" type="string"></attribute>
+	</complexType>
+
+	<complexType name="EDGenItemXmlType">
+		<attribute name="genName" type="string"></attribute>
+		<attribute name="genMW" type="double"></attribute>
+	</complexType>
 </schema>
