@@ -97,5 +97,6 @@
 	<complexType name="EDGenItemXmlType">
 		<attribute name="genName" type="string"></attribute>
 		<attribute name="genMW" type="double"></attribute>
+		<attribute name="mustRun" type="boolean" use="optional"></attribute>
 	</complexType>
 </schema>
