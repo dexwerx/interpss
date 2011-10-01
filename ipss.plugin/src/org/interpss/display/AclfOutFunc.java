@@ -279,6 +279,27 @@ public class AclfOutFunc {
 		}
 	}
 
+	public static String voltageViolationReport(AclfNetwork net, double max, double min) {
+		StringBuffer buf = new StringBuffer("");
+		buf.append("\n");
+		buf.append("                   Bus Voltage Violation Report   \n\n");
+		buf.append(String.format("              Bus Voltage Limit: [%4.2f, %4.2f]\n", max, min));
+		buf.append("\n");
+
+		buf.append("         Bus Id      Area   Zone    Voltage     BaseCase   Dispatched      \n");
+		buf.append("       ====================================================================\n");
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.isActive() &&
+					(bus.getVoltageMag() > max || bus.getVoltageMag() < min))
+				buf.append(String.format("     %12s  %6d  %6d  %8.4f    %8s    %8s\n", 
+						bus.getId(), bus.getArea().getNumber(), bus.getZone().getNumber(),
+						bus.getVoltageMag(), bus.getGenCodeBaseCase(), bus.getGenCode()));
+  		}		
+		buf.append("\n");
+		return buf.toString();
+	}
+
 	public static String branchMvaRatingViolationList(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
 		if (net.hasBranchMavRatingViolation()) {
