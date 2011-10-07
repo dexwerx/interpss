@@ -73,6 +73,8 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		
 		SparseEqnDouble b11Eqn = algoDsl.getB1Matrix();
+		
+		// bus.getSortNumber() used in the b11Eqn 
 	}
 }
 
