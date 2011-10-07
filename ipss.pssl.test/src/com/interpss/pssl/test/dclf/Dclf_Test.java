@@ -1,5 +1,5 @@
  /*
-  * @(#)AclfSampleTest.java   
+  * @(#)Dclf_Test.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -24,6 +24,7 @@
 
 package com.interpss.pssl.test.dclf;
 
+import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
@@ -60,6 +61,18 @@ public class Dclf_Test extends BaseTestSetup {
 
 		System.out.println(IpssUtil.outDclfResult(algoDsl)
 				.toString());		
+	}
+
+	@Test
+	public void b11MatrixTest() {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();		
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
+		
+		SparseEqnDouble b11Eqn = algoDsl.getB1Matrix();
 	}
 }
 
