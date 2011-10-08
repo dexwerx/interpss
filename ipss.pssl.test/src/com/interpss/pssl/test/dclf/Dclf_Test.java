@@ -24,10 +24,19 @@
 
 package com.interpss.pssl.test.dclf;
 
+import static org.junit.Assert.assertTrue;
+
+import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.junit.Test;
 
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.AclfMethod;
+import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.net.Bus;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssUtil;
 import com.interpss.pssl.simu.IpssPTrading;
@@ -35,7 +44,7 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Dclf_Test extends BaseTestSetup {
-	@Test
+	//@Test
 	public void dclfTest() {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
@@ -49,7 +58,7 @@ public class Dclf_Test extends BaseTestSetup {
 				.toString());		
 	}
 
-	@Test
+	//@Test
 	public void dclfXmlTest() {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
@@ -64,17 +73,64 @@ public class Dclf_Test extends BaseTestSetup {
 	}
 
 	@Test
-	public void b11MatrixTest() {
+	public void b11MatrixTest() throws IpssNumericException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
-				.getAclfNet();		
+				.getAclfNet();	
+		
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  			algo.setLfMethod(AclfMethod.NR);
+	  			algo.setNonDivergent(true);
+	  			assertTrue(algo.loadflow());
+	  	//System.out.println(AclfOutFunc.loadFlowSummary(net));
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		
 		SparseEqnDouble b11Eqn = algoDsl.getB1Matrix();
 		
+/*
+ * Base case
+ * 
+      BusID     Vact     Vspec      Q      Qmax     Qmin   Status
+     -------- -------- -------- -------- -------- -------- ------
+     Bus2       1.0450   1.0450     0.44     0.50    -0.40    on
+     Bus3       1.0100   1.0100     0.25     0.40     0.00    on
+     Bus6       1.0700   1.0700     0.13     0.24    -0.06    on
+     Bus8       1.0900   1.0900     0.18     0.24    -0.06    on
+
+  After increasing dQ = 0.1 pu
+  
+      BusID     Vact     Vspec      Q      Qmax     Qmin   Status
+     -------- -------- -------- -------- -------- -------- ------
+     Bus2       1.0620   1.0450     0.54     0.50    -0.40    on
+     Bus3       1.0422   1.0100     0.34     0.40     0.00    on
+     Bus6       1.1173   1.0700     0.21     0.24    -0.06    on
+     Bus8       1.1533   1.0900     0.29     0.24    -0.06    on
+     
+ */
+		double dQ = 0.1;
+		
 		// bus.getSortNumber() used in the b11Eqn 
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.isGenPV())
+				b11Eqn.setBi(dQ, bus.getSortNumber());
+		}
+		
+		b11Eqn.luMatrixAndSolveEqn(1.0e-20);
+
+		for (Bus b : net.getBusList()) {
+			AclfBus bus = (AclfBus)b;
+			if (bus.isGenPV()) {
+				double newv = bus.getVoltageMag() - b11Eqn.getXi(bus.getSortNumber());
+				bus.toPVBus().setVoltMag(newv);
+			}
+		}
+	  	
+	  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
+		assertTrue(algo.loadflow());
+		System.out.println(AclfOutFunc.loadFlowSummary(net));
 	}
 }
 
