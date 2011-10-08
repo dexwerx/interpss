@@ -128,6 +128,7 @@ public class Dclf_Test extends BaseTestSetup {
 			}
 		}
 	  	
+		// turn off PV Limit control
 	  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
 		assertTrue(algo.loadflow());
 		System.out.println(AclfOutFunc.loadFlowSummary(net));
