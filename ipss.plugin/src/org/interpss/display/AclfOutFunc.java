@@ -307,36 +307,29 @@ public class AclfOutFunc {
 			str
 					.append("                        Branch MvaRating Violation List\n\n");
 			str
-					.append("         BranchID        MvaFlow      Side    MvaRating1   MvaRating2   MvaRating3\n");
+					.append("         BranchID            MvaFlow       PF     Side    MvaRating1   MvaRating2   MvaRating3\n");
 			str
-					.append("     ----------------- ------------ -------- ------------ ------------ ------------\n");
+					.append(" ---------------------     ------------ ------ -------- ------------ ------------ ------------\n");
 			for (Branch b : net.getBranchList()) {
 				AclfBranch bra = (AclfBranch) b;
 				if (bra.isActive()) {
 					BranchRatingAdapter adapter = (BranchRatingAdapter)b.getAdapter(BranchRatingAdapter.class);
 					if (adapter.isRatingViolated(SecAnalysisViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
-						str.append(Number2String.toStr(5, " "));
-						str.append(Number2String.toStr(-16, bra.getId()));
-						double mva = bra.powerFrom2To(UnitType.mVA).abs();
+						str.append(Number2String.toStr(-25, bra.getId()));
+						Complex mva = bra.powerFrom2To(UnitType.mVA);
 						String side = "From";
 						if (bra.powerFrom2To(UnitType.mVA).abs() < bra
 								.powerTo2From(UnitType.mVA).abs()) {
-							mva = bra.powerTo2From(UnitType.mVA)
-									.abs();
+							mva = bra.powerTo2From(UnitType.mVA);
 							side = "To";
 						}
 
-						str.append("     " + Number2String.toStr("####0.0", mva));
-						str.append("     " + Number2String.toStr(-4, side));
-						str.append("      "
-								+ Number2String.toStr("####0.0", bra
-										.getRatingMva1()));
-						str.append("      "
-								+ Number2String.toStr("####0.0", bra
-										.getRatingMva2()));
-						str.append("      "
-								+ Number2String.toStr("####0.0", bra
-										.getRatingMva3()));
+						str.append("     " + Number2String.toStr("####0.0", mva.abs()));
+						str.append("   " + Number2String.toStr("##0.0", 100.0*UnitType.calPFactor(mva.getReal(), mva.getImaginary())) + "%");
+						str.append("    " + Number2String.toStr(-4, side));
+						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva1()));
+						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva2()));
+						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva3()));
 						str.append("\n");
 					}
 				}
