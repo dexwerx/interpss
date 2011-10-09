@@ -24,22 +24,20 @@
 
 package com.interpss.pssl.test.dclf;
 
-import static org.junit.Assert.assertTrue;
-
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
-import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssUtil;
+import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssAclf.LfAlgoDSL;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
@@ -79,10 +77,11 @@ public class Dclf_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();	
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  			algo.setLfMethod(AclfMethod.NR);
-	  			algo.setNonDivergent(true);
-	  			assertTrue(algo.loadflow());
+		LfAlgoDSL aclfAlgoDsl = IpssAclf.createAlgo(net);
+	  	
+		aclfAlgoDsl.lfMethod(AclfMethod.NR)
+	  			.nonDivergent(true)
+	  			.runLoadflow();
 	  	//System.out.println(AclfOutFunc.loadFlowSummary(net));
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
@@ -129,8 +128,8 @@ public class Dclf_Test extends BaseTestSetup {
 		}
 	  	
 		// turn off PV Limit control
-	  	algo.getLfAdjAlgo().setApplyAdjustAlgo(false);
-		assertTrue(algo.loadflow());
+		aclfAlgoDsl.applyAdjustAlgo(false)
+			       .runLoadflow();
 		System.out.println(AclfOutFunc.loadFlowSummary(net));
 	}
 }
