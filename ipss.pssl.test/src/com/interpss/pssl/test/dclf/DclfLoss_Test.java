@@ -34,11 +34,11 @@ import org.junit.Test;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
-import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.algo.path.LossAllocationAlgorithm;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.dclf.BusSenAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
+import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
@@ -51,10 +51,10 @@ public class DclfLoss_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();	
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.NR);
-	  	algo.setNonDivergent(true);
-  		assertTrue(algo.loadflow());		
+	  	IpssAclf.createAlgo(net)
+	  			.lfMethod(AclfMethod.NR)
+	  			.nonDivergent(true)
+	  			.runLoadflow();		
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLossRun.xml");
@@ -68,10 +68,10 @@ public class DclfLoss_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();		
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.NR);
-	  	algo.setNonDivergent(true);
-  		assertTrue(algo.loadflow());
+	  	IpssAclf.createAlgo(net)
+	  			.lfMethod(AclfMethod.NR)
+	  			.nonDivergent(true)
+	  			.runLoadflow();
 
   		LossAllocationAlgorithm lossAlgo = CoreObjectFactory.createLossAllocationAlgorithm();
   		assertTrue(!lossAlgo.hasActivePowerLoop(net));
@@ -92,9 +92,9 @@ public class DclfLoss_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();		
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.NR);
-  		assertTrue(algo.loadflow());
+	  	IpssAclf.createAlgo(net)
+	  			.lfMethod(AclfMethod.NR)
+	  			.runLoadflow();
   		
 		System.out.println("Inj - Bus2, withdraw - Bus3");
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
