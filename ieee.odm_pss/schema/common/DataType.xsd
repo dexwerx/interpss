@@ -708,4 +708,13 @@
 			<enumeration value="Delta"></enumeration>
 		</restriction>
 	</simpleType>	
+
+	<simpleType name="SeasonEnumType">
+		<restriction base="string">
+			<enumeration value="Winter"></enumeration>
+			<enumeration value="Summer"></enumeration>
+			<enumeration value="Spring"></enumeration>
+			<enumeration value="Fall"></enumeration>
+		</restriction>
+	</simpleType>	
 </schema>

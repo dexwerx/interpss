@@ -31,6 +31,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.InterfaceRecXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -340,5 +341,33 @@ public class AclfModelParser extends AbstractModelParser {
 		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
 		getAclfNet().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
+	}	
+
+	/**
+	 * create a Interface object
+	 * 
+	 * @return
+	 */
+	public InterfaceRecXmlType createInterface() {
+		if (getAclfNet().getInterfaceList() == null)
+			getAclfNet().setInterfaceList(this.getFactory().createLoadflowNetXmlTypeInterfaceList());
+		InterfaceRecXmlType inter = this.getFactory().createInterfaceRecXmlType();
+		getAclfNet().getInterfaceList().getInterface().add(inter);
+		return inter;
+	}	
+
+	/**
+	 * get Interface record by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public InterfaceRecXmlType getInterface(String id) {
+		if (getAclfNet().getInterfaceList() != null)
+			for (InterfaceRecXmlType inter : getAclfNet().getInterfaceList().getInterface()) {
+				if (id.equals(inter.getId()))
+					return inter;
+			}
+		return null;
 	}	
 }

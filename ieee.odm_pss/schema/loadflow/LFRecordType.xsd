@@ -71,6 +71,13 @@
 							</sequence>
 						</complexType>
 					</element>
+					<element name="interfaceList" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="interface" minOccurs="0" maxOccurs="unbounded" type="pss:InterfaceRecXmlType"></element>
+							</sequence>
+						</complexType>
+					</element>
 					<element name="xfrZTable" type="pss:XformerZTableXmlType" minOccurs="0"></element>
 				</sequence>
 			</extension>

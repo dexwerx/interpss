@@ -168,14 +168,57 @@
 	</complexType>
 	
 	<complexType name="InterfaceRecXmlType">
-		<complexContent>
-			<extension base="pss:BaseRecordXmlType">
+        <annotation>
+        	<documentation>
+        	Interface record is for power flow interface limit checking purpose.
+        	</documentation></annotation>
+        <complexContent>
+			<extension base="pss:IDRecordXmlType">
 				<sequence>
+					<element name="branch" type="pss:InterfaceBranchXmlType" maxOccurs="unbounded" minOccurs="1" />
+					<element name="onPeakLimit" type="pss:InterfaceLimitXmlType" maxOccurs="1" minOccurs="1" />
+					<element name="offPeakLimit" type="pss:InterfaceLimitXmlType" maxOccurs="1" minOccurs="1" />
+					<element name="season" type="pss:SeasonEnumType" maxOccurs="1" minOccurs="0" />
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 		
+	<complexType name="InterfaceBranchXmlType">
+		<complexContent>
+			<extension base="pss:BaseBranchXmlType">
+				<sequence>
+					<element name="deviceName" type="string" maxOccurs="1" minOccurs="0" />
+					<element name="deviceType" type="pss:LFBranchCodeEnumType" maxOccurs="1" minOccurs="0" />
+					<element name="weight" type="double" maxOccurs="1" minOccurs="1" />
+					<element name="fromBusName" type="string" maxOccurs="1" minOccurs="0" />
+					<element name="toBusName" type="string" maxOccurs="1" minOccurs="0" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="InterfaceLimitXmlType">
+		<complexContent>
+			<extension base="pss:BaseBranchXmlType">
+				<sequence>
+					<element name="type" type="pss:InterfaceEnumType" maxOccurs="1" minOccurs="0" />
+					<element name="status" type="boolean" maxOccurs="1" minOccurs="1" />
+					<element name="refDirExportLimit" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="1" />
+					<element name="OppsiteRefDirImportLimit" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<simpleType name="InterfaceEnumType">
+		<restriction base="string">
+			<enumeration value="BG"></enumeration>
+			<enumeration value="NG"></enumeration>
+			<enumeration value="TOR"></enumeration>
+		</restriction>
+	</simpleType>	
+
 	<simpleType name="BranchMeterLocationEnumType">
 		<restriction base="string">
 			<enumeration value="FromSide"></enumeration>
