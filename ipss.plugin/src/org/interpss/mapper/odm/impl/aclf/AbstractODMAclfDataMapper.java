@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
+import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -31,6 +33,9 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.InterfaceBranchXmlType;
+import org.ieee.odm.schema.InterfaceEnumType;
+import org.ieee.odm.schema.InterfaceRecXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -42,7 +47,9 @@ import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
 import org.interpss.mapper.odm.ODMHelper;
+import org.interpss.mapper.odm.ODMUnitHelper;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -50,6 +57,10 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.Interface;
+import com.interpss.core.aclf.InterfaceBranch;
+import com.interpss.core.aclf.InterfaceLimit;
+import com.interpss.core.aclf.InterfaceType;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -116,6 +127,51 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 */
 	public void mapAclfNetworkData(AclfNetwork net, LoadflowNetXmlType xmlNet) {
 		mapNetworkData(net, xmlNet);
+	}
+	
+	/**
+	 * map interface info to the AclfNet object
+	 * 
+	 * @param net
+	 * @param intList
+	 */
+	public void mapInterfaceData(AclfNetwork net, List<InterfaceRecXmlType> intList) {
+		for (InterfaceRecXmlType xmlIntf : intList ) {
+			Interface intf = CoreObjectFactory.createInterface(net, xmlIntf.getId());
+
+			for ( InterfaceBranchXmlType xmlBra : xmlIntf.getBranchList()) {
+				InterfaceBranch branch = CoreObjectFactory.createInterfaceBranch(intf);
+				AclfBranch b = net.getAclfBranch(xmlBra.getFromBusId(), xmlBra.getToBusId(), xmlBra.getCircuitId());
+				if (b == null) {
+					IpssLogger.getLogger().severe("Branch in the interface not found, " +
+							xmlBra.getFromBusId() + ", " + xmlBra.getToBusId() + ", " + xmlBra.getCircuitId());
+				}
+				else {
+					branch.setAclfBranch(b);
+					branch.setWeight(xmlBra.getWeight());
+				}
+			}
+			
+			InterfaceLimit onPeak = CoreObjectFactory.createInterfaceLimit();
+			intf.setOnPeakLimit(onPeak);
+			map(xmlIntf, onPeak, net.getBaseKva());
+			
+			InterfaceLimit offPeak = CoreObjectFactory.createInterfaceLimit();
+			intf.setOffPeakLimit(offPeak);
+			map(xmlIntf, offPeak, net.getBaseKva());
+		}
+	}
+
+	private void map(InterfaceRecXmlType xmlIntf, InterfaceLimit peak, double baseKav) {
+		peak.setStatus(xmlIntf.getOnPeakLimit().isStatus());
+		peak.setType(xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.BG? InterfaceType.BG : 
+				xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.NG? InterfaceType.NG : InterfaceType.TOR);
+		peak.setRefDirExportLimit(UnitType.pConversion(
+				xmlIntf.getOnPeakLimit().getRefDirExportLimit().getValue(), baseKav, 
+				ODMUnitHelper.toActivePowerUnit(xmlIntf.getOnPeakLimit().getRefDirExportLimit().getUnit()), UnitType.PU));
+		peak.setOppsiteRefDirImportLimit(UnitType.pConversion(
+				xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getValue(), baseKav, 
+				ODMUnitHelper.toActivePowerUnit(xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getUnit()), UnitType.PU));
 	}
 	
 	/**
