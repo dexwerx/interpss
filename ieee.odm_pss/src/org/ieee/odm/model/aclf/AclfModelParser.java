@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.aclf;
 
+import java.util.List;
+
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -343,6 +345,10 @@ public class AclfModelParser extends AbstractModelParser {
 		return interchange;
 	}	
 
+	public List<InterfaceRecXmlType> getInterfaceList() {
+		return getAclfNet().getInterfaceList().getInterface();
+	}	
+	
 	/**
 	 * create a Interface object
 	 * 

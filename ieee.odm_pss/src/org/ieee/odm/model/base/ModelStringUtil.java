@@ -1,7 +1,7 @@
 /*
- * @(#)StringUtil.java   
+ * @(#)ModelStringUtil.java   
  *
- * Copyright (C) 2006 www.interpss.com
+ * Copyright (C) 2006-2011 www.interpss.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -27,7 +27,6 @@ package org.ieee.odm.model.base;
 import java.text.DecimalFormat;
 
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
