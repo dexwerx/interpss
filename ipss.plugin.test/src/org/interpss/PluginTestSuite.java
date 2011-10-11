@@ -7,6 +7,7 @@ import org.interpss.contigency.N11Analysis_IEEE14BusTest;
 import org.interpss.contigency.N1Analysis_IEEE14BusTest;
 import org.interpss.contigency.N2Analysis_IEEE14BusTest;
 import org.interpss.core.aclf.IEEE14ChangeRecorderTest;
+import org.interpss.core.aclf.IEEE14InterfaceCaseTest;
 import org.interpss.core.acsc.Acsc5Bus;
 import org.interpss.core.acsc.LGFault;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
@@ -55,6 +56,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEE14ChangeRecorderTest.class,
 	IEEE14_WalkThroughTest.class,
 	SparseEqnDoubleTest.class,
+	IEEE14InterfaceCaseTest.class,
 	
 	// acsc
 	LGFault.class,
