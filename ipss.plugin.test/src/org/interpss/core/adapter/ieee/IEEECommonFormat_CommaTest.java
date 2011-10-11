@@ -55,7 +55,7 @@ public class IEEECommonFormat_CommaTest extends PluginTestSetup {
 		
 		//System.out.println(adapter.getODMModelParser().toString());
 		
-	  	IpssAclf.createLoadflowAlgorithm(net)
+	  	IpssAclf.createAlgo(net)
 					.runLoadflow();
 
 		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));

@@ -3,31 +3,31 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-logging.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
-	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.native"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml.schema"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.schema"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.schema"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

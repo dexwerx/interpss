@@ -34,7 +34,7 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.pssl.simu.IpssAclf;
+import com.interpss.pssl.simu.IpssAclfNet;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -50,7 +50,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 	  	assertTrue(net.getAclfBus("0003").getGenCode() != AclfGenCode.NON_GEN);
 	  	assertTrue(net.getAclfBus("0009").getLoadCode() != AclfLoadCode.NON_LOAD);
 
-		IpssAclf.wrapAclfNetwork(net)
+		IpssAclfNet.wrapAclfNetwork(net)
 					.applyModification("testData/xml/ModificationOnly.xml");
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
@@ -87,7 +87,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
-		IpssAclf.wrapAclfNetwork(net)
+		IpssAclfNet.wrapAclfNetwork(net)
 					.applyModification("testData/xml/ModificationOnly.xml");
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
