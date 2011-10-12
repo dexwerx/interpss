@@ -36,14 +36,13 @@ import org.interpss.xml.schema.GridComputingXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 import org.interpss.xml.schema.ReturnStudyCaseDataType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
 
 public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 	@Override
-	public InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts, IPSSMsgHub msg) {
+	public InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts) {
 		IpssLogger.getLogger().info("Run custom scripts with plugin: PSSEContingencyAnalysis");
 		try {
 			String[] strAry = StringUtil.strToken2Array(scripts, System.getProperty("line.separator"));
@@ -55,7 +54,7 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 			createRunXmlScripts(type, ipssXmlDoc);
 			return ipssXmlDoc;
 		} catch (Exception e) {
-			msg.sendErrorMsg(e.toString());
+			IpssLogger.getLogger().severe(e.toString());
 			return null;
 		}
 	}

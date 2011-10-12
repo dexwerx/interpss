@@ -24,5 +24,5 @@ public interface ICustomRunScriptPlugin extends IpssCustomAdapter {
 	 * @param msg Ipss msg object
 	 * @return null if there is any error
 	 */
-	InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts, IPSSMsgHub msg);
+	InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts);
 }

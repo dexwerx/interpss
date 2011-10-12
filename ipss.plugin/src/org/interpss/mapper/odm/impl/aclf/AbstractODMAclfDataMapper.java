@@ -51,23 +51,21 @@ import org.interpss.mapper.odm.ODMUnitHelper;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.Interface;
-import com.interpss.core.aclf.InterfaceBranch;
-import com.interpss.core.aclf.InterfaceLimit;
-import com.interpss.core.aclf.InterfaceType;
+import com.interpss.core.aclf.FlowInterface;
+import com.interpss.core.aclf.FlowInterfaceBranch;
+import com.interpss.core.aclf.FlowInterfaceLimit;
+import com.interpss.core.aclf.FlowInterfaceType;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
-	public AbstractODMAclfDataMapper(IPSSMsgHub msg) {
-		super(msg);
+	public AbstractODMAclfDataMapper() {
 	}
 	
 	/**
@@ -137,10 +135,10 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 */
 	public void mapInterfaceData(AclfNetwork net, List<InterfaceRecXmlType> intList) {
 		for (InterfaceRecXmlType xmlIntf : intList ) {
-			Interface intf = CoreObjectFactory.createInterface(net, xmlIntf.getId());
+			FlowInterface intf = CoreObjectFactory.createInterface(net, xmlIntf.getId());
 
 			for ( InterfaceBranchXmlType xmlBra : xmlIntf.getBranchList()) {
-				InterfaceBranch branch = CoreObjectFactory.createInterfaceBranch(intf);
+				FlowInterfaceBranch branch = CoreObjectFactory.createInterfaceBranch(intf);
 				AclfBranch b = net.getAclfBranch(xmlBra.getFromBusId(), xmlBra.getToBusId(), xmlBra.getCircuitId());
 				if (b == null) {
 					IpssLogger.getLogger().severe("Branch in the interface not found, " +
@@ -152,20 +150,20 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 				}
 			}
 			
-			InterfaceLimit onPeak = CoreObjectFactory.createInterfaceLimit();
+			FlowInterfaceLimit onPeak = CoreObjectFactory.createInterfaceLimit();
 			intf.setOnPeakLimit(onPeak);
 			map(xmlIntf, onPeak, net.getBaseKva());
 			
-			InterfaceLimit offPeak = CoreObjectFactory.createInterfaceLimit();
+			FlowInterfaceLimit offPeak = CoreObjectFactory.createInterfaceLimit();
 			intf.setOffPeakLimit(offPeak);
 			map(xmlIntf, offPeak, net.getBaseKva());
 		}
 	}
 
-	private void map(InterfaceRecXmlType xmlIntf, InterfaceLimit peak, double baseKav) {
+	private void map(InterfaceRecXmlType xmlIntf, FlowInterfaceLimit peak, double baseKav) {
 		peak.setStatus(xmlIntf.getOnPeakLimit().isStatus());
-		peak.setType(xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.BG? InterfaceType.BG : 
-				xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.NG? InterfaceType.NG : InterfaceType.TOR);
+		peak.setType(xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.BG? FlowInterfaceType.BG : 
+				xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.NG? FlowInterfaceType.NG : FlowInterfaceType.TOR);
 		peak.setRefDirExportLimit(UnitType.pConversion(
 				xmlIntf.getOnPeakLimit().getRefDirExportLimit().getValue(), baseKav, 
 				ODMUnitHelper.toActivePowerUnit(xmlIntf.getOnPeakLimit().getRefDirExportLimit().getUnit()), UnitType.PU));

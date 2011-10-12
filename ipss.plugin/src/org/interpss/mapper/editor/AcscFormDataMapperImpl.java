@@ -69,6 +69,7 @@ import com.interpss.core.util.CoreUtilFunc;
  */
 
 public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, AcscNetwork> {
+	private IPSSMsgHub msg = null;
 
 	public AcscFormDataMapperImpl(IPSSMsgHub msg) {
 		this.msg = msg;

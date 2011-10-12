@@ -81,7 +81,7 @@ import com.interpss.dstab.DStabilityNetwork;
  */
 
 public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, AclfNetwork> {
-
+	private IPSSMsgHub msg = null;
 	public AclfFormDataMapperImpl(IPSSMsgHub msg) {
 		this.msg = msg;
 	}

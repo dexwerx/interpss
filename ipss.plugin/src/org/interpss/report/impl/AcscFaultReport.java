@@ -58,8 +58,7 @@ public class AcscFaultReport implements IIpssReport {
 			IAppSimuContext appSimuCtx = GraphSpringAppContext
 					.getIpssGraphicEditor().getCurrentAppSimuContext();
 			SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
-			SimuCtxReportMapper mapper = new SimuCtxReportMapper(
-					CoreCommonSpringCtx.getIpssMsgHub());
+			SimuCtxReportMapper mapper = new SimuCtxReportMapper();
 
 			// map the title bean
 			RptMainTitleBean titleBean = new RptMainTitleBean();

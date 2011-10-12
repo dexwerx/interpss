@@ -46,7 +46,6 @@ import com.interpss.core.algo.SimpleFaultAlgorithm;
 
 public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm> {
 	public XmlCaseData2ScAlgorithmMapperImpl(IPSSMsgHub msg) {
-		super(msg);
 	}
 	
 	/**

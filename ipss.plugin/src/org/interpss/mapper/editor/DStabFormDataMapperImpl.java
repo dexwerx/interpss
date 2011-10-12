@@ -71,6 +71,7 @@ import com.interpss.simu.util.SimuSpringAppCtxUtil;
  */
 
 public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DStabilityNetwork> {
+	private IPSSMsgHub msg = null;
 
 	public DStabFormDataMapperImpl(IPSSMsgHub msg) {
 		this.msg = msg;

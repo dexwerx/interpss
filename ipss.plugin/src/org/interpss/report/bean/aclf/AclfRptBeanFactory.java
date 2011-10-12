@@ -318,8 +318,7 @@ public class AclfRptBeanFactory {
 
 	public static JRBeanArrayDataSource getSummaryBusDataSource(
 			SimuContext simuCtx) {
-		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
-				.getMsgHub());
+		SimuCtxReportMapper mapper = new SimuCtxReportMapper();
 		Object[] beans = mapper.mappingMultiObject(simuCtx,
 				RptAclfSummaryBusBean.class, null);
 		return new JRBeanArrayDataSource(beans);
@@ -385,8 +384,7 @@ public class AclfRptBeanFactory {
 
 	public static JRBeanArrayDataSource getBusStyleDataSource(
 			SimuContext simuCtx) {
-		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
-				.getMsgHub());
+		SimuCtxReportMapper mapper = new SimuCtxReportMapper();
 		Object[] beans = mapper.mappingMultiObject(simuCtx,
 				RptAclfBusStyleBean.class, null);
 		return new JRBeanArrayDataSource(beans);

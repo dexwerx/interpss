@@ -154,19 +154,19 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 	}
 
 	public SimuContext load(String filepath) throws Exception {
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, false, null);
   		return simuCtx;
 	}
 
 	public SimuContext loadDebug(String filepath) throws Exception {
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, true, null);
   		return simuCtx;
 	}
 
 	public SimuContext loadDebug(String filepath, String outfile) throws Exception {
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, true, outfile);
   		return simuCtx;
 	}

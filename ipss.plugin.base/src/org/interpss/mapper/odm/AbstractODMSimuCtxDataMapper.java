@@ -39,8 +39,7 @@ import com.interpss.simu.SimuObjectFactory;
  */
 
 public abstract class AbstractODMSimuCtxDataMapper<Tfrom> extends AbstractODMNetDataMapper<Tfrom, SimuContext> {
-	public AbstractODMSimuCtxDataMapper(IPSSMsgHub msg) {
-		super(msg);
+	public AbstractODMSimuCtxDataMapper() {
 	}
 	
 	/**
@@ -51,7 +50,7 @@ public abstract class AbstractODMSimuCtxDataMapper<Tfrom> extends AbstractODMNet
 	 */
 	@Override
 	public SimuContext map2Model(Tfrom p) throws InterpssException {
-		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
+		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
 		if (this.map2Model(p, simuCtx)) {
   	  		simuCtx.setId("InterPSS_SimuCtx");
   	  		simuCtx.setName("InterPSS SimuContext Object");

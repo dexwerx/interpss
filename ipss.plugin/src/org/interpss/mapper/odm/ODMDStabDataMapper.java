@@ -31,6 +31,6 @@ import com.interpss.common.msg.IPSSMsgHub;
 
 public class ODMDStabDataMapper extends AbstractODMDStabDataMapper<DStabModelParser> {
 	public ODMDStabDataMapper(IPSSMsgHub msg) {
-		super(msg);
+		this.msg = msg;
 	}
 }

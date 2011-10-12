@@ -58,7 +58,6 @@ import org.interpss.mapper.odm.impl.acsc.AcscScenarioHelper;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
@@ -83,12 +82,10 @@ public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
 	private DynamicSimuAlgorithm dstabAlgo = null;	
-	private IPSSMsgHub msg = null;
 	
-	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
+	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo) {
 		this.dstabNet = dstabNet;
 		this.dstabAlgo = algo;
-		this.msg = msg;
 	}
 	
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {

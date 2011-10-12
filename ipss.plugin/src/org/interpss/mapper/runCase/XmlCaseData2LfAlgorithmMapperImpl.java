@@ -35,7 +35,6 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> {
 	public XmlCaseData2LfAlgorithmMapperImpl(IPSSMsgHub msg) {
-		super(msg);
 	}
 	
 	/**

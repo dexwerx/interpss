@@ -7,7 +7,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 
 public abstract class CustomRunScriptPluginBase implements ICustomRunScriptPlugin {
 	@Override
-	public InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts, IPSSMsgHub msg) {
+	public InterPSSXmlType createIpssXmlDocument(AnalysisRunDataType type, String scripts) {
 		throw new UnsupportedOperationException();
 	}
 

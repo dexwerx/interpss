@@ -35,7 +35,6 @@ import org.ieee.odm.schema.VoltageUnitType;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.net.Area;
@@ -56,8 +55,7 @@ import com.interpss.core.net.Zone;
  */
 
 public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMapping<Tfrom, Tto> {
-	public AbstractODMNetDataMapper(IPSSMsgHub msg) {
-		super(msg);
+	public AbstractODMNetDataMapper() {
 	}
 	
 	/**

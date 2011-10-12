@@ -30,7 +30,4 @@ import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 
 public class ODMAcscDataMapper extends AbstractODMAcscDataMapper<AcscModelParser> {
-	public ODMAcscDataMapper(IPSSMsgHub msg) {
-		super(msg);
-	}
 }

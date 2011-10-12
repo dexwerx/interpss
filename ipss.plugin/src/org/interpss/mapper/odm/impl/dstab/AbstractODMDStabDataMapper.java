@@ -72,8 +72,9 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscDataMapper<Tfrom> {
-	public AbstractODMDStabDataMapper(IPSSMsgHub msg) {
-		super(msg);
+	protected IPSSMsgHub msg = null;
+	
+	public AbstractODMDStabDataMapper() {
 	}
 		
 	/**
@@ -99,7 +100,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				simuCtx.setNetType(SimuCtxType.DSTABILITY_NET);
 				
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(
-						dstabNet, new DatabaseSimuOutputHandler(), simuCtx.getMsgHub() );
+						dstabNet, new DatabaseSimuOutputHandler(), this.msg);
 				simuCtx.setDynSimuAlgorithm(dstabAlgo);
 
 				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet);
@@ -152,7 +153,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 								branch.getValue() instanceof XfrShortCircuitXmlType ||
 									branch.getValue() instanceof PSXfrShortCircuitXmlType) {
 							BranchXmlType acscBraXml = (BranchXmlType)branch.getValue(); 
-							setAcscBranchData(acscBraXml, dstabBranch, simuCtx.getMsgHub());
+							setAcscBranchData(acscBraXml, dstabBranch);
 						}
 
 						if (branch.getValue() instanceof LineDStabXmlType || 
@@ -170,7 +171,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				// map the dynamic simulation settings information
 				if(parser.getStudyCase().getStudyScenario() !=null){
 					IpssStudyScenarioXmlType s = (IpssStudyScenarioXmlType)parser.getStudyCase().getStudyScenario().getValue();
-					new DStabScenarioHelper(dstabNet,dstabAlgo, simuCtx.getMsgHub()).
+					new DStabScenarioHelper(dstabNet,dstabAlgo).
 								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {

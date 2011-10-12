@@ -66,8 +66,9 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
 public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> {
+	private IPSSMsgHub msg = null;
 	public XmlCaseData2DStabAlgorithmMapperImpl(IPSSMsgHub msg) {
-		super(msg);
+		this.msg = msg;
 	}
 	
 	/**

@@ -60,6 +60,7 @@ import com.interpss.dist.ScStanderd;
 import com.interpss.dist.datatype.ScPointType;
 
 public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, DistNetwork> {
+	private IPSSMsgHub msg = null;
 
 	public DistFormDataMapperImpl(IPSSMsgHub msg) {
 		this.msg = msg;

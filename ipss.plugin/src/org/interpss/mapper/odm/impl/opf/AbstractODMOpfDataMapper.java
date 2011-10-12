@@ -53,8 +53,7 @@ import com.interpss.simu.SimuCtxType;
 
 
 public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
-	public AbstractODMOpfDataMapper(IPSSMsgHub msg) {
-		super(msg);
+	public AbstractODMOpfDataMapper() {
 	}
 	
 	/**

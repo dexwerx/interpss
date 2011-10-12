@@ -9,13 +9,11 @@
 	<bean id="odm2AclfMapper" 
 	      class="org.interpss.mapper.odm.ODMAclfDataMapper"
 	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
 	</bean>	
 
 	<bean id="odm2AcscMapper" 
 	      class="org.interpss.mapper.odm.ODMAcscDataMapper"
 	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
 	</bean>	
 	
 	<bean id="odm2DStabMapper" 
@@ -27,6 +25,5 @@
 	<bean id="odm2OpfMapper" 
 	      class="org.interpss.mapper.odm.ODMOpfDataMapper"
 	      scope="singleton">	
-	      <constructor-arg>	<ref bean="ipssMsgHub"/>  </constructor-arg>	      
 	</bean>	
 </beans>

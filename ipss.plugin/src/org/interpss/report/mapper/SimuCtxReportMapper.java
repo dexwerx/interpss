@@ -38,7 +38,6 @@ import org.interpss.report.bean.aclf.RptAclfSummaryBusBean;
 import org.interpss.report.bean.acsc.RptAcscVoltAmpsBean;
 import org.interpss.report.bean.acsc.RptFaultSummaryBean;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
 import com.interpss.core.aclf.adj.PSXfrPControl;
@@ -58,8 +57,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 	 * 
 	 * @param msg
 	 */
-	public SimuCtxReportMapper(IPSSMsgHub msg) {
-		setMsg(msg);
+	public SimuCtxReportMapper() {
 	}
 
 	/**

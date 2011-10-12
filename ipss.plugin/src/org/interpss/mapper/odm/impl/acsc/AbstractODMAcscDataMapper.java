@@ -55,7 +55,6 @@ import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.NumericConstant;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
@@ -72,8 +71,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
-	public AbstractODMAcscDataMapper(IPSSMsgHub msg) {
-		super(msg);
+	public AbstractODMAcscDataMapper() {
 	}
 	
 	/**
@@ -145,7 +143,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
 						mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet);
-						setAcscBranchData(acscBraXml, acscBranch, simuCtx.getMsgHub());
+						setAcscBranchData(acscBraXml, acscBranch);
 					}
 					else {
 						IpssLogger.getLogger().severe( "Error: only acsc<Branch> could be used for SC study");
@@ -269,18 +267,18 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 	 * @param msg
 	 * @return
 	 */
-	public void setAcscBranchData(BranchXmlType acscBraXml, AcscBranch acscBra, IPSSMsgHub msg) {
+	public void setAcscBranchData(BranchXmlType acscBraXml, AcscBranch acscBra) {
 
 		if (acscBraXml instanceof LineShortCircuitXmlType) { // line branch
-			setAcscLineFormInfo((LineShortCircuitXmlType)acscBraXml, acscBra, msg);
+			setAcscLineFormInfo((LineShortCircuitXmlType)acscBraXml, acscBra);
 		} 
 		else if ( acscBraXml instanceof XfrShortCircuitXmlType ||
 				acscBraXml instanceof PSXfrShortCircuitXmlType) { // xfr or psxfr branch
-			setAcscXfrFormInfo((XfrShortCircuitXmlType)acscBraXml, acscBra, msg);
+			setAcscXfrFormInfo((XfrShortCircuitXmlType)acscBraXml, acscBra);
 		}
 	}
 
-	private void setAcscLineFormInfo(LineShortCircuitXmlType braXml,	AcscBranch acscBra, IPSSMsgHub msg) {
+	private void setAcscLineFormInfo(LineShortCircuitXmlType braXml, AcscBranch acscBra) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage();
 		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
 		ZXmlType z0 = braXml.getZ0();
@@ -292,7 +290,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 	}
 
 	// for SC, Xfr and PSXfr behave the same
-	private void setAcscXfrFormInfo(XfrShortCircuitXmlType braXml, AcscBranch acscBra, IPSSMsgHub msg) {
+	private void setAcscXfrFormInfo(XfrShortCircuitXmlType braXml, AcscBranch acscBra) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage() > acscBra
 		.getToAclfBus().getBaseVoltage() ? acscBra.getFromAclfBus()
 				.getBaseVoltage() : acscBra.getToAclfBus().getBaseVoltage();
