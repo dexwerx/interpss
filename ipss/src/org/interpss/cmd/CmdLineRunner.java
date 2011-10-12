@@ -141,19 +141,16 @@ public class CmdLineRunner {
 					&& xmlStudyCase.getGridRunOption().isRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF) {
 				runType = SimuRunEnum.Aclf;
-				return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfNet(),
-						msg);
+				return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfNet());
 			} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_DCLF) {
 				runType = SimuRunEnum.Dclf;
-				return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
-						msg);
+				return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet());
 			} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACSC) {
 				runType = SimuRunEnum.Acsc;
-				return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscNet(),
-						msg);
+				return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscNet());
 			} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_D_STAB) {
 				runType = SimuRunEnum.DStab;
-				return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
+				return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx);
 			}
 			return true;			
 		}
