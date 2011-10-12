@@ -30,7 +30,7 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 import org.interpss.xml.schema.RunAcscStudyCaseXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
@@ -46,8 +46,7 @@ public class XmlScriptAcscRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAcsc(InterPSSXmlType ipssXmlDoc,
-			AcscNetwork faultNet, IPSSMsgHub msg) {
+	public static boolean runAcsc(InterPSSXmlType ipssXmlDoc, AcscNetwork faultNet) {
 		//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAcscStudyCase() != null) {
 			RunAcscStudyCaseXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
@@ -64,7 +63,7 @@ public class XmlScriptAcscRun {
 
 				if (xmlCase == null) {
 					if (xmlDefaultCase == null) {
-						msg.sendErrorMsg("No Acsc study case defined");
+						IpssLogger.getLogger().severe("No Acsc study case defined");
 						return false;
 					}
 					xmlCase = xmlDefaultCase;

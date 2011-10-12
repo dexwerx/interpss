@@ -49,7 +49,7 @@ public class CustomScriptRunWorker {
 		//InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunType.RUN_ACLF, scripts, simuCtx.getMsgHub());
 		//return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
 
-		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS, scripts, simuCtx.getMsgHub());
-		return XmlScriptContingency.runContingencyAnalysis(ipssXmlDoc, simuCtx.getAclfNet(), simuCtx.getMsgHub());		
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS, scripts);
+		return XmlScriptContingency.runContingencyAnalysis(ipssXmlDoc, simuCtx.getAclfNet());		
 	}
 }

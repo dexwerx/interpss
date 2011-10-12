@@ -38,7 +38,6 @@ import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -61,7 +60,7 @@ public class XmlScriptContingency {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
+	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet) {
 		if (!GridEnvHelper.isGridEnabled()) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
@@ -95,7 +94,7 @@ public class XmlScriptContingency {
 			// map to the Algo object including network modification at the study case level
 			//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 			if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, 
-					xmlRunCase.getDefaultAclfAlgorithm(), true, msg))
+					xmlRunCase.getDefaultAclfAlgorithm(), true))
 				return false;
 
 			try {

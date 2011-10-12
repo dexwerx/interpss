@@ -37,7 +37,6 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
@@ -65,7 +64,6 @@ public class XmlScriptRunWorker {
 		}
 
 		// Apply the modification to the base Network object
-		IPSSMsgHub msg = simuCtx.getMsgHub();
 		if (parser.getModification() != null) {
 			PluginSpringCtx.getModXml2NetMapper()
 					.map2Model(parser.getModification(), simuCtx.getNetwork());
@@ -75,20 +73,18 @@ public class XmlScriptRunWorker {
 		GridRunner.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
 				&& xmlStudyCase.getGridRunOption().isRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACLF) {
-			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfNet(), msg);
+			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfNet());
 		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_DCLF) {
-			return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
-					msg);
+			return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet());
 		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_ACSC) {
-			return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscNet(),
-					msg);
+			return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscNet());
 		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.RUN_D_STAB) {
-			return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
+			return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx);
 		}
 		else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunDataType.CONTINGENCY_ANALYSIS) {
-			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc(), simuCtx.getAclfNet(), msg);
+			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc(), simuCtx.getAclfNet());
 		}
-		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
+		IpssLogger.getLogger().severe("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
 		return false;
 	}
 }

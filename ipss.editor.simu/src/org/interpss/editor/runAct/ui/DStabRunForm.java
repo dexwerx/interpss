@@ -37,7 +37,6 @@ import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
@@ -97,14 +96,14 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	 * @param simuCtx
 	 * @param msg
 	 */
-	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		if (!prepareSimuRunDataCheckError(simuCtx, msg))
+	public boolean runCase(SimuContext simuCtx) {
+		if (!prepareSimuRunDataCheckError(simuCtx))
 			return false;
 
 		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm().getAclfAlgorithm();
 		aclfAlgo.loadflow();
 		if (!simuCtx.getDStabilityNet().isLfConverged()) {
-			msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
+			IpssLogger.getLogger().severe("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
 			return false;
 		}
 
@@ -163,8 +162,8 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	 * @param simuCtx
 	 * @param msg
 	 */
-	public boolean runGridCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		if (!prepareSimuRunDataCheckError(simuCtx, msg))
+	public boolean runGridCase(SimuContext simuCtx) {
+		if (!prepareSimuRunDataCheckError(simuCtx))
 			return false;
 
 		// get the selected remote node
@@ -178,7 +177,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		 * by the router to the msg object. The simuMsg will be then routed to the 
 		 * DBSimuDataHandler
 		 */
-		DStabGridMessageRouter msgRouter = new DStabGridMessageRouter(msg);
+		DStabGridMessageRouter msgRouter = new DStabGridMessageRouter(simuCtx.getMsgHub());
 		grid.addMessageListener(msgRouter);
 
 		IDStabSimuDatabaseOutputHandler dstabDbHandler = null;
@@ -237,13 +236,12 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		this.aclfCaseData = aclfCaseData;
 	}
 */
-	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx, IPSSMsgHub msg) {
+	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
 		PluginSpringCtx.getXml2DStabAlgorithmMapper()
 				.map2Model(this.getXmlCaseData(), simuCtx.getDynSimuAlgorithm());
 
-		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm(),
-				msg);
+		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm());
 	}
 }

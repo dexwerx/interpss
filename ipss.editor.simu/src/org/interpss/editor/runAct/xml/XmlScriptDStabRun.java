@@ -69,7 +69,8 @@ public class XmlScriptDStabRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runDStab(InterPSSXmlType ipssXmlDoc, SimuContext simuCtx, IPSSMsgHub msg) {
+	public static boolean runDStab(InterPSSXmlType ipssXmlDoc, SimuContext simuCtx) {
+		IPSSMsgHub msg = simuCtx.getMsgHub();
 		// get the RunStudyCase object, root level modification has already
 		// applied
 		// to the DStabNet object
@@ -272,7 +273,7 @@ public class XmlScriptDStabRun {
 		PluginSpringCtx.getXml2DStabAlgorithmMapper()
 				.map2Model(dstabCase, dstabAlgo);
 		
-		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
+		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo))
 			return false; // if something is wrong, we stop running here
 
 		// create a DB handler to store simulation result, a Db simu case will

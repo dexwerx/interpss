@@ -254,8 +254,7 @@ public class RunActUtilFunc {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo,
-			IPSSMsgHub msg) {
+	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo) {
 		if (!algo.checkData()) {
 			IpssLogger.getLogger().warning(
 					"DStab simulation data checking failed");

@@ -241,8 +241,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     	String pluginName = (String)customPluginComboBox.getSelectedItem();
     	String scripts = scriptsTextArea.getText();
 		ICustomRunScriptPlugin adapter = PluginSpringCtx.getCustomScriptRunPlugin(pluginName);
-		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS,
-				scripts, CoreCommonSpringCtx.getIpssMsgHub());
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS, scripts);
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("InterPSS Xml Docuement");
 		dialog.display(ipssXmlDoc.toString());		
     }//GEN-LAST:event_displayXmlButtonActionPerformed

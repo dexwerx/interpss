@@ -30,7 +30,6 @@ import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.RuleBaseXmlType;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.mapper.RuleBase2ModelMapper;
@@ -49,10 +48,10 @@ public class XmlScriptUtilFunc {
 	
 	public static boolean mapAclfStudyCase(AclfStudyCaseXmlType xmlCase, 
 			LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
-						boolean remoteJobCreation, IPSSMsgHub msg) {
+						boolean remoteJobCreation) {
 		if (xmlCase.getAclfAlgorithm() == null) {
 			if (xmlDefaultAlgo == null) {
-				msg.sendErrorMsg("No Aclf Algorithm defined");
+				IpssLogger.getLogger().severe("No Aclf Algorithm defined");
 				return false;
 			}
 			xmlCase.setAclfAlgorithm(xmlDefaultAlgo);

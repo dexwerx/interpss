@@ -42,7 +42,6 @@ import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -84,7 +83,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
     	this.contingencyAnalysis = true;
     }
 
-    public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
+    public boolean runCase(SimuContext simuCtx) {
 		boolean converge = false;
 		if (this.xmlGridOpt.isEnableGridRun()) {
 			final AclfNetwork aclfNet = simuCtx.getAclfNet();
@@ -217,7 +216,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean runLoadflow(AclfNetwork aclfAdjNet, SimuContext simuCtx) {
 		boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm());
 		if (!converge)
-			simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
+			IpssLogger.getLogger().warning("Loadflow does not converge!");
 		displaySummaryResult(simuCtx);
 		return converge;
 	}

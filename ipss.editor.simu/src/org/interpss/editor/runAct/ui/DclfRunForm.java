@@ -32,7 +32,6 @@ import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
 import org.interpss.xml.schema.DclfStudyCaseXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.ISimuCaseRunner;
@@ -52,13 +51,13 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 	
 	@Override
-	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
+	public boolean runCase(SimuContext simuCtx) {
 		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
 		simuCtx.setDclfAlgorithm(algo);
 		if (!algo.checkCondition())
 			return false;
 		
-		XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
+		XmlScriptDclfRun.calPTDistFactor(tdFactor, algo);
 
 		displaySummaryResult(simuCtx);
 		return true;

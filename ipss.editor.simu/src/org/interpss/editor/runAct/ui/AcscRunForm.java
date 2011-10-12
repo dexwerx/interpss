@@ -28,7 +28,6 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
@@ -62,18 +61,17 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 		this.xmCaseData = scase;
 	}
 
-	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
+	public boolean runCase(SimuContext simuCtx) {
 		simuCtx.getSimpleFaultAlgorithm().removeAllFault();
 		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
-			runShortCircuit(simuCtx.getDistNet(), simuCtx
-					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
+			runShortCircuit(simuCtx.getDistNet(), simuCtx.getSimpleFaultAlgorithm());
 		} 
 		else {
 			if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				simuCtx.getDStabilityNet().initialization();
 			}
 			runShortCircuit(simuCtx.getAcscNet(), simuCtx
-					.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
+					.getSimpleFaultAlgorithm());
 		}
 		return true;
 	}
@@ -82,23 +80,21 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 		RunActUtilFunc.displayAcscSummaryResult(simuCtx.getAcscNet(), simuCtx.getSimpleFaultAlgorithm());
 	}
 
-	private void runShortCircuit(DistNetwork distNet,
-			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
+	private void runShortCircuit(DistNetwork distNet, SimpleFaultAlgorithm algo) {
 		if (distNet.getScPointNetData().getScPointList().size() > 1) {
 			for (int i = 0; i < distNet.getScPointNetData().getScPointList()
 					.size(); i++) {
 				distNet.updateAcscNetData(i);
-				runShortCircuit(distNet.getFaultNet(), "ScPoint" + (i + 1),
-						algo, msg);
+				runShortCircuit(distNet.getFaultNet(), "ScPoint" + (i + 1),	algo);
 			}
 		} else {
-			runShortCircuit(distNet.getFaultNet(), "", algo, msg);
+			runShortCircuit(distNet.getFaultNet(), "", algo);
 		}
 	}
 
 	private void runShortCircuit(AcscNetwork faultNet,
-			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
-		runShortCircuit(faultNet, "", algo, msg);
+			SimpleFaultAlgorithm algo) {
+		runShortCircuit(faultNet, "", algo);
 	}
 
 	/**
@@ -109,7 +105,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	 * @param msg the SessionMsg object
 	 */
 	public void runShortCircuit(AcscNetwork faultNet, String faultIdStr,
-			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
+			SimpleFaultAlgorithm algo) {
 		algo.setAcscNetwork(faultNet);
 		algo.setDesc(faultIdStr);
 		PluginSpringCtx.getXml2ScAlgorithmMapper()

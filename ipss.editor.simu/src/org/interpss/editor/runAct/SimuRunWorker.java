@@ -96,7 +96,7 @@ public class SimuRunWorker extends Thread {
 			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Loadflow");
 
 			boolean converge = EditorSimuSpringCtx.getAclfRunForm()
-					.runCase(simuCtx, simuCtx.getMsgHub());
+					.runCase(simuCtx);
 			appSimuCtx.setLfConverged(converge);
 
 			appStatus.busyStop("Run AC Loadflow Analysis finished");
@@ -111,7 +111,7 @@ public class SimuRunWorker extends Thread {
 					"Run Contingency Analysis ...", "Run Contingency Analysis");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Contingency Analysis");
 
-			EditorSimuSpringCtx.getAclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
+			EditorSimuSpringCtx.getAclfRunForm().runCase(simuCtx);
 
 			appStatus.busyStop("Run Contingency Analysis finished");
 		}
@@ -121,8 +121,7 @@ public class SimuRunWorker extends Thread {
 			IpssLogger.getLogger().info(
 					"SimuRunWorker starts Run AC Short Circuit");
 
-			EditorSimuSpringCtx.getAcscRunForm().runCase(simuCtx,
-					simuCtx.getMsgHub());
+			EditorSimuSpringCtx.getAcscRunForm().runCase(simuCtx);
 
 			appStatus.busyStop("Run AC Short Circuit Analysis finished");
 
@@ -139,9 +138,9 @@ public class SimuRunWorker extends Thread {
 
 			DStabRunForm runForm = EditorSimuSpringCtx.getDStabRunForm();
 			if (runForm.getXmlGridData() != null && runForm.getXmlGridData().isEnableGridRun())
-				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
+				runForm.runGridCase(simuCtx);
 			else
-				runForm.runCase(simuCtx, simuCtx.getMsgHub());
+				runForm.runCase(simuCtx);
 
 			appStatus.busyStop("Run Transient Stability Simulation finished");
 		} else if (this.runType == SimuRunEnum.Scripts) {
@@ -161,7 +160,7 @@ public class SimuRunWorker extends Thread {
 							.javac(CoreScriptUtilFunc.RunCaseScriptingPackageName
 											+ "/" + classname, javacode);
 					// run the custom scripts
-					if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
+					if (runner.runCase(simuCtx))
 						runner.displaySummaryResult(simuCtx);
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
@@ -199,7 +198,7 @@ public class SimuRunWorker extends Thread {
 					"Run Sensitivity Analysis ...", "Run SenAnalysis");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Sensitivity Analysis");
 
-			EditorSimuSpringCtx.getDclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
+			EditorSimuSpringCtx.getDclfRunForm().runCase(simuCtx);
 
 			appStatus.busyStop("Run AC Loadflow Analysis finished");
 		}

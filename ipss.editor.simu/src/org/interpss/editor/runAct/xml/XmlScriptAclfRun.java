@@ -46,7 +46,6 @@ import org.interpss.xml.schema.RuleBaseXmlType;
 import org.interpss.xml.schema.RunAclfStudyCaseXmlType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -70,7 +69,7 @@ public class XmlScriptAclfRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet, IPSSMsgHub msg) {
+	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet) {
 		RunAclfStudyCaseXmlType xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
 			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
@@ -85,7 +84,7 @@ public class XmlScriptAclfRun {
 		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCase().size() == 1) {
 			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCase().get(0);
 			RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
-			if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase,	applyRuleBase, gridRun, timeout, msg));
+			if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase,	applyRuleBase, gridRun, timeout));
 				return false;
 		} 
 		else {
@@ -111,7 +110,7 @@ public class XmlScriptAclfRun {
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 				// map to the Algo object including network modification at the study case level
 				//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
-				if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
+				if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, reJobCreation))
 					return false;
 
 				try {
@@ -180,10 +179,10 @@ public class XmlScriptAclfRun {
 	}
 
 	private static boolean aclfSingleRun(AclfNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
-				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
+				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout) {
 		//IpssMapper mapper = PluginSpringCtx.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
-		if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, false, msg))
+		if (!XmlScriptUtilFunc.mapAclfStudyCase(xmlCase, algo, xmlDefaultAlgo, false))
 			return false;
 
 		if (gridRun) {

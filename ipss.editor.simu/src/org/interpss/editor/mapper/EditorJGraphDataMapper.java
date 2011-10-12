@@ -44,7 +44,7 @@ import com.interpss.spring.CoreCommonSpringCtx;
  */
 
 public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, SimuContext> {
-
+	private IPSSMsgHub msg = null;
 	public EditorJGraphDataMapper(IPSSMsgHub msg) {
 		this.msg = msg;
 	}
