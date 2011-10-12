@@ -9,9 +9,9 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.Interface;
-import com.interpss.core.aclf.InterfaceBranch;
-import com.interpss.core.aclf.InterfaceLimit;
+import com.interpss.core.aclf.FlowInterface;
+import com.interpss.core.aclf.FlowInterfaceBranch;
+import com.interpss.core.aclf.FlowInterfaceLimit;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
@@ -22,23 +22,23 @@ import com.interpss.simu.SimuObjectFactory;
 public class IEEE14InterfaceCaseTest  extends PluginTestSetup {
 	@Test
 	public void runTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-		Interface inf = CoreObjectFactory.createInterface(net, "interface");
+		FlowInterface inf = CoreObjectFactory.createInterface(net, "interface");
 		
-		InterfaceLimit onPeak = CoreObjectFactory.createInterfaceLimit();
+		FlowInterfaceLimit onPeak = CoreObjectFactory.createInterfaceLimit();
 		inf.setOnPeakLimit(onPeak);
 		onPeak.setRefDirExportLimit(1.0);
 		onPeak.setOppsiteRefDirImportLimit(-1.0);
 		
-		InterfaceLimit offPeak = CoreObjectFactory.createInterfaceLimit();
+		FlowInterfaceLimit offPeak = CoreObjectFactory.createInterfaceLimit();
 		inf.setOffPeakLimit(offPeak);
 		offPeak.setRefDirExportLimit(0.5);
 		offPeak.setOppsiteRefDirImportLimit(-0.5);
 		
-		InterfaceBranch b = CoreObjectFactory.createInterfaceBranch(inf);
+		FlowInterfaceBranch b = CoreObjectFactory.createInterfaceBranch(inf);
 		b.setAclfBranch(net.getAclfBranch("0004", "0007", "1"));
 		b.setWeight(1.0);
 		

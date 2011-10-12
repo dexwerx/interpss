@@ -53,8 +53,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile("testData/bpa/07c-dc2load.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!new ODMAclfDataMapper(msg)
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
+		if (!new ODMAclfDataMapper()
 					.map2Model(parser, simuCtx)) {
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;
@@ -82,8 +82,8 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		IODMAdapter adapter = new BPAAdapter();
 		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615_notBE.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!new ODMAclfDataMapper(msg)
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
+		if (!new ODMAclfDataMapper()
 					.map2Model(parser, simuCtx)) {
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;
@@ -133,7 +133,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		out.flush();
 		out.close();
 		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
 			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
@@ -199,7 +199,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 			if (!new ODMDStabDataMapper(msg)
 						.map2Model(parser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
@@ -315,8 +315,9 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-			if (!new ODMAclfDataMapper(msg).map2Model(parser, simuCtx)) {
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
+			if (!new ODMAclfDataMapper()
+						.map2Model(parser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 				return;
 			}

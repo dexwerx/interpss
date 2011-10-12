@@ -26,7 +26,7 @@ import com.interpss.simu.multicase.result.AclfBusResultRec;
 public class ContingencyXmlCaseTest extends PluginTestSetup {
 	//@Test
 	public void simpleCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
 
@@ -83,7 +83,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	
 	//@Test
 	public void ieee14BusCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
 
@@ -122,7 +122,7 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	
 	//@Test
 	public void ieee14BusRuleSetCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_NETWORK, simuCtx.getAclfNet());
 

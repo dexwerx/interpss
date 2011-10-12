@@ -51,7 +51,7 @@ public class IEEE22ModelTest extends DStabTestSetupBase {
 	public void test_Case1() {
 		System.out.println("\nBegin TestIEEE22ModelCase Case1");
 
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		loadCaseData("testData/dstab_test/ieee2-2Model.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();

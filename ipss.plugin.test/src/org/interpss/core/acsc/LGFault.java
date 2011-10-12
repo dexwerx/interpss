@@ -19,7 +19,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class LGFault  extends PluginTestSetup {
 	@Test
 	public void lg() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET);
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 	  	AcscNetwork faultNet = simuCtx.getAcscNet();
@@ -52,7 +52,7 @@ public class LGFault  extends PluginTestSetup {
 
 	@Test
 	public void llg() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET);
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 		AcscNetwork faultNet = simuCtx.getAcscNet();
@@ -86,7 +86,7 @@ public class LGFault  extends PluginTestSetup {
 
 	@Test
 	public void ll() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET);
 		loadCaseData("testData/support/Fitesa_1.ipss", simuCtx);
 		
 		AcscNetwork faultNet = simuCtx.getAcscNet();

@@ -32,7 +32,7 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	
 	// change 0 -> (n-1) : @Test
 	public void runSingleAclfCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet());

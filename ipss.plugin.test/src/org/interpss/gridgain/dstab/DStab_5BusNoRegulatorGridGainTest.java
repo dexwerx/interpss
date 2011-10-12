@@ -45,7 +45,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class DStab_5BusNoRegulatorGridGainTest extends GridBaseTestSetup {
 	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		loadCaseData("testData/dstab_test/DStab-5BusNoReg.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();

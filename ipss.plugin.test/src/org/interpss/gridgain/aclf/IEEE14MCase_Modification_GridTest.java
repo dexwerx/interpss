@@ -62,7 +62,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * step-1 Build the base case
 		 */
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -152,7 +152,7 @@ public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 		/*
 		 * step-1 Build the base case
 		 */
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

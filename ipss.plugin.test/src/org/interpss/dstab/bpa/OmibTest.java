@@ -57,7 +57,7 @@ public class OmibTest extends DStabTestSetupBase{
 		out.flush();
 		out.close();
 
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
 			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
@@ -111,7 +111,7 @@ public class OmibTest extends DStabTestSetupBase{
 			if (parser.parse(new FileInputStream(file))) {
 				//System.out.println(parser.toXmlDoc(false));
 
-				SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+				SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 				if (!new ODMDStabDataMapper(msg)
 							.map2Model(parser, simuCtx)) {
 					System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");

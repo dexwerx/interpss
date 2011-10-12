@@ -49,7 +49,7 @@ public class IEEE12ModelTest extends DStabTestSetupBase {
 	
 	@Test
 	public void test_Case1() {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		loadCaseData("testData/dstab_test/ieee1-2Model.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();

@@ -41,7 +41,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class PDCBook_2_11_Test  extends PluginTestSetup { 
 	@Test
 	public void lfTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DISTRIBUTE_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DISTRIBUTE_NET);
 		loadCaseData("testData/geditor/dist/PDCBook_2-11.ipss", simuCtx);
 		
 	  	DistNetwork distNet = simuCtx.getDistNet();		

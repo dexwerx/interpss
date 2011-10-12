@@ -55,7 +55,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	// set remote and master node id
     	AclfSingleJobTask.RemoteNodeId = nodeId;
 
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -86,7 +86,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	// set remote and master node id
     	AclfSingleJobTask.RemoteNodeId = nodeId;
 
-    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+    	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

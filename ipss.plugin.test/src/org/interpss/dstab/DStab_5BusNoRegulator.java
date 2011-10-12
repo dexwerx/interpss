@@ -50,7 +50,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		loadCaseData("testData/dstab_test/DStab-5BusNoReg.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
@@ -98,7 +98,7 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 			if (!new ODMDStabDataMapper(msg)
 						.map2Model(parser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");

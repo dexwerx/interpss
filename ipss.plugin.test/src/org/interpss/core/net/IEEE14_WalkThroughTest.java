@@ -21,7 +21,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class IEEE14_WalkThroughTest  extends PluginTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

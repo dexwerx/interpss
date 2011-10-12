@@ -27,15 +27,12 @@ package org.interpss.contigency;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.PluginTestSetup;
 import org.interpss.display.ContingencyOutFunc;
-import org.interpss.xml.IpssXmlHelper;
-import org.interpss.xml.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
-import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -47,7 +44,7 @@ import com.interpss.simu.multicase.modify.BranchModification;
 public class N11Analysis_IEEE14BusTest extends PluginTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -66,7 +63,7 @@ public class N11Analysis_IEEE14BusTest extends PluginTestSetup {
 	
 	//@Test
 	public void sample1Test() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();

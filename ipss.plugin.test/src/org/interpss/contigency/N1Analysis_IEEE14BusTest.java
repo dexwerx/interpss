@@ -44,7 +44,7 @@ import com.interpss.simu.multicase.modify.BranchModification;
 public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -62,7 +62,7 @@ public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 	
 	@Test
 	public void qImplTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		AclfNetwork net = simuCtx.getAclfNet();

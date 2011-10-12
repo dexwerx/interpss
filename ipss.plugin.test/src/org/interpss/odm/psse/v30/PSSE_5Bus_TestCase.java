@@ -46,8 +46,8 @@ public class PSSE_5Bus_TestCase extends PluginTestSetup {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//parser.stdout();
 		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-		if (!new ODMAclfDataMapper(msg)
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
+		if (!new ODMAclfDataMapper()
 					.map2Model(parser, simuCtx)) {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;

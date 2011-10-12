@@ -19,7 +19,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class Acsc5Bus  extends PluginTestSetup {
 	@Test
 	public void lg() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET);
 		loadCaseData("testData/geditor/acsc/Acsc5Bus.ipss", simuCtx);
 		
 	  	AcscNetwork faultNet = simuCtx.getAcscNet();

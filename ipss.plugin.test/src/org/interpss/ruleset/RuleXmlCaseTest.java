@@ -52,7 +52,7 @@ import com.interpss.simu.SimuObjectFactory;
 public class RuleXmlCaseTest extends PluginTestSetup {
 	@Test
 	public void runAclfProtectCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14BusProtect.ipss", simuCtx);
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
@@ -97,7 +97,7 @@ public class RuleXmlCaseTest extends PluginTestSetup {
 
 	//@Test
 	public void run3WXfrOffCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
@@ -149,7 +149,7 @@ public class RuleXmlCaseTest extends PluginTestSetup {
 
 	//@Test
 	public void run3WXfrOffAnotherApproachCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		File xmlFile = new File("testData/xml/ruleset/IEEE14Bus_W3XfrOff.xml");

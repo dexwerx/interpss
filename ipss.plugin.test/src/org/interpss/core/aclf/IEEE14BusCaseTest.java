@@ -23,7 +23,7 @@ import com.interpss.simu.util.sample.SampleCases;
 public class IEEE14BusCaseTest  extends PluginTestSetup {
 	//@Test
 	public void run3WXfrOffCase() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE14Bus_3WXfrOff.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -40,7 +40,7 @@ public class IEEE14BusCaseTest  extends PluginTestSetup {
 
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();

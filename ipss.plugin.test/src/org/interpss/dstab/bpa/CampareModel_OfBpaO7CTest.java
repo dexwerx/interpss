@@ -35,8 +35,8 @@ public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 		if (aclfParser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
-			if (!new ODMAclfDataMapper(msg).map2Model(aclfParser, simuCtx)) {
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
+			if (!new ODMAclfDataMapper().map2Model(aclfParser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 				return;
 			}
@@ -49,7 +49,7 @@ public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 		if (dstabParser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 			if (!new ODMDStabDataMapper(msg)
 						.map2Model(dstabParser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");

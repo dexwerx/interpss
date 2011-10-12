@@ -58,7 +58,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-  		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+  		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		loadCaseData("testData/dstab_test/ieee1-1Model.ipss", simuCtx);
 		
 		//System.out.println(net.net2String());

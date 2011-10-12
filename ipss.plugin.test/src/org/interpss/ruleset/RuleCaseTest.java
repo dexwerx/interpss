@@ -130,7 +130,7 @@ public class RuleCaseTest extends PluginTestSetup {
 		RuleBase base = SimuObjectFactory.createRuleBase();
 		base.add(set);
 */		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
 		loadCaseData("testData/aclf/IEEE-14BusProtect.ipss", simuCtx);
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfNet());
