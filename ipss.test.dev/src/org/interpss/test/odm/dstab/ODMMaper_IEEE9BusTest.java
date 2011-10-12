@@ -27,7 +27,7 @@ public class ODMMaper_IEEE9BusTest  extends DevTestSetup{
 		DStabModelParser parser = (DStabModelParser)adapter.getModel();
 		
 		parser.stdout();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		if (!new ODMDStabDataMapper(msg)
 					.map2Model(parser, simuCtx)) {
 			System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
