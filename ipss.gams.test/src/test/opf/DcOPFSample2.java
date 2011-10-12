@@ -71,8 +71,8 @@ public class DcOPFSample2 {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 				
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
-			if (!new ODMOpfDataMapper(msg)
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET);
+			if (!new ODMOpfDataMapper()
 						.map2Model(parser, simuCtx)) {
 		  		throw new Exception("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			}	
