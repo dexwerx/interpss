@@ -47,31 +47,32 @@ import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.pssl.simu.IpssAclf;
+import com.interpss.pssl.simu.IpssAclfNet;
 
 
 public class SampleLoadflow {
 
 	public static void set2BusNetworkData(AclfNetwork net, IPSSMsgHub msg) {
-		IpssAclf.addAclfBus("Bus1", "Bus 1", net)
+		IpssAclfNet.addAclfBus("Bus1", "Bus 1", net)
 				.setBaseVoltage(4000.0)
 				.setGenCode(AclfGenCode.SWING)
 				.setVoltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg)
 				.setLoadCode(AclfLoadCode.NON_LOAD);
   		
-		IpssAclf.addAclfBus("Bus2", "Bus 2", net)
+		IpssAclfNet.addAclfBus("Bus2", "Bus 2", net)
   				.setBaseVoltage(4000.0)
   				.setGenCode(AclfGenCode.NON_GEN)
   				.setLoadCode(AclfLoadCode.CONST_P)
   				.setLoad(new Complex(1.0, 0.8), UnitType.PU);
   		
-		IpssAclf.addAclfBranch("Bus1", "Bus2", "Branch 1", net)
+		IpssAclfNet.addAclfBranch("Bus1", "Bus2", "Branch 1", net)
 				.setBranchCode(AclfBranchCode.LINE)
 				.setZ(new Complex(0.05, 0.1), UnitType.PU);
 	}	
 	
 	public static void simpleLoadflow(IPSSMsgHub msg) {
 		// Create an AclfNetwork object
-		AclfNetwork net = IpssAclf.createAclfNetwork("Net")
+		AclfNetwork net = IpssAclfNet.createAclfNetwork("Net")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 
@@ -93,7 +94,7 @@ public class SampleLoadflow {
 
 	public static void loadflowWithAdjustment(IPSSMsgHub msg) {
 		// Create an AclfAdjNetwork object
-		AclfNetwork net = IpssAclf.createAclfNetwork("Net")
+		AclfNetwork net = IpssAclfNet.createAclfNetwork("Net")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 

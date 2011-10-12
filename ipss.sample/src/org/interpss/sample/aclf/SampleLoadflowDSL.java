@@ -34,45 +34,46 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.simu.IpssAclf;
+import com.interpss.pssl.simu.IpssAclfNet;
 
 
 public class SampleLoadflowDSL {
 	public static void main(String args[]) {
-		AclfNetwork net = IpssAclf.createAclfNetwork("Sample AclfNetwork")
+		AclfNetwork net = IpssAclfNet.createAclfNetwork("Sample AclfNetwork")
 				.setBaseKva(100000.0)
 				.getAclfNet();
 
-		IpssAclf.addAclfBus("Bus3", "Bus 3", net)
+		IpssAclfNet.addAclfBus("Bus3", "Bus 3", net)
 				.setBaseVoltage(100000.0)
 				.setGenCode(AclfGenCode.SWING)
 				.setVoltageSpec(0.90, UnitType.PU, 0.0, UnitType.Deg)
 				.setLoadCode(AclfLoadCode.NON_LOAD);
 	
-		IpssAclf.addAclfBus("Bus2", "Bus 2", net)
+		IpssAclfNet.addAclfBus("Bus2", "Bus 2", net)
 				.setBaseVoltage(100000.0)
 				.setGenCode(AclfGenCode.NON_GEN)
 				.setLoadCode(AclfLoadCode.NON_LOAD);
 				
 		
-		IpssAclf.addAclfBus("Bus1", "Bus 1", net)
+		IpssAclfNet.addAclfBus("Bus1", "Bus 1", net)
 		        .setBaseVoltage(100000.0)
 		        .setGenCode(AclfGenCode.NON_GEN)
 		        .setLoadCode(AclfLoadCode.CONST_P)
 		        .setLoad(new Complex(1.998, 2.96591), UnitType.PU);
 	  
-		IpssAclf.addAclfBranch("Bus2", "Bus1", "Branch 2", net)
+		IpssAclfNet.addAclfBranch("Bus2", "Bus1", "Branch 2", net)
 				.setBranchCode(AclfBranchCode.LINE)
 				.setZ(new Complex(0.00, 0.93), UnitType.PU);
 		
-		IpssAclf.addAclfBranch("Bus2", "Bus1", "Branch 3", net)
+		IpssAclfNet.addAclfBranch("Bus2", "Bus1", "Branch 3", net)
 		        .setBranchCode(AclfBranchCode.LINE)
 		        .setZ(new Complex(0.00, 0.5), UnitType.PU);
 		
-		IpssAclf.addAclfBranch("Bus3", "Bus2", "Branch 2", net)
+		IpssAclfNet.addAclfBranch("Bus3", "Bus2", "Branch 2", net)
 		        .setBranchCode(AclfBranchCode.LINE)
 		        .setZ(new Complex(0.00, 0.15), UnitType.PU);
 	  	// create the default loadflow algorithm
-	  	IpssAclf.createLoadflowAlgorithm(net)
+	  	IpssAclf.createAlgo(net)
 	  			.setLfMethod(AclfMethod.NR)
 	  			.setTolerance(0.0001, UnitType.PU)
 	  			.runLoadflow();
