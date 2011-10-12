@@ -23,8 +23,8 @@ public class ODM2OpfMapperTest extends OpfTestSetup {
 		OpfModelParser parser = ODMObjectFactory.createOpfModelParser();
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
-			new ODMOpfDataMapper(msg)
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET);
+			new ODMOpfDataMapper()
 					.map2Model(parser, simuCtx);
 			OpfNetwork opfnet=simuCtx.getOpfNet();
 			System.out.print(opfnet.net2String());

@@ -38,8 +38,6 @@ import org.interpss.opf.dc.util.OpfOutFunc;
 import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
-import com.interpss.core.net.Bus;
-import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -53,8 +51,8 @@ public class OpfSample  extends OpfTestSetup {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 			
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
-			if (!new ODMOpfDataMapper(msg)
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET);
+			if (!new ODMOpfDataMapper()
 						.map2Model(parser, simuCtx)) {
 	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 	  	  		return;
@@ -98,8 +96,8 @@ public class OpfSample  extends OpfTestSetup {
 		if (parser.parse(new FileInputStream(file))) {
 			//System.out.println(parser.toXmlDoc(false));
 			
-			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET, msg);
-			if (!new ODMOpfDataMapper(msg)
+			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET);
+			if (!new ODMOpfDataMapper()
 						.map2Model(parser, simuCtx)) {
 	  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 	  	  		return;
