@@ -34,6 +34,7 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.FlowInterface;
+import com.interpss.core.aclf.FlowInterfaceLimit;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
@@ -339,24 +340,25 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String interfaceFlowReport(AclfNetwork net, boolean violation) {
+	public static String interfaceFlowReport(AclfNetwork net, boolean offPeak, boolean violationReport) {
 		StringBuffer buffer = new StringBuffer();
-		if (violation) 
+		if (violationReport) 
 			buffer.append("                Flow Interface Violation Report\n\n");
 		
 		buffer.append("          Interface           Flow(pu)    Direction     Limit\n");
 		buffer.append("    ============================================================\n");
 		for (FlowInterface inf : net.getInterfaceList()) {
+			FlowInterfaceLimit limit = offPeak? inf.getOffPeakLimit() : inf.getOnPeakLimit(); 
 			if (inf.flowExport() > 0.0) {
 				double f = inf.flowExport();
-				double l = inf.getOnPeakLimit().getRefDirExportLimit();
-				if (!violation || Math.abs(f) > Math.abs(l))
+				double l = limit.getRefDirExportLimit();
+				if (!violationReport || Math.abs(f) > Math.abs(l))
 					buffer.append(String.format("     %-25s %7.2f      Export    %7.2f\n", inf.getId(), f, l));
 			}
 			else {
 				double f = -inf.flowImport();
-				double l = -inf.getOnPeakLimit().getOppsiteRefDirImportLimit();
-				if (!violation || Math.abs(f) > Math.abs(l))
+				double l = -limit.getOppsiteRefDirImportLimit();
+				if (!violationReport || Math.abs(f) > Math.abs(l))
 					buffer.append(String.format("     %-25s %7.2f      Import    %7.2f\n", inf.getId(), f, l));
 			}
 		}		
