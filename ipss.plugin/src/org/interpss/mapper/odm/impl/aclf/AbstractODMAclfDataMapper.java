@@ -141,6 +141,13 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 				FlowInterfaceBranch branch = CoreObjectFactory.createInterfaceBranch(intf);
 				AclfBranch b = net.getAclfBranch(xmlBra.getFromBusId(), xmlBra.getToBusId(), xmlBra.getCircuitId());
 				if (b == null) {
+					b = net.getAclfBranch(xmlBra.getToBusId(), xmlBra.getFromBusId(), xmlBra.getCircuitId());
+					branch.setBranchDir(false);
+				}
+				else
+					branch.setBranchDir(true);
+				
+				if (b == null) {
 					IpssLogger.getLogger().severe("Branch in the interface not found, " +
 							xmlBra.getFromBusId() + ", " + xmlBra.getToBusId() + ", " + xmlBra.getCircuitId());
 				}
