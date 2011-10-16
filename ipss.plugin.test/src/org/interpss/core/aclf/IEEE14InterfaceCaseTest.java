@@ -41,14 +41,17 @@ public class IEEE14InterfaceCaseTest  extends PluginTestSetup {
 		FlowInterfaceBranch b = CoreObjectFactory.createInterfaceBranch(inf);
 		b.setAclfBranch(net.getAclfBranch("0004", "0007", "1"));
 		b.setWeight(1.0);
+		b.setBranchDir(true);
 		
 		b = CoreObjectFactory.createInterfaceBranch(inf);
 		b.setAclfBranch(net.getAclfBranch("0004", "0009", "1"));
 		b.setWeight(1.0);
+		b.setBranchDir(true);
 
 		b = CoreObjectFactory.createInterfaceBranch(inf);
 		b.setAclfBranch(net.getAclfBranch("0005", "0006", "1"));
 		b.setWeight(1.0);
+		b.setBranchDir(true);
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
