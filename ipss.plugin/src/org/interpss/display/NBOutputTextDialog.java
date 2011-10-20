@@ -45,8 +45,8 @@ import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.ui.WinUtilities;
 
 import com.interpss.QA.QAObjectFactory;
-import com.interpss.QA.rfile.QAFileReader;
 import com.interpss.QA.rfile.IQAFileProcessor;
+import com.interpss.QA.rfile.QAFileReader;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
