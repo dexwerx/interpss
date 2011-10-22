@@ -13,7 +13,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_jgraph.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor_ui.jar"/>
