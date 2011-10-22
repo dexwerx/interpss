@@ -66,4 +66,14 @@ public class DateTimeUtil {
 	public static boolean within(String dateStr, String beginStr, String endStr) throws ParseException {
 		return within(df.parse(dateStr), df.parse(beginStr), df.parse(endStr));
 	}
+	
+	/**
+	 * format date to the format "8/18/2011"
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String formatDate(Date date) {
+		return date.getMonth() + "/" +  date.getDay() + "/" + date.getYear();
+	}	
 }
