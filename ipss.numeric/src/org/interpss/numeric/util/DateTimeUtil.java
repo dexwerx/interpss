@@ -74,6 +74,6 @@ public class DateTimeUtil {
 	 * @return
 	 */
 	public static String formatDate(Date date) {
-		return date.getMonth() + "/" +  date.getDay() + "/" + date.getYear();
+		return df.format(date);
 	}	
 }
