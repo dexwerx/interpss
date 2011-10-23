@@ -87,7 +87,7 @@
 
 	<complexType name="EDHourlyGenRecXmlType">
 		<sequence>
-			<element name="totalGenPM" type="double"></element>
+			<element name="totalGenMw" type="double"></element>
 			<element name="noOfGen" type="int"></element>
 			<element name="gen" type="pss:EDGenItemXmlType" maxOccurs="unbounded" minOccurs="0" />
 		</sequence>
