@@ -25,6 +25,7 @@
 package org.ieee.odm.model.modify;
 
 import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.schema.ContingencySetXmlType;
 import org.ieee.odm.schema.GenLoadModifyXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.OutageScheduleXmlType;
@@ -50,17 +51,21 @@ public class ModificationHelper {
 		return null;
 	}
 
+	private void addModifyRecord(ModifyRecordXmlType rec) {
+		if (this.parser.getStudyCase().getModificationList() == null) {
+			this.parser.getStudyCase().setModificationList(this.parser.getFactory().createStudyCaseXmlTypeModificationList());
+		}
+		this.parser.getStudyCase().getModificationList().getModification().add(rec);
+	}
+	
 	/**
 	 * create an outage schedule modifyRecord
 	 * 
 	 * @return
 	 */
 	public OutageScheduleXmlType createOutageSchedule() {
-		if (this.parser.getStudyCase().getModificationList() == null) {
-			this.parser.getStudyCase().setModificationList(this.parser.getFactory().createStudyCaseXmlTypeModificationList());
-		}
 		OutageScheduleXmlType rec = this.parser.getFactory().createOutageScheduleXmlType();
-		this.parser.getStudyCase().getModificationList().getModification().add(rec);
+		addModifyRecord(rec);
 		return rec;
 	}
 
@@ -68,6 +73,21 @@ public class ModificationHelper {
 		return (OutageScheduleXmlType)getModifyRecord(id);
 	}
 
+	/**
+	 * create an ContingencySet modifyRecord
+	 * 
+	 * @return
+	 */
+	public ContingencySetXmlType createContingencySet() {
+		ContingencySetXmlType rec = this.parser.getFactory().createContingencySetXmlType();
+		addModifyRecord(rec);
+		return rec;
+	}
+
+	public ContingencySetXmlType getContingencySet(String id) {
+		return (ContingencySetXmlType)getModifyRecord(id);
+	}
+	
 	/**
 	 * create an outage schedule modifyRecord
 	 * 

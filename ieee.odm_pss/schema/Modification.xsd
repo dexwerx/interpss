@@ -64,8 +64,46 @@
 	</simpleType>
 	
 <!-- 
-	Scheduled Branch outage
-	======================= 
+	Contingency Analysis
+	==================== 
+ -->
+ 
+	<complexType name="ContingencySetXmlType">
+		<complexContent>
+			<extension base="pss:ModifyRecordXmlType">
+				<sequence>
+					<element name="contingency" type="pss:ContingencyXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ContingencyXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="contingencyBranch" type="pss:ContingencyBranchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+ 	<complexType name="ContingencyBranchXmlType">
+		<complexContent>
+			<extension base="pss:BaseBranchXmlType">
+				<sequence>
+					<element name="fromBusVoltage" type="double" minOccurs="0"></element>
+					<element name="toBusVoltage" type="double" minOccurs="0"></element>
+					<element name="fromBusNo" type="int" minOccurs="1"></element>
+                    <element name="toBusNo" type="int" minOccurs="1"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+<!-- 
+	EDispatch
+	========= 
  -->
 
 	<complexType name="GenLoadModifyXmlType">
