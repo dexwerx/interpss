@@ -2,12 +2,23 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
    xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
+   xmlns:pss.unit="http://www.ieee.org/odm/Schema/2008/unit#" 
    elementFormDefault="qualified">
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
-	
+<!-- 
+	<simpleType name="ApparentPowerUnitType">
+		<restriction base="anyURI">
+			<enumeration value="pss.unit:ApparentPower.PU"></enumeration>
+			<enumeration value="pss.unit:ApparentPower.VA"></enumeration>
+			<enumeration value="pss.unit:ApparentPower.KVA"></enumeration>
+			<enumeration value="pss.unit:ApparentPower.MVA"></enumeration>
+		</restriction>
+	</simpleType>
+ -->	
+
 	<simpleType name="ApparentPowerUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
