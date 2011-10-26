@@ -12,6 +12,11 @@
 	</annotation>
 		
 	<complexType name="ModifyRecordXmlType" abstract="true">
+		<annotation><documentation>
+			Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved 
+			using the record id. ModifyRecordXmlType is an abstract type. All modification record types are sub-type
+			of ModifyRecordXmlType.
+		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:IDRecordXmlType"></extension>
 		</complexContent>
