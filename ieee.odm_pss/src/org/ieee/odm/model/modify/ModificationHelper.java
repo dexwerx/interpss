@@ -87,18 +87,15 @@ public class ModificationHelper {
 	public ContingencySetXmlType getContingencySet(String id) {
 		return (ContingencySetXmlType)getModifyRecord(id);
 	}
-	
+
 	/**
-	 * create an outage schedule modifyRecord
+	 * create a GenLoadModify modification record
 	 * 
 	 * @return
 	 */
 	public GenLoadModifyXmlType createGenLoadModify() {
-		if (this.parser.getStudyCase().getModificationList() == null) {
-			this.parser.getStudyCase().setModificationList(this.parser.getFactory().createStudyCaseXmlTypeModificationList());
-		}
 		GenLoadModifyXmlType rec = this.parser.getFactory().createGenLoadModifyXmlType();
-		this.parser.getStudyCase().getModificationList().getModification().add(rec);
+		addModifyRecord(rec);
 		return rec;
 	}
 

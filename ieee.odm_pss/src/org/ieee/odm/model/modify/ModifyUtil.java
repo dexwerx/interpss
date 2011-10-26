@@ -28,6 +28,13 @@ import org.ieee.odm.schema.ContingencySetXmlType;
 import org.ieee.odm.schema.ContingencyXmlType;
 
 public class ModifyUtil {
+	/**
+	 * get contingency from the contingency set
+	 * 
+	 * @param id
+	 * @param conSet
+	 * @return
+	 */
 	public static ContingencyXmlType getContingency(String id, ContingencySetXmlType conSet) {
 		for (ContingencyXmlType c : conSet.getContingency())
 			if (id.equals(c.getId()))
