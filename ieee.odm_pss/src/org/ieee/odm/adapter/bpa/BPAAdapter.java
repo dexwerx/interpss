@@ -33,13 +33,11 @@ import org.ieee.odm.adapter.bpa.dynamic.BPADynamicRecord;
 import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
 import org.ieee.odm.adapter.bpa.lf.BPALoadflowRecord;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.interpss.numeric.util.PerformanceTimer;
 
 /**
  * BPA adapter is design to handle Loadflow data file and Loadflow+TransienStability data files

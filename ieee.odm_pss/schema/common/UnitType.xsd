@@ -2,7 +2,6 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
    xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
-   xmlns:pss.unit="http://www.ieee.org/odm/Schema/2008/unit#" 
    elementFormDefault="qualified">
 
 	<annotation>

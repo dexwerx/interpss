@@ -29,7 +29,6 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
-import org.interpss.numeric.util.PerformanceTimer;
 
 public class BPADynamicRecord {	
 	private final static int header=1;
