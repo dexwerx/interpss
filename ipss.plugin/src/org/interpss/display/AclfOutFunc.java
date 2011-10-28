@@ -234,25 +234,31 @@ public class AclfOutFunc {
 	}
 
 	public static String loadFlowSummary(AclfNetwork net) {
+		return loadFlowSummary(net, true);
+	}
+	
+	public static String loadFlowSummary(AclfNetwork net, boolean includeAdj) {
 		StringBuffer str = new StringBuffer(_loadFlowSummary((AclfNetwork) net));
 		try {
-			if (net.hasPVBusLimit())
-				str.append(pvBusLimitToString(net));
+			if (includeAdj) {
+				if (net.hasPVBusLimit())
+					str.append(pvBusLimitToString(net));
 
-			if (net.hasPQBusLimit())
-				str.append(pqBusLimitToString(net));
+				if (net.hasPQBusLimit())
+					str.append(pqBusLimitToString(net));
 
-			if (net.hasRemoteQBus())
-				str.append(remoteQBusToString(net));
+				if (net.hasRemoteQBus())
+					str.append(remoteQBusToString(net));
 
-			if (net.hasFunctionLoad())
-				str.append(aclfFuncLoadToString(net));
+				if (net.hasFunctionLoad())
+					str.append(aclfFuncLoadToString(net));
 
-			if (net.hasTapControl())
-				str.append(tapVControlToString(net));
+				if (net.hasTapControl())
+					str.append(tapVControlToString(net));
 
-			if (net.hasPSXfrPControl())
-				str.append(psXfrPControlToString(net));
+				if (net.hasPSXfrPControl())
+					str.append(psXfrPControlToString(net));
+			}
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
