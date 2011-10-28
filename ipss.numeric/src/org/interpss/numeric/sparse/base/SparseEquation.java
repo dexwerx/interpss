@@ -105,6 +105,12 @@ public interface SparseEquation {
 	void setB2Unit(final int i);
 	
 	/**
+	 * Set all b elements to 0.0
+	 * 
+	 */
+	void setB2Zero();
+
+	/**
 	 * Reset the matrix to zero - set all aii and bi to 0.0 and clear the sparse structure,
 	 * and release memory if necessary
 	 * 

@@ -75,6 +75,11 @@ public class AbstractSparseEquation implements SparseEquation {
 	}
 
 	@Override
+	public void setB2Zero() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void setDimension(int n) {
 		this.dimenstion = n;
 	}
