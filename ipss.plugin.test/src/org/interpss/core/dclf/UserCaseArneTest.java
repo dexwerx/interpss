@@ -26,7 +26,7 @@ public class UserCaseArneTest extends PluginTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(createTestNet())
 					.runDclfAnalysis(true);
 
-		System.out.println(DclfOutFunc.dclfResults(algoDsl.algo()));
+		System.out.println(DclfOutFunc.dclfResults(algoDsl.algo(), false));
 	}
 	
 	private AclfNetwork createTestNet() {

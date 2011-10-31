@@ -14,9 +14,8 @@ import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
 import org.junit.Test;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.core.dclf.SenAnalysisType;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
@@ -38,7 +37,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 		
 	  	IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
 	  	
-		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
 		assertTrue(algo.checkCondition());
 			
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCase().get(0);
