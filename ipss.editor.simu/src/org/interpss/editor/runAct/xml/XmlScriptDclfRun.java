@@ -41,7 +41,7 @@ import org.interpss.xml.schema.SensitivityDataType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.BusSenAnalysisType;
 import com.interpss.core.dclf.DclfAlgorithm;
@@ -60,7 +60,7 @@ public class XmlScriptDclfRun {
 		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDclfStudyCase() != null) {
 			RunDclfStudyCaseXmlType xmlRunDclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDclfStudyCase();
 
-			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(aclfNet);
+			DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(aclfNet);
 			if (!algo.checkCondition())
 				return false;
 
@@ -86,7 +86,7 @@ public class XmlScriptDclfRun {
 
 				if (xmlCase.isCaculatelDclf()) {
 					algo.calculateDclf();
-					String str = DclfOutFunc.dclfResults(algo);
+					String str = DclfOutFunc.dclfResults(algo, false);
 					dialog.appendText(str);
 				}
 

@@ -25,5 +25,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dcSen_EMF"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

@@ -42,7 +42,7 @@ import org.jgraph.JGraph;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.ISimuCaseRunner;
@@ -181,7 +181,7 @@ public class SimuRunWorker extends Thread {
 
 			AclfNetwork net = simuCtx.getAclfNet();
 			// create DCLoadflow Algorithm object
-			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net);
+			DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 			// run DCLoadflow to calculate bus voltage angle
 			if (!algo.checkCondition())
 				return;
@@ -189,7 +189,7 @@ public class SimuRunWorker extends Thread {
 
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("DC Loadflow Analysis Info");
-			dialog.display(DclfOutFunc.dclfResults(algo));
+			dialog.display(DclfOutFunc.dclfResults(algo, false));
 
 			appStatus.busyStop("Run DC Loadflow Analysis finished");
 		}

@@ -50,7 +50,7 @@ import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.SimuContext;
 
@@ -1906,7 +1906,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void ptdfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfCalculateButtonActionPerformed
     	this.parent.setAlwaysOnTop(false);
-    	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
+    	DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
     	_simuCtx.setDclfAlgorithm(algo);
     	if (!algo.checkCondition())
     		return;
@@ -2037,7 +2037,7 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atCalculateButtonActionPerformed
 	this.parent.setAlwaysOnTop(false);
-	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
+	DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
 	_simuCtx.setDclfAlgorithm(algo);
 	if (!algo.checkCondition())
 		return;
