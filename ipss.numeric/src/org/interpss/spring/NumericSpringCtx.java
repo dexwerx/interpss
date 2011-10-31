@@ -1,7 +1,7 @@
 /*
  * @(#)NumericSpringCtx.java   
  *
- * Copyright (C) 2006-2101 www.interpss.com
+ * Copyright (C) 2006-2011 www.interpss.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE

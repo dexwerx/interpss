@@ -1,7 +1,7 @@
  /*
-  * @(#)SparseEqnDoubleTest.java   
+  * @(#)RealMatrixTest.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  *  Copyright (C) 2006-2011 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -24,13 +24,10 @@
 
 package test.org.interpss;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.interpss.numeric.exp.IpssNumericException;
-import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 /**

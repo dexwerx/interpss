@@ -1,7 +1,7 @@
  /*
-  * @(#)SparseEqnDoubleTest.java   
+  * @(#) CommonMathSparseTest.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+ *  Copyright (C) 2006-2011 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
