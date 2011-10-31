@@ -45,6 +45,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -164,7 +165,7 @@ public class CmdLineRunner {
 				algo.loadflow();
 				runType = SimuRunEnum.Aclf;
 			} else if (runTypeStr != null && InterPSS.RunDclfStr.equals(runTypeStr)) {
-				DclfAlgorithm algo = CoreObjectFactory
+				DclfAlgorithm algo = DclfObjectFactory
 						.createDclfAlgorithm(simuCtx.getAclfNet());
 				simuCtx.setDclfAlgorithm(algo);
 				if (algo.checkCondition())
