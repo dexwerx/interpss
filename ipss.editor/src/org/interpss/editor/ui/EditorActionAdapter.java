@@ -25,6 +25,7 @@
 package org.interpss.editor.ui;
 
 import org.interpss.db.IpssDBCase;
+import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.ProjectFileUtil;
@@ -47,7 +48,6 @@ import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
-import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 
 import com.interpss.common.mapper.IMapping;
 import com.interpss.common.util.IpssLogger;
@@ -56,6 +56,7 @@ import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 import com.interpss.spring.CoreSpringCtx;
+import com.interpss.spring.DclfSpringCtx;
 
 public class EditorActionAdapter {
 	
@@ -113,7 +114,7 @@ public class EditorActionAdapter {
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		
-		simuCtx.setDclfAlgorithm(CoreSpringCtx.getDclfAlgorithm());
+		simuCtx.setDclfAlgorithm(DclfSpringCtx.getDclfAlgorithm());
 
 		try {
 			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.SenAnalysis,
@@ -144,7 +145,7 @@ public class EditorActionAdapter {
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		
-		simuCtx.setDclfAlgorithm(CoreSpringCtx.getDclfAlgorithm());
+		simuCtx.setDclfAlgorithm(DclfSpringCtx.getDclfAlgorithm());
 
 		try {
 			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.TradingAnalysis,
