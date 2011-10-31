@@ -95,7 +95,7 @@ public class DclfOutFunc {
 	 * @param algo
 	 * @return
 	 */
-	public static String dclfResults(DclfAlgorithm algo) {
+	public static String dclfResults(DclfAlgorithm algo, boolean branchViolation) {
 		StringBuffer str = new StringBuffer("\n\n");
 		str.append("      DC Loadflow Results\n\n");
 		str.append("   Bud Id       VoltAng(deg)     Gen/Load\n");
@@ -112,7 +112,7 @@ public class DclfOutFunc {
 					+ "\n");
 		}
 
-		str.append(branchFlow(algo, 0.0));
+		str.append(branchFlow(algo, branchViolation? 100.0 : 0.0));
 		
 		return str.toString();
 	}

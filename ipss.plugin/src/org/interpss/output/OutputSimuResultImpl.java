@@ -41,7 +41,7 @@ public class OutputSimuResultImpl implements IOutputSimuResult {
 
 	@Override
 	public boolean outDclfResult(DclfAlgorithm algo, String outFilename) {
-		FileUtil.writeText2File(outFilename, DclfOutFunc.dclfResults(algo));
+		FileUtil.writeText2File(outFilename, DclfOutFunc.dclfResults(algo, false));
 		return true;
 	}
 }
