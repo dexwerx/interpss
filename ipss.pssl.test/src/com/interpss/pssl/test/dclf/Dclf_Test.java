@@ -52,7 +52,7 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 				.runDclfAnalysis();
 
-		System.out.println(IpssUtil.outDclfResult(algoDsl)
+		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
 				.toString());		
 	}
 
@@ -66,7 +66,7 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.runAnalysis("testData/aclf/DclfRun.xml");
 
-		System.out.println(IpssUtil.outDclfResult(algoDsl)
+		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
 				.toString());		
 	}
 
