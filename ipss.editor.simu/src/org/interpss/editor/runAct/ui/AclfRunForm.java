@@ -176,7 +176,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	private boolean runLoadflow(DistNetwork distNet, SimuContext simuCtx) {
 		boolean converge = true;
-		if (distNet.getLoadNetData().getSchedulePoints() == 0) {
+		if (distNet.getLoadScheduleData().getSchedulePoints() == 0) {
 			distNet.setNameplateAclfNetData();
 			converge = runLoadflow_internal(distNet.getAcscNet(), simuCtx
 					.getLoadflowAlgorithm());
@@ -188,7 +188,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			}
 		} else {
 			double loss = 0.0;
-			for (int i = 0; i < distNet.getLoadNetData().getSchedulePoints(); i++) {
+			for (int i = 0; i < distNet.getLoadScheduleData().getSchedulePoints(); i++) {
 				distNet.setPointAclfNetData(i);
 				if (!runLoadflow_internal(distNet.getAcscNet(), simuCtx
 						.getLoadflowAlgorithm()))
@@ -203,7 +203,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				}
 			}
 
-			distNet.getLoadNetData().setTotalLossKwHr(loss);
+			distNet.getLoadScheduleData().setTotalLossKwHr(loss);
 			if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
 				IOutputTextDialog dialog = UISpringAppContext
 						.getOutputTextDialog("Distribution Loadflow Analysis Info");

@@ -95,7 +95,7 @@ public class ChartManager {
 			menu.addSeparator();
 			final IGBusForm bus = ((BusCell) cell).getBusForm();
 			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET
-					&& simuCtx.getDistNet().getLoadNetData()
+					&& simuCtx.getDistNet().getLoadScheduleData()
 							.getSchedulePoints() > 0
 					&& appSimuCtx.isLfConverged()) {
 				menu.add(new AbstractAction("Plot Load Curve") {
