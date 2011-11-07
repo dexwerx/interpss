@@ -34,11 +34,10 @@ public class DistOutFunc {
 	public static String lfSummary(DistNetwork distNet, IPSSMsgHub msg) {
 		StringBuffer str = new StringBuffer("");
 
-		for (int i = 0; i < distNet.getLoadNetData().getSchedulePoints(); i++) {
+		for (int i = 0; i < distNet.getLoadScheduleData().getSchedulePoints(); i++) {
 			str.append("\n\n                      ==========================");
-			str.append("\n                       Load Schedule Point: "
-					+ (i + 1));
-			str.append("\n                      ==========================");
+			str.append(  "\n                       Load Schedule Point: " + (i + 1));
+			str.append(  "\n                      ==========================");
 
 			// set bus voltage
 			distNet.setPointAclfNetData(i);

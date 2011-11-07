@@ -131,10 +131,10 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 
 		// multi-point load data
 		// if loadSchedulePoints = 0, no load schedule analysis
-		net.getLoadNetData().setSchedulePoints(netData.getLoadSchedulePoints());
-		net.getLoadNetData().setSchedulePeriodLength(
+		net.getLoadScheduleData().setSchedulePoints(netData.getLoadSchedulePoints());
+		net.getLoadScheduleData().setSchedulePeriodLength(
 				netData.getLoadSchedulePeriodLength());
-		net.getLoadNetData().setSchedulePeriodUnit(
+		net.getLoadScheduleData().setSchedulePeriodUnit(
 				netData.getLoadSchedulePeriodUnit());
 
 		// multi-point SC data
@@ -218,15 +218,15 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 				UnitType.toUnit(busData.getGround().getUnit()),
 				bus.getBaseVoltage(), distNet.getBaseKva());
 
-		if (distNet.getLoadNetData().getSchedulePoints() > 0
+		if (distNet.getLoadScheduleData().getSchedulePoints() > 0
 				&& busData.isHasLoadSchedule()) {
 			for (int i = 0; i < busData.getLoadScheduleList().size(); i++) {
 				/*
 				 * LoadScheduleList and PointVoltageList are EList
 				 */
 				Complex c = busData.getLoadSchedule(i);
-				bus.getLoadBusData().getLoadScheduleList().add(c);
-				bus.getLoadBusData().getPointVoltageList().add(
+				bus.getLoadScheduleData().getLoadScheduleList().add(c);
+				bus.getLoadScheduleData().getPointVoltageList().add(
 						new Complex(1.0, 0.0));
 			}
 		}
@@ -267,7 +267,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 			branch.setZUnit(UnitType.toUnit(branchData.getZUnit()));
 		branch.setHShuntY(new Complex(0.0, branchData.getHalfShuntB()));
 		branch.setHShuntY0(new Complex(0.0, branchData.getHalfShuntB0()));
-		branch.setShuntBUnit(UnitType.toUnit(branchData.getHalfShuntBUnit()));
+		branch.setShuntYUnit(UnitType.toUnit(branchData.getHalfShuntBUnit()));
 		branch.setLength(branchData.getLength());
 		branch.setLengthUnit(UnitType.toUnit(branchData.getLengthUnit()));
 		branch.setPrimaryTurnRatio(branchData.getXfrTapFromSideTap());
