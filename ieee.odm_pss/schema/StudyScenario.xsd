@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified">
 
-	<include schemaLocation="common/DataType.xsd"></include>
-	<include schemaLocation="extension/IpssStudyScenario.xsd"></include>
-	<include schemaLocation="Modification.xsd"></include>
+	<include schemaLocation="common/StudyScenarioType.xsd"></include>
+
+	<import  namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="extension/IpssStudyScenario.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
@@ -18,53 +19,9 @@
 		   such it can accommodate other study scenario schema by extension   
 	 -->
 	<element name="studyScenario" type="pss:StudyScenarioXmlType" />
-	<element name="ipssStudyScenario" type="pss:IpssStudyScenarioXmlType" substitutionGroup="pss:studyScenario">
+	<element name="ipssStudyScenario" type="ipss:IpssStudyScenarioXmlType" substitutionGroup="pss:studyScenario">
         <annotation><documentation>
         Study scenario for running InterPSS software
         </documentation></annotation>
 	</element>	
-
-	<complexType name="StudyScenarioXmlType" abstract="true">
-        <annotation><documentation>
-        Base Study scenario type for extension
-        </documentation></annotation>	
-		<complexContent>
-			<extension base="pss:IDRecordXmlType">
-				<sequence>
-					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-	<ns:complexType name="BaseAlgorithmXmlType" abstract="true">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseRecordXmlType"></ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-	
-	<complexType name="BaseScenarioXmlType">
-		<annotation><documentation>
-		for define a study scenario. 
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:IDRecordXmlType">
-				<sequence>
-					<element name="modifcation" type="pss:ModifyRecordXmlType"	minOccurs="0" maxOccurs="1">
-						<annotation><documentation>
-						In addition to the modification defined at the StudyCase level,
-						modification can be also defined at each scenario level, used for example 
-						to create N-1 contingency scenario
-						</documentation></annotation>
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
 </schema>

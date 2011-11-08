@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
+	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<include schemaLocation="../common/RecordType.xsd"></include>
-	<include schemaLocation="../StudyScenario.xsd"></include>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../common/RecordType.xsd"/>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../StudyScenario.xsd"/>
 	
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
@@ -15,10 +16,10 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="genShiftFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="lineOutageDFactor" minOccurs="0" maxOccurs="unbounded" type="pss:LineOutageDFactorXmlType" />					<ns:element name="genLossFactor" minOccurs="0" maxOccurs="unbounded" type="pss:GenLossFactorXmlType" />
-					<ns:element name="pTransferDistFactor" type="pss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="areaTransferAnalysis" minOccurs="0" maxOccurs="unbounded" type="pss:AreaTransferAnalysisXmlType">
+					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="genShiftFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="lineOutageDFactor" minOccurs="0" maxOccurs="unbounded" type="ipss:LineOutageDFactorXmlType" />					<ns:element name="genLossFactor" minOccurs="0" maxOccurs="unbounded" type="ipss:GenLossFactorXmlType" />
+					<ns:element name="pTransferDistFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="areaTransferAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:AreaTransferAnalysisXmlType">
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
@@ -27,7 +28,7 @@
 
 	<ns:complexType name="GenLossFactorXmlType">
 		<complexContent>
-			<extension base="pss:DclfSensitivityXmlType">
+			<extension base="ipss:DclfSensitivityXmlType">
 				<sequence>
 					<element name="lossFactor" type="double" minOccurs="0"></element>
 				</sequence>
@@ -55,7 +56,7 @@
     
     <ns:complexType name="NodeTransferAnalysisXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:DclfBranchSensitivityXmlType">
+			<ns:extension base="ipss:DclfBranchSensitivityXmlType">
 				<ns:sequence>
 					<ns:element name="transderAmountMW" type="ns:double" minOccurs="1"></ns:element>
 					<ns:element name="deratingFactor" type="ns:double" minOccurs="0"></ns:element>
@@ -66,7 +67,7 @@
 	    
     <ns:complexType name="AreaTransferAnalysisXmlType">
     	<ns:complexContent>
-    		<ns:extension base="pss:NodeTransferAnalysisXmlType">
+    		<ns:extension base="ipss:NodeTransferAnalysisXmlType">
     			<ns:sequence>
     				<ns:element name="fromArea" type="pss:NetAreaXmlType" minOccurs="1"></ns:element>
     				<ns:element name="toArea" type="pss:NetAreaXmlType" minOccurs="1"></ns:element>
@@ -104,20 +105,20 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseRecordXmlType">
 				<ns:sequence>
-					<ns:element name="senType" minOccurs="1" maxOccurs="1" type="pss:SensitivityEnumType"/>
-					<ns:element name="injectBusType" minOccurs="1" type="pss:SenBusAnalysisEnumType"></ns:element>
+					<ns:element name="senType" minOccurs="1" maxOccurs="1" type="ipss:SensitivityEnumType"/>
+					<ns:element name="injectBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType"></ns:element>
 					<ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="injectBus" type="pss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+								<ns:element name="injectBus" type="ipss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
-					<ns:element name="withdrawBusType" minOccurs="1" type="pss:SenBusAnalysisEnumType"></ns:element>
+					<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType"></ns:element>
 					<ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="pss:SenAnalysisBusXmlType"></ns:element>
+								<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusXmlType"></ns:element>
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
@@ -129,7 +130,7 @@
 
     <ns:complexType name="DclfBranchSensitivityXmlType">
     	<ns:complexContent>
-    		<ns:extension base="pss:DclfSensitivityXmlType">
+    		<ns:extension base="ipss:DclfSensitivityXmlType">
     			<ns:sequence>
     				<ns:element name="branchSFactor" minOccurs="1" maxOccurs="unbounded">
     					<complexType>

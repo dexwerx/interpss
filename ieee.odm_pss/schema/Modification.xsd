@@ -6,22 +6,12 @@
 	
 	<include schemaLocation="common/DataType.xsd"></include>
 	<include schemaLocation="common/RecordType.xsd"></include>
+	<include schemaLocation="common/ModificationType.xsd"></include>
 		
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
 		
-	<complexType name="ModifyRecordXmlType" abstract="true">
-		<annotation><documentation>
-			Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved 
-			using the record id. ModifyRecordXmlType is an abstract type. All modification record types are sub-type
-			of ModifyRecordXmlType.
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:IDRecordXmlType"></extension>
-		</complexContent>
-	</complexType>
-
 <!-- 
 	Scheduled Branch outage
 	======================= 

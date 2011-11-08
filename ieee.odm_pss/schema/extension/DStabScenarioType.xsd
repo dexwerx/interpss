@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
+	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
+	
+	<include schemaLocation="AclfScenarioType.xsd"></include>
+	<include schemaLocation="AcscScenarioType.xsd"></include>
 
-	<include schemaLocation="../dynamic/DstabRecordType.xsd"></include>
-	<include schemaLocation="../StudyScenario.xsd"></include>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../dynamic/DstabRecordType.xsd"/>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../StudyScenario.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
@@ -15,8 +19,8 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<sequence>
-					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="pss:DStabSimuSettingXmlType"/>
-					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType"/>
+					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="ipss:DStabSimuSettingXmlType"/>
+					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="ipss:AclfAlgorithmXmlType"/>
 					<element name="dynamicEvents" maxOccurs="1" minOccurs="1">
 						<complexType>
                             <annotation><documentation>
@@ -27,7 +31,7 @@
 							</documentation></annotation>
                             <sequence>
 								<element name="disableDynEvents" type="boolean" maxOccurs="1" minOccurs="0"></element>
-								<element name="dynamicEvent" type="pss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+								<element name="dynamicEvent" type="ipss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -52,7 +56,7 @@
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
-			<element name="staticLoadModel" type="pss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
+			<element name="staticLoadModel" type="ipss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
 			</element>
 		</sequence>
 	</complexType>
@@ -79,8 +83,8 @@
         		There are three dynamic event types. Only one type could be selected for a dynamic event.
         		</documentation></annotation>
 				<ns:element name="fault" type="pss:AcscFaultXmlType" maxOccurs="1" minOccurs="0"/>
-				<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="pss:DStabLoadChangeXmlType"/>
-				<ns:element name="setPointChangeData" minOccurs="0" type="pss:DStabSetPointChangeXmlType"/>
+				<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType"/>
+				<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType"/>
 			</choice>
 		</sequence>
 		<attribute name="id" type="string"></attribute>

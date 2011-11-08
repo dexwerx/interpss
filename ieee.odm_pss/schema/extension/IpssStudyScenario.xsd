@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema"
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
+	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<include schemaLocation="../loadflow/LFRecordType.xsd"></include>
-	<include schemaLocation="../shortcircuit/SCRecordType.xsd"></include>
-	<include schemaLocation="../dynamic/DstabRecordType.xsd"></include>
+	<include schemaLocation="AclfScenarioType.xsd"/>
+	<include schemaLocation="AcscScenarioType.xsd"/>
+	<include schemaLocation="DclfSenScenarioType.xsd"/>
+	<include schemaLocation="DStabScenarioType.xsd"/>
 
-	<include schemaLocation="DclfSenScenarioType.xsd"></include>
-	<include schemaLocation="DStabScenarioType.xsd"></include>
-
-	<include schemaLocation="../StudyScenario.xsd"></include>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../common/StudyScenarioType.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2010</documentation>
@@ -27,8 +27,8 @@
         <complexContent>
 			<extension base="pss:StudyScenarioXmlType">
 				<sequence>
-					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="pss:GridComputingXmlType"></ns:element>
-					<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0">
+					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="ipss:GridComputingXmlType"></ns:element>
+					<element name="defaultAclfAlgo" type="ipss:AclfAlgorithmXmlType" minOccurs="0">
 						<annotation><documentation>
 						The default AclfAlgo applies to all study scenarios, for contingency analysis
 						</documentation></annotation>
@@ -36,7 +36,7 @@
 					<element name="scenarioList" maxOccurs="1" minOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
+								<element name="scenario" type="ipss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
 									<annotation><documentation>
 									Typically, there is one study scenario. However, one can define a let of scenarios,
 									for example, for N-1 contingency analysis
@@ -57,7 +57,7 @@
 		<complexContent>
 			<extension base="pss:BaseScenarioXmlType">
 				<sequence>
-					<element name="simuAlgo" minOccurs="1" maxOccurs="1" type="pss:SimulationAlgorithmXmlType">
+					<element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:SimulationAlgorithmXmlType">
 					</element>
 				</sequence>
 			</extension>
@@ -70,10 +70,10 @@
 		that only one analysis type : aclf, acsc or dstab could be selected. 
 		</documentation></annotation>	
 		<choice>
-			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="pss:AclfAlgorithmXmlType"></element>
-			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="pss:DclfSenAnalysisXmlType"></element>
-			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="pss:AcscFaultAnalysisXmlType"></element>
-			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="pss:DStabSimulationXmlType"></element>
+			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAlgorithmXmlType"></element>
+			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></element>
+			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></element>
+			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></element>
 		</choice>
 	</ns:complexType>
 	
@@ -111,39 +111,4 @@
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
-
-<!-- 
-	Aclf Study Scenario
- -->
-	<ns:complexType name="AclfAlgorithmXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseAnalysisTypeXmlType">
-				<ns:sequence>
-					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
-					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-<!-- 
-	Acsc Study Scenario
- -->
-	<ns:complexType name="AcscFaultAnalysisXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseAnalysisTypeXmlType">
-				<ns:sequence>
-					<ns:element name="fault" minOccurs="1" type="pss:AcscFaultXmlType"></ns:element>
-					<ns:element name="preFaultBusVoltage" minOccurs="0"	maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
-					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
-						<ns:annotation><ns:documentation>
-						bus voltage multi-factor in percent
-						</ns:documentation></ns:annotation>
-					</ns:element>						
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
 </schema>

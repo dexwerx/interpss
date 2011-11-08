@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
+	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
+	elementFormDefault="qualified">
+
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../loadflow/LFRecordType.xsd"/>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../StudyScenario.xsd"/>
+
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+
+<!-- 
+	Aclf Study Scenario
+ -->
+	<ns:complexType name="AclfAlgorithmXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<ns:sequence>
+					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
+					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+</schema>
