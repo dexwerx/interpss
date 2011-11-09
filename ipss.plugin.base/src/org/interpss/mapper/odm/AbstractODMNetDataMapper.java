@@ -32,11 +32,11 @@ import org.ieee.odm.schema.CimRdfXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Branch3W;
