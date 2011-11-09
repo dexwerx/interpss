@@ -41,10 +41,10 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.dclf.DclfAlgorithm;
