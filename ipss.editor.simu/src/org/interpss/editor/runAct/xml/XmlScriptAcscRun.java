@@ -30,8 +30,8 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 import org.interpss.xml.schema.RunAcscStudyCaseXmlType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;

@@ -46,13 +46,13 @@ import org.interpss.xml.schema.RuleBaseXmlType;
 import org.interpss.xml.schema.RunAclfStudyCaseXmlType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;

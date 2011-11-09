@@ -41,6 +41,7 @@ import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -53,7 +54,6 @@ import com.interpss.dist.adpter.DistBusAdapter;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 import com.interpss.spring.CoreCommonSpringCtx;
