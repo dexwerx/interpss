@@ -32,13 +32,13 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class IpssFileAdapterBase implements IpssFileAdapter {
 	protected IPSSMsgHub msgHub;

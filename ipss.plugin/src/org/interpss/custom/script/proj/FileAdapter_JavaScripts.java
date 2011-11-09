@@ -35,11 +35,11 @@ import javax.script.ScriptEngine;
 
 import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.script.ScriptingUtil;
 
 public class FileAdapter_JavaScripts extends IpssFileAdapterBase {

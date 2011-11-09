@@ -45,6 +45,7 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
+import com.interpss.DistObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -55,7 +56,6 @@ import com.interpss.dist.DistBranchCode;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistBusCode;
 import com.interpss.dist.DistNetwork;
-import com.interpss.dist.DistObjectFactory;
 import com.interpss.dist.ScStanderd;
 import com.interpss.dist.datatype.ScPointType;
 

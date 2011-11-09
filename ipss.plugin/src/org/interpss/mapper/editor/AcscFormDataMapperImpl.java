@@ -40,6 +40,7 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.util.MemoryJavaCompiler;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -48,7 +49,6 @@ import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;

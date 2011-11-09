@@ -38,6 +38,7 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 
+import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
@@ -50,7 +51,6 @@ import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.datatype.ScGroundType;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;
 import com.interpss.dstab.device.ScriptLangType;

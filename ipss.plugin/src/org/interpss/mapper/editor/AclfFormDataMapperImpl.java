@@ -40,6 +40,8 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.util.MemoryJavaCompiler;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -48,7 +50,6 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
@@ -72,7 +73,6 @@ import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.core.acsc.AcscNetwork;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 
 /**

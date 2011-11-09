@@ -38,11 +38,11 @@ import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 import org.interpss.custom.fadpter.impl.IpssInternalFormat_in;
 import org.interpss.custom.fadpter.impl.IpssInternalFormat_out;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class IpssInternalFormat extends IpssFileAdapterBase {
 	public IpssInternalFormat(IPSSMsgHub msgHub) {

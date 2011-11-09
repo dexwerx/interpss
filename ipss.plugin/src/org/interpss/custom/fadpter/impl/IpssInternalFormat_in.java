@@ -27,11 +27,11 @@ package org.interpss.custom.fadpter.impl;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;

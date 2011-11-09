@@ -28,9 +28,9 @@ import org.interpss.editor.form.base.BaseBranchForm;
 import org.interpss.editor.form.base.BaseBusForm;
 import org.interpss.editor.form.base.BaseNetForm;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
