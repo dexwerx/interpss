@@ -10,8 +10,9 @@ import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 
 import com.gams.api.gamsglobals;
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.JacobianMatrixType;
 import com.interpss.core.net.Branch;
@@ -26,7 +27,6 @@ import com.interpss.opf.OpfNetwork;
 import com.interpss.pssl.simu.BaseDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 /**
