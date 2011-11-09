@@ -31,9 +31,9 @@ import org.interpss.numeric.sparse.base.SparseEquation;
 import org.interpss.spring.NumericSpringCtx;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algo.BusNumberArrangeRule;
 import com.interpss.spring.CoreCommonSpringCtx;
 
