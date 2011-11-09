@@ -31,7 +31,7 @@ import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.LossAllocationAlgorithm;
