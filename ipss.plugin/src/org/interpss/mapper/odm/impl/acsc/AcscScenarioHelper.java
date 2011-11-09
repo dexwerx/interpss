@@ -42,8 +42,8 @@ import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;

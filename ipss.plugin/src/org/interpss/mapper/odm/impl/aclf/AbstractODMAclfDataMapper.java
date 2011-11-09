@@ -49,10 +49,10 @@ import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
 import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.ODMUnitHelper;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;

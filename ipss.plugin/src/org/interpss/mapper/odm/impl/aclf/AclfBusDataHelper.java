@@ -39,10 +39,10 @@ import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.LimitType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;

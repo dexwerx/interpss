@@ -40,6 +40,7 @@ import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.datatype.LimitType;
 
+import com.interpss.OpfObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -47,7 +48,6 @@ import com.interpss.opf.OpfBranch;
 import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
-import com.interpss.opf.OpfObjectFactory;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
