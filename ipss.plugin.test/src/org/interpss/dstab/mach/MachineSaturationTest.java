@@ -29,9 +29,9 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.junit.Test;
 
+import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
 import com.interpss.dstab.mach.MachineType;

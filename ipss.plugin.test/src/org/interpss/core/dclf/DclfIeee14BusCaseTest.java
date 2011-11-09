@@ -5,13 +5,13 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class DclfIeee14BusCaseTest extends PluginTestSetup {
 	@Test

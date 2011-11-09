@@ -36,9 +36,10 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.junit.Test;
 
+import com.interpss.DStabObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
@@ -49,7 +50,6 @@ import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	@Test

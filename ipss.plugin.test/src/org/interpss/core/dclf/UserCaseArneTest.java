@@ -5,8 +5,8 @@ import org.interpss.PluginTestSetup;
 import org.interpss.display.DclfOutFunc;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;

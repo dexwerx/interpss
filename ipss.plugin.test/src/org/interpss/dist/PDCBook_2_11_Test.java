@@ -27,16 +27,15 @@ package org.interpss.dist;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class PDCBook_2_11_Test  extends PluginTestSetup { 
 	@Test

@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -37,7 +38,6 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.pssl.simu.IpssAclfNet;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class ModificationCaseTest extends PluginTestSetup {
 	@Test

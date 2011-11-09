@@ -40,14 +40,14 @@ import org.interpss.xml.schema.RuleBaseXmlType;
 import org.interpss.xml.schema.ViolationConditionXmlType;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class RuleXmlCaseTest extends PluginTestSetup {
 	@Test

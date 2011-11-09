@@ -29,7 +29,7 @@ import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;

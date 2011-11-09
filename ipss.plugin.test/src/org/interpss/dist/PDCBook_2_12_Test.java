@@ -28,11 +28,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
@@ -42,7 +42,6 @@ import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class PDCBook_2_12_Test  extends PluginTestSetup { 
 	@Test

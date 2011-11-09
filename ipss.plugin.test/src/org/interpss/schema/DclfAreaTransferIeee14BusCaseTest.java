@@ -13,6 +13,7 @@ import org.interpss.xml.schema.DclfStudyCaseXmlType;
 import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
@@ -20,7 +21,6 @@ import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.spring.CoreCommonSpringCtx;
 
 public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {

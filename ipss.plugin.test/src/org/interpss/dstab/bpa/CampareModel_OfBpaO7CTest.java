@@ -16,6 +16,7 @@ import org.interpss.tools.IAclfNetComparator;
 import org.interpss.tools.NetModelComparator;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -23,7 +24,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 	@Test

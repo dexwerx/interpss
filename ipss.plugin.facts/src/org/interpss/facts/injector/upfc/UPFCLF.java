@@ -6,8 +6,8 @@ import org.apache.commons.math.linear.RealMatrixImpl;
 import org.interpss.facts.general.ConverterLF;
 import org.interpss.numeric.sparse.SparseEqnComplex;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;

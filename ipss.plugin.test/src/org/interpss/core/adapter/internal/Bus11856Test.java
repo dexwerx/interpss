@@ -34,7 +34,7 @@ import org.interpss.numeric.sparse.SparseEqnComplex;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;

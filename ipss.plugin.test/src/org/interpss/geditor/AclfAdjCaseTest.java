@@ -6,15 +6,15 @@ import org.interpss.PluginTestSetup;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class AclfAdjCaseTest  extends PluginTestSetup {
 	@Test

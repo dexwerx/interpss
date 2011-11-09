@@ -1,9 +1,9 @@
 package org.interpss.dstab.control.cml.controller.util;
 
+import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Eq1Machine;
 import com.interpss.dstab.mach.MachineType;

@@ -27,9 +27,10 @@ package org.interpss.dstab.mach;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -38,7 +39,6 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.spring.CoreCommonSpringCtx;
 

@@ -36,7 +36,7 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algo.SimpleFaultAlgorithm;

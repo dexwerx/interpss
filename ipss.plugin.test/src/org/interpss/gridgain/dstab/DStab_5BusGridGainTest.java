@@ -36,12 +36,12 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.gridgain.GridBaseTestSetup;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class DStab_5BusGridGainTest extends GridBaseTestSetup {
 	@Test

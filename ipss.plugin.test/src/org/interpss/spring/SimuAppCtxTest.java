@@ -31,8 +31,8 @@ import org.interpss.PluginTestSetup;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.acsc.fault.AcscBusFault;

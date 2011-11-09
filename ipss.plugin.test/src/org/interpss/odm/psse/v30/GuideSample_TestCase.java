@@ -35,8 +35,9 @@ import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -44,7 +45,6 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class GuideSample_TestCase extends PluginTestSetup {
 	@Test

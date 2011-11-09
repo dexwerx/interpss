@@ -5,7 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginTestSetup;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.path.NetPathWalkAlgorithm;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
@@ -16,7 +17,6 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class IEEE14_WalkThroughTest  extends PluginTestSetup {
 	@Test

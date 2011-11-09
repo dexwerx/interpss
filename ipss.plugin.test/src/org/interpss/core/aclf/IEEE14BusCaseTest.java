@@ -7,8 +7,9 @@ import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
@@ -17,7 +18,6 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.util.sample.SampleCases;
 
 public class IEEE14BusCaseTest  extends PluginTestSetup {

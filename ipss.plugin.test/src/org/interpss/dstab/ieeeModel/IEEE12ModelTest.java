@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
@@ -37,7 +38,6 @@ import com.interpss.dstab.cache.YMatrixChangeRecorder;
 import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class IEEE12ModelTest extends DStabTestSetupBase {
 	private double[] 

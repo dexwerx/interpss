@@ -4,8 +4,8 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.general.ConverterLF;
 import org.interpss.facts.general.SVCControlType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;

@@ -28,7 +28,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.grid.gridgain.GridConstants;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
@@ -36,18 +35,15 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.gridgain.GridBaseTestSetup;
-import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;

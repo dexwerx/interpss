@@ -7,18 +7,15 @@ InterPSS implementation of the IEEE 1968 Type-1 excitation system
 
 import java.lang.reflect.Field;
 
-import com.interpss.dstab.controller.AnnotateExciter;
-import com.interpss.dstab.controller.annotate.*;
-import com.interpss.dstab.controller.block.*;
-import com.interpss.dstab.controller.block.adapt.*;
-import org.interpss.dstab.control.cml.block.*;
-import org.interpss.dstab.control.cml.func.*;
-import com.interpss.common.func.*;
-import com.interpss.common.datatype.*;  // do not modify this tag line
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
+import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+import org.interpss.dstab.control.cml.func.SeFunction;
 
-import com.interpss.dstab.datatype.*;
-//import com.interpss.dstab.mach.Controller;
-import com.interpss.dstab.mach.MachineController;
+import com.interpss.dstab.controller.AnnotateExciter;
+import com.interpss.dstab.controller.annotate.AnController;
+import com.interpss.dstab.controller.annotate.AnControllerField;
+import com.interpss.dstab.controller.annotate.AnFunctionField;
+import com.interpss.dstab.datatype.CMLFieldEnum;
 
 @AnController(
 input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",

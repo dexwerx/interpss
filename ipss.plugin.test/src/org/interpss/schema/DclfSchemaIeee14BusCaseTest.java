@@ -16,13 +16,13 @@ import org.interpss.xml.schema.SenBusAnalysisDataType;
 import org.interpss.xml.schema.SensitivityDataType;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.SenAnalysisType;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	@Test

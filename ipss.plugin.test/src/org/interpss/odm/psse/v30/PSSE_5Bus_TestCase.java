@@ -33,9 +33,9 @@ import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class PSSE_5Bus_TestCase extends PluginTestSetup { 
 	@Test
