@@ -4,14 +4,14 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.exp.IpssNumericException;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.OpfObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
-import com.interpss.opf.OpfObjectFactory;
 
 public class Opf3BusTestNet {
 	public static OpfNetwork create3BusNetwork() throws IpssNumericException {

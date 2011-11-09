@@ -28,10 +28,10 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.exp.IpssNumericException;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;

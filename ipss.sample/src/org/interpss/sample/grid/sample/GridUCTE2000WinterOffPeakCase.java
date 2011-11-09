@@ -11,7 +11,7 @@ import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 import org.interpss.spring.PluginSpringCtx;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 

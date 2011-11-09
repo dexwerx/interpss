@@ -13,11 +13,11 @@ import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.multi.CustomMultiLocalTask;
 import org.interpss.spring.PluginSpringCtx;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.modify.Modification;

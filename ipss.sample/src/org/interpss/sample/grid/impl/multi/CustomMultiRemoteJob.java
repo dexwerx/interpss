@@ -8,7 +8,7 @@ import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.gml.GmlHelper;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 
 public class CustomMultiRemoteJob extends GridAclfReJob {

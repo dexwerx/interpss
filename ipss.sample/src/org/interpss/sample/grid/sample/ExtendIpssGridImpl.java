@@ -8,9 +8,9 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.impl.IPSSMsgHubImpl;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.util.sample.SampleCases;
 

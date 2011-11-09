@@ -1,19 +1,12 @@
 package org.interpss.sample.acsc;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.math.complex.Complex;
-
 import org.interpss.display.AcscOutFunc;
-import org.interpss.editor.jgraph.ui.IIpssGraphModel;
-import org.interpss.editor.jgraph.ui.form.IGFormContainer;
-import org.interpss.editor.util.IOUtilFunc;
-import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscNetwork;
@@ -22,9 +15,6 @@ import com.interpss.core.acsc.adpter.AcscXfrAdapter;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
-import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class Acsc5BusSample  {
 	@Test

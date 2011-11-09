@@ -2,8 +2,8 @@ package org.interpss.sample.acsc;
 
 import org.apache.commons.math.complex.Complex;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;

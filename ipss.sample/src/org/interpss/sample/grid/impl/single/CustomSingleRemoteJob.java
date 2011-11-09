@@ -7,7 +7,7 @@ import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.RemoteResultFactory;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 

@@ -29,7 +29,7 @@ import org.interpss.IpssPlugin;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.path.NetPathWalkAlgorithm;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;

@@ -6,8 +6,8 @@ import java.util.logging.Level;
 import org.interpss.util.FileUtil;
 import org.junit.Test;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
