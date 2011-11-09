@@ -49,9 +49,9 @@ import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
+import com.interpss.DStabObjectFactory;
 import com.interpss.common.mapper.IMapping;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
