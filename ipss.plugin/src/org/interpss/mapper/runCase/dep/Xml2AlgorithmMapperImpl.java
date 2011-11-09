@@ -35,11 +35,11 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.BusAcscInitVoltDataType;
 import org.interpss.xml.schema.UnitDataType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;

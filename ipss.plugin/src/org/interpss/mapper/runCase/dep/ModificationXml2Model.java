@@ -38,6 +38,7 @@ import org.interpss.xml.schema.ModificationXmlType;
 import org.interpss.xml.schema.UnitDataType;
 import org.interpss.xml.schema.ValueChangeActionDataType;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -46,7 +47,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.net.Network;
-import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.modify.BranchModification;
 import com.interpss.simu.multicase.modify.BusModification;
 import com.interpss.simu.multicase.modify.Modification;
