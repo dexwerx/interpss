@@ -8,10 +8,10 @@ import org.ieee.odm.model.opf.OpfModelParser;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.test.OpfTestSetup;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 public class ODM2OpfMapperTest extends OpfTestSetup {
 
 	/**

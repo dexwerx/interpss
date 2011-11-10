@@ -38,10 +38,10 @@ import org.interpss.opf.dc.util.OpfOutFunc;
 import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class OpfSample  extends OpfTestSetup { 
 	@Test

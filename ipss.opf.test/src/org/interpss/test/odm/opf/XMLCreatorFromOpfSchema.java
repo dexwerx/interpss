@@ -1,20 +1,12 @@
 package org.interpss.test.odm.opf;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.ieee.odm.ODMObjectFactory;
-import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.LoadflowBranchXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.OpfNetworkXmlType;
-import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.odm.model.opf.*;
 import org.junit.Test;
 public class XMLCreatorFromOpfSchema {
 //	public XMLCreatorFromOpfSchema(String origOpfFile){
