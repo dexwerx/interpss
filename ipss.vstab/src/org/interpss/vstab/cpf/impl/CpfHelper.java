@@ -14,7 +14,6 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.GenDispPattern;
 import org.interpss.vstab.cpf.LoadIncPattern;
-import org.interpss.vstab.util.VstabFuncOut;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;

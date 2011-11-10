@@ -3,11 +3,8 @@ package org.interpss.vstab.cpf.impl;
 import java.util.Hashtable;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.dstab.control.exc.ieee.y1968.type2.Ieee1968Type2Exciter;
-import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import org.interpss.vstab.cpf.CPFAlgorithm;
-import org.interpss.vstab.util.VstabFuncOut;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;

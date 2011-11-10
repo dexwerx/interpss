@@ -9,9 +9,9 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.impl.LoadflowAlgorithmImpl;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
-import com.interpss.core.algo.impl.LoadflowAlgorithmImpl;
 /**
  * an implementation of the interface--CPFAlgorithm, since CPFAlgorithm is extended from LoadflowAlgorithm,
  * correspondingly, it extends LoadflowAlgorithmImpl here, thus having the methods defined in LoadflowAlgorithmImpl.

@@ -1,7 +1,6 @@
 package org.interpss.vstab.cpf.impl;
 
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
-import org.interpss.vstab.cpf.CPFAlgorithm;
 
 import com.interpss.common.util.IpssLogger;
 

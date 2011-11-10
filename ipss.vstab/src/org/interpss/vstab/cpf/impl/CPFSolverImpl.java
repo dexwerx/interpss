@@ -5,13 +5,12 @@ import java.util.Hashtable;
 import java.util.List;
 
 import org.apache.commons.math.linear.ArrayRealVector;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CPFSolver;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;

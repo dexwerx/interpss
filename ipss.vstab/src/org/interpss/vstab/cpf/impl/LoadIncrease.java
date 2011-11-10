@@ -6,7 +6,6 @@ import java.util.Hashtable;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.vstab.cpf.LoadIncPattern;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;

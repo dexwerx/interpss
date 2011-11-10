@@ -2,12 +2,8 @@ package org.interpss.vstab.cpf.impl;
 
 import java.util.Hashtable;
 
-import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.RealVector;
 import org.interpss.vstab.cpf.GenDispPattern;
-import org.interpss.vstab.cpf.GenDispPattern.Pattern;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
