@@ -25,7 +25,7 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
