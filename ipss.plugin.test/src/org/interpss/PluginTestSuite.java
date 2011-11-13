@@ -18,7 +18,6 @@ import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.dclf.DclfIeee14BusCaseTest;
 import org.interpss.core.net.IEEE14_WalkThroughTest;
-import org.interpss.core.sparse.SparseEqnDoubleTest;
 import org.interpss.dstab.DStab_2Bus;
 import org.interpss.dstab.DStab_5BusNoRegulator;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
@@ -55,7 +54,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	// core lib
 	IEEE14ChangeRecorderTest.class,
 	IEEE14_WalkThroughTest.class,
-	SparseEqnDoubleTest.class,
 	IEEE14InterfaceCaseTest.class,
 	
 	// acsc
