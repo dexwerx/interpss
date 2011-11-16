@@ -44,7 +44,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
@@ -199,7 +198,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 				bus.setExtensionObject(plugin);
 			}
 		} else {
-			throw new InvalidParameterException(
+			throw new InterpssRuntimeException(
 					"Wrong bus Branch type for mapping AcscBusInfo, type: "
 							+ busData.getScCode());
 		}
@@ -296,7 +295,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 				branch.setExtensionObject(plugin);
 			}
 		} else {
-			throw new InvalidParameterException(
+			throw new InterpssRuntimeException(
 					"Wrong Aclf Branch type for mapping AcscBranchInfo, type: "
 							+ braData.getLfCode());
 		}
@@ -354,7 +353,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 			else if (code == ScGroundEnum.SolidGrounded)
 				return XfrConnectCode.WYE_SOLID_GROUNDED;
 		}
-		throw new InvalidParameterException(
+		throw new InterpssRuntimeException(
 				"Wrong input in AcscFormDataMapperImpl.calXfrConnectCode()");
 	}
 }

@@ -33,7 +33,7 @@ import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
@@ -146,11 +146,11 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 	}
 
 	public void load(SimuContext simuCtx, String filepath, boolean debug, String outfile) throws Exception {
-		throw new InvalidOperationException("Load need to implemented");
+		throw new InterpssRuntimeException("Load need to implemented");
 	}
 
 	public void load(SimuContext simuCtx, String[] filepathAry, boolean debug, String outfile) throws Exception {
-		throw new InvalidOperationException("Load need to implemented");
+		throw new InterpssRuntimeException("Load need to implemented");
 	}
 
 	public SimuContext load(String filepath) throws Exception {
@@ -176,7 +176,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 	}
 
 	public boolean save(String filepath, SimuContext net) throws Exception {
-		throw new InvalidOperationException("Save need to implemented");
+		throw new InterpssRuntimeException("Save need to implemented");
 	}
 
 	/**

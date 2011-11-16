@@ -47,7 +47,7 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
@@ -340,7 +340,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 				if (bus != null)
 					fault.setFaultBus(bus);
 				else {
-					throw new InvalidParameterException("Programming erroe, Bus cannot be found, id:" + fdata.getBusBranchId());
+					throw new InterpssRuntimeException("Programming erroe, Bus cannot be found, id:" + fdata.getBusBranchId());
 				}
 			} 
 			else if (fdata.getFaultType() == AcscFaultDataType.BRANCH_FAULT) {
@@ -371,7 +371,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 		if (branch != null)
 			fault.setFaultBranch(branch);
 		else {
-			throw new InvalidParameterException(
+			throw new InterpssRuntimeException(
 					"Programming error, Branch cannot be found, id:" + fdata.getBusBranchId());
 		}
 		return fault;
@@ -391,7 +391,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 		else if (xmlEventType == DynamicEventDataType.SET_POINT_CHANGE) 
 			return DynamicEventType.SET_POINT_CHANGE;
 		else {
-			throw new InvalidParameterException("Programming error, eventDataType: " + xmlEventType);
+			throw new InterpssRuntimeException("Programming error, eventDataType: " + xmlEventType);
 		}
 		return null;
 	}

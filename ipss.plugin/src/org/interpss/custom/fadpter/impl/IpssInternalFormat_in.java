@@ -25,11 +25,12 @@
 package org.interpss.custom.fadpter.impl;
 
 import org.apache.commons.math.complex.Complex;
+import org.eclipse.jdt.core.compiler.InvalidInputException;
 import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.exp.InvalidInputException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
@@ -161,7 +162,7 @@ public class IpssInternalFormat_in {
         	}
         	ql    = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
-				throw new InvalidInputException("AclfDataFile.loadBusInfo, BusInfo str wrong");
+				throw new InterpssRuntimeException("AclfDataFile.loadBusInfo, BusInfo str wrong");
 			}
       	}
 
@@ -247,7 +248,7 @@ public class IpssInternalFormat_in {
       	while (st.hasMoreTokens()) {
         	id    = st.nextToken().trim();
         	if (st.hasMoreTokens()) {
-				throw new InvalidInputException("AclfDataFile.loadSwingBusInfo_1, SwingBusInfo str wrong");
+				throw new InterpssRuntimeException("AclfDataFile.loadSwingBusInfo_1, SwingBusInfo str wrong");
 			}
       	}
 
@@ -258,7 +259,7 @@ public class IpssInternalFormat_in {
     		swing.setVoltMag(bus.getVoltageMag(), UnitType.PU);
     		swing.setVoltAng(bus.getVoltageAng(UnitType.Rad), UnitType.Rad);
       	} else {
-			throw new InvalidInputException("AclfDataFile.loadSwingBusInfo_2, Swing bus:" + id + " is not in the system" );
+			throw new InterpssRuntimeException("AclfDataFile.loadSwingBusInfo_2, Swing bus:" + id + " is not in the system" );
 		}
     }
 
@@ -273,7 +274,7 @@ public class IpssInternalFormat_in {
         	qmin = new Double(st.nextToken()).doubleValue();
         	qmax = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
-				throw new InvalidInputException("AclfDataFile.loadPVBusInfo_1, PVBusInfo str wrong");
+				throw new InterpssRuntimeException("AclfDataFile.loadPVBusInfo_1, PVBusInfo str wrong");
 			}
       	}
 
@@ -288,7 +289,7 @@ public class IpssInternalFormat_in {
         	pv.setVoltMag(pvLimit.getVSpecified(UnitType.PU), UnitType.PU);
       	} else {
       		IpssLogger.getLogger().info(str);
-			throw new InvalidInputException("AclfDataFile.loadPVBusInfo_2, PV bus:" + id + " is not in the system" );
+			throw new InterpssRuntimeException("AclfDataFile.loadPVBusInfo_2, PV bus:" + id + " is not in the system" );
 		}
     }
 
@@ -305,7 +306,7 @@ public class IpssInternalFormat_in {
         	id   = st.nextToken().trim();
         	b    = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
-				throw new InvalidInputException("AclfDataFile.loadCapacitorBusInfo_1, CapacitorBusInfo str wrong");
+				throw new InterpssRuntimeException("AclfDataFile.loadCapacitorBusInfo_1, CapacitorBusInfo str wrong");
 			}
       	}
 
@@ -315,7 +316,7 @@ public class IpssInternalFormat_in {
 			final CapacitorBusAdapter cap = bus.toCapacitorBus();
 			cap.setQ(b, UnitType.PU);
     	} else {
-			throw new InvalidInputException("AclfDataFile.loadCapacitorBusInfo_2, Capacitor bus:" + id + " is not in the system" );
+			throw new InterpssRuntimeException("AclfDataFile.loadCapacitorBusInfo_2, Capacitor bus:" + id + " is not in the system" );
 		}
     }
 
@@ -359,7 +360,7 @@ public class IpssInternalFormat_in {
         	cirNo = st.nextToken();
         	t     = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
-				throw new InvalidInputException("AclfDataFile.loadXformerInfo_1, XformerInfo str wrong");
+				throw new InterpssRuntimeException("AclfDataFile.loadXformerInfo_1, XformerInfo str wrong");
 			}
       	}
 
@@ -376,7 +377,7 @@ public class IpssInternalFormat_in {
     			bra.setFromTurnRatio(1.0);
     			bra.setToTurnRatio(t);
         	} else {
-				throw new InvalidInputException("AclfDataFile.loadXformerInfo_1, Xformar branch:" + fid + "->" + tid + " is not in the system" );
+				throw new InterpssRuntimeException("AclfDataFile.loadXformerInfo_1, Xformar branch:" + fid + "->" + tid + " is not in the system" );
 			}
        }
     }

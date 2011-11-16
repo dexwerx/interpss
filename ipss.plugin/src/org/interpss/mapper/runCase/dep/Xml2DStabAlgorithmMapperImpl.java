@@ -42,7 +42,7 @@ import org.interpss.xml.schema.ValueChangeDataType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.fault.AcscBusFault;
@@ -224,7 +224,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		}
 		CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 				"Dynamic Event Type Error", "EventDataType: " + eventType);
-		throw new InvalidParameterException(
+		throw new InterpssRuntimeException(
 				"Programming error, eventDataType: " + eventType);
 	}
 
@@ -303,7 +303,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 									"Bus Data Error",
 									"Bus cannot be found, id:"
 											+ fdata.getBusBranchId());
-					throw new InvalidParameterException(
+					throw new InterpssRuntimeException(
 							"Programming erroe, Bus cannot be found, id:"
 									+ fdata.getBusBranchId());
 				}
@@ -344,7 +344,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
 					"Branch Data Error",
 					"Branch cannot be found, id:" + fdata.getBusBranchId());
-			throw new InvalidParameterException(
+			throw new InterpssRuntimeException(
 					"Programming error, Branch cannot be found, id:"
 							+ fdata.getBusBranchId());
 		}

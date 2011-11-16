@@ -42,7 +42,7 @@ import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.rec.BaseDataBean;
@@ -336,8 +336,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 		else {
 			IpssLogger.getLogger()
 					.severe("Wrong Machine Type String: " + mtype);
-			throw new InvalidParameterException("Wrong Machine Type String: "
-					+ mtype);
+			throw new InterpssRuntimeException("Wrong Machine Type String: " + mtype);
 		}
 	}
 }

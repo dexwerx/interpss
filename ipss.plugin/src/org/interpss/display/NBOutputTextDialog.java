@@ -47,7 +47,7 @@ import org.interpss.ui.WinUtilities;
 import com.interpss.QA.QAObjectFactory;
 import com.interpss.QA.rfile.IQAFileProcessor;
 import com.interpss.QA.rfile.QAFileReader;
-import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.SimuMessage;
@@ -189,7 +189,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     }
 
     public boolean onMsgEventStatus(IpssMessage aMsg) {
- 	   throw new InvalidOperationException("Method not implemented");
+ 	   throw new InterpssRuntimeException("Method not implemented");
     }    
 
     public NBOutputTextDialog(Frame parent, String title, boolean model) {

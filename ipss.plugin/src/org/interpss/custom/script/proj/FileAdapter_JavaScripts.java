@@ -36,7 +36,7 @@ import javax.script.ScriptEngine;
 import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -92,6 +92,6 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public boolean save(final String filepath, final SimuContext net) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
+		throw new InterpssRuntimeException("FileAdapter_IpssInternalFormat.save not implemented");
 	}
 }
