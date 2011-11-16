@@ -30,7 +30,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.TextMessage;
@@ -109,6 +109,6 @@ public class DialogUtilImpl implements IDialogUtil, IpssMsgListener {
 	}
 
 	public boolean onMsgEventStatus(IpssMessage msg) {
-		throw new InvalidOperationException("Method not implemented");
+		throw new InterpssRuntimeException("Method not implemented");
 	}
 }
