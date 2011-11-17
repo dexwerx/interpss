@@ -32,7 +32,6 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
@@ -153,6 +152,6 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 				}
 			}
 		}
-		throw new InvalidParameterException("Invalid class inpur: " + klass);
+		throw new InterpssException("Invalid class inpur: " + klass);
 	}
 }

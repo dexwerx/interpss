@@ -46,7 +46,7 @@ import org.interpss.xml.schema.DclfStudyCaseXmlType;
 import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
 import org.interpss.xml.schema.SenBusAnalysisDataType;
 
-import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
@@ -83,7 +83,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
      }
 
      public boolean onMsgEventStatus(IpssMessage msg) {
-  	   throw new InvalidOperationException("Method not implemented");
+  	   throw new InterpssRuntimeException("Method not implemented");
      }
      
     public void init(Object netContainer, Object simuCtx) {
@@ -349,36 +349,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         lodfWithdrawBusButtonGroup = new javax.swing.ButtonGroup();
         lodfWithdrawButtonGroup = new javax.swing.ButtonGroup();
         runDclfTabbedPane = new javax.swing.JTabbedPane();
-        lossFactorPanel = new javax.swing.JPanel();
-        lossInjectionPanel = new javax.swing.JPanel();
-        lossInjBusSelPanel = new javax.swing.JPanel();
-        lossGenBusLabel = new javax.swing.JLabel();
-        lossInjectBusComboBox = new javax.swing.JComboBox();
-        lossWithdrawPanel = new javax.swing.JPanel();
-        lossSingleMultiBusPanel = new javax.swing.JPanel();
-        ptdfWithSingleBusRadioButton2 = new javax.swing.JRadioButton();
-        ptdfWithMultiBusRadioButton2 = new javax.swing.JRadioButton();
-        lossWithBusSelectPanel = new javax.swing.JPanel();
-        ptdfWithdrawBusComboBox2 = new javax.swing.JComboBox();
-        ptdfWithLoadBusRadioButton2 = new javax.swing.JRadioButton();
-        ptdfWithAllBusRadioButton2 = new javax.swing.JRadioButton();
-        lossWithMultiBusPanel = new javax.swing.JPanel();
-        ptdfWithBusScrollPane2 = new javax.swing.JScrollPane();
-        ptdfWithdarwBusList2 = new javax.swing.JList();
-        ptdfLoadDistFactorLabel2 = new javax.swing.JLabel();
-        ptdfDistFactorTextField2 = new javax.swing.JTextField();
-        ptdfPercentLabel2 = new javax.swing.JLabel();
-        ptdfAddWithBusButton2 = new javax.swing.JButton();
-        ptdfRemoveWithBusButton2 = new javax.swing.JButton();
-        lossMeasBranchPanel = new javax.swing.JPanel();
-        lossBranchListComboBox = new javax.swing.JComboBox();
-        lossAddBranchButton = new javax.swing.JButton();
-        lossInterfaceListComboBox = new javax.swing.JComboBox();
-        lossAddInterfaceButton = new javax.swing.JButton();
-        lossScrollPane = new javax.swing.JScrollPane();
-        ptdfMeasBranchList2 = new javax.swing.JList();
-        lossRemoveBranchButton = new javax.swing.JButton();
-        lossCalculateButton = new javax.swing.JButton();
+        lodfPanel = new javax.swing.JPanel();
+        ptdfInjectionPanel1 = new javax.swing.JPanel();
+        ptdfInjectBusComboBox1 = new javax.swing.JComboBox();
+        ptdfMeasBranchPanel1 = new javax.swing.JPanel();
+        ptdfBranchListComboBox1 = new javax.swing.JComboBox();
+        ptdfAddBranchButton1 = new javax.swing.JButton();
+        ptdfInterfaceListComboBox1 = new javax.swing.JComboBox();
+        ptdfAddInterfaceButton1 = new javax.swing.JButton();
+        ptdfScrollPane1 = new javax.swing.JScrollPane();
+        ptdfMeasBranchList1 = new javax.swing.JList();
+        ptdfRemoveBranchButton1 = new javax.swing.JButton();
+        ptdfCalculateButton1 = new javax.swing.JButton();
         gsfPanel = new javax.swing.JPanel();
         gsfInjectionPanel = new javax.swing.JPanel();
         gsfInjBusSelPanel = new javax.swing.JPanel();
@@ -443,6 +425,36 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfMeasBranchList = new javax.swing.JList();
         ptdfRemoveBranchButton = new javax.swing.JButton();
         ptdfCalculateButton = new javax.swing.JButton();
+        lossFactorPanel = new javax.swing.JPanel();
+        lossInjectionPanel = new javax.swing.JPanel();
+        lossInjBusSelPanel = new javax.swing.JPanel();
+        lossGenBusLabel = new javax.swing.JLabel();
+        lossInjectBusComboBox = new javax.swing.JComboBox();
+        lossWithdrawPanel = new javax.swing.JPanel();
+        lossSingleMultiBusPanel = new javax.swing.JPanel();
+        ptdfWithSingleBusRadioButton2 = new javax.swing.JRadioButton();
+        ptdfWithMultiBusRadioButton2 = new javax.swing.JRadioButton();
+        lossWithBusSelectPanel = new javax.swing.JPanel();
+        ptdfWithdrawBusComboBox2 = new javax.swing.JComboBox();
+        ptdfWithLoadBusRadioButton2 = new javax.swing.JRadioButton();
+        ptdfWithAllBusRadioButton2 = new javax.swing.JRadioButton();
+        lossWithMultiBusPanel = new javax.swing.JPanel();
+        ptdfWithBusScrollPane2 = new javax.swing.JScrollPane();
+        ptdfWithdarwBusList2 = new javax.swing.JList();
+        ptdfLoadDistFactorLabel2 = new javax.swing.JLabel();
+        ptdfDistFactorTextField2 = new javax.swing.JTextField();
+        ptdfPercentLabel2 = new javax.swing.JLabel();
+        ptdfAddWithBusButton2 = new javax.swing.JButton();
+        ptdfRemoveWithBusButton2 = new javax.swing.JButton();
+        lossMeasBranchPanel = new javax.swing.JPanel();
+        lossBranchListComboBox = new javax.swing.JComboBox();
+        lossAddBranchButton = new javax.swing.JButton();
+        lossInterfaceListComboBox = new javax.swing.JComboBox();
+        lossAddInterfaceButton = new javax.swing.JButton();
+        lossScrollPane = new javax.swing.JScrollPane();
+        ptdfMeasBranchList2 = new javax.swing.JList();
+        lossRemoveBranchButton = new javax.swing.JButton();
+        lossCalculateButton = new javax.swing.JButton();
         areaTransPanel = new javax.swing.JPanel();
         atInfoEditPanel = new javax.swing.JPanel();
         atTransAmtLabel = new javax.swing.JLabel();
@@ -479,18 +491,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atCalculateButton = new javax.swing.JButton();
         atAclfCalculateButton = new javax.swing.JButton();
         atSeAssessButton = new javax.swing.JButton();
-        lodfPanel = new javax.swing.JPanel();
-        ptdfInjectionPanel1 = new javax.swing.JPanel();
-        ptdfInjectBusComboBox1 = new javax.swing.JComboBox();
-        ptdfMeasBranchPanel1 = new javax.swing.JPanel();
-        ptdfBranchListComboBox1 = new javax.swing.JComboBox();
-        ptdfAddBranchButton1 = new javax.swing.JButton();
-        ptdfInterfaceListComboBox1 = new javax.swing.JComboBox();
-        ptdfAddInterfaceButton1 = new javax.swing.JButton();
-        ptdfScrollPane1 = new javax.swing.JScrollPane();
-        ptdfMeasBranchList1 = new javax.swing.JList();
-        ptdfRemoveBranchButton1 = new javax.swing.JButton();
-        ptdfCalculateButton1 = new javax.swing.JButton();
 
         runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         runDclfTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
@@ -500,258 +500,134 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        lossInjectionPanel.setLayout(new java.awt.GridBagLayout());
+        ptdfInjectionPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Injection Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
 
-        lossGenBusLabel.setText("Gen Bus    ");
-        lossInjBusSelPanel.add(lossGenBusLabel);
+        ptdfInjectBusComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfInjectBusComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lossInjectBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        lossInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        lossInjBusSelPanel.add(lossInjectBusComboBox);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        lossInjectionPanel.add(lossInjBusSelPanel, gridBagConstraints);
-
-        lossWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-        lossWithdrawPanel.setLayout(new java.awt.GridBagLayout());
-
-        ptdfWithdrawButtonGroup.add(ptdfWithSingleBusRadioButton2);
-        ptdfWithSingleBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithSingleBusRadioButton2.setText("Single Bus");
-        ptdfWithSingleBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithSingleBusRadioButton2ActionPerformed(evt);
-            }
-        });
-        lossSingleMultiBusPanel.add(ptdfWithSingleBusRadioButton2);
-
-        ptdfWithdrawButtonGroup.add(ptdfWithMultiBusRadioButton2);
-        ptdfWithMultiBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithMultiBusRadioButton2.setText("Multi-Buses");
-        ptdfWithMultiBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithMultiBusRadioButton2ActionPerformed(evt);
-            }
-        });
-        lossSingleMultiBusPanel.add(ptdfWithMultiBusRadioButton2);
-
-        lossWithdrawPanel.add(lossSingleMultiBusPanel, new java.awt.GridBagConstraints());
-
-        ptdfWithdrawBusComboBox2.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithdrawBusComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        lossWithBusSelectPanel.add(ptdfWithdrawBusComboBox2);
-
-        ptdfWithdrawBusButtonGroup.add(ptdfWithLoadBusRadioButton2);
-        ptdfWithLoadBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfWithLoadBusRadioButton2.setText("Load ");
-        ptdfWithLoadBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithLoadBusRadioButton2ActionPerformed(evt);
-            }
-        });
-        lossWithBusSelectPanel.add(ptdfWithLoadBusRadioButton2);
-
-        ptdfWithdrawBusButtonGroup.add(ptdfWithAllBusRadioButton2);
-        ptdfWithAllBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfWithAllBusRadioButton2.setText("All Buses");
-        ptdfWithAllBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithAllBusRadioButton2ActionPerformed(evt);
-            }
-        });
-        lossWithBusSelectPanel.add(ptdfWithAllBusRadioButton2);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        lossWithdrawPanel.add(lossWithBusSelectPanel, gridBagConstraints);
-
-        ptdfWithdarwBusList2.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithdarwBusList2.setEnabled(false);
-        ptdfWithBusScrollPane2.setViewportView(ptdfWithdarwBusList2);
-
-        ptdfLoadDistFactorLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfLoadDistFactorLabel2.setText("Load Disttribution Factor");
-        ptdfLoadDistFactorLabel2.setEnabled(false);
-
-        ptdfDistFactorTextField2.setText("100.0");
-        ptdfDistFactorTextField2.setEnabled(false);
-
-        ptdfPercentLabel2.setText("%");
-        ptdfPercentLabel2.setEnabled(false);
-
-        ptdfAddWithBusButton2.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfAddWithBusButton2.setText("Add");
-        ptdfAddWithBusButton2.setEnabled(false);
-        ptdfAddWithBusButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfAddWithBusButton2ActionPerformed(evt);
-            }
-        });
-
-        ptdfRemoveWithBusButton2.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfRemoveWithBusButton2.setText("Remove");
-        ptdfRemoveWithBusButton2.setEnabled(false);
-        ptdfRemoveWithBusButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfRemoveWithBusButton2ActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout lossWithMultiBusPanelLayout = new org.jdesktop.layout.GroupLayout(lossWithMultiBusPanel);
-        lossWithMultiBusPanel.setLayout(lossWithMultiBusPanelLayout);
-        lossWithMultiBusPanelLayout.setHorizontalGroup(
-            lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lossWithMultiBusPanelLayout.createSequentialGroup()
-                .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lossWithMultiBusPanelLayout.createSequentialGroup()
-                        .add(32, 32, 32)
-                        .add(ptdfWithBusScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(lossWithMultiBusPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(lossWithMultiBusPanelLayout.createSequentialGroup()
-                                .add(ptdfAddWithBusButton2)
-                                .add(18, 18, 18)
-                                .add(ptdfRemoveWithBusButton2))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lossWithMultiBusPanelLayout.createSequentialGroup()
-                                .add(ptdfLoadDistFactorLabel2)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(ptdfDistFactorTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(ptdfPercentLabel2)))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        lossWithMultiBusPanelLayout.setVerticalGroup(
-            lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lossWithMultiBusPanelLayout.createSequentialGroup()
-                .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(ptdfLoadDistFactorLabel2)
-                    .add(ptdfDistFactorTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ptdfPercentLabel2))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfWithBusScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(ptdfRemoveWithBusButton2)
-                    .add(ptdfAddWithBusButton2))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        lossWithdrawPanel.add(lossWithMultiBusPanel, gridBagConstraints);
-
-        lossMeasBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monitor Branch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        lossBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        lossBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lossAddBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        lossAddBranchButton.setText("Add Branch");
-        lossAddBranchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lossAddBranchButtonActionPerformed(evt);
-            }
-        });
-
-        lossInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        lossInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        lossInterfaceListComboBox.setEnabled(false);
-
-        lossAddInterfaceButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        lossAddInterfaceButton.setText("Add Interface");
-        lossAddInterfaceButton.setEnabled(false);
-        lossAddInterfaceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lossAddInterfaceButtonActionPerformed(evt);
-            }
-        });
-
-        ptdfMeasBranchList2.setFont(new java.awt.Font("Dialog", 0, 12));
-        lossScrollPane.setViewportView(ptdfMeasBranchList2);
-
-        lossRemoveBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        lossRemoveBranchButton.setText("Remove");
-        lossRemoveBranchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lossRemoveBranchButtonActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout lossMeasBranchPanelLayout = new org.jdesktop.layout.GroupLayout(lossMeasBranchPanel);
-        lossMeasBranchPanel.setLayout(lossMeasBranchPanelLayout);
-        lossMeasBranchPanelLayout.setHorizontalGroup(
-            lossMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lossMeasBranchPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lossMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lossBranchListComboBox, 0, 138, Short.MAX_VALUE)
-                    .add(lossScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lossAddBranchButton)
-                    .add(lossRemoveBranchButton)
-                    .add(lossInterfaceListComboBox, 0, 138, Short.MAX_VALUE)
-                    .add(lossAddInterfaceButton))
+        org.jdesktop.layout.GroupLayout ptdfInjectionPanel1Layout = new org.jdesktop.layout.GroupLayout(ptdfInjectionPanel1);
+        ptdfInjectionPanel1.setLayout(ptdfInjectionPanel1Layout);
+        ptdfInjectionPanel1Layout.setHorizontalGroup(
+            ptdfInjectionPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfInjectionPanel1Layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .add(ptdfInjectBusComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 145, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        lossMeasBranchPanelLayout.setVerticalGroup(
-            lossMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lossMeasBranchPanelLayout.createSequentialGroup()
-                .add(lossBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossAddBranchButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossAddInterfaceButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossRemoveBranchButton)
+        ptdfInjectionPanel1Layout.setVerticalGroup(
+            ptdfInjectionPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(ptdfInjectionPanel1Layout.createSequentialGroup()
+                .add(ptdfInjectBusComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lossCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        lossCalculateButton.setText("Calculate");
-        lossCalculateButton.addActionListener(new java.awt.event.ActionListener() {
+        ptdfMeasBranchPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Measurement Branches", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+
+        ptdfBranchListComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfBranchListComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        ptdfAddBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfAddBranchButton1.setText("Add Branch");
+        ptdfAddBranchButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lossCalculateButtonActionPerformed(evt);
+                ptdfAddBranchButton1ActionPerformed(evt);
             }
         });
 
-        org.jdesktop.layout.GroupLayout lossFactorPanelLayout = new org.jdesktop.layout.GroupLayout(lossFactorPanel);
-        lossFactorPanel.setLayout(lossFactorPanelLayout);
-        lossFactorPanelLayout.setHorizontalGroup(
-            lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lossFactorPanelLayout.createSequentialGroup()
-                .add(26, 26, 26)
-                .add(lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(lossInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                    .add(lossWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(51, 51, 51))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lossFactorPanelLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
-                .add(lossCalculateButton)
-                .add(200, 200, 200))
-        );
-        lossFactorPanelLayout.setVerticalGroup(
-            lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lossFactorPanelLayout.createSequentialGroup()
+        ptdfInterfaceListComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfInterfaceListComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ptdfInterfaceListComboBox1.setEnabled(false);
+
+        ptdfAddInterfaceButton1.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfAddInterfaceButton1.setText("Add Interface");
+        ptdfAddInterfaceButton1.setEnabled(false);
+        ptdfAddInterfaceButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfAddInterfaceButton1ActionPerformed(evt);
+            }
+        });
+
+        ptdfMeasBranchList1.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfScrollPane1.setViewportView(ptdfMeasBranchList1);
+
+        ptdfRemoveBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfRemoveBranchButton1.setText("Remove");
+        ptdfRemoveBranchButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfRemoveBranchButton1ActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout ptdfMeasBranchPanel1Layout = new org.jdesktop.layout.GroupLayout(ptdfMeasBranchPanel1);
+        ptdfMeasBranchPanel1.setLayout(ptdfMeasBranchPanel1Layout);
+        ptdfMeasBranchPanel1Layout.setHorizontalGroup(
+            ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(ptdfMeasBranchPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lossFactorPanelLayout.createSequentialGroup()
-                        .add(lossInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(lossWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
-                    .add(lossMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(ptdfBranchListComboBox1, 0, 179, Short.MAX_VALUE)
+                    .add(ptdfScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(ptdfAddBranchButton1)
+                    .add(ptdfRemoveBranchButton1)
+                    .add(ptdfInterfaceListComboBox1, 0, 179, Short.MAX_VALUE)
+                    .add(ptdfAddInterfaceButton1))
+                .addContainerGap())
+        );
+        ptdfMeasBranchPanel1Layout.setVerticalGroup(
+            ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(ptdfMeasBranchPanel1Layout.createSequentialGroup()
+                .add(ptdfBranchListComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lossCalculateButton)
-                .add(65, 65, 65))
+                .add(ptdfAddBranchButton1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfInterfaceListComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfAddInterfaceButton1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfRemoveBranchButton1)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        runDclfTabbedPane.addTab("LossFactor", lossFactorPanel);
+        ptdfCalculateButton1.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfCalculateButton1.setText("Calculate");
+        ptdfCalculateButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfCalculateButton1ActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lodfPanelLayout = new org.jdesktop.layout.GroupLayout(lodfPanel);
+        lodfPanel.setLayout(lodfPanelLayout);
+        lodfPanelLayout.setHorizontalGroup(
+            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfPanelLayout.createSequentialGroup()
+                .addContainerGap(23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lodfPanelLayout.createSequentialGroup()
+                        .add(ptdfInjectionPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(ptdfMeasBranchPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lodfPanelLayout.createSequentialGroup()
+                        .add(ptdfCalculateButton1)
+                        .add(186, 186, 186))))
+        );
+        lodfPanelLayout.setVerticalGroup(
+            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(ptdfInjectionPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lodfPanelLayout.createSequentialGroup()
+                        .add(ptdfMeasBranchPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(ptdfCalculateButton1)))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        runDclfTabbedPane.addTab("LODF", lodfPanel);
 
         gsfInjectionPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -1299,6 +1175,259 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         runDclfTabbedPane.addTab("PTDF", ptdfPanel);
 
+        lossInjectionPanel.setLayout(new java.awt.GridBagLayout());
+
+        lossGenBusLabel.setText("Gen Bus    ");
+        lossInjBusSelPanel.add(lossGenBusLabel);
+
+        lossInjectBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        lossInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lossInjBusSelPanel.add(lossInjectBusComboBox);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        lossInjectionPanel.add(lossInjBusSelPanel, gridBagConstraints);
+
+        lossWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+        lossWithdrawPanel.setLayout(new java.awt.GridBagLayout());
+
+        ptdfWithdrawButtonGroup.add(ptdfWithSingleBusRadioButton2);
+        ptdfWithSingleBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfWithSingleBusRadioButton2.setText("Single Bus");
+        ptdfWithSingleBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfWithSingleBusRadioButton2ActionPerformed(evt);
+            }
+        });
+        lossSingleMultiBusPanel.add(ptdfWithSingleBusRadioButton2);
+
+        ptdfWithdrawButtonGroup.add(ptdfWithMultiBusRadioButton2);
+        ptdfWithMultiBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfWithMultiBusRadioButton2.setText("Multi-Buses");
+        ptdfWithMultiBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfWithMultiBusRadioButton2ActionPerformed(evt);
+            }
+        });
+        lossSingleMultiBusPanel.add(ptdfWithMultiBusRadioButton2);
+
+        lossWithdrawPanel.add(lossSingleMultiBusPanel, new java.awt.GridBagConstraints());
+
+        ptdfWithdrawBusComboBox2.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfWithdrawBusComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lossWithBusSelectPanel.add(ptdfWithdrawBusComboBox2);
+
+        ptdfWithdrawBusButtonGroup.add(ptdfWithLoadBusRadioButton2);
+        ptdfWithLoadBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfWithLoadBusRadioButton2.setText("Load ");
+        ptdfWithLoadBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfWithLoadBusRadioButton2ActionPerformed(evt);
+            }
+        });
+        lossWithBusSelectPanel.add(ptdfWithLoadBusRadioButton2);
+
+        ptdfWithdrawBusButtonGroup.add(ptdfWithAllBusRadioButton2);
+        ptdfWithAllBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfWithAllBusRadioButton2.setText("All Buses");
+        ptdfWithAllBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfWithAllBusRadioButton2ActionPerformed(evt);
+            }
+        });
+        lossWithBusSelectPanel.add(ptdfWithAllBusRadioButton2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        lossWithdrawPanel.add(lossWithBusSelectPanel, gridBagConstraints);
+
+        ptdfWithdarwBusList2.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfWithdarwBusList2.setEnabled(false);
+        ptdfWithBusScrollPane2.setViewportView(ptdfWithdarwBusList2);
+
+        ptdfLoadDistFactorLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfLoadDistFactorLabel2.setText("Load Disttribution Factor");
+        ptdfLoadDistFactorLabel2.setEnabled(false);
+
+        ptdfDistFactorTextField2.setText("100.0");
+        ptdfDistFactorTextField2.setEnabled(false);
+
+        ptdfPercentLabel2.setText("%");
+        ptdfPercentLabel2.setEnabled(false);
+
+        ptdfAddWithBusButton2.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfAddWithBusButton2.setText("Add");
+        ptdfAddWithBusButton2.setEnabled(false);
+        ptdfAddWithBusButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfAddWithBusButton2ActionPerformed(evt);
+            }
+        });
+
+        ptdfRemoveWithBusButton2.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfRemoveWithBusButton2.setText("Remove");
+        ptdfRemoveWithBusButton2.setEnabled(false);
+        ptdfRemoveWithBusButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ptdfRemoveWithBusButton2ActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lossWithMultiBusPanelLayout = new org.jdesktop.layout.GroupLayout(lossWithMultiBusPanel);
+        lossWithMultiBusPanel.setLayout(lossWithMultiBusPanelLayout);
+        lossWithMultiBusPanelLayout.setHorizontalGroup(
+            lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lossWithMultiBusPanelLayout.createSequentialGroup()
+                .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lossWithMultiBusPanelLayout.createSequentialGroup()
+                        .add(32, 32, 32)
+                        .add(ptdfWithBusScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(lossWithMultiBusPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(lossWithMultiBusPanelLayout.createSequentialGroup()
+                                .add(ptdfAddWithBusButton2)
+                                .add(18, 18, 18)
+                                .add(ptdfRemoveWithBusButton2))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lossWithMultiBusPanelLayout.createSequentialGroup()
+                                .add(ptdfLoadDistFactorLabel2)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(ptdfDistFactorTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(ptdfPercentLabel2)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        lossWithMultiBusPanelLayout.setVerticalGroup(
+            lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lossWithMultiBusPanelLayout.createSequentialGroup()
+                .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(ptdfLoadDistFactorLabel2)
+                    .add(ptdfDistFactorTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(ptdfPercentLabel2))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfWithBusScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(lossWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(ptdfRemoveWithBusButton2)
+                    .add(ptdfAddWithBusButton2))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        lossWithdrawPanel.add(lossWithMultiBusPanel, gridBagConstraints);
+
+        lossMeasBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monitor Branch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+
+        lossBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        lossBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lossAddBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lossAddBranchButton.setText("Add Branch");
+        lossAddBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lossAddBranchButtonActionPerformed(evt);
+            }
+        });
+
+        lossInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        lossInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lossInterfaceListComboBox.setEnabled(false);
+
+        lossAddInterfaceButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lossAddInterfaceButton.setText("Add Interface");
+        lossAddInterfaceButton.setEnabled(false);
+        lossAddInterfaceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lossAddInterfaceButtonActionPerformed(evt);
+            }
+        });
+
+        ptdfMeasBranchList2.setFont(new java.awt.Font("Dialog", 0, 12));
+        lossScrollPane.setViewportView(ptdfMeasBranchList2);
+
+        lossRemoveBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lossRemoveBranchButton.setText("Remove");
+        lossRemoveBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lossRemoveBranchButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lossMeasBranchPanelLayout = new org.jdesktop.layout.GroupLayout(lossMeasBranchPanel);
+        lossMeasBranchPanel.setLayout(lossMeasBranchPanelLayout);
+        lossMeasBranchPanelLayout.setHorizontalGroup(
+            lossMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lossMeasBranchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lossMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lossBranchListComboBox, 0, 138, Short.MAX_VALUE)
+                    .add(lossScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lossAddBranchButton)
+                    .add(lossRemoveBranchButton)
+                    .add(lossInterfaceListComboBox, 0, 138, Short.MAX_VALUE)
+                    .add(lossAddInterfaceButton))
+                .addContainerGap())
+        );
+        lossMeasBranchPanelLayout.setVerticalGroup(
+            lossMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lossMeasBranchPanelLayout.createSequentialGroup()
+                .add(lossBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossAddBranchButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossAddInterfaceButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossRemoveBranchButton)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lossCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lossCalculateButton.setText("Calculate");
+        lossCalculateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lossCalculateButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lossFactorPanelLayout = new org.jdesktop.layout.GroupLayout(lossFactorPanel);
+        lossFactorPanel.setLayout(lossFactorPanelLayout);
+        lossFactorPanelLayout.setHorizontalGroup(
+            lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lossFactorPanelLayout.createSequentialGroup()
+                .add(26, 26, 26)
+                .add(lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(lossInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                    .add(lossWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(51, 51, 51))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lossFactorPanelLayout.createSequentialGroup()
+                .addContainerGap(217, Short.MAX_VALUE)
+                .add(lossCalculateButton)
+                .add(200, 200, 200))
+        );
+        lossFactorPanelLayout.setVerticalGroup(
+            lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lossFactorPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lossFactorPanelLayout.createSequentialGroup()
+                        .add(lossInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(lossWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
+                    .add(lossMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lossCalculateButton)
+                .add(65, 65, 65))
+        );
+
+        runDclfTabbedPane.addTab("LossFactor", lossFactorPanel);
+
         areaTransPanel.setEnabled(false);
 
         atTransAmtLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -1661,135 +1790,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         runDclfTabbedPane.addTab("Area Transfer", areaTransPanel);
 
-        ptdfInjectionPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Injection Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        ptdfInjectBusComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfInjectBusComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        org.jdesktop.layout.GroupLayout ptdfInjectionPanel1Layout = new org.jdesktop.layout.GroupLayout(ptdfInjectionPanel1);
-        ptdfInjectionPanel1.setLayout(ptdfInjectionPanel1Layout);
-        ptdfInjectionPanel1Layout.setHorizontalGroup(
-            ptdfInjectionPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfInjectionPanel1Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .add(ptdfInjectBusComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 145, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        ptdfInjectionPanel1Layout.setVerticalGroup(
-            ptdfInjectionPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(ptdfInjectionPanel1Layout.createSequentialGroup()
-                .add(ptdfInjectBusComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ptdfMeasBranchPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Measurement Branches", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        ptdfBranchListComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfBranchListComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        ptdfAddBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfAddBranchButton1.setText("Add Branch");
-        ptdfAddBranchButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfAddBranchButton1ActionPerformed(evt);
-            }
-        });
-
-        ptdfInterfaceListComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfInterfaceListComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ptdfInterfaceListComboBox1.setEnabled(false);
-
-        ptdfAddInterfaceButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfAddInterfaceButton1.setText("Add Interface");
-        ptdfAddInterfaceButton1.setEnabled(false);
-        ptdfAddInterfaceButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfAddInterfaceButton1ActionPerformed(evt);
-            }
-        });
-
-        ptdfMeasBranchList1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfScrollPane1.setViewportView(ptdfMeasBranchList1);
-
-        ptdfRemoveBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfRemoveBranchButton1.setText("Remove");
-        ptdfRemoveBranchButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfRemoveBranchButton1ActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout ptdfMeasBranchPanel1Layout = new org.jdesktop.layout.GroupLayout(ptdfMeasBranchPanel1);
-        ptdfMeasBranchPanel1.setLayout(ptdfMeasBranchPanel1Layout);
-        ptdfMeasBranchPanel1Layout.setHorizontalGroup(
-            ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(ptdfMeasBranchPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ptdfBranchListComboBox1, 0, 179, Short.MAX_VALUE)
-                    .add(ptdfScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ptdfAddBranchButton1)
-                    .add(ptdfRemoveBranchButton1)
-                    .add(ptdfInterfaceListComboBox1, 0, 179, Short.MAX_VALUE)
-                    .add(ptdfAddInterfaceButton1))
-                .addContainerGap())
-        );
-        ptdfMeasBranchPanel1Layout.setVerticalGroup(
-            ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(ptdfMeasBranchPanel1Layout.createSequentialGroup()
-                .add(ptdfBranchListComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfAddBranchButton1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfInterfaceListComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfAddInterfaceButton1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfRemoveBranchButton1)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ptdfCalculateButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfCalculateButton1.setText("Calculate");
-        ptdfCalculateButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfCalculateButton1ActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout lodfPanelLayout = new org.jdesktop.layout.GroupLayout(lodfPanel);
-        lodfPanel.setLayout(lodfPanelLayout);
-        lodfPanelLayout.setHorizontalGroup(
-            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lodfPanelLayout.createSequentialGroup()
-                .addContainerGap(23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lodfPanelLayout.createSequentialGroup()
-                        .add(ptdfInjectionPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(ptdfMeasBranchPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lodfPanelLayout.createSequentialGroup()
-                        .add(ptdfCalculateButton1)
-                        .add(186, 186, 186))))
-        );
-        lodfPanelLayout.setVerticalGroup(
-            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lodfPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ptdfInjectionPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lodfPanelLayout.createSequentialGroup()
-                        .add(ptdfMeasBranchPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(ptdfCalculateButton1)))
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
-
-        runDclfTabbedPane.addTab("LODF", lodfPanel);
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1801,10 +1801,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 458, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 423, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(35, 35, 35))
         );
     }// </editor-fold>//GEN-END:initComponents
  

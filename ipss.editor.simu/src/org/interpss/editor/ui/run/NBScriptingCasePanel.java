@@ -43,7 +43,6 @@ import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

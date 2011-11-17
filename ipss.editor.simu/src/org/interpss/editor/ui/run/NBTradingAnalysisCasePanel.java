@@ -43,7 +43,7 @@ import org.interpss.xml.schema.BranchRecXmlType;
 import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
 import org.interpss.xml.schema.TradingStudyCaseXmlType;
 
-import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
@@ -80,7 +80,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
      }
 
      public boolean onMsgEventStatus(IpssMessage msg) {
-  	   throw new InvalidOperationException("Method not implemented");
+  	   throw new InterpssRuntimeException("Method not implemented");
      }
      
     public void init(Object netContainer, Object simuCtx) {
