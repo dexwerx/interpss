@@ -24,8 +24,6 @@
 
 package org.interpss.numeric.datatype;
 
-import java.security.InvalidParameterException;
-
 import org.interpss.numeric.NumericLogger;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.util.Number2String;
@@ -163,9 +161,9 @@ public class LimitType implements java.io.Serializable {
 	 *
 	 * @return the resulting number
 	 */
-	public double limitDiscrete(final double x, final double stepSize) {
+	public double limitDiscrete(final double x, final double stepSize) throws IpssNumericException {
 		if ((stepSize <= 0.0) || (getMax() <= getMin())) {
-			new InvalidParameterException("Wrong parameters, steps, max, min:"
+			throw new IpssNumericException("Wrong parameters, steps, max, min:"
 					+ stepSize + ", " + getMax() + ", " + getMin());
 		}
 		if (x > getMax()) {
