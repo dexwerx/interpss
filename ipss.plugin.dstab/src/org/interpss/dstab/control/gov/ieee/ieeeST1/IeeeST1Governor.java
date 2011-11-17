@@ -26,7 +26,7 @@ package org.interpss.dstab.control.gov.ieee.ieeeST1;
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.exp.InvalidInputException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.dstab.DStabBus;
@@ -144,7 +144,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 			// TODO: TBImpl
 			return false;
 		} else {
-			throw new InvalidInputException("SimpleGovernor.nextStep(), invalid method");
+			throw new InterpssRuntimeException("SimpleGovernor.nextStep(), invalid method");
 		}
 	}	
 	

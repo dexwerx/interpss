@@ -24,7 +24,9 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.func.ILookupTable;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
 
 /**
@@ -49,6 +51,11 @@ public class LookupTableFunction extends LookupTableFunctionAdapter {
 	 */
 	@Override
 	public double eval(double[] dAry) {
-		return getLookupTable().getY(dAry[0]);
+		try {
+			return getLookupTable().getY(dAry[0]);
+		} catch (InterpssException e) {
+			IpssLogger.getLogger().severe(e.toString());
+			return 0.0;
+		}
 	}
 }

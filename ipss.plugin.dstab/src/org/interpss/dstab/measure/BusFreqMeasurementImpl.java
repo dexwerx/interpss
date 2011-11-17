@@ -30,7 +30,8 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.exp.InterpssException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
@@ -140,11 +141,10 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	}
 
 	@Override
-	public Object deserialize(String str) throws InvalidParameterException {
+	public Object deserialize(String str) throws InterpssRuntimeException {
 		String classname = str.substring(0, str.indexOf('|'));
 		if (!classname.equals(this.getClass().getName())) {
-			throw new InvalidParameterException(
-					"Programming error, deserialize() of "
+			throw new InterpssRuntimeException("Programming error, deserialize() of "
 							+ this.getClass().getName());
 		}
 		String params = str.substring(str.indexOf('|') + 1);
