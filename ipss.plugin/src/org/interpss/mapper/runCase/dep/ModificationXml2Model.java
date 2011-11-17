@@ -39,6 +39,7 @@ import org.interpss.xml.schema.UnitDataType;
 import org.interpss.xml.schema.ValueChangeActionDataType;
 
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -201,10 +202,10 @@ public class ModificationXml2Model {
 				byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ComplexValueType.Power) {
-					re = UnitType.pConversion(re, baseKva, unit, UnitType.PU);
-					im = UnitType.pConversion(im, baseKva, unit, UnitType.PU);
+					re = UnitHelper.pConversion(re, baseKva, unit, UnitType.PU);
+					im = UnitHelper.pConversion(im, baseKva, unit, UnitType.PU);
 				} else if (ptype == ComplexValueType.Z) {
-					Complex z = UnitType.zConversion(new Complex(re, im),
+					Complex z = UnitHelper.zConversion(new Complex(re, im),
 							busBaseVolt, baseKva, unit, UnitType.PU);
 					re = z.getReal();
 					im = z.getImaginary();
@@ -247,7 +248,7 @@ public class ModificationXml2Model {
 				byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ValueType.Voltage) {
-					c = UnitType.vConversion(c, busBaseVolt, unit, UnitType.PU);
+					c = UnitHelper.vConversion(c, busBaseVolt, unit, UnitType.PU);
 				} 
 			}
 			if (changeRec.getChangeAction() == ValueChangeActionDataType.ADD) {

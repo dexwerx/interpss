@@ -50,6 +50,7 @@ import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.ODMUnitHelper;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
@@ -171,10 +172,10 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		peak.setStatus(xmlIntf.getOnPeakLimit().isStatus());
 		peak.setType(xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.BG? FlowInterfaceType.BG : 
 				xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.NG? FlowInterfaceType.NG : FlowInterfaceType.TOR);
-		peak.setRefDirExportLimit(UnitType.pConversion(
+		peak.setRefDirExportLimit(UnitHelper.pConversion(
 				xmlIntf.getOnPeakLimit().getRefDirExportLimit().getValue(), baseKav, 
 				ODMUnitHelper.toActivePowerUnit(xmlIntf.getOnPeakLimit().getRefDirExportLimit().getUnit()), UnitType.PU));
-		peak.setOppsiteRefDirImportLimit(UnitType.pConversion(
+		peak.setOppsiteRefDirImportLimit(UnitHelper.pConversion(
 				xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getValue(), baseKav, 
 				ODMUnitHelper.toActivePowerUnit(xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getUnit()), UnitType.PU));
 	}

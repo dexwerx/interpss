@@ -37,6 +37,7 @@ import org.interpss.xml.schema.UnitDataType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -70,7 +71,7 @@ public class Xml2AlgorithmMapperImpl {
 		if (xmlAlgo.getToleranceUnit() != null
 				&& xmlAlgo.getToleranceUnit() != UnitDataType.PU) {
 			byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
-			e = UnitType.pConversion(e, algo.getAclfNetwork().getBaseKva(),
+			e = UnitHelper.pConversion(e, algo.getAclfNetwork().getBaseKva(),
 					unit, UnitType.PU);
 		}
 		algo.setTolerance(e);

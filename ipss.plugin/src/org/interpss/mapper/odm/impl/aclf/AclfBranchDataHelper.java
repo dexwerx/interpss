@@ -36,6 +36,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
 
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
@@ -84,14 +85,14 @@ public class AclfBranchDataHelper {
 				 toShuntY = braLine.getToShuntY();
 
 		if (fromShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	
+			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	
 					fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
 					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 		if (toShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(toShuntY.getRe(),	
+			Complex ypu = UnitHelper.yConversion(new Complex(toShuntY.getRe(),	
 					toShuntY.getIm()),
 					aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
 					ODMUnitHelper.toYUnit(toShuntY.getUnit()), UnitType.PU);
@@ -108,7 +109,7 @@ public class AclfBranchDataHelper {
 
 		YXmlType fromShuntY = braXfr.getMagnitizingY();
 		if (fromShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
+			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
 					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
@@ -232,7 +233,7 @@ public class AclfBranchDataHelper {
 //        <magnitizingY unit="PU" im="-0.0042" re="0.0012"/>
 		YXmlType fromShuntY = xml3WXfr.getMagnitizingY();
 		if (fromShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
+			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					branch3W.getFromBus().getBaseVoltage(), baseKva,
 					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), UnitType.PU);
 			branch3W.getFromAclfBranch().setFromShuntY(ypu);

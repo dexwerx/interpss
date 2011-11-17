@@ -40,6 +40,7 @@ import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
@@ -70,12 +71,12 @@ public class AclfBusDataHelper {
 		double vpu = 1.0;
 		if (vXml != null) {
 			byte unit = ODMUnitHelper.toVoltageUnit(vXml.getUnit());
-			vpu = UnitType.vConversion(vXml.getValue(), aclfBus.getBaseVoltage(), unit, UnitType.PU);
+			vpu = UnitHelper.vConversion(vXml.getValue(), aclfBus.getBaseVoltage(), unit, UnitType.PU);
 		}
 		double angRad = 0.0;
 		if (busXmlData.getAngle() !=  null) {
 			byte unit = ODMUnitHelper.toAngleUnit(busXmlData.getAngle().getUnit()); 
-			angRad = UnitType.angleConversion(busXmlData.getAngle().getValue(), unit, UnitType.Rad); 
+			angRad = UnitHelper.angleConversion(busXmlData.getAngle().getValue(), unit, UnitType.Rad); 
 		}
 		aclfBus.setVoltage(vpu, angRad);
 
@@ -95,7 +96,7 @@ public class AclfBusDataHelper {
 			YXmlType shuntY = busXmlData.getShuntY();
 //			byte unit = shuntY.getUnit() == YUnitType.MVAR? UnitType.mVar : UnitType.PU;
 			byte unit = ODMUnitHelper.toYUnit(shuntY.getUnit());
-			Complex ypu = UnitType.yConversion(new Complex(shuntY.getRe(), shuntY.getIm()),
+			Complex ypu = UnitHelper.yConversion(new Complex(shuntY.getRe(), shuntY.getIm()),
 					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
 			//System.out.println("----------->" + shuntY.getIm() + ", " + shuntY.getUnit() + ", " + ypu.getImaginary());
 			aclfBus.setShuntY(ypu);
@@ -105,7 +106,7 @@ public class AclfBusDataHelper {
 			ReactivePowerXmlType shuntB = busXmlData.getShuntCompensatorData().getEquivQ();
 //			byte unit = shuntB.getUnit() == ReactivePowerUnitType.MVAR? UnitType.mVar : UnitType.PU;
 			byte unit = ODMUnitHelper.toReactivePowerUnit(shuntB.getUnit());
-			Complex ypu = UnitType.yConversion(new Complex(0.0, shuntB.getValue()),
+			Complex ypu = UnitHelper.yConversion(new Complex(0.0, shuntB.getValue()),
 					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
 			//System.out.println("----------->" + shuntB.getValue() + ", " + shuntB.getUnit() + ", " + ypu.getImaginary());
 			aclfBus.setShuntY(ypu);
@@ -141,7 +142,7 @@ public class AclfBusDataHelper {
 				
 					if (vXml == null)
 						throw new InterpssException("For Gen PV bus, equivGenData.desiredVoltage has to be defined, busId: " + aclfBus.getId());
-					double vpu = UnitType.vConversion(vXml.getValue(),
+					double vpu = UnitHelper.vConversion(vXml.getValue(),
 						aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), UnitType.PU);
 				
 					pvBus.setVoltMag(vpu, UnitType.PU);
@@ -175,7 +176,7 @@ public class AclfBusDataHelper {
 	  	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
 	  														xmlEquivGenData.getQLimit().getMin()), 
 	  														ODMUnitHelper.toReactivePowerUnit(xmlEquivGenData.getQLimit().getUnit()));						
-	  	  			  		reQBus.setVSpecified(UnitType.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
+	  	  			  		reQBus.setVSpecified(UnitHelper.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
 	  								aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), UnitType.PU));					
 	  					}
 					}
@@ -183,10 +184,10 @@ public class AclfBusDataHelper {
 		} else if (xmlEquivGenData.getCode() == LFGenCodeEnumType.SWING) {
 			aclfBus.setGenCode(AclfGenCode.SWING);
 			SwingBusAdapter swing = aclfBus.toSwingBus();
-			double vpu = UnitType.vConversion(vXml.getValue(),
+			double vpu = UnitHelper.vConversion(vXml.getValue(),
 					aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), UnitType.PU);
 			AngleXmlType angXml = genData.getEquivGen().getDesiredAngle(); 
-			double angRad = UnitType.angleConversion(angXml.getValue(),
+			double angRad = UnitHelper.angleConversion(angXml.getValue(),
 					ODMUnitHelper.toAngleUnit(angXml.getUnit()), UnitType.Rad);				
 			swing.setVoltMag(vpu, UnitType.PU);
 			swing.setVoltAng(angRad, UnitType.Rad);				

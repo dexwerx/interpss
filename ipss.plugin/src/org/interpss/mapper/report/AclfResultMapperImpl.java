@@ -39,6 +39,7 @@ import org.interpss.report.bean.aclf.RptPVLimitBean;
 import org.interpss.report.bean.aclf.RptRemoteQBusBean;
 import org.interpss.report.bean.aclf.RptTapVControlBean;
 
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
@@ -156,7 +157,7 @@ public class AclfResultMapperImpl {
 					if (bra.isActive()) {
 						if (bus.equals(bra.getFromAclfBus())) {
 							pq = bra.powerFrom2To(UnitType.mVA);
-							amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus()
+							amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus()
 									.getBaseVoltage(), baseKVA, UnitType.PU,
 									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
@@ -165,7 +166,7 @@ public class AclfResultMapperImpl {
 							}
 						} else {
 							pq = bra.powerTo2From(UnitType.mVA);
-							amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getToAclfBus()
+							amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getToAclfBus()
 									.getBaseVoltage(), baseKVA, UnitType.PU,
 									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {

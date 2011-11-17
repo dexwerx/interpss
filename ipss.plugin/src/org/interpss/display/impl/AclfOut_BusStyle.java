@@ -28,6 +28,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.util.Number2String;
 
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -93,7 +94,7 @@ public class AclfOut_BusStyle {
 					if (bus.getId().equals(bra.getFromAclfBus().getId())) {
 						toBus = bra.getToAclfBus();
 						pq = bra.powerFrom2To(UnitType.mVA);
-						amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus().getBaseVoltage(),
+						amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus().getBaseVoltage(),
 								baseKVA, UnitType.PU, UnitType.Amp);
 						if (bra.isXfr() || bra.isPSXfr()) {
 							fromRatio = bra.getFromTurnRatio();
@@ -107,7 +108,7 @@ public class AclfOut_BusStyle {
 					} else {
 						toBus = bra.getFromAclfBus();
 						pq = bra.powerTo2From(UnitType.mVA);
-						amp = UnitType.iConversion(bra.current(UnitType.PU), bra.getToAclfBus().getBaseVoltage(),
+						amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getToAclfBus().getBaseVoltage(),
 								baseKVA, UnitType.PU, UnitType.Amp);
 						if (bra.isXfr() || bra.isPSXfr()) {
 							toRatio = bra.getFromTurnRatio();

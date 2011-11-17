@@ -42,6 +42,7 @@ import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -294,7 +295,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 						.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()));
 		}
 
-		Complex ypu = UnitType.yConversion(new Complex(busData.getShuntG(),
+		Complex ypu = UnitHelper.yConversion(new Complex(busData.getShuntG(),
 				busData.getShuntB()), bus.getBaseVoltage(), aclfNet
 				.getBaseKva(), UnitType.toUnit(busData.getShuntYUnit()),
 				UnitType.PU);
