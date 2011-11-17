@@ -29,7 +29,7 @@ import java.util.List;
 
 import org.interpss.editor.data.common.ScPointData;
 
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.rec.BaseDataBean;
 
 /**
@@ -80,7 +80,7 @@ public class DistNetData extends BaseDataBean {
 		if (getLfStatusList().get(index) != null)
 			return ((Boolean)getLfStatusList().get(index)).booleanValue();
 		else
-			throw new InvalidParameterException("DistNetData.getLfStatus(), index: " + index);
+			throw new InterpssRuntimeException("DistNetData.getLfStatus(), index: " + index);
 	}
 
 	public void setScStd(String s) { this.scStd = s; }

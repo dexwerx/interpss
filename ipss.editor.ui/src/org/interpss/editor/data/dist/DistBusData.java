@@ -36,7 +36,7 @@ import org.interpss.editor.data.common.ComplexData;
 import org.interpss.editor.data.common.GroundData;
 import org.interpss.editor.data.common.ZData;
 
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DistBusData extends BaseDataBean {
@@ -151,7 +151,7 @@ public class DistBusData extends BaseDataBean {
 		if (z1List.size() > index)
 			return (ZData)z1List.get(index);
 		else 
-			throw new InvalidParameterException("Invalid DistBusData.getZ1() index: " + index);
+			throw new InterpssRuntimeException("Invalid DistBusData.getZ1() index: " + index);
 	}
 	public void setZ1(ZData z, int index) { 
 		if (z1List.size() > index)

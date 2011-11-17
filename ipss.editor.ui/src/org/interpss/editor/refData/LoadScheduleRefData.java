@@ -31,7 +31,7 @@ import java.util.List;
 import org.interpss.db.DBManager;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
-import com.interpss.common.exp.InvalidInputException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlBeanUtil;
 
@@ -75,7 +75,7 @@ public class LoadScheduleRefData {
 			if (s.getName().equals(schedule_name))
 				return s.getItemList().toArray();
 		}
-    	throw new InvalidInputException("No Load Schedule found, name " + schedule_name);
+    	throw new InterpssRuntimeException("No Load Schedule found, name " + schedule_name);
 	}
 	
 	public static LoadScheduleRefData getRefDataFromDB() {
@@ -94,7 +94,7 @@ public class LoadScheduleRefData {
 				}
 				
 		        if (schedule.getPoints() != schedule.getItemList().size()) {
-		        	throw new InvalidInputException("Load Schedule reference data is wrong, points, itemList.size() " +
+		        	throw new InterpssRuntimeException("Load Schedule reference data is wrong, points, itemList.size() " +
 		        			schedule.getPoints() + ", " + schedule.getItemList().size());
 		        }
 	        	refData.getScheduleList().add(schedule);				
