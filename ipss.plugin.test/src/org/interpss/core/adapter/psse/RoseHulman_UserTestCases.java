@@ -31,11 +31,11 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.PluginTestSetup;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -60,7 +60,7 @@ public class RoseHulman_UserTestCases extends PluginTestSetup {
 	  	
   		AclfBus swingBus = net.getAclfBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		Complex p = swing.getGenResults(UnitType.mW);
+  		Complex p = swing.getGenResults(Type.mW);
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}

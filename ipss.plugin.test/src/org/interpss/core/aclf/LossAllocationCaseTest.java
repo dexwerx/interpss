@@ -4,11 +4,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
@@ -59,7 +59,7 @@ public class LossAllocationCaseTest  extends PluginTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setMaxIterations(20);
-	  	algo.setTolerance(0.0001, UnitType.PU, net.getBaseKva());
+	  	algo.setTolerance(0.0001, Type.PU, net.getBaseKva());
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
   		assertTrue(net.isLfConverged());

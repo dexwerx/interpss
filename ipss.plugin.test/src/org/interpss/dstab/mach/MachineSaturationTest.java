@@ -27,10 +27,10 @@ package org.interpss.dstab.mach;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.DStabObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
@@ -47,7 +47,7 @@ public class MachineSaturationTest extends TestSetupBase {
 							createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, net, "Gen");
 		DStabBus bus = net.getDStabBus("Gen");
 		// set machine data
-		mach.setRating(100, UnitType.mVA, net.getBaseKva());
+		mach.setRating(100, Type.mVA, net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors(bus);
 		mach.setH(5.0);

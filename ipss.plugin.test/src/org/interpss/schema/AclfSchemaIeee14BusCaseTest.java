@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.PluginTestSetup;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.spring.PluginSpringCtx;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -13,7 +14,6 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
@@ -51,7 +51,7 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
 	  		assertTrue(algo.loadflow());
-	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU);
+	  		i = net.getAclfBranch("0004->0007(1)").current(Type.PU);
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
@@ -63,15 +63,15 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 //  		System.out.println(net.net2String());
   		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
   		net.rebuildLookupTable();
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU)-i) < 1.0E-5);
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(Type.PU)-i) < 1.0E-5);
 
   		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
   		net.rebuildLookupTable();
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU)-i) < 1.0E-5);
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(Type.PU)-i) < 1.0E-5);
 
   		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(3).getNetModelString());
   		net.rebuildLookupTable();
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU)-i) < 1.0E-5);
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(Type.PU)-i) < 1.0E-5);
 	}			
 
 	@Test
@@ -104,7 +104,7 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
 	  		assertTrue(algo.loadflow());
-	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU);
+	  		i = net.getAclfBranch("0004->0007(1)").current(Type.PU);
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
@@ -116,15 +116,15 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 //  		System.out.println(net.net2String());
   		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
   		net.rebuildLookupTable();
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU)-i) < 1.0E-5);
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(Type.PU)-i) < 1.0E-5);
 
   		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
   		net.rebuildLookupTable();
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU)-i) < 1.0E-5);
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(Type.PU)-i) < 1.0E-5);
 
   		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(3).getNetModelString());
   		net.rebuildLookupTable();
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU)-i) < 1.0E-5);
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(Type.PU)-i) < 1.0E-5);
 	}			
 
 	@Test

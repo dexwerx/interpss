@@ -29,9 +29,9 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -64,8 +64,8 @@ public class IEEECommonFormat_CommaTest extends PluginTestSetup {
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32393)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16549)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-2.32393)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.16549)<0.0001);
 	}
 }
 

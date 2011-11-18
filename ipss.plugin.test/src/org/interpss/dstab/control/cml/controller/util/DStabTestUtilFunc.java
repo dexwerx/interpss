@@ -1,7 +1,8 @@
 package org.interpss.dstab.control.cml.controller.util;
 
+import org.interpss.numeric.datatype.Unit.Type;
+
 import com.interpss.DStabObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
@@ -20,7 +21,7 @@ public class DStabTestUtilFunc {
 
 		Eq1Machine mach = (Eq1Machine)DStabObjectFactory.
 							createMachine("MachId", "MachName", MachineType.EQ1_MODEL, net, "BusId");
-		mach.setRating(100, UnitType.mVA, net.getBaseKva());
+		mach.setRating(100, Type.mVA, net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors(bus);
 		mach.setDStabBus(bus);

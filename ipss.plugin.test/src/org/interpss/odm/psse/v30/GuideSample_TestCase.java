@@ -32,12 +32,12 @@ import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -73,7 +73,7 @@ public class GuideSample_TestCase extends PluginTestSetup {
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		Complex p = swing.getGenResults(UnitType.mW);
+  		Complex p = swing.getGenResults(Type.mW);
   		System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-258.6568)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-104.04017)<0.01);
@@ -99,7 +99,7 @@ public class GuideSample_TestCase extends PluginTestSetup {
 	  	
   		AclfBus swingBus = net.getAclfBus("Bus3011");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		Complex p = swing.getGenResults(UnitType.mW);
+  		Complex p = swing.getGenResults(Type.mW);
   		//System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-258.657)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-104.045)<0.01);

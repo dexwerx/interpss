@@ -4,11 +4,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.PluginTestSetup;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfNetwork;
@@ -39,8 +39,8 @@ public class IEEE14ChangeRecorderTest  extends PluginTestSetup {
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
 		SwingBusAdapter swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-2.32394)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.20674)<0.0001);
   		
   		// make more changes to the network object
   		net.getAclfBus("0001").setGenCode(AclfGenCode.GEN_PV);
@@ -61,7 +61,7 @@ public class IEEE14ChangeRecorderTest  extends PluginTestSetup {
   		swingBus = (AclfBus)net.getBus("0001");
 		swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-2.32394)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.20674)<0.0001);
 	}			
 }

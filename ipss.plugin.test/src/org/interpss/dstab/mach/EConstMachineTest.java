@@ -26,10 +26,10 @@ package org.interpss.dstab.mach;
 
 import static org.junit.Assert.assertTrue;
 
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.DStabObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuMethod;
@@ -98,7 +98,7 @@ public class EConstMachineTest extends TestSetupBase {
 		EConstMachine mach = (EConstMachine)DStabObjectFactory.
 							createMachine("MachId", "MachName", MachineType.ECONSTANT, net, "Gen");
 		DStabBus bus = net.getDStabBus("Gen");
-		mach.setRating(100, UnitType.mVA, net.getBaseKva());
+		mach.setRating(100, Type.mVA, net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors(bus);
 		mach.setH(5.0);

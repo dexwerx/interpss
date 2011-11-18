@@ -29,10 +29,10 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -56,8 +56,8 @@ public class IEEECDFTempTest extends PluginTestSetup {
  		AclfBus swingBus = (AclfBus)net.getBus("Bus31");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 //		  31 BUS-31  100   1  1  3 0.982 0.     9.2      4.6       572.8349207.0362 100.    .98200 999900 -99990    0.      0.        0                                                                                                                                                                            
-  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.7286653)<0.0001);
-  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-2.0766519)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(Type.PU).getReal()-5.7286653)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(Type.PU).getImaginary()-2.0766519)<0.0001);
   		
   		//System.out.println(AclfOut.lfResultsBusStyle(net));
 	}

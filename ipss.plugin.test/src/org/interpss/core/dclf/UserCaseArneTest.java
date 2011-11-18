@@ -3,10 +3,10 @@ package org.interpss.core.dclf;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
 import org.interpss.display.DclfOutFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
@@ -33,27 +33,27 @@ public class UserCaseArneTest extends PluginTestSetup {
 		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 		
 		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1", net);
-        bus1.setBaseVoltage(1.0, UnitType.Volt);
+        bus1.setBaseVoltage(1.0, Type.Volt);
         bus1.setId("Bus1");
         bus1.setGenCode(AclfGenCode.SWING);
         //net.addBus(bus1);
 
         AclfBus bus2 = CoreObjectFactory.createAclfBus("Bus2", net);
-        bus2.setBaseVoltage(1.0, UnitType.Volt);
+        bus2.setBaseVoltage(1.0, Type.Volt);
         bus2.setId("Bus2");
         bus2.setLoadCode(AclfLoadCode.CONST_P);
         bus2.setLoadP(10);
         //net.addBus(bus2);
 
         AclfBus bus3 = CoreObjectFactory.createAclfBus("Bus3", net);
-        bus3.setBaseVoltage(1.0, UnitType.Volt);
+        bus3.setBaseVoltage(1.0, Type.Volt);
         bus3.setId("Bus3");
         bus3.setLoadCode(AclfLoadCode.CONST_P);
         bus3.setLoadP(10);
         //net.addBus(bus3);
 
         AclfBus bus4 = CoreObjectFactory.createAclfBus("Bus4", net);
-        bus4.setBaseVoltage(1.0, UnitType.Volt);
+        bus4.setBaseVoltage(1.0, Type.Volt);
         bus4.setId("Bus4");
         bus4.setLoadCode(AclfLoadCode.CONST_P);
         bus4.setLoadP(20.0);

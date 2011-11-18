@@ -10,10 +10,10 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.dstab.output.TextSimuOutputHandler;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
@@ -49,7 +49,7 @@ public class ODMMaper_IEEE9BusTest  extends DStabTestSetupBase {
 		//System.out.println(AclfOutFunc.loadFlowSummary(dstabNet));
 		//System.out.println("bus2 Angle(deg)="+dstabNet.getDStabBus("Bus2").getVoltageAng(UnitType.Deg));
 		assertTrue(Math.abs(dstabNet.getDStabBus("Bus2").getVoltageMag() - 1.039) < 0.001);
-		assertTrue(Math.abs(dstabNet.getDStabBus("Bus2").getVoltageAng(UnitType.Deg) + 3.43) < 0.01);
+		assertTrue(Math.abs(dstabNet.getDStabBus("Bus2").getVoltageAng(Type.Deg) + 3.43) < 0.01);
 	}
 	
 	/*
