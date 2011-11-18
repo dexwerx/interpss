@@ -26,8 +26,8 @@ package org.interpss.sample.aclf;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -46,7 +46,7 @@ public class SampleLoadflowDSL {
 		IpssAclfNet.addAclfBus("Bus3", "Bus 3", net)
 				.setBaseVoltage(100000.0)
 				.setGenCode(AclfGenCode.SWING)
-				.setVoltageSpec(0.90, UnitType.PU, 0.0, UnitType.Deg)
+				.setVoltageSpec(0.90, Type.PU, 0.0, Type.Deg)
 				.setLoadCode(AclfLoadCode.NON_LOAD);
 	
 		IpssAclfNet.addAclfBus("Bus2", "Bus 2", net)
@@ -59,23 +59,23 @@ public class SampleLoadflowDSL {
 		        .setBaseVoltage(100000.0)
 		        .setGenCode(AclfGenCode.NON_GEN)
 		        .setLoadCode(AclfLoadCode.CONST_P)
-		        .setLoad(new Complex(1.998, 2.96591), UnitType.PU);
+		        .setLoad(new Complex(1.998, 2.96591), Type.PU);
 	  
 		IpssAclfNet.addAclfBranch("Bus2", "Bus1", "Branch 2", net)
 				.setBranchCode(AclfBranchCode.LINE)
-				.setZ(new Complex(0.00, 0.93), UnitType.PU);
+				.setZ(new Complex(0.00, 0.93), Type.PU);
 		
 		IpssAclfNet.addAclfBranch("Bus2", "Bus1", "Branch 3", net)
 		        .setBranchCode(AclfBranchCode.LINE)
-		        .setZ(new Complex(0.00, 0.5), UnitType.PU);
+		        .setZ(new Complex(0.00, 0.5), Type.PU);
 		
 		IpssAclfNet.addAclfBranch("Bus3", "Bus2", "Branch 2", net)
 		        .setBranchCode(AclfBranchCode.LINE)
-		        .setZ(new Complex(0.00, 0.15), UnitType.PU);
+		        .setZ(new Complex(0.00, 0.15), Type.PU);
 	  	// create the default loadflow algorithm
 	  	IpssAclf.createAlgo(net)
 	  			.setLfMethod(AclfMethod.NR)
-	  			.setTolerance(0.0001, UnitType.PU)
+	  			.setTolerance(0.0001, Type.PU)
 	  			.runLoadflow();
 
 	  	// output loadflow calculation results

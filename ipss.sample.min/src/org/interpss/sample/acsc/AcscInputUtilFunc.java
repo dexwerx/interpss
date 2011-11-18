@@ -1,9 +1,10 @@
 package org.interpss.sample.acsc;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.Unit.Type;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.UnitType;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -46,13 +47,13 @@ public class AcscInputUtilFunc {
 				double baseVolt, int noArea, int noZone,
 				double r1,    double x1,
 				double r2,    double x2,
-				double r0,    double x0, byte zUnit,   
-				String   gCode, double rg, double xg, byte gzUnit) {
+				double r0,    double x0, Type zUnit,   
+				String   gCode, double rg, double xg, Type gzUnit) {
 		AcscBus bus = CoreObjectFactory.createAcscBus(busId, net);
 		//net.addBus(bus);	
 		bus.setName(name);
 		bus.setScCode(BusScCode.CONTRIBUTE);
-		bus.setBaseVoltage(baseVolt, UnitType.Volt );
+		bus.setBaseVoltage(baseVolt, Type.Volt );
 		bus.setScZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
 		bus.setScZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
 		bus.setScZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
@@ -77,7 +78,7 @@ public class AcscInputUtilFunc {
 		//net.addBus(bus);
 		bus.setName(name);
 		bus.setScCode(BusScCode.NON_CONTRI);
-		bus.setBaseVoltage(baseV, UnitType.Volt );
+		bus.setBaseVoltage(baseV, Type.Volt );
 		bus.setScZ(new Complex(0.0, 1.0e10), SequenceCode.POSITIVE);
 		bus.setScZ(new Complex(0.0, 1.0e10), SequenceCode.NEGATIVE);
 		bus.setScZ(new Complex(0.0, 1.0e10), SequenceCode.ZERO);
@@ -99,14 +100,14 @@ public class AcscInputUtilFunc {
 	 * @return
 	 */
 	public static AcscBranch addAcscLineBranchTo(AcscNetwork net, String branchFromBusId, String branchToBusId, String name,
-			double r1,	double x1, double r0, double x0, byte zUnit) {
+			double r1,	double x1, double r0, double x0, Type zUnit) {
 		AcscBranch branch = CoreObjectFactory.createAcscBranch();
 		branch.setName(name);
 		net.addBranch(branch, branchFromBusId, branchToBusId);
 		branch.setBranchCode(AclfBranchCode.LINE);
 		double baseVolt = branch.getFromAclfBus().getBaseVoltage(); 
-		branch.setZ( UnitType.zConversion(new Complex(r1,x1), baseVolt, net.getBaseKva(), zUnit, UnitType.PU));
-		branch.setZ0( UnitType.zConversion(new Complex(r0,x0), baseVolt, net.getBaseKva(), zUnit, UnitType.PU));
+		branch.setZ( UnitHelper.zConversion(new Complex(r1,x1), baseVolt, net.getBaseKva(), zUnit, Type.PU));
+		branch.setZ0( UnitHelper.zConversion(new Complex(r0,x0), baseVolt, net.getBaseKva(), zUnit, Type.PU));
 		return branch;
 	}
 
@@ -132,17 +133,17 @@ public class AcscInputUtilFunc {
 	 * @return
 	 */
 	public static AcscBranch addAcscXformerBranchTo(AcscNetwork net, String branchFromBusId, String branchToBusId, String name,
-			double r1,	double x1, double r0, double x0, byte zUnit, 
+			double r1,	double x1, double r0, double x0, Type zUnit, 
 			XfrConnectCode fromConCode, double fromRg, double fromXg,
-			XfrConnectCode toConCode, double toRg, double toXg, byte zgUnit) {
+			XfrConnectCode toConCode, double toRg, double toXg, Type zgUnit) {
 		AcscBranch branch = CoreObjectFactory.createAcscBranch();
 		branch.setName(name);
 		branch.setBranchCode(AclfBranchCode.XFORMER);
 		net.addBranch(branch, branchFromBusId, branchToBusId);
   		double baseVolt = branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage() ?
 		           branch.getFromAclfBus().getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
-		branch.setZ( UnitType.zConversion(new Complex(r1,x1), baseVolt, net.getBaseKva(), zUnit, UnitType.PU));
-		branch.setZ0( UnitType.zConversion(new Complex(r0,x0), baseVolt, net.getBaseKva(), zUnit, UnitType.PU));
+		branch.setZ( UnitHelper.zConversion(new Complex(r1,x1), baseVolt, net.getBaseKva(), zUnit, Type.PU));
+		branch.setZ0( UnitHelper.zConversion(new Complex(r0,x0), baseVolt, net.getBaseKva(), zUnit, Type.PU));
 		AcscXfrAdapter xfr = (AcscXfrAdapter)branch.getAdapter(AcscXfrAdapter.class);
 		xfr.setFromConnectGroundZ(fromConCode, new Complex(fromRg,fromXg), zgUnit);
 		xfr.setToConnectGroundZ(toConCode, new Complex(toRg,toXg), zgUnit);
@@ -174,18 +175,18 @@ public class AcscInputUtilFunc {
 	 * @return
 	 */
 	public static AcscBranch addAcscPSXfromerBranchTo(AcscNetwork net, String branchFromBusId, String branchToBusId, String name,
-			double r1,	double x1, double r0, double x0, byte zUnit, 
-			double fromAng, double toAng, byte angUnit,
+			double r1,	double x1, double r0, double x0, Type zUnit, 
+			double fromAng, double toAng, Type angUnit,
 			XfrConnectCode fromConCode, double fromRg, double fromXg,
-			XfrConnectCode toConCode, double toRg, double toXg, byte zgUnit) {
+			XfrConnectCode toConCode, double toRg, double toXg, Type zgUnit) {
 		AcscBranch branch = CoreObjectFactory.createAcscBranch();
 		branch.setName(name);
 		branch.setBranchCode(AclfBranchCode.XFORMER);
 		net.addBranch(branch, branchFromBusId, branchToBusId);
   		double baseVolt = branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage() ?
 		           branch.getFromAclfBus().getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
-		branch.setZ( UnitType.zConversion(new Complex(r1,x1), baseVolt, net.getBaseKva(), zUnit, UnitType.PU));
-		branch.setZ0( UnitType.zConversion(new Complex(r0,x0), baseVolt, net.getBaseKva(), zUnit, UnitType.PU));
+		branch.setZ( UnitHelper.zConversion(new Complex(r1,x1), baseVolt, net.getBaseKva(), zUnit, Type.PU));
+		branch.setZ0( UnitHelper.zConversion(new Complex(r0,x0), baseVolt, net.getBaseKva(), zUnit, Type.PU));
 		AcscPSXfrAdapter xfr = (AcscPSXfrAdapter)branch.getAdapter(AcscPSXfrAdapter.class);
 		xfr.setFromAngle(fromAng, angUnit);
 		xfr.setToAngle(toAng, angUnit);
