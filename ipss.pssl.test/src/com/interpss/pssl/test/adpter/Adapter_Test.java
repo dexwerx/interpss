@@ -25,9 +25,9 @@
 package com.interpss.pssl.test.adpter;
 
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.plugin.IpssAdapter;
@@ -44,7 +44,7 @@ public class Adapter_Test extends BaseTestSetup {
 		
 		IpssAclf.createAlgo(net)                        
 		            .lfMethod(AclfMethod.NR)
-		            .tolerance(0.0001, UnitType.PU)
+		            .tolerance(0.0001, Type.PU)
 		            .runLoadflow();               
 
 		System.out.println(AclfOutFunc.loadFlowSummary(net));

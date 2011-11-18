@@ -26,9 +26,9 @@ package com.interpss.pssl.test.aclf;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -48,20 +48,20 @@ public class Aclf_Test extends BaseTestSetup {
 		netDsl.addAclfBus("Bus1", "name-Bus 1")
 		            .baseVoltage(4000.0)
 		            .genCode(AclfGenCode.SWING)
-		            .voltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg);
+		            .voltageSpec(1.0, Type.PU, 0.0, Type.Deg);
 		         
 		netDsl.addAclfBus("Bus2", "name-Bus 2")
 		            .baseVoltage(4000.0)  
 		            .loadCode(AclfLoadCode.CONST_P)
-		            .load(new Complex(1.0, 0.8), UnitType.PU);
+		            .load(new Complex(1.0, 0.8), Type.PU);
 		         
 		netDsl.addAclfBranch("Bus1", "Bus2")
 		            .branchCode(AclfBranchCode.LINE)
-		            .z(new Complex(0.05, 0.1), UnitType.PU);       
+		            .z(new Complex(0.05, 0.1), Type.PU);       
 		               
 		IpssAclf.createAlgo(netDsl.getAclfNet())                        
 		            .lfMethod(AclfMethod.NR)
-		            .tolerance(0.0001, UnitType.PU)
+		            .tolerance(0.0001, Type.PU)
 		            .runLoadflow();               
 
 		System.out.println(AclfOutFunc.loadFlowSummary(netDsl.getAclfNet()));
@@ -77,19 +77,19 @@ public class Aclf_Test extends BaseTestSetup {
 			.zoneNumber(1)
 			.baseVoltage(1000.0)
 			.loadCode(AclfLoadCode.CONST_P)
-			.load(new Complex(0.1, 1.0), UnitType.PU);
+			.load(new Complex(0.1, 1.0), Type.PU);
 		
 		netDsl.addAclfBus(id, "Bus-"+id)
 			.areaNumber(1)
 			.zoneNumber(1)
-			.baseVoltage(1000.0, UnitType.Volt);
+			.baseVoltage(1000.0, Type.Volt);
 		
 		netDsl.addAclfBus(id, "Bus-"+id)
 			.areaNumber(1)
 			.zoneNumber(1)
 			.baseVoltage(1000.0)
 			.genCode(AclfGenCode.GEN_PQ)
-			.gen(new Complex(1.0,1.2), UnitType.kVA);		
+			.gen(new Complex(1.0,1.2), Type.kVA);		
 	}	
 }
 
