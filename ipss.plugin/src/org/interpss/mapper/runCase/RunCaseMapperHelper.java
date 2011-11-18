@@ -1,10 +1,10 @@
 package org.interpss.mapper.runCase;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 import org.interpss.xml.schema.AcscFaultXmlType;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.acsc.fault.AcscBranchFault;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
@@ -24,6 +24,6 @@ public class RunCaseMapperHelper {
 
 	public static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType xmlData, AcscBranchFault fault) {
 		acscFaultData2AcscBusFaultMapping(xmlData, fault);
-		fault.setDistance(xmlData.getDistance(), UnitType.Percent);
+		fault.setDistance(xmlData.getDistance(), Type.Percent);
 	}
 }

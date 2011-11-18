@@ -25,6 +25,7 @@
 package org.interpss.mapper.runCase.dep;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
@@ -38,7 +39,6 @@ import org.interpss.xml.schema.UnitDataType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitHelper;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
@@ -70,9 +70,9 @@ public class Xml2AlgorithmMapperImpl {
 		double e = xmlAlgo.getTolerance();
 		if (xmlAlgo.getToleranceUnit() != null
 				&& xmlAlgo.getToleranceUnit() != UnitDataType.PU) {
-			byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
+			Type unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
 			e = UnitHelper.pConversion(e, algo.getAclfNetwork().getBaseKva(),
-					unit, UnitType.PU);
+					unit, Type.PU);
 		}
 		algo.setTolerance(e);
 		algo.setInitBusVoltage(xmlAlgo.isInitBusVoltage());
@@ -161,6 +161,6 @@ public class Xml2AlgorithmMapperImpl {
 	public static void acscFaultData2AcscBranchFaultMapping(
 			AcscFaultXmlType data, AcscBranchFault fault) {
 		acscFaultData2AcscBusFaultMapping(data, fault);
-		fault.setDistance(data.getDistance(), UnitType.Percent);
+		fault.setDistance(data.getDistance(), Type.Percent);
 	}
 }

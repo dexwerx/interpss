@@ -38,12 +38,13 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.datatype.LimitType;
+import org.interpss.numeric.datatype.Unit;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
@@ -255,28 +256,28 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			bus.setGenCode(AclfGenCode.GEN_PQ);
 			PQBusAdapter pqBus = bus.toPQBus();
 			pqBus.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
-							UnitType.toUnit(busData.getGenUnit()));
+							Unit.toUnit(busData.getGenUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			bus.setGenCode(AclfGenCode.GEN_PV);
 			PVBusAdapter pvBus = bus.toPVBus();
-			pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData.getGenUnit()));
+			pvBus.setGenP(busData.getGenP(), Unit.toUnit(busData.getGenUnit()));
 			// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 			// ReQMvarFlow-MvarSpec
-			pvBus.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
+			pvBus.setVoltMag(busData.getVoltageMag(), Unit.toUnit(busData
 					.getVoltageMagUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Swing)) {
 			bus.setGenCode(AclfGenCode.SWING);
 			SwingBusAdapter swing = bus.toSwingBus();
-			swing.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
+			swing.setVoltMag(busData.getVoltageMag(), Unit.toUnit(busData
 					.getVoltageMagUnit()));
-			swing.setVoltAng(busData.getVoltageAng(), UnitType.toUnit(busData
+			swing.setVoltAng(busData.getVoltageAng(), Unit.toUnit(busData
 					.getVoltageAngUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Capacitor)) { // capacitor
 																					// bus
 			bus.setGenCode(AclfGenCode.CAPACITOR);
 			CapacitorBusAdapter cBus = bus.toCapacitorBus();
 			cBus.setQ(busData.getCapQ(),
-					UnitType.toUnit(busData.getCapQUnit()));
+					Unit.toUnit(busData.getCapQUnit()));
 		} else if (busData.getGenCode()
 				.equals(AclfBusData.GenCode_GenScripting)) {
 			bus.setGenCode(AclfGenCode.BUS_EXTENSION);
@@ -292,13 +293,13 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			LoadBusAdapter loadBus = bus.toLoadBus();
 			if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
 				loadBus.setLoad(new Complex(busData.getLoadP(), busData
-						.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()));
+						.getLoadQ()), Unit.toUnit(busData.getLoadUnit()));
 		}
 
 		Complex ypu = UnitHelper.yConversion(new Complex(busData.getShuntG(),
 				busData.getShuntB()), bus.getBaseVoltage(), aclfNet
-				.getBaseKva(), UnitType.toUnit(busData.getShuntYUnit()),
-				UnitType.PU);
+				.getBaseKva(), Unit.toUnit(busData.getShuntYUnit()),
+				Type.PU);
 		bus.setShuntY(ypu);
 
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting)
@@ -375,7 +376,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 							.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 					// ReQMvarFlow-MvarSpec
-					reQ.setMvarSpecified(adjData.getVoltageMag(), UnitType.PU);
+					reQ.setMvarSpecified(adjData.getVoltageMag(), Type.PU);
 					reQ.setFlowFrom2To(adjData.isFlowFrom2To());
 					reQ.setMvarOnFromSide(adjData.isMvarControlOnFromSide());
 				}
@@ -383,7 +384,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 				double max = adjData.getMaxVoltMag();
 				double min = adjData.getMinVoltMag();
 				PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(bus);
-				pqLimit.setVLimit(new LimitType(max, min), UnitType.PU);
+				pqLimit.setVLimit(new LimitType(max, min), Type.PU);
 			}
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			AclfAdjBusData adjData = formBus.getAcscBusData();
@@ -391,17 +392,17 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 				double max = adjData.getMaxGenQ();
 				double min = adjData.getMinGenQ();
 				PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
-				pvLimit.setQLimit(new LimitType(max, min), UnitType.PU);
+				pvLimit.setQLimit(new LimitType(max, min), Type.PU);
 			}
 		}
 
 		if (busData.getLoadCode().equals(AclfBusData.LoadCode_FuncLoad)) {
 			AclfAdjBusData adjData = formBus.getAcscBusData();
 			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus);
-			fload.getP().setA(adjData.getLoadP_PPct(), UnitType.Percent);
-			fload.getP().setB(adjData.getLoadP_IPct(), UnitType.Percent);
-			fload.getQ().setA(adjData.getLoadQ_PPct(), UnitType.Percent);
-			fload.getQ().setB(adjData.getLoadQ_IPct(), UnitType.Percent);
+			fload.getP().setA(adjData.getLoadP_PPct(), Type.Percent);
+			fload.getP().setB(adjData.getLoadP_IPct(), Type.Percent);
+			fload.getQ().setA(adjData.getLoadQ_PPct(), Type.Percent);
+			fload.getQ().setB(adjData.getLoadQ_IPct(), Type.Percent);
 		}
 		return true;
 	}
@@ -496,16 +497,16 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			AclfBranchData data = branchForm.getAcscBranchData();
 			branch.setBranchCode(AclfBranchCode.LINE);
 			LineAdapter line = branch.toLine();
-			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType
+			line.setZ(new Complex(data.getZR(), data.getZX()), Unit
 					.toUnit(data.getZUnit()), branch.getFromAclfBus()
 					.getBaseVoltage());
-			line.setHShuntY(new Complex(0.0, data.getHalfShuntB()), UnitType
+			line.setHShuntY(new Complex(0.0, data.getHalfShuntB()), Unit
 					.toUnit(data.getHalfShuntBUnit()), branch.getFromAclfBus()
 					.getBaseVoltage());
 			line.setFromShuntY(new Complex(data.getFromShuntG(),data.getFromShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()));
+					Unit.toUnit(data.getShuntYUnit()));
 			line.setToShuntY(new Complex(data.getToShuntG(),data.getToShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()));
+					Unit.toUnit(data.getShuntYUnit()));
 			line.setMvaRating1(data.getRating1());
 			line.setMvaRating2(data.getRating2());
 			line.setMvaRating3(data.getRating3());
@@ -527,17 +528,17 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			// unlikely
 			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 			XfrAdapter xfr = branch.toXfr();
-			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
+			xfr.setZ(new Complex(data.getZR(), data.getZX()), Unit
 					.toUnit(data.getZUnit()), baseV);
 
-			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), UnitType
+			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), Unit
 					.toUnit(data.getXfrTapUnit()));
-			xfr.setToTurnRatio(data.getXfrTapToSideTap(), UnitType.toUnit(data
+			xfr.setToTurnRatio(data.getXfrTapToSideTap(), Unit.toUnit(data
 					.getXfrTapUnit()));
 			xfr.setFromShuntY(new Complex(data.getFromShuntG(),data.getFromShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()));
+					Unit.toUnit(data.getShuntYUnit()));
 			xfr.setToShuntY(new Complex(data.getToShuntG(),data.getToShuntB()), 
-					UnitType.toUnit(data.getShuntYUnit()));
+					Unit.toUnit(data.getShuntYUnit()));
 			xfr.setMvaRating1(data.getRating1());
 			xfr.setMvaRating2(data.getRating2());
 			xfr.setMvaRating3(data.getRating3());
@@ -586,7 +587,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		AclfBranchData data = formBranch.getAcscBranchData();
 		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
 		PSXfrAdapter psXfr = branch.toPSXfr();
-		psXfr.setFromAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data
+		psXfr.setFromAngle(data.getPhaseShiftAngle(), Unit.toUnit(data
 				.getPhaseShiftAngleUnit()));
 		return true;
 	}

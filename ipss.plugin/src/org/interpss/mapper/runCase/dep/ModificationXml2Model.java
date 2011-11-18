@@ -26,6 +26,7 @@ package org.interpss.mapper.runCase.dep;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.ComplexFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.schema.AclfLoadCodeChangeXmlType;
 import org.interpss.xml.schema.AclfLoadCodeDataType;
@@ -40,7 +41,6 @@ import org.interpss.xml.schema.ValueChangeActionDataType;
 
 import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -146,10 +146,10 @@ public class ModificationXml2Model {
 		if (busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange() != null) {
 			if (bus.isSwing()) {
 	  			final SwingBusAdapter gen = bus.toSwingBus();
-				double x = applyValueChangeRec(gen.getVoltMag(UnitType.PU),
+				double x = applyValueChangeRec(gen.getVoltMag(Type.PU),
 						busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange(),
 						ValueType.Voltage, bus.getBaseVoltage());
-				gen.setVoltMag(x, UnitType.PU);
+				gen.setVoltMag(x, Type.PU);
 			}
 			else {
 				msg.sendErrorMsg("Error: try to set swing bus voltage of a non-swing bus, id: " + bus.getId());
@@ -199,14 +199,14 @@ public class ModificationXml2Model {
 			// the original is in PU
 			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
-				byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
+				Type unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ComplexValueType.Power) {
-					re = UnitHelper.pConversion(re, baseKva, unit, UnitType.PU);
-					im = UnitHelper.pConversion(im, baseKva, unit, UnitType.PU);
+					re = UnitHelper.pConversion(re, baseKva, unit, Type.PU);
+					im = UnitHelper.pConversion(im, baseKva, unit, Type.PU);
 				} else if (ptype == ComplexValueType.Z) {
 					Complex z = UnitHelper.zConversion(new Complex(re, im),
-							busBaseVolt, baseKva, unit, UnitType.PU);
+							busBaseVolt, baseKva, unit, Type.PU);
 					re = z.getReal();
 					im = z.getImaginary();
 				}
@@ -245,10 +245,10 @@ public class ModificationXml2Model {
 			double c = changeRec.getValue();
 			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
-				byte unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
+				Type unit = IpssXmlHelper.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ValueType.Voltage) {
-					c = UnitHelper.vConversion(c, busBaseVolt, unit, UnitType.PU);
+					c = UnitHelper.vConversion(c, busBaseVolt, unit, Type.PU);
 				} 
 			}
 			if (changeRec.getChangeAction() == ValueChangeActionDataType.ADD) {

@@ -26,8 +26,8 @@ package org.interpss.display.impl;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -72,7 +72,7 @@ public class AclfOut_PSSE {
 						bus.getNumber(), bus.getName(),
 						AclfOutFunc.formatKV(bus.getBaseVoltage()*0.001),
 						bus.getArea().getNumber(),
-						bus.getVoltageMag(), bus.getVoltageAng(UnitType.Deg));
+						bus.getVoltageMag(), bus.getVoltageAng(Type.Deg));
 		
 		double pgen = 0.0, pload = 0.0, pshunt = 0.0;
 		double qgen = 0.0, qload = 0.0, qshunt = 0.0;
@@ -102,7 +102,7 @@ public class AclfOut_PSSE {
 		
 		s += String.format(" -----------------------------------------------------------------------------\n");		
 		s += String.format("                             %3d %6s      ",
-						bus.getZone().getNumber(), AclfOutFunc.formatKV(bus.getVoltageMag(UnitType.kV)));
+						bus.getZone().getNumber(), AclfOutFunc.formatKV(bus.getVoltageMag(Type.kV)));
 		
 		s += String.format(" %7.1f%s %7.1f %7.1f", qgen, qchar, qload, qshunt);
 		
@@ -128,8 +128,8 @@ public class AclfOut_PSSE {
 						AclfOutFunc.formatKV(toBus.getBaseVoltage()*0.001),
 						toBus.getArea().getNumber(), branch.getCircuitNumber());
 
-		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar) :
-									branch.powerTo2From(UnitType.mVar);
+		Complex pq = onFromSide? branch.powerFrom2To(Type.mVar) :
+									branch.powerTo2From(Type.mVar);
 		double p = pq.getReal(), q = pq.getImaginary();
 		s += String.format("  %7.1f %7.1f", p, q);
 
@@ -179,9 +179,9 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		else	
 			s += String.format("%6.3f ", baseKV);
 		s += String.format("CKT     MW     MVAR     MVA  %2s %6.4fPU %7.2f  X--- LOSSES ---X X---- AREA -----X X---- ZONE -----X %6d\n",
-							"%I", bus.getVoltageMag(), bus.getVoltageAng(UnitType.Deg), bus.getNumber());
+							"%I", bus.getVoltageMag(), bus.getVoltageAng(Type.Deg), bus.getNumber());
 		
-		double vkv = bus.getVoltageMag(UnitType.kV);
+		double vkv = bus.getVoltageMag(Type.kV);
 /*
  FROM GENERATION                    600.0    34.4R  601.0 601 19.095KV               MW     MVAR    1 GD             19 50
  */
@@ -279,8 +279,8 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		else	
 			s += String.format("%7.3f ", vkv);
 
-		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar) :
-						branch.powerTo2From(UnitType.mVar);
+		Complex pq = onFromSide? branch.powerFrom2To(Type.mVar) :
+						branch.powerTo2From(Type.mVar);
 		s += String.format("%-2s %7.1f %7.1f %7.1f ", branch.getCircuitNumber(), 
 					pq.getReal(), pq.getImaginary(), pq.abs());
 
@@ -304,7 +304,7 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		else
 			s += String.format("                   ");
 			
-		Complex loss = branch.loss(UnitType.mVA);
+		Complex loss = branch.loss(Type.mVA);
 		s += String.format("%7.2f %7.2f   %2d %2s             %2d %2s\n", 
 					loss.getReal(), loss.getImaginary(),
 					branch.getArea().getNumber(), branch.getArea().getName(), 

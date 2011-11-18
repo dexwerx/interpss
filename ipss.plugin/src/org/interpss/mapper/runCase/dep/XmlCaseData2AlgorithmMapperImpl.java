@@ -26,6 +26,7 @@ package org.interpss.mapper.runCase.dep;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.dstab.DStabDEventData;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
@@ -46,7 +47,6 @@ import org.interpss.xml.schema.ValueChangeDataType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -277,7 +277,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 
 	private static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType xmlData, AcscBranchFault fault) {
 		acscFaultData2AcscBusFaultMapping(xmlData, fault);
-		fault.setDistance(xmlData.getDistance(), UnitType.Percent);
+		fault.setDistance(xmlData.getDistance(), Type.Percent);
 	}
 
 	private static void setEventData(DynamicEvent event,

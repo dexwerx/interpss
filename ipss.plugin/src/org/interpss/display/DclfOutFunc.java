@@ -27,6 +27,7 @@ package org.interpss.display;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.schema.BranchRecXmlType;
@@ -36,7 +37,6 @@ import org.interpss.xml.schema.DclfBusSensitivityXmlType;
 import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
 import org.interpss.xml.schema.SenBusAnalysisDataType;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -375,7 +375,7 @@ public class DclfOutFunc {
 			}			
 			
 			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber);
-			double baseMva = bra.mvaFlow(UnitType.mVA);
+			double baseMva = bra.mvaFlow(Type.mVA);
 			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
 			double limitMva = bra.getRatingMva1() * areaTransfer.getDeratingFactor();
 			boolean v = newMva > limitMva;

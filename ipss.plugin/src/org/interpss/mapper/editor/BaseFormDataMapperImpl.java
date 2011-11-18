@@ -27,9 +27,9 @@ package org.interpss.mapper.editor;
 import org.interpss.editor.form.base.BaseBranchForm;
 import org.interpss.editor.form.base.BaseBusForm;
 import org.interpss.editor.form.base.BaseNetForm;
+import org.interpss.numeric.datatype.Unit;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
@@ -74,7 +74,7 @@ public class BaseFormDataMapperImpl {
 		Zone zone = CoreObjectFactory.createZone(formBus.getZone(), net);
 		bus.setArea(area);
 		bus.setZone(zone);
-		bus.setBaseVoltage(formBus.getBaseVoltage(), UnitType.toUnit(formBus
+		bus.setBaseVoltage(formBus.getBaseVoltage(), Unit.toUnit(formBus
 				.getBaseVoltUnit()));
 	}
 

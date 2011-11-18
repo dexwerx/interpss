@@ -38,10 +38,11 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.NumericConstant;
+import org.interpss.numeric.datatype.Unit;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
@@ -211,11 +212,11 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		try {
 			setBusScZ(bus, net.getBaseKva(), busData.getZ1R(),
 					busData.getZ1X(), busData.getZ2R(), busData.getZ2X(),
-					busData.getZ0R(), busData.getZ0X(), UnitType.toUnit(busData
+					busData.getZ0R(), busData.getZ0X(), Unit.toUnit(busData
 							.getZUnit()));
 			setBusScZg(bus, bus.getBaseVoltage(), net.getBaseKva(), busData
 					.getGround().getCode(), busData.getGround().getR(), busData
-					.getGround().getX(), UnitType.toUnit(busData.getGround()
+					.getGround().getX(), Unit.toUnit(busData.getGround()
 					.getUnit()));
 			return true;
 		} catch (Exception e) {
@@ -236,14 +237,14 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 	}
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, double r1,
-			double x1, double r2, double x2, double r0, double x0, byte zUnit) {
+			double x1, double r2, double x2, double r0, double x0, Type zUnit) {
 		bus.setScZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
 		bus.setScZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
 		bus.setScZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
-			String gType, double rg, double xg, byte zgUnit) {
+			String gType, double rg, double xg, Type zgUnit) {
 		bus.getGrounding().setCode(
 				CoreUtilFunc.scGroundType2BusGroundCode(gType));
 		bus.getGrounding().setZ(new Complex(rg, xg), zgUnit, baseV, baseKVA);
@@ -308,8 +309,8 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		AcscLineAdapter line = (AcscLineAdapter) branch
 				.getAdapter(AcscLineAdapter.class);
 		line.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
-				UnitType.toUnit(branchData.getZ0Unit()), baseV);
-		line.setHB0(branchData.getHalfShuntB0(), UnitType.toUnit(branchData
+				Unit.toUnit(branchData.getZ0Unit()), baseV);
+		line.setHB0(branchData.getHalfShuntB0(), Unit.toUnit(branchData
 				.getHalfShuntB0Unit()), baseV);
 		return true;
 	}
@@ -322,17 +323,17 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		AcscXfrAdapter xfr = (AcscXfrAdapter) branch
 				.getAdapter(AcscXfrAdapter.class);
 		xfr.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
-				UnitType.toUnit(branchData.getZ0Unit()), baseV);
+				Unit.toUnit(branchData.getZ0Unit()), baseV);
 
 		XfrConnectData connect = branchData.getFromXfrConnectData();
 		xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(
 				connect.getGrounding().getR(), connect.getGrounding().getX()),
-				UnitType.toUnit(connect.getGrounding().getUnit()));
+				Unit.toUnit(connect.getGrounding().getUnit()));
 
 		connect = branchData.getToXfrConnectData();
 		xfr.setToConnectGroundZ(calXfrConnectCode(connect), new Complex(connect
 				.getGrounding().getR(), connect.getGrounding().getX()),
-				UnitType.toUnit(connect.getGrounding().getUnit()));
+				Unit.toUnit(connect.getGrounding().getUnit()));
 
 		return true;
 	}

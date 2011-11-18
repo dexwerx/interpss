@@ -30,9 +30,9 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Complex3x1;
 import org.interpss.numeric.datatype.ComplexFunc;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.numeric.util.Number2String;
 
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -115,22 +115,22 @@ public class AcscOutFunc {
 		StringBuffer str = new StringBuffer("");
 		if (bf.getFaultCode() == SimpleFaultCode.GROUND_3P) {
 			Complex ipu = bf.getFaultResult().getSCCurrent_012().b_1;
-			Complex amp = bf.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV,	baseKVA).b_1;
+			Complex amp = bf.getFaultResult().getSCCurrent_012(Type.Amp, baseV,	baseKVA).b_1;
 
 			str.append("          Fault current: " + ComplexFunc.toMagAng(ipu) + " pu");
 			str.append("    " + String.format("%5.2f", amp.abs()) + " amps\n");
 
-			if (bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA).abs() > 0.0)
+			if (bf.getFaultResult().getZFault(Type.Ohm, baseV, baseKVA).abs() > 0.0)
 				str.append("          Fault z:       "
-						+ String.format("%3.2f", bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA).abs()) + " ohms\n");
+						+ String.format("%3.2f", bf.getFaultResult().getZFault(Type.Ohm, baseV, baseKVA).abs()) + " ohms\n");
 		}
 		else {
 			Complex ipua = bf.getFaultResult().getSCCurrent_abc().a_0;
-			Complex ampa = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).a_0;
+			Complex ampa = bf.getFaultResult().getSCCurrent_abc(Type.Amp, baseV,	baseKVA).a_0;
 			Complex ipub = bf.getFaultResult().getSCCurrent_abc().b_1;
-			Complex ampb = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).b_1;
+			Complex ampb = bf.getFaultResult().getSCCurrent_abc(Type.Amp, baseV,	baseKVA).b_1;
 			Complex ipuc = bf.getFaultResult().getSCCurrent_abc().c_2;
-			Complex ampc = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).c_2;
+			Complex ampc = bf.getFaultResult().getSCCurrent_abc(Type.Amp, baseV,	baseKVA).c_2;
 
 			str.append("          Fault current (A): " + ComplexFunc.toMagAng(ipua) + " pu");
 			str.append("    " + String.format("%5.2f", ampa.abs()) + " amps\n");
@@ -163,7 +163,7 @@ public class AcscOutFunc {
 				Complex v1 = bf.getFaultResult().getBusVoltage_012(bus).b_1;
 				double vpu = v1.abs();
 				Complex3x1 ampPu = bf.getFaultResult().getBusContriAmps_012(bus);
-				Complex3x1 amps = bf.getFaultResult().getBusContriAmps_012(bus, UnitType.Amp,
+				Complex3x1 amps = bf.getFaultResult().getBusContriAmps_012(bus, Type.Amp,
 						bus.getBaseVoltage(), net.getBaseKva());
 				str.append(ComplexFunc.toMagAng(v1));
 				str.append(Number2String.toStr("#######0.#", vpu
@@ -242,7 +242,7 @@ public class AcscOutFunc {
 				str.append("     " + Number2String.toStr(-20, bra.getId())	+ "   ");
 				try {
 					Complex3x1 cpu = bf.getFaultResult().getBranchAmpsFrom2To_012(++cnt);
-					Complex3x1 camp = bf.getFaultResult().getBranchAmpsFrom2To_012(cnt, UnitType.Amp,
+					Complex3x1 camp = bf.getFaultResult().getBranchAmpsFrom2To_012(cnt, Type.Amp,
 									bra.getFromBus().getBaseVoltage(),
 									net.getBaseKva());
 					str.append(Number2String.toStr("###0.###", cpu.b_1.abs()) + "   "
@@ -264,7 +264,7 @@ public class AcscOutFunc {
 				AcscBranch bra = (AcscBranch) branchList.get(n);
 				try {
 					Complex3x1 cpu = bf.getFaultResult().getBranchAmpsFrom2To_012(++cnt);
-					Complex3x1 camp = bf.getFaultResult().getBranchAmpsFrom2To_012(cnt, UnitType.Amp,
+					Complex3x1 camp = bf.getFaultResult().getBranchAmpsFrom2To_012(cnt, Type.Amp,
 									bra.getFromBus().getBaseVoltage(),
 									net.getBaseKva());
 					str.append("     " + Number2String.toStr(-20, bra.getId()) + "   ");
@@ -277,7 +277,7 @@ public class AcscOutFunc {
 
 					cpu = bf.getFaultResult().getBranchAmpsTo2From_012(cnt);
 					camp = bf.getFaultResult().getBranchAmpsTo2From_012(cnt,
-							UnitType.Amp, bra.getToBus().getBaseVoltage(),
+							Type.Amp, bra.getToBus().getBaseVoltage(),
 							net.getBaseKva());
 					str.append("     " + Number2String.toStr(-9, " ") + "<-"
 							+ Number2String.toStr(-9, " ") + "   ");
@@ -305,7 +305,7 @@ public class AcscOutFunc {
 				try {
 					Complex3x1 cpu = bf.getFaultResult().getBranchAmpsFrom2To_abc(++cnt);
 					double baseV = bra.getFromBus().getBaseVoltage() / NumericConstant.SqrtRoot3;
-					Complex3x1 camp = bf.getFaultResult().getBranchAmpsFrom2To_abc(cnt, UnitType.Amp,
+					Complex3x1 camp = bf.getFaultResult().getBranchAmpsFrom2To_abc(cnt, Type.Amp,
 									baseV,	net.getBaseKva());
 					str.append(Number2String.toStr("###0.###", cpu.a_0.abs()) + "   "
 							+ Number2String.toStr("#######0.#", camp.a_0.abs())	+ "   ");
@@ -317,7 +317,7 @@ public class AcscOutFunc {
 					cpu = bf.getFaultResult().getBranchAmpsTo2From_abc(cnt);
 					baseV = bra.getToBus().getBaseVoltage() / NumericConstant.SqrtRoot3;
 					camp = bf.getFaultResult().getBranchAmpsTo2From_abc(cnt,
-							UnitType.Amp, baseV, net.getBaseKva());
+							Type.Amp, baseV, net.getBaseKva());
 					str.append("     " + Number2String.toStr(-9, " ") + "<-"
 							+ Number2String.toStr(-9, " ") + "   ");
 					str.append(Number2String.toStr("###0.###", cpu.a_0.abs()) + "   "

@@ -37,10 +37,11 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.numeric.datatype.Unit;
+import org.interpss.numeric.datatype.Unit.Type;
 
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
@@ -185,7 +186,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			mach = DStabObjectFactory.createMachine(Constants.Token_MachId
 					+ busId, machData.getName(),
 					getMachType(machData.getType()), dstabNet, busId);
-			mach.setRating(machData.getRating(), UnitType.mVA, dstabNet.getBaseKva());
+			mach.setRating(machData.getRating(), Type.mVA, dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
 			mach.setMultiFactors(dstabBus);
 			mach.setH(machData.getInertia());
@@ -195,7 +196,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			mach.setX2(machData.getX2());
 			ScGroundType gtype = new ScGroundType();
 			gtype.setZ(new Complex(machData.getGround().getR(), machData
-					.getGround().getX()), UnitType.toUnit(machData.getGround()
+					.getGround().getX()), Unit.toUnit(machData.getGround()
 					.getUnit()), machData.getRatedVolt(),
 					machData.getRating() * 1000.0);
 			mach.getGrounding().setCode(
@@ -204,9 +205,9 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			mach.getGrounding().setZ(
 					new Complex(machData.getGround().getR(), machData
 							.getGround().getX()),
-					UnitType.toUnit(machData.getGround().getUnit()),
+							Unit.toUnit(machData.getGround().getUnit()),
 					machData.getRatedVolt(), machData.getRating() * 1000.0);
-			mach.getGrounding().setUnit(UnitType.PU);
+			mach.getGrounding().setUnit(Type.PU);
 
 			if (mach.getMachType() == MachineType.ECONSTANT) {
 				EConstMachine m = (EConstMachine) mach;

@@ -44,9 +44,9 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.numeric.datatype.Unit;
 
 import com.interpss.DistObjectFactory;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.XFormerConnectCode;
@@ -183,20 +183,20 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 																DistBusData.BusCode_MixedLoad) ? DistBusCode.MIXED_LOAD
 														: DistBusCode.NON_CONTRIBUTE)))));
 		bus.setVoltageMag(busData.getVoltage());
-		bus.setVMagUnit(UnitType.toUnit(busData.getVoltageUnit()));
+		bus.setVMagUnit(Unit.toUnit(busData.getVoltageUnit()));
 		bus.setVoltageAng(busData.getVAngle());
-		bus.setVAngUnit(UnitType.toUnit(busData.getVAngleUnit()));
+		bus.setVAngUnit(Unit.toUnit(busData.getVAngleUnit()));
 		bus.setMvaRating3P(busData.getMvaRating3P());
 		bus.setMvaRating1P(busData.getMvaRating1P());
-		bus.setMvaRatingUnit(UnitType.toUnit(busData.getMvaRatingUnit()));
+		bus.setMvaRatingUnit(Unit.toUnit(busData.getMvaRatingUnit()));
 		bus.setX_R3P(busData.getX_r3P());
 		bus.setX_R1P(busData.getX_r1P());
 		bus.setRatedVoltage(busData.getRatedVolt());
-		bus.setRatedVUnit(UnitType.toUnit(busData.getRatedVoltUnit()));
+		bus.setRatedVUnit(Unit.toUnit(busData.getRatedVoltUnit()));
 		bus.setBusRating(busData.getBusRating());
-		bus.setBusRatingUnit(UnitType.toUnit(busData.getBusRatingUnit()));
+		bus.setBusRatingUnit(Unit.toUnit(busData.getBusRatingUnit()));
 		bus.setPFactor(busData.getPFactor());
-		bus.setPfUnit(UnitType.toUnit(busData.getPFactorUnit()));
+		bus.setPfUnit(Unit.toUnit(busData.getPFactorUnit()));
 		bus.setEff(busData.getEff());
 		bus.setMotorPercent(busData.getMotorPercent());
 		bus.setLoading(busData.getLoading());
@@ -207,7 +207,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		bus.setZ1(new Complex(busData.getZ1R(), busData.getZ1X()));
 		bus.setZ0(new Complex(busData.getZ0R(), busData.getZ0X()));
 		bus.setZ2(new Complex(busData.getZ2R(), busData.getZ2X()));
-		bus.setZUnit(UnitType.toUnit(busData.getZUnit()));
+		bus.setZUnit(Unit.toUnit(busData.getZUnit()));
 
 		bus.getGrounding().setCode(
 				CoreUtilFunc.scGroundType2BusGroundCode(busData.getGround()
@@ -215,7 +215,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		bus.getGrounding().setZ(
 				new Complex(busData.getGround().getR(), busData.getGround()
 						.getX()),
-				UnitType.toUnit(busData.getGround().getUnit()),
+						Unit.toUnit(busData.getGround().getUnit()),
 				bus.getBaseVoltage(), distNet.getBaseKva());
 
 		if (distNet.getLoadScheduleData().getSchedulePoints() > 0
@@ -262,22 +262,22 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		branch.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()));
 		if (branch.getBranchCode() == DistBranchCode.FEEDER
 				|| branch.getBranchCode() == DistBranchCode.BREAKER) {
-			branch.setZUnit(UnitType.toUnit("Ohm"));
+			branch.setZUnit(Unit.toUnit("Ohm"));
 		} else
-			branch.setZUnit(UnitType.toUnit(branchData.getZUnit()));
+			branch.setZUnit(Unit.toUnit(branchData.getZUnit()));
 		branch.setHShuntY(new Complex(0.0, branchData.getHalfShuntB()));
 		branch.setHShuntY0(new Complex(0.0, branchData.getHalfShuntB0()));
-		branch.setShuntYUnit(UnitType.toUnit(branchData.getHalfShuntBUnit()));
+		branch.setShuntYUnit(Unit.toUnit(branchData.getHalfShuntBUnit()));
 		branch.setLength(branchData.getLength());
-		branch.setLengthUnit(UnitType.toUnit(branchData.getLengthUnit()));
+		branch.setLengthUnit(Unit.toUnit(branchData.getLengthUnit()));
 		branch.setPrimaryTurnRatio(branchData.getXfrTapFromSideTap());
 		branch.setSecondaryTurnRatio(branchData.getXfrTapToSideTap());
-		branch.setXfrTurnRatioUnit(UnitType.toUnit(branchData.getXfrTapUnit()));
+		branch.setXfrTurnRatioUnit(Unit.toUnit(branchData.getXfrTapUnit()));
 		branch.setXfrRating(branchData.getXfrRating());
-		branch.setXfrRatingUnit(UnitType.toUnit(branchData.getXfrRatingUnit()));
+		branch.setXfrRatingUnit(Unit.toUnit(branchData.getXfrRatingUnit()));
 		branch.setPrimaryRatedV(branchData.getFromRatedVolt());
 		branch.setSecondaryRatedV(branchData.getToRatedVolt());
-		branch.setRatedVUnit(UnitType.toUnit(branchData.getRatedVoltUnit()));
+		branch.setRatedVUnit(Unit.toUnit(branchData.getRatedVoltUnit()));
 
 		branch.setPrimaryConnect(branchData.getFromXfrConnectData().getCode()
 				.equals(XfrConnectData.Code_Wye) ? XFormerConnectCode.WYE
@@ -293,7 +293,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		GroundData gdata = branchData.getFromXfrConnectData().getGrounding();
 		branch.getPrimaryGrounding().setZ(
 				new Complex(gdata.getR(), gdata.getX()),
-				UnitType.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());
+				Unit.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());
 
 		if (!branchData.getToXfrConnectData().getGrounding().getUnit().toUpperCase().equals("PU")) {
 			baseV = distNet.getBus(branchForm.getToId()).getBaseVoltage();
@@ -303,7 +303,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 				CoreUtilFunc.scGroundType2BusGroundCode(gdata.getCode()));
 		branch.getSecondaryGrounding().setZ(
 				new Complex(gdata.getR(), gdata.getX()),
-				UnitType.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());
+				Unit.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());
 
 		distNet.addBranch(branch, branchForm.getFromId(), branchForm.getToId());
 		return branch;
