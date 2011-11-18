@@ -32,10 +32,11 @@ import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.numeric.datatype.Complex3x1;
+import org.interpss.numeric.datatype.Unit.Type;
 import org.interpss.numeric.util.Number2String;
 import org.jgraph.JGraph;
 
-import com.interpss.common.datatype.UnitType;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -84,18 +85,18 @@ public class GraphSimuUtilFunc {
 							form.getId());
 					GenBusAdapter genBus = bus.toGenBus();
 					Complex busPQ = genBus
-							.getGenResults(UnitType.PU)
+							.getGenResults(Type.PU)
 							.subtract(
-									genBus.getLoadResults(UnitType.PU));
+									genBus.getLoadResults(Type.PU));
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = bus.toCapacitorBus();
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-								.getVoltageMag(), UnitType.PU)));
+								.getVoltageMag(), Type.PU)));
 					}
 					String v = Number2String.toStr("0.000", bus
-							.getVoltageMag(UnitType.PU));
+							.getVoltageMag(Type.PU));
 					String ang = Number2String.toStr("0.0", bus
-							.getVoltageAng(UnitType.Deg));
+							.getVoltageAng(Type.Deg));
 					String p = Number2String.toStr("0.00", busPQ.getReal());
 					String q = Number2String
 							.toStr("0.00", busPQ.getImaginary());
@@ -136,8 +137,8 @@ public class GraphSimuUtilFunc {
 					 * branch.setSortNumber(0); comment out by Mike. Do not know
 					 * why we need this here.
 					 */
-					Complex from_pq = branch.powerFrom2To(UnitType.PU);
-					Complex to_pq = branch.powerTo2From(UnitType.PU);
+					Complex from_pq = branch.powerFrom2To(Type.PU);
+					Complex to_pq = branch.powerTo2From(Type.PU);
 					String from_p = Number2String.toStr("0.00", from_pq
 							.getReal());
 					String from_q = Number2String.toStr("0.00", from_pq
@@ -170,52 +171,52 @@ public class GraphSimuUtilFunc {
 										ampFrom2To.b_1.abs());
 								iToPu = Number2String.toStr("0.00",
 										ampTo2From.b_1.abs());
-								iFromAmps = Number2String.toStr("0", UnitType
+								iFromAmps = Number2String.toStr("0", UnitHelper
 										.iConversion(ampFrom2To.b_1.abs(),
 												branch.getFromBus()
 														.getBaseVoltage(),
-												baseKva, UnitType.PU,
-												UnitType.Amp));
-								iToAmps = Number2String.toStr("0", UnitType
+												baseKva, Type.PU,
+												Type.Amp));
+								iToAmps = Number2String.toStr("0", UnitHelper
 										.iConversion(ampTo2From.b_1.abs(),
 												branch.getToBus()
 														.getBaseVoltage(),
-												baseKva, UnitType.PU,
-												UnitType.Amp));
+												baseKva, Type.PU,
+												Type.Amp));
 							} else if (LABEL_ACT_ACSC_NEGATIVE.equals(action)) {
 								iFromPu = Number2String.toStr("0.00",
 										ampFrom2To.c_2.abs());
 								iToPu = Number2String.toStr("0.00",
 										ampTo2From.c_2.abs());
-								iFromAmps = Number2String.toStr("0", UnitType
+								iFromAmps = Number2String.toStr("0", UnitHelper
 										.iConversion(ampFrom2To.c_2.abs(),
 												branch.getFromBus()
 														.getBaseVoltage(),
-												baseKva, UnitType.PU,
-												UnitType.Amp));
-								iToAmps = Number2String.toStr("0", UnitType
+												baseKva, Type.PU,
+												Type.Amp));
+								iToAmps = Number2String.toStr("0", UnitHelper
 										.iConversion(ampTo2From.c_2.abs(),
 												branch.getToBus()
 														.getBaseVoltage(),
-												baseKva, UnitType.PU,
-												UnitType.Amp));
+												baseKva, Type.PU,
+												Type.Amp));
 							} else if (LABEL_ACT_ACSC_ZERO.equals(action)) {
 								iFromPu = Number2String.toStr("0.00",
 										ampFrom2To.a_0.abs());
 								iToPu = Number2String.toStr("0.00",
 										ampTo2From.a_0.abs());
-								iFromAmps = Number2String.toStr("0", UnitType
+								iFromAmps = Number2String.toStr("0", UnitHelper
 										.iConversion(ampFrom2To.a_0.abs(),
 												branch.getFromBus()
 														.getBaseVoltage(),
-												baseKva, UnitType.PU,
-												UnitType.Amp));
-								iToAmps = Number2String.toStr("0", UnitType
+												baseKva, Type.PU,
+												Type.Amp));
+								iToAmps = Number2String.toStr("0", UnitHelper
 										.iConversion(ampTo2From.a_0.abs(),
 												branch.getToBus()
 														.getBaseVoltage(),
-												baseKva, UnitType.PU,
-												UnitType.Amp));
+												baseKva, Type.PU,
+												Type.Amp));
 							}
 							fromLabel = iFromAmps + " Amps(" + iFromPu + " pu)";
 							toLabel = iToAmps + " Amps(" + iToPu + " pu)";
