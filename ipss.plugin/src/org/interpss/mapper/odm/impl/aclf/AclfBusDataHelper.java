@@ -38,7 +38,7 @@ import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.LimitType;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
@@ -70,13 +70,13 @@ public class AclfBusDataHelper {
 		VoltageXmlType vXml = busXmlData.getVoltage();
 		double vpu = 1.0;
 		if (vXml != null) {
-			Type unit = ODMUnitHelper.toVoltageUnit(vXml.getUnit());
-			vpu = UnitHelper.vConversion(vXml.getValue(), aclfBus.getBaseVoltage(), unit, Type.PU);
+			UnitType unit = ODMUnitHelper.toVoltageUnit(vXml.getUnit());
+			vpu = UnitHelper.vConversion(vXml.getValue(), aclfBus.getBaseVoltage(), unit, UnitType.PU);
 		}
 		double angRad = 0.0;
 		if (busXmlData.getAngle() !=  null) {
-			Type unit = ODMUnitHelper.toAngleUnit(busXmlData.getAngle().getUnit()); 
-			angRad = UnitHelper.angleConversion(busXmlData.getAngle().getValue(), unit, Type.Rad); 
+			UnitType unit = ODMUnitHelper.toAngleUnit(busXmlData.getAngle().getUnit()); 
+			angRad = UnitHelper.angleConversion(busXmlData.getAngle().getValue(), unit, UnitType.Rad); 
 		}
 		aclfBus.setVoltage(vpu, angRad);
 
@@ -95,9 +95,9 @@ public class AclfBusDataHelper {
 		if (busXmlData.getShuntY() != null) {
 			YXmlType shuntY = busXmlData.getShuntY();
 //			byte unit = shuntY.getUnit() == YUnitType.MVAR? UnitType.mVar : UnitType.PU;
-			Type unit = ODMUnitHelper.toYUnit(shuntY.getUnit());
+			UnitType unit = ODMUnitHelper.toYUnit(shuntY.getUnit());
 			Complex ypu = UnitHelper.yConversion(new Complex(shuntY.getRe(), shuntY.getIm()),
-					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, Type.PU);
+					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
 			//System.out.println("----------->" + shuntY.getIm() + ", " + shuntY.getUnit() + ", " + ypu.getImaginary());
 			aclfBus.setShuntY(ypu);
 		}
@@ -105,9 +105,9 @@ public class AclfBusDataHelper {
 		if (busXmlData.getShuntCompensatorData() != null) {
 			ReactivePowerXmlType shuntB = busXmlData.getShuntCompensatorData().getEquivQ();
 //			byte unit = shuntB.getUnit() == ReactivePowerUnitType.MVAR? UnitType.mVar : UnitType.PU;
-			Type unit = ODMUnitHelper.toReactivePowerUnit(shuntB.getUnit());
+			UnitType unit = ODMUnitHelper.toReactivePowerUnit(shuntB.getUnit());
 			Complex ypu = UnitHelper.yConversion(new Complex(0.0, shuntB.getValue()),
-					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, Type.PU);
+					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
 			//System.out.println("----------->" + shuntB.getValue() + ", " + shuntB.getUnit() + ", " + ypu.getImaginary());
 			aclfBus.setShuntY(ypu);
 		}
@@ -143,9 +143,9 @@ public class AclfBusDataHelper {
 					if (vXml == null)
 						throw new InterpssException("For Gen PV bus, equivGenData.desiredVoltage has to be defined, busId: " + aclfBus.getId());
 					double vpu = UnitHelper.vConversion(vXml.getValue(),
-						aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), Type.PU);
+						aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), UnitType.PU);
 				
-					pvBus.setVoltMag(vpu, Type.PU);
+					pvBus.setVoltMag(vpu, UnitType.PU);
 					if (xmlEquivGenData.getQLimit() != null) {
   			  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(aclfBus);
   			  			pvLimit.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
@@ -177,7 +177,7 @@ public class AclfBusDataHelper {
 	  														xmlEquivGenData.getQLimit().getMin()), 
 	  														ODMUnitHelper.toReactivePowerUnit(xmlEquivGenData.getQLimit().getUnit()));						
 	  	  			  		reQBus.setVSpecified(UnitHelper.vConversion(xmlEquivGenData.getDesiredVoltage().getValue(),
-	  								aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), Type.PU));					
+	  								aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), UnitType.PU));					
 	  					}
 					}
 			}
@@ -185,12 +185,12 @@ public class AclfBusDataHelper {
 			aclfBus.setGenCode(AclfGenCode.SWING);
 			SwingBusAdapter swing = aclfBus.toSwingBus();
 			double vpu = UnitHelper.vConversion(vXml.getValue(),
-					aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), Type.PU);
+					aclfBus.getBaseVoltage(), ODMUnitHelper.toVoltageUnit(vXml.getUnit()), UnitType.PU);
 			AngleXmlType angXml = genData.getEquivGen().getDesiredAngle(); 
 			double angRad = UnitHelper.angleConversion(angXml.getValue(),
-					ODMUnitHelper.toAngleUnit(angXml.getUnit()), Type.Rad);				
-			swing.setVoltMag(vpu, Type.PU);
-			swing.setVoltAng(angRad, Type.Rad);				
+					ODMUnitHelper.toAngleUnit(angXml.getUnit()), UnitType.Rad);				
+			swing.setVoltMag(vpu, UnitType.PU);
+			swing.setVoltAng(angRad, UnitType.Rad);				
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}

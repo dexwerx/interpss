@@ -35,7 +35,7 @@ import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
@@ -88,14 +88,14 @@ public class AclfBranchDataHelper {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	
 					fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), Type.PU);
+					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 		if (toShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(toShuntY.getRe(),	
 					toShuntY.getIm()),
 					aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
-					ODMUnitHelper.toYUnit(toShuntY.getUnit()), Type.PU);
+					ODMUnitHelper.toYUnit(toShuntY.getUnit()), UnitType.PU);
 			aclfBra.setToShuntY(ypu);
 		}
 	}
@@ -111,7 +111,7 @@ public class AclfBranchDataHelper {
 		if (fromShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), Type.PU);
+					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 	}
@@ -166,9 +166,9 @@ public class AclfBranchDataHelper {
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
 				ODMUnitHelper.toZUnit(xfrBranch.getZ().getUnit()), baseV);
 		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
-				xfrBranch.getFromTurnRatio().getValue()*tapratio, Type.PU);
+				xfrBranch.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
-				xfrBranch.getToTurnRatio().getValue()/tapratio, Type.PU);
+				xfrBranch.getToTurnRatio().getValue()/tapratio, UnitType.PU);
 	}
 	
 	/*
@@ -213,15 +213,15 @@ public class AclfBranchDataHelper {
         <tertShiftAngle unit="DEG" value="30.0"/>
  */
 		if (xmlPsXfr3W.getFromAngle() != null && xmlPsXfr3W.getFromAngle().getValue() != 0.0) {
-			Type unit = ODMUnitHelper.toAngleUnit(xmlPsXfr3W.getFromAngle().getUnit());
+			UnitType unit = ODMUnitHelper.toAngleUnit(xmlPsXfr3W.getFromAngle().getUnit());
 			psXfr3W.setFromAngle(xmlPsXfr3W.getFromAngle().getValue(), unit);
 		}
 		if (xmlPsXfr3W.getToAngle() != null && xmlPsXfr3W.getToAngle().getValue() != 0.0) {
-			Type unit = ODMUnitHelper.toAngleUnit(xmlPsXfr3W.getToAngle().getUnit());
+			UnitType unit = ODMUnitHelper.toAngleUnit(xmlPsXfr3W.getToAngle().getUnit());
 			psXfr3W.setToAngle(xmlPsXfr3W.getToAngle().getValue(), unit);
 		}
 		if (xmlPsXfr3W.getTertShiftAngle() != null && xmlPsXfr3W.getTertShiftAngle().getValue() != 0.0) {
-			Type unit = ODMUnitHelper.toAngleUnit(xmlPsXfr3W.getTertShiftAngle().getUnit());
+			UnitType unit = ODMUnitHelper.toAngleUnit(xmlPsXfr3W.getTertShiftAngle().getUnit());
 			psXfr3W.setTertAngle(xmlPsXfr3W.getTertShiftAngle().getValue(), unit);
 		}
 	}
@@ -235,7 +235,7 @@ public class AclfBranchDataHelper {
 		if (fromShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					branch3W.getFromBus().getBaseVoltage(), baseKva,
-					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), Type.PU);
+					ODMUnitHelper.toYUnit(fromShuntY.getUnit()), UnitType.PU);
 			branch3W.getFromAclfBranch().setFromShuntY(ypu);
 		}
 
@@ -296,7 +296,7 @@ public class AclfBranchDataHelper {
 		Complex z12 = new Complex(xml3WXfr.getZ().getRe()*zratio, xml3WXfr.getZ().getIm()*zratio);
 		Complex z23 = new Complex(xml3WXfr.getZ23().getRe()*zratio, xml3WXfr.getZ23().getIm()*zratio);
 		Complex z31 = new Complex(xml3WXfr.getZ31().getRe()*zratio, xml3WXfr.getZ31().getIm()*zratio);
-		Type unit = ODMUnitHelper.toZUnit(xml3WXfr.getZ().getUnit());
+		UnitType unit = ODMUnitHelper.toZUnit(xml3WXfr.getZ().getUnit());
 		xfr3W.setZ(z12, z31, z23, unit, baseV);
 
 		double fromRatio = xml3WXfr.getFromTurnRatio().getValue()*tapratio;

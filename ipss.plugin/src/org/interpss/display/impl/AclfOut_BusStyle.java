@@ -26,7 +26,7 @@ package org.interpss.display.impl;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.UnitHelper;
@@ -60,19 +60,19 @@ public class AclfOut_BusStyle {
 		StringBuffer str = new StringBuffer("");
 
 		GenBusAdapter genBus = bus.toGenBus();
-		Complex busGen = genBus.getGenResults(Type.mVA);
-		Complex busLoad = genBus.getLoadResults(Type.mVA);
+		Complex busGen = genBus.getGenResults(UnitType.mVA);
+		Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 		if (bus.isCapacitor()) {
 			CapacitorBusAdapter cap = bus.toCapacitorBus();
-			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), Type.PU)));
+			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU)));
 		}
 		String id = style == AclfOutFunc.BusIdStyle.BusId_No?
 				AclfOutFunc.getBusId(bus, net.getOriginalDataFormat()):
 				bus.getName().trim();
 		str.append(Number2String.toStr(-12, id) + " ");
 		str.append(String.format(" %s ", AclfOutFunc.formatKV(bus.getBaseVoltage()*0.001)));
-		str.append(Number2String.toStr("0.0000", bus.getVoltageMag(Type.PU)) + " ");
-		str.append(Number2String.toStr("##0.0", bus.getVoltageAng(Type.Deg)) + " ");
+		str.append(Number2String.toStr("0.0000", bus.getVoltageMag(UnitType.PU)) + " ");
+		str.append(Number2String.toStr("##0.0", bus.getVoltageAng(UnitType.Deg)) + " ");
 		str.append(Number2String.toStr("####0.00", busGen.getReal()) + " ");
 		str.append(Number2String.toStr("####0.00", busGen.getImaginary()) + " ");
 		str.append(Number2String.toStr("####0.00", busLoad.getReal()) + " ");
@@ -93,30 +93,30 @@ public class AclfOut_BusStyle {
 				if (bra.isActive()) {
 					if (bus.getId().equals(bra.getFromAclfBus().getId())) {
 						toBus = bra.getToAclfBus();
-						pq = bra.powerFrom2To(Type.mVA);
-						amp = UnitHelper.iConversion(bra.current(Type.PU), bra.getFromAclfBus().getBaseVoltage(),
-								baseKVA, Type.PU, Type.Amp);
+						pq = bra.powerFrom2To(UnitType.mVA);
+						amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus().getBaseVoltage(),
+								baseKVA, UnitType.PU, UnitType.Amp);
 						if (bra.isXfr() || bra.isPSXfr()) {
 							fromRatio = bra.getFromTurnRatio();
 							toRatio = bra.getToTurnRatio();
 							if (bra.isPSXfr()) {
 								PSXfrAdapter psXfr = bra.toPSXfr();
-								fromAng = psXfr.getFromAngle(Type.Deg);
-								toAng = psXfr.getToAngle(Type.Deg);
+								fromAng = psXfr.getFromAngle(UnitType.Deg);
+								toAng = psXfr.getToAngle(UnitType.Deg);
 							}
 						}
 					} else {
 						toBus = bra.getFromAclfBus();
-						pq = bra.powerTo2From(Type.mVA);
-						amp = UnitHelper.iConversion(bra.current(Type.PU), bra.getToAclfBus().getBaseVoltage(),
-								baseKVA, Type.PU, Type.Amp);
+						pq = bra.powerTo2From(UnitType.mVA);
+						amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getToAclfBus().getBaseVoltage(),
+								baseKVA, UnitType.PU, UnitType.Amp);
 						if (bra.isXfr() || bra.isPSXfr()) {
 							toRatio = bra.getFromTurnRatio();
 							fromRatio = bra.getToTurnRatio();
 							if (bra.isPSXfr()) {
 								PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
-								toAng = psXfr.getFromAngle(Type.Deg);
-								fromAng = psXfr.getToAngle(Type.Deg);
+								toAng = psXfr.getFromAngle(UnitType.Deg);
+								fromAng = psXfr.getToAngle(UnitType.Deg);
 							}
 						}
 					}

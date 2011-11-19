@@ -26,7 +26,7 @@ package org.interpss.custom.fadpter.impl;
 
 import java.io.BufferedWriter;
 
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
@@ -66,7 +66,7 @@ public class IpssInternalFormat_out {
 					bus.getId(),               // bus id
 					bus.getBaseVoltage(),      // bus base voltage
 					bus.getVoltageMag(),       // bus voltage in pu
-					bus.getVoltageAng(Type.Deg), // bus voltage angle in deg
+					bus.getVoltageAng(UnitType.Deg), // bus voltage angle in deg
 					bus.getGenP()*baseMva,         // bus gen P in MW
 					bus.getGenQ()*baseMva,         // bus gen Q in MVar
 					bus.getLoadP()*baseMva,        // bus load P in MW

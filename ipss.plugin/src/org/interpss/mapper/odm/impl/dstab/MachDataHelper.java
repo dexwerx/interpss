@@ -36,7 +36,7 @@ import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.ScEquivSourceXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -138,7 +138,7 @@ public class MachDataHelper {
 		if (this.ratedVoltage != null)
 			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMUnitHelper.toVoltageUnit(this.ratedVoltage.getUnit()));
 		else
-			mach.setRatedVoltage(dstabBus.getBaseVoltage(), Type.Volt);
+			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
 		// base kva and bus base voltage
 		mach.setMultiFactors(dstabBus);
@@ -157,7 +157,7 @@ public class MachDataHelper {
 		if (this.ratedVoltage != null)
 			mach.setRatedVoltage(this.ratedVoltage.getValue(), ODMUnitHelper.toVoltageUnit(this.ratedVoltage.getUnit()));
 		else
-			mach.setRatedVoltage(dstabBus.getBaseVoltage(), Type.Volt);
+			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
 		// base kva and bus base voltage
 		mach.setMultiFactors(dstabBus);

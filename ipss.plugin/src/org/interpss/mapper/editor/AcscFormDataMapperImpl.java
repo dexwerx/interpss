@@ -39,7 +39,7 @@ import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Unit;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.CoreObjectFactory;
@@ -237,14 +237,14 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 	}
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, double r1,
-			double x1, double r2, double x2, double r0, double x0, Type zUnit) {
+			double x1, double r2, double x2, double r0, double x0, UnitType zUnit) {
 		bus.setScZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
 		bus.setScZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
 		bus.setScZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
-			String gType, double rg, double xg, Type zgUnit) {
+			String gType, double rg, double xg, UnitType zgUnit) {
 		bus.getGrounding().setCode(
 				CoreUtilFunc.scGroundType2BusGroundCode(gType));
 		bus.getGrounding().setZ(new Complex(rg, xg), zgUnit, baseV, baseKVA);

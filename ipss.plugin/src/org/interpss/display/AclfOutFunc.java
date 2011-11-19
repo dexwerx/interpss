@@ -27,7 +27,7 @@ package org.interpss.display;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.impl.AclfOut_BusStyle;
 import org.interpss.display.impl.AclfOut_PSSE;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.UnitHelper;
@@ -129,8 +129,8 @@ public class AclfOutFunc {
 						str.append(String.format("%-12s ", getBusId(bus, bus.getNetwork().getOriginalDataFormat())));
 						str.append(String.format("%-10s ", bus.getName()));
 						str.append(String.format("%-17s ", bus.code2String()));
-						str.append(String.format("%10.5f   ", bus.getVoltageMag(Type.PU)));
-						str.append(String.format("%9.1f   ", bus.getVoltageAng(Type.Deg)));
+						str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
+						str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
 						str.append(String.format("%10.4f", busPQ.getReal()));
 						str.append(String.format("%10.4f", busPQ.getImaginary()));
 						if (bus.getNetwork().getOriginalDataFormat() == OriginalDataFormat.CIM) 
@@ -176,8 +176,8 @@ public class AclfOutFunc {
 
 	public static String loadLossAllocation(AclfNetwork net) {
 		final StringBuffer str = new StringBuffer("");
-		final double lossMW = net.totalLoss(Type.mVA).getReal();
-		final double lossPU = net.totalLoss(Type.PU).getReal();
+		final double lossMW = net.totalLoss(UnitType.mVA).getReal();
+		final double lossPU = net.totalLoss(UnitType.PU).getReal();
 
 		str.append("\n                          Load Loss Allocation\n");
 		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
@@ -205,8 +205,8 @@ public class AclfOutFunc {
 	
 	public static String genLossAllocation(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
-		double lossMW = net.totalLoss(Type.mVA).getReal();
-		double lossPU = net.totalLoss(Type.PU).getReal();
+		double lossMW = net.totalLoss(UnitType.mVA).getReal();
+		double lossPU = net.totalLoss(UnitType.PU).getReal();
 
 		str.append("\n                          Gen Loss Allocation\n");
 		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
@@ -325,11 +325,11 @@ public class AclfOutFunc {
 					BranchRatingAdapter adapter = (BranchRatingAdapter)b.getAdapter(BranchRatingAdapter.class);
 					if (adapter.isRatingViolated(SecAnalysisViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
 						str.append(Number2String.toStr(-25, bra.getId()));
-						Complex mva = bra.powerFrom2To(Type.mVA);
+						Complex mva = bra.powerFrom2To(UnitType.mVA);
 						String side = "From";
-						if (bra.powerFrom2To(Type.mVA).abs() < bra
-								.powerTo2From(Type.mVA).abs()) {
-							mva = bra.powerTo2From(Type.mVA);
+						if (bra.powerFrom2To(UnitType.mVA).abs() < bra
+								.powerTo2From(UnitType.mVA).abs()) {
+							mva = bra.powerTo2From(UnitType.mVA);
 							side = "To";
 						}
 
@@ -390,15 +390,15 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), 
 						pv.getParentBus().getNetwork().getOriginalDataFormat())));
 				str.append(Number2String.toStr("###0.0000", pv.getParentBus()
-						.getVoltageMag(Type.PU)));
+						.getVoltageMag(UnitType.PU)));
 				str.append(Number2String.toStr("###0.0000", pv
-						.getVSpecified(Type.PU)));
+						.getVSpecified(UnitType.PU)));
 				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
-						Type.PU).getImaginary()));
+						UnitType.PU).getImaginary()));
 				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
-						Type.PU).getMax()));
+						UnitType.PU).getMax()));
 				str.append(Number2String.toStr("#####0.00", pv.getQLimit(
-						Type.PU).getMin()));
+						UnitType.PU).getMin()));
 				str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
 						+ "\n");
 			}
@@ -448,19 +448,19 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-8, getBusId(pq.getParentBus(), net.getOriginalDataFormat())) + " ");
 				str.append(Number2String.toStr("####0.00", genBus.getGenResults(
-						Type.PU).getImaginary())
+						UnitType.PU).getImaginary())
 						+ " ");
 				str.append(Number2String.toStr("####0.00", pq.getQSpecified(
-						Type.PU))
+						UnitType.PU))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", pq.getParentBus()
-						.getVoltageMag(Type.PU))
+						.getVoltageMag(UnitType.PU))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", pq
-						.getVLimit(Type.PU).getMax())
+						.getVLimit(UnitType.PU).getMax())
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", pq
-						.getVLimit(Type.PU).getMin())
+						.getVLimit(UnitType.PU).getMin())
 						+ " ");
 				str.append(Number2String.toStr(5, pq.isActive() ? "on" : "off")
 						+ "\n");
@@ -496,15 +496,15 @@ public class AclfOutFunc {
 								.getId()));
 				str.append(Number2String.toStr("###0.0000",
 						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
-								.getRemoteBus().getVoltageMag(Type.PU) : re
-								.getMvarFlowCalculated(re.getRemoteBranch(), Type.PU)));
-				str.append(Number2String.toStr("###0.0000", re.getVSpecified(Type.PU)));
+								.getRemoteBus().getVoltageMag(UnitType.PU) : re
+								.getMvarFlowCalculated(re.getRemoteBranch(), UnitType.PU)));
+				str.append(Number2String.toStr("###0.0000", re.getVSpecified(UnitType.PU)));
 				str.append(Number2String.toStr("#####0.00", genBus.getGenResults(
-						Type.PU).getImaginary()));
+						UnitType.PU).getImaginary()));
 				str.append(Number2String.toStr("#####0.00", re.getQLimit(
-						Type.PU).getMax()));
+						UnitType.PU).getMax()));
 				str.append(Number2String.toStr("#####0.00", re.getQLimit(
-						Type.PU).getMin()));
+						UnitType.PU).getMin()));
 				str.append(Number2String.toStr(6, re.isActive() ? "on" : "off")	+ "\n");
 			}
 		}
@@ -532,19 +532,19 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr(-8, x.getParentBus().getId()) + " ");
 				double vpu = x.getParentBus().getVoltage().abs();
 				str.append(Number2String.toStr("##0.0000", x.getP().getLoad(vpu,
-						Type.PU, baseKVA))
+						UnitType.PU, baseKVA))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", x.getQ().getLoad(vpu,
-						Type.PU, baseKVA))
+						UnitType.PU, baseKVA))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", x.getParentBus()
-						.getVoltageMag(Type.PU))
+						.getVoltageMag(UnitType.PU))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", x.getP().getLoad0(
-						Type.PU, baseKVA))
+						UnitType.PU, baseKVA))
 						+ " ");
 				str.append(Number2String.toStr("##0.0000", x.getQ().getLoad0(
-						Type.PU, baseKVA))
+						UnitType.PU, baseKVA))
 						+ " ");
 				str.append(Number2String.toStr(5, x.isActive() ? "on" : "off")
 						+ "\n");
@@ -578,23 +578,23 @@ public class AclfOutFunc {
 				if (x.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
 					str.append(Number2String.toStr(-8, x.getVcBus().getId()) + " ");
 					str.append(Number2String.toStr("##0.0000", x.getVcBus()
-							.getVoltageMag(Type.PU))
+							.getVoltageMag(UnitType.PU))
 							+ " ");
 					if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
 						str.append(Number2String.toStr("##0.0000", x
-								.getVSpecified(Type.PU))
+								.getVSpecified(UnitType.PU))
 								+ " ");
 					else
 						str.append(x.getControlRange() + " ");
 				} else {
 					str.append(Number2String.toStr(-8, " "));
 					str.append(Number2String.toStr("##0.0000", x
-							.getMvarFlowCalculated(Type.PU, baseKva))
+							.getMvarFlowCalculated(UnitType.PU, baseKva))
 							+ " ");
 					if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
 						str.append("   "
 								+ Number2String.toStr("##0.0000", x
-										.getMvarSpecified(Type.PU, baseKva))
+										.getMvarSpecified(UnitType.PU, baseKva))
 								+ "    ");
 					else
 						str.append(x.getControlRange() + " ");
@@ -639,25 +639,25 @@ public class AclfOutFunc {
 						+ " ");
 				str.append(Number2String.toStr("##0.0000",
 						(x.isControlOnFromSide() ? x.getParentBranch().powerFrom2To(
-								Type.PU).getReal() : x.getParentBranch()
-								.powerTo2From(Type.PU).getReal()))
+								UnitType.PU).getReal() : x.getParentBranch()
+								.powerTo2From(UnitType.PU).getReal()))
 						+ " ");
 
 				if (x.getFlowControlType() == AdjControlType.POINT_CONTROL)
 					str.append(Number2String.toStr("   " + "##0.0000", x
-							.getPSpecified(Type.PU, baseKVA))
+							.getPSpecified(UnitType.PU, baseKVA))
 							+ "    ");
 				else
 					str.append(x.getControlRange() + " ");
 
 				PSXfrAdapter psXfr = x.getParentBranch().toPSXfr();
 				str.append(Number2String.toStr("#0.00", psXfr
-						.getFromAngle(Type.Deg))
+						.getFromAngle(UnitType.Deg))
 						+ " ");
-				str.append(Number2String.toStr("#0.00", x.getAngLimit(Type.Deg)
+				str.append(Number2String.toStr("#0.00", x.getAngLimit(UnitType.Deg)
 						.getMax())
 						+ " ");
-				str.append(Number2String.toStr("#0.00", x.getAngLimit(Type.Deg)
+				str.append(Number2String.toStr("#0.00", x.getAngLimit(UnitType.Deg)
 						.getMin())
 						+ " ");
 				str.append(Number2String.toStr(6, x.isActive() ? "on" : "off")

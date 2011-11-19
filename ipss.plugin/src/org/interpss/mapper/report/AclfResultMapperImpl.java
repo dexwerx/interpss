@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.report.bean.aclf.RptAclfBusStyleBean;
 import org.interpss.report.bean.aclf.RptAclfMaxMismatchBean;
@@ -85,20 +85,20 @@ public class AclfResultMapperImpl {
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
 				GenBusAdapter genBus = bus.toGenBus();
-				Complex busPQ = genBus.getGenResults(Type.PU)
-						.subtract(genBus.getLoadResults(Type.PU));
+				Complex busPQ = genBus.getGenResults(UnitType.PU)
+						.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = bus.toCapacitorBus();
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-							.getVoltageMag(), Type.PU)));
+							.getVoltageMag(), UnitType.PU)));
 				}
 				RptAclfSummaryBusBean bean = new RptAclfSummaryBusBean();
 				bean.setBusId(new String(bus.getId()));
 				bean.setBusCode(Number2String.toStr(-13, bus.code2String()));
 				bean.setBusVolt(Number2String.toStr("####0.0000", bus
-						.getVoltageMag(Type.PU)));
+						.getVoltageMag(UnitType.PU)));
 				bean.setBusAngle(Number2String.toStr("####0.00", bus
-						.getVoltageAng(Type.Deg)));
+						.getVoltageAng(UnitType.Deg)));
 				bean
 						.setBusP(Number2String.toStr("####0.0000", busPQ
 								.getReal()));
@@ -120,21 +120,21 @@ public class AclfResultMapperImpl {
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
 				GenBusAdapter genBus = bus.toGenBus();
-				Complex busGen = genBus.getGenResults(Type.mVA);
-				Complex busLoad = genBus.getLoadResults(Type.mVA);
+				Complex busGen = genBus.getGenResults(UnitType.mVA);
+				Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = bus.toCapacitorBus();
 					busGen = busGen.add(new Complex(0.0, cap.getQResults(bus
-							.getVoltageMag(), Type.PU)));
+							.getVoltageMag(), UnitType.PU)));
 				}
 				RptAclfBusStyleBean bean = new RptAclfBusStyleBean();
 				bean.setBusId(bus.getId());
 				bean.setBaseVolt(Number2String.toStr("#######0", bus
 						.getBaseVoltage()));
 				bean.setVoltMsg(Number2String.toStr("0.0000", bus
-						.getVoltageMag(Type.PU)));
+						.getVoltageMag(UnitType.PU)));
 				bean.setVoltAng(Number2String.toStr("##0.0", bus
-						.getVoltageAng(Type.Deg)));
+						.getVoltageAng(UnitType.Deg)));
 				bean.setPGen(Number2String.toStr("####0.00", busGen.getReal()));
 				bean.setQGen(Number2String.toStr("####0.00", busGen
 						.getImaginary()));
@@ -156,19 +156,19 @@ public class AclfResultMapperImpl {
 					double amp = 0.0, fromRatio = 1.0, toRatio = 1.0;
 					if (bra.isActive()) {
 						if (bus.equals(bra.getFromAclfBus())) {
-							pq = bra.powerFrom2To(Type.mVA);
-							amp = UnitHelper.iConversion(bra.current(Type.PU), bra.getFromAclfBus()
-									.getBaseVoltage(), baseKVA, Type.PU,
-									Type.Amp);
+							pq = bra.powerFrom2To(UnitType.mVA);
+							amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getFromAclfBus()
+									.getBaseVoltage(), baseKVA, UnitType.PU,
+									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
 								fromRatio = bra.getFromTurnRatio();
 								toRatio = bra.getToTurnRatio();
 							}
 						} else {
-							pq = bra.powerTo2From(Type.mVA);
-							amp = UnitHelper.iConversion(bra.current(Type.PU), bra.getToAclfBus()
-									.getBaseVoltage(), baseKVA, Type.PU,
-									Type.Amp);
+							pq = bra.powerTo2From(UnitType.mVA);
+							amp = UnitHelper.iConversion(bra.current(UnitType.PU), bra.getToAclfBus()
+									.getBaseVoltage(), baseKVA, UnitType.PU,
+									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
 								toRatio = bra.getFromTurnRatio();
 								fromRatio = bra.getToTurnRatio();
@@ -208,7 +208,7 @@ public class AclfResultMapperImpl {
 						if (bra.isPSXfr()) {
 							PSXfrAdapter psXfr = bra.toPSXfr();
 							bean.setPsXfrAngle(Number2String.toStr("##0.0",
-									psXfr.getFromAngle(Type.Deg)));
+									psXfr.getFromAngle(UnitType.Deg)));
 						}
 					}
 					list.add(bean);
@@ -232,15 +232,15 @@ public class AclfResultMapperImpl {
 				RptPVLimitBean bean = new RptPVLimitBean();
 				bean.setBusId(Number2String.toStr(-8, pv.getParentBus().getId()));
 				bean.setVact(Number2String.toStr("###0.0000", pv.getParentBus()
-						.getVoltageMag(Type.PU)));
+						.getVoltageMag(UnitType.PU)));
 				bean.setVspec(Number2String.toStr("###0.0000", pv
-						.getVSpecified(Type.PU)));
+						.getVSpecified(UnitType.PU)));
 				bean.setQ(Number2String.toStr("#####0.00", genBus.getGenResults(
-						Type.PU).getImaginary()));
+						UnitType.PU).getImaginary()));
 				bean.setQmax(Number2String.toStr("#####0.00", pv.getQLimit(
-						Type.PU).getMax()));
+						UnitType.PU).getMax()));
 				bean.setQmin(Number2String.toStr("#####0.00", pv.getQLimit(
-						Type.PU).getMin()));
+						UnitType.PU).getMin()));
 				bean.setStatus(Number2String.toStr(6, pv.isActive() ? "on" : "off")
 						+ "\n");
 				list.add(bean);
@@ -260,15 +260,15 @@ public class AclfResultMapperImpl {
 				RptPQLimitBean bean = new RptPQLimitBean();
 				bean.setBusId(Number2String.toStr(-8, pq.getParentBus().getId()));
 				bean.setQact(Number2String.toStr("####0.00", genBus.getGenResults(
-						Type.PU).getImaginary()));
+						UnitType.PU).getImaginary()));
 				bean.setQspec(Number2String.toStr("####0.00", pq.getQSpecified(
-						Type.PU)));
+						UnitType.PU)));
 				bean.setV(Number2String.toStr("##0.0000", pq.getParentBus()
-						.getVoltageMag(Type.PU)));
+						.getVoltageMag(UnitType.PU)));
 				bean.setVmax(Number2String.toStr("##0.0000", pq.getVLimit(
-						Type.PU).getMax()));
+						UnitType.PU).getMax()));
 				bean.setVmin(Number2String.toStr("##0.0000", pq.getVLimit(
-						Type.PU).getMin()));
+						UnitType.PU).getMin()));
 				bean
 						.setStatus(Number2String.toStr(5, pq.isActive() ? "on"
 								: "off"));
@@ -290,15 +290,15 @@ public class AclfResultMapperImpl {
 				RptFuncLoadBean bean = new RptFuncLoadBean();
 				bean.setBusId(fload.getParentBus().getId());
 				bean.setPact(Number2String.toStr("##0.0000", fload.getP().getLoad(
-						vpu, Type.PU, baseKva)));
+						vpu, UnitType.PU, baseKva)));
 				bean.setQact(Number2String.toStr("##0.0000", fload.getQ().getLoad(
-						vpu, Type.PU, baseKva)));
+						vpu, UnitType.PU, baseKva)));
 				bean.setV(Number2String.toStr("##0.0000", fload.getParentBus()
-						.getVoltageMag(Type.PU)));
+						.getVoltageMag(UnitType.PU)));
 				bean.setP0(Number2String.toStr("##0.0000", fload.getP().getLoad0(
-						Type.PU, baseKva)));
+						UnitType.PU, baseKva)));
 				bean.setQ0(Number2String.toStr("##0.0000", fload.getQ().getLoad0(
-						Type.PU, baseKva)));
+						UnitType.PU, baseKva)));
 				bean.setStatus(Number2String.toStr(5, fload.isActive() ? "on"
 						: "off"));
 				list.add(bean);
@@ -324,16 +324,16 @@ public class AclfResultMapperImpl {
 								.getId()));
 				bean.setActual(Number2String.toStr("###0.0000",
 						re.getControlType() == RemoteQControlType.BUS_VOLTAGE ? re
-								.getRemoteBus().getVoltageMag(Type.PU) : re
-								.getMvarFlowCalculated(re.getRemoteBranch(), Type.PU)));
+								.getRemoteBus().getVoltageMag(UnitType.PU) : re
+								.getMvarFlowCalculated(re.getRemoteBranch(), UnitType.PU)));
 				bean.setSpec(Number2String.toStr("###0.0000", re
-						.getVSpecified(Type.PU)));
+						.getVSpecified(UnitType.PU)));
 				bean.setQ(Number2String.toStr("#####0.00", genBus.getGenResults(
-						Type.PU).getImaginary()));
+						UnitType.PU).getImaginary()));
 				bean.setQmax(Number2String.toStr("#####0.00", re.getQLimit(
-						Type.PU).getMax()));
+						UnitType.PU).getMax()));
 				bean.setQmin(Number2String.toStr("#####0.00", re.getQLimit(
-						Type.PU).getMin()));
+						UnitType.PU).getMin()));
 				bean
 						.setStatus(Number2String.toStr(6, re.isActive() ? "on"
 								: "off"));
@@ -354,18 +354,18 @@ public class AclfResultMapperImpl {
 				bean.setBranchId(psCtrl.getParentBranch().getId());
 				bean.setPact(Number2String.toStr("##0.0000", (psCtrl
 						.isControlOnFromSide() ? psCtrl.getParentBranch()
-						.powerFrom2To(Type.PU).getReal() : psCtrl
-						.getParentBranch().powerTo2From(Type.PU)
+						.powerFrom2To(UnitType.PU).getReal() : psCtrl
+						.getParentBranch().powerTo2From(UnitType.PU)
 						.getReal())));
 				bean.setPspec(Number2String.toStr("##0.0000", psCtrl.getPSpecified(
-						Type.PU, baseKva)));
+						UnitType.PU, baseKva)));
 				PSXfrAdapter psXfr = psCtrl.getParentBranch().toPSXfr();
 				bean.setAngle(Number2String.toStr("#0.00", psXfr
-						.getFromAngle(Type.Deg)));
+						.getFromAngle(UnitType.Deg)));
 				bean.setAngMax(Number2String.toStr("#0.00", psCtrl.getAngLimit(
-						Type.Deg).getMax()));
+						UnitType.Deg).getMax()));
 				bean.setAngMin(Number2String.toStr("#0.00", psCtrl.getAngLimit(
-						Type.Deg).getMin()));
+						UnitType.Deg).getMin()));
 				bean.setStatus(Number2String.toStr(6, psCtrl.isActive() ? "on"
 						: "off"));
 				list.add(bean);
@@ -386,15 +386,15 @@ public class AclfResultMapperImpl {
 				if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
 					bean.setVcBusId(tap.getVcBus().getId());
 					bean.setActual(Number2String.toStr("##0.0000", tap.getVcBus()
-							.getVoltageMag(Type.PU)));
+							.getVoltageMag(UnitType.PU)));
 					bean.setSpec(Number2String.toStr("##0.0000", tap
-							.getVSpecified(Type.PU)));
+							.getVSpecified(UnitType.PU)));
 				} else {
 					bean.setVcBusId(Number2String.toStr(-8, " "));
 					bean.setActual(Number2String.toStr("##0.0000", tap
-							.getMvarFlowCalculated(Type.PU, baseKva)));
+							.getMvarFlowCalculated(UnitType.PU, baseKva)));
 					bean.setSpec(Number2String.toStr("##0.0000", tap
-							.getMvarSpecified(Type.PU, baseKva)));
+							.getMvarSpecified(UnitType.PU, baseKva)));
 				}
 				bean.setTap(Number2String.toStr("0.000",
 						(tap.isControlOnFromSide() ? tap.getParentBranch()

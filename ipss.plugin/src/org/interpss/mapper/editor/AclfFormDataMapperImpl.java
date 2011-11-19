@@ -39,7 +39,7 @@ import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.CoreObjectFactory;
@@ -299,7 +299,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		Complex ypu = UnitHelper.yConversion(new Complex(busData.getShuntG(),
 				busData.getShuntB()), bus.getBaseVoltage(), aclfNet
 				.getBaseKva(), Unit.toUnit(busData.getShuntYUnit()),
-				Type.PU);
+				UnitType.PU);
 		bus.setShuntY(ypu);
 
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting)
@@ -376,7 +376,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 							.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 					// ReQMvarFlow-MvarSpec
-					reQ.setMvarSpecified(adjData.getVoltageMag(), Type.PU);
+					reQ.setMvarSpecified(adjData.getVoltageMag(), UnitType.PU);
 					reQ.setFlowFrom2To(adjData.isFlowFrom2To());
 					reQ.setMvarOnFromSide(adjData.isMvarControlOnFromSide());
 				}
@@ -384,7 +384,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 				double max = adjData.getMaxVoltMag();
 				double min = adjData.getMinVoltMag();
 				PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(bus);
-				pqLimit.setVLimit(new LimitType(max, min), Type.PU);
+				pqLimit.setVLimit(new LimitType(max, min), UnitType.PU);
 			}
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			AclfAdjBusData adjData = formBus.getAcscBusData();
@@ -392,17 +392,17 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 				double max = adjData.getMaxGenQ();
 				double min = adjData.getMinGenQ();
 				PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
-				pvLimit.setQLimit(new LimitType(max, min), Type.PU);
+				pvLimit.setQLimit(new LimitType(max, min), UnitType.PU);
 			}
 		}
 
 		if (busData.getLoadCode().equals(AclfBusData.LoadCode_FuncLoad)) {
 			AclfAdjBusData adjData = formBus.getAcscBusData();
 			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus);
-			fload.getP().setA(adjData.getLoadP_PPct(), Type.Percent);
-			fload.getP().setB(adjData.getLoadP_IPct(), Type.Percent);
-			fload.getQ().setA(adjData.getLoadQ_PPct(), Type.Percent);
-			fload.getQ().setB(adjData.getLoadQ_IPct(), Type.Percent);
+			fload.getP().setA(adjData.getLoadP_PPct(), UnitType.Percent);
+			fload.getP().setB(adjData.getLoadP_IPct(), UnitType.Percent);
+			fload.getQ().setA(adjData.getLoadQ_PPct(), UnitType.Percent);
+			fload.getQ().setB(adjData.getLoadQ_IPct(), UnitType.Percent);
 		}
 		return true;
 	}

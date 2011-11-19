@@ -53,7 +53,7 @@ import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.NumericConstant;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -245,7 +245,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, 
 			ZXmlType z1, ZXmlType z2, ZXmlType z0) {
-		Type zUnit = ODMUnitHelper.toZUnit(z1.getUnit());
+		UnitType zUnit = ODMUnitHelper.toZUnit(z1.getUnit());
 		bus.setScZ(new Complex(z1.getRe(), z1.getIm()), SequenceCode.POSITIVE, zUnit);
 		bus.setScZ(new Complex(z2.getRe(), z2.getIm()), SequenceCode.NEGATIVE, zUnit);
 		bus.setScZ(new Complex(z0.getRe(), z0.getIm()), SequenceCode.ZERO, zUnit);
@@ -255,7 +255,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		ZXmlType z = g.getGroundingZ();
 		bus.getGrounding().setCode(ODMHelper.toBusGroundCode(g.getGroundingConnection()));
 		if(z != null){
-			Type zgUnit = ODMUnitHelper.toZUnit(z.getUnit());			
+			UnitType zgUnit = ODMUnitHelper.toZUnit(z.getUnit());			
 			bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
 		}
 	}
