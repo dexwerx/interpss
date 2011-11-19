@@ -27,7 +27,7 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
@@ -117,9 +117,9 @@ public class DclfLODF_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 				.runDclfAnalysis();
 
-		double flow_4_7 = algoDsl.branchFlow("Bus4", "Bus7", "1", Type.mW);
-		double flow_4_9 = algoDsl.branchFlow("Bus4", "Bus9", "1", Type.mW);
-		double flow_5_6 = algoDsl.branchFlow("Bus5", "Bus6", "1", Type.mW);
+		double flow_4_7 = algoDsl.branchFlow("Bus4", "Bus7", "1", UnitType.mW);
+		double flow_4_9 = algoDsl.branchFlow("Bus4", "Bus9", "1", UnitType.mW);
+		double flow_5_6 = algoDsl.branchFlow("Bus5", "Bus6", "1", UnitType.mW);
 		
 		algoDsl.outageBranch("Bus4", "Bus7", "1");
 		
@@ -133,9 +133,9 @@ public class DclfLODF_Test extends BaseTestSetup {
 		System.out.println("4->9 before:" + flow_4_9 + ", after: " + (flow_4_9+f1_1*flow_4_7));
 		System.out.println("5->6 before:" + flow_5_6 + ", after: " + (flow_5_6+f2_1*flow_4_7));
 		
-		double flow_6_13 = algoDsl.branchFlow("Bus6", "Bus13", "1", Type.mW);
-		double flow_9_14 = algoDsl.branchFlow("Bus9", "Bus14", "1", Type.mW);
-		double flow_12_13 = algoDsl.branchFlow("Bus12", "Bus13", "1", Type.mW);
+		double flow_6_13 = algoDsl.branchFlow("Bus6", "Bus13", "1", UnitType.mW);
+		double flow_9_14 = algoDsl.branchFlow("Bus9", "Bus14", "1", UnitType.mW);
+		double flow_12_13 = algoDsl.branchFlow("Bus12", "Bus13", "1", UnitType.mW);
 
 		algoDsl.outageBranch("Bus6", "Bus13", "1");
 		

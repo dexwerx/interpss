@@ -27,7 +27,7 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
@@ -96,7 +96,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		//System.out.println("Total power flow: " + (sum+algoDsl.getMontorBranch().getWeight()));
 		//	Shifted power flow: 0.28184073631614476
 		//Total power flow: 0.6908804780716143
-		double f = algoDsl.getMontorBranch().toDclfBranch().getPowerFlow(Type.PU);
+		double f = algoDsl.getMontorBranch().toDclfBranch().getPowerFlow(UnitType.PU);
 		assertTrue(NumericUtil.equals(sum+f, 0.690881, 0.00001));
 		//System.out.println(new Array2DRowRealMatrix(factors));
 		// {{0.5551262632496149},{0.4511165014022788},{-0.06373460005412564}}
