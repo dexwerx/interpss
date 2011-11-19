@@ -30,7 +30,7 @@ package org.interpss.numeric.datatype;
  */
 
 public class Unit {
-	public static enum Type { 
+	public static enum UnitType { 
 			Percent, PU, 
 			Deg, Rad, 
 			Volt, kV, 
@@ -45,12 +45,12 @@ public class Unit {
 			Ft, M, kM, Mile, // meter
 			Hour, Day, Month, Year }
 
-	public static Type 
-			VUnit = Type.PU, 
-			IUnit = Type.PU, 
-			PUnit = Type.PU, 
-			ZUnit = Type.PU,
-			YUnit = Type.PU;
+	public static UnitType 
+			VUnit = UnitType.PU, 
+			IUnit = UnitType.PU, 
+			PUnit = UnitType.PU, 
+			ZUnit = UnitType.PU,
+			YUnit = UnitType.PU;
 
 	/**
 	 * Check if the unit is a load or generation unit (PU|VA|Var|Watt|kW|kVA|kVar|mW|mVA|mVar)
@@ -58,8 +58,8 @@ public class Unit {
 	 * @param unit the P/Q unit
 	 * @return true or false
 	 */
-	public static boolean isPQUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.VA) || (unit == Type.kVA) || (unit == Type.mVA)
+	public static boolean isPQUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.VA) || (unit == UnitType.kVA) || (unit == UnitType.mVA)
 				|| isPUnit(unit) || isQUnit(unit);
 	}
 
@@ -82,9 +82,9 @@ public class Unit {
 	 * @param unit the P unit
 	 * @return true or false
 	 */
-	public static boolean isPUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Watt) || (unit == Type.kW) || (unit == Type.mW) ||
-		   		(unit == Type.VA) || (unit == Type.kVA) || (unit == Type.mVA);
+	public static boolean isPUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Watt) || (unit == UnitType.kW) || (unit == UnitType.mW) ||
+		   		(unit == UnitType.VA) || (unit == UnitType.kVA) || (unit == UnitType.mVA);
 	}
 
 	/**
@@ -106,9 +106,9 @@ public class Unit {
 	 * @param unit the Q unit
 	 * @return true or false	 
 	 */
-	public static boolean isQUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Var) || (unit == Type.kVar)
-				|| (unit == Type.mVar);
+	public static boolean isQUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Var) || (unit == UnitType.kVar)
+				|| (unit == UnitType.mVar);
 	}
 
 	/**
@@ -130,9 +130,9 @@ public class Unit {
 	 * @param unit the Y unit
 	 * @return true or false	 
 	 */
-	public static boolean isYUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Mho)
-				|| (unit == Type.MicroMho);
+	public static boolean isYUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Mho)
+				|| (unit == UnitType.MicroMho);
 	}
 
 	/**
@@ -154,9 +154,9 @@ public class Unit {
 	 * @param unit the Z unit
 	 * @return true or false	 
 	 */
-	public static boolean isZUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Ohm)
-				|| (unit == Type.MilliOhm) || (unit == Type.kOhm);
+	public static boolean isZUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Ohm)
+				|| (unit == UnitType.MilliOhm) || (unit == UnitType.kOhm);
 	}
 
 	/**
@@ -180,9 +180,9 @@ public class Unit {
 	 * @param unit the V unit
 	 * @return true or false	 
 	 */
-	public static boolean isVUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Volt)
-				|| (unit == Type.kV);
+	public static boolean isVUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Volt)
+				|| (unit == UnitType.kV);
 	}
 
 	/**
@@ -203,9 +203,9 @@ public class Unit {
 	 * @param unit the Amp unit
 	 * @return true or false	 
 	 */
-	public static boolean isAmpUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Amp)
-				|| (unit == Type.kAmp);
+	public static boolean isAmpUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Amp)
+				|| (unit == UnitType.kAmp);
 	}
 
 	/**
@@ -226,8 +226,8 @@ public class Unit {
 	 * @param unit the angle unit
 	 * @return true or false	 
 	 */
-	public static boolean isAngleUnit(final Type unit) {
-		return (unit == Type.Rad) || (unit == Type.Deg);
+	public static boolean isAngleUnit(final UnitType unit) {
+		return (unit == UnitType.Rad) || (unit == UnitType.Deg);
 	}
 
 	/**
@@ -247,8 +247,8 @@ public class Unit {
 	 * @param unit the angle unit
 	 * @return true or false	 
 	 */
-	public static boolean isTapUnit(final Type unit) {
-		return (unit == Type.PU) || (unit == Type.Percent);
+	public static boolean isTapUnit(final UnitType unit) {
+		return (unit == UnitType.PU) || (unit == UnitType.Percent);
 	}
 
 	/**
@@ -314,107 +314,107 @@ public class Unit {
 	 * @param u unit to be converted
 	 * @return the unit string
 	 */
-	public static String toString(final Type u) {
-		if (u == Type.Percent) {
+	public static String toString(final UnitType u) {
+		if (u == UnitType.Percent) {
 			return "%";
 		}
-		else if (u == Type.PU) {
+		else if (u == UnitType.PU) {
 			return "pu";
 		}
-		else if (u == Type.Deg) {
+		else if (u == UnitType.Deg) {
 			return "deg";
 		}
-		else if (u == Type.Rad) {
+		else if (u == UnitType.Rad) {
 			return "rad";
 		}
-		else if (u == Type.Volt) {
+		else if (u == UnitType.Volt) {
 			return "V";
 		}
-		else if (u == Type.kV) {
+		else if (u == UnitType.kV) {
 			return "KV";
 		}
-		else if (u == Type.kAmp) {
+		else if (u == UnitType.kAmp) {
 			return "KAmps";
 		}
-		else if (u == Type.Amp) {
+		else if (u == UnitType.Amp) {
 			return "Amps";
 		}
-		else if (u == Type.MilliAmp) {
+		else if (u == UnitType.MilliAmp) {
 			return "mA";
 		}
-		else if (u == Type.Watt) {
+		else if (u == UnitType.Watt) {
 			return "W";
 		}
-		else if (u == Type.kW) {
+		else if (u == UnitType.kW) {
 			return "KW";
 		}
-		else if (u == Type.mW) {
+		else if (u == UnitType.mW) {
 			return "MW";
 		}
-		else if (u == Type.HP) {
+		else if (u == UnitType.HP) {
 			return "HP";
 		}
-		else if (u == Type.Var) {
+		else if (u == UnitType.Var) {
 			return "Var";
 		}
-		else if (u == Type.kVar) {
+		else if (u == UnitType.kVar) {
 			return "KVar";
 		}
-		else if (u == Type.mVar) {
+		else if (u == UnitType.mVar) {
 			return "MVar";
 		}
-		else if (u == Type.VA) {
+		else if (u == UnitType.VA) {
 			return "VA";
 		}
-		else if (u == Type.kVA) {
+		else if (u == UnitType.kVA) {
 			return "KVA";
 		}
-		else if (u == Type.mVA) {
+		else if (u == UnitType.mVA) {
 			return "MVA";
 		}
-		else if (u == Type.Ohm) {
+		else if (u == UnitType.Ohm) {
 			return "Ohms";
 		}
-		else if (u == Type.MilliOhm) {
+		else if (u == UnitType.MilliOhm) {
 			return "mOhms";
 		}
-		else if (u == Type.kOhm) {
+		else if (u == UnitType.kOhm) {
 			return "kOhms";
 		}
-		else if (u == Type.Mho) {
+		else if (u == UnitType.Mho) {
 			return "Mhos";
 		}
-		else if (u == Type.MicroMho) {
+		else if (u == UnitType.MicroMho) {
 			return "microMhos";
 		}
-		else if (u == Type.Henry) {
+		else if (u == UnitType.Henry) {
 			return "Henry";
 		}
-		else if (u == Type.MilliH) {
+		else if (u == UnitType.MilliH) {
 			return "mH";
 		}
-		else if (u == Type.MicroH) {
+		else if (u == UnitType.MicroH) {
 			return "microH";
 		}
-		else if (u == Type.Farad) {
+		else if (u == UnitType.Farad) {
 			return "F";
 		}
-		else if (u == Type.MilliF) {
+		else if (u == UnitType.MilliF) {
 			return "mF";
 		}
-		else if (u == Type.MicroF) {
+		else if (u == UnitType.MicroF) {
 			return "microF";
 		}
-		else if (u == Type.Year) {
+		else if (u == UnitType.Year) {
 			return "Year";
 		}
-		else if (u == Type.Month) {
+		else if (u == UnitType.Month) {
 			return "Month";
 		}
-		else if (u == Type.Day) {
+		else if (u == UnitType.Day) {
 			return "Day";
 		}
-		else if (u == Type.Hour) {
+		else if (u == UnitType.Hour) {
 			return "Hour";
 		}
 		return "WrongUnit";
@@ -426,125 +426,125 @@ public class Unit {
 	 * @param unit unit string to be converted
 	 * @return the unit constant
 	 */
-	public static Type toUnit(final String unit) {
+	public static UnitType toUnit(final String unit) {
 		if ((unit.compareTo("%") == 0) || unit.toLowerCase().equals("percent")) {
-			return Type.Percent;
+			return UnitType.Percent;
 		}
 		else if (unit.toLowerCase().equals("pu")) {
-			return Type.PU;
+			return UnitType.PU;
 		}
 		else if (unit.toLowerCase().equals("deg")) {
-			return Type.Deg;
+			return UnitType.Deg;
 		}
 		else if (unit.toLowerCase().equals("rad")) {
-			return Type.Rad;
+			return UnitType.Rad;
 		}
 		else if (unit.toLowerCase().equals("v") || unit.toLowerCase().equals("volt")) {
-			return Type.Volt;
+			return UnitType.Volt;
 		}
 		else if (unit.toLowerCase().equals("kv") || (unit.compareTo("kVolt") == 0)) {
-			return Type.kV;
+			return UnitType.kV;
 		}
 		else if (unit.toLowerCase().equals("kamps")
 				|| unit.toLowerCase().equals("kamp")
 				|| unit.toLowerCase().equals("va")) {
-			return Type.kAmp;
+			return UnitType.kAmp;
 		}
 		else if (unit.toLowerCase().equals("amps")
 				|| unit.toLowerCase().equals("amp")
 				|| unit.toLowerCase().equals("a")) {
-			return Type.Amp;
+			return UnitType.Amp;
 		}
 		else if (unit.toLowerCase().equals("ma")
 				|| unit.toLowerCase().equals("milliamps")) {
-			return Type.MilliAmp;
+			return UnitType.MilliAmp;
 		}
 		else if (unit.toLowerCase().equals("w") || unit.toLowerCase().equals("watt")) {
-			return Type.Watt;
+			return UnitType.Watt;
 		}
 		else if (unit.toLowerCase().equals("kw")
 				|| unit.toLowerCase().equals("kwatt")) {
-			return Type.kW;
+			return UnitType.kW;
 		}
 		else if (unit.toLowerCase().equals("HP")
 				|| unit.toLowerCase().equals("hp")
 				|| unit.toLowerCase().equals("Hp")) {
-			return Type.HP;
+			return UnitType.HP;
 		}
 		else if (unit.toLowerCase().equals("mw")
 				|| unit.toLowerCase().equals("mwatt")) {
-			return Type.mW;
+			return UnitType.mW;
 		}
 		else if (unit.toLowerCase().equals("var")) {
-			return Type.Var;
+			return UnitType.Var;
 		}
 		else if (unit.toLowerCase().equals("kvar")) {
-			return Type.kVar;
+			return UnitType.kVar;
 		}
 		else if (unit.toLowerCase().equals("mvar")) {
-			return Type.mVar;
+			return UnitType.mVar;
 		}
 		else if (unit.toLowerCase().equals("va")) {
-			return Type.VA;
+			return UnitType.VA;
 		}
 		else if (unit.toLowerCase().equals("kva")) {
-			return Type.kVA;
+			return UnitType.kVA;
 		}
 		else if (unit.toLowerCase().equals("mva")) {
-			return Type.mVA;
+			return UnitType.mVA;
 		}
 		else if (unit.toLowerCase().equals("ohm")
 				|| unit.toLowerCase().equals("ohms")) {
-			return Type.Ohm;
+			return UnitType.Ohm;
 		}
 		else if (unit.toLowerCase().equals("mohm")
 				|| unit.toLowerCase().equals("mohms")) {
-			return Type.MilliOhm;
+			return UnitType.MilliOhm;
 		}
 		else if (unit.toLowerCase().equals("kohm")
 				|| unit.toLowerCase().equals("Kohm")) {
-			return Type.kOhm;
+			return UnitType.kOhm;
 		}
 		else if (unit.toLowerCase().equals("mho")
 				|| unit.toLowerCase().equals("mhos")) {
-			return Type.Mho;
+			return UnitType.Mho;
 		}
 		else if (unit.toLowerCase().equals("micromho")
 				|| unit.toLowerCase().equals("micromhos")) {
-			return Type.MicroMho;
+			return UnitType.MicroMho;
 		}
 		else if (unit.toLowerCase().equals("h")
 				|| unit.toLowerCase().equals("henry")) {
-			return Type.Henry;
+			return UnitType.Henry;
 		}
 		else if (unit.toLowerCase().equals("mh")) {
-			return Type.MilliH;
+			return UnitType.MilliH;
 		}
 		else if (unit.toLowerCase().equals("microh")) {
-			return Type.MicroH;
+			return UnitType.MicroH;
 		}
 		else if (unit.toLowerCase().equals("f")
 				|| unit.toLowerCase().equals("farad")) {
-			return Type.Farad;
+			return UnitType.Farad;
 		}
 		else if (unit.toLowerCase().equals("mf")) {
-			return Type.MilliF;
+			return UnitType.MilliF;
 		}
 		else if (unit.toLowerCase().equals("microf")) {
-			return Type.MicroF;
+			return UnitType.MicroF;
 		}
 		else if ("year".equals(unit.toLowerCase())) {
-			return Type.Year;
+			return UnitType.Year;
 		}
 		else if ("month".equals(unit.toLowerCase())) {
-			return Type.Month;
+			return UnitType.Month;
 		}
 		else if ("day".equals(unit.toLowerCase())) {
-			return Type.Day;
+			return UnitType.Day;
 		}
 		else if ("hour".equals(unit.toLowerCase())) {
-			return Type.Hour;
+			return UnitType.Hour;
 		}
-		return Type.PU;
+		return UnitType.PU;
 	}
 }
