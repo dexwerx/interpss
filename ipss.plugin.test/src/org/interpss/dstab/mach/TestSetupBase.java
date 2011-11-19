@@ -26,7 +26,7 @@ package org.interpss.dstab.mach;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
@@ -74,8 +74,8 @@ public class TestSetupBase extends PluginTestSetup {
 		bus2.setBaseVoltage(1000);
 		bus2.setGenCode(AclfGenCode.SWING);
 		SwingBusAdapter swing = bus2.toSwingBus();
-		swing.setVoltMag(0.9434, Type.PU);
-		swing.setVoltAng(-4.86444, Type.Deg);
+		swing.setVoltMag(0.9434, UnitType.PU);
+		swing.setVoltAng(-4.86444, UnitType.Deg);
 
 		// a line branch connect the two buses
 		DStabBranch branch = DStabObjectFactory.createDStabBranch("Gen", "Swing", net);

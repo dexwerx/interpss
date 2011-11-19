@@ -33,7 +33,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.gridgain.GridBaseTestSetup;
 import org.interpss.numeric.datatype.ComplexFunc;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -73,9 +73,9 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
   		SwingBusAdapter swing = swingBus.toSwingBus();
-		System.out.println(ComplexFunc.toString(swing.getGenResults(Type.PU)));
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-0.11824)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()-0.37383)<0.0001);
+		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
 	}	
 
 	@Test
@@ -108,8 +108,8 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
   		SwingBusAdapter swing = swingBus.toSwingBus();
-		System.out.println(ComplexFunc.toString(swing.getGenResults(Type.PU)));
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-0.11824)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()-0.37383)<0.0001);
+		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
 	}	
 }

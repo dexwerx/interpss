@@ -3,7 +3,7 @@ package org.interpss.core.aclf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -60,8 +60,8 @@ public class IEEE14InterfaceCaseTest  extends PluginTestSetup {
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
 		SwingBusAdapter swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-2.32394)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.20674)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
   		
 		//System.out.println("Flow export: " + inf.flowExport());
 		//System.out.println("Flow import: " + inf.flowImport());

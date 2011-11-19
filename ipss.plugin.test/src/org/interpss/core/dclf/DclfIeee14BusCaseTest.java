@@ -3,7 +3,7 @@ package org.interpss.core.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
@@ -25,7 +25,7 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 		//System.out.println(DclfOutFunc.dclfResults(algo));
 		
 		//System.out.println(algo.getBranchFlow("0001", "0002", "1", Type.mW));
-		assertTrue(Math.abs(algoDsl.branchFlow("0001", "0002", "1", Type.mW) - 147.88) < 0.01);
+		assertTrue(Math.abs(algoDsl.branchFlow("0001", "0002", "1", UnitType.mW) - 147.88) < 0.01);
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class DclfIeee14BusCaseTest extends PluginTestSetup {
 	
 		assertTrue(Math.abs(x1 + x2 + x3 - 1.0) < 0.0001);
 		
-		double pFlow = algoDsl.branchFlow("0004", "0007", "1", Type.mW);
+		double pFlow = algoDsl.branchFlow("0004", "0007", "1", UnitType.mW);
 		double derating1 = pFlow * x2 / ( 1.0 - x1);
 		double derating2 = pFlow * x3 / ( 1.0 - x1);
 

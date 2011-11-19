@@ -26,7 +26,7 @@ package org.interpss.dstab.mach;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.DStabObjectFactory;
@@ -123,7 +123,7 @@ public class SalientPoleMachineTest extends TestSetupBase {
 							createMachine("MachId", "MachName", MachineType.EQ11_SALIENT_POLE, net, "Gen");
 		DStabBus bus = net.getDStabBus("Gen");		
 		// set machine data
-		mach.setRating(100, Type.mVA, net.getBaseKva());
+		mach.setRating(100, UnitType.mVA, net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors(bus);
 		mach.setH(5.0);

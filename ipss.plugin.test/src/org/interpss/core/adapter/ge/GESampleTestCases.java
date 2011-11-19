@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -64,8 +64,8 @@ public class GESampleTestCases extends PluginTestSetup {
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus101");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-5.234)<0.01);
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()-1.108)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.234)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.108)<0.01);
 	}	
 }
 

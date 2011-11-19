@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.CoreObjectFactory;
@@ -55,7 +55,7 @@ public class GuideSampleTestCases extends PluginTestSetup {
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("3011");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		Complex p = swing.getGenResults(Type.mW);
+  		Complex p = swing.getGenResults(UnitType.mW);
   		System.out.println("------>" + p.getReal() + ", " + p.getImaginary());
 
 //  		assertTrue(Math.abs(p.getReal()-258.657)<0.01);

@@ -30,7 +30,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.CoreObjectFactory;
@@ -62,7 +62,7 @@ public class CR_UserTestCases extends PluginTestSetup {
 	  	
   		AclfBus swingBus = net.getAclfBus("1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		Complex p = swing.getGenResults(Type.mW);
+  		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}
@@ -103,7 +103,7 @@ public class CR_UserTestCases extends PluginTestSetup {
 
 	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		Complex p = swing.getGenResults(Type.mW);
+  		Complex p = swing.getGenResults(UnitType.mW);
   		//System.out.println(p.getReal() + "  " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-1841.659)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-11.714)<0.01);	  	

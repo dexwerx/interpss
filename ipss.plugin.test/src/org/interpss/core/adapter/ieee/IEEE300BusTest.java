@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -62,8 +62,8 @@ public class IEEE300BusTest extends PluginTestSetup {
 		SwingBusAdapter swing = swingBus.toSwingBus();
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-5.1348)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.8239)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.1348)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.8239)<0.0001);
 	}
 }
 

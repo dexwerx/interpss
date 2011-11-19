@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringCtx;
 import org.junit.Test;
 
@@ -74,8 +74,8 @@ public class IEEE14Test extends PluginTestSetup {
   		 */
   		AclfBus swingBus = (AclfBus)net.getBus("1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-2.32386)<0.0001);
-  		assertTrue( Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.16889)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32386)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16889)<0.0001);
 	}
 	
 	//@Test
@@ -113,8 +113,8 @@ public class IEEE14Test extends PluginTestSetup {
   		 */
   		AclfBus swingBus = (AclfBus)net.getBus("1");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-  		assertTrue(Math.abs(swing.getGenResults(Type.PU).getReal()-2.32386)<0.0001);
-  		assertTrue( Math.abs(swing.getGenResults(Type.PU).getImaginary()+0.16889)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32386)<0.0001);
+  		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16889)<0.0001);
 	}
 
 	@Test

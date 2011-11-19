@@ -27,7 +27,7 @@ package org.interpss.schema;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
@@ -69,7 +69,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
 
 		final SwingBusAdapter gen = net.getAclfBus("0001").toSwingBus();
-	  	assertTrue(gen.getVoltMag(Type.PU) == (1.06*1.01));
+	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%
 	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").getZ().getImaginary()-0.20912*1.1) < 1.0E-5);
@@ -106,7 +106,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
 
 		final SwingBusAdapter gen = net.getAclfBus("0001").toSwingBus();
-	  	assertTrue(gen.getVoltMag(Type.PU) == (1.06*1.01));
+	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%
 	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").getZ().getImaginary()-0.20912*1.1) < 1.0E-5);
