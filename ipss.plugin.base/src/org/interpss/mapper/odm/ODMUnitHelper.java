@@ -35,7 +35,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 
 public class ODMUnitHelper {
@@ -45,44 +45,44 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toApparentPowerUnit(ApparentPowerUnitType unit) {
+	public static UnitType toApparentPowerUnit(ApparentPowerUnitType unit) {
 		if (unit == ApparentPowerUnitType.KVA)
-			return Type.kVA;
+			return UnitType.kVA;
 		else if (unit == ApparentPowerUnitType.MVA)
-			return Type.mVA;
-		return Type.PU;
+			return UnitType.mVA;
+		return UnitType.PU;
 	}
 
-	public static Type toActivePowerUnit(ActivePowerUnitType unit) {
+	public static UnitType toActivePowerUnit(ActivePowerUnitType unit) {
 		if (unit == ActivePowerUnitType.KW)
-			return Type.kW;
+			return UnitType.kW;
 		else if (unit == ActivePowerUnitType.MW)
-			return Type.mW;
-		return Type.PU;
+			return UnitType.mW;
+		return UnitType.PU;
 	}
 
-	public static Type toReactivePowerUnit(ReactivePowerUnitType unit) {
+	public static UnitType toReactivePowerUnit(ReactivePowerUnitType unit) {
 		if (unit == ReactivePowerUnitType.KVAR)
-			return Type.kVar;
+			return UnitType.kVar;
 		else if (unit == ReactivePowerUnitType.MVAR)
-			return Type.mVar;
-		return Type.PU;
+			return UnitType.mVar;
+		return UnitType.PU;
 	}
 
-	public static Type toZUnit(ZUnitType unit) {
+	public static UnitType toZUnit(ZUnitType unit) {
 		if (unit == ZUnitType.OHM)
-			return Type.Ohm;
+			return UnitType.Ohm;
 		else if (unit == ZUnitType.OHM_PER_FT)
-			return Type.OhmPerFt;
+			return UnitType.OhmPerFt;
 		else if (unit == ZUnitType.OHM_PER_M)
-			return Type.OhmPerM;
+			return UnitType.OhmPerM;
 		else if (unit == ZUnitType.PERCENT)
-			return Type.Percent;
+			return UnitType.Percent;
 		else if (unit == ZUnitType.MVA)
-			return Type.mVA;
+			return UnitType.mVA;
 		else if (unit == ZUnitType.KVA)
-			return Type.kVA;
-		return Type.PU;
+			return UnitType.kVA;
+		return UnitType.PU;
 	}
   
 	/**
@@ -91,16 +91,16 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toYUnit(YUnitType unit) {
+	public static UnitType toYUnit(YUnitType unit) {
 		if (unit == YUnitType.MHO)
-			return Type.Mho;
+			return UnitType.Mho;
 		else if (unit == YUnitType.MICROMHO)
-			return Type.MicroMho;
+			return UnitType.MicroMho;
 		else if (unit == YUnitType.MVAR)
-			return Type.mVar;
+			return UnitType.mVar;
 		else if (unit == YUnitType.KVAR)
-			return Type.kVar;
-		return Type.PU;
+			return UnitType.kVar;
+		return UnitType.PU;
 	}
 
 	/**
@@ -109,12 +109,12 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toVoltageUnit(VoltageUnitType unit) {
+	public static UnitType toVoltageUnit(VoltageUnitType unit) {
 		if (unit == VoltageUnitType.VOLT)
-			return Type.Volt;
+			return UnitType.Volt;
 		else if (unit == VoltageUnitType.KV)
-			return Type.kV;
-		return Type.PU;
+			return UnitType.kV;
+		return UnitType.PU;
 	}
 
 	/**
@@ -123,12 +123,12 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toCurrentUnit(CurrentUnitType unit) {
+	public static UnitType toCurrentUnit(CurrentUnitType unit) {
 		if (unit == CurrentUnitType.AMP)
-			return Type.Amp;
+			return UnitType.Amp;
 		else if (unit == CurrentUnitType.KA)
-			return Type.kAmp;
-		return Type.PU;
+			return UnitType.kAmp;
+		return UnitType.PU;
 	}
 	
 	/**
@@ -137,10 +137,10 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toAngleUnit(AngleUnitType unit) {
+	public static UnitType toAngleUnit(AngleUnitType unit) {
 		if (unit == AngleUnitType.DEG)
-			return Type.Deg;
-		return Type.Rad;
+			return UnitType.Deg;
+		return UnitType.Rad;
 	}
 	
 	/**
@@ -149,10 +149,10 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toFactorUnit(FactorUnitType unit) {
+	public static UnitType toFactorUnit(FactorUnitType unit) {
 		if (unit == FactorUnitType.PERCENT)
-			return Type.Percent;
-		return Type.PU;
+			return UnitType.Percent;
+		return UnitType.PU;
 	}	
 	
 	/**
@@ -161,15 +161,15 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static Type toLengthUnit(LengthUnitType unit) {
+	public static UnitType toLengthUnit(LengthUnitType unit) {
 		if (unit == LengthUnitType.FT)
-			return Type.Ft;
+			return UnitType.Ft;
 		else if (unit == LengthUnitType.M)
-			return Type.M;
+			return UnitType.M;
 		else if (unit == LengthUnitType.KM)
-			return Type.kM;
+			return UnitType.kM;
 		else if (unit == LengthUnitType.MILE)
-			return Type.Mile;
-		return Type.Ft;
+			return UnitType.Mile;
+		return UnitType.Ft;
 	}		
 }

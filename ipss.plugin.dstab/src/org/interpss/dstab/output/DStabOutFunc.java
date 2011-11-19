@@ -27,9 +27,8 @@ package org.interpss.dstab.output;
 import java.util.Hashtable;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
-import org.jfree.util.UnitType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
@@ -166,20 +165,20 @@ public class DStabOutFunc {
 			for (Bus b : net.getBusList()) {
 				DStabBus bus = (DStabBus) b;
 				GenBusAdapter genBus = bus.toGenBus();
-				Complex busPQ = genBus.getGenResults(Type.PU);
-				busPQ = busPQ.subtract(genBus.getLoadResults(Type.PU));
+				Complex busPQ = genBus.getGenResults(UnitType.PU);
+				busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = bus.toCapacitorBus();
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-							.getVoltageMag(), Type.PU)));
+							.getVoltageMag(), UnitType.PU)));
 				}
 				str.append(Number2String.toStr(2, " "));
 				str.append(Number2String.toStr(-12, bus.getId()) + "  ");
 				str.append(Number2String.toStr("###0.000", bus
-						.getVoltageMag(Type.PU))
+						.getVoltageMag(UnitType.PU))
 						+ " ");
 				str.append(Number2String.toStr("######0.0", (bus
-						.getVoltageAng(Type.Deg))
+						.getVoltageAng(UnitType.Deg))
 						- refAng)
 						+ "  ");
 				str.append(Number2String.toStr("####0.0000", busPQ.getReal()));
