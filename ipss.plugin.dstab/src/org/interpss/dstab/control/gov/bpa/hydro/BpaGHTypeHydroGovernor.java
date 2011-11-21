@@ -24,11 +24,11 @@ import com.interpss.dstab.mach.Machine;
 @AnController(
 		   input="mach.speed-1.0",
 		   output="this.wFilterBlock.y",
-		   refPoint="this.delayBlock.u0/this.r + this.rGainBlock.y/this.r + this.washoutBlock.y/this.r + this.gainBlock.y/this.r",
+		   refPoint="this.delayBlock.u0 + this.rGainBlock.y + this.washoutBlock.y + this.gainBlock.y",
 		   display= {})
 public class BpaGHTypeHydroGovernor extends AnnotateGovernor{
 	public double pmin = 0.0;
-	public double pmax = 6.5;
+	public double pmax = 1.0	;// input as PU unit
 	public double r = 0.05;
 	public double epsilon=999D;//the corresponding deadBand block NOT implemented yet
 
@@ -38,14 +38,14 @@ public class BpaGHTypeHydroGovernor extends AnnotateGovernor{
         type= CMLFieldEnum.StaticBlock,
         input="mach.speed - 1.0",
         parameter={"type.NoLimit", "this.k1"},
-        y0="this.refPoint*this.r - this.delayBlock.u0 - this.rGainBlock.y - this.washoutBlock.y"	)
+        y0="this.refPoint - this.delayBlock.u0 - this.rGainBlock.y - this.washoutBlock.y"	)//*this.r
 GainBlock gainBlock;
 
 	//1.2 delayBlock
 	public double tg=0.25, k_tg=1/tg, tp=0.04, velClose=0.2, velOpen=0.3, pup = velOpen*pmax, pdown = -velClose*pmax;
 		@AnControllerField(
         type= CMLFieldEnum.ControlBlock,
-        input="this.refPoint*this.r - this.rGainBlock.y - this.washoutBlock.y - this.gainBlock.y",
+        input="this.refPoint - this.rGainBlock.y - this.washoutBlock.y - this.gainBlock.y",
         parameter={"type.NonWindup", "this.k_tg", "this.tp","this.pup","this.pdown"},
         y0="this.intBlock.u0"	)
 DelayControlBlock delayBlock;
