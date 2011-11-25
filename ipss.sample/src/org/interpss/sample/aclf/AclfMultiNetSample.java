@@ -26,7 +26,7 @@ package org.interpss.sample.aclf;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -73,8 +73,8 @@ public class AclfMultiNetSample {
   		bus1.setBaseVoltage(4000.0);
   		bus1.setGenCode(AclfGenCode.SWING);
   		SwingBusAdapter swingBus = bus1.toSwingBus();
-  		swingBus.setVoltMag(1.0, Type.PU);
-  		swingBus.setVoltAng(0.0, Type.Deg);
+  		swingBus.setVoltMag(1.0, UnitType.PU);
+  		swingBus.setVoltAng(0.0, UnitType.Deg);
   		
   		AclfBusNetRef bus2 = CoreObjectFactory.createAclfBusNetRef("0002", mainNet);
   		bus2.setAttributes("Bus 2", "");
@@ -92,13 +92,13 @@ public class AclfMultiNetSample {
   		mainNet.addBranch(branch, "0001", "0002");
   		branch.setAttributes("Branch 1", "", "1");
   		branch.setBranchCode(AclfBranchCode.LINE);
-		branch.toLine().setZ(new Complex(0.005, 0.01), Type.PU, 4000.0);
+		branch.toLine().setZ(new Complex(0.005, 0.01), UnitType.PU, 4000.0);
 		
   		branch = CoreObjectFactory.createAclfBranch();
   		mainNet.addBranch(branch, "0002", "0003");
   		branch.setAttributes("Branch 2", "", "1");
   		branch.setBranchCode(AclfBranchCode.LINE);
-		branch.toLine().setZ(new Complex(0.005, 0.01), Type.PU, 4000.0);
+		branch.toLine().setZ(new Complex(0.005, 0.01), UnitType.PU, 4000.0);
 
 		/* 
 		 * create two Aclf networks as child net 

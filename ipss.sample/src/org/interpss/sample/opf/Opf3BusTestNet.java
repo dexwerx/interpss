@@ -2,7 +2,7 @@ package org.interpss.sample.opf;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.exp.IpssNumericException;
 
 import com.interpss.CoreObjectFactory;
@@ -24,7 +24,7 @@ public class Opf3BusTestNet {
 		//1	    1  142.735	10.694	0.00463	20	200	    10000
 		  
 		OpfGenBus bus1= OpfObjectFactory.createOpfGenBus("Bus1", net);
-		bus1.setBaseVoltage(10, Type.kV);
+		bus1.setBaseVoltage(10, UnitType.kV);
 		bus1.setAttributes("Bus 1", "");
 		bus1.setLoadCode(AclfLoadCode.CONST_P);
 		bus1.setLoadP(1.3266);
@@ -38,7 +38,7 @@ public class Opf3BusTestNet {
 		//2	2	218.335	18.1	0.00612	10	150	10000
 		OpfGenBus bus2 = OpfObjectFactory.createOpfGenBus("Bus2", net);
 		bus2.setAttributes("Bus 2", "");
-		bus2.setBaseVoltage(10, Type.kV);
+		bus2.setBaseVoltage(10, UnitType.kV);
 		bus2.setLoadCode(AclfLoadCode.CONST_P);
 		bus2.setLoadP(0.4422);
 		bus2.setGenCode(AclfGenCode.GEN_PV);
@@ -50,7 +50,7 @@ public class Opf3BusTestNet {
 		//bus3
 		//3	3	118.821	37.8896	0.01433	5	20	10000
 		OpfGenBus bus3 = OpfObjectFactory.createOpfGenBus("Bus3", net);
-		bus3.setBaseVoltage(10, Type.kV);
+		bus3.setBaseVoltage(10, UnitType.kV);
 		bus3.setAttributes("Bus 3", "");
 		bus3.setLoadCode(AclfLoadCode.CONST_P);
 		bus3.setLoadP(0.4422);

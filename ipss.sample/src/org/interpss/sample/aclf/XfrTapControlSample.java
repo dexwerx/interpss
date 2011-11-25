@@ -26,7 +26,7 @@ package org.interpss.sample.aclf;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.exp.IpssNumericException;
 
 import com.interpss.CoreObjectFactory;
@@ -92,8 +92,8 @@ public class XfrTapControlSample {
   		bus1.setBaseVoltage(10000.0);
   		bus1.setGenCode(AclfGenCode.SWING);
   		SwingBusAdapter swingBus = bus1.toSwingBus();
-  		swingBus.setVoltMag(1.0, Type.PU);
-  		swingBus.setVoltAng(0.0, Type.Deg);
+  		swingBus.setVoltMag(1.0, UnitType.PU);
+  		swingBus.setVoltAng(0.0, UnitType.Deg);
   		
   		AclfBus bus2 = CoreObjectFactory.createAclfBus("0002", net);
   		//net.addBus(bus2);
@@ -102,14 +102,14 @@ public class XfrTapControlSample {
   		bus2.setGenCode(AclfGenCode.NON_GEN);
   		bus2.setLoadCode(AclfLoadCode.CONST_P);
   		LoadBusAdapter loadBus = bus2.toLoadBus();
-  		loadBus.setLoad(new Complex(1.0, 0.8), Type.PU);
+  		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
   		
   		AclfBranch branch = CoreObjectFactory.createAclfBranch();
   		net.addBranch(branch, "0001", "0002");
   		branch.setAttributes("Branch 1", "", "1");
   		branch.setBranchCode(AclfBranchCode.XFORMER);
 		XfrAdapter xfr = branch.toXfr();
-		xfr.setZ(new Complex(0.05, 0.1), Type.PU, 4000.0);
+		xfr.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0);
 	  	xfr.setFromTurnRatio(1.0);
 	  	
   		return net;

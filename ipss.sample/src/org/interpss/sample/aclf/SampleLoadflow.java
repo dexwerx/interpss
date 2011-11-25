@@ -28,7 +28,7 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.datatype.Unit.Type;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.PerformanceTimer;
 
 import com.interpss.CoreObjectFactory;
@@ -56,18 +56,18 @@ public class SampleLoadflow {
 		IpssAclfNet.addAclfBus("Bus1", "Bus 1", net)
 				.setBaseVoltage(4000.0)
 				.setGenCode(AclfGenCode.SWING)
-				.setVoltageSpec(1.0, Type.PU, 0.0, Type.Deg)
+				.setVoltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg)
 				.setLoadCode(AclfLoadCode.NON_LOAD);
   		
 		IpssAclfNet.addAclfBus("Bus2", "Bus 2", net)
   				.setBaseVoltage(4000.0)
   				.setGenCode(AclfGenCode.NON_GEN)
   				.setLoadCode(AclfLoadCode.CONST_P)
-  				.setLoad(new Complex(1.0, 0.8), Type.PU);
+  				.setLoad(new Complex(1.0, 0.8), UnitType.PU);
   		
 		IpssAclfNet.addAclfBranch("Bus1", "Bus2", "Branch 1", net)
 				.setBranchCode(AclfBranchCode.LINE)
-				.setZ(new Complex(0.05, 0.1), Type.PU);
+				.setZ(new Complex(0.05, 0.1), UnitType.PU);
 	}	
 	
 	public static void simpleLoadflow(IPSSMsgHub msg) {
@@ -160,8 +160,8 @@ public class SampleLoadflow {
   		// adapt the bus object to a swing bus object
   		SwingBusAdapter swingBus = bus1.toSwingBus();
   		// set swing bus attributes
-  		swingBus.setVoltMag(1.0, Type.PU);
-  		swingBus.setVoltAng(0.0, Type.Deg);
+  		swingBus.setVoltMag(1.0, UnitType.PU);
+  		swingBus.setVoltAng(0.0, UnitType.Deg);
   		// add the bus into the network
   		//net.addBus(bus1);
   		
@@ -175,7 +175,7 @@ public class SampleLoadflow {
   		// adapt the bus object to a Load bus object
   		LoadBusAdapter loadBus = bus2.toLoadBus();
   		// set load to the bus
-  		loadBus.setLoad(new Complex(1.0, 0.8), Type.PU);
+  		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
   		//net.addBus(bus2);
   		
   		// create an AclfBranch object
@@ -187,7 +187,7 @@ public class SampleLoadflow {
   		// adapte the branch object to a line branch object
 		LineAdapter lineBranch = branch.toLine();
 		// set branch parameters
-  		lineBranch.setZ(new Complex(0.05, 0.1), Type.PU, 4000.0);
+  		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0);
   		// add the branch from Bus1 to Bus2
   		net.addBranch(branch, "Bus1", "Bus2");
 	  	
