@@ -33,6 +33,10 @@ import org.apache.commons.math.complex.Complex;
  */
 
 public class Number2String {
+	/*
+	 *    int, long type
+	 *    ==============
+	 */
 	/**
 	 * Format a string to the specified length.
 	 *
@@ -50,53 +54,6 @@ public class Number2String {
 			} else {
 				str = str + " ";
 			}
-		}
-		return str;
-	}
-
-	/**
-	 * Format a double to the specified format "#0.0000#'.
-	 *
-	 * @param d number to be formatted
-	 * @return formatted string
-	 */
-	public static String toStr(final double d) {
-		return toStr("#0.0000#", d);
-	}
-	public static String toDebugStr(final double d) {
-		return toStr("#0.0000000#", d);
-	}
-
-	/**
-	 * Format a double to the specified format pattern. White space will be patched at the begining to
-	 * make formatted string length = pattern string length.
-	 *
-	 * @param pattern format pattern
-	 * @param d number to be formatted
-	 * @return formatted string
-	 */
-	public static String toStr(final String pattern, final double d) {
-		final DecimalFormat f = new DecimalFormat(pattern);
-		String str = f.format(d);
-		while (str.length() < pattern.length()) {
-			str = " " + str;
-		}
-		return str;
-	}
-
-	/**
-	 * Format a int to the specified format pattern. White space will be patched at the begining to
-	 * make formatted string length = pattern string length.
-	 *
-	 * @param pattern format pattern
-	 * @param d number to be formatted
-	 * @return formatted string
-	 */
-	public static String toStr(final String pattern, final int d) {
-		final DecimalFormat f = new DecimalFormat(pattern);
-		String str = f.format(d);
-		while (str.length() < pattern.length()) {
-			str = " " + str;
 		}
 		return str;
 	}
@@ -122,42 +79,79 @@ public class Number2String {
 		final DecimalFormat f = new DecimalFormat("#0");
 		return f.format(n);
 	}
+	
 
 	/**
-	 * Format a complex number by using the default Num2Str.toStr(double) function in format (a + jb).
+	 * Format a int to the specified format pattern. White space will be patched at the begining to
+	 * make formatted string length = pattern string length.
 	 *
-	 * @param c complex number to be formatted
-	 * @return formatted string 
-	 */
-	public static String toStr(final Complex c) {
-		return toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
-	}
-
-	public static String toStr(final Complex c, String format) {
-		return toStr(c.getReal(), format) + " + j" + toStr(c.getImaginary(), format);
-	}
-
-	/**
-	 * Format a string to the specified length. White space will be patched 
-	 * at the begining if length > 0 or at the end if length < 0
-	 *
-	 * @param length the length of the formatted string. 
-	 * @param s string to be formatted
+	 * @param pattern format pattern
+	 * @param d number to be formatted
 	 * @return formatted string
 	 */
-	public static String toFixLengthStr(int length, final String s) {
-		String str = s;
-		final int l = length > 0 ? length : -length;
-		while (str.length() < l) {
-			if (length > 0) {
-				str = " " + str;
-			} else {
-				str = str + " ";
-			}
+	public static String toFixLengthStr(final String pattern, final int d) {
+		final DecimalFormat f = new DecimalFormat(pattern);
+		String str = f.format(d);
+		while (str.length() < pattern.length()) {
+			str = " " + str;
 		}
 		return str;
 	}
 
+
+	/**
+	 * Format a int to the specified format pattern. White space will be patched at the begining to
+	 * make formatted string length = pattern string length.
+	 *
+	 * @param pattern format pattern
+	 * @param d number to be formatted
+	 * @return formatted string
+	 */
+	public static String toStr(final String pattern, final int d) {
+		final DecimalFormat f = new DecimalFormat(pattern);
+		String str = f.format(d);
+		while (str.length() < pattern.length()) {
+			str = " " + str;
+		}
+		return str;
+	}
+	
+	/*
+	 *    double type
+	 *    ===========
+	 */
+	
+	
+	/**
+	 * Format a double to the specified format "#0.0000#'.
+	 *
+	 * @param d number to be formatted
+	 * @return formatted string
+	 */
+	public static String toStr(final double d) {
+		return toStr(d, "#0.0000#");
+	}
+	public static String toDebugStr(final double d) {
+		return toStr(d, "#0.0000000#");
+	}
+
+	/**
+	 * Format a double to the specified format pattern. White space will be patched at the begining to
+	 * make formatted string length = pattern string length.
+	 *
+	 * @param pattern format pattern
+	 * @param d number to be formatted
+	 * @return formatted string
+	 */
+/*	public static String toStr(final String pattern, final double d) {
+		final DecimalFormat f = new DecimalFormat(pattern);
+		String str = f.format(d);
+		while (str.length() < pattern.length()) {
+			str = " " + str;
+		}
+		return str;
+	}
+*/
 	/**
 	 * Format a double to the specified format pattern. 
 	 *
@@ -168,6 +162,10 @@ public class Number2String {
 	public static String toStr(final double d, final String pattern) {
 		final DecimalFormat f = new DecimalFormat(pattern);
 		return f.format(d);
+	}
+	// for back compatibility reason
+	public static String toStr(final String pattern, final double d) {
+		return toFixLengthStr(d, pattern);
 	}
 
 	public static String toStr(final Double d, final String pattern) {
@@ -191,19 +189,47 @@ public class Number2String {
 		return str;
 	}
 
+	/*
+	 *    complex type
+	 *    ==============
+	 */
+
 	/**
-	 * Format a int to the specified format pattern. White space will be patched at the begining to
-	 * make formatted string length = pattern string length.
+	 * Format a complex number by using the default Num2Str.toStr(double) function in format (a + jb).
 	 *
-	 * @param pattern format pattern
-	 * @param d number to be formatted
+	 * @param c complex number to be formatted
+	 * @return formatted string 
+	 */
+	public static String toStr(final Complex c) {
+		return toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
+	}
+
+	public static String toStr(final Complex c, String format) {
+		return toStr(c.getReal(), format) + " + j" + toStr(c.getImaginary(), format);
+	}
+
+	/*
+	 *    String type
+	 *    ===========
+	 */
+
+	/**
+	 * Format a string to the specified length. White space will be patched 
+	 * at the begining if length > 0 or at the end if length < 0
+	 *
+	 * @param length the length of the formatted string. 
+	 * @param s string to be formatted
 	 * @return formatted string
 	 */
-	public static String toFixLengthStr(final String pattern, final int d) {
-		final DecimalFormat f = new DecimalFormat(pattern);
-		String str = f.format(d);
-		while (str.length() < pattern.length()) {
-			str = " " + str;
+	public static String toFixLengthStr(int length, final String s) {
+		String str = s;
+		final int l = length > 0 ? length : -length;
+		while (str.length() < l) {
+			if (length > 0) {
+				str = " " + str;
+			} else {
+				str = str + " ";
+			}
 		}
 		return str;
 	}
