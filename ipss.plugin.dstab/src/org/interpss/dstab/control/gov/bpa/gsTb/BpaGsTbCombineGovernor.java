@@ -6,12 +6,14 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
+import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
+import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
@@ -26,14 +28,15 @@ import com.interpss.dstab.mach.Machine;
 		   )
 public class BpaGsTbCombineGovernor extends AnnotateGovernor {
 	//1.1 GainBlock
-	public double pmax=7.90;
+	public double pmax=1.0;
 	public double r=0.05;
 	public double k=pmax/r;
 	@AnControllerField(
 		 				type= CMLFieldEnum.StaticBlock,
 		 				input="mach.speed-1",
 		 				parameter={"type.NoLimit", "this.k"},
-						y0="this.filterBlock.u0"	)
+						y0="this.filterBlock.u0",	
+							debug=true)
    GainBlock kGainBlock;	
   
     //1.2 filterBlock
@@ -53,23 +56,25 @@ public class BpaGsTbCombineGovernor extends AnnotateGovernor {
 		 				type= CMLFieldEnum.StaticBlock,
 		 				input="this.refPoint-this.filterBlock.y-this.fbGainBlock.y",
 		 				parameter={"type.NoLimit", "this.k3"},
-						y0="this.pGainBlock.u0"	)
+						y0="this.rateLimitBlock.u0"	)
     GainBlock t3GainBlock;		
 	
 	//1.5 pGainBlock
-	public double VELopen = 0.1, VELclose = 1.0, pup = VELopen*pmax, pdown = -VELclose*pmax;
+	public double VELopen = 0.1, VELclose = 1.0, pup = VELopen*pmax, pdown = -VELclose*pmax,kr=1.0,tr=0;
+
 	@AnControllerField(
-		 				type= CMLFieldEnum.StaticBlock,
-		 				input="this.t3GainBlock.y",
-		 				parameter={"type.Limit", "this.one", "this.pup", "this.pdown"},
-						y0="this.intBlock.u0"	)
-    GainBlock pGainBlock;		
-  
+            type= CMLFieldEnum.ControlBlock,
+            input="this.t3GainBlock.y",
+            parameter={"type.NonWindup", "this.kr", "this.tr","this.pup","this.pdown"},
+            y0="this.intBlock.u0"	)
+	DelayControlBlock rateLimitBlock;
+	
+
     //1.6 intBlock
     public double pmin = 0;
 	@AnControllerField(
 		 				type= CMLFieldEnum.ControlBlock,
-		 				input="this.pGainBlock.y",
+		 				input="this.rateLimitBlock.y",
 		 				parameter={"type.Limit", "this.one", "this.pmax", "this.pmin"},
 						y0="this.tchDelayBlock.u0"	)
     IntegrationControlBlock intBlock;	  	
@@ -81,7 +86,8 @@ public class BpaGsTbCombineGovernor extends AnnotateGovernor {
 	          input="this.intBlock.y",
 	          parameter={"type.NoLimit", "this.kf", "this.t"},
 	          feedback=true)
-	DelayControlBlock fbGainBlock;		
+	DelayControlBlock fbGainBlock;
+
 
 	public double fhp=0.33,fip=0.67,flp=0.0, lambda=0.0;
 	//2.1 tchDelayBlock
@@ -177,7 +183,7 @@ public class BpaGsTbCombineGovernor extends AnnotateGovernor {
     	this.flp=getData().getTbData().getFlp();
     	this.lambda=getData().getTbData().getLambda();
     	//this.epsilon=0; not used at this stage.
-    	
+
         return super.initStates(bus, mach);
     }
 
