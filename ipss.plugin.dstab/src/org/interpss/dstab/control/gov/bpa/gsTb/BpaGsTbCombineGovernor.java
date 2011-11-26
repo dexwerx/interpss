@@ -35,7 +35,8 @@ public class BpaGsTbCombineGovernor extends AnnotateGovernor {
 		 				type= CMLFieldEnum.StaticBlock,
 		 				input="mach.speed-1",
 		 				parameter={"type.NoLimit", "this.k"},
-						y0="this.filterBlock.u0",	
+						y0="0.0",
+						initOrderNumber=-2,
 							debug=true)
    GainBlock kGainBlock;	
   
@@ -45,7 +46,8 @@ public class BpaGsTbCombineGovernor extends AnnotateGovernor {
 		 				type= CMLFieldEnum.ControlBlock,
 		 				input="this.kGainBlock.y",
 		 				parameter={"type.NoLimit", "this.one", "this.t2", "this.t1"},
-						y0="this.refPoint-this.t3GainBlock.u0-this.fbGainBlock.y",	
+						y0="0.0",
+						initOrderNumber=-1,
 							debug=true)
     FilterControlBlock filterBlock;	  
 
