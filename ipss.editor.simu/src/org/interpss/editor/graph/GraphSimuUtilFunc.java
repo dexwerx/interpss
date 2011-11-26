@@ -93,10 +93,8 @@ public class GraphSimuUtilFunc {
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 								.getVoltageMag(), UnitType.PU)));
 					}
-					String v = Number2String.toStr("0.000", bus
-							.getVoltageMag(UnitType.PU));
-					String ang = Number2String.toStr("0.0", bus
-							.getVoltageAng(UnitType.Deg));
+					String v = Number2String.toStr("0.000", bus.getVoltageMag(UnitType.PU));
+					String ang = Number2String.toStr("0.0", bus.getVoltageAng(UnitType.Deg));
 					String p = Number2String.toStr("0.00", busPQ.getReal());
 					String q = Number2String
 							.toStr("0.00", busPQ.getImaginary());
