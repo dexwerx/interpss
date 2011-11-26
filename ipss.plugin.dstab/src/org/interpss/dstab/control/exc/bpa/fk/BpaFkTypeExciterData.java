@@ -46,8 +46,6 @@ public class BpaFkTypeExciterData {
     private double vrmax    = 5.0;
     private double vrmin    = -3.0;
     private double kc       = 0.067;
-
-
 	private double kf       = 0.1;
     private double tf       = 1.0;
 

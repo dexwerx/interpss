@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
-import org.interpss.dstab.control.exc.ExciterUtil;
+import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
@@ -26,9 +26,9 @@ import com.interpss.dstab.mach.MachineIfdBase;
  * =================================================
  */
 @AnController(
-		   input="this.refPoint - mach.vt + pss.vs",
+		   input="this.refPoint - mach.vt + pss.vs-this.kfWashoutBlock.y",
 		   output="this.gainCustomBlock.y",
-		   refPoint="this.gainBlock.u0 - pss.vs + mach.vt",
+		   refPoint="this.gainBlock.u0 - pss.vs + mach.vt + this.kfWashoutBlock.y",
 		   display= {}
 )
 
@@ -37,7 +37,7 @@ public class BpaFkTypeExciter extends AnnotateExciter {
 	   public double kg1 = 1.0/*constant*/, vimax = 5.30, vimin = -5.11;
 	   @AnControllerField(
 		   type= CMLFieldEnum.StaticBlock,
-		   input="this.refPoint - mach.vt + pss.vs",
+		   input="this.refPoint - mach.vt + pss.vs-this.kfWashoutBlock.y",
 		   parameter={"type.Limit", "this.kg1", "this.vimax", "this.vimin"},
 		   y0="this.filterBlock.u0"	)
 	   GainBlock gainBlock;
@@ -51,7 +51,7 @@ public class BpaFkTypeExciter extends AnnotateExciter {
 		   y0="this.kaDelayBlock.u0"  )
 	   FilterControlBlock filterBlock;
 
-	   //kaDelayBlock----Ka/(1+sTa) with limits
+	   //kaDelayBlock----Ka/(1+sTa)
 	   public double ka = 300.0, ta = 0.01;
 	   @AnControllerField(
 		   type=CMLFieldEnum.ControlBlock,
@@ -59,6 +59,16 @@ public class BpaFkTypeExciter extends AnnotateExciter {
 		   parameter={"type.NoLimit", "this.ka", "this.ta"},
 		   y0="this.gainCustomBlock.u0"  )
 	   DelayControlBlock kaDelayBlock;
+	   
+	   //kfWashoutBlock sKf/1+sTf
+
+	   public double kf = 0.0001, tf = 100.0, kf1 = kf/tf;
+	   @AnControllerField(
+		   type=CMLFieldEnum.ControlBlock,
+		   input="this.kaDelayBlock.y",
+		   parameter={"type.NoLimit", "this.kf1", "this.tf"},
+		   feedback=true  )
+	   WashoutControlBlock kfWashoutBlock;
 
 	public double kg = 1.0/*constant*/, kc = 0.14, vrmax = 5.30, vrmin = -5.11;
 	   @AnControllerField(
@@ -109,8 +119,8 @@ public class BpaFkTypeExciter extends AnnotateExciter {
      */
     public BpaFkTypeExciter() {
 	this("id", "name", "caty");
-        this.setName("SimpleExcitor");
-        this.setCategory("InterPSS");
+        this.setName("BPAFKExcitor");
+        this.setCategory("BPA");
     }
 
      /**
@@ -160,6 +170,10 @@ public class BpaFkTypeExciter extends AnnotateExciter {
         this.vrmax = getData().getVrmax();
         this.vrmin = getData().getVrmin();
         this.kc = getData().getKc();
+        this.kf=getData().getKf();
+        this.tf=getData().getTf();
+
+        
         // always add the following statement
         return super.initStates(bus, mach);
     }
