@@ -133,6 +133,10 @@ public class Number2String {
 		return toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
 	}
 
+	public static String toStr(final Complex c, String format) {
+		return toStr(c.getReal(), format) + " + j" + toStr(c.getImaginary(), format);
+	}
+
 	/**
 	 * Format a string to the specified length. White space will be patched 
 	 * at the begining if length > 0 or at the end if length < 0

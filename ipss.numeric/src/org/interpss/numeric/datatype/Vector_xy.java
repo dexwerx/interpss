@@ -86,6 +86,6 @@ public class Vector_xy extends Point implements java.io.Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "(" + Number2String.toStr(x) + " + j" + Number2String.toStr(y) + ")\n";
+		return "(" + Number2String.toStr(x) + " + j" + Number2String.toStr(y) + ")";
 	}
 }
