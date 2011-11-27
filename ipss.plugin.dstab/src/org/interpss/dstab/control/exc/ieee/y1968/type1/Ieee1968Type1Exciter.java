@@ -38,16 +38,26 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
-   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
+   input="mach.vt",
    output="this.delayBlock.y",
-   refPoint="this.kaDelayBlock.u0 - pss.vs + mach.vt + this.washoutBlock.y",
+   refPoint="this.kaDelayBlock.u0 - pss.vs + this.krDelayBlock.y + this.washoutBlock.y",
    display= {}
 )
 public class Ieee1968Type1Exciter extends AnnotateExciter {
+	   //krDelayBlock----1/(1+sTr)
+       public double kr = 1.0/*constant*/,tr = 0.04;
+       @AnControllerField(
+            type= CMLFieldEnum.ControlBlock,
+            input="mach.vt",
+            parameter={"type.NoLimit", "this.kr", "this.tr"},
+            y0="0.0",
+            initOrderNumber=-1 )
+       DelayControlBlock krDelayBlock;
+       
 	   public double ka = 50.0, ta = 0.05, vrmax = 10.0, vrmin = 0.0;
 	   @AnControllerField(
 	      type= CMLFieldEnum.ControlBlock,
-	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
+	      input="this.refPoint + pss.vs - this.washoutBlock.y - this.krDelayBlock.y",
 	      parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
 	      y0="this.delayBlock.u0 + this.seFunc.y" // ,debug=true
 	   )
@@ -118,6 +128,7 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
      */
     @Override
 	public boolean initStates(DStabBus bus, Machine mach) {
+    	this.tr=getData().getTr();
         this.ka = getData().getKa();
         this.ta = getData().getTa();
         this.vrmax = getData().getVrmax();

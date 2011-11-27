@@ -30,9 +30,7 @@ import com.interpss.dstab.mach.MachineIfdBase;
    input="this.refPoint - mach.vt + pss.vs",
    output="this.gainCustomBlock.y",
    refPoint="this.kvFilterBlock.u0 - pss.vs + mach.vt",
-   display= {"str.kvFilterBlock,this.kvFilterBlock.u",
-		   }
-   
+   display= {} 
 )
 
 public class FVkv1Exciter extends AnnotateExciter {
@@ -96,6 +94,7 @@ public class FVkv1Exciter extends AnnotateExciter {
 		    DStabBus dbus = mach.getDStabBus();
 		  	double ifd = mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
 		  	if(ifd<=0){
+		  		System.out.println("ifd="+ifd);
 		  		vrmin = 0;
 		  	}
 		  	//restrict the output
@@ -119,7 +118,7 @@ public class FVkv1Exciter extends AnnotateExciter {
 		      double vt = mach.getVdq(dbus).abs();
 		      //double ifd = mach.calculateIfd(dbus);
 		      double ifd_Exc_pu=mach.calculateIfd(dbus, MachineIfdBase.EXCITER);
-		      //System.out.println(mach.getDStabBus().getId()+", FVkv1 exc based IFD ="+ifd_Exc_pu+", ifd="+mach.calculateIfd(dbus, MachineIfdBase.MACHINE));
+		     // System.out.println(mach.getDStabBus().getId()+", FVkv1 exc based IFD ="+ifd_Exc_pu);
 		      return vt * vrlimit - kc * ifd_Exc_pu;
 		  }
 	   };
@@ -139,7 +138,7 @@ public class FVkv1Exciter extends AnnotateExciter {
     public FVkv1Exciter() {
 	this("id", "name", "caty");
         this.setName("BPA FV(KV=1) Type Excitor");
-        this.setCategory("InterPSS");
+        this.setCategory("BPA");
     }
 
      /**

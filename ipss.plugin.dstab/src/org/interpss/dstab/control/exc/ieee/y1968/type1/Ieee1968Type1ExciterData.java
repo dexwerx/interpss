@@ -39,6 +39,7 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 	private double seE2 = 0.10;
 	private double kf = 0.1;
 	private double tf = 1.0;
+	private double tr =0.3;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
@@ -53,7 +54,8 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 		{"e2", 		"-1000.0", 	"1000.0"}, 
 		{"seE2", 	"-1000.0", 	"1000.0"}, 
 		{"kf", 		"-1000.0", 	"1000.0"}, 
-		{"tf", 		"-1000.0", 	"1000.0"} 
+		{"tf", 		"-1000.0", 	"1000.0"} ,
+		{"tr", 		"-1000.0", 	"1000.0"} 
 	};
 
 	public Ieee1968Type1ExciterData() {
@@ -90,6 +92,8 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 			this.kf = value;
 		else if (name.equals("tf"))
 			this.tf = value;
+		else if (name.equals("tr"))
+			this.tr = value;
 	}
 	
 	public double getKa() {
@@ -163,6 +167,12 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 	}
 	public void setTf(double tf) {
 		this.tf = tf;
+	}
+	public double getTr() {
+		return tr;
+	}
+	public void setTr(double tr) {
+		this.tr = tr;
 	}
 }
 

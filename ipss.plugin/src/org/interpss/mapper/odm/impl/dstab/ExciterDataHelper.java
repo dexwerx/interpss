@@ -250,7 +250,8 @@ public class ExciterDataHelper {
 			exc.getData().setE2(excXml.getE2());
 			exc.getData().setSeE2(excXml.getSE2());
 			exc.getData().setVrmax(excXml.getVRMAX());
-			exc.getData().setVrmin(excXml.getVRMIN());	
+			exc.getData().setVrmin(excXml.getVRMIN());
+			exc.getData().setTr(excXml.getTR().getValue());
 		}
 		else if (excXmlRec instanceof ExcIEEE1968Type1SXmlType){
 			ExcIEEE1968Type1SXmlType excXml =(ExcIEEE1968Type1SXmlType) excXmlRec;
