@@ -60,7 +60,7 @@ public class DStabOutFunc {
 				.get(DStabOutSymbol.OUT_SYMBOL_TIME)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_TIME))
 						.doubleValue();
-		str += Number2String.toStr("00.000", time) + " ";
+		str += Number2String.toStr(time, "00.000") + " ";
 
 		str += Number2String.toStr(15, (String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_ID))
@@ -70,35 +70,35 @@ public class DStabOutFunc {
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_ANG)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_ANG))
 						.doubleValue();
-		str += Number2String.toStr(10, Number2String.toStr("0.0000", angle))
+		str += Number2String.toStr(10, Number2String.toStr(angle, "0.0000"))
 				+ "   ";
 
 		double speed = strFmt ? new Double((String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED))
 						.doubleValue();
-		str += Number2String.toStr(10, Number2String.toStr("0.0000", speed))
+		str += Number2String.toStr(10, Number2String.toStr(speed, "0.0000"))
 				+ "   ";
 
 		double pe = strFmt ? new Double((String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_PE)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_PE))
 						.doubleValue();
-		str += Number2String.toStr(10, Number2String.toStr("0.0000", pe))
+		str += Number2String.toStr(10, Number2String.toStr(pe, "0.0000"))
 				+ "   ";
 
 		double pm = strFmt ? new Double((String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_MACH_PM)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_PM))
 						.doubleValue();
-		str += Number2String.toStr(10, Number2String.toStr("0.0000", pm))
+		str += Number2String.toStr(10, Number2String.toStr(pm, "0.0000"))
 				+ "   ";
 
 		double volt = strFmt ? new Double((String) table
 				.get(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG)).doubleValue()
 				: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
 						.doubleValue();
-		str += Number2String.toStr(10, Number2String.toStr("0.0000", volt))
+		str += Number2String.toStr(10, Number2String.toStr(volt, "0.0000"))
 				+ "   ";
 
 		if (table.get(DStabOutSymbol.OUT_SYMBOL_MACH_E) != null) {
@@ -106,14 +106,14 @@ public class DStabOutFunc {
 					.get(DStabOutSymbol.OUT_SYMBOL_MACH_E)).doubleValue()
 					: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_E))
 							.doubleValue();
-			str += Number2String.toStr(10, Number2String.toStr("0.0000", e))
+			str += Number2String.toStr(10, Number2String.toStr(e, "0.0000"))
 					+ "   ";
 		} else if (table.get(DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) != null) {
 			double eq1 = strFmt ? new Double((String) table
 					.get(DStabOutSymbol.OUT_SYMBOL_MACH_EQ1)).doubleValue()
 					: ((Double) table.get(DStabOutSymbol.OUT_SYMBOL_MACH_EQ1))
 							.doubleValue();
-			str += Number2String.toStr(10, Number2String.toStr("0.0000", eq1))
+			str += Number2String.toStr(10, Number2String.toStr(eq1, "0.0000"))
 					+ "   ";
 		} else
 			str += "     -       ";
@@ -126,7 +126,7 @@ public class DStabOutFunc {
 					: ((Double) excStatess
 							.get(DStabOutSymbol.OUT_SYMBOL_EXC_EFD))
 							.doubleValue();
-			str += Number2String.toStr(10, Number2String.toStr("0.0000", efd))
+			str += Number2String.toStr(10, Number2String.toStr(efd, "0.0000"))
 					+ "   ";
 		} else
 			str += "     -       ";
@@ -140,7 +140,7 @@ public class DStabOutFunc {
 							.get(DStabOutSymbol.OUT_SYMBOL_PSS_VS))
 							.doubleValue();
 			str += Number2String
-					.toStr(10, Number2String.toStr("0.0000", pssVs))
+					.toStr(10, Number2String.toStr(pssVs, "0.0000"))
 					+ "   ";
 		} else
 			str += "     -       ";
@@ -174,21 +174,15 @@ public class DStabOutFunc {
 				}
 				str.append(Number2String.toStr(2, " "));
 				str.append(Number2String.toStr(-12, bus.getId()) + "  ");
-				str.append(Number2String.toStr("###0.000", bus
-						.getVoltageMag(UnitType.PU))
-						+ " ");
-				str.append(Number2String.toStr("######0.0", (bus
-						.getVoltageAng(UnitType.Deg))
-						- refAng)
-						+ "  ");
-				str.append(Number2String.toStr("####0.0000", busPQ.getReal()));
-				str.append(Number2String.toStr("####0.0000", busPQ
-						.getImaginary())
+				str.append(Number2String.toStr(bus.getVoltageMag(UnitType.PU), "###0.000") + " ");
+				str.append(Number2String.toStr((bus.getVoltageAng(UnitType.Deg))- refAng, "######0.0")	+ "  ");
+				str.append(Number2String.toStr(busPQ.getReal(), "####0.0000"));
+				str.append(Number2String.toStr(busPQ.getImaginary(), "####0.0000")
 						+ "  ");
 				if (bus.getMachine() != null) {
 					Machine mach = bus.getMachine();
 					str.append(machModelStr(mach) + "   ");
-					str.append(Number2String.toStr("####0.0", Math.toDegrees(mach.getAngle()) - refAng));
+					str.append(Number2String.toStr(Math.toDegrees(mach.getAngle()) - refAng, "####0.0"));
 				} else if (bus.getScriptDynamicBusDevice() != null) {
 					// Machine mach = bus.getMachine();
 					str.append("Dyn Bus Device   " + " ");
