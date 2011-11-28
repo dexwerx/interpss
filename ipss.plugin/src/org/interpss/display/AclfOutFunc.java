@@ -30,7 +30,6 @@ import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
-import com.interpss.common.datatype.UnitHelper;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -57,6 +56,7 @@ import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.OriginalDataFormat;
+import com.interpss.core.util.CoreUtilFunc;
 
 public class AclfOutFunc {
 	public static enum BusIdStyle { BusId_No, BusId_Name };
@@ -334,7 +334,7 @@ public class AclfOutFunc {
 						}
 
 						str.append("     " + Number2String.toStr("####0.0", mva.abs()));
-						str.append("   " + Number2String.toStr("##0.0", 100.0*UnitHelper.calPFactor(mva.getReal(), mva.getImaginary())) + "%");
+						str.append("   " + Number2String.toStr("##0.0", 100.0*CoreUtilFunc.calPFactor(mva.getReal(), mva.getImaginary())) + "%");
 						str.append("    " + Number2String.toStr(-4, side));
 						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva1()));
 						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva2()));
