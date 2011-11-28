@@ -10,6 +10,7 @@
 	<include schemaLocation="AcscScenarioType.xsd"/>
 	<include schemaLocation="DclfSenScenarioType.xsd"/>
 	<include schemaLocation="DStabScenarioType.xsd"/>
+	<include schemaLocation="PTradingAnalysisType.xsd"/>
 
 	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../common/StudyScenarioType.xsd"/>
 
@@ -36,7 +37,7 @@
 					<element name="scenarioList" maxOccurs="1" minOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="scenario" type="ipss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
+								<element name="scenario" type="ipss:IpssScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
 									<annotation><documentation>
 									Typically, there is one study scenario. However, one can define a let of scenarios,
 									for example, for N-1 contingency analysis
@@ -50,21 +51,21 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="ScenarioXmlType">
+	<complexType name="IpssScenarioXmlType">
 		<annotation><documentation>
 		for define a study scenario. 
 		</documentation></annotation>
 		<complexContent>
 			<extension base="pss:BaseScenarioXmlType">
 				<sequence>
-					<element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:SimulationAlgorithmXmlType">
+					<element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:IpssSimuAlgorithmXmlType">
 					</element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 
-	<ns:complexType name="SimulationAlgorithmXmlType">
+	<ns:complexType name="IpssSimuAlgorithmXmlType">
 		<annotation><documentation>
 		for define a study scenario analysis details. It is defined using choice, indicating
 		that only one analysis type : aclf, acsc or dstab could be selected. 
@@ -72,6 +73,7 @@
 		<choice>
 			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAlgorithmXmlType"></element>
 			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></element>
+			<element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></element>
 			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></element>
 			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></element>
 		</choice>
