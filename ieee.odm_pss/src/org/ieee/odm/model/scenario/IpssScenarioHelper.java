@@ -28,7 +28,10 @@ import java.util.List;
 
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.IpssScenarioXmlType;
+import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
+import org.ieee.odm.schema.PTradingAnalysisXmlType;
 
 public class IpssScenarioHelper {
 	private IODMModelParser parser = null;
@@ -38,10 +41,32 @@ public class IpssScenarioHelper {
 	}
 	
 	public IpssStudyScenarioXmlType getIpssScenario() {
+		if (parser.getStudyScenario() == null) {
+			IpssStudyScenarioXmlType studyScenario = parser.getFactory().createIpssStudyScenarioXmlType();
+			studyScenario.setScenarioList(parser.getFactory().createIpssStudyScenarioXmlTypeScenarioList());
+			parser.getStudyCase().setStudyScenario(parser.getFactory().createIpssStudyScenario(studyScenario));
+			
+			IpssScenarioXmlType scenario = parser.getFactory().createIpssScenarioXmlType();
+			studyScenario.getScenarioList().getScenario().add(scenario);
+
+			IpssSimuAlgorithmXmlType simuAlgo = parser.getFactory().createIpssSimuAlgorithmXmlType();
+			scenario.setSimuAlgo(simuAlgo);
+		}
 		return (IpssStudyScenarioXmlType)parser.getStudyScenario();
 	}
 
+	private IpssSimuAlgorithmXmlType getSimuAlgo() {
+		return this.getIpssScenario().getScenarioList().getScenario().get(0).getSimuAlgo();
+	}
+	
 	public List<DclfSenAnalysisXmlType> getSenAnalysisList() {
-		return this.getIpssScenario().getScenarioList().getScenario().get(0).getSimuAlgo().getSenAnalysis();
+		return getSimuAlgo().getSenAnalysis();
+	}
+
+	public PTradingAnalysisXmlType getPTradingAnalysis() {
+		if (getSimuAlgo().getPTradingAnalysis() == null) {
+			getSimuAlgo().setPTradingAnalysis(parser.getFactory().createPTradingAnalysisXmlType());
+		}
+		return getSimuAlgo().getPTradingAnalysis();
 	}
 }

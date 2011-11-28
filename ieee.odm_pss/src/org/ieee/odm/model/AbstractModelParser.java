@@ -202,7 +202,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	}
 
 	public StudyScenarioXmlType getStudyScenario() {
-		return this.pssStudyCase.getStudyScenario().getValue();
+		return this.pssStudyCase.getStudyScenario() == null? null :
+					this.pssStudyCase.getStudyScenario().getValue();
 	}
 
 	/**
