@@ -74,7 +74,8 @@
     			</ns:sequence>
     		</ns:extension>
     	</ns:complexContent>
-    </ns:complexType>    
+    </ns:complexType>   
+     
 	<ns:simpleType name="SensitivityEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="PAngle"></ns:enumeration>
@@ -150,6 +151,4 @@
     		</ns:extension>
     	</ns:complexContent>
     </ns:complexType>
-
-
 </schema>
