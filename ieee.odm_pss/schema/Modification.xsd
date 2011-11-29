@@ -11,7 +11,16 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
 	</annotation>
-		
+
+	<annotation>
+		<documentation>
+		All modification type is a child of the ModifyRecordXmlType.
+                ModifyRecordXmlType  (abstract)
+                       ^
+                       |
+              MyModificationXmlType 
+ 		</documentation>
+	</annotation>		
 <!-- 
 	Scheduled Branch outage
 	======================= 
