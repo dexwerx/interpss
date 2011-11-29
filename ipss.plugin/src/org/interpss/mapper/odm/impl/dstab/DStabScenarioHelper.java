@@ -32,6 +32,7 @@ package org.interpss.mapper.odm.impl.dstab;
 
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
 import org.ieee.odm.schema.AcscFaultXmlType;
@@ -47,7 +48,6 @@ import org.ieee.odm.schema.DynamicEventXmlType;
 import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.MachineControllerEnumType;
-import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.SetPointChangeEnumType;
 import org.ieee.odm.schema.StaticLoadModelEnumType;
 import org.ieee.odm.schema.StaticLoadModelXmlType;
@@ -94,12 +94,19 @@ public class DStabScenarioHelper {
 				sScenarioXml.getScenarioList().getScenario().size() == 1){
 			// first we check if dstab analysis type, scenario is defined and only one scenario 
 			// is defined
-			ScenarioXmlType scenario = sScenarioXml.getScenarioList().getScenario().get(0);
+			
+			DStabSimulationXmlType dstabAnalysisXml = new IpssScenarioHelper(sScenarioXml)
+														.getDStabSimulation();
+			mapDStabSimuAlgo(dstabAnalysisXml);
+			
+/* not tested yet			
+			IpssScenarioXmlType scenario = sScenarioXml.getScenarioList().getScenario().get(0);
 			if (scenario.getSimuAlgo() != null && scenario.getSimuAlgo().getDStabAnalysis() != null)
 				// then we check if simuAlgo and dstabAnalysis info if defined
 				mapDStabSimuAlgo(scenario.getSimuAlgo().getDStabAnalysis());
 			else
 				throw new InterpssException("DStab Scenario mapping error: data not defined properly");
+*/				
 		}
 		else {
 			throw new InterpssException("DStab StudyScenario mapping error: data not defined properly");

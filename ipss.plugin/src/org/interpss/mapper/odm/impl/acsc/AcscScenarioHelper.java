@@ -31,6 +31,7 @@ package org.interpss.mapper.odm.impl.acsc;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
@@ -38,7 +39,6 @@ import org.ieee.odm.schema.AcscFaultXmlType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
-import org.ieee.odm.schema.ScenarioXmlType;
 import org.ieee.odm.schema.ZXmlType;
 import org.interpss.mapper.odm.ODMUnitHelper;
 
@@ -74,7 +74,21 @@ public class AcscScenarioHelper {
 				sScenarioXml.getScenarioList().getScenario().size() == 1){
 			// first we check if acsc analysis type, scenario is defined and only one scenario 
 			// is defined
-			ScenarioXmlType scenario = sScenarioXml.getScenarioList().getScenario().get(0);
+			AcscFaultAnalysisXmlType scAnalysisXml = new IpssScenarioHelper(sScenarioXml)
+															.getAcscFaultAnalysis();
+			mapFault(scAnalysisXml);
+			
+			if (scAnalysisXml.getMultiFactor() != null && scAnalysisXml.getMultiFactor() != 0.0)
+				this.acscAglo.setMultiFactor(scAnalysisXml.getMultiFactor() * 0.01);
+			
+			// algo.multiFactor in PU and acscData.getMFactor in %
+			if (scAnalysisXml.getPreFaultBusVoltage() != null)
+				this.acscAglo.setScBusVoltage(scAnalysisXml.getPreFaultBusVoltage() == 
+					PreFaultBusVoltageEnumType.UNIT_VOLT ? 
+									ScBusVoltageType.UNIT_VOLT : ScBusVoltageType.LOADFLOW_VOLT); // UnitV | LFVolt
+			
+/* not tested yet			
+			IpssScenarioXmlType scenario = sScenarioXml.getScenarioList().getScenario().get(0);
 			if (scenario.getSimuAlgo() != null && scenario.getSimuAlgo().getAcscAnalysis() != null) {
 				// then we check if simuAlgo and acscAnalysis info if defined
 				AcscFaultAnalysisXmlType scAnalysisXml = scenario.getSimuAlgo().getAcscAnalysis();
@@ -91,6 +105,7 @@ public class AcscScenarioHelper {
 			}
 			else
 				throw new InterpssException("Acsc Scenario mapping error: data not defined properly");
+*/				
 		}
 		else {
 			throw new InterpssException("Acsc StudyScenario mapping error: data not defined properly");
