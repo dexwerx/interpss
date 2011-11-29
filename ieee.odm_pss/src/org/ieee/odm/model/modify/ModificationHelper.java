@@ -30,32 +30,22 @@ import org.ieee.odm.schema.GenLoadModifyXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.OutageScheduleXmlType;
 
+/**
+ * All modification type is a child of the ModifyRecordXmlType.
+ * 
+ *      ModifyRecordXmlType (abstract)
+ *            ^
+ *            |
+ *     MyModificationXmlType      
+ *  
+ * @author mzhou
+ *
+ */
 public class ModificationHelper {
 	private IODMModelParser parser = null;
 	
 	public ModificationHelper (IODMModelParser parser) {
 		this.parser = parser;
-	}
-	
-	/**
-	 * retrieve modifyRecord by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public ModifyRecordXmlType getModifyRecord(String id) {
-		for ( ModifyRecordXmlType rec : this.parser.getStudyCase().getModificationList().getModification()) {
-			if (rec.getId().equals(id))
-				return rec;
-		}
-		return null;
-	}
-
-	private void addModifyRecord(ModifyRecordXmlType rec) {
-		if (this.parser.getStudyCase().getModificationList() == null) {
-			this.parser.getStudyCase().setModificationList(this.parser.getFactory().createStudyCaseXmlTypeModificationList());
-		}
-		this.parser.getStudyCase().getModificationList().getModification().add(rec);
 	}
 	
 	/**
@@ -101,5 +91,26 @@ public class ModificationHelper {
 
 	public GenLoadModifyXmlType getGenLoadModify(String id) {
 		return (GenLoadModifyXmlType)getModifyRecord(id);
+	}
+	
+	/**
+	 * retrieve modifyRecord by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private ModifyRecordXmlType getModifyRecord(String id) {
+		for ( ModifyRecordXmlType rec : this.parser.getStudyCase().getModificationList().getModification()) {
+			if (rec.getId().equals(id))
+				return rec;
+		}
+		return null;
+	}
+
+	private void addModifyRecord(ModifyRecordXmlType rec) {
+		if (this.parser.getStudyCase().getModificationList() == null) {
+			this.parser.getStudyCase().setModificationList(this.parser.getFactory().createStudyCaseXmlTypeModificationList());
+		}
+		this.parser.getStudyCase().getModificationList().getModification().add(rec);
 	}
 }

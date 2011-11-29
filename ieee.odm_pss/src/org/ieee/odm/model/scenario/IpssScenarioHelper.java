@@ -26,6 +26,7 @@ package org.ieee.odm.model.scenario;
 
 import java.util.List;
 
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.IpssScenarioXmlType;
@@ -39,8 +40,22 @@ public class IpssScenarioHelper {
 	public IpssScenarioHelper (IODMModelParser parser) {
 		this.parser = parser;
 	}
+
+	public List<DclfSenAnalysisXmlType> getSenAnalysisList() {
+		if (getSimuAlgo().getSenAnalysis() == null) {
+			ODMLogger.getLogger().severe("contact support@interpss.org");
+		}
+		return getSimuAlgo().getSenAnalysis();
+	}
+
+	public PTradingAnalysisXmlType getPTradingAnalysis() {
+		if (getSimuAlgo().getPTradingAnalysis() == null) {
+			getSimuAlgo().setPTradingAnalysis(parser.getFactory().createPTradingAnalysisXmlType());
+		}
+		return getSimuAlgo().getPTradingAnalysis();
+	}
 	
-	public IpssStudyScenarioXmlType getIpssScenario() {
+	private IpssStudyScenarioXmlType getIpssScenario() {
 		if (parser.getStudyScenario() == null) {
 			IpssStudyScenarioXmlType studyScenario = parser.getFactory().createIpssStudyScenarioXmlType();
 			studyScenario.setScenarioList(parser.getFactory().createIpssStudyScenarioXmlTypeScenarioList());
@@ -57,16 +72,5 @@ public class IpssScenarioHelper {
 
 	private IpssSimuAlgorithmXmlType getSimuAlgo() {
 		return this.getIpssScenario().getScenarioList().getScenario().get(0).getSimuAlgo();
-	}
-	
-	public List<DclfSenAnalysisXmlType> getSenAnalysisList() {
-		return getSimuAlgo().getSenAnalysis();
-	}
-
-	public PTradingAnalysisXmlType getPTradingAnalysis() {
-		if (getSimuAlgo().getPTradingAnalysis() == null) {
-			getSimuAlgo().setPTradingAnalysis(parser.getFactory().createPTradingAnalysisXmlType());
-		}
-		return getSimuAlgo().getPTradingAnalysis();
 	}
 }
