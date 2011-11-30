@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.ieee.odm.model.ODMModelParser;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.xml.IpssXmlParser;
@@ -151,6 +152,29 @@ public class RunUIUtilFunc  {
 		String s1 = s.substring(0, s.indexOf('('));
 		return s1;
 	}
+	
+	public static ODMModelParser loadODMXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
+		ODMModelParser parser = new ODMModelParser();
+		try {
+  			File xmlFile = new File(filename);
+  			if (parser.parse(xmlFile))
+  				return parser;
+  		} catch (Exception e) {
+  			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
+  		}		
+
+  		// use template file
+		if (caseType == SimuRunEnum.TradingAnalysis) {
+			filename = Template_RunCase_PTAnalysis;
+		}
+  		
+  		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		filename = wdir+System.getProperty("file.separator")+filename;
+		File xmlFile = new File(filename);
+		parser.parse(xmlFile);
+		return parser;
+	}
+	
 	/**
 	 * Load IpssXmlDoc from the file. If file not existing, load the info from the template.
 	 * 

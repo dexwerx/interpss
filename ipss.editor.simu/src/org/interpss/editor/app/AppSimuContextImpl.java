@@ -85,12 +85,14 @@ public class AppSimuContextImpl implements IAppSimuContext {
 		if (this.simuCtx == null) {
 			IpssLogger.getLogger().info("SimuSpringAppContext.getSimuContext() called to create a new SimuContext object");
 			this.simuCtx = CoreSimuSpringCtx.getSimuContext();
+			this.simuCtx.setMsgHub(CoreSimuSpringCtx.getIpssMsgHub());
 		}
 		return this.simuCtx;
 	}
 
 	public void setSimuCtx(Object ctx) {
 		this.simuCtx = (SimuContext) ctx;
+		this.simuCtx.setMsgHub(CoreSimuSpringCtx.getIpssMsgHub());
 	}
 
 	/* current project info, including projname ... */

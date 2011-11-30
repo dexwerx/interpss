@@ -1,0 +1,804 @@
+ /*
+  * @(#)NBAclfCasePanel.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 09/15/2006
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
+package org.interpss.editor.ui.run;
+
+import java.io.File;
+import java.util.Vector;
+
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+
+import org.ieee.odm.schema.PTradingAnalysisXmlType;
+import org.ieee.odm.schema.PtAclfAnalysisXmlType;
+import org.ieee.odm.schema.PtAclfOutputXmlType;
+import org.ieee.odm.schema.PtCaseDataXmlType;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.ui.util.IpssFileFilter;
+import org.interpss.numeric.util.Number2String;
+
+import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.common.msg.IpssMessage;
+import com.interpss.common.msg.IpssMsgListener;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.simu.SimuContext;
+
+public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
+	private static final long serialVersionUID = 1;
+	private JDialog parent;
+	
+    // private GFormContainer _netContainer = null;
+    private SimuContext _simuCtx = null;
+    private PTradingAnalysisXmlType _ptXml = null;
+
+    /** Creates new form NBAclfCasePanel */
+    public NBPTradingCasePanel(JDialog parent) {
+    	initComponents();
+    	this.parent = parent;
+    }
+    
+    /**
+     * Implementation of the onMsgEvent method.
+  	* 
+  	* @param msg the msg object
+     */
+     public void onMsgEvent(IpssMessage msg) {
+    	 // do nothing
+     }
+
+     public boolean onMsgEventStatus(IpssMessage msg) {
+  	   throw new InterpssRuntimeException("Method not implemented");
+     }
+     
+    public void init(Object netContainer, Object simuCtx) {
+    	// for non-graphic file, netContainer == null
+		IpssLogger.getLogger().info("NBPTradingCasePanel init() called");
+	    //_netContainer = (GFormContainer)netContainer;
+	    _simuCtx = (SimuContext)simuCtx;
+	    
+	    // populate the Swing alloc zone
+	    String[] strAry = new String[] {"1", "12"};
+	    this.swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(strAry));
+	}
+    
+    public void setXmlCaseData(PTradingAnalysisXmlType pt) {
+    	this._ptXml = pt;
+    }
+	/**
+	*	Set form data to the editor
+	*
+	* @return false if there is any problem
+	*/
+	public boolean setForm2Editor() {
+		IpssLogger.getLogger().info("NBPTradingCasePanel setForm2Editor() called");
+		
+		// Case Data Panel
+		PtCaseDataXmlType casedata = this._ptXml.getCaseData();
+		edFileTextField.setText(casedata.getEdFile().getFilename());
+		
+		edGenPFacorTextField.setText(Number2String.toStr(casedata.getEdFile().getGenPFactor(), "#0.00"));
+		edLossPercentTextField.setText(Number2String.toStr(casedata.getEdFile().getLossPercent(), "#0.00"));
+		edLoadPFacorTextField.setText(Number2String.toStr(casedata.getEdFile().getLoadPFactor(), "#0.00"));
+		
+		interfaceFileTextField.setText(casedata.getInterfaceFile().getInterfaceFilename());
+		interfaceLimitTextField.setText(casedata.getInterfaceFile().getLimitFilename());
+		
+		// Aclf Analysis
+		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
+		incMustRunGenCheckBox.setSelected(aclfXml.isIncludeMustRun());
+		if (aclfXml.isIncludeMustRun()) {
+			mustRunFileTextField.setText(aclfXml.getMustRunGen().getFilename());
+		}
+		
+		genQAdjCheckBox.setSelected(aclfXml.isIncludeGenQAdjustment());
+		if (aclfXml.isIncludeGenQAdjustment()) {
+			mustRunQAdjStespTextField.setText(
+					new Integer(aclfXml.getGenQAdjOption().getNoRunsMustRun()).toString());
+		}
+		
+		swingAllocCheckBox.setSelected(aclfXml.isIncludeSwingAlloc());
+		if (aclfXml.isIncludeSwingAlloc()) {
+			String n = new Long(aclfXml.getGenSwingAllocOption().getZoneNumber()).toString();
+			this.swingAllocZoneComboBox.setSelectedItem(n);
+			swingAllocMaxStepsTextField.setText(
+					new Integer(aclfXml.getGenSwingAllocOption().getSteps()).toString());
+			swingAllocAccFactorTextField.setText(
+					new Double(aclfXml.getGenSwingAllocOption().getAccFactor()).toString());
+		}
+		
+		incInterfaceLimitCheckBox.setSelected(aclfXml.isIncludeInterface());		
+
+		// output panel
+		PtAclfOutputXmlType outOpt = this._ptXml.getAclfAnalysis().getOutputOption();
+		largeGSFPointsTextField.setText(
+					new Integer(outOpt.getLargeGSFPoints()).toString());
+
+		return true;
+	}
+
+	/**
+	*	Save editor screen data to the form
+	*
+	* @param errMsg error messages during the saving process.
+	* @return false if there is any problem
+	*/
+	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
+		IpssLogger.getLogger().info("NBPTradingCasePanel saveEditor2Form() called");
+		
+		saveCaseData();
+		saveAclfAnalysis();
+		saveLineOutage();
+		saveOutputConfig();
+
+		return errMsg.size() == 0;
+	}
+
+	public boolean saveCaseData() {
+		boolean noError = true;
+		PtCaseDataXmlType casedata = this._ptXml.getCaseData();
+		
+		casedata.getEdFile().setFilename(
+				edFileTextField.getText());
+		casedata.getEdFile().setGenPFactor(
+				new Double(edGenPFacorTextField.getText()).doubleValue());
+		casedata.getEdFile().setLossPercent(
+				new Double(edLossPercentTextField.getText()).doubleValue());
+		casedata.getEdFile().setLoadPFactor(
+				new Double(edLoadPFacorTextField.getText()).doubleValue());
+		
+		casedata.getInterfaceFile().setInterfaceFilename(
+				interfaceFileTextField.getText());
+		casedata.getInterfaceFile().setLimitFilename(
+				interfaceLimitTextField.getText());
+
+		return noError;
+	}
+
+	public boolean saveAclfAnalysis() {
+		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
+		
+		aclfXml.setIncludeMustRun(incMustRunGenCheckBox.isSelected());
+		if (aclfXml.isIncludeMustRun()) {
+			aclfXml.getMustRunGen().setFilename(mustRunFileTextField.getText());
+		}
+		
+		aclfXml.setIncludeGenQAdjustment(genQAdjCheckBox.isSelected());
+		if (aclfXml.isIncludeGenQAdjustment()) {
+			aclfXml.getGenQAdjOption().setNoRunsMustRun(
+					new Integer(mustRunQAdjStespTextField.getText()).intValue());
+		}
+		
+		aclfXml.setIncludeSwingAlloc(swingAllocCheckBox.isSelected());
+		if (aclfXml.isIncludeSwingAlloc()) {
+			String n = (String)this.swingAllocZoneComboBox.getSelectedItem();
+			aclfXml.getGenSwingAllocOption().setZoneNumber(
+					new Long(n).longValue());
+			aclfXml.getGenSwingAllocOption().setSteps(
+					new Integer(swingAllocMaxStepsTextField.getText()).intValue());
+			aclfXml.getGenSwingAllocOption().setAccFactor(
+					new Double(swingAllocAccFactorTextField.getText()).doubleValue());
+		}
+		
+		aclfXml.setIncludeInterface(incInterfaceLimitCheckBox.isSelected());
+
+		boolean noError = true;
+		return noError;
+	}
+
+	public boolean saveLineOutage() {
+		boolean noError = true;
+		
+		return noError;
+	}
+
+	public boolean saveOutputConfig() {
+		boolean noError = true;
+
+		PtAclfOutputXmlType outOpt = this._ptXml.getAclfAnalysis().getOutputOption();
+		outOpt.setLargeGSFPoints(
+					new Integer(largeGSFPointsTextField.getText()).intValue());
+
+		return noError;
+	}
+
+	/** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pTradingAnalysisTabbedPane = new javax.swing.JTabbedPane();
+        caseDataPanel = new javax.swing.JPanel();
+        edFilePanel = new javax.swing.JPanel();
+        edFileLabel = new javax.swing.JLabel();
+        edFileTextField = new javax.swing.JTextField();
+        selectEdFileButton = new javax.swing.JButton();
+        edGenPFacorTextField = new javax.swing.JTextField();
+        edGenPFactorLabel = new javax.swing.JLabel();
+        edLoadPFacorTextField = new javax.swing.JTextField();
+        edLoadPFactorLabel = new javax.swing.JLabel();
+        edLossPercentTextField = new javax.swing.JTextField();
+        edLossPercentLabel = new javax.swing.JLabel();
+        interfaceFilePanel = new javax.swing.JPanel();
+        interfaceFileLabel = new javax.swing.JLabel();
+        interfaceFileTextField = new javax.swing.JTextField();
+        selectInterfaceFileButton = new javax.swing.JButton();
+        interfaceLimitLabel = new javax.swing.JLabel();
+        interfaceLimitTextField = new javax.swing.JTextField();
+        selectInterfaceLimitButton = new javax.swing.JButton();
+        aclfAnalysisPanel = new javax.swing.JPanel();
+        incMustRunGenCheckBox = new javax.swing.JCheckBox();
+        mustRunFileLabel = new javax.swing.JLabel();
+        mustRunFileTextField = new javax.swing.JTextField();
+        mustRunFileSelectButton = new javax.swing.JButton();
+        genQAdjCheckBox = new javax.swing.JCheckBox();
+        mustRunQAdjStepsLabel = new javax.swing.JLabel();
+        mustRunQAdjStespTextField = new javax.swing.JTextField();
+        swingAllocCheckBox = new javax.swing.JCheckBox();
+        swingAllocZoneLabel = new javax.swing.JLabel();
+        swingAllocZoneComboBox = new javax.swing.JComboBox();
+        swingAllocMaxStepsLabel = new javax.swing.JLabel();
+        swingAllocMaxStepsTextField = new javax.swing.JTextField();
+        swingAllocAccFactorLabel = new javax.swing.JLabel();
+        swingAllocAccFactorTextField = new javax.swing.JTextField();
+        incInterfaceLimitCheckBox = new javax.swing.JCheckBox();
+        runAclfAnalysisButton = new javax.swing.JButton();
+        lineOutagePanel = new javax.swing.JPanel();
+        runLineOutgageButton = new javax.swing.JButton();
+        outputConfigPanel = new javax.swing.JPanel();
+        largeGSFPointsLabel = new javax.swing.JLabel();
+        largeGSFPointsTextField = new javax.swing.JTextField();
+
+        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
+        pTradingAnalysisTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
+        pTradingAnalysisTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                panelSelectionChanged(evt);
+            }
+        });
+
+        edFilePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "EDispatch Info", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        edFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        edFileLabel.setText("Daily ED File");
+
+        edFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        edFileTextField.setText("ED file");
+
+        selectEdFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        selectEdFileButton.setText("Select ...");
+        selectEdFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectEdFileButtonActionPerformed(evt);
+            }
+        });
+
+        edGenPFacorTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        edGenPFacorTextField.setText("0.90");
+
+        edGenPFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        edGenPFactorLabel.setText("Gen PFator (PU)");
+
+        edLoadPFacorTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        edLoadPFacorTextField.setText("0.98");
+
+        edLoadPFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        edLoadPFactorLabel.setText("Load PFator (PU)");
+
+        edLossPercentTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        edLossPercentTextField.setText("2.5");
+
+        edLossPercentLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        edLossPercentLabel.setText("Network Loss %");
+
+        org.jdesktop.layout.GroupLayout edFilePanelLayout = new org.jdesktop.layout.GroupLayout(edFilePanel);
+        edFilePanel.setLayout(edFilePanelLayout);
+        edFilePanelLayout.setHorizontalGroup(
+            edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(edFilePanelLayout.createSequentialGroup()
+                .add(18, 18, 18)
+                .add(edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(edFilePanelLayout.createSequentialGroup()
+                        .add(edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(edFileLabel)
+                            .add(edFilePanelLayout.createSequentialGroup()
+                                .add(89, 89, 89)
+                                .add(edFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(selectEdFileButton)
+                        .add(48, 48, 48))
+                    .add(edFilePanelLayout.createSequentialGroup()
+                        .add(edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(edFilePanelLayout.createSequentialGroup()
+                                .add(edLoadPFactorLabel)
+                                .add(18, 18, 18)
+                                .add(edLoadPFacorTextField))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, edFilePanelLayout.createSequentialGroup()
+                                .add(edGenPFactorLabel)
+                                .add(22, 22, 22)
+                                .add(edGenPFacorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(45, 45, 45)
+                        .add(edLossPercentLabel)
+                        .add(18, 18, 18)
+                        .add(edLossPercentTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 42, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+        );
+        edFilePanelLayout.setVerticalGroup(
+            edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(edFilePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(edFileLabel)
+                    .add(edFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(selectEdFileButton))
+                .add(10, 10, 10)
+                .add(edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(edGenPFactorLabel)
+                    .add(edGenPFacorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(edLossPercentLabel)
+                    .add(edLossPercentTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(edLoadPFactorLabel)
+                    .add(edLoadPFacorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        interfaceFilePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Interface Defintion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        interfaceFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        interfaceFileLabel.setText("Interface File");
+
+        interfaceFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        interfaceFileTextField.setText("Interface File");
+
+        selectInterfaceFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        selectInterfaceFileButton.setText("Select ...");
+        selectInterfaceFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectInterfaceFileButtonActionPerformed(evt);
+            }
+        });
+
+        interfaceLimitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        interfaceLimitLabel.setText("Limit File");
+
+        interfaceLimitTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        interfaceLimitTextField.setText("Interface Limit file");
+
+        selectInterfaceLimitButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        selectInterfaceLimitButton.setText("Select ...");
+        selectInterfaceLimitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectInterfaceLimitButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout interfaceFilePanelLayout = new org.jdesktop.layout.GroupLayout(interfaceFilePanel);
+        interfaceFilePanel.setLayout(interfaceFilePanelLayout);
+        interfaceFilePanelLayout.setHorizontalGroup(
+            interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(interfaceFilePanelLayout.createSequentialGroup()
+                .add(20, 20, 20)
+                .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(interfaceFileLabel)
+                    .add(interfaceLimitLabel))
+                .add(18, 18, 18)
+                .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(interfaceLimitTextField)
+                    .add(interfaceFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(selectInterfaceFileButton)
+                    .add(selectInterfaceLimitButton))
+                .add(17, 17, 17))
+        );
+        interfaceFilePanelLayout.setVerticalGroup(
+            interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(interfaceFilePanelLayout.createSequentialGroup()
+                .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(selectInterfaceFileButton)
+                    .add(interfaceFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(interfaceFileLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(interfaceLimitLabel)
+                    .add(interfaceLimitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(selectInterfaceLimitButton))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        org.jdesktop.layout.GroupLayout caseDataPanelLayout = new org.jdesktop.layout.GroupLayout(caseDataPanel);
+        caseDataPanel.setLayout(caseDataPanelLayout);
+        caseDataPanelLayout.setHorizontalGroup(
+            caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(caseDataPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(edFilePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(caseDataPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(interfaceFilePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .add(19, 19, 19)))
+        );
+        caseDataPanelLayout.setVerticalGroup(
+            caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(caseDataPanelLayout.createSequentialGroup()
+                .add(22, 22, 22)
+                .add(edFilePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(233, Short.MAX_VALUE))
+            .add(caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(caseDataPanelLayout.createSequentialGroup()
+                    .add(161, 161, 161)
+                    .add(interfaceFilePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(135, Short.MAX_VALUE)))
+        );
+
+        pTradingAnalysisTabbedPane.addTab("Case Data", caseDataPanel);
+
+        incMustRunGenCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        incMustRunGenCheckBox.setSelected(true);
+        incMustRunGenCheckBox.setText("Include MustRun Generators");
+
+        mustRunFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        mustRunFileLabel.setText("MustRun File");
+
+        mustRunFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        mustRunFileTextField.setText("MustRun File");
+
+        mustRunFileSelectButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        mustRunFileSelectButton.setText("Select ...");
+        mustRunFileSelectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mustRunFileSelectButtonActionPerformed(evt);
+            }
+        });
+
+        genQAdjCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        genQAdjCheckBox.setSelected(true);
+        genQAdjCheckBox.setText("Gen Q Adjustment");
+
+        mustRunQAdjStepsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        mustRunQAdjStepsLabel.setText("MustRun Gen Q Adj Steps");
+
+        mustRunQAdjStespTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        mustRunQAdjStespTextField.setText("3");
+
+        swingAllocCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocCheckBox.setSelected(true);
+        swingAllocCheckBox.setText("Swing Bus P&Q Allocation");
+
+        swingAllocZoneLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocZoneLabel.setText("Alloc Zone");
+
+        swingAllocZoneComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
+
+        swingAllocMaxStepsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocMaxStepsLabel.setText("Max Steps");
+
+        swingAllocMaxStepsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocMaxStepsTextField.setText("3");
+
+        swingAllocAccFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocAccFactorLabel.setText("Acc Factor");
+
+        swingAllocAccFactorTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        swingAllocAccFactorTextField.setText("1.75");
+
+        incInterfaceLimitCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        incInterfaceLimitCheckBox.setSelected(true);
+        incInterfaceLimitCheckBox.setText("Interface Limit Analysis");
+
+        runAclfAnalysisButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        runAclfAnalysisButton.setText("Run Analysis");
+        runAclfAnalysisButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runAclfAnalysisButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout aclfAnalysisPanelLayout = new org.jdesktop.layout.GroupLayout(aclfAnalysisPanel);
+        aclfAnalysisPanel.setLayout(aclfAnalysisPanelLayout);
+        aclfAnalysisPanelLayout.setHorizontalGroup(
+            aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                        .add(58, 58, 58)
+                        .add(mustRunFileLabel)
+                        .add(29, 29, 29)
+                        .add(mustRunFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 213, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(mustRunFileSelectButton))
+                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                        .add(29, 29, 29)
+                        .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(genQAdjCheckBox)
+                            .add(incMustRunGenCheckBox)
+                            .add(swingAllocCheckBox)
+                            .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                                        .add(31, 31, 31)
+                                        .add(mustRunQAdjStepsLabel))
+                                    .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                        .add(incInterfaceLimitCheckBox)
+                                        .add(swingAllocMaxStepsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                .add(24, 24, 24)
+                                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                                        .add(swingAllocAccFactorLabel)
+                                        .add(26, 26, 26)
+                                        .add(swingAllocAccFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(mustRunQAdjStespTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                        .add(61, 61, 61)
+                        .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(swingAllocMaxStepsLabel)
+                            .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                                .add(swingAllocZoneLabel)
+                                .add(41, 41, 41)
+                                .add(swingAllocZoneComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 71, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(39, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, aclfAnalysisPanelLayout.createSequentialGroup()
+                .addContainerGap(204, Short.MAX_VALUE)
+                .add(runAclfAnalysisButton)
+                .add(187, 187, 187))
+        );
+        aclfAnalysisPanelLayout.setVerticalGroup(
+            aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                .add(17, 17, 17)
+                .add(incMustRunGenCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(mustRunFileLabel)
+                    .add(mustRunFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(mustRunFileSelectButton))
+                .add(18, 18, 18)
+                .add(genQAdjCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(mustRunQAdjStespTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(mustRunQAdjStepsLabel))
+                .add(18, 18, 18)
+                .add(swingAllocCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(swingAllocZoneLabel)
+                    .add(swingAllocZoneComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(swingAllocMaxStepsLabel)
+                    .add(swingAllocAccFactorLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(swingAllocMaxStepsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(swingAllocAccFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(incInterfaceLimitCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 45, Short.MAX_VALUE)
+                .add(runAclfAnalysisButton)
+                .add(30, 30, 30))
+        );
+
+        pTradingAnalysisTabbedPane.addTab("Aclf Analysis", aclfAnalysisPanel);
+
+        runLineOutgageButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        runLineOutgageButton.setText("Run");
+        runLineOutgageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runLineOutgageButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lineOutagePanelLayout = new org.jdesktop.layout.GroupLayout(lineOutagePanel);
+        lineOutagePanel.setLayout(lineOutagePanelLayout);
+        lineOutagePanelLayout.setHorizontalGroup(
+            lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lineOutagePanelLayout.createSequentialGroup()
+                .add(220, 220, 220)
+                .add(runLineOutgageButton)
+                .addContainerGap(225, Short.MAX_VALUE))
+        );
+        lineOutagePanelLayout.setVerticalGroup(
+            lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lineOutagePanelLayout.createSequentialGroup()
+                .addContainerGap(334, Short.MAX_VALUE)
+                .add(runLineOutgageButton)
+                .add(36, 36, 36))
+        );
+
+        pTradingAnalysisTabbedPane.addTab("Line Outage", lineOutagePanel);
+
+        largeGSFPointsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        largeGSFPointsLabel.setText("Large GSF Points");
+
+        largeGSFPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        largeGSFPointsTextField.setText("5");
+
+        org.jdesktop.layout.GroupLayout outputConfigPanelLayout = new org.jdesktop.layout.GroupLayout(outputConfigPanel);
+        outputConfigPanel.setLayout(outputConfigPanelLayout);
+        outputConfigPanelLayout.setHorizontalGroup(
+            outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(outputConfigPanelLayout.createSequentialGroup()
+                .add(39, 39, 39)
+                .add(largeGSFPointsLabel)
+                .add(18, 18, 18)
+                .add(largeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(306, Short.MAX_VALUE))
+        );
+        outputConfigPanelLayout.setVerticalGroup(
+            outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(outputConfigPanelLayout.createSequentialGroup()
+                .add(26, 26, 26)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(largeGSFPointsLabel)
+                    .add(largeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(345, Short.MAX_VALUE))
+        );
+
+        pTradingAnalysisTabbedPane.addTab("Output Config", outputConfigPanel);
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(pTradingAnalysisTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(pTradingAnalysisTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 423, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(35, 35, 35))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+ 
+    private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
+    	if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 0 )
+        	IpssLogger.getLogger().info("Panel selection changed - Case Data Panel");
+    	else if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 1 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Aclf Analysis Panel");
+    	}	
+    	else if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 2 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Line Outage Analysis Panel");
+    	}	
+    	else if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 3 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Output Config Panel");
+    	}	
+    }//GEN-LAST:event_panelSelectionChanged
+
+private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAclfAnalysisButtonActionPerformed
+	IpssLogger.getLogger().info("Aclf analysis button selected");
+	saveCaseData();
+	saveOutputConfig();
+	saveAclfAnalysis();
+}//GEN-LAST:event_runAclfAnalysisButtonActionPerformed
+
+private void runLineOutgageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runLineOutgageButtonActionPerformed
+	IpssLogger.getLogger().info("Line outage analysis button selected");
+	saveCaseData();
+	saveOutputConfig();
+	saveLineOutage();
+}//GEN-LAST:event_runLineOutgageButtonActionPerformed
+
+private void selectEdFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEdFileButtonActionPerformed
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		edFileTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_selectEdFileButtonActionPerformed
+
+private void selectInterfaceFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInterfaceFileButtonActionPerformed
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		interfaceFileTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_selectInterfaceFileButtonActionPerformed
+
+private void selectInterfaceLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInterfaceLimitButtonActionPerformed
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		interfaceLimitTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_selectInterfaceLimitButtonActionPerformed
+
+private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mustRunFileSelectButtonActionPerformed
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		mustRunFileTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_mustRunFileSelectButtonActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel aclfAnalysisPanel;
+    private javax.swing.JPanel caseDataPanel;
+    private javax.swing.JLabel edFileLabel;
+    private javax.swing.JPanel edFilePanel;
+    private javax.swing.JTextField edFileTextField;
+    private javax.swing.JTextField edGenPFacorTextField;
+    private javax.swing.JLabel edGenPFactorLabel;
+    private javax.swing.JTextField edLoadPFacorTextField;
+    private javax.swing.JLabel edLoadPFactorLabel;
+    private javax.swing.JLabel edLossPercentLabel;
+    private javax.swing.JTextField edLossPercentTextField;
+    private javax.swing.JCheckBox genQAdjCheckBox;
+    private javax.swing.JCheckBox incInterfaceLimitCheckBox;
+    private javax.swing.JCheckBox incMustRunGenCheckBox;
+    private javax.swing.JLabel interfaceFileLabel;
+    private javax.swing.JPanel interfaceFilePanel;
+    private javax.swing.JTextField interfaceFileTextField;
+    private javax.swing.JLabel interfaceLimitLabel;
+    private javax.swing.JTextField interfaceLimitTextField;
+    private javax.swing.JLabel largeGSFPointsLabel;
+    private javax.swing.JTextField largeGSFPointsTextField;
+    private javax.swing.JPanel lineOutagePanel;
+    private javax.swing.JLabel mustRunFileLabel;
+    private javax.swing.JButton mustRunFileSelectButton;
+    private javax.swing.JTextField mustRunFileTextField;
+    private javax.swing.JLabel mustRunQAdjStepsLabel;
+    private javax.swing.JTextField mustRunQAdjStespTextField;
+    private javax.swing.JPanel outputConfigPanel;
+    private javax.swing.JTabbedPane pTradingAnalysisTabbedPane;
+    private javax.swing.JButton runAclfAnalysisButton;
+    private javax.swing.JButton runLineOutgageButton;
+    private javax.swing.JButton selectEdFileButton;
+    private javax.swing.JButton selectInterfaceFileButton;
+    private javax.swing.JButton selectInterfaceLimitButton;
+    private javax.swing.JLabel swingAllocAccFactorLabel;
+    private javax.swing.JTextField swingAllocAccFactorTextField;
+    private javax.swing.JCheckBox swingAllocCheckBox;
+    private javax.swing.JLabel swingAllocMaxStepsLabel;
+    private javax.swing.JTextField swingAllocMaxStepsTextField;
+    private javax.swing.JComboBox swingAllocZoneComboBox;
+    private javax.swing.JLabel swingAllocZoneLabel;
+    // End of variables declaration//GEN-END:variables
+    
+	class DataVerifier extends javax.swing.InputVerifier {
+		public boolean verify(javax.swing.JComponent input) {
+			if (input == null)
+				return false;
+			return true;
+		}
+	}
+	
+	private static JFileChooser excelFileChooser = null;	
+	private JFileChooser getExcelFileChooser() {
+		if (excelFileChooser == null) {
+			excelFileChooser = new JFileChooser();
+			excelFileChooser.addChoosableFileFilter(new IpssFileFilter("xlsx", "MS Excel file"));
+		}
+		return excelFileChooser;
+	}
+}
