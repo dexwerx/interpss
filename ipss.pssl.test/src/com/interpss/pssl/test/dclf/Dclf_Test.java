@@ -69,7 +69,7 @@ public class Dclf_Test extends BaseTestSetup {
 		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
 				.toString());		
 	}
-
+	
 	@Test
 	public void b11MatrixTest() throws IpssNumericException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
