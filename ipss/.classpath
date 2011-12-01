@@ -36,5 +36,9 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/xml/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-ooxml-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-ooxml-schemas-3.8.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
