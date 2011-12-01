@@ -77,4 +77,15 @@ public class PTIFormat extends IpssFileAdapterBase {
 //  		load(simuCtx, filepath, false);
 //  		return simuCtx;
 //	}
+	
+	/**
+	 * @param versionSelected the versionSelected to set
+	 */
+	@Override public void setVersionSelected(String versionSelected) {
+		super.setVersionSelected(versionSelected);
+		this.version = versionSelected.equals("PSS/E-30")?
+				IpssFileAdapter.Version.PSSE_30 : 
+					(versionSelected.equals("PSS/E-29")? 
+							IpssFileAdapter.Version.PSSE_29 : IpssFileAdapter.Version.PSSE_26);
+	}	
 }
