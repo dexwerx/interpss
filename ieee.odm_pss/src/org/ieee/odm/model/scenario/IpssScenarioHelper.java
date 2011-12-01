@@ -28,6 +28,9 @@ import java.util.List;
 
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.IpssScenarioXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
@@ -39,6 +42,12 @@ public class IpssScenarioHelper {
 	
 	public IpssScenarioHelper (IODMModelParser parser) {
 		this.parser = parser;
+	}
+
+	public IpssScenarioHelper (IpssStudyScenarioXmlType sce) {
+		// parser is a place holder for scenario object, therefore it does not matter its type
+		this.parser = new AclfModelParser();
+		this.parser.getStudyCase().setStudyScenario(parser.getFactory().createIpssStudyScenario(sce));
 	}
 
 	public List<DclfSenAnalysisXmlType> getSenAnalysisList() {
@@ -55,6 +64,20 @@ public class IpssScenarioHelper {
 		return getSimuAlgo().getPTradingAnalysis();
 	}
 	
+	public AcscFaultAnalysisXmlType getAcscFaultAnalysis() {
+		if (getSimuAlgo().getAcscAnalysis() == null) {
+			getSimuAlgo().setAcscAnalysis(parser.getFactory().createAcscFaultAnalysisXmlType());
+		}
+		return getSimuAlgo().getAcscAnalysis();
+	}
+
+	public DStabSimulationXmlType getDStabSimulation() {
+		if (getSimuAlgo().getDStabAnalysis() == null) {
+			getSimuAlgo().setDStabAnalysis(parser.getFactory().createDStabSimulationXmlType());
+		}
+		return getSimuAlgo().getDStabAnalysis();
+	}
+
 	private IpssStudyScenarioXmlType getIpssScenario() {
 		if (parser.getStudyScenario() == null) {
 			IpssStudyScenarioXmlType studyScenario = parser.getFactory().createIpssStudyScenarioXmlType();

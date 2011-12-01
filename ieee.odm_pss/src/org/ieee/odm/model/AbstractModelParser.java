@@ -112,7 +112,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(xmlFile);
 			this.pssStudyCase = elem.getValue();
 			return true;
-		} catch (JAXBException e) { e.printStackTrace(); return false;}
+		} catch (JAXBException e) { 
+			e.printStackTrace(); 
+			return false;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
