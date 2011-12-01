@@ -33,13 +33,15 @@ import com.interpss.spring.CoreCommonSpringCtx;
 
 public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {
-		IpssLogger.getLogger().info("Custom file path: " + filepath);
-
 		String ext = filepath.substring(filepath.lastIndexOf('.') + 1);
+		IpssLogger.getLogger().info("Custom file path, ext, version : " + 
+				filepath + ", " + ext + ", " + version);
 		/*
 		 * assumption adapter type is uniquely identified by file extension
 		 */
+		
 		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter(ext);
+		
 		if (adapter == null) {
 			IpssLogger.getLogger().severe(
 					"Custom Input File Adapter not found, file : " + filepath);

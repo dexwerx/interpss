@@ -127,7 +127,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			this.runButton.setText("Save");
 			this.addCaseButton.setEnabled(false);
 			this.deleteCaseButton.setEnabled(false);
-			this.viewXmlButton.setEnabled(false);
 			this.importButton.setEnabled(false);
 	        caseDataPanel.add(this._tradingCaseInfoPanel);
 			_tradingCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
@@ -752,10 +751,15 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 		return;
     }	
+    
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Run Study Case Xml");
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
-	dialog.display(new IpssXmlParser().toString(this.studyCaseXmlDoc.getIpssXmlDoc()));
+	 if (_caseType == SimuRunEnum.TradingAnalysis) {
+		 dialog.display(this.odmParser.toXmlDoc(false));
+	 }
+	 else
+		 dialog.display(new IpssXmlParser().toString(this.studyCaseXmlDoc.getIpssXmlDoc()));
 }//GEN-LAST:event_viewXmlButtonActionPerformed
 
 private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
