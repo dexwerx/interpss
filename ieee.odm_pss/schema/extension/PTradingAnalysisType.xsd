@@ -27,6 +27,7 @@
 
 	<ns:complexType name="PtAclfAnalysisXmlType">
 		<ns:sequence>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>
 			<element name="includeMustRun" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="mustRunGen" type="ipss:PtMustRunGenXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="includeGenQAdjustment" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
