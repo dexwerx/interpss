@@ -34,12 +34,16 @@ import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfOutputXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.ui.SwingInputVerifyUtil;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
@@ -49,6 +53,7 @@ import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssAclf.LfAlgoDSL;
 import com.interpss.pssl.simu.impl.AclfODMRunner;
 import com.interpss.simu.SimuContext;
+import com.interpss.spring.CoreCommonSpringCtx;
 
 public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
 	private static final long serialVersionUID = 1;
@@ -62,6 +67,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     public NBPTradingCasePanel(JDialog parent) {
     	initComponents();
     	this.parent = parent;
+    	
+    	initInputVerifier(new DataVerifier());
     }
     
     /**
@@ -112,6 +119,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		// Aclf Analysis
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
+
+		edHourComboBox.setSelectedItem(aclfXml.getHour());
+
 		incMustRunGenCheckBox.setSelected(aclfXml.isIncludeMustRun());
 		if (aclfXml.isIncludeMustRun()) {
 			mustRunFileTextField.setText(aclfXml.getMustRunGen().getFilename());
@@ -152,15 +162,15 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBPTradingCasePanel saveEditor2Form() called");
 		
-		saveCaseData();
-		saveAclfAnalysis();
-		saveLineOutage();
-		saveOutputConfig();
+		saveCaseData(errMsg);
+		saveAclfAnalysis(errMsg);
+		saveLineOutage(errMsg);
+		saveOutputConfig(errMsg);
 
 		return errMsg.size() == 0;
 	}
 
-	public boolean saveCaseData() {
+	public boolean saveCaseData(Vector<String> errMsg) {
 		boolean noError = true;
 		PtCaseDataXmlType casedata = this._ptXml.getCaseData();
 		
@@ -181,9 +191,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveAclfAnalysis() {
+	public boolean saveAclfAnalysis(Vector<String> errMsg) {
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
 		
+		aclfXml.setHour(this.edHourComboBox.getSelectedItem().toString());
+
 		aclfXml.setIncludeMustRun(incMustRunGenCheckBox.isSelected());
 		if (aclfXml.isIncludeMustRun()) {
 			aclfXml.getMustRunGen().setFilename(mustRunFileTextField.getText());
@@ -212,13 +224,13 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveLineOutage() {
+	public boolean saveLineOutage(Vector<String> errMsg) {
 		boolean noError = true;
 		
 		return noError;
 	}
 
-	public boolean saveOutputConfig() {
+	public boolean saveOutputConfig(Vector<String> errMsg) {
 		boolean noError = true;
 
 		PtAclfOutputXmlType outOpt = this._ptXml.getAclfAnalysis().getOutputOption();
@@ -280,7 +292,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         largeGSFPointsLabel = new javax.swing.JLabel();
         largeGSFPointsTextField = new javax.swing.JTextField();
 
-        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         pTradingAnalysisTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
         pTradingAnalysisTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -468,10 +480,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         pTradingAnalysisTabbedPane.addTab("Case Data", caseDataPanel);
 
-        edHourLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        edHourLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         edHourLabel.setText("ED Hour");
 
-        edHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        edHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         edHourComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", " " }));
 
         incMustRunGenCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -624,7 +636,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(incInterfaceLimitCheckBox)
                 .add(29, 29, 29)
                 .add(runAclfAnalysisButton)
-                .add(30, 30, 30))
+                .add(23, 23, 23))
         );
 
         pTradingAnalysisTabbedPane.addTab("Aclf Analysis", aclfAnalysisPanel);
@@ -685,6 +697,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         pTradingAnalysisTabbedPane.addTab("Output Config", outputConfigPanel);
 
+        pTradingAnalysisTabbedPane.setSelectedIndex(1);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -717,30 +731,60 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     	}	
     }//GEN-LAST:event_panelSelectionChanged
 
+private boolean saveInputData() {
+	Vector<String> errMsg = new Vector<String>();
+	try {
+    	if (!saveEditor2Form(errMsg)) {
+    		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
+			return false;
+    	}
+    } catch (Exception e) {
+    	IpssLogger.logErr(e);
+    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", e.toString());
+		return false;
+    }
+    return true;
+}
+
 private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAclfAnalysisButtonActionPerformed
 	IpssLogger.getLogger().info("Aclf analysis button selected");
-	saveCaseData();
-	saveOutputConfig();
-	saveAclfAnalysis();
 	
 	this.parent.setAlwaysOnTop(false);
 
-	String hour = this.edHourComboBox.getSelectedItem().toString();
-	AclfNetwork net = this._simuCtx.getAclfNet();
-	// create Loadflow algorithm DSL object
-	LfAlgoDSL algoDsl = IpssAclf.createAlgo(net);
-	
-	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
-	AclfODMRunner runner = new AclfODMRunner(algoDsl);
-	dialog.display(runner.runPTradingAnalysis(this._ptXml, hour, false));
-	
+	if (!saveInputData())
+		return;
+
+	// running the analysis in a separate thread, so that it won't block
+	// the main UI window
+	final AclfNetwork net = this._simuCtx.getAclfNet();
+	final PTradingAnalysisXmlType ptXml = this._ptXml;
+	new Thread() {
+		public void run() {
+			// create Loadflow algorithm DSL object
+			LfAlgoDSL algoDsl = IpssAclf.createAlgo(net);
+			
+			IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
+			
+			AclfODMRunner runner = new AclfODMRunner(algoDsl);
+			StringBuffer s = runner.runPTradingAnalysis(ptXml);
+			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
+			dialog.display(s);
+			
+			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			
+		}
+	}.start();
 }//GEN-LAST:event_runAclfAnalysisButtonActionPerformed
 
 private void runLineOutgageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runLineOutgageButtonActionPerformed
 	IpssLogger.getLogger().info("Line outage analysis button selected");
-	saveCaseData();
-	saveOutputConfig();
-	saveLineOutage();
+	
+	this.parent.setAlwaysOnTop(false);
+
+	if (!saveInputData())
+		return;
+   	
 }//GEN-LAST:event_runLineOutgageButtonActionPerformed
 
 private void selectEdFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEdFileButtonActionPerformed
@@ -821,14 +865,6 @@ private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent e
     private javax.swing.JLabel swingAllocZoneLabel;
     // End of variables declaration//GEN-END:variables
     
-	class DataVerifier extends javax.swing.InputVerifier {
-		public boolean verify(javax.swing.JComponent input) {
-			if (input == null)
-				return false;
-			return true;
-		}
-	}
-	
 	private static JFileChooser excelFileChooser = null;	
 	private JFileChooser getExcelFileChooser() {
 		if (excelFileChooser == null) {
@@ -837,4 +873,77 @@ private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent e
 		}
 		return excelFileChooser;
 	}
+
+	
+	private void initInputVerifier(DataVerifier v) {
+		edGenPFacorTextField.setInputVerifier(v);
+		edLossPercentTextField.setInputVerifier(v);
+		edLoadPFacorTextField.setInputVerifier(v);
+		edHourComboBox.setInputVerifier(v);
+		mustRunQAdjStespTextField.setInputVerifier(v);
+		swingAllocZoneComboBox.setInputVerifier(v);
+		swingAllocMaxStepsTextField.setInputVerifier(v);
+		swingAllocAccFactorTextField.setInputVerifier(v);
+		largeGSFPointsTextField.setInputVerifier(v);
+	}
+	
+	class DataVerifier extends javax.swing.InputVerifier {
+		public boolean verify(javax.swing.JComponent input) {
+			if (input == null)
+				return false;
+       		try {
+				if (input == edGenPFacorTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0 && 
+							SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) <= 1.0;
+				else if (input == edLossPercentTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0 && 
+					       SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) <= 100.0;
+				else if (input == edLoadPFacorTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0 && 
+						   SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) <= 1.0;
+
+				else if (input == edHourComboBox )
+					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
+				else if (input == mustRunQAdjStespTextField)
+					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+				else if (input == swingAllocZoneComboBox )
+					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
+				else if (input == swingAllocMaxStepsTextField)
+					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+				else if (input == swingAllocAccFactorTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+					
+				else if (input == largeGSFPointsTextField)
+					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+ 	       	} catch (Exception e) {
+ 	    		return false;
+ 	       	}				
+			return true;
+		}
+	}
+	
+	class SimuRunWorker extends Thread {
+		AclfNetwork net = null;
+		PTradingAnalysisXmlType ptXml = null;
+		public SimuRunWorker(AclfNetwork net, PTradingAnalysisXmlType ptXml) {
+			this.net = net;
+			this.ptXml = ptXml;
+		}
+		public void run() {
+			// create Loadflow algorithm DSL object
+			LfAlgoDSL algoDsl = IpssAclf.createAlgo(net);
+			
+			IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
+			
+			AclfODMRunner runner = new AclfODMRunner(algoDsl);
+			StringBuffer s = runner.runPTradingAnalysis(ptXml);
+			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
+			dialog.display(s);
+			
+			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			
+		}
+	}
+
 }

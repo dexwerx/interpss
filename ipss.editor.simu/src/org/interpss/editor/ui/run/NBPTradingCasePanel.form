@@ -36,6 +36,7 @@
   <SubComponents>
     <Container class="javax.swing.JTabbedPane" name="pTradingAnalysisTabbedPane">
       <Properties>
+        <Property name="selectedIndex" type="int" value="1"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
@@ -477,7 +478,7 @@
                       <Component id="incInterfaceLimitCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="runAclfAnalysisButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
