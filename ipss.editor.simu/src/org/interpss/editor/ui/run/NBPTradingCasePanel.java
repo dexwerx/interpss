@@ -44,6 +44,7 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
@@ -756,6 +757,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 
 	// running the analysis in a separate thread, so that it won't block
 	// the main UI window
+	final JDialog parent = this.parent;
 	final AclfNetwork net = this._simuCtx.getAclfNet();
 	final PTradingAnalysisXmlType ptXml = this._ptXml;
 	new Thread() {
@@ -768,9 +770,14 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
 			
 			AclfODMRunner runner = new AclfODMRunner(algoDsl);
-			StringBuffer s = runner.runPTradingAnalysis(ptXml);
-			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
-			dialog.display(s);
+			try {
+				StringBuffer s = runner.runPTradingAnalysis(ptXml);
+				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
+				dialog.display(s);
+			} catch (InterpssException e) {
+		    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				return;
+			}
 			
 			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			
 		}
@@ -921,29 +928,4 @@ private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent e
 			return true;
 		}
 	}
-	
-	class SimuRunWorker extends Thread {
-		AclfNetwork net = null;
-		PTradingAnalysisXmlType ptXml = null;
-		public SimuRunWorker(AclfNetwork net, PTradingAnalysisXmlType ptXml) {
-			this.net = net;
-			this.ptXml = ptXml;
-		}
-		public void run() {
-			// create Loadflow algorithm DSL object
-			LfAlgoDSL algoDsl = IpssAclf.createAlgo(net);
-			
-			IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
-			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
-					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
-			
-			AclfODMRunner runner = new AclfODMRunner(algoDsl);
-			StringBuffer s = runner.runPTradingAnalysis(ptXml);
-			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
-			dialog.display(s);
-			
-			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			
-		}
-	}
-
 }
