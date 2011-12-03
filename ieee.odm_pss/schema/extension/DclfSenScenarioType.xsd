@@ -16,10 +16,10 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="genShiftFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="lineOutageDFactor" minOccurs="0" maxOccurs="unbounded" type="ipss:LineOutageDFactorXmlType" />					<ns:element name="genLossFactor" minOccurs="0" maxOccurs="unbounded" type="ipss:GenLossFactorXmlType" />
-					<ns:element name="pTransferDistFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="areaTransferAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:AreaTransferAnalysisXmlType">
+					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="genShiftFactors" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="lineOutageDFactors" minOccurs="0" maxOccurs="unbounded" type="ipss:LineOutageDFactorXmlType" />					<ns:element name="genLossFactors" minOccurs="0" maxOccurs="unbounded" type="ipss:GenLossFactorXmlType" />
+					<ns:element name="pTransferDistFactors" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="areaTransferAnalyses" minOccurs="0" maxOccurs="unbounded" type="ipss:AreaTransferAnalysisXmlType">
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
@@ -42,12 +42,12 @@
 			               meaning for each outage branch, there should be a corresponding lodf</documentation>
 		</annotation>	
 		<sequence>
-			<element name="outageBranch" type="pss:BaseBranchXmlType" minOccurs="1" maxOccurs="unbounded"></element>
-			<element name="monitorBranch" minOccurs="1" maxOccurs="unbounded">
+			<element name="outageBranches" type="pss:BaseBranchXmlType" minOccurs="1" maxOccurs="unbounded"></element>
+			<element name="monitorBranches" minOccurs="1" maxOccurs="unbounded">
 				<complexType>
 					<sequence>
 						<element name="branch" type="pss:BaseBranchXmlType" minOccurs="1"></element>
-						<element name="lodf" type="double" minOccurs="0" maxOccurs="unbounded"></element>
+						<element name="lodfs" type="double" minOccurs="0" maxOccurs="unbounded"></element>
 					</sequence>
 				</complexType>
 			</element>
@@ -111,7 +111,7 @@
 					<ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="injectBus" type="ipss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+								<ns:element name="injectBuses" type="ipss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
@@ -119,7 +119,7 @@
 					<ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusXmlType"></ns:element>
+								<ns:element name="withdrawBuses" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusXmlType"></ns:element>
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
@@ -133,14 +133,14 @@
     	<ns:complexContent>
     		<ns:extension base="ipss:DclfSensitivityXmlType">
     			<ns:sequence>
-    				<ns:element name="branchSFactor" minOccurs="1" maxOccurs="unbounded">
+    				<ns:element name="branchSFactors" minOccurs="1" maxOccurs="unbounded">
     					<complexType>
     						<sequence>
     							<element name="shiftFactor" type="double" minOccurs="0"></element>
     							<element name="branch" type="pss:BaseBranchXmlType" maxOccurs="1"></element>
     						</sequence>
     					</complexType></ns:element>
-    				<ns:element name="interfaceSFactor" minOccurs="0" maxOccurs="unbounded">
+    				<ns:element name="interfaceSFactors" minOccurs="0" maxOccurs="unbounded">
     					<complexType>
     						<sequence>
     							<element name="shiftFactor" type="double" minOccurs="0"></element>

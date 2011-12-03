@@ -37,7 +37,7 @@
 					<element name="scenarioList" maxOccurs="1" minOccurs="1">
 						<complexType>
 							<sequence>
-								<element name="scenario" type="ipss:IpssScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
+								<element name="scenarios" type="ipss:IpssScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
 									<annotation><documentation>
 									Typically, there is one study scenario. However, one can define a let of scenarios,
 									for example, for N-1 contingency analysis
@@ -72,7 +72,7 @@
 		</documentation></annotation>	
 		<choice>
 			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAlgorithmXmlType"></element>
-			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></element>
+			<element name="senAnalyses" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></element>
 			<element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></element>
 			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></element>
 			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></element>
