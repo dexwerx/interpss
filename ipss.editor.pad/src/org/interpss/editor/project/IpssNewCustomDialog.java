@@ -161,6 +161,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		String[] versionList = adapter.getVersionList();
 
 		if (versionList != null){
+			setVersionEnabled(true);
 			versionComboBox.setModel(new DefaultComboBoxModel(versionList));
 //			adapter.setVersionSelected((versionComboBox.getSelectedItem()).toString());
 		}
@@ -170,12 +171,9 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 	}
 
 	private void setVersionEnabled(boolean b) {
-		if (b)
-			versionComboBox.setEnabled(false);
-		else {
+		versionComboBox.setEnabled(b);
+		if (!b)
 			versionComboBox.removeAllItems();
-			versionComboBox.setEnabled(false);
-		}
 	}
 
 	public void setDocName(String docName) {
