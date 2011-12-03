@@ -256,8 +256,7 @@ public class SwingInputVerifyUtil {
 	 *            the JComboBox object
 	 * @return the double number
 	 */
-	public static double getDouble(javax.swing.JComboBox input)
-			throws Exception {
+	public static double getDouble(javax.swing.JComboBox input) throws Exception {
 		return new Double((String) (input.getSelectedItem())).doubleValue();
 	}
 
