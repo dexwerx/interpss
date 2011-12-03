@@ -34,7 +34,6 @@
 			<element name="genQAdjOption" type="ipss:PtGenQAdjustXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="includeSwingAlloc" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="genSwingAllocOption" type="ipss:PtSwingAllocXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="includeInterface" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="outputOption" type="ipss:PtAclfOutputXmlType" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>	
@@ -94,6 +93,14 @@
 	<ns:complexType name="PtAclfOutputXmlType">
 		<ns:sequence>
 			<element name="largeGSFPoints" type="ns:int" maxOccurs="1" minOccurs="0"></element>
+			<element name="busVoltageViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="busVoltageUpperLimitPU" type="ns:double" maxOccurs="1" minOccurs="1"></element>
+			<element name="busVoltageLowerLimitPU" type="ns:double" maxOccurs="1" minOccurs="1"></element>
+			<element name="branchLimitViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="interfaceLimitViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="zoneSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="areaSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="mustRunSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 		</ns:sequence>
 	</ns:complexType>
 </schema>
