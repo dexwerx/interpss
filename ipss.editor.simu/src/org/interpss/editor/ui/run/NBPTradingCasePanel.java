@@ -56,7 +56,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.impl.AclfDslODMRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 
@@ -877,7 +876,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
 			try {
 				UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results")
-					.display(new AclfDslODMRunner(IpssAclf.createAlgo(net))
+					.display(IpssAclf.createAlgo(net)
 								.runPTradingAnalysis(ptXml));
 			} catch (InterpssException e) {
 		    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
