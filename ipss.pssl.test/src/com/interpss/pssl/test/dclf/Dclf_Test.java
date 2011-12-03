@@ -72,8 +72,7 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		//algoDsl.runAnalysis("testData/aclf/DclfRun.xml");
 		
-		AclfModelParser parser = new AclfModelParser();
-		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
+		IpssScenarioHelper helper = new IpssScenarioHelper(new AclfModelParser());
 		assertTrue(helper.getSenAnalysisList() != null);
 		
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();

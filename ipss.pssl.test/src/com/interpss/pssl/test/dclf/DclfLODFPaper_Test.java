@@ -27,6 +27,10 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -53,7 +57,61 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 										.setRefBus("Bus14");
 		
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLODFPaperRun.xml");
+		//AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLODFPaperRun.xml");
+/*
+  					<pss:lineOutageDFactor>
+  						<pss:outageBranch id="Bus1_Bus5_1" fromBusId="Bus1" toBusId="Bus5" circuitId="1" />
+  						<pss:outageBranch id="Bus3_Bus4_1" fromBusId="Bus3" toBusId="Bus4" circuitId="1" />
+  						<pss:outageBranch id="Bus6_Bus11_1" fromBusId="Bus6" toBusId="Bus11" circuitId="1" />
+  						<pss:monitorBranch>
+  							<pss:branch id="Bus2_Bus5_1" fromBusId="Bus2" toBusId="Bus5" circuitId="1">
+  							</pss:branch>
+  						</pss:monitorBranch>
+  						<pss:monitorBranch>
+  							<pss:branch id="Bus6_Bus13_1" fromBusId="Bus6" toBusId="Bus13" circuitId="1">
+  							</pss:branch>
+  						</pss:monitorBranch>
+  					</pss:lineOutageDFactor>
+ */
+		AclfModelParser parser = new AclfModelParser();
+		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
+		assertTrue(helper.getSenAnalysisList() != null);
+		
+		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
+		
+		BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranches());
+		outage.setId("Bus1_Bus5_1");
+		outage.setFromBusId("Bus1");
+		outage.setToBusId("Bus5");
+		outage.setCircuitId("1");
+
+		outage = helper.createOutageBranch(lodf.getOutageBranches());
+		outage.setId("Bus3_Bus4_1");
+		outage.setFromBusId("Bus3");
+		outage.setToBusId("Bus4");
+		outage.setCircuitId("1");
+
+		outage = helper.createOutageBranch(lodf.getOutageBranches());
+		outage.setId("Bus6_Bus11_1");
+		outage.setFromBusId("Bus6");
+		outage.setToBusId("Bus11");
+		outage.setCircuitId("1");
+
+		BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranches());
+		monitor.setId("Bus2_Bus5_1");
+		monitor.setFromBusId("Bus2");
+		monitor.setToBusId("Bus5");
+		monitor.setCircuitId("1");
+		
+		monitor = helper.createMonitorBranch(lodf.getMonitorBranches());
+		monitor.setId("Bus6_Bus13_1");
+		monitor.setFromBusId("Bus6");
+		monitor.setToBusId("Bus13");
+		monitor.setCircuitId("1");
+		
+		algoDsl.runDclfCase(dclfCase);		
+		
 		System.out.println(parser.toXmlDoc(false));			
 	}
 	

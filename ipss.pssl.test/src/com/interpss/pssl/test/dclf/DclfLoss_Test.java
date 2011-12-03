@@ -27,6 +27,12 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.GenLossFactorXmlType;
+import org.ieee.odm.schema.SenAnalysisBusXmlType;
+import org.ieee.odm.schema.SenBusAnalysisEnumType;
+import org.ieee.odm.schema.SensitivityEnumType;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -58,7 +64,82 @@ public class DclfLoss_Test extends BaseTestSetup {
 	  			.runLoadflow();		
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLossRun.xml");
+		//AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLossRun.xml");
+		
+		AclfModelParser parser = new AclfModelParser();
+		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
+		assertTrue(helper.getSenAnalysisList() != null);
+		
+		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		GenLossFactorXmlType lfactor = helper.createGenLossFactor(dclfCase);
+		/*
+			<pss:genLossFactor>
+				<pss:senType>PAngle</pss:senType>
+				<pss:injectBusType>SingleBus</pss:injectBusType>
+				<pss:injectBusList>
+					<pss:injectBus>
+						<pss:busId>Bus2</pss:busId>
+					</pss:injectBus>
+				</pss:injectBusList>
+				<pss:withdrawBusType>SingleBus</pss:withdrawBusType>
+				<pss:withdrawBusList>
+					<pss:withdrawBus>
+						<pss:busId>Bus3</pss:busId>
+					</pss:withdrawBus>
+				</pss:withdrawBusList>
+			</pss:genLossFactor>
+*/
+		lfactor.setSenType(SensitivityEnumType.P_ANGLE);
+		
+		lfactor.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(lfactor.getInjectBusList().getInjectBuses());
+		bus.setBusId("Bus2");
+		
+		lfactor.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBusList().getWithdrawBuses());
+		bus.setBusId("Bus3");		
+		
+		
+		lfactor = helper.createGenLossFactor(dclfCase);
+/*		
+  					<pss:genLossFactor>
+  						<pss:senType>PAngle</pss:senType>
+  						<pss:injectBusType>SingleBus</pss:injectBusType>
+  						<pss:injectBusList>
+  							<pss:injectBus>
+  								<pss:busId>Bus2</pss:busId>
+  							</pss:injectBus>
+  						</pss:injectBusList>
+  						<pss:withdrawBusType>SingleBus</pss:withdrawBusType>
+  						<pss:withdrawBusList>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus13</pss:busId>
+  								<pss:percent>50.0</pss:percent>
+  							</pss:withdrawBus>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus14</pss:busId>
+  								<pss:percent>50.0</pss:percent>
+  							</pss:withdrawBus>
+  						</pss:withdrawBusList>
+  					</pss:genLossFactor>
+ 		
+ */
+		lfactor.setSenType(SensitivityEnumType.P_ANGLE);
+		
+		lfactor.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		bus = helper.createSenAnalysisBus(lfactor.getInjectBusList().getInjectBuses());
+		bus.setBusId("Bus2");
+		
+		lfactor.setWithdrawBusType(SenBusAnalysisEnumType.MULTIPLE_BUS);
+		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBusList().getWithdrawBuses());
+		bus.setBusId("Bus13");
+		bus.setPercent(50.0);
+		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBusList().getWithdrawBuses());
+		bus.setBusId("Bus14");
+		bus.setPercent(50.0);		
+		
+		algoDsl.runDclfCase(dclfCase);
+		
 		System.out.println(parser.toXmlDoc(false));
 	}
 	

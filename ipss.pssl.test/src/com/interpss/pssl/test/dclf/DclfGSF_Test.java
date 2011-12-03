@@ -27,6 +27,14 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
+import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.SenAnalysisBusXmlType;
+import org.ieee.odm.schema.SenBusAnalysisEnumType;
+import org.ieee.odm.schema.SensitivityEnumType;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactors;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -48,7 +56,186 @@ public class DclfGSF_Test extends BaseTestSetup {
 				.getAclfNet();	
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfGSFRun.xml");
+		//AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfGSFRun.xml");
+		
+		AclfModelParser parser = new AclfModelParser();
+		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
+		assertTrue(helper.getSenAnalysisList() != null);
+		
+		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		DclfBranchSensitivityXmlType gsf = helper.createGSF(dclfCase);
+		dclfCase.getGenShiftFactors().add(gsf);
+/*
+  					<pss:genShiftFactor>
+  						<pss:senType>PAngle</pss:senType>
+  						<pss:injectBusType>SingleBus</pss:injectBusType>
+  						<pss:injectBusList>
+  							<pss:injectBus>
+  								<pss:busId>Bus2</pss:busId>
+  							</pss:injectBus>
+  						</pss:injectBusList>
+  						<pss:withdrawBusType>SingleBus</pss:withdrawBusType>
+  						<pss:withdrawBusList>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus3</pss:busId>
+  							</pss:withdrawBus>
+  						</pss:withdrawBusList>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus2_Bus3"  fromBusId="Bus2" toBusId="Bus3"></pss:branch>
+  						</pss:branchSFactor>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus4_Bus3" fromBusId="Bus4" toBusId="Bus3"></pss:branch>
+  						</pss:branchSFactor>
+  					</pss:genShiftFactor>
+*/
+		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		
+		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		bus.setBusId("Bus2");
+		
+		gsf.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
+		bus.setBusId("Bus3");
+		
+		BranchSFactors sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		LineBranchXmlType line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus2_Bus3");
+		line.setFromBusId("Bus2");
+		line.setToBusId("Bus3");
+		
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus3_Bus4");
+		line.setFromBusId("Bus3");
+		line.setToBusId("Bus4");
+		
+		gsf = helper.createGSF(dclfCase);
+		dclfCase.getGenShiftFactors().add(gsf);
+/*
+  					<pss:genShiftFactor>
+  						<pss:senType>PAngle</pss:senType>
+  						<pss:injectBusType>SingleBus</pss:injectBusType>
+  						<pss:injectBusList>
+  							<pss:injectBus>
+  								<pss:busId>Bus2</pss:busId>
+  							</pss:injectBus>
+  						</pss:injectBusList>
+  						<pss:withdrawBusType>MultipleBus</pss:withdrawBusType>
+  						<pss:withdrawBusList>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus13</pss:busId>
+  								<pss:percent>50.0</pss:percent>
+  							</pss:withdrawBus>
+  							<pss:withdrawBus>
+  								<pss:busId>Bus14</pss:busId>
+  								<pss:percent>50.0</pss:percent>
+  							</pss:withdrawBus>
+  						</pss:withdrawBusList>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus9_Bus14"  fromBusId="Bus9" toBusId="Bus14"></pss:branch>
+  						</pss:branchSFactor>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus6_Bus13" fromBusId="Bus6" toBusId="Bus13"></pss:branch>
+  						</pss:branchSFactor>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus12_Bus13" fromBusId="Bus12" toBusId="Bus13"></pss:branch>
+  						</pss:branchSFactor>
+  					</pss:genShiftFactor>
+*/
+		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		
+		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		bus.setBusId("Bus2");
+		
+		gsf.setWithdrawBusType(SenBusAnalysisEnumType.MULTIPLE_BUS);
+		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
+		bus.setBusId("Bus13");
+		bus.setPercent(50.0);
+		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
+		bus.setBusId("Bus14");
+		bus.setPercent(50.0);
+		
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus9_Bus14");
+		line.setFromBusId("Bus9");
+		line.setToBusId("Bus14");
+
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus6_Bus13");
+		line.setFromBusId("Bus6");
+		line.setToBusId("Bus13");
+		
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus12_Bus13");
+		line.setFromBusId("Bus12");
+		line.setToBusId("Bus13");
+		
+		gsf = helper.createGSF(dclfCase);
+		dclfCase.getGenShiftFactors().add(gsf);
+/*
+  					<pss:genShiftFactor>
+  						<pss:senType>PAngle</pss:senType>
+  						<pss:injectBusType>SingleBus</pss:injectBusType>
+  						<pss:injectBusList>
+  							<pss:injectBus>
+  								<pss:busId>Bus2</pss:busId>
+  							</pss:injectBus>
+  						</pss:injectBusList>
+  						<pss:withdrawBusType>LoadDistribution</pss:withdrawBusType>
+  						<pss:minLoadForDistFactor unit="MW" value="5" />
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus9_Bus14_1"  fromBusId="Bus9" toBusId="Bus14"></pss:branch>
+  						</pss:branchSFactor>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus6_Bus13_1" fromBusId="Bus6" toBusId="Bus13"></pss:branch>
+  						</pss:branchSFactor>
+  						<pss:branchSFactor>
+  							<pss:branch xsi:type="pss:LineBranchXmlType" id="Bus12_Bus13_1" fromBusId="Bus12" toBusId="Bus13"></pss:branch>
+  						</pss:branchSFactor>
+  					</pss:genShiftFactor>
+ */
+		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		
+		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		bus.setBusId("Bus2");
+		
+		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
+		gsf.setMinLoadForDistFactor(helper.createActivePower(5.0, "MW"));
+		
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus9_Bus14_1");
+		line.setFromBusId("Bus9");
+		line.setToBusId("Bus14");
+
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus6_Bus13_1");
+		line.setFromBusId("Bus6");
+		line.setToBusId("Bus13");
+		
+		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		line = helper.createLineBranchXmlType();
+		sf.setBranch(line);
+		line.setId("Bus12_Bus13_1");
+		line.setFromBusId("Bus12");
+		line.setToBusId("Bus13");
+		
+		algoDsl.runDclfCase(dclfCase);
+		
 		System.out.println(parser.toXmlDoc(false));
 	}
 	
@@ -70,10 +257,10 @@ public class DclfGSF_Test extends BaseTestSetup {
 		//System.out.println("GSF: " + f );	
 		assertTrue(NumericUtil.equals(f, 0.559376, 0.00001));
 
-		f = algoDsl.monitorBranch("Bus4", "Bus3")
+		f = algoDsl.monitorBranch("Bus3", "Bus4")
 					.genShiftFactor();
-		//System.out.println("monitorBranch - 4->3");
-		//System.out.println("GSF: " + f );	
+		System.out.println("monitorBranch - 3->4");
+		System.out.println("GSF: " + f );	
 		assertTrue(NumericUtil.equals(f,-0.440623, 0.00001));
 
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
