@@ -149,6 +149,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		largeGSFPointsTextField.setText(
 					new Integer(outOpt.getLargeGSFPoints()).toString());
 		this.outVoltViolationCheckBox.setSelected(outOpt.isBusVoltageViolation());
+		this.voltUpperLimitTextField.setText(
+				new Double(outOpt.getBusVoltageUpperLimitPU()).toString());
+		this.voltLowerLimitTextField.setText(
+				new Double(outOpt.getBusVoltageLowerLimitPU()).toString());
 		this.outBranchViolationCheckBox.setSelected(outOpt.isBranchLimitViolation());
 		this.outInterfaceViolationCheckBox.setSelected(outOpt.isInterfaceLimitViolation());
 		this.outZoneSummaryCheckBox.setSelected(outOpt.isZoneSummary());
@@ -240,6 +244,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		outOpt.setLargeGSFPoints(
 					new Integer(largeGSFPointsTextField.getText()).intValue());
 		outOpt.setBusVoltageViolation(this.outVoltViolationCheckBox.isSelected());
+		outOpt.setBusVoltageUpperLimitPU(
+				new Double(this.voltUpperLimitTextField.getText()).doubleValue());
+		outOpt.setBusVoltageLowerLimitPU(
+				new Double(this.voltLowerLimitTextField.getText()).doubleValue());
 		outOpt.setBranchLimitViolation(this.outBranchViolationCheckBox.isSelected());
 		outOpt.setInterfaceLimitViolation(this.outInterfaceViolationCheckBox.isSelected());
 		outOpt.setZoneSummary(this.outZoneSummaryCheckBox.isSelected());
@@ -297,14 +305,18 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         lineOutagePanel = new javax.swing.JPanel();
         runLineOutgageButton = new javax.swing.JButton();
         outputConfigPanel = new javax.swing.JPanel();
-        largeGSFPointsLabel = new javax.swing.JLabel();
-        largeGSFPointsTextField = new javax.swing.JTextField();
         outVoltViolationCheckBox = new javax.swing.JCheckBox();
+        voltUpperLimitLabel = new javax.swing.JLabel();
+        voltUpperLimitTextField = new javax.swing.JTextField();
+        voltLowerLimitLabel = new javax.swing.JLabel();
+        voltLowerLimitTextField = new javax.swing.JTextField();
         outBranchViolationCheckBox = new javax.swing.JCheckBox();
         outInterfaceViolationCheckBox = new javax.swing.JCheckBox();
         outZoneSummaryCheckBox = new javax.swing.JCheckBox();
         outAreaSummaryCheckBox = new javax.swing.JCheckBox();
         outMustRunSummaryCheckBox = new javax.swing.JCheckBox();
+        largeGSFPointsLabel = new javax.swing.JLabel();
+        largeGSFPointsTextField = new javax.swing.JTextField();
 
         pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         pTradingAnalysisTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
@@ -676,15 +688,21 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         pTradingAnalysisTabbedPane.addTab("Line Outage", lineOutagePanel);
 
-        largeGSFPointsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        largeGSFPointsLabel.setText("Large GSF Points");
-
-        largeGSFPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        largeGSFPointsTextField.setText("5");
-
         outVoltViolationCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         outVoltViolationCheckBox.setSelected(true);
         outVoltViolationCheckBox.setText("Bus Voltage Violation Report");
+
+        voltUpperLimitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        voltUpperLimitLabel.setText("Upper Limit");
+
+        voltUpperLimitTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        voltUpperLimitTextField.setText("1.15");
+
+        voltLowerLimitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        voltLowerLimitLabel.setText("Lower Limit");
+
+        voltLowerLimitTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        voltLowerLimitTextField.setText("0.85");
 
         outBranchViolationCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         outBranchViolationCheckBox.setSelected(true);
@@ -706,6 +724,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outMustRunSummaryCheckBox.setSelected(true);
         outMustRunSummaryCheckBox.setText("MustRun Generator Summary");
 
+        largeGSFPointsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        largeGSFPointsLabel.setText("Large GSF Points");
+
+        largeGSFPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        largeGSFPointsTextField.setText("5");
+
         org.jdesktop.layout.GroupLayout outputConfigPanelLayout = new org.jdesktop.layout.GroupLayout(outputConfigPanel);
         outputConfigPanel.setLayout(outputConfigPanelLayout);
         outputConfigPanelLayout.setHorizontalGroup(
@@ -713,31 +737,43 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             .add(outputConfigPanelLayout.createSequentialGroup()
                 .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(outputConfigPanelLayout.createSequentialGroup()
-                        .add(39, 39, 39)
-                        .add(largeGSFPointsLabel)
-                        .add(18, 18, 18)
-                        .add(largeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(outputConfigPanelLayout.createSequentialGroup()
-                        .add(78, 78, 78)
+                        .add(34, 34, 34)
                         .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(outBranchViolationCheckBox)
-                            .add(outVoltViolationCheckBox)
                             .add(outInterfaceViolationCheckBox)
                             .add(outZoneSummaryCheckBox)
                             .add(outAreaSummaryCheckBox)
-                            .add(outMustRunSummaryCheckBox))))
-                .addContainerGap(225, Short.MAX_VALUE))
+                            .add(outMustRunSummaryCheckBox)
+                            .add(outputConfigPanelLayout.createSequentialGroup()
+                                .add(218, 218, 218)
+                                .add(voltLowerLimitLabel)
+                                .add(18, 18, 18)
+                                .add(voltLowerLimitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                .add(outputConfigPanelLayout.createSequentialGroup()
+                                    .add(voltUpperLimitLabel)
+                                    .add(18, 18, 18)
+                                    .add(voltUpperLimitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(outVoltViolationCheckBox))))
+                    .add(outputConfigPanelLayout.createSequentialGroup()
+                        .add(59, 59, 59)
+                        .add(largeGSFPointsLabel)
+                        .add(18, 18, 18)
+                        .add(largeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         outputConfigPanelLayout.setVerticalGroup(
             outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outputConfigPanelLayout.createSequentialGroup()
-                .add(26, 26, 26)
-                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(largeGSFPointsLabel)
-                    .add(largeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                .add(20, 20, 20)
                 .add(outVoltViolationCheckBox)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(voltUpperLimitLabel)
+                    .add(voltUpperLimitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(voltLowerLimitLabel)
+                    .add(voltLowerLimitTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(11, 11, 11)
                 .add(outBranchViolationCheckBox)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(outInterfaceViolationCheckBox)
@@ -747,7 +783,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(outAreaSummaryCheckBox)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(outMustRunSummaryCheckBox)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .add(31, 31, 31)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(largeGSFPointsLabel)
+                    .add(largeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         pTradingAnalysisTabbedPane.addTab("Output Config", outputConfigPanel);
@@ -929,6 +969,10 @@ private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent e
     private javax.swing.JTextField swingAllocMaxStepsTextField;
     private javax.swing.JComboBox swingAllocZoneComboBox;
     private javax.swing.JLabel swingAllocZoneLabel;
+    private javax.swing.JLabel voltLowerLimitLabel;
+    private javax.swing.JTextField voltLowerLimitTextField;
+    private javax.swing.JLabel voltUpperLimitLabel;
+    private javax.swing.JTextField voltUpperLimitTextField;
     // End of variables declaration//GEN-END:variables
     
 	private static JFileChooser excelFileChooser = null;	
@@ -951,6 +995,8 @@ private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent e
 		swingAllocMaxStepsTextField.setInputVerifier(v);
 		swingAllocAccFactorTextField.setInputVerifier(v);
 		largeGSFPointsTextField.setInputVerifier(v);
+		this.voltUpperLimitTextField.setInputVerifier(v);
+		this.voltLowerLimitTextField.setInputVerifier(v);
 	}
 	
 	class DataVerifier extends javax.swing.InputVerifier {
@@ -981,6 +1027,10 @@ private void mustRunFileSelectButtonActionPerformed(java.awt.event.ActionEvent e
 					
 				else if (input == largeGSFPointsTextField)
 					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+				else if (input == voltUpperLimitTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+				else if (input == voltLowerLimitTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}				
