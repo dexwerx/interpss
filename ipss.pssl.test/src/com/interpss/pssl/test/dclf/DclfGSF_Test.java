@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.BusSenAnalysisType;
+import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
@@ -40,7 +41,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfGSF_Test extends BaseTestSetup {
 	@Test
-	public void gsfXmlTest() {
+	public void gsfXmlTest() throws PSSLException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

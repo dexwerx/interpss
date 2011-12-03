@@ -37,6 +37,7 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.LossAllocationAlgorithm;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.dclf.BusSenAnalysisType;
+import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssPTrading;
@@ -45,7 +46,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLoss_Test extends BaseTestSetup {
 	@Test
-	public void lossFactorTest() {
+	public void lossFactorTest()  throws PSSLException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

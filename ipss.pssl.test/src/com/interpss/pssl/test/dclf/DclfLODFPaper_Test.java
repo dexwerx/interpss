@@ -35,6 +35,7 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.LODFSenAnalysisType;
 import com.interpss.core.net.Branch;
+import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
@@ -42,7 +43,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODFPaper_Test extends BaseTestSetup {
 	@Test
-	public void lodfTest3() {
+	public void lodfTest3()  throws PSSLException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
