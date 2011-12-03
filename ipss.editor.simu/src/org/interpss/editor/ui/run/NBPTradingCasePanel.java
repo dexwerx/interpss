@@ -25,6 +25,7 @@
 package org.interpss.editor.ui.run;
 
 import java.io.File;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JDialog;
@@ -37,22 +38,25 @@ import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Zone;
+import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.IpssAclf.LfAlgoDSL;
-import com.interpss.pssl.simu.impl.AclfODMRunner;
+import com.interpss.pssl.simu.impl.AclfDslODMRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringCtx;
 
@@ -92,8 +96,20 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    _simuCtx = (SimuContext)simuCtx;
 	    
 	    // populate the Swing alloc zone
-	    String[] strAry = new String[] {"1", "12"};
-	    this.swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(strAry));
+	    AclfNetwork net = _simuCtx.getAclfNet();
+	    try {
+	    	AclfBus swingBus = net.getAclfBus(CoreObjectFactory
+	    			.createAclfNetHelper(net)
+	    			.getSwingBusId());
+	    	Zone zone = swingBus.getZone();
+	    	// get the neighboring zones of the swing bus
+	    	List<String> list = StringUtil.convertLongAry2StrList(CoreUtilFunc.getZoneNumberAry(net.neighborZones(zone)));
+	    	// add swing bus zone to the list
+	    	list.add(new Long(zone.getNumber()).toString());
+		    this.swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(list.toArray()));
+	    } catch (InterpssException e) {
+		    this.swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Error"}));
+	    }
 	}
     
     public void setXmlCaseData(PTradingAnalysisXmlType pt) {
@@ -856,23 +872,17 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	final PTradingAnalysisXmlType ptXml = this._ptXml;
 	new Thread() {
 		public void run() {
-			// create Loadflow algorithm DSL object
-			LfAlgoDSL algoDsl = IpssAclf.createAlgo(net);
-			
 			IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
-			
-			AclfODMRunner runner = new AclfODMRunner(algoDsl);
 			try {
-				StringBuffer s = runner.runPTradingAnalysis(ptXml);
-				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results");
-				dialog.display(s);
+				UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results")
+					.display(new AclfDslODMRunner(IpssAclf.createAlgo(net))
+								.runPTradingAnalysis(ptXml));
 			} catch (InterpssException e) {
 		    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				return;
 			}
-			
 			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			
 		}
 	}.start();
