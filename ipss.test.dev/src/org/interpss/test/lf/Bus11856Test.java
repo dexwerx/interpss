@@ -26,21 +26,16 @@ package org.interpss.test.lf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.numeric.datatype.ComplexFunc;
-import org.interpss.numeric.sparse.SparseEqnComplex;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.simu.SimuContext;
 
 public class Bus11856Test extends DevTestSetup {
@@ -48,7 +43,7 @@ public class Bus11856Test extends DevTestSetup {
 	public void testCase1() throws Exception {
         long starttime = System.currentTimeMillis() ;
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 //  		for(int i = 0; i < 10; i++) {
   			SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
   	  		System.out.println("End loading data ...");
@@ -79,7 +74,7 @@ public class Bus11856Test extends DevTestSetup {
 //	public void testZiiCase() throws Exception {
 //        long starttime = System.currentTimeMillis() ;
 //  		System.out.println("Start loading data ...");
-//		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+//		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 //		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
 //  		System.out.println("End loading data ...");
 //  		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);

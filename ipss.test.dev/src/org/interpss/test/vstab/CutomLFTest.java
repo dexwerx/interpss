@@ -6,7 +6,7 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class CutomLFTest extends DevTestSetup {
 	public void testCase1() throws InterpssException{
 		IODMAdapter adapter= new IeeeCDFAdapter();
 		assertTrue(adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee"));// error with 005ieee.ieee
-		AclfNetwork net=PluginSpringCtx
+		AclfNetwork net=PluginSpringFactory
 		                .getOdm2AclfMapper()
 		                .map2Model((AclfModelParser)adapter.getModel())
 		                .getAclfNet();

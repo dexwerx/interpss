@@ -17,7 +17,7 @@ import org.interpss.test.DevTestSetup;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 

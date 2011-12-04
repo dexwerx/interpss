@@ -32,10 +32,11 @@ import java.io.FileInputStream;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.acsc.fault.SimpleFaultType;
 import com.interpss.core.algo.LoadflowAlgorithm;
@@ -45,7 +46,6 @@ import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class DStab_Ipss5BusTest extends DevTestSetup { 		
 	@Test

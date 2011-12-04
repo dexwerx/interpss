@@ -10,7 +10,7 @@ import org.interpss.vstab.cpf.impl.LambdaParam;
 import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.util.sample.SampleCases;

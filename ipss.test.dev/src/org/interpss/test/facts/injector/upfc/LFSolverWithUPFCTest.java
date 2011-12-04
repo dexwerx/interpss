@@ -1,19 +1,19 @@
 package org.interpss.test.facts.injector.upfc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.injector.upfc.LFSolverWithUPFC;
 import org.interpss.facts.injector.upfc.UPFCControlType;
 import org.interpss.facts.injector.upfc.UPFCLF;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
@@ -51,7 +51,7 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
 	
 	@Test
 	public void testConstPQIEEE14() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		AclfNetwork net = simuCtx.getAclfNet();
 		

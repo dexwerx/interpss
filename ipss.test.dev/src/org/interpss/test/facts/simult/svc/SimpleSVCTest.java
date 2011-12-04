@@ -6,11 +6,11 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.general.SVCControlType;
 import org.interpss.facts.simult.svc.SVCSimultLF;
 import org.interpss.facts.simult.svc.SVCSimultSolver;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;

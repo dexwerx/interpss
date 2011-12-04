@@ -34,12 +34,12 @@ import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class DStabSample_2AreaTest extends DevTestSetup { 
 	@Test

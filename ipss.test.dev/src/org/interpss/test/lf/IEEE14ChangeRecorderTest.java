@@ -4,12 +4,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfNetwork;
@@ -22,7 +22,7 @@ import com.interpss.simu.SimuContext;
 public class IEEE14ChangeRecorderTest  extends DevTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -38,7 +38,7 @@ public class IEEE14ChangeRecorderTest  extends DevTestSetup {
   		assertTrue(algo.loadflow());
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
 		SwingBusAdapter swing = swingBus.toSwingBus();
-		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+		//System.out.println(ComplexFunc.toString(swing.getGenResults(Type.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
   		
@@ -60,7 +60,7 @@ public class IEEE14ChangeRecorderTest  extends DevTestSetup {
   		assertTrue(algo.loadflow());
   		swingBus = (AclfBus)net.getBus("0001");
 		swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
+		//System.out.println(ComplexFunc.toString(swing.getGenResults(Type.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32394)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.20674)<0.0001);
 	}			

@@ -2,29 +2,12 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.datatype.LimitType;
 import org.interpss.test.DevTestSetup;
-import org.interpss.test.vstab.TestCaseFactory;
-import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
-import org.interpss.vstab.cpf.GenDispPattern;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
-import org.interpss.vstab.cpf.GenDispPattern.Pattern;
-import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
-import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
-import org.interpss.vstab.cpf.impl.GenDispatch;
-import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.interpss.vstab.util.VstabFuncOut;
 import org.junit.Test;
-
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.net.Bus;
-import com.interpss.simu.SimuContext;
 
 public class CpfSolverTest extends DevTestSetup {
 

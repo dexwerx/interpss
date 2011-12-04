@@ -1,13 +1,13 @@
 package org.interpss.test.lf;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
@@ -17,7 +17,7 @@ public class IEEE14Test extends DevTestSetup {
 
 	@Test
 	public void test() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee14a.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);

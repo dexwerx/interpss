@@ -12,10 +12,10 @@ import org.interpss.numeric.util.TestUtilFunc;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
+import com.interpss.SimuObjectFactory;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.SimuObjectFactory;
 
 public class Acsc_5BusTest extends DevTestSetup { 
 	@Test

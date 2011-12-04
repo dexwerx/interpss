@@ -1,16 +1,16 @@
 package org.interpss.test.facts.statcom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.facts.statcom.LFSolverWithStatcom;
 import org.interpss.facts.statcom.StatcomControlType;
 import org.interpss.facts.statcom.StatcomLF;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
