@@ -32,11 +32,12 @@ import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
+import org.interpss.numeric.sparse.base.SparseEquation;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class InterPSS {
 	/*
@@ -69,12 +70,12 @@ public class InterPSS {
 						"springframework.config.editor" : "springframework.config.cmdline"));
 		*/
 		//CoreCommonSpringCtx.springAppContextSetup();
-		if (CoreCommonSpringCtx.SpringAppCtx == null) {
-			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
+		if (CoreCommonSpringFactory.SpringAppCtx == null) {
+			CoreCommonSpringFactory.SpringAppCtx = new ClassPathXmlApplicationContext(
 					new String[] {
 							"org/interpss/spring/GEditorSpringCtx.xml"});
 		}
-		
+		IpssPlugin.setSparseEqnSolver(SparseEquation.SolverType.Native);
 		
 		// load app constants stored in the properties files
 		loadAppConstants();

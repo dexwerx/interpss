@@ -50,7 +50,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class CmdLineRunner {
 	private static SimuRunEnum runType = SimuRunEnum.NotDefined;
@@ -118,7 +118,7 @@ public class CmdLineRunner {
 	}
 
 	private static boolean runStudyCase(SimuContext simuCtx, String runTypeStr, String xmlControlFile) {
-		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 		if (xmlControlFile != null && !xmlControlFile.equals("")) {
 			IpssLogger.getLogger().info("Run CmdLine using xml control file, " + xmlControlFile);
 		
