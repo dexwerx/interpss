@@ -7,7 +7,7 @@ import java.io.File;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.AnalysisRunDataType;
@@ -49,10 +49,10 @@ public class UserStephenCaseTest extends PluginTestSetup {
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	if (aclfCase.getModification() != null)
-		  		PluginSpringCtx.getModXml2NetMapper()
+		  		PluginSpringFactory.getModXml2NetMapper()
 		  				.map2Model(aclfCase.getModification(), net);
 		  	
-		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+		  	PluginSpringFactory.getXml2LfAlgorithmMapper()
 		  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.loadflow());
@@ -101,12 +101,12 @@ public class UserStephenCaseTest extends PluginTestSetup {
 		  	//IpssMapper mapper = new IpssXmlMapper();
 
 		  	if (aclfCase.getModification() != null)
-		  		PluginSpringCtx.getModXml2NetMapper()
+		  		PluginSpringFactory.getModXml2NetMapper()
 		  				.map2Model(aclfCase.getModification(), net);
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	
-		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+		  	PluginSpringFactory.getXml2LfAlgorithmMapper()
 		  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  		
 		  	algo.setNonDivergent(true);

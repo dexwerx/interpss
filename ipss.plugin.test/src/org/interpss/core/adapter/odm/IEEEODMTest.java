@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -42,7 +42,7 @@ import com.interpss.simu.SimuContext;
 public class IEEEODMTest extends PluginTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("odm");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("odm");
 		SimuContext simuCtx = adapter.load("testData/ieee_odm/ieee14Bus.xml");
 
 		AclfNetwork net = simuCtx.getAclfNet();

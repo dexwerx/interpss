@@ -32,7 +32,7 @@ import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.PluginTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -48,7 +48,7 @@ public class RoseHulman_UserTestCases extends PluginTestSetup {
 		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/v30/HEonly_with_loads_added_for_interconnects3.raw"));		
 		
-		AclfNetwork net = PluginSpringCtx
+		AclfNetwork net = PluginSpringFactory
 				.getOdm2AclfMapper()
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();		

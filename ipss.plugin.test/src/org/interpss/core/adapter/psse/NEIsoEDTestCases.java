@@ -26,7 +26,7 @@ package org.interpss.core.adapter.psse;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -38,7 +38,7 @@ import com.interpss.simu.SimuContext;
 public class NEIsoEDTestCases extends PluginTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("psse");
 		//SimuContext simuCtx = adapter.load("testData/psse/test_model_V29.raw", SpringAppContext.getIpssMsgHub());
 		SimuContext simuCtx = adapter.load("testData/psse/test_model_V30.raw");
   		//System.out.println(simuCtx.getAclfNet().net2String());

@@ -41,16 +41,16 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreSimuSpringCtx;
-import com.interpss.spring.CoreSpringCtx;
+import com.interpss.spring.CoreSimuSpringFactory;
+import com.interpss.spring.CoreSpringFactory;
 
 public class SimuAppCtxTest extends PluginTestSetup {
 	
 	@Test
 	public void testSimuCtxAclf() {
-		SimuContext simuCtx = CoreSimuSpringCtx.getSimuContextTypeAclf();
+		SimuContext simuCtx = CoreSimuSpringFactory.getSimuContextTypeAclf();
 		SampleCases.load_LF_5BusSystem(simuCtx.getAclfNet());
-		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringFactory.getLoadflowAlgorithm());
 		simuCtx.getLoadflowAlgorithm().setAclfNetwork(simuCtx.getAclfNet());
 		//System.out.println(net.net2String());
 
@@ -69,9 +69,9 @@ public class SimuAppCtxTest extends PluginTestSetup {
 
 	@Test
 	public void testSimuCtxAcsc() {
-		SimuContext simuCtx = CoreSimuSpringCtx.getSimuContextTypeAcscNet();
+		SimuContext simuCtx = CoreSimuSpringFactory.getSimuContextTypeAcscNet();
 		SampleCases.load_SC_5BusSystem(simuCtx.getAcscNet());
-		simuCtx.setSimpleFaultAlgorithm(CoreSpringCtx.getSimpleFaultAlgorithm());
+		simuCtx.setSimpleFaultAlgorithm(CoreSpringFactory.getSimpleFaultAlgorithm());
 		//System.out.println(simuCtx.getAcscFaultNet().net2String());
 
   		assertTrue((simuCtx.getAcscNet().getBusList().size() == 5 && 

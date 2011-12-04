@@ -34,7 +34,7 @@ import org.junit.BeforeClass;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class PluginTestSetup {
 	protected static IPSSMsgHub msg;
@@ -49,7 +49,7 @@ public class PluginTestSetup {
 	@BeforeClass
 	public static void setSpringAppCtx() {
 		IpssPlugin.init();
-		msg = CoreCommonSpringCtx.getIpssMsgHub();
+		msg = CoreCommonSpringFactory.getIpssMsgHub();
 		IpssAclf.setMsgHub(msg);
 	}
 }

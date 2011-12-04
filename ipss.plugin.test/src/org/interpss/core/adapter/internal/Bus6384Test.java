@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -43,7 +43,7 @@ public class Bus6384Test extends PluginTestSetup {
 		//IpssLogger.getLogger().setLevel(Level.INFO);
 		
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS6384.ipssdat");
   		System.out.println("End loading data ...");
 

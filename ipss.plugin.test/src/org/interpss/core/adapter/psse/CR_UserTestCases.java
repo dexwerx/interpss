@@ -31,7 +31,7 @@ import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -90,7 +90,7 @@ public class CR_UserTestCases extends PluginTestSetup {
 */	
 	//@Test
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("psse");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw");
 //  		System.out.println(simuCtx.getAclfNet().net2String());
 

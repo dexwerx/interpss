@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -43,8 +43,8 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 			AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
-			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
+			PluginSpringFactory.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
+			PluginSpringFactory.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 	  		
@@ -98,8 +98,8 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
-			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
+			PluginSpringFactory.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
+			PluginSpringFactory.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 	  		
@@ -137,8 +137,8 @@ public class ContingencyXmlCaseTest extends PluginTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-			PluginSpringCtx.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
-			PluginSpringCtx.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
+			PluginSpringFactory.getModXml2NetMapper().map2Model(aclfCase.getModification(), net);
+			PluginSpringFactory.getXml2LfAlgorithmMapper().map2Model(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo);
 		  	
 	  		assertTrue(algo.loadflow());
 			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9);

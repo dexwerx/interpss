@@ -40,14 +40,14 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class TestSetupBase extends PluginTestSetup {
 	protected IPSSMsgHub msg;
 	protected DStabilityNetwork net = null;
 
 	public TestSetupBase() { 
-		msg = CoreCommonSpringCtx.getIpssMsgHub();
+		msg = CoreCommonSpringFactory.getIpssMsgHub();
 	}
 
 	/**

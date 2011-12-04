@@ -30,7 +30,7 @@ import java.io.File;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.numeric.util.TestUtilFunc;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.AnalysisRunDataType;
@@ -59,7 +59,7 @@ public class AcscSchemaSampleCaseTest extends PluginTestSetup {
   		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 	  	//IpssMapper mapper = new IpssXmlMapper();
 	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCase()) {
-	  		PluginSpringCtx.getXml2ScAlgorithmMapper().map2Model(scase, algo);
+	  		PluginSpringFactory.getXml2ScAlgorithmMapper().map2Model(scase, algo);
 	  		AcscBusFault fault = algo.getFaultList().get(0);
 	  		algo.calculateBusFault((AcscBusFault)fault);
 	  			/*

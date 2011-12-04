@@ -21,7 +21,7 @@ import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 	@Test
@@ -35,7 +35,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunDataType.RUN_DCLF);
 		
-	  	IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
+	  	IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 	  	
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
 		assertTrue(algo.checkCondition());
@@ -73,7 +73,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
 		File xmlFile = new File("testData/xml/RunAreaTransferCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
-	  	IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
+	  	IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCase().get(0);
 		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysis()) {
 			for (BranchRecXmlType branch : atFactor.getBranch()) {

@@ -31,7 +31,7 @@ import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.sparse.SparseEqnComplex;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -48,7 +48,7 @@ public class Bus11856Test extends PluginTestSetup {
 	public void testCase1() throws Exception {
         long starttime = System.currentTimeMillis() ;
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 //  		for(int i = 0; i < 10; i++) {
   			SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
   	  		System.out.println("End loading data ...");
@@ -79,7 +79,7 @@ public class Bus11856Test extends PluginTestSetup {
 	public void testZiiCase() throws Exception {
         long starttime = System.currentTimeMillis() ;
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
   		System.out.println("End loading data ...");
   		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);

@@ -34,20 +34,20 @@ import org.junit.Test;
 import com.interpss.common.datatype.Constants;
 import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
-import com.interpss.spring.DStabSpringCtx;
+import com.interpss.spring.DStabSpringFactory;
 
 public class DStabControllerTest extends PluginTestSetup {
 	@Test
 	public void testSimuControllerList() {
-		List<MachineController> excList = DStabSpringCtx.getControllerList(Constants.SID_ExciterList);
+		List<MachineController> excList = DStabSpringFactory.getControllerList(Constants.SID_ExciterList);
 		assertTrue(excList.size() > 0);
 		assertTrue(SimuSpringAppCtxUtil.getExciter("Simple Exciter") != null);
 		
-		List<MachineController> govList = DStabSpringCtx.getControllerList(Constants.SID_GovernorList);
+		List<MachineController> govList = DStabSpringFactory.getControllerList(Constants.SID_GovernorList);
 		assertTrue(govList.size() > 0);
 		assertTrue(SimuSpringAppCtxUtil.getGovernor("Simple Governor") != null);
 
-		List<MachineController> pssList = DStabSpringCtx.getControllerList(Constants.SID_StabilizerList);
+		List<MachineController> pssList = DStabSpringFactory.getControllerList(Constants.SID_StabilizerList);
 		assertTrue(pssList.size() > 0);
 		assertTrue(SimuSpringAppCtxUtil.getStabilizer("Simple Stabilizer") != null);
 	}

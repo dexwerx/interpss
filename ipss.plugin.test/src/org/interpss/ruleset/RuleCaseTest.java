@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -145,7 +145,7 @@ public class RuleCaseTest extends PluginTestSetup {
 	  	AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		PluginSpringCtx.getXml2LfAlgorithmMapper()
+		PluginSpringFactory.getXml2LfAlgorithmMapper()
 				.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
   		assertTrue(algo.getMaxIterations() == 20);

@@ -49,14 +49,14 @@ import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class DStabTestSetupBase extends PluginTestSetup{
 	
 	protected IPSSMsgHub msg;
 
 	public DStabTestSetupBase() { 
-		msg = CoreCommonSpringCtx.getIpssMsgHub();
+		msg = CoreCommonSpringFactory.getIpssMsgHub();
 		IpssLogger.getLogger().setLevel(Level.WARNING);
  	}
 

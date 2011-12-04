@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginObjectFactory;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -62,7 +62,7 @@ public class UCTE2000CasesTest extends PluginTestSetup {
 
 	//@Test 
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/UCTE_2000_WinterPeak.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();

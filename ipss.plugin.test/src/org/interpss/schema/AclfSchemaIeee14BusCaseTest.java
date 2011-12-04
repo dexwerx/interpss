@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.interpss.PluginTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.AnalysisRunDataType;
@@ -45,7 +45,7 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	  		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-			PluginSpringCtx.getXml2LfAlgorithmMapper()
+			PluginSpringFactory.getXml2LfAlgorithmMapper()
 					.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
@@ -98,7 +98,7 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	
-		  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+		  	PluginSpringFactory.getXml2LfAlgorithmMapper()
 		  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
@@ -144,10 +144,10 @@ public class AclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
 	  	//IpssMapper mapper = new IpssXmlMapper();
-	  	PluginSpringCtx.getModXml2NetMapper()
+	  	PluginSpringFactory.getModXml2NetMapper()
 	  			.map2Model(aclfCase.getModification(), net);
 	  	
-	  	PluginSpringCtx.getXml2LfAlgorithmMapper()
+	  	PluginSpringFactory.getXml2LfAlgorithmMapper()
 	  			.map2Model(aclfCase.getAclfAlgorithm(), algo);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());

@@ -31,7 +31,7 @@ import java.io.File;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.junit.Test;
@@ -84,7 +84,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, 
 	  				new DatabaseSimuOutputHandler(), msg);
 		  	//IpssMapper mapper = new IpssXmlMapper();
-	  		PluginSpringCtx.getXml2DStabAlgorithmMapper().map2Model(scase, algo);
+	  		PluginSpringFactory.getXml2DStabAlgorithmMapper().map2Model(scase, algo);
 	  		//System.out.println(net.net2String());
 	  		
 	  		if (caseCnt == 1) {

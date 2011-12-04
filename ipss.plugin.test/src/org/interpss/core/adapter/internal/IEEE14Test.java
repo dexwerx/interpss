@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.interpss.PluginTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -46,7 +46,7 @@ public class IEEE14Test extends PluginTestSetup {
   		/*
   		 * Load the loadflow datafile into the application
   		 */
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		/*
@@ -83,7 +83,7 @@ public class IEEE14Test extends PluginTestSetup {
   		/*
   		 * Load the loadflow datafile into the application
   		 */
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		/*
@@ -122,7 +122,7 @@ public class IEEE14Test extends PluginTestSetup {
   		/*
   		 * Load the loadflow datafile into the application
   		 */
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		assertTrue(adapter.save("ieee14.ipssout", simuCtx));
 
