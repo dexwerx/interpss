@@ -70,8 +70,8 @@ public class AcscScenarioHelper {
 	 */
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
 		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT &&
-				sScenarioXml.getScenarioList().getScenarios() != null &&
-				sScenarioXml.getScenarioList().getScenarios().size() == 1){
+				sScenarioXml.getScenarioList().getScenario() != null &&
+				sScenarioXml.getScenarioList().getScenario().size() == 1){
 			// first we check if acsc analysis type, scenario is defined and only one scenario 
 			// is defined
 			AcscFaultAnalysisXmlType scAnalysisXml = new IpssScenarioHelper(sScenarioXml)
