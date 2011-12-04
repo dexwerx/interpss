@@ -46,7 +46,7 @@ import org.interpss.numeric.util.Number2String;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlBeanUtil;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class DummyFormContainer implements IGFormContainer {
 	private DummyNetForm gNetForm = null;
@@ -77,7 +77,7 @@ public class DummyFormContainer implements IGFormContainer {
 	public void setDataDirty(boolean b) {
 		dataDirty = b;
 		if (b) {
-			CoreCommonSpringCtx.getIpssMsgHub().sendMsg(new DataChangeMessage(DataChangeMessage.DataDirty));
+			CoreCommonSpringFactory.getIpssMsgHub().sendMsg(new DataChangeMessage(DataChangeMessage.DataDirty));
 		}
 	}
 

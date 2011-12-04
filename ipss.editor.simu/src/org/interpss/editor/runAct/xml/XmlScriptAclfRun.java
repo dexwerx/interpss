@@ -36,6 +36,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -56,7 +57,6 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XmlScriptAclfRun {
 	public static double DefaultUpperVoltageLimit = 1.2, DefaultLowerVoltageLimit = 0.8; 
@@ -72,7 +72,7 @@ public class XmlScriptAclfRun {
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet) {
 		RunAclfStudyCaseXmlType xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
 
@@ -144,7 +144,7 @@ public class XmlScriptAclfRun {
 						studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 					}
 				} catch (Exception e) {
-					CoreCommonSpringFactory.getEditorDialogUtil()
+					BasePluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 					return false;
@@ -166,7 +166,7 @@ public class XmlScriptAclfRun {
 							resultHandler.transferRemoteResult(mCaseContainer, result);
 					}
 				} catch (GridException e) {
-					CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+					BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
 					return false;
 				} 
 			}
@@ -196,7 +196,7 @@ public class XmlScriptAclfRun {
 				aclfNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 				aclfNet.rebuildLookupTable();
 			} catch (GridException e) {
-				CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
 				return false;
 			}
 		} else {

@@ -34,13 +34,13 @@ import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.output.BaseSimuDBRecord;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
  * Utility class for translate plot dialog selection strings to plot records
@@ -149,14 +149,14 @@ public class DStabPlotDialogRecord {
 						+ map.toString());
 
 		// retrieve rec from DB
-		ISimuRecManager simuRecManager = PluginSpringCtx.getSimuRecManager();
+		ISimuRecManager simuRecManager = PluginSpringFactory.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recTypeList,
 					elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 		}

@@ -37,7 +37,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -57,7 +57,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     public void init(Object netContainer, Object appCtx) {
 		IpssLogger.getLogger().info("NBScriptingCasePanel init() called");
 		customPluginComboBox.setModel(new DefaultComboBoxModel(
-				PluginSpringCtx.getCustomScriptRunPluginNameList()));
+				PluginSpringFactory.getCustomScriptRunPluginNameList()));
     }
 
     public void setCaseData(CaseData data) {
@@ -239,7 +239,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     private void displayXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayXmlButtonActionPerformed
     	String pluginName = (String)customPluginComboBox.getSelectedItem();
     	String scripts = scriptsTextArea.getText();
-		ICustomRunScriptPlugin adapter = PluginSpringCtx.getCustomScriptRunPlugin(pluginName);
+		ICustomRunScriptPlugin adapter = PluginSpringFactory.getCustomScriptRunPlugin(pluginName);
 		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS, scripts);
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("InterPSS Xml Docuement");
 		dialog.display(ipssXmlDoc.toString());		

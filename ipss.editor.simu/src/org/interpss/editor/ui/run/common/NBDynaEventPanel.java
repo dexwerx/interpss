@@ -31,6 +31,7 @@ import javax.swing.JDialog;
 import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
@@ -40,7 +41,6 @@ import org.interpss.xml.schema.DynamicEventDataXmlType;
 import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -394,12 +394,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		Vector<String> errMsg = new Vector<String>();
 		try {
 			if (!saveEditor2Form(errMsg)) {
-				CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
+				BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
         		return;
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
        		return;
 		}
 		// event name may be modified, refresh the event list

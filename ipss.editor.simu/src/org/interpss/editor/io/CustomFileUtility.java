@@ -25,11 +25,11 @@
 package org.interpss.editor.io;
 
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {
@@ -40,7 +40,7 @@ public class CustomFileUtility {
 		 * assumption adapter type is uniquely identified by file extension
 		 */
 		
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter(ext);
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter(ext);
 		
 		if (adapter == null) {
 			IpssLogger.getLogger().severe(
@@ -60,14 +60,14 @@ public class CustomFileUtility {
 			else 
 				adapter.load(simuCtx, filepath, false, null);
 		} catch (Exception e) {
-			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"Custom Data File Loading Error", e.toString());
 			IpssLogger.logErr(e);
 			return false;
 		}
 
 		if (simuCtx != null && !simuCtx.checkData()) {
-			boolean b = CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialogWithOptions(
+			boolean b = BasePluginSpringFactory.getEditorDialogUtil().showMsgDialogWithOptions(
 					"Network Loadflow Data Error",
 					"Please see the message list for details, Do you want to run the study case?");
 			if (b)

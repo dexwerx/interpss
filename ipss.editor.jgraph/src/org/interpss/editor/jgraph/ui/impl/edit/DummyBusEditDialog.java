@@ -31,13 +31,13 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBusForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.spring.CoreCommonSpringCtx;
   
 
 public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
@@ -306,7 +306,7 @@ public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDat
 		try {
         	if (!saveEditor2Form(errMsg)) {
         		IpssLogger.getLogger().info("Bus Input Data Error" + errMsg.toString());
-        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Bus Input Data Error", errMsg);
+        		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Bus Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {

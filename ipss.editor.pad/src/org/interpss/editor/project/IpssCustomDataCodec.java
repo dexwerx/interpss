@@ -10,7 +10,7 @@ import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class IpssCustomDataCodec {
 	private static IpssCustomDataCodec _instance;
@@ -75,7 +75,7 @@ public class IpssCustomDataCodec {
 		}
 		else {
 			appSimuContext.setSimuCtx(null);
-			CoreCommonSpringCtx.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + abpath);
+			CoreCommonSpringFactory.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + abpath);
 		}
 		return appSimuContext;
 	}

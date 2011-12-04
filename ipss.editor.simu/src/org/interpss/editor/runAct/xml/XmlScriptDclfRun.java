@@ -27,7 +27,7 @@ package org.interpss.editor.runAct.xml;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.schema.BusRecXmlType;
 import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
@@ -72,7 +72,7 @@ public class XmlScriptDclfRun {
 			
 			for ( DclfStudyCaseXmlType xmlCase : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCase()) {
 				if (xmlCase.getModification() != null) {
-					PluginSpringCtx.getModXml2NetMapper()
+					PluginSpringFactory.getModXml2NetMapper()
 							.map2Model(xmlCase.getModification(), aclfNet);
 				}
 

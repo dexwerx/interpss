@@ -34,6 +34,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -47,7 +48,6 @@ import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XmlScriptContingency {
 	public static long GridgainTimeout = 0; 
@@ -62,14 +62,14 @@ public class XmlScriptContingency {
 	 */
 	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet) {
 		if (!GridEnvHelper.isGridEnabled()) {
-			CoreCommonSpringFactory.getEditorDialogUtil().showWarnMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
 			return false;
 		}
 
 		ContingencyAnalysisXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis();
 		if (xmlRunCase == null) {
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
@@ -121,10 +121,10 @@ public class XmlScriptContingency {
 					resultHandler.transferRemoteResult(mCaseContainer, result);
 				}
 			} catch (GridException e) {
-				CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
 				return false;
 			} catch (Exception e) {
-				CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
+				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
 				return false;
 			}
 		}

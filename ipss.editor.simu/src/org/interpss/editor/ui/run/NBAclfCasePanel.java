@@ -37,6 +37,7 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
@@ -56,7 +57,6 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
 	private static final long serialVersionUID = 1;
@@ -1078,7 +1078,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	accFactorTextField.setEnabled(false);
     	accFactorLabel.setEnabled(false);
     	if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
-    		CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Warning",
+    		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Warning",
                 "You have branch(es) R > X in your next work, PQ method may diverge. Use NR is recommended");
     	}
     }//GEN-LAST:event_pqRadioButtonActionPerformed

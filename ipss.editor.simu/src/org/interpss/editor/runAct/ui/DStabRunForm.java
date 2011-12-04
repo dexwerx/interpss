@@ -33,7 +33,8 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.numeric.util.StringHelper;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
@@ -43,7 +44,6 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringFactory;
 import com.interpss.spring.CoreSpringFactory;
 import com.interpss.spring.DStabSpringFactory;
 
@@ -210,7 +210,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// make sure net.id defined here. It has to be unique if run multiple grid runs
 			String caseId = "DStabNetId";
 			net.setId(caseId);
-			PluginSpringCtx.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
+			PluginSpringFactory.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			RemoteMessageTable result = new GridRunner(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm()).executeSingleJobTask(timeout);
@@ -220,7 +220,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			net.initialization();
 			return result.getReturnStatus();
 		} catch (GridException e) {
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
 			return false;
 		}
@@ -239,7 +239,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
-		PluginSpringCtx.getXml2DStabAlgorithmMapper()
+		PluginSpringFactory.getXml2DStabAlgorithmMapper()
 				.map2Model(this.getXmlCaseData(), simuCtx.getDynSimuAlgorithm());
 
 		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm());

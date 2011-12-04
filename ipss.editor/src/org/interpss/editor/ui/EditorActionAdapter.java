@@ -47,6 +47,7 @@ import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.jgraph.JGraph;
 
 import com.interpss.DStabObjectFactory;
@@ -128,7 +129,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -159,7 +160,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -189,7 +190,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 

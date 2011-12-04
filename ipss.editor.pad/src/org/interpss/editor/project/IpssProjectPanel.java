@@ -37,10 +37,10 @@ import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
 
 public class IpssProjectPanel extends JPanel {
 
@@ -94,7 +94,7 @@ public class IpssProjectPanel extends JPanel {
 		icons.put("txt", IpssIconFactory.ICON_TEXT);
 		icons.put("ipssrpt", IpssIconFactory.ICON_REPORT);
 
-		List adapterList = PluginSpringCtx.getCustomFileAdapterList();
+		List adapterList = PluginSpringFactory.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			icons.put(adapter.getExtension(), IpssIconFactory.ICON_CUS);
@@ -325,7 +325,7 @@ public class IpssProjectPanel extends JPanel {
 				addNewAllProject(project);
 				EditorSpringCtx.getAppContext().addProject(project);
 			} catch (Exception ex) {
-				CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+				BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"InterPSS Project '" + projectname + "' Open Error",
 						ex.toString());
 				ex.printStackTrace();
@@ -490,7 +490,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringCtx
+					|| (Utilities.haveExt(PluginSpringFactory
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;
@@ -513,7 +513,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringCtx
+					|| (Utilities.haveExt(PluginSpringFactory
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;

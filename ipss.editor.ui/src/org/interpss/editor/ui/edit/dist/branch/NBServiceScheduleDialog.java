@@ -33,10 +33,10 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.ui.WinUtilities;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
  
 public class NBServiceScheduleDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;
@@ -329,13 +329,13 @@ public class NBServiceScheduleDialog extends javax.swing.JDialog implements IFor
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Service Schedule Data Error", errMsg);
+        		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Service Schedule Data Error", errMsg);
         		IpssLogger.getLogger().info("Service Schedule  Data Error" + errMsg.toString());
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Service Schedule  Data Error", e.toString());
+      		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Service Schedule  Data Error", e.toString());
 			return;
         }	
         setVisible(false);

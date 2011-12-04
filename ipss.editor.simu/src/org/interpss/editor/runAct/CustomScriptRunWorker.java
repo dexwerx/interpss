@@ -26,7 +26,7 @@ package org.interpss.editor.runAct;
 
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.runAct.xml.XmlScriptContingency;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.InterPSSXmlType;
 
@@ -43,7 +43,7 @@ public class CustomScriptRunWorker {
 	 */
 	public static boolean runCase(String scripts, String pluginName, SimuContext simuCtx) {
 		// create a custom script run adapter based on the plugin name
-		ICustomRunScriptPlugin adapter = PluginSpringCtx.getCustomScriptRunPlugin(pluginName);
+		ICustomRunScriptPlugin adapter = PluginSpringFactory.getCustomScriptRunPlugin(pluginName);
 		
 		// run Aclf using the xml document
 		//InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunType.RUN_ACLF, scripts, simuCtx.getMsgHub());

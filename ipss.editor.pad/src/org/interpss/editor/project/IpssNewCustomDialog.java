@@ -27,7 +27,7 @@ import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.NamedInputStream;
 import org.interpss.editor.util.Utilities;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 
 public class IpssNewCustomDialog extends javax.swing.JDialog {
 	private String docName;
@@ -147,7 +147,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 			return null;
 		}
 
-		return PluginSpringCtx.getCustomFileAdapterByName(adapterName.toString());
+		return PluginSpringFactory.getCustomFileAdapterByName(adapterName.toString());
 	}
 
 	private void setVersionComboBoxData() {
@@ -492,7 +492,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		cancelButton.setText("Cancel");
 
 		adapterComboBox.setModel(new DefaultComboBoxModel(
-				PluginSpringCtx.getCustomFileAdapterNameList()));
+				PluginSpringFactory.getCustomFileAdapterNameList()));
 		setVersionComboBoxData();
 
 	}

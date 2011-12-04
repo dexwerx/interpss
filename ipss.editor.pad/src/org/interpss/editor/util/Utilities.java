@@ -60,7 +60,8 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.resources.Translator;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellViewFactory;
@@ -69,7 +70,7 @@ import org.jgraph.graph.GraphModel;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
  * Utility methods. A utility method is characterized as a method which is of
@@ -319,7 +320,7 @@ public final class Utilities {
 			file = new GPGraphpadFile(new GraphLayoutCache(model, cellViewFactory));
 
 		} catch (Exception e ) {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Graphic File Open Error", e.toString());
 			e.printStackTrace();
 		}
@@ -337,7 +338,7 @@ public final class Utilities {
 //		file.setModified(false);
 //		file.setFilePathName(filepath);
 		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
-		CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("Text File:" + filepath);
+		CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Text File:" + filepath);
 		
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Text File loaded, " + filepath);
 		return file;
@@ -353,7 +354,7 @@ public final class Utilities {
 //		file.setModified(false);
 //		file.setFilePathName(filepath);
 		//graphpad.setStatus("Report loaded, File:" + filepath); no need anymore
-		CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("Report File:" + filepath);
+		CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Report File:" + filepath);
 		
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Report file loaded, " + filepath);
 		return file;
@@ -369,7 +370,7 @@ public final class Utilities {
 
 		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath, version);
 		if (appSimuContext == null) {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
 			return null;
 		} else {
 			file.setSimuAppContext(appSimuContext);
@@ -380,7 +381,7 @@ public final class Utilities {
 			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
 			file.setFilePathName(abpath);
 			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
-			CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);
+			CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);
 		}
 
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
@@ -397,7 +398,7 @@ public final class Utilities {
 //		file.setModified(false);
 //		file.setFilePathName(filepath);
 		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
-		CoreCommonSpringCtx.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
+		CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
 		
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("XML File loaded, " + filepath);
 		return file;
@@ -408,7 +409,7 @@ public final class Utilities {
 	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
 		IpssLogger.getLogger().info("Load project data from DB ...");
 		IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		IProjectDataManager projManager = PluginSpringCtx
+		IProjectDataManager projManager = PluginSpringFactory
 				.getProjectDataDBManager();
 		projManager.loadProjectDataFromDB(item.getProjDbId(), item
 				.getName(), item.getFileNameNoExt(), appSimuContext);

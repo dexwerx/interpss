@@ -28,7 +28,7 @@ import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.jgraph.JGraph;
 
 import com.interpss.common.util.IpssLogger;
@@ -108,7 +108,7 @@ public class SimuActionAdapter {
 	}
 
 	public static void menu_tools_debug_refData() {
-		String str = PluginSpringCtx.getRefDataManager().toString();
+		String str = PluginSpringFactory.getRefDataManager().toString();
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Reference Data");
   		dialog.display(str);		
 	}

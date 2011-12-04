@@ -34,6 +34,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
@@ -57,7 +58,6 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
@@ -239,7 +239,7 @@ public class RunActUtilFunc {
 				return null;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to Create DB SimuRecord",
 					e.toString() + "\nPlease contact InterPSS support");
 		}

@@ -32,7 +32,7 @@ import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
 
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ProjectFileUtil {
 	public static String StdRunStudyCase_Aclf = "RunStudyCaseStdAclf.xml";
@@ -81,7 +81,7 @@ public class ProjectFileUtil {
 			try {
 				file.createNewFile();
 			} catch (Exception e) {
-				CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg("Cannot create DStab Scripting file: " + filepath);
+				CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg("Cannot create DStab Scripting file: " + filepath);
 				return null;
 			}
 			IpssTextFile ipssFile = new IpssTextFile(filepath);

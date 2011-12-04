@@ -32,9 +32,9 @@ import org.interpss.ui.IScriptPluginEditing;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
-public class UISpringAppContext extends CoreCommonSpringCtx {
+public class UISpringAppContext extends CoreCommonSpringFactory {
 	public static int BrowserDialog_TextRows = 30;
 	public static int BrowserDialog_TextColumns = 130;
 	

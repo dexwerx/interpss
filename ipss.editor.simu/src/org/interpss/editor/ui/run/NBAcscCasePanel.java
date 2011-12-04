@@ -33,13 +33,13 @@ import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.AcscFaultDataType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.BusAcscInitVoltDataType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -279,7 +279,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	        this.mFactorTextField.setEnabled(false);
 		}
 		else {
-			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
+			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
 					"Loadflow not run yet. Please run load flow analysis first");
 	        this.mFactorLabel.setEnabled(true);
 	        this.mFactorTextField.setEnabled(true);

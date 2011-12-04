@@ -33,9 +33,9 @@ import org.interpss.ui.IProjectDataManager;
 import org.interpss.ui.IRefDataManager;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
-public class EditorSpringCtx extends CoreCommonSpringCtx {
+public class EditorSpringCtx extends CoreCommonSpringFactory {
 	/**
 	 * Get the GEditor(singleton) from the SpringAppContext.
 	 */

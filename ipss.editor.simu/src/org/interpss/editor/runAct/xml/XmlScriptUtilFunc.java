@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.RuleBaseXmlType;
@@ -57,10 +57,10 @@ public class XmlScriptUtilFunc {
 			xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 		}
 		if (xmlCase.getModification() != null && !remoteJobCreation)
-			PluginSpringCtx.getModXml2NetMapper()
+			PluginSpringFactory.getModXml2NetMapper()
 				.map2Model(xmlCase.getModification(), algo.getAclfNetwork());
 		
-		PluginSpringCtx.getXml2LfAlgorithmMapper()
+		PluginSpringFactory.getXml2LfAlgorithmMapper()
 				.map2Model(xmlCase.getAclfAlgorithm(), algo);
 		
 		return true;

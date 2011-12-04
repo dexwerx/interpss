@@ -16,7 +16,7 @@ import org.interpss.editor.ui.edit.NBBranchEditDialog;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
 
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class CellEditorFactory {
 	public final static byte EditorType_Normal = 0,
@@ -38,7 +38,7 @@ public class CellEditorFactory {
 		case EditorType_Normal:
 			if ((obj instanceof BusCell) || (obj instanceof GBusForm)) {
 				NBBusEditDialog busEditor = new NBBusEditDialog(parentFrame,
-						CoreCommonSpringCtx.getIpssMsgHub());
+						CoreCommonSpringFactory.getIpssMsgHub());
 
 				if (obj instanceof BusCell) {
 					// This is called when a new bus is added
@@ -53,7 +53,7 @@ public class CellEditorFactory {
 			} else if ((obj instanceof BranchEdge)
 					|| (obj instanceof GBranchForm)) {
 				NBBranchEditDialog branchEditor = new NBBranchEditDialog(
-						parentFrame, CoreCommonSpringCtx.getIpssMsgHub());
+						parentFrame, CoreCommonSpringFactory.getIpssMsgHub());
 				if (obj instanceof BranchEdge) {
 					GBranchForm form = (GBranchForm) (((BranchEdge) obj)
 							.getUserObject());
@@ -64,7 +64,7 @@ public class CellEditorFactory {
 				return branchEditor;
 			} else if (obj == null) { // this is the case of NetEditor
 				NBProjectEditDialog netEditor = new NBProjectEditDialog(
-						parentFrame, CoreCommonSpringCtx.getIpssMsgHub());
+						parentFrame, CoreCommonSpringFactory.getIpssMsgHub());
 				netEditor.init(doc.getGFormContainer(), doc.getProjData());
 				return netEditor;
 			}

@@ -34,7 +34,7 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.util.FileUtil;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class GUIFileUtil {
 	/**
@@ -59,7 +59,7 @@ public class GUIFileUtil {
 	    		  try {
 	    			  reader.close();
 	    		  } catch (IOException x) {
-	  				  CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg("Cannot close file: " + filename);
+	  				  CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg("Cannot close file: " + filename);
 	    		  }
 	    	  }
 	      }		

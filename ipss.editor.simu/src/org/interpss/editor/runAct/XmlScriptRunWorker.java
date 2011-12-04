@@ -32,14 +32,14 @@ import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XmlScriptRunWorker {
 	/**
@@ -58,14 +58,14 @@ public class XmlScriptRunWorker {
 			parser = new IpssXmlParser(scripts);
 		} catch (JAXBException e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", e.toString());
 			return false;
 		}
 
 		// Apply the modification to the base Network object
 		if (parser.getModification() != null) {
-			PluginSpringCtx.getModXml2NetMapper()
+			PluginSpringFactory.getModXml2NetMapper()
 					.map2Model(parser.getModification(), simuCtx.getNetwork());
 		}
 		

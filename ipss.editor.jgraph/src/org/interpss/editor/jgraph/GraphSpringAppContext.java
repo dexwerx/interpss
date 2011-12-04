@@ -39,9 +39,9 @@ import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
-public class GraphSpringAppContext extends CoreCommonSpringCtx {
+public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	public static int EditorType_FindDistObject = 1,
 	 				  EditorType_FindTransObject = 2;
 	/**

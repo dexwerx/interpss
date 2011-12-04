@@ -36,7 +36,8 @@ import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 import org.interpss.xml.schema.RunDStabStudyCaseXmlType;
@@ -54,7 +55,6 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.dstab.DStabStudyCase;
-import com.interpss.spring.CoreCommonSpringFactory;
 import com.interpss.spring.CoreSpringFactory;
 
 public class XmlScriptDStabRun {
@@ -108,7 +108,7 @@ public class XmlScriptDStabRun {
 					xmlCase = xmlDefaultCase;
 				}
 				if (xmlCase.getModification() != null) {
-					PluginSpringCtx.getModXml2NetMapper()
+					PluginSpringFactory.getModXml2NetMapper()
 							.map2Model(xmlCase.getModification(), dstabNet);
 				}
 				if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
@@ -146,7 +146,7 @@ public class XmlScriptDStabRun {
 						simuCtx.setDStabilityNet(dstabNet);
 						return result.getReturnStatus();
 					} catch (GridException e) {
-						CoreCommonSpringFactory.getEditorDialogUtil()
+						BasePluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -157,7 +157,7 @@ public class XmlScriptDStabRun {
 			} else {
 				// Multi-DStab run case
 				appSimuCtx.setLastRunType(SimuRunEnum.ScriptsMultiCase);
-				PluginSpringCtx.getSimuRecManager().clearDbCaseIdLookup();
+				PluginSpringFactory.getSimuRecManager().clearDbCaseIdLookup();
 				
 				DStabGridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
@@ -190,7 +190,7 @@ public class XmlScriptDStabRun {
 						xmlCase = xmlDefaultCase;
 					}
 					if (xmlCase.getModification() != null) {
-						PluginSpringCtx.getModXml2NetMapper()
+						PluginSpringFactory.getModXml2NetMapper()
 								.map2Model(xmlCase.getModification(), dstabNet);
 					}
 					if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
@@ -223,7 +223,7 @@ public class XmlScriptDStabRun {
 							studyCase.setDesc("DStab by Local Node");
 						}
 					} catch (Exception e) {
-						CoreCommonSpringFactory.getEditorDialogUtil()
+						BasePluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 						return false;
@@ -239,7 +239,7 @@ public class XmlScriptDStabRun {
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {
-								CoreCommonSpringFactory
+								BasePluginSpringFactory
 										.getEditorDialogUtil()
 										.showWarnMsgDialog("Grid DStab Error",
 												"Please check InterPSS log file for details");
@@ -247,7 +247,7 @@ public class XmlScriptDStabRun {
 							}
 						}
 					} catch (GridException e) {
-						CoreCommonSpringFactory.getEditorDialogUtil()
+						BasePluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -259,7 +259,7 @@ public class XmlScriptDStabRun {
 				simuCtx.setDStabilityNet(dstabNet);
 			}
 		} else {
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runDStabStudyCase element not defined");
 			return false;
 		}
@@ -270,7 +270,7 @@ public class XmlScriptDStabRun {
 			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
-		PluginSpringCtx.getXml2DStabAlgorithmMapper()
+		PluginSpringFactory.getXml2DStabAlgorithmMapper()
 				.map2Model(dstabCase, dstabAlgo);
 		
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo))
@@ -290,7 +290,7 @@ public class XmlScriptDStabRun {
 		
 		// correlate net.id, case.id and dbCaseId
 		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
-		PluginSpringCtx.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
+		PluginSpringFactory.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
 				.getDBCaseId());
 
 		// transfer output variable filter info to the DStabAlgo object, which
