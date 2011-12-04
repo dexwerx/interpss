@@ -1,5 +1,5 @@
 /*
- * @(#)NumericSpringCtx.java   
+ * @(#)NumericSpringFactory.java   
  *
  * Copyright (C) 2006-2011 www.interpss.org
  *
