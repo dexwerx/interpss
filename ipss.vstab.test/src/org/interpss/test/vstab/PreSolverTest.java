@@ -15,7 +15,7 @@ import org.interpss.vstab.cpf.impl.LoadIncrease;
 import org.interpss.vstab.cpf.impl.PredictorStepSolver;
 import org.junit.Test;
 
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;

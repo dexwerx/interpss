@@ -2,9 +2,8 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
@@ -25,7 +24,7 @@ import com.interpss.simu.SimuContext;
 public class Bus1824CpfTest extends VStabTestSetup{
 	@Test
 	public void testCase() throws Exception{
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS1824.ipssdat");
   		System.out.println("End loading data ...");
 

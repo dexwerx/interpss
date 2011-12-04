@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.display.AclfOutFunc;
 import org.interpss.test.VStabTestSetup;
-import org.interpss.test.vstab.TestCaseFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.CpfStopCriteria.AnalysisStopCriteria;
 import org.interpss.vstab.util.VstabFuncOut;

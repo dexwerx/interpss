@@ -27,13 +27,13 @@ package org.interpss.test.vstab;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginObjectFactory;
-import org.interpss.test.VStabTestSetup;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.test.VStabTestSetup;
 import org.junit.Test;
 
-import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
+import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
@@ -141,8 +141,8 @@ public class IEEECommonFormatTest extends VStabTestSetup {
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
-		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
+		//System.out.println(swing.getGenResults(Type.PU, net.getBaseKva()).re);
+		//System.out.println(swing.getGenResults(Type.PU, net.getBaseKva()).im);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-4.7942)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.2951)<0.0001);
   		
