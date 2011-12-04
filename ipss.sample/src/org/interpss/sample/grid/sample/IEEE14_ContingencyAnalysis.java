@@ -10,7 +10,7 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.sample.grid.impl.GridHelper;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
@@ -45,7 +45,7 @@ public class IEEE14_ContingencyAnalysis {
     	/*
     	 * step-1 Build the base case
     	 */
-		IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
 		AclfNetwork adjNet = simuCtx.getAclfNet();
 		adjNet.setId("IEEE14BusNetId");

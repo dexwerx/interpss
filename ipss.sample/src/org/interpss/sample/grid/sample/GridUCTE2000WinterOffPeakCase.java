@@ -9,7 +9,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -36,7 +36,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	    	CustomSingleLocalTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
 
 	    	try {
-				IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter("ieee");
+				IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext simuCtx = adapter.load("testData/UCTE_2000_WinterOffPeak.ieee");
 				AclfNetwork adjNet = simuCtx.getAclfNet();
 	    		adjNet.setId("SampleNetId");

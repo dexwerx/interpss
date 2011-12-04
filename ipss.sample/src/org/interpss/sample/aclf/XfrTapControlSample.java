@@ -45,12 +45,12 @@ import com.interpss.core.aclf.adpter.SwingBusAdapter;
 import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 
 public class XfrTapControlSample {
 	public static void main(String args[]) throws IpssNumericException, InterpssException {
-		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringFactory.setAppContext(Constants.SpringConfigPath_Plugin);
 		
 		AclfNetwork net = SampleCases.sample2BusXfr();
 		

@@ -39,12 +39,12 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 
 public class ZBusSample {
 	public static void main(String args[]) throws IpssNumericException {
-		CoreCommonSpringCtx.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringFactory.setAppContext(Constants.SpringConfigPath_Plugin);
 		
 		// set session message to Warning level
 		IPSSMsgHub msg = IpssAclf.getMsgHub();
