@@ -90,8 +90,8 @@ public class DStabScenarioHelper {
 	
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
 		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY &&
-				sScenarioXml.getScenarioList().getScenario() != null &&
-				sScenarioXml.getScenarioList().getScenario().size() == 1){
+				sScenarioXml.getScenarioList().getScenarios() != null &&
+				sScenarioXml.getScenarioList().getScenarios().size() == 1){
 			// first we check if dstab analysis type, scenario is defined and only one scenario 
 			// is defined
 			
