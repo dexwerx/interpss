@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import org.interpss.editor.SimuRunEnum;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.IIpssReport;
 import org.interpss.report.bean.RptMainTitleBean;
@@ -55,7 +55,7 @@ public class AcscFaultReport implements IIpssReport {
 		parameters.put("FaultSummarySubreportFilename", fnameSubFaultSummary);
 
 		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext
+			IAppSimuContext appSimuCtx = GraphSpringFactory
 					.getIpssGraphicEditor().getCurrentAppSimuContext();
 			SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
 			SimuCtxReportMapper mapper = new SimuCtxReportMapper();

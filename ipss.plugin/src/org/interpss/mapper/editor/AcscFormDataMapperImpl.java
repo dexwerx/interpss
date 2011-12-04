@@ -34,12 +34,12 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Unit;
 import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.util.MemoryJavaCompiler;
 
 import com.interpss.CoreObjectFactory;
@@ -193,7 +193,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 					return false;
 				}
 			} else {
-				Object plugin = UISpringAppContext
+				Object plugin = UISpringFactory
 						.getCustomAcscBusScriptPlugin(busData
 								.getScriptPluginName());
 				bus.setExtensionObject(plugin);
@@ -290,7 +290,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 					return false;
 				}
 			} else {
-				Object plugin = UISpringAppContext
+				Object plugin = UISpringFactory
 						.getCustomAcscBranchScriptPlugin(braData
 								.getScriptPluginName());
 				branch.setExtensionObject(plugin);

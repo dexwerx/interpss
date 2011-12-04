@@ -24,10 +24,6 @@
 
 package org.interpss.spring;
 
-import static com.interpss.common.datatype.Constants.SID_ProjectDataManager;
-import static com.interpss.common.datatype.Constants.SID_RefDataManager;
-import static com.interpss.common.datatype.Constants.SID_SimuRecManager;
-
 import org.interpss.output.ISimuRecManager;
 import org.interpss.ui.IProjectDataManager;
 import org.interpss.ui.IRefDataManager;
@@ -52,7 +48,7 @@ public class BasePluginSpringFactory extends CoreCommonSpringFactory {
 	 * @return the RefDataManager object
 	 */
 	public static ISimuRecManager getSimuRecManager() {
-		return (ISimuRecManager) SpringAppCtx.getBean(SID_SimuRecManager);
+		return (ISimuRecManager) SpringAppCtx.getBean("simuRecManager");
 	}
 	
 
@@ -62,7 +58,7 @@ public class BasePluginSpringFactory extends CoreCommonSpringFactory {
 	 * @return the RefDataManager object
 	 */
 	public static IRefDataManager getRefDataManager() {
-		return (IRefDataManager) SpringAppCtx.getBean(SID_RefDataManager);
+		return (IRefDataManager) SpringAppCtx.getBean("refDataManager");
 	}
 	
 	/**
@@ -72,6 +68,6 @@ public class BasePluginSpringFactory extends CoreCommonSpringFactory {
 	 */
 	public static IProjectDataManager getProjectDataDBManager() {
 		return (IProjectDataManager) SpringAppCtx
-				.getBean(SID_ProjectDataManager);
+				.getBean("pojectDataManager");
 	}	
 }

@@ -26,9 +26,9 @@ package org.interpss.dstab.device;
 
 import java.util.Hashtable;
 
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.IScriptPluginEditing;
 import org.interpss.util.MemoryJavaCompiler;
 
@@ -166,7 +166,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 			IpssLogger.getLogger().info(
 					"Create custom plugin: " + this.pluginName + " with data: "
 							+ this.pluginDataXmlStr);
-			device = (ScriptDynamicBusDevice) UISpringAppContext
+			device = (ScriptDynamicBusDevice) UISpringFactory
 					.getCustomDynamicBusDeviceScriptPlugin(this.pluginName);
 			((IScriptPluginEditing) device).setData(this.pluginDataXmlStr);
 		}

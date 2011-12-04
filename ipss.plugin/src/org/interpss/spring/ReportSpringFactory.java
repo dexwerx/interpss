@@ -22,12 +22,13 @@
  *
  */
 
-package org.interpss.report;
+package org.interpss.spring;
 
-import com.interpss.common.datatype.Constants;
+import org.interpss.report.IIpssReport;
+
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class SpringReportContext extends CoreCommonSpringFactory {
+public class ReportSpringFactory extends CoreCommonSpringFactory {
 	/**
 	 * Get the AclfSummaryReport(singleton) from the SpringReportContext.
 	 *  
@@ -35,7 +36,7 @@ public class SpringReportContext extends CoreCommonSpringFactory {
 	 */
 	public static IIpssReport getAclfSummaryReport() {
 		return (IIpssReport) SpringAppCtx
-				.getBean(Constants.SID_AclfSummaryReport);
+				.getBean("aclfSummaryReport");
 	}
 
 	/**
@@ -44,8 +45,7 @@ public class SpringReportContext extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAclfBusStyleReport() {
-		return (IIpssReport) SpringAppCtx
-				.getBean(Constants.SID_AclfBusStyleReport);
+		return (IIpssReport) SpringAppCtx.getBean("aclfBusStyleReport");
 	}
 
 	/**
@@ -54,8 +54,7 @@ public class SpringReportContext extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAcsc3PFaultReport() {
-		return (IIpssReport) SpringAppCtx
-				.getBean(Constants.SID_Acsc3PFaultReport);
+		return (IIpssReport) SpringAppCtx.getBean("acsc3PFaultReport");
 	}
 
 	/**
@@ -64,7 +63,6 @@ public class SpringReportContext extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAcscNSFaultReport() {
-		return (IIpssReport) SpringAppCtx
-				.getBean(Constants.SID_AcscNSFaultReport);
+		return (IIpssReport) SpringAppCtx.getBean("acscNSFaultReport");
 	}
 }

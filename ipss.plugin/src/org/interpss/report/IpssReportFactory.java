@@ -24,6 +24,8 @@
 
 package org.interpss.report;
 
+import org.interpss.spring.ReportSpringFactory;
+
 import net.sf.jasperreports.engine.JasperPrint;
 
 public class IpssReportFactory {
@@ -34,16 +36,16 @@ public class IpssReportFactory {
 
 	public static JasperPrint createReport(String rptType, String version) {
 		if (RPT_TYPE_ACLFSUMMARY.equals(rptType))
-			return SpringReportContext.getAclfSummaryReport().createReport(
+			return ReportSpringFactory.getAclfSummaryReport().createReport(
 					version);
 		else if (RPT_TYPE_ACLFBUSSTYLE.equals(rptType))
-			return SpringReportContext.getAclfBusStyleReport().createReport(
+			return ReportSpringFactory.getAclfBusStyleReport().createReport(
 					version);
 		else if (RPT_TYPE_ACSC3PFAULT.equals(rptType))
-			return SpringReportContext.getAcsc3PFaultReport().createReport(
+			return ReportSpringFactory.getAcsc3PFaultReport().createReport(
 					version);
 		else if (RPT_TYPE_ACSCNSFAULT.equals(rptType))
-			return SpringReportContext.getAcscNSFaultReport().createReport(
+			return ReportSpringFactory.getAcscNSFaultReport().createReport(
 					version);
 		else
 			return null;

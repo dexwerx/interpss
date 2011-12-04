@@ -39,9 +39,9 @@ import org.interpss.dstab.output.DStabOutFunc;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.WinUtilities;
 
 import com.interpss.QA.QAObjectFactory;
@@ -203,8 +203,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         WinUtilities.center(this);
-        textArea.setRows(UISpringAppContext.BrowserDialog_TextRows);
-        textArea.setColumns(UISpringAppContext.BrowserDialog_TextColumns);
+        textArea.setRows(UISpringFactory.BrowserDialog_TextRows);
+        textArea.setColumns(UISpringFactory.BrowserDialog_TextColumns);
         busStyleRadioButton.setEnabled(false);
         summaryRadioButton.setEnabled(false);
         setTitle(title);

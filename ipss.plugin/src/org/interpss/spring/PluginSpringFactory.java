@@ -24,8 +24,6 @@
 
 package org.interpss.spring;
 
-import static com.interpss.common.datatype.Constants.SID_SimuRecManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +44,6 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.ModificationXmlType;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IMapping;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.acsc.AcscNetwork;
@@ -64,11 +61,11 @@ public class PluginSpringFactory extends BasePluginSpringFactory {
 	 * @return the RefDataManager object
 	 */
 	public static ISimuRecManager getSimuRecManager() {
-		return (ISimuRecManager) SpringAppCtx.getBean(SID_SimuRecManager);
+		return (ISimuRecManager) SpringAppCtx.getBean("simuRecManager");
 	}
 
 	public static JDialog getCaseInfoDialog() {
-		return (JDialog) SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
+		return (JDialog) SpringAppCtx.getBean("caseInfoDialog");
 	}
 
 	/**
@@ -134,7 +131,7 @@ public class PluginSpringFactory extends BasePluginSpringFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<ICustomRunScriptPlugin> getCustomScriptRunPluginList() {
-		return (List<ICustomRunScriptPlugin>) SpringAppCtx.getBean(Constants.SID_CustomScriptRunPluginList);
+		return (List<ICustomRunScriptPlugin>) SpringAppCtx.getBean("customScriptRunPluginList");
 	}
 	
 	/**
@@ -173,7 +170,7 @@ public class PluginSpringFactory extends BasePluginSpringFactory {
 	 * @return the CustomFileAdapterList object
 	 */
 	public static IOutputSimuResult getSimuResultOutput() {
-		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
+		return (IOutputSimuResult) SpringAppCtx.getBean("simuResultOutput");
 	}
 	
 	/*

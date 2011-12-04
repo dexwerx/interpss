@@ -24,7 +24,7 @@
 
 package org.interpss.mapper.report;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.report.bean.RptMainTitleBean;
@@ -35,7 +35,7 @@ public class MasterfResultMapperImpl {
 	public static void mapMasterTitleBean(IAppSimuContext appSimuCtx,
 			RptMainTitleBean titleBean) {
 		try {
-			titleBean.setVersionNumber(GraphSpringAppContext
+			titleBean.setVersionNumber(GraphSpringFactory
 					.getIpssGraphicEditor().getVersion());
 			IProjectData projData = appSimuCtx.getProjData();
 			titleBean.setProjectName(projData.getProjectName());
