@@ -58,7 +58,7 @@ import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDialog {
 	private static final long serialVersionUID = 1;
@@ -652,7 +652,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
 		}
 		else {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
 		}
     }//GEN-LAST:event_deleteCaseButtonActionPerformed
 
@@ -680,12 +680,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+        		CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
         	IpssLogger.logErr(e);
-        	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+        	CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 			return;
         }	
         
@@ -743,12 +743,12 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	Vector<String> errMsg = new Vector<String>();	
 	try {
     	if (!saveEditor2Form(errMsg)) {
-    		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+    		CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 			return;
     	}
     } catch (Exception e) {
     	IpssLogger.logErr(e);
-    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+    	CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 		return;
     }	
     

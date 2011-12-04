@@ -54,9 +54,9 @@ import com.interpss.common.mapper.IMapping;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
-import com.interpss.spring.CoreSpringCtx;
-import com.interpss.spring.DclfSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
+import com.interpss.spring.CoreSpringFactory;
+import com.interpss.spring.DclfSpringFactory;
 
 public class EditorActionAdapter {
 	
@@ -88,7 +88,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringCtx.ctx().getBean("editorJGraphDataMapper");
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringFactory.ctx().getBean("editorJGraphDataMapper");
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -108,13 +108,13 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringCtx.ctx().getBean("editorJGraphDataMapper");
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringFactory.ctx().getBean("editorJGraphDataMapper");
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		
-		simuCtx.setDclfAlgorithm(DclfSpringCtx.getDclfAlgorithm());
+		simuCtx.setDclfAlgorithm(DclfSpringFactory.getDclfAlgorithm());
 
 		try {
 			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.SenAnalysis,
@@ -128,7 +128,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -145,7 +145,7 @@ public class EditorActionAdapter {
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		
-		simuCtx.setDclfAlgorithm(DclfSpringCtx.getDclfAlgorithm());
+		simuCtx.setDclfAlgorithm(DclfSpringFactory.getDclfAlgorithm());
 
 		try {
 			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.TradingAnalysis,
@@ -159,7 +159,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -175,7 +175,7 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringFactory.getLoadflowAlgorithm());
 
 		try {
 			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.Aclf,
@@ -189,7 +189,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -204,8 +204,8 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
-		simuCtx.setSimpleFaultAlgorithm(CoreSpringCtx.getSimpleFaultAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringFactory.getLoadflowAlgorithm());
+		simuCtx.setSimpleFaultAlgorithm(CoreSpringFactory.getSimpleFaultAlgorithm());
  
 		try {
 			ICaseInfoDialog dialog = EditorSimuSpringCtx.getCaseInfoDialog(SimuRunEnum.Acsc,
@@ -219,7 +219,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg("See log file for details\n" + e.toString());
+			CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg("See log file for details\n" + e.toString());
 		}
 	}
 
@@ -234,7 +234,7 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		simuCtx.setLoadflowAlgorithm(CoreSpringCtx.getLoadflowAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringFactory.getLoadflowAlgorithm());
 		DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(simuCtx.getDStabilityNet(),
 						new DatabaseSimuOutputHandler(), simuCtx.getMsgHub());
 		simuCtx.setDynSimuAlgorithm(dstabAlgo);

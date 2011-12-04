@@ -44,7 +44,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxHelper;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
  * 
@@ -1241,7 +1241,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 
 	private void scriptingButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_scriptingButtonActionPerformed
 		Object[] strList = stateItemSelectList.getSelectedValues();
-		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 		if (strList.length > 0) {
 			List<String> nameList = DStabPlotDialogRecord
 					.getStateNameList(strList);
@@ -1266,7 +1266,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 
 	private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_plotButtonActionPerformed
 		String str = (String) stateItemSelectList.getSelectedValue();
-		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 		if (str != null) {
 			DStabPlotDialogRecord rec = DStabPlotDialogRecord
 					.parseStateSelection(str);

@@ -48,7 +48,7 @@ import org.interpss.xml.schema.AcscFaultCategoryDataType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlBeanUtil;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreSimuSpringCtx;
+import com.interpss.spring.CoreSimuSpringFactory;
 
 public class AppSimuContextImpl implements IAppSimuContext {
 
@@ -84,15 +84,15 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	public Object getSimuCtx() {
 		if (this.simuCtx == null) {
 			IpssLogger.getLogger().info("SimuSpringAppContext.getSimuContext() called to create a new SimuContext object");
-			this.simuCtx = CoreSimuSpringCtx.getSimuContext();
-			this.simuCtx.setMsgHub(CoreSimuSpringCtx.getIpssMsgHub());
+			this.simuCtx = CoreSimuSpringFactory.getSimuContext();
+			this.simuCtx.setMsgHub(CoreSimuSpringFactory.getIpssMsgHub());
 		}
 		return this.simuCtx;
 	}
 
 	public void setSimuCtx(Object ctx) {
 		this.simuCtx = (SimuContext) ctx;
-		this.simuCtx.setMsgHub(CoreSimuSpringCtx.getIpssMsgHub());
+		this.simuCtx.setMsgHub(CoreSimuSpringFactory.getIpssMsgHub());
 	}
 
 	/* current project info, including projname ... */

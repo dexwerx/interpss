@@ -36,7 +36,7 @@ import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
  * Map editor data NetContainer to a DistNetwork object for simulation purpose.
@@ -63,7 +63,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		// Currently only project in graph mode needs the mapping
 		Vector<String> errMsg = gFormContainer.checkData(msg);
 		if (errMsg != null) {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"Network data error", errMsg);
 			return false;
 		}
@@ -96,28 +96,28 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 
 		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
 				if (!simuCtx.checkData()) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				if (!simuCtx.checkData()) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Transient stabiliry Data Error",
 							"Please see the message list for details");
 					return false;

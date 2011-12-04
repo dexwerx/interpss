@@ -40,7 +40,7 @@ import org.interpss.ui.IProjectDataManager;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
  * Utility class for translate plot dialog selection strings to plot records
@@ -156,7 +156,7 @@ public class DStabPlotDialogRecord {
 					elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 		}

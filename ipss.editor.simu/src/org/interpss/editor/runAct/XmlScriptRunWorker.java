@@ -39,7 +39,7 @@ import org.interpss.xml.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XmlScriptRunWorker {
 	/**
@@ -58,7 +58,7 @@ public class XmlScriptRunWorker {
 			parser = new IpssXmlParser(scripts);
 		} catch (JAXBException e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", e.toString());
 			return false;
 		}

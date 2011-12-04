@@ -61,7 +61,7 @@ import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ChartManager {
 	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) throws Exception {
@@ -189,7 +189,7 @@ public class ChartManager {
 							IProjectDataManager.CaseType_DStabSimuRec);
 				} catch (Exception ex) {
 					IpssLogger.logErr(ex);
-					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Error to GetSimuRecList",
 							ex.toString()
 									+ "\n Please contact InterPSS support");
@@ -199,7 +199,7 @@ public class ChartManager {
 						IAppSimuContext appSimuCtx = GraphSpringAppContext
 									.getIpssGraphicEditor().getCurrentAppSimuContext();
 						if (appSimuCtx.isSimuNetDataDirty()) {
-							CoreCommonSpringCtx.getIpssMsgHub().sendWarnMsg(
+							CoreCommonSpringFactory.getIpssMsgHub().sendWarnMsg(
 									"The SimuNetwork object is dirty. You may want to re-run the analysis");
 						}
 					} catch (Exception ex) {
@@ -444,7 +444,7 @@ public class ChartManager {
 					elemId, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList form DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return null;
@@ -483,7 +483,7 @@ public class ChartManager {
 			IAppSimuContext appSimuCtx = GraphSpringAppContext
 			.getIpssGraphicEditor().getCurrentAppSimuContext();
 			if (appSimuCtx.isSimuNetDataDirty()) {
-				CoreCommonSpringCtx
+				CoreCommonSpringFactory
 						.getIpssMsgHub()
 						.sendWarnMsg(
 								"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
@@ -504,7 +504,7 @@ public class ChartManager {
 			 */
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return;

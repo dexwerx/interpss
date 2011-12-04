@@ -40,7 +40,7 @@ import org.interpss.xml.schema.DynamicEventDataXmlType;
 import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -394,12 +394,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		Vector<String> errMsg = new Vector<String>();
 		try {
 			if (!saveEditor2Form(errMsg)) {
-				CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
+				CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
         		return;
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
        		return;
 		}
 		// event name may be modified, refresh the event list

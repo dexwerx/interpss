@@ -56,7 +56,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private AclfStudyCaseXmlType xmlCaseData;
@@ -111,7 +111,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 					dialog.display(buffer);					
 				} catch (InterpssException e) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}
@@ -136,7 +136,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 						dialog.display(adjNet);
 					}
 				} catch (GridException e) {
-					CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+					CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}

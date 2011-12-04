@@ -43,7 +43,7 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlBeanUtil;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ProjectDataDBManager implements IProjectDataManager {
 	/**
@@ -101,7 +101,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 						projData);
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
-				CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+				CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 						"Error to Create DB Project",
 						e.toString() + "\nPlease contact InterPSS support");
 			}

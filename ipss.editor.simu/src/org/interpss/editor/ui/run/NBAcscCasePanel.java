@@ -39,7 +39,7 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.BusAcscInitVoltDataType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -279,7 +279,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	        this.mFactorTextField.setEnabled(false);
 		}
 		else {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
 					"Loadflow not run yet. Please run load flow analysis first");
 	        this.mFactorLabel.setEnabled(true);
 	        this.mFactorTextField.setEnabled(true);

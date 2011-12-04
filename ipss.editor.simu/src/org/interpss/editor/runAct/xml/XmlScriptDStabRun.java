@@ -54,8 +54,8 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.dstab.DStabStudyCase;
-import com.interpss.spring.CoreCommonSpringCtx;
-import com.interpss.spring.CoreSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
+import com.interpss.spring.CoreSpringFactory;
 
 public class XmlScriptDStabRun {
 	/**
@@ -146,7 +146,7 @@ public class XmlScriptDStabRun {
 						simuCtx.setDStabilityNet(dstabNet);
 						return result.getReturnStatus();
 					} catch (GridException e) {
-						CoreCommonSpringCtx.getEditorDialogUtil()
+						CoreCommonSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -223,7 +223,7 @@ public class XmlScriptDStabRun {
 							studyCase.setDesc("DStab by Local Node");
 						}
 					} catch (Exception e) {
-						CoreCommonSpringCtx.getEditorDialogUtil()
+						CoreCommonSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 						return false;
@@ -239,7 +239,7 @@ public class XmlScriptDStabRun {
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {
-								CoreCommonSpringCtx
+								CoreCommonSpringFactory
 										.getEditorDialogUtil()
 										.showWarnMsgDialog("Grid DStab Error",
 												"Please check InterPSS log file for details");
@@ -247,7 +247,7 @@ public class XmlScriptDStabRun {
 							}
 						}
 					} catch (GridException e) {
-						CoreCommonSpringCtx.getEditorDialogUtil()
+						CoreCommonSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -259,7 +259,7 @@ public class XmlScriptDStabRun {
 				simuCtx.setDStabilityNet(dstabNet);
 			}
 		} else {
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runDStabStudyCase element not defined");
 			return false;
 		}
@@ -309,7 +309,7 @@ public class XmlScriptDStabRun {
 	private static boolean runLocalDStabRun(DynamicSimuAlgorithm dstabAlgo,
 			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		dstabAlgo.getDStabNet().setNetChangeListener(
-				CoreSpringCtx.getNetChangeHandler());
+				CoreSpringFactory.getNetChangeHandler());
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow();

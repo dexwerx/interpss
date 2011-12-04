@@ -6,7 +6,7 @@ import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ToolsDebugGridEnv extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
@@ -18,11 +18,11 @@ public class ToolsDebugGridEnv extends IpssAbstractActionDefault {
 		IpssLogger.getLogger().info("Tools | Degug | Grid Environment");
 		
 		if (GridEnvHelper.isGridEnabled()) {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog("Info", "Grid Computing env has been setup properly");
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog("Info", "Grid Computing env has been setup properly");
 		}
 		else {
 			IpssLogger.getLogger().info("Grid Computing env has not been set up properly");
-			CoreCommonSpringCtx.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
+			CoreCommonSpringFactory.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
 		}
 	}
 }

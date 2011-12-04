@@ -57,7 +57,7 @@ import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
 	private static final long serialVersionUID = 1;
@@ -845,12 +845,12 @@ private boolean saveInputData() {
 	Vector<String> errMsg = new Vector<String>();
 	try {
     	if (!saveEditor2Form(errMsg)) {
-    		CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
+    		CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
 			return false;
     	}
     } catch (Exception e) {
     	IpssLogger.logErr(e);
-    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", e.toString());
+    	CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", e.toString());
 		return false;
     }
     return true;
@@ -879,7 +879,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 					.display(IpssAclf.createAlgo(net)
 								.runPTradingAnalysis(ptXml));
 			} catch (InterpssException e) {
-		    	CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+		    	CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				return;
 			}
 			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			

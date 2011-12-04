@@ -43,9 +43,9 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
-import com.interpss.spring.CoreSpringCtx;
-import com.interpss.spring.DStabSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
+import com.interpss.spring.CoreSpringFactory;
+import com.interpss.spring.DStabSpringFactory;
 
 public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	//private AclfCaseData aclfCaseData = null;
@@ -127,7 +127,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		IDStabSimuDatabaseOutputHandler scriptHandler = null;
 		if (this.xmCaseData.getOutputScripting().isScripting()) {
-			scriptHandler = (IDStabSimuDatabaseOutputHandler) DStabSpringCtx
+			scriptHandler = (IDStabSimuDatabaseOutputHandler) DStabSpringFactory
 					.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
@@ -142,7 +142,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		}
 
 		simuCtx.getDStabilityNet().setNetChangeListener(
-				CoreSpringCtx.getNetChangeHandler());
+				CoreSpringFactory.getNetChangeHandler());
 
 		if (simuCtx.getDynSimuAlgorithm().initialization()) {
 			displaySummaryResult(simuCtx);
@@ -220,7 +220,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			net.initialization();
 			return result.getReturnStatus();
 		} catch (GridException e) {
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
 			return false;
 		}

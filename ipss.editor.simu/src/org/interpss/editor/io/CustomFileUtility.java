@@ -29,7 +29,7 @@ import org.interpss.spring.PluginSpringCtx;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {
@@ -60,14 +60,14 @@ public class CustomFileUtility {
 			else 
 				adapter.load(simuCtx, filepath, false, null);
 		} catch (Exception e) {
-			CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"Custom Data File Loading Error", e.toString());
 			IpssLogger.logErr(e);
 			return false;
 		}
 
 		if (simuCtx != null && !simuCtx.checkData()) {
-			boolean b = CoreCommonSpringCtx.getEditorDialogUtil().showMsgDialogWithOptions(
+			boolean b = CoreCommonSpringFactory.getEditorDialogUtil().showMsgDialogWithOptions(
 					"Network Loadflow Data Error",
 					"Please see the message list for details, Do you want to run the study case?");
 			if (b)

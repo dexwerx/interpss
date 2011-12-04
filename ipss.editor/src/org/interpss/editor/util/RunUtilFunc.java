@@ -33,7 +33,7 @@ import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.ui.EditorActionAdapter;
 
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class RunUtilFunc  {
 	/**
@@ -45,7 +45,7 @@ public class RunUtilFunc  {
 	 */
 	public static void performRunAction(IpssEditorDocument doc, SimuRunEnum type, GPGraphpad graphpad) {
 		if (graphpad.isBGProcessingBusy()) {
-    		CoreCommonSpringCtx.getEditorDialogUtil().showWarnMsgDialog("Simulation Thread Busy", 
+    		CoreCommonSpringFactory.getEditorDialogUtil().showWarnMsgDialog("Simulation Thread Busy", 
 				"The run-simulation thread is busy. Please wait for its finishing before starting another one.");
 			return;
 		}	
@@ -64,7 +64,7 @@ public class RunUtilFunc  {
 					doc.getSimuAppContext().setSimuNetDataDirty(false);
 				}	
 				else {
-					CoreCommonSpringCtx.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + filepath);
+					CoreCommonSpringFactory.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + filepath);
 				}
 			} 
 			else {
