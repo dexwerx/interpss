@@ -31,11 +31,11 @@ import javax.swing.JDialog;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
@@ -1141,7 +1141,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
     private void setPointMachineComboBoxsetPointMachineListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPointMachineComboBoxsetPointMachineListActionPerformed
     	IpssLogger.getLogger().info("Details ...");
-  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Loadflow Analysis Info");
   		dialog.display("TODO ....");
   	}//GEN-LAST:event_setPointMachineComboBoxsetPointMachineListActionPerformed
     

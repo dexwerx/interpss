@@ -30,7 +30,7 @@ import java.io.InputStream;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.form.base.BaseBranchForm;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.cells.GraphUtilFunc;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.jgraph.JGraph;
@@ -46,7 +46,7 @@ public class IOUtilFunc  {
 	 */   
 	public static JGraph loadIpssGraphFile(String filename) {
 		GPGraphpad pad = new GPGraphpad((GPSessionParameters)null); 
-		JGraph graph = GraphSpringAppContext.getIpssGraph();
+		JGraph graph = GraphSpringFactory.getIpssGraph();
 		
 		try {
 			InputStream in = new FileInputStream(filename);					

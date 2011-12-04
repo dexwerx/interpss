@@ -35,7 +35,7 @@ import org.interpss.editor.coreframework.jgraphsubclassers.GPMarqueeHandler;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.graphcellsbase.cellviews.JGraphBusView;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.resources.Translator;
@@ -201,7 +201,7 @@ public class GPDocument extends IpssEditorDocument implements
 		 * .instanciateObjectForKey("JGraph.class"); graph.setModel(graphModel);
 		 */
 
-		graph = GraphSpringAppContext.getIpssGraph();
+		graph = GraphSpringFactory.getIpssGraph();
 
 		graph.setUI((GraphUI) GPPluginInvoker
 				.instanciateDocumentAwareObjectForKey("GraphUI.class", this,

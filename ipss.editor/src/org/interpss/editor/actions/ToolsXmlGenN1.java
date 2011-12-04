@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssEditorDocument;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.util.DocumentUtilFunc;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseListXmlType;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -33,7 +33,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 	public void actionPerformed(ActionEvent e) {
 		IAppSimuContext project;
 		try {
-			project = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			project = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
 			return;
@@ -76,7 +76,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
   			}
 		}
   		
-		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("N-1 Modification Xml Document");
+		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("N-1 Modification Xml Document");
 		dialog.display(list.toString()
 						.replaceAll("xmlns:sch", "xmlns:ipss")
 						.replaceAll("<sch:", "<ipss:")

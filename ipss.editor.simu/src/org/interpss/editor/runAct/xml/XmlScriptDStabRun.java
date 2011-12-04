@@ -28,7 +28,7 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.SimuRunEnum;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.grid.gridgain.GridRunner;
@@ -79,7 +79,7 @@ public class XmlScriptDStabRun {
 		if (xmlRunCase != null) {
 			IAppSimuContext appSimuCtx = null;
 			try {
-				appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+				appSimuCtx = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 			} catch (Exception ex) {
 				IpssLogger.logErr(ex);
 				return false;

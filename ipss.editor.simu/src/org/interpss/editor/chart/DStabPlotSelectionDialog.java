@@ -31,10 +31,10 @@ import java.util.List;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.IScriptTool;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.output.ISimuRecManager;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.WinUtilities;
 import org.interpss.util.MemoryJavaCompiler;
 
@@ -1253,7 +1253,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 			try {
 				IScriptTool tool = (IScriptTool) MemoryJavaCompiler.javac(
 						CoreScriptUtilFunc.OutDStabResultClassName, javacode);
-				IOutputTextDialog dialog = UISpringAppContext
+				IOutputTextDialog dialog = UISpringFactory
 						.getOutputTextDialog("State/Varible Output");
 				tool.outDStabResult2TextDialog(dialog, nameList, valueList);
 			} catch (Exception e) {

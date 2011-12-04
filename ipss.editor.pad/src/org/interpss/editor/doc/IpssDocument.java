@@ -2,11 +2,11 @@ package org.interpss.editor.doc;
 
 import javax.swing.JComponent;
 
-import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.util.Utilities;
+import org.interpss.spring.EditorSpringFactory;
 
 
 public abstract class IpssDocument extends JComponent{
@@ -19,7 +19,7 @@ public abstract class IpssDocument extends JComponent{
 	
 	public IpssDocument() {
 		super();
-		this.appsimu = EditorSpringCtx.getAppSimuContext();
+		this.appsimu = EditorSpringFactory.getAppSimuContext();
 		appsimu.reset();
 	}
 

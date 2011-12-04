@@ -29,6 +29,7 @@ import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
+import org.interpss.spring.EditorSpringFactory;
 import org.interpss.ui.WinUtilities;
 import org.interpss.ui.Workspace;
 
@@ -74,7 +75,7 @@ public class GEditor extends Applet {
 			str = Translator.getString(Pty_UserWorkspace);
 			IpssPropertiesLoader.setUserPty(Pty_CurrentWorkspace, str);
 		}
-		EditorSpringCtx.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
+		EditorSpringFactory.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
 	}
 	
 	/*
@@ -96,7 +97,7 @@ public class GEditor extends Applet {
 		setWorkspaceDirectory();
 		
 		// load ref data from DB
-		EditorSpringCtx.getRefDataManager().loadAllRefData();
+		EditorSpringFactory.getRefDataManager().loadAllRefData();
 		showSplashInfo(info,Translator.getString("Splash.Database"));
 
 		// set the look and feel
@@ -115,7 +116,7 @@ public class GEditor extends Applet {
 		showSplashInfo(info,Translator.getString("Splash.Start"));
 
 		try {
-			GEditor.pad = EditorSpringCtx.getGraphicEditor();
+			GEditor.pad = EditorSpringFactory.getGraphicEditor();
 			String str = IpssPropertiesLoader.getUserPty(Pty_CurrentWorkspace);
 			if (str.equals(Translator.getString("WorkSpace.Location")))
 				Workspace.setCurrentType(Workspace.Type.User);

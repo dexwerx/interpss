@@ -24,7 +24,7 @@
 
 package org.interpss.editor.ui.util;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.util.FileUtil;
 import org.interpss.util.MemoryJavaCompiler;
@@ -49,7 +49,7 @@ public class ScriptJavacUtilFunc {
 	 * @return false if there is compiling error
 	 */
 	public static boolean checkJavaCode(String javacode, String packageName) {
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
+    	IGraphicEditor editor = GraphSpringFactory.getIpssGraphicEditor();
 		String filename = IpssJavaCompiler.createJavaFilename(CheckCodeClassname, 
 								ScriptJavacUtilFunc.CheckCodeTempPackageName, editor.getRootDir());
 		FileUtil.writeText2File(filename, javacode);	
@@ -72,7 +72,7 @@ public class ScriptJavacUtilFunc {
 	 * @return
 	 */
 	public static String createScriptingClassname(String id) {
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
+    	IGraphicEditor editor = GraphSpringFactory.getIpssGraphicEditor();
 		String	folderName = editor.getCurrentProjectFolder();
 		String	projName = editor.getCurrentProjectName();
 		return IpssJavaCompiler.createClassName(id, folderName, projName);

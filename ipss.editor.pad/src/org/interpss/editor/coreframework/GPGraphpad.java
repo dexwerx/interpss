@@ -50,7 +50,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.IpssPropertiesLoader;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
@@ -72,6 +71,7 @@ import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.EditorSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IRefDataManager;
 import org.jgraph.JGraph;
@@ -364,7 +364,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public IpssProject getCurrentProject() {
-		IpssProject[] projects = EditorSpringCtx.getAppContext()
+		IpssProject[] projects = EditorSpringFactory.getAppContext()
 				.getAllProjects();
 
 		// no project
@@ -916,7 +916,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			return false;
 		}
 
-		EditorSpringCtx.getAppContext().addProject(p);
+		EditorSpringFactory.getAppContext().addProject(p);
 
 		this.getProjectPanel().addNewAllProject(p);
 
@@ -1183,7 +1183,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public LoadScheduleRefData getLoadScheduleRefData() {
-		return (LoadScheduleRefData) EditorSpringCtx.getRefDataManager()
+		return (LoadScheduleRefData) EditorSpringFactory.getRefDataManager()
 				.getRefDataObject(IRefDataManager.REFDATA_LoadSchedule);
 	}
 
@@ -1201,7 +1201,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#getAppStatus()
 	 */
 	public IAppStatus getAppStatus() {
-		return EditorSpringCtx.getStatusPanel();
+		return EditorSpringFactory.getStatusPanel();
 	}
 
 	/*
@@ -1257,7 +1257,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public String getWorkspace() {
-		return EditorSpringCtx.getAppContext().getWorkspaceDir();
+		return EditorSpringFactory.getAppContext().getWorkspaceDir();
 	}
 
 	public String getCurrentProjectFolder() {
@@ -1324,7 +1324,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 					items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
 			}
 		// Save projects
-		IpssProject[] projects = EditorSpringCtx.getAppContext()
+		IpssProject[] projects = EditorSpringFactory.getAppContext()
 				.getAllProjects();
 		if ((projects != null) && (projects.length > 0))
 			for (int i = 0; i < projects.length; i++)

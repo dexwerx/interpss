@@ -29,12 +29,12 @@ import java.util.List;
 
 import org.interpss.display.AcscOutFunc;
 import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
@@ -184,7 +184,7 @@ public class RunActUtilFunc {
 	 * @parem faultNet
 	 */
 	public static void displayAcscSummaryResult(AcscNetwork faultNet, SimpleFaultAlgorithm algo) {
-		IOutputTextDialog dialog = UISpringAppContext
+		IOutputTextDialog dialog = UISpringFactory
 				.getOutputTextDialog("Short Circuit Analysis Result Summary");
 		dialog.display(AcscOutFunc.faultResult2String(faultNet, algo));
 	}
@@ -195,7 +195,7 @@ public class RunActUtilFunc {
 	 * @param algo
 	 */
 	public static void displayAclfSummaryResult(DynamicSimuAlgorithm algo) {
-		IOutputTextDialog dialog = UISpringAppContext
+		IOutputTextDialog dialog = UISpringFactory
 				.getOutputTextDialog("Loadflow Analysis Info");
 		dialog.display(algo);
 	}
@@ -224,7 +224,7 @@ public class RunActUtilFunc {
 				throws Exception {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
-		IAppSimuContext appSimuCtx = GraphSpringAppContext
+		IAppSimuContext appSimuCtx = GraphSpringFactory
 				.getIpssGraphicEditor().getCurrentAppSimuContext();
 		ProjData projData = (ProjData) appSimuCtx.getProjData();
 		try {

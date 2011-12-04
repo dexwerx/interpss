@@ -6,7 +6,7 @@ import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.doc.IpssDocument;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.util.DocumentUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
@@ -27,7 +27,7 @@ public class EditProjectData extends IpssAbstractActionDefault {
 		IpssDocument doc = getCurrentDocument();
 		if (doc instanceof GPDocument)
 		{
-			GraphSpringAppContext.getEditorDialog(null, ((GPDocument)doc).getGraph());
+			GraphSpringFactory.getEditorDialog(null, ((GPDocument)doc).getGraph());
 			doc.getProjData().setDirty(true);
 			doc.setModified(true);
 		}

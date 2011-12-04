@@ -34,7 +34,6 @@ import java.util.Vector;
 import javax.swing.JPopupMenu;
 
 import org.interpss.db.DBManager;
-import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.chart.ChartManager;
 import org.interpss.editor.data.proj.CaseData;
@@ -43,6 +42,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
+import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 
 import com.interpss.common.util.IpssLogger;
@@ -99,7 +99,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public IProjectData getProjData() {
 		if (this.projData == null) {
-			this.projData = EditorSimuSpringCtx.getProjectData();
+			this.projData = EditorSimuSpringFactory.getProjectData();
 			this.projData.setDbSchemaVersion(DBManager.DB_SCHEMA_VERSION);
 		}
 		return this.projData;
@@ -133,7 +133,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return
 	 */
 	public boolean isNonSymmetricFault() {
-		AcscRunForm form = EditorSimuSpringCtx.getAcscRunForm();
+		AcscRunForm form = EditorSimuSpringFactory.getAcscRunForm();
 		if (form != null && form.getXmlCaseData() != null && form.getXmlCaseData().getFaultData() != null)
 			return form.getXmlCaseData().getFaultData().getFaultCategory() != AcscFaultCategoryDataType.FAULT_3_P;
 		else 
@@ -309,7 +309,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public DStabRunForm getDStabRunForm() {
 		if (this.dStabRunForm == null)
-			this.dStabRunForm = EditorSimuSpringCtx.getDStabRunForm();
+			this.dStabRunForm = EditorSimuSpringFactory.getDStabRunForm();
 		return this.dStabRunForm;
 	}
 

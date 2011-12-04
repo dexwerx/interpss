@@ -34,10 +34,10 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
@@ -1125,7 +1125,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
     	this.parent.setAlwaysOnTop(false);
     	IpssLogger.getLogger().info("Details ...");
-  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Loadflow Analysis Info");
   		dialog.display(_simuCtx.getAclfNet());
     }//GEN-LAST:event_detailsButtonActionPerformed
 

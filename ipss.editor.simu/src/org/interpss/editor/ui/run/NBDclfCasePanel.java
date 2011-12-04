@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
-import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
@@ -1913,7 +1913,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	if (!saveEditor2TDFactor())
     		return;
     	XmlScriptDclfRun.calPTDistFactor(tdFactor, algo);
-    	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Sensitivity Analysis Results");
+    	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Sensitivity Analysis Results");
     	String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, _simuCtx.getDclfAlgorithm());
     	dialog.display(str);
     }//GEN-LAST:event_ptdfCalculateButtonActionPerformed
@@ -2044,7 +2044,7 @@ private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {/
 	if (!saveEditor2AreaTransfer())
 		return;
 	XmlScriptDclfRun.calAreaTransferFactor(areaTransfer, algo, _simuCtx.getMsgHub());
-	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Area Transfer Analysis Results");
+	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Area Transfer Analysis Results");
 	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm());
 	dialog.display(str);
 }//GEN-LAST:event_atCalculateButtonActionPerformed

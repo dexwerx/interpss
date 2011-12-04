@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import javax.swing.JTextArea;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.util.FileUtil;
 
 import com.interpss.common.util.IpssLogger;
@@ -74,7 +74,7 @@ public class GUIFileUtil {
 	 * @return
 	 */
 	public static boolean readFile2TextareaRativePath(String filename, JTextArea textArea) {
-		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;		
 		return readFile2TextareaAbsolutePath(filename, textArea);
 	}
@@ -88,7 +88,7 @@ public class GUIFileUtil {
 	 */
 	public static boolean writeTextarea2FileRativePath(String filename, JTextArea textArea) {
 		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
-		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;		
 		return writeTextarea2FileAbsolutePath(filename, textArea);
 	}
@@ -113,7 +113,7 @@ public class GUIFileUtil {
 	 */
 	public static boolean writeText2FileRativePath(String filename, String text) {
 		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
-		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;		
 		return FileUtil.writeText2File(filename, text);
 	}

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssEditorDocument;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.SimuActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
@@ -19,7 +19,7 @@ public class ToolsDebugProjectData extends IpssAbstractActionDefault {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		try {
-			IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			IAppSimuContext appSimuContext = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 			SimuActionAdapter.menu_tools_debug_projDataInfo(appSimuContext);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);

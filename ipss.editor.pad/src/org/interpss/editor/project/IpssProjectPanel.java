@@ -28,7 +28,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.coreframework.GPBarFactory;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssEditorDocument;
@@ -38,6 +37,7 @@ import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.EditorSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;
@@ -264,7 +264,7 @@ public class IpssProjectPanel extends JPanel {
 
 		removeNodebyObject(project);
 
-		EditorSpringCtx.getAppContext().removeProject(project);
+		EditorSpringFactory.getAppContext().removeProject(project);
 
 	}
 
@@ -291,7 +291,7 @@ public class IpssProjectPanel extends JPanel {
 	}
 
 	public void showExistTree() {
-		String wsDir = EditorSpringCtx.getAppContext().getWorkspaceDir();
+		String wsDir = EditorSpringFactory.getAppContext().getWorkspaceDir();
 		IpssLogger.getLogger().info("WS dir for building project tree, " + wsDir);
 
 		File dir = new File(wsDir);
@@ -323,7 +323,7 @@ public class IpssProjectPanel extends JPanel {
 						new FileInputStream(fileName), project);
 
 				addNewAllProject(project);
-				EditorSpringCtx.getAppContext().addProject(project);
+				EditorSpringFactory.getAppContext().addProject(project);
 			} catch (Exception ex) {
 				BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"InterPSS Project '" + projectname + "' Open Error",

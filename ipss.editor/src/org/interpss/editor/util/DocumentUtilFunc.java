@@ -29,7 +29,7 @@ import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
 import org.interpss.editor.form.GNetForm;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
@@ -76,7 +76,7 @@ public class DocumentUtilFunc  {
 	 */
 	public static boolean enableAclfReport(IpssEditorDocument doc) {
 		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			IAppSimuContext appSimuCtx = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 			if (appSimuCtx != null)
 				return (isAclfDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
 		} catch (Exception ex) {
@@ -93,7 +93,7 @@ public class DocumentUtilFunc  {
 	 */
 	public static boolean enableAcscReport(IpssEditorDocument doc) {
 		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			IAppSimuContext appSimuCtx = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 			if (appSimuCtx != null)
 				return (isAcscDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
 		} catch (Exception ex) {
@@ -110,7 +110,7 @@ public class DocumentUtilFunc  {
 	 */
 	public static boolean enableDStabReport(IpssEditorDocument doc) {
 		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			IAppSimuContext appSimuCtx = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 			if (appSimuCtx != null)
 				return (isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
 		} catch (Exception ex) {

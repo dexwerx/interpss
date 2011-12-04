@@ -6,7 +6,7 @@ import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.doc.IpssDocument;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.edit.IElemSearchDialog;
 import org.interpss.editor.util.DocumentUtilFunc;
 
@@ -25,10 +25,10 @@ public class EditFindGraphItem extends IpssAbstractGraphAction {
 
 		if (doc instanceof GPDocument)
 		{
-			IElemSearchDialog dialog = GraphSpringAppContext.getSearchDialog(GraphSpringAppContext.EditorType_FindDistObject, ((GPDocument)doc).getGraph());
+			IElemSearchDialog dialog = GraphSpringFactory.getSearchDialog(GraphSpringFactory.EditorType_FindDistObject, ((GPDocument)doc).getGraph());
 			if (dialog.getSelectedObj() != null) {
 				IpssLogger.getLogger().info("Find a Bus/Branch object and launch Bus/BranchEditorDialog");
-				GraphSpringAppContext.getEditorDialog(dialog.getSelectedObj(), ((GPDocument)doc).getGraph());
+				GraphSpringFactory.getEditorDialog(dialog.getSelectedObj(), ((GPDocument)doc).getGraph());
 			}
 		}
 	}

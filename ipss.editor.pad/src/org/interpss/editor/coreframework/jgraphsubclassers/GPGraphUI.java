@@ -14,7 +14,7 @@ import java.util.Map;
 import javax.swing.TransferHandler;
 
 import org.interpss.editor.coreframework.GPDocument;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import org.interpss.editor.jgraph.cells.BranchEdge;
 import org.interpss.editor.jgraph.cells.BusCell;
@@ -238,7 +238,7 @@ public class GPGraphUI extends BasicGraphUI {
 						.getLogger()
 						.info(
 								"Starting Editing a Bus/Branch object and launch Bus Dialog");
-				GraphSpringAppContext.getEditorDialog(lcell.getParentCell(),
+				GraphSpringFactory.getEditorDialog(lcell.getParentCell(),
 						document.getGraph());
 				graph.clearSelection();
 				return true;
@@ -248,7 +248,7 @@ public class GPGraphUI extends BasicGraphUI {
 					.getLogger()
 					.info(
 							"Starting Editing a Bus/Branch object and launch Bus/BranchEditor Dialog");
-			GraphSpringAppContext.getEditorDialog(cell, document.getGraph());
+			GraphSpringFactory.getEditorDialog(cell, document.getGraph());
 			graph.clearSelection();
 			return true;
 		}

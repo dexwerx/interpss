@@ -28,10 +28,10 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
@@ -421,7 +421,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     		this.currentEvent.setRecName(eventName);   
     	}
         setForm2Editor();
-    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringFactory.getCaseInfoDialog().pack();
     }//GEN-LAST:event_eventListComboBoxActionPerformed
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
@@ -469,7 +469,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	    		_dstabFaultDataPanel.refresh();
 			}
 		}
-    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringFactory.getCaseInfoDialog().pack();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

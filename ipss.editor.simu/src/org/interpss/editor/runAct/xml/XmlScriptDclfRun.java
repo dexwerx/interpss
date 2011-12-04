@@ -26,8 +26,8 @@ package org.interpss.editor.runAct.xml;
 
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.schema.BusRecXmlType;
 import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
@@ -64,7 +64,7 @@ public class XmlScriptDclfRun {
 			if (!algo.checkCondition())
 				return false;
 
-			IOutputTextDialog dialog = UISpringAppContext
+			IOutputTextDialog dialog = UISpringFactory
 					.getOutputTextDialog("DC Loadflow Analysis Info");
 			dialog.clearTextArea();
 

@@ -6,7 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 
 import org.interpss.editor.doc.IpssProject;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.report.IpssReportFactory;
 
@@ -69,7 +69,7 @@ public class IpssReportDocument extends IpssEditorDocument{
 			viewer.loadReport(name);
 		} else {
 			this.docFile = new IpssReportFile(name);
-		    viewer.loadReport(IpssReportFactory.createReport(reportType, GraphSpringAppContext.getIpssGraphicEditor().getVersion()));
+		    viewer.loadReport(IpssReportFactory.createReport(reportType, GraphSpringFactory.getIpssGraphicEditor().getVersion()));
 		}
 		
 		

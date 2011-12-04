@@ -32,19 +32,19 @@ import javax.swing.JFileChooser;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.scenario.IpssScenarioHelper;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
-import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.EditorSimuSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
 import org.interpss.util.FileUtil;
@@ -371,7 +371,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 					ContingencyAnalysisXmlType analysis = this.studyCaseXmlDoc.getContingencyAnalysis();
 					_aclfCaseInfoPanel.setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
 					_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-					EditorSimuSpringCtx.getAclfRunForm().setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
+					EditorSimuSpringFactory.getAclfRunForm().setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
 				}
 				else {
 					AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
@@ -382,7 +382,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 					scase.setRecDesc(this.descTextArea.getText());
 					_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
 					_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-					EditorSimuSpringCtx.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+					EditorSimuSpringFactory.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 				}
 			}
 			else if (_caseType == SimuRunEnum.SenAnalysis) {
@@ -395,7 +395,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				projData.setDclfCaseName(casename);
 				_dclfCaseInfoPanel.setXmlCaseData(scase);
 				_dclfCaseInfoPanel.saveEditor2Form(errMsg);
-				EditorSimuSpringCtx.getDclfRunForm().setXmlCaseData(scase);
+				EditorSimuSpringFactory.getDclfRunForm().setXmlCaseData(scase);
 			}
 			else if (_caseType == SimuRunEnum.Acsc) {
 				AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
@@ -407,7 +407,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				projData.setAcscCaseName(casename);
 				_acscCaseInfoPanel.setXmlCaseDatax(scase, true);
 				_acscCaseInfoPanel.saveEditor2Form(errMsg);
-				EditorSimuSpringCtx.getAcscRunForm().setXmlCaseData(scase);
+				EditorSimuSpringFactory.getAcscRunForm().setXmlCaseData(scase);
 			}
 			else if (_caseType == SimuRunEnum.DStab) {
 				DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
@@ -420,7 +420,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 				//System.out.println(scase.toString());
-				EditorSimuSpringCtx.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+				EditorSimuSpringFactory.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 			}
 			else if (_caseType == SimuRunEnum.Scripts) {
 				projData.setScriptsCaseName(casename);
@@ -697,7 +697,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     		_appSimuCtx.getProjData().setDirty(true);
     		if (_caseType == SimuRunEnum.Aclf || _caseType == SimuRunEnum.ContingencyAnalysis)
     			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
-    		GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
+    		GraphSpringFactory.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
         }
         setVisible(false);
         dispose();
@@ -752,7 +752,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 		return;
     }	
     
-	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Run Study Case Xml");
+	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Run Study Case Xml");
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
 	 if (_caseType == SimuRunEnum.TradingAnalysis) {

@@ -52,7 +52,7 @@ import org.interpss.editor.coreframework.actions.PreferencesService;
 import org.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.form.base.BaseBranchForm;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.cells.GraphUtilFunc;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
@@ -299,11 +299,11 @@ public final class Utilities {
 
 	public static GPGraphpadFile OpenGraphFile(GPGraphpad graphpad,
 			InputStream in) {
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod,	"Load InterPSS Graphic File ...", "");
 		GPGraphpadFile file = null;
 		try {
-			JGraph graph = GraphSpringAppContext.getIpssGraph();
+			JGraph graph = GraphSpringFactory.getIpssGraph();
 
 			BaseBranchForm.XmlBinding = false;
 			GraphModel model = IpssGraphCodec.getInstance(graphpad).read(in, graph);
@@ -324,13 +324,13 @@ public final class Utilities {
 					"InterPSS Graphic File Open Error", e.toString());
 			e.printStackTrace();
 		}
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("InterPSS Graphic File loaded");
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStop("InterPSS Graphic File loaded");
 		return file;
 	}
 	
 	public static IpssTextFile OpenTextFile(GPGraphpad graphpad,
 			String filepath) throws Exception {
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod,	"Load Text File ...", "");
 
 		IpssTextFile file = new IpssTextFile(filepath);
@@ -340,13 +340,13 @@ public final class Utilities {
 		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
 		CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Text File:" + filepath);
 		
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Text File loaded, " + filepath);
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStop("Text File loaded, " + filepath);
 		return file;
 	}
 	
 	public static IpssReportFile OpenReportFile(GPGraphpad graphpad,
 			String filepath) throws Exception {
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod,	"Load Report File ...", "");
 
 		IpssReportFile file = new IpssReportFile(filepath);
@@ -356,13 +356,13 @@ public final class Utilities {
 		//graphpad.setStatus("Report loaded, File:" + filepath); no need anymore
 		CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Report File:" + filepath);
 		
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Report file loaded, " + filepath);
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStop("Report file loaded, " + filepath);
 		return file;
 	}
 	
 
 	public static IpssCustomFile OpenCustomFile(GPGraphpad graphpad, String abpath, String version) throws Exception {
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod, "Load Custom data file ...", "");
 		IpssLogger.getLogger().info("Load custom file: " + abpath);
 		
@@ -384,13 +384,13 @@ public final class Utilities {
 			CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);
 		}
 
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
 		return file;
 	}
 
 	public static IpssXmlFile OpenXmlFile(GPGraphpad graphpad,
 			String filepath) throws Exception {
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod,	"Load XML File ...", "");
 
 		IpssXmlFile file = new IpssXmlFile(filepath);
@@ -400,7 +400,7 @@ public final class Utilities {
 		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
 		CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
 		
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("XML File loaded, " + filepath);
+		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStop("XML File loaded, " + filepath);
 		return file;
 	}
 
@@ -408,7 +408,7 @@ public final class Utilities {
 	// load project data from DB
 	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
 		IpssLogger.getLogger().info("Load project data from DB ...");
-		IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		IAppSimuContext appSimuContext = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 		IProjectDataManager projManager = PluginSpringFactory
 				.getProjectDataDBManager();
 		projManager.loadProjectDataFromDB(item.getProjDbId(), item

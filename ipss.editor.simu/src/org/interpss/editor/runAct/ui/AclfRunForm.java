@@ -28,7 +28,6 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.display.ContingencyOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.GridObjectFactory;
 import org.interpss.grid.algo.GridContingencyAnalysis;
 import org.interpss.grid.gridgain.GridRunner;
@@ -38,6 +37,7 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
@@ -105,7 +105,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
 					//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 
-					IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
+					IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Contingency Analysis Info");
 					StringBuffer buffer = new StringBuffer();
 					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
 					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
@@ -130,7 +130,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					simuCtx.setAclfNet(adjNet);
 					converge = adjNet.isLfConverged();
 					if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
-						IOutputTextDialog dialog = UISpringAppContext
+						IOutputTextDialog dialog = UISpringFactory
 								.getOutputTextDialog("Loadflow Analysis Run by Remote "
 										+ this.xmlGridOpt.getRemoteNodeName());
 						dialog.display(adjNet);
@@ -157,7 +157,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 						.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
 				analysis.analysis(algo, ContingencyAnalysisType.N1);
 				
-				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis Info");
+				IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Contingency Analysis Info");
 				dialog.display(ContingencyOutFunc.securityMargin(analysis));					
 			}
 			else
@@ -168,7 +168,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	public void displaySummaryResult(SimuContext simuCtx) {
 		if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
-			IOutputTextDialog dialog = UISpringAppContext
+			IOutputTextDialog dialog = UISpringFactory
 					.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(simuCtx.getAclfNet());
 		}
@@ -182,7 +182,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					.getLoadflowAlgorithm());
 
 			if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
-				IOutputTextDialog dialog = UISpringAppContext
+				IOutputTextDialog dialog = UISpringFactory
 						.getOutputTextDialog("Loadflow Analysis Info");
 				dialog.display(distNet.getAcscNet());
 			}
@@ -205,7 +205,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 			distNet.getLoadScheduleData().setTotalLossKwHr(loss);
 			if (this.xmlCaseData.getAclfAlgorithm().isDisplaySummary()) {
-				IOutputTextDialog dialog = UISpringAppContext
+				IOutputTextDialog dialog = UISpringFactory
 						.getOutputTextDialog("Distribution Loadflow Analysis Info");
 				dialog.display(distNet);
 			}

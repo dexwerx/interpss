@@ -37,11 +37,10 @@ import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.jgraph.JGraph;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class GraphSpringAppContext extends CoreCommonSpringFactory {
+public class GraphSpringFactory extends CoreCommonSpringFactory {
 	public static int EditorType_FindDistObject = 1,
 	 				  EditorType_FindTransObject = 2;
 	/**
@@ -50,7 +49,7 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	 * @return the IpssGraph object
 	 */
 	public static JGraph getIpssGraph() {
-		return (JGraph)SpringAppCtx.getBean(Constants.SID_IpssGraph);
+		return (JGraph)SpringAppCtx.getBean("ipssGraph");
 	}
 	
 	/**
@@ -59,7 +58,7 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	 * @return the IpssGraph object
 	 */
 	public static IGFormContainer getEditorFormContainer() {
-		return (IGFormContainer)SpringAppCtx.getBean(Constants.SID_EditorFormContainer);
+		return (IGFormContainer)SpringAppCtx.getBean("editorFormContainer");
 	}
 	
 	/**
@@ -119,7 +118,7 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	public static IElemSearchDialog getSearchDialog(int type, JGraph graph) {
 		IIpssGraphModel model = (IIpssGraphModel)graph.getModel();
 		if (type == EditorType_FindDistObject) {
-			IFormDataDialog dialog = (IFormDataDialog)SpringAppCtx.getBean(Constants.SID_SearchElementDialog);
+			IFormDataDialog dialog = (IFormDataDialog)SpringAppCtx.getBean("searchElementDialog");
 			dialog.init(model.getGFormContainer(), null);
 			return (IElemSearchDialog)dialog;	
 		}
@@ -135,7 +134,7 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	 * @return the IpssMainFrame object
 	 */
 	public static IGraphicEditor getIpssGraphicEditor() {
-		return (IGraphicEditor)SpringAppCtx.getBean(Constants.SID_IpssGraphicEditor);
+		return (IGraphicEditor)SpringAppCtx.getBean("ipssGraphicEditor");
 	}
 	
 	/**
@@ -144,7 +143,7 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	 * @return the editor object
 	 */
 	public static IFormDataDialog getProjectDataEditor() {
-		return (IFormDataDialog)SpringAppCtx.getBean(Constants.SID_ProjectDataEditor);
+		return (IFormDataDialog)SpringAppCtx.getBean("projectDataEditor");
 	}
 	
 	/**
@@ -153,7 +152,7 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	 * @return the editor object
 	 */
 	public static IFormDataDialog getBusDataEditor() {
-		return (IFormDataDialog)SpringAppCtx.getBean(Constants.SID_BusDataEditor);
+		return (IFormDataDialog)SpringAppCtx.getBean("busDataEditor");
 	}
 
 	/**
@@ -162,6 +161,6 @@ public class GraphSpringAppContext extends CoreCommonSpringFactory {
 	 * @return the editor object
 	 */
 	public static IFormDataDialog getBranchDataEditor() {
-		return (IFormDataDialog)SpringAppCtx.getBean(Constants.SID_BranchDataEditor);
+		return (IFormDataDialog)SpringAppCtx.getBean("branchDataEditor");
 	}
 }

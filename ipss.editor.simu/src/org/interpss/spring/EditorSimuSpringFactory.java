@@ -22,10 +22,11 @@
  *
  */
 
-package org.interpss.editor;
+package org.interpss.spring;
 
 import javax.swing.JDialog;
 
+import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.mapper.EditorJGraphDataMapper;
 import org.interpss.editor.runAct.ui.AclfRunForm;
@@ -34,17 +35,16 @@ import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.editor.runAct.ui.DclfRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class EditorSimuSpringCtx extends CoreCommonSpringFactory {
+public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	/**
 	 * Get the ProjectData from the SpringAppContext.
 	 *  
 	 * @return the ProjectData object
 	 */
 	public static IProjectData getProjectData() {
-		return (IProjectData) SpringAppCtx.getBean(Constants.SID_ProjectData);
+		return (IProjectData) SpringAppCtx.getBean("ipssProjectData");
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class EditorSimuSpringCtx extends CoreCommonSpringFactory {
 	}
 
 	public static JDialog getCaseInfoDialog() {
-		return (JDialog) SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
+		return (JDialog) SpringAppCtx.getBean("caseInfoDialog");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class EditorSimuSpringCtx extends CoreCommonSpringFactory {
 	 * @return the AclfRunForm object
 	 */
 	public static AclfRunForm getAclfRunForm() {
-		return (AclfRunForm) SpringAppCtx.getBean(Constants.SID_AclfRunForm);
+		return (AclfRunForm) SpringAppCtx.getBean("aclfRunForm");
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class EditorSimuSpringCtx extends CoreCommonSpringFactory {
 	 * @return the AclfRunForm object
 	 */
 	public static DclfRunForm getDclfRunForm() {
-		return (DclfRunForm) SpringAppCtx.getBean(Constants.SID_DclfRunForm);
+		return (DclfRunForm) SpringAppCtx.getBean("dclfRunForm");
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class EditorSimuSpringCtx extends CoreCommonSpringFactory {
 	 * @return the ProjectData object
 	 */
 	public static AcscRunForm getAcscRunForm() {
-		return (AcscRunForm) SpringAppCtx.getBean(Constants.SID_AcscRunForm);
+		return (AcscRunForm) SpringAppCtx.getBean("acscRunForm");
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class EditorSimuSpringCtx extends CoreCommonSpringFactory {
 	 * @return the DStabRunForm object
 	 */
 	public static DStabRunForm getDStabRunForm() {
-		return (DStabRunForm) SpringAppCtx.getBean(Constants.SID_DStabRunForm);
+		return (DStabRunForm) SpringAppCtx.getBean("dstabRunForm");
 	}
 	
 	public static ICaseInfoDialog getCaseInfoDialog(SimuRunEnum type, String filename) {

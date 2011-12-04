@@ -7,7 +7,7 @@ import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.IpssAbstractProjectAction;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.project.IpssNewGraphDialog;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
@@ -36,7 +36,7 @@ public class FileAddGraph extends IpssAbstractProjectAction {
 			((GPDocument)getCurrentDocument()).getProjData().setFilepath(editor.getFileName());
 			((GPDocument)getCurrentDocument()).getProjData().setWorkspacePath(
 					StringUtil.getWorkspacePath(editor.getFileName()));
-			GraphSpringAppContext.getEditorDialog(null, ((GPDocument)getCurrentDocument()).getGraph());
+			GraphSpringFactory.getEditorDialog(null, ((GPDocument)getCurrentDocument()).getGraph());
 			getCurrentDocument().getProjData().setDirty(true);
 			graphpad.getCommand("FileSave").actionPerformed(e);
 		}

@@ -30,7 +30,7 @@ import org.interpss.editor.DataChangeMessage;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.InitDataUtil;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
@@ -394,7 +394,7 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
         msgHub.sendMsg(new DataChangeMessage(DataChangeMessage.DataChangeMsg, 
 				"Bus Info Updated, busName:" + _form.getName()));
         _netContainer.setDataDirty(true);
-        GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
+        GraphSpringFactory.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
         setVisible(false);
     }//GEN-LAST:event_saveActionHandler
 

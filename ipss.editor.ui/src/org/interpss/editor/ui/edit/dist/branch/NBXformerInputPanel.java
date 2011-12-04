@@ -33,10 +33,10 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
    
 
@@ -523,7 +523,7 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
     // </editor-fold>//GEN-END:initComponents
 
     private void serviceScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceScheduleButtonActionPerformed
-    	IFormDataDialog dialog = UISpringAppContext.getServiceScheduleDialog();
+    	IFormDataDialog dialog = UISpringFactory.getServiceScheduleDialog();
     	dialog.init(netContainer, _data);
     }//GEN-LAST:event_serviceScheduleButtonActionPerformed
 

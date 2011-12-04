@@ -36,17 +36,17 @@ import org.interpss.chart.dist.LoadScheduleChart;
 import org.interpss.chart.dstab.SimpleOneStateChart;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.editor.SimuRunEnum;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.output.BaseSimuDBRecord;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.util.IpssLogger;
@@ -63,7 +63,7 @@ import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ChartManager {
 	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) throws Exception {
-		final IAppSimuContext appSimuCtx = GraphSpringAppContext
+		final IAppSimuContext appSimuCtx = GraphSpringFactory
 				.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
 
@@ -194,7 +194,7 @@ public class ChartManager {
 				}
 				if (machRecList != null && machRecList.size() > 0) {
 					try {
-						IAppSimuContext appSimuCtx = GraphSpringAppContext
+						IAppSimuContext appSimuCtx = GraphSpringFactory
 									.getIpssGraphicEditor().getCurrentAppSimuContext();
 						if (appSimuCtx.isSimuNetDataDirty()) {
 							CoreCommonSpringFactory.getIpssMsgHub().sendWarnMsg(
@@ -203,7 +203,7 @@ public class ChartManager {
 					} catch (Exception ex) {
 						IpssLogger.logErr(ex);
 					}						
-					IOutputTextDialog dialog = UISpringAppContext
+					IOutputTextDialog dialog = UISpringFactory
 							.getOutputTextDialog("Machine State Output");
 					dialog.display(machRecList);
 				}
@@ -478,7 +478,7 @@ public class ChartManager {
 	public static void plotStateCurve(int caseId, String elemId, String yLabel,
 							String yDataLabel, String recType) {
 		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext
+			IAppSimuContext appSimuCtx = GraphSpringFactory
 			.getIpssGraphicEditor().getCurrentAppSimuContext();
 			if (appSimuCtx.isSimuNetDataDirty()) {
 				CoreCommonSpringFactory
@@ -517,28 +517,28 @@ public class ChartManager {
 
 		SimpleOneStateChart plot = null;
 		if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext
+			plot = new SimpleOneStateChart(GraphSpringFactory
 					.getIpssGraphicEditor().getFrame(), true,
 					"Machine State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabExcStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext
+			plot = new SimpleOneStateChart(GraphSpringFactory
 					.getIpssGraphicEditor().getFrame(), true,
 					"Exciter State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabGovStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext
+			plot = new SimpleOneStateChart(GraphSpringFactory
 					.getIpssGraphicEditor().getFrame(), true,
 					"Governor State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabPssStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext
+			plot = new SimpleOneStateChart(GraphSpringFactory
 					.getIpssGraphicEditor().getFrame(), true,
 					"Stabilizer State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext
+			plot = new SimpleOneStateChart(GraphSpringFactory
 					.getIpssGraphicEditor().getFrame(), true,
 					"Bus Voltage State Curve Plot");
 		else if (recType
 				.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext
+			plot = new SimpleOneStateChart(GraphSpringFactory
 					.getIpssGraphicEditor().getFrame(), true,
 					"Scripting Dynamic Bus Device Curve Plot");
 
@@ -588,7 +588,7 @@ public class ChartManager {
 		LoadScheduleChart plot = new LoadScheduleChart("Bus Load Schedule");
 
 		try {
-			SimuContext simuCtx = (SimuContext) GraphSpringAppContext
+			SimuContext simuCtx = (SimuContext) GraphSpringFactory
 					.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 //			DistNetwork distNet = simuCtx.getDistNet();
 //			DistBus distBus = (DistBus) distNet.getBus(busid);

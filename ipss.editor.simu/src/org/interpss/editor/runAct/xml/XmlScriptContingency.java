@@ -27,7 +27,6 @@ package org.interpss.editor.runAct.xml;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.job.ContingencyAnaysisReJob;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
@@ -35,6 +34,7 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -130,7 +130,7 @@ public class XmlScriptContingency {
 		}
 			
 		// display the simulation results
-		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis");
+		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Contingency Analysis");
 		dialog.display(mCaseContainer);
 		return true;
 	}

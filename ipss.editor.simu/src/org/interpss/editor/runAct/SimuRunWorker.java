@@ -25,17 +25,17 @@
 package org.interpss.editor.runAct;
 
 import org.interpss.display.DclfOutFunc;
-import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.graph.GraphSimuUtilFunc;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.spring.EditorSimuSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.util.MemoryJavaCompiler;
 import org.jgraph.JGraph;
 
@@ -81,10 +81,10 @@ public class SimuRunWorker extends Thread {
 	}
 
 	public void run() {
-		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
+		IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
 		IAppSimuContext appSimuCtx = null;
 		try {
-			appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			appSimuCtx = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
 			return;
@@ -95,7 +95,7 @@ public class SimuRunWorker extends Thread {
 					"Run AC Loadflow Analysis ...", "Run Aclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Loadflow");
 
-			boolean converge = EditorSimuSpringCtx.getAclfRunForm()
+			boolean converge = EditorSimuSpringFactory.getAclfRunForm()
 					.runCase(simuCtx);
 			appSimuCtx.setLfConverged(converge);
 
@@ -111,7 +111,7 @@ public class SimuRunWorker extends Thread {
 					"Run Contingency Analysis ...", "Run Contingency Analysis");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Contingency Analysis");
 
-			EditorSimuSpringCtx.getAclfRunForm().runCase(simuCtx);
+			EditorSimuSpringFactory.getAclfRunForm().runCase(simuCtx);
 
 			appStatus.busyStop("Run Contingency Analysis finished");
 		}
@@ -121,11 +121,11 @@ public class SimuRunWorker extends Thread {
 			IpssLogger.getLogger().info(
 					"SimuRunWorker starts Run AC Short Circuit");
 
-			EditorSimuSpringCtx.getAcscRunForm().runCase(simuCtx);
+			EditorSimuSpringFactory.getAcscRunForm().runCase(simuCtx);
 
 			appStatus.busyStop("Run AC Short Circuit Analysis finished");
 
-			EditorSimuSpringCtx.getAcscRunForm().displaySummaryResult(
+			EditorSimuSpringFactory.getAcscRunForm().displaySummaryResult(
 					simuCtx);
 			if (graph != null) {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
@@ -136,7 +136,7 @@ public class SimuRunWorker extends Thread {
 					"Run Transient Stability Simulation ...", "Run DStab");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
 
-			DStabRunForm runForm = EditorSimuSpringCtx.getDStabRunForm();
+			DStabRunForm runForm = EditorSimuSpringFactory.getDStabRunForm();
 			if (runForm.getXmlGridData() != null && runForm.getXmlGridData().isEnableGridRun())
 				runForm.runGridCase(simuCtx);
 			else
@@ -187,7 +187,7 @@ public class SimuRunWorker extends Thread {
 				return;
 			algo.calculateDclf();
 
-			IOutputTextDialog dialog = UISpringAppContext
+			IOutputTextDialog dialog = UISpringFactory
 					.getOutputTextDialog("DC Loadflow Analysis Info");
 			dialog.display(DclfOutFunc.dclfResults(algo, false));
 
@@ -198,7 +198,7 @@ public class SimuRunWorker extends Thread {
 					"Run Sensitivity Analysis ...", "Run SenAnalysis");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Sensitivity Analysis");
 
-			EditorSimuSpringCtx.getDclfRunForm().runCase(simuCtx);
+			EditorSimuSpringFactory.getDclfRunForm().runCase(simuCtx);
 
 			appStatus.busyStop("Run AC Loadflow Analysis finished");
 		}

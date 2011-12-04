@@ -35,13 +35,13 @@ import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfOutputXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.CoreObjectFactory;
@@ -871,11 +871,11 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	final PTradingAnalysisXmlType ptXml = this._ptXml;
 	new Thread() {
 		public void run() {
-			IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
+			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
 			try {
-				UISpringAppContext.getOutputTextDialog("BaseCase Aclf Analysis Results")
+				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
 					.display(IpssAclf.createAlgo(net)
 								.runPTradingAnalysis(ptXml));
 			} catch (InterpssException e) {

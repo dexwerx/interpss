@@ -3,11 +3,11 @@ package org.interpss.editor.project;
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 
-import org.interpss.editor.EditorSpringCtx;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.spring.EditorSpringFactory;
 
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringFactory;
@@ -67,7 +67,7 @@ public class IpssCustomDataCodec {
 	
 // Mike	public static IAppSimuContext read(String abpath) { since this a singleton, no need to static
 	public IAppSimuContext read(String abpath, String version) {
-		IAppSimuContext appSimuContext = EditorSpringCtx.getAppSimuContext();
+		IAppSimuContext appSimuContext = EditorSpringFactory.getAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuContext.getSimuCtx();
 		boolean ok = CustomFileUtility.loadCustomFile(abpath, version, simuCtx);
 		if (ok) {

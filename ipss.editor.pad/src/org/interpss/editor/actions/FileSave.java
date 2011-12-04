@@ -8,7 +8,7 @@ import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssXmlDocument;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
@@ -38,7 +38,7 @@ public class FileSave extends IpssAbstractActionDefault {
 							new FileOutputStream(fileName),
 							(GPDocument)getCurrentDocument());
 
-					IAppSimuContext appSimuCtx = GraphSpringAppContext
+					IAppSimuContext appSimuCtx = GraphSpringFactory
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
                         /* following modefied by Mike 07/31/06 */
@@ -62,7 +62,7 @@ public class FileSave extends IpssAbstractActionDefault {
 					getCurrentDocument().setModified(false);
 
 					
-					IAppSimuContext appSimuCtx = GraphSpringAppContext
+					IAppSimuContext appSimuCtx = GraphSpringFactory
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
 						IProjectDataManager projManager = PluginSpringFactory.getProjectDataDBManager();

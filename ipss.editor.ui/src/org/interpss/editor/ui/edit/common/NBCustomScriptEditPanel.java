@@ -30,10 +30,10 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.IScriptPluginEditing;
 
@@ -60,19 +60,19 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
 		scriptType = (Type)type;
 		if (scriptType == Type.AclfBus)
 			customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				UISpringAppContext.getCustomAclfBusScriptPluginNameList()));
+				UISpringFactory.getCustomAclfBusScriptPluginNameList()));
 		else if (scriptType == Type.AclfBranch)
 			customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				UISpringAppContext.getCustomAclfBranchScriptPluginNameList()));
+				UISpringFactory.getCustomAclfBranchScriptPluginNameList()));
 		else if (scriptType == Type.AcscBus)
 			customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				UISpringAppContext.getCustomAcscBusScriptPluginNameList()));
+				UISpringFactory.getCustomAcscBusScriptPluginNameList()));
 		else if (scriptType == Type.AcscBranch)
 			customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				UISpringAppContext.getCustomAcscBranchScriptPluginNameList()));
+				UISpringFactory.getCustomAcscBranchScriptPluginNameList()));
 		else if (scriptType == Type.DynamicBusDevice)
 			customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				UISpringAppContext.getCustomDynamicBusDeviceScriptPluginNameList()));
+				UISpringFactory.getCustomDynamicBusDeviceScriptPluginNameList()));
 		if (customPluginComboBox.getItemCount() == 0) {
     		scriptingRadioButton.setSelected(true);
     		customPluginRadioButton.setEnabled(false);
@@ -269,15 +269,15 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
     private void customPluginComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customPluginComboBoxActionPerformed
 		String pluginName =  (String)customPluginComboBox.getSelectedItem();
 		if (this.scriptType == Type.AclfBus)
-			this.plugin = UISpringAppContext.getCustomAclfBusScriptPlugin(pluginName);
+			this.plugin = UISpringFactory.getCustomAclfBusScriptPlugin(pluginName);
 		else if (this.scriptType == Type.AclfBranch)
-			this.plugin = UISpringAppContext.getCustomAclfBranchScriptPlugin(pluginName);
+			this.plugin = UISpringFactory.getCustomAclfBranchScriptPlugin(pluginName);
 		else if (this.scriptType == Type.AcscBus)
-			this.plugin = UISpringAppContext.getCustomAcscBusScriptPlugin(pluginName);
+			this.plugin = UISpringFactory.getCustomAcscBusScriptPlugin(pluginName);
 		else if (this.scriptType == Type.AcscBranch)
-			this.plugin = UISpringAppContext.getCustomAcscBranchScriptPlugin(pluginName);
+			this.plugin = UISpringFactory.getCustomAcscBranchScriptPlugin(pluginName);
 		else if (this.scriptType == Type.DynamicBusDevice)
-			this.plugin = UISpringAppContext.getCustomDynamicBusDeviceScriptPlugin(pluginName);
+			this.plugin = UISpringFactory.getCustomDynamicBusDeviceScriptPlugin(pluginName);
     	scriptEditPanel.removeAll();
     	scriptEditPanel.add(plugin.getEditPanel());
 		if (!_data.getScriptPluginXmlStr().trim().equals(""))

@@ -33,11 +33,11 @@ import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -241,7 +241,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     	String scripts = scriptsTextArea.getText();
 		ICustomRunScriptPlugin adapter = PluginSpringFactory.getCustomScriptRunPlugin(pluginName);
 		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunDataType.CONTINGENCY_ANALYSIS, scripts);
-		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("InterPSS Xml Docuement");
+		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("InterPSS Xml Docuement");
 		dialog.display(ipssXmlDoc.toString());		
     }//GEN-LAST:event_displayXmlButtonActionPerformed
 

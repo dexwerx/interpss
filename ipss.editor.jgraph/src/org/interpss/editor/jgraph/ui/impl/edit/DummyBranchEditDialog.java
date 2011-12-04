@@ -30,7 +30,7 @@ package org.interpss.editor.jgraph.ui.impl.edit;
 
 import java.util.Vector;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBranchForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
@@ -297,7 +297,7 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
         }	
 		_form.setNewState(false);
         _netContainer.setDataDirty(true);
-        GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
+        GraphSpringFactory.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
 		setVisible(false);
     }//GEN-LAST:event_saveActionHandler
     

@@ -22,19 +22,19 @@
   *
   */
 
-package org.interpss.editor.ui;
+package org.interpss.spring;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.ui.IScriptPluginEditing;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class UISpringAppContext extends CoreCommonSpringFactory {
+public class UISpringFactory extends CoreCommonSpringFactory {
 	public static int BrowserDialog_TextRows = 30;
 	public static int BrowserDialog_TextColumns = 130;
 	
@@ -44,7 +44,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the OutputTextDialog object
 	 */	
 	public static IOutputTextDialog getOutputTextDialog(String title) {
-		IOutputTextDialog dialog = (IOutputTextDialog)SpringAppCtx.getBean(Constants.SID_OutputTextDialog);
+		IOutputTextDialog dialog = (IOutputTextDialog)SpringAppCtx.getBean("outputTextDialog");
 		dialog.setTitle(title);
 		return dialog;
 	}
@@ -55,7 +55,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the ServiceScheduleDialog object
 	 */	
 	public static IFormDataDialog getServiceScheduleDialog() {
-		return (IFormDataDialog)SpringAppCtx.getBean(Constants.SID_ServiceScheduleDialog);
+		return (IFormDataDialog)SpringAppCtx.getBean("serviceScheduleDialog");
 	}	
 	
 	/**
@@ -64,7 +64,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the LoadScheduleDialog object
 	 */	
 	public static IFormDataDialog getLoadScheduleDialog() {
-		return (IFormDataDialog)SpringAppCtx.getBean(Constants.SID_LoadScheduleDialog);
+		return (IFormDataDialog)SpringAppCtx.getBean("loadScheduleDialog");
 	}	
 	
 	/**
@@ -82,7 +82,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AclfBusScriptingPlugin name list
 	 */	
 	public static Object[] getCustomAclfBusScriptPluginNameList() {
-		return getCustomScriptPluginNameList(Constants.SID_CustomAclfBusScriptPluginList);
+		return getCustomScriptPluginNameList("customAclfBusScriptPluginList");
 	}	
 
 	/**
@@ -91,7 +91,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AclfBusScriptingPlugin object
 	 */	
 	public static IScriptPluginEditing getCustomAclfBusScriptPlugin(String name) {
-		return getCustomScriptPlugin(name, Constants.SID_CustomAclfBusScriptPluginList);
+		return getCustomScriptPlugin(name, "customAclfBusScriptPluginList");
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AclfBranchScriptingPlugin name list
 	 */	
 	public static Object[] getCustomAclfBranchScriptPluginNameList() {
-		return getCustomScriptPluginNameList(Constants.SID_CustomAclfBranchScriptPluginList);
+		return getCustomScriptPluginNameList("customAclfBranchScriptPluginList");
 	}	
 
 	/**
@@ -109,7 +109,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AclfBranchScriptingPlugin object
 	 */	
 	public static IScriptPluginEditing getCustomAclfBranchScriptPlugin(String name) {
-		return getCustomScriptPlugin(name, Constants.SID_CustomAclfBranchScriptPluginList);
+		return getCustomScriptPlugin(name, "customAclfBranchScriptPluginList");
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AcscBusScriptingPlugin name list
 	 */	
 	public static Object[] getCustomAcscBusScriptPluginNameList() {
-		return getCustomScriptPluginNameList(Constants.SID_CustomAcscBusScriptPluginList);
+		return getCustomScriptPluginNameList("customAcscBusScriptPluginList");
 	}	
 
 	/**
@@ -127,7 +127,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AcscBusScriptingPlugin object
 	 */	
 	public static IScriptPluginEditing getCustomAcscBusScriptPlugin(String name) {
-		return getCustomScriptPlugin(name, Constants.SID_CustomAcscBusScriptPluginList);
+		return getCustomScriptPlugin(name, "customAcscBusScriptPluginList");
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AcscBranchScriptingPlugin name list
 	 */	
 	public static Object[] getCustomAcscBranchScriptPluginNameList() {
-		return getCustomScriptPluginNameList(Constants.SID_CustomAcscBranchScriptPluginList);
+		return getCustomScriptPluginNameList("customAcscBranchScriptPluginList");
 	}	
 
 	/**
@@ -145,7 +145,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the AcscBranchScriptingPlugin object
 	 */	
 	public static IScriptPluginEditing getCustomAcscBranchScriptPlugin(String name) {
-		return getCustomScriptPlugin(name, Constants.SID_CustomAcscBranchScriptPluginList);
+		return getCustomScriptPlugin(name, "customAcscBranchScriptPluginList");
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the DynamicBusDeviceScriptingPlugin name list
 	 */	
 	public static Object[] getCustomDynamicBusDeviceScriptPluginNameList() {
-		return getCustomScriptPluginNameList(Constants.SID_CustomDynamicBusDeviceScriptPluginList);
+		return getCustomScriptPluginNameList("customDynamicBusDeviceScriptPluginList");
 	}	
 
 	/**
@@ -163,7 +163,7 @@ public class UISpringAppContext extends CoreCommonSpringFactory {
 	 * @return the DynamicBusDeviceScriptingPlugin object
 	 */	
 	public static IScriptPluginEditing getCustomDynamicBusDeviceScriptPlugin(String name) {
-		return getCustomScriptPlugin(name, Constants.SID_CustomDynamicBusDeviceScriptPluginList);
+		return getCustomScriptPlugin(name, "customDynamicBusDeviceScriptPluginList");
 	}
 	
 	private static Object[] getCustomScriptPluginNameList(String id) {

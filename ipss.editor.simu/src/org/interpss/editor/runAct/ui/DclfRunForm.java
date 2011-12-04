@@ -27,7 +27,7 @@ package org.interpss.editor.runAct.ui;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
 import org.interpss.xml.schema.DclfStudyCaseXmlType;
@@ -64,7 +64,7 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 	
 	public void displaySummaryResult(SimuContext simuCtx) {
-		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Sensitivity Analysis Results");
+		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Sensitivity Analysis Results");
 		String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, simuCtx.getDclfAlgorithm());
 		dialog.display(str);
 	}	

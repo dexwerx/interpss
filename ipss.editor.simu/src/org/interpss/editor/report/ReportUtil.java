@@ -25,7 +25,7 @@
 package org.interpss.editor.report;
 
 import org.interpss.editor.SimuRunEnum;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.resources.Translator;
@@ -38,13 +38,13 @@ public class ReportUtil {
 		/*
 		 * start the busy indicator
 		 */
-		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor()
+		IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor()
 				.getAppStatus();
 		appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 				"Editor is displaying report ...", "");
 
 		IpssRptViewer.getDefault().loadReport(
-				IpssReportFactory.createReport(rptType, GraphSpringAppContext
+				IpssReportFactory.createReport(rptType, GraphSpringFactory
 						.getIpssGraphicEditor().getVersion()));
 
 		/*

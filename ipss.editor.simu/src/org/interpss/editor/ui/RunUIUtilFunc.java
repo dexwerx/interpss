@@ -31,7 +31,7 @@ import java.util.TreeSet;
 
 import org.ieee.odm.model.ODMModelParser;
 import org.interpss.editor.SimuRunEnum;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.InterPSSXmlType;
 
@@ -168,7 +168,7 @@ public class RunUIUtilFunc  {
 			filename = Template_RunCase_PTAnalysis;
 		}
   		
-  		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+  		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;
 		File xmlFile = new File(filename);
 		parser.parse(xmlFile);
@@ -210,7 +210,7 @@ public class RunUIUtilFunc  {
 			filename = Template_RunCase_DStab;
 		}	
   		
-  		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+  		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;
 		File xmlFile = new File(filename);
 		parser = new IpssXmlParser(xmlFile);

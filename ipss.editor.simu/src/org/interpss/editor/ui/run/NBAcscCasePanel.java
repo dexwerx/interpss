@@ -28,12 +28,12 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.EditorSimuSpringCtx;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.AcscFaultDataType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
@@ -257,7 +257,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BRANCH_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
-    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringFactory.getCaseInfoDialog().pack();
     }//GEN-LAST:event_branchFaultRadioButtonActionPerformed
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
@@ -265,7 +265,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
     	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BUS_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
-    	EditorSimuSpringCtx.getCaseInfoDialog().pack();
+    	EditorSimuSpringFactory.getCaseInfoDialog().pack();
     }//GEN-LAST:event_busFaultRadioButtonActionPerformed
 
     private void fixedVoltRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedVoltRadioButtonActionPerformed

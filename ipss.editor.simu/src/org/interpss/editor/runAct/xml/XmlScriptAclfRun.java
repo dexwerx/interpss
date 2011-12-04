@@ -28,7 +28,6 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
@@ -37,6 +36,7 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -172,7 +172,7 @@ public class XmlScriptAclfRun {
 			}
 
 			// display the simulation results
-			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+			IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(mCaseContainer);
 		}
 		return true;
@@ -207,7 +207,7 @@ public class XmlScriptAclfRun {
 		}
 
 		if (xmlCase.getAclfAlgorithm().isDisplaySummary()) {
-			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+			IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(aclfNet);
 		}
 		return true;

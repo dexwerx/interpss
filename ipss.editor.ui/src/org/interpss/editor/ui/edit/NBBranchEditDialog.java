@@ -35,7 +35,7 @@ import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.InitDataUtil;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
@@ -402,7 +402,7 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
         msgHub.sendMsg(new DataChangeMessage(DataChangeMessage.DataChangeMsg, 
 				"Branch Info Updated, branchName:" + _form.getName()));
         _netContainer.setDataDirty(true);
-        GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
+        GraphSpringFactory.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
 		setVisible(false);
     }//GEN-LAST:event_saveActionHandler
     

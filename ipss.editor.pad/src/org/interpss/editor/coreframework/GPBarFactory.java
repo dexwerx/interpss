@@ -45,7 +45,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.LocaleChangeAdapter;
@@ -138,7 +138,7 @@ public class GPBarFactory implements TranslatorConstants {
 		final Object selectionCell = graph.getSelectionCell();
 
 		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			IAppSimuContext appSimuCtx = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
 			// add simulation related popup menuitems here based on the selectionCell
 			appSimuCtx.addPopupMenuAction(pop, selectionCell);
 		} catch (Exception e) {

@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.editor;
+package org.interpss.spring;
 
 import org.interpss.editor.app.AppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
@@ -35,47 +35,47 @@ import org.interpss.ui.IRefDataManager;
 import com.interpss.common.datatype.Constants;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class EditorSpringCtx extends CoreCommonSpringFactory {
+public class EditorSpringFactory extends CoreCommonSpringFactory {
 	/**
 	 * Get the GEditor(singleton) from the SpringAppContext.
 	 */
 	public static GPGraphpad getGraphicEditor() {
-		return (GPGraphpad)SpringAppCtx.getBean(Constants.SID_IpssGraphicEditor);
+		return (GPGraphpad)SpringAppCtx.getBean("ipssGraphicEditor");
 	}
 	
 	/**
 	 * Get the AppContext(singleton) from the SpringAppContext.
 	 */
 	public static AppContext getAppContext() {
-		return (AppContext)SpringAppCtx.getBean(Constants.SID_IpssAppContext);
+		return (AppContext)SpringAppCtx.getBean("ipssAppContext");
 	}
 
 	/**
 	 * Get the DB RefDataManager(singleton) object.
 	 */
 	public static IAppStatus getStatusPanel() {
-		return (IAppStatus)SpringAppCtx.getBean(Constants.SID_StatusPanel);
+		return (IAppStatus)SpringAppCtx.getBean("ipssStatusPanel");
 	}
 
 	/**
 	 * Get the DB RefDataManager(singleton) object.
 	 */
 	public static IRefDataManager getRefDataManager() {
-		return (IRefDataManager)SpringAppCtx.getBean(Constants.SID_RefDataManager);
+		return (IRefDataManager)SpringAppCtx.getBean("refDataManager");
 	}
 
 	/**
 	 * Get the DB ProjectDataManager(singleton) object.
 	 */
 	public static IProjectDataManager getProjectDataManager() {
-		return (IProjectDataManager)SpringAppCtx.getBean(Constants.SID_ProjectDataManager);
+		return (IProjectDataManager)SpringAppCtx.getBean("projectDataManager");
 	}
 
 	/**
 	 * Get the DB SimuRecManager(singleton) object.
 	 */
 	public static ISimuRecManager getSimuRecManager() {
-		return (ISimuRecManager)SpringAppCtx.getBean(Constants.SID_SimuRecManager);
+		return (ISimuRecManager)SpringAppCtx.getBean("simuRecManager");
 	}
 	
 	/**
@@ -85,6 +85,6 @@ public class EditorSpringCtx extends CoreCommonSpringFactory {
 	 */
 	public static IAppSimuContext getAppSimuContext() {
 		return (IAppSimuContext) SpringAppCtx
-				.getBean(Constants.SID_AppSimuContext);
+				.getBean("ipssAppSimuContext");
 	}	
 }
