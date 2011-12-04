@@ -36,7 +36,7 @@ import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.output.IOutputSimuResult;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
@@ -104,7 +104,7 @@ public class CmdLineRunner {
 			}
 			
 			String ext = StringUtil.getFileExt(filename);
-			IpssFileAdapter adapter = PluginSpringCtx.getCustomFileAdapter(ext);
+			IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter(ext);
 			if (adapter == null) {
 				IpssLogger.getLogger().severe("Wrong file type, no adapter is available, ext: " + ext);
 				return null;
@@ -133,7 +133,7 @@ public class CmdLineRunner {
 			
 			// Apply the modification to the base Network object
 			if (parser.getModification() != null) {
-				PluginSpringCtx.getModXml2NetMapper()
+				PluginSpringFactory.getModXml2NetMapper()
 							.map2Model(parser.getModification(), simuCtx.getNetwork());
 			}
 
@@ -193,7 +193,7 @@ public class CmdLineRunner {
 
 	private static void outputResult(SimuContext simuCtx, SimuRunEnum runType,
 			String outFilename) {
-		IOutputSimuResult out = PluginSpringCtx.getSimuResultOutput();
+		IOutputSimuResult out = PluginSpringFactory.getSimuResultOutput();
 		if (runType == SimuRunEnum.Dclf) {
 			if (InterPSS.RunAclfStr.equals(runType)) {
 				out.outAclfResult(simuCtx.getAclfNet(), outFilename);
