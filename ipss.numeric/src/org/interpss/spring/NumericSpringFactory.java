@@ -38,7 +38,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author mzhou
  *
  */
-public class NumericSpringCtx {
+public class NumericSpringFactory {
 	private static final String DefaultSparseEqnIntegerId 		= "sparseEqnInteger";
 	// use default sparse solver
 	public static String DefaultSparseEqnDoubleId 		= "sparseEqnDouble";

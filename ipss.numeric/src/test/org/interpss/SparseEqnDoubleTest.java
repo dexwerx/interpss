@@ -31,7 +31,7 @@ import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.interpss.numeric.sparse.impl.SparseEqnDoubleCommonMathImpl;
 import org.interpss.numeric.util.NumericUtil;
-import org.interpss.spring.NumericSpringCtx;
+import org.interpss.spring.NumericSpringFactory;
 import org.junit.Test;
 
 /**
@@ -55,7 +55,7 @@ public class SparseEqnDoubleTest {
 
 	@Test
 	public void test2()  throws IpssNumericException {
-		SparseEqnDouble eqn = NumericSpringCtx.getSparseEqnDouble();
+		SparseEqnDouble eqn = NumericSpringFactory.getSparseEqnDouble();
 		eqn.setDimension(6);
 		setEqnData(eqn);
 		
