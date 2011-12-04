@@ -180,7 +180,7 @@ public class FQExciter extends AnnotateExciter {
 		   DelayControlBlock kliGainBlock;
 
     // UI Editor panel
-    private static NBFQExciterEditPanel _editPanel = new NBFVkv0ExciterEditPanel();
+//    private static NBFQExciterEditPanel _editPanel = new NBFVkv0ExciterEditPanel();
 
 /*
  * Part-2: Define the contructors
@@ -208,7 +208,7 @@ public class FQExciter extends AnnotateExciter {
         super(id, name, caty);
         // _data is defined in the parent class. your need to initialize with
         // the correct type, the data object to be edited
-        _data = new FVkv0ExciterData();
+//        _data = new FVkv0ExciterData();
     }
 
 /*
@@ -222,7 +222,7 @@ public class FQExciter extends AnnotateExciter {
      * @return the data object
      */
     public FQExciterData getData() {
-        return (FVkv0ExciterData)_data;
+        return null; //(FVkv0ExciterData)_data;
     }
 
     /**
@@ -247,8 +247,8 @@ public class FQExciter extends AnnotateExciter {
         this.vrmax = getData().getVrmax();
         this.vrmin = getData().getVrmin();
         this.kc = getData().getKc();
-        this.kf = getData().getKf();
-        this.tf = getData().getTf();
+        //this.kf = getData().getKf();
+        //this.tf = getData().getTf();
         // always add the following statement
         return super.initStates(bus, mach);
     }
@@ -265,8 +265,8 @@ public class FQExciter extends AnnotateExciter {
      */
     @Override
     public Object getEditPanel() {
-        _editPanel.init(this);
-        return _editPanel;
+        //_editPanel.init(this);
+        return null; //_editPanel;
     }
 
 /*

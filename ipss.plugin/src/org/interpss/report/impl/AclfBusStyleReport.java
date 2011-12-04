@@ -40,7 +40,7 @@ import org.interpss.report.mapper.SimuCtxReportMapper;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class AclfBusStyleReport extends AclfBaseReport implements IIpssReport {
 	private String fnameAclfBusStyleMaster = "reportTemplate/aclf/AclfBusStyleMaster.jasper";
@@ -70,7 +70,7 @@ public class AclfBusStyleReport extends AclfBaseReport implements IIpssReport {
 							.getBusStyleDataSource(simuCtx));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
+			CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg(e.toString());
 		}
 		return null;
 	}

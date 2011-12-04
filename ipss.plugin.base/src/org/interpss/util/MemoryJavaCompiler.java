@@ -62,7 +62,7 @@ import javax.tools.JavaFileObject.Kind;
 import junit.framework.AssertionFailedError;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class MemoryJavaCompiler {
 	private static Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
@@ -237,7 +237,7 @@ public class MemoryJavaCompiler {
 				diagnosticCollector, null, null, compilationUnits).call();
 
 		if (!Boolean.TRUE.equals(result)) {
-			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(
+			CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg(
 					"Java compile error, "
 							+ diagnosticCollector.getDiagnostics().toString());
 			return null;
@@ -253,7 +253,7 @@ public class MemoryJavaCompiler {
 				Class<?> clazz = Class.forName(classDotName, true, loader);
 				classMap.put(className, clazz);
 			} catch (final ClassNotFoundException e) {
-				CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(
+				CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg(
 						"Class loading error, " + e.toString());
 				return null;
 			}

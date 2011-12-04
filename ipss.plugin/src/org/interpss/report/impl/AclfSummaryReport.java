@@ -40,7 +40,7 @@ import org.interpss.report.mapper.SimuCtxReportMapper;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class AclfSummaryReport extends AclfBaseReport implements IIpssReport {
 	private String fnameAclfSummaryMaster = "reportTemplate/aclf/AclfSummaryMaster.jasper";
@@ -70,7 +70,7 @@ public class AclfSummaryReport extends AclfBaseReport implements IIpssReport {
 							.getSummaryBusDataSource(simuCtx));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
+			CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg(e.toString());
 		}
 		return null;
 	}

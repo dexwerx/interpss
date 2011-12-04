@@ -44,7 +44,7 @@ import org.interpss.report.mapper.SimuCtxReportMapper;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class AcscFaultReport implements IIpssReport {
 	private String fnameAcscFaultMaster = "reportTemplate/acsc/Acsc3PFaultMaster.jasper";
@@ -76,7 +76,7 @@ public class AcscFaultReport implements IIpssReport {
 							.getAcscVoltAmpsDataSource(simuCtx));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			CoreCommonSpringCtx.getIpssMsgHub().sendErrorMsg(e.toString());
+			CoreCommonSpringFactory.getIpssMsgHub().sendErrorMsg(e.toString());
 		}
 		return null;
 	}

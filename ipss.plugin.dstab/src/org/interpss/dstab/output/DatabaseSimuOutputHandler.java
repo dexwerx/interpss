@@ -23,7 +23,7 @@ import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 		implements IDStabSimuDatabaseOutputHandler {
@@ -221,7 +221,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 			}
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			CoreCommonSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"InterPSS DB Access Error",
 					ex.toString() + "\n Please contact InterPSS support");
 			return false;

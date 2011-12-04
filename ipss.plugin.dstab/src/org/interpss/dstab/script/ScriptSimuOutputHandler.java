@@ -38,7 +38,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 	private IPSSMsgHub msg = null;
@@ -50,7 +50,7 @@ public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 
 	@Override
 	public boolean init(String scriptFilename, DStabilityNetwork net) {
-		this.msg = CoreCommonSpringCtx.getIpssMsgHub();
+		this.msg = CoreCommonSpringFactory.getIpssMsgHub();
 		this.net = net;
 
 		JTextArea textarea = new JTextArea();

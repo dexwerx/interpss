@@ -28,14 +28,14 @@ import java.util.logging.Level;
 
 import org.ieee.odm.common.ODMLogger;
 import org.interpss.numeric.sparse.base.SparseEquation;
-import org.interpss.spring.NumericSpringCtx;
+import org.interpss.spring.NumericSpringFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.BusNumberArrangeRule;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class IpssPlugin {
 	public static void init() {
@@ -51,16 +51,16 @@ public class IpssPlugin {
 	public static void setSparseEqnSolver(SparseEquation.SolverType solver) {
 		if (solver == SparseEquation.SolverType.Default ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY2;
-			NumericSpringCtx.setDefualtSparseEqnSolver();
+			NumericSpringFactory.setDefualtSparseEqnSolver();
 		}
 		else if (solver == SparseEquation.SolverType.Native ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY0;
-			NumericSpringCtx.setNativeSparseEqnSolver();
+			NumericSpringFactory.setNativeSparseEqnSolver();
 		}
 	}
 	
 	public static IPSSMsgHub getMsgHub() {
-		return CoreCommonSpringCtx.getIpssMsgHub();
+		return CoreCommonSpringFactory.getIpssMsgHub();
 	}
 	
 	public static void setLoggerLevel(Level level) {
@@ -69,8 +69,8 @@ public class IpssPlugin {
 	}	
 
 	private static void setSpringAppCtx() {
-		if (CoreCommonSpringCtx.SpringAppCtx == null) {
-			CoreCommonSpringCtx.SpringAppCtx = new ClassPathXmlApplicationContext(
+		if (CoreCommonSpringFactory.SpringAppCtx == null) {
+			CoreCommonSpringFactory.SpringAppCtx = new ClassPathXmlApplicationContext(
 					new String[] {
 							"org/interpss/spring/PluginSpringCtx.xml"});
 		}
