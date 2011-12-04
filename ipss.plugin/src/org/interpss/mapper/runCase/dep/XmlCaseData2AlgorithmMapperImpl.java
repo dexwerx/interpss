@@ -27,6 +27,7 @@ package org.interpss.mapper.runCase.dep;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
@@ -77,7 +78,6 @@ import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XmlCaseData2AlgorithmMapperImpl {
 	/**
@@ -246,7 +246,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 					DynamicEvent event = DStabObjectFactory.createDEvent(
 							xmlEvent.getRecName(), name, deType, dstabNet);
 					if (event == null) {
-						CoreCommonSpringFactory.getEditorDialogUtil()
+						BasePluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
 						return false;
 					}
@@ -256,7 +256,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 								dstabNet, msg);
 					} catch (Exception e) {
 						IpssLogger.logErr(e);
-						CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+						BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 										"Error to process DynamicEvent", "See log file for details, " + e.toString());
 						return false;
 					}

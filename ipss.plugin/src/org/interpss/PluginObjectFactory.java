@@ -29,8 +29,8 @@ import org.interpss.custom.fadpter.GEFormat;
 import org.interpss.custom.fadpter.IeeeCDFFormat;
 import org.interpss.custom.fadpter.PTIFormat;
 import org.interpss.custom.fadpter.UCTEFormat;
-import org.interpss.spring.BasePluginSpringCtx;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.common.exp.InterpssException;
 
@@ -42,22 +42,22 @@ public class PluginObjectFactory {
 	public static IpssFileAdapter getFileAdapter(IpssFileAdapter.FileFormat f, IpssFileAdapter.Version v)
 					throws InterpssException {
 		if (f == IpssFileAdapter.FileFormat.IEEECDF) {
-			return new IeeeCDFFormat(BasePluginSpringCtx.getIpssMsgHub());
+			return new IeeeCDFFormat(BasePluginSpringFactory.getIpssMsgHub());
 		}
 		else if (f == IpssFileAdapter.FileFormat.GE_PSLF) {
-			return new GEFormat(BasePluginSpringCtx.getIpssMsgHub());
+			return new GEFormat(BasePluginSpringFactory.getIpssMsgHub());
 		} 
 		else if (f == IpssFileAdapter.FileFormat.PSSE) {
-			return new PTIFormat(v, BasePluginSpringCtx.getIpssMsgHub());
+			return new PTIFormat(v, BasePluginSpringFactory.getIpssMsgHub());
 		} 
 		else if (f == IpssFileAdapter.FileFormat.BPA) {
-			return new BPAFormat(BasePluginSpringCtx.getIpssMsgHub());
+			return new BPAFormat(BasePluginSpringFactory.getIpssMsgHub());
 		} 
 		else if (f == IpssFileAdapter.FileFormat.UCTE) {
-			return new UCTEFormat(BasePluginSpringCtx.getIpssMsgHub());
+			return new UCTEFormat(BasePluginSpringFactory.getIpssMsgHub());
 		} 
 		else if (f == IpssFileAdapter.FileFormat.IpssInternal) {
-			return PluginSpringCtx.getCustomFileAdapter("ipssdat");
+			return PluginSpringFactory.getCustomFileAdapter("ipssdat");
 		} 
 		else if (f == IpssFileAdapter.FileFormat.Custom) {
 			

@@ -25,6 +25,7 @@
 package org.interpss.mapper.runCase.dep;
 
 import org.interpss.numeric.util.StringHelper;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 import org.interpss.xml.schema.AcscFaultDataType;
 import org.interpss.xml.schema.AcscFaultXmlType;
@@ -62,7 +63,6 @@ import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class Xml2DStabAlgorithmMapperImpl {
 	/**
@@ -174,7 +174,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				// create the DStabEvent
 				DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getRecName(), name, deType, dstabNet);
 				if (event == null) {
-					CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Error to create DynamicEvent",
 							"Please see the log file for details");
 					return false;
@@ -185,7 +185,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 							.getTotalSimuTimeSec(), dstabNet, msg);
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
-					CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Error to process DynamicEvent",
 							"See log file for details, " + e.toString());
 					return false;
@@ -198,7 +198,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 	private static Machine getMachine(DStabilityNetwork net, String machId) {
 		Machine mach = net.getMachine(machId);
 		if (mach == null) {
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Machine Id Error",
 					"Machine cannot be found, mach id : " + machId);
 			IpssLogger.getLogger().severe(
@@ -222,7 +222,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			else if (eventType == DynamicEventDataType.SET_POINT_CHANGE)
 				return DynamicEventType.SET_POINT_CHANGE;
 		}
-		CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+		BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 				"Dynamic Event Type Error", "EventDataType: " + eventType);
 		throw new InterpssRuntimeException(
 				"Programming error, eventDataType: " + eventType);
@@ -298,7 +298,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				if (bus != null)
 					fault.setFaultBus(bus);
 				else {
-					CoreCommonSpringFactory.getEditorDialogUtil()
+					BasePluginSpringFactory.getEditorDialogUtil()
 							.showErrMsgDialog(
 									"Bus Data Error",
 									"Bus cannot be found, id:"
@@ -341,7 +341,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		if (branch != null)
 			fault.setFaultBranch(branch);
 		else {
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Branch Data Error",
 					"Branch cannot be found, id:" + fdata.getBusBranchId());
 			throw new InterpssRuntimeException(

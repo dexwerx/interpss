@@ -25,7 +25,7 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.editor.data.dstab.DStabDEventData;
-import org.interpss.spring.PluginSpringCtx;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 import org.interpss.xml.schema.AcscFaultDataType;
 import org.interpss.xml.schema.AcscFaultXmlType;
@@ -82,7 +82,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 	public boolean map2Model(DStabStudyCaseXmlType xmlDstabData, DynamicSimuAlgorithm algo) {
 		//System.out.println(xmlDstabData.toString());
 		
-		PluginSpringCtx.getXml2LfAlgorithmMapper()
+		PluginSpringFactory.getXml2LfAlgorithmMapper()
 				.map2Model(xmlDstabData.getAclfAlgorithm(), algo.getAclfAlgorithm());
 		algo.setSimuMethod(xmlDstabData.getSimuConfig().getSimuMethod() == DynamicSimuMethodDataType.MODIFIED_EULER ? 
 						DynamicSimuMethod.MODIFIED_EULER : DynamicSimuMethod.RUNGE_KUTTA );
@@ -164,7 +164,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 					DynamicEvent event = DStabObjectFactory.createDEvent(
 							xmlEvent.getRecName(), name, deType, dstabNet);
 					if (event == null) {
-						PluginSpringCtx.getEditorDialogUtil()
+						PluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
 						return false;
 					}
@@ -174,7 +174,7 @@ public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabS
 								dstabNet, msg);
 					} catch (Exception e) {
 						IpssLogger.logErr(e);
-						PluginSpringCtx.getEditorDialogUtil().showErrMsgDialog(
+						PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 										"Error to process DynamicEvent", "See log file for details, " + e.toString());
 						return false;
 					}

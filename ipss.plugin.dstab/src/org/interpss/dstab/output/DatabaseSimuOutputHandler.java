@@ -10,7 +10,7 @@ import org.interpss.db.DBManager;
 import org.interpss.db.IpssDBCase;
 import org.interpss.grid.gridgain.GridConstants;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.BasePluginSpringCtx;
+import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.datatype.Constants;
@@ -23,7 +23,6 @@ import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
 import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 		implements IDStabSimuDatabaseOutputHandler {
@@ -40,9 +39,9 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 	}
 
 	public boolean init(int projDbId, String caseName) throws InterpssException {
-		IProjectDataManager projDataMgr = BasePluginSpringCtx
+		IProjectDataManager projDataMgr = BasePluginSpringFactory
 				.getProjectDataDBManager();
-		ISimuRecManager simuRecMgr = BasePluginSpringCtx.getSimuRecManager();
+		ISimuRecManager simuRecMgr = BasePluginSpringFactory.getSimuRecManager();
 
 		this.excRecTypeId = simuRecMgr.getRecTypeId(
 				ISimuRecManager.REC_TYPE_DStabExcStates,
@@ -100,7 +99,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean onMsgEventStatus(IpssMessage event) {
-		ISimuRecManager simuRecMgr = BasePluginSpringCtx.getSimuRecManager();
+		ISimuRecManager simuRecMgr = BasePluginSpringFactory.getSimuRecManager();
 		DStabSimuAction e = (DStabSimuAction) event;
 		try {
 			int dbCaseId = getDBCaseId();
@@ -108,7 +107,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 					&& e.getHashtableData().get(GridConstants.SeKey_CaseId) != null) {
 				// Grid computing case, where case id return from the msg
 				String caseId = (String) e.getHashtableData().get(GridConstants.SeKey_CaseId);
-				dbCaseId = BasePluginSpringCtx.getSimuRecManager().getDBCaseId(
+				dbCaseId = BasePluginSpringFactory.getSimuRecManager().getDBCaseId(
 						caseId);
 			}
 
@@ -221,7 +220,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 			}
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			CoreCommonSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"InterPSS DB Access Error",
 					ex.toString() + "\n Please contact InterPSS support");
 			return false;

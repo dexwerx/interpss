@@ -32,19 +32,19 @@ import org.interpss.output.ISimuRecManager;
 import org.interpss.ui.IProjectDataManager;
 import org.interpss.ui.IRefDataManager;
 
+import com.interpss.common.ui.IDialogUtil;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class BasePluginSpringCtx extends CoreCommonSpringFactory {
+public class BasePluginSpringFactory extends CoreCommonSpringFactory {
 
-//	/**
-//	 * Get the IEditorDialogUtil(singleton) from the SpringAppContext.
-//	 *  
-//	 * @return the EditorDialogUtil object
-//	 */
-//	public static IDialogUtil getEditorDialogUtil() {
-//		// TODO
-//		return (IDialogUtil) SpringAppCtx.getBean("editorDialogUtil");
-//	}
+	/**
+	 * Get the IEditorDialogUtil(singleton) from the SpringAppContext.
+	 *  
+	 * @return the EditorDialogUtil object
+	 */
+	public static IDialogUtil getEditorDialogUtil() {
+		return (IDialogUtil) SpringAppCtx.getBean("editorDialogUtil");
+	}
 	
 	/**
 	 * Get the SimuRecManager(singleton) from the SpringAppContext.

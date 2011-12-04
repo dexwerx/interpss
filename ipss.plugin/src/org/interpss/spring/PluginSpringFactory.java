@@ -57,7 +57,7 @@ import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 
-public class PluginSpringCtx extends BasePluginSpringCtx {
+public class PluginSpringFactory extends BasePluginSpringFactory {
 	/**
 	 * Get the SimuRecManager(singleton) from the SpringAppContext.
 	 *  
