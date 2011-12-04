@@ -34,7 +34,7 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenBusAnalysisEnumType;
 import org.ieee.odm.schema.SensitivityEnumType;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactors;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		DclfBranchSensitivityXmlType gsf = helper.createGSF(dclfCase);
-		dclfCase.getGenShiftFactors().add(gsf);
+		dclfCase.getGenShiftFactor().add(gsf);
 /*
   					<pss:genShiftFactor>
   						<pss:senType>PAngle</pss:senType>
@@ -98,14 +98,14 @@ public class DclfGSF_Test extends BaseTestSetup {
 		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
 		bus.setBusId("Bus3");
 		
-		BranchSFactors sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		LineBranchXmlType line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus2_Bus3");
 		line.setFromBusId("Bus2");
 		line.setToBusId("Bus3");
 		
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus3_Bus4");
@@ -113,7 +113,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		line.setToBusId("Bus4");
 		
 		gsf = helper.createGSF(dclfCase);
-		dclfCase.getGenShiftFactors().add(gsf);
+		dclfCase.getGenShiftFactor().add(gsf);
 /*
   					<pss:genShiftFactor>
   						<pss:senType>PAngle</pss:senType>
@@ -159,21 +159,21 @@ public class DclfGSF_Test extends BaseTestSetup {
 		bus.setBusId("Bus14");
 		bus.setPercent(50.0);
 		
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus9_Bus14");
 		line.setFromBusId("Bus9");
 		line.setToBusId("Bus14");
 
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus6_Bus13");
 		line.setFromBusId("Bus6");
 		line.setToBusId("Bus13");
 		
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus12_Bus13");
@@ -181,7 +181,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		line.setToBusId("Bus13");
 		
 		gsf = helper.createGSF(dclfCase);
-		dclfCase.getGenShiftFactors().add(gsf);
+		dclfCase.getGenShiftFactor().add(gsf);
 /*
   					<pss:genShiftFactor>
   						<pss:senType>PAngle</pss:senType>
@@ -213,21 +213,21 @@ public class DclfGSF_Test extends BaseTestSetup {
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
 		gsf.setMinLoadForDistFactor(helper.createActivePower(5.0, "MW"));
 		
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus9_Bus14_1");
 		line.setFromBusId("Bus9");
 		line.setToBusId("Bus14");
 
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus6_Bus13_1");
 		line.setFromBusId("Bus6");
 		line.setToBusId("Bus13");
 		
-		sf = helper.createBranchSFactor(gsf.getBranchSFactors());
+		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = helper.createLineBranchXmlType();
 		sf.setBranch(line);
 		line.setId("Bus12_Bus13_1");

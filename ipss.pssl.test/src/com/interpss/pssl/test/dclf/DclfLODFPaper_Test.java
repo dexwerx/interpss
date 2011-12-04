@@ -80,31 +80,31 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
 		
-		BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranches());
+		BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranch());
 		outage.setId("Bus1_Bus5_1");
 		outage.setFromBusId("Bus1");
 		outage.setToBusId("Bus5");
 		outage.setCircuitId("1");
 
-		outage = helper.createOutageBranch(lodf.getOutageBranches());
+		outage = helper.createOutageBranch(lodf.getOutageBranch());
 		outage.setId("Bus3_Bus4_1");
 		outage.setFromBusId("Bus3");
 		outage.setToBusId("Bus4");
 		outage.setCircuitId("1");
 
-		outage = helper.createOutageBranch(lodf.getOutageBranches());
+		outage = helper.createOutageBranch(lodf.getOutageBranch());
 		outage.setId("Bus6_Bus11_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus11");
 		outage.setCircuitId("1");
 
-		BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranches());
+		BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
 		monitor.setId("Bus2_Bus5_1");
 		monitor.setFromBusId("Bus2");
 		monitor.setToBusId("Bus5");
 		monitor.setCircuitId("1");
 		
-		monitor = helper.createMonitorBranch(lodf.getMonitorBranches());
+		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
 		monitor.setId("Bus6_Bus13_1");
 		monitor.setFromBusId("Bus6");
 		monitor.setToBusId("Bus13");
