@@ -18,7 +18,7 @@ import com.interpss.core.algo.impl.DefaultNrSolver;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.datatype.Mismatch;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 public class CustomLfAlgorithm implements IAclfNetBVisitor{
 	private final double Default_Max_Iteration=20;
@@ -86,7 +86,7 @@ public class CustomLfAlgorithm implements IAclfNetBVisitor{
 		return Default_Max_Iteration;
 	}
 	public IPSSMsgHub getMsg(){
-		return CoreCommonSpringCtx.getIpssMsgHub();
+		return CoreCommonSpringFactory.getIpssMsgHub();
 	}
 	public boolean loadflow(){
 	    INrSolver solver =getSolver();
