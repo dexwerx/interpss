@@ -27,7 +27,7 @@ import com.interpss.opf.OpfNetwork;
 import com.interpss.pssl.simu.BaseDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
  *    ODM -> OpfNetwork object -> GAMS routine -> InterPSS Display 
@@ -63,7 +63,7 @@ public class DcOPFSample2 {
 
 	private OpfNetwork loadOpfNet(String filename) throws Exception {
 		IpssPlugin.init();
-		IPSSMsgHub msg = CoreCommonSpringCtx.getIpssMsgHub();
+		IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 		BaseDSL.setMsgHub(msg);
 					
 		File file = new File(filename);

@@ -13,7 +13,7 @@ import com.interpss.gams.util.GAMSHelper;
 import com.interpss.gams.util.IReadResult;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.BaseDSL;
-import com.interpss.spring.CoreCommonSpringCtx;
+import com.interpss.spring.CoreCommonSpringFactory;
 
 /**
      IEEE CDF -> AclfNetwork object -> GAMS routine -> InterPSS Display
@@ -29,7 +29,7 @@ public class Ieee14Ed2 {
     
     private void run() {
 		IpssPlugin.init();
-		BaseDSL.setMsgHub(CoreCommonSpringCtx.getIpssMsgHub());
+		BaseDSL.setMsgHub(CoreCommonSpringFactory.getIpssMsgHub());
 		
 		AclfNetwork net = IpssAdapter.importAclfNet("basecase/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
