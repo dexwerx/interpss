@@ -36,6 +36,7 @@ import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.IpssScenarioXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -43,8 +44,8 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactors;
-import org.ieee.odm.schema.LineOutageDFactorXmlType.MonitorBranches;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
+import org.ieee.odm.schema.LineOutageDFactorXmlType.MonitorBranch;
 
 public class IpssScenarioHelper {
 	private IODMModelParser parser = null;
@@ -64,10 +65,10 @@ public class IpssScenarioHelper {
 	 */
 
 	public List<DclfSenAnalysisXmlType> getSenAnalysisList() {
-		if (getSimuAlgo().getSenAnalyses() == null) {
+		if (getSimuAlgo().getSenAnalysis() == null) {
 			ODMLogger.getLogger().severe("contact support@interpss.org");
 		}
-		return getSimuAlgo().getSenAnalyses();
+		return getSimuAlgo().getSenAnalysis();
 	}
 	
 	public DclfSenAnalysisXmlType createSenCase() {
@@ -78,7 +79,7 @@ public class IpssScenarioHelper {
 
 	public DclfBranchSensitivityXmlType createGSF(DclfSenAnalysisXmlType dclfCase) {
 		DclfBranchSensitivityXmlType gsf = parser.getFactory().createDclfBranchSensitivityXmlType();
-		dclfCase.getGenShiftFactors().add(gsf);
+		dclfCase.getGenShiftFactor().add(gsf);
 		gsf.setInjectBusList(parser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
 		gsf.setWithdrawBusList(parser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 		return gsf;
@@ -86,20 +87,29 @@ public class IpssScenarioHelper {
 
 	public LineOutageDFactorXmlType createLODF(DclfSenAnalysisXmlType dclfCase) {
 		LineOutageDFactorXmlType lodf = parser.getFactory().createLineOutageDFactorXmlType();
-		dclfCase.getLineOutageDFactors().add(lodf);
+		dclfCase.getLineOutageDFactor().add(lodf);
 		return lodf;
 	}
 
+	public GenLossFactorXmlType createGenLossFactor(DclfSenAnalysisXmlType dclfCase) {
+		GenLossFactorXmlType lf = parser.getFactory().createGenLossFactorXmlType();
+		dclfCase.getGenLossFactors().add(lf);
+		lf.setInjectBusList(parser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
+		lf.setWithdrawBusList(parser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
+		return lf;
+	}
+	
 	public BaseBranchXmlType createOutageBranch(List<BaseBranchXmlType> braList) {
 		BaseBranchXmlType bra = parser.getFactory().createBaseBranchXmlType();
 		braList.add(bra);
 		return bra;
 	}
 	
-	public MonitorBranches createMonitorBranch(List<MonitorBranches> braList) {
-		MonitorBranches bra = parser.getFactory().createLineOutageDFactorXmlTypeMonitorBranches();
+	public BaseBranchXmlType createMonitorBranch(List<MonitorBranch> braList) {
+		MonitorBranch bra = parser.getFactory().createLineOutageDFactorXmlTypeMonitorBranch();
 		braList.add(bra);
-		return bra;
+		bra.setBranch(parser.getFactory().createBaseBranchXmlType());
+		return bra.getBranch();
 	}
 
 	public SenAnalysisBusXmlType createSenAnalysisBus(List<SenAnalysisBusXmlType> busList) {
@@ -108,8 +118,8 @@ public class IpssScenarioHelper {
 		return bus;
 	}
 
-	public BranchSFactors createBranchSFactor(List<BranchSFactors> braList) {
-		BranchSFactors sf = parser.getFactory().createDclfBranchSensitivityXmlTypeBranchSFactors();
+	public BranchSFactor createBranchSFactor(List<BranchSFactor> braList) {
+		BranchSFactor sf = parser.getFactory().createDclfBranchSensitivityXmlTypeBranchSFactor();
 		braList.add(sf);
 		return sf;
 	}
@@ -161,7 +171,7 @@ public class IpssScenarioHelper {
 			parser.getStudyCase().setStudyScenario(parser.getFactory().createIpssStudyScenario(studyScenario));
 			
 			IpssScenarioXmlType scenario = parser.getFactory().createIpssScenarioXmlType();
-			studyScenario.getScenarioList().getScenarios().add(scenario);
+			studyScenario.getScenarioList().getScenario().add(scenario);
 
 			IpssSimuAlgorithmXmlType simuAlgo = parser.getFactory().createIpssSimuAlgorithmXmlType();
 			scenario.setSimuAlgo(simuAlgo);
@@ -170,6 +180,6 @@ public class IpssScenarioHelper {
 	}
 
 	private IpssSimuAlgorithmXmlType getSimuAlgo() {
-		return this.getIpssScenario().getScenarioList().getScenarios().get(0).getSimuAlgo();
+		return this.getIpssScenario().getScenarioList().getScenario().get(0).getSimuAlgo();
 	}
 }
