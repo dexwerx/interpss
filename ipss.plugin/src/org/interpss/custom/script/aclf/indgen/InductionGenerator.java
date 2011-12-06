@@ -29,6 +29,7 @@ import org.interpss.custom.script.aclf.AbstractAclfBusScriptEditing;
 import org.interpss.numeric.NumericConstant;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.algo.AclfMethod;
 
 // all AclfBus scripting plugin needs to extends AbstractAclfBusScriptEditing
 public class InductionGenerator extends AbstractAclfBusScriptEditing {  
@@ -91,7 +92,7 @@ public class InductionGenerator extends AbstractAclfBusScriptEditing {
     }
     
 	@Override
-	public Complex mismatch() {
+	public Complex mismatch(AclfMethod m) {
 		Complex p = getParentAclfBus().powerIntoNet();
 		return new Complex(getGenP(), getGenQ()).subtract(p);
 	}    
