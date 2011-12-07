@@ -231,7 +231,9 @@ public class ComplexFunc {
 	 * @return the string representation of the obj
 	 */
 	public static String toString(final Complex c) {
-		return Number2String.toStr(c.getReal()) + " + j"
-				+ Number2String.toStr(c.getImaginary());
+		// note: this method is used to persist Complex number in the 
+		// Ipss Model
+		return String.valueOf(c.getReal()) + " + j"
+				+ String.valueOf(c.getImaginary());
 	}
 }
