@@ -68,6 +68,6 @@ public class BasePluginSpringFactory extends CoreCommonSpringFactory {
 	 */
 	public static IProjectDataManager getProjectDataDBManager() {
 		return (IProjectDataManager) SpringAppCtx
-				.getBean("pojectDataManager");
+				.getBean("projectDataManager");
 	}	
 }
