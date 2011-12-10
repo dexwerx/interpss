@@ -32,7 +32,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.interpss.pssl.common.DblBusValue;
+import com.interpss.datatype.DblBusValue;
 import com.interpss.pssl.simu.impl.PTradingHelper;
 import com.interpss.pssl.test.BaseTestSetup;
 
