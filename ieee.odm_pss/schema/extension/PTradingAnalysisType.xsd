@@ -28,11 +28,11 @@
 	<ns:complexType name="PtAclfAnalysisXmlType">
 		<ns:sequence>
 			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>
-			<element name="includeMustRun" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
-			<element name="mustRunGen" type="ipss:PtMustRunGenXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="includeGenQAdjustment" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfAssistGen" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfAssistGenOption" type="ipss:PtLfAssistGenXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="genQAdjustment" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="genQAdjOption" type="ipss:PtGenQAdjustXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="includeSwingAlloc" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="swingBusPQAlloc" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="genSwingAllocOption" type="ipss:PtSwingAllocXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="outputOption" type="ipss:PtAclfOutputXmlType" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
@@ -70,7 +70,7 @@
 		</ns:sequence>
 	</ns:complexType>	
 
-	<ns:complexType name="PtMustRunGenXmlType">
+	<ns:complexType name="PtLfAssistGenXmlType">
 		<ns:sequence>
 			<element name="filename" type="ns:string" maxOccurs="1" minOccurs="1"></element>
 		</ns:sequence>
@@ -100,7 +100,7 @@
 			<element name="interfaceLimitViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="zoneSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="areaSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
-			<element name="mustRunSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfAssistGenSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 		</ns:sequence>
 	</ns:complexType>
 </schema>
