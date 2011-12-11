@@ -116,7 +116,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    } catch (InterpssException e) {
 		    this.swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Error"}));
 	    }
+	    
 	    this.genPVSwingBusVoltCacheList = new ArrayList<DblBusValue>();
+		this.useCachedVoltCheckBox.setSelected(false);
 	}
     
     public void setXmlCaseData(PTradingAnalysisXmlType pt) {
@@ -147,7 +149,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		edHourComboBox.setSelectedItem(aclfXml.getHour() == null? "12:00" : aclfXml.getHour());
 
 		if (aclfXml.getTolerance() != null)
-			this.lfToleranceTextField.setText(aclfXml.getTolerance().toString());
+			this.lfToleranceTextField.setText(Number2String.toStr(aclfXml.getTolerance(), "0.0000"));
 		
 		aclfXml.setGenQAdjustment(true);
 		if (aclfXml.isGenQAdjustment()) {
@@ -327,6 +329,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         edHourComboBox = new javax.swing.JComboBox();
         lfToleranceLabel = new javax.swing.JLabel();
         lfToleranceTextField = new javax.swing.JTextField();
+        useCachedVoltCheckBox = new javax.swing.JCheckBox();
         swingAllocCheckBox = new javax.swing.JCheckBox();
         swingAllocZoneLabel = new javax.swing.JLabel();
         swingAllocZoneComboBox = new javax.swing.JComboBox();
@@ -353,7 +356,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         largeGSFPointsLabel = new javax.swing.JLabel();
         largeGSFPointsTextField = new javax.swing.JTextField();
 
-        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         pTradingAnalysisTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
         pTradingAnalysisTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -407,7 +410,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                             .add(edFileLabel)
                             .add(edFilePanelLayout.createSequentialGroup()
                                 .add(89, 89, 89)
-                                .add(edFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+                                .add(edFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)))
                         .add(18, 18, 18)
                         .add(selectEdFileButton))
                     .add(edFilePanelLayout.createSequentialGroup()
@@ -619,6 +622,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         lfToleranceTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         lfToleranceTextField.setText("0.0001");
 
+        useCachedVoltCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        useCachedVoltCheckBox.setText("Use Previous Run PV Voltage");
+
         swingAllocCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         swingAllocCheckBox.setSelected(true);
         swingAllocCheckBox.setText("Swing Bus P&Q Allocation");
@@ -662,11 +668,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             .add(aclfAnalysisPanelLayout.createSequentialGroup()
                 .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(aclfAnalysisPanelLayout.createSequentialGroup()
-                        .add(154, 154, 154)
-                        .add(edHourLabel)
-                        .add(39, 39, 39)
-                        .add(edHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
                         .add(26, 26, 26)
                         .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(swingAllocCheckBox)
@@ -686,29 +687,38 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                                         .add(33, 33, 33)
                                         .add(swingAllocAccFactorLabel)
                                         .add(18, 18, 18)
-                                        .add(swingAllocAccFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
-                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
-                        .add(58, 58, 58)
-                        .add(lfToleranceLabel)
-                        .add(29, 29, 29)
-                        .add(lfToleranceTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                        .add(swingAllocAccFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))))
                     .add(aclfAnalysisPanelLayout.createSequentialGroup()
                         .add(184, 184, 184)
-                        .add(runAclfAnalysisButton)))
-                .addContainerGap(145, Short.MAX_VALUE))
+                        .add(runAclfAnalysisButton))
+                    .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                        .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                                .add(154, 154, 154)
+                                .add(edHourLabel))
+                            .add(aclfAnalysisPanelLayout.createSequentialGroup()
+                                .add(58, 58, 58)
+                                .add(lfToleranceLabel)
+                                .add(29, 29, 29)
+                                .add(lfToleranceTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(26, 26, 26)
+                        .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(useCachedVoltCheckBox)
+                            .add(edHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         aclfAnalysisPanelLayout.setVerticalGroup(
             aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, aclfAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(edHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(edHourLabel))
                 .add(18, 18, 18)
                 .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lfToleranceTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lfToleranceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(lfToleranceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(useCachedVoltCheckBox))
                 .add(18, 18, 18)
                 .add(swingAllocCheckBox)
                 .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -908,6 +918,10 @@ private boolean saveInputData() {
     		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
 			return false;
     	}
+    	
+    	if (!this.useCachedVoltCheckBox.isSelected() ) {
+    		this.genPVSwingBusVoltCacheList.clear();
+    	}
     } catch (Exception e) {
     	IpssLogger.logErr(e);
     	BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", e.toString());
@@ -930,7 +944,8 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	final AclfNetwork net = this._simuCtx.getAclfNet();
 	final PTradingAnalysisXmlType ptXml = this._ptXml;
 	final List<DblBusValue> genPVSwingBusList = this.genPVSwingBusVoltCacheList;
-	
+    final javax.swing.JCheckBox _useCachedVoltCheckBox = this.useCachedVoltCheckBox;
+    
 	new Thread() {
 		public void run() {
 			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
@@ -957,6 +972,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 						genPVSwingBusVoltCacheList.add(new DblBusValue(bus.getId(), bus.getVoltageMag()));
 				}
 			}
+			_useCachedVoltCheckBox.setSelected(true);
 			// roll-back AclfNet to the bookmarked point
 			recorderBaseNet.endRecording().apply();	
 			appStatus.busyStop("Run PowerTrading Aclf Analysis finished");			
@@ -1060,6 +1076,7 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
     private javax.swing.JTextField swingAllocToleranceTextField;
     private javax.swing.JComboBox swingAllocZoneComboBox;
     private javax.swing.JLabel swingAllocZoneLabel;
+    private javax.swing.JCheckBox useCachedVoltCheckBox;
     private javax.swing.JLabel voltLowerLimitLabel;
     private javax.swing.JTextField voltLowerLimitTextField;
     private javax.swing.JLabel voltUpperLimitLabel;
