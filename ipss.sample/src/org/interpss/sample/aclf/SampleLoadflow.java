@@ -106,11 +106,11 @@ public class SampleLoadflow {
 	  	//	  q = q(0)*(a + b*v + (1.0-a-b)*v*v)
 	  	AclfBus bus2 = net.getAclfBus("Bus2");
   		try {
-	  	FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus2);
-  		fload.getP().setA(0.3);
-  		fload.getP().setB(0.5);
-  		fload.getQ().setA(0.1);
-  		fload.getQ().setB(0.6);
+  			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus2);
+  			fload.getP().setA(0.3);
+  			fload.getP().setB(0.5);
+  			fload.getQ().setA(0.1);
+  			fload.getQ().setB(0.6);
   		} catch (InterpssException e) {
   			e.printStackTrace();
   			return;
