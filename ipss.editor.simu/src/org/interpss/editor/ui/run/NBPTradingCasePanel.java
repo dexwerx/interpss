@@ -72,7 +72,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     private SimuContext _simuCtx = null;
     private PTradingAnalysisXmlType _ptXml = null;
     
-    private List<DblBusValue> genBusVoltCacheList = null;
+    private List<DblBusValue> genPVSwingBusVoltCacheList = null;
 
     /** Creates new form NBAclfCasePanel */
     public NBPTradingCasePanel(JDialog parent) {
@@ -116,7 +116,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    } catch (InterpssException e) {
 		    this.swingAllocZoneComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Error"}));
 	    }
-	    this.genBusVoltCacheList = new ArrayList<DblBusValue>();
+	    this.genPVSwingBusVoltCacheList = new ArrayList<DblBusValue>();
 	}
     
     public void setXmlCaseData(PTradingAnalysisXmlType pt) {
@@ -929,7 +929,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	final JDialog parent = this.parent;
 	final AclfNetwork net = this._simuCtx.getAclfNet();
 	final PTradingAnalysisXmlType ptXml = this._ptXml;
-	final List<DblBusValue> genBusList = this.genBusVoltCacheList;
+	final List<DblBusValue> genPVSwingBusList = this.genPVSwingBusVoltCacheList;
 	
 	new Thread() {
 		public void run() {
@@ -939,20 +939,22 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 			// Book marked the AclfNetwork object
 			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
 			try {
-				new AclfDslODMRunner(net).runPTradingAnalysis(ptXml, genBusList);
+				AclfDslODMRunner runner = new AclfDslODMRunner(net);
+				runner.runPTradingAnalysis(ptXml, genPVSwingBusList);
 				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
-					.display(PTradingOutput.lfSummary(net, ptXml.getAclfAnalysis().getHour()));
+					.display(PTradingOutput.outHourLoaflowResult(net, ptXml, 
+							runner.getHrLoadflow().getLfAssitGenList()));
 			} catch (InterpssException e) {
 				BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();	
 				return;
 			}
 			// cache PV/Swing bus voltage
-			genBusList.clear();
+			genPVSwingBusList.clear();
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus)b;
 				if (b.isActive() && ( bus.isGenPV() || bus.isSwing()))  {
-						genBusVoltCacheList.add(new DblBusValue(bus.getId(), bus.getVoltageMag()));
+						genPVSwingBusVoltCacheList.add(new DblBusValue(bus.getId(), bus.getVoltageMag()));
 				}
 			}
 			// roll-back AclfNet to the bookmarked point
