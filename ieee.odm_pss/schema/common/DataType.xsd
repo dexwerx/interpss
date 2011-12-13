@@ -717,4 +717,11 @@
 			<enumeration value="Fall"></enumeration>
 		</restriction>
 	</simpleType>	
+	
+	<simpleType name="LfResultFormatEnumType">
+		<restriction base="string">
+				<enumeration value="Summary"></enumeration>
+				<enumeration value="BusStyle"></enumeration>
+		</restriction>
+	</simpleType>	
 </schema>

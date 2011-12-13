@@ -27,9 +27,7 @@
 
 	<ns:complexType name="PtAclfAnalysisXmlType">
 		<ns:sequence>
-			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>
-			<element name="lfAssistGen" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
-			<element name="lfAssistGenOption" type="ipss:PtLfAssistGenXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="tolerance" type="ns:double" maxOccurs="1" minOccurs="0"></element>
 			<element name="genQAdjustment" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="genQAdjOption" type="ipss:PtGenQAdjustXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="swingBusPQAlloc" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
@@ -78,7 +76,9 @@
 
 	<ns:complexType name="PtGenQAdjustXmlType">
 		<ns:sequence>
-			<element name="noRunsMustRun" type="ns:int" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfAssistGenFilename" type="ns:string" maxOccurs="1" minOccurs="1"></element>
+			<element name="noRunsLfAssist" type="ns:int" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfAssistAdjTolerance" type="ns:double" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>
 	
@@ -87,6 +87,7 @@
 			<element name="zoneNumber" type="ns:long" maxOccurs="1" minOccurs="1"></element>
 			<element name="steps" type="ns:int" maxOccurs="1" minOccurs="0"></element>
 			<element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="1"></element>
+			<element name="allocTolerance" type="ns:double" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>
 
@@ -100,7 +101,8 @@
 			<element name="interfaceLimitViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="zoneSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="areaSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
-			<element name="lfAssistGenSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfResult" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="lfResultFormat" maxOccurs="1" minOccurs="1" type="pss:LfResultFormatEnumType"></element>
 		</ns:sequence>
 	</ns:complexType>
 </schema>
