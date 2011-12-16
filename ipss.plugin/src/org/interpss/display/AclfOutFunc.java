@@ -59,6 +59,7 @@ import com.interpss.core.net.OriginalDataFormat;
 import com.interpss.core.util.CoreUtilFunc;
 
 public class AclfOutFunc {
+	public static enum LfResultFormat { Summary, BusStyle };
 	public static enum BusIdStyle { BusId_No, BusId_Name };
 	
 	public static String getBusId(AclfBus bus, OriginalDataFormat fmt) {
