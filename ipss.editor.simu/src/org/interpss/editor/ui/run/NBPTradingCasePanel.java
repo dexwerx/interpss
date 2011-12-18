@@ -41,6 +41,7 @@ import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.BasePluginSpringFactory;
@@ -121,6 +122,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    this.genPVSwingBusVoltCacheList = new ArrayList<DblBusValue>();
 		this.useCachedVoltCheckBox.setSelected(false);
 		this.useCachedVoltCheckBox.setEnabled(false);
+		
+		this.outageBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
 	}
     
     public void setXmlCaseData(PTradingAnalysisXmlType pt) {
@@ -148,7 +152,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		// Aclf Analysis
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
 
-		edHourComboBox.setSelectedItem(aclfXml.getHour() == null? "12:00" : aclfXml.getHour());
+		aclfEdHourComboBox.setSelectedItem(aclfXml.getHour() == null? "12:00" : aclfXml.getHour());
 
 		if (aclfXml.getTolerance() != null)
 			this.lfToleranceTextField.setText(Number2String.toStr(aclfXml.getTolerance(), "0.0000"));
@@ -250,7 +254,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	public boolean saveAclfAnalysis(Vector<String> errMsg) {
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
 		
-		aclfXml.setHour(this.edHourComboBox.getSelectedItem().toString());
+		aclfXml.setHour(this.aclfEdHourComboBox.getSelectedItem().toString());
 		
 		aclfXml.setTolerance(new Double(this.lfToleranceTextField.getText()).doubleValue());
 		
@@ -305,6 +309,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     private void initComponents() {
 
         lfResultButtonGroup = new javax.swing.ButtonGroup();
+        outageTypeButtonGroup = new javax.swing.ButtonGroup();
         pTradingAnalysisTabbedPane = new javax.swing.JTabbedPane();
         caseDataPanel = new javax.swing.JPanel();
         edFilePanel = new javax.swing.JPanel();
@@ -333,8 +338,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         lfAssistGenQAdjToleranceLabel = new javax.swing.JLabel();
         lfAssistGenQAdjToleranceTextField = new javax.swing.JTextField();
         aclfAnalysisPanel = new javax.swing.JPanel();
-        edHourLabel = new javax.swing.JLabel();
-        edHourComboBox = new javax.swing.JComboBox();
+        aclfEdHourLabel = new javax.swing.JLabel();
+        aclfEdHourComboBox = new javax.swing.JComboBox();
         lfToleranceLabel = new javax.swing.JLabel();
         lfToleranceTextField = new javax.swing.JTextField();
         useCachedVoltCheckBox = new javax.swing.JCheckBox();
@@ -349,7 +354,22 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         swingAllocToleranceTextField = new javax.swing.JTextField();
         runAclfAnalysisButton = new javax.swing.JButton();
         lineOutagePanel = new javax.swing.JPanel();
-        runLineOutgageButton = new javax.swing.JButton();
+        outagefEdHourLabel = new javax.swing.JLabel();
+        outageEdHourComboBox = new javax.swing.JComboBox();
+        outageTypePanel = new javax.swing.JPanel();
+        outageSingleRadioButton = new javax.swing.JRadioButton();
+        outageMultiRadioButton = new javax.swing.JRadioButton();
+        outageScheduleRadioButton = new javax.swing.JRadioButton();
+        outageBranchListComboBox = new javax.swing.JComboBox();
+        outageBranchLabel = new javax.swing.JLabel();
+        multiOutageBranchScrollPane = new javax.swing.JScrollPane();
+        multiOutageBranchList = new javax.swing.JList();
+        addOutageBranchButton = new javax.swing.JButton();
+        removeOutageBranchButton = new javax.swing.JButton();
+        outageFileLabel = new javax.swing.JLabel();
+        outageFileTextField = new javax.swing.JTextField();
+        outageFileSelectButton = new javax.swing.JButton();
+        runOutgageAnalysisButton = new javax.swing.JButton();
         outputConfigPanel = new javax.swing.JPanel();
         outVoltViolationCheckBox = new javax.swing.JCheckBox();
         voltUpperLimitLabel = new javax.swing.JLabel();
@@ -368,7 +388,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         largeGSFPointsTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
-        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        pTradingAnalysisTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         pTradingAnalysisTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
         pTradingAnalysisTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -622,11 +642,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         pTradingAnalysisTabbedPane.addTab("Case Data", caseDataPanel);
 
-        edHourLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        edHourLabel.setText("ED Hour");
+        aclfEdHourLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        aclfEdHourLabel.setText("ED Hour");
 
-        edHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        edHourComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", " " }));
+        aclfEdHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        aclfEdHourComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", " " }));
 
         lfToleranceLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         lfToleranceLabel.setText("Lf Tolerance");
@@ -707,7 +727,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                         .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(aclfAnalysisPanelLayout.createSequentialGroup()
                                 .add(154, 154, 154)
-                                .add(edHourLabel))
+                                .add(aclfEdHourLabel))
                             .add(aclfAnalysisPanelLayout.createSequentialGroup()
                                 .add(58, 58, 58)
                                 .add(lfToleranceLabel)
@@ -716,7 +736,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                         .add(26, 26, 26)
                         .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(useCachedVoltCheckBox)
-                            .add(edHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                            .add(aclfEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
         aclfAnalysisPanelLayout.setVerticalGroup(
@@ -724,8 +744,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             .add(org.jdesktop.layout.GroupLayout.TRAILING, aclfAnalysisPanelLayout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
                 .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(edHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(edHourLabel))
+                    .add(aclfEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(aclfEdHourLabel))
                 .add(18, 18, 18)
                 .add(aclfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lfToleranceTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -759,11 +779,113 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         pTradingAnalysisTabbedPane.addTab("Aclf Analysis", aclfAnalysisPanel);
 
-        runLineOutgageButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        runLineOutgageButton.setText("Run");
-        runLineOutgageButton.addActionListener(new java.awt.event.ActionListener() {
+        outagefEdHourLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        outagefEdHourLabel.setText("ED Hour");
+
+        outageEdHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageEdHourComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", " " }));
+
+        outageTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Outage Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        outageTypeButtonGroup.add(outageSingleRadioButton);
+        outageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageSingleRadioButton.setSelected(true);
+        outageSingleRadioButton.setText("Single Branch");
+        outageSingleRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runLineOutgageButtonActionPerformed(evt);
+                outageSingleRadioButtonActionPerformed(evt);
+            }
+        });
+
+        outageTypeButtonGroup.add(outageMultiRadioButton);
+        outageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageMultiRadioButton.setText("Multi Branch");
+        outageMultiRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outageMultiRadioButtonActionPerformed(evt);
+            }
+        });
+
+        outageTypeButtonGroup.add(outageScheduleRadioButton);
+        outageScheduleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageScheduleRadioButton.setText("Outage Schedule");
+        outageScheduleRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outageScheduleRadioButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout outageTypePanelLayout = new org.jdesktop.layout.GroupLayout(outageTypePanel);
+        outageTypePanel.setLayout(outageTypePanelLayout);
+        outageTypePanelLayout.setHorizontalGroup(
+            outageTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(outageTypePanelLayout.createSequentialGroup()
+                .add(15, 15, 15)
+                .add(outageSingleRadioButton)
+                .add(18, 18, 18)
+                .add(outageMultiRadioButton)
+                .add(27, 27, 27)
+                .add(outageScheduleRadioButton)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+        outageTypePanelLayout.setVerticalGroup(
+            outageTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(outageTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                .add(outageSingleRadioButton)
+                .add(outageMultiRadioButton)
+                .add(outageScheduleRadioButton))
+        );
+
+        outageBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        outageBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageBranchLabel.setText("Outage Branch");
+
+        multiOutageBranchList.setFont(new java.awt.Font("Dialog", 0, 12));
+        multiOutageBranchList.setEnabled(false);
+        multiOutageBranchScrollPane.setViewportView(multiOutageBranchList);
+
+        addOutageBranchButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addOutageBranchButton.setText("Add");
+        addOutageBranchButton.setEnabled(false);
+        addOutageBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addOutageBranchButtonActionPerformed(evt);
+            }
+        });
+
+        removeOutageBranchButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        removeOutageBranchButton.setText("Remove");
+        removeOutageBranchButton.setEnabled(false);
+        removeOutageBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeOutageBranchButtonActionPerformed(evt);
+            }
+        });
+
+        outageFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageFileLabel.setText("Outage File");
+        outageFileLabel.setEnabled(false);
+
+        outageFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageFileTextField.setText("outage file");
+        outageFileTextField.setEnabled(false);
+
+        outageFileSelectButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        outageFileSelectButton.setText("Select ...");
+        outageFileSelectButton.setEnabled(false);
+        outageFileSelectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outageFileSelectButtonActionPerformed(evt);
+            }
+        });
+
+        runOutgageAnalysisButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        runOutgageAnalysisButton.setText("Run Analysis");
+        runOutgageAnalysisButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runOutgageAnalysisButtonActionPerformed(evt);
             }
         });
 
@@ -772,19 +894,72 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         lineOutagePanelLayout.setHorizontalGroup(
             lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(lineOutagePanelLayout.createSequentialGroup()
-                .add(220, 220, 220)
-                .add(runLineOutgageButton)
-                .addContainerGap(225, Short.MAX_VALUE))
+                .add(45, 45, 45)
+                .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(outageTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lineOutagePanelLayout.createSequentialGroup()
+                        .add(20, 20, 20)
+                        .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(lineOutagePanelLayout.createSequentialGroup()
+                                .add(outageBranchLabel)
+                                .add(28, 28, 28)
+                                .add(outageBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 184, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(lineOutagePanelLayout.createSequentialGroup()
+                                .add(addOutageBranchButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(removeOutageBranchButton))
+                            .add(lineOutagePanelLayout.createSequentialGroup()
+                                .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, lineOutagePanelLayout.createSequentialGroup()
+                                        .add(outageFileLabel)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                        .add(outageFileTextField))
+                                    .add(org.jdesktop.layout.GroupLayout.LEADING, multiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 249, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(outageFileSelectButton)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(46, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lineOutagePanelLayout.createSequentialGroup()
+                .addContainerGap(197, Short.MAX_VALUE)
+                .add(runOutgageAnalysisButton)
+                .add(194, 194, 194))
+            .add(lineOutagePanelLayout.createSequentialGroup()
+                .add(167, 167, 167)
+                .add(outagefEdHourLabel)
+                .add(26, 26, 26)
+                .add(outageEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         lineOutagePanelLayout.setVerticalGroup(
             lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, lineOutagePanelLayout.createSequentialGroup()
-                .addContainerGap(334, Short.MAX_VALUE)
-                .add(runLineOutgageButton)
-                .add(36, 36, 36))
+                .addContainerGap(20, Short.MAX_VALUE)
+                .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(outageEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(outagefEdHourLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(outageTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(outageBranchLabel)
+                    .add(outageBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(multiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(addOutageBranchButton)
+                    .add(removeOutageBranchButton))
+                .add(18, 18, 18)
+                .add(lineOutagePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(outageFileLabel)
+                    .add(outageFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(outageFileSelectButton))
+                .add(32, 32, 32)
+                .add(runOutgageAnalysisButton)
+                .add(23, 23, 23))
         );
 
-        pTradingAnalysisTabbedPane.addTab("Line Outage", lineOutagePanel);
+        pTradingAnalysisTabbedPane.addTab("Outage Analysis", lineOutagePanel);
 
         outVoltViolationCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         outVoltViolationCheckBox.setSelected(true);
@@ -822,12 +997,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outLfResultCheckBox.setText("Loadflow Result");
 
         lfResultButtonGroup.add(lfSummaryRadioButton);
-        lfSummaryRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lfSummaryRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lfSummaryRadioButton.setSelected(true);
         lfSummaryRadioButton.setText("Summary");
 
         lfResultButtonGroup.add(lfBusStyleRadioButton);
-        lfBusStyleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lfBusStyleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lfBusStyleRadioButton.setText("BusStyle");
 
         lfResultFormatLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -839,7 +1014,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         largeGSFPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         largeGSFPointsTextField.setText("5");
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
         jLabel1.setText("]");
 
         org.jdesktop.layout.GroupLayout outputConfigPanelLayout = new org.jdesktop.layout.GroupLayout(outputConfigPanel);
@@ -973,6 +1148,11 @@ private boolean saveInputData() {
     return true;
 }
 
+/*
+ *  Aclf Analysis
+ *  ============= 
+ */
+
 private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAclfAnalysisButtonActionPerformed
 	IpssLogger.getLogger().info("Aclf analysis button selected");
 	
@@ -1024,16 +1204,6 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	}.start();
 }//GEN-LAST:event_runAclfAnalysisButtonActionPerformed
 
-private void runLineOutgageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runLineOutgageButtonActionPerformed
-	IpssLogger.getLogger().info("Line outage analysis button selected");
-	
-	this.parent.setAlwaysOnTop(false);
-
-	if (!saveInputData())
-		return;
-   	
-}//GEN-LAST:event_runLineOutgageButtonActionPerformed
-
 private void selectEdFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEdFileButtonActionPerformed
 	JFileChooser fc = getExcelFileChooser();
 	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -1066,16 +1236,90 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
 	}
 }//GEN-LAST:event_lfAssistGenFileSelectButtonActionPerformed
 
+/*
+ *  Outage Analysis
+ *  =============== 
+ */
+
+private void runOutgageAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runOutgageAnalysisButtonActionPerformed
+	IpssLogger.getLogger().info("Line outage analysis button selected");
+	
+	this.parent.setAlwaysOnTop(false);
+
+	if (!saveInputData())
+		return;
+   	
+}//GEN-LAST:event_runOutgageAnalysisButtonActionPerformed
+
+private void outageSingleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageSingleRadioButtonActionPerformed
+	IpssLogger.getLogger().info("outageSingleRadioButtonActionPerformed() called");
+	disableOutageAnalysisCompoment(false, false);
+}//GEN-LAST:event_outageSingleRadioButtonActionPerformed
+
+private void outageMultiRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageMultiRadioButtonActionPerformed
+	IpssLogger.getLogger().info("outageMultiRadioButtonActionPerformed() called");
+	disableOutageAnalysisCompoment(true, false);
+}//GEN-LAST:event_outageMultiRadioButtonActionPerformed
+
+private void outageScheduleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageScheduleRadioButtonActionPerformed
+	IpssLogger.getLogger().info("outageScheduleRadioButtonActionPerformed() called");
+	disableOutageAnalysisCompoment(false, true);
+}//GEN-LAST:event_outageScheduleRadioButtonActionPerformed
+
+private void disableOutageAnalysisCompoment(boolean multi, boolean file) {
+	this.multiOutageBranchList.setEnabled(multi);
+	this.addOutageBranchButton.setEnabled(multi);
+	this.removeOutageBranchButton.setEnabled(multi);
+	this.outageFileLabel.setEnabled(file);
+	this.outageFileSelectButton.setEnabled(file);
+	this.outageFileTextField.setEnabled(file);
+}
+
+private void addOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutageBranchButtonActionPerformed
+	IpssLogger.getLogger().info("addOutageBranchButtonActionPerformed() called");
+	String id = (String)this.outageBranchListComboBox.getSelectedItem();
+	RunUIUtilFunc.addItemJList(multiOutageBranchList, id);
+//	int size = this.multiOutageBranchList.getModel().getSize();
+//	String[] ary = new String[size + 1];
+//	for (int i = 0; i < size; i++) {
+//		ary[i] = (String)multiOutageBranchList.getModel().getElementAt(i);
+//	}
+//	ary[size] = id;   
+//	multiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+}//GEN-LAST:event_addOutageBranchButtonActionPerformed
+
+private void removeOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOutageBranchButtonActionPerformed
+	IpssLogger.getLogger().info("removeOutageBranchButtonActionPerformed() called");
+    RunUIUtilFunc.removeItemJList(this.multiOutageBranchList);
+//	String id = (String)multiOutageBranchList.getSelectedValue();
+//	int size = multiOutageBranchList.getModel().getSize();
+//	String[] ary = new String[size - 1];
+//	int cnt = 0;
+//	for (int i = 0; i < size; i++) {
+//		String s = (String)multiOutageBranchList.getModel().getElementAt(i);
+//		if (s.contains(id))
+//			; // skip the item
+//		else
+//			ary[cnt++] = (String)multiOutageBranchList.getModel().getElementAt(i);
+//	}
+//	multiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+}//GEN-LAST:event_removeOutageBranchButtonActionPerformed
+
+private void outageFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageFileSelectButtonActionPerformed
+	IpssLogger.getLogger().info("outageFileSelectButtonActionPerformed() called");
+}//GEN-LAST:event_outageFileSelectButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfAnalysisPanel;
+    private javax.swing.JComboBox aclfEdHourComboBox;
+    private javax.swing.JLabel aclfEdHourLabel;
+    private javax.swing.JButton addOutageBranchButton;
     private javax.swing.JPanel caseDataPanel;
     private javax.swing.JLabel edFileLabel;
     private javax.swing.JPanel edFilePanel;
     private javax.swing.JTextField edFileTextField;
     private javax.swing.JTextField edGenPFacorTextField;
     private javax.swing.JLabel edGenPFactorLabel;
-    private javax.swing.JComboBox edHourComboBox;
-    private javax.swing.JLabel edHourLabel;
     private javax.swing.JTextField edLoadPFacorTextField;
     private javax.swing.JLabel edLoadPFactorLabel;
     private javax.swing.JLabel edLossPercentLabel;
@@ -1103,16 +1347,31 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
     private javax.swing.JLabel lfToleranceLabel;
     private javax.swing.JTextField lfToleranceTextField;
     private javax.swing.JPanel lineOutagePanel;
+    private javax.swing.JList multiOutageBranchList;
+    private javax.swing.JScrollPane multiOutageBranchScrollPane;
     private javax.swing.JCheckBox outAreaSummaryCheckBox;
     private javax.swing.JCheckBox outBranchViolationCheckBox;
     private javax.swing.JCheckBox outInterfaceViolationCheckBox;
     private javax.swing.JCheckBox outLfResultCheckBox;
     private javax.swing.JCheckBox outVoltViolationCheckBox;
     private javax.swing.JCheckBox outZoneSummaryCheckBox;
+    private javax.swing.JLabel outageBranchLabel;
+    private javax.swing.JComboBox outageBranchListComboBox;
+    private javax.swing.JComboBox outageEdHourComboBox;
+    private javax.swing.JLabel outageFileLabel;
+    private javax.swing.JButton outageFileSelectButton;
+    private javax.swing.JTextField outageFileTextField;
+    private javax.swing.JRadioButton outageMultiRadioButton;
+    private javax.swing.JRadioButton outageScheduleRadioButton;
+    private javax.swing.JRadioButton outageSingleRadioButton;
+    private javax.swing.ButtonGroup outageTypeButtonGroup;
+    private javax.swing.JPanel outageTypePanel;
+    private javax.swing.JLabel outagefEdHourLabel;
     private javax.swing.JPanel outputConfigPanel;
     private javax.swing.JTabbedPane pTradingAnalysisTabbedPane;
+    private javax.swing.JButton removeOutageBranchButton;
     private javax.swing.JButton runAclfAnalysisButton;
-    private javax.swing.JButton runLineOutgageButton;
+    private javax.swing.JButton runOutgageAnalysisButton;
     private javax.swing.JButton selectEdFileButton;
     private javax.swing.JButton selectInterfaceFileButton;
     private javax.swing.JButton selectInterfaceLimitButton;
@@ -1146,7 +1405,7 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
 		edGenPFacorTextField.setInputVerifier(v);
 		edLossPercentTextField.setInputVerifier(v);
 		edLoadPFacorTextField.setInputVerifier(v);
-		edHourComboBox.setInputVerifier(v);
+		aclfEdHourComboBox.setInputVerifier(v);
 		lfAssistGenQAdjStespTextField.setInputVerifier(v);
 		swingAllocZoneComboBox.setInputVerifier(v);
 		swingAllocMaxStepsTextField.setInputVerifier(v);
@@ -1171,7 +1430,7 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
 					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0 && 
 						   SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) <= 1.0;
 
-				else if (input == edHourComboBox )
+				else if (input == aclfEdHourComboBox )
 					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
 				else if (input == lfAssistGenQAdjStespTextField)
 					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;

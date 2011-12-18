@@ -28,30 +28,38 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.display.DclfOutFunc;
+import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
+import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.SenAnalysisBusXmlType;
+import org.ieee.odm.schema.SenBusAnalysisEnumType;
+import org.ieee.odm.schema.SensitivityEnumType;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
+import org.interpss.editor.jgraph.GraphSpringFactory;
+import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
-import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
+import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.UISpringFactory;
-import org.interpss.xml.IpssXmlHelper;
-import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.StudyCaseHanlder;
-import org.interpss.xml.schema.AreaRecXmlType;
-import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
-import org.interpss.xml.schema.BranchRecXmlType;
-import org.interpss.xml.schema.BusRecXmlType;
-import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
-import org.interpss.xml.schema.DclfStudyCaseXmlType;
-import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
-import org.interpss.xml.schema.SenBusAnalysisDataType;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.DclfObjectFactory;
-import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.common.util.NetUtilFunc;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.datatype.DblBranchValue;
+import com.interpss.datatype.DblBusValue;
+import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
+import com.interpss.pssl.simu.impl.SenAnalysisOutput;
+import com.interpss.pssl.simu.impl.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.simu.SimuContext;
 
 public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
@@ -62,8 +70,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private SimuContext _simuCtx = null;
 
     // holds the current case data being edited
-    private DclfBranchSensitivityXmlType tdFactor = null;
-	private AreaTransferAnalysisXmlType areaTransfer = null;;
+    //private DclfBranchSensitivityXmlType tdFactor = null;
+	//private AreaTransferAnalysisXmlType areaTransfer = null;;
+    
+	private ODMModelParser odmParser = new ODMModelParser();
+    private DclfSenAnalysisXmlType xmlCaseData;
     
     /** Creates new form NBAclfCasePanel */
     public NBDclfCasePanel(JDialog parent) {
@@ -92,38 +103,67 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    //_netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)simuCtx;
 	    
-	    //this.runDclfTabbedPane.setEnabledAt(1, _simuCtx.getAclfNet().isLfConverged());
+	    this.runDclfTabbedPane.setSelectedIndex(0);
+	    initGsfTabPanel();
+	    //initLodfTabPanel();
+	    
+	    this.runDclfTabbedPane.setEnabledAt(2, false);
 	    this.runDclfTabbedPane.setEnabledAt(3, false);
 	    this.runDclfTabbedPane.setEnabledAt(4, false);
+	}
+    
+    private void initGsfTabPanel() {
+    	if (_simuCtx != null) {   // this method might be called be init(), when thre 0-panel is selected
+    		this.gsfInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
+    		this.gsfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
+    		this.gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));    	
+    	}
+    }
 
+    private void initLodfTabPanel() {
+    	if (_simuCtx != null) {   // this method might be called be init(), when thre 0-panel is selected
+    		this.lodfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
+    		this.lodfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
+    	}
+    }
+/*
+    private void initPtdfTabPanel() {
 		this.ptdfInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
 		this.ptdfWithdrawBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));
 		this.ptdfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
-		
+    }    
+
+    private void initAtTabPanel() {
 		this.atFromAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AreaNo).toArray()));
 		this.atToAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AreaNo).toArray()));
 		this.atBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
-	}
-/*
-    public void setCaseData(DclfCaseData data) {
-    	_caseData = data;
+    }    
+*/
+    public void setODMParser(ODMModelParser parser) {
+    	this.odmParser = parser;
     }
- */   
-    public void setXmlCaseData(DclfStudyCaseXmlType xmlCaseData) {
-    	if (xmlCaseData.getPTransferDistFactor().size() == 0)
-    		StudyCaseHanlder.addNewTDFactor(xmlCaseData);
-    	this.tdFactor = xmlCaseData.getPTransferDistFactor().get(0);
-    	if (xmlCaseData.getAreaTransferAnalysis().size() == 0) {
-    		xmlCaseData.getAreaTransferAnalysis().add(IpssXmlParser.getFactory().createAreaTransferAnalysisXmlType());
-    		StudyCaseHanlder.setNewAreaTransfer(xmlCaseData.getAreaTransferAnalysis().get(0));
-    	}
-    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysis().get(0);
+   
+    public void setXmlCaseData(DclfSenAnalysisXmlType xmlCaseData) {
+    	this.xmlCaseData = xmlCaseData;
+//    	if (xmlCaseData.getPTransferDistFactor().size() == 0)
+//    		StudyCaseHanlder.addNewTDFactor(xmlCaseData);
+//    	this.tdFactor = xmlCaseData.getPTransferDistFactor().get(0);
+//    	if (xmlCaseData.getAreaTransferAnalysis().size() == 0) {
+//    		xmlCaseData.getAreaTransferAnalysis().add(IpssXmlParser.getFactory().createAreaTransferAnalysisXmlType());
+//    		StudyCaseHanlder.setNewAreaTransfer(xmlCaseData.getAreaTransferAnalysis().get(0));
+//    	}
+//    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysis().get(0);
     }    
     
 	/**
@@ -134,16 +174,44 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
 		
-		if (!setTDFactor2Editor())
+		if (!setGSF2Editor())
 			return false;
 
-		if (!setAreaTransfer2Editor())
-			return false;
+		//if (!setTDFactor2Editor())
+		//	return false;
+
+		//if (!setAreaTransfer2Editor())
+		//	return false;
+		
+		return true;
+	}
+
+	public boolean setGSF2Editor() {
+		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
+		
+		if (this.xmlCaseData.getGenShiftFactor().size() > 0) {
+			DclfBranchSensitivityXmlType gsf = this.xmlCaseData.getGenShiftFactor().get(0);
+			
+			SenAnalysisBusXmlType bus = gsf.getInjectBusList().getInjectBuses().get(0);
+			this.gsfInjectBusComboBox.setSelectedItem(bus.getBusId());
+			
+			this.gsfLoadThreshholdTextField.setText(
+					Number2String.toStr(gsf.getMinLoadForDistFactor().getValue(), "#0.0"));
+			
+			String[] ary = new String[gsf.getBranchSFactor().size()];
+			int cnt = 0;
+			for ( BranchSFactor sf : gsf.getBranchSFactor()) {
+				BaseBranchXmlType branch = sf.getBranch();
+				ary[cnt++] = "b:" + NetUtilFunc.formBranchId(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
+			}
+	    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+		}
 		
 		return true;
 	}
 
 	public boolean setTDFactor2Editor() {
+/*
 		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 		    this.ptdfSingleInjectBusRadioButton.setSelected(true);
 			ptdfSingleInjectBusRadioButtonActionPerformed(null);
@@ -170,11 +238,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 					
     	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
 		    			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
-
+*/
 		return true;
 	}
 
 	public boolean setAreaTransfer2Editor() {
+/*		
 		this.atTransAmtTextField.setText(String.format("%4.2f", this.areaTransfer.getTransderAmountMW()));
 		this.atTransAmtUnitComboBox.setSelectedItem("MW");
 		
@@ -226,7 +295,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	atFromAreaUpdateButton.setEnabled(false);
     	atToDFactorEditTextField.setEnabled(false);
     	atToAreaUpdateButton.setEnabled(false);
-
+*/
     	return true;
 	}
 
@@ -238,12 +307,68 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
-		saveEditor2TDFactor();
-		saveEditor2AreaTransfer();
+		
+		saveEditor2GSF();
+
+		saveEditor2LODF();
+		
+		//saveEditor2TDFactor();
+		//saveEditor2AreaTransfer();
 		return errMsg.size() == 0;
 	}
 
+	public boolean saveEditor2GSF() {
+		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2GSF() called");
+
+		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+		
+		this.xmlCaseData.getGenShiftFactor().clear();
+		DclfBranchSensitivityXmlType gsf = helper.createGSF(this.xmlCaseData);
+		
+		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		
+		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		bus.setBusId((String)this.gsfInjectBusComboBox.getSelectedItem());
+		
+		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
+		
+		gsf.setMinLoadForDistFactor(helper.createActivePower(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), "MW"));
+
+		gsf.getBranchSFactor().clear();
+			
+    	int size = gsfMonitorBranchList.getModel().getSize();
+    	for (int i = 0; i < size; i++) {
+    		String id = (String)gsfMonitorBranchList.getModel().getElementAt(i);
+    		if (id.startsWith("b:")) { // branch
+    			String braId = id.substring(2);
+    			String fromId = NetUtilFunc.findFromID(braId);
+    			String toId = NetUtilFunc.findToID(braId);
+    			String cirId = NetUtilFunc.findCirNo(braId);
+    			
+	    		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
+				LineBranchXmlType line = helper.createLineBranchXmlType();
+				sf.setBranch(line);
+				line.setId(braId);
+				line.setFromBusId(fromId);
+				line.setToBusId(toId);
+				line.setCircuitId(cirId);
+    		}
+    		else {  // interface
+    			
+    		}
+    	}
+		
+		return true;
+	}
+
+	public boolean saveEditor2LODF() {
+		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2GSF() called");
+		return true;
+	}
+	
 	public boolean saveEditor2TDFactor() {
+/*		
 		if (tdFactor.getInjectBusList() == null) {  // for converting old version data
 			tdFactor.setInjectBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
 			tdFactor.getInjectBusList().getInjectBus().add(IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType());
@@ -276,10 +401,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		else {	
 			tdFactor.setWithdrawBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
 		}
+*/		
 		return true;
 	}
     
 	public boolean saveEditor2AreaTransfer() {
+/*		
 		double amt = new Double(this.atTransAmtTextField.getText()).doubleValue();
 		this.areaTransfer.setTransderAmountMW(((String)this.atTransAmtUnitComboBox.getSelectedItem()).equals("MW")?
 							amt : amt * _simuCtx.getNetwork().getBaseKva()/1000.0);
@@ -295,11 +422,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 		saveFromAreaBusList2AreaTransfer();
 		saveToAreaBusList2AreaTransfer();
-
+*/
 		return true;
 	}
 
 	private void saveFromAreaBusList2AreaTransfer() {
+/*
 		areaTransfer.setInjectBusList(null);
 		areaTransfer.setInjectBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
 		for(int i = 0; i < atFromAreaBusList.getModel().getSize(); i++) {
@@ -309,9 +437,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
+*/		
 	}
 	
 	private void saveToAreaBusList2AreaTransfer() {
+/*		
 		areaTransfer.setWithdrawBusList(null);
 		areaTransfer.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 		for(int i = 0; i < atToAreaBusList.getModel().getSize(); i++) {
@@ -321,6 +451,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
+*/		
 	}
 	
     /** This method is called from within the constructor to
@@ -332,65 +463,63 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        lossInjectionBusButtonGroup = new javax.swing.ButtonGroup();
-        lossInjectButtonGroup = new javax.swing.ButtonGroup();
-        lossWithdrawBusButtonGroup = new javax.swing.ButtonGroup();
-        lossWithdrawButtonGroup = new javax.swing.ButtonGroup();
-        gsfInjectionBusButtonGroup = new javax.swing.ButtonGroup();
-        gsfInjectButtonGroup = new javax.swing.ButtonGroup();
-        gsfWithdrawBusButtonGroup = new javax.swing.ButtonGroup();
         gsfWithdrawButtonGroup = new javax.swing.ButtonGroup();
-        ptdfInjectionBusButtonGroup = new javax.swing.ButtonGroup();
-        ptdfInjectButtonGroup = new javax.swing.ButtonGroup();
-        ptdfWithdrawBusButtonGroup = new javax.swing.ButtonGroup();
-        ptdfWithdrawButtonGroup = new javax.swing.ButtonGroup();
-        lodfInjectionBusButtonGroup = new javax.swing.ButtonGroup();
-        lodfInjectButtonGroup = new javax.swing.ButtonGroup();
-        lodfWithdrawBusButtonGroup = new javax.swing.ButtonGroup();
-        lodfWithdrawButtonGroup = new javax.swing.ButtonGroup();
+        lodfTypeButtonGroup = new javax.swing.ButtonGroup();
         runDclfTabbedPane = new javax.swing.JTabbedPane();
-        lodfPanel = new javax.swing.JPanel();
-        ptdfInjectionPanel1 = new javax.swing.JPanel();
-        ptdfInjectBusComboBox1 = new javax.swing.JComboBox();
-        ptdfMeasBranchPanel1 = new javax.swing.JPanel();
-        ptdfBranchListComboBox1 = new javax.swing.JComboBox();
-        ptdfAddBranchButton1 = new javax.swing.JButton();
-        ptdfInterfaceListComboBox1 = new javax.swing.JComboBox();
-        ptdfAddInterfaceButton1 = new javax.swing.JButton();
-        ptdfScrollPane1 = new javax.swing.JScrollPane();
-        ptdfMeasBranchList1 = new javax.swing.JList();
-        ptdfRemoveBranchButton1 = new javax.swing.JButton();
-        ptdfCalculateButton1 = new javax.swing.JButton();
         gsfPanel = new javax.swing.JPanel();
         gsfInjectionPanel = new javax.swing.JPanel();
         gsfInjBusSelPanel = new javax.swing.JPanel();
         gsfGenBusLabel = new javax.swing.JLabel();
         gsfInjectBusComboBox = new javax.swing.JComboBox();
         gsfWithdrawPanel = new javax.swing.JPanel();
-        gsfSingleMultiBusPanel = new javax.swing.JPanel();
-        ptdfWithSingleBusRadioButton3 = new javax.swing.JRadioButton();
-        ptdfWithMultiBusRadioButton3 = new javax.swing.JRadioButton();
+        gsfWithdrawiBusPanel = new javax.swing.JPanel();
+        gsfLoadDFactorRadioButton = new javax.swing.JRadioButton();
+        gsfLoadSingleBusRadioButton = new javax.swing.JRadioButton();
+        gsfLoadMultiBusRadioButton = new javax.swing.JRadioButton();
+        gsfWithdrawMarginPanel = new javax.swing.JPanel();
+        gsfLoadThreshholdLabel = new javax.swing.JLabel();
+        gsfLoadThreshholdTextField = new javax.swing.JTextField();
         gsfWithBusSelectPanel = new javax.swing.JPanel();
-        ptdfWithdrawBusComboBox3 = new javax.swing.JComboBox();
-        ptdfWithLoadBusRadioButton3 = new javax.swing.JRadioButton();
-        ptdfWithAllBusRadioButton3 = new javax.swing.JRadioButton();
+        gsfLoadBusLabel = new javax.swing.JLabel();
+        gsfLoadBusComboBox = new javax.swing.JComboBox();
+        space = new javax.swing.JLabel();
+        gsfDistFactorTextField = new javax.swing.JTextField();
+        gsfPercentLabel = new javax.swing.JLabel();
         gsfWithMultiBusPanel = new javax.swing.JPanel();
-        ptdfWithBusScrollPane3 = new javax.swing.JScrollPane();
+        gsfWithBusScrollPane = new javax.swing.JScrollPane();
         ptdfWithdarwBusList3 = new javax.swing.JList();
-        ptdfLoadDistFactorLabel3 = new javax.swing.JLabel();
-        ptdfDistFactorTextField3 = new javax.swing.JTextField();
-        ptdfPercentLabel3 = new javax.swing.JLabel();
-        ptdfAddWithBusButton3 = new javax.swing.JButton();
-        ptdfRemoveWithBusButton3 = new javax.swing.JButton();
-        gsfMeasBranchPanel = new javax.swing.JPanel();
+        gsfAddWithBusButton = new javax.swing.JButton();
+        gsfRemoveWithBusButton = new javax.swing.JButton();
+        gsfMonitorBranchPanel = new javax.swing.JPanel();
         gsfBranchListComboBox = new javax.swing.JComboBox();
         gsfAddBranchButton = new javax.swing.JButton();
+        gsfBranchLargetGSFButton = new javax.swing.JButton();
         gsfInterfaceListComboBox = new javax.swing.JComboBox();
         gsfAddInterfaceButton = new javax.swing.JButton();
         gsdfScrollPane = new javax.swing.JScrollPane();
-        ptdfMeasBranchList3 = new javax.swing.JList();
+        gsfMonitorBranchList = new javax.swing.JList();
         gsfRemoveBranchButton = new javax.swing.JButton();
         gsfCalculateButton = new javax.swing.JButton();
+        lodfPanel = new javax.swing.JPanel();
+        lodfOutageBranchPanel = new javax.swing.JPanel();
+        lodfTypePanel = new javax.swing.JPanel();
+        lodfSingleTypeRadioButton = new javax.swing.JRadioButton();
+        lodfMultiTypeRadioButton = new javax.swing.JRadioButton();
+        lodfBranchListComboBox = new javax.swing.JComboBox();
+        lodfBranchListLabel = new javax.swing.JLabel();
+        lodfMultiBranchScrollPane = new javax.swing.JScrollPane();
+        lodfMultiOutageBranchList = new javax.swing.JList();
+        lodfAddBranchButton = new javax.swing.JButton();
+        lodfRemoveBranchButton = new javax.swing.JButton();
+        lodfCalculateButton = new javax.swing.JButton();
+        lodfMonitorBranchPanel = new javax.swing.JPanel();
+        lodfMonitorBranchListComboBox = new javax.swing.JComboBox();
+        lodfMonitorAddBranchButton = new javax.swing.JButton();
+        lodfMonitorInterfaceListComboBox = new javax.swing.JComboBox();
+        lodfMonitorAddInterfaceButton = new javax.swing.JButton();
+        lodfMonitorScrollPane = new javax.swing.JScrollPane();
+        lodfMonitorBranchInterfaceList = new javax.swing.JList();
+        lodfMonitorRemoveButton = new javax.swing.JButton();
         ptdfPanel = new javax.swing.JPanel();
         ptdfInjectionPanel = new javax.swing.JPanel();
         ptdfInjBusPanel = new javax.swing.JPanel();
@@ -488,9 +617,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atBranchListScrollPane = new javax.swing.JScrollPane();
         atMeasBranchList = new javax.swing.JList();
         atRemoveBranchButton = new javax.swing.JButton();
-        atCalculateButton = new javax.swing.JButton();
-        atAclfCalculateButton = new javax.swing.JButton();
-        atSeAssessButton = new javax.swing.JButton();
 
         runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         runDclfTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
@@ -500,137 +626,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        ptdfInjectionPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Injection Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        ptdfInjectBusComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfInjectBusComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        org.jdesktop.layout.GroupLayout ptdfInjectionPanel1Layout = new org.jdesktop.layout.GroupLayout(ptdfInjectionPanel1);
-        ptdfInjectionPanel1.setLayout(ptdfInjectionPanel1Layout);
-        ptdfInjectionPanel1Layout.setHorizontalGroup(
-            ptdfInjectionPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfInjectionPanel1Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .add(ptdfInjectBusComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 145, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        ptdfInjectionPanel1Layout.setVerticalGroup(
-            ptdfInjectionPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(ptdfInjectionPanel1Layout.createSequentialGroup()
-                .add(ptdfInjectBusComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ptdfMeasBranchPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Measurement Branches", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        ptdfBranchListComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfBranchListComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        ptdfAddBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfAddBranchButton1.setText("Add Branch");
-        ptdfAddBranchButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfAddBranchButton1ActionPerformed(evt);
-            }
-        });
-
-        ptdfInterfaceListComboBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfInterfaceListComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ptdfInterfaceListComboBox1.setEnabled(false);
-
-        ptdfAddInterfaceButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfAddInterfaceButton1.setText("Add Interface");
-        ptdfAddInterfaceButton1.setEnabled(false);
-        ptdfAddInterfaceButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfAddInterfaceButton1ActionPerformed(evt);
-            }
-        });
-
-        ptdfMeasBranchList1.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfScrollPane1.setViewportView(ptdfMeasBranchList1);
-
-        ptdfRemoveBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfRemoveBranchButton1.setText("Remove");
-        ptdfRemoveBranchButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfRemoveBranchButton1ActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout ptdfMeasBranchPanel1Layout = new org.jdesktop.layout.GroupLayout(ptdfMeasBranchPanel1);
-        ptdfMeasBranchPanel1.setLayout(ptdfMeasBranchPanel1Layout);
-        ptdfMeasBranchPanel1Layout.setHorizontalGroup(
-            ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(ptdfMeasBranchPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ptdfBranchListComboBox1, 0, 179, Short.MAX_VALUE)
-                    .add(ptdfScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ptdfAddBranchButton1)
-                    .add(ptdfRemoveBranchButton1)
-                    .add(ptdfInterfaceListComboBox1, 0, 179, Short.MAX_VALUE)
-                    .add(ptdfAddInterfaceButton1))
-                .addContainerGap())
-        );
-        ptdfMeasBranchPanel1Layout.setVerticalGroup(
-            ptdfMeasBranchPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(ptdfMeasBranchPanel1Layout.createSequentialGroup()
-                .add(ptdfBranchListComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfAddBranchButton1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfInterfaceListComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfAddInterfaceButton1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfRemoveBranchButton1)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        ptdfCalculateButton1.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfCalculateButton1.setText("Calculate");
-        ptdfCalculateButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfCalculateButton1ActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout lodfPanelLayout = new org.jdesktop.layout.GroupLayout(lodfPanel);
-        lodfPanel.setLayout(lodfPanelLayout);
-        lodfPanelLayout.setHorizontalGroup(
-            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lodfPanelLayout.createSequentialGroup()
-                .addContainerGap(23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lodfPanelLayout.createSequentialGroup()
-                        .add(ptdfInjectionPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(ptdfMeasBranchPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lodfPanelLayout.createSequentialGroup()
-                        .add(ptdfCalculateButton1)
-                        .add(186, 186, 186))))
-        );
-        lodfPanelLayout.setVerticalGroup(
-            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lodfPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ptdfInjectionPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lodfPanelLayout.createSequentialGroup()
-                        .add(ptdfMeasBranchPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(ptdfCalculateButton1)))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-
-        runDclfTabbedPane.addTab("LODF", lodfPanel);
-
         gsfInjectionPanel.setLayout(new java.awt.GridBagLayout());
 
+        gsfGenBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfGenBusLabel.setText("Gen Bus    ");
         gsfInjBusSelPanel.add(gsfGenBusLabel);
 
@@ -642,88 +640,118 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.gridy = 1;
         gsfInjectionPanel.add(gsfInjBusSelPanel, gridBagConstraints);
 
-        gsfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+        gsfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
         gsfWithdrawPanel.setLayout(new java.awt.GridBagLayout());
 
-        ptdfWithdrawButtonGroup.add(ptdfWithSingleBusRadioButton3);
-        ptdfWithSingleBusRadioButton3.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithSingleBusRadioButton3.setText("Single Bus");
-        ptdfWithSingleBusRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        gsfWithdrawButtonGroup.add(gsfLoadDFactorRadioButton);
+        gsfLoadDFactorRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadDFactorRadioButton.setSelected(true);
+        gsfLoadDFactorRadioButton.setText("Load DFactor");
+        gsfLoadDFactorRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithSingleBusRadioButton3ActionPerformed(evt);
+                gsfLoadDFactorRadioButtonActionPerformed(evt);
             }
         });
-        gsfSingleMultiBusPanel.add(ptdfWithSingleBusRadioButton3);
+        gsfWithdrawiBusPanel.add(gsfLoadDFactorRadioButton);
 
-        ptdfWithdrawButtonGroup.add(ptdfWithMultiBusRadioButton3);
-        ptdfWithMultiBusRadioButton3.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithMultiBusRadioButton3.setText("Multi-Buses");
-        ptdfWithMultiBusRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        gsfWithdrawButtonGroup.add(gsfLoadSingleBusRadioButton);
+        gsfLoadSingleBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadSingleBusRadioButton.setText("Single");
+        gsfLoadSingleBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithMultiBusRadioButton3ActionPerformed(evt);
+                gsfLoadSingleBusRadioButtonActionPerformed(evt);
             }
         });
-        gsfSingleMultiBusPanel.add(ptdfWithMultiBusRadioButton3);
+        gsfWithdrawiBusPanel.add(gsfLoadSingleBusRadioButton);
 
-        gsfWithdrawPanel.add(gsfSingleMultiBusPanel, new java.awt.GridBagConstraints());
-
-        ptdfWithdrawBusComboBox3.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfWithdrawBusComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gsfWithBusSelectPanel.add(ptdfWithdrawBusComboBox3);
-
-        ptdfWithdrawBusButtonGroup.add(ptdfWithLoadBusRadioButton3);
-        ptdfWithLoadBusRadioButton3.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfWithLoadBusRadioButton3.setText("Load ");
-        ptdfWithLoadBusRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        gsfWithdrawButtonGroup.add(gsfLoadMultiBusRadioButton);
+        gsfLoadMultiBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadMultiBusRadioButton.setText("Multi");
+        gsfLoadMultiBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithLoadBusRadioButton3ActionPerformed(evt);
+                gsfLoadMultiBusRadioButtonActionPerformed(evt);
             }
         });
-        gsfWithBusSelectPanel.add(ptdfWithLoadBusRadioButton3);
+        gsfWithdrawiBusPanel.add(gsfLoadMultiBusRadioButton);
 
-        ptdfWithdrawBusButtonGroup.add(ptdfWithAllBusRadioButton3);
-        ptdfWithAllBusRadioButton3.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfWithAllBusRadioButton3.setText("All Buses");
-        ptdfWithAllBusRadioButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfWithAllBusRadioButton3ActionPerformed(evt);
-            }
-        });
-        gsfWithBusSelectPanel.add(ptdfWithAllBusRadioButton3);
+        gsfWithdrawPanel.add(gsfWithdrawiBusPanel, new java.awt.GridBagConstraints());
+
+        gsfLoadThreshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadThreshholdLabel.setText("Threshhold (Mw)   ");
+
+        gsfLoadThreshholdTextField.setColumns(3);
+        gsfLoadThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadThreshholdTextField.setText("5.0");
+
+        org.jdesktop.layout.GroupLayout gsfWithdrawMarginPanelLayout = new org.jdesktop.layout.GroupLayout(gsfWithdrawMarginPanel);
+        gsfWithdrawMarginPanel.setLayout(gsfWithdrawMarginPanelLayout);
+        gsfWithdrawMarginPanelLayout.setHorizontalGroup(
+            gsfWithdrawMarginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(gsfWithdrawMarginPanelLayout.createSequentialGroup()
+                .add(5, 5, 5)
+                .add(gsfLoadThreshholdLabel)
+                .add(5, 5, 5)
+                .add(gsfLoadThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+        gsfWithdrawMarginPanelLayout.setVerticalGroup(
+            gsfWithdrawMarginPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(gsfWithdrawMarginPanelLayout.createSequentialGroup()
+                .add(8, 8, 8)
+                .add(gsfLoadThreshholdLabel))
+            .add(gsfWithdrawMarginPanelLayout.createSequentialGroup()
+                .add(5, 5, 5)
+                .add(gsfLoadThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 0);
+        gsfWithdrawPanel.add(gsfWithdrawMarginPanel, gridBagConstraints);
+
+        gsfLoadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadBusLabel.setText("Load Bus    ");
+        gsfLoadBusLabel.setEnabled(false);
+        gsfWithBusSelectPanel.add(gsfLoadBusLabel);
+
+        gsfLoadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gsfLoadBusComboBox.setEnabled(false);
+        gsfWithBusSelectPanel.add(gsfLoadBusComboBox);
+
+        space.setText("  ");
+        gsfWithBusSelectPanel.add(space);
+
+        gsfDistFactorTextField.setText("100.0");
+        gsfDistFactorTextField.setEnabled(false);
+        gsfWithBusSelectPanel.add(gsfDistFactorTextField);
+
+        gsfPercentLabel.setText("%");
+        gsfPercentLabel.setEnabled(false);
+        gsfWithBusSelectPanel.add(gsfPercentLabel);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
         gsfWithdrawPanel.add(gsfWithBusSelectPanel, gridBagConstraints);
 
         ptdfWithdarwBusList3.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfWithdarwBusList3.setEnabled(false);
-        ptdfWithBusScrollPane3.setViewportView(ptdfWithdarwBusList3);
+        gsfWithBusScrollPane.setViewportView(ptdfWithdarwBusList3);
 
-        ptdfLoadDistFactorLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
-        ptdfLoadDistFactorLabel3.setText("Load Disttribution Factor");
-        ptdfLoadDistFactorLabel3.setEnabled(false);
-
-        ptdfDistFactorTextField3.setText("100.0");
-        ptdfDistFactorTextField3.setEnabled(false);
-
-        ptdfPercentLabel3.setText("%");
-        ptdfPercentLabel3.setEnabled(false);
-
-        ptdfAddWithBusButton3.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfAddWithBusButton3.setText("Add");
-        ptdfAddWithBusButton3.setEnabled(false);
-        ptdfAddWithBusButton3.addActionListener(new java.awt.event.ActionListener() {
+        gsfAddWithBusButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        gsfAddWithBusButton.setText("Add");
+        gsfAddWithBusButton.setEnabled(false);
+        gsfAddWithBusButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfAddWithBusButton3ActionPerformed(evt);
+                gsfAddWithBusButtonActionPerformed(evt);
             }
         });
 
-        ptdfRemoveWithBusButton3.setFont(new java.awt.Font("Dialog", 0, 10));
-        ptdfRemoveWithBusButton3.setText("Remove");
-        ptdfRemoveWithBusButton3.setEnabled(false);
-        ptdfRemoveWithBusButton3.addActionListener(new java.awt.event.ActionListener() {
+        gsfRemoveWithBusButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        gsfRemoveWithBusButton.setText("Remove");
+        gsfRemoveWithBusButton.setEnabled(false);
+        gsfRemoveWithBusButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ptdfRemoveWithBusButton3ActionPerformed(evt);
+                gsfRemoveWithBusButtonActionPerformed(evt);
             }
         });
 
@@ -732,46 +760,31 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gsfWithMultiBusPanelLayout.setHorizontalGroup(
             gsfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfWithMultiBusPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(gsfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(gsfWithBusScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                     .add(gsfWithMultiBusPanelLayout.createSequentialGroup()
-                        .add(32, 32, 32)
-                        .add(ptdfWithBusScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(gsfWithMultiBusPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(gsfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(gsfWithMultiBusPanelLayout.createSequentialGroup()
-                                .add(ptdfAddWithBusButton3)
-                                .add(18, 18, 18)
-                                .add(ptdfRemoveWithBusButton3))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, gsfWithMultiBusPanelLayout.createSequentialGroup()
-                                .add(ptdfLoadDistFactorLabel3)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(ptdfDistFactorTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(ptdfPercentLabel3)))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(gsfAddWithBusButton)
+                        .add(18, 18, 18)
+                        .add(gsfRemoveWithBusButton)
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         gsfWithMultiBusPanelLayout.setVerticalGroup(
             gsfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfWithMultiBusPanelLayout.createSequentialGroup()
-                .add(gsfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(ptdfLoadDistFactorLabel3)
-                    .add(ptdfDistFactorTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ptdfPercentLabel3))
+                .add(gsfWithBusScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfWithBusScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(gsfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(ptdfRemoveWithBusButton3)
-                    .add(ptdfAddWithBusButton3))
+                    .add(gsfRemoveWithBusButton)
+                    .add(gsfAddWithBusButton))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gsfWithdrawPanel.add(gsfWithMultiBusPanel, gridBagConstraints);
 
-        gsfMeasBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monitor Branch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+        gsfMonitorBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monitor Branch/Interface", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         gsfBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -781,6 +794,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gsfAddBranchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfAddBranchButtonActionPerformed(evt);
+            }
+        });
+
+        gsfBranchLargetGSFButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        gsfBranchLargetGSFButton.setText("Largest GSF");
+        gsfBranchLargetGSFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfBranchLargetGSFButtonActionPerformed(evt);
             }
         });
 
@@ -797,8 +818,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        ptdfMeasBranchList3.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsdfScrollPane.setViewportView(ptdfMeasBranchList3);
+        gsfMonitorBranchList.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsdfScrollPane.setViewportView(gsfMonitorBranchList);
 
         gsfRemoveBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
         gsfRemoveBranchButton.setText("Remove");
@@ -808,36 +829,41 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        org.jdesktop.layout.GroupLayout gsfMeasBranchPanelLayout = new org.jdesktop.layout.GroupLayout(gsfMeasBranchPanel);
-        gsfMeasBranchPanel.setLayout(gsfMeasBranchPanelLayout);
-        gsfMeasBranchPanelLayout.setHorizontalGroup(
-            gsfMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(gsfMeasBranchPanelLayout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout gsfMonitorBranchPanelLayout = new org.jdesktop.layout.GroupLayout(gsfMonitorBranchPanel);
+        gsfMonitorBranchPanel.setLayout(gsfMonitorBranchPanelLayout);
+        gsfMonitorBranchPanelLayout.setHorizontalGroup(
+            gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfMonitorBranchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(gsfMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(gsfBranchListComboBox, 0, 138, Short.MAX_VALUE)
-                    .add(gsdfScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(gsfAddBranchButton)
+                .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(gsfBranchListComboBox, 0, 219, Short.MAX_VALUE)
+                    .add(gsfMonitorBranchPanelLayout.createSequentialGroup()
+                        .add(gsfAddBranchButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfBranchLargetGSFButton))
+                    .add(gsfInterfaceListComboBox, 0, 219, Short.MAX_VALUE)
+                    .add(gsfAddInterfaceButton)
                     .add(gsfRemoveBranchButton)
-                    .add(gsfInterfaceListComboBox, 0, 138, Short.MAX_VALUE)
-                    .add(gsfAddInterfaceButton))
+                    .add(gsdfScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        gsfMeasBranchPanelLayout.setVerticalGroup(
-            gsfMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(gsfMeasBranchPanelLayout.createSequentialGroup()
+        gsfMonitorBranchPanelLayout.setVerticalGroup(
+            gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(gsfMonitorBranchPanelLayout.createSequentialGroup()
                 .add(gsfBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(gsfAddBranchButton)
+                .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(gsfAddBranchButton)
+                    .add(gsfBranchLargetGSFButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gsfInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gsfAddInterfaceButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(gsdfScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(gsdfScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 101, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gsfRemoveBranchButton)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         gsfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -852,18 +878,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gsfPanel.setLayout(gsfPanelLayout);
         gsfPanelLayout.setHorizontalGroup(
             gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(gsfPanelLayout.createSequentialGroup()
-                .add(26, 26, 26)
-                .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                    .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(gsfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(51, 51, 51))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfPanelLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
+                .add(20, 20, 20)
+                .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                    .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 253, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(19, 19, 19))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfPanelLayout.createSequentialGroup()
+                .addContainerGap(246, Short.MAX_VALUE)
                 .add(gsfCalculateButton)
-                .add(200, 200, 200))
+                .add(224, 224, 224))
         );
         gsfPanelLayout.setVerticalGroup(
             gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -873,19 +899,236 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(gsfPanelLayout.createSequentialGroup()
                         .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
-                    .add(gsfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
+                    .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(18, 18, 18)
                 .add(gsfCalculateButton)
-                .add(65, 65, 65))
+                .add(15, 15, 15))
         );
 
         runDclfTabbedPane.addTab("GSF", gsfPanel);
 
+        lodfPanel.setEnabled(false);
+
+        lodfTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Outage Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        lodfTypeButtonGroup.add(lodfSingleTypeRadioButton);
+        lodfSingleTypeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfSingleTypeRadioButton.setSelected(true);
+        lodfSingleTypeRadioButton.setText("Single Branch");
+        lodfSingleTypeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfSingleTypeRadioButtonActionPerformed(evt);
+            }
+        });
+
+        lodfTypeButtonGroup.add(lodfMultiTypeRadioButton);
+        lodfMultiTypeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfMultiTypeRadioButton.setText("Multii-Branch");
+        lodfMultiTypeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfMultiTypeRadioButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lodfTypePanelLayout = new org.jdesktop.layout.GroupLayout(lodfTypePanel);
+        lodfTypePanel.setLayout(lodfTypePanelLayout);
+        lodfTypePanelLayout.setHorizontalGroup(
+            lodfTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfTypePanelLayout.createSequentialGroup()
+                .add(24, 24, 24)
+                .add(lodfSingleTypeRadioButton)
+                .add(18, 18, 18)
+                .add(lodfMultiTypeRadioButton)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        lodfTypePanelLayout.setVerticalGroup(
+            lodfTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(lodfSingleTypeRadioButton)
+                .add(lodfMultiTypeRadioButton))
+        );
+
+        lodfBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lodfBranchListLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfBranchListLabel.setText("Branch");
+
+        lodfMultiOutageBranchList.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfMultiBranchScrollPane.setViewportView(lodfMultiOutageBranchList);
+
+        lodfAddBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lodfAddBranchButton.setText("Add");
+        lodfAddBranchButton.setEnabled(false);
+        lodfAddBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfAddBranchButtonActionPerformed(evt);
+            }
+        });
+
+        lodfRemoveBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lodfRemoveBranchButton.setText("Remove");
+        lodfRemoveBranchButton.setEnabled(false);
+        lodfRemoveBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfRemoveBranchButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lodfOutageBranchPanelLayout = new org.jdesktop.layout.GroupLayout(lodfOutageBranchPanel);
+        lodfOutageBranchPanel.setLayout(lodfOutageBranchPanelLayout);
+        lodfOutageBranchPanelLayout.setHorizontalGroup(
+            lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfOutageBranchPanelLayout.createSequentialGroup()
+                .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(lodfOutageBranchPanelLayout.createSequentialGroup()
+                        .add(8, 8, 8)
+                        .add(lodfBranchListLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(lodfBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 188, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(lodfOutageBranchPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(lodfOutageBranchPanelLayout.createSequentialGroup()
+                                .add(lodfAddBranchButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(lodfRemoveBranchButton))
+                            .add(lodfMultiBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(lodfTypePanel, 0, 253, Short.MAX_VALUE))
+                .addContainerGap(6, Short.MAX_VALUE))
+        );
+        lodfOutageBranchPanelLayout.setVerticalGroup(
+            lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfOutageBranchPanelLayout.createSequentialGroup()
+                .add(lodfTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(12, 12, 12)
+                .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lodfBranchListLabel)
+                    .add(lodfBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(lodfMultiBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 108, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lodfAddBranchButton)
+                    .add(lodfRemoveBranchButton))
+                .add(75, 75, 75))
+        );
+
+        lodfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfCalculateButton.setText("Calculate");
+        lodfCalculateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfCalculateButtonActionPerformed(evt);
+            }
+        });
+
+        lodfMonitorBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monitor Branch/Interface", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        lodfMonitorBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lodfMonitorAddBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lodfMonitorAddBranchButton.setText("Add Branch");
+        lodfMonitorAddBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfMonitorAddBranchButtonActionPerformed(evt);
+            }
+        });
+
+        lodfMonitorInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfMonitorInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        lodfMonitorInterfaceListComboBox.setEnabled(false);
+
+        lodfMonitorAddInterfaceButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lodfMonitorAddInterfaceButton.setText("Add Interface");
+        lodfMonitorAddInterfaceButton.setEnabled(false);
+        lodfMonitorAddInterfaceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfMonitorAddInterfaceButtonActionPerformed(evt);
+            }
+        });
+
+        lodfMonitorBranchInterfaceList.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfMonitorScrollPane.setViewportView(lodfMonitorBranchInterfaceList);
+
+        lodfMonitorRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        lodfMonitorRemoveButton.setText("Remove");
+        lodfMonitorRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lodfMonitorRemoveButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout lodfMonitorBranchPanelLayout = new org.jdesktop.layout.GroupLayout(lodfMonitorBranchPanel);
+        lodfMonitorBranchPanel.setLayout(lodfMonitorBranchPanelLayout);
+        lodfMonitorBranchPanelLayout.setHorizontalGroup(
+            lodfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfMonitorBranchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lodfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lodfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                    .add(lodfMonitorBranchListComboBox, 0, 227, Short.MAX_VALUE)
+                    .add(lodfMonitorAddBranchButton)
+                    .add(lodfMonitorInterfaceListComboBox, 0, 227, Short.MAX_VALUE)
+                    .add(lodfMonitorAddInterfaceButton)
+                    .add(lodfMonitorRemoveButton))
+                .addContainerGap())
+        );
+        lodfMonitorBranchPanelLayout.setVerticalGroup(
+            lodfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfMonitorBranchPanelLayout.createSequentialGroup()
+                .add(lodfMonitorBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfMonitorAddBranchButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfMonitorInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfMonitorAddInterfaceButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfMonitorRemoveButton)
+                .addContainerGap())
+        );
+
+        org.jdesktop.layout.GroupLayout lodfPanelLayout = new org.jdesktop.layout.GroupLayout(lodfPanel);
+        lodfPanel.setLayout(lodfPanelLayout);
+        lodfPanelLayout.setHorizontalGroup(
+            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lodfPanelLayout.createSequentialGroup()
+                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lodfPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(lodfOutageBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(lodfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(lodfPanelLayout.createSequentialGroup()
+                        .add(229, 229, 229)
+                        .add(lodfCalculateButton)))
+                .addContainerGap())
+        );
+        lodfPanelLayout.setVerticalGroup(
+            lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lodfPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lodfOutageBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lodfPanelLayout.createSequentialGroup()
+                        .add(lodfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(20, 20, 20)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfCalculateButton)
+                .add(23, 23, 23))
+        );
+
+        runDclfTabbedPane.addTab("LODF", lodfPanel);
+
+        ptdfPanel.setEnabled(false);
+
         ptdfInjectionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Injection Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
         ptdfInjectionPanel.setLayout(new java.awt.GridBagLayout());
 
-        ptdfInjectButtonGroup.add(ptdfSingleInjectBusRadioButton);
         ptdfSingleInjectBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfSingleInjectBusRadioButton.setText("Single Bus");
         ptdfSingleInjectBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -895,7 +1138,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         ptdfInjBusPanel.add(ptdfSingleInjectBusRadioButton);
 
-        ptdfInjectButtonGroup.add(ptdfMultiInjectBusRadioButton);
         ptdfMultiInjectBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfMultiInjectBusRadioButton.setText("All Gen Buses");
         ptdfMultiInjectBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -911,7 +1153,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ptdfInjBusSelPanel.add(ptdfInjectBusComboBox);
 
-        ptdfInjectionBusButtonGroup.add(ptdfInjectGenBusRadioButton);
         ptdfInjectGenBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         ptdfInjectGenBusRadioButton.setText("Gen Buses");
         ptdfInjectGenBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -921,7 +1162,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         ptdfInjBusSelPanel.add(ptdfInjectGenBusRadioButton);
 
-        ptdfInjectionBusButtonGroup.add(ptdfInjectAllBusRadioButton);
         ptdfInjectAllBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         ptdfInjectAllBusRadioButton.setText("All Buses");
         ptdfInjectAllBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -938,7 +1178,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "WithdrawBus(es)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
         ptdfWithdrawPanel.setLayout(new java.awt.GridBagLayout());
 
-        ptdfWithdrawButtonGroup.add(ptdfWithSingleBusRadioButton);
         ptdfWithSingleBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfWithSingleBusRadioButton.setText("Single Bus");
         ptdfWithSingleBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -948,7 +1187,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         ptdfSingleMultiBusPanel.add(ptdfWithSingleBusRadioButton);
 
-        ptdfWithdrawButtonGroup.add(ptdfWithMultiBusRadioButton);
         ptdfWithMultiBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfWithMultiBusRadioButton.setText("Multi-Buses");
         ptdfWithMultiBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -964,7 +1202,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfWithdrawBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ptdfWithBusSelectPanel.add(ptdfWithdrawBusComboBox);
 
-        ptdfWithdrawBusButtonGroup.add(ptdfWithLoadBusRadioButton);
         ptdfWithLoadBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         ptdfWithLoadBusRadioButton.setText("Load ");
         ptdfWithLoadBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -974,7 +1211,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         ptdfWithBusSelectPanel.add(ptdfWithLoadBusRadioButton);
 
-        ptdfWithdrawBusButtonGroup.add(ptdfWithAllBusRadioButton);
         ptdfWithAllBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         ptdfWithAllBusRadioButton.setText("All Buses");
         ptdfWithAllBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1027,21 +1263,20 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(ptdfWithMultiBusPanelLayout.createSequentialGroup()
                 .add(ptdfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(ptdfWithMultiBusPanelLayout.createSequentialGroup()
-                        .add(32, 32, 32)
-                        .add(ptdfWithBusScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(ptdfWithMultiBusPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(ptdfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(ptdfLoadDistFactorLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(ptdfDistFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(ptdfPercentLabel))
+                    .add(ptdfWithMultiBusPanelLayout.createSequentialGroup()
+                        .add(32, 32, 32)
+                        .add(ptdfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(ptdfWithMultiBusPanelLayout.createSequentialGroup()
                                 .add(ptdfAddWithBusButton)
-                                .add(18, 18, 18)
+                                .add(35, 35, 35)
                                 .add(ptdfRemoveWithBusButton))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, ptdfWithMultiBusPanelLayout.createSequentialGroup()
-                                .add(ptdfLoadDistFactorLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(ptdfDistFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(ptdfPercentLabel)))
+                            .add(ptdfWithBusScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ptdfWithMultiBusPanelLayout.setVerticalGroup(
@@ -1052,8 +1287,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(ptdfDistFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(ptdfPercentLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfWithBusScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(ptdfWithBusScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
                 .add(ptdfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(ptdfRemoveWithBusButton)
                     .add(ptdfAddWithBusButton))
@@ -1146,34 +1381,37 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfPanelLayout.setHorizontalGroup(
             ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(ptdfPanelLayout.createSequentialGroup()
-                .add(26, 26, 26)
-                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                    .add(ptdfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfPanelLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
-                .add(ptdfCalculateButton)
-                .add(200, 200, 200))
+                .addContainerGap(73, Short.MAX_VALUE)
+                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfPanelLayout.createSequentialGroup()
+                        .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                            .add(ptdfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(51, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfPanelLayout.createSequentialGroup()
+                        .add(ptdfCalculateButton)
+                        .add(200, 200, 200))))
         );
         ptdfPanelLayout.setVerticalGroup(
             ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(ptdfPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(ptdfPanelLayout.createSequentialGroup()
                         .add(ptdfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(ptdfWithdrawPanel, 0, 0, Short.MAX_VALUE))
                     .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(ptdfCalculateButton)
                 .add(26, 26, 26))
         );
 
         runDclfTabbedPane.addTab("PTDF", ptdfPanel);
+
+        lossFactorPanel.setEnabled(false);
 
         lossInjectionPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -1191,7 +1429,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         lossWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Bus", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
         lossWithdrawPanel.setLayout(new java.awt.GridBagLayout());
 
-        ptdfWithdrawButtonGroup.add(ptdfWithSingleBusRadioButton2);
         ptdfWithSingleBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfWithSingleBusRadioButton2.setText("Single Bus");
         ptdfWithSingleBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -1201,7 +1438,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         lossSingleMultiBusPanel.add(ptdfWithSingleBusRadioButton2);
 
-        ptdfWithdrawButtonGroup.add(ptdfWithMultiBusRadioButton2);
         ptdfWithMultiBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 12));
         ptdfWithMultiBusRadioButton2.setText("Multi-Buses");
         ptdfWithMultiBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -1217,7 +1453,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfWithdrawBusComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         lossWithBusSelectPanel.add(ptdfWithdrawBusComboBox2);
 
-        ptdfWithdrawBusButtonGroup.add(ptdfWithLoadBusRadioButton2);
         ptdfWithLoadBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 10));
         ptdfWithLoadBusRadioButton2.setText("Load ");
         ptdfWithLoadBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -1227,7 +1462,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
         lossWithBusSelectPanel.add(ptdfWithLoadBusRadioButton2);
 
-        ptdfWithdrawBusButtonGroup.add(ptdfWithAllBusRadioButton2);
         ptdfWithAllBusRadioButton2.setFont(new java.awt.Font("Dialog", 0, 10));
         ptdfWithAllBusRadioButton2.setText("All Buses");
         ptdfWithAllBusRadioButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -1405,11 +1639,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(lossWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lossMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(51, 51, 51))
+                .add(98, 98, 98))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, lossFactorPanelLayout.createSequentialGroup()
                 .addContainerGap(217, Short.MAX_VALUE)
                 .add(lossCalculateButton)
-                .add(200, 200, 200))
+                .add(247, 247, 247))
         );
         lossFactorPanelLayout.setVerticalGroup(
             lossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1522,7 +1756,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         );
         atFromDFPanelLayout.setVerticalGroup(
             atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .add(atFromDFPanelLayout.createSequentialGroup()
                 .add(atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(atFromDFPanelLayout.createSequentialGroup()
@@ -1532,6 +1765,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(atFromAreaUpdateButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(atFromAreaRemoveButton))
+            .add(atFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         atToDFPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("To Area DistFactor"));
@@ -1664,10 +1898,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(atAddInterfaceButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atBranchListScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(atBranchListScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 79, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(atRemoveBranchButton)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout atInfoEditPanelLayout = new org.jdesktop.layout.GroupLayout(atInfoEditPanel);
@@ -1675,36 +1909,35 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atInfoEditPanelLayout.setHorizontalGroup(
             atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(atInfoEditPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(atInfoEditPanelLayout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(atToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(atFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(atInfoEditPanelLayout.createSequentialGroup()
+                                .add(111, 111, 111)
+                                .add(atDeratingFactorLabel)
+                                .add(29, 29, 29)
+                                .add(atDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(atFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(atToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(24, Short.MAX_VALUE))
                     .add(atInfoEditPanelLayout.createSequentialGroup()
-                        .add(53, 53, 53)
-                        .add(atDeratingFactorLabel)
-                        .add(29, 29, 29)
-                        .add(atDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-            .add(atInfoEditPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(atTransAmtLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
-                .add(atFromAreaLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atFromAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atToAreaLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atToAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(17, 17, 17))
+                        .add(atTransAmtLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 42, Short.MAX_VALUE)
+                        .add(atFromAreaLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atFromAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atToAreaLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atToAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(25, 25, 25))))
         );
         atInfoEditPanelLayout.setVerticalGroup(
             atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1713,49 +1946,25 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(atTransAmtLabel)
                     .add(atTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(atTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atFromAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .add(atFromAreaComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .add(atToAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .add(atToAreaComboBox, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-                .add(6, 6, 6)
-                .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(atMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(atFromAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                    .add(atFromAreaComboBox)
+                    .add(atToAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                    .add(atToAreaComboBox))
+                .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(atInfoEditPanelLayout.createSequentialGroup()
+                        .add(15, 15, 15)
                         .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(atDeratingFactorLabel)
                             .add(atDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(atFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 129, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(atFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(11, 11, 11))
+                        .add(atToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, atInfoEditPanelLayout.createSequentialGroup()
+                        .add(6, 6, 6)
+                        .add(atMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(42, 42, 42))
         );
-
-        atCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atCalculateButton.setText("Calculate");
-        atCalculateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atCalculateButtonActionPerformed(evt);
-            }
-        });
-
-        atAclfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atAclfCalculateButton.setText("AC Loadflow");
-        atAclfCalculateButton.setEnabled(false);
-        atAclfCalculateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atAclfCalculateButtonActionPerformed(evt);
-            }
-        });
-
-        atSeAssessButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atSeAssessButton.setText("Sec Assess");
-        atSeAssessButton.setEnabled(false);
-        atSeAssessButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atSeAssessButtonActionPerformed(evt);
-            }
-        });
 
         org.jdesktop.layout.GroupLayout areaTransPanelLayout = new org.jdesktop.layout.GroupLayout(areaTransPanel);
         areaTransPanel.setLayout(areaTransPanelLayout);
@@ -1763,29 +1972,15 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             areaTransPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(areaTransPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(areaTransPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(atInfoEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, areaTransPanelLayout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 118, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(atCalculateButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atAclfCalculateButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atSeAssessButton)
-                        .add(80, 80, 80)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .add(atInfoEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         areaTransPanelLayout.setVerticalGroup(
             areaTransPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(areaTransPanelLayout.createSequentialGroup()
                 .add(20, 20, 20)
                 .add(atInfoEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(areaTransPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(atSeAssessButton)
-                    .add(atAclfCalculateButton)
-                    .add(atCalculateButton))
-                .add(26, 26, 26))
+                .add(29, 29, 29))
         );
 
         runDclfTabbedPane.addTab("Area Transfer", areaTransPanel);
@@ -1796,42 +1991,213 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 423, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(35, 35, 35))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 399, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(59, 59, 59))
         );
     }// </editor-fold>//GEN-END:initComponents
  
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
-    	if ( runDclfTabbedPane.getSelectedIndex() == 0 )
-        	IpssLogger.getLogger().info("Panel selection changed - PTDF Panel");
+    	if ( runDclfTabbedPane.getSelectedIndex() == 0 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - GF Panel");
+        	initGsfTabPanel();
+    	}
     	else if ( runDclfTabbedPane.getSelectedIndex() == 1 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Area Transfer Analysis Panel");
+        	IpssLogger.getLogger().info("Panel selection changed - LODF Panel");
+    	    initLodfTabPanel();
     	}	
     }//GEN-LAST:event_panelSelectionChanged
 
+/*888888888888888888888
+ *  GSF    
+ 8888888888888888888888*/
+    private void gsfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfCalculateButtonActionPerformed
+        IpssLogger.getLogger().info("gsfCalculateButtonActionPerformed() called");
+        saveEditor2GSF();
+        
+    	this.parent.setAlwaysOnTop(false);
+
+    	if (!saveEditor2GSF())
+    		return;
+    	
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
+				.setRefBus();
+
+		String outText = "";
+		try {
+			algoDsl.runDclfXmlCase(xmlCaseData, DclfAnalysisType.GSF);
+			outText = SenAnalysisOutput.outGSF(xmlCaseData.getGenShiftFactor().get(0)).toString();
+		} catch (PSSLException e) {
+			IpssLogger.getLogger().severe(e.toString());
+			outText = e.toString();
+		}
+		algoDsl.destroy();    	
+    	
+		UISpringFactory.getOutputTextDialog("GSF Calculation Results")
+			.display(outText);    	
+    }//GEN-LAST:event_gsfCalculateButtonActionPerformed
+
+    private void gsfLoadDFactorRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadDFactorRadioButtonActionPerformed
+        IpssLogger.getLogger().info("gsfLoadDFactorRadioButtonActionPerformed() called");
+        setLoadDFactorRadioButton(this.gsfLoadDFactorRadioButton.isSelected());
+    }//GEN-LAST:event_gsfLoadDFactorRadioButtonActionPerformed
+
+    private void setLoadDFactorRadioButton(boolean checked) {
+    	this.gsfLoadThreshholdLabel.setEnabled(checked);
+    	this.gsfLoadThreshholdTextField.setEnabled(checked);
+    }
+    
+    private void gsfLoadSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadSingleBusRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gsfLoadSingleBusRadioButtonActionPerformed
+
+    private void gsfLoadMultiBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadMultiBusRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gsfLoadMultiBusRadioButtonActionPerformed
+
+    private void gsfAddWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddWithBusButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gsfAddWithBusButtonActionPerformed
+
+    private void gsfRemoveWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfRemoveWithBusButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gsfRemoveWithBusButtonActionPerformed
+
+    private void gsfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddBranchButtonActionPerformed
+        IpssLogger.getLogger().info("gsfAddBranchButtonActionPerformed() called");
+    	String id = (String)gsfBranchListComboBox.getSelectedItem();
+    	RunUIUtilFunc.addItemJList(gsfMonitorBranchList, "b:"+id);
+    }//GEN-LAST:event_gsfAddBranchButtonActionPerformed
+
+    private void gsfAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddInterfaceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gsfAddInterfaceButtonActionPerformed
+
+    private void gsfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfRemoveBranchButtonActionPerformed
+        IpssLogger.getLogger().info("gsfRemoveBranchButtonActionPerformed() called");
+        RunUIUtilFunc.removeItemJList(this.gsfMonitorBranchList);
+    }//GEN-LAST:event_gsfRemoveBranchButtonActionPerformed
+
+    private void gsfBranchLargetGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfBranchLargetGSFButtonActionPerformed
+        IpssLogger.getLogger().info("gsfBranchLargetGSFButtonActionPerformed() called");
+    	this.parent.setAlwaysOnTop(false);
+
+    	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
+				.setRefBus()
+				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
+    	
+    	String id = (String)gsfBranchListComboBox.getSelectedItem();
+		final String fromId = NetUtilFunc.findFromID(id);
+		final String toId = NetUtilFunc.findToID(id);
+		final String cirId = NetUtilFunc.findCirNo(id);    	
+		final AclfBranch outageBranch = _simuCtx.getAclfNet().getAclfBranch(fromId, toId, cirId);
+		
+		new Thread() {
+			public void run() {
+				IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
+				appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+						"Run Largest GSF Analysis ...", "Run SenAnalysis");
+				String outText = "";
+				try {
+					algoDsl.outageBranch(fromId, toId, cirId);
+					DblBranchValue maxLODF = algoDsl.largestLODF();
+					DblBusValue maxGSF = algoDsl.monitorBranch(maxLODF.branch).largestGSF();
+					outText = SenAnalysisOutput.outLargestGSF(outageBranch, maxLODF, maxGSF).toString();
+				} catch (PSSLException e) {
+					IpssLogger.getLogger().severe(e.toString());
+					outText = e.toString();
+				}
+				algoDsl.destroy();
+				UISpringFactory.getOutputTextDialog("Largest GSF Calculation Results").display(outText);   
+
+				appStatus.busyStop("Run Largest GSF Analysis finished");			
+			}
+		}.start();
+}//GEN-LAST:event_gsfBranchLargetGSFButtonActionPerformed
+
+/*888888888888888888888
+ *  LODF    
+ 888888888888888888888 */
+    
+    private void lodfSingleTypeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfSingleTypeRadioButtonActionPerformed
+        IpssLogger.getLogger().info("lodfSingleTypeRadioButtonActionPerformed() called");
+        setLodfComponentStatus(false);
+    }//GEN-LAST:event_lodfSingleTypeRadioButtonActionPerformed
+
+    private void lodfMultiTypeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMultiTypeRadioButtonActionPerformed
+        IpssLogger.getLogger().info("lodfMultiTypeRadioButtonActionPerformed() called");
+        setLodfComponentStatus(true);
+    }//GEN-LAST:event_lodfMultiTypeRadioButtonActionPerformed
+    
+    private void setLodfComponentStatus(boolean multi) {
+    	this.lodfAddBranchButton.setEnabled(multi);
+    	this.lodfRemoveBranchButton.setEnabled(multi);
+    	this.lodfMultiOutageBranchList.setEnabled(multi);
+    }
+    
+    private void lodfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfAddBranchButtonActionPerformed
+        IpssLogger.getLogger().info("lodfAddBranchButtonActionPerformed() called");
+    	String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	RunUIUtilFunc.addItemJList(lodfMultiOutageBranchList, id);
+    }//GEN-LAST:event_lodfAddBranchButtonActionPerformed
+
+    private void lodfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfRemoveBranchButtonActionPerformed
+        IpssLogger.getLogger().info("lodfRemoveBranchButtonActionPerformed() called");
+        RunUIUtilFunc.removeItemJList(this.lodfMultiOutageBranchList);
+    }//GEN-LAST:event_lodfRemoveBranchButtonActionPerformed
+
+    private void lodfMonitorAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMonitorAddBranchButtonActionPerformed
+        IpssLogger.getLogger().info("lodfMonitorAddBranchButtonActionPerformed() called");
+    	String id = (String)this.lodfMonitorBranchListComboBox.getSelectedItem();
+    	RunUIUtilFunc.addItemJList(lodfMonitorBranchInterfaceList, "b:"+id);
+    }//GEN-LAST:event_lodfMonitorAddBranchButtonActionPerformed
+
+    private void lodfMonitorAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMonitorAddInterfaceButtonActionPerformed
+        IpssLogger.getLogger().info("lodfMonitorAddInterfaceButtonActionPerformed() called");
+    }//GEN-LAST:event_lodfMonitorAddInterfaceButtonActionPerformed
+
+    private void lodfMonitorRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMonitorRemoveButtonActionPerformed
+        IpssLogger.getLogger().info("lodfMonitorRemoveButtonActionPerformed() called");
+        RunUIUtilFunc.removeItemJList(this.lodfMonitorBranchInterfaceList);
+    }//GEN-LAST:event_lodfMonitorRemoveButtonActionPerformed
+    
+    private void lodfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfCalculateButtonActionPerformed
+        IpssLogger.getLogger().info("lodfCalculateButtonActionPerformed() called");
+    	this.parent.setAlwaysOnTop(false);
+    	
+    	if (!saveEditor2LODF())
+    		return;
+
+    	String outText = "...";
+		UISpringFactory.getOutputTextDialog("LODF Calculation Results").display(outText);   
+    }//GEN-LAST:event_lodfCalculateButtonActionPerformed
+
+    /*
+     *  PTDF    
+     */
+    
     private void ptdfWithSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithSingleBusRadioButtonActionPerformed
-    	setMultiBusWithdrawStatus(false);
-    	tdFactor.setWithdrawBusType(SenBusAnalysisDataType.SINGLE_BUS);
-    	while (tdFactor.getWithdrawBusList().getWithdrawBus().size() > 0)
-    		tdFactor.getWithdrawBusList().getWithdrawBus().remove(0);
-    	tdFactor.getWithdrawBusList().getWithdrawBus().add(
-    			IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType());
-    	tdFactor.getWithdrawBusList().getWithdrawBus().get(0).setBusId((String)ptdfWithdrawBusComboBox.getSelectedItem());
+//    	setMultiBusWithdrawStatus(false);
+//    	tdFactor.setWithdrawBusType(SenBusAnalysisDataType.SINGLE_BUS);
+//    	while (tdFactor.getWithdrawBusList().getWithdrawBus().size() > 0)
+//    		tdFactor.getWithdrawBusList().getWithdrawBus().remove(0);
+//    	tdFactor.getWithdrawBusList().getWithdrawBus().add(
+//    			IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType());
+//    	tdFactor.getWithdrawBusList().getWithdrawBus().get(0).setBusId((String)ptdfWithdrawBusComboBox.getSelectedItem());
 }//GEN-LAST:event_ptdfWithSingleBusRadioButtonActionPerformed
 
     private void ptdfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfRemoveBranchButtonActionPerformed
-    	if (!ptdfMeasBranchList.isSelectionEmpty()) {
-    		tdFactor.getBranch().remove(ptdfMeasBranchList.getSelectedIndex());
-        	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-        			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
-    	}
+//    	if (!ptdfMeasBranchList.isSelectionEmpty()) {
+//    		tdFactor.getBranch().remove(ptdfMeasBranchList.getSelectedIndex());
+//        	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
+//        			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
+//    	}
 }//GEN-LAST:event_ptdfRemoveBranchButtonActionPerformed
 
     private void ptdfInjectGenBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfInjectGenBusRadioButtonActionPerformed
@@ -1845,10 +2211,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 }//GEN-LAST:event_ptdfInjectAllBusRadioButtonActionPerformed
 
     private void ptdfWithMultiBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithMultiBusRadioButtonActionPerformed
-    	setMultiBusWithdrawStatus(true);
-    	tdFactor.setWithdrawBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
-    	if (tdFactor.getWithdrawBusList() == null)
-    		tdFactor.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
+//    	setMultiBusWithdrawStatus(true);
+//    	tdFactor.setWithdrawBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
+//    	if (tdFactor.getWithdrawBusList() == null)
+//    		tdFactor.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 }//GEN-LAST:event_ptdfWithMultiBusRadioButtonActionPerformed
 
     private void ptdfWithAllBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithAllBusRadioButtonActionPerformed
@@ -1862,42 +2228,42 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 }//GEN-LAST:event_ptdfWithLoadBusRadioButtonActionPerformed
 
     private void ptdfRemoveWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfRemoveWithBusButtonActionPerformed
-    	if (!ptdfWithdarwBusList.isSelectionEmpty()) {
-    		tdFactor.getWithdrawBusList().getWithdrawBus().remove(ptdfWithdarwBusList.getSelectedIndex());
-    		ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
-    	}
+//    	if (!ptdfWithdarwBusList.isSelectionEmpty()) {
+//    		tdFactor.getWithdrawBusList().getWithdrawBus().remove(ptdfWithdarwBusList.getSelectedIndex());
+//    		ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
+//    	}
 }//GEN-LAST:event_ptdfRemoveWithBusButtonActionPerformed
 
     private void ptdfAddWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddWithBusButtonActionPerformed
-    	String id = (String)ptdfWithdrawBusComboBox.getSelectedItem();
-    	double percent = new Double(this.ptdfDistFactorTextField.getText()).doubleValue();
-    	SenAnalysisBusRecXmlType bus = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType(); 
-    	tdFactor.getWithdrawBusList().getWithdrawBus().add(bus);
-    	bus.setBusId(id);
-    	bus.setPercent(percent);
-    	ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
+//    	String id = (String)ptdfWithdrawBusComboBox.getSelectedItem();
+//    	double percent = new Double(this.ptdfDistFactorTextField.getText()).doubleValue();
+//    	SenAnalysisBusRecXmlType bus = IpssXmlParser.getFactory().createSenAnalysisBusRecXmlType(); 
+//    	tdFactor.getWithdrawBusList().getWithdrawBus().add(bus);
+//    	bus.setBusId(id);
+//    	bus.setPercent(percent);
+//    	ptdfWithdarwBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//    			IpssXmlHelper.getSenAnalysisBusItemList(tdFactor.getWithdrawBusList().getWithdrawBus())));
 }//GEN-LAST:event_ptdfAddWithBusButtonActionPerformed
 
     private void ptdfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddBranchButtonActionPerformed
-    	String id = (String)ptdfBranchListComboBox.getSelectedItem();
-    	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType();
-    	tdFactor.getBranch().add(braRec);
-    	IpssXmlHelper.setBranchRec(braRec, id);
-    	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
+//    	String id = (String)ptdfBranchListComboBox.getSelectedItem();
+//    	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType();
+//    	tdFactor.getBranch().add(braRec);
+//    	IpssXmlHelper.setBranchRec(braRec, id);
+//    	ptdfMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
+//    			IpssXmlHelper.getBranchIdAry(tdFactor.getBranch())));
 }//GEN-LAST:event_ptdfAddBranchButtonActionPerformed
 
     private void ptdfMultiInjectBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfMultiInjectBusRadioButtonActionPerformed
-    	tdFactor.setInjectBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
-        ptdfInjectGenBusRadioButtonActionPerformed(null);
-    	ptdfInjectAllBusRadioButton.setEnabled(false);
+//    	tdFactor.setInjectBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
+//        ptdfInjectGenBusRadioButtonActionPerformed(null);
+//    	ptdfInjectAllBusRadioButton.setEnabled(false);
 }//GEN-LAST:event_ptdfMultiInjectBusRadioButtonActionPerformed
 
     private void ptdfSingleInjectBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfSingleInjectBusRadioButtonActionPerformed
-    	tdFactor.setInjectBusType(SenBusAnalysisDataType.SINGLE_BUS);
-    	ptdfInjectAllBusRadioButton.setEnabled(true);
+//    	tdFactor.setInjectBusType(SenBusAnalysisDataType.SINGLE_BUS);
+//    	ptdfInjectAllBusRadioButton.setEnabled(true);
 }//GEN-LAST:event_ptdfSingleInjectBusRadioButtonActionPerformed
 
     private void ptdfAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddInterfaceButtonActionPerformed
@@ -1905,17 +2271,17 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 }//GEN-LAST:event_ptdfAddInterfaceButtonActionPerformed
 
     private void ptdfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfCalculateButtonActionPerformed
-    	this.parent.setAlwaysOnTop(false);
-    	DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
-    	_simuCtx.setDclfAlgorithm(algo);
-    	if (!algo.checkCondition())
-    		return;
-    	if (!saveEditor2TDFactor())
-    		return;
-    	XmlScriptDclfRun.calPTDistFactor(tdFactor, algo);
-    	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Sensitivity Analysis Results");
-    	String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, _simuCtx.getDclfAlgorithm());
-    	dialog.display(str);
+//    	this.parent.setAlwaysOnTop(false);
+//    	DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
+//    	_simuCtx.setDclfAlgorithm(algo);
+//    	if (!algo.checkCondition())
+//    		return;
+//    	if (!saveEditor2TDFactor())
+//    		return;
+//    	XmlScriptDclfRun.calPTDistFactor(tdFactor, algo);
+//    	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Sensitivity Analysis Results");
+//    	String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, _simuCtx.getDclfAlgorithm());
+//    	dialog.display(str);
     }//GEN-LAST:event_ptdfCalculateButtonActionPerformed
 
     private void setMultiBusWithdrawStatus(boolean b) {
@@ -1932,12 +2298,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
      */
     
 private void atAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddBranchButtonActionPerformed
-	String id = (String)atBranchListComboBox.getSelectedItem();
-	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType(); 
-	areaTransfer.getBranch().add(braRec);
-	IpssXmlHelper.setBranchRec(braRec, id);
-	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-			IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
+//	String id = (String)atBranchListComboBox.getSelectedItem();
+//	BranchRecXmlType braRec = IpssXmlParser.getFactory().createBranchRecXmlType(); 
+//	areaTransfer.getBranch().add(braRec);
+//	IpssXmlHelper.setBranchRec(braRec, id);
+//	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
+//			IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
 }//GEN-LAST:event_atAddBranchButtonActionPerformed
 
 private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddInterfaceButtonActionPerformed
@@ -1945,43 +2311,43 @@ private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt)
 }//GEN-LAST:event_atAddInterfaceButtonActionPerformed
 
 private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButtonActionPerformed
-	if (!atMeasBranchList.isSelectionEmpty()) {
-		areaTransfer.getBranch().remove(atMeasBranchList.getSelectedIndex());
-		atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
-	}
+//	if (!atMeasBranchList.isSelectionEmpty()) {
+//		areaTransfer.getBranch().remove(atMeasBranchList.getSelectedIndex());
+//		atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
+//				IpssXmlHelper.getBranchIdAry(areaTransfer.getBranch())));
+//	}
 }//GEN-LAST:event_atRemoveBranchButtonActionPerformed
 
 private void atFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaRemoveButtonActionPerformed
-	if (!atFromAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getInjectBusList().getInjectBus().remove(atFromAreaBusList.getSelectedIndex());
-		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
-	}
+//	if (!atFromAreaBusList.isSelectionEmpty()) {
+//		areaTransfer.getInjectBusList().getInjectBus().remove(atFromAreaBusList.getSelectedIndex());
+//		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
+//	}
 }//GEN-LAST:event_atFromAreaRemoveButtonActionPerformed
 
 private void atToAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaRemoveButtonActionPerformed
-	if (!atToAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getWithdrawBusList().getWithdrawBus().remove(atToAreaBusList.getSelectedIndex());
-		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
-	}
+//	if (!atToAreaBusList.isSelectionEmpty()) {
+//		areaTransfer.getWithdrawBusList().getWithdrawBus().remove(atToAreaBusList.getSelectedIndex());
+//		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//				IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
+//	}
 }//GEN-LAST:event_atToAreaRemoveButtonActionPerformed
 
 private void atFromAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaComboBoxActionPerformed
-	String no = (String)this.atFromAreaComboBox.getSelectedItem();
-	this.areaTransfer.getFromArea().setAreaNo(new Integer(no).intValue());
-	atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
-					this.areaTransfer.getFromArea().getAreaNo()).toArray()));
+//	String no = (String)this.atFromAreaComboBox.getSelectedItem();
+//	this.areaTransfer.getFromArea().setAreaNo(new Integer(no).intValue());
+//	atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
+//					this.areaTransfer.getFromArea().getAreaNo()).toArray()));
 }//GEN-LAST:event_atFromAreaComboBoxActionPerformed
 
 private void atToAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaComboBoxActionPerformed
-	String no = (String)this.atToAreaComboBox.getSelectedItem();
-	this.areaTransfer.getToArea().setAreaNo(new Integer(no).intValue());
-	atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
-					this.areaTransfer.getToArea().getAreaNo()).toArray()));
+//	String no = (String)this.atToAreaComboBox.getSelectedItem();
+//	this.areaTransfer.getToArea().setAreaNo(new Integer(no).intValue());
+//	atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
+//					this.areaTransfer.getToArea().getAreaNo()).toArray()));
 }//GEN-LAST:event_atToAreaComboBoxActionPerformed
 
 private void atFromAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaEditButtonActionPerformed
@@ -1994,19 +2360,19 @@ private void atFromAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt)
 	}//GEN-LAST:event_atFromAreaEditButtonActionPerformed
 
 private void atFromAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaUpdateButtonActionPerformed
-	if (!atFromAreaBusList.isSelectionEmpty()) {
-		// the Bus list might have been changed due to changing the area number
-		saveFromAreaBusList2AreaTransfer();
-		double percent = new Double(atFromDFactorEditTextField.getText()).doubleValue();
-		String s = (String)atFromAreaBusList.getSelectedValue();
-		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBus());
-		bus.setPercent(percent);
-		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
-		atFromDFactorEditTextField.setEnabled(false);
-		atFromAreaUpdateButton.setEnabled(false);
-	}
+//	if (!atFromAreaBusList.isSelectionEmpty()) {
+//		// the Bus list might have been changed due to changing the area number
+//		saveFromAreaBusList2AreaTransfer();
+//		double percent = new Double(atFromDFactorEditTextField.getText()).doubleValue();
+//		String s = (String)atFromAreaBusList.getSelectedValue();
+//		String id = RunUIUtilFunc.getId_IdPercent(s);
+//		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBus());
+//		bus.setPercent(percent);
+//		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBus())));
+//		atFromDFactorEditTextField.setEnabled(false);
+//		atFromAreaUpdateButton.setEnabled(false);
+//	}
 }//GEN-LAST:event_atFromAreaUpdateButtonActionPerformed
 
 private void atToAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaEditButtonActionPerformed
@@ -2019,59 +2385,21 @@ private void atToAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {
 	}//GEN-LAST:event_atToAreaEditButtonActionPerformed
 
 private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaUpdateButtonActionPerformed
-	if (!atToAreaBusList.isSelectionEmpty()) {
-		// the Bus list might have been changed due to changing the area number
-		saveToAreaBusList2AreaTransfer();
-		double percent = new Double(atToDFactorEditTextField.getText()).doubleValue();
-		String s = (String)atToAreaBusList.getSelectedValue();
-		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, 
-						areaTransfer.getWithdrawBusList().getWithdrawBus());
-		bus.setPercent(percent);
-		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
-	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
-		atToDFactorEditTextField.setEnabled(false);
-		atToAreaUpdateButton.setEnabled(false);
-	}
+//	if (!atToAreaBusList.isSelectionEmpty()) {
+//		// the Bus list might have been changed due to changing the area number
+//		saveToAreaBusList2AreaTransfer();
+//		double percent = new Double(atToDFactorEditTextField.getText()).doubleValue();
+//		String s = (String)atToAreaBusList.getSelectedValue();
+//		String id = RunUIUtilFunc.getId_IdPercent(s);
+//		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlHelper.getBusRecord(id, 
+//						areaTransfer.getWithdrawBusList().getWithdrawBus());
+//		bus.setPercent(percent);
+//		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+//	    			IpssXmlHelper.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBus())));
+//		atToDFactorEditTextField.setEnabled(false);
+//		atToAreaUpdateButton.setEnabled(false);
+//	}
 }//GEN-LAST:event_atToAreaUpdateButtonActionPerformed
-
-private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atCalculateButtonActionPerformed
-	this.parent.setAlwaysOnTop(false);
-	DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
-	_simuCtx.setDclfAlgorithm(algo);
-	if (!algo.checkCondition())
-		return;
-	if (!saveEditor2AreaTransfer())
-		return;
-	XmlScriptDclfRun.calAreaTransferFactor(areaTransfer, algo, _simuCtx.getMsgHub());
-	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Area Transfer Analysis Results");
-	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm());
-	dialog.display(str);
-}//GEN-LAST:event_atCalculateButtonActionPerformed
-
-private void atAclfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAclfCalculateButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_atAclfCalculateButtonActionPerformed
-
-private void atSeAssessButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atSeAssessButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_atSeAssessButtonActionPerformed
-
-private void ptdfAddBranchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddBranchButton1ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfAddBranchButton1ActionPerformed
-
-private void ptdfAddInterfaceButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddInterfaceButton1ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfAddInterfaceButton1ActionPerformed
-
-private void ptdfRemoveBranchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfRemoveBranchButton1ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfRemoveBranchButton1ActionPerformed
-
-private void ptdfCalculateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfCalculateButton1ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfCalculateButton1ActionPerformed
 
 private void ptdfWithSingleBusRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithSingleBusRadioButton2ActionPerformed
     // TODO add your handling code here:
@@ -2113,55 +2441,12 @@ private void lossCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) 
     // TODO add your handling code here:
 }//GEN-LAST:event_lossCalculateButtonActionPerformed
 
-private void ptdfWithSingleBusRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithSingleBusRadioButton3ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfWithSingleBusRadioButton3ActionPerformed
-
-private void ptdfWithMultiBusRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithMultiBusRadioButton3ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfWithMultiBusRadioButton3ActionPerformed
-
-private void ptdfWithLoadBusRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithLoadBusRadioButton3ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfWithLoadBusRadioButton3ActionPerformed
-
-private void ptdfWithAllBusRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfWithAllBusRadioButton3ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfWithAllBusRadioButton3ActionPerformed
-
-private void ptdfAddWithBusButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddWithBusButton3ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfAddWithBusButton3ActionPerformed
-
-private void ptdfRemoveWithBusButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfRemoveWithBusButton3ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_ptdfRemoveWithBusButton3ActionPerformed
-
-private void gsfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddBranchButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_gsfAddBranchButtonActionPerformed
-
-private void gsfAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddInterfaceButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_gsfAddInterfaceButtonActionPerformed
-
-private void gsfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfRemoveBranchButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_gsfRemoveBranchButtonActionPerformed
-
-private void gsfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfCalculateButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_gsfCalculateButtonActionPerformed
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel areaTransPanel;
-    private javax.swing.JButton atAclfCalculateButton;
     private javax.swing.JButton atAddBranchButton;
     private javax.swing.JButton atAddInterfaceButton;
     private javax.swing.JComboBox atBranchListComboBox;
     private javax.swing.JScrollPane atBranchListScrollPane;
-    private javax.swing.JButton atCalculateButton;
     private javax.swing.JLabel atDeratingFactorLabel;
     private javax.swing.JTextField atDeratingFactorTextField;
     private javax.swing.JList atFromAreaBusList;
@@ -2178,7 +2463,6 @@ private void gsfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {
     private javax.swing.JList atMeasBranchList;
     private javax.swing.JPanel atMeasBranchPanel;
     private javax.swing.JButton atRemoveBranchButton;
-    private javax.swing.JButton atSeAssessButton;
     private javax.swing.JList atToAreaBusList;
     private javax.swing.JComboBox atToAreaComboBox;
     private javax.swing.JButton atToAreaEditButton;
@@ -2194,29 +2478,57 @@ private void gsfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {
     private javax.swing.JScrollPane gsdfScrollPane;
     private javax.swing.JButton gsfAddBranchButton;
     private javax.swing.JButton gsfAddInterfaceButton;
+    private javax.swing.JButton gsfAddWithBusButton;
+    private javax.swing.JButton gsfBranchLargetGSFButton;
     private javax.swing.JComboBox gsfBranchListComboBox;
     private javax.swing.JButton gsfCalculateButton;
+    private javax.swing.JTextField gsfDistFactorTextField;
     private javax.swing.JLabel gsfGenBusLabel;
     private javax.swing.JPanel gsfInjBusSelPanel;
     private javax.swing.JComboBox gsfInjectBusComboBox;
-    private javax.swing.ButtonGroup gsfInjectButtonGroup;
-    private javax.swing.ButtonGroup gsfInjectionBusButtonGroup;
     private javax.swing.JPanel gsfInjectionPanel;
     private javax.swing.JComboBox gsfInterfaceListComboBox;
-    private javax.swing.JPanel gsfMeasBranchPanel;
+    private javax.swing.JComboBox gsfLoadBusComboBox;
+    private javax.swing.JLabel gsfLoadBusLabel;
+    private javax.swing.JRadioButton gsfLoadDFactorRadioButton;
+    private javax.swing.JRadioButton gsfLoadMultiBusRadioButton;
+    private javax.swing.JRadioButton gsfLoadSingleBusRadioButton;
+    private javax.swing.JLabel gsfLoadThreshholdLabel;
+    private javax.swing.JTextField gsfLoadThreshholdTextField;
+    private javax.swing.JList gsfMonitorBranchList;
+    private javax.swing.JPanel gsfMonitorBranchPanel;
     private javax.swing.JPanel gsfPanel;
+    private javax.swing.JLabel gsfPercentLabel;
     private javax.swing.JButton gsfRemoveBranchButton;
-    private javax.swing.JPanel gsfSingleMultiBusPanel;
+    private javax.swing.JButton gsfRemoveWithBusButton;
+    private javax.swing.JScrollPane gsfWithBusScrollPane;
     private javax.swing.JPanel gsfWithBusSelectPanel;
     private javax.swing.JPanel gsfWithMultiBusPanel;
-    private javax.swing.ButtonGroup gsfWithdrawBusButtonGroup;
     private javax.swing.ButtonGroup gsfWithdrawButtonGroup;
+    private javax.swing.JPanel gsfWithdrawMarginPanel;
     private javax.swing.JPanel gsfWithdrawPanel;
-    private javax.swing.ButtonGroup lodfInjectButtonGroup;
-    private javax.swing.ButtonGroup lodfInjectionBusButtonGroup;
+    private javax.swing.JPanel gsfWithdrawiBusPanel;
+    private javax.swing.JButton lodfAddBranchButton;
+    private javax.swing.JComboBox lodfBranchListComboBox;
+    private javax.swing.JLabel lodfBranchListLabel;
+    private javax.swing.JButton lodfCalculateButton;
+    private javax.swing.JButton lodfMonitorAddBranchButton;
+    private javax.swing.JButton lodfMonitorAddInterfaceButton;
+    private javax.swing.JList lodfMonitorBranchInterfaceList;
+    private javax.swing.JComboBox lodfMonitorBranchListComboBox;
+    private javax.swing.JPanel lodfMonitorBranchPanel;
+    private javax.swing.JComboBox lodfMonitorInterfaceListComboBox;
+    private javax.swing.JButton lodfMonitorRemoveButton;
+    private javax.swing.JScrollPane lodfMonitorScrollPane;
+    private javax.swing.JScrollPane lodfMultiBranchScrollPane;
+    private javax.swing.JList lodfMultiOutageBranchList;
+    private javax.swing.JRadioButton lodfMultiTypeRadioButton;
+    private javax.swing.JPanel lodfOutageBranchPanel;
     private javax.swing.JPanel lodfPanel;
-    private javax.swing.ButtonGroup lodfWithdrawBusButtonGroup;
-    private javax.swing.ButtonGroup lodfWithdrawButtonGroup;
+    private javax.swing.JButton lodfRemoveBranchButton;
+    private javax.swing.JRadioButton lodfSingleTypeRadioButton;
+    private javax.swing.ButtonGroup lodfTypeButtonGroup;
+    private javax.swing.JPanel lodfTypePanel;
     private javax.swing.JButton lossAddBranchButton;
     private javax.swing.JButton lossAddInterfaceButton;
     private javax.swing.JComboBox lossBranchListComboBox;
@@ -2225,8 +2537,6 @@ private void gsfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {
     private javax.swing.JLabel lossGenBusLabel;
     private javax.swing.JPanel lossInjBusSelPanel;
     private javax.swing.JComboBox lossInjectBusComboBox;
-    private javax.swing.ButtonGroup lossInjectButtonGroup;
-    private javax.swing.ButtonGroup lossInjectionBusButtonGroup;
     private javax.swing.JPanel lossInjectionPanel;
     private javax.swing.JComboBox lossInterfaceListComboBox;
     private javax.swing.JPanel lossMeasBranchPanel;
@@ -2235,85 +2545,57 @@ private void gsfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {
     private javax.swing.JPanel lossSingleMultiBusPanel;
     private javax.swing.JPanel lossWithBusSelectPanel;
     private javax.swing.JPanel lossWithMultiBusPanel;
-    private javax.swing.ButtonGroup lossWithdrawBusButtonGroup;
-    private javax.swing.ButtonGroup lossWithdrawButtonGroup;
     private javax.swing.JPanel lossWithdrawPanel;
     private javax.swing.JButton ptdfAddBranchButton;
-    private javax.swing.JButton ptdfAddBranchButton1;
     private javax.swing.JButton ptdfAddInterfaceButton;
-    private javax.swing.JButton ptdfAddInterfaceButton1;
     private javax.swing.JButton ptdfAddWithBusButton;
     private javax.swing.JButton ptdfAddWithBusButton2;
-    private javax.swing.JButton ptdfAddWithBusButton3;
     private javax.swing.JComboBox ptdfBranchListComboBox;
-    private javax.swing.JComboBox ptdfBranchListComboBox1;
     private javax.swing.JButton ptdfCalculateButton;
-    private javax.swing.JButton ptdfCalculateButton1;
     private javax.swing.JTextField ptdfDistFactorTextField;
     private javax.swing.JTextField ptdfDistFactorTextField2;
-    private javax.swing.JTextField ptdfDistFactorTextField3;
     private javax.swing.JPanel ptdfInjBusPanel;
     private javax.swing.JPanel ptdfInjBusSelPanel;
     private javax.swing.JRadioButton ptdfInjectAllBusRadioButton;
     private javax.swing.JComboBox ptdfInjectBusComboBox;
-    private javax.swing.JComboBox ptdfInjectBusComboBox1;
-    private javax.swing.ButtonGroup ptdfInjectButtonGroup;
     private javax.swing.JRadioButton ptdfInjectGenBusRadioButton;
-    private javax.swing.ButtonGroup ptdfInjectionBusButtonGroup;
     private javax.swing.JPanel ptdfInjectionPanel;
-    private javax.swing.JPanel ptdfInjectionPanel1;
     private javax.swing.JComboBox ptdfInterfaceListComboBox;
-    private javax.swing.JComboBox ptdfInterfaceListComboBox1;
     private javax.swing.JLabel ptdfLoadDistFactorLabel;
     private javax.swing.JLabel ptdfLoadDistFactorLabel2;
-    private javax.swing.JLabel ptdfLoadDistFactorLabel3;
     private javax.swing.JList ptdfMeasBranchList;
-    private javax.swing.JList ptdfMeasBranchList1;
     private javax.swing.JList ptdfMeasBranchList2;
-    private javax.swing.JList ptdfMeasBranchList3;
     private javax.swing.JPanel ptdfMeasBranchPanel;
-    private javax.swing.JPanel ptdfMeasBranchPanel1;
     private javax.swing.JRadioButton ptdfMultiInjectBusRadioButton;
     private javax.swing.JPanel ptdfPanel;
     private javax.swing.JLabel ptdfPercentLabel;
     private javax.swing.JLabel ptdfPercentLabel2;
-    private javax.swing.JLabel ptdfPercentLabel3;
     private javax.swing.JButton ptdfRemoveBranchButton;
-    private javax.swing.JButton ptdfRemoveBranchButton1;
     private javax.swing.JButton ptdfRemoveWithBusButton;
     private javax.swing.JButton ptdfRemoveWithBusButton2;
-    private javax.swing.JButton ptdfRemoveWithBusButton3;
     private javax.swing.JScrollPane ptdfScrollPane;
-    private javax.swing.JScrollPane ptdfScrollPane1;
     private javax.swing.JRadioButton ptdfSingleInjectBusRadioButton;
     private javax.swing.JPanel ptdfSingleMultiBusPanel;
     private javax.swing.JRadioButton ptdfWithAllBusRadioButton;
     private javax.swing.JRadioButton ptdfWithAllBusRadioButton2;
-    private javax.swing.JRadioButton ptdfWithAllBusRadioButton3;
     private javax.swing.JScrollPane ptdfWithBusScrollPane;
     private javax.swing.JScrollPane ptdfWithBusScrollPane2;
-    private javax.swing.JScrollPane ptdfWithBusScrollPane3;
     private javax.swing.JPanel ptdfWithBusSelectPanel;
     private javax.swing.JRadioButton ptdfWithLoadBusRadioButton;
     private javax.swing.JRadioButton ptdfWithLoadBusRadioButton2;
-    private javax.swing.JRadioButton ptdfWithLoadBusRadioButton3;
     private javax.swing.JPanel ptdfWithMultiBusPanel;
     private javax.swing.JRadioButton ptdfWithMultiBusRadioButton;
     private javax.swing.JRadioButton ptdfWithMultiBusRadioButton2;
-    private javax.swing.JRadioButton ptdfWithMultiBusRadioButton3;
     private javax.swing.JRadioButton ptdfWithSingleBusRadioButton;
     private javax.swing.JRadioButton ptdfWithSingleBusRadioButton2;
-    private javax.swing.JRadioButton ptdfWithSingleBusRadioButton3;
     private javax.swing.JList ptdfWithdarwBusList;
     private javax.swing.JList ptdfWithdarwBusList2;
     private javax.swing.JList ptdfWithdarwBusList3;
-    private javax.swing.ButtonGroup ptdfWithdrawBusButtonGroup;
     private javax.swing.JComboBox ptdfWithdrawBusComboBox;
     private javax.swing.JComboBox ptdfWithdrawBusComboBox2;
-    private javax.swing.JComboBox ptdfWithdrawBusComboBox3;
-    private javax.swing.ButtonGroup ptdfWithdrawButtonGroup;
     private javax.swing.JPanel ptdfWithdrawPanel;
     private javax.swing.JTabbedPane runDclfTabbedPane;
+    private javax.swing.JLabel space;
     // End of variables declaration//GEN-END:variables
     
 	class DataVerifier extends javax.swing.InputVerifier {

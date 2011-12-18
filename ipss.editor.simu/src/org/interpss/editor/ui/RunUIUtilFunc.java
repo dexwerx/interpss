@@ -153,12 +153,41 @@ public class RunUIUtilFunc  {
 		return s1;
 	}
 	
+	public static void addItemJList(javax.swing.JList jlist, String item) {
+		int size = jlist.getModel().getSize();
+		String[] ary = new String[size + 1];
+		for (int i = 0; i < size; i++) {
+			ary[i] = (String)jlist.getModel().getElementAt(i);
+		}
+		ary[size] = item;   
+		jlist.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+	}
+
+	public static void removeItemJList(javax.swing.JList jlist) {
+		String id = (String)jlist.getSelectedValue();
+		int size = jlist.getModel().getSize();
+		if (size == 0)
+			return;
+		String[] ary = new String[size - 1];
+		int cnt = 0;
+		for (int i = 0; i < size; i++) {
+			String s = (String)jlist.getModel().getElementAt(i);
+			if (s.contains(id))
+				; // skip the item
+			else
+				ary[cnt++] = (String)jlist.getModel().getElementAt(i);
+		}
+		jlist.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+	}
+	
+	
 	public static ODMModelParser loadODMXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
 		try {
   			File xmlFile = new File(filename);
-  			if (parser.parse(xmlFile))
-  				return parser;
+  			if (xmlFile.exists())
+  				if (parser.parse(xmlFile))
+  					return parser;
   		} catch (Exception e) {
   			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
   		}		
@@ -167,9 +196,13 @@ public class RunUIUtilFunc  {
 		if (caseType == SimuRunEnum.TradingAnalysis) {
 			filename = Template_RunCase_PTAnalysis;
 		}
+		else if (caseType == SimuRunEnum.SenAnalysis) {
+			filename = Template_RunCase_SenAnalysis;
+		}
   		
   		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;
+		IpssLogger.getLogger().info("Loading template file: " + filename);
 		File xmlFile = new File(filename);
 		parser.parse(xmlFile);
 		return parser;
@@ -187,8 +220,10 @@ public class RunUIUtilFunc  {
   		IpssXmlParser parser;
   		try {
   			File xmlFile = new File(filename);
-  			parser = new IpssXmlParser(xmlFile);
-  			return parser.getRootDoc();
+  			if (xmlFile.exists()) {
+  				parser = new IpssXmlParser(xmlFile);
+  				return parser.getRootDoc();
+  			}
   		} catch (Exception e) {
   			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
   		}
@@ -196,9 +231,6 @@ public class RunUIUtilFunc  {
   		// use template file
 		if (caseType == SimuRunEnum.Aclf || caseType == SimuRunEnum.Scripts) {
 			filename = Template_RunCase_Aclf;
-		}
-		else if (caseType == SimuRunEnum.SenAnalysis) {
-			filename = Template_RunCase_SenAnalysis;
 		}
 		else if (caseType == SimuRunEnum.TradingAnalysis) {
 			filename = Template_RunCase_PTAnalysis;
