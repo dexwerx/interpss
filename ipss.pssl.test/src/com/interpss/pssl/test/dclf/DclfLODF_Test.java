@@ -60,7 +60,8 @@ public class DclfLODF_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
 
-		/*
+		/*  One outage branch sample
+		 * 
 			<pss:lineOutageDFactor>
 				<pss:outageBranch id="Bus4_Bus7_1" fromBusId="Bus4" toBusId="Bus7" circuitId="1">
 				</pss:outageBranch>
@@ -92,7 +93,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 		monitor.setToBusId("Bus6");
 		monitor.setCircuitId("1");
 
-/*		
+/*		One outage sample
   					<pss:lineOutageDFactor>
   						<pss:outageBranch id="Bus6_Bus13_1" fromBusId="Bus6" toBusId="Bus13" circuitId="1">
   						</pss:outageBranch>
@@ -126,7 +127,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 		monitor.setToBusId("Bus13");
 		monitor.setCircuitId("1");
 		
-		algoDsl.runDclfCase(dclfCase);
+		algoDsl.runDclfXmlCase(dclfCase);
 		
 		System.out.println(parser.toXmlDoc(false));		
 	}

@@ -78,7 +78,7 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		
 		dclfCase.setCaculatelDclf(true);
-		algoDsl.runDclfCase(dclfCase);
+		algoDsl.runDclfXmlCase(dclfCase);
 
 		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
 				.toString());		

@@ -138,7 +138,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 		bus.setBusId("Bus14");
 		bus.setPercent(50.0);		
 		
-		algoDsl.runDclfCase(dclfCase);
+		algoDsl.runDclfXmlCase(dclfCase);
 		
 		System.out.println(parser.toXmlDoc(false));
 	}

@@ -110,7 +110,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		monitor.setToBusId("Bus13");
 		monitor.setCircuitId("1");
 		
-		algoDsl.runDclfCase(dclfCase);		
+		algoDsl.runDclfXmlCase(dclfCase);		
 		
 		System.out.println(parser.toXmlDoc(false));			
 	}

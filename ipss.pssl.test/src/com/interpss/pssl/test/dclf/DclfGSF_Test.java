@@ -234,7 +234,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		line.setFromBusId("Bus12");
 		line.setToBusId("Bus13");
 		
-		algoDsl.runDclfCase(dclfCase);
+		algoDsl.runDclfXmlCase(dclfCase);
 		
 		System.out.println(parser.toXmlDoc(false));
 	}
