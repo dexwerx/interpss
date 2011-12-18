@@ -34,10 +34,12 @@ import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenBusAnalysisEnumType;
 import org.ieee.odm.schema.SensitivityEnumType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
+import org.ieee.odm.schema.LineOutageDFactorXmlType.MonitorBranch;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -105,7 +107,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    
 	    this.runDclfTabbedPane.setSelectedIndex(0);
 	    initGsfTabPanel();
-	    //initLodfTabPanel();
+	    initLodfTabPanel();
 	    
 	    this.runDclfTabbedPane.setEnabledAt(2, false);
 	    this.runDclfTabbedPane.setEnabledAt(3, false);
@@ -177,6 +179,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (!setGSF2Editor())
 			return false;
 
+		if (!setLODF2Editor())
+			return false;
+		
 		//if (!setTDFactor2Editor())
 		//	return false;
 
@@ -187,7 +192,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 
 	public boolean setGSF2Editor() {
-		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
+		IpssLogger.getLogger().info("NBAclfCasePanel setGSF2Editor() called");
 		
 		if (this.xmlCaseData.getGenShiftFactor().size() > 0) {
 			DclfBranchSensitivityXmlType gsf = this.xmlCaseData.getGenShiftFactor().get(0);
@@ -205,6 +210,37 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				ary[cnt++] = "b:" + NetUtilFunc.formBranchId(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
 			}
 	    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+		}
+		
+		return true;
+	}
+
+	public boolean setLODF2Editor() {
+		IpssLogger.getLogger().info("NBAclfCasePanel setLODF2Editor() called");
+		
+		LineOutageDFactorXmlType lodf = 
+			this.xmlCaseData.getLineOutageDFactor() != null && this.xmlCaseData.getLineOutageDFactor().size() > 0?
+				this.xmlCaseData.getLineOutageDFactor().get(0) : null;
+
+		if ( lodf.getOutageBranch() != null ) {
+			if (lodf.getOutageBranch().size() <= 1) { 
+				this.lodfSingleTypeRadioButton.setSelected(true);
+				if (lodf.getOutageBranch().size() == 1) { 
+					String braId = lodf.getOutageBranch().get(0).getId();
+					this.lodfBranchListComboBox.setSelectedItem(braId);
+				}
+			}
+			else {
+				this.lodfMultiTypeRadioButton.setSelected(true);
+				// TODO
+			}
+		}
+
+		if (lodf.getMonitorBranch() != null) {
+			for (MonitorBranch monitor : lodf.getMonitorBranch()) {
+		    	String id = monitor.getBranch().getId();
+		    	RunUIUtilFunc.addItemJList(lodfMonitorBranchInterfaceList, "b:"+id);				
+			}
 		}
 		
 		return true;
@@ -337,22 +373,13 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 		gsf.getBranchSFactor().clear();
 			
-    	int size = gsfMonitorBranchList.getModel().getSize();
-    	for (int i = 0; i < size; i++) {
-    		String id = (String)gsfMonitorBranchList.getModel().getElementAt(i);
+    	for (String id : RunUIUtilFunc.getJListItemAry(gsfMonitorBranchList)) {
     		if (id.startsWith("b:")) { // branch
     			String braId = id.substring(2);
-    			String fromId = NetUtilFunc.findFromID(braId);
-    			String toId = NetUtilFunc.findToID(braId);
-    			String cirId = NetUtilFunc.findCirNo(braId);
-    			
 	    		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 				LineBranchXmlType line = helper.createLineBranchXmlType();
 				sf.setBranch(line);
-				line.setId(braId);
-				line.setFromBusId(fromId);
-				line.setToBusId(toId);
-				line.setCircuitId(cirId);
+    			setBranchIdInfo(line, braId);				
     		}
     		else {  // interface
     			
@@ -363,8 +390,42 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 
 	public boolean saveEditor2LODF() {
-		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2GSF() called");
+		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2LODF() called");
+		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+		
+		LineOutageDFactorXmlType lodf = helper.createLODF(this.xmlCaseData);
+
+		if (this.lodfMultiTypeRadioButton.isSelected()) {
+			
+		}
+		else {  // single outage branch
+	    	String braId = (String)this.lodfBranchListComboBox.getSelectedItem();
+			BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranch());
+			setBranchIdInfo(outage, braId);
+		}
+
+		for (String id : RunUIUtilFunc.getJListItemAry(this.lodfMonitorBranchInterfaceList)) {
+    		if (id.startsWith("b:")) { // branch
+    			String braId = id.substring(2);
+    			BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
+    			setBranchIdInfo(monitor, braId);
+    		}
+    		else {  // interface
+    			
+    		}
+		}
+		
 		return true;
+	}
+	
+	private void setBranchIdInfo(BaseBranchXmlType branch, String braId) {
+		String fromId = NetUtilFunc.findFromID(braId);
+		String toId = NetUtilFunc.findToID(braId);
+		String cirId = NetUtilFunc.findCirNo(braId);
+		branch.setId(braId);
+		branch.setFromBusId(fromId);
+		branch.setToBusId(toId);
+		branch.setCircuitId(cirId);
 	}
 	
 	public boolean saveEditor2TDFactor() {
@@ -2174,7 +2235,20 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	if (!saveEditor2LODF())
     		return;
 
-    	String outText = "...";
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
+		
+		String outText = "";
+		try {
+			algoDsl.runDclfXmlCase(this.xmlCaseData, DclfAnalysisType.LODF);
+			LineOutageDFactorXmlType lodf = this.xmlCaseData.getLineOutageDFactor().get(0);
+	    	outText = SenAnalysisOutput.outLODF(lodf).toString(); // this.odmParser.toXmlDoc(false);
+		} catch (PSSLException e) {
+			IpssLogger.getLogger().severe(e.toString());
+			outText = e.toString();
+		}		
+		
+		algoDsl.destroy();
+		
 		UISpringFactory.getOutputTextDialog("LODF Calculation Results").display(outText);   
     }//GEN-LAST:event_lodfCalculateButtonActionPerformed
 

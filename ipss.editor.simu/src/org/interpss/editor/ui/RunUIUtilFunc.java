@@ -180,6 +180,14 @@ public class RunUIUtilFunc  {
 		jlist.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
 	}
 	
+	public static String[] getJListItemAry(javax.swing.JList jlist) {
+    	int size = jlist.getModel().getSize();
+    	String[] ary = new String[size];
+    	for (int i = 0; i < size; i++) {
+    		ary[i] = (String)jlist.getModel().getElementAt(i);
+    	}
+		return ary;
+	}
 	
 	public static ODMModelParser loadODMXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
