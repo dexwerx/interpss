@@ -2115,19 +2115,19 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }
     
     private void gsfLoadSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadSingleBusRadioButtonActionPerformed
-        // TODO add your handling code here:
+        IpssLogger.getLogger().info("gsfLoadSingleBusRadioButtonActionPerformed() called");
     }//GEN-LAST:event_gsfLoadSingleBusRadioButtonActionPerformed
 
     private void gsfLoadMultiBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadMultiBusRadioButtonActionPerformed
-        // TODO add your handling code here:
+        IpssLogger.getLogger().info("gsfLoadMultiBusRadioButtonActionPerformed() called");
     }//GEN-LAST:event_gsfLoadMultiBusRadioButtonActionPerformed
 
     private void gsfAddWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddWithBusButtonActionPerformed
-        // TODO add your handling code here:
+        IpssLogger.getLogger().info("gsfAddWithBusButtonActionPerformed() called");
     }//GEN-LAST:event_gsfAddWithBusButtonActionPerformed
 
     private void gsfRemoveWithBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfRemoveWithBusButtonActionPerformed
-        // TODO add your handling code here:
+        IpssLogger.getLogger().info("gsfRemoveWithBusButtonActionPerformed() called");
     }//GEN-LAST:event_gsfRemoveWithBusButtonActionPerformed
 
     private void gsfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddBranchButtonActionPerformed
@@ -2137,7 +2137,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_gsfAddBranchButtonActionPerformed
 
     private void gsfAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddInterfaceButtonActionPerformed
-        // TODO add your handling code here:
+        IpssLogger.getLogger().info("gsfAddInterfaceButtonActionPerformed() called");
     }//GEN-LAST:event_gsfAddInterfaceButtonActionPerformed
 
     private void gsfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfRemoveBranchButtonActionPerformed
