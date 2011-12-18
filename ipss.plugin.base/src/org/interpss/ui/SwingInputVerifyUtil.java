@@ -51,7 +51,7 @@ public class SwingInputVerifyUtil {
 	 */
 	public static boolean isEmptyStr(javax.swing.JComboBox input) {
 		String str = (String) input.getSelectedItem();
-		return "".equals(str.trim());
+		return str == null || "".equals(str.trim());
 	}
 
 	/**
