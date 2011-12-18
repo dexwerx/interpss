@@ -10,10 +10,6 @@ import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.numeric.util.NumericUtil;
-import org.interpss.tools.IAclfBranchComparator;
-import org.interpss.tools.IAclfBusComparator;
-import org.interpss.tools.IAclfNetComparator;
-import org.interpss.tools.NetModelComparator;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
@@ -24,6 +20,10 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.tools.compare.IAclfBranchComparator;
+import com.interpss.tools.compare.IAclfBusComparator;
+import com.interpss.tools.compare.IAclfNetComparator;
+import com.interpss.tools.compare.NetModelComparator;
 
 public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 	@Test
@@ -60,11 +60,11 @@ public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 			
 			System.out.println("LF Net as the base net for comparison");
 			new NetModelComparator(baseNet)
-					.compare(dstabNet, false, netCompRules, busCompRules, branchCompRules);
+					.compare(dstabNet, netCompRules, busCompRules, branchCompRules);
 
 			System.out.println("DStab Net as the base net for comparison");
 			new NetModelComparator(dstabNet)
-				.compare(baseNet, false, netCompRules, busCompRules, branchCompRules);
+				.compare(baseNet, netCompRules, busCompRules, branchCompRules);
 		}
 	}
 
