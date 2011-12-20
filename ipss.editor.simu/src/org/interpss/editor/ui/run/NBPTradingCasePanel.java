@@ -1148,10 +1148,10 @@ private boolean saveInputData() {
     return true;
 }
 
-/*
+/*88888888888888888888888888888888888
  *  Aclf Analysis
  *  ============= 
- */
+ 88888888888888888888888888888888888*/
 
 private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAclfAnalysisButtonActionPerformed
 	IpssLogger.getLogger().info("Aclf analysis button selected");
@@ -1236,10 +1236,10 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
 	}
 }//GEN-LAST:event_lfAssistGenFileSelectButtonActionPerformed
 
-/*
+/* 888888888888888888888888
  *  Outage Analysis
  *  =============== 
- */
+ 8888888888888888888888888888*/
 
 private void runOutgageAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runOutgageAnalysisButtonActionPerformed
 	IpssLogger.getLogger().info("Line outage analysis button selected");
@@ -1248,6 +1248,17 @@ private void runOutgageAnalysisButtonActionPerformed(java.awt.event.ActionEvent 
 
 	if (!saveInputData())
 		return;
+	
+	String outText = "";
+//	try {
+//		outText = "";
+//	} catch (PSSLException e) {
+//		IpssLogger.getLogger().severe(e.toString());
+//		outText = e.toString();
+//	}
+	
+	UISpringFactory.getOutputTextDialog("Outage Analysis Results")
+		.display(outText);   	
    	
 }//GEN-LAST:event_runOutgageAnalysisButtonActionPerformed
 
@@ -1279,30 +1290,11 @@ private void addOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt
 	IpssLogger.getLogger().info("addOutageBranchButtonActionPerformed() called");
 	String id = (String)this.outageBranchListComboBox.getSelectedItem();
 	RunUIUtilFunc.addItemJList(multiOutageBranchList, id);
-//	int size = this.multiOutageBranchList.getModel().getSize();
-//	String[] ary = new String[size + 1];
-//	for (int i = 0; i < size; i++) {
-//		ary[i] = (String)multiOutageBranchList.getModel().getElementAt(i);
-//	}
-//	ary[size] = id;   
-//	multiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
 }//GEN-LAST:event_addOutageBranchButtonActionPerformed
 
 private void removeOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOutageBranchButtonActionPerformed
 	IpssLogger.getLogger().info("removeOutageBranchButtonActionPerformed() called");
     RunUIUtilFunc.removeItemJList(this.multiOutageBranchList);
-//	String id = (String)multiOutageBranchList.getSelectedValue();
-//	int size = multiOutageBranchList.getModel().getSize();
-//	String[] ary = new String[size - 1];
-//	int cnt = 0;
-//	for (int i = 0; i < size; i++) {
-//		String s = (String)multiOutageBranchList.getModel().getElementAt(i);
-//		if (s.contains(id))
-//			; // skip the item
-//		else
-//			ary[cnt++] = (String)multiOutageBranchList.getModel().getElementAt(i);
-//	}
-//	multiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
 }//GEN-LAST:event_removeOutageBranchButtonActionPerformed
 
 private void outageFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageFileSelectButtonActionPerformed
