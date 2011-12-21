@@ -61,6 +61,9 @@ import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 
 public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTextDialog {
 	private static final long serialVersionUID = 1;
+
+    private int textAreaColumns = 120;
+    private int textAreaRows = 30;
 	
 	private IPSSMsgHub msg = null;
 	private AclfNetwork aclfAdjNet = null;
@@ -75,6 +78,9 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         super(parent, "", true);
         initDialog("");
         this.msg = aMsg;
+        textAreaColumns = 120;
+        textAreaRows = 30;
+        
     }
     
     public NBOutputTextDialog(IGraphicEditor parent, IPSSMsgHub aMsg) {
@@ -97,12 +103,18 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 //        private javax.swing.JButton secMarginButton;
     }
 
-	public void display(Object aData) {
+    @Override public void display(Object aData) {
     	this.data = aData;
         showDialog();
     }
 	
-    public void showDialog() {
+    @Override public void display(Object aData, int col, int row) {
+    	this.textAreaColumns = col;
+    	this.textAreaRows = row;
+    	display(aData);
+    }
+
+	public void showDialog() {
         if (data instanceof File) {
   			this.textArea.setText("");
     		try {
@@ -253,10 +265,10 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         textAreaPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 20, 0, 20));
         textAreaPanel.setLayout(new java.awt.BorderLayout(5, 5));
 
-        textArea.setColumns(120);
+        textArea.setColumns(textAreaColumns);
+        textArea.setRows(textAreaRows);
         textArea.setEditable(false);
         textArea.setFont(new java.awt.Font("Courier New", 0, 12));
-        textArea.setRows(30);
         textAreaScrollPane.setViewportView(textArea);
 
         textAreaPanel.add(textAreaScrollPane, java.awt.BorderLayout.EAST);
