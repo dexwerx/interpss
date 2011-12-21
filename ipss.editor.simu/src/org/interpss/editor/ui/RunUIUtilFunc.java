@@ -30,12 +30,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -187,6 +189,16 @@ public class RunUIUtilFunc  {
     		ary[i] = (String)jlist.getModel().getElementAt(i);
     	}
 		return ary;
+	}
+	
+	public static void setBranchIdInfo(BaseBranchXmlType branch, String braId) {
+		String fromId = NetUtilFunc.findFromID(braId);
+		String toId = NetUtilFunc.findToID(braId);
+		String cirId = NetUtilFunc.findCirNo(braId);
+		branch.setId(braId);
+		branch.setFromBusId(fromId);
+		branch.setToBusId(toId);
+		branch.setCircuitId(cirId);
 	}
 	
 	public static ODMModelParser loadODMXmlDoc(String filename, SimuRunEnum caseType) throws Exception {
