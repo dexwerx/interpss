@@ -99,7 +99,7 @@ public class IpssScenarioHelper {
 		return lf;
 	}
 	
-	public BaseBranchXmlType createOutageBranch(List<BaseBranchXmlType> braList) {
+	public BaseBranchXmlType creatBaseBranch(List<BaseBranchXmlType> braList) {
 		BaseBranchXmlType bra = parser.getFactory().createBaseBranchXmlType();
 		braList.add(bra);
 		return bra;
