@@ -829,9 +829,9 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                                  <Component id="outageBranchLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="braAnalysisBranchLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="outageBranchListComboBox" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <Component id="braAnalysisBranchListComboBox" min="-2" pref="184" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
@@ -873,8 +873,8 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="outageBranchListComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="outageBranchLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnalysisBranchListComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnalysisBranchLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="branchAnalysisTypePanel" min="-2" max="-2" attributes="0"/>
@@ -1044,7 +1044,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JComboBox" name="outageBranchListComboBox">
+            <Component class="javax.swing.JComboBox" name="braAnalysisBranchListComboBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1059,7 +1059,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="outageBranchLabel">
+            <Component class="javax.swing.JLabel" name="braAnalysisBranchLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>

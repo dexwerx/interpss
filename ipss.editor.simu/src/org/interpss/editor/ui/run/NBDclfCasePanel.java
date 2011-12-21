@@ -76,6 +76,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	//private AreaTransferAnalysisXmlType areaTransfer = null;;
     
 	private ODMModelParser odmParser = new ODMModelParser();
+    public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
+
     private DclfSenAnalysisXmlType xmlCaseData;
     
     /** Creates new form NBAclfCasePanel */
@@ -151,9 +153,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
     }    
 */
-    public void setODMParser(ODMModelParser parser) {
-    	this.odmParser = parser;
-    }
    
     public void setXmlCaseData(DclfSenAnalysisXmlType xmlCaseData) {
     	this.xmlCaseData = xmlCaseData;
@@ -378,7 +377,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 				LineBranchXmlType line = helper.createLineBranchXmlType();
 				sf.setBranch(line);
-    			setBranchIdInfo(line, braId);				
+				RunUIUtilFunc.setBranchIdInfo(line, braId);				
     		}
     		else {  // interface
     			
@@ -399,15 +398,15 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		else {  // single outage branch
 	    	String braId = (String)this.lodfBranchListComboBox.getSelectedItem();
-			BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranch());
-			setBranchIdInfo(outage, braId);
+			BaseBranchXmlType outage = helper.creatBaseBranch(lodf.getOutageBranch());
+			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 		}
 
 		for (String id : RunUIUtilFunc.getJListItemAry(this.lodfMonitorBranchInterfaceList)) {
     		if (id.startsWith("b:")) { // branch
     			String braId = id.substring(2);
     			BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-    			setBranchIdInfo(monitor, braId);
+    			RunUIUtilFunc.setBranchIdInfo(monitor, braId);
     		}
     		else {  // interface
     			
@@ -415,16 +414,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		
 		return true;
-	}
-	
-	private void setBranchIdInfo(BaseBranchXmlType branch, String braId) {
-		String fromId = NetUtilFunc.findFromID(braId);
-		String toId = NetUtilFunc.findToID(braId);
-		String cirId = NetUtilFunc.findCirNo(braId);
-		branch.setId(braId);
-		branch.setFromBusId(fromId);
-		branch.setToBusId(toId);
-		branch.setCircuitId(cirId);
 	}
 	
 	public boolean saveEditor2TDFactor() {

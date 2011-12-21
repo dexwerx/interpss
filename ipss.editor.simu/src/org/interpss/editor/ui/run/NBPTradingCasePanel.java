@@ -33,10 +33,15 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.LfResultFormatEnumType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfOutputXmlType;
+import org.ieee.odm.schema.PtBranchAnalysisEnumType;
+import org.ieee.odm.schema.PtBranchAnalysisXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
@@ -72,6 +77,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	
     // private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;
+    
+	private ODMModelParser odmParser = new ODMModelParser();
+    public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
+    
     private PTradingAnalysisXmlType _ptXml = null;
     
     private List<DblBusValue> genPVSwingBusVoltCacheList = null;
@@ -123,7 +132,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		this.useCachedVoltCheckBox.setSelected(false);
 		this.useCachedVoltCheckBox.setEnabled(false);
 		
-		this.outageBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		this.braAnalysisBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
 	}
     
@@ -145,11 +154,14 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		edGenPFacorTextField.setText(Number2String.toStr(casedata.getEdFile().getGenPFactor(), "#0.00"));
 		edLossPercentTextField.setText(Number2String.toStr(casedata.getEdFile().getLossPercent(), "#0.00"));
 		edLoadPFacorTextField.setText(Number2String.toStr(casedata.getEdFile().getLoadPFactor(), "#0.00"));
+		this.edDateTextField.setText(casedata.getEdFile().getDate());
 		
 		interfaceFileTextField.setText(casedata.getInterfaceFile().getInterfaceFilename());
 		interfaceLimitTextField.setText(casedata.getInterfaceFile().getLimitFilename());
 		
 		// Aclf Analysis
+		if (this._ptXml.getAclfAnalysis() == null)
+			this._ptXml.setAclfAnalysis(this.odmParser.getFactory().createPtAclfAnalysisXmlType());
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
 
 		aclfEdHourComboBox.setSelectedItem(aclfXml.getHour() == null? "12:00" : aclfXml.getHour());
@@ -178,6 +190,31 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			if(aclfXml.getGenSwingAllocOption().getAllocTolerance() != null)
 				this.swingAllocToleranceTextField.setText(
 					new Double(aclfXml.getGenSwingAllocOption().getAllocTolerance()).toString());
+		}
+		
+		// Branch analysis Analysis
+		if (this._ptXml.getBranchAnalysis() == null) 
+			this._ptXml.setBranchAnalysis(this.odmParser.getFactory().createPtBranchAnalysisXmlType());
+		PtBranchAnalysisXmlType braAnalysis = this._ptXml.getBranchAnalysis();
+		this.branchAnalysisEdHourComboBox.setSelectedItem(braAnalysis.getHour() == null? "12:00" : braAnalysis.getHour());
+		if (braAnalysis.getType() != null) 
+			if (braAnalysis.getType() == PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE)
+				this.outageSingleRadioButton.setSelected(true);
+			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.MULTI_BRANCH_OUTAGE)
+				this.outageMultiRadioButton.setSelected(true);
+			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.OUTAGE_SCHEDULE)
+				this.outageScheduleRadioButton.setSelected(true);
+			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.BRANCH_FLOW)
+				this.branchFlowRadioButton.setSelected(true);
+		if (this.outageMultiRadioButton.isSelected()) {
+			// TODO
+		}
+		else if (this.outageScheduleRadioButton.isSelected()) {
+		    // TODO	
+		}
+		if (braAnalysis.getBranch() != null && braAnalysis.getBranch().size() > 0) {
+			BaseBranchXmlType branch = braAnalysis.getBranch().get(0);
+			this.braAnalysisBranchListComboBox.setSelectedItem(branch.getId());
 		}
 		
 		// output panel
@@ -214,7 +251,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg);
-		saveLineOutage(errMsg);
+		saveBranchAnalysis(errMsg);
 		saveOutputConfig(errMsg);
 
 		return errMsg.size() == 0;
@@ -232,6 +269,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 				new Double(edLossPercentTextField.getText()).doubleValue());
 		casedata.getEdFile().setLoadPFactor(
 				new Double(edLoadPFacorTextField.getText()).doubleValue());
+		casedata.getEdFile().setDate(this.edDateTextField.getText());
 		
 		casedata.getInterfaceFile().setInterfaceFilename(
 				interfaceFileTextField.getText());
@@ -274,8 +312,31 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveLineOutage(Vector<String> errMsg) {
+	public boolean saveBranchAnalysis(Vector<String> errMsg) {
 		boolean noError = true;
+		
+		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+		
+		PtBranchAnalysisXmlType braAnalysis = this._ptXml.getBranchAnalysis();
+		braAnalysis.setHour((String)this.branchAnalysisEdHourComboBox.getSelectedItem());
+		braAnalysis.setType(this.outageSingleRadioButton.isSelected()? PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE :
+			(this.outageMultiRadioButton.isSelected()? PtBranchAnalysisEnumType.MULTI_BRANCH_OUTAGE :
+				(this.outageScheduleRadioButton.isSelected()? PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE :
+					PtBranchAnalysisEnumType.BRANCH_FLOW)));
+
+		if (this.outageSingleRadioButton.isSelected() ||
+				this.branchFlowRadioButton.isSelected()) {
+			braAnalysis.getBranch().clear();
+			String braId = (String)this.braAnalysisBranchListComboBox.getSelectedItem();
+			BaseBranchXmlType outage = helper.creatBaseBranch(braAnalysis.getBranch());
+			RunUIUtilFunc.setBranchIdInfo(outage, braId);
+		}
+		else if (this.outageMultiRadioButton.isSelected()) {
+			// TODO
+		}
+		else if (this.outageScheduleRadioButton.isSelected()) {
+		    // TODO	
+		}
 		
 		return noError;
 	}
@@ -365,8 +426,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outageMultiRadioButton = new javax.swing.JRadioButton();
         outageScheduleRadioButton = new javax.swing.JRadioButton();
         branchFlowRadioButton = new javax.swing.JRadioButton();
-        outageBranchListComboBox = new javax.swing.JComboBox();
-        outageBranchLabel = new javax.swing.JLabel();
+        braAnalysisBranchListComboBox = new javax.swing.JComboBox();
+        braAnalysisBranchLabel = new javax.swing.JLabel();
         multiOutageBranchScrollPane = new javax.swing.JScrollPane();
         multiOutageBranchList = new javax.swing.JList();
         addOutageBranchButton = new javax.swing.JButton();
@@ -840,7 +901,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         branchAnalysisTypeButtonGroup.add(branchFlowRadioButton);
-        branchFlowRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        branchFlowRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         branchFlowRadioButton.setText("Branch Flow");
         branchFlowRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -874,11 +935,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        outageBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        outageBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        braAnalysisBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        braAnalysisBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        outageBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        outageBranchLabel.setText("Branch");
+        braAnalysisBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        braAnalysisBranchLabel.setText("Branch");
 
         multiOutageBranchList.setFont(new java.awt.Font("Dialog", 0, 12));
         multiOutageBranchList.setEnabled(false);
@@ -944,9 +1005,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                             .add(branchAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(branchAnalysisPanelLayout.createSequentialGroup()
                             .add(102, 102, 102)
-                            .add(outageBranchLabel)
+                            .add(braAnalysisBranchLabel)
                             .add(33, 33, 33)
-                            .add(outageBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 184, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(braAnalysisBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 184, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(branchAnalysisPanelLayout.createSequentialGroup()
                             .add(189, 189, 189)
                             .add(runBranchAnalysisButton))
@@ -976,8 +1037,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                     .add(branchAnalysisEdHourLabel))
                 .add(18, 18, 18)
                 .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(outageBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(outageBranchLabel))
+                    .add(braAnalysisBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(braAnalysisBranchLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(branchAnalysisTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
@@ -1028,7 +1089,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outInterfaceViolationCheckBox.setSelected(true);
         outInterfaceViolationCheckBox.setText("Interface Limit Violation Report");
 
-        outGenLossFactorCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        outGenLossFactorCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         outGenLossFactorCheckBox.setSelected(true);
         outGenLossFactorCheckBox.setText("Gen Loss Factor");
 
@@ -1339,7 +1400,7 @@ private void disableOutageAnalysisCompoment(boolean multi, boolean file) {
 
 private void addOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutageBranchButtonActionPerformed
 	IpssLogger.getLogger().info("addOutageBranchButtonActionPerformed() called");
-	String id = (String)this.outageBranchListComboBox.getSelectedItem();
+	String id = (String)this.braAnalysisBranchListComboBox.getSelectedItem();
 	RunUIUtilFunc.addItemJList(multiOutageBranchList, id);
 }//GEN-LAST:event_addOutageBranchButtonActionPerformed
 
@@ -1357,6 +1418,8 @@ private void outageFileSelectButtonActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JComboBox aclfEdHourComboBox;
     private javax.swing.JLabel aclfEdHourLabel;
     private javax.swing.JButton addOutageBranchButton;
+    private javax.swing.JLabel braAnalysisBranchLabel;
+    private javax.swing.JComboBox braAnalysisBranchListComboBox;
     private javax.swing.JComboBox branchAnalysisEdHourComboBox;
     private javax.swing.JLabel branchAnalysisEdHourLabel;
     private javax.swing.JPanel branchAnalysisPanel;
@@ -1405,8 +1468,6 @@ private void outageFileSelectButtonActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JCheckBox outLfResultCheckBox;
     private javax.swing.JCheckBox outVoltViolationCheckBox;
     private javax.swing.JCheckBox outZoneSummaryCheckBox;
-    private javax.swing.JLabel outageBranchLabel;
-    private javax.swing.JComboBox outageBranchListComboBox;
     private javax.swing.JLabel outageFileLabel;
     private javax.swing.JButton outageFileSelectButton;
     private javax.swing.JTextField outageFileTextField;

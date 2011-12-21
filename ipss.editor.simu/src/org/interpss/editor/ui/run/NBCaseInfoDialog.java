@@ -233,6 +233,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {ptCase.getName()}));
 			this.descTextArea.setText(ptCase.getDesc());
 			// set the case data to the actual data editing panel
+			_tradingCaseInfoPanel.setODMParser(this.odmParser);
 			_tradingCaseInfoPanel.setXmlCaseData(ptCase);
 			// set the case data to the actual data editing panel
 			_tradingCaseInfoPanel.setForm2Editor();
