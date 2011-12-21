@@ -40,12 +40,21 @@
 
 	<ns:complexType name="PtBranchAnalysisXmlType">
 		<ns:sequence>
-			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="type" maxOccurs="1" minOccurs="1">				<simpleType>					<restriction base="string">						<enumeration value="SingleBranchOutage"></enumeration>						<enumeration value="MultiBranchOutage"></enumeration>						<enumeration value="OutageSchedule"></enumeration>						<enumeration value="BranchFlow"></enumeration>					</restriction>				</simpleType></element>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtBranchAnalysisEnumType">				</element>
 			<element name="branch" type="pss:BaseBranchXmlType" maxOccurs="unbounded" minOccurs="1"></element>
 			<element name="outageScheduleFile" type="string" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>	
 
+	<simpleType name="PtBranchAnalysisEnumType">
+		<restriction base="string">
+			<enumeration value="SingleBranchOutage"></enumeration>
+			<enumeration value="MultiBranchOutage"></enumeration>
+			<enumeration value="OutageSchedule"></enumeration>
+			<enumeration value="BranchFlow"></enumeration>
+		</restriction>
+	</simpleType>
+	
 	<ns:complexType name="PtCaseDataXmlType">
 		<ns:sequence>
 			<element name="baseCaseFile" type="ipss:PtBaseCaseFileXmlType" maxOccurs="1" minOccurs="1"></element>
