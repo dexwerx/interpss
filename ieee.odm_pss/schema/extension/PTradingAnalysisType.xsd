@@ -20,6 +20,7 @@
 				<ns:sequence>
 					<element name="caseData" type="ipss:PtCaseDataXmlType" maxOccurs="1"></element>
 					<element name="aclfAnalysis" type="ipss:PtAclfAnalysisXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="branchAnalysis" type="ipss:PtBranchAnalysisXmlType" maxOccurs="1" minOccurs="0"></element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -27,12 +28,21 @@
 
 	<ns:complexType name="PtAclfAnalysisXmlType">
 		<ns:sequence>
-			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="tolerance" type="ns:double" maxOccurs="1" minOccurs="0"></element>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>
+			<element name="tolerance" type="ns:double" maxOccurs="1" minOccurs="0"></element>
 			<element name="genQAdjustment" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="genQAdjOption" type="ipss:PtGenQAdjustXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="swingBusPQAlloc" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="genSwingAllocOption" type="ipss:PtSwingAllocXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="outputOption" type="ipss:PtAclfOutputXmlType" maxOccurs="1" minOccurs="0"></element>
+		</ns:sequence>
+	</ns:complexType>	
+
+	<ns:complexType name="PtBranchAnalysisXmlType">
+		<ns:sequence>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="type" maxOccurs="1" minOccurs="1">				<simpleType>					<restriction base="string">						<enumeration value="SingleBranchOutage"></enumeration>						<enumeration value="MultiBranchOutage"></enumeration>						<enumeration value="OutageSchedule"></enumeration>						<enumeration value="BranchFlow"></enumeration>					</restriction>				</simpleType></element>
+			<element name="branch" type="pss:BaseBranchXmlType" maxOccurs="unbounded" minOccurs="1"></element>
+			<element name="outageScheduleFile" type="string" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>	
 
@@ -62,6 +72,7 @@
 	<ns:complexType name="PtEDispatchFileXmlType">
 		<ns:sequence>
 			<element name="filename" type="ns:string" maxOccurs="1" minOccurs="1"></element>
+			<element name="date" type="ns:string" maxOccurs="1" minOccurs="1"></element>
 			<element name="genPFactor" type="ns:double" maxOccurs="1" minOccurs="1"></element>
 			<element name="lossPercent" type="ns:double" maxOccurs="1" minOccurs="1"></element>
 			<element name="loadPFactor" type="ns:double" maxOccurs="1" minOccurs="1"></element>
@@ -99,6 +110,7 @@
 			<element name="busVoltageLowerLimitPU" type="ns:double" maxOccurs="1" minOccurs="1"></element>
 			<element name="branchLimitViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="interfaceLimitViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
+			<element name="genLossFactor" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="zoneSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="areaSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
 			<element name="lfResult" type="ns:boolean" maxOccurs="1" minOccurs="1"></element>
