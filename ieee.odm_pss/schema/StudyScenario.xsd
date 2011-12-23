@@ -7,7 +7,7 @@
 
 	<include schemaLocation="common/StudyScenarioType.xsd"></include>
 
-	<import  namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="extension/IpssStudyScenario.xsd"/>
+	<import  namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="extension/ipss/IpssStudyScenario.xsd"/>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008-2011</documentation>
