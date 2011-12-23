@@ -21,6 +21,7 @@
 					<element name="caseData" type="ipss:PtCaseDataXmlType" maxOccurs="1"></element>
 					<element name="aclfAnalysis" type="ipss:PtAclfAnalysisXmlType" maxOccurs="1" minOccurs="0"></element>
 					<element name="branchAnalysis" type="ipss:PtBranchAnalysisXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="genAnalysis" type="ipss:PtGenAnalysisXmlType" maxOccurs="1" minOccurs="0"></element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -40,11 +41,26 @@
 
 	<ns:complexType name="PtBranchAnalysisXmlType">
 		<ns:sequence>
-			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtBranchAnalysisEnumType">				</element>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>			<element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtBranchAnalysisEnumType"></element>
 			<element name="branch" type="pss:BaseBranchXmlType" maxOccurs="unbounded" minOccurs="1"></element>
 			<element name="outageScheduleFile" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="branchFlowOutPoints" type="int" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>	
+
+	<ns:complexType name="PtGenAnalysisXmlType">
+		<ns:sequence>
+			<element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></element>
+			<element name="type" maxOccurs="1"  minOccurs="1" type="ipss:PtGenAnalysisEnumType"></element>
+			<element name="genBus" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+		</ns:sequence>
+	</ns:complexType>	
+
+	<simpleType name="PtGenAnalysisEnumType">
+		<restriction base="string">
+			<enumeration value="LossFactor"></enumeration>
+		</restriction>
+	</simpleType>
 
 	<simpleType name="PtBranchAnalysisEnumType">
 		<restriction base="string">
@@ -59,6 +75,7 @@
 		<ns:sequence>
 			<element name="baseCaseFile" type="ipss:PtBaseCaseFileXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="edFile" type="ipss:PtEDispatchFileXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="loadDist" type="ipss:PtLoadDistributionXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="interfaceFile" type="ipss:PtInterfaceFileXmlType" maxOccurs="1" minOccurs="0"></element>
 		</ns:sequence>
 	</ns:complexType>	
@@ -68,6 +85,12 @@
 			<element name="filename" type="ns:string" maxOccurs="1" minOccurs="1"></element>
 			<element name="format" type="ipss:InputFileFormatEnumType" maxOccurs="1" minOccurs="1"></element>
 			<element name="version" type="ipss:InputFileVersionEnumType" maxOccurs="1" minOccurs="0"></element>
+		</ns:sequence>
+	</ns:complexType>	
+
+	<ns:complexType name="PtLoadDistributionXmlType">
+		<ns:sequence>
+			<ns:element name="minLoadForDistFactor" minOccurs="0" type="pss:ActivePowerXmlType"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 
