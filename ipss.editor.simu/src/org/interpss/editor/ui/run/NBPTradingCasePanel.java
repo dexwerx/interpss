@@ -69,10 +69,13 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.dclf.LODFSenAnalysisType;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.datatype.DblBusValue;
+import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.impl.AclfDslODMRunner;
 import com.interpss.pssl.simu.impl.PTradingOutput;
 import com.interpss.pssl.simu.impl.AclfDslODMRunner.PtAnalysisType;
@@ -151,6 +154,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     public void setXmlCaseData(PTradingAnalysisXmlType pt) {
     	this._ptXml = pt;
     }
+    
+////////////////////////////////////////////////////////////////////
+//////            Set Data to Editor                          //////    
+////////////////////////////////////////////////////////////////////    
 	/**
 	*	Set form data to the editor
 	*
@@ -271,6 +278,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
 		return true;
 	}
+	
+////////////////////////////////////////////////////////////////////
+//////            Set Data to ODM Xml                         //////    
+////////////////////////////////////////////////////////////////////	
 
 	/**
 	*	Save editor screen data to the form
@@ -987,8 +998,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         branchAnalysisTypeButtonGroup.add(outageMultiRadioButton);
-        outageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         outageMultiRadioButton.setText("Multi Outage");
+        outageMultiRadioButton.setEnabled(false);
         outageMultiRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 outageMultiRadioButtonActionPerformed(evt);
@@ -996,8 +1008,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         branchAnalysisTypeButtonGroup.add(outageScheduleRadioButton);
-        outageScheduleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageScheduleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         outageScheduleRadioButton.setText("Outage Schedule");
+        outageScheduleRadioButton.setEnabled(false);
         outageScheduleRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 outageScheduleRadioButtonActionPerformed(evt);
@@ -1549,12 +1562,15 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 			outText = PTradingOutput.gsfBranchFlow(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.outageSingleRadioButton.isSelected()) {
-			
+			Object rtn = new AclfDslODMRunner(net)
+				.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
+			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getId();
+			outText = "Outage Branch:" + braId+ "\n\n" + rtn.toString();
 		}
 		else {
 			// not implemented
 		}
-	} catch (InterpssException e) {
+	} catch (Exception e) {
 		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 		recorderBaseNet.endRecording().apply();
 		return;
@@ -1765,17 +1781,24 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 
 	
 	private void initInputVerifier(DataVerifier v) {
+	    braFlowOutPointsTextField.setInputVerifier(v);
+	    
+	    edDateTextField.setInputVerifier(v);
 		edGenPFacorTextField.setInputVerifier(v);
 		edLossPercentTextField.setInputVerifier(v);
 		edLoadPFacorTextField.setInputVerifier(v);
-		aclfEdHourComboBox.setInputVerifier(v);
+
+		largeGSFPointsTextField.setInputVerifier(v);
+	    lfToleranceTextField.setInputVerifier(v);
+	    lfAssistGenQAdjToleranceTextField.setInputVerifier(v);
 		lfAssistGenQAdjStespTextField.setInputVerifier(v);
+	    loadDistThreshholdTextField.setInputVerifier(v);
+		
 		swingAllocZoneComboBox.setInputVerifier(v);
 		swingAllocMaxStepsTextField.setInputVerifier(v);
 		swingAllocAccFactorTextField.setInputVerifier(v);
-		largeGSFPointsTextField.setInputVerifier(v);
-		this.voltUpperLimitTextField.setInputVerifier(v);
-		this.voltLowerLimitTextField.setInputVerifier(v);
+		voltUpperLimitTextField.setInputVerifier(v);
+		voltLowerLimitTextField.setInputVerifier(v);
 	}
 	
 	class DataVerifier extends javax.swing.InputVerifier {
@@ -1783,7 +1806,12 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 			if (input == null)
 				return false;
        		try {
-				if (input == edGenPFacorTextField)
+				if (input == braFlowOutPointsTextField)
+					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+
+				else if (input == edDateTextField )
+					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JTextField)input);
+			    else if (input == edGenPFacorTextField)
 					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0 && 
 							SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) <= 1.0;
 				else if (input == edLossPercentTextField)
@@ -1795,6 +1823,10 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 
 				else if (input == aclfEdHourComboBox )
 					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
+				else if (input == lfToleranceTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+				else if (input == lfAssistGenQAdjToleranceTextField)
+					return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
 				else if (input == lfAssistGenQAdjStespTextField)
 					return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
 				else if (input == swingAllocZoneComboBox )
