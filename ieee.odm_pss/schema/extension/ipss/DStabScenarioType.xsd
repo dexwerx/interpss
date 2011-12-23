@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
+	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
+	elementFormDefault="qualified">
+	
+	<include schemaLocation="AclfScenarioType.xsd"></include>
+	<include schemaLocation="AcscScenarioType.xsd"></include>
+
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../dynamic/DstabRecordType.xsd"/>
+	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd"/>
+
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008-2010</documentation>
+	</annotation>
+	
+	<complexType name="DStabSimulationXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<sequence>
+					<element name="simulationSetting" maxOccurs="1" minOccurs="1" type="ipss:DStabSimuSettingXmlType"/>
+					<element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="ipss:AclfAlgorithmXmlType"/>
+					<element name="dynamicEvents" maxOccurs="1" minOccurs="1">
+						<complexType>
+                            <annotation><documentation>
+                            when disableDynEvents = true, SetPointChange events might be added. All other 
+                            dynamic events are ignore.  
+							When study SetPointChange dynamic evetns, you must disableDynEvents = true. 
+							There should be not be more than one SetPointChange dynamic events
+							</documentation></annotation>
+                            <sequence>
+								<element name="disableDynEvents" type="boolean" maxOccurs="1" minOccurs="0"></element>
+								<element name="dynamicEvent" type="ipss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</ns:extension>
+		</ns:complexContent>	
+	</complexType>
+	
+	<complexType name="DStabSimuSettingXmlType">
+		<sequence>
+			<element name="dstabMethod" maxOccurs="1" minOccurs="1" type="pss:DStabMethodEnumType">
+			</element>
+			<element name="totalTime" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType"/>
+			<element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"/>
+			<element name="absMachineAngle" type="boolean" maxOccurs="1" minOccurs="0"/>
+			<element name="refMachine" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="netEqnSolveConfig" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="netEqnItrNoEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+						<ns:element name="netEqnItrWithEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			<element name="staticLoadModel" type="ipss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="StaticLoadModelXmlType">
+		<ns:sequence>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadModelEnumType"></ns:element>
+			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</complexType>
+
+	<complexType name="DynamicEventXmlType">
+        <annotation><documentation>
+        Only "simple" fault could be simulated, meaning at any time there should be on active fault event, although
+        any number of faults could be defined.
+        </documentation></annotation>
+        <sequence>
+			<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
+			<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="permanentFault" type="boolean" maxOccurs="1" minOccurs="0"></ns:element>
+			<choice>
+        		<annotation><documentation>
+        		There are three dynamic event types. Only one type could be selected for a dynamic event.
+        		</documentation></annotation>
+				<ns:element name="fault" type="pss:AcscFaultXmlType" maxOccurs="1" minOccurs="0"/>
+				<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType"/>
+				<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType"/>
+			</choice>
+		</sequence>
+		<attribute name="id" type="string"></attribute>
+		<attribute name="name" type="string"></attribute>
+		<attribute name="eventType" type="pss:DynamicEventEnumType"/>
+	</complexType>
+
+	<ns:complexType name="DStabLoadChangeXmlType">
+		<ns:sequence>
+			<ns:element name="refBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="loadChangeType" minOccurs="1" maxOccurs="1" type="pss:DStabLoadChangeEnumType"></ns:element>
+			<ns:element name="changeFactor" type="pss:ChangeFactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="threshhold" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="delayTime" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="DStabSetPointChangeXmlType">
+		<ns:sequence>
+			<ns:element name="refGenerator" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="pss:MachineControllerEnumType"></ns:element>
+			<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1" type="pss:SetPointChangeEnumType">			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+</schema>
