@@ -42,6 +42,15 @@ public interface IOutputTextDialog extends IpssMsgListener {
 	 * @param data
 	 */
     void display(Object data);
+
+	/**
+	 * display the data object
+	 * 
+	 * @param data
+	 * @param col default 120
+	 * @param row  default 30
+	 */
+    void display(Object aData, int col, int row);
 	
     /**
      * Load the file and display to the textarea
