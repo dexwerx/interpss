@@ -75,7 +75,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 				</pss:monitorBranch>
 			</pss:lineOutageDFactor>
 */
-		BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranch());
+		BaseBranchXmlType outage = helper.creatBaseBranch(lodf.getOutageBranch());
 		outage.setId("Bus4_Bus7_1");
 		outage.setFromBusId("Bus4");
 		outage.setToBusId("Bus7");
@@ -109,7 +109,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 */
 		lodf = helper.createLODF(dclfCase);
 		
-		outage = helper.createOutageBranch(lodf.getOutageBranch());
+		outage = helper.creatBaseBranch(lodf.getOutageBranch());
 		outage.setId("Bus6_Bus13_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus13");

@@ -80,19 +80,19 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
 		
-		BaseBranchXmlType outage = helper.createOutageBranch(lodf.getOutageBranch());
+		BaseBranchXmlType outage = helper.creatBaseBranch(lodf.getOutageBranch());
 		outage.setId("Bus1_Bus5_1");
 		outage.setFromBusId("Bus1");
 		outage.setToBusId("Bus5");
 		outage.setCircuitId("1");
 
-		outage = helper.createOutageBranch(lodf.getOutageBranch());
+		outage = helper.creatBaseBranch(lodf.getOutageBranch());
 		outage.setId("Bus3_Bus4_1");
 		outage.setFromBusId("Bus3");
 		outage.setToBusId("Bus4");
 		outage.setCircuitId("1");
 
-		outage = helper.createOutageBranch(lodf.getOutageBranch());
+		outage = helper.creatBaseBranch(lodf.getOutageBranch());
 		outage.setId("Bus6_Bus11_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus11");
