@@ -33,8 +33,6 @@ import org.interpss.numeric.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.FlowInterface;
-import com.interpss.core.aclf.FlowInterfaceLimit;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.FunctionLoad;
 import com.interpss.core.aclf.adj.PQBusLimit;
@@ -46,6 +44,8 @@ import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adj.XfrTapControlType;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
+import com.interpss.core.aclf.flow.FlowInterface;
+import com.interpss.core.aclf.flow.FlowInterfaceLimit;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.algo.sec.BranchRatingAdapter;
@@ -355,7 +355,7 @@ public class AclfOutFunc {
 		
 		buffer.append("          Interface           Flow(pu)    Direction     Limit\n");
 		buffer.append("    ============================================================\n");
-		for (FlowInterface inf : net.getInterfaceList()) {
+		for (FlowInterface inf : net.getFlowInterfaceList()) {
 			FlowInterfaceLimit limit = offPeak? inf.getOffPeakLimit() : inf.getOnPeakLimit(); 
 			if (inf.flowExport() > 0.0) {
 				double f = inf.flowExport();
