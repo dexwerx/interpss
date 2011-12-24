@@ -46,11 +46,12 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class RunUIUtilFunc  {
+	public static String Template_RunCase = "template/RunCaseTemplate.xml";
 	public static String Template_RunCase_Aclf = "template/RunCaseAclfTemplate.xml";
 	public static String Template_RunCase_Acsc = "template/RunCaseAcscTemplate.xml";
 	public static String Template_RunCase_DStab = "template/RunCaseDStabTemplate.xml";
-	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
-	public static String Template_RunCase_PTAnalysis = "template/RunCasePTAnalysisTemplate.xml";	
+//	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
+//	public static String Template_RunCase_PTAnalysis = "template/RunCasePTAnalysisTemplate.xml";	
 	
 	public static enum NetIdType {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch,
 										AreaNo, BusInArea, GenInArea, GenInAreaDFactor}
@@ -213,11 +214,9 @@ public class RunUIUtilFunc  {
   		}		
 
   		// use template file
-		if (caseType == SimuRunEnum.TradingAnalysis) {
-			filename = Template_RunCase_PTAnalysis;
-		}
-		else if (caseType == SimuRunEnum.SenAnalysis) {
-			filename = Template_RunCase_SenAnalysis;
+		if (caseType == SimuRunEnum.TradingAnalysis ||
+				caseType == SimuRunEnum.SenAnalysis ) {
+			filename = Template_RunCase;
 		}
   		
   		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
@@ -251,9 +250,6 @@ public class RunUIUtilFunc  {
   		// use template file
 		if (caseType == SimuRunEnum.Aclf || caseType == SimuRunEnum.Scripts) {
 			filename = Template_RunCase_Aclf;
-		}
-		else if (caseType == SimuRunEnum.TradingAnalysis) {
-			filename = Template_RunCase_PTAnalysis;
 		}
 		else if (caseType == SimuRunEnum.Acsc) {
 			filename = Template_RunCase_Acsc;
