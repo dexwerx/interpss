@@ -48,8 +48,6 @@ import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
-import org.interpss.mapper.odm.ODMHelper;
-import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.NumericConstant;
@@ -68,6 +66,8 @@ import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.acsc.adpter.AcscLineAdapter;
 import com.interpss.core.acsc.adpter.AcscXfrAdapter;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
+import com.interpss.pssl.simu.odm.ODMHelper;
+import com.interpss.pssl.simu.odm.ODMUnitHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 

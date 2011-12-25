@@ -36,7 +36,6 @@ import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
-import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
@@ -56,6 +55,7 @@ import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.PQBusAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.pssl.simu.odm.ODMUnitHelper;
 
 public class AclfBusDataHelper {
 	private AclfNetwork aclfNet = null;

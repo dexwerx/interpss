@@ -35,7 +35,6 @@ import org.ieee.odm.schema.EquiMachineXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.ScEquivSourceXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
-import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.DStabObjectFactory;
@@ -50,6 +49,7 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.dstab.mach.SalientPoleMachine;
+import com.interpss.pssl.simu.odm.ODMUnitHelper;
 
 
 public class MachDataHelper {
