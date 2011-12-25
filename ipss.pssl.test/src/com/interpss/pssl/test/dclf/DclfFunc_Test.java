@@ -33,8 +33,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.interpss.datatype.DblBusValue;
-import com.interpss.pssl.simu.impl.PTradingHelper;
 import com.interpss.pssl.test.BaseTestSetup;
+import com.interpss.pssl.util.PTradingHelper;
 
 public class DclfFunc_Test extends BaseTestSetup {
 	@Test
