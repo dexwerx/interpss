@@ -165,6 +165,8 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 			FlowInterfaceLimit offPeak = CoreObjectFactory.createInterfaceLimit();
 			intf.setOffPeakLimit(offPeak);
 			map(xmlIntf, offPeak, net.getBaseKva());
+			
+			net.setFlowInterfaceLoaded(true);
 		}
 	}
 
