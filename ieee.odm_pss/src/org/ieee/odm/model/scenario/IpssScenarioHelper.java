@@ -37,6 +37,7 @@ import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
+import org.ieee.odm.schema.InterfaceRecXmlType;
 import org.ieee.odm.schema.IpssScenarioXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -44,7 +45,9 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
+import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
+import org.ieee.odm.schema.DclfBranchSensitivityXmlType.InterfaceSFactor;
 import org.ieee.odm.schema.LineOutageDFactorXmlType.MonitorBranch;
 
 public class IpssScenarioHelper {
@@ -90,6 +93,12 @@ public class IpssScenarioHelper {
 		dclfCase.getLineOutageDFactor().add(lodf);
 		return lodf;
 	}
+	
+	public SenAnalysisOutOptionXmlType createSenAnalysisOutConfig(DclfSenAnalysisXmlType dclfCase) {
+		SenAnalysisOutOptionXmlType out = parser.getFactory().createSenAnalysisOutOptionXmlType();
+		dclfCase.setOutOption(out);
+		return out;
+	}	
 
 	public GenLossFactorXmlType createGenLossFactor(DclfSenAnalysisXmlType dclfCase) {
 		GenLossFactorXmlType lf = parser.getFactory().createGenLossFactorXmlType();
@@ -124,6 +133,17 @@ public class IpssScenarioHelper {
 		return sf;
 	}
 	
+	public InterfaceSFactor createInterfaceSFactor(List<InterfaceSFactor> infList) {
+		InterfaceSFactor sf = parser.getFactory().createDclfBranchSensitivityXmlTypeInterfaceSFactor();
+		infList.add(sf);
+		return sf;
+	}
+	
+	public InterfaceRecXmlType createInterface() {
+		InterfaceRecXmlType sf = parser.getFactory().createInterfaceRecXmlType();
+		return sf;
+	}
+
 	public LineBranchXmlType createLineBranchXmlType() {
 		return parser.getFactory().createLineBranchXmlType();
 	}
