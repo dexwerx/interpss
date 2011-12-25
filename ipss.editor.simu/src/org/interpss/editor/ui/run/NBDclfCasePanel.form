@@ -33,8 +33,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="runDclfTabbedPane" min="-2" pref="399" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+              <Component id="runDclfTabbedPane" min="-2" pref="445" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -69,27 +69,34 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="gsfInjectionPanel" pref="227" max="32767" attributes="1"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="gsfWithdrawPanel" min="-2" pref="237" max="-2" attributes="1"/>
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
-                      <Component id="gsfLargetGSFButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       <Component id="gsfSelectedGSFButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="gsfAllGSFButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="96" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="gsfLargetBranchGSFButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="gsfAllBranchGSFButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="68" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                      <Component id="gsfLargetInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="gsfAllInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="111" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -101,17 +108,22 @@
                           <Group type="102" attributes="0">
                               <Component id="gsfInjectionPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="gsfWithdrawPanel" pref="264" max="32767" attributes="0"/>
+                              <Component id="gsfWithdrawPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="gsfMonitorBranchPanel" max="32767" attributes="0"/>
+                          <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="1"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="gsfLargetGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfLargetBranchGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="gsfSelectedGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="gsfAllGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfAllBranchGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="gsfLargetInterfaceGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfAllInterfaceGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -434,12 +446,12 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="gsfAddBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfAddInterfaceButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfRemoveBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfInterfaceListComboBox" alignment="0" max="32767" attributes="1"/>
-                              <Component id="gsdfScrollPane" alignment="0" pref="197" max="32767" attributes="1"/>
-                              <Component id="gsfBranchListComboBox" alignment="0" max="32767" attributes="1"/>
+                              <Component id="gsfMonitorAddBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorAddInterfaceButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorRemoveBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorInterfaceListComboBox" alignment="0" max="32767" attributes="1"/>
+                              <Component id="gsfMonitorScrollPane" alignment="0" pref="197" max="32767" attributes="1"/>
+                              <Component id="gsfMonitorBranchListComboBox" alignment="0" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -448,24 +460,24 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="gsfBranchListComboBox" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfMonitorBranchListComboBox" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="gsfAddBranchButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfMonitorAddBranchButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="gsfInterfaceListComboBox" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfMonitorInterfaceListComboBox" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="gsfAddInterfaceButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="gsfMonitorAddInterfaceButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="gsdfScrollPane" min="-2" pref="101" max="-2" attributes="0"/>
+                          <Component id="gsfMonitorScrollPane" min="-2" pref="101" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="gsfRemoveBranchButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="31" max="32767" attributes="0"/>
+                          <Component id="gsfMonitorRemoveBranchButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JComboBox" name="gsfBranchListComboBox">
+                <Component class="javax.swing.JComboBox" name="gsfMonitorBranchListComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -480,7 +492,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="gsfAddBranchButton">
+                <Component class="javax.swing.JButton" name="gsfMonitorAddBranchButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
@@ -488,10 +500,10 @@
                     <Property name="text" type="java.lang.String" value="Add Branch"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfAddBranchButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfMonitorAddBranchButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="gsfInterfaceListComboBox">
+                <Component class="javax.swing.JComboBox" name="gsfMonitorInterfaceListComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -504,22 +516,20 @@
                         <StringItem index="3" value="Item 4"/>
                       </StringArray>
                     </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="gsfAddInterfaceButton">
+                <Component class="javax.swing.JButton" name="gsfMonitorAddInterfaceButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Add Interface"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfAddInterfaceButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfMonitorAddInterfaceButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="gsdfScrollPane">
+                <Container class="javax.swing.JScrollPane" name="gsfMonitorScrollPane">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -538,7 +548,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="gsfRemoveBranchButton">
+                <Component class="javax.swing.JButton" name="gsfMonitorRemoveBranchButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
@@ -546,22 +556,11 @@
                     <Property name="text" type="java.lang.String" value="Remove"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfRemoveBranchButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfMonitorRemoveBranchButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="gsfAllGSFButton">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="All GSF"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfAllGSFButtonActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="gsfSelectedGSFButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -573,15 +572,48 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfSelectedGSFButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="gsfLargetGSFButton">
+            <Component class="javax.swing.JButton" name="gsfAllBranchGSFButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Largest GSF"/>
+                <Property name="text" type="java.lang.String" value="All Branch GSF"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLargetGSFButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfAllBranchGSFButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="gsfLargetBranchGSFButton">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Larget Branch GSF"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLargetBranchGSFButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="gsfAllInterfaceGSFButton">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="All Interface GSF"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfAllInterfaceGSFButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="gsfLargetInterfaceGSFButton">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Largest Interface GSF"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLargetInterfaceGSFButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -607,7 +639,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lodfOutageBranchPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="lodfMonitorBranchPanel" min="-2" max="-2" attributes="0"/>
+                              <Component id="lodfMonitorBranchPanel" min="-2" pref="223" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
@@ -618,7 +650,7 @@
                               <Component id="lodfAllLODFButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="11" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -626,11 +658,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lodfOutageBranchPanel" pref="296" max="32767" attributes="1"/>
-                          <Component id="lodfMonitorBranchPanel" alignment="0" max="32767" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lodfOutageBranchPanel" min="-2" max="-2" attributes="1"/>
+                          <Component id="lodfMonitorBranchPanel" min="-2" max="-2" attributes="1"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lodfSelectedLODFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lodfLargetLODFButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -688,7 +720,7 @@
                               <Component id="lodfAddBranchButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lodfRemoveBranchButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -834,7 +866,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Monitor Branch/Interface">
+                    <TitledBorder title="Monitor Branch">
                       <Font PropertyName="font" name="Dialog" size="10" style="0"/>
                     </TitledBorder>
                   </Border>
@@ -846,15 +878,16 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lodfMonitorAddBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lodfMonitorAddInterfaceButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lodfMonitorRemoveButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lodfMonitorInterfaceListComboBox" alignment="0" max="32767" attributes="1"/>
-                              <Component id="lodfMonitorScrollPane" alignment="0" pref="209" max="32767" attributes="1"/>
-                              <Component id="lodfMonitorBranchListComboBox" alignment="0" max="32767" attributes="1"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lodfMonitorBranchListComboBox" pref="199" max="32767" attributes="1"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lodfMonitorAddBranchButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lodfMonitorRemoveButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="lodfMonitorScrollPane" alignment="0" min="-2" pref="199" max="-2" attributes="1"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -862,16 +895,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="lodfMonitorBranchListComboBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lodfMonitorAddBranchButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lodfMonitorInterfaceListComboBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lodfMonitorAddInterfaceButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="lodfMonitorScrollPane" pref="115" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lodfMonitorRemoveButton" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lodfMonitorAddBranchButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lodfMonitorRemoveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -902,34 +932,6 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lodfMonitorAddBranchButtonActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="lodfMonitorInterfaceListComboBox">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
-                    </Property>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="lodfMonitorAddInterfaceButton">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Add Interface"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lodfMonitorAddInterfaceButtonActionPerformed"/>
                   </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="lodfMonitorScrollPane">
@@ -1046,7 +1048,7 @@
                           </Group>
                           <Component id="ptdfMeasBranchPanel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="32" max="32767" attributes="0"/>
                       <Component id="ptdfCalculateButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
@@ -1544,7 +1546,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="atInfoEditPanel" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2090,6 +2092,91 @@
                 </Container>
               </SubComponents>
             </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="outConfigPanel">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="OutConfig">
+                <Property name="tabTitle" type="java.lang.String" value="OutConfig"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="outAllBranchPointsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="outAllInterfacePointsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="outAllInterfacePointsTextField" min="0" pref="0" max="32767" attributes="1"/>
+                          <Component id="outAllBranchPointsTextField" alignment="0" pref="36" max="32767" attributes="1"/>
+                      </Group>
+                      <EmptySpace pref="224" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="outAllBranchPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outAllBranchPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="outAllInterfacePointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outAllInterfacePointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="327" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="outAllBranchPointsLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="All Branch Output Points"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="outAllBranchPointsTextField">
+              <Properties>
+                <Property name="columns" type="int" value="5"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="50"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="outAllInterfacePointsLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="All Interface Output Points"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="outAllInterfacePointsTextField">
+              <Properties>
+                <Property name="columns" type="int" value="5"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="10"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

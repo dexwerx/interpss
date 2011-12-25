@@ -31,16 +31,20 @@ import java.util.TreeSet;
 
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.InterPSSXmlType;
 
+import com.interpss.algo.aclf.EDHourlyLoadflow;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.flow.FlowInterface;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -53,8 +57,12 @@ public class RunUIUtilFunc  {
 //	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
 //	public static String Template_RunCase_PTAnalysis = "template/RunCasePTAnalysisTemplate.xml";	
 	
-	public static enum NetIdType {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch,
-										AreaNo, BusInArea, GenInArea, GenInAreaDFactor}
+	public static enum NetIdType {
+			LoadBus, GenBus, AllBus, 
+			LineBranch, XfrBranch, AllBranch,
+			AreaNo, BusInArea, GenInArea, 
+			GenInAreaDFactor,
+			FlowInterface}
 	/**
 	 * 
 	 * 
@@ -127,6 +135,13 @@ public class RunUIUtilFunc  {
 				}
 			}
 		}
+		else if (type == NetIdType.FlowInterface) {
+			if (net.isFlowInterfaceLoaded()) {
+				for ( FlowInterface inf :  net.getFlowInterfaceList()) {
+					set.add(inf.getId());
+				}
+			}
+		}
 		return set;
 	}
 	
@@ -168,19 +183,21 @@ public class RunUIUtilFunc  {
 
 	public static void removeItemJList(javax.swing.JList jlist) {
 		String id = (String)jlist.getSelectedValue();
-		int size = jlist.getModel().getSize();
-		if (size == 0)
-			return;
-		String[] ary = new String[size - 1];
-		int cnt = 0;
-		for (int i = 0; i < size; i++) {
-			String s = (String)jlist.getModel().getElementAt(i);
-			if (s.contains(id))
-				; // skip the item
-			else
-				ary[cnt++] = (String)jlist.getModel().getElementAt(i);
+		if (id != null) {
+			int size = jlist.getModel().getSize();
+			if (size == 0)
+				return;
+			String[] ary = new String[size - 1];
+			int cnt = 0;
+			for (int i = 0; i < size; i++) {
+				String s = (String)jlist.getModel().getElementAt(i);
+				if (s.contains(id))
+					; // skip the item
+				else
+					ary[cnt++] = (String)jlist.getModel().getElementAt(i);
+			}
+			jlist.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
 		}
-		jlist.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
 	}
 	
 	public static String[] getJListItemAry(javax.swing.JList jlist) {
@@ -264,4 +281,25 @@ public class RunUIUtilFunc  {
 		parser = new IpssXmlParser(xmlFile);
 		return parser.getRootDoc();
 	}	
+	
+	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingAnalysisXmlType ptXml) {
+		// load FlowInterface if necessary
+		if (!net.isFlowInterfaceLoaded()) {
+			String f1 = ptXml.getCaseData().getInterfaceFile().getInterfaceFilename();
+			String f2 = ptXml.getCaseData().getInterfaceFile().getLimitFilename();
+			if (new File(f1).exists() && new File(f2).exists()) {
+				IpssLogger.getLogger().info("Load interface file: " + f1 + ", " + f2);
+				EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);
+				hrLoadflow.setInterfaceFilename(f1);
+				hrLoadflow.setFlowInterfaceLimitFilename(f2);
+				try {
+					hrLoadflow.loadFlowInterface();
+				} catch (InterpssException e) {
+					IpssLogger.getLogger().severe(e.toString());
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }

@@ -60,6 +60,7 @@ import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.algo.aclf.EDHourlyLoadflow;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -69,13 +70,10 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.dclf.LODFSenAnalysisType;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.datatype.DblBusValue;
-import com.interpss.pssl.simu.IpssPTrading;
-import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.impl.AclfDslODMRunner;
 import com.interpss.pssl.simu.impl.PTradingOutput;
 import com.interpss.pssl.simu.impl.AclfDslODMRunner.PtAnalysisType;
@@ -165,6 +163,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	*/
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBPTradingCasePanel setForm2Editor() called");
+		
+		// load FlowInterface if necessary
+		if (!RunUIUtilFunc.loadFlowInterfaceFiles(this._simuCtx.getAclfNet(), this._ptXml))
+			return false;
 		
 		// Case Data Panel
 		PtCaseDataXmlType casedata = this._ptXml.getCaseData();

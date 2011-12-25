@@ -232,26 +232,26 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		// ODM schema
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		if (_caseType == SimuRunEnum.TradingAnalysis) {
-			PTradingAnalysisXmlType ptCase = helper.getPTradingAnalysis();			
-			casename = ptCase.getName();
-			casedesc = ptCase.getDesc();
+			PTradingAnalysisXmlType ptXml = helper.getPTradingAnalysis();			
+			casename = ptXml.getName();
+			casedesc = ptXml.getDesc();
 			// set the case data to the actual data editing panel
 			_tradingCaseInfoPanel.setODMParser(this.odmParser);
-			_tradingCaseInfoPanel.setXmlCaseData(ptCase);
+			_tradingCaseInfoPanel.setXmlCaseData(ptXml);
 			// set the case data to the actual data editing panel
 			_tradingCaseInfoPanel.setForm2Editor();
 		}
 		else if (_caseType == SimuRunEnum.SenAnalysis) {
-			DclfSenAnalysisXmlType dclfCase;
+			DclfSenAnalysisXmlType senXml;
 			if (helper.getSenAnalysisList().size() > 0)
-				dclfCase = helper.getSenAnalysisList().get(0);
+				senXml = helper.getSenAnalysisList().get(0);
 			else
-				dclfCase = helper.createSenCase();
-			casename = dclfCase.getName();
-			casedesc = dclfCase.getDesc();
+				senXml = helper.createSenCase();
+			casename = senXml.getName();
+			casedesc = senXml.getDesc();
 			// set the case data to the actual data editing panel
 			_dclfCaseInfoPanel.setODMParser(this.odmParser);
-			_dclfCaseInfoPanel.setXmlCaseData(dclfCase);
+			_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPTradingAnalysis());
 			// set the case data to the actual data editing panel
 			_dclfCaseInfoPanel.setForm2Editor();
 		}
