@@ -67,8 +67,8 @@ import com.interpss.datatype.DblBusValue;
 import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
-import com.interpss.pssl.simu.impl.SenAnalysisOutput;
-import com.interpss.pssl.simu.impl.DclfDslODMRunner.DclfAnalysisType;
+import com.interpss.pssl.simu.odm.DclfDslODMRunner.DclfAnalysisType;
+import com.interpss.pssl.util.SenAnalysisOutput;
 import com.interpss.simu.SimuContext;
 
 public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {

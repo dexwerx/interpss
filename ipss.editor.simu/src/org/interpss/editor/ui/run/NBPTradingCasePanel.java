@@ -73,9 +73,9 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.datatype.DblBusValue;
-import com.interpss.pssl.simu.impl.AclfDslODMRunner;
-import com.interpss.pssl.simu.impl.PTradingOutput;
-import com.interpss.pssl.simu.impl.AclfDslODMRunner.PtAnalysisType;
+import com.interpss.pssl.simu.odm.PTradingDslODMRunner;
+import com.interpss.pssl.simu.odm.PTradingDslODMRunner.PtAnalysisType;
+import com.interpss.pssl.util.PTradingOutput;
 import com.interpss.simu.SimuContext;
 
 public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
@@ -1475,7 +1475,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 			// Book marked the AclfNetwork object
 			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
 			try {
-				AclfDslODMRunner runner = new AclfDslODMRunner(net);
+				PTradingDslODMRunner runner = new PTradingDslODMRunner(net);
 				runner.runPtAclfAnalysis(ptXml, genPVSwingBusList);
 				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
 					.display(PTradingOutput.outHourLoaflowResult(net, ptXml, 
@@ -1556,13 +1556,13 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 
 	try {
 		if (this.branchFlowRadioButton.isSelected()) {
-			Object rtn = new AclfDslODMRunner(net)
+			Object rtn = new PTradingDslODMRunner(net)
 				.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getId();
 			outText = PTradingOutput.gsfBranchFlow(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.outageSingleRadioButton.isSelected()) {
-			Object rtn = new AclfDslODMRunner(net)
+			Object rtn = new PTradingDslODMRunner(net)
 				.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getId();
 			outText = "Outage Branch:" + braId+ "\n\n" + rtn.toString();
@@ -1654,7 +1654,7 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 
 			try {
 				ptXml.getGenAnalysis().setType(PtGenAnalysisEnumType.LOSS_FACTOR);
-				Object lfactor = new AclfDslODMRunner(net)
+				Object lfactor = new PTradingDslODMRunner(net)
 					.runPTradingAnalysis(ptXml, PtAnalysisType.Gen);
 				UISpringFactory.getOutputTextDialog("Gen Loss Factor Results")
 					.display("LossFactor: gen@"+ptXml.getGenAnalysis().getGenBus().getId()
