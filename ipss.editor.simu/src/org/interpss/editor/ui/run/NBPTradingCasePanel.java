@@ -60,7 +60,6 @@ import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.algo.aclf.EDHourlyLoadflow;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -83,7 +82,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	private static final long serialVersionUID = 1;
 	private JDialog parent;
 	
-    // private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;
     
 	private ODMModelParser odmParser = new ODMModelParser();

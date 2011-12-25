@@ -76,24 +76,26 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	// ref to the AppInfo where the current project data are hold
 	private AppSimuContextImpl _appSimuCtx = null;
 	 
-    private NBDclfCasePanel  _dclfCaseInfoPanel = null;
-    private NBAclfCasePanel  _aclfCaseInfoPanel = null;
-    private NBAcscCasePanel  _acscCaseInfoPanel = null;
-    private NBDStabCasePanel _dstabCaseInfoPanel = null;
-    private NBScriptingCasePanel _scrptsCaseInfoPanel = null;
-    private NBPTradingCasePanel _tradingCaseInfoPanel = null;
+    private NBDclfCasePanel  		_dclfCaseInfoPanel = null;
+    private NBPTradingCasePanel 	_tradingCaseInfoPanel = null;
+
+    private NBAclfCasePanel  		_aclfCaseInfoPanel = null;
+    private NBAcscCasePanel  		_acscCaseInfoPanel = null;
+    private NBDStabCasePanel 		_dstabCaseInfoPanel = null;
+    private NBScriptingCasePanel 	_scrptsCaseInfoPanel = null;
     
     public NBCaseInfoDialog(java.awt.Frame parent) {
         super(parent, "Run AC Loadflow Analysis", true);
         initComponents();
         WinUtilities.center(this);
 
-        _aclfCaseInfoPanel = new NBAclfCasePanel(this);
         _dclfCaseInfoPanel = new NBDclfCasePanel(this);
+        _tradingCaseInfoPanel = new NBPTradingCasePanel(this);
+
+        _aclfCaseInfoPanel = new NBAclfCasePanel(this);
         _acscCaseInfoPanel = new NBAcscCasePanel(this);
         _dstabCaseInfoPanel = new NBDStabCasePanel(this);
         _scrptsCaseInfoPanel = new NBScriptingCasePanel(this);
-        _tradingCaseInfoPanel = new NBPTradingCasePanel(this);
 
         DataVerifier verifier = new DataVerifier();
 		this.casenameComboBox.setInputVerifier(verifier);
@@ -110,7 +112,35 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		caseDataPanel.removeAll();
 		setButtonStatus(true);
 		this.runButton.setText("Run");
-		if (_caseType == SimuRunEnum.Aclf) {
+		
+		/*
+		 *     ODM schema format
+		 */
+		
+		if (_caseType == SimuRunEnum.SenAnalysis) {
+			this.setTitle("Run Sensitivity Analysis");
+			this.runButton.setText("Save");
+			this.addCaseButton.setEnabled(false);
+			this.deleteCaseButton.setEnabled(false);
+			this.importButton.setEnabled(false);
+			caseDataPanel.add(_dclfCaseInfoPanel);
+			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
+		}
+		else if (_caseType == SimuRunEnum.TradingAnalysis) {
+			this.setTitle("Run Trading Analysis");
+			this.runButton.setText("Save");
+			this.addCaseButton.setEnabled(false);
+			this.deleteCaseButton.setEnabled(false);
+			this.importButton.setEnabled(false);
+	        caseDataPanel.add(this._tradingCaseInfoPanel);
+			_tradingCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
+		}
+
+		/*
+		 *     InterPSS schema format
+		 */
+
+		else if (_caseType == SimuRunEnum.Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
 			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx(), true);
@@ -218,6 +248,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     	_dstabCaseInfoPanel.setDStabOutputScriptFilename(filename);    
     }
 
+    private boolean isODMFormat() {
+		return _caseType == SimuRunEnum.TradingAnalysis ||
+		       _caseType == SimuRunEnum.SenAnalysis;    	
+    }
 	/**
 	*	Set form data to the editor
 	*
@@ -229,84 +263,89 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		String casename = "NewCase";
 		String casedesc = "Case Desc";
 
-		// ODM schema
-		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
-		if (_caseType == SimuRunEnum.TradingAnalysis) {
-			PTradingAnalysisXmlType ptXml = helper.getPTradingAnalysis();			
-			casename = ptXml.getName();
-			casedesc = ptXml.getDesc();
-			// set the case data to the actual data editing panel
-			_tradingCaseInfoPanel.setODMParser(this.odmParser);
-			_tradingCaseInfoPanel.setXmlCaseData(ptXml);
-			// set the case data to the actual data editing panel
-			_tradingCaseInfoPanel.setForm2Editor();
+		if (isODMFormat()) {
+			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+			if (_caseType == SimuRunEnum.TradingAnalysis) {
+				PTradingAnalysisXmlType ptXml = helper.getPTradingAnalysis();			
+				casename = ptXml.getName();
+				casedesc = ptXml.getDesc();
+				// set the case data to the actual data editing panel
+				_tradingCaseInfoPanel.setODMParser(this.odmParser);
+				_tradingCaseInfoPanel.setXmlCaseData(ptXml);
+				// set the case data to the actual data editing panel
+				_tradingCaseInfoPanel.setForm2Editor();
+			}
+			else if (_caseType == SimuRunEnum.SenAnalysis) {
+				DclfSenAnalysisXmlType senXml;
+				if (helper.getSenAnalysisList().size() > 0)
+					senXml = helper.getSenAnalysisList().get(0);
+				else
+					senXml = helper.createSenCase();
+				casename = senXml.getName();
+				casedesc = senXml.getDesc();
+				// set the case data to the actual data editing panel
+				_dclfCaseInfoPanel.setODMParser(this.odmParser);
+				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPTradingAnalysis());
+				// set the case data to the actual data editing panel
+				_dclfCaseInfoPanel.setForm2Editor();
+			}
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {casename}));
+			this.descTextArea.setText(casedesc);
 		}
-		else if (_caseType == SimuRunEnum.SenAnalysis) {
-			DclfSenAnalysisXmlType senXml;
-			if (helper.getSenAnalysisList().size() > 0)
-				senXml = helper.getSenAnalysisList().get(0);
-			else
-				senXml = helper.createSenCase();
-			casename = senXml.getName();
-			casedesc = senXml.getDesc();
-			// set the case data to the actual data editing panel
-			_dclfCaseInfoPanel.setODMParser(this.odmParser);
-			_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPTradingAnalysis());
-			// set the case data to the actual data editing panel
-			_dclfCaseInfoPanel.setForm2Editor();
+		else {
+			/*
+			 *  InterPSS schema format
+			 */
+			if (_caseType == SimuRunEnum.Aclf) {
+				casename = getCaseName(SimuRunEnum.Aclf);
+				AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
+				this.descTextArea.setText(scase.getRecDesc());
+				// set the case data to the actual data editing panel
+				_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
+				// set the case data to the actual data editing panel
+				_aclfCaseInfoPanel.setForm2Editor();
+			}
+			else if (_caseType == SimuRunEnum.Acsc) {
+				casename = getCaseName(SimuRunEnum.Acsc);
+				AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
+				this.descTextArea.setText(scase.getRecDesc());
+				// set the case data to the actual data editing panel
+				_acscCaseInfoPanel.setXmlCaseDatax(scase, false);
+				// set the case data to the actual data editing panel
+				_acscCaseInfoPanel.setForm2Editor();
+			}
+			else if (_caseType == SimuRunEnum.DStab) {
+				casename = getCaseName(SimuRunEnum.DStab);
+				DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
+				this.descTextArea.setText(scase.getRecDesc());
+				_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
+				_dstabCaseInfoPanel.setForm2Editor();
+			}
+			else if (_caseType == SimuRunEnum.Scripts) {
+				// build the case info combo list
+				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
+				IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
+				
+				ProjData projData = (ProjData)_appSimuCtx.getProjData();
+				casename = projData.getScriptsCaseName();
+				if (casename != null)
+					this.casenameComboBox.setSelectedItem(casename);
+				else
+					casename = (String)this.casenameComboBox.getSelectedItem();
+				projData.setScriptsCaseName(casename);
+				// retrieve the case data from appCtx.projData.caseList
+				CaseData caseData = _appSimuCtx.getCaseData(casename, _caseType);
+				if ( caseData == null)
+					// new case situation, create a new case
+					caseData = _appSimuCtx.createCaseData(casename, _caseType);
+				
+				this.descTextArea.setText(caseData.getDescription());
+				
+				_scrptsCaseInfoPanel.setCaseData(caseData);
+				_scrptsCaseInfoPanel.setForm2Editor();
+			}
 		}
-		this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {casename}));
-		this.descTextArea.setText(casedesc);
 		
-		// ipss schema
-		if (_caseType == SimuRunEnum.Aclf) {
-			casename = getCaseName(SimuRunEnum.Aclf);
-			AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
-			this.descTextArea.setText(scase.getRecDesc());
-			// set the case data to the actual data editing panel
-			_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
-			// set the case data to the actual data editing panel
-			_aclfCaseInfoPanel.setForm2Editor();
-		}
-		else if (_caseType == SimuRunEnum.Acsc) {
-			casename = getCaseName(SimuRunEnum.Acsc);
-			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
-			this.descTextArea.setText(scase.getRecDesc());
-			// set the case data to the actual data editing panel
-			_acscCaseInfoPanel.setXmlCaseDatax(scase, false);
-			// set the case data to the actual data editing panel
-			_acscCaseInfoPanel.setForm2Editor();
-		}
-		else if (_caseType == SimuRunEnum.DStab) {
-			casename = getCaseName(SimuRunEnum.DStab);
-			DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
-			this.descTextArea.setText(scase.getRecDesc());
-			_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
-			_dstabCaseInfoPanel.setForm2Editor();
-		}
-		else if (_caseType == SimuRunEnum.Scripts) {
-			// build the case info combo list
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
-			IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
-			
-			ProjData projData = (ProjData)_appSimuCtx.getProjData();
-			casename = projData.getScriptsCaseName();
-			if (casename != null)
-				this.casenameComboBox.setSelectedItem(casename);
-			else
-				casename = (String)this.casenameComboBox.getSelectedItem();
-			projData.setScriptsCaseName(casename);
-			// retrieve the case data from appCtx.projData.caseList
-			CaseData caseData = _appSimuCtx.getCaseData(casename, _caseType);
-			if ( caseData == null)
-				// new case situation, create a new case
-				caseData = _appSimuCtx.createCaseData(casename, _caseType);
-			
-			this.descTextArea.setText(caseData.getDescription());
-			
-			_scrptsCaseInfoPanel.setCaseData(caseData);
-			_scrptsCaseInfoPanel.setForm2Editor();
-		}
         return true;
 	}
 
@@ -368,32 +407,28 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		//_caseData.setCaseName(casename);
 		//_caseData.setDescription(this.descTextArea.getText());
 		
-		// ODM schema
-		if (_caseType == SimuRunEnum.TradingAnalysis) {
+		if (isODMFormat()) {
+			// ODM schema
 			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
-			PTradingAnalysisXmlType ptCase = helper.getPTradingAnalysis();			
-			ptCase.setName(this.casenameComboBox.getSelectedItem().toString());
-			ptCase.setDesc(this.descTextArea.getText());
-			_tradingCaseInfoPanel.saveEditor2Form(errMsg);			
-			// save run case xml doc
+			if (_caseType == SimuRunEnum.TradingAnalysis) {
+				PTradingAnalysisXmlType ptCase = helper.getPTradingAnalysis();			
+				ptCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				ptCase.setDesc(this.descTextArea.getText());
+				_tradingCaseInfoPanel.saveEditor2Form(errMsg);			
+			}
+			else if (_caseType == SimuRunEnum.SenAnalysis) {
+				DclfSenAnalysisXmlType dclfCase;
+				if (helper.getSenAnalysisList().size() > 0)
+					dclfCase = helper.getSenAnalysisList().get(0);
+				else
+					dclfCase = helper.createSenCase();			
+				dclfCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				dclfCase.setDesc(this.descTextArea.getText());
+				_dclfCaseInfoPanel.saveEditor2Form(errMsg);
+			}		
 			FileUtil.writeText2File(runStudyCaseFilename, 
 					this.odmParser.toXmlDoc(false));
 		}
-		else if (_caseType == SimuRunEnum.SenAnalysis) {
-			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
-			DclfSenAnalysisXmlType dclfCase;
-			if (helper.getSenAnalysisList().size() > 0)
-				dclfCase = helper.getSenAnalysisList().get(0);
-			else
-				dclfCase = helper.createSenCase();			
-			dclfCase.setName(this.casenameComboBox.getSelectedItem().toString());
-			dclfCase.setDesc(this.descTextArea.getText());
-			_dclfCaseInfoPanel.saveEditor2Form(errMsg);
-			// save run case xml doc
-			FileUtil.writeText2File(runStudyCaseFilename, 
-					this.odmParser.toXmlDoc(false));
-		}		
-		
 		// ipss schema
 		else {
 			ProjData projData = (ProjData)_appSimuCtx.getProjData();

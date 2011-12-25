@@ -75,13 +75,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	private static final long serialVersionUID = 1;
 	private JDialog parent;
 	
-    // private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;
 
-    // holds the current case data being edited
-    //private DclfBranchSensitivityXmlType tdFactor = null;
-	//private AreaTransferAnalysisXmlType areaTransfer = null;;
-    
 	private ODMModelParser odmParser = new ODMModelParser();
     public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
 
