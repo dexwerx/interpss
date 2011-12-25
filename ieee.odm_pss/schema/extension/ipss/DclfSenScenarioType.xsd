@@ -16,15 +16,24 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="genShiftFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="lineOutageDFactor" minOccurs="0" maxOccurs="unbounded" type="ipss:LineOutageDFactorXmlType" />					<ns:element name="genLossFactors" minOccurs="0" maxOccurs="unbounded" type="ipss:GenLossFactorXmlType" />
+					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="genShiftFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="lineOutageDFactor" minOccurs="0" maxOccurs="unbounded" type="ipss:LineOutageDFactorXmlType" />
+					<ns:element name="genLossFactors" minOccurs="0" maxOccurs="unbounded" type="ipss:GenLossFactorXmlType" />
 					<ns:element name="pTransferDistFactor" type="ipss:DclfBranchSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="areaTransferAnalyse" minOccurs="0" maxOccurs="unbounded" type="ipss:AreaTransferAnalysisXmlType">
-					</ns:element>
+					<ns:element name="areaTransferAnalyse" minOccurs="0" maxOccurs="unbounded" type="ipss:AreaTransferAnalysisXmlType"></ns:element>
+					<element name="outOption" minOccurs="0" type="ipss:SenAnalysisOutOptionXmlType"></element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
+
+	<complexType name="SenAnalysisOutOptionXmlType">
+		<sequence>
+			<element name="allBranchPoints" type="int" minOccurs="0"></element>
+			<element name="allInterfacePoints" type="int" minOccurs="0"></element>
+		</sequence>
+	</complexType>
 
 	<ns:complexType name="GenLossFactorXmlType">
 		<complexContent>
