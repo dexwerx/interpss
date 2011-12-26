@@ -31,7 +31,7 @@ package org.interpss.mapper.odm.impl.acsc;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;

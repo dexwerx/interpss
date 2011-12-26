@@ -32,7 +32,7 @@ package org.interpss.mapper.odm.impl.dstab;
 
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
 import org.ieee.odm.schema.AcscFaultXmlType;
