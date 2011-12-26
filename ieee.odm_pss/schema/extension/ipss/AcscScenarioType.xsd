@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
 	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../shortcircuit/SCRecordType.xsd"/>
-	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd"/>
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../shortcircuit/SCRecordType.xsd" />
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd" />
 
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
+	</ns:annotation>
 
 <!-- 
 	Acsc Study Scenario
@@ -20,7 +21,7 @@
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
 					<ns:element name="fault" minOccurs="1" type="pss:AcscFaultXmlType"></ns:element>
-					<ns:element name="preFaultBusVoltage" minOccurs="0"	maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
+					<ns:element name="preFaultBusVoltage" minOccurs="0" maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
 					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
 						bus voltage multi-factor in percent
@@ -31,4 +32,4 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-</schema>
+</ns:schema>

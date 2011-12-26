@@ -1,55 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+	elementFormDefault="qualified" >
+    
 
-    <include schemaLocation="../loadflow/LFRecordType.xsd"></include>
-
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2011</documentation>
-	</annotation>
+    <ns:include schemaLocation="../loadflow/LFRecordType.xsd"></ns:include>
+    
 	
-	<element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase">
-		<annotation><documentation>
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
+    
+	
+    <ns:element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase">
+		
+        <ns:annotation><ns:documentation>
 		Network for OPF analysis. aclfBus and opfGenBus could be used to define bus objects,
 		aclfLine/aclfXfr/aclfPSXfr could be used to define branch objects.
-		</documentation></annotation>
-	</element>
-	
-	<element name="opfGenBus" type="pss:OpfGenBusXmlType" substitutionGroup="pss:bus">
-		<annotation><documentation>
-		Bus record for OPF Generator
-		</documentation></annotation>
-	</element>
+		</ns:documentation></ns:annotation>
+    </ns:element>
+    
 <!-- 
 		Network object
  -->	
-	<complexType name="OpfNetworkXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:LoadflowNetXmlType">
-				<sequence>
-					<element name="anglePenaltyFactor" type="double" maxOccurs="1" minOccurs="1"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:element name="opfGenBus" type="pss:OpfGenBusXmlType" substitutionGroup="pss:bus">
+		
+        <ns:annotation><ns:documentation>
+		Bus record for OPF Generator
+		</ns:documentation></ns:annotation>
+    </ns:element>
+    
 	
 	<!--  
 		Bus objects
  	-->	
-	<complexType name="OpfGenBusXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:LoadflowBusXmlType">
-				<sequence>
-					<element name="coeffA" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="coeffB" type="double" maxOccurs="1" minOccurs="1"></element>
-					<element name="capacityLimit" type="pss:ActivePowerLimitXmlType" maxOccurs="1" minOccurs="1"></element>
-					<element name="fixedCost" type="double" maxOccurs="1" minOccurs="1"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-</schema>
+    <ns:complexType name="OpfNetworkXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:LoadflowNetXmlType">
+				<ns:sequence>
+					<ns:element name="anglePenaltyFactor" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
+    <ns:complexType name="OpfGenBusXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:LoadflowBusXmlType">
+				<ns:sequence>
+					<ns:element name="coeffA" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+					<ns:element name="coeffB" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+					<ns:element name="capacityLimit" type="pss:ActivePowerLimitXmlType" maxOccurs="1" minOccurs="1"></ns:element>
+					<ns:element name="fixedCost" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+</ns:schema>

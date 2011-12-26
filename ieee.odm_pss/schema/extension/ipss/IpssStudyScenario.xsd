@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-	xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
 	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<include schemaLocation="AclfScenarioType.xsd"/>
-	<include schemaLocation="AcscScenarioType.xsd"/>
-	<include schemaLocation="DclfSenScenarioType.xsd"/>
-	<include schemaLocation="DStabScenarioType.xsd"/>
-	<include schemaLocation="PTradingAnalysisType.xsd"/>
-	<include schemaLocation="ScenarioModification.xsd"/>
+	<ns:include schemaLocation="AclfScenarioType.xsd" />
+	<ns:include schemaLocation="AcscScenarioType.xsd" />
+	<ns:include schemaLocation="DclfSenScenarioType.xsd" />
+	<ns:include schemaLocation="DStabScenarioType.xsd" />
+	<ns:include schemaLocation="PTradingAnalysisType.xsd" />
+	<ns:include schemaLocation="ScenarioModification.xsd" />
 
-	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/StudyScenarioType.xsd"/>
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/StudyScenarioType.xsd" />
 
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
+	</ns:annotation>
 
-	<complexType name="IpssStudyScenarioXmlType">
-        <annotation><documentation>
+	<ns:complexType name="IpssStudyScenarioXmlType">
+        <ns:annotation><ns:documentation>
 		Key concepts:
 		- Acsc Fault : defined using Fault Type (BusFault, BranchFault, BranchOutage) and Fault Category (3P, LG, LL, LLG)
 		- Dynamic Event : defined using Dynamic Event Type (Fault, LoadChange, SetPointChange). Dynamic Event Fault is then 
                           defined using Acsc Fault.
-		</documentation></annotation>
-        <complexContent>
-			<extension base="pss:StudyScenarioXmlType">
-				<sequence>
+		</ns:documentation></ns:annotation>
+        <ns:complexContent>
+			<ns:extension base="pss:StudyScenarioXmlType">
+				<ns:sequence>
 					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="ipss:GridComputingXmlType"></ns:element>
-					<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0">
-						<annotation><documentation>
+					<ns:element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0">
+						<ns:annotation><ns:documentation>
 						The default AclfAlgo applies to all study scenarios, for contingency analysis
-						</documentation></annotation>
-					</element>
-					<element name="scenarioList" maxOccurs="1" minOccurs="1">
-						<complexType>
-							<sequence>
-								<element name="scenario" type="ipss:IpssScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
-									<annotation><documentation>
+						</ns:documentation></ns:annotation>
+					</ns:element>
+					<ns:element name="scenarioList" maxOccurs="1" minOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="scenario" type="ipss:IpssScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
+									<ns:annotation><ns:documentation>
 									Typically, there is one study scenario. However, one can define a let of scenarios,
 									for example, for N-1 contingency analysis
-									</documentation></annotation>								
-								</element>
-							</sequence>
-						</complexType>
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+									</ns:documentation></ns:annotation>								
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 
-	<complexType name="IpssScenarioXmlType">
-		<annotation><documentation>
+	<ns:complexType name="IpssScenarioXmlType">
+		<ns:annotation><ns:documentation>
 		for define a study scenario. 
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:BaseScenarioXmlType">
-				<sequence>
-					<element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:IpssSimuAlgorithmXmlType">
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:BaseScenarioXmlType">
+				<ns:sequence>
+					<ns:element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:IpssSimuAlgorithmXmlType">
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 
 	<ns:complexType name="IpssSimuAlgorithmXmlType">
-		<annotation><documentation>
+		<ns:annotation><ns:documentation>
 		for define a study scenario analysis details. It is defined using choice, indicating
 		that only one analysis type : aclf, acsc or dstab could be selected. 
-		</documentation></annotation>	
-		<choice>
-			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></element>
-			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></element>
-			<element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></element>
-			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></element>
-			<element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></element>
-		</choice>
+		</ns:documentation></ns:annotation>	
+		<ns:choice>
+			<ns:element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></ns:element>
+			<ns:element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></ns:element>
+			<ns:element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></ns:element>
+			<ns:element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></ns:element>
+			<ns:element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></ns:element>
+		</ns:choice>
 	</ns:complexType>
 	
 	<ns:complexType name="GridComputingXmlType">
@@ -115,4 +115,4 @@
 			<ns:enumeration value="NoReturn"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>	
-</schema>
+</ns:schema>

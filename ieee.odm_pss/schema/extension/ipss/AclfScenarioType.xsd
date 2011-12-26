@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
 	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../loadflow/LFRecordType.xsd"/>
-	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd"/>
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../loadflow/LFRecordType.xsd" />
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd" />
 
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2010</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
+	</ns:annotation>
 
 <!-- 
 	Aclf Study Scenario
  -->
 	<ns:complexType name="AclfAnalysisXmlType">
 		<ns:sequence>
-			<element name="aclf" minOccurs="0" maxOccurs="1" type="ipss:IpssAclfAlgorithmXmlType"></element>
+			<ns:element name="aclf" minOccurs="0" maxOccurs="1" type="ipss:IpssAclfAlgorithmXmlType"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 	 
@@ -34,9 +35,9 @@
 
 	<ns:complexType name="CustomLfMethodXmlType">
 		<ns:sequence>
-			<ns:element name="firstMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>
-			<ns:element name="secondMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>
-			<ns:element name="switchCriteria" minOccurs="1" maxOccurs="1" type="ipss:CustomAclfMethodSwitchCriteriaDataType"/>
+			<ns:element name="firstMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType" />
+			<ns:element name="secondMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType" />
+			<ns:element name="switchCriteria" minOccurs="1" maxOccurs="1" type="ipss:CustomAclfMethodSwitchCriteriaDataType" />
 			<ns:element name="switchIteration" type="ns:int" minOccurs="0" maxOccurs="1">	</ns:element>
 			<ns:element name="switchTolerance" type="pss:ApparentPowerXmlType" minOccurs="0" maxOccurs="1"> </ns:element>
 		</ns:sequence>
@@ -52,12 +53,12 @@
     
 	<ns:complexType name="ContingencyAnalysisXmlType">
 		<ns:sequence>
-            <ns:element name="type" type="ipss:ContingencyAnalysisEnumType" minOccurs="1" maxOccurs="1"/>
-            <ns:element name="option" minOccurs="0" type="ipss:ContingencyAnalysisOptionXmlType"/>
-            <ns:element name="limitRunCases" minOccurs="0" type="ns:boolean"/>
-            <ns:element name="maxRunCases" minOccurs="0" type="ns:int"/>
-            <ns:element name="defaultAclfAlgorithm" type="pss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1"/>
-			<ns:element name="aclfStudyCaseList" minOccurs="1"	maxOccurs="1" type="ipss:AclfMultiStudyCaseXmlType">
+            <ns:element name="type" type="ipss:ContingencyAnalysisEnumType" minOccurs="1" maxOccurs="1" />
+            <ns:element name="option" minOccurs="0" type="ipss:ContingencyAnalysisOptionXmlType" />
+            <ns:element name="limitRunCases" minOccurs="0" type="ns:boolean" />
+            <ns:element name="maxRunCases" minOccurs="0" type="ns:int" />
+            <ns:element name="defaultAclfAlgorithm" type="pss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1" />
+			<ns:element name="aclfStudyCaseList" minOccurs="1" maxOccurs="1" type="ipss:AclfMultiStudyCaseXmlType">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
@@ -105,4 +106,4 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-</schema>
+</ns:schema>

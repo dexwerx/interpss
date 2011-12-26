@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+<ns:schema  
+	xmlns:ns="http://www.w3.org/2001/XMLSchema"
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified">
 
-	<include schemaLocation="DataType.xsd"></include>
-	<include schemaLocation="ModificationType.xsd"></include>
+	<ns:include schemaLocation="DataType.xsd"></ns:include>
+	<ns:include schemaLocation="ModificationType.xsd"></ns:include>
 
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2011</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 	
 	<!-- 
 		elements for defining study scenario for run analysis of the base case data
@@ -17,18 +18,18 @@
 		   such it can accommodate other study scenario schema by extension   
 	 -->
 
-	<complexType name="StudyScenarioXmlType" abstract="true">
-        <annotation><documentation>
+	<ns:complexType name="StudyScenarioXmlType" abstract="true">
+        <ns:annotation><ns:documentation>
         Base Study scenario type for extension
-        </documentation></annotation>	
-		<complexContent>
-			<extension base="pss:IDRecordXmlType">
-				<sequence>
-					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+        </ns:documentation></ns:annotation>	
+		<ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType">
+				<ns:sequence>
+					<ns:element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 	
 	<ns:complexType name="BaseAnalysisTypeXmlType" abstract="true">
 		<ns:complexContent>
@@ -42,24 +43,24 @@
 		</ns:complexContent>
 	</ns:complexType>
 	
-	<complexType name="BaseScenarioXmlType">
-		<annotation><documentation>
+	<ns:complexType name="BaseScenarioXmlType">
+		<ns:annotation><ns:documentation>
 		for define a study scenario. 
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:IDRecordXmlType">
-				<sequence>
-					<element name="modifcation" type="pss:ModifyRecordXmlType"	minOccurs="0" maxOccurs="1">
-						<annotation><documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType">
+				<ns:sequence>
+					<ns:element name="modifcation" type="pss:ModifyRecordXmlType"	minOccurs="0" maxOccurs="1">
+						<ns:annotation><ns:documentation>
 						In addition to the modification defined at the StudyCase level,
 						modification can be also defined at each scenario level, used for example 
 						to create N-1 contingency scenario
-						</documentation></annotation>
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+						</ns:documentation></ns:annotation>
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 	
 	<ns:complexType name="AclfAlgorithmXmlType">
 		<ns:complexContent>
@@ -75,4 +76,4 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
-</schema>
+</ns:schema>

@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns="http://www.w3.org/2001/XMLSchema"
-	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:ipss="http://www.interpss.org/Schema/odm/2008" 
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified">
 
-	<include schemaLocation="common/StudyScenarioType.xsd"></include>
+	<ns:include schemaLocation="common/StudyScenarioType.xsd"></ns:include>
 
-	<import  namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="extension/ipss/IpssStudyScenario.xsd"/>
+	<ns:import namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="extension/ipss/IpssStudyScenario.xsd" />
 
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2011</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 	
 	<!-- 
 		elements for defining study scenario for run analysis of the base case data
 		   Study scenario definition is software implementation specific. ODM study scenario is designed 
 		   such it can accommodate other study scenario schema by extension   
 	 -->
-	<element name="studyScenario" type="pss:StudyScenarioXmlType" />
-	<element name="ipssStudyScenario" type="ipss:IpssStudyScenarioXmlType" substitutionGroup="pss:studyScenario">
-        <annotation><documentation>
+	<ns:element name="studyScenario" type="pss:StudyScenarioXmlType" />
+	<ns:element name="ipssStudyScenario" type="ipss:IpssStudyScenarioXmlType" substitutionGroup="pss:studyScenario">
+        <ns:annotation><ns:documentation>
         Study scenario for running InterPSS software
-        </documentation></annotation>
-	</element>	
-</schema>
+        </ns:documentation></ns:annotation>
+	</ns:element>	
+</ns:schema>

@@ -1,144 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
 	xmlns:ipss="http://www.interpss.org/Schema/odm/2008"
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
-	elementFormDefault="qualified">
+	elementFormDefault="qualified">	
 	
-	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/ModificationType.xsd"/>
 		
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2011</documentation>
-	</annotation>
+    <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/ModificationType.xsd" />
+    
 
-	<annotation>
-		<documentation>
-		All modification type is a child of the ModifyRecordXmlType.
-                ModifyRecordXmlType  (abstract)
-                       ^
-                       |
-              MyModificationXmlType 
- 		</documentation>
-	</annotation>
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
+    
 		
 <!-- 
 	Scheduled Branch outage
 	======================= 
  -->
-	<complexType name="OutageScheduleXmlType">
-		<complexContent>
-			<extension base="pss:ModifyRecordXmlType">
-				<sequence>
-					<element name="branchOutage" type="ipss:ScheduledBranchOutageXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:annotation>
+		<ns:documentation>
+		All modification type is a child of the ModifyRecordXmlType.
+                ModifyRecordXmlType  (abstract)
+                       ^
+                       |
+              MyModificationXmlType 
+ 		</ns:documentation>
+	</ns:annotation>
+    
 
-	<complexType name="ScheduledBranchOutageXmlType">
-		<complexContent>
-			<extension base="pss:BaseBranchXmlType">
-				<sequence>
-					<element name="dueOutDate" type="string" minOccurs="1"></element>
-					<element name="dueBackDate" type="string" minOccurs="1"></element>
-					<element name="resourceType" type="ipss:ScheduledOutageResourceEnumType" minOccurs="1"></element>
-					<element name="branchType" type="ipss:ScheduledOutageBranchEnumType" minOccurs="1"></element>
-					<element name="voltage" type="double" minOccurs="0"></element>
-					<element name="fromBusNo" type="int" minOccurs="1"></element>
-                    <element name="toBusNo" type="int" minOccurs="1"></element>
-                    <element name="fromBusName" type="string" minOccurs="0"></element>
-					<element name="fromBusVoltage" type="double" minOccurs="0"></element>					<element name="toBusName" type="string" minOccurs="0"></element>
-					<element name="toBusVoltage" type="double" minOccurs="0"></element>				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:complexType name="OutageScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+				<ns:sequence>
+					<ns:element name="branchOutage" type="ipss:ScheduledBranchOutageXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
 	
-	<simpleType name="ScheduledOutageResourceEnumType">
-		<restriction base="string">
-			<enumeration value="Line"></enumeration>
-			<enumeration value="Xformer"></enumeration>
-		</restriction>
-	</simpleType>	
+    <ns:complexType name="ScheduledBranchOutageXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseBranchXmlType">
+				<ns:sequence>
+					<ns:element name="dueOutDate" type="ns:string" minOccurs="1"></ns:element>
+					<ns:element name="dueBackDate" type="ns:string" minOccurs="1"></ns:element>
+					<ns:element name="resourceType" type="ipss:ScheduledOutageResourceEnumType" minOccurs="1"></ns:element>
+					<ns:element name="branchType" type="ipss:ScheduledOutageBranchEnumType" minOccurs="1"></ns:element>
+					<ns:element name="voltage" type="ns:double" minOccurs="0"></ns:element>
+					<ns:element name="fromBusNo" type="ns:int" minOccurs="1"></ns:element>
+                    <ns:element name="toBusNo" type="ns:int" minOccurs="1"></ns:element>
+                    <ns:element name="fromBusName" type="ns:string" minOccurs="0"></ns:element>
+					<ns:element name="fromBusVoltage" type="ns:double" minOccurs="0"></ns:element>					<ns:element name="toBusName" type="ns:string" minOccurs="0"></ns:element>
+					<ns:element name="toBusVoltage" type="ns:double" minOccurs="0"></ns:element>				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    	
 	
-	<simpleType name="ScheduledOutageBranchEnumType">
-		<restriction base="string">
-			<enumeration value="Single"></enumeration>
-			<enumeration value="Multiple"></enumeration>
-		</restriction>
-	</simpleType>
+    <ns:simpleType name="ScheduledOutageResourceEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Line"></ns:enumeration>
+			<ns:enumeration value="Xformer"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+    
 	
 <!-- 
 	DclfContingency Analysis
 	======================== 
  -->
  
-	<complexType name="DclfContingencySetXmlType">
-		<complexContent>
-			<extension base="pss:ModifyRecordXmlType">
-				<sequence>
-					<element name="contingency" type="ipss:DclfContingencyXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:simpleType name="ScheduledOutageBranchEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Single"></ns:enumeration>
+			<ns:enumeration value="Multiple"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+    
 
-	<complexType name="DclfContingencyXmlType">
-		<complexContent>
-			<extension base="pss:IDRecordXmlType">
-				<sequence>
-					<element name="contingencyBranch" type="ipss:DclfContingencyBranchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:complexType name="DclfContingencySetXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+				<ns:sequence>
+					<ns:element name="contingency" type="ipss:DclfContingencyXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
 
- 	<complexType name="DclfContingencyBranchXmlType">
-		<complexContent>
-			<extension base="pss:BaseBranchXmlType">
-				<sequence>
-					<element name="fromBusVoltage" type="double" minOccurs="0"></element>
-					<element name="toBusVoltage" type="double" minOccurs="0"></element>
-					<element name="fromBusNo" type="int" minOccurs="1"></element>
-                    <element name="toBusNo" type="int" minOccurs="1"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:complexType name="DclfContingencyXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType">
+				<ns:sequence>
+					<ns:element name="contingencyBranch" type="ipss:DclfContingencyBranchXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
 
 <!-- 
 	EDispatch
 	========= 
  -->
 
-	<complexType name="GenLoadModifyXmlType">
-		<complexContent>
-			<extension base="pss:ModifyRecordXmlType">
-				<sequence>
-					<element name="edRecord" type="ipss:EDDailyGenRecXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+    <ns:complexType name="DclfContingencyBranchXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseBranchXmlType">
+				<ns:sequence>
+					<ns:element name="fromBusVoltage" type="ns:double" minOccurs="0"></ns:element>
+					<ns:element name="toBusVoltage" type="ns:double" minOccurs="0"></ns:element>
+					<ns:element name="fromBusNo" type="ns:int" minOccurs="1"></ns:element>
+                    <ns:element name="toBusNo" type="ns:int" minOccurs="1"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
 
-	<complexType name="EDDailyGenRecXmlType">
-		<sequence>
-			<element name="hourlyDispatch" type="ipss:EDHourlyGenRecXmlType"  maxOccurs="unbounded" minOccurs="0"></element>
-		</sequence>
-		<attribute name="date" type="string"></attribute>
-	</complexType>
+    <ns:complexType name="GenLoadModifyXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+				<ns:sequence>
+					<ns:element name="edRecord" type="ipss:EDDailyGenRecXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
 
-	<complexType name="EDHourlyGenRecXmlType">
-		<sequence>
-			<element name="totalGenMw" type="double"></element>
-			<element name="noOfGen" type="int"></element>
-			<element name="gen" type="ipss:EDGenItemXmlType" maxOccurs="unbounded" minOccurs="0" />
-		</sequence>
-		<attribute name="hour" type="string"></attribute>
-	</complexType>
+    <ns:complexType name="EDDailyGenRecXmlType">
+		<ns:sequence>
+			<ns:element name="hourlyDispatch" type="ipss:EDHourlyGenRecXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+		</ns:sequence>
+		<ns:attribute name="date" type="ns:string"></ns:attribute>
+	</ns:complexType>
+    
 
-	<complexType name="EDGenItemXmlType">
-		<attribute name="genName" type="string"></attribute>
-		<attribute name="genMW" type="double"></attribute>
-		<attribute name="mustRun" type="boolean" use="optional"></attribute>
-	</complexType>
-</schema>
+    <ns:complexType name="EDHourlyGenRecXmlType">
+		<ns:sequence>
+			<ns:element name="totalGenMw" type="ns:double"></ns:element>
+			<ns:element name="noOfGen" type="ns:int"></ns:element>
+			<ns:element name="gen" type="ipss:EDGenItemXmlType" maxOccurs="unbounded" minOccurs="0" />
+		</ns:sequence>
+		<ns:attribute name="hour" type="ns:string"></ns:attribute>
+	</ns:complexType>
+    
+    <ns:complexType name="EDGenItemXmlType">
+		<ns:attribute name="genName" type="ns:string"></ns:attribute>
+		<ns:attribute name="genMW" type="ns:double"></ns:attribute>
+		<ns:attribute name="mustRun" type="ns:boolean" use="optional"></ns:attribute>
+	</ns:complexType>
+</ns:schema>

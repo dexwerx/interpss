@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+<ns:schema xmlns:ns="http://www.w3.org/2001/XMLSchema" 
     xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified">
 	
-	<include schemaLocation="RecordType.xsd"></include>
+	<ns:include schemaLocation="RecordType.xsd"></ns:include>
 		
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2011</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 		
-	<complexType name="ModifyRecordXmlType" abstract="true">
-		<annotation><documentation>
+	<ns:complexType name="ModifyRecordXmlType" abstract="true">
+		<ns:annotation><ns:documentation>
 			Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved 
 			using the record id. ModifyRecordXmlType is an abstract type. All modification record types are sub-type
 			of ModifyRecordXmlType.
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:IDRecordXmlType"></extension>
-		</complexContent>
-	</complexType>
-</schema>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+</ns:schema>

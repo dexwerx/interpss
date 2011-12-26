@@ -1,293 +1,296 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified">
+<ns:schema 
+	xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
+	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
+	elementFormDefault="qualified" >
 
-    <include schemaLocation="../common/RecordType.xsd"></include>
+    <ns:include schemaLocation="../common/RecordType.xsd"></ns:include>
 
-	<annotation>
-		<documentation>Copyright www.interpss.org 2008-2011</documentation>
-	</annotation>
+	<ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 	
-	<element name="dcNet" type="pss:DcNetworkXmlType" substitutionGroup="pss:baseCase">
-		<annotation><documentation>
+	<ns:element name="dcNet" type="pss:DcNetworkXmlType" substitutionGroup="pss:baseCase">
+		<ns:annotation><ns:documentation>
 		Network for Dc system analysis analysis. 
-		</documentation></annotation>
-	</element>
+		</ns:documentation></ns:annotation>
+	</ns:element>
 
-	<element name="dcBus" type="pss:DcBusXmlType" substitutionGroup="pss:bus">
-		<annotation><documentation>
+	<ns:element name="dcBus" type="pss:DcBusXmlType" substitutionGroup="pss:bus">
+		<ns:annotation><ns:documentation>
 		Bus record for Dc system analysis
-		</documentation></annotation>
-	</element>
+		</ns:documentation></ns:annotation>
+	</ns:element>
 	
-	<element name="dcBranch" type="pss:DcBranchXmlType" substitutionGroup="pss:branch">
-		<annotation><documentation>
+	<ns:element name="dcBranch" type="pss:DcBranchXmlType" substitutionGroup="pss:branch">
+		<ns:annotation><ns:documentation>
 		Branch record for Dc system analysis
-		</documentation></annotation>
-	</element>
+		</ns:documentation></ns:annotation>
+	</ns:element>
 
 <!-- 
 		PV Model definition
  -->
-	<element name="pvModel" type="pss:BasePVModelXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-	</element>	
+	<ns:element name="pvModel" type="pss:BasePVModelXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+	</ns:element>	
 
-	<element name="ivFuncPVModel" type="pss:PVModelIVFunctionXmlType" substitutionGroup="pss:pvModel">
-		<annotation><documentation>
-		</documentation></annotation>
-	</element>
+	<ns:element name="ivFuncPVModel" type="pss:PVModelIVFunctionXmlType" substitutionGroup="pss:pvModel">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+	</ns:element>
 
-	<element name="ivPointPVModel" type="pss:PVModelIVCurveXmlType" substitutionGroup="pss:pvModel">
-		<annotation><documentation>
-		</documentation></annotation>
-	</element>
+	<ns:element name="ivPointPVModel" type="pss:PVModelIVCurveXmlType" substitutionGroup="pss:pvModel">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+	</ns:element>
 	
 <!-- 
 		Network object
  -->	
-	<complexType name="DcNetworkXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:NetworkXmlType">
-				<sequence>
-					<element name="ratedVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="pvModelList" minOccurs="0" maxOccurs="1">
-						<complexType>
-							<sequence>
-								<element ref="pss:pvModel" maxOccurs="unbounded"></element>
-							</sequence>
-						</complexType></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+	<ns:complexType name="DcNetworkXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:NetworkXmlType">
+				<ns:sequence>
+					<ns:element name="ratedVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="pvModelList" minOccurs="0" maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element ref="pss:pvModel" maxOccurs="unbounded"></ns:element>
+							</ns:sequence>
+						</ns:complexType></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 	
 	<!--
 			PV Model 
  	-->
-	<complexType name="BasePVModelXmlType" abstract="true">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<sequence>
-			<element name="dataType" type="pss:PVModuleDataEnumType" minOccurs="1"></element>
-		</sequence>
-		<attribute name="id" type="ID" use="required"></attribute>
-		<attribute name="name" type="string" use="required"></attribute>
-		<attribute name="desc" type="string" use="optional"></attribute>
-	</complexType>
+	<ns:complexType name="BasePVModelXmlType" abstract="true">
+		<ns:annotation>
+			<ns:documentation></ns:documentation>
+		</ns:annotation>
+		<ns:sequence>
+			<ns:element name="dataType" type="pss:PVModuleDataEnumType" minOccurs="1"></ns:element>
+		</ns:sequence>
+		<ns:attribute name="id" type="ns:ID" use="required"></ns:attribute>
+		<ns:attribute name="name" type="ns:string" use="required"></ns:attribute>
+		<ns:attribute name="desc" type="ns:string" use="optional"></ns:attribute>
+	</ns:complexType>
 
-	<simpleType name="PVModuleDataEnumType">
-		<restriction base="string">
-			<enumeration value="Points"></enumeration>
-			<enumeration value="Function"></enumeration>
-			<enumeration value="value"></enumeration>
-		</restriction>
-	</simpleType>
+	<ns:simpleType name="PVModuleDataEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Points"></ns:enumeration>
+			<ns:enumeration value="Function"></ns:enumeration>
+			<ns:enumeration value="value"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
 
-	<complexType name="PVModelIVFunctionXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:BasePVModelXmlType">
-				<sequence>
-					<element name="a" type="double" minOccurs="1"></element>
-					<element name="b" type="double" minOccurs="1"></element>
-					<element name="c" type="double" minOccurs="1"></element>
-					<element name="d" type="double" minOccurs="1"></element>
-					<element name="e" type="double" minOccurs="1"></element>
-					<element name="f" type="double" minOccurs="1"></element>
-				</sequence>
-				<attribute name="sign" type="int" use="required"></attribute>		
-				<attribute name="shadingFactor" type="double" use="required"></attribute>
-			</extension>
-		</complexContent>		
-	</complexType>
+	<ns:complexType name="PVModelIVFunctionXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:BasePVModelXmlType">
+				<ns:sequence>
+					<ns:element name="a" type="ns:double" minOccurs="1"></ns:element>
+					<ns:element name="b" type="ns:double" minOccurs="1"></ns:element>
+					<ns:element name="c" type="ns:double" minOccurs="1"></ns:element>
+					<ns:element name="d" type="ns:double" minOccurs="1"></ns:element>
+					<ns:element name="e" type="ns:double" minOccurs="1"></ns:element>
+					<ns:element name="f" type="ns:double" minOccurs="1"></ns:element>
+				</ns:sequence>
+				<ns:attribute name="sign" type="ns:int" use="required"></ns:attribute>		
+				<ns:attribute name="shadingFactor" type="ns:double" use="required"></ns:attribute>
+			</ns:extension>
+		</ns:complexContent>		
+	</ns:complexType>
 
-	<complexType name="PVModelIVCurveXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<complexContent>
-			<extension base="pss:BasePVModelXmlType">
-		<sequence>
-			<element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
-				<annotation><documentation>
+	<ns:complexType name="PVModelIVCurveXmlType">
+		<ns:annotation>
+			<ns:documentation></ns:documentation>
+		</ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:BasePVModelXmlType">
+		<ns:sequence>
+			<ns:element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
+				<ns:annotation><ns:documentation>
 				volt in ascending order and amp in descending order, and first point vdc = 0;
-				</documentation></annotation></element>
-		</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+				</ns:documentation></ns:annotation></ns:element>
+		</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 
-	<complexType name="PVModelPointXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<attribute name="volt" type="double" use="required"></attribute>
-		<attribute name="amp" type="double" use="required"></attribute>
-	</complexType>
+	<ns:complexType name="PVModelPointXmlType">
+		<ns:annotation>
+			<ns:documentation></ns:documentation>
+		</ns:annotation>
+		<ns:attribute name="volt" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="amp" type="ns:double" use="required"></ns:attribute>
+	</ns:complexType>
 
 	<!--  
 		Bus objects
  	-->	
-	<complexType name="DcBusXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:BusXmlType">
-				<sequence>
-					<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1">
-						<annotation><documentation>
+	<ns:complexType name="DcBusXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:BusXmlType">
+				<ns:sequence>
+					<ns:element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1">
+						<ns:annotation><ns:documentation>
 						For DcBusCodeEnumType.VoltageSource, it is the voltage spec. Otherwise, it
 						is optional, used for bus init voltage
-						</documentation></annotation></element>
-					<element name="power" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1">
-						<annotation><documentation>
+						</ns:documentation></ns:annotation></ns:element>
+					<ns:element name="power" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1">
+						<ns:annotation><ns:documentation>
 						Only use for DcBusCodeEnumType.PowerSource
-						</documentation></annotation></element>
-					<element name="load" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1">
-						<annotation><documentation>
+						</ns:documentation></ns:annotation></ns:element>
+					<ns:element name="load" type="pss:ActivePowerXmlType" minOccurs="0" maxOccurs="1">
+						<ns:annotation><ns:documentation>
 						For DcBusCodeEnumType.Load. For other DcBus type, it is optional. Bus load
 						can be defined for any kind of bus type
-						</documentation></annotation></element>
-					<element name="pvModule" minOccurs="0" maxOccurs="1" type="pss:PVModuleXmlType">
-                        <annotation><documentation>
+						</ns:documentation></ns:annotation></ns:element>
+					<ns:element name="pvModule" minOccurs="0" maxOccurs="1" type="pss:PVModuleXmlType">
+                        <ns:annotation><ns:documentation>
                         For DcBusCodeEnumType.PVModel bus type
-                        </documentation></annotation></element>
-					<element name="inverter" type="pss:DcAcInverterXmlType" minOccurs="0">
-						<annotation><documentation>
+                        </ns:documentation></ns:annotation></ns:element>
+					<ns:element name="inverter" type="pss:DcAcInverterXmlType" minOccurs="0">
+						<ns:annotation><ns:documentation>
 						For DcBusCodeEnumType.Inverter bus type
-						</documentation></annotation></element>
-				</sequence>
-				<attribute name="code" type="pss:DcBusCodeEnumType" use="required"></attribute>
-			</extension>
-		</complexContent>
-	</complexType>
+						</ns:documentation></ns:annotation></ns:element>
+				</ns:sequence>
+				<ns:attribute name="code" type="pss:DcBusCodeEnumType" use="required"></ns:attribute>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 
-    <complexType name="PVModuleXmlType">
-      	<sequence>
-       		<element name="pvModuleItem" type="pss:PVModuleItemXmlType" minOccurs="1" maxOccurs="unbounded"></element>
-       	</sequence>
-       	<attribute name="dataType" type="pss:PVModuleDataEnumType" use="required"></attribute>
-    </complexType>
+    <ns:complexType name="PVModuleXmlType">
+      	<ns:sequence>
+       		<ns:element name="pvModuleItem" type="pss:PVModuleItemXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+       	</ns:sequence>
+       	<ns:attribute name="dataType" type="pss:PVModuleDataEnumType" use="required"></ns:attribute>
+    </ns:complexType>
 
-	<simpleType name="DcBusCodeEnumType">
-		<restriction base="string">
-			<enumeration value="Connection"></enumeration>
-			<enumeration value="Load"></enumeration>
-			<enumeration value="PowerSource"></enumeration>
-			<enumeration value="VoltageSource"></enumeration>
-			<enumeration value="PVModule"></enumeration>
-			<enumeration value="Inverter"></enumeration>
-		</restriction>
-	</simpleType>
+	<ns:simpleType name="DcBusCodeEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Connection"></ns:enumeration>
+			<ns:enumeration value="Load"></ns:enumeration>
+			<ns:enumeration value="PowerSource"></ns:enumeration>
+			<ns:enumeration value="VoltageSource"></ns:enumeration>
+			<ns:enumeration value="PVModule"></ns:enumeration>
+			<ns:enumeration value="Inverter"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
 	
-	<complexType name="PVModuleItemXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<sequence>
-			<element name="shadingFactor" type="double" minOccurs="0">
-				<annotation><documentation>
+	<ns:complexType name="PVModuleItemXmlType">
+		<ns:annotation>
+			<ns:documentation></ns:documentation>
+		</ns:annotation>
+		<ns:sequence>
+			<ns:element name="shadingFactor" type="ns:double" minOccurs="0">
+				<ns:annotation><ns:documentation>
 				shadingFactor to override the shading factor defined in pvModelRef PVModel
-				</documentation></annotation>
-			</element>
-		</sequence>
-		<attribute name="id" type="ID" use="required"></attribute>
-		<attribute name="pvModelRef" type="IDREF" use="required"></attribute>
-		<attribute name="name" type="string" use="optional"></attribute>
-		<attribute name="desc" type="string" use="optional"></attribute>
-	</complexType>
+				</ns:documentation></ns:annotation>
+			</ns:element>
+		</ns:sequence>
+		<ns:attribute name="id" type="ns:ID" use="required"></ns:attribute>
+		<ns:attribute name="pvModelRef" type="ns:IDREF" use="required"></ns:attribute>
+		<ns:attribute name="name" type="ns:string" use="optional"></ns:attribute>
+		<ns:attribute name="desc" type="ns:string" use="optional"></ns:attribute>
+	</ns:complexType>
 
 	<!--
 			Inverter 
 	 -->
-	<complexType name="DcAcInverterXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<sequence>
-			<element name="powerRating" type="pss:ActivePowerXmlType" minOccurs="1"></element>
-			<element name="vdcmax" type="double" minOccurs="0"></element>
-			<element name="idcmax" type="double" minOccurs="0"></element>
-			<element name="mpptHigh" type="double" minOccurs="0"></element>
-			<element name="mpptLow" type="double" minOccurs="0"></element>
-			<element name="vac" type="double" minOccurs="0"></element>
-			<choice>
-			<element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></element>
-			<element name="lossParamList" minOccurs="1">
-				<complexType>
-					<sequence>
-						<element name="lossParam" type="pss:InverterLossParamXmlType" minOccurs="1" maxOccurs="unbounded"></element>
-					</sequence>
-				</complexType>
-			</element>
-			</choice>
-		</sequence>
-	</complexType>
+	<ns:complexType name="DcAcInverterXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:sequence>
+			<ns:element name="powerRating" type="pss:ActivePowerXmlType" minOccurs="1"></ns:element>
+			<ns:element name="vdcmax" type="ns:double" minOccurs="0"></ns:element>
+			<ns:element name="idcmax" type="ns:double" minOccurs="0"></ns:element>
+			<ns:element name="mpptHigh" type="ns:double" minOccurs="0"></ns:element>
+			<ns:element name="mpptLow" type="ns:double" minOccurs="0"></ns:element>
+			<ns:element name="vac" type="ns:double" minOccurs="0"></ns:element>
+			<ns:choice>
+			<ns:element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="lossParamList" minOccurs="1">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="lossParam" type="pss:InverterLossParamXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			</ns:choice>
+		</ns:sequence>
+	</ns:complexType>
 
-	<complexType name="InverterLossParamXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<attribute name="vdc" type="double" use="required"></attribute>
-		<attribute name="a" type="double" use="required"></attribute>
-		<attribute name="b" type="double" use="required"></attribute>
-		<attribute name="c" type="double" use="required"></attribute>
-	</complexType>
+	<ns:complexType name="InverterLossParamXmlType">
+		<ns:annotation>
+			<ns:documentation></ns:documentation>
+		</ns:annotation>
+		<ns:attribute name="vdc" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="a" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="b" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="c" type="ns:double" use="required"></ns:attribute>
+	</ns:complexType>
 
-	<complexType name="InverterLossEqnXmlType">
-		<annotation>
-			<documentation></documentation>
-		</annotation>
-		<attribute name="a1" type="double" use="required"></attribute>
-		<attribute name="a2" type="double" use="required"></attribute>
-		<attribute name="b1" type="double" use="required"></attribute>
-		<attribute name="b2" type="double" use="required"></attribute>
-		<attribute name="c1" type="double" use="required"></attribute>
-		<attribute name="c2" type="double" use="required"></attribute>
-	</complexType>
+	<ns:complexType name="InverterLossEqnXmlType">
+		<ns:annotation>
+			<ns:documentation></ns:documentation>
+		</ns:annotation>
+		<ns:attribute name="a1" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="a2" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="b1" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="b2" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="c1" type="ns:double" use="required"></ns:attribute>
+		<ns:attribute name="c2" type="ns:double" use="required"></ns:attribute>
+	</ns:complexType>
 
 	<!--  
 		Branch objects
  	-->	
-	<complexType name="DcBranchXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<complexContent>
-			<extension base="pss:BaseBranchXmlType">
-				<choice>
-				<sequence>
-					<element name="feeder" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
-					</element>
-					<element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
-					</element>
-				</sequence>
-				</choice>
-			</extension>
-		</complexContent>
-	</complexType>
+	<ns:complexType name="DcBranchXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:BaseBranchXmlType">
+				<ns:choice>
+				<ns:sequence>
+					<ns:element name="feeder" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
+					</ns:element>
+					<ns:element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
+					</ns:element>
+				</ns:sequence>
+				</ns:choice>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
 	
-	<complexType name="DcFeederXmlType">
-		<annotation><documentation>
-		</documentation></annotation>
-		<sequence>
-			<element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1">
-				<annotation><documentation>
+	<ns:complexType name="DcFeederXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+		<ns:sequence>
+			<ns:element name="r" type="pss:RXmlType" minOccurs="1" maxOccurs="1">
+				<ns:annotation><ns:documentation>
 				Feeder resistance, could be in Ohm or Ohm/Ft, Ohm/M
-				</documentation></annotation>
-			</element>
-			<element name="length" type="pss:LengthXmlType" minOccurs="0" maxOccurs="1">
-				<annotation><documentation>
+				</ns:documentation></ns:annotation>
+			</ns:element>
+			<ns:element name="length" type="pss:LengthXmlType" minOccurs="0" maxOccurs="1">
+				<ns:annotation><ns:documentation>
 				If r in Ohm/Ft or Ohm/M, the length need to be defined. unit in Ft, M, KM or Mile
-				</documentation></annotation></element>
-			<element name="gage" type="string" minOccurs="0" maxOccurs="1">
-				<annotation><documentation>
+				</ns:documentation></ns:annotation></ns:element>
+			<ns:element name="gage" type="ns:string" minOccurs="0" maxOccurs="1">
+				<ns:annotation><ns:documentation>
 				Feeder gage info, not used in calculation, might be used for data lookup
-				</documentation></annotation></element>
-		</sequence>
-	</complexType>	
-</schema>
+				</ns:documentation></ns:annotation></ns:element>
+		</ns:sequence>
+	</ns:complexType>	
+</ns:schema>
