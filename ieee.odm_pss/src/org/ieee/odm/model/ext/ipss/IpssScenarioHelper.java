@@ -32,17 +32,16 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
-import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
-import org.ieee.odm.schema.InterfaceRecXmlType;
 import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.IpssScenarioXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
-import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
@@ -119,16 +118,16 @@ public class IpssScenarioHelper {
 		return lf;
 	}
 	
-	public BaseBranchXmlType creatBaseBranch(List<BaseBranchXmlType> braList) {
-		BaseBranchXmlType bra = parser.getFactory().createBaseBranchXmlType();
+	public BranchRefXmlType creatBranchRef(List<BranchRefXmlType> braList) {
+		BranchRefXmlType bra = parser.getFactory().createBranchRefXmlType();
 		braList.add(bra);
 		return bra;
 	}
 	
-	public BaseBranchXmlType createMonitorBranch(List<MonitorBranch> braList) {
+	public BranchRefXmlType createMonitorBranch(List<MonitorBranch> braList) {
 		MonitorBranch bra = parser.getFactory().createLineOutageDFactorXmlTypeMonitorBranch();
 		braList.add(bra);
-		bra.setBranch(parser.getFactory().createBaseBranchXmlType());
+		bra.setBranch(parser.getFactory().createBranchRefXmlType());
 		return bra.getBranch();
 	}
 
@@ -150,13 +149,13 @@ public class IpssScenarioHelper {
 		return sf;
 	}
 	
-	public InterfaceRecXmlType createInterface() {
-		InterfaceRecXmlType sf = parser.getFactory().createInterfaceRecXmlType();
+	public FlowInterfaceRecXmlType createInterface() {
+		FlowInterfaceRecXmlType sf = parser.getFactory().createFlowInterfaceRecXmlType();
 		return sf;
 	}
 
-	public LineBranchXmlType createLineBranchXmlType() {
-		return parser.getFactory().createLineBranchXmlType();
+	public BranchRefXmlType createBranchRefXmlType() {
+		return parser.getFactory().createBranchRefXmlType();
 	}
 	
 	public ActivePowerXmlType createActivePower(double p, String unit) {

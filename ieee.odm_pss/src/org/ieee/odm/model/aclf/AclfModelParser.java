@@ -33,7 +33,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
-import org.ieee.odm.schema.InterfaceRecXmlType;
+import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -343,7 +343,7 @@ public class AclfModelParser extends AbstractModelParser {
 		return interchange;
 	}	
 
-	public List<InterfaceRecXmlType> getInterfaceList() {
+	public List<FlowInterfaceRecXmlType> getInterfaceList() {
 		return getAclfNet().getInterfaceList().getInterface();
 	}	
 	
@@ -352,10 +352,10 @@ public class AclfModelParser extends AbstractModelParser {
 	 * 
 	 * @return
 	 */
-	public InterfaceRecXmlType createInterface() {
+	public FlowInterfaceRecXmlType createInterface() {
 		if (getAclfNet().getInterfaceList() == null)
 			getAclfNet().setInterfaceList(this.getFactory().createLoadflowNetXmlTypeInterfaceList());
-		InterfaceRecXmlType inter = this.getFactory().createInterfaceRecXmlType();
+		FlowInterfaceRecXmlType inter = this.getFactory().createFlowInterfaceRecXmlType();
 		getAclfNet().getInterfaceList().getInterface().add(inter);
 		return inter;
 	}	
@@ -366,9 +366,9 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public InterfaceRecXmlType getInterface(String id) {
+	public FlowInterfaceRecXmlType getInterface(String id) {
 		if (getAclfNet().getInterfaceList() != null)
-			for (InterfaceRecXmlType inter : getAclfNet().getInterfaceList().getInterface()) {
+			for (FlowInterfaceRecXmlType inter : getAclfNet().getInterfaceList().getInterface()) {
 				if (id.equals(inter.getId()))
 					return inter;
 			}
