@@ -24,72 +24,57 @@
 
 package com.interpss.pssl.test.aclf;
 
-import org.apache.commons.math.complex.Complex;
-import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.datatype.Unit.UnitType;
+import static org.junit.Assert.assertTrue;
+
+import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
+import org.ieee.odm.schema.LfMethodEnumType;
 import org.junit.Test;
 
-import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.AclfGenCode;
-import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
+import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.IpssAclfNet;
-import com.interpss.pssl.simu.IpssAclfNet.AclfNetworkDSL;
+import com.interpss.pssl.simu.odm.AclfDslODMRunner;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Aclf_Test extends BaseTestSetup {
 	@Test
-	public void singlePointTest1() {
-		AclfNetworkDSL netDsl = IpssAclfNet.createAclfNetwork("Sample DistNetwork");
-		netDsl.baseMva(100.0);
+	public void lfTest()  throws PSSLException {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();	
 		
-
-		netDsl.addAclfBus("Bus1", "name-Bus 1")
-		            .baseVoltage(4000.0)
-		            .genCode(AclfGenCode.SWING)
-		            .voltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg);
-		         
-		netDsl.addAclfBus("Bus2", "name-Bus 2")
-		            .baseVoltage(4000.0)  
-		            .loadCode(AclfLoadCode.CONST_P)
-		            .load(new Complex(1.0, 0.8), UnitType.PU);
-		         
-		netDsl.addAclfBranch("Bus1", "Bus2")
-		            .branchCode(AclfBranchCode.LINE)
-		            .z(new Complex(0.05, 0.1), UnitType.PU);       
-		               
-		IpssAclf.createAlgo(netDsl.getAclfNet())                        
-		            .lfMethod(AclfMethod.NR)
-		            .tolerance(0.0001, UnitType.PU)
-		            .runLoadflow();               
-
-		System.out.println(AclfOutFunc.loadFlowSummary(netDsl.getAclfNet()));
-	}
-	
-	public void document() {
-		AclfNetworkDSL netDsl = IpssAclfNet.createAclfNetwork("Sample DistNetwork");
-		netDsl.baseMva(100.0);
-		
-		String id = "";
-		netDsl.addAclfBus(id, "Bus-"+id)
-			.areaNumber(1)
-			.zoneNumber(1)
-			.baseVoltage(1000.0)
-			.loadCode(AclfLoadCode.CONST_P)
-			.load(new Complex(0.1, 1.0), UnitType.PU);
-		
-		netDsl.addAclfBus(id, "Bus-"+id)
-			.areaNumber(1)
-			.zoneNumber(1)
-			.baseVoltage(1000.0, UnitType.Volt);
-		
-		netDsl.addAclfBus(id, "Bus-"+id)
-			.areaNumber(1)
-			.zoneNumber(1)
-			.baseVoltage(1000.0)
-			.genCode(AclfGenCode.GEN_PQ)
-			.gen(new Complex(1.0,1.2), UnitType.kVA);		
+	  	IpssAclf.createAlgo(net)
+	  			.lfMethod(AclfMethod.NR)
+	  			.nonDivergent(true)
+	  			.runLoadflow();	
+	  	
+	  	assertTrue(net.isLfConverged());
 	}	
+	
+	// AclfAlgorithmXmlType
+	
+	@Test
+	public void lfXmlTest()  throws PSSLException {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();	
+		
+		IpssScenarioHelper helper = new IpssScenarioHelper(new AclfModelParser());
+		IpssAclfAlgorithmXmlType algoXml = helper.createIpssAclfAlgorithm();
+		
+		algoXml.setLfMethod(LfMethodEnumType.NR);
+		algoXml.setNonDivergent(true);
+		
+		new AclfDslODMRunner(net).runAclf(algoXml);
+	  	
+	  	assertTrue(net.isLfConverged());
+	}	
+	
 }
 

@@ -27,8 +27,8 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
-import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -80,32 +80,32 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
 		
-		BaseBranchXmlType outage = helper.creatBaseBranch(lodf.getOutageBranch());
-		outage.setId("Bus1_Bus5_1");
+		BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage.setBranchId("Bus1_Bus5_1");
 		outage.setFromBusId("Bus1");
 		outage.setToBusId("Bus5");
 		outage.setCircuitId("1");
 
-		outage = helper.creatBaseBranch(lodf.getOutageBranch());
-		outage.setId("Bus3_Bus4_1");
+		outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage.setBranchId("Bus3_Bus4_1");
 		outage.setFromBusId("Bus3");
 		outage.setToBusId("Bus4");
 		outage.setCircuitId("1");
 
-		outage = helper.creatBaseBranch(lodf.getOutageBranch());
-		outage.setId("Bus6_Bus11_1");
+		outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage.setBranchId("Bus6_Bus11_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus11");
 		outage.setCircuitId("1");
 
-		BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setId("Bus2_Bus5_1");
+		BranchRefXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
+		monitor.setBranchId("Bus2_Bus5_1");
 		monitor.setFromBusId("Bus2");
 		monitor.setToBusId("Bus5");
 		monitor.setCircuitId("1");
 		
 		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setId("Bus6_Bus13_1");
+		monitor.setBranchId("Bus6_Bus13_1");
 		monitor.setFromBusId("Bus6");
 		monitor.setToBusId("Bus13");
 		monitor.setCircuitId("1");

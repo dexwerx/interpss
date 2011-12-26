@@ -27,7 +27,7 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;

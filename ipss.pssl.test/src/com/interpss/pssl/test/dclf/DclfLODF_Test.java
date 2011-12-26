@@ -27,8 +27,8 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
-import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -75,20 +75,20 @@ public class DclfLODF_Test extends BaseTestSetup {
 				</pss:monitorBranch>
 			</pss:lineOutageDFactor>
 */
-		BaseBranchXmlType outage = helper.creatBaseBranch(lodf.getOutageBranch());
-		outage.setId("Bus4_Bus7_1");
+		BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage.setBranchId("Bus4_Bus7_1");
 		outage.setFromBusId("Bus4");
 		outage.setToBusId("Bus7");
 		outage.setCircuitId("1");
 
-		BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setId("Bus4_Bus9_1");
+		BranchRefXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
+		monitor.setBranchId("Bus4_Bus9_1");
 		monitor.setFromBusId("Bus4");
 		monitor.setToBusId("Bus9");
 		monitor.setCircuitId("1");
 		
 		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setId("Bus5_Bus6_1");
+		monitor.setBranchId("Bus5_Bus6_1");
 		monitor.setFromBusId("Bus5");
 		monitor.setToBusId("Bus6");
 		monitor.setCircuitId("1");
@@ -109,20 +109,20 @@ public class DclfLODF_Test extends BaseTestSetup {
 */
 		lodf = helper.createLODF(dclfCase);
 		
-		outage = helper.creatBaseBranch(lodf.getOutageBranch());
-		outage.setId("Bus6_Bus13_1");
+		outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage.setBranchId("Bus6_Bus13_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus13");
 		outage.setCircuitId("1");
 
 		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setId("Bus9_Bus14_1");
+		monitor.setBranchId("Bus9_Bus14_1");
 		monitor.setFromBusId("Bus9");
 		monitor.setToBusId("Bus14");
 		monitor.setCircuitId("1");
 		
 		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setId("Bus12_Bus13_1");
+		monitor.setBranchId("Bus12_Bus13_1");
 		monitor.setFromBusId("Bus12");
 		monitor.setToBusId("Bus13");
 		monitor.setCircuitId("1");
