@@ -52,11 +52,11 @@
 			               meaning for each outage branch, there should be a corresponding lodf</ns:documentation>
 		</ns:annotation>	
 		<ns:sequence>
-			<ns:element name="outageBranch" type="pss:BaseBranchXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+			<ns:element name="outageBranch" type="pss:BranchRefXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 			<ns:element name="monitorBranch" minOccurs="1" maxOccurs="unbounded">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="branch" type="pss:BaseBranchXmlType" minOccurs="1"></ns:element>
+						<ns:element name="branch" type="pss:BranchRefXmlType" minOccurs="1"></ns:element>
 						<ns:element name="lodf" type="ns:double" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					</ns:sequence>
 				</ns:complexType>
@@ -147,7 +147,7 @@
     					<ns:complexType>
     						<ns:sequence>
     							<ns:element name="shiftFactor" type="ns:double" minOccurs="0"></ns:element>
-    							<ns:element name="branch" type="pss:BaseBranchXmlType" maxOccurs="1"></ns:element>
+    							<ns:element name="branch" type="pss:BranchRefXmlType" maxOccurs="1"></ns:element>
     						</ns:sequence>
     					</ns:complexType></ns:element>
     				<ns:element name="interfaceSFactor" minOccurs="0" maxOccurs="unbounded">

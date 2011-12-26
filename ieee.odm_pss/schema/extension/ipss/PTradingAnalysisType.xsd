@@ -43,7 +43,7 @@
 	<ns:complexType name="PtBranchAnalysisXmlType">
 		<ns:sequence>
 			<ns:element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>			<ns:element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtBranchAnalysisEnumType"></ns:element>
-			<ns:element name="branch" type="pss:BaseBranchXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
+			<ns:element name="branch" type="pss:BranchRefXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
 			<ns:element name="outageScheduleFile" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="branchFlowOutPoints" type="ns:int" maxOccurs="1" minOccurs="0"></ns:element>
 		</ns:sequence>
