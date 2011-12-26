@@ -31,11 +31,9 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BusRecordXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
-import org.ieee.odm.schema.LoadflowBusDataXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
@@ -47,26 +45,6 @@ import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
 public class AclfParserHelper extends BaseJaxbHelper {
-	/**
-	 * create a Contribution Load object
-	 * 
-	 */
-	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec) {
-		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
-		if (genData == null) {
-			genData = getFactory().createLoadflowBusDataXmlTypeGenData();
-			busRec.getLoadflowData().setGenData(genData);
-			LoadflowGenDataXmlType equivGen = new LoadflowGenDataXmlType();
-			genData.setEquivGen(equivGen);
-		}
-		// some model does not need ContributeGenList
-		if (genData.getContributeGenList() == null) 
-			genData.setContributeGenList(getFactory().createLoadflowBusDataXmlTypeGenDataContributeGenList());
-		LoadflowGenDataXmlType contribGen = getFactory().createLoadflowGenDataXmlType();
-		genData.getContributeGenList().getContributeGen().add(contribGen);
-		return contribGen;
-	}
-	
 	/**
 	 * create a Contribution Load object
 	 * 

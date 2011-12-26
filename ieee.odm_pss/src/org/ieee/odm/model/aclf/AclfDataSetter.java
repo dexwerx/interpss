@@ -37,7 +37,6 @@ import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.LoadflowBranchDataXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
@@ -393,24 +392,4 @@ public class AclfDataSetter extends BaseDataSetter {
 				double current, CurrentUnitType curUnit) {
 		setBranchRatingLimitData(branchLimit, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
-	
-	/**
-	 * Set branch ownership
-	 * 
-	 * @param branchData
-	 * @param oAry
-	 * @param pAry
-	 */
-	public static void setBranchOwnership(LoadflowBranchDataXmlType branchData,	int[] oAry, double[] pAry) {
-		BaseRecordXmlType.OwnerList ownerList = getFactory().createBaseRecordXmlTypeOwnerList(); 
-		branchData.setOwnerList(ownerList);
-		for ( int i = 0; i < oAry.length; i++) {
-			if (oAry[i] > 0) {
-				Owner owner = getFactory().createBaseRecordXmlTypeOwnerListOwner();
-				branchData.getOwnerList().getOwner().add(owner);
-				owner.setId(new Integer(oAry[i]).toString());
-				owner.setOwnership(pAry[i]);
-			}
-		}
-	}	
 }
