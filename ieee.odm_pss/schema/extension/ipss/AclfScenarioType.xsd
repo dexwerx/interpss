@@ -17,17 +17,14 @@
  -->
 	<ns:complexType name="AclfAnalysisXmlType">
 		<ns:sequence>
-			<element name="aclf" minOccurs="0" maxOccurs="1" type="ipss:AclfAlgorithmXmlType"></element>
+			<element name="aclf" minOccurs="0" maxOccurs="1" type="ipss:IpssAclfAlgorithmXmlType"></element>
 		</ns:sequence>
 	</ns:complexType>
 	 
-	<ns:complexType name="AclfAlgorithmXmlType">
+	<ns:complexType name="IpssAclfAlgorithmXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+			<ns:extension base="pss:AclfAlgorithmXmlType">
 				<ns:sequence>
-					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
-					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="displaySummary" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="customLfMethod" type="ipss:CustomLfMethodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 				</ns:sequence>
@@ -59,7 +56,7 @@
             <ns:element name="option" minOccurs="0" type="ipss:ContingencyAnalysisOptionXmlType"/>
             <ns:element name="limitRunCases" minOccurs="0" type="ns:boolean"/>
             <ns:element name="maxRunCases" minOccurs="0" type="ns:int"/>
-            <ns:element name="defaultAclfAlgorithm" type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1"/>
+            <ns:element name="defaultAclfAlgorithm" type="pss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1"/>
 			<ns:element name="aclfStudyCaseList" minOccurs="1"	maxOccurs="1" type="ipss:AclfMultiStudyCaseXmlType">
 			</ns:element>
 		</ns:sequence>
@@ -103,7 +100,7 @@
 		<ns:complexContent>
 			<ns:extension base="ipss:BaseStudyCaseXmlType">
 				<ns:sequence>
-					<ns:element name="aclfAlgorithm" type="ipss:AclfAlgorithmXmlType" minOccurs="0"></ns:element>
+					<ns:element name="aclfAlgorithm" type="pss:AclfAlgorithmXmlType" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>

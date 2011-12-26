@@ -60,4 +60,19 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	
+	<ns:complexType name="AclfAlgorithmXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<ns:sequence>
+					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>
+					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
+					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>
+					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
 </schema>

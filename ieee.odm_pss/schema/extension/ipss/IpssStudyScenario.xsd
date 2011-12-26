@@ -30,7 +30,7 @@
 			<extension base="pss:StudyScenarioXmlType">
 				<sequence>
 					<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="ipss:GridComputingXmlType"></ns:element>
-					<element name="defaultAclfAlgo" type="ipss:AclfAlgorithmXmlType" minOccurs="0">
+					<element name="defaultAclfAlgo" type="pss:AclfAlgorithmXmlType" minOccurs="0">
 						<annotation><documentation>
 						The default AclfAlgo applies to all study scenarios, for contingency analysis
 						</documentation></annotation>
