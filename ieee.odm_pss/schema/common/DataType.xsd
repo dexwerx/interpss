@@ -5,44 +5,60 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified" >
 
+    <ns:include schemaLocation=""></ns:include>
     <ns:include schemaLocation="UnitType.xsd"></ns:include>
 	
     <ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
 
-    <ns:complexType name="BaseRecordXmlType">
+    <ns:complexType name="NameTagXmlType">
 		<ns:sequence>
 			<ns:element name="desc" type="ns:string" minOccurs="0" maxOccurs="1"></ns:element>
-			<ns:element name="isoCode" type="ns:string" minOccurs="0" maxOccurs="1"></ns:element>
-			<ns:element name="normalOffLineStatus" type="ns:boolean" minOccurs="0"></ns:element>
-			<ns:element name="ownerList" minOccurs="0" maxOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="owner" maxOccurs="unbounded" minOccurs="0">
-							<ns:complexType>
-								<ns:attribute name="id" type="ns:string" use="required"></ns:attribute>
-								<ns:attribute name="name" type="ns:string" use="optional"></ns:attribute>
-								<ns:attribute name="number" type="ns:int" use="optional"></ns:attribute>
-								<ns:attribute name="ownership" type="ns:double" use="optional">
-									<ns:annotation><ns:documentation>
-									ownership in pu</ns:documentation>
-									</ns:annotation></ns:attribute>
-							</ns:complexType>
-						</ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="nvPairList" type="pss:NameValuePairListXmlType" minOccurs="0" maxOccurs="1"></ns:element>
-			<ns:element name="extension" type="ns:anySimpleType" minOccurs="0"></ns:element>
 		</ns:sequence>
 		<ns:attribute name="name" type="ns:string" use="optional"></ns:attribute>
-		<ns:attribute name="areaNumber" type="ns:int" use="optional"></ns:attribute>
-		<ns:attribute name="areaName" type="ns:string" use="optional"></ns:attribute>
-		<ns:attribute name="zoneNumber" type="ns:int" use="optional"></ns:attribute>
-		<ns:attribute name="zoneName" type="ns:string" use="optional"></ns:attribute>
-		<ns:attribute name="number" type="ns:long" use="optional"></ns:attribute>
-		<ns:attribute name="offLine" type="ns:boolean" use="optional"></ns:attribute>
+	</ns:complexType>
+
+
+	<ns:complexType name="BaseRecordXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:NameTagXmlType">
+				<ns:sequence>
+					<ns:element name="isoCode" type="ns:string" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="normalOffLineStatus" type="ns:boolean" minOccurs="0"></ns:element>
+					<ns:element name="ownerList" minOccurs="0" maxOccurs="unbounded" type="pss:OwnerXmlType"></ns:element>
+					<ns:element name="nvPairList" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="extension" type="ns:anySimpleType" minOccurs="0"></ns:element>
+				</ns:sequence>
+				<ns:attribute name="areaNumber" type="ns:int" use="optional"></ns:attribute>
+				<ns:attribute name="areaName" type="ns:string" use="optional"></ns:attribute>
+				<ns:attribute name="zoneNumber" type="ns:int" use="optional"></ns:attribute>
+				<ns:attribute name="zoneName" type="ns:string" use="optional"></ns:attribute>
+				<ns:attribute name="number" type="ns:long" use="optional"></ns:attribute>
+				<ns:attribute name="offLine" type="ns:boolean" use="optional"></ns:attribute>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+
+	<ns:complexType name="OwnerXmlType">
+		<ns:attribute name="id" type="ns:string" use="required"></ns:attribute>
+		<ns:attribute name="name" type="ns:string" use="optional"></ns:attribute>
+		<ns:attribute name="number" type="ns:int" use="optional"></ns:attribute>
+		<ns:attribute name="ownership" type="ns:double" use="optional">
+			<ns:annotation>
+				<ns:documentation>
+					ownership in pu</ns:documentation>
+			</ns:annotation>
+		</ns:attribute>
+	</ns:complexType>									
+
+	
+    <ns:complexType name="NameValuePairXmlType">
+		<ns:sequence>
+			<ns:element name="name" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="value" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
+		</ns:sequence>
 	</ns:complexType>
     
 
@@ -64,9 +80,9 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-    
 
-    <ns:complexType name="BusRefRecordXmlType">
+    
+    <ns:complexType name="BusIDRefXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:IDRefRecordXmlType">
 				<ns:sequence>
@@ -81,19 +97,25 @@
 	</ns:complexType>
     
 
-    <ns:complexType name="NameValuePairXmlType">
-		<ns:sequence>
-			<ns:element name="name" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
-			<ns:element name="value" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-    
+    <ns:complexType name="BusRefXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
+    			<ns:attribute name="id" type="ns:string" use="required"></ns:attribute>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
 
-    <ns:complexType name="NameValuePairListXmlType">
-		<ns:sequence>
-			<ns:element name="nvPair" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
+
+    <ns:complexType name="BranchRefXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
+				<ns:attribute name="fromBusId" type="ns:string" use="required"></ns:attribute>
+				<ns:attribute name="toBusId" type="ns:string" use="required"></ns:attribute>
+				<ns:attribute name="tertiaryBusId" type="ns:string" use="optional"></ns:attribute>
+				<ns:attribute name="circuitId" type="ns:string" use="required"></ns:attribute> 
+			</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
     
 
     <ns:complexType name="BaseDoubleXmlType">

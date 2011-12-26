@@ -126,9 +126,9 @@
 		<ns:complexContent>
 			<ns:extension base="pss:CimConnectionRecordType">
 				<ns:sequence>
-					<ns:element name="fromBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></ns:element>
-					<ns:element name="toBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></ns:element>
-					<ns:element name="tertiaryBus" type="pss:BusRefRecordXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="fromBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="toBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="tertiaryBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 				</ns:sequence>
 				<ns:attribute name="fromBusId" type="ns:string" use="optional">
 				<ns:annotation><ns:documentation>
