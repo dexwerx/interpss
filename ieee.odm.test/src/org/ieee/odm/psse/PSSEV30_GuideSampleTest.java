@@ -81,7 +81,7 @@ public class PSSEV30_GuideSampleTest {
       <owner id="100" number="100" name="'NO BUSES    '"/>
     </ownerList>
     */
-	assertTrue(net.getOwnerList().getOwner().size() == 7);
+	assertTrue(net.getOwnerList().size() == 7);
 		
 	/*
     <lossZoneList>
