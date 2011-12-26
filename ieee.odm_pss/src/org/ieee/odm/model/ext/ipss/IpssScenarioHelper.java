@@ -29,7 +29,6 @@ import java.util.List;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
@@ -39,6 +38,7 @@ import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.InterfaceRecXmlType;
+import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.IpssScenarioXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -69,8 +69,8 @@ public class IpssScenarioHelper {
 	 *             ========================
 	 */
 
-	public AclfAlgorithmXmlType createAclfAlgorithm() {
-		return this.parser.getFactory().createAclfAlgorithmXmlType();
+	public IpssAclfAlgorithmXmlType createIpssAclfAlgorithm() {
+		return this.parser.getFactory().createIpssAclfAlgorithmXmlType();
 	}
 	
 	/*
