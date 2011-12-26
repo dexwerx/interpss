@@ -30,7 +30,7 @@ import java.util.Vector;
 import javax.swing.JDialog;
 
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;

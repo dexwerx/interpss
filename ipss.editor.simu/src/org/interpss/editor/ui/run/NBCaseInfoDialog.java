@@ -30,7 +30,7 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;

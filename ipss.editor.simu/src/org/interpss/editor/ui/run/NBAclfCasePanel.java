@@ -73,9 +73,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private AclfAlgorithmXmlType xmlCaseAlgo;
     private ContingencyAnalysisXmlType xmlAnalysis;
     
-    public static final int LoadflowPanel = 1,
-    					ContingencyPanel = 2,
-    					AdvancedPanel = 3;
+    public static final int 	LoadflowPanel = 1,
+    							ContingencyPanel = 2,
+    							AdvancedPanel = 3;
     private int panelSelected = LoadflowPanel; 
     public int getPanelSelected() { return this.panelSelected; }
 	
@@ -83,12 +83,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     public NBAclfCasePanel(JDialog parent) {
     	this.parent = parent;
     	initComponents();
-
-        DataVerifier verifier = new DataVerifier();
-        this.accFactorTextField.setInputVerifier(verifier);
-        this.errKVATextField.setInputVerifier(verifier);
-        this.errPUTextField.setInputVerifier(verifier);
-        this.maxItrTextField.setInputVerifier(verifier);
+    	
+    	initInputVerifier(new DataVerifier());    	
     }
     
     /**
@@ -1069,6 +1065,26 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         add(runAclfTabbedPane, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
+    private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
+    	if ( runAclfTabbedPane.getSelectedIndex() == 0 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Main Panel");
+        	this.panelSelected = LoadflowPanel;
+    	}
+    	else if ( runAclfTabbedPane.getSelectedIndex() == 1 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Contingency Panel");
+        	this.panelSelected = ContingencyPanel;
+    	}	
+    	else if ( runAclfTabbedPane.getSelectedIndex() == 2 ) {
+        	IpssLogger.getLogger().info("Panel selection changed - Advanced Panel");
+        	this.panelSelected = AdvancedPanel;
+            initAdvanceControlPanel();
+        	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
+    	}	
+    }//GEN-LAST:event_panelSelectionChanged
+
+    /*
+     * Lf
+     */
     private void nrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrRadioButtonActionPerformed
     	accFactorTextField.setEnabled(false);
     	accFactorLabel.setEnabled(false);
@@ -1088,6 +1104,32 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	accFactorLabel.setEnabled(true);
 	}//GEN-LAST:event_gsRadioButtonActionPerformed
 
+    private void customRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_customRadioButtonActionPerformed
+
+    /*
+     * Contingency analysis
+     */
+    private void n1ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n1ContingencyRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_n1ContingencyRadioButtonActionPerformed
+
+    private void n11ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n11ContingencyRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_n11ContingencyRadioButtonActionPerformed
+
+    private void n2ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n2ContingencyRadioButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_n2ContingencyRadioButtonActionPerformed
+
+    private void continCaseCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continCaseCheckBoxActionPerformed
+    	continCaseTextField.setEnabled(true);
+    }//GEN-LAST:event_continCaseCheckBoxActionPerformed    
+    
+    /*
+     *  Advanced 
+     */
     private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-Q Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_QSTEP);
@@ -1095,23 +1137,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqQStepButtonActionPerformed
-
-    private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
-    	if ( runAclfTabbedPane.getSelectedIndex() == 0 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Main Panel");
-        	this.panelSelected = LoadflowPanel;
-    	}
-    	else if ( runAclfTabbedPane.getSelectedIndex() == 1 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Contingency Panel");
-        	this.panelSelected = ContingencyPanel;
-    	}	
-    	else if ( runAclfTabbedPane.getSelectedIndex() == 2 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Advanced Panel");
-        	this.panelSelected = AdvancedPanel;
-            initAdvanceControlPanel();
-        	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
-    	}	
-    }//GEN-LAST:event_panelSelectionChanged
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
     	IpssLogger.getLogger().info("Reset ...");
@@ -1269,27 +1294,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	mismatchLabel.setText(_simuCtx.getAclfNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed
 
-    private void customRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_customRadioButtonActionPerformed
-
-    private void n1ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n1ContingencyRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_n1ContingencyRadioButtonActionPerformed
-
-    private void n11ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n11ContingencyRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_n11ContingencyRadioButtonActionPerformed
-
-    private void n2ContingencyRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_n2ContingencyRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_n2ContingencyRadioButtonActionPerformed
-
-    private void continCaseCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continCaseCheckBoxActionPerformed
-    	continCaseTextField.setEnabled(true);
-    }//GEN-LAST:event_continCaseCheckBoxActionPerformed
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContingencyDataPanel;
     private javax.swing.JLabel accFactorLabel;
@@ -1373,6 +1377,13 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private javax.swing.JTextField xfrTapControlTextField;
     private javax.swing.JLabel xfrTapControlXLabel;
     // End of variables declaration//GEN-END:variables
+    
+	private void initInputVerifier(DataVerifier v) {
+        this.accFactorTextField.setInputVerifier(v);
+        this.errKVATextField.setInputVerifier(v);
+        this.errPUTextField.setInputVerifier(v);
+        this.maxItrTextField.setInputVerifier(v);
+	}    
     
 	class DataVerifier extends javax.swing.InputVerifier {
 		public boolean verify(javax.swing.JComponent input) {

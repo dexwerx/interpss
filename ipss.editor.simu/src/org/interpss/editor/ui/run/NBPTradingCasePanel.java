@@ -34,7 +34,7 @@ import javax.swing.JFileChooser;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.scenario.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.BaseBranchXmlType;
