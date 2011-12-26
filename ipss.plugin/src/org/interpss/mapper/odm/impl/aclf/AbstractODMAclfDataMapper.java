@@ -33,9 +33,9 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.InterfaceBranchXmlType;
-import org.ieee.odm.schema.InterfaceEnumType;
-import org.ieee.odm.schema.InterfaceRecXmlType;
+import org.ieee.odm.schema.FlowInterfaceBranchXmlType;
+import org.ieee.odm.schema.FlowInterfaceEnumType;
+import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -134,11 +134,11 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 * @param net
 	 * @param intList
 	 */
-	public void mapInterfaceData(AclfNetwork net, List<InterfaceRecXmlType> intList) {
-		for (InterfaceRecXmlType xmlIntf : intList ) {
+	public void mapInterfaceData(AclfNetwork net, List<FlowInterfaceRecXmlType> intList) {
+		for (FlowInterfaceRecXmlType xmlIntf : intList ) {
 			FlowInterface intf = CoreObjectFactory.createInterface(net, xmlIntf.getId());
 
-			for ( InterfaceBranchXmlType xmlBra : xmlIntf.getBranchList()) {
+			for ( FlowInterfaceBranchXmlType xmlBra : xmlIntf.getBranchList()) {
 				FlowInterfaceBranch branch = CoreObjectFactory.createInterfaceBranch(intf);
 				AclfBranch b = net.getAclfBranch(xmlBra.getFromBusId(), xmlBra.getToBusId(), xmlBra.getCircuitId());
 				if (b == null) {
@@ -170,10 +170,10 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 		}
 	}
 
-	private void map(InterfaceRecXmlType xmlIntf, FlowInterfaceLimit peak, double baseKav) {
+	private void map(FlowInterfaceRecXmlType xmlIntf, FlowInterfaceLimit peak, double baseKav) {
 		peak.setStatus(xmlIntf.getOnPeakLimit().isStatus());
-		peak.setType(xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.BG? FlowInterfaceType.BG : 
-				xmlIntf.getOnPeakLimit().getType()==InterfaceEnumType.NG? FlowInterfaceType.NG : FlowInterfaceType.TOR);
+		peak.setType(xmlIntf.getOnPeakLimit().getType()==FlowInterfaceEnumType.BG? FlowInterfaceType.BG : 
+				xmlIntf.getOnPeakLimit().getType()==FlowInterfaceEnumType.NG? FlowInterfaceType.NG : FlowInterfaceType.TOR);
 		peak.setRefDirExportLimit(UnitHelper.pConversion(
 				xmlIntf.getOnPeakLimit().getRefDirExportLimit().getValue(), baseKav, 
 				ODMUnitHelper.toActivePowerUnit(xmlIntf.getOnPeakLimit().getRefDirExportLimit().getUnit()), UnitType.PU));
