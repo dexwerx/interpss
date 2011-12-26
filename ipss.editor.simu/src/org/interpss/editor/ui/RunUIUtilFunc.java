@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringFactory;
@@ -209,11 +209,11 @@ public class RunUIUtilFunc  {
 		return ary;
 	}
 	
-	public static void setBranchIdInfo(BaseBranchXmlType branch, String braId) {
+	public static void setBranchIdInfo(BranchRefXmlType branch, String braId) {
 		String fromId = NetUtilFunc.findFromID(braId);
 		String toId = NetUtilFunc.findToID(braId);
 		String cirId = NetUtilFunc.findCirNo(braId);
-		branch.setId(braId);
+		branch.setBranchId(braId);
 		branch.setFromBusId(fromId);
 		branch.setToBusId(toId);
 		branch.setCircuitId(cirId);

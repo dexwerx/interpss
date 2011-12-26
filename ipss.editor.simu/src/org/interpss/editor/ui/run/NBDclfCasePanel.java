@@ -31,11 +31,10 @@ import javax.swing.JDialog;
 
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
-import org.ieee.odm.schema.InterfaceRecXmlType;
-import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
@@ -199,11 +198,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			String[] ary = new String[gsf.getBranchSFactor().size()+gsf.getInterfaceSFactor().size()];
 			int cnt = 0;
 			for ( BranchSFactor sf : gsf.getBranchSFactor()) {
-				BaseBranchXmlType branch = sf.getBranch();
+				BranchRefXmlType branch = sf.getBranch();
 				ary[cnt++] = "b:" + NetUtilFunc.formBranchId(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
 			}
 			for ( InterfaceSFactor inf : gsf.getInterfaceSFactor()) {
-				InterfaceRecXmlType in = inf.getInterface();
+				FlowInterfaceRecXmlType in = inf.getInterface();
 				ary[cnt++] = "i:" + in.getId();
 			}
 	    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
@@ -223,7 +222,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			if (lodf.getOutageBranch().size() <= 1) { 
 				this.lodfSingleTypeRadioButton.setSelected(true);
 				if (lodf.getOutageBranch().size() == 1) { 
-					String braId = lodf.getOutageBranch().get(0).getId();
+					String braId = lodf.getOutageBranch().get(0).getBranchId();
 					this.lodfBranchListComboBox.setSelectedItem(braId);
 				}
 			}
@@ -235,7 +234,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 		if (lodf.getMonitorBranch() != null) {
 			for (MonitorBranch monitor : lodf.getMonitorBranch()) {
-		    	String id = monitor.getBranch().getId();
+		    	String id = monitor.getBranch().getBranchId();
 		    	RunUIUtilFunc.addItemJList(lodfMonitorBranchInterfaceList, "b:"+id);				
 			}
 		}
@@ -394,14 +393,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         		if (id.startsWith("b:")) { // branch
         			String braId = id.substring(2);
     	    		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-    				LineBranchXmlType line = helper.createLineBranchXmlType();
+    	    		BranchRefXmlType line = helper.createBranchRefXmlType();
     				sf.setBranch(line);
     				RunUIUtilFunc.setBranchIdInfo(line, braId);				
         		}
         		else {  // interface
         			String braId = id.substring(2);
     	    		InterfaceSFactor sf = helper.createInterfaceSFactor(gsf.getInterfaceSFactor());
-    	    		InterfaceRecXmlType inf = helper.createInterface();
+    	    		FlowInterfaceRecXmlType inf = helper.createInterface();
     				sf.setInterface(inf);
     				inf.setId(braId);
         		}
@@ -422,14 +421,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		else {  // single outage branch
 	    	String braId = (String)this.lodfBranchListComboBox.getSelectedItem();
-			BaseBranchXmlType outage = helper.creatBaseBranch(lodf.getOutageBranch());
+	    	BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 		}
 
 		for (String id : RunUIUtilFunc.getJListItemAry(this.lodfMonitorBranchInterfaceList)) {
     		if (id.startsWith("b:")) { // branch
     			String braId = id.substring(2);
-    			BaseBranchXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
+    			BranchRefXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
     			RunUIUtilFunc.setBranchIdInfo(monitor, braId);
     		}
 		}

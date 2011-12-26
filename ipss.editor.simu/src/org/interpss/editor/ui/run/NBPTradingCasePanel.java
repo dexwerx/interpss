@@ -37,7 +37,7 @@ import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
-import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.LfResultFormatEnumType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
@@ -245,8 +245,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		}
 		
 		if (braAnalysis.getBranch() != null && braAnalysis.getBranch().size() > 0) {
-			BaseBranchXmlType branch = braAnalysis.getBranch().get(0);
-			this.braAnalysisBranchListComboBox.setSelectedItem(branch.getId());
+			BranchRefXmlType branch = braAnalysis.getBranch().get(0);
+			this.braAnalysisBranchListComboBox.setSelectedItem(branch.getBranchId());
 		}
 		
 		// Gen analysis Analysis
@@ -382,7 +382,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 				this.branchFlowRadioButton.isSelected()) {
 			braAnalysis.getBranch().clear();
 			String braId = (String)this.braAnalysisBranchListComboBox.getSelectedItem();
-			BaseBranchXmlType outage = helper.creatBaseBranch(braAnalysis.getBranch());
+			BranchRefXmlType outage = helper.creatBranchRef(braAnalysis.getBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 			if (this.branchFlowRadioButton.isSelected()) {
 			    braAnalysis.setBranchFlowOutPoints(
@@ -1558,13 +1558,13 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 		if (this.branchFlowRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)
 				.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
-			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getId();
+			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
 			outText = PTradingOutput.gsfBranchFlow(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.outageSingleRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)
 				.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
-			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getId();
+			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
 			outText = "Outage Branch:" + braId+ "\n\n" + rtn.toString();
 		}
 		else {
