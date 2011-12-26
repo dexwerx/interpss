@@ -34,7 +34,7 @@ import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchFaultXmlType;
 import org.ieee.odm.schema.BusFaultXmlType;
-import org.ieee.odm.schema.BusRefRecordXmlType;
+import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.DcLineFaultEnumType;
 import org.ieee.odm.schema.DcLineFaultXmlType;
@@ -56,9 +56,9 @@ public class BPADynamicFaultOperationRecord {
     	
         if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){    		
     		final String bus1Id = BPABusRecord.getBusId(strAry[2]);
-    		BusRefRecordXmlType bus1=parser.createBusRef(bus1Id);
+    		BusIDRefXmlType bus1=parser.createBusRef(bus1Id);
     		final String bus2Id = BPABusRecord.getBusId(strAry[5]);
-    		BusRefRecordXmlType bus2=parser.createBusRef(bus2Id);
+    		BusIDRefXmlType bus2=parser.createBusRef(bus2Id);
     		
     		boolean breaker1Opened=true;    		
     		if(strAry[1].equals("")){
@@ -184,7 +184,7 @@ public class BPADynamicFaultOperationRecord {
     		// load change
     		if(strAry[12].equals("")){
     			String busId = BPABusRecord.getBusId(strAry[1]);
-        		BusRefRecordXmlType bus=parser.createBusRef(busId);
+        		BusIDRefXmlType bus=parser.createBusRef(busId);
     			LoadChangeDynamicEventXmlType loadChange=parser.getFactory().createLoadChangeDynamicEventXmlType();
      		    loadChange.setBus(bus);
      		    
@@ -212,7 +212,7 @@ public class BPADynamicFaultOperationRecord {
     		//power change
     		else{
     			String busId = BPABusRecord.getBusId(strAry[1]);
-        		BusRefRecordXmlType bus=parser.createBusRef(busId);
+        		BusIDRefXmlType bus=parser.createBusRef(busId);
     			GenChangeDynamicEventXmlType genChange= parser.getFactory().createGenChangeDynamicEventXmlType();
      		    genChange.setBus(bus);
      		    
@@ -242,9 +242,9 @@ public class BPADynamicFaultOperationRecord {
       		    dcFault.setPermanentFault(true);
       		  
       		    String bus1Id = BPABusRecord.getBusId(strAry[1]);
-    		    BusRefRecordXmlType bus1=parser.createBusRef(bus1Id);
+    		    BusIDRefXmlType bus1=parser.createBusRef(bus1Id);
     		    String bus2Id = BPABusRecord.getBusId(strAry[3]);
-    		    BusRefRecordXmlType bus2=parser.createBusRef(bus2Id);
+    		    BusIDRefXmlType bus2=parser.createBusRef(bus2Id);
  		        dcFault.setFromACBus(bus1);
  		        dcFault.setToACBus(bus2);
  		      
@@ -288,9 +288,9 @@ public class BPADynamicFaultOperationRecord {
       	    }else{
       	    	// DC line currently is not considered. We will deal with it late
       	    	String bus1Id = BPABusRecord.getBusId(strAry[1]);
-      	    	BusRefRecordXmlType bus1=parser.createBusRef(bus1Id);
+      	    	BusIDRefXmlType bus1=parser.createBusRef(bus1Id);
       	    	String bus2Id = BPABusRecord.getBusId(strAry[3]);
-      	    	BusRefRecordXmlType bus2=parser.createBusRef(bus2Id);
+      	    	BusIDRefXmlType bus2=parser.createBusRef(bus2Id);
       		  
       	    	//TODO I can't find the method to get the existed dcFault ,as the previous method:
       	    	//"DcLineFaultXmlType dcFault=XBeanParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);"

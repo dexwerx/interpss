@@ -43,7 +43,6 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
-import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -114,7 +113,6 @@ public class DStabModelParser extends AclfModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		busRec.setNvPairList(this.getFactory().createNameValuePairListXmlType());
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return busRec;
 	}
@@ -163,7 +161,6 @@ public class DStabModelParser extends AclfModelParser {
 		LineDStabXmlType branch = this.getFactory().createLineDStabXmlType();
 		branch.setRatingLimit(this.getFactory().createBranchRatingLimitXmlType());
 		branch.setLineInfo(this.getFactory().createLineBranchInfoXmlType());
-		branch.setNvPairList(this.getFactory().createNameValuePairListXmlType());
 		intiBranchData(branch);
 		return branch;
 	}

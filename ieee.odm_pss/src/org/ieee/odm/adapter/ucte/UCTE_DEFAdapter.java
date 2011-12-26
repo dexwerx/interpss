@@ -52,7 +52,6 @@ import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -315,24 +314,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
-		aclfBus.setNvPairList(nvList);
 		if (status != 0)
-			BaseJaxbHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			BaseJaxbHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			BaseJaxbHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			BaseJaxbHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			BaseJaxbHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			BaseJaxbHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			BaseJaxbHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			BaseJaxbHelper.addNVPair(aclfBus, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			BaseJaxbHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			BaseJaxbHelper.addNVPair(aclfBus, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -505,18 +502,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       		return;
       	}
 
-		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
-		xfrBranch.setNvPairList(nvList);
-
       	if (dUPhase > 0.0) {
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = xfrBranch.getToTurnRatio().getValue();
 
@@ -552,15 +546,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		}
 		else if (dUAngle > 0.0) {
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				BaseJaxbHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				BaseJaxbHelper.addNVPair(xfrBranch, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = xfrBranch.getToTurnRatio().getValue();
 

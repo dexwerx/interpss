@@ -35,7 +35,6 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 
 /**
  * BPA adapter is design to handle Loadflow data file and Loadflow+TransienStability data files
@@ -56,8 +55,8 @@ public class BPALoadflowRecord {
 		// we set default base MVA here, since MVA line is optional
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(100.0));
     	
-		NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
-		baseCaseNet.setNvPairList(nvList);
+		//NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType();
+		//baseCaseNet.setNvPairList(nvList);
 		
 		int areaId=1;// used to arrange a number to each area 
 
@@ -80,7 +79,7 @@ public class BPALoadflowRecord {
 					else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
 							||str.startsWith(">")){
 						ODMLogger.getLogger().fine("load header data");
-						BPANetRecord.processNetData(str,nvList,baseCaseNet);
+						BPANetRecord.processNetData(str, baseCaseNet);
 					}
 					else if(str.startsWith("A")||str.trim().startsWith("I")){
 						areaList.add(str);

@@ -35,15 +35,12 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.ExchangeZoneXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 
 public class NetDataRec {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
-			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
-			baseCaseNet.setNvPairList(nvList);
-			BaseJaxbHelper.addNVPair(nvList, "Title", lineStr);
+			BaseJaxbHelper.addNVPair(baseCaseNet, "Title", lineStr);
 		}
 	}
 	
@@ -52,9 +49,7 @@ public class NetDataRec {
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
-			NameValuePairListXmlType nvList = parser.getFactory().createNameValuePairListXmlType(); 
-			baseCaseNet.setNvPairList(nvList);
-			BaseJaxbHelper.addNVPair(nvList, "Comments", lineStr);
+			BaseJaxbHelper.addNVPair(baseCaseNet, "Comments", lineStr);
 		}
 	}
 

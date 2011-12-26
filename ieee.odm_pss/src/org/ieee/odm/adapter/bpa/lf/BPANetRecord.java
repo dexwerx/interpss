@@ -27,8 +27,6 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -38,7 +36,6 @@ import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -55,17 +52,17 @@ public class BPANetRecord {
 		
 	}
 
-	public static void processNetData(final String str, final NameValuePairListXmlType nvList, final LoadflowNetXmlType baseCaseNet) {
+	public static void processNetData(final String str, final LoadflowNetXmlType baseCaseNet) {
 			// parse the input data line
 			final String[] strAry = getNetDataFields(str);			
 	        //read powerflow, caseID,projectName, 			
 			if (strAry[0]!= null ){
-				BaseJaxbHelper.addNVPair(nvList, strAry[0], strAry[1]);
+				BaseJaxbHelper.addNVPair(baseCaseNet, strAry[0], strAry[1]);
 				ODMLogger.getLogger().fine(strAry[0] +": " + strAry[1]);
 			}
 			
 			if (strAry[2]!= null ){
-				BaseJaxbHelper.addNVPair(nvList, strAry[2], strAry[4]);
+				BaseJaxbHelper.addNVPair(baseCaseNet, strAry[2], strAry[4]);
 				ODMLogger.getLogger().fine(strAry[2]+": " + strAry[4] );
 			}			
 			// more name-vale could be added in future 

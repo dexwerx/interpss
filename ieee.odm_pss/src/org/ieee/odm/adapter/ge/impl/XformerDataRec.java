@@ -220,9 +220,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 			ODMLogger.getLogger().severe("branch data error, " + e.toString());
 		}				
 		
-		if (branchRec.getNvPairList() == null)
-			branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-		BaseJaxbHelper.addNVPair(branchRec.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		BaseJaxbHelper.addNVPair(branchRec, GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
 		
 		TransformerInfoXmlType xfrInfo = branchRec.getXfrInfo();
 		xfrInfo.setRatedPower(BaseDataSetter.createPowerMvaValue(this.tbase));

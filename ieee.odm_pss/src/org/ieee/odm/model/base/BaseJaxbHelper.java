@@ -25,6 +25,7 @@
 package org.ieee.odm.model.base;
 
 import java.util.Comparator;
+import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
@@ -50,13 +51,13 @@ import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.MixedLoadDistBusXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
+import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
@@ -252,10 +253,10 @@ public class BaseJaxbHelper {
 	 * @param name name string
 	 * @param value value string
 	 */
-	public static void addNVPair(NameValuePairListXmlType nvList, String name, 
+	public static void addNVPair(BaseRecordXmlType rec, String name, 
 					String value) {
     	NameValuePairXmlType nvPair = getFactory().createNameValuePairXmlType();
-    	nvList.getNvPair().add(nvPair);
+    	rec.getNvPairList().add(nvPair);
     	nvPair.setName(name);
     	nvPair.setValue(value);
 	}
@@ -273,10 +274,8 @@ public class BaseJaxbHelper {
 	
 	public static void addOwner(BaseRecordXmlType rec, String id, 
 			double ownership) {
-		if(rec.getOwnerList() == null)
-			rec.setOwnerList(getFactory().createBaseRecordXmlTypeOwnerList());
-		BaseRecordXmlType.OwnerList.Owner owner = getFactory().createBaseRecordXmlTypeOwnerListOwner();
-		rec.getOwnerList().getOwner().add(owner);
+		OwnerXmlType owner = getFactory().createOwnerXmlType();
+		rec.getOwnerList().add(owner);
 		owner.setId(id);
 		owner.setOwnership(ownership);
 	}

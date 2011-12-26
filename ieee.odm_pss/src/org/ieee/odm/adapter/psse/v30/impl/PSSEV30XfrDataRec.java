@@ -380,9 +380,9 @@ public class PSSEV30XfrDataRec {
 						CR1 + j CX1 = 0.0 by default
       	 */
       	if (cr != 0.0 || cx != 0.0) {
-      		if (branchRec.getNvPairList() == null)
-      			branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
-      		BaseJaxbHelper.addNVPair(branchRec.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
+      		///if (branchRec.getNvPairList() == null)
+      		//	branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
+      		BaseJaxbHelper.addNVPair(branchRec, "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
       	}
 
       	/*

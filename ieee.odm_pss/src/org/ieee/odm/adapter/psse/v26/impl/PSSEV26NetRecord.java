@@ -33,7 +33,6 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PowerInterchangeXmlType;
 
@@ -52,15 +51,15 @@ public class PSSEV26NetRecord {
 		ODMLogger.getLogger().fine("BaseKva: "  + baseMva);
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));	    
 	    
-		NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
-		baseCaseNet.setNvPairList(nvList);
+		//NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
+		//baseCaseNet.setNvPairList(nvList);
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		BaseJaxbHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		BaseJaxbHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseId, caseId);				
 		ODMLogger.getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;

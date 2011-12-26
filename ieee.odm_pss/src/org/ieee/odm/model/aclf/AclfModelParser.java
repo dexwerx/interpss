@@ -99,7 +99,6 @@ public class AclfModelParser extends AbstractModelParser {
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
-		busRec.setNvPairList(this.getFactory().createNameValuePairListXmlType());
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return busRec;
 	}	
@@ -199,7 +198,6 @@ public class AclfModelParser extends AbstractModelParser {
 		LineBranchXmlType branch = this.getFactory().createLineBranchXmlType();
 		branch.setRatingLimit(this.getFactory().createBranchRatingLimitXmlType());
 		branch.setLineInfo(this.getFactory().createLineBranchInfoXmlType());
-		branch.setNvPairList(this.getFactory().createNameValuePairListXmlType());
 		intiBranchData(branch);
 		return branch;
 	}

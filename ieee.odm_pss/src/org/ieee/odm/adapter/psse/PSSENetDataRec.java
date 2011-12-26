@@ -7,13 +7,12 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.XformerZTableXmlType;
 
 public class PSSENetDataRec {
@@ -28,10 +27,10 @@ public class PSSENetDataRec {
 				double baseMva = new Double(st.nextToken().trim()).doubleValue();
 				baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
 				
-				NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
-				baseCaseNet.setNvPairList(nvList);
+				//NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
+				//baseCaseNet.setNvPairList(nvList);
 				
-				BaseJaxbHelper.addNVPair(nvList, "CaseIndicator", 
+				BaseJaxbHelper.addNVPair(baseCaseNet, "CaseIndicator", 
 						new Integer(indicator).toString());
 			}
 			else if (lineNo == 2) {
@@ -149,10 +148,10 @@ public class PSSENetDataRec {
 		/*
 		 * format : I, ’OWNAME’
 		 */
-		if (baseCaseNet.getOwnerList() == null)
-			baseCaseNet.setOwnerList(factory.createBaseRecordXmlTypeOwnerList());
-		BaseRecordXmlType.OwnerList.Owner owner = factory.createBaseRecordXmlTypeOwnerListOwner();
-		baseCaseNet.getOwnerList().getOwner().add(owner);
+		//if (baseCaseNet.getOwnerList() == null)
+		//	baseCaseNet.setOwnerList(factory.createBaseRecordXmlTypeOwnerList());
+		OwnerXmlType owner = factory.createOwnerXmlType();
+		baseCaseNet.getOwnerList().add(owner);
 		owner.setId(new Integer(i).toString());
 		owner.setNumber(i);
 		owner.setName(name);			

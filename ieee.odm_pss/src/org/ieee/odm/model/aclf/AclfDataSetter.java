@@ -28,7 +28,6 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
-import org.ieee.odm.schema.BaseRecordXmlType;
 import org.ieee.odm.schema.BranchRatingLimitXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
@@ -49,7 +48,6 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
-import org.ieee.odm.schema.BaseRecordXmlType.OwnerList.Owner;
 
 
 public class AclfDataSetter extends BaseDataSetter {

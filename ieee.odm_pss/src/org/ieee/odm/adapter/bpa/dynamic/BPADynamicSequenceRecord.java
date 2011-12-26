@@ -31,7 +31,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.BusRefRecordXmlType;
+import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;

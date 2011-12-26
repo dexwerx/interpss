@@ -50,7 +50,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
-import org.ieee.odm.schema.BusRefRecordXmlType;
+import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
@@ -334,9 +334,9 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param id
 	 * @return
 	 */
-	public BusRefRecordXmlType createBusRef(String id) {
+	public BusIDRefXmlType createBusRef(String id) {
 		BusXmlType rec = this.getBus(id);
-		BusRefRecordXmlType refBus = getFactory().createBusRefRecordXmlType();
+		BusIDRefXmlType refBus = getFactory().createBusIDRefXmlType();
 		refBus.setIdRef(rec);
 		return refBus;
 	}

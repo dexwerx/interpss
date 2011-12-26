@@ -52,7 +52,6 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NameValuePairListXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -169,33 +168,33 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		// parse the input data line
 		final String[] strAry = getNetDataFields(str);
 
-		NameValuePairListXmlType nvList = this.factory.createNameValuePairListXmlType();
-		baseCaseNet.setNvPairList(nvList);
+		//NameValuePairListXmlType nvList = this.factory.createNameValuePairListXmlType();
+		//baseCaseNet.setNvPairList(nvList);
 
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
 		if (date != null) 
-			BaseJaxbHelper.addNVPair(nvList, Token_Date, date);
+			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
 		if (orgName != null)
-			BaseJaxbHelper.addNVPair(nvList, Token_OrgName, orgName);
+			BaseJaxbHelper.addNVPair(baseCaseNet, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
 		if (year != null)
-			BaseJaxbHelper.addNVPair(nvList, Token_Year, year);
+			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
 		if (season != null)
-			BaseJaxbHelper.addNVPair(nvList, Token_Season, season);
+			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
 		if (caseId != null)
-			BaseJaxbHelper.addNVPair(nvList, Token_CaseId, caseId);
+			BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseId, caseId);
 
 		ODMLogger.getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
