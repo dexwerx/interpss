@@ -12,7 +12,6 @@
 	<include schemaLocation="distribution/DistRecordType.xsd"></include>
 	<include schemaLocation="dcsystem/DcSystemRecordType.xsd"></include>
 	
-	<include schemaLocation="Modification.xsd"></include>
 	<include schemaLocation="StudyScenario.xsd"></include>
 
 	<annotation>

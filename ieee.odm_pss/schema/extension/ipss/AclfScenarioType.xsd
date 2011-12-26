@@ -15,6 +15,12 @@
 <!-- 
 	Aclf Study Scenario
  -->
+	<ns:complexType name="AclfAnalysisXmlType">
+		<ns:sequence>
+			<element name="aclf" minOccurs="0" maxOccurs="1" type="ipss:AclfAlgorithmXmlType"></element>
+		</ns:sequence>
+	</ns:complexType>
+	 
 	<ns:complexType name="AclfAlgorithmXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
@@ -22,6 +28,82 @@
 					<ns:element name="lfMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"/>
 					<ns:element name="tolerance" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"/>					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="displaySummary" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="customLfMethod" type="ipss:CustomLfMethodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="CustomLfMethodXmlType">
+		<ns:sequence>
+			<ns:element name="firstMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>
+			<ns:element name="secondMethod" minOccurs="1" maxOccurs="1" type="pss:LfMethodEnumType"/>
+			<ns:element name="switchCriteria" minOccurs="1" maxOccurs="1" type="ipss:CustomAclfMethodSwitchCriteriaDataType"/>
+			<ns:element name="switchIteration" type="ns:int" minOccurs="0" maxOccurs="1">	</ns:element>
+			<ns:element name="switchTolerance" type="pss:ApparentPowerXmlType" minOccurs="0" maxOccurs="1"> </ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
+    <ns:simpleType name="CustomAclfMethodSwitchCriteriaDataType">
+    	<ns:restriction base="ns:string">
+			<ns:enumeration value="Iteration"></ns:enumeration>
+			<ns:enumeration value="Mismatch"></ns:enumeration>
+			<ns:enumeration value="IterationOrMismatch"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>	
+    
+	<ns:complexType name="ContingencyAnalysisXmlType">
+		<ns:sequence>
+            <ns:element name="type" type="ipss:ContingencyAnalysisEnumType" minOccurs="1" maxOccurs="1"/>
+            <ns:element name="option" minOccurs="0" type="ipss:ContingencyAnalysisOptionXmlType"/>
+            <ns:element name="limitRunCases" minOccurs="0" type="ns:boolean"/>
+            <ns:element name="maxRunCases" minOccurs="0" type="ns:int"/>
+            <ns:element name="defaultAclfAlgorithm" type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1"/>
+			<ns:element name="aclfStudyCaseList" minOccurs="1"	maxOccurs="1" type="ipss:AclfMultiStudyCaseXmlType">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
+    <ns:simpleType name="ContingencyAnalysisEnumType">
+    	<ns:restriction base="ns:string">
+			<ns:enumeration value="N-1"></ns:enumeration>
+			<ns:enumeration value="N-1-1"></ns:enumeration>
+			<ns:enumeration value="N-2"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+	<ns:complexType name="ContingencyAnalysisOptionXmlType">
+		<ns:sequence>
+			<ns:element name="busVLimitPU" type="pss:LimitXmlType" minOccurs="0">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+    <ns:complexType name="AclfMultiStudyCaseXmlType">
+		<ns:sequence>
+			<ns:element name="aclfStudyCase" minOccurs="1" maxOccurs="unbounded" type="ipss:AclfStudyCaseXmlType">
+			</ns:element>
+		</ns:sequence>
+    </ns:complexType>
+
+	<ns:complexType name="BaseStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType">
+				<ns:sequence>
+<!-- 
+		<ns:element name="modification" type="pss:ModificationXmlType" minOccurs="0"></ns:element>
+ -->			
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	
+	<ns:complexType name="AclfStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BaseStudyCaseXmlType">
+				<ns:sequence>
+					<ns:element name="aclfAlgorithm" type="ipss:AclfAlgorithmXmlType" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>

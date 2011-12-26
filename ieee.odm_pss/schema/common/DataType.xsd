@@ -606,6 +606,7 @@
 			<enumeration value="NR"></enumeration>
 			<enumeration value="PQ"></enumeration>
 			<enumeration value="GS"></enumeration>
+			<enumeration value="Custom"></enumeration>
 		</restriction>
 	</simpleType>
 	

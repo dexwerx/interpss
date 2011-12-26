@@ -11,6 +11,7 @@
 	<include schemaLocation="DclfSenScenarioType.xsd"/>
 	<include schemaLocation="DStabScenarioType.xsd"/>
 	<include schemaLocation="PTradingAnalysisType.xsd"/>
+	<include schemaLocation="ScenarioModification.xsd"/>
 
 	<import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/StudyScenarioType.xsd"/>
 
@@ -71,7 +72,7 @@
 		that only one analysis type : aclf, acsc or dstab could be selected. 
 		</documentation></annotation>	
 		<choice>
-			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAlgorithmXmlType"></element>
+			<element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></element>
 			<element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></element>
 			<element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></element>
 			<element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></element>
@@ -90,27 +91,28 @@
 			</ns:element>
 			<ns:element name="remoteNodeDebug" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
             <ns:element name="remoteNodeName" type="ns:string" minOccurs="0"></ns:element>
-            <ns:element name="aclfOption" minOccurs="0">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="returnStudyCase" minOccurs="1">
-							<ns:annotation><ns:documentation>
-							If true, only return the Aclf network object from the remote grid node to the 
-							master node when LF diverger, or there is limit violation.
-							</ns:documentation></ns:annotation>
-							<ns:simpleType>
-								<ns:restriction base="ns:string">
-									<ns:enumeration value="AllStudyCase"></ns:enumeration>
-									<ns:enumeration value="DivergedCase"></ns:enumeration>
-									<ns:enumeration value="NoReturn"></ns:enumeration>
-								</ns:restriction>
-							</ns:simpleType>
-						</ns:element>
-						<ns:element name="calculateViolation" type="ns:boolean" minOccurs="0"></ns:element>
-						<ns:element name="busVoltagePULimit" type="pss:LimitXmlType" minOccurs="0"></ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
+            <ns:element name="aclfOption" minOccurs="0" type="ipss:GridAclfOptionXmlType"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
+	
+	<ns:complexType name="GridAclfOptionXmlType">
+		<ns:sequence>
+			<ns:element name="returnStudyCase" minOccurs="1" type="ipss:GridReturnStudyCaseEnumType">
+				<ns:annotation><ns:documentation>
+							If true, only return the Aclf network object from the remote grid node to the 
+							master node when LF diverger, or there is limit violation.
+				</ns:documentation></ns:annotation>
+						</ns:element>
+				<ns:element name="calculateViolation" type="ns:boolean" minOccurs="0"></ns:element>
+				<ns:element name="busVoltagePULimit" type="pss:LimitXmlType" minOccurs="0"></ns:element>
+		</ns:sequence>
+	</ns:complexType>	
+	
+	<ns:simpleType name="GridReturnStudyCaseEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="AllStudyCase"></ns:enumeration>
+			<ns:enumeration value="DivergedCase"></ns:enumeration>
+			<ns:enumeration value="NoReturn"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>	
 </schema>
