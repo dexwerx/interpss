@@ -154,7 +154,7 @@
     					<ns:complexType>
     						<ns:sequence>
     							<ns:element name="shiftFactor" type="ns:double" minOccurs="0"></ns:element>
-    							<ns:element name="interface" type="pss:InterfaceRecXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+    							<ns:element name="interface" type="pss:FlowInterfaceRecXmlType" minOccurs="0" maxOccurs="1"></ns:element>
     						</ns:sequence>
     					</ns:complexType></ns:element>
     			</ns:sequence>

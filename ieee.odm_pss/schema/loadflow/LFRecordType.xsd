@@ -97,7 +97,7 @@
 					<ns:element name="interfaceList" minOccurs="0">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="interface" minOccurs="0" maxOccurs="unbounded" type="pss:InterfaceRecXmlType"></ns:element>
+								<ns:element name="interface" minOccurs="0" maxOccurs="unbounded" type="pss:FlowInterfaceRecXmlType"></ns:element>
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
