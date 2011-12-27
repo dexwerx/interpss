@@ -39,6 +39,8 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.net.Bus;
 import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.odm.DclfDslODMRunner;
+import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssUtil;
 import com.interpss.pssl.simu.IpssAclf;
@@ -78,7 +80,9 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
 		
 		dclfCase.setCaculatelDclf(true);
-		algoDsl.runDclfXmlCase(dclfCase);
+		
+		new DclfDslODMRunner(algoDsl)
+				.runDclfCase(dclfCase, DclfAnalysisType.All);
 
 		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
 				.toString());		

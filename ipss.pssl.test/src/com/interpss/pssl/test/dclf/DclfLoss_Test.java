@@ -44,6 +44,8 @@ import com.interpss.core.algo.path.LossAllocationAlgorithm;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.dclf.BusSenAnalysisType;
 import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.odm.DclfDslODMRunner;
+import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssPTrading;
@@ -138,7 +140,9 @@ public class DclfLoss_Test extends BaseTestSetup {
 		bus.setBusId("Bus14");
 		bus.setPercent(50.0);		
 		
-		algoDsl.runDclfXmlCase(dclfCase);
+		new DclfDslODMRunner(algoDsl)
+				.runDclfCase(dclfCase, DclfAnalysisType.All);
+		
 		
 		System.out.println(parser.toXmlDoc(false));
 	}

@@ -35,9 +35,9 @@ import org.junit.Test;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.odm.AclfDslODMRunner;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.odm.AclfDslODMRunner;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Aclf_Test extends BaseTestSetup {

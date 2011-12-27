@@ -42,6 +42,8 @@ import org.junit.Test;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.BusSenAnalysisType;
 import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.odm.DclfDslODMRunner;
+import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
@@ -234,7 +236,9 @@ public class DclfGSF_Test extends BaseTestSetup {
 		line.setFromBusId("Bus12");
 		line.setToBusId("Bus13");
 		
-		algoDsl.runDclfXmlCase(dclfCase);
+		new DclfDslODMRunner(algoDsl)
+			.runDclfCase(dclfCase, DclfAnalysisType.All);
+
 		
 		System.out.println(parser.toXmlDoc(false));
 	}
