@@ -14,8 +14,10 @@
 	
 	<!-- 
 		elements for defining study scenario for run analysis of the base case data
-		   Study scenario definition is software implementation specific. ODM study scenario is designed 
-		   such it can accommodate other study scenario schema by extension   
+		   (1) Study scenario definition is software implementation specific. ODM study scenario is designed 
+		   such it can accommodate other study scenario schema by extension
+		   (2)  
+		                StudyScenario (1) - (*) StudyCase   
 	 -->
 
 	<ns:complexType name="StudyScenarioXmlType" abstract="true">
@@ -26,6 +28,12 @@
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
 					<ns:element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></ns:element>
+					<ns:element name="modifcation" type="pss:ModifyRecordXmlType"	minOccurs="0" maxOccurs="1">
+						<ns:annotation><ns:documentation>
+						Define modification at the StudyScenario level, The modification applies 
+						to all scenarios (StudyCases)
+						</ns:documentation></ns:annotation>
+					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -43,7 +51,7 @@
 		</ns:complexContent>
 	</ns:complexType>
 	
-	<ns:complexType name="BaseScenarioXmlType">
+	<ns:complexType name="BaseStudyCaseXmlType">
 		<ns:annotation><ns:documentation>
 		for define a study scenario. 
 		</ns:documentation></ns:annotation>
@@ -52,7 +60,7 @@
 				<ns:sequence>
 					<ns:element name="modifcation" type="pss:ModifyRecordXmlType"	minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
-						In addition to the modification defined at the StudyCase level,
+						In addition to the modification defined at the StudyScenario level,
 						modification can be also defined at each scenario level, used for example 
 						to create N-1 contingency scenario
 						</ns:documentation></ns:annotation>
@@ -72,6 +80,18 @@
 					<ns:element name="initBusVoltage" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="nonDivergent" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	
+	<ns:complexType name="AclfStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseStudyCaseXmlType">
+				<ns:sequence>
+					<ns:element name="aclfAlgorithm"
+						type="pss:AclfAlgorithmXmlType" minOccurs="0">
+					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
