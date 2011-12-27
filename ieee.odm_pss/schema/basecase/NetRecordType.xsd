@@ -229,13 +229,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:NameTagXmlType">
 				<ns:sequence>
-					<ns:element name="zoneList" maxOccurs="1" minOccurs="0">
-						<ns:complexType>
-							<ns:sequence>
-								<ns:element name="zone" type="pss:NetZoneXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
-							</ns:sequence>
-						</ns:complexType>
-					</ns:element>
+					<ns:element name="zone" type="pss:NetZoneXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
 				</ns:sequence>
 				<ns:attribute name="id" type="ns:string" use="optional"></ns:attribute>
 				<ns:attribute name="number" type="ns:int" use="optional"></ns:attribute>
