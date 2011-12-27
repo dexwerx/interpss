@@ -68,15 +68,10 @@
 		<ns:complexContent>
 			<ns:extension base="pss:ShortCircuitBusXmlType">
 				<ns:sequence>
-					<ns:element name="dynamicGenList" minOccurs="0" maxOccurs="1">
+					<ns:element name="dynamicGen" type="pss:DynamicGeneratorXmlType" minOccurs="0" maxOccurs="unbounded">
 						<ns:annotation><ns:documentation>
-						0-* machines could be defined at a DStab Bus.
+						0-* dynamic generators could be defined at a DStab Bus.
 						</ns:documentation></ns:annotation>
-						<ns:complexType>
-							<ns:sequence>
-								<ns:element name="dynamicGen" type="pss:DynamicGeneratorXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-							</ns:sequence>
-						</ns:complexType>
 					</ns:element>
 					<ns:element name="dynamicLoad" type="pss:DynamicLoadXmlType" minOccurs="0"></ns:element>
 				</ns:sequence>
@@ -86,10 +81,8 @@
 
 	<ns:complexType name="DynamicLoadXmlType">
 		<ns:sequence>
-			<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType">
-			</ns:element>
-			<ns:element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType">
-			</ns:element>
+			<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType"></ns:element>
+			<ns:element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType"></ns:element>
 			<ns:element name="LoadModel" type="pss:DynamicLoadModelSelectionXmlType" maxOccurs="1" minOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
