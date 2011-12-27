@@ -13,7 +13,7 @@
 	<ns:include schemaLocation="PTradingAnalysisType.xsd" />
 	<ns:include schemaLocation="IpssModification.xsd" />
 
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/StudyScenarioType.xsd" />
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/ScenarioType.xsd" />
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>

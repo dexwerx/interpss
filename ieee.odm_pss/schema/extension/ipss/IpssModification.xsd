@@ -7,7 +7,7 @@
 	elementFormDefault="qualified">	
 	
 		
-    <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/ModificationType.xsd" />
+    <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/ScenarioType.xsd" />
     
 
     <ns:annotation>
@@ -43,7 +43,7 @@
 	
     <ns:complexType name="ScheduledBranchOutageXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:BaseBranchXmlType">
+			<ns:extension base="pss:BranchRefXmlType">
 				<ns:sequence>
 					<ns:element name="dueOutDate" type="ns:string" minOccurs="1"></ns:element>
 					<ns:element name="dueBackDate" type="ns:string" minOccurs="1"></ns:element>
@@ -55,6 +55,7 @@
                     <ns:element name="fromBusName" type="ns:string" minOccurs="0"></ns:element>
 					<ns:element name="fromBusVoltage" type="ns:double" minOccurs="0"></ns:element>					<ns:element name="toBusName" type="ns:string" minOccurs="0"></ns:element>
 					<ns:element name="toBusVoltage" type="ns:double" minOccurs="0"></ns:element>				</ns:sequence>
+				<ns:attribute name="offLine" type="ns:boolean" use="optional"></ns:attribute>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
@@ -110,7 +111,7 @@
 
     <ns:complexType name="DclfContingencyBranchXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:BaseBranchXmlType">
+			<ns:extension base="pss:BranchRefXmlType">
 				<ns:sequence>
 					<ns:element name="fromBusVoltage" type="ns:double" minOccurs="0"></ns:element>
 					<ns:element name="toBusVoltage" type="ns:double" minOccurs="0"></ns:element>

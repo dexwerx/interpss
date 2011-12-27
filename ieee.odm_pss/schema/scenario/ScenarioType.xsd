@@ -5,8 +5,7 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified">
 
-	<ns:include schemaLocation="DataType.xsd"></ns:include>
-	<ns:include schemaLocation="ModificationType.xsd"></ns:include>
+    <ns:include schemaLocation="../basecase/NetRecordType.xsd"></ns:include>
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
@@ -94,6 +93,21 @@
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
+<!-- 
+		Modification type
+		=================
+ -->
+	<ns:complexType name="ModifyRecordXmlType" abstract="true">
+		<ns:annotation><ns:documentation>
+			Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved 
+			using the record id. ModifyRecordXmlType is an abstract type. All modification record types are sub-type
+			of ModifyRecordXmlType.
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType"></ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 </ns:schema>

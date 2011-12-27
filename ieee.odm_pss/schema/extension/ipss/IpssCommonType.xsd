@@ -22,5 +22,12 @@
 			<ns:enumeration value="V26"></ns:enumeration>
 			<ns:enumeration value="V30"></ns:enumeration>
 		</ns:restriction>
-	</ns:simpleType>	
+	</ns:simpleType>
+	
+    <ns:simpleType name="LfResultFormatEnumType">
+		<ns:restriction base="ns:string">
+				<ns:enumeration value="Summary"></ns:enumeration>
+				<ns:enumeration value="BusStyle"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>		
 </ns:schema>

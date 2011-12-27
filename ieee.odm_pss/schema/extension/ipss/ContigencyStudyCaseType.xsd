@@ -6,7 +6,6 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../loadflow/LFRecordType.xsd" />
 	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
 
 	<ns:annotation>
@@ -16,11 +15,11 @@
 	<ns:complexType name="ContingencyAnalysisXmlType">
 		<ns:sequence>
             <ns:element name="type" type="ipss:ContingencyAnalysisEnumType" minOccurs="1" maxOccurs="1" />
-            <ns:element name="option" minOccurs="0" type="ipss:ContingencyAnalysisOptionXmlType" />
+            <ns:element name="option" minOccurs="0" type="ipss:ContingencyOptionXmlType" />
             <ns:element name="limitRunCases" minOccurs="0" type="ns:boolean" />
             <ns:element name="maxRunCases" minOccurs="0" type="ns:int" />
             <ns:element name="defaultAclfAlgorithm" type="pss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1" />
-			<ns:element name="aclfStudyCaseList" minOccurs="1" maxOccurs="1" type="ipss:AclfMultiStudyCaseXmlType">
+			<ns:element name="aclfStudyCase" minOccurs="1" maxOccurs="unbounded" type="pss:AclfStudyCaseXmlType">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
@@ -33,39 +32,10 @@
     	</ns:restriction>
     </ns:simpleType>
 
-	<ns:complexType name="ContingencyAnalysisOptionXmlType">
+	<ns:complexType name="ContingencyOptionXmlType">
 		<ns:sequence>
 			<ns:element name="busVLimitPU" type="pss:LimitXmlType" minOccurs="0">
 			</ns:element>
 		</ns:sequence>
-	</ns:complexType>
-
-    <ns:complexType name="AclfMultiStudyCaseXmlType">
-		<ns:sequence>
-			<ns:element name="aclfStudyCase" minOccurs="1" maxOccurs="unbounded" type="ipss:AclfStudyCaseXmlType">
-			</ns:element>
-		</ns:sequence>
-    </ns:complexType>
-
-	<ns:complexType name="BaseStudyCaseXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseRecordXmlType">
-				<ns:sequence>
-<!-- 
-		<ns:element name="modification" type="pss:ModificationXmlType" minOccurs="0"></ns:element>
- -->			
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-	
-	<ns:complexType name="AclfStudyCaseXmlType">
-		<ns:complexContent>
-			<ns:extension base="ipss:BaseStudyCaseXmlType">
-				<ns:sequence>
-					<ns:element name="aclfAlgorithm" type="pss:AclfAlgorithmXmlType" minOccurs="0"></ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
 	</ns:complexType>
 </ns:schema>

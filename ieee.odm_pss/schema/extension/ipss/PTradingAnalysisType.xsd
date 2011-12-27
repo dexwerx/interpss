@@ -6,7 +6,7 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-    <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/RecordType.xsd" />
+    <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../basecase/NetRecordType.xsd" />
 	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
 
 	<ns:include schemaLocation="IpssCommonType.xsd" />
@@ -146,7 +146,7 @@
 			<ns:element name="zoneSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="areaSummary" type="ns:boolean" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="lfResult" type="ns:boolean" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="lfResultFormat" maxOccurs="1" minOccurs="1" type="pss:LfResultFormatEnumType"></ns:element>
+			<ns:element name="lfResultFormat" maxOccurs="1" minOccurs="1" type="ipss:LfResultFormatEnumType"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 </ns:schema>

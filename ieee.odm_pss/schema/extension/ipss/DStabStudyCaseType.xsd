@@ -63,7 +63,7 @@
 
 	<ns:complexType name="StaticLoadModelXmlType">
 		<ns:sequence>
-			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:StaticLoadModelEnumType"></ns:element>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="pss:DStabStaticLoadModelEnumType"></ns:element>
 			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
