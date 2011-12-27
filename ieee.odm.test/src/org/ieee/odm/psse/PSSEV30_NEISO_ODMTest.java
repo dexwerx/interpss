@@ -115,7 +115,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(bus.getGenData().getEquivGen().getPower().getIm() == -65.628);
 		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.03842);
 		assertTrue(bus.getGenData().getEquivGen().getQLimit().getMax() == 441.0);
-		assertTrue(bus.getGenData().getContributeGenList().getContributeGen().size() == 1);
+		assertTrue(bus.getGenData().getContributeGen().size() == 1);
 		
 		/*
       <branch id="Bus19_to_Bus18_cirId_2" circuitId="2" offLine="true">
