@@ -33,6 +33,7 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
+import org.ieee.odm.schema.AreaTransferXmlType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -126,14 +127,12 @@ public class BPANetRecord {
             	if (baseCaseNet.getLossZoneList() == null)
         			baseCaseNet.setLossZoneList(parser.getFactory().createNetworkXmlTypeLossZoneList());
             	
-            	if (area.getZoneList()==null)
-            		area.setZoneList(parser.getFactory().createNetAreaXmlTypeZoneList());
             	StringTokenizer st = new StringTokenizer(strAry[6]);
             	String zoneName="";        	
             	while(st.hasMoreTokens()){            		
             		zoneName=st.nextToken().trim();          		
             		NetZoneXmlType zone= parser.createNetworkLossZone();
-            		area.getZoneList().getZone().add(zone);
+            		area.getZone().add(zone);
             		//TODO what is loss zone?
             		//baseCaseNet.getLossZoneList().getLossZone().add(zone);
             		
@@ -186,7 +185,7 @@ public class BPANetRecord {
 				InterchangeXmlType interchange = parser.getFactory().createInterchangeXmlType();
 				baseCaseNet.getInterchangeList().getInterchange().add(interchange);
 				
-				InterchangeXmlType.AreaTransfer transfer = parser.getFactory().createInterchangeXmlTypeAreaTransfer(); 
+				AreaTransferXmlType transfer = parser.getFactory().createAreaTransferXmlType(); 
 				interchange.setAreaTransfer(transfer);
 				
 				//get area data

@@ -25,6 +25,7 @@
 package org.ieee.odm.model.aclf;
 
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
@@ -37,8 +38,8 @@ import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowLoadXmlType;
 import org.ieee.odm.schema.MvaRatingXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
@@ -63,9 +64,9 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setLoadData(LoadflowBusXmlType bus, 
 			LFLoadCodeEnumType code, 
 			double p, double q, ApparentPowerUnitType unit) {
-		LoadflowBusXmlType.LoadData loadData = getFactory().createLoadflowBusXmlTypeLoadData();
+		AclfLoadDataXmlType loadData = getFactory().createAclfLoadDataXmlType();
 		bus.setLoadData(loadData);
-		LoadflowLoadDataXmlType equivLoad = getFactory().createLoadflowLoadDataXmlType();
+		LoadflowLoadXmlType equivLoad = getFactory().createLoadflowLoadXmlType();
 		loadData.setEquivLoad(equivLoad);
     	bus.getLoadData().getEquivLoad().setCode(code);
     	equivLoad.setConstPLoad(createPowerValue(p, q, unit));
@@ -85,7 +86,7 @@ public class AclfDataSetter extends BaseDataSetter {
 			double ang, AngleUnitType angUnit,
 			double p, double q, ApparentPowerUnitType pUnit) {
 		setGenData(bus, code, v, vUnit, ang, angUnit);
-   		LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen();
+   		LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
 		equivGen.setPower(createPowerValue(p, q, pUnit));
    		if (code == LFGenCodeEnumType.PV) {
    			equivGen.setDesiredVoltage(createVoltageValue(v, vUnit));
@@ -99,8 +100,8 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setGenData(LoadflowBusXmlType bus, LFGenCodeEnumType code, 
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit) {
-   		bus.setGenData(getFactory().createLoadflowBusXmlTypeGenData());
-   		LoadflowGenDataXmlType equivGen = getFactory().createLoadflowGenDataXmlType();
+   		bus.setGenData(getFactory().createAclfGenDataXmlType());
+   		LoadflowGenXmlType equivGen = getFactory().createLoadflowGenXmlType();
    		bus.getGenData().setEquivGen(equivGen);
    		equivGen.setCode(code);
 	}	

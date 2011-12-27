@@ -34,7 +34,7 @@ import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.LoadflowLoadXmlType;
 
 public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
@@ -92,7 +92,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-	    LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
 
 		contribLoad.setAreaNumber(this.ar);
 		contribLoad.setZoneNumber(this.z);

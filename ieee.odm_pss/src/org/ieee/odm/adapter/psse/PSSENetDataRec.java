@@ -7,6 +7,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.AreaTransferXmlType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -127,7 +128,7 @@ public class PSSENetDataRec {
 			baseCaseNet.setInterchangeList(factory.createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = factory.createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(interchange);
-		InterchangeXmlType.AreaTransfer transfer = factory.createInterchangeXmlTypeAreaTransfer(); 
+		AreaTransferXmlType transfer = factory.createAreaTransferXmlType(); 
 		interchange.setAreaTransfer(transfer);
 		
 		transfer.setFromArea(arfrom);

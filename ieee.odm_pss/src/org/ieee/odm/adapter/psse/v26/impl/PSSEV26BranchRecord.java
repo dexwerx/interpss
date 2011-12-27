@@ -41,6 +41,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.YXmlType;
@@ -205,7 +206,7 @@ public class PSSEV26BranchRecord {
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
-	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData(); 
+	    	VoltageAdjustmentDataXmlType vAdjData = parser.getFactory().createVoltageAdjustmentDataXmlType(); 
 	    	tapAdj.setVoltageAdjData(vAdjData);
 	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 	    	vAdjData.setMax(vup);

@@ -36,7 +36,7 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -89,7 +89,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	    	return;
 	    }
 	    
-	    LoadflowGenDataXmlType contriGen = AclfParserHelper.createContriGen(busRec);
+	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");

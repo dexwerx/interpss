@@ -59,6 +59,8 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.UCTEExchangeXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -533,7 +535,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
           		
-          		TapAdjustmentXmlType.VoltageAdjData vAdjData = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData();
+          		VoltageAdjustmentDataXmlType vAdjData = parser.getFactory().createVoltageAdjustmentDataXmlType();
           		tapAdj.setVoltageAdjData(vAdjData);
           		
           		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
@@ -640,7 +642,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		InterchangeXmlType interChange = factory.createInterchangeXmlType();
 		xmlBaseNet.getInterchangeList().getInterchange().add(interChange);
 		
-		InterchangeXmlType.UcteExchange ucteExRec = factory.createInterchangeXmlTypeUcteExchange(); 
+		UCTEExchangeXmlType ucteExRec = factory.createUCTEExchangeXmlType(); 
 		interChange.setUcteExchange(ucteExRec);
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);

@@ -69,7 +69,6 @@ import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
-import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.PssBPADualInputXmlType;
 import org.ieee.odm.schema.PssBpaSgTypeXmlType;
 import org.ieee.odm.schema.PssBpaSpTypeXmlType;
@@ -99,11 +98,9 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static DynamicGeneratorXmlType getDynamicGenRec(DStabBusXmlType bus) {
-		if (bus.getDynamicGenList() == null)
-			bus.setDynamicGenList(getFactory().createDStabBusXmlTypeDynamicGenList());
-		if (bus.getDynamicGenList().getDynamicGen().size() ==0 )
-			bus.getDynamicGenList().getDynamicGen().add(getFactory().createDynamicGeneratorXmlType());
-		return bus.getDynamicGenList().getDynamicGen().get(0);
+		if (bus.getDynamicGen().size() ==0 )
+			bus.getDynamicGen().add(getFactory().createDynamicGeneratorXmlType());
+		return bus.getDynamicGen().get(0);
 	}
 
 	/*

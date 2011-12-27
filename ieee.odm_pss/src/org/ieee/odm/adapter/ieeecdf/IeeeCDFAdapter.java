@@ -50,8 +50,9 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -61,6 +62,7 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.TielineXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -305,7 +307,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String reBusId = strAry[17];
 
 		if (max != 0.0 || min != 0.0) {
-			LoadflowGenDataXmlType equivGen = aclfBus.getGenData().getEquivGen();
+			LoadflowGenXmlType equivGen = aclfBus.getGenData().getEquivGen();
 			if (type == 1) {
 				equivGen.setVoltageLimit(BaseDataSetter.createVoltageLimit(max, min, VoltageUnitType.PU));
 			} else if (type == 2) {
@@ -487,7 +489,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
 			if (branchType == 2) {
-				TapAdjustmentXmlType.VoltageAdjData voltTapAdj = this.factory.createTapAdjustmentXmlTypeVoltageAdjData();
+				VoltageAdjustmentDataXmlType voltTapAdj = this.factory.createVoltageAdjustmentDataXmlType();
 				tapAdj.setVoltageAdjData(voltTapAdj);
 				try {
 					voltTapAdj.setAdjVoltageBus(parser.createBusRef(controlBusId));
@@ -501,7 +503,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				voltTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 				BaseDataSetter.setLimit(voltTapAdj, maxVoltPQ, minVoltPQ);
 			} else if (branchType == 3) {
-				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = this.factory.createTapAdjustmentXmlTypeMvarFlowAdjData();
+				MvarFlowAdjustmentDataXmlType mvarTapAdj = this.factory.createMvarFlowAdjustmentDataXmlType();
 				tapAdj.setMvarFlowAdjData(mvarTapAdj);
 				BaseDataSetter.setLimit(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);

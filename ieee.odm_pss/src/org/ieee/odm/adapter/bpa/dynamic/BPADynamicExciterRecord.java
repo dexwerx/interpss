@@ -1259,8 +1259,7 @@ else if(type==FK){
     	}
     	else if(str.substring(0, 2).trim().equals("FZ")||
     			str.substring(0, 2).trim().equals("F+")){// continued record for BPA Exciter models.
-    		ExciterModelXmlType exc=parser.getDStabBus(busId).
-    		                        getDynamicGenList().getDynamicGen().get(0).getExciter().getValue();   	
+    		ExciterModelXmlType exc=parser.getDStabBus(busId).getDynamicGen().get(0).getExciter().getValue();   	
         	
         	if(str.substring(0, 2).trim().equals("FZ")){
         		

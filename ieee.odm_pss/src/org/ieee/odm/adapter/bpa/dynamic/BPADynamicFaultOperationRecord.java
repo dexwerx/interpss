@@ -32,8 +32,8 @@ import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchFaultXmlType;
-import org.ieee.odm.schema.BusFaultXmlType;
+import org.ieee.odm.schema.DStabBranchFaultXmlType;
+import org.ieee.odm.schema.DStabBusFaultXmlType;
 import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.DcLineFaultEnumType;
@@ -83,7 +83,7 @@ public class BPADynamicFaultOperationRecord {
     		
     		// bus fault
     		if(mode==1||mode==-1||mode==2||mode==-2){ 
-    			BusFaultXmlType busFault=parser.getFactory().createBusFaultXmlType();
+    			DStabBusFaultXmlType busFault=parser.getFactory().createDStabBusFaultXmlType();
     			busFault.setFaultCategory(AcscFaultCategoryEnumType.FAULT_3_PHASE);
     			
     			// not permanent bus fault;
@@ -142,7 +142,7 @@ public class BPADynamicFaultOperationRecord {
     		}
 			// branch fault
     		else if(mode==3||mode==-3){
-    			BranchFaultXmlType braFault=parser.getFactory().createBranchFaultXmlType();	
+    			DStabBranchFaultXmlType braFault=parser.getFactory().createDStabBranchFaultXmlType();	
 				braFault.setFaultCategory(AcscFaultCategoryEnumType.FAULT_3_PHASE);
 				
 				if(breaker1Opened==false&&breaker2Opened==false){    				

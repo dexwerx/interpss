@@ -38,12 +38,14 @@ import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchMeterLocationEnumType;
+import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.Transformer3WInfoXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -347,7 +349,7 @@ public class PSSEV30XfrDataRec {
            		tapAdj.setTapAdjStep(ntp);
            		if (Math.abs(cod) == 1) {
                		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
-        	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData();
+               		VoltageAdjustmentDataXmlType vAdjData = parser.getFactory().createVoltageAdjustmentDataXmlType();
         	    	tapAdj.setVoltageAdjData(vAdjData);
         	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	vAdjData.setMax(vma);
@@ -355,7 +357,7 @@ public class PSSEV30XfrDataRec {
         	    }
            		else {
                  	tapAdj.setAdjustmentType(TapAdjustmentEnumType.M_VAR_FLOW);
-        	    	TapAdjustmentXmlType.MvarFlowAdjData mvaAdjData = parser.getFactory().createTapAdjustmentXmlTypeMvarFlowAdjData(); 
+                 	MvarFlowAdjustmentDataXmlType mvaAdjData = parser.getFactory().createMvarFlowAdjustmentDataXmlType(); 
         	    	tapAdj.setMvarFlowAdjData(mvaAdjData);
         	    	mvaAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	mvaAdjData.setMax(vma);

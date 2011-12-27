@@ -35,7 +35,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.LoadflowLoadXmlType;
 
 public class PSSEV30LoadDataRec {
 	private static int i, status, area = 1, zone = 1, owner = 1;
@@ -57,7 +57,7 @@ public class PSSEV30LoadDataRec {
 	    	return;
 	    }
 		
-	    LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
 
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");

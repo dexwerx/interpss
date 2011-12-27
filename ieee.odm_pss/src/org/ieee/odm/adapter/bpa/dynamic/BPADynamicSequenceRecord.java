@@ -31,7 +31,6 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
@@ -41,8 +40,8 @@ import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.ScGenDataXmlType;
+import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -244,8 +243,8 @@ public class BPADynamicSequenceRecord {
 //			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
 			
 			// negative sequence generator data
-			if(bus.getDynamicGenList()!=null){
-				for(DynamicGeneratorXmlType dynGen:bus.getDynamicGenList().getDynamicGen()){
+			if(bus.getDynamicGen()!=null){
+				for(DynamicGeneratorXmlType dynGen:bus.getDynamicGen()){
 				    //for(DynamicGeneratorXmlType dynGen:parser.getFactory().createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
 					double xd1=0.0;
 					double x2=0.0;

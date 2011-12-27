@@ -35,7 +35,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
@@ -180,7 +180,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
-	    LoadflowGenDataXmlType contriGen = AclfParserHelper.createContriGen(busRec);
+	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 		
 	    contriGen.setId(this.id);
 		if (this.longId != null && !this.longId.equals(""))

@@ -35,9 +35,11 @@ import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -356,7 +358,7 @@ public class BPAXfrBranchRecord {
 			tapAdj.setTapLimit(BaseDataSetter.createTapLimit(max, min));
 			tapAdj.setTapAdjStepSize(stepSize);
 			if (adjustType==tapVoltageAdjustment ){// voltage control					
-				TapAdjustmentXmlType.VoltageAdjData voltTapAdj = parser.getFactory().createTapAdjustmentXmlTypeVoltageAdjData();
+				VoltageAdjustmentDataXmlType voltTapAdj = parser.getFactory().createVoltageAdjustmentDataXmlType();
 				tapAdj.setVoltageAdjData(voltTapAdj);
 				try {
 					voltTapAdj.setAdjVoltageBus(parser.createBusRef(controlBusId));
@@ -370,7 +372,7 @@ public class BPAXfrBranchRecord {
 				BaseDataSetter.setLimit(voltTapAdj, maxVoltPQ, minVoltPQ);				
 			} 
 			else if (adjustType==tapVarAdjustment) {// var control						
-				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = parser.getFactory().createTapAdjustmentXmlTypeMvarFlowAdjData();
+				MvarFlowAdjustmentDataXmlType mvarTapAdj = parser.getFactory().createMvarFlowAdjustmentDataXmlType();
 				tapAdj.setMvarFlowAdjData(mvarTapAdj);
 				BaseDataSetter.setLimit(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
