@@ -6,12 +6,12 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<ns:include schemaLocation="AclfScenarioType.xsd" />
-	<ns:include schemaLocation="AcscScenarioType.xsd" />
-	<ns:include schemaLocation="DclfSenScenarioType.xsd" />
-	<ns:include schemaLocation="DStabScenarioType.xsd" />
+	<ns:include schemaLocation="AclfStudyCaseType.xsd" />
+	<ns:include schemaLocation="AcscStudyCaseType.xsd" />
+	<ns:include schemaLocation="DclfSenStudyCaseType.xsd" />
+	<ns:include schemaLocation="DStabStudyCaseType.xsd" />
 	<ns:include schemaLocation="PTradingAnalysisType.xsd" />
-	<ns:include schemaLocation="ScenarioModification.xsd" />
+	<ns:include schemaLocation="IpssModification.xsd" />
 
 	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/StudyScenarioType.xsd" />
 
@@ -35,12 +35,12 @@
 						The default AclfAlgo applies to all study scenarios, for contingency analysis
 						</ns:documentation></ns:annotation>
 					</ns:element>
-					<ns:element name="scenarioList" maxOccurs="1" minOccurs="1">
+					<ns:element name="studyCaseList" maxOccurs="1" minOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="scenario" type="ipss:IpssScenarioXmlType" maxOccurs="unbounded" minOccurs="1">
+								<ns:element name="studyCase" type="ipss:IpssStudyCaseXmlType" maxOccurs="unbounded" minOccurs="1">
 									<ns:annotation><ns:documentation>
-									Typically, there is one study scenario. However, one can define a let of scenarios,
+									Typically, there is one study scenario. However, one can define a lot of scenarios,
 									for example, for N-1 contingency analysis
 									</ns:documentation></ns:annotation>								
 								</ns:element>
@@ -52,12 +52,12 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="IpssScenarioXmlType">
+	<ns:complexType name="IpssStudyCaseXmlType">
 		<ns:annotation><ns:documentation>
 		for define a study scenario. 
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
-			<ns:extension base="pss:BaseScenarioXmlType">
+			<ns:extension base="pss:BaseStudyCaseXmlType">
 				<ns:sequence>
 					<ns:element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:IpssSimuAlgorithmXmlType">
 					</ns:element>
