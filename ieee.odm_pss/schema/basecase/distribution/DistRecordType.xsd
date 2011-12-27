@@ -56,13 +56,7 @@
 				<ns:sequence>
 					<ns:element name="positiveSeqDataOnly" type="ns:boolean" minOccurs="1"></ns:element>
 					<ns:element name="scStd" type="pss:ScAnalysisStdEnumType" minOccurs="1"></ns:element>
-					<ns:element name="scPointList" minOccurs="1">
-						<ns:complexType>
-							<ns:sequence>
-								<ns:element name="scPoint" type="pss:DistScPointXmlType" maxOccurs="unbounded"></ns:element>
-							</ns:sequence>
-						</ns:complexType>
-					</ns:element>
+					<ns:element name="scPoint" type="pss:DistScPointXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -189,12 +183,7 @@
 					<ns:element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1"></ns:element>
 					<ns:element name="pFactor" type="pss:PowerFactorXmlType" minOccurs="1"></ns:element>
 					<ns:element name="grounding" type="pss:GroundingXmlType" maxOccurs="1"></ns:element>
-					<ns:element name="z1List" maxOccurs="1">
-						<ns:complexType>
-							<ns:sequence>
-								<ns:element name="z" type="pss:NamedZXmlType" maxOccurs="unbounded"></ns:element>
-							</ns:sequence>
-						</ns:complexType></ns:element>
+					<ns:element name="z1" type="pss:NamedZXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					<ns:element name="z0" type="pss:ZXmlType" maxOccurs="1"></ns:element>
 					<ns:element name="z2" type="pss:ZXmlType" maxOccurs="1"></ns:element>
 				</ns:sequence>

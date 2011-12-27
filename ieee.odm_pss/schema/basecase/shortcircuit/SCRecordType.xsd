@@ -126,13 +126,9 @@
     
 
     <ns:group name="ShortCircuitBusDataGroup">
-		
         <ns:sequence>
-			
             <ns:element minOccurs="0" name="scGenData" type="pss:ScGenDataXmlType" />
-            
             <ns:element minOccurs="0" name="scShuntLoadData">
-				
                 <ns:complexType>
 					<ns:sequence>
 						<ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />
@@ -140,9 +136,7 @@
 					</ns:sequence>
 				</ns:complexType>
             </ns:element>
-            
             <ns:element minOccurs="0" name="scSwithedShuntLoadData">
-				
                 <ns:complexType>
 					<ns:sequence>
 						<ns:element minOccurs="0" name="zeroZ" type="pss:ZXmlType" />
