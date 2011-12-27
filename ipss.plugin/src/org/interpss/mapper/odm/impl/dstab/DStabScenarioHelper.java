@@ -43,13 +43,13 @@ import org.ieee.odm.schema.DStabMethodEnumType;
 import org.ieee.odm.schema.DStabSetPointChangeXmlType;
 import org.ieee.odm.schema.DStabSimuSettingXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
+import org.ieee.odm.schema.DStabStaticLoadModelEnumType;
 import org.ieee.odm.schema.DynamicEventEnumType;
 import org.ieee.odm.schema.DynamicEventXmlType;
 import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.MachineControllerEnumType;
 import org.ieee.odm.schema.SetPointChangeEnumType;
-import org.ieee.odm.schema.StaticLoadModelEnumType;
 import org.ieee.odm.schema.StaticLoadModelXmlType;
 import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.TimePeriodXmlType;
@@ -90,8 +90,8 @@ public class DStabScenarioHelper {
 	
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
 		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY &&
-				sScenarioXml.getScenarioList().getScenario() != null &&
-				sScenarioXml.getScenarioList().getScenario().size() == 1){
+				sScenarioXml.getStudyCaseList().getStudyCase() != null &&
+				sScenarioXml.getStudyCaseList().getStudyCase().size() == 1){
 			// first we check if dstab analysis type, scenario is defined and only one scenario 
 			// is defined
 			
@@ -397,7 +397,7 @@ public class DStabScenarioHelper {
 		}
         
         StaticLoadModelXmlType statLoad = settings.getStaticLoadModel();
-        if(statLoad.getStaticLoadType() == StaticLoadModelEnumType.CONSTANT_Z){
+        if(statLoad.getStaticLoadType() == DStabStaticLoadModelEnumType.CONSTANT_Z){
         	dstabNet.setStaticLoadModel(StaticLoadModel.CONST_Z);
         }
         else {

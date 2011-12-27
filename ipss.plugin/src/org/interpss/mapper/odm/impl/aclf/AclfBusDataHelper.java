@@ -26,12 +26,14 @@ package org.interpss.mapper.odm.impl.aclf;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.schema.AclfGenDataXmlType;
+import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowLoadXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
@@ -113,8 +115,8 @@ public class AclfBusDataHelper {
 		}
 	}
 	
-	private void mapGenData(LoadflowBusXmlType.GenData genData) throws InterpssException {
-		LoadflowGenDataXmlType xmlEquivGenData = genData.getEquivGen();
+	private void mapGenData(AclfGenDataXmlType genData) throws InterpssException {
+		LoadflowGenXmlType xmlEquivGenData = genData.getEquivGen();
 		VoltageXmlType vXml = xmlEquivGenData.getDesiredVoltage();
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 			aclfBus.setGenCode(AclfGenCode.GEN_PQ);
@@ -196,12 +198,12 @@ public class AclfBusDataHelper {
 		}
 	}
 	
-	private void mapLoadData(LoadflowBusXmlType.LoadData loadData) {
+	private void mapLoadData(AclfLoadDataXmlType loadData) {
 		aclfBus.setLoadCode(loadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
 				AclfLoadCode.CONST_I : (loadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 		LoadBusAdapter loadBus = aclfBus.toLoadBus();
-		LoadflowLoadDataXmlType xmlEquivLoad = loadData.getEquivLoad();
+		LoadflowLoadXmlType xmlEquivLoad = loadData.getEquivLoad();
 		if (xmlEquivLoad != null) {
 			PowerXmlType p;
 			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)

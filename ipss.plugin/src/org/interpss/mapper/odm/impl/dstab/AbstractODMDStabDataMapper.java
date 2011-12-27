@@ -200,8 +200,8 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 	
 	private void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
-		if (dstabBusXml.getDynamicGenList() != null)
-			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getDynamicGenList().getDynamicGen()) {
+		if (dstabBusXml.getDynamicGen() != null)
+			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getDynamicGen()) {
 				// create the machine model and added to the parent bus object
 				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 				String machId = dstabBus.getId() + "-mach" + ++cnt;
