@@ -233,10 +233,13 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 
 		if (lodf.getMonitorBranch() != null) {
+			String[] ary = new String[lodf.getMonitorBranch().size()];
+			int cnt = 0;
 			for (MonitorBranch monitor : lodf.getMonitorBranch()) {
 		    	String id = monitor.getBranch().getBranchId();
-		    	RunUIUtilFunc.addItemJList(lodfMonitorBranchInterfaceList, "b:"+id);				
+				ary[cnt++] = "b:" + id;
 			}
+			lodfMonitorBranchInterfaceList.setModel(new javax.swing.DefaultComboBoxModel(ary));    			
 		}
 		
 		return true;
@@ -414,6 +417,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2LODF() called");
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
+		this._senXml.getLineOutageDFactor().clear();
 		LineOutageDFactorXmlType lodf = helper.createLODF(this._senXml);
 
 		if (this.lodfMultiTypeRadioButton.isSelected()) {

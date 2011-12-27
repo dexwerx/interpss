@@ -989,7 +989,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         branchAnalysisTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Analysis Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         branchAnalysisTypeButtonGroup.add(outageSingleRadioButton);
-        outageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        outageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        outageSingleRadioButton.setSelected(true);
         outageSingleRadioButton.setText("Single Outage");
         outageSingleRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -998,7 +999,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         branchAnalysisTypeButtonGroup.add(outageMultiRadioButton);
-        outageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        outageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         outageMultiRadioButton.setText("Multi Outage");
         outageMultiRadioButton.setEnabled(false);
         outageMultiRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1008,7 +1009,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         branchAnalysisTypeButtonGroup.add(outageScheduleRadioButton);
-        outageScheduleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        outageScheduleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         outageScheduleRadioButton.setText("Outage Schedule");
         outageScheduleRadioButton.setEnabled(false);
         outageScheduleRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1233,22 +1234,24 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisPanelLayout.setHorizontalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(genAnalysisPanelLayout.createSequentialGroup()
-                .add(167, 167, 167)
-                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(runCalLossFactorsButton)
+                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(genAnalysisPanelLayout.createSequentialGroup()
+                        .add(167, 167, 167)
                         .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(genAnalysisEdHourLabel)
                             .add(genAnalysisGenBusLabel))
                         .add(25, 25, 25)
                         .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(178, Short.MAX_VALUE))
+                            .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(genAnalysisPanelLayout.createSequentialGroup()
+                        .add(189, 189, 189)
+                        .add(runCalLossFactorsButton)))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
         genAnalysisPanelLayout.setVerticalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
+            .add(genAnalysisPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1257,9 +1260,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(genAnalysisGenBusLabel)
                     .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 263, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 260, Short.MAX_VALUE)
                 .add(runCalLossFactorsButton)
-                .add(37, 37, 37))
+                .add(40, 40, 40))
         );
 
         pTradingAnalysisTabbedPane.addTab("Gen Analysis", genAnalysisPanel);
