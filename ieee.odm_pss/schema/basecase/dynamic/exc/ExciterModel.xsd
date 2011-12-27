@@ -7,7 +7,7 @@
 
 	
 
-    <ns:include schemaLocation="../../common/DataType.xsd" />
+    <ns:include schemaLocation="../../../common/DataType.xsd" />
     
 	
 	<!-- 

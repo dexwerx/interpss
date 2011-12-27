@@ -6,7 +6,6 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../shortcircuit/SCRecordType.xsd" />
 	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd" />
 
 	<ns:annotation>

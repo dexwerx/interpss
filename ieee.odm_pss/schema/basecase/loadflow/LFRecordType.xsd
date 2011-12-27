@@ -6,7 +6,7 @@
 	elementFormDefault="qualified" >
 
     
-    <ns:include schemaLocation="../common/RecordType.xsd"></ns:include>
+    <ns:include schemaLocation="../../common/RecordType.xsd"></ns:include>
     
     <ns:include schemaLocation="DcLineRecordType.xsd"></ns:include>
     

@@ -22,43 +22,4 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	
-	<ns:simpleType name="ValueChangeActionEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="add"></ns:enumeration>
-			<ns:enumeration value="set"></ns:enumeration>
-			<ns:enumeration value="increase"></ns:enumeration>
-			<ns:enumeration value="decrease"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-
-		
-	<ns:complexType name="ComplexValueChangeXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:ValueChangeXmlType">
-				<ns:sequence>
-					<ns:element name="value" type="pss:ComplexXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-	
-    <ns:complexType name="DoubleValueChangeXmlType">
-    	<ns:complexContent>
-    		<ns:extension base="pss:ValueChangeXmlType">
-    			<ns:sequence>
-    				<ns:element name="value" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-    			</ns:sequence>
-    		</ns:extension>
-    	</ns:complexContent>
-    </ns:complexType>	
-
-
-	<ns:complexType name="ValueChangeXmlType">
-		<ns:sequence>
-			<ns:element name="changeAction" maxOccurs="1" minOccurs="1" type="pss:ValueChangeActionEnumType"/>
-			<ns:element name="percent" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
 </ns:schema>

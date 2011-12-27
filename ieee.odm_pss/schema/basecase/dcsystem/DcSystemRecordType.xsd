@@ -5,7 +5,7 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified" >
 
-    <ns:include schemaLocation="../common/RecordType.xsd"></ns:include>
+    <ns:include schemaLocation="../../common/RecordType.xsd"></ns:include>
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>

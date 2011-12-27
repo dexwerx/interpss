@@ -6,9 +6,6 @@
 	elementFormDefault="qualified" >
 
 	
-    <ns:include schemaLocation="../../common/DataType.xsd" />
-    
-
     <ns:include schemaLocation="IEEEStabilizerModel.xsd" />
     
 	

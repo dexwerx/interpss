@@ -5,18 +5,17 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified" >
 	
-    <ns:include schemaLocation="loadflow/LFRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="basecase/loadflow/LFRecordType.xsd"></ns:include>
     
-    <ns:include schemaLocation="shortcircuit/SCRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="basecase/shortcircuit/SCRecordType.xsd"></ns:include>
     
-    <ns:include schemaLocation="dynamic/DstabRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="basecase/dynamic/DstabRecordType.xsd"></ns:include>
     
-    <ns:include schemaLocation="opf/OPFRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="basecase/opf/OPFRecordType.xsd"></ns:include>
     
-    <ns:include schemaLocation="distribution/DistRecordType.xsd"></ns:include>
-    
+    <ns:include schemaLocation="basecase/distribution/DistRecordType.xsd"></ns:include>
 	
-    <ns:include schemaLocation="dcsystem/DcSystemRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="basecase/dcsystem/DcSystemRecordType.xsd"></ns:include>
     
 
     <ns:include schemaLocation="StudyScenario.xsd"></ns:include>
