@@ -71,13 +71,13 @@
 		for define a study scenario analysis details. It is defined using choice, indicating
 		that only one analysis type : aclf, acsc or dstab could be selected. 
 		</ns:documentation></ns:annotation>	
-		<ns:choice>
+		<ns:sequence>
 			<ns:element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></ns:element>
 			<ns:element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></ns:element>
 			<ns:element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></ns:element>
 			<ns:element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></ns:element>
 			<ns:element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></ns:element>
-		</ns:choice>
+		</ns:sequence>
 	</ns:complexType>
 	
 	<ns:complexType name="GridComputingXmlType">
@@ -101,10 +101,9 @@
 				<ns:annotation><ns:documentation>
 							If true, only return the Aclf network object from the remote grid node to the 
 							master node when LF diverger, or there is limit violation.
-				</ns:documentation></ns:annotation>
-						</ns:element>
-				<ns:element name="calculateViolation" type="ns:boolean" minOccurs="0"></ns:element>
-				<ns:element name="busVoltagePULimit" type="pss:LimitXmlType" minOccurs="0"></ns:element>
+				</ns:documentation></ns:annotation>			</ns:element>
+			<ns:element name="calculateViolation" type="ns:boolean" minOccurs="0"></ns:element>
+			<ns:element name="busVoltagePULimit" type="pss:LimitXmlType" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 	
