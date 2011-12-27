@@ -7,7 +7,7 @@
 	elementFormDefault="qualified">
 
     <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../common/RecordType.xsd" />
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd" />
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
 
 	<ns:include schemaLocation="IpssCommonType.xsd" />
 	

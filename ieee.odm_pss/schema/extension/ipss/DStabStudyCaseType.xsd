@@ -9,7 +9,7 @@
 	<ns:include schemaLocation="AclfStudyCaseType.xsd"></ns:include>
 	<ns:include schemaLocation="AcscStudyCaseType.xsd"></ns:include>
 
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd" />
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>

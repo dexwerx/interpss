@@ -6,9 +6,9 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified">
 
-	<ns:include schemaLocation="common/StudyScenarioType.xsd"></ns:include>
+	<ns:include schemaLocation="../common/StudyScenarioType.xsd"></ns:include>
 
-	<ns:import namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="extension/ipss/IpssStudyScenario.xsd" />
+	<ns:import namespace="http://www.interpss.org/Schema/odm/2008" schemaLocation="../extension/ipss/IpssStudyScenario.xsd" />
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>

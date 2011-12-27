@@ -18,7 +18,7 @@
     <ns:include schemaLocation="basecase/dcsystem/DcSystemRecordType.xsd"></ns:include>
     
 
-    <ns:include schemaLocation="StudyScenario.xsd"></ns:include>
+    <ns:include schemaLocation="scenario/StudyScenario.xsd"></ns:include>
     
 
     <ns:annotation>

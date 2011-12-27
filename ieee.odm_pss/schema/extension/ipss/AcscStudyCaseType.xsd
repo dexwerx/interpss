@@ -6,7 +6,7 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../StudyScenario.xsd" />
+	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
