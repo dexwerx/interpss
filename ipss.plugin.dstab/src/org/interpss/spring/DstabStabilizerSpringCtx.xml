@@ -5,7 +5,7 @@
 	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="cmlScriptingStabilizer" 
-	  	class="org.interpss.dstab.control.cml.CMLScriptingStabilizer"
+	  	class="org.interpss.dstab.control.cml.ui.CMLScriptingStabilizer"
 	    scope="prototype"	
 	    p:name="CML Scripting Stabilizer"
 	    p:category="InterPSS"

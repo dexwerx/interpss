@@ -5,7 +5,7 @@
 	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="cmlScriptingGovernor" 
-	  	class="org.interpss.dstab.control.cml.CMLScriptingGovernor"
+	  	class="org.interpss.dstab.control.cml.ui.CMLScriptingGovernor"
 	    scope="prototype"	
 	    p:name="CML Scripting Governor"
 	    p:category="InterPSS"

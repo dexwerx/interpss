@@ -25,7 +25,7 @@
 	-->
 	
 	<bean id="cmlScriptingExciter" 
-	  	class="org.interpss.dstab.control.cml.CMLScriptingExciter"
+	  	class="org.interpss.dstab.control.cml.ui.CMLScriptingExciter"
 	    scope="prototype"	
 	    p:name="CML Scripting Exciter"
 	    p:category="InterPSS" 
