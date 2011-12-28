@@ -19,6 +19,7 @@ import org.junit.Test;
 import com.interpss.SimuObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.SenAnalysisType;
+import com.interpss.pssl.odm.DclfDslODMRunner;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
@@ -36,7 +37,9 @@ public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet());
-		algoDsl.runAnalysis("testData/xml/RunDclfCase.xml");		
+
+		new DclfDslODMRunner(algoDsl).runSenXmlFile("testData/xml/RunDclfCase.xml");
+		
 		DclfAlgorithm algo = algoDsl.getAlgorithm();
 
 		File xmlFile = new File("testData/xml/RunDclfCase.xml");

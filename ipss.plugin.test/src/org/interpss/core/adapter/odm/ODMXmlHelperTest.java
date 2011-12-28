@@ -29,7 +29,7 @@ import org.interpss.numeric.datatype.Unit;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
-import com.interpss.pssl.simu.odm.ODMUnitHelper;
+import com.interpss.pssl.util.ODMUnitHelper;
 
 public class ODMXmlHelperTest {
 	@Test 
