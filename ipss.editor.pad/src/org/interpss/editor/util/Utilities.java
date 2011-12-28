@@ -60,7 +60,6 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.resources.Translator;
-import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 import org.jgraph.JGraph;
@@ -320,7 +319,7 @@ public final class Utilities {
 			file = new GPGraphpadFile(new GraphLayoutCache(model, cellViewFactory));
 
 		} catch (Exception e ) {
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Graphic File Open Error", e.toString());
 			e.printStackTrace();
 		}
@@ -370,7 +369,7 @@ public final class Utilities {
 
 		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath, version);
 		if (appSimuContext == null) {
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
 			return null;
 		} else {
 			file.setSimuAppContext(appSimuContext);

@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.interpss.db.DBManager;
+import org.interpss.output.db.DBManager;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.interpss.common.exp.InterpssRuntimeException;

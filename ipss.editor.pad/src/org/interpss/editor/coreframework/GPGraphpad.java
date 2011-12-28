@@ -70,7 +70,6 @@ import org.interpss.editor.util.ICommandRegistery;
 import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
-import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.EditorSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IRefDataManager;
@@ -949,7 +948,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addGraphDocument(item, file);
 				} catch (Exception ex) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Graphic File Open Error", ex.toString());
 					ex.printStackTrace();
 				}
@@ -967,7 +966,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addCustomDocument(item, file);
 				} catch (Exception ex) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Custom Data File Open Error",
 							ex.toString());
 					ex.printStackTrace();
@@ -981,7 +980,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addXmlDocument(item, file);
 				} catch (Exception ex) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Xml Data File Open Error", ex.toString());
 					ex.printStackTrace();
 
@@ -995,7 +994,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					addTextDocument(item, file);
 				} catch (Exception ex) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Text File Open Error", ex.toString());
 					ex.printStackTrace();
 				}
@@ -1008,7 +1007,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						return;
 					loadReportDocument(item, file);
 				} catch (Exception ex) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Report Open Error", ex.toString());
 					ex.printStackTrace();
 				}
@@ -1159,7 +1158,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 */
 	public boolean isBGProcessingBusy() {
 		if (getStatusPanel().isBusy()) {
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"Processing Thread Busy",
 					"Please wait for the completion of "
 							+ getStatusPanel().getBusyMsg());

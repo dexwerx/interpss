@@ -36,7 +36,6 @@ import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
-import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.EditorSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 
@@ -325,7 +324,7 @@ public class IpssProjectPanel extends JPanel {
 				addNewAllProject(project);
 				EditorSpringFactory.getAppContext().addProject(project);
 			} catch (Exception ex) {
-				BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"InterPSS Project '" + projectname + "' Open Error",
 						ex.toString());
 				ex.printStackTrace();

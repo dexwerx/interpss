@@ -28,8 +28,8 @@ package org.interpss.editor.data.proj;
 	Study case info
 */
 
-import org.interpss.db.IpssDBCase;
 import org.interpss.editor.SimuRunEnum;
+import org.interpss.output.db.IpssDBCase;
 
 public class CaseData extends IpssDBCase {
 	private static final long serialVersionUID = 1;

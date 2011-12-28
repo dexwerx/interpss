@@ -35,7 +35,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBranchForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -288,7 +288,7 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
 		try {
         	if (!saveEditor2Form(errMsg)) {
         		IpssLogger.getLogger().severe("Branch Input Data Error" + errMsg.toString());
-        		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Branch Input Data Error", errMsg);
+        		PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Branch Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {

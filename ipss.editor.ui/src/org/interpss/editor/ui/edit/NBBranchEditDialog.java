@@ -45,7 +45,7 @@ import org.interpss.editor.ui.edit.trans.branch.NBAclfTransBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBAcscTransBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBDStabTransBranchEditPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
 
@@ -389,12 +389,12 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
 		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", errMsg);
+        		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", e.toString());
+      		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", e.toString());
 			return;
         }	
         InitDataUtil.setLastEntered_BranchData(_form);
