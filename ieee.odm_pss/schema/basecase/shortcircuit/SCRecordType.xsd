@@ -68,24 +68,10 @@
 <!-- 
 		Network object
  -->	
-    <ns:element name="acscPSXfr" substitutionGroup="pss:branch" type="pss:PSXfrShortCircuitXmlType">
-		
-        <ns:annotation>
-      <ns:documentation>
-		PSXfr Branch record for acsc analysis
-		</ns:documentation>
-    </ns:annotation>
-    </ns:element>
-    
-	
-	<!--  
-		Bus objects
- 	-->	
-    <ns:complexType name="ShortCircuitNetXmlType">
-		<ns:annotation>
-			<ns:documentation>
-			</ns:documentation>
-		</ns:annotation>
+ 
+     <ns:complexType name="ShortCircuitNetXmlType">
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:LoadflowNetXmlType">
 				<ns:sequence>
@@ -95,13 +81,16 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-    
+
+	
+	<!--  
+		Bus objects
+ 	-->	
 
     <ns:complexType name="ShortCircuitBusXmlType">
-		<ns:annotation>
-      <ns:documentation>
-		</ns:documentation>
-    </ns:annotation>
+		<ns:annotation><ns:documentation>
+		SC Bus with Aclf info
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:LoadflowBusXmlType">
 				<ns:group ref="pss:ShortCircuitBusDataGroup" />
@@ -112,10 +101,9 @@
     
 
     <ns:complexType name="ScSimpleBusXmlType">
-		<ns:annotation>
-      <ns:documentation>
-		</ns:documentation>
-    </ns:annotation>	
+		<ns:annotation><ns:documentation>
+		Simple SC Bus without Aclf info
+		</ns:documentation></ns:annotation>	
 		<ns:complexContent>
 			<ns:extension base="pss:BusXmlType">
 				<ns:group ref="pss:ShortCircuitBusDataGroup" />
@@ -128,28 +116,12 @@
     <ns:group name="ShortCircuitBusDataGroup">
         <ns:sequence>
             <ns:element minOccurs="0" name="scGenData" type="pss:ScGenDataXmlType" />
-            <ns:element minOccurs="0" name="scShuntLoadData">
-                <ns:complexType>
-					<ns:sequence>
-						<ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />
-						<ns:element minOccurs="0" name="zeroZ" type="pss:ZXmlType" />
-					</ns:sequence>
-				</ns:complexType>
-            </ns:element>
-            <ns:element minOccurs="0" name="scSwithedShuntLoadData">
-                <ns:complexType>
-					<ns:sequence>
-						<ns:element minOccurs="0" name="zeroZ" type="pss:ZXmlType" />
-					</ns:sequence>
-				</ns:complexType>
-            </ns:element>
+			<ns:element minOccurs="0" name="shuntLoadNegativeZ" type="pss:ZXmlType" />
+			<ns:element minOccurs="0" name="shuntLoadZeroZ" type="pss:ZXmlType" />
+			<ns:element minOccurs="0" name="swithedShuntLoadZeroZ" type="pss:ZXmlType" />
         </ns:sequence>
     </ns:group>
-    
 	
-<!-- 
-		Branch objects
- -->
 
     <ns:complexType name="ScGenDataXmlType">
 		<ns:sequence>
@@ -160,6 +132,9 @@
 		</ns:sequence>
 	</ns:complexType>
     
+<!-- 
+		Branch objects
+ -->
 	
     <ns:complexType name="LineShortCircuitXmlType">
 		<ns:complexContent>
@@ -189,6 +164,11 @@
 		</ns:complexContent>
 	</ns:complexType>
     	
+    <ns:element name="acscPSXfr" substitutionGroup="pss:branch" type="pss:PSXfrShortCircuitXmlType">
+        <ns:annotation> <ns:documentation>
+		PSXfr Branch record for acsc analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>
 
     <ns:complexType name="Xfr3WShortCircuitXmlType">
 		<ns:complexContent>

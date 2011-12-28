@@ -18,20 +18,17 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseBranchXmlType">
 				<ns:sequence>
-					<ns:element name="controlMode" default="blocked" maxOccurs="1" minOccurs="1" type="pss:DcLineControlModeEnumType">
-					</ns:element>
+					<ns:element name="controlMode" default="blocked" maxOccurs="1" minOccurs="1" type="pss:DcLineControlModeEnumType"></ns:element>
 					<ns:element name="lineR" type="pss:RXmlType" maxOccurs="1" minOccurs="1"></ns:element>
 					<ns:element name="lineG" type="pss:GXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="currentDemand" maxOccurs="1" minOccurs="0" type="pss:CurrentXmlType"></ns:element>
 					<ns:element name="powerDemand" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="controlOnRectifierSide" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="scheduledDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="meteredEnd" maxOccurs="1" minOccurs="0" type="pss:DcLineMeteredEndEnumType">
-					</ns:element>
+					<ns:element name="meteredEnd" maxOccurs="1" minOccurs="0" type="pss:DcLineMeteredEndEnumType"></ns:element>
 					<ns:element name="modeSwitchDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="compoundingR" type="pss:RXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="powerOrCurrentMarginPU" maxOccurs="1" minOccurs="0" type="ns:double">
-					</ns:element>
+					<ns:element name="powerOrCurrentMarginPU" maxOccurs="1" minOccurs="0" type="ns:double">	</ns:element>
 					<ns:element name="minDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="maxDCCurrent" type="pss:CurrentXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="length" maxOccurs="1" minOccurs="0" type="pss:LengthXmlType"></ns:element>
@@ -41,6 +38,7 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+	
     
     <ns:complexType name="ConverterXmlType">
 		<ns:sequence>

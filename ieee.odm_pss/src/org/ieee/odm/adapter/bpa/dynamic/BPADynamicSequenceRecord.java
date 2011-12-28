@@ -41,7 +41,6 @@ import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScGenDataXmlType;
-import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -124,9 +123,9 @@ public class BPADynamicSequenceRecord {
         	if(!strAry[4].contains(".")){
 				x0=x0/10000;
 			}
-        	ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
-        	scsld.setZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
-        	bus.setScShuntLoadData(scsld);
+        	//ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+        	bus.setShuntLoadZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
+        	//bus.setScShuntLoadData(scsld);
 	    }
 	    else if(strAry[0].equals("LO")){
 	    	final String fromId = BPABusRecord.getBusId(strAry[1]);
@@ -290,9 +289,9 @@ public class BPADynamicSequenceRecord {
 				if(bus.getLoadData().getEquivLoad()!=null){
 					//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
 					//hard coded values
-					ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
-			        scsld.setNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
-			        bus.setScShuntLoadData(scsld);
+					//ScSimpleBusXmlType.ScShuntLoadData scsld = parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+					bus.setShuntLoadNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
+			        //bus.setScShuntLoadData(scsld);
 				}
 			}
 		}

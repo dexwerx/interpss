@@ -19,7 +19,6 @@
 	-->
 	<ns:element name="excBPATypeEC" substitutionGroup="pss:exciter" type="pss:ExcBPAECXmlType" />
     <ns:element name="excBPATypeEK" substitutionGroup="pss:exciter" type="pss:ExcBPAEKXmlType" />
-    
 	<ns:element name="excBPATypeFJ" substitutionGroup="pss:exciter" type="pss:ExcBPAFJXmlType" />
 	<ns:element name="excBPATypeFK" substitutionGroup="pss:exciter" type="pss:ExcBPAFKXmlType" />
 	<ns:element name="excBPATypeFM" substitutionGroup="pss:exciter" type="pss:ExcBPAFMXmlType" />

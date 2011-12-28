@@ -234,14 +234,13 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * 
 	 */
 	public static StaticVarCompensatorXmlType createSVC(LoadflowBusXmlType bus) {
-		if (bus.getSvcData() == null) {
+		//if (bus.getSvcData() == null) {
 			//LoadflowBusDataXmlType.
-			LoadflowBusXmlType.SvcData data = getFactory().createLoadflowBusXmlTypeSvcData();
-			bus.setSvcData(data);
-		}
+		//	LoadflowBusXmlType.SvcData data = getFactory().createLoadflowBusXmlTypeSvcData();
+		//	bus.setSvcData(data);
+		//}
 		StaticVarCompensatorXmlType svc = getFactory().createStaticVarCompensatorXmlType();
-		
-		bus.getSvcData().getSvc().add(svc);
+		bus.getSvc().add(svc);
 		return svc;
 	}
 
@@ -254,11 +253,11 @@ public class AclfParserHelper extends BaseJaxbHelper {
 			ShuntCompensatorDataXmlType data = getFactory().createShuntCompensatorDataXmlType(); 
 			bus.setShuntCompensatorData(data);
 		}
-		if (bus.getShuntCompensatorData().getShuntCompensatorList() == null) {
-			bus.getShuntCompensatorData().setShuntCompensatorList(getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
-		}
+		//if (bus.getShuntCompensatorData().getShuntCompensatorList() == null) {
+		//	bus.getShuntCompensatorData().setShuntCompensatorList(getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
+		//}
 		ShuntCompensatorXmlType compensator = getFactory().createShuntCompensatorXmlType();
-		bus.getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(compensator);
+		bus.getShuntCompensatorData().getShuntCompensator().add(compensator);
 		return compensator; 
 	}
 }

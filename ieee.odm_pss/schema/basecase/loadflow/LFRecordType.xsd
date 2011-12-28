@@ -6,8 +6,7 @@
 	elementFormDefault="qualified" >
 
     
-    <ns:include schemaLocation=""></ns:include>
-    <ns:include schemaLocation="../../basecase/NetRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="../NetRecordType.xsd"></ns:include>
     
     <ns:include schemaLocation="DcLineRecordType.xsd"></ns:include>
     
@@ -158,21 +157,21 @@
 		<ns:attribute name="areaCode" type="ns:string" use="optional"></ns:attribute>
 		<ns:attribute name="areaName" type="ns:string" use="optional"></ns:attribute>
 	</ns:complexType>
-    
+	
 
-    <ns:complexType name="ExchangeAreaXmlType">
+	<ns:complexType name="ExchangeAreaXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:NetAreaXmlType">
-		<ns:sequence>
-			<ns:element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="desiredExchangePower" type="pss:ActivePowerXmlType" minOccurs="0"></ns:element>
-			<ns:element name="exchangeErrTolerance" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="exchangePower" type="pss:ExchangePowerXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
-			<ns:element name="measredOnFromSide" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>			
+				<ns:sequence>
+					<ns:element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="desiredExchangePower" type="pss:ActivePowerXmlType" minOccurs="0"></ns:element>
+					<ns:element name="exchangeErrTolerance" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="exchangePower" type="pss:ExchangePowerXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+					<ns:element name="measredOnFromSide" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
@@ -222,13 +221,7 @@
 			</ns:element>
 			<ns:element name="shuntCompensatorData" minOccurs="0" type="pss:ShuntCompensatorDataXmlType"> </ns:element>
 			<ns:element name="shuntY" minOccurs="0" maxOccurs="1" type="pss:YXmlType"></ns:element>
-			<ns:element name="svcData" minOccurs="0">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="svc" type="pss:StaticVarCompensatorXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
+			<ns:element name="svc" type="pss:StaticVarCompensatorXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 			<ns:element name="powerInjection" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 			</ns:extension>

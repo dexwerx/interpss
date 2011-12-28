@@ -33,22 +33,22 @@ import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
+import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
+import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyCaseXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
+import org.ieee.odm.schema.LODFMonitorBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.InterfaceSFactor;
-import org.ieee.odm.schema.LineOutageDFactorXmlType.MonitorBranch;
 
 public class IpssScenarioHelper {
 	private IODMModelParser parser = null;
@@ -93,8 +93,8 @@ public class IpssScenarioHelper {
 	public DclfBranchSensitivityXmlType createGSF(DclfSenAnalysisXmlType dclfCase) {
 		DclfBranchSensitivityXmlType gsf = parser.getFactory().createDclfBranchSensitivityXmlType();
 		dclfCase.getGenShiftFactor().add(gsf);
-		gsf.setInjectBusList(parser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
-		gsf.setWithdrawBusList(parser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
+		//gsf.setInjectBus(parser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
+		//gsf.setWithdrawBus(parser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 		return gsf;
 	}
 
@@ -113,8 +113,8 @@ public class IpssScenarioHelper {
 	public GenLossFactorXmlType createGenLossFactor(DclfSenAnalysisXmlType dclfCase) {
 		GenLossFactorXmlType lf = parser.getFactory().createGenLossFactorXmlType();
 		dclfCase.getGenLossFactors().add(lf);
-		lf.setInjectBusList(parser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
-		lf.setWithdrawBusList(parser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
+		//lf.setInjectBusList(parser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
+		//lf.setWithdrawBusList(parser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
 		return lf;
 	}
 	
@@ -124,8 +124,8 @@ public class IpssScenarioHelper {
 		return bra;
 	}
 	
-	public BranchRefXmlType createMonitorBranch(List<MonitorBranch> braList) {
-		MonitorBranch bra = parser.getFactory().createLineOutageDFactorXmlTypeMonitorBranch();
+	public BranchRefXmlType createMonitorBranch(List<LODFMonitorBranchXmlType> braList) {
+		LODFMonitorBranchXmlType bra = parser.getFactory().createLODFMonitorBranchXmlType();
 		braList.add(bra);
 		bra.setBranch(parser.getFactory().createBranchRefXmlType());
 		return bra.getBranch();
@@ -137,14 +137,14 @@ public class IpssScenarioHelper {
 		return bus;
 	}
 
-	public BranchSFactor createBranchSFactor(List<BranchSFactor> braList) {
-		BranchSFactor sf = parser.getFactory().createDclfBranchSensitivityXmlTypeBranchSFactor();
+	public BranchShiftFactorXmlType createBranchSFactor(List<BranchShiftFactorXmlType> braList) {
+		BranchShiftFactorXmlType sf = parser.getFactory().createBranchShiftFactorXmlType();
 		braList.add(sf);
 		return sf;
 	}
 	
-	public InterfaceSFactor createInterfaceSFactor(List<InterfaceSFactor> infList) {
-		InterfaceSFactor sf = parser.getFactory().createDclfBranchSensitivityXmlTypeInterfaceSFactor();
+	public InterfaceShiftFactorXmlType createInterfaceSFactor(List<InterfaceShiftFactorXmlType> infList) {
+		InterfaceShiftFactorXmlType sf = parser.getFactory().createInterfaceShiftFactorXmlType();
 		infList.add(sf);
 		return sf;
 	}

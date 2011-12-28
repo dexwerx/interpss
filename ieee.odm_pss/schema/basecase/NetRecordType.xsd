@@ -130,8 +130,8 @@
 		<ns:complexContent>
 			<ns:extension base="pss:CimConnectionRecordType">
 				<ns:sequence>
-					<ns:element name="fromBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
-					<ns:element name="toBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="fromBus" type="pss:BusIDRefXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="toBus" type="pss:BusIDRefXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 					<ns:element name="tertiaryBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 				</ns:sequence>
 <!-- 
@@ -174,7 +174,7 @@
 				</ns:sequence>
 				<ns:attribute name="windingType" type="pss:BusWindingEnumType" use="optional">
 					<ns:annotation><ns:documentation>
-					optional, for indicating bus xfr winding type (Primary, Secondary or tertiary)
+					optional, for indicating xfr terminal bus winding type (Primary, Secondary or tertiary).
 					</ns:documentation></ns:annotation>
 				</ns:attribute>
 			</ns:extension>
@@ -212,7 +212,7 @@
 				<ns:attribute name="fromBusId" type="ns:string" use="required"></ns:attribute>
 				<ns:attribute name="toBusId" type="ns:string" use="required"></ns:attribute>
 				<ns:attribute name="tertiaryBusId" type="ns:string" use="optional"></ns:attribute>
-				<ns:attribute name="circuitId" type="ns:string" use="required"></ns:attribute> 
+				<ns:attribute name="circuitId" type="ns:string" use="optional"></ns:attribute> 
 			</ns:extension>
     	</ns:complexContent>
     </ns:complexType>
@@ -249,10 +249,9 @@
     
 		
     <ns:complexType name="FlowInterfaceRecXmlType">
-        <ns:annotation>
-        	<ns:documentation>
+        <ns:annotation><ns:documentation>
         	Interface record is for power flow interface limit checking purpose.
-        	</ns:documentation></ns:annotation>
+        </ns:documentation></ns:annotation>
         <ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
@@ -489,6 +488,7 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+	
 
     <ns:simpleType name="DynamicEventEnumType">
 		<ns:restriction base="ns:string">
@@ -498,6 +498,7 @@
 			<ns:enumeration value="None" />
 		</ns:restriction>
 	</ns:simpleType>
+	
     		
     <ns:simpleType name="MachineControllerEnumType">
 		<ns:restriction base="ns:string">
@@ -506,6 +507,7 @@
 			<ns:enumeration value="Stabilizer" />
 		</ns:restriction>
 	</ns:simpleType>
+	
 	
     <ns:complexType name="LoadChangeDynamicEventXmlType">
 		<ns:sequence>

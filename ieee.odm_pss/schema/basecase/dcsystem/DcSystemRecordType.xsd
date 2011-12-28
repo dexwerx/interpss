@@ -72,9 +72,8 @@
 			PV Model 
  	-->
 	<ns:complexType name="BasePVModelXmlType" abstract="true">
-		<ns:annotation>
-			<ns:documentation></ns:documentation>
-		</ns:annotation>
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
 		<ns:sequence>
 			<ns:element name="dataType" type="pss:PVModuleDataEnumType" minOccurs="1"></ns:element>
 		</ns:sequence>
@@ -83,6 +82,7 @@
 		<ns:attribute name="desc" type="ns:string" use="optional"></ns:attribute>
 	</ns:complexType>
 
+
 	<ns:simpleType name="PVModuleDataEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="Points"></ns:enumeration>
@@ -90,6 +90,7 @@
 			<ns:enumeration value="value"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
+
 
 	<ns:complexType name="PVModelIVFunctionXmlType">
 		<ns:annotation><ns:documentation>
@@ -110,21 +111,24 @@
 		</ns:complexContent>		
 	</ns:complexType>
 
+
 	<ns:complexType name="PVModelIVCurveXmlType">
-		<ns:annotation>
-			<ns:documentation></ns:documentation>
+		<ns:annotation><ns:documentation>
+		</ns:documentation>
 		</ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BasePVModelXmlType">
-		<ns:sequence>
-			<ns:element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
-				<ns:annotation><ns:documentation>
-				volt in ascending order and amp in descending order, and first point vdc = 0;
-				</ns:documentation></ns:annotation></ns:element>
-		</ns:sequence>
+				<ns:sequence>
+					<ns:element name="ivPoint" type="pss:PVModelPointXmlType" minOccurs="1" maxOccurs="unbounded">
+						<ns:annotation><ns:documentation>
+						volt in ascending order and amp in descending order, and first point vdc = 0;
+						</ns:documentation></ns:annotation>
+					</ns:element>
+				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+
 
 	<ns:complexType name="PVModelPointXmlType">
 		<ns:annotation>
@@ -171,12 +175,14 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+
     <ns:complexType name="PVModuleXmlType">
       	<ns:sequence>
        		<ns:element name="pvModuleItem" type="pss:PVModuleItemXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
        	</ns:sequence>
        	<ns:attribute name="dataType" type="pss:PVModuleDataEnumType" use="required"></ns:attribute>
     </ns:complexType>
+
 
 	<ns:simpleType name="DcBusCodeEnumType">
 		<ns:restriction base="ns:string">
@@ -188,6 +194,7 @@
 			<ns:enumeration value="Inverter"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
+
 	
 	<ns:complexType name="PVModuleItemXmlType">
 		<ns:annotation>
@@ -232,6 +239,7 @@
 		</ns:sequence>
 	</ns:complexType>
 
+
 	<ns:complexType name="InverterLossParamXmlType">
 		<ns:annotation>
 			<ns:documentation></ns:documentation>
@@ -241,6 +249,7 @@
 		<ns:attribute name="b" type="ns:double" use="required"></ns:attribute>
 		<ns:attribute name="c" type="ns:double" use="required"></ns:attribute>
 	</ns:complexType>
+
 
 	<ns:complexType name="InverterLossEqnXmlType">
 		<ns:annotation>
@@ -256,23 +265,24 @@
 
 	<!--  
 		Branch objects
- 	-->	
+ 	-->
 	<ns:complexType name="DcBranchXmlType">
 		<ns:annotation><ns:documentation>
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseBranchXmlType">
 				<ns:choice>
-				<ns:sequence>
-					<ns:element name="feeder" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
-					</ns:element>
-					<ns:element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
-					</ns:element>
-				</ns:sequence>
+					<ns:sequence>
+						<ns:element name="feeder" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
+						</ns:element>
+						<ns:element name="homeRun" type="pss:DcFeederXmlType" minOccurs="0" maxOccurs="1">
+						</ns:element>
+					</ns:sequence>
 				</ns:choice>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+	
 	
 	<ns:complexType name="DcFeederXmlType">
 		<ns:annotation><ns:documentation>

@@ -17,13 +17,7 @@
     <ns:complexType name="ShuntCompensatorDataXmlType">
 		<ns:sequence>
 			<ns:element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></ns:element>
-			<ns:element name="shuntCompensatorList" minOccurs="0" maxOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="shunCompensator" type="pss:ShuntCompensatorXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
+			<ns:element name="shuntCompensator" type="pss:ShuntCompensatorXmlType" maxOccurs="unbounded" minOccurs="0">	</ns:element>
 		</ns:sequence>
 	</ns:complexType>
     
@@ -35,17 +29,8 @@
 			<ns:element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"> </ns:element>
 			<ns:element name="bInit" type="ns:double" minOccurs="1"></ns:element>
 			<ns:element name="VarPercent" type="ns:double" maxOccurs="1" minOccurs="0"> </ns:element>
-			<ns:element name="block" maxOccurs="unbounded" minOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="incrementB" type="pss:ReactivePowerXmlType" minOccurs="1"></ns:element>
-					</ns:sequence>
-					<ns:attribute name="steps" type="ns:int" use="required"></ns:attribute>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="remoteControlledBus" type="pss:IDRefRecordXmlType" minOccurs="0">
-			</ns:element>
-
+			<ns:element name="block" type="pss:ShuntCompensatorBlockXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
+			<ns:element name="remoteControlledBus" type="pss:IDRefRecordXmlType" minOccurs="0"></ns:element>
 			<ns:element name="vscDcLine" type="ns:string" minOccurs="0"></ns:element>
 			<ns:element name="bZeroSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0">			</ns:element>
 			<ns:element name="bPosSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0">			</ns:element>
@@ -63,7 +48,14 @@
 		<ns:attribute name="mode" use="required" type="pss:ShuntCompensatorModeEnumType">		</ns:attribute>
 		<ns:attribute name="offLine" type="ns:boolean" use="required"></ns:attribute>
 	</ns:complexType>
-    
+
+	<ns:complexType name="ShuntCompensatorBlockXmlType">
+		<ns:sequence>
+			<ns:element name="incrementB" type="pss:ReactivePowerXmlType" minOccurs="1"></ns:element>
+		</ns:sequence>
+		<ns:attribute name="steps" type="ns:int" use="required"></ns:attribute>
+	</ns:complexType>    
+
 
     <ns:simpleType name="ShuntCompensatorModeEnumType">
 		<ns:restriction base="ns:string">
@@ -87,7 +79,6 @@
 			<ns:element name="slope" type="ns:double" minOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
-    
 		
 	
     <ns:simpleType name="SVCControlModeEnumType">

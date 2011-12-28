@@ -32,6 +32,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
@@ -83,10 +84,10 @@ public class PSSEBusRecord {
 	    if (aclfBus.getShuntCompensatorData() == null) {  // there may be multiple contribute switched shunt records on a bus
 	    	ShuntCompensatorDataXmlType d = parser.getFactory().createShuntCompensatorDataXmlType();
 	    	aclfBus.setShuntCompensatorData(d);
-	    	d.setShuntCompensatorList(parser.getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
+	    	//d.setShuntCompensatorList(parser.getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
 	    }
 	    ShuntCompensatorXmlType shunt = parser.getFactory().createShuntCompensatorXmlType();
-	    aclfBus.getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(shunt);
+	    aclfBus.getShuntCompensatorData().getShuntCompensator().add(shunt);
 		
 		// genId is used to distinguish multiple generations at one bus		
 		int mode = ModelStringUtil.getInt(strAry[1], 0);
@@ -145,7 +146,7 @@ public class PSSEBusRecord {
 	  		if (nStr != null) {
 	  			int n = ModelStringUtil.getInt(nStr, 0);
 	  			double b = ModelStringUtil.getDouble(bStr, 0.0);
-	  			ShuntCompensatorXmlType.Block block = parser.getFactory().createShuntCompensatorXmlTypeBlock(); 
+	  			ShuntCompensatorBlockXmlType block = parser.getFactory().createShuntCompensatorBlockXmlType(); 
 	  			shunt.getBlock().add(block);
 	  			block.setSteps(n);
 	  			block.setIncrementB(BaseDataSetter.createReactivePowerValue(b, ReactivePowerUnitType.MVAR));

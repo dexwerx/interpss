@@ -79,6 +79,7 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+
 	<ns:complexType name="DynamicLoadXmlType">
 		<ns:sequence>
 			<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType"></ns:element>
@@ -100,6 +101,7 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+
 	
 	<ns:complexType name="XfrDStabXmlType">
 		<ns:complexContent>
@@ -111,6 +113,7 @@
 		</ns:complexContent>
 	</ns:complexType>	
 
+
 	<ns:complexType name="Xfr3WDStabXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:Xfr3WShortCircuitXmlType">
@@ -119,6 +122,7 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
+
 
 	<ns:complexType name="PSXfrDStabXmlType">
 		<ns:complexContent>
@@ -130,6 +134,7 @@
 		</ns:complexContent>
 	</ns:complexType>	
 
+
 	<ns:complexType name="PSXfr3WDStabXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:PSXfr3WShortCircuitXmlType">
@@ -139,8 +144,10 @@
 		</ns:complexContent>
 	</ns:complexType>	
 
+
 	<ns:complexType name="DynamicLineRelayXmlType">
 	</ns:complexType>	
+
 
 	<ns:complexType name="DynamicXfrRelayXmlType">
 	</ns:complexType>

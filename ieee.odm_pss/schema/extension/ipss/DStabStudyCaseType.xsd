@@ -21,20 +21,15 @@
 				<ns:sequence>
 					<ns:element name="simulationSetting" maxOccurs="1" minOccurs="1" type="ipss:DStabSimuSettingXmlType" />
 					<ns:element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType" />
-					<ns:element name="dynamicEvents" maxOccurs="1" minOccurs="1">
-						<ns:complexType>
-                            <ns:annotation><ns:documentation>
+					<ns:element name="disableDynEvents" type="ns:boolean" maxOccurs="1" minOccurs="0">
+                       <ns:annotation><ns:documentation>
                             when disableDynEvents = true, SetPointChange events might be added. All other 
                             dynamic events are ignore.  
 							When study SetPointChange dynamic evetns, you must disableDynEvents = true. 
 							There should be not be more than one SetPointChange dynamic events
-							</ns:documentation></ns:annotation>
-                            <ns:sequence>
-								<ns:element name="disableDynEvents" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-								<ns:element name="dynamicEvent" type="ipss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
-							</ns:sequence>
-						</ns:complexType>
+						</ns:documentation></ns:annotation>
 					</ns:element>
+					<ns:element name="dynamicEvent" type="ipss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>	
@@ -48,18 +43,20 @@
 			<ns:element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1" />
 			<ns:element name="absMachineAngle" type="ns:boolean" maxOccurs="1" minOccurs="0" />
 			<ns:element name="refMachine" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0" />
-			<ns:element name="netEqnSolveConfig" minOccurs="0">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="netEqnItrNoEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
-						<ns:element name="netEqnItrWithEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
+			<ns:element name="netEqnSolveConfig" type="ipss:DStabNetEqnSolveConfigXmlType" minOccurs="0"></ns:element>
 			<ns:element name="staticLoadModel" type="ipss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
+
+
+	<ns:complexType name="DStabNetEqnSolveConfigXmlType">
+		<ns:sequence>
+			<ns:element name="netEqnItrNoEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="netEqnItrWithEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>	
+				
 
 	<ns:complexType name="StaticLoadModelXmlType">
 		<ns:sequence>
