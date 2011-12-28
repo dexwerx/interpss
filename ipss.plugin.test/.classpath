@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-3.8.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
