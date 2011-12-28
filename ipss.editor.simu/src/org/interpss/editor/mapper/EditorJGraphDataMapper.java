@@ -29,7 +29,7 @@ import java.util.Vector;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.common.exp.InterpssException;
@@ -63,7 +63,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		// Currently only project in graph mode needs the mapping
 		Vector<String> errMsg = gFormContainer.checkData(msg);
 		if (errMsg != null) {
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"Network data error", errMsg);
 			return false;
 		}
@@ -96,28 +96,28 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 
 		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
 				if (!simuCtx.checkData()) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				if (!simuCtx.checkData()) {
-					BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Transient stabiliry Data Error",
 							"Please see the message list for details");
 					return false;

@@ -33,7 +33,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
@@ -62,14 +62,14 @@ public class XmlScriptContingency {
 	 */
 	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet) {
 		if (!GridEnvHelper.isGridEnabled()) {
-			BasePluginSpringFactory.getEditorDialogUtil().showWarnMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showWarnMsgDialog(
 					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
 			return false;
 		}
 
 		ContingencyAnalysisXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis();
 		if (xmlRunCase == null) {
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
@@ -121,10 +121,10 @@ public class XmlScriptContingency {
 					resultHandler.transferRemoteResult(mCaseContainer, result);
 				}
 			} catch (GridException e) {
-				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+				PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
 				return false;
 			} catch (Exception e) {
-				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
+				PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
 				return false;
 			}
 		}

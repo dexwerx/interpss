@@ -27,15 +27,15 @@ package org.interpss.editor.io;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.interpss.db.DBManager;
-import org.interpss.db.IpssDBCase;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DBStudyCase;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.output.db.DBManager;
+import org.interpss.output.db.IpssDBCase;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
@@ -101,7 +101,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 						projData);
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
-				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+				PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 						"Error to Create DB Project",
 						e.toString() + "\nPlease contact InterPSS support");
 			}

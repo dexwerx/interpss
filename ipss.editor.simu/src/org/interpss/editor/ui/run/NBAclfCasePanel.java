@@ -36,7 +36,7 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
@@ -1094,7 +1094,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	accFactorTextField.setEnabled(false);
     	accFactorLabel.setEnabled(false);
     	if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
-    		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Warning",
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Warning",
                 "You have branch(es) R > X in your next work, PQ method may diverge. Use NR is recommended");
     	}
     }//GEN-LAST:event_pqRadioButtonActionPerformed

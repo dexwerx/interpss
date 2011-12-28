@@ -29,11 +29,11 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.interpss.db.DBManager;
-import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.numeric.util.StringHelper;
 import org.interpss.output.ISimuRecManager;
+import org.interpss.output.db.DBManager;
+import org.interpss.output.db.IpssDBCase;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 

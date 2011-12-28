@@ -24,7 +24,6 @@
 
 package org.interpss.editor.ui;
 
-import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.ProjectFileUtil;
@@ -45,9 +44,10 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
+import org.interpss.output.db.IpssDBCase;
 import org.interpss.report.IpssReportFactory;
-import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.EditorSimuSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.jgraph.JGraph;
 
 import com.interpss.DStabObjectFactory;
@@ -129,7 +129,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -160,7 +160,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 
@@ -190,7 +190,7 @@ public class EditorActionAdapter {
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
 		}
 	}
 

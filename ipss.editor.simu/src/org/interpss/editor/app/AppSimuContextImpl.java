@@ -33,7 +33,6 @@ import java.util.Vector;
 
 import javax.swing.JPopupMenu;
 
-import org.interpss.db.DBManager;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.chart.ChartManager;
 import org.interpss.editor.data.proj.CaseData;
@@ -42,6 +41,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
+import org.interpss.output.db.DBManager;
 import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 

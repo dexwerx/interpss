@@ -32,7 +32,7 @@ import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.grid.gridgain.GridRunner;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
@@ -58,7 +58,7 @@ public class XmlScriptRunWorker {
 			parser = new IpssXmlParser(scripts);
 		} catch (JAXBException e) {
 			IpssLogger.logErr(e);
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", e.toString());
 			return false;
 		}

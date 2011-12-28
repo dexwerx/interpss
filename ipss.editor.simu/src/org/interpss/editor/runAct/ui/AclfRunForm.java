@@ -35,7 +35,7 @@ import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -111,7 +111,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 					dialog.display(buffer);					
 				} catch (InterpssException e) {
-					BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}
@@ -136,7 +136,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 						dialog.display(adjNet);
 					}
 				} catch (GridException e) {
-					BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}

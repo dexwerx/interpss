@@ -35,7 +35,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
@@ -72,7 +72,7 @@ public class XmlScriptAclfRun {
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet) {
 		RunAclfStudyCaseXmlType xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
 		}
 
@@ -144,7 +144,7 @@ public class XmlScriptAclfRun {
 						studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 					}
 				} catch (Exception e) {
-					BasePluginSpringFactory.getEditorDialogUtil()
+					PluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 					return false;
@@ -166,7 +166,7 @@ public class XmlScriptAclfRun {
 							resultHandler.transferRemoteResult(mCaseContainer, result);
 					}
 				} catch (GridException e) {
-					BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+					PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
 					return false;
 				} 
 			}
@@ -196,7 +196,7 @@ public class XmlScriptAclfRun {
 				aclfNet = (AclfNetwork) SerializeEMFObjectUtil.loadModel(str);
 				aclfNet.rebuildLookupTable();
 			} catch (GridException e) {
-				BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+				PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
 				return false;
 			}
 		} else {

@@ -36,7 +36,6 @@ import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
-import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
@@ -146,7 +145,7 @@ public class XmlScriptDStabRun {
 						simuCtx.setDStabilityNet(dstabNet);
 						return result.getReturnStatus();
 					} catch (GridException e) {
-						BasePluginSpringFactory.getEditorDialogUtil()
+						PluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -223,7 +222,7 @@ public class XmlScriptDStabRun {
 							studyCase.setDesc("DStab by Local Node");
 						}
 					} catch (Exception e) {
-						BasePluginSpringFactory.getEditorDialogUtil()
+						PluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
 						return false;
@@ -239,7 +238,7 @@ public class XmlScriptDStabRun {
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {
-								BasePluginSpringFactory
+								PluginSpringFactory
 										.getEditorDialogUtil()
 										.showWarnMsgDialog("Grid DStab Error",
 												"Please check InterPSS log file for details");
@@ -247,7 +246,7 @@ public class XmlScriptDStabRun {
 							}
 						}
 					} catch (GridException e) {
-						BasePluginSpringFactory.getEditorDialogUtil()
+						PluginSpringFactory.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
 										e.toString());
 						return false;
@@ -259,7 +258,7 @@ public class XmlScriptDStabRun {
 				simuCtx.setDStabilityNet(dstabNet);
 			}
 		} else {
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Invalid Xml", "runDStabStudyCase element not defined");
 			return false;
 		}

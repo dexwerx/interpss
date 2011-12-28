@@ -34,7 +34,7 @@ import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.output.BaseSimuDBRecord;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
@@ -156,7 +156,7 @@ public class DStabPlotDialogRecord {
 					elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 		}

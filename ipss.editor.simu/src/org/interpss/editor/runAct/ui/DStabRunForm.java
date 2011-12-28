@@ -33,7 +33,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.numeric.util.StringHelper;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
@@ -220,7 +220,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			net.initialization();
 			return result.getReturnStatus();
 		} catch (GridException e) {
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
 			return false;
 		}

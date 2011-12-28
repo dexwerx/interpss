@@ -30,7 +30,7 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.IpssXmlParser;
@@ -394,12 +394,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		Vector<String> errMsg = new Vector<String>();
 		try {
 			if (!saveEditor2Form(errMsg)) {
-				BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
+				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
         		return;
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
        		return;
 		}
 		// event name may be modified, refresh the event list

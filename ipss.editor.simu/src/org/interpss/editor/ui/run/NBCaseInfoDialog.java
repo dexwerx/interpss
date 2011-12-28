@@ -43,7 +43,7 @@ import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
@@ -709,7 +709,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
 		}
 		else {
-			BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
+			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
 		}
     }//GEN-LAST:event_deleteCaseButtonActionPerformed
 
@@ -737,12 +737,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+        		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
         	IpssLogger.logErr(e);
-        	BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+        	PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 			return;
         }	
         
@@ -800,12 +800,12 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	Vector<String> errMsg = new Vector<String>();	
 	try {
     	if (!saveEditor2Form(errMsg)) {
-    		BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 			return;
     	}
     } catch (Exception e) {
     	IpssLogger.logErr(e);
-    	BasePluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+    	PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 		return;
     }	
     

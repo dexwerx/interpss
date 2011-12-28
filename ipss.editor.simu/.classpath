@@ -30,5 +30,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.schema"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

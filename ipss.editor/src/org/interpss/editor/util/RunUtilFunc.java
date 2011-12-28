@@ -31,7 +31,7 @@ import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.ui.EditorActionAdapter;
-import org.interpss.spring.BasePluginSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringFactory;
@@ -46,7 +46,7 @@ public class RunUtilFunc  {
 	 */
 	public static void performRunAction(IpssEditorDocument doc, SimuRunEnum type, GPGraphpad graphpad) {
 		if (graphpad.isBGProcessingBusy()) {
-			BasePluginSpringFactory.getEditorDialogUtil().showWarnMsgDialog("Simulation Thread Busy", 
+			PluginSpringFactory.getEditorDialogUtil().showWarnMsgDialog("Simulation Thread Busy", 
 				"The run-simulation thread is busy. Please wait for its finishing before starting another one.");
 			return;
 		}	
