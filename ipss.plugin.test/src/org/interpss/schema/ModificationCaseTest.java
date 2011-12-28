@@ -26,16 +26,21 @@ package org.interpss.schema;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.interpss.PluginTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.spring.PluginSpringFactory;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.pssl.simu.IpssAclfNet;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -50,8 +55,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 	  	assertTrue(net.getAclfBus("0003").getGenCode() != AclfGenCode.NON_GEN);
 	  	assertTrue(net.getAclfBus("0009").getLoadCode() != AclfLoadCode.NON_LOAD);
 
-		IpssAclfNet.wrapAclfNetwork(net)
-					.applyModification("testData/xml/ModificationOnly.xml");
+		applyModification(net, "testData/xml/ModificationOnly.xml");
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	assertTrue(!net.getBus("0006").isActive());
@@ -87,8 +91,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
-		IpssAclfNet.wrapAclfNetwork(net)
-					.applyModification("testData/xml/ModificationOnly.xml");
+		applyModification(net, "testData/xml/ModificationOnly.xml");
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	assertTrue(!net.getBus("0006").isActive());
@@ -110,6 +113,16 @@ public class ModificationCaseTest extends PluginTestSetup {
 
 	  	// branch Z increase by 10%
 	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").getZ().getImaginary()-0.20912*1.1) < 1.0E-5);
-  		
-	}  		
+	}
+	
+	private void applyModification(AclfNetwork net, String filename) {
+		try {
+			File xmlFile = new File(filename);
+			IpssXmlParser parser = new IpssXmlParser(xmlFile);
+			ModificationXmlType mod = parser.getModification();
+			PluginSpringFactory.getModXml2NetMapper().map2Model(mod, net);
+		} catch (Exception e) {
+			IpssLogger.getLogger().severe("IpssAclf.applyModification(), " + e.toString());
+		}
+	}	
 }

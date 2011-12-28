@@ -33,7 +33,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.PluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfDataMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.CorePluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -84,7 +84,7 @@ public class GuideSample_TestCase extends PluginTestSetup {
 		IODMAdapter adapter = new PSSEV30Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
-		AclfNetwork net = PluginSpringFactory
+		AclfNetwork net = CorePluginSpringFactory
 				.getOdm2AclfMapper()
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();

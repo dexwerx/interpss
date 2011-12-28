@@ -25,11 +25,10 @@
 package org.interpss.core.adapter.odm;
 
 import org.ieee.odm.schema.YUnitType;
+import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.Unit;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
-
-import com.interpss.pssl.util.ODMUnitHelper;
 
 public class ODMXmlHelperTest {
 	@Test 
