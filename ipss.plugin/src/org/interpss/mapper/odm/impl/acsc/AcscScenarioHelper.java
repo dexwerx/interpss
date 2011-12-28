@@ -40,6 +40,7 @@ import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ZXmlType;
+import org.interpss.mapper.odm.ODMUnitHelper;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -52,7 +53,6 @@ import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.ScBusVoltageType;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.dstab.devent.BranchOutageType;
-import com.interpss.pssl.util.ODMUnitHelper;
 
 public class AcscScenarioHelper {
 	private AcscNetwork acscFaultNet = null;

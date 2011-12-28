@@ -46,6 +46,8 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
+import org.interpss.mapper.odm.ODMHelper;
+import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
@@ -60,8 +62,6 @@ import com.interpss.core.aclf.flow.FlowInterfaceBranch;
 import com.interpss.core.aclf.flow.FlowInterfaceLimit;
 import com.interpss.core.aclf.flow.FlowInterfaceType;
 import com.interpss.core.net.Branch;
-import com.interpss.pssl.util.ODMHelper;
-import com.interpss.pssl.util.ODMUnitHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
