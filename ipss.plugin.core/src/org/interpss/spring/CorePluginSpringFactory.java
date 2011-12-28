@@ -29,7 +29,9 @@ import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
 
-public class CorePluginSpringFactory extends BasePluginSpringFactory {
+import com.interpss.spring.CoreSimuSpringFactory;
+
+public class CorePluginSpringFactory extends CoreSimuSpringFactory {
 	/*
 	 * 		Mapper definition Odm -> SimuCtx
 	 * 		================================

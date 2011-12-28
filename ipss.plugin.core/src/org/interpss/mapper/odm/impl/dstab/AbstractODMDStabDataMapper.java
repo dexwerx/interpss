@@ -52,7 +52,7 @@ import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
-import org.interpss.dstab.output.DatabaseSimuOutputHandler;
+//import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
@@ -99,8 +99,12 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				simuCtx.setDStabilityNet(dstabNet);
 				simuCtx.setNetType(SimuCtxType.DSTABILITY_NET);
 				
+/*				
 				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(
 						dstabNet, new DatabaseSimuOutputHandler(), this.msg);
+*/						
+				DynamicSimuAlgorithm dstabAlgo =DStabObjectFactory.createDynamicSimuAlgorithm(
+						dstabNet, this.msg);
 				simuCtx.setDynSimuAlgorithm(dstabAlgo);
 
 				LoadflowAlgorithm lfAlgo = CoreObjectFactory.createLoadflowAlgorithm(dstabNet);
