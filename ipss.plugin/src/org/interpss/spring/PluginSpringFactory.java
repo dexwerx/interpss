@@ -34,6 +34,9 @@ import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.output.ISimuRecManager;
+import org.interpss.ui.IDialogUtil;
+import org.interpss.ui.IProjectDataManager;
+import org.interpss.ui.IRefDataManager;
 import org.interpss.xml.XmlNetParamModifier;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
@@ -49,8 +52,18 @@ import com.interpss.core.net.Network;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
+import com.interpss.spring.CoreSimuSpringFactory;
 
-public class PluginSpringFactory extends BasePluginSpringFactory {
+public class PluginSpringFactory extends CoreSimuSpringFactory {
+	/**
+	 * Get the IEditorDialogUtil(singleton) from the SpringAppContext.
+	 *  
+	 * @return the EditorDialogUtil object
+	 */
+	public static IDialogUtil getEditorDialogUtil() {
+		return (IDialogUtil) SpringAppCtx.getBean("editorDialogUtil");
+	}	
+	
 	/**
 	 * Get the SimuRecManager(singleton) from the SpringAppContext.
 	 *  
@@ -64,6 +77,25 @@ public class PluginSpringFactory extends BasePluginSpringFactory {
 		return (JDialog) SpringAppCtx.getBean("caseInfoDialog");
 	}
 
+	/**
+	 * Get the RefDataManager(singleton) from the SpringAppContext.
+	 *  
+	 * @return the RefDataManager object
+	 */
+	public static IRefDataManager getRefDataManager() {
+		return (IRefDataManager) SpringAppCtx.getBean("refDataManager");
+	}
+	
+	/**
+	 * Get the SimuRecManager(singleton) from the SpringAppContext.
+	 *  
+	 * @return the RefDataManager object
+	 */
+	public static IProjectDataManager getProjectDataDBManager() {
+		return (IProjectDataManager) SpringAppCtx
+				.getBean("projectDataManager");
+	}
+	
 	/**
 	 * Get the CustomFileAdapterList(singleton) from the SpringAppContext.
 	 *  

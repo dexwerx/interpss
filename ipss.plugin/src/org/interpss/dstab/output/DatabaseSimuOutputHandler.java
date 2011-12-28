@@ -10,7 +10,6 @@ import org.interpss.grid.GridConstants;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.output.db.DBManager;
 import org.interpss.output.db.IpssDBCase;
-import org.interpss.spring.BasePluginSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
@@ -40,8 +39,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 	}
 
 	public boolean init(int projDbId, String caseName) throws InterpssException {
-		IProjectDataManager projDataMgr = BasePluginSpringFactory
-				.getProjectDataDBManager();
+		IProjectDataManager projDataMgr = PluginSpringFactory.getProjectDataDBManager();
 		ISimuRecManager simuRecMgr = PluginSpringFactory.getSimuRecManager();
 
 		this.excRecTypeId = simuRecMgr.getRecTypeId(
@@ -221,7 +219,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 			}
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			BasePluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"InterPSS DB Access Error",
 					ex.toString() + "\n Please contact InterPSS support");
 			return false;
