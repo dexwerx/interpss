@@ -29,12 +29,12 @@ import static org.junit.Assert.assertTrue;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
+import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenBusAnalysisEnumType;
 import org.ieee.odm.schema.SensitivityEnumType;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -93,14 +93,14 @@ public class DclfGSF_Test extends BaseTestSetup {
 		gsf.setSenType(SensitivityEnumType.P_ANGLE);
 		
 		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId("Bus2");
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
+		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus3");
 		
-		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
+		BranchShiftFactorXmlType sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		BranchRefXmlType line = helper.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus2_Bus3");
@@ -150,14 +150,14 @@ public class DclfGSF_Test extends BaseTestSetup {
 		gsf.setSenType(SensitivityEnumType.P_ANGLE);
 		
 		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId("Bus2");
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.MULTIPLE_BUS);
-		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
+		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus13");
 		bus.setPercent(50.0);
-		bus = helper.createSenAnalysisBus(gsf.getWithdrawBusList().getWithdrawBuses());
+		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus14");
 		bus.setPercent(50.0);
 		
@@ -209,7 +209,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		gsf.setSenType(SensitivityEnumType.P_ANGLE);
 		
 		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId("Bus2");
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);

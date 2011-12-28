@@ -94,11 +94,11 @@ public class DclfLoss_Test extends BaseTestSetup {
 		lfactor.setSenType(SensitivityEnumType.P_ANGLE);
 		
 		lfactor.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(lfactor.getInjectBusList().getInjectBuses());
+		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(lfactor.getInjectBus());
 		bus.setBusId("Bus2");
 		
 		lfactor.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBusList().getWithdrawBuses());
+		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus3");		
 		
 		
@@ -129,14 +129,14 @@ public class DclfLoss_Test extends BaseTestSetup {
 		lfactor.setSenType(SensitivityEnumType.P_ANGLE);
 		
 		lfactor.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		bus = helper.createSenAnalysisBus(lfactor.getInjectBusList().getInjectBuses());
+		bus = helper.createSenAnalysisBus(lfactor.getInjectBus());
 		bus.setBusId("Bus2");
 		
 		lfactor.setWithdrawBusType(SenBusAnalysisEnumType.MULTIPLE_BUS);
-		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBusList().getWithdrawBuses());
+		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus13");
 		bus.setPercent(50.0);
-		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBusList().getWithdrawBuses());
+		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus14");
 		bus.setPercent(50.0);		
 		
