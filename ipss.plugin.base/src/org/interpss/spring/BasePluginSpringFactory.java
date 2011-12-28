@@ -24,7 +24,6 @@
 
 package org.interpss.spring;
 
-import org.interpss.output.ISimuRecManager;
 import org.interpss.ui.IProjectDataManager;
 import org.interpss.ui.IRefDataManager;
 
@@ -41,16 +40,6 @@ public class BasePluginSpringFactory extends CoreCommonSpringFactory {
 	public static IDialogUtil getEditorDialogUtil() {
 		return (IDialogUtil) SpringAppCtx.getBean("editorDialogUtil");
 	}
-	
-	/**
-	 * Get the SimuRecManager(singleton) from the SpringAppContext.
-	 *  
-	 * @return the RefDataManager object
-	 */
-	public static ISimuRecManager getSimuRecManager() {
-		return (ISimuRecManager) SpringAppCtx.getBean("simuRecManager");
-	}
-	
 
 	/**
 	 * Get the RefDataManager(singleton) from the SpringAppContext.
