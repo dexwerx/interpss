@@ -46,7 +46,7 @@ import com.interpss.opf.OpfBranch;
 import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
-import com.interpss.pssl.simu.odm.ODMHelper;
+import com.interpss.pssl.util.ODMHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 

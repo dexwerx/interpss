@@ -52,7 +52,7 @@ import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.ScBusVoltageType;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.dstab.devent.BranchOutageType;
-import com.interpss.pssl.simu.odm.ODMUnitHelper;
+import com.interpss.pssl.util.ODMUnitHelper;
 
 public class AcscScenarioHelper {
 	private AcscNetwork acscFaultNet = null;

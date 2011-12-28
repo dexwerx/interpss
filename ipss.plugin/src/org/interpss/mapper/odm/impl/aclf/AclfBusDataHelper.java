@@ -57,7 +57,7 @@ import com.interpss.core.aclf.adpter.LoadBusAdapter;
 import com.interpss.core.aclf.adpter.PQBusAdapter;
 import com.interpss.core.aclf.adpter.PVBusAdapter;
 import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.pssl.simu.odm.ODMUnitHelper;
+import com.interpss.pssl.util.ODMUnitHelper;
 
 public class AclfBusDataHelper {
 	private AclfNetwork aclfNet = null;

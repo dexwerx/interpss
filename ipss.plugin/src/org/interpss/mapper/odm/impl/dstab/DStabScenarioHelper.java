@@ -124,15 +124,14 @@ public class DStabScenarioHelper {
 				.mapAclfAlgorithm(lfInit);		
 		
 		// map the dynamic event part
-		dstabAlgo.setDisableDynamicEvent(dstabSimuXml.getDynamicEvents().isDisableDynEvents());
+		dstabAlgo.setDisableDynamicEvent(dstabSimuXml.isDisableDynEvents());
 		if (dstabAlgo.isDisableDynamicEvent()) {
 			/*
 			when disableDynEvents = true, SetPointChange events might be added. All other dynamic events are ignore. 
 			When study SetPointChange dynamic evetns, you must disableDynEvents = true.
 			 */
-			if (dstabSimuXml.getDynamicEvents() != null && 
-					dstabSimuXml.getDynamicEvents().getDynamicEvent().size() == 1) {
-				DynamicEventXmlType eventXml = dstabSimuXml.getDynamicEvents().getDynamicEvent().get(0);
+			if (dstabSimuXml.getDynamicEvent().size() == 1) {
+				DynamicEventXmlType eventXml = dstabSimuXml.getDynamicEvent().get(0);
 				if ( eventXml.getEventType() == DynamicEventEnumType.SET_POINT_CHANGE) {
 					DStabSetPointChangeXmlType spcEventXml = eventXml.getSetPointChangeData();
 					if (spcEventXml != null) {
@@ -148,7 +147,7 @@ public class DStabScenarioHelper {
 			 *    eventObj - InterPSS DynamicEvent object
 			 *    eventXml - ODM DynamicEvent xml record 
 			 */
-			for (DynamicEventXmlType eventXml : dstabSimuXml.getDynamicEvents().getDynamicEvent()) {			
+			for (DynamicEventXmlType eventXml : dstabSimuXml.getDynamicEvent()) {			
 				// create event name
 				String name = eventXml.getName();
 				if (name == null) 

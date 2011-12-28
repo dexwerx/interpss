@@ -60,8 +60,8 @@ import com.interpss.core.aclf.flow.FlowInterfaceBranch;
 import com.interpss.core.aclf.flow.FlowInterfaceLimit;
 import com.interpss.core.aclf.flow.FlowInterfaceType;
 import com.interpss.core.net.Branch;
-import com.interpss.pssl.simu.odm.ODMHelper;
-import com.interpss.pssl.simu.odm.ODMUnitHelper;
+import com.interpss.pssl.util.ODMHelper;
+import com.interpss.pssl.util.ODMUnitHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 

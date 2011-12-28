@@ -49,7 +49,7 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.dstab.mach.SalientPoleMachine;
-import com.interpss.pssl.simu.odm.ODMUnitHelper;
+import com.interpss.pssl.util.ODMUnitHelper;
 
 
 public class MachDataHelper {

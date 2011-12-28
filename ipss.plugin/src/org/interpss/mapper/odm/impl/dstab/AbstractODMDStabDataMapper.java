@@ -67,7 +67,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.pssl.simu.odm.ODMHelper;
+import com.interpss.pssl.util.ODMHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 

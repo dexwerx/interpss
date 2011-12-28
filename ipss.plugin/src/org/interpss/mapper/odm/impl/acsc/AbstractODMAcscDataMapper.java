@@ -66,8 +66,8 @@ import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.acsc.adpter.AcscLineAdapter;
 import com.interpss.core.acsc.adpter.AcscXfrAdapter;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
-import com.interpss.pssl.simu.odm.ODMHelper;
-import com.interpss.pssl.simu.odm.ODMUnitHelper;
+import com.interpss.pssl.util.ODMHelper;
+import com.interpss.pssl.util.ODMUnitHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
