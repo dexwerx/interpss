@@ -1,5 +1,5 @@
  /*
-  * @(#)ScriptingStabilizer.java   
+  * @(#)ScriptingGovernor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,34 +22,35 @@
   *
   */
 
-package org.interpss.dstab.control.cml;
+package org.interpss.dstab.control.cml.ui;
+
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
-public class CMLScriptingStabilizer extends AbstractCMLScriptingController {
-	public static String BaseClass = "AnnotateStabilizer";
-
+public class CMLScriptingGovernor extends AbstractCMLScriptingController {
+	public static String BaseClass = "AnnotateGovernor";
+	
 	// define UI Editor panel for editing the controller data
 	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
 
 
 	/**
-	 * Constructor
+	 * Constructor 
 	 */
-	public CMLScriptingStabilizer() {
-		super("pssId", "pssName", "pssCaty", MachineControllerType.STABILIZER);
+	public CMLScriptingGovernor() {
+		super("govId", "govName", "govCaty", MachineControllerType.GOVERNOR);
 	}
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param id stabilizer id
-	 * @param name stabilizer name
+	 * @param id governor id
+	 * @param name governor name
 	 */
-	public CMLScriptingStabilizer(final String id, final String name, final String caty) {
-		super(id, name, caty, MachineControllerType.STABILIZER);
+	public CMLScriptingGovernor(final String id, final String name, final String caty) {
+		super(id, name, caty, MachineControllerType.GOVERNOR);
 	}
 	
 	/**
@@ -59,14 +60,14 @@ public class CMLScriptingStabilizer extends AbstractCMLScriptingController {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach) {
-		setId(mach.getId() + "_Pss");
+		setId(mach.getId() + "_Gov");
 		return super.initStates(abus, mach);
 	}	
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateStabilizer
+		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateGovernor
 	}	
-	
+
 	public void createControllerObject() {
 		createControllerObject(BaseClass);  
 	}	
@@ -75,6 +76,6 @@ public class CMLScriptingStabilizer extends AbstractCMLScriptingController {
 	public Object getEditPanel() {
 		_editPanel.init(this);
 		return _editPanel;
-	}	
+	}
 } 
 

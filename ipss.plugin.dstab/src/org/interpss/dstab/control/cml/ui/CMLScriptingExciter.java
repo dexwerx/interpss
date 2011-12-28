@@ -22,7 +22,8 @@
   *
   */
 
-package org.interpss.dstab.control.cml;
+package org.interpss.dstab.control.cml.ui;
+
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.Machine;

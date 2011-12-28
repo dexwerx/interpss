@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab.control.cml;
+package org.interpss.dstab.control.cml.ui;
 
 import java.util.Vector;
 
