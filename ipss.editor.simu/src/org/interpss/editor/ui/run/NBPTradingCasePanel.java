@@ -72,10 +72,10 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
-import com.interpss.datatype.DblBusValue;
-import com.interpss.pssl.simu.odm.PTradingDslODMRunner;
-import com.interpss.pssl.simu.odm.PTradingDslODMRunner.PtAnalysisType;
-import com.interpss.pssl.util.PTradingOutput;
+import com.interpss.pssl.common.DblBusValue;
+import com.interpss.pssl.display.PTradingOutput;
+import com.interpss.pssl.odm.PTradingDslODMRunner;
+import com.interpss.pssl.odm.PTradingDslODMRunner.PtAnalysisType;
 import com.interpss.simu.SimuContext;
 
 public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {

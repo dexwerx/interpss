@@ -32,18 +32,18 @@ import javax.swing.JDialog;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
+import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.FlowInterfaceRecXmlType;
+import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
+import org.ieee.odm.schema.LODFMonitorBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 import org.ieee.odm.schema.SenBusAnalysisEnumType;
 import org.ieee.odm.schema.SensitivityEnumType;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.BranchSFactor;
-import org.ieee.odm.schema.DclfBranchSensitivityXmlType.InterfaceSFactor;
-import org.ieee.odm.schema.LineOutageDFactorXmlType.MonitorBranch;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -61,13 +61,14 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.flow.FlowInterface;
-import com.interpss.datatype.DblBranchValue;
-import com.interpss.datatype.DblBusValue;
+import com.interpss.pssl.common.DblBranchValue;
+import com.interpss.pssl.common.DblBusValue;
 import com.interpss.pssl.common.PSSLException;
+import com.interpss.pssl.display.SenAnalysisOutput;
+import com.interpss.pssl.odm.DclfDslODMRunner;
+import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
-import com.interpss.pssl.simu.odm.DclfDslODMRunner.DclfAnalysisType;
-import com.interpss.pssl.util.SenAnalysisOutput;
 import com.interpss.simu.SimuContext;
 
 public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
@@ -189,7 +190,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (this._senXml.getGenShiftFactor().size() > 0) {
 			DclfBranchSensitivityXmlType gsf = this._senXml.getGenShiftFactor().get(0);
 			
-			SenAnalysisBusXmlType bus = gsf.getInjectBusList().getInjectBuses().get(0);
+			SenAnalysisBusXmlType bus = gsf.getInjectBus().get(0);
 			this.gsfInjectBusComboBox.setSelectedItem(bus.getBusId());
 			
 			this.gsfLoadThreshholdTextField.setText(
@@ -197,11 +198,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			
 			String[] ary = new String[gsf.getBranchSFactor().size()+gsf.getInterfaceSFactor().size()];
 			int cnt = 0;
-			for ( BranchSFactor sf : gsf.getBranchSFactor()) {
+			for ( BranchShiftFactorXmlType sf : gsf.getBranchSFactor()) {
 				BranchRefXmlType branch = sf.getBranch();
 				ary[cnt++] = "b:" + NetUtilFunc.formBranchId(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
 			}
-			for ( InterfaceSFactor inf : gsf.getInterfaceSFactor()) {
+			for ( InterfaceShiftFactorXmlType inf : gsf.getInterfaceSFactor()) {
 				FlowInterfaceRecXmlType in = inf.getInterface();
 				ary[cnt++] = "i:" + in.getId();
 			}
@@ -235,7 +236,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (lodf.getMonitorBranch() != null) {
 			String[] ary = new String[lodf.getMonitorBranch().size()];
 			int cnt = 0;
-			for (MonitorBranch monitor : lodf.getMonitorBranch()) {
+			for (LODFMonitorBranchXmlType monitor : lodf.getMonitorBranch()) {
 		    	String id = monitor.getBranch().getBranchId();
 				ary[cnt++] = "b:" + id;
 			}
@@ -381,7 +382,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		gsf.setSenType(SensitivityEnumType.P_ANGLE);
 		
 		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBusList().getInjectBuses());
+		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId((String)this.gsfInjectBusComboBox.getSelectedItem());
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
@@ -395,14 +396,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     		if (id != null) {
         		if (id.startsWith("b:")) { // branch
         			String braId = id.substring(2);
-    	    		BranchSFactor sf = helper.createBranchSFactor(gsf.getBranchSFactor());
+    	    		BranchShiftFactorXmlType sf = helper.createBranchSFactor(gsf.getBranchSFactor());
     	    		BranchRefXmlType line = helper.createBranchRefXmlType();
     				sf.setBranch(line);
     				RunUIUtilFunc.setBranchIdInfo(line, braId);				
         		}
         		else {  // interface
         			String braId = id.substring(2);
-    	    		InterfaceSFactor sf = helper.createInterfaceSFactor(gsf.getInterfaceSFactor());
+    	    		InterfaceShiftFactorXmlType sf = helper.createInterfaceSFactor(gsf.getInterfaceSFactor());
     	    		FlowInterfaceRecXmlType inf = helper.createInterface();
     				sf.setInterface(inf);
     				inf.setId(braId);
@@ -1988,7 +1989,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 				String outText = "";
 				try {
-					algoDsl.runDclfXmlCase(_senXml, DclfAnalysisType.GSF);
+					new DclfDslODMRunner(algoDsl).runDclfCase(_senXml, DclfAnalysisType.GSF);
 					outText = SenAnalysisOutput.outGSF(_senXml.getGenShiftFactor().get(0)).toString();
 				} catch (PSSLException e) {
 					IpssLogger.getLogger().severe(e.toString());
@@ -2176,7 +2177,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 				String outText = "";
 				try {
-					algoDsl.runDclfXmlCase(senXml, DclfAnalysisType.LODF);
+					new DclfDslODMRunner(algoDsl).runDclfCase(senXml, DclfAnalysisType.LODF);
 					LineOutageDFactorXmlType lodf = senXml.getLineOutageDFactor().get(0);
 			    	outText = SenAnalysisOutput.outLODF(lodf).toString(); // this.odmParser.toXmlDoc(false);
 				} catch (PSSLException e) {

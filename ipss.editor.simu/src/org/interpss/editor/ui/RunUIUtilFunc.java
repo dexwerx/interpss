@@ -37,7 +37,6 @@ import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.InterPSSXmlType;
 
-import com.interpss.algo.aclf.EDHourlyLoadflow;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
@@ -48,6 +47,7 @@ import com.interpss.core.aclf.flow.FlowInterface;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.pssl.algo.aclf.EDHourlyLoadflow;
 
 public class RunUIUtilFunc  {
 	public static String Template_RunCase = "template/RunCaseTemplate.xml";
