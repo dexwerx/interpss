@@ -24,6 +24,7 @@
 
 package org.interpss.editor.ui;
 
+import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.ProjectFileUtil;
@@ -44,7 +45,6 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
-import org.interpss.output.db.IpssDBCase;
 import org.interpss.report.IpssReportFactory;
 import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.spring.PluginSpringFactory;

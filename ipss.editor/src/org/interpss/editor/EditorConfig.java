@@ -30,12 +30,12 @@ package org.interpss.editor;
 */
 
 import org.interpss.AppConstants;
+import org.interpss.db.DBManager;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.output.db.DBManager;
 
 import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
