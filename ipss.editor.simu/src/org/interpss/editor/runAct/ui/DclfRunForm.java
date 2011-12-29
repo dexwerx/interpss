@@ -65,7 +65,8 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	
 	public void displaySummaryResult(SimuContext simuCtx) {
 		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Sensitivity Analysis Results");
-		String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, simuCtx.getDclfAlgorithm());
+		//String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, simuCtx.getDclfAlgorithm());
+		String str = "TODO";
 		dialog.display(str);
 	}	
 }

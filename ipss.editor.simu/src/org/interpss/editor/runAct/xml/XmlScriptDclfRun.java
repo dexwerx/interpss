@@ -90,31 +90,31 @@ public class XmlScriptDclfRun {
 					dialog.appendText(str);
 				}
 
-				for (DclfBusSensitivityXmlType sen : xmlCase.getSensitivity()) {
-					String inBusId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
-					if (sen.getSenType() == SensitivityDataType.P_ANGLE) {
-						//algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
-						String str = DclfOutFunc.pAngleSensitivityResults(sen, algo);
-						dialog.appendText(str);
-					} else if (sen.getSenType() == SensitivityDataType.Q_VOLTAGE) {
-						//algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId);
-						String str = DclfOutFunc.qVoltageSensitivityResults(sen, algo);
-						dialog.appendText(str);
-					}
-				}
-
-				for (DclfBranchSensitivityXmlType gsFactor : xmlCase.getGenShiftFactor()) {
-					String inBusId = gsFactor.getInjectBusList().getInjectBus().get(0).getBusId();
-					//algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
-					String str = DclfOutFunc.genShiftFactorResults(gsFactor, algo);
-					dialog.appendText(str);
-				}
-
-				for (DclfBranchSensitivityXmlType tdFactor : xmlCase.getPTransferDistFactor()) {
-					calPTDistFactor(tdFactor, algo);
-					String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, algo);
-					dialog.appendText(str);
-				}
+//				for (DclfBusSensitivityXmlType sen : xmlCase.getSensitivity()) {
+//					String inBusId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
+//					if (sen.getSenType() == SensitivityDataType.P_ANGLE) {
+//						//algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
+//						String str = DclfOutFunc.pAngleSensitivityResults(sen, algo);
+//						dialog.appendText(str);
+//					} else if (sen.getSenType() == SensitivityDataType.Q_VOLTAGE) {
+//						//algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId);
+//						String str = DclfOutFunc.qVoltageSensitivityResults(sen, algo);
+//						dialog.appendText(str);
+//					}
+//				}
+//
+//				for (DclfBranchSensitivityXmlType gsFactor : xmlCase.getGenShiftFactor()) {
+//					String inBusId = gsFactor.getInjectBusList().getInjectBus().get(0).getBusId();
+//					//algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
+//					String str = DclfOutFunc.genShiftFactorResults(gsFactor, algo);
+//					dialog.appendText(str);
+//				}
+//
+//				for (DclfBranchSensitivityXmlType tdFactor : xmlCase.getPTransferDistFactor()) {
+//					calPTDistFactor(tdFactor, algo);
+//					String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, algo);
+//					dialog.appendText(str);
+//				}
 			}
 			
 			dialog.showDialog();
