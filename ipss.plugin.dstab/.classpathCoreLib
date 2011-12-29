@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/chart/jcommon-1.0.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/chart/jfreechart-1.0.0-rc2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
@@ -9,7 +10,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>

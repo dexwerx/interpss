@@ -24,25 +24,14 @@
 
 package org.interpss.display;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
-import org.interpss.xml.schema.BranchRecXmlType;
-import org.interpss.xml.schema.BusRecXmlType;
-import org.interpss.xml.schema.DclfBranchSensitivityXmlType;
-import org.interpss.xml.schema.DclfBusSensitivityXmlType;
-import org.interpss.xml.schema.SenAnalysisBusRecXmlType;
-import org.interpss.xml.schema.SenBusAnalysisDataType;
 
-import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.core.dclf.SenAnalysisType;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
@@ -218,218 +207,218 @@ public class DclfOutFunc {
 		return str;
 	}
 
-	/**
-	 * out power angle sensitivity calculation results
-	 * 
-	 * @param sen XML sensitivity calculation records
-	 * @param algo
-	 * @param msg
-	 * @return
-	 */
-	public static String pAngleSensitivityResults(
-			DclfBusSensitivityXmlType sen, DclfAlgorithm algo) {
-		String busId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
-		String str = "\n\n";
-		str += "  Power-Angle Sensitivity\n\n";
-		str += "   Inject BusId : " + busId + "\n\n";
-		str += "   Bud Id       dAng/dP\n";
-		str += "=================================\n";
-		for (BusRecXmlType bus : sen.getBus()) {
-			double pang = algo.calBusSensitivity(SenAnalysisType.PANGLE, busId,
-					bus.getBusId());
-			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
-					+ Number2String.toStr(pang) + "\n";
-		}
-		return str;
-	}
-
-	/**
-	 * Out Q voltage sensitivity calculation results
-	 * 
-	 * @param sen XML sensitivity calculation records
-	 * @param algo
-	 * @param msg
-	 * @return
-	 */
-	public static String qVoltageSensitivityResults(
-			DclfBusSensitivityXmlType sen, DclfAlgorithm algo) {
-		String busId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
-		String str = "\n\n";
-		str += "   Q-Voltage Sensitivity\n\n";
-		str += "    Inject BusId : " + busId + "\n\n";
-		str += "   Bud Id         dV/dQ\n";
-		str += "=================================\n";
-		for (BusRecXmlType bus : sen.getBus()) {
-			double x = algo.calBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId());
-			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
-					+ Number2String.toStr(x) + "\n";
-		}
-		return str;
-	}
-
-	/**
-	 * out generator shift factor calculation results
-	 * 
-	 * @param gsFactor XML sensitivity calculation records
-	 * @param algo
-	 * @param msg
-	 * @return
-	 */
-	public static String genShiftFactorResults(
-			DclfBranchSensitivityXmlType gsFactor, DclfAlgorithm algo) {
-		String busId = gsFactor.getInjectBusList().getInjectBus().get(0).getBusId();
-		String str = "\n\n";
-		str += "   Generator Shift Factor\n\n";
-		str += "    Inject BusId : " + busId + "\n\n";
-		str += "       Branch Id          GSF\n";
-		str += "=========================================\n";
-		for (BranchRecXmlType branch : gsFactor.getBranch()) {
-			double gsf = algo.calGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber());
-			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
-					+ "->" + branch.getToBusId())
-					+ "       " + Number2String.toStr(gsf) + "\n";
-		}
-		return str;
-	}
-
-	/**
-	 * out power transfer distribution factor calculation results
-	 * 
-	 * @param tdFactor XML sensitivity calculation records
-	 * @param algo
-	 * @param msg
-	 * @return
-	 */
-	public static String pTransferDistFactorResults(
-			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo) {
-		String str = "\n\n";
-		str += "   Power Transfer Distribution Factor";
-		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			String inBusId = tdFactor.getInjectBusList().getInjectBus().get(0).getBusId();
-			str += "\n\n    Inject BusId   : " + inBusId + "\n";
-			str += withdrawBusInfo(tdFactor);
-			str += "       Branch Id          PTDF\n";
-			str += "========================================\n";
-			for (BranchRecXmlType branch : tdFactor.getBranch()) {
-				double ptdf = calPTDFactor(tdFactor, algo, branch, inBusId);
-				str += Number2String.toFixLengthStr(16, branch.getFromBusId()
-						+ "->" + branch.getToBusId())
-						+ "       " + Number2String.toStr(ptdf) + "\n";
-			}
-		}
-		else {
-			for (BranchRecXmlType branch : tdFactor.getBranch()) {
-				str += "\n\n    Branch Id   : " + Number2String.toFixLengthStr(16, branch.getFromBusId()
-						+ "->" + branch.getToBusId()) + "\n";
-				str += withdrawBusInfo(tdFactor);
-				str += "       Inject BusId          PTDF\n";
-				str += "========================================\n";
-				
-				List<PTDFRec> list = new ArrayList<PTDFRec>();
-				for (BusRecXmlType bus :  tdFactor.getInjectBusList().getInjectBus()){
-					PTDFRec rec = new PTDFRec();
-					rec.ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId());
-					rec.busId = bus.getBusId();
-					list.add(rec);
-				}
-				sortPTDFRecList(list);
-				for (PTDFRec rec : list){
-					str += Number2String.toFixLengthStr(16, rec.busId)						
-							+ "          " + Number2String.toStr(rec.ptdf) + "\n";
-				}
-			}
-		}
-		return str;
-	}
-	
-	/**
-	 * out area transfer analysis results
-	 * 
-	 * @param areaTransfer XML sensitivity calculation records
-	 * @param algo
-	 * @param msg
-	 * @return
-	 */
-	public static String areaTransferAnalysisResults(
-						AreaTransferAnalysisXmlType areaTransfer, DclfAlgorithm algo) {
-		AclfNetwork net = algo.getAclfNetwork();
-		
-		String str = "\n\n";
-		str += "   Area Transfer Distribution Factor\n\n";
-		
-		str += "   Area Transfer Amount (MW) : " + String.format("%8.2f", areaTransfer.getTransderAmountMW()) + "\n\n";
-		str += "    From Area : " + areaTransfer.getFromArea().getAreaNo() + 
-				"     To Area : " + areaTransfer.getToArea().getAreaNo() + "\n\n";
-		
-		str += getSenBusList("From Area", areaTransfer.getInjectBusList().getInjectBus());
-		str += getSenBusList("To Area", areaTransfer.getWithdrawBusList().getWithdrawBus());
-		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMW    MWLimit    Loading%  Violation\n";
-		str += "==================================================================================================\n";
-		for (BranchRecXmlType branch : areaTransfer.getBranch()) {
-			String fromBusId = branch.getFromBusId(), 
-			       toBusId = branch.getToBusId(),
-			       cirNumber = branch.getCircuitNumber();
-			AclfBranch bra = net.getAclfBranch(NetUtilFunc.formBranchId(fromBusId, toBusId, cirNumber));
-			if (branch == null) {
-				return "Branch cannot be found, " + fromBusId+"->"+toBusId;
-			}			
-			
-			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber);
-			double baseMva = bra.mvaFlow(UnitType.mVA);
-			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
-			double limitMva = bra.getRatingMva1() * areaTransfer.getDeratingFactor();
-			boolean v = newMva > limitMva;
-			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
-					+ "->" + branch.getToBusId())
-					+ "      " + String.format("%9.3f", f) 
-					+ "        " + String.format("%8.2f", baseMva) 
-					+ "       " + String.format("%8.2f", newMva) 
-					+ "    " + String.format("%8.2f", limitMva); 
-			if (limitMva > 0.0)
-				str += "      " + String.format("%5.1f", 100*(newMva)/limitMva) 
-					+ "      " + (v? "x" : " "); 
-			str += "\n";
-		}
-		return str;
-	}
+//	/**
+//	 * out power angle sensitivity calculation results
+//	 * 
+//	 * @param sen XML sensitivity calculation records
+//	 * @param algo
+//	 * @param msg
+//	 * @return
+//	 */
+//	public static String pAngleSensitivityResults(
+//			DclfBusSensitivityXmlType sen, DclfAlgorithm algo) {
+//		String busId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
+//		String str = "\n\n";
+//		str += "  Power-Angle Sensitivity\n\n";
+//		str += "   Inject BusId : " + busId + "\n\n";
+//		str += "   Bud Id       dAng/dP\n";
+//		str += "=================================\n";
+//		for (BusRecXmlType bus : sen.getBus()) {
+//			double pang = algo.calBusSensitivity(SenAnalysisType.PANGLE, busId,
+//					bus.getBusId());
+//			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
+//					+ Number2String.toStr(pang) + "\n";
+//		}
+//		return str;
+//	}
+//
+//	/**
+//	 * Out Q voltage sensitivity calculation results
+//	 * 
+//	 * @param sen XML sensitivity calculation records
+//	 * @param algo
+//	 * @param msg
+//	 * @return
+//	 */
+//	public static String qVoltageSensitivityResults(
+//			DclfBusSensitivityXmlType sen, DclfAlgorithm algo) {
+//		String busId = sen.getInjectBusList().getInjectBus().get(0).getBusId();
+//		String str = "\n\n";
+//		str += "   Q-Voltage Sensitivity\n\n";
+//		str += "    Inject BusId : " + busId + "\n\n";
+//		str += "   Bud Id         dV/dQ\n";
+//		str += "=================================\n";
+//		for (BusRecXmlType bus : sen.getBus()) {
+//			double x = algo.calBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId());
+//			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
+//					+ Number2String.toStr(x) + "\n";
+//		}
+//		return str;
+//	}
+//
+//	/**
+//	 * out generator shift factor calculation results
+//	 * 
+//	 * @param gsFactor XML sensitivity calculation records
+//	 * @param algo
+//	 * @param msg
+//	 * @return
+//	 */
+//	public static String genShiftFactorResults(
+//			DclfBranchSensitivityXmlType gsFactor, DclfAlgorithm algo) {
+//		String busId = gsFactor.getInjectBusList().getInjectBus().get(0).getBusId();
+//		String str = "\n\n";
+//		str += "   Generator Shift Factor\n\n";
+//		str += "    Inject BusId : " + busId + "\n\n";
+//		str += "       Branch Id          GSF\n";
+//		str += "=========================================\n";
+//		for (BranchRecXmlType branch : gsFactor.getBranch()) {
+//			double gsf = algo.calGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber());
+//			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
+//					+ "->" + branch.getToBusId())
+//					+ "       " + Number2String.toStr(gsf) + "\n";
+//		}
+//		return str;
+//	}
+//
+//	/**
+//	 * out power transfer distribution factor calculation results
+//	 * 
+//	 * @param tdFactor XML sensitivity calculation records
+//	 * @param algo
+//	 * @param msg
+//	 * @return
+//	 */
+//	public static String pTransferDistFactorResults(
+//			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo) {
+//		String str = "\n\n";
+//		str += "   Power Transfer Distribution Factor";
+//		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
+//			String inBusId = tdFactor.getInjectBusList().getInjectBus().get(0).getBusId();
+//			str += "\n\n    Inject BusId   : " + inBusId + "\n";
+//			str += withdrawBusInfo(tdFactor);
+//			str += "       Branch Id          PTDF\n";
+//			str += "========================================\n";
+//			for (BranchRecXmlType branch : tdFactor.getBranch()) {
+//				double ptdf = calPTDFactor(tdFactor, algo, branch, inBusId);
+//				str += Number2String.toFixLengthStr(16, branch.getFromBusId()
+//						+ "->" + branch.getToBusId())
+//						+ "       " + Number2String.toStr(ptdf) + "\n";
+//			}
+//		}
+//		else {
+//			for (BranchRecXmlType branch : tdFactor.getBranch()) {
+//				str += "\n\n    Branch Id   : " + Number2String.toFixLengthStr(16, branch.getFromBusId()
+//						+ "->" + branch.getToBusId()) + "\n";
+//				str += withdrawBusInfo(tdFactor);
+//				str += "       Inject BusId          PTDF\n";
+//				str += "========================================\n";
+//				
+//				List<PTDFRec> list = new ArrayList<PTDFRec>();
+//				for (BusRecXmlType bus :  tdFactor.getInjectBusList().getInjectBus()){
+//					PTDFRec rec = new PTDFRec();
+//					rec.ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId());
+//					rec.busId = bus.getBusId();
+//					list.add(rec);
+//				}
+//				sortPTDFRecList(list);
+//				for (PTDFRec rec : list){
+//					str += Number2String.toFixLengthStr(16, rec.busId)						
+//							+ "          " + Number2String.toStr(rec.ptdf) + "\n";
+//				}
+//			}
+//		}
+//		return str;
+//	}
+//	
+//	/**
+//	 * out area transfer analysis results
+//	 * 
+//	 * @param areaTransfer XML sensitivity calculation records
+//	 * @param algo
+//	 * @param msg
+//	 * @return
+//	 */
+//	public static String areaTransferAnalysisResults(
+//						AreaTransferAnalysisXmlType areaTransfer, DclfAlgorithm algo) {
+//		AclfNetwork net = algo.getAclfNetwork();
+//		
+//		String str = "\n\n";
+//		str += "   Area Transfer Distribution Factor\n\n";
+//		
+//		str += "   Area Transfer Amount (MW) : " + String.format("%8.2f", areaTransfer.getTransderAmountMW()) + "\n\n";
+//		str += "    From Area : " + areaTransfer.getFromArea().getAreaNo() + 
+//				"     To Area : " + areaTransfer.getToArea().getAreaNo() + "\n\n";
+//		
+//		str += getSenBusList("From Area", areaTransfer.getInjectBusList().getInjectBus());
+//		str += getSenBusList("To Area", areaTransfer.getWithdrawBusList().getWithdrawBus());
+//		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMW    MWLimit    Loading%  Violation\n";
+//		str += "==================================================================================================\n";
+//		for (BranchRecXmlType branch : areaTransfer.getBranch()) {
+//			String fromBusId = branch.getFromBusId(), 
+//			       toBusId = branch.getToBusId(),
+//			       cirNumber = branch.getCircuitNumber();
+//			AclfBranch bra = net.getAclfBranch(NetUtilFunc.formBranchId(fromBusId, toBusId, cirNumber));
+//			if (branch == null) {
+//				return "Branch cannot be found, " + fromBusId+"->"+toBusId;
+//			}			
+//			
+//			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber);
+//			double baseMva = bra.mvaFlow(UnitType.mVA);
+//			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
+//			double limitMva = bra.getRatingMva1() * areaTransfer.getDeratingFactor();
+//			boolean v = newMva > limitMva;
+//			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
+//					+ "->" + branch.getToBusId())
+//					+ "      " + String.format("%9.3f", f) 
+//					+ "        " + String.format("%8.2f", baseMva) 
+//					+ "       " + String.format("%8.2f", newMva) 
+//					+ "    " + String.format("%8.2f", limitMva); 
+//			if (limitMva > 0.0)
+//				str += "      " + String.format("%5.1f", 100*(newMva)/limitMva) 
+//					+ "      " + (v? "x" : " "); 
+//			str += "\n";
+//		}
+//		return str;
+//	}
+//
+//	private static double calPTDFactor(DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo, 
+//					BranchRecXmlType branch, String inBusId) {
+//		double ptdf = 0.0;
+//		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
+//			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBus().get(0).getBusId();
+//			ptdf = algo.pTransferDistFactor(inBusId, wdBusId,
+//							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
+//		}	
+//		else 
+//			ptdf = algo.pTransferDistFactor(inBusId, 
+//							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
+//		return ptdf;
+//	}
+//	
+//	private static String withdrawBusInfo(DclfBranchSensitivityXmlType tdFactor) {
+//		String str = "";
+//		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
+//			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBus().get(0).getBusId();
+//			str += "    Withdraw BusId : " + wdBusId + "\n\n";
+//		}
+//		else {
+//			str += getSenBusList("Withdraw", tdFactor.getWithdrawBusList().getWithdrawBus());
+//		}
+//		return str;
+//	}
+//
+//	private static String getSenBusList(String s, List<SenAnalysisBusRecXmlType> busList) {
+//		String str = "    " + s + " Bus List : [";
+//		for (SenAnalysisBusRecXmlType bus : busList)
+//			str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
+//		str += " ]\n\n";
+//		return str;
+//	}
 
 	private static class PTDFRec {
 		String busId;
 		double ptdf = 0.0;
-	}
-	
-	private static double calPTDFactor(DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo, 
-					BranchRecXmlType branch, String inBusId) {
-		double ptdf = 0.0;
-		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBus().get(0).getBusId();
-			ptdf = algo.pTransferDistFactor(inBusId, wdBusId,
-							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
-		}	
-		else 
-			ptdf = algo.pTransferDistFactor(inBusId, 
-							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
-		return ptdf;
-	}
-	
-	private static String withdrawBusInfo(DclfBranchSensitivityXmlType tdFactor) {
-		String str = "";
-		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBus().get(0).getBusId();
-			str += "    Withdraw BusId : " + wdBusId + "\n\n";
-		}
-		else {
-			str += getSenBusList("Withdraw", tdFactor.getWithdrawBusList().getWithdrawBus());
-		}
-		return str;
-	}
-
-	private static String getSenBusList(String s, List<SenAnalysisBusRecXmlType> busList) {
-		String str = "    " + s + " Bus List : [";
-		for (SenAnalysisBusRecXmlType bus : busList)
-			str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
-		str += " ]\n\n";
-		return str;
 	}
 	
 	private static void sortPTDFRecList(List<PTDFRec> list) {
