@@ -1560,7 +1560,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 	try {
 		if (this.branchFlowRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)
-				.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
+								.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
 			outText = PTradingOutput.gsfBranchFlow(net, braId, (List<DblBusValue>)rtn).toString();
 		}
