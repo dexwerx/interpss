@@ -6,10 +6,10 @@ package org.interpss.dstab.output;
 
 import java.util.Hashtable;
 
+import org.interpss.db.DBManager;
+import org.interpss.db.IpssDBCase;
 import org.interpss.grid.GridConstants;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.output.db.DBManager;
-import org.interpss.output.db.IpssDBCase;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
