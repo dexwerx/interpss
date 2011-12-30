@@ -32,12 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.common.ComplexData;
 import org.interpss.editor.data.common.GroundData;
 import org.interpss.editor.data.common.ZData;
 
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.rec.BaseDataBean;
 
 public class DistBusData extends BaseDataBean {
 	private static final long serialVersionUID = 1;

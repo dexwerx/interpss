@@ -27,10 +27,9 @@ package org.interpss.editor.data.dist;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.common.XfrConnectData;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
-
-import com.interpss.common.rec.BaseDataBean;
 
 /**
 *	DistBranchForm class for storing distribution branch data.

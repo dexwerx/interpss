@@ -24,7 +24,7 @@
 
 package org.interpss.editor.data.user;
 
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
 
 public class UserPrefData extends BaseDataBean {
 	private static final long serialVersionUID = 1;

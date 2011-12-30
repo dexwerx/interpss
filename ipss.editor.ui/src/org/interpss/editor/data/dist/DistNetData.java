@@ -27,10 +27,10 @@ package org.interpss.editor.data.dist;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.common.ScPointData;
 
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.rec.BaseDataBean;
 
 /**
 *	DistNetForm class for storing distribution network data.

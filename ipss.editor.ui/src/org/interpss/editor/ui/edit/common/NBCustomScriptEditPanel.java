@@ -28,6 +28,7 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
@@ -37,7 +38,6 @@ import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.IScriptPluginEditing;
 
-import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
  
 public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IFormDataPanel {

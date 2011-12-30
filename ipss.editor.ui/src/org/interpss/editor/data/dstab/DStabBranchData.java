@@ -24,9 +24,8 @@
 
 package org.interpss.editor.data.dstab;
 
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.acsc.AcscBranchData;
-
-import com.interpss.common.rec.BaseDataBean;
 
 public class DStabBranchData extends BaseDataBean {
 	private static final long serialVersionUID = 1;

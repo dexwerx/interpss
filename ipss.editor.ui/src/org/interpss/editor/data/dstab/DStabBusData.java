@@ -24,10 +24,9 @@
 
 package org.interpss.editor.data.dstab;
 
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.aclf.AclfBusData;
 import org.interpss.editor.data.acsc.AcscBusData;
-
-import com.interpss.common.rec.BaseDataBean;
 
 public class DStabBusData extends BaseDataBean {
 	private static final long serialVersionUID = 1;

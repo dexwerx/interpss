@@ -24,7 +24,8 @@
 
 package org.interpss.editor.data.acsc;
 
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
+
 import com.interpss.common.util.NetUtilFunc;
 
 public class AcscFaultData extends BaseDataBean {

@@ -24,7 +24,7 @@
 
 package org.interpss.editor.data.aclf;
 
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
 
 /**
 *	AclfBusForm class for storing aclf bus data.

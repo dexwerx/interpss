@@ -25,8 +25,7 @@
 package org.interpss.editor.data.common;
 
 import org.apache.commons.math.complex.Complex;
-
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
 
 /**
 *	For persist Complex data object.

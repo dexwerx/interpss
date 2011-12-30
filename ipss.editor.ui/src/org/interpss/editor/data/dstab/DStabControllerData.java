@@ -24,7 +24,7 @@
 
 package org.interpss.editor.data.dstab;
 
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
 
 public class DStabControllerData extends BaseDataBean {
 	private static final long serialVersionUID = 1;

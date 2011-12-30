@@ -26,7 +26,8 @@ package org.interpss.editor.data.common;
 
 import java.util.logging.Level;
 
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
+
 import com.interpss.common.util.IpssLogger;
 
 /**

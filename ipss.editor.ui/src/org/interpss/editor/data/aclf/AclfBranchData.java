@@ -23,9 +23,8 @@
   */
 package org.interpss.editor.data.aclf;
 
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
-
-import com.interpss.common.rec.BaseDataBean;
 
 /**
 *	AclfBranchForm class for storing aclf branch data.

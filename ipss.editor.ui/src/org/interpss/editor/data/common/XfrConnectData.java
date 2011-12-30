@@ -24,7 +24,7 @@
 
 package org.interpss.editor.data.common;
 
-import com.interpss.common.rec.BaseDataBean;
+import org.interpss.db.BaseDataBean;
 
 
 public class XfrConnectData  extends BaseDataBean {
