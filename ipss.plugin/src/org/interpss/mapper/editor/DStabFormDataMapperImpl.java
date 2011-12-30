@@ -27,6 +27,7 @@ package org.interpss.mapper.editor;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.db.BaseDataBean;
 import org.interpss.dstab.device.ScriptDynamicBusDeviceHolder;
 import org.interpss.editor.data.dstab.DStabBusData;
 import org.interpss.editor.data.dstab.DStabExcData;
@@ -46,7 +47,6 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.datatype.ScGroundType;

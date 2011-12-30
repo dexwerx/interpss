@@ -25,6 +25,7 @@
 package org.interpss.mapper.editor;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.aclf.AclfAdjBranchData;
 import org.interpss.editor.data.aclf.AclfAdjBusData;
 import org.interpss.editor.data.aclf.AclfBranchData;
@@ -49,7 +50,6 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;

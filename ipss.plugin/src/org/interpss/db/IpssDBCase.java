@@ -25,7 +25,6 @@
 package org.interpss.db;
 
 import com.interpss.common.datatype.ScriptLangEnum;
-import com.interpss.common.rec.BaseDataBean;
 
 public class IpssDBCase extends BaseDataBean {
 	private static final long serialVersionUID = 1;
