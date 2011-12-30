@@ -34,6 +34,8 @@ import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.junit.Test;
 
+import static com.interpss.pssl.plugin.IpssOut.dclfResult;
+
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
@@ -60,8 +62,7 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 				.runDclfAnalysis();
 
-		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
-				.toString());		
+		System.out.println(dclfResult.apply(algoDsl.algo(), false).toString());		
 	}
 
 	@Test
@@ -84,8 +85,7 @@ public class Dclf_Test extends BaseTestSetup {
 		new DclfDslODMRunner(algoDsl)
 				.runDclfCase(dclfCase, DclfAnalysisType.All);
 
-		System.out.println(IpssUtil.outDclfResult(algoDsl, false)
-				.toString());		
+		System.out.println(dclfResult.apply(algoDsl.algo(), false).toString());		
 	}
 	
 	@Test
