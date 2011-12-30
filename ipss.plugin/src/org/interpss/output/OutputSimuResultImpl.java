@@ -24,7 +24,8 @@
 
 package org.interpss.output;
 
-import org.interpss.display.AclfOutFunc;
+import static com.interpss.pssl.plugin.IpssOut.*;
+
 import org.interpss.display.DclfOutFunc;
 import org.interpss.util.FileUtil;
 
@@ -35,7 +36,8 @@ public class OutputSimuResultImpl implements IOutputSimuResult {
 
 	@Override
 	public boolean outAclfResult(AclfNetwork net, String outFilename) {
-		FileUtil.writeText2File(outFilename, AclfOutFunc.loadFlowSummary(net));
+		FileUtil.writeText2File(outFilename, 
+				aclfResultSummary.apply(net).toString());
 		return false;
 	}
 

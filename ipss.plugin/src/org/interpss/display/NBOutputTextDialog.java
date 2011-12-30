@@ -43,6 +43,7 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.WinUtilities;
+import static com.interpss.pssl.plugin.IpssOut.*;
 
 import com.interpss.QA.QAObjectFactory;
 import com.interpss.QA.rfile.IQAFileProcessor;
@@ -142,7 +143,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         }
         else if (data instanceof AclfNetwork) {
         	aclfAdjNet = (AclfNetwork)data;
-        	textArea.setText(AclfOutFunc.loadFlowSummary(aclfAdjNet));
+        	textArea.setText(aclfResultSummary.apply(aclfAdjNet).toString());
             busStyleRadioButton.setEnabled(true);
             summaryRadioButton.setEnabled(true);
             summaryRadioButton.setSelected(true);
@@ -375,11 +376,11 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	}	
 	
     private void busStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busStyleRadioButtonActionPerformed
-    	textArea.setText(AclfOutFunc.lfResultsBusStyle(aclfAdjNet));
+    	textArea.setText(aclfResultBusStype.apply(aclfAdjNet).toString());
     }//GEN-LAST:event_busStyleRadioButtonActionPerformed
 
     private void summaryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryRadioButtonActionPerformed
-    	textArea.setText(AclfOutFunc.loadFlowSummary(aclfAdjNet));
+    	textArea.setText(aclfResultSummary.apply(aclfAdjNet).toString());
     }//GEN-LAST:event_summaryRadioButtonActionPerformed
 
     private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
