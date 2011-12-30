@@ -55,11 +55,11 @@ import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.controller.ICMLFieldObjectFactory;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.util.CMLSymbolMapper;
-import com.interpss.dstab.controller.block.IControlBlock;
-import com.interpss.dstab.controller.block.IFunction;
-import com.interpss.dstab.controller.block.IFunctionExpression;
-import com.interpss.dstab.controller.block.ILookupTableFunction;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLControlBlock;
+import com.interpss.dstab.controller.block.ICMLFunction;
+import com.interpss.dstab.controller.block.ICMLFunctionExpression;
+import com.interpss.dstab.controller.block.ICMLLookupTableFunction;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.datatype.ExpCalculator;
 
 /**
@@ -78,10 +78,10 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public IControlBlock createControlBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLControlBlock createControlBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
     	if (field.getType() == DelayControlBlock.class) {
-    		IStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == IStaticBlock.Type.NoLimit) {
+    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == ICMLStaticBlock.Type.NoLimit) {
     	    	// format : {"type.NoLimit", "this.k", "this.t"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	double t = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
@@ -112,8 +112,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     	    }
     	}
     	else if (field.getType() == FilterControlBlock.class) {
-    		IStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == IStaticBlock.Type.NoLimit) {
+    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == ICMLStaticBlock.Type.NoLimit) {
     	    	// format : {"type.NoLimit", "this.k", "this.t1", "this.t2"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	double t1 = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
@@ -137,8 +137,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
    	    	return new WashoutControlBlock(k, t);
     	}
     	else if (field.getType() == PIControlBlock.class) {
-    		IStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == IStaticBlock.Type.NoLimit) {
+    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == ICMLStaticBlock.Type.NoLimit) {
     	    	// format : {"type.NoLimit", "this.k", "this.t1", "this.t2"},
     	    	double kp = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	double ki = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
@@ -154,8 +154,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     	    }
     	}
     	else if (field.getType() == IntegrationControlBlock.class) {
-    		IStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == IStaticBlock.Type.NoLimit) {
+    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == ICMLStaticBlock.Type.NoLimit) {
     	    	// format : {"type.NoLimit", "this.k"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	return new IntegrationControlBlock(k);
@@ -171,11 +171,11 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     	else if (field.getType() == TFunc2ndOrderBlock.class) {
 	    	// format : {"type.NoLimit", "this.k", "this.a", "this.b"},
 	    	// format : {"type.Limit", "this.k", "this.a", "this.b", "this.max", this.min"},
-    		IStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
 	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
 	    	double a = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
 	    	double b = controllor.getDoubleField(StringUtil.getParameterName(parameters[3]));
-    	    if (type == IStaticBlock.Type.NoLimit) 
+    	    if (type == ICMLStaticBlock.Type.NoLimit) 
 	    		return new TFunc2ndOrderBlock(k, a, b);
 	    	else {
 		    	double max = controllor.getDoubleField(StringUtil.getParameterName(parameters[4]));
@@ -203,10 +203,10 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public IStaticBlock createStaticBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLStaticBlock createStaticBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
     	if (field.getType() == GainBlock.class) {
-    		IStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == IStaticBlock.Type.NoLimit) {
+    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == ICMLStaticBlock.Type.NoLimit) {
     	    	// format : {"type.NoLimit", "this.k"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	return new GainBlock(k);
@@ -231,7 +231,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public IFunction createFunctionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLFunction createFunctionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
     	if (field.getType() == SeFunction.class) {
 	    	// format : {"this.e1", "this.se_e1", "this.e2", "this.se_e2"},
     	    double e1 = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
@@ -287,7 +287,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public IFunctionExpression createFunctionExpressionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLFunctionExpression createFunctionExpressionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
     	if (field.getType() == LowValueExpFunction.class) {
 	    	// format : no parameter
     	    return new LowValueExpFunction();
@@ -314,7 +314,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception 
 	 */
-    public ILookupTableFunction createLookupTableFunctionField(AbstractAnnotateController controllor, Field field, 
+    public ICMLLookupTableFunction createLookupTableFunctionField(AbstractAnnotateController controllor, Field field, 
     		                             ILookupTable.Type lookupTabletype, String[] dataPoints) throws Exception {
     	if (field.getType() == LookupTableFunction.class) {
     		ILookupTable table = CommonObjectFactory.createLookupTable(lookupTabletype);
@@ -326,7 +326,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     			Point point = new Point(x, y);
     			table.addPoint(point);
     		}
-    		ILookupTableFunction func = new LookupTableFunction(table);
+    		ICMLLookupTableFunction func = new LookupTableFunction(table);
     		return func;
     	}
     	return null;   

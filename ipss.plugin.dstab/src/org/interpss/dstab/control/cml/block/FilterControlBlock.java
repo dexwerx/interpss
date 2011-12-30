@@ -27,7 +27,7 @@ package org.interpss.dstab.control.cml.block;
 import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class FilterControlBlock extends ControlBlock1stOrderAdapter {
@@ -37,7 +37,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	protected LimitType limit = null;
 
 	public FilterControlBlock(double k, double t1, double t2) {
-		setType(IStaticBlock.Type.NoLimit);
+		setType(ICMLStaticBlock.Type.NoLimit);
 		this.k = k;
 		this.t1 = t1;
 		this.t2 = t2;
@@ -59,8 +59,8 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		}
 		setU(y0 / getK());
 		setStateX(y0 * (1.0 - getT1() / getT2()));
-		if (getType() == IStaticBlock.Type.Limit
-				|| getType() == IStaticBlock.Type.NonWindup)
+		if (getType() == ICMLStaticBlock.Type.Limit
+				|| getType() == ICMLStaticBlock.Type.NonWindup)
 			return !limit.isViolated(y0);
 		else
 			return true;
@@ -81,7 +81,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
-		if (getType() == IStaticBlock.Type.NonWindup) {
+		if (getType() == ICMLStaticBlock.Type.NonWindup) {
 			if (isLimitViolated(u)) {
 				double u1 = getU1(u);
 				setStateX(limit.limit(getStateX() + u1) - u1);
@@ -93,7 +93,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
-		if (getType() == IStaticBlock.Type.NonWindup) {
+		if (getType() == ICMLStaticBlock.Type.NonWindup) {
 			if (isLimitViolated(u)) {
 				double u1 = getU1(u);
 				setStateX(limit.limit(getStateX() + u1) - u1);
@@ -111,7 +111,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		else
 			y = u * getK();
 		// System.out.println("u, y " + u + ", " + y);
-		if (getType() == IStaticBlock.Type.Limit)
+		if (getType() == ICMLStaticBlock.Type.Limit)
 			return limit.limit(y);
 		else
 			return y;

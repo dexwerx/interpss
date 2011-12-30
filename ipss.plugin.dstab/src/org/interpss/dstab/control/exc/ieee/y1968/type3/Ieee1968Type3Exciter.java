@@ -36,7 +36,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
@@ -61,7 +61,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 	      type= CMLFieldEnum.StaticBlock,
 	      input= "this.kaDelayBlock.y", 
 	      y0="this.delayBlock.u0"    )
-	   public IStaticBlock customBlock = new StaticBlockAdapter() {
+	   public ICMLStaticBlock customBlock = new StaticBlockAdapter() {
 	      private LimitType limit = new LimitType(vbmax, 0.0);
 	      private boolean A_gt_1 = false;
 	      private double u = 0.0;

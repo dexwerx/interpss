@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml.block;
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 
 public class GainBlock extends StaticBlockAdapter {
@@ -38,7 +38,7 @@ public class GainBlock extends StaticBlockAdapter {
 	}
 	
 	public GainBlock(double k) {
-		setType(IStaticBlock.Type.NoLimit);
+		setType(ICMLStaticBlock.Type.NoLimit);
 		this.k = k;
 	}
 
@@ -51,7 +51,7 @@ public class GainBlock extends StaticBlockAdapter {
 	@Override
 	public boolean initStateY0(double y0) {
 		u = y0 / getK();
-		if (getType() == IStaticBlock.Type.Limit)
+		if (getType() == ICMLStaticBlock.Type.Limit)
 			return !limit.isViolated(y0);
 		else {
 			return true;
@@ -87,7 +87,7 @@ public class GainBlock extends StaticBlockAdapter {
 	@Override
 	public double getY() {
 		double u = getU();
-		if (getType() == IStaticBlock.Type.Limit)
+		if (getType() == ICMLStaticBlock.Type.Limit)
 			return limit.limit(u * getK());
 		else
 			return u * getK();

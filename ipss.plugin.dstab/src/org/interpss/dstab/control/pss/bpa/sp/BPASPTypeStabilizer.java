@@ -16,7 +16,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateStabilizer;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
@@ -93,7 +93,7 @@ public class BPASPTypeStabilizer extends AnnotateStabilizer {
 	      type=CMLFieldEnum.StaticBlock,
 	      input="this.gainBlock.y",
 	      y0="pss.vs"  )
-	   public IStaticBlock gainCustomBlock = new GainBlock() {
+	   public ICMLStaticBlock gainCustomBlock = new GainBlock() {
 		  @Override
 		  public boolean initStateY0(double y0) {
 			  // at the initial point, set the gain block gain

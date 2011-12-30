@@ -25,7 +25,7 @@
 package org.interpss.dstab.control.cml.block;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 /**
@@ -63,7 +63,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	public FilterNthOrderBlock(double t1, double t2, int m, int n) {
-		setType(IStaticBlock.Type.NoLimit);
+		setType(ICMLStaticBlock.Type.NoLimit);
 		this.t1 = t1;
 		this.t2 = t2;
 		this.m = m;

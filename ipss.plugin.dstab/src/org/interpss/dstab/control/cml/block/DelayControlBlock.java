@@ -25,20 +25,20 @@
 package org.interpss.dstab.control.cml.block;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.controller.block.ILimitExpression;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLLimitExpression;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 import com.interpss.dstab.datatype.LimitExpression;
 
 public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
-		ILimitExpression {
+		ICMLLimitExpression {
 	protected double k = 0.0;
 	protected double t = 0.0;
 	protected LimitExpression limit = null;
 
 	public DelayControlBlock(double k, double t) {
-		setType(IStaticBlock.Type.NoLimit);
+		setType(ICMLStaticBlock.Type.NoLimit);
 		this.k = k;
 		this.t = t;
 	}
@@ -80,8 +80,8 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		setU(y0 / getK());
 		setStateX(y0);
 
-		if (getType() == IStaticBlock.Type.Limit
-				|| getType() == IStaticBlock.Type.NonWindup) {
+		if (getType() == ICMLStaticBlock.Type.Limit
+				|| getType() == ICMLStaticBlock.Type.NonWindup) {
 			return !limit.isViolated(y0, maxDAry, minDAry);
 		} else
 			return true;
@@ -96,8 +96,8 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		}
 		setU(y0 / getK());
 		setStateX(y0);
-		if (getType() == IStaticBlock.Type.Limit
-				|| getType() == IStaticBlock.Type.NonWindup) {
+		if (getType() == ICMLStaticBlock.Type.Limit
+				|| getType() == ICMLStaticBlock.Type.NonWindup) {
 			return !limit.isViolated(y0);
 		} else
 			return true;
@@ -134,7 +134,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 	public void eulerStep1(double u, double dt, double[] maxDAry,
 			double[] minDAry) {
 		super.eulerStep1(u, dt);
-		if (getType() == IStaticBlock.Type.NonWindup) {
+		if (getType() == ICMLStaticBlock.Type.NonWindup) {
 			if (limit.isViolated(getStateX(), maxDAry, minDAry)) {
 				setDxDt(0.0);
 				setStateX(limit.limit(getStateX(), maxDAry, minDAry));
@@ -145,7 +145,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 	public void eulerStep2(double u, double dt, double[] maxDAry,
 			double[] minDAry) {
 		super.eulerStep2(u, dt);
-		if (getType() == IStaticBlock.Type.NonWindup)
+		if (getType() == ICMLStaticBlock.Type.NonWindup)
 			setStateX(limit.limit(getStateX(), maxDAry, minDAry));
 	}
 
@@ -155,7 +155,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		double y = getStateX();
 		if (getT() <= 0.0)
 			y = getK() * getU();
-		if (getType() == IStaticBlock.Type.Limit)
+		if (getType() == ICMLStaticBlock.Type.Limit)
 			return limit.limit(y);
 		else
 			return y;

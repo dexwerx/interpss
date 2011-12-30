@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml.block;
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
@@ -34,7 +34,7 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	protected LimitType limit = null;
 
 	public IntegrationControlBlock(double k) {
-		setType(IStaticBlock.Type.NoLimit);
+		setType(ICMLStaticBlock.Type.NoLimit);
 		this.k = k;
 	}
 
@@ -47,8 +47,8 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public boolean initStateY0(double y0) {
 		setStateX(y0);
-		if (getType() == IStaticBlock.Type.Limit
-				|| getType() == IStaticBlock.Type.NonWindup)
+		if (getType() == ICMLStaticBlock.Type.Limit
+				|| getType() == ICMLStaticBlock.Type.NonWindup)
 			return !limit.isViolated(y0);
 		else
 			return true;
@@ -62,7 +62,7 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
-		if (getType() == IStaticBlock.Type.NonWindup) {
+		if (getType() == ICMLStaticBlock.Type.NonWindup) {
 			if (limit.isViolated(getStateX())) {
 				setStateX(limit.limit(getStateX()));
 				setDxDt(0.0);
@@ -73,13 +73,13 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
-		if (getType() == IStaticBlock.Type.NonWindup)
+		if (getType() == ICMLStaticBlock.Type.NonWindup)
 			setStateX(limit.limit(getStateX()));
 	}
 
 	@Override
 	public double getY() {
-		if (getType() == IStaticBlock.Type.Limit)
+		if (getType() == ICMLStaticBlock.Type.Limit)
 			return limit.limit(getStateX());
 		else
 			return getStateX();

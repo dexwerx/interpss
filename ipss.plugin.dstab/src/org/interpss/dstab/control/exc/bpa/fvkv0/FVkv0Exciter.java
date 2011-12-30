@@ -12,13 +12,12 @@ import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 import org.interpss.dstab.control.cml.block.PIControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
-import org.interpss.dstab.control.exc.ExciterUtil;
 
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineIfdBase;
@@ -77,7 +76,7 @@ public class FVkv0Exciter extends AnnotateExciter {
 	      input="this.kaDelayBlock.y",
 	      y0="mach.efd"  )
 	   // extend the GainBlock to reuse its functionality
-	   public IStaticBlock gainCustomBlock = new GainBlock() {
+	   public ICMLStaticBlock gainCustomBlock = new GainBlock() {
 		  @Override
 		  public boolean initStateY0(double y0) {
 			  // at the initial point, set the gain block gain

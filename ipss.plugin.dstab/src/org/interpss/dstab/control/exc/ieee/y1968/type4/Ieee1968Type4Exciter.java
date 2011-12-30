@@ -35,8 +35,8 @@ import com.interpss.dstab.controller.AnnotateExciter;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
-import com.interpss.dstab.controller.block.IControlBlock;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLControlBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlockAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
@@ -52,9 +52,9 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
 	      type= CMLFieldEnum.ControlBlock,
 	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
 	      y0="this.delayBlock.u0 + this.seFunc.y"	)
-	   public IControlBlock customBlock = new ControlBlockAdapter() {
+	   public ICMLControlBlock customBlock = new ControlBlockAdapter() {
 	       private IntegrationControlBlock block = new IntegrationControlBlock(
-	                      IStaticBlock.Type.Limit, 1.0/trh, vrmax, vrmin);
+	                      ICMLStaticBlock.Type.Limit, 1.0/trh, vrmax, vrmin);
 
 	       @Override
 		public boolean initStateY0(double y0) {
