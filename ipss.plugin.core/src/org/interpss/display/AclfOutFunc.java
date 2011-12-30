@@ -45,8 +45,6 @@ import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adj.XfrTapControlType;
 import com.interpss.core.aclf.adpter.GenBusAdapter;
 import com.interpss.core.aclf.adpter.PSXfrAdapter;
-import com.interpss.core.aclf.flow.FlowInterface;
-import com.interpss.core.aclf.flow.FlowInterfaceLimit;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.algo.sec.BranchRatingAdapter;
@@ -349,30 +347,30 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String interfaceFlowReport(AclfNetwork net, boolean offPeak, boolean violationReport) {
-		StringBuffer buffer = new StringBuffer();
-		if (violationReport) 
-			buffer.append("                Flow Interface Violation Report\n\n");
-		
-		buffer.append("          Interface           Flow(pu)    Direction     Limit\n");
-		buffer.append("    ============================================================\n");
-		for (FlowInterface inf : net.getFlowInterfaceList()) {
-			FlowInterfaceLimit limit = offPeak? inf.getOffPeakLimit() : inf.getOnPeakLimit(); 
-			if (inf.flowExport() > 0.0) {
-				double f = inf.flowExport();
-				double l = limit.getRefDirExportLimit();
-				if (!violationReport || Math.abs(f) > Math.abs(l))
-					buffer.append(String.format("     %-25s %7.2f      Export    %7.2f\n", inf.getId(), f, l));
-			}
-			else {
-				double f = -inf.flowImport();
-				double l = -limit.getOppsiteRefDirImportLimit();
-				if (!violationReport || Math.abs(f) > Math.abs(l))
-					buffer.append(String.format("     %-25s %7.2f      Import    %7.2f\n", inf.getId(), f, l));
-			}
-		}		
-		return buffer.toString();
-	}	
+//	public static String interfaceFlowReport(AclfNetwork net, boolean offPeak, boolean violationReport) {
+//		StringBuffer buffer = new StringBuffer();
+//		if (violationReport) 
+//			buffer.append("                Flow Interface Violation Report\n\n");
+//		
+//		buffer.append("          Interface           Flow(pu)    Direction     Limit\n");
+//		buffer.append("    ============================================================\n");
+//		for (FlowInterface inf : net.getFlowInterfaceList()) {
+//			FlowInterfaceLimit limit = offPeak? inf.getOffPeakLimit() : inf.getOnPeakLimit(); 
+//			if (inf.flowExport() > 0.0) {
+//				double f = inf.flowExport();
+//				double l = limit.getRefDirExportLimit();
+//				if (!violationReport || Math.abs(f) > Math.abs(l))
+//					buffer.append(String.format("     %-25s %7.2f      Export    %7.2f\n", inf.getId(), f, l));
+//			}
+//			else {
+//				double f = -inf.flowImport();
+//				double l = -limit.getOppsiteRefDirImportLimit();
+//				if (!violationReport || Math.abs(f) > Math.abs(l))
+//					buffer.append(String.format("     %-25s %7.2f      Import    %7.2f\n", inf.getId(), f, l));
+//			}
+//		}		
+//		return buffer.toString();
+//	}	
 
 	public static String pvBusLimitToString(AclfNetwork net)
 			throws Exception {
