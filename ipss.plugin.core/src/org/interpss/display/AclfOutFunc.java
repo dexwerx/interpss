@@ -78,7 +78,7 @@ public class AclfOutFunc {
 			return String.format("%6.3f ", kv);
 	}
   
-	public static String lf4Google(AclfNetwork net) {
+	public static StringBuffer lf4Google(AclfNetwork net) {
 		if (net.getOriginalDataFormat() == OriginalDataFormat.CIM)
 			return loadFlowSummary(net);
 		return lfResultsBusStyle(net);
@@ -97,11 +97,11 @@ public class AclfOutFunc {
 	 *   Bus Style output
 	 *   ================
 	 */
-	public static String lfResultsBusStyle(AclfNetwork net) {
+	public static StringBuffer lfResultsBusStyle(AclfNetwork net) {
 		return AclfOut_BusStyle.lfResultsBusStyle(net, BusIdStyle.BusId_No);
 	}
 
-	public static String lfResultsBusStyle(AclfNetwork net, BusIdStyle style) {
+	public static StringBuffer lfResultsBusStyle(AclfNetwork net, BusIdStyle style) {
 		return AclfOut_BusStyle.lfResultsBusStyle(net, style);
 	}
 
@@ -236,11 +236,11 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String loadFlowSummary(AclfNetwork net) {
+	public static StringBuffer loadFlowSummary(AclfNetwork net) {
 		return loadFlowSummary(net, true);
 	}
 	
-	public static String loadFlowSummary(AclfNetwork net, boolean includeAdj) {
+	public static StringBuffer loadFlowSummary(AclfNetwork net, boolean includeAdj) {
 		StringBuffer str = new StringBuffer(_loadFlowSummary((AclfNetwork) net));
 		try {
 			if (includeAdj) {
@@ -265,7 +265,7 @@ public class AclfOutFunc {
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
-		return str.toString();
+		return str;
 	}
 
 	public static String maxMismatchToString(AclfNetwork net, String prefix) {

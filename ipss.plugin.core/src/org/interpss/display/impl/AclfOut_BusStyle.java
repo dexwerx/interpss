@@ -55,7 +55,7 @@ public class AclfOut_BusStyle {
 		return str.toString();
 	}
 
-	public static String lfResultsBusStyle(AclfBus bus, AclfNetwork net, AclfOutFunc.BusIdStyle style) {
+	public static StringBuffer lfResultsBusStyle(AclfBus bus, AclfNetwork net, AclfOutFunc.BusIdStyle style) {
 		double baseKVA = net.getBaseKva();
 		StringBuffer str = new StringBuffer("");
 
@@ -158,10 +158,10 @@ public class AclfOut_BusStyle {
 				}
 			}
 		}
-		return str.toString();
+		return str;
 	}
 	
-	public static String lfResultsBusStyle(AclfNetwork net, AclfOutFunc.BusIdStyle style) {
+	public static StringBuffer lfResultsBusStyle(AclfNetwork net, AclfOutFunc.BusIdStyle style) {
 		StringBuffer str = new StringBuffer("");
 		try {
 			str.append(busStyleTitle(net));
@@ -176,6 +176,6 @@ public class AclfOut_BusStyle {
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
-		return str.toString();
+		return str;
 	}
 }
