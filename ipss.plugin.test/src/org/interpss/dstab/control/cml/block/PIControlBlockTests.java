@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 
 public class PIControlBlockTests {
 	@Test
@@ -79,7 +79,7 @@ public class PIControlBlockTests {
 
 	@Test
 	public void limitTestCase() {
-		PIControlBlock block = new PIControlBlock(IStaticBlock.Type.Limit, 2.0, 1.0, 5.0, -5.0);
+		PIControlBlock block = new PIControlBlock(ICMLStaticBlock.Type.Limit, 2.0, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -103,7 +103,7 @@ public class PIControlBlockTests {
 
 	@Test
 	public void nonWindupTestCase() {
-		PIControlBlock block = new PIControlBlock(IStaticBlock.Type.NonWindup, 2.0, 1.0, 5.0, -5.0);
+		PIControlBlock block = new PIControlBlock(ICMLStaticBlock.Type.NonWindup, 2.0, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));

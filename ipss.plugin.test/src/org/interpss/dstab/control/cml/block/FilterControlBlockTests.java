@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 
 public class FilterControlBlockTests {
 	@Test
@@ -80,7 +80,7 @@ public class FilterControlBlockTests {
 
 	@Test
 	public void limitTestCase() {
-		FilterControlBlock block = new FilterControlBlock(IStaticBlock.Type.Limit, 1.0, 0.1, 1.0, 5.0, -5.0);
+		FilterControlBlock block = new FilterControlBlock(ICMLStaticBlock.Type.Limit, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -104,7 +104,7 @@ public class FilterControlBlockTests {
 
 	@Test
 	public void nonWindupTestCase() {
-		FilterControlBlock block = new FilterControlBlock(IStaticBlock.Type.NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
+		FilterControlBlock block = new FilterControlBlock(ICMLStaticBlock.Type.NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));

@@ -28,7 +28,7 @@ import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
-import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 
 public class GainBlockExtensionTests {
@@ -51,7 +51,7 @@ class CustomGainBlock {
 	      input="this.kaDelayBlock.y",
 	      y0="mach.efd"  )
 	   // extend the GainBlock to reuse its functionality   
-	   public IStaticBlock gainCustomBlock = new GainBlock() {
+	   public ICMLStaticBlock gainCustomBlock = new GainBlock() {
 		  @Override
 		  public boolean initStateY0(double y0) {
 			  // at the initial point, set the gain block gain

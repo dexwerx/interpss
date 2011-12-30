@@ -38,7 +38,7 @@ import org.junit.Test;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.controller.annotate.util.AnControllerHelper;
-import com.interpss.dstab.controller.block.IFunction;
+import com.interpss.dstab.controller.block.ICMLFunction;
 import com.interpss.dstab.controller.wrapper.ControlBlockFieldAnWrapper;
 import com.interpss.dstab.controller.wrapper.FunctionFieldAnWrapper;
 import com.interpss.dstab.controller.wrapper.StaticBlockFieldAnWrapper;
@@ -98,12 +98,12 @@ public class AnnotateParserTests extends DStabTestSetupBase {
 //		assertTrue(seFunc.g.getSe1_0() == 50.0);
 //		assertTrue(seFunc.getSe0_75() == 1.0);
 
-		field = (FunctionFieldAnWrapper<IFunction>)(AnControllerHelper.getBlockFieldWrapper("seFunc", exc.getFieldWrapperList()));
+		field = (FunctionFieldAnWrapper<ICMLFunction>)(AnControllerHelper.getBlockFieldWrapper("seFunc", exc.getFieldWrapperList()));
 		assertTrue(field.getInputs().length == 3);
 		assertTrue(field.getParameters().length == 2);
 
 		assertTrue(AnControllerHelper.getBlockFieldWrapper("seFunc1", exc.getFieldWrapperList()) != null);
-		field = (FunctionFieldAnWrapper<IFunction>)(AnControllerHelper.getBlockFieldWrapper("seFunc1", exc.getFieldWrapperList()));
+		field = (FunctionFieldAnWrapper<ICMLFunction>)(AnControllerHelper.getBlockFieldWrapper("seFunc1", exc.getFieldWrapperList()));
 		assertTrue(field.getInputs().length == 3);
 	}
 
