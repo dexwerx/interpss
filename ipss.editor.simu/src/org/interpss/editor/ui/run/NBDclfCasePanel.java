@@ -50,6 +50,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
@@ -360,18 +361,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
 		
-		saveEditor2GSF();
+		saveEditor2GSF(errMsg);
 
-		saveEditor2LODF();
+		saveEditor2LODF(errMsg);
 		
-		saveEditor2OutConfig();
+		saveEditor2OutConfig(errMsg);
 
 		//saveEditor2TDFactor();
 		//saveEditor2AreaTransfer();
 		return errMsg.size() == 0;
 	}
 
-	public boolean saveEditor2GSF() {
+	public boolean saveEditor2GSF(Vector<String> errMsg) {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2GSF() called");
 
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
@@ -383,7 +384,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		
 		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
 		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
-		bus.setBusId((String)this.gsfInjectBusComboBox.getSelectedItem());
+		
+		String busId = (String)this.gsfInjectBusComboBox.getSelectedItem();
+		if (busId == null) {
+			errMsg.add("Select a gen bus");
+		}
+		bus.setBusId(busId);
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
 		
@@ -414,7 +420,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		return true;
 	}
 
-	public boolean saveEditor2LODF() {
+	public boolean saveEditor2LODF(Vector<String> errMsg) {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2LODF() called");
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
@@ -426,6 +432,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		else {  // single outage branch
 	    	String braId = (String)this.lodfBranchListComboBox.getSelectedItem();
+	    	if (braId == null) {
+	    		errMsg.add("Select an outage branch");
+	    	}
 	    	BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 		}
@@ -441,7 +450,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		return true;
 	}
 	
-	public boolean saveEditor2OutConfig() {
+	public boolean saveEditor2OutConfig(Vector<String> errMsg) {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2OutConfig() called");
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
@@ -1971,12 +1980,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void gsfSelectedGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfSelectedGSFButtonActionPerformed
         IpssLogger.getLogger().info("gsfCalculateButtonActionPerformed() called");
-        saveEditor2GSF();
-        
     	this.parent.setAlwaysOnTop(false);
 
-    	if (!saveEditor2GSF())
+        Vector<String> errMsg = new Vector<String>();
+        saveEditor2GSF(errMsg);
+    	if (errMsg.size() > 0) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
     		return;
+    	}
     	
 		final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
@@ -2014,6 +2025,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
     	
     	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
+    	if (id == null) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
+    		return;
+    	}
+    	
 		final String fromId = NetUtilFunc.findFromID(id);
 		final String toId = NetUtilFunc.findToID(id);
 		final String cirId = NetUtilFunc.findCirNo(id);    	
@@ -2043,6 +2059,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
     	
     	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
+    	if (id == null) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
+    		return;
+    	}
+    	
 		final String fromId = NetUtilFunc.findFromID(id);
 		final String toId = NetUtilFunc.findToID(id);
 		final String cirId = NetUtilFunc.findCirNo(id);    	
@@ -2073,6 +2094,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
     	
     	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
+    	if (id == null) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
+    		return;
+    	}
+    	
 		final FlowInterface monitorInf = _simuCtx.getAclfNet().getFlowInterface(id);
 		final int outPoints = this._senXml.getOutOption().getAllInterfacePoints();
 		
@@ -2163,8 +2189,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         IpssLogger.getLogger().info("lodfCalculateButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
     	
-    	if (!saveEditor2LODF())
+        Vector<String> errMsg = new Vector<String>();    	
+    	saveEditor2LODF(errMsg);
+    	if (errMsg.size() > 0) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
     		return;
+    	}
 
 		final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
 		final DclfSenAnalysisXmlType senXml = this._senXml;
@@ -2201,6 +2231,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
 		
     	final String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	if (id == null) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
+    		return;
+    	}
+    	
 		final String fromId = NetUtilFunc.findFromID(id);
 		final String toId = NetUtilFunc.findToID(id);
 		final String cirId = NetUtilFunc.findCirNo(id);    	
@@ -2237,6 +2272,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
 		
     	final String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	if (id == null) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
+    		return;
+    	}
 		final String fromId = NetUtilFunc.findFromID(id);
 		final String toId = NetUtilFunc.findToID(id);
 		final String cirId = NetUtilFunc.findCirNo(id);    	
