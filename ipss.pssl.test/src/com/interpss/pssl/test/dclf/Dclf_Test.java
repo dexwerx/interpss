@@ -24,6 +24,7 @@
 
 package com.interpss.pssl.test.dclf;
 
+import static com.interpss.pssl.plugin.IpssOut.dclfResult;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -34,8 +35,6 @@ import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.junit.Test;
 
-import static com.interpss.pssl.plugin.IpssOut.dclfResult;
-
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
@@ -44,7 +43,6 @@ import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.odm.DclfDslODMRunner;
 import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
-import com.interpss.pssl.plugin.IpssUtil;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.simu.IpssAclf.LfAlgoDSL;
