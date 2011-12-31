@@ -49,6 +49,7 @@ import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.ieee.odm.schema.PtGenAnalysisEnumType;
 import org.ieee.odm.schema.PtGenAnalysisXmlType;
 import org.ieee.odm.schema.PtLoadDistributionXmlType;
+import org.interpss.datatype.DblBusValue;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -58,6 +59,7 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
+import static com.interpss.pssl.plugin.IpssOut.dclfGSFBranchFlow;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
@@ -72,7 +74,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
-import com.interpss.pssl.common.DblBusValue;
 import com.interpss.pssl.display.PTradingOutput;
 import com.interpss.pssl.odm.PTradingDslODMRunner;
 import com.interpss.pssl.odm.PTradingDslODMRunner.PtAnalysisType;
@@ -1562,7 +1563,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 			Object rtn = new PTradingDslODMRunner(net)
 								.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-			outText = PTradingOutput.gsfBranchFlow(net, braId, (List<DblBusValue>)rtn).toString();
+			outText = dclfGSFBranchFlow.apply(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.outageSingleRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)

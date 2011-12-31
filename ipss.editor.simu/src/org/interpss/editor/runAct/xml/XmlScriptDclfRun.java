@@ -86,7 +86,7 @@ public class XmlScriptDclfRun {
 
 				if (xmlCase.isCaculatelDclf()) {
 					algo.calculateDclf();
-					String str = DclfOutFunc.dclfResults(algo, false);
+					String str = DclfOutFunc.dclfResults(algo, false).toString();
 					dialog.appendText(str);
 				}
 
