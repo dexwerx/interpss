@@ -75,15 +75,22 @@ public class InterPSS {
 					new String[] {
 							"org/interpss/spring/GEditorSpringCtx.xml"});
 		}
-		IpssPlugin.setSparseEqnSolver(SparseEquation.SolverType.Native);
+		
+		// process the -s option
+		if (appParameters.getParam(SOptStr) != null
+				&& Parm_Native.equals(appParameters.getParamLowerCase(SOptStr))) {
+			IpssLogger.getLogger().info("Using native sparse solver");
+			IpssPlugin.setSparseEqnSolver(SparseEquation.SolverType.Native);
+		}
+		else 
+			IpssLogger.getLogger().info("Using default Java sparse solver");
 		
 		// load app constants stored in the properties files
 		loadAppConstants();
 
 		// try to start the grid engine
 		if (appParameters.getParam(GOptStr) != null
-				&& Parm_GridGain.equals(appParameters
-						.getParamLowerCase(GOptStr))) {
+				&& Parm_GridGain.equals(appParameters.getParamLowerCase(GOptStr))) {
 			String gridgain_home = IpssPropertiesLoader.getEditorString(Pty_GridGainHome);
 			IpssLogger.getLogger().info("Gridgain home " + gridgain_home);
 			GridEnvHelper.startDefaultGrid(gridgain_home);
@@ -174,6 +181,7 @@ public class InterPSS {
 	}
 
 	private final static String OptStr = "-o";
+	private final static String SOptStr = "-s";
 	private final static String GOptStr = "-g";
 	private final static String InOptStr = "-in";
 	private final static String RunOptStr = "-run";
@@ -189,14 +197,16 @@ public class InterPSS {
 	public final static String RunAcscStr = "acsc";
 	public final static String RunDStabStr = "dstab";
 
+	private final static String Parm_Native = "native";
 	private final static String Parm_GridGain = "gridgain";
 	private final static String Pty_GridGainHome = "grid.gridgain.home";
 
 	private static String getHelpInfo() {
-		return "java org.interpss.InterPSS [-o editor|help|cmd] [-g gridgain] -in inputFile [-run dclf|aclf] [-xml controlFile] [-out outputFile|Console] \n"
+		return "java org.interpss.InterPSS [-o editor|help|cmd] [-s native] [-g gridgain] -in inputFile [-run dclf|aclf] [-xml controlFile] [-out outputFile|Console] \n"
 				+ "  "	+ OptStr + " " + OptHelpStr + " for help info\n"
 				+ "  " 	+ OptStr + " " + OptCmdLineStr + " defaul, running InterPSS in cmd line mode\n"
 				+ "  " 	+ OptStr + " " + OptEditorStr + " running InterPSS in graphic editor mode\n"
+				+ "  " 	+ SOptStr + " " + Parm_Native + " running InterPSS using native sparse solver\n"
 				+ "  " 	+ GOptStr + " " + Parm_GridGain + " running InterPSS in grid computing mode\n"
 				+ "  " 	+ InOptStr + " " + " simulation input file, its extension will be used to determine file loading adapter\n"
 				+ "  " 	+ RunOptStr + " " + " to override InterPSS default run type, which is determined by the network object type. \n"
