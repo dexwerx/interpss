@@ -24,7 +24,10 @@
 
 package org.interpss.editor.runAct;
 
-import org.interpss.display.DclfOutFunc;
+import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.AclfAnalysisXmlType;
+import org.ieee.odm.schema.ContingencyAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringFactory;
@@ -42,9 +45,8 @@ import org.jgraph.JGraph;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.DclfObjectFactory;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.pssl.odm.AclfDslODMRunner;
+import com.interpss.pssl.odm.ContingencyDslODMRunner;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
@@ -55,6 +57,7 @@ public class SimuRunWorker extends Thread {
 	private String scripts = null;
 	private ScriptLangEnum scriptLanguage = ScriptLangEnum.Java;
 	private String pluginName = "";
+	private ODMModelParser odmParser = null;
 
 	public SimuRunWorker(String str) {
 		super(str);
@@ -66,9 +69,13 @@ public class SimuRunWorker extends Thread {
 	}
 
 	public void configRun(SimuRunEnum aRunType, SimuContext aCtx, JGraph aGraph) {
-		this.runType = aRunType;
-		this.simuCtx = aCtx;
+		configRun(aRunType, aCtx);
 		this.graph = aGraph;
+	}
+	
+	public void configRun(SimuRunEnum aRunType, SimuContext aCtx, JGraph aGraph, ODMModelParser odmParser) {
+		configRun(aRunType, aCtx, aGraph);
+		this.odmParser = odmParser;
 	}
 
 	public void configRun(SimuRunEnum aRunType, SimuContext aCtx,
@@ -90,22 +97,51 @@ public class SimuRunWorker extends Thread {
 			return;
 		}
 		
+		/*
+		 *   ODM Runner
+		 */
+		
 		if (this.runType == SimuRunEnum.Aclf) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run AC Loadflow Analysis ...", "Run Aclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Loadflow");
 
-			boolean converge = EditorSimuSpringFactory.getAclfRunForm()
-					.runCase(simuCtx);
+			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+			AclfAnalysisXmlType aclfXml = helper.getAclfAnalysis();
+			boolean converge = new AclfDslODMRunner(simuCtx.getAclfNet()).runAclf(aclfXml.getAclfAlgo());
 			appSimuCtx.setLfConverged(converge);
 
 			appStatus.busyStop("Run AC Loadflow Analysis finished");
+			
+			if (aclfXml.isDisplaySummary()) {
+				IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Loadflow Analysis Info");
+				dialog.display(simuCtx.getAclfNet());
+			}			
 
 			if (graph != null) {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
 						GraphSimuUtilFunc.LABEL_ACT_ACLF);
 			}
 		} 
+		else if (this.runType == SimuRunEnum.ContingencyAnalysis) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run Contingency Analysis ...", "Run Contingency Analysis");
+			IpssLogger.getLogger().info("SimuRunWorker starts Run Contingency Analysis");
+
+			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+			ContingencyAnalysisXmlType contXml = helper.getContingencyAnalysis();
+		  	StringBuffer buffer = new ContingencyDslODMRunner(simuCtx.getAclfNet()).runAnalysis(contXml);
+
+			appStatus.busyStop("Run Contingency finished");
+			
+			IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Loadflow Analysis Info");
+			dialog.display(buffer);
+		}		
+		
+		/*
+		 * Ipss Schema runnner
+		 */
+		
 		else if (this.runType == SimuRunEnum.ContingencyAnalysis) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run Contingency Analysis ...", "Run Contingency Analysis");
@@ -174,6 +210,7 @@ public class SimuRunWorker extends Thread {
 			}
 			appStatus.busyStop("Run Scripts finished");
 		}
+/*		
 		else if (this.runType == SimuRunEnum.Dclf) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run DC Loadflow Analysis ...", "Run Dclf");
@@ -202,5 +239,6 @@ public class SimuRunWorker extends Thread {
 
 			appStatus.busyStop("Run AC Loadflow Analysis finished");
 		}
+*/		
 	}
 }

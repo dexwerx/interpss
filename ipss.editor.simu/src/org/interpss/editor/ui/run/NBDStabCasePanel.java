@@ -219,7 +219,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     public void setXmlCaseData(DStabStudyCaseXmlType data, GridComputingXmlType xmlGridOpt) {
     	this.xmlCaseData = data;
     	dynaEventPanel.setCaseData(data.getDynamicEventData());
+/* TODO temp     	
     	aclfCasePanel.setXmlCaseData(data.getAclfAlgorithm(), xmlGridOpt);
+*/    	
     }
     
     /**

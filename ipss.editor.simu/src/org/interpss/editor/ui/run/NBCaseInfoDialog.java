@@ -31,6 +31,7 @@ import javax.swing.JFileChooser;
 
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.AclfAnalysisXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
@@ -43,17 +44,15 @@ import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.EditorSimuSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
 import org.interpss.util.FileUtil;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
-import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
-import org.interpss.xml.schema.ContingencyAnalysisXmlType;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 
@@ -70,6 +69,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	private StudyCaseHanlder studyCaseXmlDoc;
 
 	private ODMModelParser odmParser = new ODMModelParser();
+    public ODMModelParser getODMParser() { return this.odmParser; }    
 	
 	private static JFileChooser saveTextFileChooser = null;
 	
@@ -91,8 +91,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
         _dclfCaseInfoPanel = new NBDclfCasePanel(this);
         _tradingCaseInfoPanel = new NBPTradingCasePanel(this);
-
         _aclfCaseInfoPanel = new NBAclfCasePanel(this);
+
         _acscCaseInfoPanel = new NBAcscCasePanel(this);
         _dstabCaseInfoPanel = new NBDStabCasePanel(this);
         _scrptsCaseInfoPanel = new NBScriptingCasePanel(this);
@@ -112,6 +112,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		caseDataPanel.removeAll();
 		setButtonStatus(true);
 		this.runButton.setText("Run");
+
+		this.importButton.setEnabled(false);
 		
 		/*
 		 *     ODM schema format
@@ -120,50 +122,26 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		if (_caseType == SimuRunEnum.SenAnalysis) {
 			this.setTitle("Run Sensitivity Analysis");
 			this.runButton.setText("Save");
-			this.addCaseButton.setEnabled(false);
-			this.deleteCaseButton.setEnabled(false);
-			this.importButton.setEnabled(false);
 			caseDataPanel.add(_dclfCaseInfoPanel);
 			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}
 		else if (_caseType == SimuRunEnum.TradingAnalysis) {
 			this.setTitle("Run Trading Analysis");
 			this.runButton.setText("Save");
-			this.addCaseButton.setEnabled(false);
-			this.deleteCaseButton.setEnabled(false);
-			this.importButton.setEnabled(false);
 	        caseDataPanel.add(this._tradingCaseInfoPanel);
 			_tradingCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}
-
-		/*
-		 *     InterPSS schema format
-		 */
-
 		else if (_caseType == SimuRunEnum.Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
 			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx(), true);
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_aclfCaseInfoPanel);
 		}
-		else if (_caseType == SimuRunEnum.SenAnalysis) {
-			this.setTitle("Run Sensitivity Analysis");
-			this.runButton.setText("Save");
-			this.addCaseButton.setEnabled(false);
-			this.deleteCaseButton.setEnabled(false);
-			this.importButton.setEnabled(false);
-			caseDataPanel.add(_dclfCaseInfoPanel);
-			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
-		}
-		else if (_caseType == SimuRunEnum.TradingAnalysis) {
-			this.setTitle("Run Trading Analysis");
-			this.runButton.setText("Save");
-			this.addCaseButton.setEnabled(false);
-			this.deleteCaseButton.setEnabled(false);
-			this.importButton.setEnabled(false);
-	        caseDataPanel.add(this._tradingCaseInfoPanel);
-			_tradingCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
-		}
+
+		/*
+		 *     InterPSS schema format
+		 */
+
 		else if (_caseType == SimuRunEnum.Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
 			caseDataPanel.add(_acscCaseInfoPanel);
@@ -191,9 +169,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	}
     
 	private void setButtonStatus(boolean b) {
-	    this.addCaseButton.setEnabled(b);
 	    //this.casenameComboBox.setEnabled(b);
-	    this.deleteCaseButton.setEnabled(b);
 	    //private javax.swing.JTextArea descTextArea;
 	    this.viewXmlButton.setEnabled(b);
 	    this.importButton.setEnabled(b);
@@ -202,8 +178,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	private void loadRunXmlDocument(String filename) {
 		try {
 			if (_caseType != SimuRunEnum.Scripts) {
-				if (_caseType == SimuRunEnum.TradingAnalysis ||
-						_caseType == SimuRunEnum.SenAnalysis) {
+				if (isODMFormat()) {
 					this.odmParser = RunUIUtilFunc.loadODMXmlDoc(filename, _caseType);
 				}
 				else {
@@ -250,7 +225,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
     private boolean isODMFormat() {
 		return _caseType == SimuRunEnum.TradingAnalysis ||
-		       _caseType == SimuRunEnum.SenAnalysis;    	
+		       _caseType == SimuRunEnum.SenAnalysis ||
+		       _caseType == SimuRunEnum.Aclf;    	
     }
 	/**
 	*	Set form data to the editor
@@ -289,6 +265,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setForm2Editor();
 			}
+			else if (_caseType == SimuRunEnum.Aclf) {
+				AclfAnalysisXmlType aclfXml = helper.getAclfAnalysis();			
+				casename = aclfXml.getName();
+				casedesc = aclfXml.getDesc();
+				// set the case data to the actual data editing panel
+				_aclfCaseInfoPanel.setXmlCaseData(aclfXml, helper.getContingencyAnalysis(), helper.getGridRunOption());
+				// set the case data to the actual data editing panel
+				_aclfCaseInfoPanel.setForm2Editor();
+			}			
 			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {casename}));
 			this.descTextArea.setText(casedesc);
 		}
@@ -296,16 +281,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			/*
 			 *  InterPSS schema format
 			 */
-			if (_caseType == SimuRunEnum.Aclf) {
-				casename = getCaseName(SimuRunEnum.Aclf);
-				AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
-				this.descTextArea.setText(scase.getRecDesc());
-				// set the case data to the actual data editing panel
-				_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
-				// set the case data to the actual data editing panel
-				_aclfCaseInfoPanel.setForm2Editor();
-			}
-			else if (_caseType == SimuRunEnum.Acsc) {
+			if (_caseType == SimuRunEnum.Acsc) {
 				casename = getCaseName(SimuRunEnum.Acsc);
 				AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
 				this.descTextArea.setText(scase.getRecDesc());
@@ -425,36 +401,20 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				dclfCase.setName(this.casenameComboBox.getSelectedItem().toString());
 				dclfCase.setDesc(this.descTextArea.getText());
 				_dclfCaseInfoPanel.saveEditor2Form(errMsg);
-			}		
-			FileUtil.writeText2File(runStudyCaseFilename, 
-					this.odmParser.toXmlDoc(false));
+			}	
+			else if (_caseType == SimuRunEnum.Aclf) {
+				AclfAnalysisXmlType aclfCase = helper.getAclfAnalysis();			
+				aclfCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				aclfCase.setDesc(this.descTextArea.getText());
+				this._aclfCaseInfoPanel.saveEditor2Form(errMsg);	
+			}			
+			FileUtil.writeText2File(runStudyCaseFilename, this.odmParser.toXmlDoc(false));
 		}
+		
 		// ipss schema
 		else {
 			ProjData projData = (ProjData)_appSimuCtx.getProjData();
-			if (_caseType == SimuRunEnum.Aclf) {
-				projData.setAclfCaseName(casename);
-				if (_aclfCaseInfoPanel.getPanelSelected() == NBAclfCasePanel.ContingencyPanel) {
-					this._caseType = SimuRunEnum.ContingencyAnalysis;
-					IpssLogger.getLogger().info("Save Contingency anlaysis Case info");
-					ContingencyAnalysisXmlType analysis = this.studyCaseXmlDoc.getContingencyAnalysis();
-					_aclfCaseInfoPanel.setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
-					_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-					EditorSimuSpringFactory.getAclfRunForm().setXmlCaseData(analysis, this.studyCaseXmlDoc.getGridOption());
-				}
-				else {
-					AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
-					if (scase == null) {
-						errMsg.add("Aclf study case not found, " + casename);
-						return false;
-					}
-					scase.setRecDesc(this.descTextArea.getText());
-					_aclfCaseInfoPanel.setXmlCaseData(scase.getAclfAlgorithm(), this.studyCaseXmlDoc.getGridOption());
-					_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-					EditorSimuSpringFactory.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
-				}
-			}
-			else if (_caseType == SimuRunEnum.Acsc) {
+			if (_caseType == SimuRunEnum.Acsc) {
 				AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
 				if (scase == null) {
 					errMsg.add("Acsc study case not found, " + casename);
@@ -518,8 +478,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         caseDataPanel = new javax.swing.JPanel();
         controlPanel = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
-        addCaseButton = new javax.swing.JButton();
-        deleteCaseButton = new javax.swing.JButton();
         viewXmlButton = new javax.swing.JButton();
         importButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
@@ -595,29 +553,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         });
         controlPanel.add(runButton);
 
-        addCaseButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        addCaseButton.setText("AddCase");
-        addCaseButton.setToolTipText("Add a new study case");
-        addCaseButton.setName("addCaseButton"); // NOI18N
-        addCaseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCaseButtonActionPerformed(evt);
-            }
-        });
-        controlPanel.add(addCaseButton);
-
-        deleteCaseButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        deleteCaseButton.setText("DeleteCase");
-        deleteCaseButton.setToolTipText("Delete the current study case");
-        deleteCaseButton.setName("deleteCaseButton"); // NOI18N
-        deleteCaseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteCaseButtonActionPerformed(evt);
-            }
-        });
-        controlPanel.add(deleteCaseButton);
-
-        viewXmlButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        viewXmlButton.setFont(new java.awt.Font("Dialog", 0, 12));
         viewXmlButton.setText("ViewXml");
         viewXmlButton.setToolTipText("Cancel and close the case dialog");
         viewXmlButton.setName("cancelButton"); // NOI18N
@@ -628,7 +564,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         });
         controlPanel.add(viewXmlButton);
 
-        importButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        importButton.setFont(new java.awt.Font("Dialog", 0, 12));
         importButton.setText("Import");
         importButton.setToolTipText("Cancel and close the case dialog");
         importButton.setName("cancelButton"); // NOI18N
@@ -666,73 +602,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void deleteCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCaseButtonActionPerformed
-		if (this.casenameComboBox.getItemCount() > 1) {
-			String casename = (String)this.casenameComboBox.getSelectedItem();
-			if (_caseType == SimuRunEnum.Aclf && this.studyCaseXmlDoc.getAclfStudyCase(casename) != null) {
-				if (this.studyCaseXmlDoc.deleteAclfStudyCase(casename))
-					IpssLogger.getLogger().info("NBCaseInfoPanel study case deleted " + casename);
-				else {	
-					IpssLogger.getLogger().info("NBCaseInfoPanel delte study case, case not found " + casename);
-					return;  // no case deleted if return false
-				}
-				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAclfStudyCaseNameArray()));
-			}
-			else if (_caseType == SimuRunEnum.SenAnalysis && this.studyCaseXmlDoc.getDclfStudyCase(casename) != null) {
-				if (this.studyCaseXmlDoc.deleteDclfStudyCase(casename))
-					IpssLogger.getLogger().info("NBCaseInfoPanel study case deleted " + casename);
-				else {	
-					IpssLogger.getLogger().info("NBCaseInfoPanel delte study case, case not found " + casename);
-					return;  // no case deleted if return false
-				}
-				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDclfStudyCaseNameArray()));
-			}
-			else if (_caseType == SimuRunEnum.Acsc && this.studyCaseXmlDoc.getAcscStudyCase(casename) != null) {
-				if (this.studyCaseXmlDoc.deleteAcscStudyCase(casename))
-					IpssLogger.getLogger().info("NBCaseInfoPanel study case deleted " + casename);
-				else {	
-					IpssLogger.getLogger().info("NBCaseInfoPanel delte study case, case not found " + casename);
-					return;  // no case deleted if return false
-				}
-				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAcscStudyCaseNameArray()));
-			}
-			else if (_caseType == SimuRunEnum.DStab && this.studyCaseXmlDoc.getDStabStudyCase(casename) != null) {
-				if (this.studyCaseXmlDoc.deleteDStabStudyCase(casename))
-					IpssLogger.getLogger().info("NBCaseInfoPanel study case deleted " + casename);
-				else {	
-					IpssLogger.getLogger().info("NBCaseInfoPanel delte study case, case not found " + casename);
-					return;  // no case deleted if return false
-				}
-				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDStabStudyCaseNameArray()));
-			}
-			this.casenameComboBox.setSelectedIndex(0);
-		    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
-		}
-		else {
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Warnning", "The project has to have minimum one case.");
-		}
-    }//GEN-LAST:event_deleteCaseButtonActionPerformed
-
-    private void addCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCaseButtonActionPerformed
-		IpssLogger.getLogger().info("NBCaseInfoPanel addCaseButtonActionPerformed() called");
-		String casename = (String)this.casenameComboBox.getSelectedItem();	 
-		if (casename == null || casename.trim() == "")
-			casename = "A New " + _caseType + " Study Case";
-		if (_caseType == SimuRunEnum.Aclf && this.studyCaseXmlDoc.getAclfStudyCase(casename) == null) {
-			this.studyCaseXmlDoc.addNewAclfStudyCase(casename);
-		}
-		else if (_caseType == SimuRunEnum.SenAnalysis && this.studyCaseXmlDoc.getDclfStudyCase(casename) == null) {
-			this.studyCaseXmlDoc.addNewDclfStudyCase(casename);
-		}
-		else if (_caseType == SimuRunEnum.Acsc && this.studyCaseXmlDoc.getAcscStudyCase(casename) == null) {
-			this.studyCaseXmlDoc.addNewAcscStudyCase(casename);
-		}
-		else if (_caseType == SimuRunEnum.DStab && this.studyCaseXmlDoc.getDStabStudyCase(casename) == null) {
-			this.studyCaseXmlDoc.addNewDStabStudyCase(casename);
-		}
-	    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
-    }//GEN-LAST:event_addCaseButtonActionPerformed
-
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
 		Vector<String> errMsg = new Vector<String>();
 		try {
@@ -752,8 +621,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         else {
     		_returnOK = true;
     		_appSimuCtx.getProjData().setDirty(true);
-    		if (_caseType == SimuRunEnum.Aclf || _caseType == SimuRunEnum.ContingencyAnalysis)
+    		if (_caseType == SimuRunEnum.Aclf) {
     			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
+    			this._caseType = _aclfCaseInfoPanel.getPanelSelected() == NBAclfCasePanel.LoadflowPanel? 
+    					SimuRunEnum.Aclf : SimuRunEnum.ContingencyAnalysis;
+    		}
     		GraphSpringFactory.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
         }
         setVisible(false);
@@ -812,7 +684,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Run Study Case Xml");
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
-	 if (_caseType == SimuRunEnum.TradingAnalysis) {
+	 if (this.isODMFormat()) {
 		 dialog.display(this.odmParser.toXmlDoc(false));
 	 }
 	 else
@@ -840,14 +712,12 @@ private JFileChooser getSaveTextFileChooser() {
 }	
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addCaseButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel caseDataPanel;
     private javax.swing.JPanel caseInfoPanel;
     private javax.swing.JComboBox casenameComboBox;
     private javax.swing.JLabel casenameLabel;
     private javax.swing.JPanel controlPanel;
-    private javax.swing.JButton deleteCaseButton;
     private javax.swing.JLabel descLabel;
     private javax.swing.JTextArea descTextArea;
     private javax.swing.JButton importButton;

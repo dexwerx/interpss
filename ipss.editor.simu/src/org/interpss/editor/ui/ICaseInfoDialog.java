@@ -24,6 +24,7 @@
 
 package org.interpss.editor.ui;
 
+import org.ieee.odm.model.ODMModelParser;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
@@ -34,4 +35,6 @@ public interface ICaseInfoDialog extends IFormDataDialog {
     void setRunStudyCaseFilename(String filename);
     
     void setDStabOutputScriptFilename(String filename);
+    
+    ODMModelParser getODMParser();    
 }

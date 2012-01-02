@@ -51,7 +51,7 @@ import com.interpss.pssl.algo.aclf.EDHourlyLoadflow;
 
 public class RunUIUtilFunc  {
 	public static String Template_RunCase = "template/RunCaseTemplate.xml";
-	public static String Template_RunCase_Aclf = "template/RunCaseAclfTemplate.xml";
+//	public static String Template_RunCase_Aclf = "template/RunCaseAclfTemplate.xml";
 	public static String Template_RunCase_Acsc = "template/RunCaseAcscTemplate.xml";
 	public static String Template_RunCase_DStab = "template/RunCaseDStabTemplate.xml";
 //	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
@@ -232,7 +232,8 @@ public class RunUIUtilFunc  {
 
   		// use template file
 		if (caseType == SimuRunEnum.TradingAnalysis ||
-				caseType == SimuRunEnum.SenAnalysis ) {
+				caseType == SimuRunEnum.SenAnalysis ||
+				caseType == SimuRunEnum.Aclf) {
 			filename = Template_RunCase;
 		}
   		
@@ -265,10 +266,7 @@ public class RunUIUtilFunc  {
   		}
 
   		// use template file
-		if (caseType == SimuRunEnum.Aclf || caseType == SimuRunEnum.Scripts) {
-			filename = Template_RunCase_Aclf;
-		}
-		else if (caseType == SimuRunEnum.Acsc) {
+		if (caseType == SimuRunEnum.Acsc) {
 			filename = Template_RunCase_Acsc;
 		}	
 		else if (caseType == SimuRunEnum.DStab) {

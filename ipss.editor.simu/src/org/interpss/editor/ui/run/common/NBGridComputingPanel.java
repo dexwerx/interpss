@@ -26,10 +26,10 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
+import org.ieee.odm.schema.GridComputingXmlType;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.ui.SwingInputVerifyUtil;
-import org.interpss.xml.schema.GridComputingXmlType;
 
 import com.interpss.common.util.IpssLogger;
 
