@@ -30,13 +30,13 @@ Key concepts:
 package org.interpss.mapper.odm.impl.acsc;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.AcscBaseFaultXmlType;
+import org.ieee.odm.schema.AcscBranchFaultXmlType;
+import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
-import org.ieee.odm.schema.AcscFaultXmlType;
-import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ZXmlType;
@@ -69,8 +69,7 @@ public class AcscScenarioHelper {
 	 * @param faultXml
 	 */
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
-		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT &&
-				sScenarioXml.getStudyCaseList().getStudyCase() != null &&
+		if(	sScenarioXml.getStudyCaseList().getStudyCase() != null &&
 				sScenarioXml.getStudyCaseList().getStudyCase().size() == 1){
 			// first we check if acsc analysis type, scenario is defined and only one scenario 
 			// is defined
@@ -118,9 +117,10 @@ public class AcscScenarioHelper {
 		if (scAnalysisXml.getFault() == null)
 			throw new InterpssException("acscAnalysis.fault not defined");
 		
-		AcscFaultXmlType faultXml = scAnalysisXml.getFault();
+		AcscBaseFaultXmlType faultXml = scAnalysisXml.getFault();
 		if(faultXml.getFaultType() == AcscFaultTypeEnumType.BUS_FAULT){			
-			String faultBusId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
+			AcscBusFaultXmlType busFaultXml = (AcscBusFaultXmlType)faultXml;
+			String faultBusId = busFaultXml.getRefBus().getBusId();
 			AcscBusFault acscBusFault = CoreObjectFactory.createAcscBusFault(faultBusId, acscFaultNet);
 			acscAglo.addBusFault(faultBusId, idStr, acscBusFault);
 
@@ -128,10 +128,11 @@ public class AcscScenarioHelper {
 			double baseV=bus.getBaseVoltage();
 			double baseKVA= bus.getNetwork().getBaseKva();
 
-			setBusFaultInfo(faultXml, acscBusFault, baseV, baseKVA);
+			setBusFaultInfo(busFaultXml, acscBusFault, baseV, baseKVA);
 		}
 		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_FAULT){
-			String faultBranchId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
+			AcscBranchFaultXmlType braFaultXml = (AcscBranchFaultXmlType)faultXml;
+			String faultBranchId = braFaultXml.getRefBranch().getBranchId();
 			AcscBranchFault acscBraFault = CoreObjectFactory.createAcscBranchFault(faultBranchId, acscFaultNet);
 			acscAglo.addBranchFault(faultBranchId, idStr, acscBraFault);
 
@@ -139,7 +140,7 @@ public class AcscScenarioHelper {
 			double baseV = acscBra.getFromAclfBus().getBaseVoltage();
 			double baseKVA= acscBra.getNetwork().getBaseKva();
 
-			setBranchFaultInfo(faultXml, acscBraFault, baseV, baseKVA);
+			setBranchFaultInfo(braFaultXml, acscBraFault, baseV, baseKVA);
 		}
 		else if(faultXml.getFaultType()== AcscFaultTypeEnumType.BRANCH_OUTAGE){
 			throw new InterpssException("Acsc branch outtage fault not implemented");
@@ -147,7 +148,19 @@ public class AcscScenarioHelper {
 
 	}
 	
-	public static void setBusFaultInfo(AcscFaultXmlType scFaultXml, AcscBusFault acscBusFault, double baseV, double baseKVA) {
+	public static void setBusFaultInfo(AcscBusFaultXmlType scFaultXml, AcscBusFault acscBusFault, double baseV, double baseKVA) {
+		setFaultInfo(scFaultXml, acscBusFault, baseV, baseKVA);
+	}
+
+	public static void setBranchFaultInfo(AcscBranchFaultXmlType scFaultXml, AcscBranchFault acscBusFault, double baseV, double baseKVA) {
+		// AcscBranchFault is a subclass of AcscBusFault
+		setFaultInfo(scFaultXml, acscBusFault, baseV, baseKVA);
+		// set fault distance
+		double faultDis = scFaultXml.getDistance();
+		acscBusFault.setDistance(faultDis);			
+	}
+
+	private static void setFaultInfo(AcscBaseFaultXmlType scFaultXml, AcscBusFault acscBusFault, double baseV, double baseKVA) {
 		// set fault type
 		AcscFaultCategoryEnumType faultCate = scFaultXml.getFaultCategory();
 		if(faultCate.equals(AcscFaultCategoryEnumType.FAULT_3_PHASE)){
@@ -170,14 +183,6 @@ public class AcscScenarioHelper {
 			acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
 					ODMUnitHelper.toZUnit(zLL.getUnit()), baseV, baseKVA);
 		}	
-	}
-
-	public static void setBranchFaultInfo(AcscFaultXmlType scFaultXml, AcscBranchFault acscBusFault, double baseV, double baseKVA) {
-		// AcscBranchFault is a subclass of AcscBusFault
-		setBusFaultInfo(scFaultXml, acscBusFault, baseV, baseKVA);
-		// set fault distance
-		double faultDis = scFaultXml.getDistance();
-		acscBusFault.setDistance(faultDis);			
 	}
 	
 	public static BranchOutageType getBranchOutageType(AcscFaultCategoryEnumType caty) {

@@ -34,9 +34,10 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
+import org.ieee.odm.schema.AcscBaseFaultXmlType;
+import org.ieee.odm.schema.AcscBranchFaultXmlType;
+import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
-import org.ieee.odm.schema.AcscFaultXmlType;
-import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.DStabLoadChangeEnumType;
 import org.ieee.odm.schema.DStabLoadChangeXmlType;
 import org.ieee.odm.schema.DStabMethodEnumType;
@@ -89,8 +90,7 @@ public class DStabScenarioHelper {
 	}
 	
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
-		if(sScenarioXml.getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY &&
-				sScenarioXml.getStudyCaseList().getStudyCase() != null &&
+		if(	sScenarioXml.getStudyCaseList().getStudyCase() != null &&
 				sScenarioXml.getStudyCaseList().getStudyCase().size() == 1){
 			// first we check if dstab analysis type, scenario is defined and only one scenario 
 			// is defined
@@ -119,7 +119,7 @@ public class DStabScenarioHelper {
 		mapGeneralSettings(settings);
 		
 		// map the LF algo part
-		AclfAlgorithmXmlType lfInit = dstabSimuXml.getAclfInitialization();
+		AclfAlgorithmXmlType lfInit = dstabSimuXml.getAclfInitialization().getAclfAlgo();
 		new AclfScenarioHelper(this.dstabAlgo.getAclfAlgorithm())
 				.mapAclfAlgorithm(lfInit);		
 		
@@ -197,30 +197,33 @@ public class DStabScenarioHelper {
 			setLoadChangeData(eventObj, eventXml);
 		} 
 		else if (eventXml.getEventType() == DynamicEventEnumType.FAULT) {
-			AcscFaultXmlType faultXml = eventXml.getFault();
+			AcscBaseFaultXmlType faultXml = eventXml.getFault();
 			if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BRANCH_OUTAGE) {
+				AcscBranchFaultXmlType braFaultXml = (AcscBranchFaultXmlType)faultXml;
 				eventObj.setType(DynamicEventType.BRANCH_OUTAGE);
-				String faultBranchId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
+				String faultBranchId = braFaultXml.getRefBranch().getBranchId();
 				BranchOutageEvent bOutageEvent = DStabObjectFactory.createBranchOutageEvent(faultBranchId, dstabNet);
 				bOutageEvent.setOutageType(AcscScenarioHelper.getBranchOutageType(faultXml.getFaultCategory()));
 				eventObj.setBranchDynamicEvent(bOutageEvent);
 			} 
 			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BUS_FAULT) {
+				AcscBusFaultXmlType busFaultXml = (AcscBusFaultXmlType)faultXml;
 				eventObj.setType(DynamicEventType.BUS_FAULT);
-				String faultBusId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
+				String faultBusId = busFaultXml.getRefBus().getBusId();
 				AcscBusFault busFault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId+faultBusId, dstabNet);
 				AcscBus bus = this.dstabNet.getAcscBus(faultBusId);
 				busFault.setFaultBus(bus);
 				
 				double baseV=bus.getBaseVoltage();
 				double baseKVA= bus.getNetwork().getBaseKva();				
-				AcscScenarioHelper.setBusFaultInfo(faultXml, busFault, baseV, baseKVA);
+				AcscScenarioHelper.setBusFaultInfo(busFaultXml, busFault, baseV, baseKVA);
 				
 				eventObj.setBusFault(busFault);
 			} 
 			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BRANCH_FAULT) {
+				AcscBranchFaultXmlType braFaultXml = (AcscBranchFaultXmlType)faultXml;
 				eventObj.setType(DynamicEventType.BRANCH_FAULT);
-				DStabBranchFault fault = createDStabBranchFault(faultXml);
+				DStabBranchFault fault = createDStabBranchFault(braFaultXml);
 				eventObj.setBranchFault(fault);
 				if (fault.isReclosure()) {
 					String name = "EventAt_" + eventXml.getStartTime()	+ eventXml.getEventType();
@@ -229,14 +232,14 @@ public class DStabScenarioHelper {
 					reclosureEvent.setStartTimeSec(fault.getReclosureTime());
 					reclosureEvent.setDurationSec(this.dstabAlgo.getTotalSimuTimeSec());
 					reclosureEvent.setPermanent(true);
-					reclosureEvent.setBranchFault(createDStabBranchFault(faultXml));
+					reclosureEvent.setBranchFault(createDStabBranchFault(braFaultXml));
 				}
 			}
 		}
 	}
 	
-	private DStabBranchFault createDStabBranchFault(AcscFaultXmlType faultXml) throws InterpssException {
-		String faultBranchId = BaseJaxbHelper.getRecId(faultXml.getRefBusBranch());
+	private DStabBranchFault createDStabBranchFault(AcscBranchFaultXmlType faultXml) throws InterpssException {
+		String faultBranchId = faultXml.getRefBranch().getBranchId();
 		DStabBranchFault branchFault = DStabObjectFactory.createDStabBranchFault(Constants.Token_BranchFaultId + faultBranchId);
 		
 		AcscBranch branch = this.dstabNet.getAcscBranch(faultBranchId);
