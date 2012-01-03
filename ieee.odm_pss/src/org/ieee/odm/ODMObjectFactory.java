@@ -38,8 +38,19 @@ import org.ieee.odm.model.dc.DcSystemModelParser;
 import org.ieee.odm.model.dist.DistModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
+import org.ieee.odm.schema.ObjectFactory;
 
 public class ODMObjectFactory {
+	private static ObjectFactory objFactory = null;
+	
+	public static ObjectFactory odmObjFactory() {
+		if (objFactory == null) {
+			AclfModelParser parser = new AclfModelParser();
+			objFactory = parser.getFactory();
+		}
+		return objFactory;
+	}
+	
 	public static AclfModelParser createAclfModelParser() {
 		AclfModelParser parser = new AclfModelParser();
 		return parser;

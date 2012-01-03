@@ -25,7 +25,6 @@
 package org.ieee.odm.model.base;
 
 import java.util.Comparator;
-import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
@@ -84,7 +83,7 @@ public class BaseJaxbHelper {
 	public static String getRecId(IDRefRecordXmlType idRefRec) {
 		return ((IDRecordXmlType)idRefRec.getIdRef()).getId();
 	}
-	
+
 	/**
 	 * warp the network object for substitutionGroup
 	 * 

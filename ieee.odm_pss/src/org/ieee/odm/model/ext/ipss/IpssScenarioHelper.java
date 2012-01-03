@@ -29,16 +29,22 @@ import java.util.List;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.AclfAnalysisXmlType;
+import org.ieee.odm.schema.AcscBranchFaultXmlType;
+import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
+import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
+import org.ieee.odm.schema.ContingencyAnalysisXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
+import org.ieee.odm.schema.GridComputingXmlType;
 import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
@@ -64,12 +70,90 @@ public class IpssScenarioHelper {
 	}
 	
 	/*
-	 *             Aclf Algorithm functions
-	 *             ========================
+	 *             Grid functions
+	 *             ==============
+	 */
+
+	public GridComputingXmlType getGridRunOption() {
+		if (this.getIpssScenario().getGridRunOption() == null) {
+			this.getIpssScenario().setGridRunOption(parser.getFactory().createGridComputingXmlType());
+		}
+		return this.getIpssScenario().getGridRunOption();
+	}
+
+	/*
+	 *             Aclf functions
+	 *             ==============
 	 */
 
 	public IpssAclfAlgorithmXmlType createIpssAclfAlgorithm() {
 		return this.parser.getFactory().createIpssAclfAlgorithmXmlType();
+	}
+	
+	public AclfAnalysisXmlType getAclfAnalysis() {
+		if (getSimuAlgo().getAclfAnalysis() == null) {
+			getSimuAlgo().setAclfAnalysis(parser.getFactory().createAclfAnalysisXmlType());
+		}
+		return getSimuAlgo().getAclfAnalysis();
+	}
+
+	public ApparentPowerXmlType createApparentPower(double kvaPU) {
+		ApparentPowerXmlType p = parser.getFactory().createApparentPowerXmlType();
+		p.setValue(kvaPU);
+		return p;	
+	}
+	
+ 	/*
+	 *             Contingency analysis functions
+	 *             ==============================
+	 */
+
+	public ContingencyAnalysisXmlType getContingencyAnalysis() {
+		if (getSimuAlgo().getContingencyAnalysis() == null) {
+			getSimuAlgo().setContingencyAnalysis(parser.getFactory().createContingencyAnalysisXmlType());
+		}
+		return getSimuAlgo().getContingencyAnalysis();
+	}	
+
+	/*
+	 *             Acsc functions
+	 *             ==============
+	 */
+
+	public AcscFaultAnalysisXmlType getAcscFaultAnalysis() {
+		if (getSimuAlgo().getAcscAnalysis() == null) {
+			getSimuAlgo().setAcscAnalysis(parser.getFactory().createAcscFaultAnalysisXmlType());
+		}
+		return getSimuAlgo().getAcscAnalysis();
+	}
+
+	public AcscBusFaultXmlType createAcscBusFault() {
+		AcscBusFaultXmlType busFault = parser.getFactory().createAcscBusFaultXmlType();
+		busFault.setRefBus(parser.getFactory().createBusRefXmlType());
+		busFault.setZLG(parser.getFactory().createZXmlType());
+		busFault.setZLL(parser.getFactory().createZXmlType());
+		return busFault;
+	}
+	
+	public AcscBranchFaultXmlType createAcscBranchFault() {
+		AcscBranchFaultXmlType braFault = parser.getFactory().createAcscBranchFaultXmlType();
+		braFault.setRefBranch(parser.getFactory().createBranchRefXmlType());
+		braFault.setZLG(parser.getFactory().createZXmlType());
+		braFault.setZLL(parser.getFactory().createZXmlType());
+		braFault.setReclosureTime(parser.getFactory().createTimePeriodXmlType());
+		return braFault;
+	}
+
+	/*
+	 *             DStab functions
+	 *             ===============
+	 */
+
+	public DStabSimulationXmlType getDStabSimulation() {
+		if (getSimuAlgo().getDStabAnalysis() == null) {
+			getSimuAlgo().setDStabAnalysis(parser.getFactory().createDStabSimulationXmlType());
+		}
+		return getSimuAlgo().getDStabAnalysis();
 	}
 	
 	/*
@@ -179,20 +263,6 @@ public class IpssScenarioHelper {
 		}
 		return getSimuAlgo().getPTradingAnalysis();
 	}
-	
-	public AcscFaultAnalysisXmlType getAcscFaultAnalysis() {
-		if (getSimuAlgo().getAcscAnalysis() == null) {
-			getSimuAlgo().setAcscAnalysis(parser.getFactory().createAcscFaultAnalysisXmlType());
-		}
-		return getSimuAlgo().getAcscAnalysis();
-	}
-
-	public DStabSimulationXmlType getDStabSimulation() {
-		if (getSimuAlgo().getDStabAnalysis() == null) {
-			getSimuAlgo().setDStabAnalysis(parser.getFactory().createDStabSimulationXmlType());
-		}
-		return getSimuAlgo().getDStabAnalysis();
-	}
 
 	private IpssStudyScenarioXmlType getIpssScenario() {
 		if (parser.getStudyScenario() == null) {
@@ -209,7 +279,11 @@ public class IpssScenarioHelper {
 		return (IpssStudyScenarioXmlType)parser.getStudyScenario();
 	}
 
+	private IpssStudyCaseXmlType getStudyCase() {
+		return this.getIpssScenario().getStudyCaseList().getStudyCase().get(0);
+	}
+
 	private IpssSimuAlgorithmXmlType getSimuAlgo() {
-		return this.getIpssScenario().getStudyCaseList().getStudyCase().get(0).getSimuAlgo();
+		return getStudyCase().getSimuAlgo();
 	}
 }
