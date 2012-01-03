@@ -24,6 +24,8 @@
 
 package org.interpss.editor.ui.run;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -185,7 +187,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		// Aclf Analysis
 		if (this._ptXml.getAclfAnalysis() == null)
-			this._ptXml.setAclfAnalysis(this.odmParser.getFactory().createPtAclfAnalysisXmlType());
+			this._ptXml.setAclfAnalysis(odmObjFactory.createPtAclfAnalysisXmlType());
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
 
 		aclfEdHourComboBox.setSelectedItem(aclfXml.getHour() == null? "12:00" : aclfXml.getHour());
@@ -218,7 +220,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		// Branch analysis Analysis
 		if (this._ptXml.getBranchAnalysis() == null) 
-			this._ptXml.setBranchAnalysis(this.odmParser.getFactory().createPtBranchAnalysisXmlType());
+			this._ptXml.setBranchAnalysis(odmObjFactory.createPtBranchAnalysisXmlType());
 		PtBranchAnalysisXmlType braAnalysis = this._ptXml.getBranchAnalysis();
 		this.branchAnalysisEdHourComboBox.setSelectedItem(braAnalysis.getHour() == null? "12:00" : braAnalysis.getHour());
 		if (braAnalysis.getType() != null) 
@@ -252,7 +254,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		// Gen analysis Analysis
 		if (this._ptXml.getGenAnalysis() == null) 
-			this._ptXml.setGenAnalysis(this.odmParser.getFactory().createPtGenAnalysisXmlType());
+			this._ptXml.setGenAnalysis(odmObjFactory.createPtGenAnalysisXmlType());
 		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
 		this.genAnalysisEdHourComboBox.setSelectedItem(genAnalysis.getHour() == null? "12:00" : genAnalysis.getHour());
 		if (genAnalysis.getGenBus() != null)
@@ -405,7 +407,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
 		genAnalysis.setHour((String)this.genAnalysisEdHourComboBox.getSelectedItem());
-		IDRecordXmlType bus = this.odmParser.getFactory().createIDRecordXmlType();
+		IDRecordXmlType bus = odmObjFactory.createIDRecordXmlType();
 		genAnalysis.setGenBus(bus);
 		bus.setId((String)this.genAnalysisGenBusListComboBox.getSelectedItem());	
 

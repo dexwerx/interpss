@@ -28,16 +28,16 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
+import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
+import org.ieee.odm.schema.AcscFaultTypeEnumType;
+import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.EditorSimuSpringFactory;
+import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
-import org.interpss.xml.schema.AcscFaultDataType;
-import org.interpss.xml.schema.AcscStudyCaseXmlType;
-import org.interpss.xml.schema.BusAcscInitVoltDataType;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -47,7 +47,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 //	private AcscCaseData _caseData = null;
 	private AppSimuContextImpl _appCtx = null;
 	
-    private AcscStudyCaseXmlType xmlCaseData;
+    private AcscFaultAnalysisXmlType xmlCaseData;
 	
 	private NBFaultLocDataPanel _faultLocDataPanel = new NBFaultLocDataPanel();
 	private JDialog parentDialog = null;
@@ -82,9 +82,9 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	 * this function might be called by setForm2Edtior (saveData = false) or 
 	 * saveEditor2Form (saveData = true))
 	 */
-    public void setXmlCaseDatax(AcscStudyCaseXmlType data, boolean saveData) {
+    public void setXmlCaseDatax(AcscFaultAnalysisXmlType data, boolean saveData) {
     	this.xmlCaseData = data;
-        _faultLocDataPanel.setFaultData(data.getFaultData(), saveData);
+        _faultLocDataPanel.setFaultData(data.getFault(), saveData);
     }
     
 	/**
@@ -95,7 +95,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAcscCasePanel setForm2Editor() called");
 
-		if (xmlCaseData.getFaultData().getFaultType() == AcscFaultDataType.BUS_FAULT) {
+		if (xmlCaseData.getFault().getFaultType() == AcscFaultTypeEnumType.BUS_FAULT) {
             this.busFaultRadioButton.setSelected(true);
             // refresh the fault data editing pandel
             busFaultRadioButtonActionPerformed(null);
@@ -105,7 +105,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
             branchFaultRadioButtonActionPerformed(null);
         }
 		
-        if (xmlCaseData.getBusAcscInitVolt() == BusAcscInitVoltDataType.UNIT_VOLT) {
+        if (xmlCaseData.getPreFaultBusVoltage() == PreFaultBusVoltageEnumType.UNIT_VOLT) {
             this.fixedVoltRadioButton.setSelected(true);
             this.mFactorLabel.setEnabled(true);
             this.mFactorTextField.setEnabled(true);
@@ -129,12 +129,12 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 		IpssLogger.getLogger().info("NBAcscCasePanel saveEditor2Form() called");
 
 		if (this.busFaultRadioButton.isSelected()) 
-			xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BUS_FAULT);
+			xmlCaseData.getFault().setFaultType(AcscFaultTypeEnumType.BUS_FAULT);
 	    else 
-	    	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BRANCH_FAULT);
+	    	xmlCaseData.getFault().setFaultType(AcscFaultTypeEnumType.BRANCH_FAULT);
 			
 		if (this.fixedVoltRadioButton.isSelected()) {
-			xmlCaseData.setBusAcscInitVolt(BusAcscInitVoltDataType.UNIT_VOLT);
+			xmlCaseData.setPreFaultBusVoltage(PreFaultBusVoltageEnumType.UNIT_VOLT);
 			if (!SwingInputVerifyUtil.largeThan(this.mFactorTextField, 50.0d) || 
 				 SwingInputVerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
 				errMsg.add("Prefault bus voltage multiplying factor out of range < 50% or > 150%");
@@ -142,7 +142,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 			xmlCaseData.setMultiFactor(SwingInputVerifyUtil.getDouble(this.mFactorTextField));
 	    }
 	    else
-	    	xmlCaseData.setBusAcscInitVolt(BusAcscInitVoltDataType.LOADFLOW_VOLT);
+	    	xmlCaseData.setPreFaultBusVoltage(PreFaultBusVoltageEnumType.LOADFLOW);
 
         _faultLocDataPanel.saveEditor2Form(errMsg);
 
@@ -254,7 +254,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
     	IpssLogger.getLogger().info("Branch Fault Type selected");
-    	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BRANCH_FAULT);
+    	xmlCaseData.getFault().setFaultType(AcscFaultTypeEnumType.BRANCH_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
     	EditorSimuSpringFactory.getCaseInfoDialog().pack();
@@ -262,7 +262,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
     	IpssLogger.getLogger().info("Bus Fault Type selected");
-    	xmlCaseData.getFaultData().setFaultType(AcscFaultDataType.BUS_FAULT);
+    	xmlCaseData.getFault().setFaultType(AcscFaultTypeEnumType.BUS_FAULT);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
     	EditorSimuSpringFactory.getCaseInfoDialog().pack();

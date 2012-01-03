@@ -26,11 +26,11 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
+import org.ieee.odm.schema.DynamicEventEnumType;
+import org.ieee.odm.schema.DynamicEventXmlType;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
-import org.interpss.xml.schema.DynamicEventDataType;
-import org.interpss.xml.schema.DynamicEventXmlType;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -81,14 +81,14 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 	* @return false if there is any problem
 	*/
     public boolean setForm2Editor() {
-    	stratTimeTextField.setText(Number2String.toStr(this.xmlEventData.getStartTimeSec(), "#0.0#"));
+    	stratTimeTextField.setText(Number2String.toStr(this.xmlEventData.getStartTime().getValue(), "#0.0#"));
 
-       	if (this.xmlEventData.isPermanent() != null && this.xmlEventData.isPermanent()) {
+       	if (this.xmlEventData.isPermanentFault() != null && this.xmlEventData.isPermanentFault()) {
            	permanetCheckBox.setSelected(true);
         }
         else {
            	permanetCheckBox.setSelected(false);
-            durationTextField.setText(Number2String.toStr(this.xmlEventData.getDurationSec(), "#0.00#"));
+            durationTextField.setText(Number2String.toStr(this.xmlEventData.getDuration().getValue(), "#0.00#"));
         }
         permanetCheckBoxActionPerformed(null);
         
@@ -110,17 +110,17 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 
     	if (SwingInputVerifyUtil.largeEqualThan(stratTimeTextField, 0.0d, errMsg,
     					"Dynamic event start time < 0.0") )
-    		this.xmlEventData.setStartTimeSec(SwingInputVerifyUtil.getDouble(stratTimeTextField));
+    		this.xmlEventData.getStartTime().setValue(SwingInputVerifyUtil.getDouble(stratTimeTextField));
 
-    	this.xmlEventData.setPermanent(permanetCheckBox.isSelected());
+    	this.xmlEventData.setPermanentFault(permanetCheckBox.isSelected());
 
         if (!permanetCheckBox.isSelected()) {
             if (SwingInputVerifyUtil.largeThan(durationTextField, 0.0d, errMsg,
     			       "Dynamic event duration  <= 0.0") )
-            	this.xmlEventData.setDurationSec(SwingInputVerifyUtil.getDouble(durationTextField));
+            	this.xmlEventData.getDuration().setValue(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
-        this.xmlEventData.setEventType(DynamicEventDataType.FAULT);
+        this.xmlEventData.setEventType(DynamicEventEnumType.FAULT);
         _faultLocDataPanel.saveEditor2Form(errMsg);
 
         return errMsg.size() == 0;

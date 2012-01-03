@@ -26,12 +26,12 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
+import org.ieee.odm.schema.DStabLoadChangeEnumType;
+import org.ieee.odm.schema.DStabLoadChangeXmlType;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.SwingInputVerifyUtil;
-import org.interpss.xml.schema.DynamicLoadChangeDataType;
-import org.interpss.xml.schema.DynamicLoadChangeXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -47,7 +47,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 
 	private GFormContainer _netContainer = null;
 	private SimuContext    _simuCtx = null;
-	private DynamicLoadChangeXmlType xmlLoadChangeData = null;
+	private DStabLoadChangeXmlType xmlLoadChangeData = null;
 	
     /** Creates new form FaultLocDataPanel */
     public NBDStabLoadChangePanel() {
@@ -71,7 +71,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     				SimuCtxHelper.getLoadBusNameIdArray(_simuCtx)));
 	}
 	
-	public void setLoadChangeData(DynamicLoadChangeXmlType data) {
+	public void setLoadChangeData(DStabLoadChangeXmlType data) {
 		xmlLoadChangeData = data;
 	}
 	
@@ -83,21 +83,21 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBDStabLoadChangePanel setForm2Editor() called");
 
-        if (xmlLoadChangeData.getBusId().equals("")) {
+        if (xmlLoadChangeData.getRefBus().getBusId().equals("")) {
             IpssLogger.getLogger().info("loadBusComboBox.getSelectedItem() -> " + loadBusComboBox.getSelectedItem());
             this.loadBusComboBox.setSelectedIndex(0);
         }    
         else
-             this.loadBusComboBox.setSelectedItem(xmlLoadChangeData.getBusId());
+             this.loadBusComboBox.setSelectedItem(xmlLoadChangeData.getRefBus().getBusId());
         
-       	changeFactorTextField.setText(Number2String.toStr(xmlLoadChangeData.getChangeFactor(), "#0.0"));   
+       	changeFactorTextField.setText(Number2String.toStr(xmlLoadChangeData.getChangeFactor().getFactor(), "#0.0"));   
 
-       	if (xmlLoadChangeData.getLoadChangeType() == DynamicLoadChangeDataType.LOW_FREQUENCY) {
+       	if (xmlLoadChangeData.getLoadChangeType() == DStabLoadChangeEnumType.LOW_FREQUENCY) {
        		lowfreqRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(xmlLoadChangeData.getThreshhold(), "#0.000"));   
            	delaySecTextField.setText(Number2String.toStr(xmlLoadChangeData.getDelayTime(), "#0.000"));   
        	}
-       	else if (xmlLoadChangeData.getLoadChangeType() == DynamicLoadChangeDataType.LOW_VOLTAGE) {
+       	else if (xmlLoadChangeData.getLoadChangeType() == DStabLoadChangeEnumType.LOW_VOLTAGE) {
        		lowVoltRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(xmlLoadChangeData.getThreshhold(), "#0.000"));   
            	delaySecTextField.setText(Number2String.toStr(xmlLoadChangeData.getDelayTime(), "#0.000"));   
@@ -119,16 +119,16 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDStabLoadChangePanel saveEditor2Form() called");
 
-		xmlLoadChangeData.setBusId((String)this.loadBusComboBox.getSelectedItem());
+		xmlLoadChangeData.getRefBus().setBusId((String)this.loadBusComboBox.getSelectedItem());
 		
 		if (this.changeFactorTextField.isEnabled()) {
 			if (SwingInputVerifyUtil.largeThan(this.changeFactorTextField, 0.0d,
 					errMsg, "Branch fault distance < 0.0"))
-				xmlLoadChangeData.setChangeFactor(SwingInputVerifyUtil.getDouble(this.changeFactorTextField));
+				xmlLoadChangeData.getChangeFactor().setFactor(SwingInputVerifyUtil.getDouble(this.changeFactorTextField));
 		}
 
        	if (lowfreqRadioButton.isSelected()) {
-       		xmlLoadChangeData.setLoadChangeType(DynamicLoadChangeDataType.LOW_FREQUENCY);
+       		xmlLoadChangeData.setLoadChangeType(DStabLoadChangeEnumType.LOW_FREQUENCY);
 			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
 					errMsg, "Load change freq < 0.0"))
 				xmlLoadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
@@ -137,7 +137,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 				xmlLoadChangeData.setDelayTime(SwingInputVerifyUtil.getDouble(this.delaySecTextField));
        	}
        	else if (lowVoltRadioButton.isSelected()) {
-       		xmlLoadChangeData.setLoadChangeType(DynamicLoadChangeDataType.LOW_VOLTAGE);
+       		xmlLoadChangeData.setLoadChangeType(DStabLoadChangeEnumType.LOW_VOLTAGE);
 			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
 					errMsg, "Load change voltage < 0.0"))
 				xmlLoadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
@@ -146,7 +146,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 				xmlLoadChangeData.setDelayTime(SwingInputVerifyUtil.getDouble(this.delaySecTextField));
        	}
        	else {
-       		xmlLoadChangeData.setLoadChangeType(DynamicLoadChangeDataType.FIXED_TIME);
+       		xmlLoadChangeData.setLoadChangeType(DStabLoadChangeEnumType.FIXED_TIME);
 			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
 					errMsg, "Load change time < 0.0"))
 				xmlLoadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));

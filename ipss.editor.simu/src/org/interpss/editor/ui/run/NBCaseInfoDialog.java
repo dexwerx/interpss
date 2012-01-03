@@ -32,6 +32,8 @@ import javax.swing.JFileChooser;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AclfAnalysisXmlType;
+import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
+import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
@@ -44,7 +46,6 @@ import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
@@ -52,8 +53,6 @@ import org.interpss.ui.WinUtilities;
 import org.interpss.util.FileUtil;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
-import org.interpss.xml.schema.AcscStudyCaseXmlType;
-import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.util.IpssLogger;
@@ -137,11 +136,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx(), true);
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_aclfCaseInfoPanel);
 		}
-
-		/*
-		 *     InterPSS schema format
-		 */
-
 		else if (_caseType == SimuRunEnum.Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
 			caseDataPanel.add(_acscCaseInfoPanel);
@@ -151,7 +145,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			this.setTitle("Run Transient Stability Simulation");
 			caseDataPanel.add(_dstabCaseInfoPanel);
 			_dstabCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
-		}	
+		}
+		
+		/*
+		 *     InterPSS schema format
+		 */
+	
 		else if (_caseType == SimuRunEnum.Scripts) {
 			setButtonStatus(false);
 			this.setTitle("Custom Scripting Run Case");
@@ -226,6 +225,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     private boolean isODMFormat() {
 		return _caseType == SimuRunEnum.TradingAnalysis ||
 		       _caseType == SimuRunEnum.SenAnalysis ||
+		       _caseType == SimuRunEnum.DStab ||
+		       _caseType == SimuRunEnum.Acsc ||
 		       _caseType == SimuRunEnum.Aclf;    	
     }
 	/**
@@ -274,6 +275,22 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				// set the case data to the actual data editing panel
 				_aclfCaseInfoPanel.setForm2Editor();
 			}			
+			else if (_caseType == SimuRunEnum.Acsc) {
+				AcscFaultAnalysisXmlType acscXml = helper.getAcscFaultAnalysis();			
+				casename = acscXml.getName();
+				casedesc = acscXml.getDesc();
+				// set the case data to the actual data editing panel
+				_acscCaseInfoPanel.setXmlCaseDatax(acscXml, false);
+				// set the case data to the actual data editing panel
+				_acscCaseInfoPanel.setForm2Editor();
+			}
+			if (_caseType == SimuRunEnum.DStab) {
+				DStabSimulationXmlType dstabXml = helper.getDStabSimulation();			
+				casename = dstabXml.getName();
+				casedesc = dstabXml.getDesc();
+				_dstabCaseInfoPanel.setXmlCaseData(dstabXml, helper.getGridRunOption());
+				_dstabCaseInfoPanel.setForm2Editor();
+			}
 			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {casename}));
 			this.descTextArea.setText(casedesc);
 		}
@@ -281,23 +298,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			/*
 			 *  InterPSS schema format
 			 */
-			if (_caseType == SimuRunEnum.Acsc) {
-				casename = getCaseName(SimuRunEnum.Acsc);
-				AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
-				this.descTextArea.setText(scase.getRecDesc());
-				// set the case data to the actual data editing panel
-				_acscCaseInfoPanel.setXmlCaseDatax(scase, false);
-				// set the case data to the actual data editing panel
-				_acscCaseInfoPanel.setForm2Editor();
-			}
-			else if (_caseType == SimuRunEnum.DStab) {
-				casename = getCaseName(SimuRunEnum.DStab);
-				DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
-				this.descTextArea.setText(scase.getRecDesc());
-				_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
-				_dstabCaseInfoPanel.setForm2Editor();
-			}
-			else if (_caseType == SimuRunEnum.Scripts) {
+
+			if (_caseType == SimuRunEnum.Scripts) {
 				// build the case info combo list
 				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
 				IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
@@ -408,38 +410,26 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				aclfCase.setDesc(this.descTextArea.getText());
 				this._aclfCaseInfoPanel.saveEditor2Form(errMsg);	
 			}			
+			else if (_caseType == SimuRunEnum.Acsc) {
+				AcscFaultAnalysisXmlType acscCase = helper.getAcscFaultAnalysis();			
+				acscCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				acscCase.setDesc(this.descTextArea.getText());
+				_acscCaseInfoPanel.saveEditor2Form(errMsg);
+			}
+			if (_caseType == SimuRunEnum.DStab) {
+				DStabSimulationXmlType dstabCase = helper.getDStabSimulation();			
+				dstabCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				dstabCase.setDesc(this.descTextArea.getText());
+				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
+			}
 			FileUtil.writeText2File(runStudyCaseFilename, this.odmParser.toXmlDoc(false));
 		}
 		
 		// ipss schema
 		else {
 			ProjData projData = (ProjData)_appSimuCtx.getProjData();
-			if (_caseType == SimuRunEnum.Acsc) {
-				AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
-				if (scase == null) {
-					errMsg.add("Acsc study case not found, " + casename);
-					return false;
-				}
-				scase.setRecDesc(this.descTextArea.getText());
-				projData.setAcscCaseName(casename);
-				_acscCaseInfoPanel.setXmlCaseDatax(scase, true);
-				_acscCaseInfoPanel.saveEditor2Form(errMsg);
-				EditorSimuSpringFactory.getAcscRunForm().setXmlCaseData(scase);
-			}
-			else if (_caseType == SimuRunEnum.DStab) {
-				DStabStudyCaseXmlType scase = this.studyCaseXmlDoc.getDStabStudyCase(casename);
-				if (scase == null) {
-					errMsg.add("DStab study case not found, " + casename);
-					return false;
-				}
-				scase.setRecDesc(this.descTextArea.getText());
-				projData.setDStabCaseName(casename);
-				_dstabCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
-				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
-				//System.out.println(scase.toString());
-				EditorSimuSpringFactory.getDStabRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
-			}
-			else if (_caseType == SimuRunEnum.Scripts) {
+
+			if (_caseType == SimuRunEnum.Scripts) {
 				projData.setScriptsCaseName(casename);
 				_scrptsCaseInfoPanel.saveEditor2Form(errMsg);
 				return true;

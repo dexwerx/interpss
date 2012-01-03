@@ -233,6 +233,8 @@ public class RunUIUtilFunc  {
   		// use template file
 		if (caseType == SimuRunEnum.TradingAnalysis ||
 				caseType == SimuRunEnum.SenAnalysis ||
+				caseType == SimuRunEnum.DStab ||
+				caseType == SimuRunEnum.Acsc ||
 				caseType == SimuRunEnum.Aclf) {
 			filename = Template_RunCase;
 		}
@@ -264,14 +266,6 @@ public class RunUIUtilFunc  {
   		} catch (Exception e) {
   			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
   		}
-
-  		// use template file
-		if (caseType == SimuRunEnum.Acsc) {
-			filename = Template_RunCase_Acsc;
-		}	
-		else if (caseType == SimuRunEnum.DStab) {
-			filename = Template_RunCase_DStab;
-		}	
   		
   		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;
