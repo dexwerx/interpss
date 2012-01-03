@@ -31,7 +31,6 @@ Key concepts:
 package org.interpss.mapper.odm.impl.dstab;
 
 import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.AcscBaseFaultXmlType;
@@ -300,7 +299,7 @@ public class DStabScenarioHelper {
 	private void setLoadChangeData(DynamicEvent eventObj, DynamicEventXmlType eventXml) {
 		eventObj.setType(DynamicEventType.LOAD_CHANGE);
 		DStabLoadChangeXmlType ldata = eventXml.getLoadChangeData();
-		String busId = BaseJaxbHelper.getRecId(ldata.getRefBus());
+		String busId = ldata.getRefBus().getBusId();
 		LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(busId, dstabNet);
 		eLoad.setType(ldata.getLoadChangeType() == 
 			DStabLoadChangeEnumType.LOW_FREQUENCY ? LoadChangeEventType.LOW_FREQUENCY
@@ -326,7 +325,7 @@ public class DStabScenarioHelper {
 	private void setSetPointChangeDynEvent(DStabSetPointChangeXmlType spcEventXml, DStabSimuSettingXmlType settings) throws InterpssException {
 		// find the machine from the dtabNet using the machId
 		IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
-		String machId = BaseJaxbHelper.getRecId(spcEventXml.getRefGenerator());
+		String machId = spcEventXml.getRefGenBus().getBusId();
 		Machine mach = this.dstabNet.getMachine(machId);
 		if (mach == null)
 			throw new InterpssException("Machine for Set Point Change not found");
@@ -380,7 +379,7 @@ public class DStabScenarioHelper {
 		
 		if (settings.isAbsMachineAngle() != null) {
 			if(!settings.isAbsMachineAngle()){
-				String refMachId = BaseJaxbHelper.getRecId(settings.getRefMachine());
+				String refMachId = settings.getRefMachineBus().getBusId();
 				Machine mach = dstabNet.getMachine(refMachId); 
 				dstabAlgo.setRefMachine(mach);			
 			} 
