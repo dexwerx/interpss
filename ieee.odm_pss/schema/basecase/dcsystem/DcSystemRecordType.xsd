@@ -217,8 +217,10 @@
 			Inverter 
 	 -->
 	<ns:complexType name="DcAcInverterXmlType">
-		<ns:annotation><ns:documentation>
-		</ns:documentation></ns:annotation>
+		<ns:annotation>
+			<ns:documentation>
+			</ns:documentation>
+		</ns:annotation>
 		<ns:sequence>
 			<ns:element name="powerRating" type="pss:ActivePowerXmlType" minOccurs="1"></ns:element>
 			<ns:element name="vdcmax" type="ns:double" minOccurs="0"></ns:element>
@@ -227,14 +229,14 @@
 			<ns:element name="mpptLow" type="ns:double" minOccurs="0"></ns:element>
 			<ns:element name="vac" type="ns:double" minOccurs="0"></ns:element>
 			<ns:choice>
-			<ns:element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></ns:element>
-			<ns:element name="lossParamList" minOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="lossParam" type="pss:InverterLossParamXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
+				<ns:element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+				<ns:element name="lossParamList" minOccurs="1">
+					<ns:complexType>
+						<ns:sequence>
+							<ns:element name="lossParam" type="pss:InverterLossParamXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+						</ns:sequence>
+					</ns:complexType>
+				</ns:element>
 			</ns:choice>
 		</ns:sequence>
 	</ns:complexType>

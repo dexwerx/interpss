@@ -20,7 +20,7 @@
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
 					<ns:element name="simulationSetting" maxOccurs="1" minOccurs="1" type="ipss:DStabSimuSettingXmlType" />
-					<ns:element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="pss:AclfAlgorithmXmlType" />
+					<ns:element name="aclfInitialization" maxOccurs="1" minOccurs="1" type="ipss:AclfAnalysisXmlType" />
 					<ns:element name="disableDynEvents" type="ns:boolean" maxOccurs="1" minOccurs="0">
                        <ns:annotation><ns:documentation>
                             when disableDynEvents = true, SetPointChange events might be added. All other 
@@ -30,6 +30,10 @@
 						</ns:documentation></ns:annotation>
 					</ns:element>
 					<ns:element name="dynamicEvent" type="ipss:DynamicEventXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+					<ns:element name="netEqnSolveConfig" minOccurs="0" type="ipss:DynamicNetEqnSolveConfigXmlType"/>
+					<ns:element name="staticLoadModel" minOccurs="0" maxOccurs="1" type="ipss:DynamicStaticLoadModelXmlType"/>
+					<ns:element name="outputConfig" minOccurs="0" type="ipss:DynamicOutputConfigXmlType"/>
+					<ns:element name="outputScripting" minOccurs="0" type="ipss:DynamicOutputScriptingXmlType"/>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>	
@@ -42,7 +46,7 @@
 			<ns:element name="totalTime" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType" />
 			<ns:element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1" />
 			<ns:element name="absMachineAngle" type="ns:boolean" maxOccurs="1" minOccurs="0" />
-			<ns:element name="refMachine" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0" />
+			<ns:element name="refMachineBus" type="pss:BusRefXmlType" maxOccurs="1" minOccurs="0" />
 			<ns:element name="netEqnSolveConfig" type="ipss:DStabNetEqnSolveConfigXmlType" minOccurs="0"></ns:element>
 			<ns:element name="staticLoadModel" type="ipss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
 			</ns:element>
@@ -66,6 +70,7 @@
 		</ns:sequence>
 	</ns:complexType>
 
+
 	<ns:complexType name="DynamicEventXmlType">
         <ns:annotation><ns:documentation>
         Only "simple" fault could be simulated, meaning at any time there should be on active fault event, although
@@ -79,7 +84,7 @@
         		<ns:annotation><ns:documentation>
         		There are three dynamic event types. Only one type could be selected for a dynamic event.
         		</ns:documentation></ns:annotation>
-				<ns:element name="fault" type="pss:AcscFaultXmlType" maxOccurs="1" minOccurs="0" />
+				<ns:element name="fault" type="pss:AcscBaseFaultXmlType" maxOccurs="1" minOccurs="0" />
 				<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType" />
 				<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType" />
 			</ns:choice>
@@ -89,9 +94,10 @@
 		<ns:attribute name="eventType" type="pss:DynamicEventEnumType" />
 	</ns:complexType>
 
+
 	<ns:complexType name="DStabLoadChangeXmlType">
 		<ns:sequence>
-			<ns:element name="refBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="refBus" type="pss:BusRefXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="loadChangeType" minOccurs="1" maxOccurs="1" type="pss:DStabLoadChangeEnumType"></ns:element>
 			<ns:element name="changeFactor" type="pss:ChangeFactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="threshhold" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
@@ -99,12 +105,55 @@
 		</ns:sequence>
 	</ns:complexType>
 
+
 	<ns:complexType name="DStabSetPointChangeXmlType">
 		<ns:sequence>
-			<ns:element name="refGenerator" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="refGenBus" type="pss:BusRefXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="pss:MachineControllerEnumType"></ns:element>
 			<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1" type="pss:SetPointChangeEnumType">			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
+	
+	
+	<ns:complexType name="DynamicNetEqnSolveConfigXmlType">
+		<ns:sequence>
+			<ns:element name="netEqnItrNoEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="netEqnItrWithEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+
+	<ns:complexType name="DynamicStaticLoadModelXmlType">
+		<ns:sequence>
+			<ns:element name="staticLoadType" minOccurs="1" maxOccurs="1" type="ipss:DynamicStaticLoadEnumType" />
+			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+
+	<ns:complexType name="DynamicOutputConfigXmlType">
+		<ns:sequence>
+			<ns:element name="outputFilter" type="ns:boolean" minOccurs="1"></ns:element>
+			<ns:element name="outputVariable" type="ns:string" minOccurs="0" maxOccurs="unbounded"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+
+	<ns:complexType name="DynamicOutputScriptingXmlType">
+		<ns:sequence>
+			<ns:element name="scripting" type="ns:boolean" minOccurs="0"></ns:element>
+			<ns:element name="scriptingFilename" type="ns:string" minOccurs="0"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
+	
+	<ns:simpleType name="DynamicStaticLoadEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="CONST_Z"></ns:enumeration>
+			<ns:enumeration value="CONST_P"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>	
+	
 </ns:schema>

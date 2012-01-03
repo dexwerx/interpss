@@ -16,16 +16,20 @@
 	Aclf StudyCase
  -->
 	<ns:complexType name="AclfAnalysisXmlType">
-		<ns:sequence>
-			<ns:element name="aclfAlgo" minOccurs="0" maxOccurs="1" type="ipss:IpssAclfAlgorithmXmlType"></ns:element>
-		</ns:sequence>
+		<ns:complexContent>
+			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<ns:sequence>
+					<ns:element name="aclfAlgo" minOccurs="0" maxOccurs="1" type="ipss:IpssAclfAlgorithmXmlType"></ns:element>
+					<ns:element name="displaySummary" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 	 
 	<ns:complexType name="IpssAclfAlgorithmXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:AclfAlgorithmXmlType">
 				<ns:sequence>
-					<ns:element name="displaySummary" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="customLfMethod" type="ipss:CustomLfMethodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>

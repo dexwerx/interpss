@@ -627,13 +627,5 @@
 			<ns:enumeration value="Delta"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
-    	
 	
-    <ns:simpleType name="ContingencyAnalysisEnumType">
-    	<ns:restriction base="ns:string">
-			<ns:enumeration value="N-1"></ns:enumeration>
-			<ns:enumeration value="N-1-1"></ns:enumeration>
-			<ns:enumeration value="N-2"></ns:enumeration>
-    	</ns:restriction>
-    </ns:simpleType>	
 </ns:schema>

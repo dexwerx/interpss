@@ -26,7 +26,6 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
-					<ns:element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType"></ns:element>
 					<ns:element name="modifcation" type="pss:ModifyRecordXmlType"	minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
 						Define modification at the StudyScenario level, The modification applies 
