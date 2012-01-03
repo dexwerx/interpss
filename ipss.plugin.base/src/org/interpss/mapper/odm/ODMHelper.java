@@ -24,10 +24,14 @@
 
 package org.interpss.mapper.odm;
 
+import java.util.List;
+
 import org.ieee.odm.schema.GroundingEnumType;
+import org.ieee.odm.schema.NameTagXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.core.net.OriginalDataFormat;
@@ -116,4 +120,37 @@ public class ODMHelper {
 									(ofmt == OriginalDataFormatEnumType.BPA? OriginalDataFormat.BPA :
 										OriginalDataFormat.IPSS_EDITOR)))));		
 	}
+	
+	/**
+	 * Get record by name from the record list
+	 * 
+	 * @param recName
+	 * @param list
+	 * @return
+	 */
+	public static NameTagXmlType getRecordByName(String recName, List list) {
+		for (Object o : list) {
+			NameTagXmlType scase = (NameTagXmlType)o;
+			if (scase.getName().equals(recName))
+				return scase;
+		}
+		IpssLogger.getLogger().severe("Programming error, StudyCase cannot be found, recName: " + recName);
+		return null;
+	}
+	
+	/**
+	 * Get record name list from the record list 
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static String[] getRecNameArray(List list) {
+		String[] sAry = new String[list.size()];
+		int cnt = 0;
+		for (Object o : list) {
+			NameTagXmlType scase = (NameTagXmlType)o;
+			sAry[cnt++] = scase.getName();
+		}
+		return sAry;
+	}		
 }
