@@ -37,14 +37,14 @@ public class OutputSimuResultImpl implements IOutputSimuResult {
 	@Override
 	public boolean outAclfResult(AclfNetwork net, String outFilename) {
 		FileUtil.writeText2File(outFilename, 
-				aclfResultSummary.apply(net).toString());
+				aclfResultSummary.f(net).toString());
 		return false;
 	}
 
 	@Override
 	public boolean outDclfResult(DclfAlgorithm algo, String outFilename) {
 		FileUtil.writeText2File(outFilename, 
-				dclfResult.apply(algo, false).toString());
+				dclfResult.f(algo, false).toString());
 		return true;
 	}
 }
