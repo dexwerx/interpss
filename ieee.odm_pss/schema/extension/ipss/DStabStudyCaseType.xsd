@@ -72,26 +72,29 @@
 
 
 	<ns:complexType name="DynamicEventXmlType">
-        <ns:annotation><ns:documentation>
-        Only "simple" fault could be simulated, meaning at any time there should be on active fault event, although
-        any number of faults could be defined.
-        </ns:documentation></ns:annotation>
-        <ns:sequence>
-			<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
-			<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="permanentFault" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:choice>
-        		<ns:annotation><ns:documentation>
-        		There are three dynamic event types. Only one type could be selected for a dynamic event.
+		<ns:complexContent>
+			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<ns:annotation>	<ns:documentation>
+					Only "simple" fault could be simulated, meaning at any time there should be on active fault event, although
+					any number of faults could be defined.
         		</ns:documentation></ns:annotation>
-				<ns:element name="fault" type="pss:AcscBaseFaultXmlType" maxOccurs="1" minOccurs="0" />
-				<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType" />
-				<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType" />
-			</ns:choice>
-		</ns:sequence>
-		<ns:attribute name="id" type="ns:string"></ns:attribute>
-		<ns:attribute name="name" type="ns:string"></ns:attribute>
-		<ns:attribute name="eventType" type="pss:DynamicEventEnumType" />
+				<ns:sequence>
+					<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
+					<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="permanentFault" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:choice>
+						<ns:annotation>	<ns:documentation>
+							There are three dynamic event types. Only one type could be selected for a dynamic event.
+        				</ns:documentation>	</ns:annotation>
+						<ns:element name="fault" type="pss:AcscBaseFaultXmlType" maxOccurs="1" minOccurs="0" />
+						<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType" />
+						<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType" />
+					</ns:choice>
+				</ns:sequence>
+				<ns:attribute name="id" type="ns:string"></ns:attribute>
+				<ns:attribute name="eventType" type="pss:DynamicEventEnumType" />
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 
 
