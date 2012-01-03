@@ -24,8 +24,9 @@
 
 package org.interpss.core.adapter.odm;
 
+import static org.interpss.mapper.odm.ODMUnitHelper.toYUnit;
+
 import org.ieee.odm.schema.YUnitType;
-import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.Unit;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
@@ -33,7 +34,7 @@ import org.junit.Test;
 public class ODMXmlHelperTest {
 	@Test 
 	public void testCase() throws Exception {
-		UnitType unit = ODMUnitHelper.toYUnit(YUnitType.MVAR);
+		UnitType unit = toYUnit.f(YUnitType.MVAR);
 		
   		System.out.println(Unit.toString(unit));
 	}
