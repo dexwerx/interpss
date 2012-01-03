@@ -1565,7 +1565,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 			Object rtn = new PTradingDslODMRunner(net)
 								.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-			outText = dclfGSFBranchFlow.apply(net, braId, (List<DblBusValue>)rtn).toString();
+			outText = dclfGSFBranchFlow.f(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.outageSingleRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)
