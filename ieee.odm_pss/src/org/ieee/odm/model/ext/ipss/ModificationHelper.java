@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.ext.ipss;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.schema.DclfContingencySetXmlType;
 import org.ieee.odm.schema.GenLoadModifyXmlType;
@@ -84,7 +86,7 @@ public class ModificationHelper {
 	 * @return
 	 */
 	public GenLoadModifyXmlType createGenLoadModify() {
-		GenLoadModifyXmlType rec = this.parser.getFactory().createGenLoadModifyXmlType();
+		GenLoadModifyXmlType rec = odmObjFactory.createGenLoadModifyXmlType();
 		addModifyRecord(rec);
 		return rec;
 	}
@@ -109,7 +111,7 @@ public class ModificationHelper {
 
 	private void addModifyRecord(ModifyRecordXmlType rec) {
 		if (this.parser.getStudyCase().getModificationList() == null) {
-			this.parser.getStudyCase().setModificationList(this.parser.getFactory().createStudyCaseXmlTypeModificationList());
+			this.parser.getStudyCase().setModificationList(odmObjFactory.createStudyCaseXmlTypeModificationList());
 		}
 		this.parser.getStudyCase().getModificationList().getModification().add(rec);
 	}
