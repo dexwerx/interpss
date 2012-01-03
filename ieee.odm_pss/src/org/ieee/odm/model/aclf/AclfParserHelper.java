@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.aclf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMLogger;
@@ -54,12 +56,12 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	public static LoadflowLoadXmlType createContriLoad(LoadflowBusXmlType busRec) {
 		AclfLoadDataXmlType loadData = busRec.getLoadData();
 		if (loadData == null) { 
-			loadData = getFactory().createAclfLoadDataXmlType();
+			loadData = odmObjFactory.createAclfLoadDataXmlType();
 			busRec.setLoadData(loadData);
-			LoadflowLoadXmlType equivLoad = getFactory().createLoadflowLoadXmlType();
+			LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
 			loadData.setEquivLoad(equivLoad);
 		}
-		LoadflowLoadXmlType contribLoad = getFactory().createLoadflowLoadXmlType();
+		LoadflowLoadXmlType contribLoad = odmObjFactory.createLoadflowLoadXmlType();
 	    loadData.getContributeLoad().add(contribLoad); 
 	    return contribLoad;
 	}
@@ -71,13 +73,13 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	public static LoadflowGenXmlType createContriGen(LoadflowBusXmlType busRec) {
 		AclfGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
-			genData = getFactory().createAclfGenDataXmlType();
+			genData = odmObjFactory.createAclfGenDataXmlType();
 			busRec.setGenData(genData);
 			LoadflowGenXmlType equivGen = new LoadflowGenXmlType();
 			genData.setEquivGen(equivGen);
 		}
 		// some model does not need ContributeGenList
-		LoadflowGenXmlType contribGen = getFactory().createLoadflowGenXmlType();
+		LoadflowGenXmlType contribGen = odmObjFactory.createLoadflowGenXmlType();
 		genData.getContributeGen().add(contribGen);
 		return contribGen;
 	}
@@ -236,10 +238,10 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	public static StaticVarCompensatorXmlType createSVC(LoadflowBusXmlType bus) {
 		//if (bus.getSvcData() == null) {
 			//LoadflowBusDataXmlType.
-		//	LoadflowBusXmlType.SvcData data = getFactory().createLoadflowBusXmlTypeSvcData();
+		//	LoadflowBusXmlType.SvcData data = odmObjFactory.createLoadflowBusXmlTypeSvcData();
 		//	bus.setSvcData(data);
 		//}
-		StaticVarCompensatorXmlType svc = getFactory().createStaticVarCompensatorXmlType();
+		StaticVarCompensatorXmlType svc = odmObjFactory.createStaticVarCompensatorXmlType();
 		bus.getSvc().add(svc);
 		return svc;
 	}
@@ -250,13 +252,13 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 */
 	public static ShuntCompensatorXmlType createShuntCompensator(LoadflowBusXmlType bus) {
 		if (bus.getShuntCompensatorData() == null) {
-			ShuntCompensatorDataXmlType data = getFactory().createShuntCompensatorDataXmlType(); 
+			ShuntCompensatorDataXmlType data = odmObjFactory.createShuntCompensatorDataXmlType(); 
 			bus.setShuntCompensatorData(data);
 		}
 		//if (bus.getShuntCompensatorData().getShuntCompensatorList() == null) {
-		//	bus.getShuntCompensatorData().setShuntCompensatorList(getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
+		//	bus.getShuntCompensatorData().setShuntCompensatorList(odmObjFactory.createShuntCompensatorDataXmlTypeShuntCompensatorList());
 		//}
-		ShuntCompensatorXmlType compensator = getFactory().createShuntCompensatorXmlType();
+		ShuntCompensatorXmlType compensator = odmObjFactory.createShuntCompensatorXmlType();
 		bus.getShuntCompensatorData().getShuntCompensator().add(compensator);
 		return compensator; 
 	}

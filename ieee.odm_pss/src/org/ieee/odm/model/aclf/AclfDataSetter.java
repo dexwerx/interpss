@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.aclf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -64,9 +66,9 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setLoadData(LoadflowBusXmlType bus, 
 			LFLoadCodeEnumType code, 
 			double p, double q, ApparentPowerUnitType unit) {
-		AclfLoadDataXmlType loadData = getFactory().createAclfLoadDataXmlType();
+		AclfLoadDataXmlType loadData = odmObjFactory.createAclfLoadDataXmlType();
 		bus.setLoadData(loadData);
-		LoadflowLoadXmlType equivLoad = getFactory().createLoadflowLoadXmlType();
+		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
 		loadData.setEquivLoad(equivLoad);
     	bus.getLoadData().getEquivLoad().setCode(code);
     	equivLoad.setConstPLoad(createPowerValue(p, q, unit));
@@ -100,8 +102,8 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setGenData(LoadflowBusXmlType bus, LFGenCodeEnumType code, 
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit) {
-   		bus.setGenData(getFactory().createAclfGenDataXmlType());
-   		LoadflowGenXmlType equivGen = getFactory().createLoadflowGenXmlType();
+   		bus.setGenData(odmObjFactory.createAclfGenDataXmlType());
+   		LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType();
    		bus.getGenData().setEquivGen(equivGen);
    		equivGen.setCode(code);
 	}	
@@ -115,7 +117,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	 * @param unit
 	 */
 	public static void setBusShuntY(LoadflowBusXmlType bus, double re, double im, YUnitType unit) {
-		bus.setShuntY(getFactory().createYXmlType());
+		bus.setShuntY(odmObjFactory.createYXmlType());
 		bus.getShuntY().setRe(re);
 		bus.getShuntY().setIm(im);
 		bus.getShuntY().setUnit(unit);
@@ -127,7 +129,7 @@ public class AclfDataSetter extends BaseDataSetter {
 
 	public static void addBusShuntY(LoadflowBusXmlType bus, double re, double im, YUnitType unit) {
 		if (bus.getShuntY() == null)
-			bus.setShuntY(getFactory().createYXmlType());
+			bus.setShuntY(odmObjFactory.createYXmlType());
 		bus.getShuntY().setRe(re + bus.getShuntY().getRe());
 		bus.getShuntY().setIm(im + bus.getShuntY().getIm());
 		bus.getShuntY().setUnit(unit);
@@ -167,7 +169,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	 */
 	public static void setLineLength(LineBranchInfoXmlType lineInfo, 
             double length, LengthUnitType unit) {
-		lineInfo.setLength(getFactory().createLengthXmlType());
+		lineInfo.setLength(odmObjFactory.createLengthXmlType());
 		lineInfo.getLength().setValue(length);
 		lineInfo.getLength().setUnit(unit);
 	}
@@ -188,7 +190,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void createXformerData(XfrBranchXmlType branch, 
             double r, double x, ZUnitType zUnit,
             double fromTurnRatio, double toTurnRatio) {
-		branch.setXfrInfo(getFactory().createTransformerInfoXmlType());
+		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		branch.getXfrInfo().setDataOnSystemBase(true);
 		setXformerData(branch,
 				r, x, zUnit, fromTurnRatio, toTurnRatio,
@@ -199,7 +201,7 @@ public class AclfDataSetter extends BaseDataSetter {
 			             double r, double x, ZUnitType zUnit,
 			             double fromTurnRaio, double toTurnRatio,
 			             double gMag, double bMag, YUnitType yUnit) {
-		branch.setXfrInfo(getFactory().createTransformerInfoXmlType());
+		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		branch.getXfrInfo().setDataOnSystemBase(true);
 		setXformerData(branch,
 				r, x, zUnit, fromTurnRaio, toTurnRatio,
@@ -279,19 +281,19 @@ public class AclfDataSetter extends BaseDataSetter {
 			double fromRatedV, double toRatedV, VoltageUnitType vUnit,
 			double normialMva, ApparentPowerUnitType pUnit) {
 		if (branch.getXfrInfo() == null) {
-			branch.setXfrInfo(getFactory().createTransformerInfoXmlType());
+			branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		}
 		TransformerInfoXmlType xfrInfo = branch.getXfrInfo();
-		VoltageXmlType fromRatedVolt = getFactory().createVoltageXmlType();
+		VoltageXmlType fromRatedVolt = odmObjFactory.createVoltageXmlType();
 		xfrInfo.setFromRatedVoltage(fromRatedVolt);
 		fromRatedVolt.setValue(fromRatedV);
 		fromRatedVolt.setUnit(vUnit);
-		VoltageXmlType toRatedVolt = getFactory().createVoltageXmlType();
+		VoltageXmlType toRatedVolt = odmObjFactory.createVoltageXmlType();
 		xfrInfo.setToRatedVoltage(toRatedVolt);
 		toRatedVolt.setValue(toRatedV);
 		toRatedVolt.setUnit(vUnit);
    		if (normialMva != 0.0) {
-   			ApparentPowerXmlType ratedMva = getFactory().createApparentPowerXmlType();
+   			ApparentPowerXmlType ratedMva = odmObjFactory.createApparentPowerXmlType();
    			xfrInfo.setRatedPower(ratedMva);
    			ratedMva.setValue(normialMva);
    			ratedMva.setUnit(pUnit);		
@@ -328,7 +330,7 @@ public class AclfDataSetter extends BaseDataSetter {
 				double current, CurrentUnitType curUnit) {
     	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0 || current != 0.0) {
         	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0) {
-        		MvaRatingXmlType mvaRating = getFactory().createMvaRatingXmlType();
+        		MvaRatingXmlType mvaRating = odmObjFactory.createMvaRatingXmlType();
         		branchLimit.setMva(mvaRating);
         		mvaRating.setRating1(mvar1);
         		mvaRating.setRating2(mvar2);
@@ -337,7 +339,7 @@ public class AclfDataSetter extends BaseDataSetter {
         	}
 
         	if (current != 0.0) {
-        		CurrentXmlType limit = getFactory().createCurrentXmlType();
+        		CurrentXmlType limit = odmObjFactory.createCurrentXmlType();
         		branchLimit.setCurrent(limit);
         		limit.setValue(current);
         		limit.setUnit(curUnit);

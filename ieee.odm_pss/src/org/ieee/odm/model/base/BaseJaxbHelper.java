@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.base;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.Comparator;
 
 import javax.xml.bind.JAXBElement;
@@ -53,7 +55,6 @@ import org.ieee.odm.schema.MixedLoadDistBusXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OwnerXmlType;
@@ -93,19 +94,19 @@ public class BaseJaxbHelper {
 	public static JAXBElement<? extends NetworkXmlType> network(NetworkXmlType net) {
 		// be careful with inheritance here 
 		if (net instanceof DStabNetXmlType) 
-			return getFactory().createDstabNet((DStabNetXmlType)net);
+			return odmObjFactory.createDstabNet((DStabNetXmlType)net);
 		else if (net instanceof OpfNetworkXmlType) 
-			return getFactory().createOpfNet((OpfNetworkXmlType)net);
+			return odmObjFactory.createOpfNet((OpfNetworkXmlType)net);
 		else if (net instanceof ShortCircuitNetXmlType) 
-			return getFactory().createAcscNet((ShortCircuitNetXmlType)net);
+			return odmObjFactory.createAcscNet((ShortCircuitNetXmlType)net);
 		else if (net instanceof LoadflowNetXmlType) 
-			return getFactory().createAclfNet((LoadflowNetXmlType)net);
+			return odmObjFactory.createAclfNet((LoadflowNetXmlType)net);
 		else if (net instanceof DcNetworkXmlType) 
-			return getFactory().createDcNet((DcNetworkXmlType)net);
+			return odmObjFactory.createDcNet((DcNetworkXmlType)net);
 		else if (net instanceof DistributionNetXmlType) 
-			return getFactory().createDistNet((DistributionNetXmlType)net);
+			return odmObjFactory.createDistNet((DistributionNetXmlType)net);
 		else
-			return getFactory().createBaseCase(net);
+			return odmObjFactory.createBaseCase(net);
 	}
 	
 	/**
@@ -134,25 +135,25 @@ public class BaseJaxbHelper {
 	public static JAXBElement<? extends BaseBranchXmlType> branch(BaseBranchXmlType branch) {
 		// be careful with inheritance here 
 		if (branch instanceof LineDStabXmlType) 
-			return getFactory().createDstabLine((LineDStabXmlType)branch);
+			return odmObjFactory.createDstabLine((LineDStabXmlType)branch);
 		else if (branch instanceof PSXfrDStabXmlType) 
-			return getFactory().createDstabPSXfr((PSXfrDStabXmlType)branch);
+			return odmObjFactory.createDstabPSXfr((PSXfrDStabXmlType)branch);
 		else if (branch instanceof XfrDStabXmlType) 
-			return getFactory().createDstabXfr((XfrDStabXmlType)branch);
+			return odmObjFactory.createDstabXfr((XfrDStabXmlType)branch);
 		
 		else if (branch instanceof LineBranchXmlType) 
-			return getFactory().createAclfLine((LineBranchXmlType)branch);
+			return odmObjFactory.createAclfLine((LineBranchXmlType)branch);
 		else if (branch instanceof PSXfr3WBranchXmlType) 
-			return getFactory().createAclf3WPSXfr((PSXfr3WBranchXmlType)branch);
+			return odmObjFactory.createAclf3WPSXfr((PSXfr3WBranchXmlType)branch);
 		else if (branch instanceof PSXfrBranchXmlType) 
-			return getFactory().createAclfPSXfr((PSXfrBranchXmlType)branch);
+			return odmObjFactory.createAclfPSXfr((PSXfrBranchXmlType)branch);
 		else if (branch instanceof Xfr3WBranchXmlType) 
-			return getFactory().createAclf3WXfr((Xfr3WBranchXmlType)branch);
+			return odmObjFactory.createAclf3WXfr((Xfr3WBranchXmlType)branch);
 		else if (branch instanceof XfrBranchXmlType) 
-			return getFactory().createAclfXfr((XfrBranchXmlType)branch);
+			return odmObjFactory.createAclfXfr((XfrBranchXmlType)branch);
 
 		else if (branch instanceof DcBranchXmlType) 
-			return getFactory().createDcBranch((DcBranchXmlType)branch);
+			return odmObjFactory.createDcBranch((DcBranchXmlType)branch);
 		
 		/*
 		<element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
@@ -161,16 +162,16 @@ public class BaseJaxbHelper {
 		<element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
 	 */
 		else if (branch instanceof FeederDistBranchXmlType) 
-			return getFactory().createDistFeederBranch((FeederDistBranchXmlType)branch);
+			return odmObjFactory.createDistFeederBranch((FeederDistBranchXmlType)branch);
 		else if (branch instanceof XFormerDistBranchXmlType) 
-			return getFactory().createDistXfrBranch((XFormerDistBranchXmlType)branch);
+			return odmObjFactory.createDistXfrBranch((XFormerDistBranchXmlType)branch);
 		else if (branch instanceof ReactorDistBranchXmlType) 
-			return getFactory().createDistReactorBranch((ReactorDistBranchXmlType)branch);
+			return odmObjFactory.createDistReactorBranch((ReactorDistBranchXmlType)branch);
 		else if (branch instanceof BreakerDistBranchXmlType) 
-			return getFactory().createDistBreakerBranch((BreakerDistBranchXmlType)branch);
+			return odmObjFactory.createDistBreakerBranch((BreakerDistBranchXmlType)branch);
 		
 		else
-			return getFactory().createBranch(branch);
+			return odmObjFactory.createBranch(branch);
 	}
 	
 	/**
@@ -199,13 +200,13 @@ public class BaseJaxbHelper {
 	public static JAXBElement<? extends BusXmlType> bus(BusXmlType bus) {
 		// be careful with inheritance here 
 		if (bus instanceof DStabBusXmlType)
-			return getFactory().createDstabBus((DStabBusXmlType)bus);
+			return odmObjFactory.createDstabBus((DStabBusXmlType)bus);
 		else if (bus instanceof OpfGenBusXmlType)
-			return getFactory().createOpfGenBus((OpfGenBusXmlType)bus);
+			return odmObjFactory.createOpfGenBus((OpfGenBusXmlType)bus);
 		else if (bus instanceof LoadflowBusXmlType)
-			return getFactory().createAclfBus((LoadflowBusXmlType)bus);
+			return odmObjFactory.createAclfBus((LoadflowBusXmlType)bus);
 		else if (bus instanceof DcBusXmlType)
-			return getFactory().createDcBus((DcBusXmlType)bus);
+			return odmObjFactory.createDcBus((DcBusXmlType)bus);
 		/*
 		<element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus"/>
 		<element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus"/>
@@ -215,20 +216,20 @@ public class BaseJaxbHelper {
 		<element name="distNonContributeSynMotorBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
 	 */
 		else if (bus instanceof UtilityDistBusXmlType)
-			return getFactory().createDistUtilityBus((UtilityDistBusXmlType)bus);
+			return odmObjFactory.createDistUtilityBus((UtilityDistBusXmlType)bus);
 		else if (bus instanceof GeneratorDistBusXmlType)
-			return getFactory().createDistGeneratorBus((GeneratorDistBusXmlType)bus);
+			return odmObjFactory.createDistGeneratorBus((GeneratorDistBusXmlType)bus);
 		else if (bus instanceof SynchronousMotorDistBusXmlType)
-			return getFactory().createDistSynMotorBus((SynchronousMotorDistBusXmlType)bus);
+			return odmObjFactory.createDistSynMotorBus((SynchronousMotorDistBusXmlType)bus);
 		else if (bus instanceof InductionMotorDistBusXmlType)
-			return getFactory().createDistIndMotorBus((InductionMotorDistBusXmlType)bus);
+			return odmObjFactory.createDistIndMotorBus((InductionMotorDistBusXmlType)bus);
 		else if (bus instanceof MixedLoadDistBusXmlType)
-			return getFactory().createDistMixedLoadBus((MixedLoadDistBusXmlType)bus);
+			return odmObjFactory.createDistMixedLoadBus((MixedLoadDistBusXmlType)bus);
 		else if (bus instanceof NonContributingDistBusXmlType)
-			return getFactory().createDistNonContributeBus((NonContributingDistBusXmlType)bus);
+			return odmObjFactory.createDistNonContributeBus((NonContributingDistBusXmlType)bus);
 		
 		else
-			return getFactory().createBus(bus);
+			return odmObjFactory.createBus(bus);
 	}
 	
 	/**
@@ -254,7 +255,7 @@ public class BaseJaxbHelper {
 	 */
 	public static void addNVPair(BaseRecordXmlType rec, String name, 
 					String value) {
-    	NameValuePairXmlType nvPair = getFactory().createNameValuePairXmlType();
+    	NameValuePairXmlType nvPair = odmObjFactory.createNameValuePairXmlType();
     	rec.getNvPairList().add(nvPair);
     	nvPair.setName(name);
     	nvPair.setValue(value);
@@ -273,7 +274,7 @@ public class BaseJaxbHelper {
 	
 	public static void addOwner(BaseRecordXmlType rec, String id, 
 			double ownership) {
-		OwnerXmlType owner = getFactory().createOwnerXmlType();
+		OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
 		rec.getOwnerList().add(owner);
 		owner.setId(id);
 		owner.setOwnership(ownership);
@@ -340,11 +341,4 @@ public class BaseJaxbHelper {
 	public static String toStr(VoltageXmlType c) {
 		return c == null? "null" : "[" + c.getValue() + " " + c.getUnit() + "]";
 	}
-
-	private static ObjectFactory _factory = null;	
-	public static ObjectFactory getFactory() {
-		if (_factory == null)
-			_factory = new ObjectFactory();
-		return _factory;
-	}	
 }

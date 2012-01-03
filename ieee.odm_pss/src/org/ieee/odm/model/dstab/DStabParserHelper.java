@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.dstab;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ClassicMachineXmlType;
@@ -99,7 +101,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 */
 	public static DynamicGeneratorXmlType getDynamicGenRec(DStabBusXmlType bus) {
 		if (bus.getDynamicGen().size() ==0 )
-			bus.getDynamicGen().add(getFactory().createDynamicGeneratorXmlType());
+			bus.getDynamicGen().add(odmObjFactory.createDynamicGeneratorXmlType());
 		return bus.getDynamicGen().get(0);
 	}
 
@@ -109,45 +111,45 @@ public class DStabParserHelper extends AclfParserHelper {
 	 */
 	
 	public static ClassicMachineXmlType createClassicMachine(DynamicGeneratorXmlType gen) {
-		ClassicMachineXmlType mach = getFactory().createClassicMachineXmlType();
-		gen.setMachineModel(getFactory().createClassicMachModel(mach));
+		ClassicMachineXmlType mach = odmObjFactory.createClassicMachineXmlType();
+		gen.setMachineModel(odmObjFactory.createClassicMachModel(mach));
 		return mach;
 	}
 	
 	
 	public static EquiMachineXmlType createEquiMachine(DynamicGeneratorXmlType gen) {
-		EquiMachineXmlType mach = getFactory().createEquiMachineXmlType();
-		gen.setMachineModel(getFactory().createEquiMachModel(mach));
+		EquiMachineXmlType mach = odmObjFactory.createEquiMachineXmlType();
+		gen.setMachineModel(odmObjFactory.createEquiMachModel(mach));
 		return mach;
 	}
 	
 	
 	public static Eq1MachineXmlType createEq1Machine(DynamicGeneratorXmlType gen) {
-		Eq1MachineXmlType mach = getFactory().createEq1MachineXmlType();
-		gen.setMachineModel(getFactory().createEq1MachModel(mach));
+		Eq1MachineXmlType mach = odmObjFactory.createEq1MachineXmlType();
+		gen.setMachineModel(odmObjFactory.createEq1MachModel(mach));
 		return mach;
 	}
 	
 	public static Eq1Ed1MachineXmlType createEq1Ed1Machine(DynamicGeneratorXmlType gen) {
-		Eq1Ed1MachineXmlType mach = getFactory().createEq1Ed1MachineXmlType();
-		gen.setMachineModel(getFactory().createEq1Ed1MachModel(mach));
+		Eq1Ed1MachineXmlType mach = odmObjFactory.createEq1Ed1MachineXmlType();
+		gen.setMachineModel(odmObjFactory.createEq1Ed1MachModel(mach));
 		return mach;
 	}
 	
 	public static Eq11MachineXmlType createEq11Machine(DynamicGeneratorXmlType gen) {
-		Eq11MachineXmlType mach = getFactory().createEq11MachineXmlType();
-		gen.setMachineModel(getFactory().createEq11MachModel(mach));
+		Eq11MachineXmlType mach = odmObjFactory.createEq11MachineXmlType();
+		gen.setMachineModel(odmObjFactory.createEq11MachModel(mach));
 		return mach;
 	}
 	
 	public static Eq11Ed11MachineXmlType createEq11Ed11Machine(DynamicGeneratorXmlType gen) {
-		Eq11Ed11MachineXmlType mach = getFactory().createEq11Ed11MachineXmlType();
-		gen.setMachineModel(getFactory().createEq11Ed11MachModel(mach));
+		Eq11Ed11MachineXmlType mach = odmObjFactory.createEq11Ed11MachineXmlType();
+		gen.setMachineModel(odmObjFactory.createEq11Ed11MachModel(mach));
 		return mach;
 	}
 	
 	public static Eq1MachineXmlType.SeFmt1 createMachineSeFmt1() {
-		Eq1MachineXmlType.SeFmt1 seFmt1 = getFactory().createEq1MachineXmlTypeSeFmt1();
+		Eq1MachineXmlType.SeFmt1 seFmt1 = odmObjFactory.createEq1MachineXmlTypeSeFmt1();
 		seFmt1.setSe100(0.0);			
 		seFmt1.setSe120(0.0);
 		seFmt1.setSliner(10.0);	// this means the machine will never get into saturation	
@@ -160,138 +162,138 @@ public class DStabParserHelper extends AclfParserHelper {
 	 */
 
 	public static ExcSimpleTypeXmlType createExcSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
-		ExcSimpleTypeXmlType exc = getFactory().createExcSimpleTypeXmlType();
-		gen.setExciter(getFactory().createExcSimpleType(exc));
+		ExcSimpleTypeXmlType exc = odmObjFactory.createExcSimpleTypeXmlType();
+		gen.setExciter(odmObjFactory.createExcSimpleType(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1992TypeAC1AXmlType createExcIEEE1992TypeAC1AXmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1992TypeAC1AXmlType exc = getFactory().createExcIEEE1992TypeAC1AXmlType();
-		gen.setExciter(getFactory().createExcIEEE1992TypeAC1A(exc));
+		ExcIEEE1992TypeAC1AXmlType exc = odmObjFactory.createExcIEEE1992TypeAC1AXmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1992TypeAC1A(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1981TypeAC2XmlType createExcIEEE1981TypeAC2XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1981TypeAC2XmlType exc = getFactory().createExcIEEE1981TypeAC2XmlType();
-		gen.setExciter(getFactory().createExcIEEE1981TypeAC2(exc));
+		ExcIEEE1981TypeAC2XmlType exc = odmObjFactory.createExcIEEE1981TypeAC2XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1981TypeAC2(exc));
 		return exc;
 	}
 	public static ExcIEEE1981TypeDC1XmlType createExcIEEE1981TypeDC1XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1981TypeDC1XmlType exc = getFactory().createExcIEEE1981TypeDC1XmlType();
-		gen.setExciter(getFactory().createExcIEEE1981TypeDC1(exc));
+		ExcIEEE1981TypeDC1XmlType exc = odmObjFactory.createExcIEEE1981TypeDC1XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1981TypeDC1(exc));
 		return exc;
 	}
 	public static ExcIEEE1981TypeDC2XmlType createExcIEEE1981TypeDC2XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1981TypeDC2XmlType exc = getFactory().createExcIEEE1981TypeDC2XmlType();
-		gen.setExciter(getFactory().createExcIEEE1981TypeDC2(exc));
+		ExcIEEE1981TypeDC2XmlType exc = odmObjFactory.createExcIEEE1981TypeDC2XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1981TypeDC2(exc));
 		return exc;
 	}
 	
 	public static ExcIEEE1981ST1XmlType createExcIEEE1981ST1XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1981ST1XmlType exc = getFactory().createExcIEEE1981ST1XmlType();
-		gen.setExciter(getFactory().createExcIEEE1981ST1(exc));
+		ExcIEEE1981ST1XmlType exc = odmObjFactory.createExcIEEE1981ST1XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1981ST1(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1968Type1XmlType createExcIEEE1968Type1XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1968Type1XmlType exc = getFactory().createExcIEEE1968Type1XmlType();
-		gen.setExciter(getFactory().createExcIEEE1968Type1(exc));
+		ExcIEEE1968Type1XmlType exc = odmObjFactory.createExcIEEE1968Type1XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1968Type1(exc));
 		return exc;
 	}
 
 	public static ExcIEEEModified1968Type1XmlType createExcIEEEModified1968Type1XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEEModified1968Type1XmlType exc = getFactory().createExcIEEEModified1968Type1XmlType();
-		gen.setExciter(getFactory().createExcIEEEModified1968Type1(exc));
+		ExcIEEEModified1968Type1XmlType exc = odmObjFactory.createExcIEEEModified1968Type1XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEEModified1968Type1(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1968Type1SXmlType createExcIEEE1968Type1SXmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1968Type1SXmlType exc = getFactory().createExcIEEE1968Type1SXmlType();
-		gen.setExciter(getFactory().createExcIEEE1968Type1S(exc));
+		ExcIEEE1968Type1SXmlType exc = odmObjFactory.createExcIEEE1968Type1SXmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1968Type1S(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1968Type2XmlType createExcIEEE1968Type2XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1968Type2XmlType exc = getFactory().createExcIEEE1968Type2XmlType();
-		gen.setExciter(getFactory().createExcIEEE1968Type2(exc));
+		ExcIEEE1968Type2XmlType exc = odmObjFactory.createExcIEEE1968Type2XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1968Type2(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1968Type4XmlType createExcIEEE1968Type4XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1968Type4XmlType exc = getFactory().createExcIEEE1968Type4XmlType();
-		gen.setExciter(getFactory().createExcIEEE1968Type4(exc));
+		ExcIEEE1968Type4XmlType exc = odmObjFactory.createExcIEEE1968Type4XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1968Type4(exc));
 		return exc;
 	}
 
 	public static ExcIEEE1968Type3XmlType createExcIEEE1968Type3XmlType(DynamicGeneratorXmlType gen) {
-		ExcIEEE1968Type3XmlType exc = getFactory().createExcIEEE1968Type3XmlType();
-		gen.setExciter(getFactory().createExcIEEE1968Type3(exc));
+		ExcIEEE1968Type3XmlType exc = odmObjFactory.createExcIEEE1968Type3XmlType();
+		gen.setExciter(odmObjFactory.createExcIEEE1968Type3(exc));
 		return exc;
 	}
 	
 
 
 	public static ExcTSATTypeEXC34XmlType createExcTSATTypeEXC34XmlType(DynamicGeneratorXmlType gen) {
-		ExcTSATTypeEXC34XmlType exc = getFactory().createExcTSATTypeEXC34XmlType();
-		gen.setExciter(getFactory().createExcTSATTypeEXC34(exc));
+		ExcTSATTypeEXC34XmlType exc = odmObjFactory.createExcTSATTypeEXC34XmlType();
+		gen.setExciter(odmObjFactory.createExcTSATTypeEXC34(exc));
 		return exc;
 	}
 	
 	public static ExcBPAECXmlType createExcBPAECXmlType(DynamicGeneratorXmlType gen) {
-		ExcBPAECXmlType exc = getFactory().createExcBPAECXmlType();
-		gen.setExciter(getFactory().createExcBPATypeEC(exc));
+		ExcBPAECXmlType exc = odmObjFactory.createExcBPAECXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeEC(exc));
 		return exc;
 	}
 	public static ExcBPAEKXmlType createExcBPAEKXmlType(DynamicGeneratorXmlType gen) {
-		ExcBPAEKXmlType exc = getFactory().createExcBPAEKXmlType();
-		gen.setExciter(getFactory().createExcBPATypeEK(exc));
+		ExcBPAEKXmlType exc = odmObjFactory.createExcBPAEKXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeEK(exc));
 		return exc;
 	}
 
 	public static ExcBPAFJXmlType createExcBPAFJXmlType(DynamicGeneratorXmlType gen) {
-		ExcBPAFJXmlType exc = getFactory().createExcBPAFJXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFJ(exc));
+		ExcBPAFJXmlType exc = odmObjFactory.createExcBPAFJXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFJ(exc));
 		return exc;
 	}
 	public static ExcBPAFKXmlType createExcBPAFKXmlType(
 			DynamicGeneratorXmlType gen) {
-		ExcBPAFKXmlType exc = getFactory().createExcBPAFKXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFK(exc));
+		ExcBPAFKXmlType exc = odmObjFactory.createExcBPAFKXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFK(exc));
 		return exc;
 	}
 	
 	public static ExcBPAFQXmlType createExcBPAFQXmlType(
 			DynamicGeneratorXmlType gen) {
-		ExcBPAFQXmlType exc = getFactory().createExcBPAFQXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFQ(exc));
+		ExcBPAFQXmlType exc = odmObjFactory.createExcBPAFQXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFQ(exc));
 		return exc;
 	}
 	
 	public static ExcBPAFRXmlType createExcBPAFRXmlType(
 			DynamicGeneratorXmlType gen) {
-		ExcBPAFRXmlType exc = getFactory().createExcBPAFRXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFR(exc));
+		ExcBPAFRXmlType exc = odmObjFactory.createExcBPAFRXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFR(exc));
 		return exc;
 	}
 	
 	public static ExcBPAFSXmlType createExcBPAFSXmlType(
 			DynamicGeneratorXmlType gen) {
-		ExcBPAFSXmlType exc = getFactory().createExcBPAFSXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFS(exc));
+		ExcBPAFSXmlType exc = odmObjFactory.createExcBPAFSXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFS(exc));
 		return exc;
 	}
 	
 	public static ExcBPAFUXmlType createExcBPAFUXmlType(
 			DynamicGeneratorXmlType gen) {
-		ExcBPAFUXmlType exc = getFactory().createExcBPAFUXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFU(exc));
+		ExcBPAFUXmlType exc = odmObjFactory.createExcBPAFUXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFU(exc));
 		return exc;
 	}
 	
 	public static ExcBPAFVXmlType createExcBPAFVXmlType(
 			DynamicGeneratorXmlType gen) {
-		ExcBPAFVXmlType exc = getFactory().createExcBPAFVXmlType();
-		gen.setExciter(getFactory().createExcBPATypeFV(exc));
+		ExcBPAFVXmlType exc = odmObjFactory.createExcBPAFVXmlType();
+		gen.setExciter(odmObjFactory.createExcBPATypeFV(exc));
 		return exc;
 	}
 	
@@ -303,88 +305,88 @@ public class DStabParserHelper extends AclfParserHelper {
 	/*
 	public static GovernorModelXmlType createGovernorModelXmlType(DynamicGeneratorXmlType gen) {
 		GovernorModelXmlType gov = new GovernorModelXmlType();
-			getFactory().createGovernor();
-		gen.setGovernor(getFactory().createGovSimpleType(gov));
+			odmObjFactory.createGovernor();
+		gen.setGovernor(odmObjFactory.createGovSimpleType(gov));
 		return gov;
 	}
 	*/
 	public static GovSimpleTypeXmlType createGovSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
-		GovSimpleTypeXmlType gov = getFactory().createGovSimpleTypeXmlType();
-		gen.setGovernor(getFactory().createGovSimpleType(gov));
+		GovSimpleTypeXmlType gov = odmObjFactory.createGovSimpleTypeXmlType();
+		gen.setGovernor(odmObjFactory.createGovSimpleType(gov));
 		return gov;
 	}
 
 	public static GovIEEE1981Type1XmlType createGovIEEE1981Type1XmlType(DynamicGeneratorXmlType gen) {
-		GovIEEE1981Type1XmlType gov = getFactory().createGovIEEE1981Type1XmlType();
-		gen.setGovernor(getFactory().createGovIEEE1981Type1(gov));
+		GovIEEE1981Type1XmlType gov = odmObjFactory.createGovIEEE1981Type1XmlType();
+		gen.setGovernor(odmObjFactory.createGovIEEE1981Type1(gov));
 		return gov;
 	}
 
 	public static GovIEEE1981Type2XmlType createGovIEEE1981Type2XmlType(DynamicGeneratorXmlType gen) {
-		GovIEEE1981Type2XmlType gov = getFactory().createGovIEEE1981Type2XmlType();
-		gen.setGovernor(getFactory().createGovIEEE1981Type2(gov));
+		GovIEEE1981Type2XmlType gov = odmObjFactory.createGovIEEE1981Type2XmlType();
+		gen.setGovernor(odmObjFactory.createGovIEEE1981Type2(gov));
 		return gov;
 	}
 
 	public static GovIEEE1981Type3XmlType createGovIEEE1981Type3XmlType(DynamicGeneratorXmlType gen) {
-		GovIEEE1981Type3XmlType gov = getFactory().createGovIEEE1981Type3XmlType();
-		gen.setGovernor(getFactory().createGovIEEE1981Type3(gov));
+		GovIEEE1981Type3XmlType gov = odmObjFactory.createGovIEEE1981Type3XmlType();
+		gen.setGovernor(odmObjFactory.createGovIEEE1981Type3(gov));
 		return gov;
 	}
 
 	public static GovHydroXmlType createGovHydroXmlType(DynamicGeneratorXmlType gen) {
-		GovHydroXmlType gov = getFactory().createGovHydroXmlType();
-		gen.setGovernor(getFactory().createGovHydro(gov));
+		GovHydroXmlType gov = odmObjFactory.createGovHydroXmlType();
+		gen.setGovernor(odmObjFactory.createGovHydro(gov));
 		return gov;
 	}
 
 	public static GovHydroTurbineXmlType createGovHydroTurbineXmlType(DynamicGeneratorXmlType gen) {
-		GovHydroTurbineXmlType gov = getFactory().createGovHydroTurbineXmlType();
-		gen.setGovernor(getFactory().createGovHydroTurbine(gov));
+		GovHydroTurbineXmlType gov = odmObjFactory.createGovHydroTurbineXmlType();
+		gen.setGovernor(odmObjFactory.createGovHydroTurbine(gov));
 		return gov;
 	}
 
 	public static GovHydroSteamGeneralModelXmlType createGovHydroSteamGeneralModelXmlType(DynamicGeneratorXmlType gen) {
-		GovHydroSteamGeneralModelXmlType gov = getFactory().createGovHydroSteamGeneralModelXmlType();
-		gen.setGovernor(getFactory().createGovHydroSteamGeneralModel(gov));
+		GovHydroSteamGeneralModelXmlType gov = odmObjFactory.createGovHydroSteamGeneralModelXmlType();
+		gen.setGovernor(odmObjFactory.createGovHydroSteamGeneralModel(gov));
 		return gov;
 	}
 	
 	public static GovSteamNRXmlType createGovSteamNRXmlType(DynamicGeneratorXmlType gen) {
-		GovSteamNRXmlType gov = getFactory().createGovSteamNRXmlType();
-		gen.setGovernor(getFactory().createGovSteamNR(gov));
+		GovSteamNRXmlType gov = odmObjFactory.createGovSteamNRXmlType();
+		gen.setGovernor(odmObjFactory.createGovSteamNR(gov));
 		return gov;
 	}
 
 	public static GovSteamTCSRXmlType createGovSteamTCSRXmlType(DynamicGeneratorXmlType gen) {
-		GovSteamTCSRXmlType gov = getFactory().createGovSteamTCSRXmlType();
-		gen.setGovernor(getFactory().createGovSteamTCSR(gov));
+		GovSteamTCSRXmlType gov = odmObjFactory.createGovSteamTCSRXmlType();
+		gen.setGovernor(odmObjFactory.createGovSteamTCSR(gov));
 		return gov;
 	}
 
 	public static GovSteamTDSRXmlType createGovSteamTDSRXmlType(DynamicGeneratorXmlType gen) {
-		GovSteamTDSRXmlType gov = getFactory().createGovSteamTDSRXmlType();
-		gen.setGovernor(getFactory().createGovSteamTDSR(gov));
+		GovSteamTDSRXmlType gov = odmObjFactory.createGovSteamTDSRXmlType();
+		gen.setGovernor(odmObjFactory.createGovSteamTDSR(gov));
 		return gov;
 	}
 	/*  Stream turbine  models: NR, TCSR,TCDR type
 	 * ====================
 	 */
 	public static SteamTurbineNRXmlType createSteamTurbineNRXmlType(DynamicGeneratorXmlType gen){
-		SteamTurbineNRXmlType stNR=getFactory().createSteamTurbineNRXmlType();
-		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamNR(stNR));
+		SteamTurbineNRXmlType stNR=odmObjFactory.createSteamTurbineNRXmlType();
+		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbineSteamNR(stNR));
 		return stNR;
 		
 	}
 	public static SteamTurbineTCSRXmlType createSteamTurbineTCSRRXmlType(DynamicGeneratorXmlType gen){
-		SteamTurbineTCSRXmlType stTCSR=getFactory().createSteamTurbineTCSRXmlType();
-		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamTCSR(stTCSR));
+		SteamTurbineTCSRXmlType stTCSR=odmObjFactory.createSteamTurbineTCSRXmlType();
+		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbineSteamTCSR(stTCSR));
 		return stTCSR;
 		
 	}
 	public static SteamTurbineTCDRXmlType createSteamTurbineTCDRXmlType(DynamicGeneratorXmlType gen){
-		SteamTurbineTCDRXmlType stTCDR=getFactory().createSteamTurbineTCDRXmlType();
-		gen.getGovernor().getValue().setTurbine(getFactory().createTurbineSteamNR(stTCDR));
+		SteamTurbineTCDRXmlType stTCDR=odmObjFactory.createSteamTurbineTCDRXmlType();
+		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbineSteamNR(stTCDR));
 		return stTCDR;
 		
 	}
@@ -396,21 +398,21 @@ public class DStabParserHelper extends AclfParserHelper {
 	//GH 
 	public static GovBPAHydroTurbineGHXmlType createGovBPAHydroTurbineGHXmlType(
 			DynamicGeneratorXmlType gen) {
-		GovBPAHydroTurbineGHXmlType gov=getFactory().createGovBPAHydroTurbineGHXmlType();
-		gen.setGovernor(getFactory().createGovBPAHydroTurbineGHModel(gov));
+		GovBPAHydroTurbineGHXmlType gov=odmObjFactory.createGovBPAHydroTurbineGHXmlType();
+		gen.setGovernor(odmObjFactory.createGovBPAHydroTurbineGHModel(gov));
 		
 		return gov;
 	}
 	//TODO GS is a speed Governing model, but there is no method in DynamicGeneratorXmlType for such model now 
 	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(
 			DynamicGeneratorXmlType gen) throws ODMException {
-		SpeedGovBPAGSModelXmlType spdgov=getFactory().createSpeedGovBPAGSModelXmlType();
+		SpeedGovBPAGSModelXmlType spdgov=odmObjFactory.createSpeedGovBPAGSModelXmlType();
 		if(gen.getGovernor()==null){
-			gen.setGovernor(getFactory().createGovBPAGsTbCombinedModel(
+			gen.setGovernor(odmObjFactory.createGovBPAGsTbCombinedModel(
 					createGovBPAGsTbCombinedModelXmlType(gen)));
 		}
 		if(gen.getGovernor()!=null){
-		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
+		gen.getGovernor().getValue().setSpeedGov(odmObjFactory.createSpeedGov(spdgov));
 		}
 		return spdgov;
        
@@ -419,7 +421,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	//  GI/I+ model is  a regulator, part of a speed Governing model,
 	public static SpeedGovBPARegGIModelXmlType createSpeedGovBPARegGIModelXmlType(
 			DynamicGeneratorXmlType gen) throws ODMException {
-		SpeedGovBPARegGIModelXmlType regGi =getFactory().createSpeedGovBPARegGIModelXmlType();
+		SpeedGovBPARegGIModelXmlType regGi =odmObjFactory.createSpeedGovBPARegGIModelXmlType();
 		//TODO before linking a regulator to a gen,  it need to be first connected to SpeedGov.
 		SpeedGovModelXmlType spdGov=null;
 		if(gen.getGovernor().getValue().getSpeedGov().getValue()!=null){
@@ -437,10 +439,10 @@ public class DStabParserHelper extends AclfParserHelper {
 
 	public static SpeedGovBPAGiGaCombinedXmlType createSpeedGovBPAGiGaCombinedXmlType(
 			DynamicGeneratorXmlType gen) {
-		SpeedGovBPAGiGaCombinedXmlType spdgov=getFactory().createSpeedGovBPAGiGaCombinedXmlType();
+		SpeedGovBPAGiGaCombinedXmlType spdgov=odmObjFactory.createSpeedGovBPAGiGaCombinedXmlType();
 		
         //create a governor when it is none in a generator;
-		gen.getGovernor().getValue().setSpeedGov(getFactory().createSpeedGov(spdgov));
+		gen.getGovernor().getValue().setSpeedGov(odmObjFactory.createSpeedGov(spdgov));
 		return spdgov;
 	}
 
@@ -448,7 +450,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	//GA model is a servo motor model, part of a speed Governing model.
 	public static SpeedGovBPAServoGAModelXmlType createSpeedGovBPAServoGAModelXmlType(
 			DynamicGeneratorXmlType dynGen) throws ODMException {
-		SpeedGovBPAServoGAModelXmlType servoGa =getFactory().createSpeedGovBPAServoGAModelXmlType();
+		SpeedGovBPAServoGAModelXmlType servoGa =odmObjFactory.createSpeedGovBPAServoGAModelXmlType();
 		//TODO before linking a servo to a gen,  it need to be first connected to SpeedGov.
 		
 		SpeedGovModelXmlType spdGov=null;
@@ -466,26 +468,26 @@ public class DStabParserHelper extends AclfParserHelper {
 	}
 	public static SteamTurbineBPATBModelXmlType createSteamTurbineBPATBModelXmlType(
 			DynamicGeneratorXmlType gen) {
-		SteamTurbineBPATBModelXmlType tur=getFactory().createSteamTurbineBPATBModelXmlType();
+		SteamTurbineBPATBModelXmlType tur=odmObjFactory.createSteamTurbineBPATBModelXmlType();
         //create a governor when it is none in a generator;
 		//TODO
-		//if(gen.getGovernor()==null)gen.setGovernor(getFactory().createGovernorModelXmlType());
-		gen.getGovernor().getValue().setTurbine(getFactory().createTurbine(tur));
+		//if(gen.getGovernor()==null)gen.setGovernor(odmObjFactory.createGovernorModelXmlType());
+		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbine(tur));
 		return tur;
 	}
 
 	//GS+TB
 	public static GovBPAGsTbCombinedModelXmlType createGovBPAGsTbCombinedModelXmlType(
 			DynamicGeneratorXmlType gen) {
-		GovBPAGsTbCombinedModelXmlType gov=getFactory().createGovBPAGsTbCombinedModelXmlType();
-		gen.setGovernor(getFactory().createGovBPAGsTbCombinedModel(gov));
+		GovBPAGsTbCombinedModelXmlType gov=odmObjFactory.createGovBPAGsTbCombinedModelXmlType();
+		gen.setGovernor(odmObjFactory.createGovBPAGsTbCombinedModel(gov));
 		return gov;
 	}
 	//GI+GA+TB
 	public static GovBPAGiGaTbCombinedModelXmlType createGovBPAGiGaTbCombinedModelXmlType(
 			DynamicGeneratorXmlType gen) {
-		GovBPAGiGaTbCombinedModelXmlType gov=getFactory().createGovBPAGiGaTbCombinedModelXmlType();
-		gen.setGovernor(getFactory().createGovBPAGiGaTbCombinedModel(gov));		
+		GovBPAGiGaTbCombinedModelXmlType gov=odmObjFactory.createGovBPAGiGaTbCombinedModelXmlType();
+		gen.setGovernor(odmObjFactory.createGovBPAGiGaTbCombinedModel(gov));		
 		return gov;
 		
 	}
@@ -497,63 +499,59 @@ public class DStabParserHelper extends AclfParserHelper {
 	 */
 	
 	public static PssSimpleTypeXmlType createPssSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
-		PssSimpleTypeXmlType pss = getFactory().createPssSimpleTypeXmlType();
-		gen.setStabilizer(getFactory().createPssSimpleType(pss));
+		PssSimpleTypeXmlType pss = odmObjFactory.createPssSimpleTypeXmlType();
+		gen.setStabilizer(odmObjFactory.createPssSimpleType(pss));
 		return pss;
 	}
 
 	public static PssIEEE1981TypeXmlType createPssIEEE1981TypeXmlType(DynamicGeneratorXmlType gen) {
-		PssIEEE1981TypeXmlType pss = getFactory().createPssIEEE1981TypeXmlType();
-		gen.setStabilizer(getFactory().createPssIEEE1981Type(pss));
+		PssIEEE1981TypeXmlType pss = odmObjFactory.createPssIEEE1981TypeXmlType();
+		gen.setStabilizer(odmObjFactory.createPssIEEE1981Type(pss));
 		return pss;
 	}
 
 	public static PssIEEE1992Type2AXmlType createPssIEEE1992Type2AXmlType(DynamicGeneratorXmlType gen) {
-		PssIEEE1992Type2AXmlType pss = getFactory().createPssIEEE1992Type2AXmlType();
-		gen.setStabilizer(getFactory().createPssIEEE1992Type2A(pss));
+		PssIEEE1992Type2AXmlType pss = odmObjFactory.createPssIEEE1992Type2AXmlType();
+		gen.setStabilizer(odmObjFactory.createPssIEEE1992Type2A(pss));
 		return pss;
 	}
 
 	public static PssIEEE1AXmlType createPssIEEE1AXmlType(DynamicGeneratorXmlType gen) {
-		PssIEEE1AXmlType pss = getFactory().createPssIEEE1AXmlType();
-		gen.setStabilizer(getFactory().createPssIEEEType1A(pss));
+		PssIEEE1AXmlType pss = odmObjFactory.createPssIEEE1AXmlType();
+		gen.setStabilizer(odmObjFactory.createPssIEEEType1A(pss));
 		return pss;
 	}
 
 	public static PssIEE2STXmlType createPssIEE2STXmlType(DynamicGeneratorXmlType gen) {
-		PssIEE2STXmlType pss = getFactory().createPssIEE2STXmlType();
-		gen.setStabilizer(getFactory().createPssIEE2ST(pss));
+		PssIEE2STXmlType pss = odmObjFactory.createPssIEE2STXmlType();
+		gen.setStabilizer(odmObjFactory.createPssIEE2ST(pss));
 		return pss;
 	}
 
 	public static PssIEEEDualInputXmlType createPssIEEEDualInputXmlType(DynamicGeneratorXmlType gen) {
-		PssIEEEDualInputXmlType pss = getFactory().createPssIEEEDualInputXmlType();
-		gen.setStabilizer(getFactory().createPssIEEEDualInput(pss));
+		PssIEEEDualInputXmlType pss = odmObjFactory.createPssIEEEDualInputXmlType();
+		gen.setStabilizer(odmObjFactory.createPssIEEEDualInput(pss));
 		return pss;
 	}
 	
 	public static PssBPADualInputXmlType createPssBPADualInputXmlType(DynamicGeneratorXmlType gen) {
-		PssBPADualInputXmlType pss = getFactory().createPssBPADualInputXmlType();
-		gen.setStabilizer(getFactory().createPssBPADualInput(pss));
+		PssBPADualInputXmlType pss = odmObjFactory.createPssBPADualInputXmlType();
+		gen.setStabilizer(odmObjFactory.createPssBPADualInput(pss));
 		return pss;
 	}
 	public static PssBpaSsTypeXmlType createPssBPASsXmlType(DynamicGeneratorXmlType gen) {
-		PssBpaSsTypeXmlType pss = getFactory().createPssBpaSsTypeXmlType();
-		gen.setStabilizer(getFactory().createPssBPASs(pss));
+		PssBpaSsTypeXmlType pss = odmObjFactory.createPssBpaSsTypeXmlType();
+		gen.setStabilizer(odmObjFactory.createPssBPASs(pss));
 		return pss;
 	}
 	public static PssBpaSgTypeXmlType createPssBPASgXmlType(DynamicGeneratorXmlType gen) {
-		PssBpaSgTypeXmlType pss = getFactory().createPssBpaSgTypeXmlType();
-		gen.setStabilizer(getFactory().createPssBPASg(pss));
+		PssBpaSgTypeXmlType pss = odmObjFactory.createPssBpaSgTypeXmlType();
+		gen.setStabilizer(odmObjFactory.createPssBPASg(pss));
 		return pss;
 	}
 	public static PssBpaSpTypeXmlType createPssBPASpXmlType(DynamicGeneratorXmlType gen) {
-		PssBpaSpTypeXmlType pss = getFactory().createPssBpaSpTypeXmlType();
-		gen.setStabilizer(getFactory().createPssBPASp(pss));
+		PssBpaSpTypeXmlType pss = odmObjFactory.createPssBpaSpTypeXmlType();
+		gen.setStabilizer(odmObjFactory.createPssBPASp(pss));
 		return pss;
 	}
-
-
-
-
 }

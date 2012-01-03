@@ -1,119 +1,119 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<pssStudyCase xmlns="http://www.ieee.org/odm/Schema/2008" xmlns:ns2="http://www.interpss.org/Schema/odm/2008" id="ODM_StudyCase">
-	<schemaVersion>V0.8</schemaVersion>
-	<aclfNet>
-		<busList />
-		<branchList />
-	</aclfNet>
-	<ipssStudyScenario>
-		<ns2:studyCaseList>
-			<ns2:studyCase>
-				<ns2:simuAlgo>
-					<ns2:senAnalysis name="StudyCase name">
-						<desc>StudtCase Desc</desc>
-						<ns2:genShiftFactor>
-							<ns2:senType>PAngle</ns2:senType>
-							<ns2:injectBusType>SingleBus</ns2:injectBusType>
-							<ns2:injectBusList>
-								<ns2:injectBuses>
-									<ns2:busId>Bus112</ns2:busId>
-								</ns2:injectBuses>
-							</ns2:injectBusList>
-							<ns2:withdrawBusType>LoadDistribution</ns2:withdrawBusType>
-							<ns2:withdrawBusList />
-							<ns2:minLoadForDistFactor unit="MW" value="5.0" />
-							<ns2:branchSFactor>
-								<ns2:branch circuitId="_1" toBusId="Bus34752" fromBusId="Bus1" branchId="Bus1-&gt;Bus34752(_1)" />
-							</ns2:branchSFactor>
-							<ns2:branchSFactor>
-								<ns2:branch circuitId="_1" toBusId="Bus104" fromBusId="Bus100" branchId="Bus100-&gt;Bus104(_1)" />
-							</ns2:branchSFactor>
-							<ns2:interfaceSFactor>
-								<ns2:interface id="ADLANTOSP_MSL" />
-							</ns2:interfaceSFactor>
-							<ns2:interfaceSFactor>
-								<ns2:interface id="CASCADE_BG" />
-							</ns2:interfaceSFactor>
-						</ns2:genShiftFactor>
-						<ns2:lineOutageDFactor>
-							<ns2:outageBranch circuitId="_1" toBusId="Bus34752" fromBusId="Bus1" branchId="Bus1-&gt;Bus34752(_1)" />
-							<ns2:monitorBranch>
-								<ns2:branch circuitId="_1" toBusId="Bus34752" fromBusId="Bus1" branchId="Bus1-&gt;Bus34752(_1)" />
-							</ns2:monitorBranch>
-							<ns2:monitorBranch>
-								<ns2:branch circuitId="_1" toBusId="Bus1005" fromBusId="Bus1002" branchId="Bus1002-&gt;Bus1005(_1)" />
-							</ns2:monitorBranch>
-						</ns2:lineOutageDFactor>
-						<ns2:outOption>
-							<ns2:allBranchPoints>50</ns2:allBranchPoints>
-							<ns2:allInterfacePoints>10</ns2:allInterfacePoints>
-						</ns2:outOption>
-					</ns2:senAnalysis>
-					<ns2:pTradingAnalysis name="StudyCase name">
-						<desc>StudtCase Desc</desc>
-						<ns2:caseData>
-							<ns2:baseCaseFile>
-								<ns2:filename>Load file ...</ns2:filename>
-								<ns2:format>PSSE</ns2:format>
-								<ns2:version>V26</ns2:version>
-							</ns2:baseCaseFile>
-							<ns2:edFile>
-								<ns2:filename>C:\tmp\8-15-2011-Dispatch.xlsx</ns2:filename>
-								<ns2:date>08/15/2011</ns2:date>
-								<ns2:genPFactor>0.9</ns2:genPFactor>
-								<ns2:lossPercent>2.5</ns2:lossPercent>
-								<ns2:loadPFactor>0.98</ns2:loadPFactor>
-							</ns2:edFile>
-							<ns2:loadDist>
-								<ns2:minLoadForDistFactor unit="MW" value="5.0" />
-							</ns2:loadDist>
-							<ns2:interfaceFile>
-								<ns2:interfaceFilename>C:\tmp\Interface_Definitions_Winter_DB53_V0.xlsx</ns2:interfaceFilename>
-								<ns2:limitFilename>C:\tmp\Interface_Limits_Winter_DB53_V0.xlsx</ns2:limitFilename>
-							</ns2:interfaceFile>
-						</ns2:caseData>
-						<ns2:aclfAnalysis>
-							<ns2:hour>12:00</ns2:hour>
-							<ns2:tolerance>1.0E-4</ns2:tolerance>
-							<ns2:genQAdjustment>true</ns2:genQAdjustment>
-							<ns2:genQAdjOption>
-								<ns2:lfAssistGenFilename>C:\tmp\LfAssistantGen.xlsx</ns2:lfAssistGenFilename>
-								<ns2:noRunsLfAssist>3</ns2:noRunsLfAssist>
-								<ns2:lfAssistAdjTolerance>0.1</ns2:lfAssistAdjTolerance>
-							</ns2:genQAdjOption>
-							<ns2:swingBusPQAlloc>true</ns2:swingBusPQAlloc>
-							<ns2:genSwingAllocOption>
-								<ns2:zoneNumber>1</ns2:zoneNumber>
-								<ns2:steps>4</ns2:steps>
-								<ns2:accFactor>1.5</ns2:accFactor>
-							</ns2:genSwingAllocOption>
-							<ns2:outputOption>
-								<ns2:largeGSFPoints>5</ns2:largeGSFPoints>
-								<ns2:busVoltageViolation>true</ns2:busVoltageViolation>
-								<ns2:busVoltageUpperLimitPU>1.15</ns2:busVoltageUpperLimitPU>
-								<ns2:busVoltageLowerLimitPU>0.8</ns2:busVoltageLowerLimitPU>
-								<ns2:branchLimitViolation>false</ns2:branchLimitViolation>
-								<ns2:interfaceLimitViolation>false</ns2:interfaceLimitViolation>
-								<ns2:zoneSummary>true</ns2:zoneSummary>
-								<ns2:areaSummary>true</ns2:areaSummary>
-								<ns2:lfResult>false</ns2:lfResult>
-								<ns2:lfResultFormat>Summary</ns2:lfResultFormat>
-							</ns2:outputOption>
-						</ns2:aclfAnalysis>
-						<ns2:branchAnalysis>
-							<ns2:hour>12:00</ns2:hour>
-							<ns2:type>SingleBranchOutage</ns2:type>
-							<ns2:branch circuitId="_1" toBusId="Bus33037" fromBusId="Bus10" branchId="Bus10-&gt;Bus33037(_1)" />
-							<ns2:branchFlowOutPoints>20</ns2:branchFlowOutPoints>
-						</ns2:branchAnalysis>
-						<ns2:genAnalysis>
-							<ns2:hour>12:00</ns2:hour>
-							<ns2:type>LossFactor</ns2:type>
-							<ns2:genBus id="Bus112" />
-						</ns2:genAnalysis>
-					</ns2:pTradingAnalysis>
-				</ns2:simuAlgo>
-			</ns2:studyCase>
-		</ns2:studyCaseList>
-	</ipssStudyScenario>
-</pssStudyCase>
+<ns2:pssStudyCase 
+	xmlns:ns2="http://www.ieee.org/odm/Schema/2008" 
+	xmlns:ns3="http://www.interpss.org/Schema/odm/2008" 
+	id="ODM_StudyCase"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/ODMSchema.xsd ">
+	
+	<ns2:schemaVersion>V0.8</ns2:schemaVersion>
+    <ns2:networkCategory>Transmission</ns2:networkCategory>
+    <ns2:analysisCategory>Loadflow</ns2:analysisCategory>
+	<ns2:aclfNet id="AclfNetId">
+		<ns2:basePower unit="MVA" value="100.0" />
+		<ns2:busList />
+		<ns2:branchList />
+	</ns2:aclfNet>
+	<ns2:ipssStudyScenario id="StudyScenarioId">
+		<ns3:gridRunOption>
+			<ns3:enableGridRun>false</ns3:enableGridRun>
+		</ns3:gridRunOption>
+		<ns3:studyCaseList>
+			<ns3:studyCase id="StudyCaseId">
+				<ns3:simuAlgo>
+					<ns3:aclfAnalysis areaName="Aclf Study Case">
+						<ns2:desc>Study case description</ns2:desc>
+						<ns3:aclfAlgo>
+							<ns2:lfMethod>NR</ns2:lfMethod>
+							<ns2:maxIterations>20</ns2:maxIterations>
+							<ns2:tolerance unit="PU" value="0.0001" />
+						</ns3:aclfAlgo>
+						<ns3:displaySummary>true</ns3:displaySummary>
+					</ns3:aclfAnalysis>
+					<ns3:contingencyAnalysis>
+						<ns3:type>N-1</ns3:type>
+					</ns3:contingencyAnalysis>
+					<ns3:senAnalysis name="StudyCase name">
+						<ns2:desc>StudtCase Desc</ns2:desc>
+						<ns3:outOption>
+							<ns3:allBranchPoints>50</ns3:allBranchPoints>
+							<ns3:allInterfacePoints>10</ns3:allInterfacePoints>
+						</ns3:outOption>
+					</ns3:senAnalysis>				
+					<ns3:pTradingAnalysis name="StudyCase name">
+						<ns2:desc>StudtCase Desc</ns2:desc>
+						<ns3:caseData>
+							<ns3:baseCaseFile>
+								<ns3:filename>Load file ...</ns3:filename>
+								<ns3:format>PSSE</ns3:format>
+								<ns3:version>V26</ns3:version>
+							</ns3:baseCaseFile>
+							<ns3:edFile>
+								<ns3:filename>Load file ...</ns3:filename>
+								<ns3:date>mm/dd/yyyy</ns3:date>
+								<ns3:genPFactor>0.9</ns3:genPFactor>
+								<ns3:lossPercent>2.5</ns3:lossPercent>
+								<ns3:loadPFactor>0.98</ns3:loadPFactor>
+							</ns3:edFile>
+							<ns3:loadDist>
+								<ns3:minLoadForDistFactor unit="MW" value="5.0" />
+							</ns3:loadDist>
+							<ns3:interfaceFile>
+								<ns3:interfaceFilename>Load file ...</ns3:interfaceFilename>
+								<ns3:limitFilename>Load file ...</ns3:limitFilename>
+							</ns3:interfaceFile>
+						</ns3:caseData>
+						<ns3:aclfAnalysis>
+							<ns3:hour>12:00</ns3:hour>
+							<ns3:genQAdjustment>true</ns3:genQAdjustment>
+							<ns3:genQAdjOption>
+								<ns3:lfAssistGenFilename>Load file ...</ns3:lfAssistGenFilename>
+								<ns3:noRunsLfAssist>3</ns3:noRunsLfAssist>
+							</ns3:genQAdjOption>
+							<ns3:swingBusPQAlloc>true</ns3:swingBusPQAlloc>
+							<ns3:genSwingAllocOption>
+								<ns3:zoneNumber>1</ns3:zoneNumber>
+								<ns3:steps>4</ns3:steps>
+								<ns3:accFactor>1.5</ns3:accFactor>
+							</ns3:genSwingAllocOption>
+							<ns3:outputOption>
+								<ns3:largeGSFPoints>5</ns3:largeGSFPoints>
+								<ns3:busVoltageViolation>true</ns3:busVoltageViolation>
+								<ns3:busVoltageUpperLimitPU>0.0</ns3:busVoltageUpperLimitPU>
+								<ns3:busVoltageLowerLimitPU>0.0</ns3:busVoltageLowerLimitPU>
+								<ns3:branchLimitViolation>false</ns3:branchLimitViolation>
+								<ns3:interfaceLimitViolation>false</ns3:interfaceLimitViolation>
+								<ns3:zoneSummary>false</ns3:zoneSummary>
+								<ns3:areaSummary>false</ns3:areaSummary>
+								<ns3:lfResult>false</ns3:lfResult>
+								<ns3:lfResultFormat>Summary</ns3:lfResultFormat>
+							</ns3:outputOption>
+						</ns3:aclfAnalysis>
+					</ns3:pTradingAnalysis>
+					<ns3:acscAnalysis>
+						<ns3:fault>
+							<ns2:faultType>BusFault</ns2:faultType>
+							<ns2:faultCategory>Fault3Phase</ns2:faultCategory>
+							<ns2:refBusBranch fromBusId="fromBusId" toBusId="toBusId" branchId="branchId"></ns2:refBusBranch>
+						</ns3:fault>
+					</ns3:acscAnalysis>
+					<ns3:dStabAnalysis>
+						<ns3:simulationSetting>
+							<ns3:dstabMethod>ModifiedEuler</ns3:dstabMethod>
+							<ns3:totalTime unit="Sec" value="0.0" />
+							<ns3:step unit="Sec" value="0.0" />
+							<ns3:staticLoadModel>
+								<ns3:staticLoadType>Constant_Z</ns3:staticLoadType>
+							</ns3:staticLoadModel>
+						</ns3:simulationSetting>
+						<ns3:aclfInitialization>
+							<ns2:lfMethod>NR</ns2:lfMethod>
+							<ns2:maxIterations>0</ns2:maxIterations>
+							<ns2:tolerance unit="PU" value="0.0" />
+						</ns3:aclfInitialization>
+					</ns3:dStabAnalysis>
+				</ns3:simuAlgo>
+			</ns3:studyCase>
+		</ns3:studyCaseList>
+	</ns2:ipssStudyScenario>
+</ns2:pssStudyCase>

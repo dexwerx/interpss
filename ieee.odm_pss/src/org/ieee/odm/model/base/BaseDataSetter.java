@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.base;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.schema.ActivePowerLimitXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
@@ -71,7 +73,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	}
 	*/
 	public static ApparentPowerXmlType createPowerKvaValue(double kva) {
-		ApparentPowerXmlType power = getFactory().createApparentPowerXmlType();
+		ApparentPowerXmlType power = odmObjFactory.createApparentPowerXmlType();
 		power.setValue(kva);   
 		power.setUnit(ApparentPowerUnitType.KVA); 		
 		return power;
@@ -84,7 +86,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param mva
 	 */
 	public static ApparentPowerXmlType createPowerMvaValue(double mva) {
-		ApparentPowerXmlType power = getFactory().createApparentPowerXmlType();
+		ApparentPowerXmlType power = odmObjFactory.createApparentPowerXmlType();
 		power.setValue(mva);   
 		power.setUnit(ApparentPowerUnitType.MVA); 		
 		return power;
@@ -98,7 +100,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static ActivePowerXmlType createActivePowerValue(double p, ActivePowerUnitType unit) {
-		ActivePowerXmlType power = getFactory().createActivePowerXmlType();
+		ActivePowerXmlType power = odmObjFactory.createActivePowerXmlType();
 		power.setValue(p);   
 		power.setUnit(unit);
 		return power;
@@ -112,7 +114,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static ReactivePowerXmlType createReactivePowerValue(double q, ReactivePowerUnitType unit) {
-		ReactivePowerXmlType power = getFactory().createReactivePowerXmlType();
+		ReactivePowerXmlType power = odmObjFactory.createReactivePowerXmlType();
 		power.setValue(q);   
 		power.setUnit(unit); 		
 		return power;
@@ -126,14 +128,14 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static TimePeriodXmlType createTimePeriodValue(double t,TimePeriodUnitType unit){
-		TimePeriodXmlType time = getFactory().createTimePeriodXmlType();
+		TimePeriodXmlType time = odmObjFactory.createTimePeriodXmlType();
 		time.setValue(t);
 		time.setUnit(unit);
 		return time;
 	}
 
 	public static TimePeriodXmlType createTimeConstSec(double t){
-		TimePeriodXmlType time = getFactory().createTimePeriodXmlType();
+		TimePeriodXmlType time = odmObjFactory.createTimePeriodXmlType();
 		time.setValue(t);
 		time.setUnit(TimePeriodUnitType.SEC);
 		return time;
@@ -168,7 +170,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	}
 
 	public static LimitXmlType createLimit(double max, double min) {
-		LimitXmlType limit = getFactory().createLimitXmlType();
+		LimitXmlType limit = odmObjFactory.createLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setActive(true);
@@ -184,7 +186,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static VoltageLimitXmlType createVoltageLimit(double max, double min, VoltageUnitType unit) {
-		VoltageLimitXmlType limit = getFactory().createVoltageLimitXmlType();
+		VoltageLimitXmlType limit = odmObjFactory.createVoltageLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
@@ -200,7 +202,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static ActivePowerLimitXmlType createActivePowerLimit(double max, double min, ActivePowerUnitType unit) {
-		ActivePowerLimitXmlType limit = getFactory().createActivePowerLimitXmlType();
+		ActivePowerLimitXmlType limit = odmObjFactory.createActivePowerLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
@@ -216,7 +218,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static ReactivePowerLimitXmlType createReactivePowerLimit(double max, double min, ReactivePowerUnitType unit) {
-		ReactivePowerLimitXmlType limit = getFactory().createReactivePowerLimitXmlType();
+		ReactivePowerLimitXmlType limit = odmObjFactory.createReactivePowerLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
@@ -231,7 +233,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param min
 	 */
 	public static TapLimitXmlType createTapLimit(double max, double min) {
-		TapLimitXmlType limit = getFactory().createTapLimitXmlType();
+		TapLimitXmlType limit = odmObjFactory.createTapLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(FactorUnitType.PU);
@@ -239,7 +241,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	}
 
 	public static TurnRatioLimitXmlType createTurnRatioLimit(double max, double min) {
-		TurnRatioLimitXmlType limit = getFactory().createTurnRatioLimitXmlType();
+		TurnRatioLimitXmlType limit = odmObjFactory.createTurnRatioLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(FactorUnitType.PU);
@@ -255,7 +257,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static AngleLimitXmlType createAngleLimit(double max, double min, AngleUnitType unit) {
-		AngleLimitXmlType limit = getFactory().createAngleLimitXmlType();
+		AngleLimitXmlType limit = odmObjFactory.createAngleLimitXmlType();
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
@@ -271,7 +273,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static PowerXmlType createPowerValue(double p, double q, ApparentPowerUnitType unit) {
-		PowerXmlType power = getFactory().createPowerXmlType();
+		PowerXmlType power = odmObjFactory.createPowerXmlType();
 		power.setRe(p);
     	power.setIm(q);
     	power.setUnit(unit);
@@ -286,7 +288,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static VoltageXmlType createVoltageValue(double v, VoltageUnitType unit) {
-		VoltageXmlType voltage = getFactory().createVoltageXmlType();
+		VoltageXmlType voltage = odmObjFactory.createVoltageXmlType();
 		voltage.setValue(v);
     	voltage.setUnit(unit);
     	return voltage;
@@ -300,7 +302,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static CurrentXmlType createCurrentValue(double i, CurrentUnitType unit) {
-		CurrentXmlType current = getFactory().createCurrentXmlType();
+		CurrentXmlType current = odmObjFactory.createCurrentXmlType();
 		current.setValue(i);
     	current.setUnit(unit);
     	return current;		
@@ -314,7 +316,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static AngleXmlType createAngleValue(double a, AngleUnitType unit) {
-		AngleXmlType angle = getFactory().createAngleXmlType();
+		AngleXmlType angle = odmObjFactory.createAngleXmlType();
     	angle.setValue(a);
     	angle.setUnit(unit);		
     	return angle;
@@ -329,7 +331,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static ZXmlType createZValue(double r, double x, ZUnitType unit) {
-		ZXmlType z = getFactory().createZXmlType();
+		ZXmlType z = odmObjFactory.createZXmlType();
 		z.setRe(r);
 		z.setIm(x);
 		z.setUnit(unit);
@@ -343,7 +345,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static RXmlType createRValue(double r, ZUnitType unit) {
-		RXmlType rRec = getFactory().createRXmlType();
+		RXmlType rRec = odmObjFactory.createRXmlType();
 		rRec.setR(r);
 		rRec.setUnit(unit);
 		return rRec;
@@ -358,7 +360,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static YXmlType createYValue(double g, double b, YUnitType unit) {
-		YXmlType y = getFactory().createYXmlType();  
+		YXmlType y = odmObjFactory.createYXmlType();  
 		y.setRe(g);
 		y.setIm(b);
 		y.setUnit(unit);
@@ -372,7 +374,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param unit
 	 */
 	public static GXmlType createGValue(double g, YUnitType unit) {
-		GXmlType gRec = getFactory().createGXmlType();
+		GXmlType gRec = odmObjFactory.createGXmlType();
 		gRec.setG(g);
 		gRec.setUnit(unit);
 		return gRec;
@@ -385,7 +387,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @param p
 	 */
 	public static TapXmlType createTapPU(double p) {
-		TapXmlType tap = getFactory().createTapXmlType();
+		TapXmlType tap = odmObjFactory.createTapXmlType();
 		tap.setValue(p == 0.0? 1.0 : p);
     	tap.setUnit(FactorUnitType.PU);
     	return tap;
@@ -398,7 +400,7 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	 * @return
 	 */
 	public static TurnRatioXmlType createTurnRatioPU(double p) {
-		TurnRatioXmlType r = getFactory().createTurnRatioXmlType();
+		TurnRatioXmlType r = odmObjFactory.createTurnRatioXmlType();
 		r.setValue(p == 0.0? 1.0 : p);
     	r.setUnit(FactorUnitType.PU);
     	return r;
