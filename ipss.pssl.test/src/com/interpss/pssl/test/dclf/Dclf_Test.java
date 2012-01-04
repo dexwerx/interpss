@@ -24,7 +24,7 @@
 
 package com.interpss.pssl.test.dclf;
 
-import static com.interpss.pssl.plugin.IpssOut.dclfResult;
+import static com.interpss.pssl.plugin.IpssOut.*;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -60,7 +60,7 @@ public class Dclf_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 				.runDclfAnalysis();
 
-		System.out.println(dclfResult.f(algoDsl.algo(), false).toString());		
+		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());		
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class Dclf_Test extends BaseTestSetup {
 		new DclfDslODMRunner(algoDsl)
 				.runDclfCase(dclfCase, DclfAnalysisType.All);
 
-		System.out.println(dclfResult.f(algoDsl.algo(), false).toString());		
+		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());		
 	}
 	
 	@Test
