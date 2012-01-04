@@ -54,7 +54,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<ApparentPowerUnitType, UnitType> toApparentPowerUnit = 
+	public static IFunction<ApparentPowerUnitType, UnitType> ToApparentPowerUnit = 
 		new IFunction<ApparentPowerUnitType, UnitType>() {
 			@Override public UnitType f(ApparentPowerUnitType from) {
 				return toApparentPowerUnit(from);
@@ -68,7 +68,7 @@ public class ODMUnitHelper {
 			}
 		};
 
-	public static IFunction<ActivePowerUnitType, UnitType> toActivePowerUnit = 
+	public static IFunction<ActivePowerUnitType, UnitType> ToActivePowerUnit = 
 		new IFunction<ActivePowerUnitType, UnitType>() {
 			@Override public UnitType f(ActivePowerUnitType from) {
 				return toActivePowerUnit(from);
@@ -82,7 +82,7 @@ public class ODMUnitHelper {
 			}
 		};
 
-	public static IFunction<ReactivePowerUnitType, UnitType> toReactivePowerUnit = 
+	public static IFunction<ReactivePowerUnitType, UnitType> ToReactivePowerUnit = 
 		new IFunction<ReactivePowerUnitType, UnitType>() {
 			@Override public UnitType f(ReactivePowerUnitType from) {
 				return toReactivePowerUnit(from);
@@ -97,7 +97,7 @@ public class ODMUnitHelper {
 		};
 
 
-	public static IFunction<ZUnitType, UnitType> toZUnit = 
+	public static IFunction<ZUnitType, UnitType> ToZUnit = 
 		new IFunction<ZUnitType, UnitType>() {
 			@Override public UnitType f(ZUnitType from) {
 				return toZUnit(from);
@@ -125,7 +125,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<YUnitType, UnitType> toYUnit = 
+	public static IFunction<YUnitType, UnitType> ToYUnit = 
 		new IFunction<YUnitType, UnitType>() {
 			@Override public UnitType f(YUnitType from) {
 				return toYUnit(from);
@@ -150,7 +150,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<VoltageUnitType, UnitType> toVoltageUnit = 
+	public static IFunction<VoltageUnitType, UnitType> ToVoltageUnit = 
 		new IFunction<VoltageUnitType, UnitType>() {
 			@Override public UnitType f(VoltageUnitType from) {
 				return toVoltageUnit(from);
@@ -170,7 +170,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<CurrentUnitType, UnitType> toCurrentUnit = 
+	public static IFunction<CurrentUnitType, UnitType> ToCurrentUnit = 
 		new IFunction<CurrentUnitType, UnitType>() {
 			@Override public UnitType f(CurrentUnitType from) {
 				return toCurrentUnit(from);
@@ -191,7 +191,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<AngleUnitType, UnitType> toAngleUnit = 
+	public static IFunction<AngleUnitType, UnitType> ToAngleUnit = 
 		new IFunction<AngleUnitType, UnitType>() {
 			@Override public UnitType f(AngleUnitType from) {
 				return toAngleUnit(from);
@@ -210,7 +210,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<FactorUnitType, UnitType> toFactorUnit = 
+	public static IFunction<FactorUnitType, UnitType> ToFactorUnit = 
 		new IFunction<FactorUnitType, UnitType>() {
 			@Override public UnitType f(FactorUnitType from) {
 				return toFactorUnit(from);
@@ -229,7 +229,7 @@ public class ODMUnitHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static IFunction<LengthUnitType, UnitType> toLengthUnit = 
+	public static IFunction<LengthUnitType, UnitType> ToLengthUnit = 
 		new IFunction<LengthUnitType, UnitType>() {
 			@Override public UnitType f(LengthUnitType from) {
 				return toLengthUnit(from);

@@ -24,7 +24,7 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.toActivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 
 import java.util.List;
 
@@ -177,10 +177,10 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 				xmlIntf.getOnPeakLimit().getType()==FlowInterfaceEnumType.NG? FlowInterfaceType.NG : FlowInterfaceType.TOR);
 		peak.setRefDirExportLimit(UnitHelper.pConversion(
 				xmlIntf.getOnPeakLimit().getRefDirExportLimit().getValue(), baseKav, 
-				toActivePowerUnit.f(xmlIntf.getOnPeakLimit().getRefDirExportLimit().getUnit()), UnitType.PU));
+				ToActivePowerUnit.f(xmlIntf.getOnPeakLimit().getRefDirExportLimit().getUnit()), UnitType.PU));
 		peak.setOppsiteRefDirImportLimit(UnitHelper.pConversion(
 				xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getValue(), baseKav, 
-				toActivePowerUnit.f(xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getUnit()), UnitType.PU));
+				ToActivePowerUnit.f(xmlIntf.getOnPeakLimit().getOppsiteRefDirImportLimit().getUnit()), UnitType.PU));
 	}
 	
 	/**

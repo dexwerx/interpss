@@ -24,8 +24,8 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.toActivePowerUnit;
-import static org.interpss.mapper.odm.ODMUnitHelper.toVoltageUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.ActivePowerXmlType;
@@ -134,11 +134,11 @@ public class MachDataHelper {
 	private void setClassicData(EConstMachine mach, ClassicMachineXmlType machXml) throws InterpssException {
 		// set machine data
 		if (this.ratedPower != null)
-			mach.setRating(this.ratedPower.getValue(), toActivePowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+			mach.setRating(this.ratedPower.getValue(), ToActivePowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
 		else
 			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
 		if (this.ratedVoltage != null)
-			mach.setRatedVoltage(this.ratedVoltage.getValue(), toVoltageUnit.f(this.ratedVoltage.getUnit()));
+			mach.setRatedVoltage(this.ratedVoltage.getValue(), ToVoltageUnit.f(this.ratedVoltage.getUnit()));
 		else
 			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 
@@ -153,11 +153,11 @@ public class MachDataHelper {
 	private void setEq1Data(Eq1Machine mach, Eq1MachineXmlType machXml) throws InterpssException {
 		// set machine data
 		if (this.ratedPower != null)
-			mach.setRating(this.ratedPower.getValue(), toActivePowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+			mach.setRating(this.ratedPower.getValue(), ToActivePowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
 		else
 			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
 		if (this.ratedVoltage != null)
-			mach.setRatedVoltage(this.ratedVoltage.getValue(), toVoltageUnit.f(this.ratedVoltage.getUnit()));
+			mach.setRatedVoltage(this.ratedVoltage.getValue(), ToVoltageUnit.f(this.ratedVoltage.getUnit()));
 		else
 			mach.setRatedVoltage(dstabBus.getBaseVoltage(), UnitType.Volt);
 		// the multiply factor is calculated using machine ratedP and ratedV against system 

@@ -24,9 +24,9 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.toAngleUnit;
-import static org.interpss.mapper.odm.ODMUnitHelper.toYUnit;
-import static org.interpss.mapper.odm.ODMUnitHelper.toZUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -76,12 +76,12 @@ public class AclfBranchDataHelper {
 		}
 
 		line.setZ(new Complex(braLine.getZ().getRe(), braLine.getZ().getIm()), 
-				toZUnit.f(braLine.getZ().getUnit()), 
+				ToZUnit.f(braLine.getZ().getUnit()), 
 			aclfBra.getFromAclfBus().getBaseVoltage());
 		if (braLine.getTotalShuntY() != null)
 		line.setHShuntY(new Complex(0.5 * braLine.getTotalShuntY().getRe(),
 					0.5 * braLine.getTotalShuntY().getIm()),
-					toYUnit.f(braLine.getTotalShuntY().getUnit()), 
+					ToYUnit.f(braLine.getTotalShuntY().getUnit()), 
 					aclfBra.getFromAclfBus().getBaseVoltage());
 
 		YXmlType fromShuntY = braLine.getFromShuntY(),
@@ -91,14 +91,14 @@ public class AclfBranchDataHelper {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	
 					fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-					toYUnit.f(fromShuntY.getUnit()), UnitType.PU);
+					ToYUnit.f(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 		if (toShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(toShuntY.getRe(),	
 					toShuntY.getIm()),
 					aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
-					toYUnit.f(toShuntY.getUnit()), UnitType.PU);
+					ToYUnit.f(toShuntY.getUnit()), UnitType.PU);
 			aclfBra.setToShuntY(ypu);
 		}
 	}
@@ -114,7 +114,7 @@ public class AclfBranchDataHelper {
 		if (fromShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
-					toYUnit.f(fromShuntY.getUnit()), UnitType.PU);
+					ToYUnit.f(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 	}
@@ -128,10 +128,10 @@ public class AclfBranchDataHelper {
 		PSXfrAdapter psXfr = aclfBra.toPSXfr();
 		if(braPsXfr.getFromAngle() != null)
 			psXfr.setFromAngle(braPsXfr.getFromAngle().getValue(), 
-					toAngleUnit.f(braPsXfr.getFromAngle().getUnit()));
+					ToAngleUnit.f(braPsXfr.getFromAngle().getUnit()));
 		if(braPsXfr.getToAngle() != null)
 			psXfr.setToAngle(braPsXfr.getToAngle().getValue(), 
-					toAngleUnit.f(braPsXfr.getToAngle().getUnit()));
+					ToAngleUnit.f(braPsXfr.getToAngle().getUnit()));
 	}
 
 	private void setXformerInfoData(XfrBranchXmlType xfrBranch, AclfBranch aclfBra) {
@@ -167,7 +167,7 @@ public class AclfBranchDataHelper {
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
-				toZUnit.f(xfrBranch.getZ().getUnit()), baseV);
+				ToZUnit.f(xfrBranch.getZ().getUnit()), baseV);
 		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
 				xfrBranch.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
@@ -216,15 +216,15 @@ public class AclfBranchDataHelper {
         <tertShiftAngle unit="DEG" value="30.0"/>
  */
 		if (xmlPsXfr3W.getFromAngle() != null && xmlPsXfr3W.getFromAngle().getValue() != 0.0) {
-			UnitType unit = toAngleUnit.f(xmlPsXfr3W.getFromAngle().getUnit());
+			UnitType unit = ToAngleUnit.f(xmlPsXfr3W.getFromAngle().getUnit());
 			psXfr3W.setFromAngle(xmlPsXfr3W.getFromAngle().getValue(), unit);
 		}
 		if (xmlPsXfr3W.getToAngle() != null && xmlPsXfr3W.getToAngle().getValue() != 0.0) {
-			UnitType unit = toAngleUnit.f(xmlPsXfr3W.getToAngle().getUnit());
+			UnitType unit = ToAngleUnit.f(xmlPsXfr3W.getToAngle().getUnit());
 			psXfr3W.setToAngle(xmlPsXfr3W.getToAngle().getValue(), unit);
 		}
 		if (xmlPsXfr3W.getTertShiftAngle() != null && xmlPsXfr3W.getTertShiftAngle().getValue() != 0.0) {
-			UnitType unit = toAngleUnit.f(xmlPsXfr3W.getTertShiftAngle().getUnit());
+			UnitType unit = ToAngleUnit.f(xmlPsXfr3W.getTertShiftAngle().getUnit());
 			psXfr3W.setTertAngle(xmlPsXfr3W.getTertShiftAngle().getValue(), unit);
 		}
 	}
@@ -238,7 +238,7 @@ public class AclfBranchDataHelper {
 		if (fromShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					branch3W.getFromBus().getBaseVoltage(), baseKva,
-					toYUnit.f(fromShuntY.getUnit()), UnitType.PU);
+					ToYUnit.f(fromShuntY.getUnit()), UnitType.PU);
 			branch3W.getFromAclfBranch().setFromShuntY(ypu);
 		}
 
@@ -299,7 +299,7 @@ public class AclfBranchDataHelper {
 		Complex z12 = new Complex(xml3WXfr.getZ().getRe()*zratio, xml3WXfr.getZ().getIm()*zratio);
 		Complex z23 = new Complex(xml3WXfr.getZ23().getRe()*zratio, xml3WXfr.getZ23().getIm()*zratio);
 		Complex z31 = new Complex(xml3WXfr.getZ31().getRe()*zratio, xml3WXfr.getZ31().getIm()*zratio);
-		UnitType unit = toZUnit.f(xml3WXfr.getZ().getUnit());
+		UnitType unit = ToZUnit.f(xml3WXfr.getZ().getUnit());
 		xfr3W.setZ(z12, z31, z23, unit, baseV);
 
 		double fromRatio = xml3WXfr.getFromTurnRatio().getValue()*tapratio;

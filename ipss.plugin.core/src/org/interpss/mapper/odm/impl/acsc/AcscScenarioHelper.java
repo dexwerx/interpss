@@ -29,7 +29,7 @@ Key concepts:
 
 package org.interpss.mapper.odm.impl.acsc;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.toZUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
@@ -179,11 +179,11 @@ public class AcscScenarioHelper {
 		ZXmlType zLL= scFaultXml.getZLL();			
 		if(zLG!=null){
 			acscBusFault.setZLGFault(new Complex(zLG.getRe(), zLG.getIm()), 
-					toZUnit.f(zLG.getUnit()), baseV, baseKVA);
+					ToZUnit.f(zLG.getUnit()), baseV, baseKVA);
 		}
 		if(zLL!=null){
 			acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
-					toZUnit.f(zLL.getUnit()), baseV, baseKVA);
+					ToZUnit.f(zLL.getUnit()), baseV, baseKVA);
 		}	
 	}
 	
