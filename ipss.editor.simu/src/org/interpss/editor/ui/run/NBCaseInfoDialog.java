@@ -96,9 +96,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         _dstabCaseInfoPanel = new NBDStabCasePanel(this);
         _scrptsCaseInfoPanel = new NBScriptingCasePanel(this);
 
-        DataVerifier verifier = new DataVerifier();
-		this.casenameComboBox.setInputVerifier(verifier);
-	}
+    	initInputVerifier(new DataVerifier()); 
+    }
 
 	public NBCaseInfoDialog(IGraphicEditor parent) {
         this(parent.getFrame());
@@ -291,7 +290,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				_dstabCaseInfoPanel.setXmlCaseData(dstabXml, helper.getGridRunOption());
 				_dstabCaseInfoPanel.setForm2Editor();
 			}
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {casename}));
+			this.casenameTextField.setText(casename);
 			this.descTextArea.setText(casedesc);
 		}
 		else {
@@ -301,15 +300,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
 			if (_caseType == SimuRunEnum.Scripts) {
 				// build the case info combo list
-				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
-				IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
+				this.casenameTextField.setText(_appSimuCtx.getCasename(_caseType));
 				
 				ProjData projData = (ProjData)_appSimuCtx.getProjData();
 				casename = projData.getScriptsCaseName();
-				if (casename != null)
-					this.casenameComboBox.setSelectedItem(casename);
-				else
-					casename = (String)this.casenameComboBox.getSelectedItem();
 				projData.setScriptsCaseName(casename);
 				// retrieve the case data from appCtx.projData.caseList
 				CaseData caseData = _appSimuCtx.getCaseData(casename, _caseType);
@@ -327,45 +321,45 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         return true;
 	}
 
-	private String getCaseName(SimuRunEnum caseType) {
-		ProjData projData = (ProjData)_appSimuCtx.getProjData();
-		String casename = "";
-		if (caseType == SimuRunEnum.Aclf) {
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAclfStudyCaseNameArray()));
-			casename = selectCase(projData.getAclfCaseName());
-			projData.setAclfCaseName(casename);
-		}
-		else if (caseType == SimuRunEnum.SenAnalysis) {
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDclfStudyCaseNameArray()));
-			casename = selectCase(projData.getDclfCaseName());
-			projData.setDclfCaseName(casename);
-		}
-		else if (caseType == SimuRunEnum.TradingAnalysis) {
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getTradingStudyCaseNameArray()));
-			casename = selectCase(projData.getPTradingCaseName());
-			projData.setPTradingCaseName(casename);
-		}
-		else if (caseType == SimuRunEnum.Acsc) {
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAcscStudyCaseNameArray()));
-			casename = selectCase(projData.getAcscCaseName());
-			projData.setAcscCaseName(casename);
-		}
-		else if (caseType == SimuRunEnum.DStab) {
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDStabStudyCaseNameArray()));
-			casename = selectCase(projData.getDStabCaseName());
-			projData.setDStabCaseName(casename);
-		}
-		IpssLogger.getLogger().info("Selected casename: " + casename);
-		return casename;
-	}
-
-	private String selectCase(String casename) {
-		this.casenameComboBox.setSelectedItem(casename);
-		if (this.casenameComboBox.getSelectedIndex() == -1)
-			this.casenameComboBox.setSelectedIndex(0);
-		casename = (String)this.casenameComboBox.getSelectedItem();
-		return casename;
-	}
+//	private String getCaseName(SimuRunEnum caseType) {
+//		ProjData projData = (ProjData)_appSimuCtx.getProjData();
+//		String casename = "";
+//		if (caseType == SimuRunEnum.Aclf) {
+//			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAclfStudyCaseNameArray()));
+//			casename = selectCase(projData.getAclfCaseName());
+//			projData.setAclfCaseName(casename);
+//		}
+//		else if (caseType == SimuRunEnum.SenAnalysis) {
+//			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDclfStudyCaseNameArray()));
+//			casename = selectCase(projData.getDclfCaseName());
+//			projData.setDclfCaseName(casename);
+//		}
+//		else if (caseType == SimuRunEnum.TradingAnalysis) {
+//			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getTradingStudyCaseNameArray()));
+//			casename = selectCase(projData.getPTradingCaseName());
+//			projData.setPTradingCaseName(casename);
+//		}
+//		else if (caseType == SimuRunEnum.Acsc) {
+//			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAcscStudyCaseNameArray()));
+//			casename = selectCase(projData.getAcscCaseName());
+//			projData.setAcscCaseName(casename);
+//		}
+//		else if (caseType == SimuRunEnum.DStab) {
+//			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDStabStudyCaseNameArray()));
+//			casename = selectCase(projData.getDStabCaseName());
+//			projData.setDStabCaseName(casename);
+//		}
+//		IpssLogger.getLogger().info("Selected casename: " + casename);
+//		return casename;
+//	}
+//
+//	private String selectCase(String casename) {
+//		this.casenameComboBox.setSelectedItem(casename);
+//		if (this.casenameComboBox.getSelectedIndex() == -1)
+//			this.casenameComboBox.setSelectedIndex(0);
+//		casename = (String)this.casenameComboBox.getSelectedItem();
+//		return casename;
+//	}
 	
 	/**
 	*	Save editor screen data to the form
@@ -376,12 +370,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBCaseInfoDialog saveEditor2Form() called");
 
-		if (SwingInputVerifyUtil.isEmptyStr(this.casenameComboBox)) {
+		if (SwingInputVerifyUtil.isEmptyStr(this.casenameTextField)) {
 			errMsg.add("Casename is empty");
 			return false;
 		}
 		
-		String casename = (String)this.casenameComboBox.getSelectedItem();
+		String casename = (String)this.casenameTextField.getText();
 		//_caseData.setCaseName(casename);
 		//_caseData.setDescription(this.descTextArea.getText());
 		
@@ -390,7 +384,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 			if (_caseType == SimuRunEnum.TradingAnalysis) {
 				PTradingAnalysisXmlType ptCase = helper.getPTradingAnalysis();			
-				ptCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				ptCase.setName(this.casenameTextField.getText());
 				ptCase.setDesc(this.descTextArea.getText());
 				_tradingCaseInfoPanel.saveEditor2Form(errMsg);			
 			}
@@ -400,25 +394,25 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 					dclfCase = helper.getSenAnalysisList().get(0);
 				else
 					dclfCase = helper.createSenCase();			
-				dclfCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				dclfCase.setName(this.casenameTextField.getText());
 				dclfCase.setDesc(this.descTextArea.getText());
 				_dclfCaseInfoPanel.saveEditor2Form(errMsg);
 			}	
 			else if (_caseType == SimuRunEnum.Aclf) {
 				AclfAnalysisXmlType aclfCase = helper.getAclfAnalysis();			
-				aclfCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				aclfCase.setName(this.casenameTextField.getText());
 				aclfCase.setDesc(this.descTextArea.getText());
 				this._aclfCaseInfoPanel.saveEditor2Form(errMsg);	
 			}			
 			else if (_caseType == SimuRunEnum.Acsc) {
 				AcscFaultAnalysisXmlType acscCase = helper.getAcscFaultAnalysis();			
-				acscCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				acscCase.setName(this.casenameTextField.getText());
 				acscCase.setDesc(this.descTextArea.getText());
 				_acscCaseInfoPanel.saveEditor2Form(errMsg);
 			}
 			if (_caseType == SimuRunEnum.DStab) {
 				DStabSimulationXmlType dstabCase = helper.getDStabSimulation();			
-				dstabCase.setName(this.casenameComboBox.getSelectedItem().toString());
+				dstabCase.setName(this.casenameTextField.getText());
 				dstabCase.setDesc(this.descTextArea.getText());
 				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 			}
@@ -461,7 +455,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
         caseInfoPanel = new javax.swing.JPanel();
         casenameLabel = new javax.swing.JLabel();
-        casenameComboBox = new javax.swing.JComboBox();
+        casenameTextField = new javax.swing.JTextField();
         descLabel = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
         descTextArea = new javax.swing.JTextArea();
@@ -478,49 +472,59 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         caseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Study Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
-        caseInfoPanel.setLayout(new java.awt.GridBagLayout());
 
-        casenameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        casenameLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         casenameLabel.setText("Casename");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
-        caseInfoPanel.add(casenameLabel, gridBagConstraints);
 
-        casenameComboBox.setEditable(true);
-        casenameComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        casenameComboBox.setName("casenameComboBox"); // NOI18N
-        casenameComboBox.setPreferredSize(new java.awt.Dimension(250, 21));
-        casenameComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                casenameComboBoxActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
-        caseInfoPanel.add(casenameComboBox, gridBagConstraints);
+        casenameTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        casenameTextField.setText("Casename");
 
-        descLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        descLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         descLabel.setText("Description");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
-        caseInfoPanel.add(descLabel, gridBagConstraints);
 
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         descTextArea.setColumns(30);
-        descTextArea.setFont(new java.awt.Font("Dialog", 0, 12));
+        descTextArea.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         descTextArea.setRows(2);
+        descTextArea.setText("Case description");
         descTextArea.setName("descTextArea"); // NOI18N
         scrollPane.setViewportView(descTextArea);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 10);
-        caseInfoPanel.add(scrollPane, gridBagConstraints);
+        org.jdesktop.layout.GroupLayout caseInfoPanelLayout = new org.jdesktop.layout.GroupLayout(caseInfoPanel);
+        caseInfoPanel.setLayout(caseInfoPanelLayout);
+        caseInfoPanelLayout.setHorizontalGroup(
+            caseInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(caseInfoPanelLayout.createSequentialGroup()
+                .add(caseInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(caseInfoPanelLayout.createSequentialGroup()
+                        .add(11, 11, 11)
+                        .add(casenameLabel)
+                        .add(18, 18, 18)
+                        .add(casenameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 257, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(caseInfoPanelLayout.createSequentialGroup()
+                        .add(10, 10, 10)
+                        .add(descLabel)
+                        .add(18, 18, 18)
+                        .add(scrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 338, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        caseInfoPanelLayout.setVerticalGroup(
+            caseInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(caseInfoPanelLayout.createSequentialGroup()
+                .add(5, 5, 5)
+                .add(caseInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(casenameLabel)
+                    .add(casenameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(caseInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(caseInfoPanelLayout.createSequentialGroup()
+                        .add(16, 16, 16)
+                        .add(descLabel))
+                    .add(caseInfoPanelLayout.createSequentialGroup()
+                        .add(5, 5, 5)
+                        .add(scrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 20, 0, 20);
@@ -622,41 +626,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         dispose();
     }//GEN-LAST:event_runButtonActionPerformed
 
-    private void casenameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casenameComboBoxActionPerformed
-    	IpssLogger.getLogger().info("NBCaseInfoPanel casenameComboBoxActionPerformed called");
-		// at least two ways can trigger this action: 1) Case List section 2) Change Case name
-		String casename = (String)this.casenameComboBox.getSelectedItem();
-		// make sure it is case selection event. if it is change case name event, the case won't be
-		// in the projData.caseList
-		ProjData projData = (ProjData)_appSimuCtx.getProjData();
-		if (_caseType == SimuRunEnum.Aclf) {
-			if (this.studyCaseXmlDoc.getAclfStudyCase(casename) != null) {
-				projData.setAclfCaseName(casename);
-				setForm2Editor();
-			}
-		}
-		else if (_caseType == SimuRunEnum.SenAnalysis) { 
-			if (this.studyCaseXmlDoc.getDclfStudyCase(casename) != null) {
-				projData.setDclfCaseName(casename);
-				setForm2Editor();
-			}
-		}
-		else if (_caseType == SimuRunEnum.Acsc) { 
-			if (this.studyCaseXmlDoc.getAcscStudyCase(casename) != null) {
-				projData.setAcscCaseName(casename);
-				setForm2Editor();
-			}
-		}
-		else if (_caseType == SimuRunEnum.DStab) { 
-			if (this.studyCaseXmlDoc.getDStabStudyCase(casename) != null) {
-				projData.setDStabCaseName(casename);
-				setForm2Editor();
-			}
-		}
-		else if (_caseType == SimuRunEnum.Scripts) { 
-		}
-    }//GEN-LAST:event_casenameComboBoxActionPerformed
-
 private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewXmlButtonActionPerformed
 	this.setAlwaysOnTop(false);
 	Vector<String> errMsg = new Vector<String>();	
@@ -705,8 +674,8 @@ private JFileChooser getSaveTextFileChooser() {
     private javax.swing.JButton cancelButton;
     private javax.swing.JPanel caseDataPanel;
     private javax.swing.JPanel caseInfoPanel;
-    private javax.swing.JComboBox casenameComboBox;
     private javax.swing.JLabel casenameLabel;
+    private javax.swing.JTextField casenameTextField;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JLabel descLabel;
     private javax.swing.JTextArea descTextArea;
@@ -716,12 +685,16 @@ private JFileChooser getSaveTextFileChooser() {
     private javax.swing.JButton viewXmlButton;
     // End of variables declaration//GEN-END:variables
 
+	private void initInputVerifier(DataVerifier v) {
+        this.casenameTextField.setInputVerifier(v);
+	} 
+	
     class DataVerifier extends javax.swing.InputVerifier {
     	public boolean verify(javax.swing.JComponent input) {
 			if (input == null)
 				return false;
        		try {
-				if (input == casenameComboBox )
+				if (input == casenameTextField )
 					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
  	       	} catch (Exception e) {
  	    		return false;

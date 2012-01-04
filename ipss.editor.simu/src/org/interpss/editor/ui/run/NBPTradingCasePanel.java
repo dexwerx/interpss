@@ -61,7 +61,7 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
-import static com.interpss.pssl.plugin.IpssOut.dclfGSFBranchFlow;
+import static com.interpss.pssl.plugin.IpssOut.DclfGSFBranchFlow;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
@@ -1565,7 +1565,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 			Object rtn = new PTradingDslODMRunner(net)
 								.runPTradingAnalysis(ptXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-			outText = dclfGSFBranchFlow.f(net, braId, (List<DblBusValue>)rtn).toString();
+			outText = DclfGSFBranchFlow.f(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.outageSingleRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)

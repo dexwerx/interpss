@@ -24,6 +24,8 @@
 
 package org.interpss.editor.ui.run;
 
+import static com.interpss.common.util.NetUtilFunc.ToBranchId;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -201,7 +203,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			int cnt = 0;
 			for ( BranchShiftFactorXmlType sf : gsf.getBranchSFactor()) {
 				BranchRefXmlType branch = sf.getBranch();
-				ary[cnt++] = "b:" + NetUtilFunc.formBranchId(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
+				ary[cnt++] = "b:" + ToBranchId.f(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
 			}
 			for ( InterfaceShiftFactorXmlType inf : gsf.getInterfaceSFactor()) {
 				FlowInterfaceRecXmlType in = inf.getInterface();

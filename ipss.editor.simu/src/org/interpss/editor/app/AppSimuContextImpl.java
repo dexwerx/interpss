@@ -164,17 +164,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return case data array of type Object[]
 	 */
-	public Object[] getCasenameArray(SimuRunEnum caseType) {
-		Vector<String> vect = new Vector<String>();
-		List<?> caseList = getProjData().getCaseList();
-		for (int i = 0; i < caseList.size(); i++) {
-			CaseData caseData = (CaseData) caseList.get(i);
-			if (caseData != null)
-				if (caseData.getCaseType() == caseType)
-					vect.add(0, caseData.getCaseName());
-		}
-
-		if (vect.size() == 0) {
+	public String getCasename(SimuRunEnum caseType) {
 			String name = "Aclf Analysis Case";
 			if (caseType.equals(SimuRunEnum.SenAnalysis))
 				name = "Sensitivity Analysis Case";
@@ -184,10 +174,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 				name = "Transient Stability Case";
 			else if (caseType.equals(SimuRunEnum.Scripts))
 				name = "Custom Scripting Run Case";
-			createCaseData(name, caseType);
-			vect.add(new String(name));
-		}
-		return vect.toArray();
+			return name;
 	}
 
 	/**
