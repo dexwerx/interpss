@@ -143,7 +143,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         }
         else if (data instanceof AclfNetwork) {
         	aclfAdjNet = (AclfNetwork)data;
-        	textArea.setText(aclfResultSummary.f(aclfAdjNet).toString());
+        	textArea.setText(AclfResultSummary.f(aclfAdjNet).toString());
             busStyleRadioButton.setEnabled(true);
             summaryRadioButton.setEnabled(true);
             summaryRadioButton.setSelected(true);
@@ -376,11 +376,11 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	}	
 	
     private void busStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busStyleRadioButtonActionPerformed
-    	textArea.setText(aclfResultBusStype.f(aclfAdjNet).toString());
+    	textArea.setText(AclfResultBusStype.f(aclfAdjNet).toString());
     }//GEN-LAST:event_busStyleRadioButtonActionPerformed
 
     private void summaryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryRadioButtonActionPerformed
-    	textArea.setText(aclfResultSummary.f(aclfAdjNet).toString());
+    	textArea.setText(AclfResultSummary.f(aclfAdjNet).toString());
     }//GEN-LAST:event_summaryRadioButtonActionPerformed
 
     private void compareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed

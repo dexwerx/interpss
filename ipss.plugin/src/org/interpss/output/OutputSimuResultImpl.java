@@ -24,8 +24,8 @@
 
 package org.interpss.output;
 
-import static com.interpss.pssl.plugin.IpssOut.aclfResultSummary;
-import static com.interpss.pssl.plugin.IpssOut.dclfResult;
+import static com.interpss.pssl.plugin.IpssOut.AclfResultSummary;
+import static com.interpss.pssl.plugin.IpssOut.DclfResult;
 
 import org.interpss.util.FileUtil;
 
@@ -37,14 +37,14 @@ public class OutputSimuResultImpl implements IOutputSimuResult {
 	@Override
 	public boolean outAclfResult(AclfNetwork net, String outFilename) {
 		FileUtil.writeText2File(outFilename, 
-				aclfResultSummary.f(net).toString());
+				AclfResultSummary.f(net).toString());
 		return false;
 	}
 
 	@Override
 	public boolean outDclfResult(DclfAlgorithm algo, String outFilename) {
 		FileUtil.writeText2File(outFilename, 
-				dclfResult.f(algo, false).toString());
+				DclfResult.f(algo, false).toString());
 		return true;
 	}
 }
