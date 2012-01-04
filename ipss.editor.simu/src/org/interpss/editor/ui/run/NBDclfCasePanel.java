@@ -41,7 +41,7 @@ import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
-import org.ieee.odm.schema.PTradingAnalysisXmlType;
+import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 import org.ieee.odm.schema.SenBusAnalysisEnumType;
@@ -84,7 +84,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
 
     private DclfSenAnalysisXmlType _senXml = null;
-    private PTradingAnalysisXmlType _ptXml = null;    
+    private PTradingEDHourlyAnalysisXmlType _ptXml = null;    
     
     /** Creates new form NBAclfCasePanel */
     public NBDclfCasePanel(JDialog parent) {
@@ -141,7 +141,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	}
     }
    
-    public void setXmlCaseData(DclfSenAnalysisXmlType senXml, PTradingAnalysisXmlType pt) {
+    public void setXmlCaseData(DclfSenAnalysisXmlType senXml, PTradingEDHourlyAnalysisXmlType pt) {
     	this._senXml = senXml;
     	this._ptXml = pt;
     }    

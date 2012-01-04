@@ -24,6 +24,7 @@
 
 package org.interpss.editor.ui.run;
 
+import static com.interpss.pssl.plugin.IpssOut.DclfGSFBranchFlow;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.io.File;
@@ -42,7 +43,7 @@ import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
 import org.ieee.odm.schema.LfResultFormatEnumType;
-import org.ieee.odm.schema.PTradingAnalysisXmlType;
+import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfOutputXmlType;
 import org.ieee.odm.schema.PtBranchAnalysisEnumType;
@@ -61,7 +62,6 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
-import static com.interpss.pssl.plugin.IpssOut.DclfGSFBranchFlow;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
@@ -90,7 +90,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	private ODMModelParser odmParser = new ODMModelParser();
     public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
     
-    private PTradingAnalysisXmlType _ptXml = null;
+    private PTradingEDHourlyAnalysisXmlType _ptXml = null;
     
     private List<DblBusValue> genPVSwingBusVoltCacheList = null;
 
@@ -150,7 +150,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
 	}
     
-    public void setXmlCaseData(PTradingAnalysisXmlType pt) {
+    public void setXmlCaseData(PTradingEDHourlyAnalysisXmlType pt) {
     	this._ptXml = pt;
     }
     
@@ -1469,7 +1469,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	// the main UI window
 	final JDialog parent = this.parent;
 	final AclfNetwork net = this._simuCtx.getAclfNet();
-	final PTradingAnalysisXmlType ptXml = this._ptXml;
+	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
 	final List<DblBusValue> genPVSwingBusList = this.genPVSwingBusVoltCacheList;
     final javax.swing.JCheckBox _useCachedVoltCheckBox = this.useCachedVoltCheckBox;
     
@@ -1555,7 +1555,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 	String outText = "";
 	
 	final AclfNetwork net = this._simuCtx.getAclfNet();
-	final PTradingAnalysisXmlType ptXml = this._ptXml;
+	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
 
 	// Book marked the AclfNetwork object
 	ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
@@ -1647,7 +1647,7 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 		return;
 
 	final AclfNetwork net = this._simuCtx.getAclfNet();
-	final PTradingAnalysisXmlType ptXml = this._ptXml;
+	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
 	
 	new Thread() {
 		public void run() {

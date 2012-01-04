@@ -36,6 +36,7 @@ import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
+import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.proj.CaseData;
@@ -242,7 +243,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		if (isODMFormat()) {
 			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 			if (_caseType == SimuRunEnum.TradingAnalysis) {
-				PTradingAnalysisXmlType ptXml = helper.getPTradingAnalysis();			
+				PTradingEDHourlyAnalysisXmlType ptXml = helper.getPtEDHourlyAnalysis();			
 				casename = ptXml.getName();
 				casedesc = ptXml.getDesc();
 				// set the case data to the actual data editing panel
@@ -261,7 +262,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				casedesc = senXml.getDesc();
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setODMParser(this.odmParser);
-				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPTradingAnalysis());
+				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPtEDHourlyAnalysis());
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setForm2Editor();
 			}
@@ -383,7 +384,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// ODM schema
 			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 			if (_caseType == SimuRunEnum.TradingAnalysis) {
-				PTradingAnalysisXmlType ptCase = helper.getPTradingAnalysis();			
+				PTradingAnalysisXmlType ptCase = helper.getPtEDHourlyAnalysis();			
 				ptCase.setName(this.casenameTextField.getText());
 				ptCase.setDesc(this.descTextArea.getText());
 				_tradingCaseInfoPanel.saveEditor2Form(errMsg);			

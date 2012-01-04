@@ -31,7 +31,7 @@ import java.util.TreeSet;
 
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.schema.BranchRefXmlType;
-import org.ieee.odm.schema.PTradingAnalysisXmlType;
+import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.xml.IpssXmlParser;
@@ -274,7 +274,7 @@ public class RunUIUtilFunc  {
 		return parser.getRootDoc();
 	}	
 	
-	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingAnalysisXmlType ptXml) {
+	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml) {
 		// load FlowInterface if necessary
 		if (!net.isFlowInterfaceLoaded()) {
 			String f1 = ptXml.getCaseData().getInterfaceFile().getInterfaceFilename();
