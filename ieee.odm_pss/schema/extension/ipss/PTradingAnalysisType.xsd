@@ -14,10 +14,28 @@
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
-
-	<ns:complexType name="PTradingAnalysisXmlType">
+	
+    <ns:element name="ptAnalysis" type="ipss:PTradingAnalysisXmlType">
+    </ns:element>
+    
+    <ns:element name="ptEDHourlyAnalysis" type="ipss:PTradingEDHourlyAnalysisXmlType" substitutionGroup="ipss:ptAnalysis">
+        <ns:annotation><ns:documentation>
+        For e-dispatch based hourly power trading analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>
+	
+	<ns:complexType name="PTradingAnalysisXmlType" abstract="true">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
+				<ns:sequence>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="PTradingEDHourlyAnalysisXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:PTradingAnalysisXmlType">
 				<ns:sequence>
 					<ns:element name="caseData" type="ipss:PtCaseDataXmlType" maxOccurs="1"></ns:element>
 					<ns:element name="aclfAnalysis" type="ipss:PtAclfAnalysisXmlType" maxOccurs="1" minOccurs="0"></ns:element>

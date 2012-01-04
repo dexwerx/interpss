@@ -12,6 +12,21 @@
 		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
 	</ns:annotation>
 
+    <ns:element name="acscFault" type="pss:AcscBaseFaultXmlType">
+    </ns:element>
+    
+    <ns:element name="acscBusFault" type="pss:AcscBusFaultXmlType" substitutionGroup="ipss:acscFault">
+        <ns:annotation><ns:documentation>
+        For define Acsc bus fault
+		</ns:documentation></ns:annotation>
+    </ns:element>
+    
+    <ns:element name="acscBranchFault" type="pss:AcscBranchFaultXmlType" substitutionGroup="ipss:acscFault">
+        <ns:annotation><ns:documentation>
+        For define Acsc branch fault
+		</ns:documentation></ns:annotation>
+    </ns:element>
+
 <!-- 
 	Acsc Study Scenario
  -->
@@ -19,7 +34,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element name="fault" minOccurs="1" type="pss:AcscBaseFaultXmlType"></ns:element>
+					<ns:element ref="ipss:acscFault" minOccurs="1" ></ns:element>
 					<ns:element name="preFaultBusVoltage" minOccurs="0" maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
 					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>

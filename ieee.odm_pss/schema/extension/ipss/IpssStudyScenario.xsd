@@ -76,7 +76,7 @@
 			<ns:element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></ns:element>
 			<ns:element name="contingencyAnalysis" minOccurs="0" maxOccurs="1" type="ipss:ContingencyAnalysisXmlType"></ns:element>
 			<ns:element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></ns:element>
-			<ns:element name="pTradingAnalysis" minOccurs="0" maxOccurs="1" type="ipss:PTradingAnalysisXmlType"></ns:element>
+			<ns:element ref="ipss:ptAnalysis" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></ns:element>
 			<ns:element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></ns:element>
 		</ns:sequence>

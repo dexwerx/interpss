@@ -54,7 +54,7 @@ import org.ieee.odm.schema.IpssStudyCaseXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
-import org.ieee.odm.schema.PTradingAnalysisXmlType;
+import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 
@@ -259,11 +259,12 @@ public class IpssScenarioHelper {
 	 * 
 	 * @return
 	 */
-	public PTradingAnalysisXmlType getPTradingAnalysis() {
-		if (getSimuAlgo().getPTradingAnalysis() == null) {
-			getSimuAlgo().setPTradingAnalysis(odmObjFactory.createPTradingAnalysisXmlType());
+	public PTradingEDHourlyAnalysisXmlType getPtEDHourlyAnalysis() {
+		if (getSimuAlgo().getPtAnalysis() == null) {
+			PTradingEDHourlyAnalysisXmlType pt = odmObjFactory.createPTradingEDHourlyAnalysisXmlType();
+			getSimuAlgo().setPtAnalysis(odmObjFactory.createPtAnalysis(pt));
 		}
-		return getSimuAlgo().getPTradingAnalysis();
+		return (PTradingEDHourlyAnalysisXmlType)getSimuAlgo().getPtAnalysis().getValue();
 	}
 
 	private IpssStudyScenarioXmlType getIpssScenario() {

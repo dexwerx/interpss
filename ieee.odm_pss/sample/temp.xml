@@ -40,7 +40,7 @@
 							<ns3:allInterfacePoints>10</ns3:allInterfacePoints>
 						</ns3:outOption>
 					</ns3:senAnalysis>				
-					<ns3:pTradingAnalysis name="StudyCase name">
+					<ns3:ptEDHourlyAnalysis name="StudyCase name">
 						<ns2:desc>StudtCase Desc</ns2:desc>
 						<ns3:caseData>
 							<ns3:baseCaseFile>
@@ -89,13 +89,13 @@
 								<ns3:lfResultFormat>Summary</ns3:lfResultFormat>
 							</ns3:outputOption>
 						</ns3:aclfAnalysis>
-					</ns3:pTradingAnalysis>
+					</ns3:ptEDHourlyAnalysis>
 					<ns3:acscAnalysis>
-						<ns3:fault>
+						<ns3:acscBusFault>
 							<ns2:faultType>BusFault</ns2:faultType>
 							<ns2:faultCategory>Fault3Phase</ns2:faultCategory>
-							<ns2:refBusBranch fromBusId="fromBusId" toBusId="toBusId" branchId="branchId"></ns2:refBusBranch>
-						</ns3:fault>
+							<ns2:refBus busId="busId"></ns2:refBus>
+						</ns3:acscBusFault>
 					</ns3:acscAnalysis>
 					<ns3:dStabAnalysis>
 						<ns3:simulationSetting>
@@ -107,9 +107,11 @@
 							</ns3:staticLoadModel>
 						</ns3:simulationSetting>
 						<ns3:aclfInitialization>
-							<ns2:lfMethod>NR</ns2:lfMethod>
-							<ns2:maxIterations>0</ns2:maxIterations>
-							<ns2:tolerance unit="PU" value="0.0" />
+							<ns3:aclfAlgo>
+								<ns2:lfMethod>NR</ns2:lfMethod>
+								<ns2:maxIterations>0</ns2:maxIterations>
+								<ns2:tolerance unit="PU" value="0.0" />
+							</ns3:aclfAlgo>
 						</ns3:aclfInitialization>
 					</ns3:dStabAnalysis>
 				</ns3:simuAlgo>
