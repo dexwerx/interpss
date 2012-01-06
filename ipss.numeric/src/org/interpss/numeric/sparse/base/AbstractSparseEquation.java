@@ -26,76 +26,68 @@ package org.interpss.numeric.sparse.base;
 
 import org.interpss.numeric.exp.IpssNumericException;
 
+/**
+ * A case class for sparse eqn implementation for all data type
+ * 
+ * @author mzhou
+ *
+ */
 public class AbstractSparseEquation implements SparseEquation {
 	int dimenstion = 0;
 
-	@Override
-	public int getDimension() {
+	@Override public int getDimension() {
 		return this.dimenstion;
 	}
 
-	@Override
-	public long getTotalElements() {
+	@Override public long getTotalElements() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public int getZeroAii_row() {
+	@Override public int getZeroAii_row() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void increaseDimension() {
+	@Override public void increaseDimension() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public boolean isLUed() {
+	@Override public boolean isLUed() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public boolean luMatrix(double tolerance) throws IpssNumericException {
+	@Override public boolean luMatrix(double tolerance) throws IpssNumericException {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public boolean luMatrixAndSolveEqn(double tolerance)  throws IpssNumericException {
+	@Override public boolean luMatrixAndSolveEqn(double tolerance)  throws IpssNumericException {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void reset() {
+	@Override public void reset() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void setB2Unit(int i) {
+	@Override public void setB2Unit(int i) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void setB2Zero() {
+	@Override public void setB2Zero() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void setDimension(int n) {
+	@Override public void setDimension(int n) {
 		this.dimenstion = n;
 	}
 
-	@Override
-	public void setLUed(boolean b) {
+	@Override public void setLUed(boolean b) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void setToZero() {
+	@Override public void setToZero() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void solveEqn() throws IpssNumericException {
+	@Override public void solveEqn() throws IpssNumericException {
 		throw new UnsupportedOperationException();
 	}
 }

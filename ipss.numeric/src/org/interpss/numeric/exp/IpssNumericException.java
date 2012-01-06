@@ -23,6 +23,12 @@
  */
 package org.interpss.numeric.exp;
 
+/**
+ * InterPSS numeric exception
+ * 
+ * @author mzhou
+ *
+ */
 public class IpssNumericException extends Exception {
 	private static final long serialVersionUID = 1;
 

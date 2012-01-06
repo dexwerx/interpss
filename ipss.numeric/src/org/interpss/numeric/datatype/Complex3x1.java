@@ -35,8 +35,10 @@ import org.interpss.numeric.util.Number2String;
 public class Complex3x1 implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
 
-	public Complex a_0 = new Complex(0.0, 0.0), b_1 = new Complex(0.0, 0.0),
-				   c_2 = new Complex(0.0, 0.0);
+	public Complex 
+		a_0 = new Complex(0.0, 0.0), 
+		b_1 = new Complex(0.0, 0.0),
+		c_2 = new Complex(0.0, 0.0);
 
 	/**
 	 * Default constructor.
