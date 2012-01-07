@@ -24,6 +24,7 @@
 
 package com.interpss.pssl.test.acsc;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
@@ -94,7 +95,7 @@ public class AcscSampleTest extends BaseTestSetup {
 		AcscFaultAnalysisXmlType faultCaseXml = helper.getAcscFaultAnalysis();
 		
 		AcscBusFaultXmlType busFault = helper.createAcscBusFault();
-		faultCaseXml.setFault(busFault);
+		faultCaseXml.setAcscFault(odmObjFactory.createAcscBusFault(busFault));
 		
 		busFault.getRefBus().setBusId("2");
 		busFault.setFaultType(AcscFaultTypeEnumType.BUS_FAULT);
