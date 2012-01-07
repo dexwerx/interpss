@@ -37,18 +37,18 @@ public class CorePluginSpringFactory extends CoreSimuSpringFactory {
 	 * 		================================
 	 */
 	public static ODMAclfDataMapper getOdm2AclfMapper() {
-		return (ODMAclfDataMapper) SpringAppCtx.getBean("odm2AclfMapper");
+		return (ODMAclfDataMapper) springAppCtx.getBean("odm2AclfMapper");
 	}	
 
 	public static ODMAcscDataMapper getOdm2AcscMapper() {
-		return (ODMAcscDataMapper) SpringAppCtx.getBean("odm2AcscMapper");
+		return (ODMAcscDataMapper) springAppCtx.getBean("odm2AcscMapper");
 	}	
 	
 	public static ODMDStabDataMapper getOdm2DStabMapper() {
-		return (ODMDStabDataMapper) SpringAppCtx.getBean("odm2DStabMapper");
+		return (ODMDStabDataMapper) springAppCtx.getBean("odm2DStabMapper");
 	}	
 
 	public static ODMOpfDataMapper getOdm2OpfMapper() {
-		return (ODMOpfDataMapper) SpringAppCtx.getBean("odm2OpfMapper");
+		return (ODMOpfDataMapper) springAppCtx.getBean("odm2OpfMapper");
 	}		
 }

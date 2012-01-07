@@ -35,7 +35,7 @@ public class ReportSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAclfSummaryReport() {
-		return (IIpssReport) SpringAppCtx
+		return (IIpssReport) springAppCtx
 				.getBean("aclfSummaryReport");
 	}
 
@@ -45,7 +45,7 @@ public class ReportSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAclfBusStyleReport() {
-		return (IIpssReport) SpringAppCtx.getBean("aclfBusStyleReport");
+		return (IIpssReport) springAppCtx.getBean("aclfBusStyleReport");
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class ReportSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAcsc3PFaultReport() {
-		return (IIpssReport) SpringAppCtx.getBean("acsc3PFaultReport");
+		return (IIpssReport) springAppCtx.getBean("acsc3PFaultReport");
 	}
 
 	/**
@@ -63,6 +63,6 @@ public class ReportSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IIpssReport object
 	 */
 	public static IIpssReport getAcscNSFaultReport() {
-		return (IIpssReport) SpringAppCtx.getBean("acscNSFaultReport");
+		return (IIpssReport) springAppCtx.getBean("acscNSFaultReport");
 	}
 }

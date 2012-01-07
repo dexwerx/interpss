@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
-import com.interpss.common.msg.TextMessage;
+import com.interpss.common.msg.impl.TextMessageImpl;
 
 public class DialogUtilImpl implements IDialogUtil, IpssMsgListener {
 	public static JFrame parent = null;
@@ -99,10 +99,10 @@ public class DialogUtilImpl implements IDialogUtil, IpssMsgListener {
 	 * @param msg the msg object
 	 */
 	public void onMsgEvent(IpssMessage msg) {
-		if (msg instanceof TextMessage) {
-			if (msg.getType() == TextMessage.TYPE_WARN)
+		if (msg instanceof TextMessageImpl) {
+			if (msg.getType() == TextMessageImpl.TYPE_WARN)
 				showWarnMsgDialog("Warnning", msg.getMsgString());
-			else if (msg.getType() == TextMessage.TYPE_ERROR)
+			else if (msg.getType() == TextMessageImpl.TYPE_ERROR)
 				showWarnMsgDialog("Error", msg.getMsgString());
 		}
 	}

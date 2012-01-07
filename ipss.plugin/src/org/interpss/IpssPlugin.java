@@ -69,8 +69,8 @@ public class IpssPlugin {
 	}	
 
 	private static void setSpringAppCtx() {
-		if (CoreCommonSpringFactory.SpringAppCtx == null) {
-			CoreCommonSpringFactory.SpringAppCtx = new ClassPathXmlApplicationContext(
+		if (CoreCommonSpringFactory.springAppCtx == null) {
+			CoreCommonSpringFactory.springAppCtx = new ClassPathXmlApplicationContext(
 					new String[] {
 							"org/interpss/spring/PluginSpringCtx.xml"});
 		}

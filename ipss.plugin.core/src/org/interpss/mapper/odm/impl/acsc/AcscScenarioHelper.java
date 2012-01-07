@@ -116,10 +116,10 @@ public class AcscScenarioHelper {
 	private void mapFault(AcscFaultAnalysisXmlType scAnalysisXml) throws InterpssException {
 		String idStr = scAnalysisXml.getName() != null? scAnalysisXml.getName() : scAnalysisXml.getDesc(); 
 
-		if (scAnalysisXml.getFault() == null)
+		if (scAnalysisXml.getAcscFault() == null)
 			throw new InterpssException("acscAnalysis.fault not defined");
 		
-		AcscBaseFaultXmlType faultXml = scAnalysisXml.getFault();
+		AcscBaseFaultXmlType faultXml = scAnalysisXml.getAcscFault().getValue();
 		if(faultXml.getFaultType() == AcscFaultTypeEnumType.BUS_FAULT){			
 			AcscBusFaultXmlType busFaultXml = (AcscBusFaultXmlType)faultXml;
 			String faultBusId = busFaultXml.getRefBus().getBusId();

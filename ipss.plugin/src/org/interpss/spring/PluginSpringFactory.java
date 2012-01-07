@@ -61,7 +61,7 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 * @return the EditorDialogUtil object
 	 */
 	public static IDialogUtil getEditorDialogUtil() {
-		return (IDialogUtil) SpringAppCtx.getBean("editorDialogUtil");
+		return (IDialogUtil) springAppCtx.getBean("editorDialogUtil");
 	}	
 	
 	/**
@@ -70,11 +70,11 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 * @return the RefDataManager object
 	 */
 	public static ISimuRecManager getSimuRecManager() {
-		return (ISimuRecManager) SpringAppCtx.getBean("simuRecManager");
+		return (ISimuRecManager) springAppCtx.getBean("simuRecManager");
 	}
 
 	public static JDialog getCaseInfoDialog() {
-		return (JDialog) SpringAppCtx.getBean("caseInfoDialog");
+		return (JDialog) springAppCtx.getBean("caseInfoDialog");
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 * @return the RefDataManager object
 	 */
 	public static IRefDataManager getRefDataManager() {
-		return (IRefDataManager) SpringAppCtx.getBean("refDataManager");
+		return (IRefDataManager) springAppCtx.getBean("refDataManager");
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 * @return the RefDataManager object
 	 */
 	public static IProjectDataManager getProjectDataDBManager() {
-		return (IProjectDataManager) SpringAppCtx
+		return (IProjectDataManager) springAppCtx
 				.getBean("projectDataManager");
 	}
 	
@@ -103,7 +103,7 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<IpssFileAdapter> getCustomFileAdapterList() {
-		return (List<IpssFileAdapter>) SpringAppCtx.getBean("customFileAdapterList");
+		return (List<IpssFileAdapter>) springAppCtx.getBean("customFileAdapterList");
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<ICustomRunScriptPlugin> getCustomScriptRunPluginList() {
-		return (List<ICustomRunScriptPlugin>) SpringAppCtx.getBean("customScriptRunPluginList");
+		return (List<ICustomRunScriptPlugin>) springAppCtx.getBean("customScriptRunPluginList");
 	}
 	
 	/**
@@ -198,7 +198,7 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 * @return the CustomFileAdapterList object
 	 */
 	public static IOutputSimuResult getSimuResultOutput() {
-		return (IOutputSimuResult) SpringAppCtx.getBean("simuResultOutput");
+		return (IOutputSimuResult) springAppCtx.getBean("simuResultOutput");
 	}
 	
 	/*
@@ -207,24 +207,24 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> getXml2LfAlgorithmMapper() {
-		return (IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm>) SpringAppCtx.getBean("xml2LfAlgorithmMapper");
+		return (IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm>) springAppCtx.getBean("xml2LfAlgorithmMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
 	public static IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm> getXml2ScAlgorithmMapper() {
-		return (IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm>) SpringAppCtx.getBean("xml2ScAlgorithmMapper");
+		return (IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm>) springAppCtx.getBean("xml2ScAlgorithmMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
 	public static IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> getXml2DStabAlgorithmMapper() {
-		return (IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) SpringAppCtx.getBean("xml2DStabAlgorithmMapper");
+		return (IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) springAppCtx.getBean("xml2DStabAlgorithmMapper");
 	}
 
 	@SuppressWarnings("unchecked")
 	public static IMapping<ModificationXmlType, Network> getModXml2NetMapper() {
-		if (SpringAppCtx == null) // for grid computing
+		if (springAppCtx == null) // for grid computing
 			return new XmlNetParamModifier();
-		return (IMapping<ModificationXmlType, Network>) SpringAppCtx.getBean("modification2NetMapper");
+		return (IMapping<ModificationXmlType, Network>) springAppCtx.getBean("modification2NetMapper");
 	}
 	
 	/*
@@ -233,21 +233,21 @@ public class PluginSpringFactory extends CoreSimuSpringFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static IMapping<GFormContainer, AclfNetwork> getForm2AclfNetMapper() {
-		return (IMapping<GFormContainer, AclfNetwork>) SpringAppCtx.getBean("aclfForm2AclfNetMapper");
+		return (IMapping<GFormContainer, AclfNetwork>) springAppCtx.getBean("aclfForm2AclfNetMapper");
 	}	
 	
 	@SuppressWarnings("unchecked")
 	public static IMapping<GFormContainer, AcscNetwork> getForm2AcscNetMapper() {
-		return (IMapping<GFormContainer, AcscNetwork>) SpringAppCtx.getBean("acscForm2AcscNetMapper");
+		return (IMapping<GFormContainer, AcscNetwork>) springAppCtx.getBean("acscForm2AcscNetMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
 	public static IMapping<GFormContainer, DStabilityNetwork> getForm2DStabNetMapper() {
-		return (IMapping<GFormContainer, DStabilityNetwork>) SpringAppCtx.getBean("dstabForm2DStabNetMapper");
+		return (IMapping<GFormContainer, DStabilityNetwork>) springAppCtx.getBean("dstabForm2DStabNetMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
 	public static IMapping<GFormContainer, DistNetwork> getForm2DistNetMapper() {
-		return (IMapping<GFormContainer, DistNetwork>) SpringAppCtx.getBean("distForm2DistNetMapper");
+		return (IMapping<GFormContainer, DistNetwork>) springAppCtx.getBean("distForm2DistNetMapper");
 	}	
 }

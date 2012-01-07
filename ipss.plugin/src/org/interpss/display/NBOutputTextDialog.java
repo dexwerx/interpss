@@ -51,7 +51,7 @@ import com.interpss.QA.rfile.QAFileReader;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
-import com.interpss.common.msg.SimuMessage;
+import com.interpss.common.msg.impl.SimuMessageImpl;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -194,9 +194,9 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     }
 
     public void onMsgEvent(IpssMessage event) {
-   		if (event instanceof SimuMessage) {
-   			if (event.getType() == SimuMessage.TYPE_CONSOLE_MSG) {
-   				appendText(((SimuMessage)event).getStringData()+"\n"); 
+   		if (event instanceof SimuMessageImpl) {
+   			if (event.getType() == SimuMessageImpl.TYPE_CONSOLE_MSG) {
+   				appendText(((SimuMessageImpl)event).getStringData()+"\n"); 
    			}	
    		}    	
     }
