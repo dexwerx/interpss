@@ -24,6 +24,10 @@
 
 package com.interpss.pssl.test.aclf;
 
+import static com.interpss.pssl.plugin.IpssAdapter.importAclfNet;
+import static com.interpss.pssl.plugin.IpssAdapter.FileFormat.IEEECommonFormat;
+import static com.interpss.pssl.plugin.IpssOut.AclfResultSummary;
+import static com.interpss.pssl.simu.IpssAclf.createAclfAlgo;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -37,21 +41,22 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.odm.AclfDslODMRunner;
 import com.interpss.pssl.plugin.IpssAdapter;
-import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class Aclf_Test extends BaseTestSetup {
 	@Test
 	public void lfTest()  throws PSSLException {
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
-				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+		AclfNetwork net = importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IEEECommonFormat)
 				.load()
 				.getAclfNet();	
 		
-	  	IpssAclf.createAlgo(net)
+	  	createAclfAlgo(net)
 	  			.lfMethod(AclfMethod.NR)
 	  			.nonDivergent(true)
 	  			.runLoadflow();	
+	  	
+	  	System.out.println(AclfResultSummary.f(net));
 	  	
 	  	assertTrue(net.isLfConverged());
 	}	

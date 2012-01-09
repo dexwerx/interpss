@@ -60,7 +60,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();	
 		
-	  	IpssAclf.createAlgo(net)
+	  	IpssAclf.createAclfAlgo(net)
 	  			.lfMethod(AclfMethod.NR)
 	  			.nonDivergent(true)
 	  			.runLoadflow();		
@@ -154,7 +154,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();		
 		
-	  	IpssAclf.createAlgo(net)
+	  	IpssAclf.createAclfAlgo(net)
 	  			.lfMethod(AclfMethod.NR)
 	  			.nonDivergent(true)
 	  			.runLoadflow();
@@ -178,7 +178,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();		
 
-	  	IpssAclf.createAlgo(net)
+	  	IpssAclf.createAclfAlgo(net)
 	  			.lfMethod(AclfMethod.NR)
 	  			.runLoadflow();
   		

@@ -42,7 +42,7 @@ public class Adapter_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();		               
 		
-		IpssAclf.createAlgo(net)                        
+		IpssAclf.createAclfAlgo(net)                        
 		            .lfMethod(AclfMethod.NR)
 		            .tolerance(0.0001, UnitType.PU)
 		            .runLoadflow();               

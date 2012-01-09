@@ -59,7 +59,7 @@ public class AclfNet_Test extends BaseTestSetup {
 		            .branchCode(AclfBranchCode.LINE)
 		            .z(new Complex(0.05, 0.1), UnitType.PU);       
 		               
-		IpssAclf.createAlgo(netDsl.getAclfNet())                        
+		IpssAclf.createAclfAlgo(netDsl.getAclfNet())                        
 		            .lfMethod(AclfMethod.NR)
 		            .tolerance(0.0001, UnitType.PU)
 		            .runLoadflow();               

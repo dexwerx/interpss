@@ -93,7 +93,7 @@ public class Dclf_Test extends BaseTestSetup {
 				.load()
 				.getAclfNet();	
 		
-		LfAlgoDSL aclfAlgoDsl = IpssAclf.createAlgo(net);
+		LfAlgoDSL aclfAlgoDsl = IpssAclf.createAclfAlgo(net);
 	  	
 		aclfAlgoDsl.lfMethod(AclfMethod.NR)
 	  			.nonDivergent(true)

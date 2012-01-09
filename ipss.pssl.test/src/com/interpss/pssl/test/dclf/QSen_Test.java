@@ -49,7 +49,7 @@ public class QSen_Test extends BaseTestSetup {
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 			
-		LfAlgoDSL aclfAlgoDsl = IpssAclf.createAlgo(net);
+		LfAlgoDSL aclfAlgoDsl = IpssAclf.createAclfAlgo(net);
 	  	
 		aclfAlgoDsl.lfMethod(AclfMethod.NR)
 	  			.nonDivergent(true)
