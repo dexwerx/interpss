@@ -186,7 +186,7 @@ public class IpssInternalFormat_in {
     	}
     	else {
     		 bus.setGenCode(AclfGenCode.NON_GEN);
-   			 final AclfPQGenBus gen = (AclfPQGenBus)bus.getAdapter(AclfPQGenBus.class);
+   			 final AclfPQGenBus gen = bus.toPQBus();
     		 gen.setGen(new Complex(0.0,0.0), UnitType.mVA);
     		 bus.setLoadCode(AclfLoadCode.NON_LOAD);
     		 //bus.setLoad(new complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
@@ -285,7 +285,7 @@ public class IpssInternalFormat_in {
       		pvLimit.setVSpecified(v, UnitType.PU);
       		pvLimit.setQLimit(new LimitType(qmax,qmin), UnitType.mVA);
       		pvLimit.setStatus(true);
-			final AclfPVGenBus pv = (AclfPVGenBus)bus.getAdapter(AclfPVGenBus.class);
+			final AclfPVGenBus pv = bus.toPVBus();
         	pv.setVoltMag(pvLimit.getVSpecified(UnitType.PU), UnitType.PU);
       	} else {
       		IpssLogger.getLogger().info(str);

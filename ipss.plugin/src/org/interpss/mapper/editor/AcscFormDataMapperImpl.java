@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.editor;
 
+import static com.interpss.core.AcscFunction.*;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.acsc.AcscBranchData;
@@ -49,6 +51,7 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.AcscFunction;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -57,8 +60,8 @@ import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.XfrConnectCode;
-import com.interpss.core.acsc.adpter.AcscLineAdapter;
-import com.interpss.core.acsc.adpter.AcscXfrAdapter;
+import com.interpss.core.acsc.adpter.AcscLine;
+import com.interpss.core.acsc.adpter.AcscXformer;
 import com.interpss.core.datatype.ScGroundEnum;
 import com.interpss.core.datatype.ScGroundType;
 import com.interpss.core.util.CoreUtilFunc;
@@ -306,8 +309,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 	private static boolean setAcscLineFormInfo(AcscBranchData branchData,
 			AcscBranch branch, AcscNetwork net, IPSSMsgHub msg) {
 		double baseV = branch.getFromAclfBus().getBaseVoltage();
-		AcscLineAdapter line = (AcscLineAdapter) branch
-				.getAdapter(AcscLineAdapter.class);
+		AcscLine line = AcscLineAptr.f(branch);
 		line.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
 				Unit.toUnit(branchData.getZ0Unit()), baseV);
 		line.setHB0(branchData.getHalfShuntB0(), Unit.toUnit(branchData
@@ -320,8 +322,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch
 				.getToAclfBus().getBaseVoltage() ? branch.getFromAclfBus()
 				.getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
-		AcscXfrAdapter xfr = (AcscXfrAdapter) branch
-				.getAdapter(AcscXfrAdapter.class);
+		AcscXformer xfr = AcscXfrAptr.f(branch);
 		xfr.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
 				Unit.toUnit(branchData.getZ0Unit()), baseV);
 

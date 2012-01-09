@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.acsc;
 
+import static com.interpss.core.AcscFunction.AcscXfrAptr;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
@@ -60,6 +61,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.AcscFunction;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
@@ -67,8 +69,8 @@ import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.XfrConnectCode;
-import com.interpss.core.acsc.adpter.AcscLineAdapter;
-import com.interpss.core.acsc.adpter.AcscXfrAdapter;
+import com.interpss.core.acsc.adpter.AcscLine;
+import com.interpss.core.acsc.adpter.AcscXformer;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -283,7 +285,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 
 	private void setAcscLineFormInfo(LineShortCircuitXmlType braXml, AcscBranch acscBra) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage();
-		AcscLineAdapter line = (AcscLineAdapter) acscBra.getAdapter(AcscLineAdapter.class);
+		AcscLine line = AcscFunction.AcscLineAptr.f(acscBra);
 		ZXmlType z0 = braXml.getZ0();
 		if (z0 != null)
 			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ToZUnit.f(z0.getUnit()), baseV);
@@ -297,7 +299,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage() > acscBra
 		.getToAclfBus().getBaseVoltage() ? acscBra.getFromAclfBus()
 				.getBaseVoltage() : acscBra.getToAclfBus().getBaseVoltage();
-				AcscXfrAdapter xfr = (AcscXfrAdapter) acscBra.getAdapter(AcscXfrAdapter.class);
+				AcscXformer xfr = AcscXfrAptr.f(acscBra);
 				ZXmlType z0 = braXml.getZ0();
 				if (z0 != null)
 					xfr.setZ0(new Complex(z0.getRe(), z0.getIm()), ToZUnit.f(z0.getUnit()), baseV);
