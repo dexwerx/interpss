@@ -53,9 +53,9 @@ import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adj.XfrTapControlType;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.adpter.GenBusAdapter;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
+import com.interpss.core.aclf.adpter.AclfCapacitorBus;
+import com.interpss.core.aclf.adpter.AclfGenBus;
+import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.net.Branch;
@@ -84,11 +84,11 @@ public class AclfResultMapperImpl {
 			double baseKVA = net.getBaseKva();
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
-				GenBusAdapter genBus = bus.toGenBus();
+				AclfGenBus genBus = bus.toGenBus();
 				Complex busPQ = genBus.getGenResults(UnitType.PU)
 						.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
-					CapacitorBusAdapter cap = bus.toCapacitorBus();
+					AclfCapacitorBus cap = bus.toCapacitorBus();
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 							.getVoltageMag(), UnitType.PU)));
 				}
@@ -119,11 +119,11 @@ public class AclfResultMapperImpl {
 			double baseKVA = net.getBaseKva();
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
-				GenBusAdapter genBus = bus.toGenBus();
+				AclfGenBus genBus = bus.toGenBus();
 				Complex busGen = genBus.getGenResults(UnitType.mVA);
 				Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 				if (bus.isCapacitor()) {
-					CapacitorBusAdapter cap = bus.toCapacitorBus();
+					AclfCapacitorBus cap = bus.toCapacitorBus();
 					busGen = busGen.add(new Complex(0.0, cap.getQResults(bus
 							.getVoltageMag(), UnitType.PU)));
 				}
@@ -206,7 +206,7 @@ public class AclfResultMapperImpl {
 									toRatio));
 
 						if (bra.isPSXfr()) {
-							PSXfrAdapter psXfr = bra.toPSXfr();
+							AclfPSXformer psXfr = bra.toPSXfr();
 							bean.setPsXfrAngle(Number2String.toStr("##0.0",
 									psXfr.getFromAngle(UnitType.Deg)));
 						}
@@ -228,7 +228,7 @@ public class AclfResultMapperImpl {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				PVBusLimit pv = (PVBusLimit)bus.getBranchList();
-				GenBusAdapter genBus = pv.getParentBus().toGenBus();
+				AclfGenBus genBus = pv.getParentBus().toGenBus();
 				RptPVLimitBean bean = new RptPVLimitBean();
 				bean.setBusId(Number2String.toStr(-8, pv.getParentBus().getId()));
 				bean.setVact(Number2String.toStr("###0.0000", pv.getParentBus()
@@ -256,7 +256,7 @@ public class AclfResultMapperImpl {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				PQBusLimit pq = (PQBusLimit)bus.getBranchList();
-				GenBusAdapter genBus = pq.getParentBus().toGenBus();
+				AclfGenBus genBus = pq.getParentBus().toGenBus();
 				RptPQLimitBean bean = new RptPQLimitBean();
 				bean.setBusId(Number2String.toStr(-8, pq.getParentBus().getId()));
 				bean.setQact(Number2String.toStr("####0.00", genBus.getGenResults(
@@ -313,7 +313,7 @@ public class AclfResultMapperImpl {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPVBusLimit()) {
 				RemoteQBus re = (RemoteQBus)bus.getBranchList();
-				GenBusAdapter genBus = re.getParentBus().toGenBus();
+				AclfGenBus genBus = re.getParentBus().toGenBus();
 				RptRemoteQBusBean bean = new RptRemoteQBusBean();
 				bean.setVcBusId(re.getParentBus().getId());
 				bean.setType(Number2String.toStr(-9,
@@ -359,7 +359,7 @@ public class AclfResultMapperImpl {
 						.getReal())));
 				bean.setPspec(Number2String.toStr("##0.0000", psCtrl.getPSpecified(
 						UnitType.PU, baseKva)));
-				PSXfrAdapter psXfr = psCtrl.getParentBranch().toPSXfr();
+				AclfPSXformer psXfr = psCtrl.getParentBranch().toPSXfr();
 				bean.setAngle(Number2String.toStr("#0.00", psXfr
 						.getFromAngle(UnitType.Deg)));
 				bean.setAngMax(Number2String.toStr("#0.00", psCtrl.getAngLimit(

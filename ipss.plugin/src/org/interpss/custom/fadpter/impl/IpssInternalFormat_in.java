@@ -40,12 +40,12 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.PVBusLimit;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.adpter.LineAdapter;
-import com.interpss.core.aclf.adpter.LoadBusAdapter;
-import com.interpss.core.aclf.adpter.PQBusAdapter;
-import com.interpss.core.aclf.adpter.PVBusAdapter;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfCapacitorBus;
+import com.interpss.core.aclf.adpter.AclfLine;
+import com.interpss.core.aclf.adpter.AclfLoadBus;
+import com.interpss.core.aclf.adpter.AclfPQGenBus;
+import com.interpss.core.aclf.adpter.AclfPVGenBus;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 
 public class IpssInternalFormat_in {
     public static AclfNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
@@ -173,7 +173,7 @@ public class IpssInternalFormat_in {
     	if ( ( pg != 0.0 ) || ( qg != 0.0 ) ) {
     		 bus.setGenCode(AclfGenCode.GEN_PQ);
     		 bus.setLoadCode(AclfLoadCode.CONST_P);
-   			 final PQBusAdapter gen = bus.toPQBus();
+   			 final AclfPQGenBus gen = bus.toPQBus();
     		 gen.setGen(new Complex(pg,qg), UnitType.mVA);
     		 gen.setLoad(new Complex(pl,ql), UnitType.mVA);
     	}
@@ -181,12 +181,12 @@ public class IpssInternalFormat_in {
     		 bus.setGenCode(AclfGenCode.NON_GEN);
     		 //bus.setGen(new complex(pg,qg), UnitType.mVA, net.getBaseKva());
     		 bus.setLoadCode(AclfLoadCode.CONST_P);
-   			 final LoadBusAdapter load = bus.toLoadBus();
+   			 final AclfLoadBus load = bus.toLoadBus();
     		 load.setLoad(new Complex(pl,ql), UnitType.mVA);
     	}
     	else {
     		 bus.setGenCode(AclfGenCode.NON_GEN);
-   			 final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
+   			 final AclfPQGenBus gen = (AclfPQGenBus)bus.getAdapter(AclfPQGenBus.class);
     		 gen.setGen(new Complex(0.0,0.0), UnitType.mVA);
     		 bus.setLoadCode(AclfLoadCode.NON_LOAD);
     		 //bus.setLoad(new complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
@@ -220,7 +220,7 @@ public class IpssInternalFormat_in {
      	if ( ( pg != 0.0 ) || ( qg != 0.0 ) ) {
     	 	bus.setGenCode(AclfGenCode.GEN_PQ);
     	 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final PQBusAdapter gen = bus.toPQBus();
+  			final AclfPQGenBus gen = bus.toPQBus();
     	 	gen.setGen(new Complex(pg,qg), UnitType.mVA);
     	 	gen.setLoad(new Complex(pl,ql), UnitType.mVA);
      	}
@@ -228,12 +228,12 @@ public class IpssInternalFormat_in {
     	 	bus.setGenCode(AclfGenCode.NON_GEN);
     	 	//bus.setGen(new complex(pg,qg), UnitType.mVA, net.getBaseKva());
     	 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final LoadBusAdapter load = bus.toLoadBus();
+  			final AclfLoadBus load = bus.toLoadBus();
     	 	load.setLoad(new Complex(pl,ql), UnitType.mVA);
      	}
      	else {
     	 	bus.setGenCode(AclfGenCode.GEN_PQ);
-  			final PQBusAdapter gen = bus.toPQBus();
+  			final AclfPQGenBus gen = bus.toPQBus();
     	 	gen.setGen(new Complex(0.0,0.0), UnitType.mVA);
     	 	bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	 	//bus.setLoad(new complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
@@ -255,7 +255,7 @@ public class IpssInternalFormat_in {
       	AclfBus bus = (AclfBus)net.getBus(id);
       	if (bus != null ) {
         	bus.setGenCode(AclfGenCode.SWING);
-			final SwingBusAdapter swing = bus.toSwingBus();
+			final AclfSwingBus swing = bus.toSwingBus();
     		swing.setVoltMag(bus.getVoltageMag(), UnitType.PU);
     		swing.setVoltAng(bus.getVoltageAng(UnitType.Rad), UnitType.Rad);
       	} else {
@@ -285,7 +285,7 @@ public class IpssInternalFormat_in {
       		pvLimit.setVSpecified(v, UnitType.PU);
       		pvLimit.setQLimit(new LimitType(qmax,qmin), UnitType.mVA);
       		pvLimit.setStatus(true);
-			final PVBusAdapter pv = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
+			final AclfPVGenBus pv = (AclfPVGenBus)bus.getAdapter(AclfPVGenBus.class);
         	pv.setVoltMag(pvLimit.getVSpecified(UnitType.PU), UnitType.PU);
       	} else {
       		IpssLogger.getLogger().info(str);
@@ -313,7 +313,7 @@ public class IpssInternalFormat_in {
       	AclfBus bus = adjNet.getAclfBus(id);
     	if (bus != null) {
        	    bus.setGenCode(AclfGenCode.CAPACITOR);
-			final CapacitorBusAdapter cap = bus.toCapacitorBus();
+			final AclfCapacitorBus cap = bus.toCapacitorBus();
 			cap.setQ(b, UnitType.PU);
     	} else {
 			throw new InterpssRuntimeException("AclfDataFile.loadCapacitorBusInfo_2, Capacitor bus:" + id + " is not in the system" );
@@ -341,7 +341,7 @@ public class IpssInternalFormat_in {
       	AclfBranch bra = CoreObjectFactory.createAclfBranch();
       	net.addBranch(bra, fid, tid);
     	bra.setBranchCode(AclfBranchCode.LINE);
-		LineAdapter line = bra.toLine();
+		AclfLine line = bra.toLine();
     	
     	line.getAclfBranch().setZ(new Complex(r,x));
     	line.setHShuntY(new Complex(0.0,Math.abs(b)), UnitType.PU, 1.0); // Unit is PU, no need to enter baseV

@@ -33,9 +33,9 @@ import com.interpss.common.datatype.UnitHelper;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.adpter.GenBusAdapter;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
+import com.interpss.core.aclf.adpter.AclfCapacitorBus;
+import com.interpss.core.aclf.adpter.AclfGenBus;
+import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
@@ -59,11 +59,11 @@ public class AclfOut_BusStyle {
 		double baseKVA = net.getBaseKva();
 		StringBuffer str = new StringBuffer("");
 
-		GenBusAdapter genBus = bus.toGenBus();
+		AclfGenBus genBus = bus.toGenBus();
 		Complex busGen = genBus.getGenResults(UnitType.mVA);
 		Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 		if (bus.isCapacitor()) {
-			CapacitorBusAdapter cap = bus.toCapacitorBus();
+			AclfCapacitorBus cap = bus.toCapacitorBus();
 			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU)));
 		}
 		String id = style == AclfOutFunc.BusIdStyle.BusId_No?
@@ -100,7 +100,7 @@ public class AclfOut_BusStyle {
 							fromRatio = bra.getFromTurnRatio();
 							toRatio = bra.getToTurnRatio();
 							if (bra.isPSXfr()) {
-								PSXfrAdapter psXfr = bra.toPSXfr();
+								AclfPSXformer psXfr = bra.toPSXfr();
 								fromAng = psXfr.getFromAngle(UnitType.Deg);
 								toAng = psXfr.getToAngle(UnitType.Deg);
 							}
@@ -114,7 +114,7 @@ public class AclfOut_BusStyle {
 							toRatio = bra.getFromTurnRatio();
 							fromRatio = bra.getToTurnRatio();
 							if (bra.isPSXfr()) {
-								PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
+								AclfPSXformer psXfr = bra.toPSXfr();
 								toAng = psXfr.getFromAngle(UnitType.Deg);
 								fromAng = psXfr.getToAngle(UnitType.Deg);
 							}

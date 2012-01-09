@@ -24,7 +24,11 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.*;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToApparentPowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -40,7 +44,6 @@ import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
-import org.interpss.mapper.odm.ODMUnitHelper;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
@@ -56,10 +59,10 @@ import com.interpss.core.aclf.adj.PQBusLimit;
 import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
-import com.interpss.core.aclf.adpter.LoadBusAdapter;
-import com.interpss.core.aclf.adpter.PQBusAdapter;
-import com.interpss.core.aclf.adpter.PVBusAdapter;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfLoadBus;
+import com.interpss.core.aclf.adpter.AclfPQGenBus;
+import com.interpss.core.aclf.adpter.AclfPVGenBus;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 
 public class AclfBusDataHelper {
 	private AclfNetwork aclfNet = null;
@@ -122,7 +125,7 @@ public class AclfBusDataHelper {
 		VoltageXmlType vXml = xmlEquivGenData.getDesiredVoltage();
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 			aclfBus.setGenCode(AclfGenCode.GEN_PQ);
-			PQBusAdapter pqBus = aclfBus.toPQBus();
+			AclfPQGenBus pqBus = aclfBus.toPQBus();
 			if (xmlEquivGenData.getPower() != null)
 				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 					                 xmlEquivGenData.getPower().getIm()),
@@ -137,7 +140,7 @@ public class AclfBusDataHelper {
 				xmlEquivGenData != null) {
 			if (xmlEquivGenData.getRemoteVoltageControlBus() == null) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PV);
-				PVBusAdapter pvBus = aclfBus.toPVBus();
+				AclfPVGenBus pvBus = aclfBus.toPVBus();
 				//if (xmlEquivGenData == null)
 				//	System.out.print(busXmlData);
 				if (xmlEquivGenData.getPower() != null) {
@@ -173,7 +176,7 @@ public class AclfBusDataHelper {
 	  	  						remoteBus.setGenCode(AclfGenCode.GEN_PQ);
 	  	  			  		final RemoteQBus reQBus = CoreObjectFactory.createRemoteQBus(aclfBus, 
 	  	  			  				RemoteQControlType.BUS_VOLTAGE, aclfNet, remoteId);
-	  			  			final PQBusAdapter gen = (PQBusAdapter)aclfBus.getAdapter(PQBusAdapter.class);
+	  			  			final AclfPQGenBus gen = aclfBus.toPQBus();
 	  			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
 	  			  					               xmlEquivGenData.getPower().getIm()), 
 	  			  					           ToApparentPowerUnit.f(xmlEquivGenData.getPower().getUnit()));
@@ -187,7 +190,7 @@ public class AclfBusDataHelper {
 			}
 		} else if (xmlEquivGenData.getCode() == LFGenCodeEnumType.SWING) {
 			aclfBus.setGenCode(AclfGenCode.SWING);
-			SwingBusAdapter swing = aclfBus.toSwingBus();
+			AclfSwingBus swing = aclfBus.toSwingBus();
 			double vpu = UnitHelper.vConversion(vXml.getValue(),
 					aclfBus.getBaseVoltage(), ToVoltageUnit.f(vXml.getUnit()), UnitType.PU);
 			AngleXmlType angXml = genData.getEquivGen().getDesiredAngle(); 
@@ -204,7 +207,7 @@ public class AclfBusDataHelper {
 		aclfBus.setLoadCode(loadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
 				AclfLoadCode.CONST_I : (loadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
-		LoadBusAdapter loadBus = aclfBus.toLoadBus();
+		AclfLoadBus loadBus = aclfBus.toLoadBus();
 		LoadflowLoadXmlType xmlEquivLoad = loadData.getEquivLoad();
 		if (xmlEquivLoad != null) {
 			PowerXmlType p;

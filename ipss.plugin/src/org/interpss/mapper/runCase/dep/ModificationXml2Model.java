@@ -46,7 +46,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.net.Network;
 import com.interpss.simu.multicase.modify.BranchModification;
 import com.interpss.simu.multicase.modify.BusModification;
@@ -145,7 +145,7 @@ public class ModificationXml2Model {
 		// swing bus voltage modification
 		if (busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange() != null) {
 			if (bus.isSwing()) {
-	  			final SwingBusAdapter gen = bus.toSwingBus();
+	  			final AclfSwingBus gen = bus.toSwingBus();
 				double x = applyValueChangeRec(gen.getVoltMag(UnitType.PU),
 						busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange(),
 						ValueType.Voltage, bus.getBaseVoltage());

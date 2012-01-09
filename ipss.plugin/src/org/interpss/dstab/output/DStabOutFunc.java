@@ -31,8 +31,8 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.adpter.GenBusAdapter;
+import com.interpss.core.aclf.adpter.AclfCapacitorBus;
+import com.interpss.core.aclf.adpter.AclfGenBus;
 import com.interpss.core.net.Bus;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
@@ -164,11 +164,11 @@ public class DStabOutFunc {
 
 			for (Bus b : net.getBusList()) {
 				DStabBus bus = (DStabBus) b;
-				GenBusAdapter genBus = bus.toGenBus();
+				AclfGenBus genBus = bus.toGenBus();
 				Complex busPQ = genBus.getGenResults(UnitType.PU);
 				busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
-					CapacitorBusAdapter cap = bus.toCapacitorBus();
+					AclfCapacitorBus cap = bus.toCapacitorBus();
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 							.getVoltageMag(), UnitType.PU)));
 				}

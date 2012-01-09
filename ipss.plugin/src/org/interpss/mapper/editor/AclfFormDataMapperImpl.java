@@ -66,14 +66,14 @@ import com.interpss.core.aclf.adj.PVBusLimit;
 import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.adpter.LineAdapter;
-import com.interpss.core.aclf.adpter.LoadBusAdapter;
-import com.interpss.core.aclf.adpter.PQBusAdapter;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
-import com.interpss.core.aclf.adpter.PVBusAdapter;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
-import com.interpss.core.aclf.adpter.XfrAdapter;
+import com.interpss.core.aclf.adpter.AclfCapacitorBus;
+import com.interpss.core.aclf.adpter.AclfLine;
+import com.interpss.core.aclf.adpter.AclfLoadBus;
+import com.interpss.core.aclf.adpter.AclfPQGenBus;
+import com.interpss.core.aclf.adpter.AclfPSXformer;
+import com.interpss.core.aclf.adpter.AclfPVGenBus;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
+import com.interpss.core.aclf.adpter.AclfXformer;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.dstab.DStabilityNetwork;
 
@@ -254,12 +254,12 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 			bus.setGenCode(AclfGenCode.GEN_PQ);
-			PQBusAdapter pqBus = bus.toPQBus();
+			AclfPQGenBus pqBus = bus.toPQBus();
 			pqBus.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
 							Unit.toUnit(busData.getGenUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			bus.setGenCode(AclfGenCode.GEN_PV);
-			PVBusAdapter pvBus = bus.toPVBus();
+			AclfPVGenBus pvBus = bus.toPVBus();
 			pvBus.setGenP(busData.getGenP(), Unit.toUnit(busData.getGenUnit()));
 			// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
 			// ReQMvarFlow-MvarSpec
@@ -267,7 +267,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 					.getVoltageMagUnit()));
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Swing)) {
 			bus.setGenCode(AclfGenCode.SWING);
-			SwingBusAdapter swing = bus.toSwingBus();
+			AclfSwingBus swing = bus.toSwingBus();
 			swing.setVoltMag(busData.getVoltageMag(), Unit.toUnit(busData
 					.getVoltageMagUnit()));
 			swing.setVoltAng(busData.getVoltageAng(), Unit.toUnit(busData
@@ -275,7 +275,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Capacitor)) { // capacitor
 																					// bus
 			bus.setGenCode(AclfGenCode.CAPACITOR);
-			CapacitorBusAdapter cBus = bus.toCapacitorBus();
+			AclfCapacitorBus cBus = bus.toCapacitorBus();
 			cBus.setQ(busData.getCapQ(),
 					Unit.toUnit(busData.getCapQUnit()));
 		} else if (busData.getGenCode()
@@ -290,7 +290,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		if (busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// bus.setScripts(busData.getScripts());
 		} else {
-			LoadBusAdapter loadBus = bus.toLoadBus();
+			AclfLoadBus loadBus = bus.toLoadBus();
 			if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
 				loadBus.setLoad(new Complex(busData.getLoadP(), busData
 						.getLoadQ()), Unit.toUnit(busData.getLoadUnit()));
@@ -496,7 +496,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		try {
 			AclfBranchData data = branchForm.getAcscBranchData();
 			branch.setBranchCode(AclfBranchCode.LINE);
-			LineAdapter line = branch.toLine();
+			AclfLine line = branch.toLine();
 			line.setZ(new Complex(data.getZR(), data.getZX()), Unit
 					.toUnit(data.getZUnit()), branch.getFromAclfBus()
 					.getBaseVoltage());
@@ -527,7 +527,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 			// the follow only applies if zUnit is in Ohms, which is very
 			// unlikely
 			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-			XfrAdapter xfr = branch.toXfr();
+			AclfXformer xfr = branch.toXfr();
 			xfr.setZ(new Complex(data.getZR(), data.getZX()), Unit
 					.toUnit(data.getZUnit()), baseV);
 
@@ -586,7 +586,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 		setXfrBranchFormInfo(formBranch, branch, net, msg);
 		AclfBranchData data = formBranch.getAcscBranchData();
 		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-		PSXfrAdapter psXfr = branch.toPSXfr();
+		AclfPSXformer psXfr = branch.toPSXfr();
 		psXfr.setFromAngle(data.getPhaseShiftAngle(), Unit.toUnit(data
 				.getPhaseShiftAngleUnit()));
 		return true;

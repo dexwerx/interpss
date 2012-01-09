@@ -47,11 +47,11 @@ import com.interpss.core.aclf.Aclf3WXformer;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.LineAdapter;
+import com.interpss.core.aclf.adpter.AclfLine;
+import com.interpss.core.aclf.adpter.AclfPSXformer;
+import com.interpss.core.aclf.adpter.AclfXformer;
 import com.interpss.core.aclf.adpter.PSXfr3WAdapter;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
 import com.interpss.core.aclf.adpter.Xfr3WAdapter;
-import com.interpss.core.aclf.adpter.XfrAdapter;
 import com.interpss.core.net.Branch;
 
 public class AclfBranchDataHelper {
@@ -70,7 +70,7 @@ public class AclfBranchDataHelper {
 
 		aclfBra.setBranchCode(AclfBranchCode.LINE);
 		//System.out.println(braXmlData.getLineData().getZ().getIm());
-		LineAdapter line = aclfBra.toLine();
+		AclfLine line = aclfBra.toLine();
 		if (braLine.getZ() == null) {
 		throw new InterpssException("Line data error, Z == null, branch id: " + braLine.getId());
 		}
@@ -125,7 +125,7 @@ public class AclfBranchDataHelper {
 
 		setXfrBranchData(braPsXfr);
 		
-		PSXfrAdapter psXfr = aclfBra.toPSXfr();
+		AclfPSXformer psXfr = aclfBra.toPSXfr();
 		if(braPsXfr.getFromAngle() != null)
 			psXfr.setFromAngle(braPsXfr.getFromAngle().getValue(), 
 					ToAngleUnit.f(braPsXfr.getFromAngle().getUnit()));
@@ -165,7 +165,7 @@ public class AclfBranchDataHelper {
 		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-		XfrAdapter xfr = aclfBra.toXfr();
+		AclfXformer xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
 				ToZUnit.f(xfrBranch.getZ().getUnit()), baseV);
 		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 

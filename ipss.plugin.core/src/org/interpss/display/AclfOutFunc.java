@@ -43,8 +43,8 @@ import com.interpss.core.aclf.adj.RemoteQBus;
 import com.interpss.core.aclf.adj.RemoteQControlType;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adj.XfrTapControlType;
-import com.interpss.core.aclf.adpter.GenBusAdapter;
-import com.interpss.core.aclf.adpter.PSXfrAdapter;
+import com.interpss.core.aclf.adpter.AclfGenBus;
+import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.algo.sec.BranchRatingAdapter;
@@ -385,7 +385,7 @@ public class AclfOutFunc {
 
 		net.forEachPVBusLimit(new IPVBusLimitVisitor() {
 			public void visit(PVBusLimit pv) {
-				GenBusAdapter genBus = pv.getParentBus().toGenBus();
+				AclfGenBus genBus = pv.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-8, getBusId(pv.getParentBus(), 
 						pv.getParentBus().getNetwork().getOriginalDataFormat())));
@@ -444,7 +444,7 @@ public class AclfOutFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isPQBusLimit()) {
 				PQBusLimit pq = bus.getPQBusLimit();
-				GenBusAdapter genBus = pq.getParentBus().toGenBus();
+				AclfGenBus genBus = pq.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-8, getBusId(pq.getParentBus(), net.getOriginalDataFormat())) + " ");
 				str.append(Number2String.toStr("####0.00", genBus.getGenResults(
@@ -484,7 +484,7 @@ public class AclfOutFunc {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isRemoteQBus()) {
 				RemoteQBus re = bus.getRemoteQBus();
-				GenBusAdapter genBus = re.getParentBus().toGenBus();
+				AclfGenBus genBus = re.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-9, getBusId(re.getParentBus(), net.getOriginalDataFormat())));
 				str.append(Number2String.toStr(-9,
@@ -650,7 +650,7 @@ public class AclfOutFunc {
 				else
 					str.append(x.getControlRange() + " ");
 
-				PSXfrAdapter psXfr = x.getParentBranch().toPSXfr();
+				AclfPSXformer psXfr = x.getParentBranch().toPSXfr();
 				str.append(Number2String.toStr("#0.00", psXfr
 						.getFromAngle(UnitType.Deg))
 						+ " ");
