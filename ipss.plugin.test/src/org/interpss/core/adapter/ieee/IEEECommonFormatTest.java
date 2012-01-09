@@ -35,7 +35,7 @@ import org.junit.Test;
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
@@ -56,7 +56,7 @@ public class IEEECommonFormatTest extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		AclfSwingBus swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32393)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16549)<0.0001);
 	}
@@ -75,7 +75,7 @@ public class IEEECommonFormatTest extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus31");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+ 		AclfSwingBus swing = swingBus.toSwingBus();
 //		  31 BUS-31  100   1  1  3 0.982 0.     9.2      4.6       572.8349207.0362 100.    .98200 999900 -99990    0.      0.        0                                                                                                                                                                            
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.7286653)<0.0001);
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-2.0766519)<0.0001);
@@ -97,7 +97,7 @@ public class IEEECommonFormatTest extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+ 		AclfSwingBus swing = swingBus.toSwingBus();
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.6095)<0.0001);
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.1653)<0.0001);
   		
@@ -118,7 +118,7 @@ public class IEEECommonFormatTest extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+ 		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-4.7942)<0.0001);
@@ -141,7 +141,7 @@ public class IEEECommonFormatTest extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus69");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+ 		AclfSwingBus swing = swingBus.toSwingBus();
 		System.out.println(swing.getGenResults(UnitType.PU).getReal());
 		System.out.println(swing.getGenResults(UnitType.PU).getImaginary());
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-5.13442)<0.0001);

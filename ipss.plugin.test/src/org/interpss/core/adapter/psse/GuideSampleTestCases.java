@@ -35,7 +35,7 @@ import org.interpss.spring.PluginSpringFactory;
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -54,7 +54,7 @@ public class GuideSampleTestCases extends PluginTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("3011");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		System.out.println("------>" + p.getReal() + ", " + p.getImaginary());
 

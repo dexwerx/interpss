@@ -41,7 +41,7 @@ import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -72,7 +72,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		assert(adjNet.isLfConverged());
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);
@@ -107,7 +107,7 @@ public class Aclf_IEEE14BusGridGainTest extends GridBaseTestSetup {
 		assert(adjNet.isLfConverged());
     	
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU)));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.11824)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.37383)<0.0001);

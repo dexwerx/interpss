@@ -40,7 +40,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -72,7 +72,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 	  	assertTrue(net.getAclfBus("0012").getLoadP() == 0.071);
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
 
-		final SwingBusAdapter gen = net.getAclfBus("0001").toSwingBus();
+		final AclfSwingBus gen = net.getAclfBus("0001").toSwingBus();
 	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%
@@ -108,7 +108,7 @@ public class ModificationCaseTest extends PluginTestSetup {
 	  	assertTrue(net.getAclfBus("0012").getLoadP() == 0.071);
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
 
-		final SwingBusAdapter gen = net.getAclfBus("0001").toSwingBus();
+		final AclfSwingBus gen = net.getAclfBus("0001").toSwingBus();
 	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%

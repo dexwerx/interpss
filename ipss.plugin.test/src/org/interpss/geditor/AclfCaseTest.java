@@ -10,7 +10,7 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -28,7 +28,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.1153)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.03063)<0.0001);
@@ -46,7 +46,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.1153)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-1.03063)<0.0001);
@@ -64,7 +64,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.07225)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 0.54343)<0.0001);
@@ -82,7 +82,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.95018)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 0.85852)<0.0001);
@@ -100,7 +100,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.84498)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 0.75283)<0.0001);
@@ -118,7 +118,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.11529)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 1.03059)<0.0001);
@@ -136,7 +136,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.11526)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 1.03056)<0.0001);
@@ -154,7 +154,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()- 1.10463)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary() + 0.93403)<0.0001);
@@ -172,7 +172,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.11529)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 1.03059)<0.0001);
@@ -190,7 +190,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.13363)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 1.06727)<0.0001);
@@ -208,7 +208,7 @@ public class AclfCaseTest  extends PluginTestSetup {
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.1153)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()- 1.0306)<0.0001);

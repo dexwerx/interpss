@@ -34,7 +34,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
@@ -73,7 +73,7 @@ public class TestSetupBase extends PluginTestSetup {
 		bus2.setName("Swing Bus");
 		bus2.setBaseVoltage(1000);
 		bus2.setGenCode(AclfGenCode.SWING);
-		SwingBusAdapter swing = bus2.toSwingBus();
+		AclfSwingBus swing = bus2.toSwingBus();
 		swing.setVoltMag(0.9434, UnitType.PU);
 		swing.setVoltAng(-4.86444, UnitType.Deg);
 

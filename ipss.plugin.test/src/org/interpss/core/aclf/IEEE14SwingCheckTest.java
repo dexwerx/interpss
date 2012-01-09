@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
-import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -25,7 +25,7 @@ public class IEEE14SwingCheckTest  extends PluginTestSetup {
 	  	net.getBranch("0007", "0008").setStatus(false);
 	  	net.getBranch("0001", "0002").setStatus(false);
 	  	
-		AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net);
+		AclfNetHelper helper = new AclfNetHelper(net);
 		if (!helper.checkSwingBus())
 			helper.assignSwingBus();
   		assertTrue(!net.getBus("0008").isActive());

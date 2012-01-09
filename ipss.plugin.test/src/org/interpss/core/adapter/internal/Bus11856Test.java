@@ -36,11 +36,11 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetHelper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
+import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.simu.SimuContext;
 
 public class Bus11856Test extends PluginTestSetup {
@@ -60,7 +60,7 @@ public class Bus11856Test extends PluginTestSetup {
 
   		  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
   	  		starttime = System.currentTimeMillis() ;
-			AclfNetHelper helper = CoreObjectFactory.createAclfNetHelper(net);
+			AclfNetHelper helper = new AclfNetHelper(net);
   	  		assertTrue(helper.checkSwingBus());
   	  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	

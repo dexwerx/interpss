@@ -34,7 +34,7 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.LoadflowAlgorithm;
@@ -61,7 +61,7 @@ public class SimuAppCtxTest extends PluginTestSetup {
   		assertTrue(simuCtx.getAclfNet().isLfConverged());
   		
   		AclfBus swingBus = (AclfBus)(simuCtx.getAclfNet()).getBus("5");
-		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
   		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.57943)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-2.2994)<0.0001);		

@@ -35,7 +35,7 @@ import org.junit.Test;
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class BPASampleTestCases extends PluginTestSetup {
@@ -52,7 +52,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
-		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
 		System.out.println(swing.getGenResults(UnitType.PU).getImaginary());
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.0586)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.4366)<0.01);
@@ -71,7 +71,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());		
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
-		SwingBusAdapter swing = swingBus.toSwingBus();
+  		AclfSwingBus swing = swingBus.toSwingBus();
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.7164)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.2705)<0.01);
 	}

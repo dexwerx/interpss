@@ -40,7 +40,7 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -72,7 +72,7 @@ public class GuideSample_TestCase extends PluginTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
-		SwingBusAdapter swing = swingBus.toSwingBus();
+		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-258.6568)<0.01);
@@ -98,7 +98,7 @@ public class GuideSample_TestCase extends PluginTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = net.getAclfBus("Bus3011");
-		SwingBusAdapter swing = swingBus.toSwingBus();
+		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		//System.out.println(p.getReal() + ", " + p.getImaginary());
   		assertTrue(Math.abs(p.getReal()-258.657)<0.01);
