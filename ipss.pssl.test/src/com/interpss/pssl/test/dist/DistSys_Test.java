@@ -34,9 +34,9 @@ import org.junit.Test;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.dist.DistBus;
-import com.interpss.dist.adpter.GeneratorAdapter;
-import com.interpss.dist.adpter.TransformerAdapter;
-import com.interpss.dist.adpter.UtilityAdapter;
+import com.interpss.dist.adpter.DistGenerator;
+import com.interpss.dist.adpter.DistXformer;
+import com.interpss.dist.adpter.DistUtility;
 import com.interpss.pssl.simu.IpssDist;
 import com.interpss.pssl.simu.IpssDist.DistNetDSL;
 import com.interpss.pssl.test.BaseTestSetup;
@@ -47,12 +47,12 @@ public class DistSys_Test extends BaseTestSetup {
 		DistNetDSL distNet = IpssDist.createDistNetwork("Sample DistNetwork")      
         						.setBaseKva(100000.0);
 		  
-		UtilityAdapter util = distNet.addUtility("Bus1", 138.0, UnitType.kV);
+		DistUtility util = distNet.addUtility("Bus1", 138.0, UnitType.kV);
 		util.setVoltage(1.0, UnitType.PU, 0.0, UnitType.Deg);
 		util.setMvaRating(1000.0, 800.0, UnitType.mVA);
 		util.setX_R(100.0, 100.0);
 
-		GeneratorAdapter gen = distNet.addGenerator("Bus2", 4160.0, UnitType.Volt);
+		DistGenerator gen = distNet.addGenerator("Bus2", 4160.0, UnitType.Volt);
 		gen.setRatedKW(5.0, UnitType.mW);
 		gen.setRatedVoltage(1.0, UnitType.PU);
 		gen.setPFactor(0.8, UnitType.PU);
@@ -60,7 +60,7 @@ public class DistSys_Test extends BaseTestSetup {
 		gen.setZ0_2(new Complex(0.0,0.05), new Complex(0.0, 0.1));
 		gen.setZUnit(UnitType.PU);
 		
-		TransformerAdapter xfr = distNet.addXformer("Bus1", "Bus2");
+		DistXformer xfr = distNet.addXformer("Bus1", "Bus2");
 		xfr.setRating(10.0, UnitType.mVA);
 		xfr.setRatedVoltage(138.0, 4.160, UnitType.kV);
 		xfr.setZ(new Complex(0.0, 7.0), new Complex(0.0, 7.0), UnitType.Percent);
