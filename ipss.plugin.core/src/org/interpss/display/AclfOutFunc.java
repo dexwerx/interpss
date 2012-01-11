@@ -24,6 +24,7 @@ package org.interpss.display;
  */
 
 
+import static com.interpss.core.AclfFunction.*;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.impl.AclfOut_BusStyle;
@@ -31,6 +32,7 @@ import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
+import com.interpss.core.algo.sec.AclfBranchRating;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -47,7 +49,6 @@ import com.interpss.core.aclf.adpter.AclfGenBus;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
-import com.interpss.core.algo.sec.BranchRatingAdapter;
 import com.interpss.core.algo.sec.SecAnalysisViolationType;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.common.visitor.IPVBusLimitVisitor;
@@ -322,7 +323,7 @@ public class AclfOutFunc {
 			for (Branch b : net.getBranchList()) {
 				AclfBranch bra = (AclfBranch) b;
 				if (bra.isActive()) {
-					BranchRatingAdapter adapter = (BranchRatingAdapter)b.getAdapter(BranchRatingAdapter.class);
+					AclfBranchRating adapter = BranchRatingAptr.f(bra);
 					if (adapter.isRatingViolated(SecAnalysisViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
 						str.append(Number2String.toStr(-25, bra.getId()));
 						Complex mva = bra.powerFrom2To(UnitType.mVA);
