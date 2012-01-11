@@ -29,6 +29,8 @@ package org.interpss.mapper.editor;
  * object to an AcscAdjNetwork simu object.
  */
 
+import static com.interpss.core.AcscFunction.*;
+
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
@@ -209,8 +211,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 		bus.setZ2(new Complex(busData.getZ2R(), busData.getZ2X()));
 		bus.setZUnit(Unit.toUnit(busData.getZUnit()));
 
-		bus.getGrounding().setCode(
-				CoreUtilFunc.scGroundType2BusGroundCode(busData.getGround()
+		bus.getGrounding().setCode(Str2ScGroundCode.f(busData.getGround()
 						.getCode()));
 		bus.getGrounding().setZ(
 				new Complex(busData.getGround().getR(), busData.getGround()
@@ -299,8 +300,7 @@ public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, Dist
 			baseV = distNet.getBus(branchForm.getToId()).getBaseVoltage();
 		}
 		gdata = branchData.getToXfrConnectData().getGrounding();
-		branch.getSecondaryGrounding().setCode(
-				CoreUtilFunc.scGroundType2BusGroundCode(gdata.getCode()));
+		branch.getSecondaryGrounding().setCode(Str2ScGroundCode.f(gdata.getCode()));
 		branch.getSecondaryGrounding().setZ(
 				new Complex(gdata.getR(), gdata.getX()),
 				Unit.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());

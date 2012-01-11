@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.editor;
 
+import static com.interpss.core.AcscFunction.*;
+
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
@@ -199,9 +201,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 					.getGround().getX()), Unit.toUnit(machData.getGround()
 					.getUnit()), machData.getRatedVolt(),
 					machData.getRating() * 1000.0);
-			mach.getGrounding().setCode(
-					CoreUtilFunc.scGroundType2BusGroundCode(machData
-							.getGround().getCode()));
+			mach.getGrounding().setCode(Str2ScGroundCode.f(machData.getGround().getCode()));
 			mach.getGrounding().setZ(
 					new Complex(machData.getGround().getR(), machData
 							.getGround().getX()),

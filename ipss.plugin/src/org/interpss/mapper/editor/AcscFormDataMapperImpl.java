@@ -24,7 +24,9 @@
 
 package org.interpss.mapper.editor;
 
-import static com.interpss.core.AcscFunction.*;
+import static com.interpss.core.AcscFunction.AcscLineAptr;
+import static com.interpss.core.AcscFunction.AcscXfrAptr;
+import static com.interpss.core.AcscFunction.Str2ScGroundCode;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.db.BaseDataBean;
@@ -51,7 +53,6 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.AcscFunction;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -62,9 +63,6 @@ import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.acsc.adpter.AcscLine;
 import com.interpss.core.acsc.adpter.AcscXformer;
-import com.interpss.core.datatype.ScGroundEnum;
-import com.interpss.core.datatype.ScGroundType;
-import com.interpss.core.util.CoreUtilFunc;
 
 /**
  * Map functions for BaseNetForm, BaseBusForm, BaseBranchForm to/from Network,
@@ -248,8 +246,7 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
 			String gType, double rg, double xg, UnitType zgUnit) {
-		bus.getGrounding().setCode(
-				CoreUtilFunc.scGroundType2BusGroundCode(gType));
+		bus.getGrounding().setCode(Str2ScGroundCode.f(gType));
 		bus.getGrounding().setZ(new Complex(rg, xg), zgUnit, baseV, baseKVA);
 	}
 
@@ -347,12 +344,12 @@ public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, Acsc
 			// ]
 			return XfrConnectCode.DELTA;
 		else {
-			ScGroundEnum code = ScGroundType.str2Code(connect.getGrounding().getCode());
-			if (code == ScGroundEnum.Ungrounded)
+			BusGroundCode code = Str2ScGroundCode.f(connect.getGrounding().getCode());
+			if (code == BusGroundCode.UNGROUNDED)
 				return XfrConnectCode.WYE_UNGROUNDED;
-			else if (code == ScGroundEnum.ZGrounded)
+			else if (code == BusGroundCode.ZGROUNDED)
 				return XfrConnectCode.WYE_ZGROUNDED;
-			else if (code == ScGroundEnum.SolidGrounded)
+			else if (code == BusGroundCode.SOLID_GROUNDED)
 				return XfrConnectCode.WYE_SOLID_GROUNDED;
 		}
 		throw new InterpssRuntimeException(
