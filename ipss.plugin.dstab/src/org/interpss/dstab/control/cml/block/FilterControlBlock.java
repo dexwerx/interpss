@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml.block;
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.util.IpssLogger;
+import static com.interpss.common.util.IpssLogger.*;
 import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
@@ -53,8 +53,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public boolean initStateY0(double y0) {
 		if (getK() <= 0.0) {
-			IpssLogger.getLogger().severe(
-					"FilterControlBlock.initState(), k <= 0.0");
+			ipssLogger.severe("FilterControlBlock.initState(), k <= 0.0");
 			return false;
 		}
 		setU(y0 / getK());

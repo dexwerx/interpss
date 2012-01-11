@@ -40,8 +40,7 @@ public class FexFunction extends FunctionAdapter {
 	 * @param dAry contains only one value In
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		double In = dAry[0]; // the only input to this function is In
 		if (In <= 0.0)
 			return 1.0;

@@ -56,8 +56,7 @@ public class GainFunction extends FunctionAdapter {
 	 * @param dAry contains only one value
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		return this.k * dAry[0];
 	}
 }

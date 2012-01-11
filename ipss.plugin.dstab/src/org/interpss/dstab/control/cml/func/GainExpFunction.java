@@ -57,8 +57,7 @@ public class GainExpFunction extends FunctionExpressionAdapter {
 	 * @param dAry2D contains only array [uAry]
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[][] dAry2D) throws Exception {
+	@Override public double eval(double[][] dAry2D) throws Exception {
 		ExpCalculator uExp = getInputExpList().get(0);
 		return this.k * uExp.eval(dAry2D[0]);
 	}
