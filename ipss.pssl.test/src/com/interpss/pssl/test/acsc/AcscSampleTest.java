@@ -42,7 +42,7 @@ import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
-import com.interpss.core.datatype.FaultResult;
+import com.interpss.core.datatype.IFaultResult;
 import com.interpss.pssl.odm.AcscDslODMRunner;
 import com.interpss.pssl.test.BaseTestSetup;
 import com.interpss.simu.util.sample.SampleCases;
@@ -84,7 +84,7 @@ public class AcscSampleTest extends BaseTestSetup {
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
   		
   		AcscFaultAnalysisXmlType acscCaseXml = createCase();
-  		FaultResult result = new AcscDslODMRunner(faultNet).runAcsc(acscCaseXml);
+  		IFaultResult result = new AcscDslODMRunner(faultNet).runAcsc(acscCaseXml);
 		
 	  	assertTrue(TestUtilFunc.compare(result.getSCCurrent_012(),
 	  			0.0, 0.0, 0.0, 32.57142857157701, 0.0, 0.0) );
