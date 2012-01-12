@@ -1,5 +1,8 @@
 package org.interpss.dstab.control.gov.bpa.giGaTbcombinedType;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NonWindup;
+
 import java.lang.reflect.Field;
 
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
@@ -8,7 +11,6 @@ import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.AnnotateGovernor;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
@@ -73,13 +75,13 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 	            y0="this.customPresserControlBlock.u0"	)//TODO not sure
 		public ICMLControlBlock customLoadControlBlock = new ControlBlockAdapter() {
 			private IntegrationControlBlock intgBlock = new IntegrationControlBlock(
-                    ICMLStaticBlock.Type.NonWindup, ki1, intgMax, intgMin);
+                    NonWindup, ki1, intgMax, intgMin);
 			private WashoutControlBlock difBlock = new WashoutControlBlock(
                     1, kd1);
 		       @Override
 				public boolean initStateY0(double y0) {//TODO not sure what need to be implemented in this method.
 			        if(y0>pidMax||y0<pidMin) {
-			        	IpssLogger.getLogger().warning("CustomBlock init problem: y0 > pidMax or y0 < pidMin");
+			        	ipssLogger.warning("CustomBlock init problem: y0 > pidMax or y0 < pidMin");
 			            return false;
 			         }
 			        return true;	
@@ -120,13 +122,13 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 			            y0="this.gainBlock.u0"	)
 				public ICMLControlBlock customPresserControlBlock = new ControlBlockAdapter() {
 					private IntegrationControlBlock intgBlock = new IntegrationControlBlock(
-		                    ICMLStaticBlock.Type.NonWindup, ki2, intg2Max, intg2Min);
+		                    NonWindup, ki2, intg2Max, intg2Min);
 					private WashoutControlBlock difBlock = new WashoutControlBlock(
 		                    1, kd2);
 				       @Override
 						public boolean initStateY0(double y0) {//TODO not sure what need to be implemented in this method.
 					        if(y0>pid2Max||y0<pid2Min) {
-					        	IpssLogger.getLogger().warning("CustomBlock init problem: y0 > pidMax or y0 < pidMin");
+					        	ipssLogger.warning("CustomBlock init problem: y0 > pidMax or y0 < pidMin");
 					            return false;
 					         }
 					        return true;	
@@ -186,13 +188,13 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		            y0="this.gainBlock.u0"	)
 			public ICMLControlBlock elecHydrControlBlock = new ControlBlockAdapter() {
 				private IntegrationControlBlock intgBlock = new IntegrationControlBlock(
-	                    ICMLStaticBlock.Type.NonWindup, ki, intg3Max, intg3Min);
+	                    NonWindup, ki, intg3Max, intg3Min);
 				private WashoutControlBlock difBlock = new WashoutControlBlock(
 	                    1, kd);
 			       @Override
 					public boolean initStateY0(double y0) {//TODO not sure what need to be implemented in this method.
 				        if(y0>pid3Max||y0<pid3Min) {
-				        	IpssLogger.getLogger().warning("CustomBlock init problem: y0 > pidMax or y0 < pidMin");
+				        	ipssLogger.warning("CustomBlock init problem: y0 > pidMax or y0 < pidMin");
 				            return false;
 				         }
 				        return true;	

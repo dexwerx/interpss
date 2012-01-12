@@ -24,11 +24,13 @@
 
 package org.interpss.dstab.control.cml.block;
 
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.Limit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NoLimit;
+
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 /**
@@ -68,7 +70,7 @@ public class TFunc2ndOrderBlock extends ControlBlock1stOrderAdapter {
 		                                 Number2String.toDebugStr(this.dX2_dt) + ", " + super.getState(); }
 	
 	public TFunc2ndOrderBlock(double k, double a, double b) {
-		setType(ICMLStaticBlock.Type.NoLimit);
+		setType(NoLimit);
 		this.k = k;
 		this.a = a;
 		this.b = b;
@@ -77,7 +79,7 @@ public class TFunc2ndOrderBlock extends ControlBlock1stOrderAdapter {
 	public TFunc2ndOrderBlock(double k, double a, double b, double max,
 			double min) {
 		this(k, a, b);
-		setType(ICMLStaticBlock.Type.Limit);
+		setType(Limit);
 		limit = new LimitType(max, min);
 	}
 
@@ -168,7 +170,7 @@ public class TFunc2ndOrderBlock extends ControlBlock1stOrderAdapter {
 		double y = stateX;
 		if (b == 0.0)
 			y = k * getU();
-		if (type == ICMLStaticBlock.Type.Limit) {
+		if (type == Limit) {
 			y = limit.limit(y);
 		}
 		return y;

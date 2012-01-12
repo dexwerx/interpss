@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.control.cml;
 
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NoLimit;
+
 import java.lang.reflect.Field;
 import java.util.StringTokenizer;
 
@@ -60,6 +62,7 @@ import com.interpss.dstab.controller.block.ICMLFunction;
 import com.interpss.dstab.controller.block.ICMLFunctionExpression;
 import com.interpss.dstab.controller.block.ICMLLookupTableFunction;
 import com.interpss.dstab.controller.block.ICMLStaticBlock;
+import com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType;
 import com.interpss.dstab.datatype.ExpCalculator;
 
 /**
@@ -80,8 +83,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 */
     public ICMLControlBlock createControlBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
     	if (field.getType() == DelayControlBlock.class) {
-    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == ICMLStaticBlock.Type.NoLimit) {
+    		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == NoLimit) {
     	    	// format : {"type.NoLimit", "this.k", "this.t"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	double t = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
@@ -112,8 +115,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     	    }
     	}
     	else if (field.getType() == FilterControlBlock.class) {
-    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == ICMLStaticBlock.Type.NoLimit) {
+    		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == NoLimit) {
     	    	// format : {"type.NoLimit", "this.k", "this.t1", "this.t2"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	double t1 = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
@@ -137,8 +140,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
    	    	return new WashoutControlBlock(k, t);
     	}
     	else if (field.getType() == PIControlBlock.class) {
-    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == ICMLStaticBlock.Type.NoLimit) {
+    		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == NoLimit) {
     	    	// format : {"type.NoLimit", "this.k", "this.t1", "this.t2"},
     	    	double kp = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	double ki = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
@@ -154,8 +157,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     	    }
     	}
     	else if (field.getType() == IntegrationControlBlock.class) {
-    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == ICMLStaticBlock.Type.NoLimit) {
+    		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == NoLimit) {
     	    	// format : {"type.NoLimit", "this.k"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	return new IntegrationControlBlock(k);
@@ -171,11 +174,11 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
     	else if (field.getType() == TFunc2ndOrderBlock.class) {
 	    	// format : {"type.NoLimit", "this.k", "this.a", "this.b"},
 	    	// format : {"type.Limit", "this.k", "this.a", "this.b", "this.max", this.min"},
-    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
 	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
 	    	double a = controllor.getDoubleField(StringUtil.getParameterName(parameters[2]));
 	    	double b = controllor.getDoubleField(StringUtil.getParameterName(parameters[3]));
-    	    if (type == ICMLStaticBlock.Type.NoLimit) 
+    	    if (type == NoLimit) 
 	    		return new TFunc2ndOrderBlock(k, a, b);
 	    	else {
 		    	double max = controllor.getDoubleField(StringUtil.getParameterName(parameters[4]));
@@ -205,8 +208,8 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 */
     public ICMLStaticBlock createStaticBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
     	if (field.getType() == GainBlock.class) {
-    		ICMLStaticBlock.Type type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
-    	    if (type == ICMLStaticBlock.Type.NoLimit) {
+    		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
+    	    if (type == NoLimit) {
     	    	// format : {"type.NoLimit", "this.k"},
     	    	double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    	return new GainBlock(k);

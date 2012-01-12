@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml.block;
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.ICMLStaticBlock;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.*;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class PIControlBlock extends ControlBlock1stOrderAdapter {
@@ -35,12 +35,12 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	protected LimitType limit = null;
 
 	public PIControlBlock(double kp, double ki) {
-		setType(ICMLStaticBlock.Type.NoLimit);
+		setType(NoLimit);
 		this.kp = kp;
 		this.ki = ki;
 	}
 
-	public PIControlBlock(Type type, double kp, double ki, double max,
+	public PIControlBlock(StaticBlockType type, double kp, double ki, double max,
 			double min) {
 		this(kp, ki);
 		setType(type);
@@ -50,8 +50,8 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public boolean initStateY0(double y0) {
 		setStateX(y0);
-		if (getType() == ICMLStaticBlock.Type.Limit
-				|| getType() == ICMLStaticBlock.Type.NonWindup)
+		if (getType() == Limit
+				|| getType() == NonWindup)
 			return !limit.isViolated(y0);
 		else
 			return true;
@@ -65,11 +65,11 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
-		if (getType() == ICMLStaticBlock.Type.NonWindup) {
+		if (getType() == NonWindup) {
 			double x = getKp() * u;
 			if (isLimitViolated(x)) {
 				setStateX(limit.limit(getStateX() + x) - x);
-				setDxDt(0.0);
+				setDX_dt(0.0);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
-		if (getType() == ICMLStaticBlock.Type.NonWindup) {
+		if (getType() == NonWindup) {
 			double x = getKp() * u;
 			if (isLimitViolated(x)) {
 				setStateX(limit.limit(getStateX() + x) - x);
@@ -88,7 +88,7 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public double getY() {
 		double u = getU();
-		if (getType() == ICMLStaticBlock.Type.Limit)
+		if (getType() == Limit)
 			return limit.limit(getStateX() + u * getKp());
 		else
 			return getStateX() + u * getKp();

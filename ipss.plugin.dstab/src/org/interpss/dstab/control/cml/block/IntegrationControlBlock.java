@@ -24,9 +24,12 @@
 
 package org.interpss.dstab.control.cml.block;
 
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.Limit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NoLimit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NonWindup;
+
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
@@ -34,11 +37,11 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	protected LimitType limit = null;
 
 	public IntegrationControlBlock(double k) {
-		setType(ICMLStaticBlock.Type.NoLimit);
+		setType(NoLimit);
 		this.k = k;
 	}
 
-	public IntegrationControlBlock(Type type, double k, double max, double min) {
+	public IntegrationControlBlock(StaticBlockType type, double k, double max, double min) {
 		this(k);
 		setType(type);
 		limit = new LimitType(max, min);
@@ -47,8 +50,8 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public boolean initStateY0(double y0) {
 		setStateX(y0);
-		if (getType() == ICMLStaticBlock.Type.Limit
-				|| getType() == ICMLStaticBlock.Type.NonWindup)
+		if (getType() == Limit
+				|| getType() == NonWindup)
 			return !limit.isViolated(y0);
 		else
 			return true;
@@ -62,10 +65,10 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
-		if (getType() == ICMLStaticBlock.Type.NonWindup) {
+		if (getType() == NonWindup) {
 			if (limit.isViolated(getStateX())) {
 				setStateX(limit.limit(getStateX()));
-				setDxDt(0.0);
+				setDX_dt(0.0);
 			}
 		}
 	}
@@ -73,13 +76,13 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
-		if (getType() == ICMLStaticBlock.Type.NonWindup)
+		if (getType() == NonWindup)
 			setStateX(limit.limit(getStateX()));
 	}
 
 	@Override
 	public double getY() {
-		if (getType() == ICMLStaticBlock.Type.Limit)
+		if (getType() == Limit)
 			return limit.limit(getStateX());
 		else
 			return getStateX();

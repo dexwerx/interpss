@@ -24,10 +24,13 @@
 
 package org.interpss.dstab.control.cml.block;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.Limit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NoLimit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NonWindup;
+
 import org.interpss.numeric.datatype.LimitType;
 
-import static com.interpss.common.util.IpssLogger.*;
-import com.interpss.dstab.controller.block.ICMLStaticBlock;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class FilterControlBlock extends ControlBlock1stOrderAdapter {
@@ -37,13 +40,13 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	protected LimitType limit = null;
 
 	public FilterControlBlock(double k, double t1, double t2) {
-		setType(ICMLStaticBlock.Type.NoLimit);
+		setType(NoLimit);
 		this.k = k;
 		this.t1 = t1;
 		this.t2 = t2;
 	}
 
-	public FilterControlBlock(Type type, double k, double t1, double t2,
+	public FilterControlBlock(StaticBlockType type, double k, double t1, double t2,
 			double max, double min) {
 		this(k, t1, t2);
 		setType(type);
@@ -58,8 +61,8 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		}
 		setU(y0 / getK());
 		setStateX(y0 * (1.0 - getT1() / getT2()));
-		if (getType() == ICMLStaticBlock.Type.Limit
-				|| getType() == ICMLStaticBlock.Type.NonWindup)
+		if (getType() == Limit
+				|| getType() == NonWindup)
 			return !limit.isViolated(y0);
 		else
 			return true;
@@ -80,11 +83,11 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
-		if (getType() == ICMLStaticBlock.Type.NonWindup) {
+		if (getType() == NonWindup) {
 			if (isLimitViolated(u)) {
 				double u1 = getU1(u);
 				setStateX(limit.limit(getStateX() + u1) - u1);
-				setDxDt(0.0);
+				setDX_dt(0.0);
 			}
 		}
 	}
@@ -92,7 +95,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	@Override
 	public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
-		if (getType() == ICMLStaticBlock.Type.NonWindup) {
+		if (getType() == NonWindup) {
 			if (isLimitViolated(u)) {
 				double u1 = getU1(u);
 				setStateX(limit.limit(getStateX() + u1) - u1);
@@ -110,7 +113,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		else
 			y = u * getK();
 		// System.out.println("u, y " + u + ", " + y);
-		if (getType() == ICMLStaticBlock.Type.Limit)
+		if (getType() == Limit)
 			return limit.limit(y);
 		else
 			return y;
