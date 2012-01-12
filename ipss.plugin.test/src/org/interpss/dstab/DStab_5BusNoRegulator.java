@@ -24,6 +24,7 @@
 
 package org.interpss.dstab;
 
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.MachineState;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -70,9 +71,9 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
  			     machVPoints  = {1.0795,   1.0795,   1.0795,   1.0795};
 
 		StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-		stateTestRecorder.addTestRecords("Mach@0004", StateVariableRecorder.RecType.Machine, 
+		stateTestRecorder.addTestRecords("Mach@0004", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1, timePoints, machVPoints);
-		stateTestRecorder.addTestRecords("Mach@0004", StateVariableRecorder.RecType.Machine, 
+		stateTestRecorder.addTestRecords("Mach@0004", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 		dstabAlgo.setSimuOutputHandler(stateTestRecorder);
 
@@ -85,9 +86,9 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 			assertTrue(dstabAlgo.performSimulation());
 		}
 
-		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0004", MachineState, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.0001);
-		assertTrue(stateTestRecorder.diffTotal("Mach@0004", StateVariableRecorder.RecType.Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0004", MachineState, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.0001);			
 	}
 	
@@ -120,9 +121,9 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 		             machVPoints  = {1.0976,   1.0976,   1.0976,   1.0976};
 
 			StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-			stateTestRecorder.addTestRecords("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+			stateTestRecorder.addTestRecords("Bus-4-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1, timePoints, machVPoints);
-			stateTestRecorder.addTestRecords("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+			stateTestRecorder.addTestRecords("Bus-4-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 			dstabAlgo.setSimuOutputHandler(stateTestRecorder);
 			
@@ -135,9 +136,9 @@ public class DStab_5BusNoRegulator extends DStabTestSetupBase {
 				assertTrue(dstabAlgo.performSimulation());
 			}
 			
-			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.0001);
-			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", StateVariableRecorder.RecType.Machine, 
+			assertTrue(stateTestRecorder.diffTotal("Bus-4-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.001);			
 		}
 	}

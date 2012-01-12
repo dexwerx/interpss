@@ -1,5 +1,7 @@
 package org.interpss.dstab.bpa;
 
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.*;
+
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -245,19 +247,19 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			StateVariableRecorder stateRecorder = new StateVariableRecorder(0.0001);
 			
 			stateRecorder.addCacheRecords("Bus85-mach1",      // mach id 
-					StateVariableRecorder.RecType.Machine,    // record type
+					MachineState,    // record type
 					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
 					0.1,                                      // time steps for recording 
 					300);
-			stateRecorder.addCacheRecords("Bus78-mach1", StateVariableRecorder.RecType.Machine, 
+			stateRecorder.addCacheRecords("Bus78-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 100);
 			
 			stateRecorder.addCacheRecords("Bus64-mach1",      // mach id 
-					StateVariableRecorder.RecType.Machine,    // record type
+					MachineState,    // record type
 					DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
 					0.1,                                      // time steps for recording 
 					300);                                      // total points to record 
-			stateRecorder.addCacheRecords("Bus64-mach1", StateVariableRecorder.RecType.Machine, 
+			stateRecorder.addCacheRecords("Bus64-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_PE, 0.1, 300);
 			
 			//dstabAlgo.setSimuOutputHandler(stateRecorder);
@@ -272,21 +274,21 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			// output recorded simulation results
 			/*
 			List<StateVariableRecorder.Record> list = stateRecorder.getMachineRecords(
-					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+					"Bus64-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
 			System.out.println("\n\nMachine Anagle");
 			for (Record rec : list) {
 				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 			}
 			
 			list = stateRecorder.getMachineRecords(
-					"Bus85-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+					"Bus85-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
 			System.out.println("\n\n Bus85-mach1 (EQG030) Angle");
 			for (Record rec : list) {
 				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 			}
 
 			list = stateRecorder.getMachineRecords(
-					"Bus64-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
+					"Bus64-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_PE);
 			System.out.println("\n\nMachine Power");
 			for (Record rec : list) {
 				System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));

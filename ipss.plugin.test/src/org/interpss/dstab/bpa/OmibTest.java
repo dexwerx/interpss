@@ -1,5 +1,7 @@
 package org.interpss.dstab.bpa;
 
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.GovernorState;
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.MachineState;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -20,24 +22,24 @@ import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.util.Number2String;
 import org.junit.Test;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.CoreObjectFactory;
+import com.interpss.DStabObjectFactory;
+import com.interpss.SimuObjectFactory;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBus;
-import com.interpss.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.cache.StateVariableRecorder;
-import com.interpss.dstab.cache.StateVariableRecorder.Record;
+import com.interpss.dstab.cache.StateVariableRecorder.StateRecord;
 import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.SimuObjectFactory;
 
 public class OmibTest extends DStabTestSetupBase{
 	@Test
@@ -83,17 +85,17 @@ public class OmibTest extends DStabTestSetupBase{
 		
 		StateVariableRecorder ssRecorder = new StateVariableRecorder(0.0001);
 		ssRecorder.addCacheRecords("Bus2-mach1",      // mach id 
-				StateVariableRecorder.RecType.Machine,    // record type
+				MachineState,    // record type
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
 				0.05,                                      // time steps for recording 
 				300);                                      // total points to record 
 		ssRecorder.addCacheRecords("Bus2-mach1",      // mach id 
-				StateVariableRecorder.RecType.Machine,    // record type
+				MachineState,    // record type
 				DStabOutSymbol.OUT_SYMBOL_MACH_Efd,       // state variable name
 				0.01,                                      // time steps for recording 
 				300);                                      // total points to record 
 		ssRecorder.addCacheRecords("Bus2-mach1",      // mach id 
-				StateVariableRecorder.RecType.Machine,    // record type
+				MachineState,    // record type
 				DStabOutSymbol.OUT_SYMBOL_MACH_PM,       // state variable name
 				0.05,                                      // time steps for recording 
 				300);                                      // total points to record
@@ -109,23 +111,23 @@ public class OmibTest extends DStabTestSetupBase{
 		}
 		
 		// output recorded simulation results
-		List<StateVariableRecorder.Record> list = ssRecorder.getMachineRecords(
-				"Bus2-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+		List<StateRecord> list = ssRecorder.getMachineRecords(
+				"Bus2-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
 		System.out.println("\n\n Bus2 Machine Anagle");
-		for (Record rec : list) {
+		for (StateRecord rec : list) {
 			System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 		}
 		list = ssRecorder.getMachineRecords(
-				"Bus2-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_Efd);
+				"Bus2-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_Efd);
 		System.out.println("\n\n Bus2 Machine EXC");
-		for (Record rec : list) {
+		for (StateRecord rec : list) {
 			System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 		}
 		
 		list = ssRecorder.getMachineRecords(
-				"Bus2-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_PM);
+				"Bus2-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_PM);
 		System.out.println("\n\n Bus2 Machine PM");
-		for (Record rec : list) {
+		for (StateRecord rec : list) {
 			System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 		}
 			
@@ -161,12 +163,12 @@ public class OmibTest extends DStabTestSetupBase{
 				
 				StateVariableRecorder ssRecorder = new StateVariableRecorder(0.0001);
 				ssRecorder.addCacheRecords("Bus2-mach1",      // mach id 
-						StateVariableRecorder.RecType.Machine,    // record type
+						MachineState,    // record type
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG,       // state variable name
 						0.1,                                      // time steps for recording 
 						300);                                      // total points to record 
 				ssRecorder.addCacheRecords("Bus2-mach1",      // mach id 
-						StateVariableRecorder.RecType.Governor,    // record type
+						GovernorState,    // record type
 						DStabOutSymbol.OUT_SYMBOL_GOV_PM,       // state variable name
 						0.1,                                      // time steps for recording 
 						300);                                      // total points to record 
@@ -180,16 +182,16 @@ public class OmibTest extends DStabTestSetupBase{
 				}
 				
 				// output recorded simulation results
-				List<StateVariableRecorder.Record> list = ssRecorder.getMachineRecords(
-						"Bus2-mach1", StateVariableRecorder.RecType.Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
+				List<StateRecord> list = ssRecorder.getMachineRecords(
+						"Bus2-mach1", MachineState, DStabOutSymbol.OUT_SYMBOL_MACH_ANG);
 				System.out.println("\n\n Bus2 Machine Anagle");
-				for (Record rec : list) {
+				for (StateRecord rec : list) {
 					System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 				}
 				list = ssRecorder.getMachineRecords(
-						"Bus2-mach1", StateVariableRecorder.RecType.Governor, DStabOutSymbol.OUT_SYMBOL_GOV_PM);
+						"Bus2-mach1", GovernorState, DStabOutSymbol.OUT_SYMBOL_GOV_PM);
 				System.out.println("\n\n Bus2 Machine PM");
-				for (Record rec : list) {
+				for (StateRecord rec : list) {
 					System.out.println(Number2String.toStr(rec.t) + ", " + Number2String.toStr(rec.variableValue));
 				}
 				

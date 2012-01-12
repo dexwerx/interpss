@@ -24,11 +24,11 @@
 
 package org.interpss.dstab.control.cml.block;
 
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.Limit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NonWindup;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import com.interpss.dstab.controller.block.ICMLStaticBlock;
 
 public class DelayControlBlockTests {
 	@Test
@@ -79,7 +79,7 @@ public class DelayControlBlockTests {
 
 	@Test
 	public void limitTestCase() {
-		DelayControlBlock block = new DelayControlBlock(ICMLStaticBlock.Type.Limit, 1.0, 0.1, 5.0, -5.0);
+		DelayControlBlock block = new DelayControlBlock(Limit, 1.0, 0.1, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -103,7 +103,7 @@ public class DelayControlBlockTests {
 
 	@Test
 	public void nonWindupTestCase() {
-		DelayControlBlock block = new DelayControlBlock(ICMLStaticBlock.Type.NonWindup, 1.0, 0.1, 5.0, -5.0);
+		DelayControlBlock block = new DelayControlBlock(NonWindup, 1.0, 0.1, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));

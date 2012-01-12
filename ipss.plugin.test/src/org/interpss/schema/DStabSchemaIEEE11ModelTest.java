@@ -24,6 +24,9 @@
 
 package org.interpss.schema;
 
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.*;
+import static com.interpss.dstab.cache.YMatrixChangeRecorder.YMatrixChangeRecord;
+
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -102,7 +105,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				double[] timePoints    = {0.0,  0.5,  1.0},
 		     	 machAngPoints = {49.460, 49.460, 49.460};
 				StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
+				stateTestRecorder.addTestRecords("Mach@0001", MachineState, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 			  	
@@ -111,7 +114,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 					algo.performSimulation();
 				}
 				
-				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
+				assertTrue(stateTestRecorder.diffTotal("Mach@0001", MachineState, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
 			}
 	  		else if (caseCnt == 2) {
@@ -142,17 +145,17 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				         	yClear = new Complex(1.2595,-12.97521);
 				
 				StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
+				stateTestRecorder.addTestRecords("Mach@0001", MachineState, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
-				stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
+				stateTestRecorder.addTestRecords("Mach@0001", MachineState, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 
 				YMatrixChangeRecorder yTestRecorder = new YMatrixChangeRecorder(0.0001);
 				// a 3P fault at t = 1.0, duration = 0.1, Y matrix should change
-				yTestRecorder.addTestRecord(new YMatrixChangeRecorder.Record("0003", 1.0));
+				yTestRecorder.addTestRecord(new YMatrixChangeRecord("0003", 1.0));
 				// The fault cleared at t = 1.1, Y matrix should change again.
-				yTestRecorder.addTestRecord(new YMatrixChangeRecorder.Record("0003", 1.1));
+				yTestRecorder.addTestRecord(new YMatrixChangeRecord("0003", 1.1));
 				yTestRecorder.initBusNumber(net);
 				net.setNetChangeListener(yTestRecorder);	
 
@@ -166,7 +169,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
 */						
-				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
+				assertTrue(stateTestRecorder.diffTotal("Mach@0001", MachineState, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 
 				// check 3P fault at t = 1.0

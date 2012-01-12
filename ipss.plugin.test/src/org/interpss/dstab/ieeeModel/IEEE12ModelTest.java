@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.ieeeModel;
 
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.MachineState;
+import static com.interpss.dstab.cache.YMatrixChangeRecorder.YMatrixChangeRecord;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
@@ -64,18 +66,18 @@ public class IEEE12ModelTest extends DStabTestSetupBase {
 	  	assertTrue(simuCtx.getDStabilityNet().isLfConverged());
 		
 		StateVariableRecorder stateTestRecorder = new StateVariableRecorder(0.0001);
-		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
+		stateTestRecorder.addTestRecords("Mach@0001", MachineState, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
-		stateTestRecorder.addTestRecords("Mach@0001", StateVariableRecorder.RecType.Machine, 
+		stateTestRecorder.addTestRecords("Mach@0001", MachineState, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 		algo.setSimuOutputHandler(stateTestRecorder);
 
 	  	
 		YMatrixChangeRecorder yTestRecorder = new YMatrixChangeRecorder(0.0001);
 		// a 3P fault at t = 1.0, duration = 0.1, Y matrix should change
-		yTestRecorder.addTestRecord(new YMatrixChangeRecorder.Record("0003", 1.0));
+		yTestRecorder.addTestRecord(new YMatrixChangeRecord("0003", 1.0));
 		// The fault cleared at t = 1.1, Y matrix should change again.
-		yTestRecorder.addTestRecord(new YMatrixChangeRecorder.Record("0003", 1.1));
+		yTestRecorder.addTestRecord(new YMatrixChangeRecord("0003", 1.1));
 		yTestRecorder.initBusNumber(net);
 		net.setNetChangeListener(yTestRecorder);	
 
@@ -84,9 +86,9 @@ public class IEEE12ModelTest extends DStabTestSetupBase {
 			algo.performSimulation();
 		}
 
-		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0001", MachineState, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
-		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableRecorder.RecType.Machine, 
+		assertTrue(stateTestRecorder.diffTotal("Mach@0001", MachineState, 
 				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 				
 		// check 3P fault at t = 1.0

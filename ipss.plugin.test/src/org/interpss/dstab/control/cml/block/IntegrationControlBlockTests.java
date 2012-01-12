@@ -24,11 +24,11 @@
 
 package org.interpss.dstab.control.cml.block;
 
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.Limit;
+import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NonWindup;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import com.interpss.dstab.controller.block.ICMLStaticBlock;
 
 public class IntegrationControlBlockTests {
 	@Test
@@ -78,7 +78,7 @@ public class IntegrationControlBlockTests {
 
 	@Test
 	public void limitTestCase() {
-		IntegrationControlBlock block = new IntegrationControlBlock(ICMLStaticBlock.Type.Limit, 1.0, 5.0, -5.0);
+		IntegrationControlBlock block = new IntegrationControlBlock(Limit, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -102,7 +102,7 @@ public class IntegrationControlBlockTests {
 
 	@Test
 	public void nonWindupTestCase() {
-		IntegrationControlBlock block = new IntegrationControlBlock(ICMLStaticBlock.Type.NonWindup, 1.0, 5.0, -5.0);
+		IntegrationControlBlock block = new IntegrationControlBlock(NonWindup, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
