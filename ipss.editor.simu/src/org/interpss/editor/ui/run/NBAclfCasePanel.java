@@ -51,7 +51,7 @@ import org.interpss.ui.SwingInputVerifyUtil;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
-import com.interpss.common.msg.SimuMessage;
+import com.interpss.common.msg.impl.SimuMessageImpl;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adj.FunctionLoad;
@@ -97,8 +97,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
   	* @param msg the msg object
      */
      public void onMsgEvent(IpssMessage msg) {
-    	 if (msg instanceof SimuMessage) {
-      	  	if (msg.getType() == SimuMessage.TYPE_LFLAB_MSG) {
+    	 if (msg instanceof SimuMessageImpl) {
+      	  	if (msg.getType() == SimuMessageImpl.TYPE_LFLAB_MSG) {
     			IpssLogger.getLogger().info(msg.getMsgString());
     			msgOutTextArea.append(msg.getMsgString() + "\n");
       	  	}

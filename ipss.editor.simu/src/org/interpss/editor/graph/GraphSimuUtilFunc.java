@@ -40,8 +40,8 @@ import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.adpter.CapacitorBusAdapter;
-import com.interpss.core.aclf.adpter.GenBusAdapter;
+import com.interpss.core.aclf.adpter.AclfCapacitorBus;
+import com.interpss.core.aclf.adpter.AclfGenBus;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
@@ -83,13 +83,13 @@ public class GraphSimuUtilFunc {
 				else if (LABEL_ACT_ACLF.equals(action)) {
 					AclfBus bus = (AclfBus) simuCtx.getAclfNet().getBus(
 							form.getId());
-					GenBusAdapter genBus = bus.toGenBus();
+					AclfGenBus genBus = bus.toGenBus();
 					Complex busPQ = genBus
 							.getGenResults(UnitType.PU)
 							.subtract(
 									genBus.getLoadResults(UnitType.PU));
 					if (bus.isCapacitor()) {
-						CapacitorBusAdapter cap = bus.toCapacitorBus();
+						AclfCapacitorBus cap = bus.toCapacitorBus();
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 								.getVoltageMag(), UnitType.PU)));
 					}

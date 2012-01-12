@@ -63,7 +63,6 @@ import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
-import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -73,6 +72,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.core.util.CoreUtilFunc;
@@ -126,8 +126,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    // populate the Swing alloc zone
 	    AclfNetwork net = _simuCtx.getAclfNet();
 	    try {
-	    	AclfBus swingBus = net.getAclfBus(CoreObjectFactory
-	    			.createAclfNetHelper(net)
+	    	AclfBus swingBus = net.getAclfBus(new AclfNetHelper(net)
 	    			.getSwingBusId());
 	    	Zone zone = swingBus.getZone();
 	    	// get the neighboring zones of the swing bus

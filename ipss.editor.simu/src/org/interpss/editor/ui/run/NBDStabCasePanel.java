@@ -48,13 +48,12 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
-import org.interpss.xml.schema.ValueChangeDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.util.CoreUtilFunc;
-import com.interpss.dstab.util.DStabUtilFunc;
+import com.interpss.dstab.DStabFunction;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxHelper;
 
@@ -182,7 +181,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	else {
     		machOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    				DStabUtilFunc.getMachIdArray(simuCtx.getDStabilityNet())));
+    				DStabFunction.getMachIdArray(simuCtx.getDStabilityNet())));
     	}
     }
     
@@ -1093,7 +1092,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         			this.xmlCaseData.getOutputConfig().getOutputVariable().add((String)obj);
     	}
     	else {
-        	for (Object obj : DStabUtilFunc.getMachIdArray(simuCtx.getDStabilityNet()))
+        	for (Object obj : DStabFunction.getMachIdArray(simuCtx.getDStabilityNet()))
         		if (!StringUtil.contain(outVarList, (String)obj))
         			this.xmlCaseData.getOutputConfig().getOutputVariable().add((String)obj);
         	for (Object obj : CoreUtilFunc.getBusIdArray(simuCtx.getDStabilityNet()))

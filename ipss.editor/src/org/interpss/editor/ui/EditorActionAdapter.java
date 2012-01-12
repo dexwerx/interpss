@@ -24,6 +24,8 @@
 
 package org.interpss.editor.ui;
 
+import static com.interpss.spring.CoreCommonSpringFactory.springAppCtx;
+
 import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.SimuRunEnum;
@@ -89,7 +91,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringFactory.ctx().getBean("editorJGraphDataMapper");
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)springAppCtx.getBean("editorJGraphDataMapper");
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
@@ -109,7 +111,7 @@ public class EditorActionAdapter {
 		IGFormContainer gFormContainer = null ;
 		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)CoreCommonSpringFactory.ctx().getBean("editorJGraphDataMapper");
+			IMapping<IGFormContainer, SimuContext> mapper = (IMapping<IGFormContainer, SimuContext>)springAppCtx.getBean("editorJGraphDataMapper");
 			if (!mapper.map2Model(gFormContainer, simuCtx)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);

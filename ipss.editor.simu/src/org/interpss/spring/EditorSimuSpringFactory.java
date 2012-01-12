@@ -44,7 +44,7 @@ public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	 * @return the ProjectData object
 	 */
 	public static IProjectData getProjectData() {
-		return (IProjectData) SpringAppCtx.getBean("ipssProjectData");
+		return (IProjectData) springAppCtx.getBean("ipssProjectData");
 	}
 
 	/**
@@ -53,11 +53,11 @@ public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	 * @return the EditorJGraphDataMapper object
 	 */
 	public static EditorJGraphDataMapper getEditorDataMapper() {
-		return (EditorJGraphDataMapper)SpringAppCtx.getBean("editorJGraphDataMapper");
+		return (EditorJGraphDataMapper)springAppCtx.getBean("editorJGraphDataMapper");
 	}
 
 	public static JDialog getCaseInfoDialog() {
-		return (JDialog) SpringAppCtx.getBean("caseInfoDialog");
+		return (JDialog) springAppCtx.getBean("caseInfoDialog");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	 * @return the AclfRunForm object
 	 */
 	public static AclfRunForm getAclfRunForm() {
-		return (AclfRunForm) SpringAppCtx.getBean("aclfRunForm");
+		return (AclfRunForm) springAppCtx.getBean("aclfRunForm");
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	 * @return the AclfRunForm object
 	 */
 	public static DclfRunForm getDclfRunForm() {
-		return (DclfRunForm) SpringAppCtx.getBean("dclfRunForm");
+		return (DclfRunForm) springAppCtx.getBean("dclfRunForm");
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	 * @return the ProjectData object
 	 */
 	public static AcscRunForm getAcscRunForm() {
-		return (AcscRunForm) SpringAppCtx.getBean("acscRunForm");
+		return (AcscRunForm) springAppCtx.getBean("acscRunForm");
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class EditorSimuSpringFactory extends CoreCommonSpringFactory {
 	 * @return the DStabRunForm object
 	 */
 	public static DStabRunForm getDStabRunForm() {
-		return (DStabRunForm) SpringAppCtx.getBean("dstabRunForm");
+		return (DStabRunForm) springAppCtx.getBean("dstabRunForm");
 	}
 	
 	public static ICaseInfoDialog getCaseInfoDialog(SimuRunEnum type, String filename) {
