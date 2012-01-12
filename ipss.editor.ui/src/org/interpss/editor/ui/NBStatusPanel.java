@@ -41,7 +41,7 @@ import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
-import com.interpss.common.msg.SimuMessage;
+import com.interpss.common.msg.impl.SimuMessageImpl;
 
 public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener {
 	private static final long serialVersionUID = 1;
@@ -255,9 +255,9 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
 	 * @param msg the msg object
 	 */
 	public void onMsgEvent(IpssMessage msg) {
-		if (msg instanceof SimuMessage) {
-			if (msg.getType() == SimuMessage.TYPE_PROGRESS_STATUS) {
-				SimuMessage simuMsg = (SimuMessage)msg;
+		if (msg instanceof SimuMessageImpl) {
+			if (msg.getType() == SimuMessageImpl.TYPE_PROGRESS_STATUS) {
+				SimuMessageImpl simuMsg = (SimuMessageImpl)msg;
 			    setPosition(simuMsg.getIntData());
 			}
 		}

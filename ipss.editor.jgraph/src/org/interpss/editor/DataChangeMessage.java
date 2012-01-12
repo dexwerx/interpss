@@ -24,7 +24,7 @@
 
 package org.interpss.editor;
 
-import com.interpss.common.msg.IpssMessageAdapter;
+import com.interpss.common.msg.impl.IpssMessageAdapter;
 
 public class DataChangeMessage extends IpssMessageAdapter {
 	public static final byte DataDirty = 1, DataChangeMsg = 2;

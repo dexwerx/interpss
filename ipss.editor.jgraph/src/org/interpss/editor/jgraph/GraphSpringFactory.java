@@ -49,7 +49,7 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IpssGraph object
 	 */
 	public static JGraph getIpssGraph() {
-		return (JGraph)SpringAppCtx.getBean("ipssGraph");
+		return (JGraph)springAppCtx.getBean("ipssGraph");
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IpssGraph object
 	 */
 	public static IGFormContainer getEditorFormContainer() {
-		return (IGFormContainer)SpringAppCtx.getBean("editorFormContainer");
+		return (IGFormContainer)springAppCtx.getBean("editorFormContainer");
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	public static IElemSearchDialog getSearchDialog(int type, JGraph graph) {
 		IIpssGraphModel model = (IIpssGraphModel)graph.getModel();
 		if (type == EditorType_FindDistObject) {
-			IFormDataDialog dialog = (IFormDataDialog)SpringAppCtx.getBean("searchElementDialog");
+			IFormDataDialog dialog = (IFormDataDialog)springAppCtx.getBean("searchElementDialog");
 			dialog.init(model.getGFormContainer(), null);
 			return (IElemSearchDialog)dialog;	
 		}
@@ -134,7 +134,7 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	 * @return the IpssMainFrame object
 	 */
 	public static IGraphicEditor getIpssGraphicEditor() {
-		return (IGraphicEditor)SpringAppCtx.getBean("ipssGraphicEditor");
+		return (IGraphicEditor)springAppCtx.getBean("ipssGraphicEditor");
 	}
 	
 	/**
@@ -143,7 +143,7 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	 * @return the editor object
 	 */
 	public static IFormDataDialog getProjectDataEditor() {
-		return (IFormDataDialog)SpringAppCtx.getBean("projectDataEditor");
+		return (IFormDataDialog)springAppCtx.getBean("projectDataEditor");
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	 * @return the editor object
 	 */
 	public static IFormDataDialog getBusDataEditor() {
-		return (IFormDataDialog)SpringAppCtx.getBean("busDataEditor");
+		return (IFormDataDialog)springAppCtx.getBean("busDataEditor");
 	}
 
 	/**
@@ -161,6 +161,6 @@ public class GraphSpringFactory extends CoreCommonSpringFactory {
 	 * @return the editor object
 	 */
 	public static IFormDataDialog getBranchDataEditor() {
-		return (IFormDataDialog)SpringAppCtx.getBean("branchDataEditor");
+		return (IFormDataDialog)springAppCtx.getBean("branchDataEditor");
 	}
 }

@@ -40,42 +40,42 @@ public class EditorSpringFactory extends CoreCommonSpringFactory {
 	 * Get the GEditor(singleton) from the SpringAppContext.
 	 */
 	public static GPGraphpad getGraphicEditor() {
-		return (GPGraphpad)SpringAppCtx.getBean("ipssGraphicEditor");
+		return (GPGraphpad)springAppCtx.getBean("ipssGraphicEditor");
 	}
 	
 	/**
 	 * Get the AppContext(singleton) from the SpringAppContext.
 	 */
 	public static AppContext getAppContext() {
-		return (AppContext)SpringAppCtx.getBean("ipssAppContext");
+		return (AppContext)springAppCtx.getBean("ipssAppContext");
 	}
 
 	/**
 	 * Get the DB RefDataManager(singleton) object.
 	 */
 	public static IAppStatus getStatusPanel() {
-		return (IAppStatus)SpringAppCtx.getBean("ipssStatusPanel");
+		return (IAppStatus)springAppCtx.getBean("ipssStatusPanel");
 	}
 
 	/**
 	 * Get the DB RefDataManager(singleton) object.
 	 */
 	public static IRefDataManager getRefDataManager() {
-		return (IRefDataManager)SpringAppCtx.getBean("refDataManager");
+		return (IRefDataManager)springAppCtx.getBean("refDataManager");
 	}
 
 	/**
 	 * Get the DB ProjectDataManager(singleton) object.
 	 */
 	public static IProjectDataManager getProjectDataManager() {
-		return (IProjectDataManager)SpringAppCtx.getBean("projectDataManager");
+		return (IProjectDataManager)springAppCtx.getBean("projectDataManager");
 	}
 
 	/**
 	 * Get the DB SimuRecManager(singleton) object.
 	 */
 	public static ISimuRecManager getSimuRecManager() {
-		return (ISimuRecManager)SpringAppCtx.getBean("simuRecManager");
+		return (ISimuRecManager)springAppCtx.getBean("simuRecManager");
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class EditorSpringFactory extends CoreCommonSpringFactory {
 	 * @return the AppSimuContext object
 	 */
 	public static IAppSimuContext getAppSimuContext() {
-		return (IAppSimuContext) SpringAppCtx
+		return (IAppSimuContext) springAppCtx
 				.getBean("ipssAppSimuContext");
 	}	
 }

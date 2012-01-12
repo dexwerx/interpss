@@ -44,7 +44,7 @@ public class UISpringFactory extends CoreCommonSpringFactory {
 	 * @return the OutputTextDialog object
 	 */	
 	public static IOutputTextDialog getOutputTextDialog(String title) {
-		IOutputTextDialog dialog = (IOutputTextDialog)SpringAppCtx.getBean("outputTextDialog");
+		IOutputTextDialog dialog = (IOutputTextDialog)springAppCtx.getBean("outputTextDialog");
 		dialog.setTitle(title);
 		return dialog;
 	}
@@ -55,7 +55,7 @@ public class UISpringFactory extends CoreCommonSpringFactory {
 	 * @return the ServiceScheduleDialog object
 	 */	
 	public static IFormDataDialog getServiceScheduleDialog() {
-		return (IFormDataDialog)SpringAppCtx.getBean("serviceScheduleDialog");
+		return (IFormDataDialog)springAppCtx.getBean("serviceScheduleDialog");
 	}	
 	
 	/**
@@ -64,7 +64,7 @@ public class UISpringFactory extends CoreCommonSpringFactory {
 	 * @return the LoadScheduleDialog object
 	 */	
 	public static IFormDataDialog getLoadScheduleDialog() {
-		return (IFormDataDialog)SpringAppCtx.getBean("loadScheduleDialog");
+		return (IFormDataDialog)springAppCtx.getBean("loadScheduleDialog");
 	}	
 	
 	/**
@@ -73,7 +73,7 @@ public class UISpringFactory extends CoreCommonSpringFactory {
 	 * @return the CustomAclfBusScriptPluginList object
 	 */	
 	public static List<IScriptPluginEditing> getCustomScriptPluginList(String id) {
-		return (List<IScriptPluginEditing>)SpringAppCtx.getBean(id);
+		return (List<IScriptPluginEditing>)springAppCtx.getBean(id);
 	}	
 	
 	/**
