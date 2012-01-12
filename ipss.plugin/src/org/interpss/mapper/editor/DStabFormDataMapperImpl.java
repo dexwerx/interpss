@@ -24,7 +24,7 @@
 
 package org.interpss.mapper.editor;
 
-import static com.interpss.core.AcscFunction.*;
+import static com.interpss.core.AcscFunction.Str2ScGroundCode;
 
 import java.util.List;
 
@@ -45,6 +45,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
@@ -56,7 +57,6 @@ import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;
-import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.mach.DynamicMachine;
 import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
@@ -145,8 +145,8 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 		busDevice.setId(Constants.Token_DBusDeviceId + busId);
 		busDevice.setName(Constants.Token_DBusDeviceId + busId);
 		busDevice
-				.setScriptLang(busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java ? ScriptLangType.JAVA
-						: ScriptLangType.PLUGIN);
+				.setScriptLang(busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java ? ScriptLangEnum.Java
+						: ScriptLangEnum.Plugin);
 		if (busData.getScriptLanguage() == BaseDataBean.ScriptLanguage_Java)
 			busDevice.setScripts(busData.getScripts());
 		else {

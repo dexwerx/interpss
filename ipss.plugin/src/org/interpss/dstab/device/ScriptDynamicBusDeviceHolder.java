@@ -32,13 +32,13 @@ import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.IScriptPluginEditing;
 import org.interpss.util.MemoryJavaCompiler;
 
+import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
-import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
 
 /**
@@ -149,7 +149,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	}
 
 	private void createDeviceObject() {
-		if (getScriptLang() == ScriptLangType.JAVA) {
+		if (getScriptLang() == ScriptLangEnum.Java) {
 			String classname = ScriptJavacUtilFunc
 					.createScriptingClassname(getId());
 			String javacode = getScripts().replaceFirst(

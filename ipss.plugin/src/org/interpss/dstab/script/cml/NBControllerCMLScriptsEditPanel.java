@@ -29,9 +29,12 @@ import java.util.Vector;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.ui.ICustomPluginEditor;
 
-import com.interpss.dstab.controller.ICMLScriptingController;
-
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
+	public static String ExciterTemplateFilename = "template/DStabCMLExciterTemplete.txt";
+	public static String GovernorTemplateFilename = "template/DStabCMLGovernorTemplete.txt";
+	public static String StabilizerTemplateFilename = "template/DStabCMLStabilizerTemplete.txt";
+	
+	
 	private static final long serialVersionUID = 1;
 
 	private AbstractCMLScriptingController controller = null;
@@ -64,11 +67,11 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
 	}
     
     private void loadTemplate2Textarea() {
-		String filename = ICMLScriptingController.ExciterTemplateFilename;
+		String filename = ExciterTemplateFilename;
 		if (controller instanceof CMLScriptingGovernor)
-    		filename = ICMLScriptingController.GovernorTemplateFilename;
+    		filename = GovernorTemplateFilename;
 		else if (controller instanceof CMLScriptingStabilizer)
-    		filename = ICMLScriptingController.StabilizerTemplateFilename;
+    		filename = StabilizerTemplateFilename;
 		GUIFileUtil.readFile2TextareaRativePath(filename, scriptsTextArea);
     }
     
