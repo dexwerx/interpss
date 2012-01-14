@@ -30,25 +30,48 @@ import org.interpss.numeric.util.Number2String;
 
 import com.interpss.core.aclf.AclfBus;
 
+/**
+ * A bus data object of type double
+ * 
+ * @author mzhou
+ *
+ */
 public class DblBusValue extends BusValueBase {
 	public double value;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param x
+	 */
 	public DblBusValue(double x) {
 		this.value = x;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param id
+	 * @param x
+	 */
 	public DblBusValue(String id, double x) {
 		this.id = id;
 		this.value = x;
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param bus
+	 * @param x
+	 */
 	public DblBusValue(AclfBus bus, double x) {
 		this.bus = bus;
 		this.value = x;
 	}
 
 	/**
-	 * For use Collections.sort() in the descending order
+	 * Bus data object comparator. For use Collections.sort() in the descending order
 	 * 
 	 * @return
 	 */
@@ -60,6 +83,11 @@ public class DblBusValue extends BusValueBase {
 		};
 	}
 
+	/**
+	 * Bus data object absolute value comparator. For use Collections.sort() in the descending order
+	 * 
+	 * @return
+	 */
 	public static Comparator<DblBusValue> getAbsComparator() {
 		return new Comparator<DblBusValue>() {
 			@Override public int compare(DblBusValue o1, DblBusValue o2) {
@@ -68,7 +96,7 @@ public class DblBusValue extends BusValueBase {
 		};
 	}
 	
-	public String toString() {
+	@Override public String toString() {
 		return Number2String.toStr(value) + "@" + (bus!=null?bus.getId():"NotFound");
 	}
 }

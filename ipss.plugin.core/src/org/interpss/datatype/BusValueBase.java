@@ -26,6 +26,12 @@ package org.interpss.datatype;
 
 import com.interpss.core.aclf.AclfBus;
 
+/**
+ * Base class for defining data object associated with an AclfBus
+ * 
+ * @author mzhou
+ *
+ */
 public class BusValueBase extends ValueBaseId {
 	public AclfBus bus;
 }

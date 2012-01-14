@@ -27,14 +27,25 @@ package org.interpss.datatype;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.util.Number2String;
 
+/**
+ * A bus data object of type complex
+ * 
+ * @author mzhou
+ *
+ */
 public class CplxBusValue extends BusValueBase {
 	public Complex value;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param x
+	 */
 	public CplxBusValue(Complex x) {
 		this.value = x;
 	}
 	
-	public String toString() {
+	@Override public String toString() {
 		return Number2String.toStr(value) + "@" + (bus!=null?bus.getId():"NotFound");
 	}
 }

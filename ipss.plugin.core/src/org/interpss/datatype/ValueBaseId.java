@@ -24,7 +24,13 @@
 
 package org.interpss.datatype;
 
-
+/**
+ * Base class for defining id associated data object. 
+ * 
+ * @author mzhou
+ *
+ */
 public class ValueBaseId {
+	// value object id
 	public String id;
 }

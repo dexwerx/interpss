@@ -26,6 +26,12 @@ package org.interpss.datatype;
 
 import com.interpss.core.aclf.AclfBranch;
 
+/**
+ * Base class for defining data object associated with an AclfBranch
+ * 
+ * @author mzhou
+ *
+ */
 public class BranchValueBase  extends ValueBaseId {
 	public AclfBranch branch;
 }

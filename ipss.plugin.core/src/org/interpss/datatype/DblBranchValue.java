@@ -28,6 +28,12 @@ import java.util.Comparator;
 
 import org.interpss.numeric.util.Number2String;
 
+/**
+ * A branch data object of type double
+ * 
+ * @author mzhou
+ *
+ */
 public class DblBranchValue extends BranchValueBase {
 	public double value;
 	
@@ -35,6 +41,11 @@ public class DblBranchValue extends BranchValueBase {
 		this.value = x;
 	}
 	
+	/**
+	 * Branch data object absolute value comparator. For use Collections.sort() in the descending order
+	 * 
+	 * @return
+	 */
 	public static Comparator<DblBranchValue> getAbsComparator() {
 		return new Comparator<DblBranchValue>() {
 			@Override public int compare(DblBranchValue o1, DblBranchValue o2) {
@@ -43,7 +54,7 @@ public class DblBranchValue extends BranchValueBase {
 		};
 	}	
 	
-	public String toString() {
+	@Override public String toString() {
 		return Number2String.toStr(value) + "@" + (branch!=null?branch.getId():"NotFound");
 	}
 }
