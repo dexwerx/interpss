@@ -32,7 +32,7 @@ import org.interpss.xml.schema.RuleBaseXmlType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.mapper.RuleBase2ModelMapper;
+import com.interpss.simu.mapper.RuleBase2ModelMapper;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public class XmlScriptUtilFunc {

@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.ui;
 
-import org.interpss.display.DclfOutFunc;
+import org.interpss.editor.runAct.ISimuCaseRunner;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.spring.UISpringFactory;
@@ -34,7 +34,6 @@ import org.interpss.xml.schema.DclfStudyCaseXmlType;
 
 import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
 public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {

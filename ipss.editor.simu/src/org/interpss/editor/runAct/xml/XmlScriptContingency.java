@@ -44,8 +44,8 @@ import com.interpss.SimuObjectFactory;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.mapper.Modification2ModelMapper;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 

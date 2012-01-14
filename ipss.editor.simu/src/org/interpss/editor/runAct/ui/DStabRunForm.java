@@ -26,6 +26,7 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.interpss.editor.runAct.ISimuCaseRunner;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
@@ -34,7 +35,6 @@ import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.numeric.util.StringHelper;
 import org.interpss.spring.PluginSpringFactory;
-import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
@@ -42,7 +42,6 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
-import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreSpringFactory;
 import com.interpss.spring.DStabSpringFactory;

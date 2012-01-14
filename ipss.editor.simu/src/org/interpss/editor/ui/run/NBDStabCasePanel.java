@@ -25,6 +25,7 @@
 package org.interpss.editor.ui.run;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+import static com.interpss.dstab.DStabFunction.*;
 
 import java.util.List;
 import java.util.Vector;
@@ -53,7 +54,6 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.util.CoreUtilFunc;
-import com.interpss.dstab.DStabFunction;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxHelper;
 
@@ -181,7 +181,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	else {
     		machOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    				DStabFunction.getMachIdArray(simuCtx.getDStabilityNet())));
+    				GetMachineIdAry.f(simuCtx.getDStabilityNet())));
     	}
     }
     
@@ -1092,7 +1092,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         			this.xmlCaseData.getOutputConfig().getOutputVariable().add((String)obj);
     	}
     	else {
-        	for (Object obj : DStabFunction.getMachIdArray(simuCtx.getDStabilityNet()))
+        	for (Object obj : GetMachineIdAry.f(simuCtx.getDStabilityNet()))
         		if (!StringUtil.contain(outVarList, (String)obj))
         			this.xmlCaseData.getOutputConfig().getOutputVariable().add((String)obj);
         	for (Object obj : CoreUtilFunc.getBusIdArray(simuCtx.getDStabilityNet()))
