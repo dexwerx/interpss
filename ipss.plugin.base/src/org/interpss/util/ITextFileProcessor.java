@@ -26,6 +26,12 @@ package org.interpss.util;
 
 import com.interpss.common.exp.InterpssException;
 
+/**
+ * Text file line processor interface
+ * 
+ * @author mzhou
+ *
+ */
 public interface ITextFileProcessor {
 	/**
 	 * for processing a line in, for example, text file

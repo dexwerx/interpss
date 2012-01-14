@@ -26,6 +26,13 @@ package org.interpss.util;
 
 import com.interpss.common.exp.InterpssException;
 
+/**
+ * Excel file row processor interface
+ * 
+ * @author mzhou
+ *
+ * @param <T>
+ */
 public interface IExcelFileProcessor<T> {
 	/**
 	 * for processing a row in, for example, Excel file

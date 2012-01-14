@@ -30,24 +30,49 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.interpss.common.util.IpssLogger;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-
-
+/**
+ * A text file reader implementation. The file is processed line by line
+ * by using a file line processor. The processFile method take the file
+ * line processor and performs the line processing.
+ * 
+ * 
+ * @author mzhou
+ *
+ */
 public class TextFileReader {
 	protected String filepath = null;
 
+	/**
+	 * default constructor
+	 */
 	public TextFileReader() {
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param filepath
+	 */
 	public TextFileReader(String filepath) {
 		this.filepath = filepath;
 	}
 	
+	/**
+	 * set file full path including file name
+	 * 
+	 * @param filepath
+	 */
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
 
+	/**
+	 * process the text file line-by-line by the processor
+	 * 
+	 * @param procer
+	 */
 	public void processFile(ITextFileProcessor procer) {
 		try {
 			final File file = new File(this.filepath);
@@ -61,9 +86,8 @@ public class TextFileReader {
 	          		procer.processLine(str);
 	        } while (str != null);
 		} catch (Exception e) {
-			IpssLogger.getLogger().severe(e.toString());
+			ipssLogger.severe(e.toString());
 			e.printStackTrace();
 		}
 	}
-	
 }

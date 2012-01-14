@@ -27,15 +27,13 @@ package org.interpss.ui;
 import java.util.Vector;
 
 /**
- * Swing input data validation util functions
+ * Java Swing input data validation utility functions
  */
-
 public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is empty
 	 * 
-	 * @param input
-	 *            the JTextField object
+	 * @param input the JTextField object
 	 * @return true or false
 	 */
 	public static boolean isEmptyStr(javax.swing.JTextField input) {
@@ -45,8 +43,7 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JComboBox selection is empty
 	 * 
-	 * @param input
-	 *            the JComboBox object
+	 * @param input the JComboBox object
 	 * @return true or false
 	 */
 	public static boolean isEmptyStr(javax.swing.JComboBox input) {
@@ -57,10 +54,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input the JTextField object
+	 * @param x parameter x
 	 * @return true or false
 	 */
 	public static boolean largeThan(javax.swing.JTextField input, double x)
@@ -74,10 +69,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input the JTextField object
+	 * @param x parameter x
 	 * @return true or false
 	 */
 	public static boolean largeThan(javax.swing.JTextField input, double x,
@@ -91,10 +84,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input the JTextField object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean within(javax.swing.JTextField input, double low,
@@ -108,10 +99,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input  the JTextField object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean within(javax.swing.JTextField input, double low,
@@ -126,10 +115,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input the JTextField object
+	 * @param x   parameter x
 	 * @return true or false
 	 */
 	public static boolean largeThan(javax.swing.JTextField input, int x,
@@ -143,10 +130,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input the JTextField object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean largeThan(javax.swing.JTextField input, int x)
@@ -160,10 +145,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JComboBox input is larger than x
 	 * 
-	 * @param input
-	 *            the JComboBox object
-	 * @param x
-	 *            parameter x
+	 * @param input the JComboBox object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean largeThan(javax.swing.JComboBox input, double x,
@@ -177,10 +160,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JComboBox input is larger than x
 	 * 
-	 * @param input
-	 *            the JComboBox object
-	 * @param x
-	 *            parameter x
+	 * @param input the JComboBox object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean largeThan(javax.swing.JComboBox input, double x)
@@ -194,10 +175,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger or equal than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input the JTextField object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean largeEqualThan(javax.swing.JTextField input,
@@ -212,10 +191,8 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Check if the JTextField input is larger or equal than x
 	 * 
-	 * @param input
-	 *            the JTextField object
-	 * @param x
-	 *            parameter x
+	 * @param input  the JTextField object
+	 * @param x  parameter x
 	 * @return true or false
 	 */
 	public static boolean largeEqualThan(javax.swing.JTextField input, double x)
@@ -229,8 +206,7 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Get double from the JTextField input
 	 * 
-	 * @param input
-	 *            the JTextField object
+	 * @param input the JTextField object
 	 * @return the double number
 	 */
 	public static double getDouble(javax.swing.JTextField input)
@@ -241,8 +217,7 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Get double from the input
 	 * 
-	 * @param input
-	 *            the object, has to be instanceOf Double
+	 * @param input the object, has to be instanceOf Double
 	 * @return the double number
 	 */
 	public static double getDouble(Object input) {
@@ -252,8 +227,7 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Get double from the JComboBox input
 	 * 
-	 * @param input
-	 *            the JComboBox object
+	 * @param input the JComboBox object
 	 * @return the double number
 	 */
 	public static double getDouble(javax.swing.JComboBox input) throws Exception {
@@ -263,8 +237,7 @@ public class SwingInputVerifyUtil {
 	/**
 	 * Get int from the JTextField input
 	 * 
-	 * @param input
-	 *            the JTextField object
+	 * @param input the JTextField object
 	 * @return the int number
 	 */
 	public static int getInt(javax.swing.JTextField input) throws Exception {

@@ -31,12 +31,18 @@ import org.ieee.odm.schema.NameTagXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
 
-import com.interpss.common.util.IpssLogger;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.core.net.OriginalDataFormat;
 
 
+/**
+ * ODM utility functions
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMHelper {
 	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/odm/Schema/2008\">";
 	static String PSSStudyCaseEnd = "</PSSStudyCase>";
@@ -134,7 +140,7 @@ public class ODMHelper {
 			if (scase.getName().equals(recName))
 				return scase;
 		}
-		IpssLogger.getLogger().severe("Programming error, StudyCase cannot be found, recName: " + recName);
+		ipssLogger.severe("Programming error, StudyCase cannot be found, recName: " + recName);
 		return null;
 	}
 	

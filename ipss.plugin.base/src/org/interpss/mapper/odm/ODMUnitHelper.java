@@ -39,7 +39,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import com.interpss.common.func.IFunction;
 
 /**
- * To use functions in this class, 
+ * ODM unit help functions. To use functions in this class, 
  * 
  * 	import static org.interpss.mapper.odm.ODMUnitHelper.*;
 
@@ -49,10 +49,8 @@ import com.interpss.common.func.IFunction;
 
 public class ODMUnitHelper {
 	/**
-	 * convert XML power unit to Ipss UnitType
+	 * convert XML power unit to InterPSS UnitType
 	 * 
-	 * @param unit power unit 
-	 * @return
 	 */
 	public static IFunction<ApparentPowerUnitType, UnitType> ToApparentPowerUnit = 
 		new IFunction<ApparentPowerUnitType, UnitType>() {
@@ -68,6 +66,10 @@ public class ODMUnitHelper {
 			}
 		};
 
+	/**
+	 * convert XML power unit to InterPSS UnitType
+	 * 
+	 */
 	public static IFunction<ActivePowerUnitType, UnitType> ToActivePowerUnit = 
 		new IFunction<ActivePowerUnitType, UnitType>() {
 			@Override public UnitType f(ActivePowerUnitType from) {
@@ -82,6 +84,10 @@ public class ODMUnitHelper {
 			}
 		};
 
+	/**
+	 * convert XML power unit to InterPSS UnitType
+	 * 
+	 */
 	public static IFunction<ReactivePowerUnitType, UnitType> ToReactivePowerUnit = 
 		new IFunction<ReactivePowerUnitType, UnitType>() {
 			@Override public UnitType f(ReactivePowerUnitType from) {
@@ -96,7 +102,10 @@ public class ODMUnitHelper {
 			}		
 		};
 
-
+	/**
+	 * convert XML Z unit to InterPSS UnitType
+	 * 
+	 */
 	public static IFunction<ZUnitType, UnitType> ToZUnit = 
 		new IFunction<ZUnitType, UnitType>() {
 			@Override public UnitType f(ZUnitType from) {

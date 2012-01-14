@@ -24,9 +24,7 @@
 
 package org.interpss.util;
 
-/**
- * The code is based test.net.java.privateer on java.net
- */
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -64,6 +62,9 @@ import junit.framework.AssertionFailedError;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringFactory;
 
+/**
+ * In-memory Java file compiler. The code is based test.net.java.privateer on java.net
+ */
 public class MemoryJavaCompiler {
 	private static Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 	private static JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -88,7 +89,7 @@ public class MemoryJavaCompiler {
 		//System.out.println(code);
 		MemoryJavaCompiler c = new MemoryJavaCompiler();
 		try {
-			IpssLogger.getLogger().info("In memory compile Java code, " + name);
+			ipssLogger.info("In memory compile Java code, " + name);
 			Class<?> klass = c.compileSource(name, code, c
 					.getDefaultClassLoader());
 			if (klass != null)
@@ -128,8 +129,7 @@ public class MemoryJavaCompiler {
 		try {
 			Class.forName("javax.tools.ToolProvider");
 		} catch (final ClassNotFoundException e) {
-			IpssLogger.getLogger().severe(
-					"Require Java 1.6 or later." + e.toString());
+			ipssLogger.severe("Require Java 1.6 or later." + e.toString());
 			return false;
 		}
 		return true;
@@ -207,9 +207,7 @@ public class MemoryJavaCompiler {
 
 		//If not running on JDK, compiler will be null
 		if (compiler == null) {
-			IpssLogger
-					.getLogger()
-					.severe(
+			ipssLogger.severe(
 							"Compiler not available.  This may happen if "
 									+ "running on JRE instead of JDK.  Please use a full "
 									+ "JDK to run tests.  "

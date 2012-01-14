@@ -26,9 +26,8 @@ package org.interpss.grid;
 
 
 /**
- * All Grid constants
+ * All Grid computing constants
  */
-
 public class GridConstants {
 	/*
 	 * 
@@ -102,5 +101,4 @@ public class GridConstants {
 	public static int Const_ReturnAllStudyCases 	= 1;	
 	public static int Const_ReturnDivergedCase 		= 2;	
 	public static int Const_ReturnNoStudyCase 		= 3;		
-	
 }

@@ -33,8 +33,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.interpss.common.util.IpssLogger;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
+/**
+ * File utility
+ * 
+ * @author mzhou
+ *
+ */
 public class FileUtil {
 	/**
 	 * Write the text to the file
@@ -44,7 +50,7 @@ public class FileUtil {
 	 * @return
 	 */
 	public static boolean writeText2File(String filename, String text) {
-		IpssLogger.getLogger().info("FileUtil.writeTextarea2File() info to file: " + filename);
+		ipssLogger.info("FileUtil.writeTextarea2File() info to file: " + filename);
 		try {
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
 			out.write(text.getBytes());
@@ -52,13 +58,13 @@ public class FileUtil {
 			out.close();
 			return true;
 		} catch (Exception e) {
-			IpssLogger.getLogger().severe("Cannot save to file: " + filename + ", " + e.toString());
+			ipssLogger.severe("Cannot save to file: " + filename + ", " + e.toString());
 		}
 		return false;
 	}
 	
 	/**
-	 * 
+	 * read a file and return file context as a byte[]
 	 * 
 	 * @param file
 	 * @return

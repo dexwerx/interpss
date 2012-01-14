@@ -36,7 +36,7 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
-import com.interpss.common.util.IpssLogger;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Branch3W;
@@ -53,7 +53,6 @@ import com.interpss.core.net.Zone;
  * @param <Tfrom> a ODM parser object 
  * @param <Tto> a Network object (AclfNetwork, AcscNetwork)
  */
-
 public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMapping<Tfrom, Tto> {
 	public AbstractODMNetDataMapper() {
 	}
@@ -88,7 +87,7 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 		bus.setDesc(busRec.getDesc() == null? "Bus Desc" : busRec.getDesc());
 		bus.setStatus(busRec.isOffLine() != null? !busRec.isOffLine() : true);
 		if (!bus.isActive()) {
-			IpssLogger.getLogger().info("Bus is not active, " + bus.getId());
+			ipssLogger.info("Bus is not active, " + bus.getId());
 		}
 		
 		if (busRec.getCimRdfRecords() != null && busRec.getCimRdfRecords().getRdfRec().size() > 0) {
@@ -149,7 +148,7 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 		branch.setDesc(branchRec.getDesc() == null ? "" : branchRec.getDesc());
 		branch.setStatus(branchRec.isOffLine() != null ? !branchRec.isOffLine() : true);
 		if (!branch.isActive()) {
-			IpssLogger.getLogger().info("Branch is not active, " + branch.getId());
+			ipssLogger.info("Branch is not active, " + branch.getId());
 		}
 		if (branchRec.getAreaNumber() != null) {
 			Area area = CoreObjectFactory.createArea(branchRec.getAreaNumber(), net);

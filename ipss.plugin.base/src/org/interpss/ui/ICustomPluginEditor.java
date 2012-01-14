@@ -26,6 +26,12 @@ package org.interpss.ui;
 
 import java.util.Vector;
 
+/**
+ * Custom editor plugin interface
+ * 
+ * @author mzhou
+ *
+ */
 public interface ICustomPluginEditor {
 
 	/**
