@@ -25,6 +25,7 @@
 package org.interpss.mapper.odm.impl.aclf;
 
 import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.util.List;
 
@@ -54,7 +55,6 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -66,7 +66,17 @@ import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
+/**
+ * abstract mapper implementation to map ODM to InterPSS object model for Aclf
+ * 
+ * @author mzhou
+ * @param Tfrom from object type
+ */
 public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
+	/**
+	 * constructor
+	 * 
+	 */
 	public AbstractODMAclfDataMapper() {
 	}
 	
@@ -76,8 +86,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 * @param p ODM parser object, representing a ODM xml file
 	 * @param simuCtx
 	 */
-	@Override
-	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
+	@Override public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 		AclfModelParser parser = (AclfModelParser)p;
 		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
@@ -105,12 +114,11 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();
-				IpssLogger.getLogger().severe(e.toString());
+				ipssLogger.severe(e.toString());
 				noError = false;
 			}
 		} else {
-			IpssLogger.getLogger().severe(
-							"Error: currently only Transmission NetworkType has been implemented");
+			ipssLogger.severe("Error: currently only Transmission NetworkType has been implemented");
 			return false;
 		}
 		
@@ -150,7 +158,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 					branch.setBranchDir(true);
 				
 				if (b == null) {
-					IpssLogger.getLogger().severe("Branch in the interface not found, " +
+					ipssLogger.severe("Branch in the interface not found, " +
 							xmlBra.getFromBusId() + ", " + xmlBra.getToBusId() + ", " + xmlBra.getCircuitId());
 				}
 				else {
@@ -184,7 +192,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	}
 	
 	/**
-	 * Map a bus record
+	 * Map the bus record
 	 * 
 	 * @param busRec
 	 * @param adjNet
@@ -203,6 +211,7 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	}
 	
 	/**
+	 * mapp the branch record
 	 * 
 	 * @param xmlBranch
 	 * @param adjNet

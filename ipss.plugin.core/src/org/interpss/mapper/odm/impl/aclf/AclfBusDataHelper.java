@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToApparentPowerUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
@@ -50,7 +51,6 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -64,15 +64,33 @@ import com.interpss.core.aclf.adpter.AclfPQGenBus;
 import com.interpss.core.aclf.adpter.AclfPVGenBus;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 
+/**
+ * Aclf bus data ODM mapping helper functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfBusDataHelper {
 	private AclfNetwork aclfNet = null;
 	private AclfBus aclfBus = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param aclfNet
+	 * @param aclfBus
+	 */
 	public AclfBusDataHelper(AclfNetwork aclfNet, AclfBus aclfBus) {
 		this.aclfNet = aclfNet;
 		this.aclfBus = aclfBus;
 	}
 	
+	/**
+	 * map the Loadflow bus ODM object info to the AclfBus object
+	 * 
+	 * @param busXmlData
+	 * @throws InterpssException
+	 */
 	public void setAclfBusData(LoadflowBusXmlType busXmlData) throws InterpssException {
 		VoltageXmlType vXml = busXmlData.getVoltage();
 		double vpu = 1.0;
@@ -164,7 +182,7 @@ public class AclfBusDataHelper {
 			}
 			else {
 				// remote bus voltage
-					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + aclfBus.getId());
+				ipssLogger.fine("Bus is a RemoteQBus, id: " + aclfBus.getId());
 					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
 					// be changed to PQ bus

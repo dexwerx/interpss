@@ -31,17 +31,38 @@ import org.ieee.odm.schema.LfMethodEnumType;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
+/**
+ * Aclf scenario helper functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfScenarioHelper {
 	LoadflowAlgorithm aclfAlgo = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param aclfAlgo
+	 */
 	public AclfScenarioHelper(LoadflowAlgorithm aclfAlgo) {
 		this.aclfAlgo = aclfAlgo;
 	}
 
+	/**
+	 * get the LF algorithm object
+	 * 
+	 * @return
+	 */
 	public LoadflowAlgorithm getAclfAlgo() {
 		return this.aclfAlgo;
 	}
 
+	/**
+	 * map the ODM AclfAlgo document to InterPSS Aclf algo model
+	 * 
+	 * @param lfInit
+	 */
 	public void mapAclfAlgorithm(AclfAlgorithmXmlType lfInit){
 		
 		// set lf method

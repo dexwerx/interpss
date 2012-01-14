@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
@@ -42,7 +43,6 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.Aclf3WXformer;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -54,16 +54,33 @@ import com.interpss.core.aclf.adpter.PSXfr3WAdapter;
 import com.interpss.core.aclf.adpter.Xfr3WAdapter;
 import com.interpss.core.net.Branch;
 
+/**
+ * Aclf branch data ODM mapping helper functions 
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfBranchDataHelper {
 	private AclfNetwork aclfNet = null;
 	private Branch branch = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param aclfNet
+	 * @param bra
+	 */
 	public AclfBranchDataHelper(AclfNetwork aclfNet, Branch bra) {
 		this.aclfNet = aclfNet;
 		this.branch = bra;
 	}
 	
-	
+	/**
+	 * 	 map the Aclf Line ODM object info to the AclfBranch object
+	 * 
+	 * @param braLine
+	 * @throws InterpssException
+	 */
 	public void setLineBranchData(LineBranchXmlType braLine) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
@@ -102,7 +119,13 @@ public class AclfBranchDataHelper {
 			aclfBra.setToShuntY(ypu);
 		}
 	}
-	
+
+	/**
+	 * 	 map the Aclf Xfr ODM object info to the AclfBranch object
+	 * 
+	 * @param braXfr
+	 * @throws InterpssException
+	 */
 	public void setXfrBranchData(XfrBranchXmlType braXfr) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
@@ -119,6 +142,12 @@ public class AclfBranchDataHelper {
 		}
 	}
 	
+	/**
+	 * 	 map the Aclf PSXfr ODM object info to the AclfBranch object
+	 * 
+	 * @param braPsXfr
+	 * @throws InterpssException
+	 */
 	public void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
@@ -178,8 +207,13 @@ public class AclfBranchDataHelper {
 	 *   	3W Xfr
 	 */
 	
+	/**
+	 * 	 map the Aclf 3W xfr ODM object info to the AclfBranch object
+	 * 
+	 * @param xml3WXfr
+	 */
 	public void setXfr3WBranchData(Xfr3WBranchXmlType xml3WXfr) throws InterpssException {
-		IpssLogger.getLogger().info("Xfr3WBranchXmlType: " + xml3WXfr.getId());
+		ipssLogger.info("Xfr3WBranchXmlType: " + xml3WXfr.getId());
 		
 		Aclf3WXformer branch3W = (Aclf3WXformer)this.branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_XFORMER);
@@ -196,7 +230,7 @@ public class AclfBranchDataHelper {
 	}
 	
 	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType xmlPsXfr3W) throws InterpssException {
-		IpssLogger.getLogger().info("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
+		ipssLogger.info("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
 		
 		Aclf3WXformer branch3W = (Aclf3WXformer)this.branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_PS_XFORMER);
