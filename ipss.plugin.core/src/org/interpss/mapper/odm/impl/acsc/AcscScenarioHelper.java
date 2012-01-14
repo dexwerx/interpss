@@ -42,7 +42,6 @@ import org.ieee.odm.schema.AcscFaultTypeEnumType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ZXmlType;
-import org.interpss.mapper.odm.ODMUnitHelper;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -54,12 +53,23 @@ import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.ScBusVoltageType;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
-import com.interpss.dstab.devent.BranchOutageType;
 
+/**
+ * Acsc scenario helper functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AcscScenarioHelper {
 	private AcscNetwork acscFaultNet = null;
 	SimpleFaultAlgorithm acscAglo = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param acscFaultNet
+	 * @param acscAglo
+	 */
 	public AcscScenarioHelper(AcscNetwork acscFaultNet, SimpleFaultAlgorithm acscAglo) {
 		this.acscFaultNet = acscFaultNet;
 		this.acscAglo = acscAglo;
@@ -150,10 +160,26 @@ public class AcscScenarioHelper {
 
 	}
 	
+	/**
+	 * set bus fault info from ODM to InterPSS model
+	 * 
+	 * @param scFaultXml
+	 * @param acscBusFault
+	 * @param baseV
+	 * @param baseKVA
+	 */
 	public static void setBusFaultInfo(AcscBusFaultXmlType scFaultXml, AcscBusFault acscBusFault, double baseV, double baseKVA) {
 		setFaultInfo(scFaultXml, acscBusFault, baseV, baseKVA);
 	}
 
+	/**
+	 * set branch fault info from ODM to InterPSS model
+	 * 
+	 * @param scFaultXml
+	 * @param acscBusFault
+	 * @param baseV
+	 * @param baseKVA
+	 */
 	public static void setBranchFaultInfo(AcscBranchFaultXmlType scFaultXml, AcscBranchFault acscBusFault, double baseV, double baseKVA) {
 		// AcscBranchFault is a subclass of AcscBusFault
 		setFaultInfo(scFaultXml, acscBusFault, baseV, baseKVA);
@@ -185,13 +211,5 @@ public class AcscScenarioHelper {
 			acscBusFault.setZLLFault(new Complex(zLL.getRe(), zLL.getIm()), 
 					ToZUnit.f(zLL.getUnit()), baseV, baseKVA);
 		}	
-	}
-	
-	public static BranchOutageType getBranchOutageType(AcscFaultCategoryEnumType caty) {
-		if (caty == AcscFaultCategoryEnumType.OUTAGE_1_PHASE)
-			return BranchOutageType.SINGLE_PHASE;
-		else if (caty == AcscFaultCategoryEnumType.OUTAGE_2_PHASE)
-			return BranchOutageType.DOUBLE_PHASE;		
-		return BranchOutageType.THREE_PHASE;
 	}
 }

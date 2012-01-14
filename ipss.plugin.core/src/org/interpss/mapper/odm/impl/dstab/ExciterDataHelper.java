@@ -57,6 +57,12 @@ import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.mach.Machine;
 
+/**
+ * Class for map ODM exciter xml document to InterPSS exciter model 
+ * 
+ * @author mzhou
+ *
+ */
 public class ExciterDataHelper {
 	private Machine mach = null;
 	
@@ -324,7 +330,5 @@ public class ExciterDataHelper {
 		else {
 			throw new InterpssException("Exciter type invalid or not implemented, type " + excXmlRec.getClass().getSimpleName());
 		}
-		
-		
 	}
 }

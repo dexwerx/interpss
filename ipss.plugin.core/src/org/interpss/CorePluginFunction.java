@@ -1,5 +1,6 @@
 package org.interpss;
 
+import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.AclfOutFunc.BusIdStyle;
 import org.interpss.display.impl.AclfOut_BusStyle;
@@ -10,6 +11,7 @@ import com.interpss.common.func.IFunction2;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.OriginalDataFormat;
+import com.interpss.dstab.devent.BranchOutageType;
 
 /**
  * Functions for Core plugin 
@@ -90,5 +92,19 @@ public class CorePluginFunction {
 			@Override public StringBuffer f(AclfNetwork net, BusIdStyle style) {
 				return AclfOut_BusStyle.lfResultsBusStyle(net, style);
 			}
+		};
+		
+	/**
+	 * Function to map ODM AcscFaultCategoryEnumType to InterPSS BranchOutageType
+	 */
+	public static IFunction<AcscFaultCategoryEnumType, BranchOutageType> MapBranchOutageType = 
+		new IFunction<AcscFaultCategoryEnumType, BranchOutageType>() {
+			@Override public BranchOutageType f(AcscFaultCategoryEnumType caty) {
+				if (caty == AcscFaultCategoryEnumType.OUTAGE_1_PHASE)
+					return BranchOutageType.SINGLE_PHASE;
+				else if (caty == AcscFaultCategoryEnumType.OUTAGE_2_PHASE)
+					return BranchOutageType.DOUBLE_PHASE;		
+				return BranchOutageType.THREE_PHASE;
+			}		
 		};
 }

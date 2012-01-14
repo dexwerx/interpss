@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.odm.impl.opf;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.model.opf.OpfModelParser;
@@ -42,7 +44,6 @@ import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.OpfObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.opf.OpfBranch;
 import com.interpss.opf.OpfBus;
 import com.interpss.opf.OpfGenBus;
@@ -50,8 +51,18 @@ import com.interpss.opf.OpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-
+/**
+ * abstract mapper implementation to map ODM to InterPSS object model for Opf
+ * 
+ * @author mzhou
+ *
+ * @param <Tfrom>
+ */
 public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
+	/**
+	 * constructor
+	 * 
+	 */
 	public AbstractODMOpfDataMapper() {
 	}
 	
@@ -62,8 +73,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 	 * @param simuCtx
 	 * @return
 	 */
-	@Override
-	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
+	@Override public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 		
 		OpfModelParser parser = (OpfModelParser) p;
@@ -94,12 +104,12 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();
-				IpssLogger.getLogger().severe(e.toString());
+				ipssLogger.severe(e.toString());
 				noError = false;
 			}
 		} 
 		else {
-			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
+			ipssLogger.severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
 			noError = false;
 		}
 		
@@ -108,7 +118,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 			simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		} 
 		else {
-			IpssLogger.getLogger().severe( "Error: StudyCase.ContentInfo were not entered");
+			ipssLogger.severe( "Error: StudyCase.ContentInfo were not entered");
 			noError = false;
 		}
 		return noError;

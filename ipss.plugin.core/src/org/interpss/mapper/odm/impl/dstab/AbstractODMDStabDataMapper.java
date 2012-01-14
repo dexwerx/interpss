@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.model.dstab.DStabModelParser;
@@ -52,7 +54,6 @@ import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
-//import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
@@ -61,7 +62,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
@@ -71,9 +71,19 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
+/**
+ * abstract mapper implementation to map ODM to InterPSS object model for DStab
+ * 
+ * @author mzhou
+ *
+ * @param <Tfrom>
+ */
 public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscDataMapper<Tfrom> {
 	protected IPSSMsgHub msg = null;
 	
+	/**
+	 * constructor
+	 */
 	public AbstractODMDStabDataMapper() {
 	}
 		
@@ -84,8 +94,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 	 * @param simuCtx
 	 * @return
 	 */
-	@Override
-	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
+	@Override public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 		
 		DStabModelParser parser = (DStabModelParser) p;
@@ -138,7 +147,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 						}
 					}
 					else {
-						IpssLogger.getLogger().severe( "Error: only aclfBus, acscBus and dstabBus could be used for DStab study");
+						ipssLogger.severe( "Error: only aclfBus, acscBus and dstabBus could be used for DStab study");
 						noError = false;
 					}
 				}
@@ -167,7 +176,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 						}
 					}
 					else {
-						IpssLogger.getLogger().severe( "Error: only aclf<Branch>, acsc<Branch> and dstab<Branch> could be used for DStab study");
+						ipssLogger.severe( "Error: only aclf<Branch>, acsc<Branch> and dstab<Branch> could be used for DStab study");
 						noError = false;
 					}
 				}
@@ -179,13 +188,13 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {
-				IpssLogger.getLogger().severe(e.toString());
+				ipssLogger.severe(e.toString());
 				e.printStackTrace();
 				noError = false;
 			}
 		} 
 		else {
-			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
+			ipssLogger.severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
 			return false;
 		}
 		

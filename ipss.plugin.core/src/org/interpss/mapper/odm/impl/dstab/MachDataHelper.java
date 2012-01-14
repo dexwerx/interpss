@@ -53,13 +53,24 @@ import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.dstab.mach.SalientPoleMachine;
 
-
+/**
+ * Class for mapping ODM machine xml document to an InterPSS machine model
+ * 
+ * @author mzhou
+ *
+ */
 public class MachDataHelper {
 	private DStabBus dstabBus = null;
 	private ActivePowerXmlType ratedPower = null;
 	VoltageXmlType ratedVoltage = null;
 	
-	
+	/**
+	 * constructor
+	 * 
+	 * @param dstabBus
+	 * @param ratedP
+	 * @param ratedV
+	 */
 	public MachDataHelper(DStabBus dstabBus, ActivePowerXmlType ratedP,	VoltageXmlType ratedV) {
 		this.dstabBus = dstabBus;
 		this.ratedPower = ratedP;

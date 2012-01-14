@@ -27,6 +27,7 @@ package org.interpss.mapper.odm.impl.acsc;
 import static com.interpss.core.AcscFunction.AcscXfrAptr;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import javax.xml.bind.JAXBElement;
 
@@ -60,7 +61,6 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.AcscFunction;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -75,7 +75,18 @@ import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
+/**
+ * abstract mapper implementation to map ODM to InterPSS object model for Acsc
+ * 
+ * @author mzhou
+ *
+ * @param <Tfrom>
+ */
 public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
+	/**
+	 * constructor
+	 * 
+	 */
 	public AbstractODMAcscDataMapper() {
 	}
 	
@@ -86,13 +97,12 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 	 * @param simuCtx
 	 * @return
 	 */
-	@Override
-	public boolean map2Model(Tfrom p, SimuContext simuCtx) {
+	@Override public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
 
 		AcscModelParser parser = (AcscModelParser) p;
 		if (simuCtx.getNetType() != SimuCtxType.ACSC_NET) {
-			IpssLogger.getLogger().severe("SimuNetwork type should be set to ACSC_FAULT_NET for mapping ODM to SimpleFaultNetwork");
+			ipssLogger.severe("SimuNetwork type should be set to ACSC_FAULT_NET for mapping ODM to SimpleFaultNetwork");
 			return false;
 		}
 		
@@ -134,7 +144,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						AbstractODMAcscDataMapper.setAcscBusNoLFData(acscBusXml, acscBus);
 					}
 					else {
-						IpssLogger.getLogger().severe( "Error: only scscBus and pss:acscNoLFBus could be used for DStab study");
+						ipssLogger.severe( "Error: only scscBus and pss:acscNoLFBus could be used for DStab study");
 						noError = false;
 					}
 				}
@@ -151,7 +161,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						setAcscBranchData(acscBraXml, acscBranch);
 					}
 					else {
-						IpssLogger.getLogger().severe( "Error: only acsc<Branch> could be used for SC study");
+						ipssLogger.severe( "Error: only acsc<Branch> could be used for SC study");
 						noError = false;
 					}
 				}		
@@ -163,13 +173,13 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 								mapOneFaultScenario(s);
 				}
 			} catch (InterpssException e) {
-				IpssLogger.getLogger().severe(e.toString());
+				ipssLogger.severe(e.toString());
 				e.printStackTrace();
 				noError = false;
 			}
 		} 
 		else {
-			IpssLogger.getLogger().severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
+			ipssLogger.severe( "Error: wrong Transmission NetworkType and/or ApplicationType");
 			return false;
 		}
 

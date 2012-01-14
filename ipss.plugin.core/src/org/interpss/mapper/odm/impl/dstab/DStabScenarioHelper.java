@@ -21,14 +21,12 @@
  *   ================
  *
  */
-/*
-Key concepts:
-	- Acsc Fault : defined using Fault Type (BusFault, BranchFault, BranchOutage) and Fault Category (3P, LG, LL, LLG)
-	- Dynamic Event : defined using Dynamic Event Type (Fault, LoadChange, SetPointChange). Dynamic Event Fault is then 
-               defined using Acsc Fault.
-*/
+
 
 package org.interpss.mapper.odm.impl.dstab;
+
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static org.interpss.CorePluginFunction.MapBranchOutageType;
 
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
@@ -60,7 +58,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.fault.AcscBusFault;
@@ -78,16 +75,39 @@ import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
+/**
+ * Acsc scenario helper functions
+ *
+ 	Key concepts:
+		- Acsc Fault : defined using Fault Type (BusFault, BranchFault, BranchOutage) and Fault Category (3P, LG, LL, LLG)
+		- Dynamic Event : defined using Dynamic Event Type (Fault, LoadChange, SetPointChange). Dynamic Event Fault is then 
+               defined using Acsc Fault.
+
+ * @author mzhou
+ *
+ */
 public class DStabScenarioHelper {
 	
 	private DStabilityNetwork dstabNet = null;
 	private DynamicSimuAlgorithm dstabAlgo = null;	
 	
+	/**
+	 * constructor
+	 * 
+	 * @param dstabNet
+	 * @param algo
+	 */
 	public DStabScenarioHelper(DStabilityNetwork dstabNet, DynamicSimuAlgorithm algo) {
 		this.dstabNet = dstabNet;
 		this.dstabAlgo = algo;
 	}
 	
+	/**
+	 * map ODM DStab scenario to InterPSS object model. It only applies to one fault scenario
+	 * 
+	 * @param sScenarioXml
+	 * @throws InterpssException
+	 */
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
 		if(	sScenarioXml.getStudyCaseList().getStudyCase() != null &&
 				sScenarioXml.getStudyCaseList().getStudyCase().size() == 1){
@@ -175,7 +195,7 @@ public class DStabScenarioHelper {
 	 */
 	private void setDynamicEventData(DynamicEvent eventObj,
 					DynamicEventXmlType eventXml) throws InterpssException {
-		IpssLogger.getLogger().info("Dynamic Event Type: " + eventXml.getEventType().toString());
+		ipssLogger.info("Dynamic Event Type: " + eventXml.getEventType().toString());
 
 		if (eventXml.getEventType() == DynamicEventEnumType.LOAD_CHANGE) {
 			initLoadChange(eventObj, eventXml, this.dstabAlgo.getTotalSimuTimeSec());
@@ -202,7 +222,7 @@ public class DStabScenarioHelper {
 				eventObj.setType(DynamicEventType.BRANCH_OUTAGE);
 				String faultBranchId = braFaultXml.getRefBranch().getBranchId();
 				BranchOutageEvent bOutageEvent = DStabObjectFactory.createBranchOutageEvent(faultBranchId, dstabNet);
-				bOutageEvent.setOutageType(AcscScenarioHelper.getBranchOutageType(faultXml.getFaultCategory()));
+				bOutageEvent.setOutageType(MapBranchOutageType.f(faultXml.getFaultCategory()));
 				eventObj.setBranchDynamicEvent(bOutageEvent);
 			} 
 			else if (eventXml.getFault().getFaultType() == AcscFaultTypeEnumType.BUS_FAULT) {
@@ -269,14 +289,14 @@ public class DStabScenarioHelper {
 			else if (faultType == AcscFaultTypeEnumType.BRANCH_OUTAGE)
 				return DynamicEventType.BRANCH_OUTAGE;
 
-		} else {
+		} 
+		else {
 			if (eventTypeXml == DynamicEventEnumType.LOAD_CHANGE)
 				return DynamicEventType.LOAD_CHANGE;
 			else if (eventTypeXml == DynamicEventEnumType.SET_POINT_CHANGE)
 				return DynamicEventType.SET_POINT_CHANGE;
 		}
-		throw new InterpssException(
-				"Programming error, eventDataType: " + eventTypeXml);
+		throw new InterpssException("Programming error, eventDataType: " + eventTypeXml);
 	}	
 
 	/*
@@ -324,12 +344,12 @@ public class DStabScenarioHelper {
 	 */
 	private void setSetPointChangeDynEvent(DStabSetPointChangeXmlType spcEventXml, DStabSimuSettingXmlType settings) throws InterpssException {
 		// find the machine from the dtabNet using the machId
-		IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
+		ipssLogger.info("Dynamic Event Type: SetPointChange");
 		String machId = spcEventXml.getRefGenBus().getBusId();
 		Machine mach = this.dstabNet.getMachine(machId);
 		if (mach == null)
 			throw new InterpssException("Machine for Set Point Change not found");
-		IpssLogger.getLogger().info("SetPointChange mach id : " + mach.getId());
+		ipssLogger.info("SetPointChange mach id : " + mach.getId());
 
 		// create a dynamic event of type SetPointChange. The event is added into the net during the event creation
 		DynamicEvent eventObj = DStabObjectFactory.createDEvent(

@@ -44,8 +44,12 @@ import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.mach.Machine;
 
-
-
+/**
+ * Class for map ODM stabilizer xml document to InterPSS Stabilizer model 
+ * 
+ * @author mzhou
+ *
+ */
 public class StabilizerDataHelper {
 	private Machine mach = null;
 	

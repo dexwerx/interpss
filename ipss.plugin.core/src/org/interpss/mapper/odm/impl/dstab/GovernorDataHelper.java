@@ -46,8 +46,12 @@ import org.interpss.dstab.control.gov.simple.SimpleGovernor;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.mach.Machine;
 
-
-
+/**
+ * Class for map ODM governor xml document to InterPSS governor model 
+ * 
+ * @author mzhou
+ *
+ */
 public class GovernorDataHelper {
 	private Machine mach = null;
 
