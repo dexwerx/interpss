@@ -24,10 +24,10 @@
 
 package com.interpss.pssl.test.dist;
 
+import static org.interpss.CorePluginFunction.LfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -35,8 +35,8 @@ import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.adpter.DistGenerator;
-import com.interpss.dist.adpter.DistXformer;
 import com.interpss.dist.adpter.DistUtility;
+import com.interpss.dist.adpter.DistXformer;
 import com.interpss.pssl.simu.IpssDist;
 import com.interpss.pssl.simu.IpssDist.DistNetDSL;
 import com.interpss.pssl.test.BaseTestSetup;
@@ -70,7 +70,7 @@ public class DistSys_Test extends BaseTestSetup {
 		
 		distNet.loadflow();
 		//System.out.println(aclfNet.net2String());
-		System.out.println(AclfOutFunc.lfResultsBusStyle(distNet.getAclfNetwork()));
+		System.out.println(LfResultBusStyle.f(distNet.getAclfNetwork()));
 	  	
 	  	DistBus bus = (DistBus)distNet.getDistNetwork().getBus("Bus1");
 	  	//System.out.println(bus.getAcscBus().getGenResults().getReal());
