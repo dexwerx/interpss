@@ -133,7 +133,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         }
         else if (data instanceof DistNetwork) {
         	DistNetwork distNet = (DistNetwork)data;
-        	textArea.setText(DistOutFunc.lfSummary(distNet, msg));
+        	textArea.setText(DistOutFunc.lfSummary(distNet).toString());
         }
         else if (data instanceof DynamicSimuAlgorithm) {
         	DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)data;
