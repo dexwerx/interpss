@@ -27,7 +27,7 @@ package org.interpss.dstab.output;
 import java.util.Hashtable;
 
 import com.interpss.common.msg.IpssMessage;
-import com.interpss.dstab.datatype.DStabSimuAction;
+import com.interpss.dstab.datatype.DStabSimuEvent;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
 
 public class TextSimuOutputHandler extends AbstractSimuOutputHandler {
@@ -44,8 +44,8 @@ public class TextSimuOutputHandler extends AbstractSimuOutputHandler {
 		}
 		
 		// Plot step outout message processing
-		DStabSimuAction e = (DStabSimuAction) event;
-		if (e.getType() == DStabSimuAction.PlotStepMachineStates) {
+		DStabSimuEvent e = (DStabSimuEvent) event;
+		if (e.getType() == DStabSimuEvent.PlotStepMachineStates) {
 			Hashtable<String, Object> machStates = e.getHashtableData();
 			try {
 				System.out.print(DStabOutFunc.getStateStr(machStates));

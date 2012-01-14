@@ -36,7 +36,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.datatype.DStabSimuAction;
+import com.interpss.dstab.datatype.DStabSimuEvent;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
 import com.interpss.spring.CoreCommonSpringFactory;
 
@@ -89,26 +89,26 @@ public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 
 	@Override
 	public boolean onMsgEventStatus(IpssMessage event) {
-		DStabSimuAction e = (DStabSimuAction) event;
-		if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
+		DStabSimuEvent e = (DStabSimuEvent) event;
+		if (e.getType() == DStabSimuEvent.TimeStepMachineStates) {
 			Hashtable<String, Object> machStates = e.getHashtableData();
 			if (!this.anOutput.machStates(net, machStates))
 				return false;
 		}
 
-		if (e.getType() == DStabSimuAction.TimeStepBusStates) {
+		if (e.getType() == DStabSimuEvent.TimeStepBusStates) {
 			Hashtable<String, Object> busStates = e.getHashtableData();
 			if (!this.anOutput.busVariables(net, busStates))
 				return false;
 		}
 
-		if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
+		if (e.getType() == DStabSimuEvent.TimeStepScriptDynamicBusDeviceStates) {
 			Hashtable<String, Object> busDeviceStates = e.getHashtableData();
 			if (!this.anOutput.busDeviceStates(net, busDeviceStates))
 				return false;
 		}
 
-		if (e.getType() == DStabSimuAction.EndOfSimuStep) {
+		if (e.getType() == DStabSimuEvent.EndOfSimuStep) {
 			try {
 				this.anOutput.endOfSimuStep();
 			} catch (Exception ex) {

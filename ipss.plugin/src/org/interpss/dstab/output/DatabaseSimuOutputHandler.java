@@ -20,7 +20,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
-import com.interpss.dstab.datatype.DStabSimuAction;
+import com.interpss.dstab.datatype.DStabSimuEvent;
 import com.interpss.dstab.mach.MachineControllerType;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
 
@@ -99,7 +99,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 	@SuppressWarnings("unchecked")
 	public boolean onMsgEventStatus(IpssMessage event) {
 		ISimuRecManager simuRecMgr = PluginSpringFactory.getSimuRecManager();
-		DStabSimuAction e = (DStabSimuAction) event;
+		DStabSimuEvent e = (DStabSimuEvent) event;
 		try {
 			int dbCaseId = getDBCaseId();
 			if (e.getHashtableData() != null
@@ -110,7 +110,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 						caseId);
 			}
 
-			if (e.getType() == DStabSimuAction.PlotStepMachineStates) {
+			if (e.getType() == DStabSimuEvent.PlotStepMachineStates) {
 				Hashtable<String, Object> machStates = e.getHashtableData();
 
 				double time = StringUtil.getDouble(machStates
@@ -178,7 +178,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 					 * e.getHashtableData()); IpssLogger.logErr(ex); }
 					 */
 				}
-			} else if (e.getType() == DStabSimuAction.PlotStepBusStates) {
+			} else if (e.getType() == DStabSimuEvent.PlotStepBusStates) {
 				Hashtable<String, Object> busStates = e.getHashtableData();
 				double time = StringUtil.getDouble(busStates
 						.get(DStabOutSymbol.OUT_SYMBOL_TIME));
@@ -199,7 +199,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 					simuRecMgr.dbActionSimuRec(DBManager.SQL_ACTION_INSERT,
 							busRec, IProjectDataManager.CaseType_DStabSimuRec);
 				}
-			} else if (e.getType() == DStabSimuAction.PlotStepScriptDynamicBusDeviceStates) {
+			} else if (e.getType() == DStabSimuEvent.PlotStepScriptDynamicBusDeviceStates) {
 				Hashtable<String, Object> deviceStates = e.getHashtableData();
 				double time = StringUtil.getDouble(deviceStates
 						.get(DStabOutSymbol.OUT_SYMBOL_TIME));

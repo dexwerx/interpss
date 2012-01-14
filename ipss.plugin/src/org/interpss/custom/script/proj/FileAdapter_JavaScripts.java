@@ -40,7 +40,6 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.script.ScriptingUtil;
 
 public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	public FileAdapter_JavaScripts(IPSSMsgHub msgHub) {
@@ -67,10 +66,24 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
       	
 		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 		engine.eval(scripts);
-		Object loader = ScriptingUtil.getScritingObject(engine, msgHub);
+		Object loader = getScritingObject(engine, msgHub);
 		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
 	}
 	
+	private Object getScritingObject(ScriptEngine engine, IPSSMsgHub msg) {
+		try {
+			String objName = (String)((Invocable)engine).invokeFunction("getObjectName");
+			Object obj = engine.get(objName);
+			if (obj == null) {
+				msg.sendErrorMsg("The loader scripting object not found, name:" + objName);
+				return null;
+			}
+			return obj;
+		} catch (Exception e ) {
+			msg.sendErrorMsg("Error in loading the scripting object, getObjectName() method not defined," + e.toString());
+		}
+		return null;
+	}	
 	/**
 	 * Create a SimuContext object and Load the data in the data file, specified by the filepath, into the object. 
 	 * An AclfAdjNetwork object will be created to hold the data for loadflow analysis.
