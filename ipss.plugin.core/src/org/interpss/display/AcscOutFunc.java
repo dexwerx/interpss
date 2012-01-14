@@ -24,6 +24,8 @@
 
 package org.interpss.display;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
@@ -44,10 +46,23 @@ import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
+/**
+ * Acsc output functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AcscOutFunc {
+	/**
+	 * output Acsc analysis results
+	 * 
+	 * @param faultNet
+	 * @param algo
+	 * @return
+	 */
 	public static String faultResult2String(AcscNetwork faultNet, SimpleFaultAlgorithm algo) {
 		StringBuffer sb = new StringBuffer();
-		IpssLogger.getLogger().fine(
+		ipssLogger.fine(
 				"# of Fault objects = " + algo.getFaultList().size());
 		for (Object fault : algo.getFaultList()) {
 			if (fault instanceof AcscBranchFault) {

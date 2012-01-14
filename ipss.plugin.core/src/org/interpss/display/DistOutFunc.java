@@ -24,14 +24,25 @@
 
 package org.interpss.display;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dist.adpter.DistBusAdapter;
 
+/**
+ * Distribution system output functions
+ * 
+ * @author mzhou
+ *
+ */
 public class DistOutFunc {
-	public static String lfSummary(DistNetwork distNet, IPSSMsgHub msg) {
+	/**
+	 * output distribution system LF results in the summary format
+	 * 
+	 * @param distNet
+	 * @return
+	 */
+	public static StringBuffer lfSummary(DistNetwork distNet) {
 		StringBuffer str = new StringBuffer("");
 
 		for (int i = 0; i < distNet.getLoadScheduleData().getSchedulePoints(); i++) {
@@ -51,6 +62,6 @@ public class DistOutFunc {
 			str.append(AclfOutFunc.loadFlowSummary(distNet.getAclfNet()));
 		}
 
-		return str.toString();
+		return str;
 	}
 }

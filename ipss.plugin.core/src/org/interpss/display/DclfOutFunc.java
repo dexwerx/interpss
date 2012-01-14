@@ -36,6 +36,12 @@ import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
+/**
+ * Dclf output functions
+ * 
+ * @author mzhou
+ *
+ */
 public class DclfOutFunc {
 	public static double SmallBranchFlowPU = 0.0001;
 	
@@ -209,7 +215,15 @@ public class DclfOutFunc {
 				+ "      " + (v? "x" : " "); 
 		return str;
 	}
-	
+
+	/**
+	 * Output GSF branch flow analysis results 
+	 * 
+	 * @param net
+	 * @param branchId
+	 * @param gsfList
+	 * @return
+	 */
 	public static StringBuffer gsfBranchFlow(AclfNetwork net, String branchId, List<DblBusValue> gsfList) {
 		StringBuffer buffer = new StringBuffer();		
 
@@ -230,30 +244,4 @@ public class DclfOutFunc {
 			
 		return buffer;
 	}	
-
-	private static class PTDFRec {
-		String busId;
-		double ptdf = 0.0;
-	}
-	
-	private static void sortPTDFRecList(List<PTDFRec> list) {
-		boolean done = false;
-		while (!done) {
-			done = true;
-			for (int i = 0; i < list.size()-1; i++) {
-				PTDFRec rec1 = list.get(i);
-				PTDFRec rec2 = list.get(i+1);
-				if (rec1.ptdf < rec2.ptdf) {
-					done = false;
-					PTDFRec buffer = new PTDFRec();
-					buffer.busId = rec1.busId;
-					buffer.ptdf = rec1.ptdf;
-					rec1.busId = rec2.busId;
-					rec1.ptdf = rec2.ptdf;
-					rec2.busId = buffer.busId;
-					rec2.ptdf = buffer.ptdf;
-				}
-			}
-		}		
-	}
 }

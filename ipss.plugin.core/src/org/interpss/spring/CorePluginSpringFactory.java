@@ -31,23 +31,41 @@ import org.interpss.mapper.odm.ODMOpfDataMapper;
 
 import com.interpss.spring.CoreSimuSpringFactory;
 
+/**
+ * Core plugin spring object factory
+ * 
+ * @author mzhou
+ *
+ */
 public class CorePluginSpringFactory extends CoreSimuSpringFactory {
 	/*
 	 * 		Mapper definition Odm -> SimuCtx
 	 * 		================================
 	 */
+	/**
+	 * create a ODMAclfDataMapper object from the Spring container
+	 */
 	public static ODMAclfDataMapper getOdm2AclfMapper() {
 		return (ODMAclfDataMapper) springAppCtx.getBean("odm2AclfMapper");
 	}	
 
+	/**
+	 * create a ODMAcscDataMapper object from the Spring container
+	 */
 	public static ODMAcscDataMapper getOdm2AcscMapper() {
 		return (ODMAcscDataMapper) springAppCtx.getBean("odm2AcscMapper");
 	}	
 	
+	/**
+	 * create a ODMDStabDataMapper object from the Spring container
+	 */
 	public static ODMDStabDataMapper getOdm2DStabMapper() {
 		return (ODMDStabDataMapper) springAppCtx.getBean("odm2DStabMapper");
 	}	
 
+	/**
+	 * create a ODMOpfDataMapper object from the Spring container
+	 */
 	public static ODMOpfDataMapper getOdm2OpfMapper() {
 		return (ODMOpfDataMapper) springAppCtx.getBean("odm2OpfMapper");
 	}		

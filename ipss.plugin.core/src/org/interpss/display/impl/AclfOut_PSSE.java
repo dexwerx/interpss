@@ -24,6 +24,8 @@
 
 package org.interpss.display.impl;
 
+import static org.interpss.CorePluginFunction.FormatKVStr;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -34,13 +36,25 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
+/**
+ * Aclf output functions, PSS/E format
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfOut_PSSE {
-	public static enum Format {GUI, POUT};
-	/*
-	 *   PSS/E output
-	 *   ============
+	public static enum Format {
+				GUI, 
+				POUT};
+
+	/**
+	 * output LF result in the PSS/E format
+	 * 					
+	 * @param net
+	 * @param format
+	 * @return
 	 */
-	public static String lfResults(AclfNetwork net, Format format) {
+	public static StringBuffer lfResults(AclfNetwork net, Format format) {
 		StringBuffer str = new StringBuffer("");
 		try {
 			double baseKVA = net.getBaseKva();
@@ -60,17 +74,17 @@ public class AclfOut_PSSE {
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
-		return str.toString();
+		return str;
 	}
 
-	public static String busGUIFormat(AclfBus bus, double baseKVA) {
+	private static StringBuffer busGUIFormat(AclfBus bus, double baseKVA) {
 		StringBuffer str = new StringBuffer("");
 		double pu2Mva = baseKVA * 0.001;
 		
 		String s = "";
 		s += String.format(" %7s %-12s%6s %3d %6.4f %6.1f", 
 						bus.getNumber(), bus.getName(),
-						AclfOutFunc.formatKV(bus.getBaseVoltage()*0.001),
+						FormatKVStr.f(bus.getBaseVoltage()*0.001),
 						bus.getArea().getNumber(),
 						bus.getVoltageMag(), bus.getVoltageAng(UnitType.Deg));
 		
@@ -102,7 +116,7 @@ public class AclfOut_PSSE {
 		
 		s += String.format(" -----------------------------------------------------------------------------\n");		
 		s += String.format("                             %3d %6s      ",
-						bus.getZone().getNumber(), AclfOutFunc.formatKV(bus.getVoltageMag(UnitType.kV)));
+						bus.getZone().getNumber(), FormatKVStr.f(bus.getVoltageMag(UnitType.kV)));
 		
 		s += String.format(" %7.1f%s %7.1f %7.1f", qgen, qchar, qload, qshunt);
 		
@@ -113,10 +127,10 @@ public class AclfOut_PSSE {
 				s += branchGUIForat(bra, cnt++, bus, baseKVA);
 			}
 		}		
-		return str.append(s).toString();
+		return str.append(s);
 	}
 	
-	public static String branchGUIForat(AclfBranch branch, int braCnt, AclfBus fromBus, double baseKVA) {
+	private static StringBuffer branchGUIForat(AclfBranch branch, int braCnt, AclfBus fromBus, double baseKVA) {
 		StringBuffer str = new StringBuffer("");
 		
 		boolean onFromSide = fromBus.getId().equals(branch.getFromBus().getId());
@@ -125,7 +139,7 @@ public class AclfOut_PSSE {
 		String s = braCnt == 0? "" : "                                                                       ";
 		s += String.format("%7s %-12s%6s %3d %2s",
 						toBus.getNumber(), toBus.getName(),
-						AclfOutFunc.formatKV(toBus.getBaseVoltage()*0.001),
+						FormatKVStr.f(toBus.getBaseVoltage()*0.001),
 						toBus.getArea().getNumber(), branch.getCircuitNumber());
 
 		Complex pq = onFromSide? branch.powerFrom2To(UnitType.mVar) :
@@ -163,10 +177,17 @@ public class AclfOut_PSSE {
 		else
 			s += "\n";
 		
-		return str.append(s).toString();
+		return str.append(s);
 	}
 
-	public static String busResults(AclfBus bus, double baseKVA) {
+	/**
+	 * output LF bus result in PSS/E format 
+	 * 
+	 * @param bus
+	 * @param baseKVA
+	 * @return
+	 */
+	public static StringBuffer busResults(AclfBus bus, double baseKVA) {
 		StringBuffer str = new StringBuffer("");
 		double factor = baseKVA * 0.001;
 /*
@@ -247,22 +268,22 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 		}
 		
 		str.append(s);
-		return str.toString();
+		return str;
 	}
 
 	private static String formatBusLoad(String label, double mw, double mvar, double mva) {
 		return String.format(" %-16s                 %7.1f %7.1f %7.1f", label, mw, mvar, mva);
 	}
 
-	public static String branchResults(Branch branch, AclfBus fromBus, double baseKVA) {
+	private static StringBuffer branchResults(Branch branch, AclfBus fromBus, double baseKVA) {
 		if (branch instanceof AclfBranch) {
 			return branchResults((AclfBranch)branch, fromBus, baseKVA);
 		}
 		else
-			return "";
+			return new StringBuffer("");
 	}
 	
-	public static String branchResults(AclfBranch branch, AclfBus fromBus, double baseKVA) {
+	private static StringBuffer branchResults(AclfBranch branch, AclfBus fromBus, double baseKVA) {
 		StringBuffer str = new StringBuffer("");
 	
 /*
@@ -311,10 +332,10 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 					branch.getZone().getNumber(), branch.getZone().getName());
 		
 		str.append(s);
-		return str.toString();
+		return str;
 	}
 
-	public static String psseStyleTitle(AclfNetwork net, Format format) {
+	private static String psseStyleTitle(AclfNetwork net, Format format) {
 		String str = "";
 		str += "\n\n                                              Load Flow Results\n\n";
 		str += AclfOutFunc.maxMismatchToString(net,"                    ") + "\n";
@@ -324,6 +345,6 @@ BUS  10002 GZ-HLZ      220.00 CKT     MW     MVAR     MVA  %I 1.0445PU  -47.34  
 			str += "    BUS# X-- NAME --X BASKV ZONE  PU/KV  ANGLE  MW/MVAR MW/MVAR MW/MVAR   BUS# X-- NAME --X BASKV AREA CKT    MW     MVAR    RATIO   ANGLE   %I   MVA\n";
 		}
 		
-		return str.toString();
+		return str;
 	}
 }

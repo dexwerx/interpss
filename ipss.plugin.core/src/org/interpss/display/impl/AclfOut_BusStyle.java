@@ -24,6 +24,9 @@
 
 package org.interpss.display.impl;
 
+import static org.interpss.CorePluginFunction.FormatKVStr;
+import static org.interpss.CorePluginFunction.OutputBusId;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -39,23 +42,40 @@ import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
+/**
+ * Aclf output functions, IEEE Bus Style
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfOut_BusStyle {
-	/*
-	 *   Bus Style output
-	 *   ================
+	/**
+	 * output LF result in the bus style
+	 * 
+	 * @param net
+	 * @param style
+	 * @return
 	 */
-	public static String busStyleTitle(AclfNetwork net) {
+	public static StringBuffer lfResultsBusStyle(AclfNetwork net, AclfOutFunc.BusIdStyle style) {
 		StringBuffer str = new StringBuffer("");
-		str.append("\n\n                                              Load Flow Results\n\n");
-		str.append(AclfOutFunc.maxMismatchToString(net,"                    ") + "\n");
-		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
-		str.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
-		str.append("              baseKV    Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
-		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
-		return str.toString();
-	}
+		try {
+			str.append(busStyleTitle(net));
 
-	public static StringBuffer lfResultsBusStyle(AclfBus bus, AclfNetwork net, AclfOutFunc.BusIdStyle style) {
+			for (Bus b : net.getBusList()) {
+				AclfBus bus = (AclfBus) b;
+				if (bus.isActive()) {
+					str.append(lfResultsBusStyle(bus, net, style));
+				}
+			}
+			str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
+		} catch (Exception emsg) {
+			str.append(emsg.toString());
+		}
+		return str;
+	}
+	
+
+	private static StringBuffer lfResultsBusStyle(AclfBus bus, AclfNetwork net, AclfOutFunc.BusIdStyle style) {
 		double baseKVA = net.getBaseKva();
 		StringBuffer str = new StringBuffer("");
 
@@ -67,10 +87,10 @@ public class AclfOut_BusStyle {
 			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU)));
 		}
 		String id = style == AclfOutFunc.BusIdStyle.BusId_No?
-				AclfOutFunc.getBusId(bus, net.getOriginalDataFormat()):
+				OutputBusId.f(bus, net.getOriginalDataFormat()):
 				bus.getName().trim();
 		str.append(Number2String.toStr(-12, id) + " ");
-		str.append(String.format(" %s ", AclfOutFunc.formatKV(bus.getBaseVoltage()*0.001)));
+		str.append(String.format(" %s ", FormatKVStr.f(bus.getBaseVoltage()*0.001)));
 		str.append(Number2String.toStr("0.0000", bus.getVoltageMag(UnitType.PU)) + " ");
 		str.append(Number2String.toStr("##0.0", bus.getVoltageAng(UnitType.Deg)) + " ");
 		str.append(Number2String.toStr("####0.00", busGen.getReal()) + " ");
@@ -124,7 +144,7 @@ public class AclfOut_BusStyle {
 				if (cnt++ > 0)
 					str.append(Number2String.toStr(67, " ")	+ "    ");
 				id = style == AclfOutFunc.BusIdStyle.BusId_No?
-						AclfOutFunc.getBusId(toBus, net.getOriginalDataFormat()):
+						OutputBusId.f(toBus, net.getOriginalDataFormat()):
 						toBus.getName().trim();
 				str.append(" " + Number2String.toStr(-12, id) + " ");
 				str.append(Number2String.toStr("####0.00", pq.getReal()) + " ");
@@ -161,21 +181,14 @@ public class AclfOut_BusStyle {
 		return str;
 	}
 	
-	public static StringBuffer lfResultsBusStyle(AclfNetwork net, AclfOutFunc.BusIdStyle style) {
+	private static StringBuffer busStyleTitle(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
-		try {
-			str.append(busStyleTitle(net));
-
-			for (Bus b : net.getBusList()) {
-				AclfBus bus = (AclfBus) b;
-				if (bus.isActive()) {
-					str.append(lfResultsBusStyle(bus, net, style));
-				}
-			}
-			str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
-		} catch (Exception emsg) {
-			str.append(emsg.toString());
-		}
+		str.append("\n\n                                              Load Flow Results\n\n");
+		str.append(AclfOutFunc.maxMismatchToString(net,"                    ") + "\n");
+		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
+		str.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
+		str.append("              baseKV    Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
+		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 		return str;
 	}
 }

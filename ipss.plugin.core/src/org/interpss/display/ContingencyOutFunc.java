@@ -34,7 +34,19 @@ import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.result.AclfBranchResultRec;
 import com.interpss.simu.multicase.result.AclfBusResultRec;
 
+/**
+ * Contingency analysis output functions
+ * 
+ * @author mzhou
+ *
+ */
 public class ContingencyOutFunc {
+	/**
+	 * output security margin analysis results
+	 * 
+	 * @param mcase
+	 * @return
+	 */
 	public static StringBuffer securityMargin(ContingencyAnalysis mcase) {
 		StringBuffer buf = new StringBuffer();
 
@@ -94,6 +106,12 @@ public class ContingencyOutFunc {
 		return buf;
 	}
 
+	/**
+	 * output branch violation analysis results
+	 * 
+	 * @param mcase
+	 * @return
+	 */
 	public static StringBuffer branchMvaRatingViolation(ContingencyAnalysis mcase) {
 		StringBuffer buf = new StringBuffer();
 
