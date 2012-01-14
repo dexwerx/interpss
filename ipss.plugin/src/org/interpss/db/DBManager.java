@@ -24,6 +24,8 @@
 
 package org.interpss.db;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.IOException;
 import java.io.Reader;
 
@@ -71,7 +73,7 @@ public class DBManager {
 				Reader configReader = Resources
 						.getResourceAsReader(SQLMAP_CONFIG_PATH);
 				sqlMap = SqlMapClientBuilder.buildSqlMapClient(configReader);
-				IpssLogger.getLogger().info("Current DB connetion: IpssDB");
+				ipssLogger.info("Current DB connetion: IpssDB");
 				return sqlMap;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -88,7 +90,7 @@ public class DBManager {
 						.getResourceAsReader(SQLMAP_SAMPLE_CONFIG_PATH);
 				sqlMapSample = SqlMapClientBuilder
 						.buildSqlMapClient(configReader);
-				IpssLogger.getLogger().info("Current DB connetion: SampleDB");
+				ipssLogger.info("Current DB connetion: SampleDB");
 				return sqlMapSample;
 			} catch (IOException e) {
 				e.printStackTrace();

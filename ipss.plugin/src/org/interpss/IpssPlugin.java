@@ -24,6 +24,8 @@
 
 package org.interpss;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.logging.Level;
 
 import org.ieee.odm.common.ODMLogger;
@@ -33,7 +35,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.BusNumberArrangeRule;
 import com.interpss.spring.CoreCommonSpringFactory;
 
@@ -64,7 +65,7 @@ public class IpssPlugin {
 	}
 	
 	public static void setLoggerLevel(Level level) {
-		IpssLogger.getLogger().setLevel(level);
+		ipssLogger.setLevel(level);
 		ODMLogger.getLogger().setLevel(level);
 	}	
 

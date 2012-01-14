@@ -24,6 +24,8 @@
 
 package org.interpss.custom.fadpter.impl;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.apache.commons.math.complex.Complex;
 import org.eclipse.jdt.core.compiler.InvalidInputException;
 import org.interpss.numeric.datatype.LimitType;
@@ -32,7 +34,6 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
@@ -288,7 +289,7 @@ public class IpssInternalFormat_in {
 			final AclfPVGenBus pv = bus.toPVBus();
         	pv.setVoltMag(pvLimit.getVSpecified(UnitType.PU), UnitType.PU);
       	} else {
-      		IpssLogger.getLogger().info(str);
+      		ipssLogger.info(str);
 			throw new InterpssRuntimeException("AclfDataFile.loadPVBusInfo_2, PV bus:" + id + " is not in the system" );
 		}
     }

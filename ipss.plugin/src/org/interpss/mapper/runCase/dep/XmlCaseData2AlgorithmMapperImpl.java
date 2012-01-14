@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.runCase.dep;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -116,7 +118,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			String id  = NetUtilFunc.getBusIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
 			AcscBus faultBus = (AcscBus) faultNet.getBus(id);
 			if (faultBus == null) {
-				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, id: " + id);
+				ipssLogger.severe("Programming Error - Fault bus/branch not found, id: " + id);
 				return false;
 			}
 
@@ -132,7 +134,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			String id  = NetUtilFunc.getBranchIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
 			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(id);
 			if (faultBranch == null) {
-				IpssLogger.getLogger().severe(
+				ipssLogger.severe(
 								"Programming Error - Fault bus/branch not found, this maybe a parallel branch issue, id: " + id);
 				return false;
 			}
@@ -148,7 +150,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 				algo.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		} 
 		else {
-			IpssLogger.getLogger().severe(
+			ipssLogger.severe(
 					"Programming Error - Branch outage not implemented");
 			return false;
 		}
@@ -181,7 +183,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			algo.setRefMachine(null);
 		} else {
 			Machine mach = algo.getDStabNet().getMachine(xmlDstabData.getSimuConfig().getRefMachineBusId());
-			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
+			ipssLogger.info("Ref mach set to : " + mach.getId());
 			algo.setRefMachine(mach);
 		}
 
@@ -214,7 +216,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 					xmlDstabData.getDynamicEventData().getEventList().getEvent().size() > 0) {
 				DynamicEventXmlType xmlEvent = xmlDstabData.getDynamicEventData().getEventList().getEvent().get(0); 
 				if (xmlEvent.getEventType() == DynamicEventDataType.SET_POINT_CHANGE) {
-					IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
+					ipssLogger.info("Dynamic Event Type: SetPointChange");
 					String machId = xmlEvent.getSetPointChangeData().getMachId();
 					DynamicEvent event = DStabObjectFactory.createDEvent(
 							Constants.Token_SetPointChangeId + machId,
@@ -237,7 +239,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 				// make sure that event name is not "" or NewEventName
 				if (!xmlEvent.getRecName().equals(DStabDEventData.NewEventName)
 						&& !xmlEvent.getRecName().trim().equals("")) {
-					IpssLogger.getLogger().info("Event Data: " + xmlEvent.toString());
+					ipssLogger.info("Event Data: " + xmlEvent.toString());
 					// create event name
 					String name = "EventAt_" + xmlEvent.getStartTimeSec() + xmlEvent.getEventType();
 					// map event type
@@ -303,7 +305,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 		}
 
 		if (xmlEvent.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
-			IpssLogger.getLogger().info("Dynamic Event Type: LoadChange");
+			ipssLogger.info("Dynamic Event Type: LoadChange");
 			event.setType(DynamicEventType.LOAD_CHANGE);
 			DynamicLoadChangeXmlType ldata = xmlEvent.getLoadChangeData();
 			LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(ldata.getBusId(), dstabNet);
@@ -319,7 +321,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 		else if (xmlEvent.getEventType() == DynamicEventDataType.FAULT) {
 			AcscFaultXmlType fdata = xmlEvent.getFault();
 			if (xmlEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
-				IpssLogger.getLogger().info("Dynamic Event Type: BranchOutage");
+				ipssLogger.info("Dynamic Event Type: BranchOutage");
 				event.setType(DynamicEventType.BRANCH_OUTAGE);
 				BranchOutageEvent bOutageEvent = DStabObjectFactory
 						.createBranchOutageEvent(fdata.getBusBranchId(), dstabNet);

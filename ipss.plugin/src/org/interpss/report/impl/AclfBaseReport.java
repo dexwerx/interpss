@@ -24,6 +24,8 @@
 
 package org.interpss.report.impl;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.Map;
 
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
@@ -33,7 +35,6 @@ import org.interpss.report.bean.aclf.AclfRptBeanFactory;
 import org.interpss.report.bean.aclf.AclfRptSubrptControlRec;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
 public class AclfBaseReport {
@@ -73,7 +74,7 @@ public class AclfBaseReport {
 		if (pvLimit != null) {
 			contRec.setPvLimitSubreport(true);
 			parameters.put("PVLimitJBeanDatasource", pvLimit);
-			IpssLogger.getLogger().info("Include sub report PVLimit");
+			ipssLogger.info("Include sub report PVLimit");
 		}
 
 		contRec.setPqLimitSubreport(false);
@@ -82,7 +83,7 @@ public class AclfBaseReport {
 		if (pqLimit != null) {
 			contRec.setPqLimitSubreport(true);
 			parameters.put("PQLimitJBeanDatasource", pqLimit);
-			IpssLogger.getLogger().info("Include sub report PQLimit");
+			ipssLogger.info("Include sub report PQLimit");
 		}
 
 		contRec.setFuncloadSubreport(false);
@@ -91,7 +92,7 @@ public class AclfBaseReport {
 		if (funcLoad != null) {
 			contRec.setFuncloadSubreport(true);
 			parameters.put("FuncLoadJBeanDatasource", funcLoad);
-			IpssLogger.getLogger().info("Include sub report FuncLoad");
+			ipssLogger.info("Include sub report FuncLoad");
 		}
 
 		contRec.setRemoteQBusSubreport(false);
@@ -100,7 +101,7 @@ public class AclfBaseReport {
 		if (reQBus != null) {
 			contRec.setRemoteQBusSubreport(true);
 			parameters.put("RemoteQBusJBeanDatasource", reQBus);
-			IpssLogger.getLogger().info("Include sub report RemoteQBus");
+			ipssLogger.info("Include sub report RemoteQBus");
 		}
 
 		contRec.setTapVControlSubreport(false);
@@ -109,7 +110,7 @@ public class AclfBaseReport {
 		if (tap != null) {
 			contRec.setTapVControlSubreport(true);
 			parameters.put("TapVControlJBeanDatasource", tap);
-			IpssLogger.getLogger().info("Include sub report TapVControl");
+			ipssLogger.info("Include sub report TapVControl");
 		}
 
 		contRec.setPsXfrPControlSubreport(false);
@@ -118,7 +119,7 @@ public class AclfBaseReport {
 		if (pvLimit != null) {
 			contRec.setPsXfrPControlSubreport(true);
 			parameters.put("PsXfrPControlJBeanDatasource", psxfr);
-			IpssLogger.getLogger().info("Include sub report PsXfrPControl");
+			ipssLogger.info("Include sub report PsXfrPControl");
 		}
 	}
 

@@ -24,6 +24,8 @@
 
 package org.interpss.custom.fadpter;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.File;
 
 import org.ieee.odm.ODMFileFormatEnum;
@@ -34,7 +36,6 @@ import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 import org.interpss.spring.CorePluginSpringFactory;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
 public class BPAFormat extends IpssFileAdapterBase {
@@ -70,7 +71,7 @@ public class BPAFormat extends IpssFileAdapterBase {
 		}
 		else {
 			msgHub.sendErrorMsg("Error to load file: " + filepath);
-  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+  			ipssLogger.severe("Error to load file: " + filepath);
 		}		
  	}
 }

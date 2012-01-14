@@ -24,6 +24,8 @@
 
 package org.interpss.custom.fadpter.impl;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.File;
 
 import org.ieee.odm.adapter.IODMAdapter;
@@ -35,7 +37,6 @@ import org.interpss.spring.CorePluginSpringFactory;
 import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -70,7 +71,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 		}
 		else {
   			msg.sendErrorMsg("Error to load file: " + filepath);
-  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+  			ipssLogger.severe("Error to load file: " + filepath);
 		}
 	}
 	

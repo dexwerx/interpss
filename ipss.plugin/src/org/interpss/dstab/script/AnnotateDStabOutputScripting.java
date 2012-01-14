@@ -1,5 +1,7 @@
 package org.interpss.dstab.script;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -10,7 +12,6 @@ import java.util.StringTokenizer;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.BusVariableRec;
@@ -147,7 +148,7 @@ public class AnnotateDStabOutputScripting {
 		else if (rec.type == OutType.Pss_Vs)
 			return machRec.pssVs;
 
-		IpssLogger.getLogger().warning("No value found for rec: " + rec);
+		ipssLogger.warning("No value found for rec: " + rec);
 		return 0.0;
 	}
 
@@ -161,7 +162,7 @@ public class AnnotateDStabOutputScripting {
 		else if (rec.type == OutType.Bus_QLoad)
 			return busRec.qLoad;
 
-		IpssLogger.getLogger().warning("No value found for rec: " + rec);
+		ipssLogger.warning("No value found for rec: " + rec);
 		return 0.0;
 	}
 

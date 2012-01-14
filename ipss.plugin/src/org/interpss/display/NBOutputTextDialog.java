@@ -24,6 +24,10 @@
 
 package org.interpss.display;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static com.interpss.pssl.plugin.IpssOut.AclfResultBusStype;
+import static com.interpss.pssl.plugin.IpssOut.AclfResultSummary;
+
 import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,7 +47,6 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.WinUtilities;
-import static com.interpss.pssl.plugin.IpssOut.*;
 
 import com.interpss.QA.QAObjectFactory;
 import com.interpss.QA.rfile.IQAFileProcessor;
@@ -179,7 +182,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     			Hashtable machStates = StringUtil.parseStr2Hashtable(machRec.getSimuRec());
             	try {
     				appendText(DStabOutFunc.getStateStr(machStates));
-    				IpssLogger.getLogger().fine(DStabOutFunc.getStateStr(machStates));
+    				ipssLogger.fine(DStabOutFunc.getStateStr(machStates));
     			} catch (Exception ex) {
     				IpssLogger.logErr(ex);
     			}
@@ -353,7 +356,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
-    	//IpssLogger.getLogger().info(textArea.getText());
+    	//ipssLogger.info(textArea.getText());
     	JFileChooser fChooser = getSaveTextFileChooser();
     	int retValue = fChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION) {
@@ -361,7 +364,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 			String filename = file.getPath();
 			if (!filename.endsWith(".txt"))
 				filename += ".txt";
-		    IpssLogger.getLogger().info("Textarea text saved to file: " + filename);
+		    ipssLogger.info("Textarea text saved to file: " + filename);
 		    GUIFileUtil.writeTextarea2FileAbsolutePath(filename, textArea);
 		}    
 	}//GEN-LAST:event_saveAsButtonActionPerformed
@@ -389,7 +392,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 		if (retValue == JFileChooser.APPROVE_OPTION) {
 			File file = fChooser.getSelectedFile();
 			String filename = file.getPath();
-		    IpssLogger.getLogger().info("Result file selected: " + filename);
+		    ipssLogger.info("Result file selected: " + filename);
 		    IQAFileProcessor proc = null;
 		    if (filename.endsWith("psse")) {
 		    	proc = QAObjectFactory.createFileProcessor(aclfAdjNet, QAFileReader.Type.PSSEAclfResult);

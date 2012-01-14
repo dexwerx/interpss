@@ -24,6 +24,7 @@
 
 package org.interpss.mapper.editor;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static com.interpss.core.AcscFunction.Str2ScGroundCode;
 
 import java.util.List;
@@ -50,7 +51,6 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.datatype.ScGroundType;
 import com.interpss.core.util.CoreUtilFunc;
@@ -134,7 +134,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 
 	private static void setScriptDynamicBusCodeInfo(DStabBusData busData,
 			DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
-		IpssLogger.getLogger().info(
+		ipssLogger.info(
 				"Set CML Dynamic Bus code info, busId: " + busId);
 		ScriptDynamicBusDeviceHolder busDevice = new ScriptDynamicBusDeviceHolder();
 		dstabNet.addScriptDynamicBusDevice(busDevice, busId);
@@ -158,7 +158,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 	/*
 	 * replaced by CML DynamicBusDevice private static void
 	 * setDBusScriptingInfo(DStabBusData busData, DStabilityNetwork dstabNet,
-	 * String busId, IPSSMsgHub msg) { IpssLogger.getLogger().info("Set
+	 * String busId, IPSSMsgHub msg) { ipssLogger.info("Set
 	 * DBusScripting info, busId: " + busId); ScriptingDBusDevice busDevice =
 	 * new DefaultScriptingDBusDevice();
 	 * dstabNet.addScriptingDBusDevice(busDevice, busId);
@@ -169,7 +169,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 	 */
 	private static void setMachineInfo(DStabMachData machData,
 			DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
-		IpssLogger.getLogger().info("Set Machine info, busId: " + busId);
+		ipssLogger.info("Set Machine info, busId: " + busId);
 		DStabBus dstabBus = dstabNet.getDStabBus(busId);
 		Machine mach = null;
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
@@ -255,13 +255,13 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 		}
 		dstabBus.getDynamicBusDeviceList().add(mach); // bind bus and machine together
 
-		IpssLogger.getLogger().fine(
+		ipssLogger.fine(
 				"Machine info set to: " + machData.toString());
 	}
 
 	private static void setExciterInfo(DStabMachData machData, Machine mach,
 			IPSSMsgHub msg) {
-		IpssLogger.getLogger()
+		ipssLogger
 				.info("Set Exciter info, machid: " + mach.getId());
 		DStabExcData excData = machData.getExcData();
 		MachineController controller = SimuSpringAppCtxUtil
@@ -271,13 +271,13 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 					.getDataClass());
 			controller.setScripts(machData.getExcData().getScripts());
 			mach.getControllerList().add(controller);
-			IpssLogger.getLogger().info(
+			ipssLogger.info(
 					"Exciter info set to: " + excData.getDataXmlStr());
 			if (machData.getHasPss()) {
 				setStabilizerInfo(machData.getPssData(), mach, msg);
 			}
 		} else {
-			IpssLogger.getLogger().warning(
+			ipssLogger.warning(
 					"Exciter not found, machid: " + mach.getId());
 			msg.sendWarnMsg("Exciter not found, machid: " + mach.getId());
 		}
@@ -285,7 +285,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 
 	private static void setGovernorInfo(DStabGovData govData, Machine mach,
 			IPSSMsgHub msg) {
-		IpssLogger.getLogger().info(
+		ipssLogger.info(
 				"Set Governor info, machid: " + mach.getId());
 		MachineController controller = SimuSpringAppCtxUtil
 				.getGovernor(govData.getTypeName());
@@ -293,11 +293,11 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			controller.setData(govData.getDataXmlStr(), controller
 					.getDataClass());
 			controller.setScripts(govData.getScripts());
-			IpssLogger.getLogger().info(
+			ipssLogger.info(
 					"Governor info set to: " + govData.getDataXmlStr());
 			mach.getControllerList().add(controller);
 		} else {
-			IpssLogger.getLogger().warning(
+			ipssLogger.warning(
 					"Governor not found, machid: " + mach.getId());
 			msg.sendWarnMsg("Governor not found, machid: " + mach.getId());
 		}
@@ -305,7 +305,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 
 	private static void setStabilizerInfo(DStabPssData pssData, Machine mach,
 			IPSSMsgHub msg) {
-		IpssLogger.getLogger().info(
+		ipssLogger.info(
 				"Set Stabilizer info, machid: " + mach.getId());
 		MachineController controller = SimuSpringAppCtxUtil
 				.getStabilizer(pssData.getTypeName());
@@ -313,11 +313,11 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 			controller.setData(pssData.getDataXmlStr(), controller
 					.getDataClass());
 			controller.setScripts(pssData.getScripts());
-			IpssLogger.getLogger().info(
+			ipssLogger.info(
 					"Stabilizer info set to: " + pssData.getDataXmlStr());
 			mach.getControllerList().add(controller);
 		} else {
-			IpssLogger.getLogger().warning(
+			ipssLogger.warning(
 					"Stabilizer not found, machid: " + mach.getId());
 			msg.sendWarnMsg("Stabilizer not found, machid: " + mach.getId());
 		}
@@ -335,7 +335,7 @@ public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DSt
 		else if (mtype.equals(DStabMachData.MachType_RoundRotor))
 			return MachineType.EQ11_ED11_ROUND_ROTOR;
 		else {
-			IpssLogger.getLogger()
+			ipssLogger
 					.severe("Wrong Machine Type String: " + mtype);
 			throw new InterpssRuntimeException("Wrong Machine Type String: " + mtype);
 		}

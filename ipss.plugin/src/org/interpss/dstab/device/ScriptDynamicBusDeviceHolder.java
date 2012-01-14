@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.device;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.Hashtable;
 
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
@@ -85,7 +87,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 			return device.initStates(abus);
 		}
 		else {
-			IpssLogger.getLogger().severe("ScriptDynamicBusDevice create error, device == null");
+			ipssLogger.severe("ScriptDynamicBusDevice create error, device == null");
 			return false;
 		}
 	}
@@ -163,7 +165,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 				IpssLogger.logErr(e);
 			}
 		} else {
-			IpssLogger.getLogger().info(
+			ipssLogger.info(
 					"Create custom plugin: " + this.pluginName + " with data: "
 							+ this.pluginDataXmlStr);
 			device = (ScriptDynamicBusDevice) UISpringFactory

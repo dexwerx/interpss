@@ -24,13 +24,14 @@
 
 package org.interpss.mapper.editor;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.interpss.editor.form.base.BaseBranchForm;
 import org.interpss.editor.form.base.BaseBusForm;
 import org.interpss.editor.form.base.BaseNetForm;
 import org.interpss.numeric.datatype.Unit;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -49,7 +50,7 @@ public class BaseFormDataMapperImpl {
 	 * @param net the Network object
 	 */
 	public static void setBaseNetInfo(BaseNetForm formNet, Network net) {
-		IpssLogger.getLogger().info(
+		ipssLogger.info(
 				"BaseFormDataMapperImpl.setBaseNetInfo() called");
 		net.setId(formNet.getId());
 		net.setDesc(formNet.getDescription());

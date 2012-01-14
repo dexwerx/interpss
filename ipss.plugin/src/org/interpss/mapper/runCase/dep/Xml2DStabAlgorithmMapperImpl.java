@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.runCase.dep;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.interpss.numeric.util.StringHelper;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
@@ -92,7 +94,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 					.getSimuConfig().getRefMachineBusId());
 			if (mach == null)
 				return false;
-			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
+			ipssLogger.info("Ref mach set to : " + mach.getId());
 			algo.setRefMachine(mach);
 		}
 
@@ -140,12 +142,12 @@ public class Xml2DStabAlgorithmMapperImpl {
 					dstabData.getDynamicEventData().getEventList().getEvent().get(0).getEventType() == DynamicEventDataType.SET_POINT_CHANGE) {
 				DynamicSetPointChangeXmlType scdata = dstabData.getDynamicEventData().getEventList().getEvent().get(0).getSetPointChangeData();
 				if (scdata != null) {
-					IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
+					ipssLogger.info("Dynamic Event Type: SetPointChange");
 					String machId = scdata.getMachId();
 					Machine mach = getMachine(dstabNet, machId);
 					if (mach == null)
 						return false;
-					IpssLogger.getLogger().info("SetPointChange mach id : " + mach.getId());
+					ipssLogger.info("SetPointChange mach id : " + mach.getId());
 
 					DynamicEvent event = DStabObjectFactory.createDEvent(
 							Constants.Token_SetPointChangeId + machId,
@@ -166,7 +168,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		} else {
 			for (DynamicEventXmlType eventData : dstabData.getDynamicEventData().getEventList().getEvent()) {
 				// make sure that event name is not "" or NewEventName
-				IpssLogger.getLogger().info("Event Data: " + eventData);
+				ipssLogger.info("Event Data: " + eventData);
 				// create event name
 				String name = "EventAt_" + eventData.getStartTimeSec() + eventData.getEventType();
 				// map event type
@@ -201,7 +203,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Machine Id Error",
 					"Machine cannot be found, mach id : " + machId);
-			IpssLogger.getLogger().severe(
+			ipssLogger.severe(
 					"Machine cannot be found, mach id : " + machId);
 		}
 		return mach;
@@ -235,7 +237,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		// LowFreq and LowVolt startTime will set by system
 		// FixedTime startTime = threshhold
 		// always permanent
-		IpssLogger.getLogger().info(
+		ipssLogger.info(
 				"Dynamic Event Type: " + eventData.getEventType().toString());
 
 		if (eventData.getEventType() == DynamicEventDataType.LOAD_CHANGE) {

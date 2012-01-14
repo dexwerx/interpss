@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.runCase;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.interpss.xml.schema.AcscFaultCategoryDataType;
 import org.interpss.xml.schema.AcscFaultDataType;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
@@ -33,7 +35,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -63,7 +64,7 @@ public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudy
 			String id  = NetUtilFunc.getBusIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
 			AcscBus faultBus = (AcscBus) faultNet.getBus(id);
 			if (faultBus == null) {
-				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, id: " + id);
+				ipssLogger.severe("Programming Error - Fault bus/branch not found, id: " + id);
 				return false;
 			}
 
@@ -80,7 +81,7 @@ public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudy
 			String id  = NetUtilFunc.getBranchIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
 			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(id);
 			if (faultBranch == null) {
-				IpssLogger.getLogger().severe(
+				ipssLogger.severe(
 								"Programming Error - Fault bus/branch not found, this maybe a parallel branch issue, id: " + id);
 				return false;
 			}
@@ -95,7 +96,7 @@ public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudy
 				algo.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		} 
 		else {
-			IpssLogger.getLogger().severe(
+			ipssLogger.severe(
 					"Programming Error - Branch outage not implemented");
 			return false;
 		}

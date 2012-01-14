@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.runCase.dep;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -43,7 +45,6 @@ import com.interpss.SimuObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
@@ -69,7 +70,7 @@ public class ModificationXml2Model {
 	 * @param mod the modification record
 	 */
 	public static boolean applyModification(Modification modModel, Network net, ModificationXmlType mod, IPSSMsgHub msg) {
-		IpssLogger.getLogger().info("Apply Network modification");
+		ipssLogger.info("Apply Network modification");
 		
 		if (mod.getBusChangeRecList() != null) {
 			for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRec()) {
@@ -216,7 +217,7 @@ public class ModificationXml2Model {
 				im += original.getImaginary();
 			}
 			Complex cReturn = new Complex(re, im);
-			IpssLogger.getLogger().info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
+			ipssLogger.info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
 			return cReturn;
 		} else if (changeRec.getChangeAction() == ValueChangeActionDataType.INCREASE
 				|| changeRec.getChangeAction() == ValueChangeActionDataType.DECREASE) {
@@ -229,11 +230,11 @@ public class ModificationXml2Model {
 			Complex cReturn = new Complex(original.getReal() * (1.0 + factor), original
 					.getImaginary()
 					* (1.0 + factor));
-			IpssLogger.getLogger().info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
+			ipssLogger.info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
 			return cReturn;
 		}
 
-		IpssLogger.getLogger().warning("Wrong ChangeAction, changeRec: " + changeRec.toString());
+		ipssLogger.warning("Wrong ChangeAction, changeRec: " + changeRec.toString());
 		return original;
 	}
 
@@ -265,7 +266,7 @@ public class ModificationXml2Model {
 				factor = -factor;
 			return original * (1.0 + factor);
 		}
-		IpssLogger.getLogger().warning("Wrong ChangeAction, changeRec: " + changeRec.toString());
+		ipssLogger.warning("Wrong ChangeAction, changeRec: " + changeRec.toString());
 		return original;
 	}
 }

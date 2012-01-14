@@ -4,6 +4,8 @@ package org.interpss.dstab.output;
  * Default dstab simulation action handler for processing dstab output events. 
  */
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.Hashtable;
 
 import org.interpss.db.DBManager;
@@ -64,7 +66,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 		this.simuCase = (IpssDBCase) projDataMgr.dbActionIpssCase(
 				DBManager.SQL_ACTION_SELECT, projDbId, caseName);
 		if (this.simuCase.getCaseDbId() > 0) {
-			IpssLogger.getLogger().info(
+			ipssLogger.info(
 					"Clear results in SimuCase tables, projDbId, caseName: "
 							+ projDbId + ", " + caseName);
 			simuRecMgr.deleteAllSimuRec(this.simuCase.getCaseDbId(),
@@ -73,14 +75,14 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 			projDataMgr.dbActionIpssCase(DBManager.SQL_ACTION_UPDATE, projDbId,
 					caseName);
 		} else {
-			IpssLogger.getLogger().info(
+			ipssLogger.info(
 					"Create DStab SimuCase, projDbId, caseName: " + projDbId
 							+ ", " + caseName);
 			try {
 				this.simuCase = (IpssDBCase) projDataMgr.dbActionIpssCase(
 						DBManager.SQL_ACTION_INSERT, projDbId, caseName);
 			} catch (Exception e) {
-				IpssLogger.getLogger().warning(
+				ipssLogger.warning(
 						"Error to create DStab SimuCase, " + e.toString());
 				this.simuCase = (IpssDBCase) projDataMgr.dbActionIpssCase(
 						DBManager.SQL_ACTION_SELECT, projDbId, caseName);
@@ -172,9 +174,9 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 							machRec, IProjectDataManager.CaseType_DStabSimuRec);
 					/*
 					 * try {
-					 * IpssLogger.getLogger().fine(DStabOutFunc.getStateStr(e.getHashtableData())); }
+					 * ipssLogger.fine(DStabOutFunc.getStateStr(e.getHashtableData())); }
 					 * catch (Exception ex) {
-					 * IpssLogger.getLogger().severe("Mach state hashtable: " +
+					 * ipssLogger.severe("Mach state hashtable: " +
 					 * e.getHashtableData()); IpssLogger.logErr(ex); }
 					 */
 				}
@@ -211,7 +213,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 							dbCaseId, this.scriptBusDeviceRecTypeId, time);
 					scriptDBusDeviceRec.setElemIdStr(deviceId);
 					scriptDBusDeviceRec.setSimuRec(deviceStates.toString());
-					// IpssLogger.getLogger().info(deviceStates.toString());
+					// ipssLogger.info(deviceStates.toString());
 					simuRecMgr.dbActionSimuRec(DBManager.SQL_ACTION_INSERT,
 							scriptDBusDeviceRec,
 							IProjectDataManager.CaseType_DStabSimuRec);

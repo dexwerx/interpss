@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.editor;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.aclf.AclfAdjBranchData;
@@ -126,7 +128,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 	 */
 	public static void setAclfNetInfo(GFormContainer editNet,
 			AclfNetwork aclfNet, IPSSMsgHub msg) throws InterpssException {
-		IpssLogger.getLogger().info(
+		ipssLogger.info(
 				"AclfFormDataMapperImpl.setBaseNetInfo() called");
 
 		// first put AclfBus and AclfBranch info into Net

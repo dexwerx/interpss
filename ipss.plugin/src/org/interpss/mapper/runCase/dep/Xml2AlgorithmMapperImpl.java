@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.runCase.dep;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.xml.IpssXmlHelper;
@@ -96,7 +98,7 @@ public class Xml2AlgorithmMapperImpl {
 		if (acscCase.getFaultData().getFaultType() == AcscFaultDataType.BUS_FAULT) {
 			AcscBus faultBus = (AcscBus) faultNet.getBus(acscCase.getFaultData().getBusBranchId());
 			if (faultBus == null) {
-				IpssLogger.getLogger().severe(
+				ipssLogger.severe(
 						"Programming Error - Fault bus/branch not found");
 				return false;
 			}
@@ -109,9 +111,7 @@ public class Xml2AlgorithmMapperImpl {
 			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(acscCase.getFaultData().getBusBranchId()
 					+ Constants.Token_DefaultBranchCirNoStr);
 			if (faultBranch == null) {
-				IpssLogger
-						.getLogger()
-						.severe(
+				ipssLogger.severe(
 								"Programming Error - Fault bus/branch not found, this maybe a parallel branch issue");
 				return false;
 			}
