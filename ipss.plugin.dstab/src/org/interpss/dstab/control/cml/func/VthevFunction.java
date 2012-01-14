@@ -34,7 +34,6 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  * 
  */
-
 public class VthevFunction extends FunctionAdapter {
 	private double kp = 1.0;
 	private double ki = 1.0;

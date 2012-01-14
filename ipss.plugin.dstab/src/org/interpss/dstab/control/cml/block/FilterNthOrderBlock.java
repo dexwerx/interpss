@@ -41,7 +41,6 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-
 public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	private double t1 = 0.0;
 	private double t2 = 0.0;

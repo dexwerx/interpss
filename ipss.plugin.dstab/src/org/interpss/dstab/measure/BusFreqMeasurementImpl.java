@@ -30,10 +30,16 @@ import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
+/**
+ * An implementation of bus frequency measurement device. This also serves as an
+ * exmple for non-CML controller implementation.
+ * 
+ * @author mzhou
+ *
+ */
 public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	private static final long serialVersionUID = 1;
 
@@ -45,22 +51,31 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	private WashoutControlBlock washoutBlock = null;
 	private DelayControlBlock delayBlock = null;
 
+	/**
+	 * constructor
+	 */
 	public BusFreqMeasurementImpl() {
 		this.tf = 0.01;
 		this.tw = 0.01;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param tf
+	 * @param tw
+	 */
 	public BusFreqMeasurementImpl(double tf, double tw) {
 		this.tf = tf;
 		this.tw = tw;
 	}
 
 	/**
+	 * init the dynamic device state variable
 	 * 
 	 * @param u0 bus angle at time = 0.0, in Rad
 	 */
-	@Override
-	public boolean initStateU0(double u0) {
+	@Override public boolean initStateU0(double u0) {
 		// this.baseFreq has to be set by calling the setParameter method
 		double kWashout = 1.0 / (2.0 * Math.PI * this.baseFreq * tf); // 1.0 / 2*Pai*f0 / Tf
 		this.washoutBlock = new WashoutControlBlock(kWashout, tf);
@@ -73,8 +88,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		return true;
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		double u2 = 1.0 + this.washoutBlock.getY();
 		this.delayBlock.eulerStep1(u2, dt);
 
@@ -91,8 +105,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		this.washoutBlock.eulerStep2(u1, dt);
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		return this.delayBlock.getY();
 	}
 
@@ -102,14 +115,12 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	 * @param name parameter name
 	 * @param value parameter value
 	 */
-	@Override
-	public void setParameter(String name, double value) {
+	@Override public void setParameter(String name, double value) {
 		if (name.equals(Constants.Token_NetBaseFreq))
 			this.baseFreq = value;
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "tf, tw: " + tf + ", " + tw;
 		return str;
 	}
@@ -130,18 +141,18 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 		this.tw = tw;
 	}
 
-	/* To make this controller ready for Grid computing, we need to implement 1) Default Constructor
-	 * 2) serialze() and 3) deseralize().
+	/* To make this controller ready for Grid computing, we need to implement 
+	 * 		1) Default Constructor
+	 * 		2) serialize() and 
+	 * 		3) de-serialize().
 	 */
 
-	@Override
-	public String serialize() {
+	@Override public String serialize() {
 		String name = this.getClass().getName();
 		return name + "|" + tf + "," + tw;
 	}
 
-	@Override
-	public Object deserialize(String str) throws InterpssRuntimeException {
+	@Override public Object deserialize(String str) throws InterpssRuntimeException {
 		String classname = str.substring(0, str.indexOf('|'));
 		if (!classname.equals(this.getClass().getName())) {
 			throw new InterpssRuntimeException("Programming error, deserialize() of "

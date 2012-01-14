@@ -51,7 +51,6 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-
 public class TFunc2ndOrderBlock extends ControlBlock1stOrderAdapter {
 	private double k = 0.0;
 	private double a = 0.0;

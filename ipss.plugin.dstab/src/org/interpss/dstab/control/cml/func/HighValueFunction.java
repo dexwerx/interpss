@@ -32,7 +32,6 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-
 public class HighValueFunction extends FunctionAdapter {
 	/**
 	 * Calculate input from the output value

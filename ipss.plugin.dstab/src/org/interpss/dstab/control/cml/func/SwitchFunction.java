@@ -32,7 +32,6 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-
 public class SwitchFunction extends FunctionAdapter {
 	private double e = 1.0;
 

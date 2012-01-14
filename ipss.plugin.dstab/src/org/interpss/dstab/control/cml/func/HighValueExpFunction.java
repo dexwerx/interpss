@@ -31,7 +31,6 @@ package org.interpss.dstab.control.cml.func;
  * @author mzhou
  *
  */
-
 public class HighValueExpFunction extends GateValueExpFunction {
 	/**
 	 * Calculate input from the output value

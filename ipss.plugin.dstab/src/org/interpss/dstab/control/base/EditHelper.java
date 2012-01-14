@@ -39,12 +39,9 @@ public class EditHelper {
 	/**
 	 * Set the TextFeild (double) with the data in the format
 	 * 
-	 * @param textField
-	 *            a text field
-	 * @param data
-	 *            the data
-	 * @param format
-	 *            format of the data
+	 * @param textField a text field
+	 * @param data the data
+	 * @param format format of the data
 	 */
 	public static void setDblTextFiled(JTextField textField, double data,
 			String format) {
@@ -54,10 +51,8 @@ public class EditHelper {
 	/**
 	 * Set the TextFeild (int) with the data in the format
 	 * 
-	 * @param textField
-	 *            a text field
-	 * @param data
-	 *            the data
+	 * @param textField a text field
+	 * @param data the data
 	 */
 	public static void setIntTextFiled(JTextField textField, int data) {
 		textField.setText(Number2String.toStr(data));
@@ -67,14 +62,10 @@ public class EditHelper {
 	 * Save the TextField value (double) to the controller data object under the
 	 * dataName "ka"
 	 * 
-	 * @param data
-	 *            controller data object
-	 * @param textField
-	 *            a screen text field
-	 * @param dataName
-	 *            data filed name, for example, "ka"
-	 * @param errMsg
-	 *            error message container in case the data is out of range
+	 * @param data  controller data object
+	 * @param textField  a screen text field
+	 * @param dataName data filed name, for example, "ka"
+	 * @param errMsg error message container in case the data is out of range
 	 * @throws Exception
 	 */
 	public static void saveDblTextField(BaseControllerData data,
@@ -92,14 +83,10 @@ public class EditHelper {
 	 * Save the TextField value (int) to the controller data object under the
 	 * dataName "ka"
 	 * 
-	 * @param data
-	 *            controller data object
-	 * @param textField
-	 *            a screen text field
-	 * @param dataName
-	 *            data filed name, for example, "ka"
-	 * @param errMsg
-	 *            error message container in case the data is out of range
+	 * @param data  controller data object
+	 * @param textField  a screen text field
+	 * @param dataName data filed name, for example, "ka"
+	 * @param errMsg error message container in case the data is out of range
 	 * @throws Exception
 	 */
 	public static void saveIntTextField(BaseControllerData data,
@@ -116,12 +103,9 @@ public class EditHelper {
 	/**
 	 * Check screen input (TextField) value (double) range violation
 	 * 
-	 * @param input
-	 *            screen input text field
-	 * @param data
-	 *            controller data object
-	 * @param dataName
-	 *            data field name, for example, "ka"
+	 * @param input screen input text field
+	 * @param data  controller data object
+	 * @param dataName  data field name, for example, "ka"
 	 * @return true or false
 	 * @throws Exception
 	 */
@@ -135,12 +119,9 @@ public class EditHelper {
 	/**
 	 * Check screen input (TextField) value (double) range violation
 	 * 
-	 * @param input
-	 *            screen input text field
-	 * @param data
-	 *            controller data object
-	 * @param dataName
-	 *            data field name, for example, "ka"
+	 * @param input  screen input text field
+	 * @param data  controller data object
+	 * @param dataName  data field name, for example, "ka"
 	 * @return true or false
 	 * @throws Exception
 	 */

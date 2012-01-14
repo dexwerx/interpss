@@ -33,12 +33,24 @@ package org.interpss.dstab.control.base;
 public abstract class BaseControllerData {
 	private static String[][] rangeParameters;
 
+	/**
+	 * 
+	 * 
+	 * @param name
+	 * @param value
+	 */
 	public abstract void setValue(String name, double value);
 
+	/**
+	 * 
+	 * 
+	 * @param name
+	 * @param value
+	 */
 	public abstract void setValue(String name, int value);
 
 	/**
-	 * Get max value for range check fot the parameter, for example 'ka'
+	 * Get max value for range check for the parameter, for example 'ka'
 	 * 
 	 * @param s parameter string, like "ka"
 	 * @return the max value

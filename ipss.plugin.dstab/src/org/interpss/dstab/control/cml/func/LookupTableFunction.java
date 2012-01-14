@@ -35,7 +35,6 @@ import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
  * @author mzhou
  *
  */
-
 public class LookupTableFunction extends LookupTableFunctionAdapter {
 
 	public LookupTableFunction(ILookupTable table) {

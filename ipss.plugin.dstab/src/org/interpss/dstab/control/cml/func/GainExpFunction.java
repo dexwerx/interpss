@@ -33,7 +33,6 @@ import com.interpss.dstab.datatype.ExpCalculator;
  * @author mzhou
  *
  */
-
 public class GainExpFunction extends FunctionExpressionAdapter {
 	private double k = 1.0;
 

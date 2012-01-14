@@ -32,7 +32,6 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-
 public class GainFunction extends FunctionAdapter {
 	private double k = 1.0;
 
