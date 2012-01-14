@@ -27,6 +27,12 @@ package org.interpss.mapper.odm;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
 
+/**
+ * mapper implementation to map ODM to InterPSS object model for Aclf
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMAclfDataMapper extends AbstractODMAclfDataMapper<AclfModelParser> {
 	public ODMAclfDataMapper() {}
 }

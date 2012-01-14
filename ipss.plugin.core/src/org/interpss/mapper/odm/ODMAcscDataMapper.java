@@ -27,7 +27,11 @@ package org.interpss.mapper.odm;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.interpss.mapper.odm.impl.acsc.AbstractODMAcscDataMapper;
 
-import com.interpss.common.msg.IPSSMsgHub;
-
+/**
+ * mapper implementation to map ODM to InterPSS object model for Acsc
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMAcscDataMapper extends AbstractODMAcscDataMapper<AcscModelParser> {
 }

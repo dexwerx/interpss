@@ -29,6 +29,12 @@ import org.interpss.mapper.odm.impl.dstab.AbstractODMDStabDataMapper;
 
 import com.interpss.common.msg.IPSSMsgHub;
 
+/**
+ * mapper implementation to map ODM to InterPSS object model for DStab
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMDStabDataMapper extends AbstractODMDStabDataMapper<DStabModelParser> {
 	public ODMDStabDataMapper(IPSSMsgHub msg) {
 		this.msg = msg;
