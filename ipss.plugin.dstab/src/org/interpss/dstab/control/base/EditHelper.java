@@ -43,8 +43,7 @@ public class EditHelper {
 	 * @param data the data
 	 * @param format format of the data
 	 */
-	public static void setDblTextFiled(JTextField textField, double data,
-			String format) {
+	public static void setDblTextFiled(JTextField textField, double data, String format) {
 		textField.setText(Number2String.toStr(data, format));
 	}
 
@@ -60,7 +59,7 @@ public class EditHelper {
 
 	/**
 	 * Save the TextField value (double) to the controller data object under the
-	 * dataName "ka"
+	 * dataName, for example, "ka"
 	 * 
 	 * @param data  controller data object
 	 * @param textField  a screen text field

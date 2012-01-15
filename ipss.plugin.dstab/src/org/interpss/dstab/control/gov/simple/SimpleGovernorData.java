@@ -24,6 +24,11 @@
 
 package org.interpss.dstab.control.gov.simple;
 
+/**
+ * 
+ * A JavaBean to store data for the Simple governor model
+ *
+ */
 public class SimpleGovernorData {
 	public SimpleGovernorData() {}
 	

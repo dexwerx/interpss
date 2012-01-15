@@ -1,12 +1,25 @@
-/**
- * <copyright>
- * 	Copyright www.interpss.com 2005
- * </copyright>
+/*
+ * @(#)ExciterObjectFactory.java   
+ *
+ * Copyright (C) 2008-2010 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 08/15/2006
  * 
- * A JPanel for editing the model's data. It implements the IControllerEditor interface, which will be called from
- * the parent editor dialog.
- * 
- * @author  mzhou
+ *   Revision History
+ *   ================
+ *
  */
 
 package org.interpss.dstab.control.exc.simple;
@@ -17,6 +30,13 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.SwingInputVerifyUtil;
 
+/**
+ * 
+ * A JPanel for editing the model's data. It implements the ICustomPluginEditor interface, which will be called from
+ * the parent editor dialog.
+ * 
+ * @author  mzhou
+ */
 public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 

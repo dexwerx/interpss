@@ -34,41 +34,108 @@ import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 
 import com.interpss.dstab.mach.Machine;
 
+/**
+ * Stabilizer object factory
+ * 
+ * @author mzhou
+ *
+ */
 public class StabilizerObjectFactory {
+	/**
+	 * factory method to create a SimpleStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static SimpleStabilizer createSimpleStabilizer(String id, String name, Machine machine) {
 		SimpleStabilizer pss = new SimpleStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
+
+	/**
+	 * factory method to create a Ieee1992PSS1AStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static Ieee1992PSS1AStabilizer createIeee1992PSS1AStabilizer(String id, String name, Machine machine) {
 		Ieee1992PSS1AStabilizer pss = new Ieee1992PSS1AStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
+
+	/**
+	 * factory method to create a Ieee1992PSS2AStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static Ieee1992PSS2AStabilizer createIeee1992PSS2AStabilizer(String id, String name, Machine machine) {
 		Ieee1992PSS2AStabilizer pss = new Ieee1992PSS2AStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
+
+	/**
+	 * factory method to create a BPASITypeStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static BPASITypeStabilizer createBpaSITypeStabilizer(String id, String name, Machine machine) {
 		BPASITypeStabilizer pss = new BPASITypeStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
+
+	/**
+	 * factory method to create a BPASSTypeStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static BPASSTypeStabilizer createBpaSsTypeStabilizer(String id, String name, Machine machine) {
 		BPASSTypeStabilizer pss = new BPASSTypeStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
+
+	/**
+	 * factory method to create a BPASPTypeStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static BPASPTypeStabilizer createBpaSpTypeStabilizer(String id, String name, Machine machine) {
 		BPASPTypeStabilizer pss = new BPASPTypeStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
+
+	/**
+	 * factory method to create a BPASGTypeStabilizer object
+	 * 
+	 * @param id stabilizer id
+	 * @param name stabilizer name
+	 * @param machine parent machine object
+	 * @return
+	 */		
 	public static BPASGTypeStabilizer createBpaSgTypeStabilizer(String id, String name, Machine machine) {
 		BPASGTypeStabilizer pss = new BPASGTypeStabilizer(id, name, "InterPSS");
 		pss.setMachine(machine); 
 		return pss;
   	}
-	
 }

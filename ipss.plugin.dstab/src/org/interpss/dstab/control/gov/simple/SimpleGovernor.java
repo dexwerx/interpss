@@ -36,12 +36,18 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
+/**
+ * 
+ * An implementation of the Simple governor model using InterPSS CML
+ *
+ */
 @AnController(
         input="mach.speed - 1.0",
         output="this.gainBlock.y",
         refPoint="this.gainBlock.u0 + this.delayBlock.y",
         display= {})
 public class SimpleGovernor extends AnnotateGovernor {
+	// define a CML delay block
 	public double ka = 10.0, ta = 0.5;
     @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
@@ -50,6 +56,7 @@ public class SimpleGovernor extends AnnotateGovernor {
             y0="this.refPoint - this.gainBlock.u0"	)
     DelayControlBlock delayBlock;
 	
+	// define a CML gain block
     public double ks = 1.0, pmax = 1.2, pmin = 0.0;
     @AnControllerField(
             type= CMLFieldEnum.StaticBlock,
@@ -97,12 +104,14 @@ public class SimpleGovernor extends AnnotateGovernor {
      *
      *  @param msg the SessionMsg object
      */
-    @Override
-	public boolean initStates(DStabBus bus, Machine mach) {
+    @Override public boolean initStates(DStabBus bus, Machine mach) {
+    	// init the controller parameters using the data defined in the 
+    	// data object    	
         this.ka = getData().getK();
         this.ta = getData().getT1();
         this.pmax = getData().getPmax();
         this.pmin = getData().getPmin();
+        // call the super method to init CML field/controller states
         return super.initStates(bus, mach);
     }
 
@@ -111,20 +120,16 @@ public class SimpleGovernor extends AnnotateGovernor {
      *
      * @return the editor panel object
      */
-    @Override
-	public Object getEditPanel() {
+    @Override public Object getEditPanel() {
         _editPanel.init(this);
         return _editPanel;
     }
  
-    @Override
-	public AnController getAnController() {
+    // the following statement must be added to all CML controller
+    @Override public AnController getAnController() {
     	return getClass().getAnnotation(AnController.class);  }
-    @Override
-	public Field getField(String fieldName) throws Exception {
+    @Override public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    @Override
-	public Object getFieldObject(Field field) throws Exception {
+    @Override public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
-
 } // SimpleGovernor

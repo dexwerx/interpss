@@ -36,12 +36,18 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
+/**
+ * 
+ * An implementation of the Simple stabilizer model using InterPSS CML
+ *
+ */
 @AnController(
         input="mach.speed",
         output="this.filterBlock2.y",
         refPoint="mach.speed",
         display= {})
 public class SimpleStabilizer extends AnnotateStabilizer {
+	// define a CML filer block
 	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
     @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
@@ -50,6 +56,7 @@ public class SimpleStabilizer extends AnnotateStabilizer {
             y0="this.filterBlock2.u0"	)
     FilterControlBlock filterBlock1;
 	
+	// define a CML filer block
     public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
     @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
@@ -95,6 +102,8 @@ public class SimpleStabilizer extends AnnotateStabilizer {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach) {
+    	// init the controller parameters using the data defined in the 
+    	// data object		
         this.k1 = getData().getKs();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
@@ -102,6 +111,7 @@ public class SimpleStabilizer extends AnnotateStabilizer {
         this.t4 = getData().getT4();
         this.vmax = getData().getVsmax();
         this.vmin = getData().getVsmin();
+        // call the super method to init CML field/controller states
         return super.initStates(abus, mach);
 	}
 
@@ -110,20 +120,16 @@ public class SimpleStabilizer extends AnnotateStabilizer {
 	 * 
 	 * @return the editor panel object
 	 */	
-	@Override
-	public Object getEditPanel() {
+	@Override public Object getEditPanel() {
 		_editPanel.init(this);
 		return _editPanel;
 	}
 	
-    @Override
-	public AnController getAnController() {
+    // the following statement must be added to all CML controller
+    @Override public AnController getAnController() {
     	return getClass().getAnnotation(AnController.class);  }
-    @Override
-	public Field getField(String fieldName) throws Exception {
+    @Override public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    @Override
-	public Object getFieldObject(Field field) throws Exception {
+    @Override public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
-
 } // SimpleStabilizer

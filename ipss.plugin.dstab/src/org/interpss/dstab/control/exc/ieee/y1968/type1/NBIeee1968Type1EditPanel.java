@@ -28,6 +28,14 @@ import java.util.Vector;
 import org.interpss.dstab.control.base.EditHelper;
 import org.interpss.ui.ICustomPluginEditor;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
+/**
+ * Editing screen panel implementation for input data editing for  NBIeee1968Type1 exciter
+ * 
+ * @author mzhou
+ *
+ */
 public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
@@ -37,24 +45,13 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
     /** Creates new form FaultLocDataPanel */
     public NBIeee1968Type1EditPanel() {
         initComponents();
+        
         // init the field to the default values
         _data = new Ieee1968Type1ExciterData();
         setData2Editor("");
         
         // associate the editing fields with the verifier class defined at the end of this calss
-  		DataVerifier verifier = new DataVerifier();
-  	    kaTextField.setInputVerifier(verifier);
-  	    taTextField.setInputVerifier(verifier);
-  	    vrmaxTextField.setInputVerifier(verifier);
-  	    vrminTextField.setInputVerifier(verifier);
-  	    keTextField.setInputVerifier(verifier);
-  	    teTextField.setInputVerifier(verifier);
-  	    e1TextField.setInputVerifier(verifier);
-  	    seE1TextField.setInputVerifier(verifier);
-  	    e2TextField.setInputVerifier(verifier);
-  	    seE2TextField.setInputVerifier(verifier);
-  	    kfTextField.setInputVerifier(verifier);
-  	    tfTextField.setInputVerifier(verifier);
+  	    initFieldForVerifier(new DataVerifier());
     }
     
     /**
@@ -71,19 +68,18 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor(String desc) {
-    	EditHelper.setDblTextFiled(kaTextField, 	_data.getKa(), "#0.00");
-    	EditHelper.setDblTextFiled(taTextField, 	_data.getTa(), "#0.000");
+    	EditHelper.setDblTextFiled(kaTextField, 	_data.getKa(), 	  "#0.00");
+    	EditHelper.setDblTextFiled(taTextField, 	_data.getTa(),    "#0.000");
     	EditHelper.setDblTextFiled(vrmaxTextField, 	_data.getVrmax(), "#0.00");
     	EditHelper.setDblTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
-    	EditHelper.setDblTextFiled(keTextField, 	_data.getKe(), "#0.00");
-    	EditHelper.setDblTextFiled(teTextField, 	_data.getTe(), "#0.000");
-    	EditHelper.setDblTextFiled(e1TextField, 	_data.getE1(), "#0.000");
-    	EditHelper.setDblTextFiled(seE1TextField, 	_data.getSeE1(), "#0.000");
-    	EditHelper.setDblTextFiled(e2TextField, 	_data.getE2(), "#0.000");
-    	EditHelper.setDblTextFiled(seE2TextField, 	_data.getSeE2(), "#0.000");
-    	EditHelper.setDblTextFiled(kfTextField, 	_data.getKf(), "#0.00");
-    	EditHelper.setDblTextFiled(tfTextField, 	_data.getTf(), "#0.000");
-
+    	EditHelper.setDblTextFiled(keTextField, 	_data.getKe(),    "#0.00");
+    	EditHelper.setDblTextFiled(teTextField, 	_data.getTe(),    "#0.000");
+    	EditHelper.setDblTextFiled(e1TextField, 	_data.getE1(),    "#0.000");
+    	EditHelper.setDblTextFiled(seE1TextField, 	_data.getSeE1(),  "#0.000");
+    	EditHelper.setDblTextFiled(e2TextField, 	_data.getE2(),    "#0.000");
+    	EditHelper.setDblTextFiled(seE2TextField, 	_data.getSeE2(),  "#0.000");
+    	EditHelper.setDblTextFiled(kfTextField, 	_data.getKf(),    "#0.00");
+    	EditHelper.setDblTextFiled(tfTextField, 	_data.getTf(),    "#0.000");
     	return true;
 	}
     
@@ -96,21 +92,69 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
     public boolean saveEditorData(Vector<String> errMsg) throws Exception {
     	errMsg.clear();
     	
-    	EditHelper.saveDblTextField(_data, kaTextField, "ka", errMsg);
-    	EditHelper.saveDblTextField(_data, taTextField, "ta", errMsg);
+    	EditHelper.saveDblTextField(_data, kaTextField,    "ka", errMsg);
+    	EditHelper.saveDblTextField(_data, taTextField,    "ta", errMsg);
     	EditHelper.saveDblTextField(_data, vrmaxTextField, "vrmax", errMsg);
     	EditHelper.saveDblTextField(_data, vrminTextField, "vrmin", errMsg);
-    	EditHelper.saveDblTextField(_data, keTextField, "ke", errMsg);
-    	EditHelper.saveDblTextField(_data, teTextField, "te", errMsg);
-    	EditHelper.saveDblTextField(_data, e1TextField, "e1", errMsg);
-    	EditHelper.saveDblTextField(_data, seE1TextField, "seE1", errMsg);
-    	EditHelper.saveDblTextField(_data, e2TextField, "e2", errMsg);
-    	EditHelper.saveDblTextField(_data, seE2TextField, "seE2", errMsg);
-    	EditHelper.saveDblTextField(_data, kfTextField, "kf", errMsg);
-    	EditHelper.saveDblTextField(_data, tfTextField, "tf", errMsg);
+    	EditHelper.saveDblTextField(_data, keTextField,    "ke", errMsg);
+    	EditHelper.saveDblTextField(_data, teTextField,    "te", errMsg);
+    	EditHelper.saveDblTextField(_data, e1TextField,    "e1", errMsg);
+    	EditHelper.saveDblTextField(_data, seE1TextField,  "seE1", errMsg);
+    	EditHelper.saveDblTextField(_data, e2TextField,    "e2", errMsg);
+    	EditHelper.saveDblTextField(_data, seE2TextField,  "seE2", errMsg);
+    	EditHelper.saveDblTextField(_data, kfTextField,    "kf", errMsg);
+    	EditHelper.saveDblTextField(_data, tfTextField,    "tf", errMsg);
 
     	return errMsg.size() == 0;
 	}
+    
+    /**
+     * Associate the editing fields with the verifier class defined at the end of this class
+     */
+    void initFieldForVerifier(DataVerifier verifier) {
+  	    kaTextField.setInputVerifier(verifier);
+  	    taTextField.setInputVerifier(verifier);
+  	    vrmaxTextField.setInputVerifier(verifier);
+  	    vrminTextField.setInputVerifier(verifier);
+  	    keTextField.setInputVerifier(verifier);
+  	    teTextField.setInputVerifier(verifier);
+  	    e1TextField.setInputVerifier(verifier);
+  	    seE1TextField.setInputVerifier(verifier);
+  	    e2TextField.setInputVerifier(verifier);
+  	    seE2TextField.setInputVerifier(verifier);
+  	    kfTextField.setInputVerifier(verifier);
+  	    tfTextField.setInputVerifier(verifier);    	
+    }
+    
+    /**
+     * define data validation rules
+     */
+	class DataVerifier extends javax.swing.InputVerifier {
+    	@Override public boolean verify(javax.swing.JComponent input) {
+			if (input == null)
+				return false;
+       		try {
+       			// data field verification rules
+    			if ( input == kaTextField)	  return EditHelper.checkDblDataRange(input, _data, "ka");
+    			if ( input == taTextField)	  return EditHelper.checkDblDataRange(input, _data, "ta");
+    			if ( input == vrmaxTextField) return EditHelper.checkDblDataRange(input, _data, "vrmax");
+    			if ( input == vrminTextField) return EditHelper.checkDblDataRange(input, _data, "vrmin");
+    			if ( input == keTextField)    return EditHelper.checkDblDataRange(input, _data, "ke");
+    			if ( input == teTextField)    return EditHelper.checkDblDataRange(input, _data, "te");
+    			if ( input == e1TextField)    return EditHelper.checkDblDataRange(input, _data, "e1");
+    			if ( input == seE1TextField)  return EditHelper.checkDblDataRange(input, _data, "seE1");
+    			if ( input == e2TextField)    return EditHelper.checkDblDataRange(input, _data, "e2");
+    			if ( input == seE2TextField)  return EditHelper.checkDblDataRange(input, _data, "seE2");
+    			if ( input == kfTextField)    return EditHelper.checkDblDataRange(input, _data, "kf");
+    			if ( input == tfTextField)    return EditHelper.checkDblDataRange(input, _data, "tf");
+    			
+ 	       	} catch (Exception e) {
+ 	       		ipssLogger.severe(e.toString());
+ 	    		return false;
+ 	       	}		
+			return true;
+        }
+    }
     
 	/** This method is called from within the constructor to
      * initialize the form.
@@ -351,44 +395,4 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICus
     private javax.swing.JLabel vrminLabel;
     private javax.swing.JTextField vrminTextField;
     // End of variables declaration//GEN-END:variables
-
-    // define data validation rules
-	class DataVerifier extends javax.swing.InputVerifier {
-    	@Override
-		public boolean verify(javax.swing.JComponent input) {
-			if (input == null)
-				return false;
-       		try {
-       			// data field verification rules
-    			if ( input == kaTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "ka");
-    			if ( input == taTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "ta");
-    			if ( input == vrmaxTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "vrmax");
-    			if ( input == vrminTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "vrmin");
-    			if ( input == keTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "ke");
-    			if ( input == teTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "te");
-    			if ( input == e1TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "e1");
-    			if ( input == seE1TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "seE1");
-    			if ( input == e2TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "e2");
-    			if ( input == seE2TextField)
-    				return EditHelper.checkDblDataRange(input, _data, "seE2");
-    			if ( input == kfTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "kf");
-    			if ( input == tfTextField)
-    				return EditHelper.checkDblDataRange(input, _data, "tf");
-    			
- 	       	} catch (Exception e) {
- 	    		return false;
- 	       	}		
-			return true;
-        }
-    }
 }

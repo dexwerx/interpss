@@ -31,18 +31,35 @@ package org.interpss.dstab.control.base;
  *
  */
 public abstract class BaseControllerData {
+	/**
+	 * to store controller parameter range for GUI editor data range
+	 *  
+	 *             
+	 *                min          max
+		{"ka", 		"-1000.0", 	"1000.0"}, 
+		{"ta", 		"-1000.0", 	"1000.0"}, 
+	*/
 	private static String[][] rangeParameters;
 
 	/**
+	 * Set double type value for controller parameter. The following is an sample 
 	 * 
-	 * 
+	 *  <code>
+		public void setValue(String name, double value) {
+			if (name.equals("ka"))
+				this.ka = value;
+			else if (name.equals("ta"))
+				this.ta = value;
+		}
+		</code>
+
 	 * @param name
 	 * @param value
 	 */
 	public abstract void setValue(String name, double value);
 
 	/**
-	 * 
+	 * Set int type value for controller parameter. 
 	 * 
 	 * @param name
 	 * @param value
@@ -56,7 +73,7 @@ public abstract class BaseControllerData {
 	 * @return the max value
 	 */
 	public double getMaxValue(String s) {
-		return getParamValue(s, 2);
+		return getParamValue(s, 2);  // max is stored in the rangeParameters, column-3
 	}
 
 	/**
@@ -66,7 +83,7 @@ public abstract class BaseControllerData {
 	 * @return the min value
 	 */
 	public double getMinValue(String s) {
-		return getParamValue(s, 1);
+		return getParamValue(s, 1);  // min is stored in the rangeParameters, column-3    
 	}
 
 	/**

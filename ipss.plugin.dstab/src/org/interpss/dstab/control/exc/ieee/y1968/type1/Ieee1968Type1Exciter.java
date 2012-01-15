@@ -37,14 +37,18 @@ import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 import com.interpss.dstab.mach.Machine;
 
+/**
+ * 
+ * An implementation of the Ieee1968Type1 exciter model using InterPSS CML
+ *
+ */
 @AnController(
    input="mach.vt",
    output="this.delayBlock.y",
    refPoint="this.kaDelayBlock.u0 - pss.vs + this.krDelayBlock.y + this.washoutBlock.y",
-   display= {}
-)
+   display= {} )
 public class Ieee1968Type1Exciter extends AnnotateExciter {
-	   //krDelayBlock----1/(1+sTr)
+	   // fefine a CML delay block, krDelayBlock----1/(1+sTr)
        public double kr = 1.0/*constant*/,tr = 0.04;
        @AnControllerField(
             type= CMLFieldEnum.ControlBlock,
@@ -54,6 +58,7 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
             initOrderNumber=-1 )
        DelayControlBlock krDelayBlock;
        
+	   // fefine a CML delay block
 	   public double ka = 50.0, ta = 0.05, vrmax = 10.0, vrmin = 0.0;
 	   @AnControllerField(
 	      type= CMLFieldEnum.ControlBlock,
@@ -63,6 +68,7 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	   )
 	   DelayControlBlock kaDelayBlock;
 
+	   // fefine a CML delay block
 	   public double ke1 = 1.0 /* ke1 = 1/Ke  */, te_ke = 0.1 /* te_ke = Te/Ke */;
 	   @AnControllerField(
 	      type= CMLFieldEnum.ControlBlock,
@@ -72,12 +78,14 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	   )
 	   DelayControlBlock delayBlock;
 
+	   // fefine a CML Se block
 	   public double e1 = 3.1, seE1 = 0.33, e2 = 2.3, seE2 = 0.1;
 	   @AnFunctionField(
 	      input= {"this.delayBlock.y"},
 	      parameter={"this.e1", "this.seE1", "this.e2", "this.seE2"}	)
 	   SeFunction seFunc;
 
+	   // fefine a CML washout block
 	   public double kf = 1.0, tf = 0.05, k = kf/tf;
 	   @AnControllerField(
 	      type= CMLFieldEnum.ControlBlock,
@@ -103,12 +111,13 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
     /**
      * Constructor
      *
-     * @param id excitor id
-     * @param name excitor name
+     * @param id exciter id
+     * @param name exciter name
+     * @param caty exciter category
      */
     public Ieee1968Type1Exciter(String id, String name, String caty) {
         super(id, name, caty);
-        // _data is defined in the parent class. However init it here is a MUST
+        // _data field is defined in the parent class. However init it here is a MUST
         _data = new Ieee1968Type1ExciterData();
     }
     
@@ -128,6 +137,8 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
      */
     @Override
 	public boolean initStates(DStabBus bus, Machine mach) {
+    	// init the controller parameters using the data defined in the 
+    	// data object
     	this.tr=getData().getTr();
         this.ka = getData().getKa();
         this.ta = getData().getTa();
@@ -141,6 +152,8 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 		this.seE2 = getData().getSeE2();
 		this.k = getData().getKf()/getData().getTf();
 		this.tf = getData().getTf();
+
+		// call the super method to init CML field/controller states
         return super.initStates(bus, mach);
     }
 
@@ -149,20 +162,17 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
      *
      * @return the editor panel object
      */
-    @Override
-	public Object getEditPanel() {
+    @Override public Object getEditPanel() {
         _editPanel.init(this);
         return _editPanel;
     }
  
-    @Override
-	public AnController getAnController() {
+    // the following statement must be added to all CML controller
+    @Override public AnController getAnController() {
     	return getClass().getAnnotation(AnController.class);  }
-    @Override
-	public Field getField(String fieldName) throws Exception {
+    @Override public Field getField(String fieldName) throws Exception {
     	return getClass().getField(fieldName);   }
-    @Override
-	public Object getFieldObject(Field field) throws Exception {
+    @Override public Object getFieldObject(Field field) throws Exception {
     	return field.get(this);    }
 } // SimpleExciter
 

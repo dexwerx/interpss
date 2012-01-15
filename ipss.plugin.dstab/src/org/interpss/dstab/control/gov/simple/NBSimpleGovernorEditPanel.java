@@ -30,6 +30,13 @@ import org.interpss.numeric.util.Number2String;
 import org.interpss.ui.ICustomPluginEditor;
 import org.interpss.ui.SwingInputVerifyUtil;
 
+/**
+ * 
+ * A JPanel for editing the model's data. It implements the ICustomPluginEditor interface, which will be called from
+ * the parent editor dialog.
+ * 
+ * @author  mzhou
+ */
 public class NBSimpleGovernorEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 	

@@ -25,6 +25,11 @@
 
 package org.interpss.dstab.control.pss.simple;
 
+/**
+ * 
+ * A JavaBean to store data for the Simple stabilizer model
+ *
+ */
 public class SimpleStabilizerData {
 	public SimpleStabilizerData() {}
 
@@ -35,6 +40,7 @@ public class SimpleStabilizerData {
 	private double t4 = 0.25;
 	private double vsmax = 0.2;
 	private double vsmin = -0.2;
+	
 	/**
 	 * @return Returns the ks.
 	 */
