@@ -1,6 +1,6 @@
 package org.interpss.display;
 
-import static org.interpss.CorePluginFunction.LfResultBusStyle;
+import static org.interpss.CorePluginFunction.AclfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMAdapter;
@@ -31,6 +31,6 @@ public class PEESFormatTest {
 	  	
 	  	//System.out.println(LfResultBusStyle2.f(net, AclfOut_PSSE.Format.GUI));
 
-	  	System.out.println(LfResultBusStyle.f(net));
+	  	System.out.println(AclfResultBusStyle.f(net));
 	}
 }
