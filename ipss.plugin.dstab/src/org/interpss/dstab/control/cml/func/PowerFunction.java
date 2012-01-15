@@ -27,7 +27,7 @@ package org.interpss.dstab.control.cml.func;
 import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 
 /**
- * Power function: output = input ^ k, k = 0, 1, 2, ...
+ * An implementation of Power function: output = input ^ k, k = 0, 1, 2, ...
  * 
  * @author mzhou
  *
@@ -35,6 +35,11 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 public class PowerFunction extends FunctionAdapter {
 	private int k = 0;
 
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 */
 	public PowerFunction(int k) {
 		this.k = k;
 	}
@@ -45,8 +50,7 @@ public class PowerFunction extends FunctionAdapter {
 	 * @param dAry contains only one value
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		if (k == 0)
 			return 1.0;
 		else if (k == 1)

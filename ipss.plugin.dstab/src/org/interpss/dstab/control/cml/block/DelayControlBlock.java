@@ -34,18 +34,38 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 import com.interpss.dstab.datatype.LimitExpression;
 
-public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
-		ICMLLimitExpression {
+/**
+ * An implementation of delay block
+ * 
+ * @author mzhou
+ *
+ */
+public class DelayControlBlock extends ControlBlock1stOrderAdapter implements ICMLLimitExpression {
 	protected double k = 0.0;
 	protected double t = 0.0;
 	protected LimitExpression limit = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 * @param t
+	 */
 	public DelayControlBlock(double k, double t) {
 		setType(NoLimit);
 		this.k = k;
 		this.t = t;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param t
+	 * @param max
+	 * @param min
+	 */
 	public DelayControlBlock(StaticBlockType type, double k, double t, double max,
 			double min) {
 		this(k, t);
@@ -53,6 +73,15 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		limit = new LimitExpression(max, min);
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param t
+	 * @param maxExp
+	 * @param min
+	 */
 	public DelayControlBlock(StaticBlockType type, double k, double t,
 			ExpCalculator maxExp, double min) {
 		this(k, t);
@@ -60,6 +89,15 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		limit = new LimitExpression(maxExp, min);
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param t
+	 * @param max
+	 * @param minExp
+	 */
 	public DelayControlBlock(StaticBlockType type, double k, double t, double max,
 			ExpCalculator minExp) {
 		this(k, t);
@@ -67,6 +105,15 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		limit = new LimitExpression(max, minExp);
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param t
+	 * @param maxExp
+	 * @param minExp
+	 */
 	public DelayControlBlock(StaticBlockType type, double k, double t,
 			ExpCalculator maxExp, ExpCalculator minExp) {
 		this(k, t);
@@ -74,7 +121,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		limit = new LimitExpression(maxExp, minExp);
 	}
 
-	public boolean initStateY0(double y0, double[] maxDAry, double[] minDAry) {
+	@Override public boolean initStateY0(double y0, double[] maxDAry, double[] minDAry) {
 		if (getK() <= 0.0) {
 			ipssLogger.severe("DelayControlBlock.initState(), k <= 0.0");
 			return false;
@@ -89,8 +136,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 			return true;
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public boolean initStateY0(double y0) {
 		if (getK() <= 0.0) {
 			ipssLogger.severe("DelayControlBlock.initState(), k <= 0.0");
 			return false;
@@ -104,35 +150,31 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 			return true;
 	}
 
-	public boolean initStateU0(double u0, double[] maxDAry, double[] minDAry) {
+	@Override public boolean initStateU0(double u0, double[] maxDAry, double[] minDAry) {
 		setU(u0);
 		double y0 = u0 * getK();
 		return initStateY0(y0, maxDAry, minDAry);
 	}
 
-	@Override
-	public boolean initStateU0(double u0) {
+	@Override public boolean initStateU0(double u0) {
 		setU(u0);
 		double y0 = u0 * getK();
 		return initStateY0(y0);
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return getU();
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		eulerStep1(u, dt, null, null);
 	}
 
-	@Override
-	public void eulerStep2(double u, double dt) {
+	@Override public void eulerStep2(double u, double dt) {
 		eulerStep2(u, dt, null, null);
 	}
 
-	public void eulerStep1(double u, double dt, double[] maxDAry,
+	@Override public void eulerStep1(double u, double dt, double[] maxDAry,
 			double[] minDAry) {
 		super.eulerStep1(u, dt);
 		if (getType() == NonWindup) {
@@ -143,15 +185,14 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 		}
 	}
 
-	public void eulerStep2(double u, double dt, double[] maxDAry,
+	@Override public void eulerStep2(double u, double dt, double[] maxDAry,
 			double[] minDAry) {
 		super.eulerStep2(u, dt);
 		if (getType() == NonWindup)
 			setStateX(limit.limit(getStateX(), maxDAry, minDAry));
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		//System.out.println("state " + getStateX());
 		double y = getStateX();
 		if (getT() <= 0.0)
@@ -162,8 +203,7 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 			return y;
 	}
 
-	@Override
-	protected double dX_dt(double u) {
+	@Override protected double dX_dt(double u) {
 		if (getT() > 0.0)
 			return (getK() * u - getStateX()) / getT();
 		else
@@ -171,6 +211,8 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 	}
 
 	/**
+	 * get parameter k
+	 * 
 	 * @return the k
 	 */
 	public double getK() {
@@ -178,6 +220,8 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 	}
 
 	/**
+	 * get parameter limit
+	 * 
 	 * @return the limit
 	 */
 	public LimitExpression getLimit() {
@@ -185,14 +229,15 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements
 	}
 
 	/**
+	 * get parameter t
+	 * 
 	 * @return the t
 	 */
 	public double getT() {
 		return t;
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "type, k, t, limit: " + getType() + ", " + k + ", " + t
 				+ ", " + limit;
 		return str;

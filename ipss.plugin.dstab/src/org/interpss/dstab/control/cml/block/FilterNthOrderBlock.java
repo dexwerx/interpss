@@ -25,8 +25,8 @@
 package org.interpss.dstab.control.cml.block;
 
 import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NoLimit;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 /**
@@ -44,30 +44,29 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	private double t1 = 0.0;
 	private double t2 = 0.0;
+	
 	private int m = 1;
 	private int n = 1;
 
 	private FilterControlBlock[] filterBlockList = null;
 	private DelayControlBlock[] delayBlockList = null;
-	public String getState() { 
-		String str = "";
-		if (delayBlockList != null)
-			for (int i = delayBlockList.length - 1; i >= 0; i--) {
-				str += delayBlockList[i].getState() + ", ";
-			}
-		if (filterBlockList != null)
-			for (int i = filterBlockList.length - 1; i >= 0; i--) {
-				str = filterBlockList[i].getState() + ", ";
-			}
-		return str + ", " + super.getState(); 
-	}
-
+	
+	/**
+	 * constructor
+	 * 
+	 * @param t1
+	 * @param t2
+	 * @param m
+	 * @param n
+	 */
 	public FilterNthOrderBlock(double t1, double t2, int m, int n) {
 		setType(NoLimit);
 		this.t1 = t1;
 		this.t2 = t2;
+		
 		this.m = m;
 		this.n = n;
+		
 		if (n > 0) {
 			filterBlockList = new FilterControlBlock[n];
 			for (int i = 0; i < filterBlockList.length; i++)
@@ -81,11 +80,22 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public String getState() { 
+		String str = "";
+		if (delayBlockList != null)
+			for (int i = delayBlockList.length - 1; i >= 0; i--) {
+				str += delayBlockList[i].getState() + ", ";
+			}
+		if (filterBlockList != null)
+			for (int i = filterBlockList.length - 1; i >= 0; i--) {
+				str = filterBlockList[i].getState() + ", ";
+			}
+		return str + ", " + super.getState(); 
+	}
+
+	@Override public boolean initStateY0(double y0) {
 		if (getN() < 0 || getM() <= 0) {
-			IpssLogger.getLogger().severe(
-					"FilterNthOrderBlock.intiState(),  < 0 || m <= 0");
+			ipssLogger.severe("FilterNthOrderBlock.intiState(),  < 0 || m <= 0");
 			return false;
 		}
 
@@ -103,20 +113,17 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		return true;
 	}
 
-	@Override
-	public boolean initStateU0(double u0) {
+	@Override public boolean initStateU0(double u0) {
 		setU(u0);
 		double y0 = u0;
 		return initStateY0(y0);
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return getU();
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		setU(u);
 		if (delayBlockList != null) {
 			for (int i = delayBlockList.length - 1; i >= 0; i--) {
@@ -141,8 +148,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public void eulerStep2(double u, double dt) {
+	@Override public void eulerStep2(double u, double dt) {
 		setU(u);
 		if (delayBlockList != null) {
 			for (int i = delayBlockList.length - 1; i >= 0; i--) {
@@ -167,8 +173,7 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		// return y of the last block
 		if (delayBlockList != null)
 			return delayBlockList[delayBlockList.length - 1].getY();
@@ -179,6 +184,8 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter t1
+	 * 
 	 * @return the t1
 	 */
 	public double getT1() {
@@ -186,6 +193,8 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter t2
+
 	 * @return the t2
 	 */
 	public double getT2() {
@@ -193,6 +202,8 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter m
+
 	 * @return the m
 	 */
 	public int getM() {
@@ -200,14 +211,15 @@ public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter n
+	 * 
 	 * @return the n
 	 */
 	public int getN() {
 		return this.n;
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "t1, t2, n, m: " + t1 + ", " + t2 + ", " + n + ", " + m;
 		return str;
 	}

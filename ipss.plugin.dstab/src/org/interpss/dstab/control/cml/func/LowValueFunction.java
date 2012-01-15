@@ -38,8 +38,7 @@ public class LowValueFunction extends FunctionAdapter {
 	 * 
 	 * @return input u
 	 */
-	@Override
-	public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws Exception {
 		return y;
 	}
 
@@ -49,8 +48,7 @@ public class LowValueFunction extends FunctionAdapter {
 	 * @param dAry contains two values [u1, u2]
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		// always there are two input values 
 		return dAry[0] < dAry[1] ? dAry[0] : dAry[1];
 	}

@@ -32,23 +32,41 @@ import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
+/**
+ * An implementation of integration block
+ * 
+ * @author mzhou
+ *
+ */
 public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	protected double k = 0.0;
 	protected LimitType limit = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 */
 	public IntegrationControlBlock(double k) {
 		setType(NoLimit);
 		this.k = k;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param max
+	 * @param min
+	 */
 	public IntegrationControlBlock(StaticBlockType type, double k, double max, double min) {
 		this(k);
 		setType(type);
 		limit = new LimitType(max, min);
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public boolean initStateY0(double y0) {
 		setStateX(y0);
 		if (getType() == Limit
 				|| getType() == NonWindup)
@@ -57,13 +75,11 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 			return true;
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return 0.0;
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
 		if (getType() == NonWindup) {
 			if (limit.isViolated(getStateX())) {
@@ -73,27 +89,26 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public void eulerStep2(double u, double dt) {
+	@Override public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
 		if (getType() == NonWindup)
 			setStateX(limit.limit(getStateX()));
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		if (getType() == Limit)
 			return limit.limit(getStateX());
 		else
 			return getStateX();
 	}
 
-	@Override
-	protected double dX_dt(double u) {
+	@Override protected double dX_dt(double u) {
 		return getK() * u;
 	}
 
 	/**
+	 * get parameter k
+	 * 
 	 * @return the k
 	 */
 	public double getK() {
@@ -101,14 +116,15 @@ public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get the limit object
+	 * 
 	 * @return the limit
 	 */
 	public LimitType getLimit() {
 		return limit;
 	}
 	
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "type, k, limit: " + getType() + ", " + k + ", " + limit;
 		return str;
 	}	

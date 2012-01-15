@@ -32,7 +32,6 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-
 public class FexFunction extends FunctionAdapter {
 	/**
 	 * evaluate function value based on the input double array. The array matches the input var rec list

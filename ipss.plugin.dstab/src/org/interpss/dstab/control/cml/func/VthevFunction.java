@@ -38,6 +38,12 @@ public class VthevFunction extends FunctionAdapter {
 	private double kp = 1.0;
 	private double ki = 1.0;
 
+	/**
+	 * constructor
+	 * 
+	 * @param kp
+	 * @param ki
+	 */
 	public VthevFunction(double kp, double ki) {
 		this.kp = kp;
 		this.ki = ki;
@@ -47,19 +53,16 @@ public class VthevFunction extends FunctionAdapter {
 	 * evaluate function value based on the input double array. The array
 	 * matches the input var rec list
 	 * 
-	 * @param dAry
-	 *            contains two values [ Vt, It ]
+	 * @param dAry contains two values [ Vt, It ]
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		double vt = dAry[0];
 		double it = dAry[1];
 		return new Complex(this.kp * vt, this.ki * it).abs();
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "Kp, Ki: " + kp + ", " + ki;
 		return str;
 	}

@@ -37,8 +37,7 @@ public class LowValueExpFunction extends GateValueExpFunction {
 	 * 
 	 * @return input u
 	 */
-	@Override
-	public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws Exception {
 		return y;
 	}
 
@@ -48,8 +47,7 @@ public class LowValueExpFunction extends GateValueExpFunction {
 	 * @param dAry2D contains two arrays [u1Ary, u2Ary]
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[][] dAry2D) throws Exception {
+	@Override public double eval(double[][] dAry2D) throws Exception {
 		return eval(dAry2D, false);
 	}
 }

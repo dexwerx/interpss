@@ -33,12 +33,25 @@ import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
+/**
+ * A filter controller implementation
+ * 
+ * @author mzhou
+ *
+ */
 public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	protected double k = 0.0;
 	protected double t1 = 0.0;
 	protected double t2 = 0.0;
 	protected LimitType limit = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 * @param t1
+	 * @param t2
+	 */
 	public FilterControlBlock(double k, double t1, double t2) {
 		setType(NoLimit);
 		this.k = k;
@@ -46,6 +59,16 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		this.t2 = t2;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param t1
+	 * @param t2
+	 * @param max
+	 * @param min
+	 */
 	public FilterControlBlock(StaticBlockType type, double k, double t1, double t2,
 			double max, double min) {
 		this(k, t1, t2);
@@ -53,8 +76,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		limit = new LimitType(max, min);
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public boolean initStateY0(double y0) {
 		if (getK() <= 0.0) {
 			ipssLogger.severe("FilterControlBlock.initState(), k <= 0.0");
 			return false;
@@ -68,20 +90,17 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 			return true;
 	}
 
-	@Override
-	public boolean initStateU0(double u0) {
+	@Override public boolean initStateU0(double u0) {
 		setU(u0);
 		double y0 = u0 * getK();
 		return initStateY0(y0);
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return getU();
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
 		if (getType() == NonWindup) {
 			if (isLimitViolated(u)) {
@@ -92,8 +111,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public void eulerStep2(double u, double dt) {
+	@Override public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
 		if (getType() == NonWindup) {
 			if (isLimitViolated(u)) {
@@ -103,8 +121,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		double u = getU();
 		double y = 0.0;
 		
@@ -119,8 +136,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 			return y;
 	}
 
-	@Override
-	protected double dX_dt(double u) {
+	@Override protected double dX_dt(double u) {
 		if (getT2() > 0.0)
 			return (getK() * (1.0 - getT1() / getT2()) * u - getStateX())
 					/ getT2();
@@ -168,8 +184,7 @@ public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 		return t2;
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "type, k, t1, t2, limit: " + getType() + ", " + k + ", "
 				+ t1 + ", " + t2 + ", " + limit;
 		return str;

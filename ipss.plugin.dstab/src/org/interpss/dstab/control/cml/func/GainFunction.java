@@ -35,6 +35,11 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 public class GainFunction extends FunctionAdapter {
 	private double k = 1.0;
 
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 */
 	public GainFunction(double k) {
 		this.k = k;
 	}
@@ -44,8 +49,7 @@ public class GainFunction extends FunctionAdapter {
 	 * 
 	 * @return input u
 	 */
-	@Override
-	public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws Exception {
 		return y / this.k;
 	}
 

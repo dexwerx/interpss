@@ -35,6 +35,11 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 public class SwitchFunction extends FunctionAdapter {
 	private double e = 1.0;
 
+	/**
+	 * constructor
+	 * 
+	 * @param e
+	 */
 	public SwitchFunction(double e) {
 		this.e = e;
 	}
@@ -44,8 +49,7 @@ public class SwitchFunction extends FunctionAdapter {
 	 * 
 	 * @return input u
 	 */
-	@Override
-	public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws Exception {
 		return y;
 	}
 
@@ -55,8 +59,7 @@ public class SwitchFunction extends FunctionAdapter {
 	 * @param dAry contains { x, u1, u2 }
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		double x = dAry[0];
 		double u1 = dAry[1];
 		double u2 = dAry[2];

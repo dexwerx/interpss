@@ -24,9 +24,10 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.func.ILookupTable;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
 
 /**
@@ -37,6 +38,11 @@ import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
  */
 public class LookupTableFunction extends LookupTableFunctionAdapter {
 
+	/**
+	 * constructor
+	 * 
+	 * @param table
+	 */
 	public LookupTableFunction(ILookupTable table) {
 		super();
 		this.table = table;
@@ -53,7 +59,7 @@ public class LookupTableFunction extends LookupTableFunctionAdapter {
 		try {
 			return getLookupTable().getY(dAry[0]);
 		} catch (InterpssException e) {
-			IpssLogger.getLogger().severe(e.toString());
+			ipssLogger.severe(e.toString());
 			return 0.0;
 		}
 	}

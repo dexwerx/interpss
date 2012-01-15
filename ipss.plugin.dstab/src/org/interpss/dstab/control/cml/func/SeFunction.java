@@ -27,7 +27,7 @@ package org.interpss.dstab.control.cml.func;
 import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 
 /**
- * y = Se(Efd) 
+ * An implementation of function y = Se(Efd) 
  * 
  * @author mzhou
  *
@@ -41,6 +41,15 @@ public class SeFunction extends FunctionAdapter {
 	private double a = 1.0;
 	private double b = 1.0;
 
+	/**
+	 * constructor
+	 * 
+	 * @param e1
+	 * @param se_e1
+	 * @param e2
+	 * @param se_e2
+	 * @throws Exception
+	 */
 	public SeFunction(double e1, double se_e1, double e2, double se_e2)
 			throws Exception {
 		if (e1 <= e2 || se_e1 <= se_e2) {
@@ -61,14 +70,12 @@ public class SeFunction extends FunctionAdapter {
 	 * @param dAry contains only one value Efd
 	 * @return the function value
 	 */
-	@Override
-	public double eval(double[] dAry) {
+	@Override public double eval(double[] dAry) {
 		double efd = dAry[0]; // the only input to this function is Efd
 		return this.a * Math.exp(this.b * efd);
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "E1, Se(E1), E2, Se(E2): " + e1 + ", " + se_e1 + ", " + e2
 				+ ", " + se_e2;
 		str += "A, B: " + a + ", " + b;

@@ -28,26 +28,32 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 /**
+ * An implementation of washout block
+ * 
  * Transfer function  K * ( T * s ) / ( 1 + T * s )
  */
 public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
 	protected double k = 0.0;
 	protected double t = 0.0;
 
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 * @param t
+	 */
 	public WashoutControlBlock(double k, double t) {
 		this.k = k;
 		this.t = t;
 	}
 
-	@Override
-	public boolean initStateU0(double u0) {
+	@Override public boolean initStateU0(double u0) {
 		setU(u0);
 		setStateX(getK() * u0);
 		return true;
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public boolean initStateY0(double y0) {
 		if (y0 != 0.0) {
 			throw new InterpssRuntimeException(
 					"Washout block, initStateY0(), y0 should = 0.0");
@@ -57,24 +63,23 @@ public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
 		return true;
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return getU();
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		double u = getU();
 		double y = getK() * u - getStateX();
 		return y;
 	}
 
-	@Override
-	protected double dX_dt(double u) {
+	@Override protected double dX_dt(double u) {
 		return (getK() * u - getStateX()) / getT();
 	}
 
 	/**
+	 * get parameter k
+	 * 
 	 * @return the k
 	 */
 	public double getK() {
@@ -82,14 +87,15 @@ public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter t
+	 * 
 	 * @return the t
 	 */
 	public double getT() {
 		return t;
 	}
 	
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "type, k, t: " + getType() + ", " + k + ", " + t;
 		return str;
 	}	

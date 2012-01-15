@@ -29,17 +29,38 @@ import org.interpss.numeric.datatype.LimitType;
 import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.*;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
+/**
+ * An implementation of PI controller block
+ * 
+ * @author mzhou
+ *
+ */
 public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	protected double kp = 0.0;
 	protected double ki = 0.0;
 	protected LimitType limit = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param kp
+	 * @param ki
+	 */
 	public PIControlBlock(double kp, double ki) {
 		setType(NoLimit);
 		this.kp = kp;
 		this.ki = ki;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param kp
+	 * @param ki
+	 * @param max
+	 * @param min
+	 */
 	public PIControlBlock(StaticBlockType type, double kp, double ki, double max,
 			double min) {
 		this(kp, ki);
@@ -47,8 +68,7 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 		limit = new LimitType(max, min);
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public boolean initStateY0(double y0) {
 		setStateX(y0);
 		if (getType() == Limit
 				|| getType() == NonWindup)
@@ -57,13 +77,11 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 			return true;
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return 0.0;
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		super.eulerStep1(u, dt);
 		if (getType() == NonWindup) {
 			double x = getKp() * u;
@@ -74,8 +92,7 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public void eulerStep2(double u, double dt) {
+	@Override public void eulerStep2(double u, double dt) {
 		super.eulerStep2(u, dt);
 		if (getType() == NonWindup) {
 			double x = getKp() * u;
@@ -85,8 +102,7 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 		}
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		double u = getU();
 		if (getType() == Limit)
 			return limit.limit(getStateX() + u * getKp());
@@ -94,8 +110,7 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 			return getStateX() + u * getKp();
 	}
 
-	@Override
-	protected double dX_dt(double u) {
+	@Override protected double dX_dt(double u) {
 		return getKi() * u;
 	}
 
@@ -106,6 +121,8 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter kp
+	 * 
 	 * @return the kp
 	 */
 	public double getKp() {
@@ -113,6 +130,8 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get the limit object
+	 * 
 	 * @return the limit
 	 */
 	public LimitType getLimit() {
@@ -120,14 +139,15 @@ public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	}
 
 	/**
+	 * get parameter t
+	 * 
 	 * @return the t
 	 */
 	public double getKi() {
 		return ki;
 	}
 	
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "type, kp, ki, limit: " + getType() + ", " + kp + ", " + ki + ", " + limit;
 		return str;
 	}	

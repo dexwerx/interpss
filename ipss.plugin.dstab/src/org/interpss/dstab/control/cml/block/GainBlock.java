@@ -31,27 +31,48 @@ import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
 
+/**
+ * An implementation of gain block
+ * 
+ * @author mzhou
+ *
+ */
 public class GainBlock extends StaticBlockAdapter {
 	protected double k = 0.0;
 	protected LimitType limit = null;
 
+	/**
+	 * constructor
+	 */
 	public GainBlock() {
 		this(1.0);
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param k
+	 */
 	public GainBlock(double k) {
 		setType(NoLimit);
 		this.k = k;
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param type
+	 * @param k
+	 * @param max
+	 * @param min
+	 */
 	public GainBlock(StaticBlockType type, double k, double max, double min) {
 		this(k);
 		setType(type);
 		limit = new LimitType(max, min);
 	}
 
-	@Override
-	public boolean initStateY0(double y0) {
+	@Override public boolean initStateY0(double y0) {
 		u = y0 / getK();
 		if (getType() == Limit)
 			return !limit.isViolated(y0);
@@ -60,34 +81,28 @@ public class GainBlock extends StaticBlockAdapter {
 		}
 	}
 
-	@Override
-	public boolean initStateU0(double u0) {
+	@Override public boolean initStateU0(double u0) {
 		double y0 = u0 * getK();
 		return initStateY0(y0);
 	}
 
-	@Override
-	public double getU0(double y0) {
+	@Override public double getU0(double y0) {
 		return y0 / getK();
 	}
 
-	@Override
-	public double getU0() {
+	@Override public double getU0() {
 		return u;
 	}
 
-	@Override
-	public void eulerStep1(double u, double dt) {
+	@Override public void eulerStep1(double u, double dt) {
 		this.u = u;
 	}
 
-	@Override
-	public void eulerStep2(double u, double dt) {
+	@Override public void eulerStep2(double u, double dt) {
 		this.u = u;
 	}
 
-	@Override
-	public double getY() {
+	@Override public double getY() {
 		double u = getU();
 		if (getType() == Limit)
 			return limit.limit(u * getK());
@@ -96,6 +111,8 @@ public class GainBlock extends StaticBlockAdapter {
 	}
 
 	/**
+	 * get parameter kp
+	 * 
 	 * @return the kp
 	 */
 	public double getK() {
@@ -103,14 +120,15 @@ public class GainBlock extends StaticBlockAdapter {
 	}
 
 	/**
+	 * get the limit object
+	 * 
 	 * @return the limit
 	 */
 	public LimitType getLimit() {
 		return limit;
 	}
 	
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		String str = "type, k, limit: " + getType() + ", " + k + ", " + limit;
 		return str;
 	}
