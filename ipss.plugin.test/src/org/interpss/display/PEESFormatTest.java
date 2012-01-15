@@ -1,11 +1,11 @@
 package org.interpss.display;
 
+import static org.interpss.CorePluginFunction.LfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.spring.CorePluginSpringFactory;
 import org.junit.Test;
 
@@ -29,8 +29,8 @@ public class PEESFormatTest {
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
 	  	
-	  	System.out.println(AclfOutFunc.lfResultsPsseStyle(net, AclfOut_PSSE.Format.GUI));
+	  	//System.out.println(LfResultBusStyle2.f(net, AclfOut_PSSE.Format.GUI));
 
-	  	System.out.println(AclfOutFunc.lfResultsBusStyle(net));
+	  	System.out.println(LfResultBusStyle.f(net));
 	}
 }

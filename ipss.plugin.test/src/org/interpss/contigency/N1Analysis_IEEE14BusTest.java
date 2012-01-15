@@ -94,7 +94,7 @@ public class N1Analysis_IEEE14BusTest extends PluginTestSetup {
 			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfNetwork());
 			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
 			scase.getModification().apply(net, msg);
-			scase.runLoadflow(algo, mscase);
+			scase.runLFnSaveResult(algo, mscase);
 			recorder.endRecording().apply();
 		}
 		

@@ -36,9 +36,9 @@ import com.interpss.SimuObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
-import com.interpss.mapper.Modification2ModelMapper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.mapper.Modification2ModelMapper;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
@@ -107,7 +107,7 @@ public class N2Analysis_IEEE14BusTest extends PluginTestSetup {
 					.parserModification(scase.getModificationString()), 
 		  			algo.getAclfNetwork());
 */			
-			scase.runLoadflow(algo, mscase);
+			scase.runLFnSaveResult(algo, mscase);
 	  		
 			recorder.endRecording().apply();
 		}

@@ -103,7 +103,7 @@ public class N11Analysis_IEEE14BusTest extends PluginTestSetup {
 //			PluginSpringCtx.getModXml2NetMapper().map2Model(mod1, algo.getAclfNetwork());
 			
 
-			scase1.runLoadflow(algo, mscase);
+			scase1.runLFnSaveResult(algo, mscase);
 			
 			recorder.endRecording().apply();
 //
