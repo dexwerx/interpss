@@ -25,8 +25,8 @@
 package org.interpss.display;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
-import static com.interpss.pssl.plugin.IpssOut.AclfResultBusStype;
-import static com.interpss.pssl.plugin.IpssOut.AclfResultSummary;
+import static org.interpss.CorePluginFunction.AclfResultBusStyle;
+import static org.interpss.CorePluginFunction.AclfResultSummary;
 
 import java.awt.Frame;
 import java.io.BufferedReader;
@@ -379,7 +379,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	}	
 	
     private void busStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busStyleRadioButtonActionPerformed
-    	textArea.setText(AclfResultBusStype.f(aclfAdjNet).toString());
+    	textArea.setText(AclfResultBusStyle.f(aclfAdjNet).toString());
     }//GEN-LAST:event_busStyleRadioButtonActionPerformed
 
     private void summaryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryRadioButtonActionPerformed

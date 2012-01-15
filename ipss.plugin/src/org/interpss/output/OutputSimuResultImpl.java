@@ -24,8 +24,7 @@
 
 package org.interpss.output;
 
-import static com.interpss.pssl.plugin.IpssOut.AclfResultSummary;
-import static com.interpss.pssl.plugin.IpssOut.DclfResult;
+import static org.interpss.CorePluginFunction.*;
 
 import org.interpss.util.FileUtil;
 
