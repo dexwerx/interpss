@@ -73,7 +73,7 @@ public class SampleLoadflowDSL {
 		        .setBranchCode(AclfBranchCode.LINE)
 		        .setZ(new Complex(0.00, 0.15), UnitType.PU);
 	  	// create the default loadflow algorithm
-	  	IpssAclf.createAlgo(net)
+	  	IpssAclf.createAclfAlgo(net)
 	  			.setLfMethod(AclfMethod.NR)
 	  			.setTolerance(0.0001, UnitType.PU)
 	  			.runLoadflow();

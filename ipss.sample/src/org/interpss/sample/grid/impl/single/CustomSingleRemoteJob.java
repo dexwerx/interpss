@@ -2,7 +2,7 @@ package org.interpss.sample.grid.impl.single;
 
 import java.io.Serializable;
 
-import org.interpss.grid.gridgain.GridConstants;
+import org.interpss.grid.GridConstants;
 import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.RemoteResultFactory;

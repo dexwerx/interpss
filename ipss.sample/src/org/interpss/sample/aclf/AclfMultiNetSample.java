@@ -37,7 +37,7 @@ import com.interpss.core.aclf.AclfBusNetRef;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.simu.util.sample.SampleCases;
 
@@ -72,7 +72,7 @@ public class AclfMultiNetSample {
   		bus1.setAttributes("Bus 1", "");
   		bus1.setBaseVoltage(4000.0);
   		bus1.setGenCode(AclfGenCode.SWING);
-  		SwingBusAdapter swingBus = bus1.toSwingBus();
+  		AclfSwingBus swingBus = bus1.toSwingBus();
   		swingBus.setVoltMag(1.0, UnitType.PU);
   		swingBus.setVoltAng(0.0, UnitType.Deg);
   		

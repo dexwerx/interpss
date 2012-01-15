@@ -3,7 +3,7 @@ package org.interpss.sample.grid.impl.multi;
 import java.io.Serializable;
 
 import org.graphdrawing.gml.GraphType;
-import org.interpss.grid.gridgain.GridConstants;
+import org.interpss.grid.GridConstants;
 import org.interpss.grid.gridgain.job.GridAclfReJob;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.gml.GmlHelper;

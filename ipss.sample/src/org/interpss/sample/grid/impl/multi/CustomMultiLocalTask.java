@@ -29,7 +29,7 @@
 package org.interpss.sample.grid.impl.multi;
 
 import org.gridgain.grid.GridException;
-import org.interpss.grid.gridgain.GridConstants;
+import org.interpss.grid.GridConstants;
 import org.interpss.grid.gridgain.job.base.AbstractGridGainJob;
 import org.interpss.grid.gridgain.task.mJobSpilt.AbstractMultiJobSplitTask;
 import org.interpss.grid.msg.RemoteMessageTable;

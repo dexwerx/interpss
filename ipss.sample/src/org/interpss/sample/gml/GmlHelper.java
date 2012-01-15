@@ -24,6 +24,8 @@
 
 package org.interpss.sample.gml;
 
+import static com.interpss.common.util.NetUtilFunc.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,7 +48,6 @@ import org.graphdrawing.gml.ObjectFactory;
 import org.interpss.numeric.util.StringHelper;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfNetwork;
 
 public class GmlHelper {
@@ -134,7 +135,7 @@ public class GmlHelper {
 				EdgeType edge = (EdgeType)o;
 				//System.out.println("Edge: " + edge.getSource() + "->" + edge.getTarget());
 				// TODO branch cir number should be considered
-				branchIdList.add(NetUtilFunc.formBranchId(edge.getSource(), edge.getTarget()));
+				branchIdList.add(ToBranchId2.f(edge.getSource(), edge.getTarget()));
 			}
 		}
 		String[] busIdAry = StringHelper.toStrArray(busIdList.toArray());
