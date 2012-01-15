@@ -1,6 +1,6 @@
 package org.interpss.test.vstab;
 
-import static org.interpss.CorePluginFunction.LfResultBusStyle;
+import static org.interpss.CorePluginFunction.AclfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMAdapter;
@@ -25,7 +25,7 @@ public class CutomLFTest extends VStabTestSetup {
 		                .getAclfNet();
 		CustomLfAlgorithm customLf=new CustomLfAlgorithm(net);
 		customLf.loadflow();
-		System.out.print(LfResultBusStyle.f(net));
+		System.out.print(AclfResultBusStyle.f(net));
 		
 	}
 
