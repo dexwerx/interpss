@@ -1,4 +1,7 @@
 Steps to implement a controller model
+
+follow org.interpss.dstab.control.exc.ieee.y1968.type1.* coding standard
+
 - create a new package, such as com.interpss.dstab.control.exc.dc1a
 - copy all files from an existing model to the new package and use refactor to change name
 - modify <*>ExcitorData fields for the new model
