@@ -24,7 +24,7 @@
 
 package com.interpss.pssl.test.dist;
 
-import static org.interpss.CorePluginFunction.LfResultBusStyle;
+import static org.interpss.CorePluginFunction.AclfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
@@ -70,7 +70,7 @@ public class DistSys_Test extends BaseTestSetup {
 		
 		distNet.loadflow();
 		//System.out.println(aclfNet.net2String());
-		System.out.println(LfResultBusStyle.f(distNet.getAclfNetwork()));
+		System.out.println(AclfResultBusStyle.f(distNet.getAclfNetwork()));
 	  	
 	  	DistBus bus = (DistBus)distNet.getDistNetwork().getBus("Bus1");
 	  	//System.out.println(bus.getAcscBus().getGenResults().getReal());

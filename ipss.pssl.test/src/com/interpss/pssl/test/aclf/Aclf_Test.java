@@ -26,7 +26,7 @@ package com.interpss.pssl.test.aclf;
 
 import static com.interpss.pssl.plugin.IpssAdapter.importAclfNet;
 import static com.interpss.pssl.plugin.IpssAdapter.FileFormat.IEEECommonFormat;
-import static com.interpss.pssl.plugin.IpssOut.AclfResultSummary;
+import static org.interpss.CorePluginFunction.AclfResultSummary;
 import static com.interpss.pssl.simu.IpssAclf.createAclfAlgo;
 import static org.junit.Assert.assertTrue;
 
