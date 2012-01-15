@@ -10,6 +10,7 @@ import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.impl.AbstractAclfBus;
+import com.interpss.core.algo.AclfMethod;
 
 /**
  * A SVC implementation
@@ -118,7 +119,7 @@ public class SVCSimultLF extends AbstractAclfBus {
 		return tunedValue;
 	}
 
-	public Complex mismatch() {
+	public Complex mismatch(AclfMethod m) {
 		Complex pIn2Net = this.getBus().powerIntoNet();
 		// equivalent P+jQ of SVC
 		Vector_xy pq = getBi();
