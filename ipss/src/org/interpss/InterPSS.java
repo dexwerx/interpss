@@ -24,6 +24,8 @@
 
 package org.interpss;
 
+import static com.interpss.spring.CoreCommonSpringFactory.springAppCtx;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -37,7 +39,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.spring.CoreCommonSpringFactory;
 
 public class InterPSS {
 	/*
@@ -70,8 +71,8 @@ public class InterPSS {
 						"springframework.config.editor" : "springframework.config.cmdline"));
 		*/
 		//CoreCommonSpringCtx.springAppContextSetup();
-		if (CoreCommonSpringFactory.SpringAppCtx == null) {
-			CoreCommonSpringFactory.SpringAppCtx = new ClassPathXmlApplicationContext(
+		if (springAppCtx == null) {
+			springAppCtx = new ClassPathXmlApplicationContext(
 					new String[] {
 							"org/interpss/spring/GEditorSpringCtx.xml"});
 		}
