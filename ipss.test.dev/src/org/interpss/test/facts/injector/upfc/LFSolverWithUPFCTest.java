@@ -20,7 +20,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
@@ -94,7 +94,7 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
         // set bus to be a swing bus
         bus0.setGenCode(AclfGenCode.SWING);
         // adapt the bus object to a swing bus object
-        SwingBusAdapter swingBus = bus0.toSwingBus();
+        AclfSwingBus swingBus = bus0.toSwingBus();
         // set swing bus attributes
         swingBus.setVoltMag(1.0, UnitType.PU);
         swingBus.setVoltAng(0.0, UnitType.Deg);

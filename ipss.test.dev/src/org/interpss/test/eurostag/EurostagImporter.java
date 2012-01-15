@@ -20,8 +20,8 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.PVBusAdapter;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfPVGenBus;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.net.Area;
 
 public class EurostagImporter {
@@ -96,7 +96,7 @@ public class EurostagImporter {
 				switch (Integer.parseInt(thisData.substring(57, 58))) {
 				case 1:	// PV bus
 					thisBus.setGenCode(AclfGenCode.GEN_PV);
-					PVBusAdapter pvBus = thisBus.toPVBus();
+					AclfPVGenBus pvBus = thisBus.toPVBus();
 					pvBus.setVoltMag(Double.parseDouble(thisData.substring(47, 56)), UnitType.kV);
 					LimitType qLimit = new LimitType(Double.parseDouble(thisData.substring(30, 38)), 
 							Double.parseDouble(thisData.substring(21, 29)));
@@ -105,7 +105,7 @@ public class EurostagImporter {
 					break;
 				case 3:	// Swing bus
 					thisBus.setGenCode(AclfGenCode.SWING);
-					SwingBusAdapter swingBus = thisBus.toSwingBus();
+					AclfSwingBus swingBus = thisBus.toSwingBus();
 					swingBus.setVoltAngDeg(Double.parseDouble(thisData.substring(39, 47)));
 					swingBus.setVoltMag(Double.parseDouble(thisData.substring(47, 56)), UnitType.kV);
 					System.out.println("SwingV=" + swingBus.getVoltMag(UnitType.kV) + "kV");

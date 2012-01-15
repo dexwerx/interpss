@@ -1,12 +1,13 @@
 package org.interpss.test.vstab;
 
+
+import static org.interpss.CorePluginFunction.LfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.display.AclfOutFunc;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.CorePluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.util.CustomLfAlgorithm;
 import org.junit.Test;
@@ -19,13 +20,13 @@ public class CutomLFTest extends DevTestSetup {
 	public void testCase1() throws InterpssException{
 		IODMAdapter adapter= new IeeeCDFAdapter();
 		assertTrue(adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee"));// error with 005ieee.ieee
-		AclfNetwork net=PluginSpringFactory
+		AclfNetwork net=CorePluginSpringFactory
 		                .getOdm2AclfMapper()
 		                .map2Model((AclfModelParser)adapter.getModel())
 		                .getAclfNet();
 		CustomLfAlgorithm customLf=new CustomLfAlgorithm(net);
 		customLf.loadflow();
-		System.out.print(AclfOutFunc.lfResultsBusStyle(net));
+		System.out.print(LfResultBusStyle.f(net));
 		
 	}
 

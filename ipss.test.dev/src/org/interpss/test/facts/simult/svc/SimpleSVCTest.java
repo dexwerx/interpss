@@ -16,8 +16,8 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.LoadBusAdapter;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfLoadBus;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class SimpleSVCTest extends DevTestSetup { 
@@ -188,7 +188,7 @@ public class SimpleSVCTest extends DevTestSetup {
         // set bus to be a swing bus
         bus1.setGenCode(AclfGenCode.SWING);
         // adapt the bus object to a swing bus object
-        SwingBusAdapter swingBus = bus1.toSwingBus();
+        AclfSwingBus swingBus = bus1.toSwingBus();
         // set swing bus attributes
         swingBus.setVoltMag(1.0, UnitType.PU);
         swingBus.setVoltAng(0.0, UnitType.Deg);
@@ -207,7 +207,7 @@ public class SimpleSVCTest extends DevTestSetup {
         bus2.setLoadCode(AclfLoadCode.CONST_P);
 //        bus2.setVoltageMag(1.05);
         // adapt the bus object to a Load bus object
-        LoadBusAdapter loadBus = bus2.toLoadBus();
+        AclfLoadBus loadBus = bus2.toLoadBus();
         // set load to the bus
         loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU);
         //net.addBus(bus2);

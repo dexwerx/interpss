@@ -16,7 +16,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.SwingBusAdapter;
+import com.interpss.core.aclf.adpter.AclfSwingBus;
 
 public class LFSolverWithStatcomTest {
 
@@ -78,7 +78,7 @@ public class LFSolverWithStatcomTest {
         // set bus to be a swing bus
         bus1.setGenCode(AclfGenCode.SWING);
         // adapt the bus object to a swing bus object
-        SwingBusAdapter swingBus = bus1.toSwingBus();
+        AclfSwingBus swingBus = bus1.toSwingBus();
         // set swing bus attributes
         swingBus.setVoltMag(1.0, UnitType.PU);
         swingBus.setVoltAng(0.0, UnitType.Deg);
