@@ -52,7 +52,7 @@ import com.interpss.DistObjectFactory;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.XFormerConnectCode;
-import com.interpss.core.util.CoreUtilFunc;
+import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.dist.DistBranch;
 import com.interpss.dist.DistBranchCode;
 import com.interpss.dist.DistBus;

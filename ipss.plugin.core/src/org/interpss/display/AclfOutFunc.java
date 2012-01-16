@@ -52,10 +52,10 @@ import com.interpss.core.algo.sec.SecAnalysisViolationType;
 import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.common.visitor.IPVBusLimitVisitor;
 import com.interpss.core.datatype.Mismatch;
+import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.OriginalDataFormat;
-import com.interpss.core.util.CoreUtilFunc;
 
 /**
  * Aclf system output functions

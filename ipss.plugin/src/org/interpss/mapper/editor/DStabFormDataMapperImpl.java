@@ -53,7 +53,7 @@ import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.datatype.ScGroundType;
-import com.interpss.core.util.CoreUtilFunc;
+import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;

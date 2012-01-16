@@ -29,7 +29,9 @@ import org.interpss.dstab.control.base.BaseControllerData;
 import com.interpss.common.exp.InterpssRuntimeException;
 
 /**
- * Ieee1968Type1 type exciter data object definition
+ * Ieee1968Type1 type exciter data object definition. It needs to follow
+ * JavaBean convention so that the controller data object be serialized/
+ * deserialized for grid computing.
  * 
  * @author mzhou
  *

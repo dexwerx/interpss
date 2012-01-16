@@ -42,7 +42,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.util.CoreUtilFunc;
+import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.EConstMachine;

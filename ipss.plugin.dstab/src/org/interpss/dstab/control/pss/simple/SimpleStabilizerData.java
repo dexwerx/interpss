@@ -26,8 +26,9 @@
 package org.interpss.dstab.control.pss.simple;
 
 /**
- * 
- * A JavaBean to store data for the Simple stabilizer model
+ * A JavaBean to store data for the Simple stabilizer model. It needs to follow
+ * JavaBean convention so that the controller data object be serialized/
+ * deserialized for grid computing.
  *
  */
 public class SimpleStabilizerData {

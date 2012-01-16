@@ -25,8 +25,9 @@
 package org.interpss.dstab.control.exc.simple;
 
 /**
- * 
- * A JavaBean to store data for the Simple exciter model
+ * A JavaBean to store data for the Simple exciter model. It needs to follow
+ * JavaBean convention so that the controller data object be serialized/
+ * deserialized for grid computing.
  *
  */
 public class SimpleExciterData {
