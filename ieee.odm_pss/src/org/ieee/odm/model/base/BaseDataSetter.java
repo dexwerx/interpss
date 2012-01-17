@@ -61,17 +61,24 @@ import org.ieee.odm.schema.ZXmlType;
 
 public class BaseDataSetter extends BaseJaxbHelper {
 	/**
+	 * Set apparent power 
+	 * 
+	 * @param kva
+	 * @param unit
+	 */
+	public static ApparentPowerXmlType createApparentPower(double kva, ApparentPowerUnitType unit) {
+		ApparentPowerXmlType p = odmObjFactory.createApparentPowerXmlType();
+		p.setValue(kva);
+		p.setUnit(unit);
+		return p;	
+	}
+	
+	/**
 	 * Set apparent power, unit = kva
 	 * 
 	 * @param power
 	 * @param kva
 	 */
-	/*
-	public static void setPowerKva(ApparentPowerXmlType power, double kva) {
-		power.setValue(kva);   
-		power.setUnit(ApparentPowerUnitType.KVA); 		
-	}
-	*/
 	public static ApparentPowerXmlType createPowerKvaValue(double kva) {
 		ApparentPowerXmlType power = odmObjFactory.createApparentPowerXmlType();
 		power.setValue(kva);   
