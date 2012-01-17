@@ -53,7 +53,7 @@ import org.interpss.ui.SwingInputVerifyUtil;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.core.util.CoreUtilFunc;
+import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxHelper;
 
