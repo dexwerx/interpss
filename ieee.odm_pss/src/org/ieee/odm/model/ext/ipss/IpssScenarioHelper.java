@@ -91,11 +91,10 @@ public class IpssScenarioHelper {
 	 *             Aclf functions
 	 *             ==============
 	 */
-
-	public IpssAclfAlgorithmXmlType createIpssAclfAlgorithm() {
-		return odmObjFactory.createIpssAclfAlgorithmXmlType();
+	public AclfAnalysisXmlType getAclfAnalysis() {
+		return getAclfAnalysis(null);
 	}
-	
+
 	public AclfAnalysisXmlType getAclfAnalysis(String studyCaseId) {
 		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
 		if (simuAlgo.getAclfAnalysis() == null) {
@@ -104,6 +103,10 @@ public class IpssScenarioHelper {
 		return simuAlgo.getAclfAnalysis();
 	}
 
+	public IpssAclfAlgorithmXmlType createIpssAclfAlgorithm() {
+		return odmObjFactory.createIpssAclfAlgorithmXmlType();
+	}
+	
 	public ApparentPowerXmlType createApparentPower(double kvaPU) {
 		ApparentPowerXmlType p = odmObjFactory.createApparentPowerXmlType();
 		p.setValue(kvaPU);
@@ -114,6 +117,9 @@ public class IpssScenarioHelper {
 	 *             Contingency analysis functions
 	 *             ==============================
 	 */
+	public ContingencyAnalysisXmlType getContingencyAnalysis() {
+		return getContingencyAnalysis(null);
+	}
 
 	public ContingencyAnalysisXmlType getContingencyAnalysis(String studyCaseId) {
 		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
@@ -128,6 +134,10 @@ public class IpssScenarioHelper {
 	 *             ==============
 	 */
 
+	public AcscFaultAnalysisXmlType getAcscFaultAnalysis() {
+		return getAcscFaultAnalysis(null);
+	}
+	
 	public AcscFaultAnalysisXmlType getAcscFaultAnalysis(String studyCaseId) {
 		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
 		if (simuAlgo.getAcscAnalysis() == null) {
@@ -158,6 +168,10 @@ public class IpssScenarioHelper {
 	 *             ===============
 	 */
 
+	public DStabSimulationXmlType getDStabSimulation() {
+		return getDStabSimulation(null);
+	}
+	
 	public DStabSimulationXmlType getDStabSimulation(String studyCaseId) {
 		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
 		if (simuAlgo.getDStabAnalysis() == null) {
@@ -170,6 +184,10 @@ public class IpssScenarioHelper {
 	 *             Sen Analysis functions
 	 *             ======================
 	 */
+	
+	public List<DclfSenAnalysisXmlType> getSenAnalysisList() {
+		return getSenAnalysisList(null);
+	}
 
 	public List<DclfSenAnalysisXmlType> getSenAnalysisList(String studyCaseId) {
 		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
@@ -177,6 +195,10 @@ public class IpssScenarioHelper {
 			ODMLogger.getLogger().severe("contact support@interpss.org");
 		}
 		return simuAlgo.getSenAnalysis();
+	}
+	
+	public DclfSenAnalysisXmlType createSenCase() {
+		return createSenCase(null);
 	}
 	
 	public DclfSenAnalysisXmlType createSenCase(String studyCaseId) {
@@ -265,7 +287,16 @@ public class IpssScenarioHelper {
  */
 	
 	/**
+	 * return the default PTradingEDHourlyAnalysis 
 	 * 
+	 */
+	public PTradingEDHourlyAnalysisXmlType getPtEDHourlyAnalysis() {
+		return getPtEDHourlyAnalysis(null);
+	}
+	
+	/**
+	 * return PTradingEDHourlyAnalysis of the study case
+	 *  
 	 * @return
 	 */
 	public PTradingEDHourlyAnalysisXmlType getPtEDHourlyAnalysis(String studyCaseId) {

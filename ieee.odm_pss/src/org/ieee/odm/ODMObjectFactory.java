@@ -40,6 +40,12 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.ObjectFactory;
 
+/**
+ * ODM object factory
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMObjectFactory {
 	public static ObjectFactory odmObjFactory = null;	
     static    {
