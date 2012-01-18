@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.bpa.dynamic;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.text.NumberFormat;
 
 import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
@@ -123,7 +125,7 @@ public class BPADynamicSequenceRecord {
         	if(!strAry[4].contains(".")){
 				x0=x0/10000;
 			}
-        	//ScSimpleBusXmlType.ScShuntLoadData scsld =parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+        	//ScSimpleBusXmlType.ScShuntLoadData scsld =odmObjFactory.createScSimpleBusXmlTypeScShuntLoadData();
         	bus.setShuntLoadZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
         	//bus.setScShuntLoadData(scsld);
 	    }
@@ -221,7 +223,7 @@ public class BPADynamicSequenceRecord {
 			if(!strAry[12].contains(".")){
 				xm=xm/10000;
 			}
-			MutualZeroZXmlType mutualZ0 =parser.getFactory().createMutualZeroZXmlType();
+			MutualZeroZXmlType mutualZ0 =odmObjFactory.createMutualZeroZXmlType();
 			mutualZ0.setZM(DStabDataSetter.createZValue(rm, xm, ZUnitType.PU));
 			line1.getLineMutualZeroZ().add(mutualZ0);
 			line2.getLineMutualZeroZ().add(mutualZ0);			
@@ -244,7 +246,7 @@ public class BPADynamicSequenceRecord {
 			// negative sequence generator data
 			if(bus.getDynamicGen()!=null){
 				for(DynamicGeneratorXmlType dynGen:bus.getDynamicGen()){
-				    //for(DynamicGeneratorXmlType dynGen:parser.getFactory().createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
+				    //for(DynamicGeneratorXmlType dynGen:odmObjFactory.createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
 					double xd1=0.0;
 					double x2=0.0;
 					double tq01=0.0;
@@ -277,11 +279,11 @@ public class BPADynamicSequenceRecord {
 					x2= new Double(ddf1.format(x2)).doubleValue();
 					//TODO How to set the negative sequence impedance to associate to generator?
 					//How about the case that several generators is in parallel on the bus?
-					ScGenDataXmlType scgd = parser.getFactory().createScGenDataXmlType();
+					ScGenDataXmlType scgd = odmObjFactory.createScGenDataXmlType();
 					scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
 					bus.setScGenData(scgd);
 					
-					//parser.getFactory().createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));	
+					//odmObjFactory.createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));	
 				}
 			}
 			//negative sequence load data 
@@ -289,7 +291,7 @@ public class BPADynamicSequenceRecord {
 				if(bus.getLoadData().getEquivLoad()!=null){
 					//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
 					//hard coded values
-					//ScSimpleBusXmlType.ScShuntLoadData scsld = parser.getFactory().createScSimpleBusXmlTypeScShuntLoadData();
+					//ScSimpleBusXmlType.ScShuntLoadData scsld = odmObjFactory.createScSimpleBusXmlTypeScShuntLoadData();
 					bus.setShuntLoadNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
 			        //bus.setScShuntLoadData(scsld);
 				}

@@ -37,8 +37,6 @@ import org.ieee.odm.schema.PssBPADualInputXmlType;
 import org.ieee.odm.schema.PssBpaSgTypeXmlType;
 import org.ieee.odm.schema.PssBpaSpTypeXmlType;
 import org.ieee.odm.schema.PssBpaSsTypeXmlType;
-import org.ieee.odm.schema.PssIEE2STXmlType;
-import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.StabilizerInputSignalEnumType;
 
 

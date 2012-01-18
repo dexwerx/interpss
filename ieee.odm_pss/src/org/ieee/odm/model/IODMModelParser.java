@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.InputStream;
 
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.StudyScenarioXmlType;
 
@@ -46,7 +45,7 @@ public interface IODMModelParser {
 	
 	boolean parse(InputStream in);
 	
-	ObjectFactory getFactory();
+	//ObjectFactory getFactory();
 	
 	StudyCaseXmlType getStudyCase();
 	

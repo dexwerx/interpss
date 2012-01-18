@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.psse.v26.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.common.ODMLogger;
@@ -143,7 +145,7 @@ public class PSSEV26BranchRecord {
 		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
 		
-		branchRec.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+		branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
 		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
@@ -199,14 +201,14 @@ public class PSSEV26BranchRecord {
 	    	double vup = ModelStringUtil.getDouble(strAry[6], 0.0);
 	    	double vlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 	    	
-	    	TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType(); 
+	    	TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType(); 
 	    	branchData.setTapAdjustment(tapAdj);
 	    	tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
 	    	tapAdj.setTapLimit(BaseDataSetter.createTapLimit(tmax, tmin));
 	    	tapAdj.setTapAdjStepSize(tstep);
 	    	tapAdj.setTapAdjOnFromSide(true);
 
-	    	VoltageAdjustmentDataXmlType vAdjData = parser.getFactory().createVoltageAdjustmentDataXmlType(); 
+	    	VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType(); 
 	    	tapAdj.setVoltageAdjData(vAdjData);
 	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 	    	vAdjData.setMax(vup);
@@ -236,7 +238,7 @@ public class PSSEV26BranchRecord {
 	    	double mwup = ModelStringUtil.getDouble(strAry[6], 0.0);
 	    	double mwlow = ModelStringUtil.getDouble(strAry[7], 0.0);
 
-	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType(); 
+	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType(); 
 	    	branchData.setAngleAdjustment(angAdj);
 	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
 	    	angAdj.setMax(mwup);

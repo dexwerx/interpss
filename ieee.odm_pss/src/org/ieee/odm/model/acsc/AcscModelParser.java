@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.acsc;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -58,9 +60,9 @@ public class AcscModelParser extends AclfModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			ShortCircuitNetXmlType baseCase = this.getFactory().createShortCircuitNetXmlType();
-			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
-			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
+			ShortCircuitNetXmlType baseCase = odmObjFactory.createShortCircuitNetXmlType();
+			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
+			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
 		return getStudyCase().getBaseCase().getValue();

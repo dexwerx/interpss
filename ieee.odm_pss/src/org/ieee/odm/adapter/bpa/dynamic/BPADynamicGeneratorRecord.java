@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.bpa.dynamic;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -47,9 +49,7 @@ import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.Eq1MachineXmlType;
 import org.ieee.odm.schema.EquiMachineXmlType;
-import org.ieee.odm.schema.TimePeriodUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
-import org.interpss.numeric.util.PerformanceTimer;
 
 
 
@@ -294,7 +294,7 @@ public class BPADynamicGeneratorRecord {
 				dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(Vol1, VoltageUnitType.KV));
 				EquiMachineXmlType mach = DStabParserHelper.createEquiMachine(dynGen);
 				
-				EquiMachineXmlType.EquivGen equGen =parser.getFactory().createEquiMachineXmlTypeEquivGen();
+				EquiMachineXmlType.EquivGen equGen =odmObjFactory.createEquiMachineXmlTypeEquivGen();
 				if(bus1.getGenData()!=null){
 					double pGen=bus1.getGenData().getEquivGen().getPower().getRe();
 					equGen.setEquiPgen(pGen);//TODO why only pGen, for equivalence, qGen should be included

@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ucte;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +151,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     					recType = RecType.Xfr2WLookup;
     				else if (str.startsWith("##E")) {
     					recType = RecType.ExPower;
-    					baseCaseNet.setInterchangeList(parser.getFactory().createLoadflowNetXmlTypeInterchangeList());
+    					baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
     				}
     				else {
     					// process data lines
@@ -175,7 +177,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     			    	    processXfr2LookupRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.ExPower) {
-    			    	    processExchangePowerRecord(str, baseCaseNet, parser.getFactory());
+    			    	    processExchangePowerRecord(str, baseCaseNet, odmObjFactory);
     			    	}
     				}
     			} catch (final Exception e) {
@@ -378,7 +380,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	if (status == 8 || status == 9) 
     		aclfLine.setOffLine(true);
 
-    	aclfLine.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+    	aclfLine.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
     	AclfDataSetter.setBranchRatingLimitData(aclfLine.getRatingLimit(),
 				currentLimit, CurrentUnitType.AMP);
     }
@@ -451,7 +453,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
     	
-    	branchRec.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+    	branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
     	AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
 				currentLimit, CurrentUnitType.AMP);
     }
@@ -521,7 +523,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			xfrBranch.setToTurnRatio(BaseDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (uKvPhase > 0.0) {
-				TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
+				TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
 				xfrBranch.setTapAdjustment(tapAdj);
 				tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
 				
@@ -535,7 +537,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
           		
-          		VoltageAdjustmentDataXmlType vAdjData = parser.getFactory().createVoltageAdjustmentDataXmlType();
+          		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
           		tapAdj.setVoltageAdjData(vAdjData);
           		
           		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
@@ -598,7 +600,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			psXfrBranch.setToTurnRatio(BaseDataSetter.createTurnRatioPU(ratioFactor/x));
 			
 			if (pMwAngle != 0.0) {
-				AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
+				AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType();
 				psXfrBranch.setAngleAdjustment(angAdj);
           		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				

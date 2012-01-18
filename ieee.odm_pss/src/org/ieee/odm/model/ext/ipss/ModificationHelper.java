@@ -56,7 +56,7 @@ public class ModificationHelper {
 	 * @return
 	 */
 	public OutageScheduleXmlType createOutageSchedule() {
-		OutageScheduleXmlType rec = this.parser.getFactory().createOutageScheduleXmlType();
+		OutageScheduleXmlType rec = odmObjFactory.createOutageScheduleXmlType();
 		addModifyRecord(rec);
 		return rec;
 	}
@@ -71,7 +71,7 @@ public class ModificationHelper {
 	 * @return
 	 */
 	public DclfContingencySetXmlType createContingencySet() {
-		DclfContingencySetXmlType rec = this.parser.getFactory().createDclfContingencySetXmlType();
+		DclfContingencySetXmlType rec = odmObjFactory.createDclfContingencySetXmlType();
 		addModifyRecord(rec);
 		return rec;
 	}

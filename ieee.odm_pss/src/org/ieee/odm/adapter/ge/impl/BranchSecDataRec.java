@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
@@ -177,7 +179,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		branchRec.setAreaNumber(ar);
 		branchRec.setZoneNumber(z);
 		LineBranchInfoXmlType lineInfo = branchRec.getLineInfo();
-		lineInfo.setLength(parser.getFactory().createLengthXmlType());
+		lineInfo.setLength(odmObjFactory.createLengthXmlType());
 		lineInfo.getLength().setValue(l_info);
 		lineInfo.getLength().setUnit(LengthUnitType.MILE);
 		

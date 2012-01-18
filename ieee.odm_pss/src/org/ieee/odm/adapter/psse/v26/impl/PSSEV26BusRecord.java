@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.psse.v26.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.common.ODMLogger;
@@ -96,8 +98,8 @@ public class PSSEV26BusRecord {
 		*/			
 		final int IDE = ModelStringUtil.getInt(strAry[3], 1);
 		if (IDE ==3){//Swing bus
-			busRec.setGenData(parser.getFactory().createAclfGenDataXmlType());
-			LoadflowGenXmlType equivGen = parser.getFactory().createLoadflowGenXmlType(); 
+			busRec.setGenData(odmObjFactory.createAclfGenDataXmlType());
+			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType(); 
 			busRec.getGenData().setEquivGen(equivGen);
 			equivGen.setCode(LFGenCodeEnumType.SWING);
 			equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
@@ -105,16 +107,16 @@ public class PSSEV26BusRecord {
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
-			busRec.setGenData(parser.getFactory().createAclfGenDataXmlType());
-			busRec.getGenData().setEquivGen(parser.getFactory().createLoadflowGenXmlType());
+			busRec.setGenData(odmObjFactory.createAclfGenDataXmlType());
+			busRec.getGenData().setEquivGen(odmObjFactory.createLoadflowGenXmlType());
 			busRec.getGenData().getEquivGen().setCode(LFGenCodeEnumType.PV);
 		} else if (IDE==4){// Isolated bus
 			// should be no gen and load defined
 			busRec.setOffLine(true);
 		}
 		else { //Non-Gen Load Bus
-			busRec.setLoadData(parser.getFactory().createAclfLoadDataXmlType());
-			busRec.getLoadData().setEquivLoad(parser.getFactory().createLoadflowLoadXmlType());
+			busRec.setLoadData(odmObjFactory.createAclfLoadDataXmlType());
+			busRec.getLoadData().setEquivLoad(odmObjFactory.createLoadflowLoadXmlType());
 		}
 		
 		//GL BL in Mva
@@ -148,11 +150,11 @@ public class PSSEV26BusRecord {
 
 		AclfLoadDataXmlType loadData = busRec.getLoadData();
 		if (loadData == null) { 
-			loadData = parser.getFactory().createAclfLoadDataXmlType(); 
+			loadData = odmObjFactory.createAclfLoadDataXmlType(); 
 			busRec.setLoadData(loadData);
-			loadData.setEquivLoad(parser.getFactory().createLoadflowLoadXmlType());
+			loadData.setEquivLoad(odmObjFactory.createLoadflowLoadXmlType());
 		}
-	    LoadflowLoadXmlType contribLoad = parser.getFactory().createLoadflowLoadXmlType(); 
+	    LoadflowLoadXmlType contribLoad = odmObjFactory.createLoadflowLoadXmlType(); 
 	    loadData.getContributeLoad().add(contribLoad); 
 		
 	    // processing contributing load data
@@ -199,11 +201,11 @@ public class PSSEV26BusRecord {
 	    loadData.getEquivLoad().setCode(LFLoadCodeEnumType.CONST_P);
 	    LoadflowLoadXmlType load = loadData.getEquivLoad();
 	    if (load == null) {
-	    	load = parser.getFactory().createLoadflowLoadXmlType();
-	    	load.setConstPLoad(parser.getFactory().createPowerXmlType());
+	    	load = odmObjFactory.createLoadflowLoadXmlType();
+	    	load.setConstPLoad(odmObjFactory.createPowerXmlType());
 	    }
 	    if(load.getConstPLoad() == null)
-	    	load.setConstPLoad(parser.getFactory().createPowerXmlType());
+	    	load.setConstPLoad(odmObjFactory.createPowerXmlType());
 	    double tp = CPloadMw + CIloadMw + CYloadMw + load.getConstPLoad().getRe();
 	    double tq = CQloadMvar + CIloadMvar + CYloadMvar  + load.getConstPLoad().getIm();;
 	    load.setConstPLoad(BaseDataSetter.createPowerValue(tp, tq, ApparentPowerUnitType.MVA));
@@ -230,12 +232,12 @@ public class PSSEV26BusRecord {
 
 		AclfGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
-			genData = parser.getFactory().createAclfGenDataXmlType();
+			genData = odmObjFactory.createAclfGenDataXmlType();
 			busRec.setGenData(genData);
-			busRec.getGenData().setEquivGen(parser.getFactory().createLoadflowGenXmlType());
+			busRec.getGenData().setEquivGen(odmObjFactory.createLoadflowGenXmlType());
 		}
 		LoadflowGenXmlType equivGen = genData.getEquivGen();
-	    LoadflowGenXmlType contriGen = parser.getFactory().createLoadflowGenXmlType(); 
+	    LoadflowGenXmlType contriGen = odmObjFactory.createLoadflowGenXmlType(); 
 	    genData.getContributeGen().add(contriGen);
 		
 	    // processing contributing gen data
@@ -306,7 +308,7 @@ public class PSSEV26BusRecord {
 		}
 //		else {  there might be multiple gen on a bus
 //			if (genData.getEquivGen() == null)
-//				genData.setEquivGen(parser.getFactory().createLoadflowGenDataXmlType());
+//				genData.setEquivGen(odmObjFactory.createLoadflowGenDataXmlType());
 //			genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
 //		}
 		

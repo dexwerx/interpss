@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.bpa.lf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.text.NumberFormat;
 
 import org.ieee.odm.common.ODMException;
@@ -316,7 +318,7 @@ public class BPAXfrBranchRecord {
 		}	
 		
 		if(dataType==tapAdjustment){	
-			TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
+			TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
 			branchRec.setTapAdjustment(tapAdj);
 			
             if(tapAdjSide==1){
@@ -358,7 +360,7 @@ public class BPAXfrBranchRecord {
 			tapAdj.setTapLimit(BaseDataSetter.createTapLimit(max, min));
 			tapAdj.setTapAdjStepSize(stepSize);
 			if (adjustType==tapVoltageAdjustment ){// voltage control					
-				VoltageAdjustmentDataXmlType voltTapAdj = parser.getFactory().createVoltageAdjustmentDataXmlType();
+				VoltageAdjustmentDataXmlType voltTapAdj = odmObjFactory.createVoltageAdjustmentDataXmlType();
 				tapAdj.setVoltageAdjData(voltTapAdj);
 				try {
 					voltTapAdj.setAdjVoltageBus(parser.createBusRef(controlBusId));
@@ -372,7 +374,7 @@ public class BPAXfrBranchRecord {
 				BaseDataSetter.setLimit(voltTapAdj, maxVoltPQ, minVoltPQ);				
 			} 
 			else if (adjustType==tapVarAdjustment) {// var control						
-				MvarFlowAdjustmentDataXmlType mvarTapAdj = parser.getFactory().createMvarFlowAdjustmentDataXmlType();
+				MvarFlowAdjustmentDataXmlType mvarTapAdj = odmObjFactory.createMvarFlowAdjustmentDataXmlType();
 				tapAdj.setMvarFlowAdjData(mvarTapAdj);
 				BaseDataSetter.setLimit(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
@@ -381,9 +383,9 @@ public class BPAXfrBranchRecord {
 		} 
 		else if(dataType==angleAdjustment){
 			PSXfrBranchXmlType psXfrBranch = (PSXfrBranchXmlType)branchRec;
-			AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
+			AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType();
 			psXfrBranch.setAngleAdjustment(angAdj);
-			angAdj.setAngleLimit(parser.getFactory().createAngleLimitXmlType());
+			angAdj.setAngleLimit(odmObjFactory.createAngleLimitXmlType());
 			BaseDataSetter.setLimit(angAdj.getAngleLimit(), maxVoltPQ, minVoltPQ);
 			BaseDataSetter.setLimit(angAdj, maxVoltPQ, minVoltPQ);
 			angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);

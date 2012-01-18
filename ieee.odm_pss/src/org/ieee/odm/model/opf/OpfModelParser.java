@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.opf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -77,9 +79,9 @@ public class OpfModelParser extends AclfModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			OpfNetworkXmlType baseCase = this.getFactory().createOpfNetworkXmlType();
-			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
-			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
+			OpfNetworkXmlType baseCase = odmObjFactory.createOpfNetworkXmlType();
+			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
+			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
 		return getStudyCase().getBaseCase().getValue();

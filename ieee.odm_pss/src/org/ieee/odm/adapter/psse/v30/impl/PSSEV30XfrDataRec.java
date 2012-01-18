@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.psse.v30.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
@@ -91,22 +93,22 @@ public class PSSEV30XfrDataRec {
 		try {
 			if (is3W && isPsXfr) {
 				branchRec = parser.createPSXfr3WBranch(fid, tid, tertId, ckt);
-		       	xfrInfo = parser.getFactory().createTransformer3WInfoXmlType(); 
+		       	xfrInfo = odmObjFactory.createTransformer3WInfoXmlType(); 
 		       	branchRec.setXfrInfo(xfrInfo);
 			}
 			else if (is3W) {
 				branchRec = parser.createXfr3WBranch(fid, tid, tertId, ckt);
-		       	xfrInfo = parser.getFactory().createTransformer3WInfoXmlType(); 
+		       	xfrInfo = odmObjFactory.createTransformer3WInfoXmlType(); 
 		       	branchRec.setXfrInfo(xfrInfo);
 			}
 			else if (isPsXfr) {
 				branchRec = parser.createPSXfrBranch(fid, tid, ckt);
-		       	xfrInfo = parser.getFactory().createTransformerInfoXmlType(); 
+		       	xfrInfo = odmObjFactory.createTransformerInfoXmlType(); 
 		       	branchRec.setXfrInfo(xfrInfo);
 			}
 			else {
 				branchRec = parser.createXfrBranch(fid, tid, ckt);
-		       	xfrInfo = parser.getFactory().createTransformerInfoXmlType(); 
+		       	xfrInfo = odmObjFactory.createTransformerInfoXmlType(); 
 		       	branchRec.setXfrInfo(xfrInfo);
 			}
 		} catch (Exception e) {
@@ -284,7 +286,7 @@ public class PSSEV30XfrDataRec {
     		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branchRec; 
 			branchPsXfr.setFromAngle(BaseDataSetter.createAngleValue(ang1, AngleUnitType.DEG));
     	}
-    	branchRec.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+    	branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
     	AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
 		
 		/*
@@ -341,7 +343,7 @@ public class PSSEV30XfrDataRec {
       	 */
       	if (cod > 0) {
           	if (!isPsXfr) {
-           		TapAdjustmentXmlType tapAdj = parser.getFactory().createTapAdjustmentXmlType();
+           		TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
            		branchRec.setTapAdjustment(tapAdj);
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
@@ -349,7 +351,7 @@ public class PSSEV30XfrDataRec {
            		tapAdj.setTapAdjStep(ntp);
            		if (Math.abs(cod) == 1) {
                		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
-               		VoltageAdjustmentDataXmlType vAdjData = parser.getFactory().createVoltageAdjustmentDataXmlType();
+               		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
         	    	tapAdj.setVoltageAdjData(vAdjData);
         	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	vAdjData.setMax(vma);
@@ -357,7 +359,7 @@ public class PSSEV30XfrDataRec {
         	    }
            		else {
                  	tapAdj.setAdjustmentType(TapAdjustmentEnumType.M_VAR_FLOW);
-                 	MvarFlowAdjustmentDataXmlType mvaAdjData = parser.getFactory().createMvarFlowAdjustmentDataXmlType(); 
+                 	MvarFlowAdjustmentDataXmlType mvaAdjData = odmObjFactory.createMvarFlowAdjustmentDataXmlType(); 
         	    	tapAdj.setMvarFlowAdjData(mvaAdjData);
         	    	mvaAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	mvaAdjData.setMax(vma);
@@ -366,7 +368,7 @@ public class PSSEV30XfrDataRec {
           	}
     	    else {
         		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branchRec; 
-    	    	AngleAdjustmentXmlType angAdj = parser.getFactory().createAngleAdjustmentXmlType();
+    	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType();
     	    	branchPsXfr.setAngleAdjustment(angAdj);
     	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(rma, rmi, AngleUnitType.DEG));
     	    	angAdj.setMax(vma);
@@ -383,7 +385,7 @@ public class PSSEV30XfrDataRec {
       	 */
       	if (cr != 0.0 || cx != 0.0) {
       		///if (branchRec.getNvPairList() == null)
-      		//	branchRec.setNvPairList(parser.getFactory().createNameValuePairListXmlType());
+      		//	branchRec.setNvPairList(odmObjFactory.createNameValuePairListXmlType());
       		BaseJaxbHelper.addNVPair(branchRec, "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
       	}
 
@@ -422,7 +424,7 @@ public class PSSEV30XfrDataRec {
 
   		if (is3W) {
     		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branchRec; 
-    		branch3WXfr.setRatingLimit23(parser.getFactory().createBranchRatingLimitXmlType());
+    		branch3WXfr.setRatingLimit23(odmObjFactory.createBranchRatingLimitXmlType());
        		AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit23(), rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
        	}
        	else if (isPsXfr) {
@@ -446,7 +448,7 @@ public class PSSEV30XfrDataRec {
       			xfr3WInfo.setTertRatedVoltage(BaseDataSetter.createVoltageValue(nomv3, VoltageUnitType.KV));
       		}
       		branch3WXfr.setTertTurnRatio(BaseDataSetter.createTurnRatioPU(windv3));
-      		branch3WXfr.setRatingLimit13(parser.getFactory().createBranchRatingLimitXmlType());
+      		branch3WXfr.setRatingLimit13(odmObjFactory.createBranchRatingLimitXmlType());
            	AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
            	if (isPsXfr) {
         		PSXfr3WBranchXmlType branchPsXfr3W = (PSXfr3WBranchXmlType)branchRec; 

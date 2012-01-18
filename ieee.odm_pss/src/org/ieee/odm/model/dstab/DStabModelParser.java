@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.dstab;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -78,7 +80,7 @@ public class DStabModelParser extends AclfModelParser {
 	
 	public DStabSimulationXmlType getDStabSimu() {
 		if (this.tranSimu == null)
-			this.tranSimu = this.getFactory().createDStabSimulationXmlType();
+			this.tranSimu = odmObjFactory.createDStabSimulationXmlType();
 		return this.tranSimu;
 	}
 	
@@ -88,11 +90,11 @@ public class DStabModelParser extends AclfModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			DStabNetXmlType baseCase = this.getFactory().createDStabNetXmlType();
-			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
-			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
+			DStabNetXmlType baseCase = odmObjFactory.createDStabNetXmlType();
+			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
+			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
-			this.tranSimu = this.getFactory().createDStabSimulationXmlType();
+			this.tranSimu = odmObjFactory.createDStabSimulationXmlType();
 		}
 		return getStudyCase().getBaseCase().getValue();
 	}
@@ -109,7 +111,7 @@ public class DStabModelParser extends AclfModelParser {
 	 */
 	@Override
 	public LoadflowBusXmlType createAclfBus() {
-		DStabBusXmlType busRec = this.getFactory().createDStabBusXmlType();
+		DStabBusXmlType busRec = odmObjFactory.createDStabBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
@@ -158,9 +160,9 @@ public class DStabModelParser extends AclfModelParser {
 	 */
 	@Override
 	public LineDStabXmlType createLineBranch() {
-		LineDStabXmlType branch = this.getFactory().createLineDStabXmlType();
-		branch.setRatingLimit(this.getFactory().createBranchRatingLimitXmlType());
-		branch.setLineInfo(this.getFactory().createLineBranchInfoXmlType());
+		LineDStabXmlType branch = odmObjFactory.createLineDStabXmlType();
+		branch.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		branch.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
 		intiBranchData(branch);
 		return branch;
 	}
@@ -172,8 +174,8 @@ public class DStabModelParser extends AclfModelParser {
 	 */
 	@Override
 	public XfrDStabXmlType createXfrBranch() {
-		XfrDStabXmlType branch = this.getFactory().createXfrDStabXmlType();
-		branch.setXfrInfo(this.getFactory().createTransformerInfoXmlType());
+		XfrDStabXmlType branch = odmObjFactory.createXfrDStabXmlType();
+		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		intiBranchData(branch);
 		return branch;
 	}
@@ -185,7 +187,7 @@ public class DStabModelParser extends AclfModelParser {
 	 */
 	@Override
 	public PSXfrDStabXmlType createPSXfrBranch() {
-		PSXfrDStabXmlType branch = this.getFactory().createPSXfrDStabXmlType();
+		PSXfrDStabXmlType branch = odmObjFactory.createPSXfrDStabXmlType();
 		intiBranchData(branch);
 		return branch;
 	}

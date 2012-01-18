@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
@@ -144,8 +146,8 @@ public class NetDataRec {
 			this.qnet = new Double(st.nextToken()).doubleValue();	
 			
 			if (baseCaseNet.getAreaList() == null)
-				baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
-			ExchangeAreaXmlType area = parser.getFactory().createExchangeAreaXmlType();
+				baseCaseNet.setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
+			ExchangeAreaXmlType area = odmObjFactory.createExchangeAreaXmlType();
 			baseCaseNet.getAreaList().getArea().add(area);
 			area.setId(new Integer(this.arnum).toString());
 			area.setNumber(this.arnum);
@@ -184,8 +186,8 @@ public class NetDataRec {
 			this.qznet = new Double(st.nextToken()).doubleValue();
 			
 			if (baseCaseNet.getLossZoneList() == null)
-				baseCaseNet.setLossZoneList(parser.getFactory().createNetworkXmlTypeLossZoneList());
-			ExchangeZoneXmlType zone = parser.getFactory().createExchangeZoneXmlType(); 
+				baseCaseNet.setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
+			ExchangeZoneXmlType zone = odmObjFactory.createExchangeZoneXmlType(); 
 			baseCaseNet.getLossZoneList().getLossZone().add(zone);
 			zone.setId(new Integer(this.zonum).toString());
 			zone.setNumber(this.zonum);

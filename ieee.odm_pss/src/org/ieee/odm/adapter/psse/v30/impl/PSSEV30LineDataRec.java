@@ -1,5 +1,7 @@
 package org.ieee.odm.adapter.psse.v30.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
@@ -59,7 +61,7 @@ public class PSSEV30LineDataRec {
       	
 		AclfDataSetter.setLineData(branchRec, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
-		branchRec.setRatingLimit(parser.getFactory().createBranchRatingLimitXmlType());
+		branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
 		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         

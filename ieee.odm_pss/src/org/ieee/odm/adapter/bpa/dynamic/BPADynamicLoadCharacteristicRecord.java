@@ -26,6 +26,8 @@
 
 package org.ieee.odm.adapter.bpa.dynamic;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
@@ -39,7 +41,6 @@ import org.ieee.odm.schema.DynamicLoadIEEEStaticLoadXmlType;
 import org.ieee.odm.schema.DynamicLoadModelSelectionXmlType;
 import org.ieee.odm.schema.DynamicLoadXmlType;
 import org.ieee.odm.schema.LoadCharacteristicLocationEnumType;
-import org.ieee.odm.schema.LoadCharacteristicTypeEnumType;
 
 public class BPADynamicLoadCharacteristicRecord {
 	
@@ -50,7 +51,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 
 	if(strAry[0].equals("LA")||strAry[0].equals("LB")){
 		
-		DynamicLoadIEEEStaticLoadXmlType ieeeStaLoad=parser.getFactory().createDynamicLoadIEEEStaticLoadXmlType();
+		DynamicLoadIEEEStaticLoadXmlType ieeeStaLoad=odmObjFactory.createDynamicLoadIEEEStaticLoadXmlType();
 		
 		double a1=0.0;
 		if(!strAry[5].equals("")){
@@ -120,7 +121,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			ieeeStaLoad.setA8(a8);
 
 		}
-		DynamicLoadModelSelectionXmlType loadModel = parser.getFactory().createDynamicLoadModelSelectionXmlType();
+		DynamicLoadModelSelectionXmlType loadModel = odmObjFactory.createDynamicLoadModelSelectionXmlType();
 				
 		loadModel.setIEEEStaticLoad(ieeeStaLoad); 
 		
@@ -135,7 +136,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 				// assume the zone id is the same as bus.zoneName
 				if(areaName.equals(bus.getAreaName())){
 					if(bus.getLoadData().getEquivLoad()!=null){
-					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(odmObjFactory.createDynamicLoadXmlType());
 					   DynamicLoadXmlType load = bus.getDynamicLoad();
 					   load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
 					   load.setLoadModel(loadModel);
@@ -154,7 +155,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 				// assume the zone id is the same as bus.zoneName
 				if(zoneName.equals(bus.getZoneName())){
 					if(bus.getLoadData().getEquivLoad()!=null){
-					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(odmObjFactory.createDynamicLoadXmlType());
 					   DynamicLoadXmlType load = bus.getDynamicLoad();
 					   load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
 					   load.setLoadModel(loadModel);
@@ -177,7 +178,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			bus = parser.getDStabBus(BusId);
 			if (bus !=null) {
 				if (bus.getDynamicLoad() == null) {
-			        bus.setDynamicLoad(parser.getFactory().createDynamicLoadXmlType());
+			        bus.setDynamicLoad(odmObjFactory.createDynamicLoadXmlType());
 		        }
 
 		     DynamicLoadXmlType load = bus.getDynamicLoad();

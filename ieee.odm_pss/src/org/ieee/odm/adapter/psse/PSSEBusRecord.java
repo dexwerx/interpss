@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.psse;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.common.ODMLogger;
@@ -82,11 +84,11 @@ public class PSSEBusRecord {
         }
 				
 	    if (aclfBus.getShuntCompensatorData() == null) {  // there may be multiple contribute switched shunt records on a bus
-	    	ShuntCompensatorDataXmlType d = parser.getFactory().createShuntCompensatorDataXmlType();
+	    	ShuntCompensatorDataXmlType d = odmObjFactory.createShuntCompensatorDataXmlType();
 	    	aclfBus.setShuntCompensatorData(d);
-	    	//d.setShuntCompensatorList(parser.getFactory().createShuntCompensatorDataXmlTypeShuntCompensatorList());
+	    	//d.setShuntCompensatorList(odmObjFactory.createShuntCompensatorDataXmlTypeShuntCompensatorList());
 	    }
-	    ShuntCompensatorXmlType shunt = parser.getFactory().createShuntCompensatorXmlType();
+	    ShuntCompensatorXmlType shunt = odmObjFactory.createShuntCompensatorXmlType();
 	    aclfBus.getShuntCompensatorData().getShuntCompensator().add(shunt);
 		
 		// genId is used to distinguish multiple generations at one bus		
@@ -146,7 +148,7 @@ public class PSSEBusRecord {
 	  		if (nStr != null) {
 	  			int n = ModelStringUtil.getInt(nStr, 0);
 	  			double b = ModelStringUtil.getDouble(bStr, 0.0);
-	  			ShuntCompensatorBlockXmlType block = parser.getFactory().createShuntCompensatorBlockXmlType(); 
+	  			ShuntCompensatorBlockXmlType block = odmObjFactory.createShuntCompensatorBlockXmlType(); 
 	  			shunt.getBlock().add(block);
 	  			block.setSteps(n);
 	  			block.setIncrementB(BaseDataSetter.createReactivePowerValue(b, ReactivePowerUnitType.MVAR));

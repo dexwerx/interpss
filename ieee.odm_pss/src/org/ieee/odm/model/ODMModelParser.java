@@ -80,7 +80,6 @@ public class ODMModelParser extends AbstractModelParser {
 	}
 	
 	private AbstractModelParser copyTo(AbstractModelParser parser) {
-		parser._factory = this._factory;
 		parser.objectCache = this.objectCache;
 		parser.pssStudyCase = this.pssStudyCase;
 		return parser;

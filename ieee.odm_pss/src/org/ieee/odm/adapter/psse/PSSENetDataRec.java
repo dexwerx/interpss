@@ -1,5 +1,7 @@
 package org.ieee.odm.adapter.psse;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.model.AbstractModelParser;
@@ -63,8 +65,8 @@ public class PSSENetDataRec {
 
 */
 		if (baseCaseNet.getAreaList() == null)
-			baseCaseNet.setAreaList(parser.getFactory().createNetworkXmlTypeAreaList());
-		ExchangeAreaXmlType area = parser.getFactory().createExchangeAreaXmlType();
+			baseCaseNet.setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
+		ExchangeAreaXmlType area = odmObjFactory.createExchangeAreaXmlType();
 		baseCaseNet.getAreaList().getArea().add(area);
 		area.setId(new Integer(i).toString());
 		area.setNumber(i);

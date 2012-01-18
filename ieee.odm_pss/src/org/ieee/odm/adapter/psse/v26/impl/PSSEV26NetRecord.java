@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.psse.v26.impl;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.StringTokenizer;
 
 import org.ieee.odm.common.ODMLogger;
@@ -81,9 +83,9 @@ public class PSSEV26NetRecord {
 		final double mw = ModelStringUtil.getDouble(strAry[2], 0.0);
 		final double err = ModelStringUtil.getDouble(strAry[3], 0.0);
     
-		PowerInterchangeXmlType interchange = parser.getFactory().createPowerInterchangeXmlType();
-		baseCaseNet.setInterchangeList(parser.getFactory().createLoadflowNetXmlTypeInterchangeList());
-		InterchangeXmlType ex = parser.getFactory().createInterchangeXmlType();
+		PowerInterchangeXmlType interchange = odmObjFactory.createPowerInterchangeXmlType();
+		baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
+		InterchangeXmlType ex = odmObjFactory.createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(ex);
 		ex.setPowerEx(interchange);
 	

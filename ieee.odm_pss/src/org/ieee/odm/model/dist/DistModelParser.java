@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.dist;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BreakerDistBranchXmlType;
@@ -67,10 +69,10 @@ public class DistModelParser extends AbstractModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			DistributionNetXmlType baseCase = this.getFactory().createDistributionNetXmlType();
+			DistributionNetXmlType baseCase = odmObjFactory.createDistributionNetXmlType();
 			
-			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
-			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
+			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
+			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
 		return getStudyCase().getBaseCase().getValue();
@@ -85,7 +87,7 @@ public class DistModelParser extends AbstractModelParser {
 	<element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus"/>
  */
 	public UtilityDistBusXmlType createUtilityDistBus() {
-		UtilityDistBusXmlType busRec = this.getFactory().createUtilityDistBusXmlType();
+		UtilityDistBusXmlType busRec = odmObjFactory.createUtilityDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
@@ -110,7 +112,7 @@ public class DistModelParser extends AbstractModelParser {
 	<element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus"/>
  */
 	public GeneratorDistBusXmlType createDistGeneratorBus() {
-		GeneratorDistBusXmlType busRec = this.getFactory().createGeneratorDistBusXmlType();
+		GeneratorDistBusXmlType busRec = odmObjFactory.createGeneratorDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
@@ -135,7 +137,7 @@ public class DistModelParser extends AbstractModelParser {
 	<element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus"/>
  */
 	public SynchronousMotorDistBusXmlType createDistSynMotorBus() {
-		SynchronousMotorDistBusXmlType busRec = this.getFactory().createSynchronousMotorDistBusXmlType();
+		SynchronousMotorDistBusXmlType busRec = odmObjFactory.createSynchronousMotorDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
@@ -160,7 +162,7 @@ public class DistModelParser extends AbstractModelParser {
 	<element name="distIndMotorBus" type="pss:InductionMotorDistBusXmlType" substitutionGroup="pss:bus"/>
  */
 	public InductionMotorDistBusXmlType createDistIndMotorBus() {
-		InductionMotorDistBusXmlType busRec = this.getFactory().createInductionMotorDistBusXmlType();
+		InductionMotorDistBusXmlType busRec = odmObjFactory.createInductionMotorDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
@@ -185,7 +187,7 @@ public class DistModelParser extends AbstractModelParser {
 	<element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus"/>
  */
 	public MixedLoadDistBusXmlType createDistMixedLoadBus() {
-		MixedLoadDistBusXmlType busRec = this.getFactory().createMixedLoadDistBusXmlType();
+		MixedLoadDistBusXmlType busRec = odmObjFactory.createMixedLoadDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
@@ -210,7 +212,7 @@ public class DistModelParser extends AbstractModelParser {
 	<element name="distNonContributeBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
  */
 	public NonContributingDistBusXmlType createDistNonContributeBus() {
-		NonContributingDistBusXmlType busRec = this.getFactory().createNonContributingDistBusXmlType();
+		NonContributingDistBusXmlType busRec = odmObjFactory.createNonContributingDistBusXmlType();
 		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
@@ -249,7 +251,7 @@ public class DistModelParser extends AbstractModelParser {
 	}
 
 	public FeederDistBranchXmlType createDistFeederBranch() {
-		FeederDistBranchXmlType branch = this.getFactory().createFeederDistBranchXmlType();
+		FeederDistBranchXmlType branch = odmObjFactory.createFeederDistBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
@@ -272,7 +274,7 @@ public class DistModelParser extends AbstractModelParser {
 	}
 
 	public XFormerDistBranchXmlType createDistXfrBranch() {
-		XFormerDistBranchXmlType branch = this.getFactory().createXFormerDistBranchXmlType();
+		XFormerDistBranchXmlType branch = odmObjFactory.createXFormerDistBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
@@ -296,7 +298,7 @@ public class DistModelParser extends AbstractModelParser {
 	}
 
 	public ReactorDistBranchXmlType createDistReactorBranch() {
-		ReactorDistBranchXmlType branch = this.getFactory().createReactorDistBranchXmlType();
+		ReactorDistBranchXmlType branch = odmObjFactory.createReactorDistBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
@@ -320,7 +322,7 @@ public class DistModelParser extends AbstractModelParser {
 	}
 
 	public BreakerDistBranchXmlType createDistBreakerBranch() {
-		BreakerDistBranchXmlType branch = this.getFactory().createBreakerDistBranchXmlType();
+		BreakerDistBranchXmlType branch = odmObjFactory.createBreakerDistBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}

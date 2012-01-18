@@ -24,6 +24,8 @@
 
 package org.ieee.odm.model.aclf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.List;
 
 import org.ieee.odm.common.ODMException;
@@ -75,10 +77,10 @@ public class AclfModelParser extends AbstractModelParser {
 	@Override
 	public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			LoadflowNetXmlType baseCase = this.getFactory().createLoadflowNetXmlType();
+			LoadflowNetXmlType baseCase = odmObjFactory.createLoadflowNetXmlType();
 			
-			baseCase.setBusList(this.getFactory().createNetworkXmlTypeBusList());
-			baseCase.setBranchList(this.getFactory().createNetworkXmlTypeBranchList());
+			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
+			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
 		return getStudyCase().getBaseCase().getValue();
@@ -95,7 +97,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public LoadflowBusXmlType createAclfBus() {
-		LoadflowBusXmlType busRec = this.getFactory().createLoadflowBusXmlType();
+		LoadflowBusXmlType busRec = odmObjFactory.createLoadflowBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
@@ -195,9 +197,9 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public LineBranchXmlType createLineBranch() {
-		LineBranchXmlType branch = this.getFactory().createLineBranchXmlType();
-		branch.setRatingLimit(this.getFactory().createBranchRatingLimitXmlType());
-		branch.setLineInfo(this.getFactory().createLineBranchInfoXmlType());
+		LineBranchXmlType branch = odmObjFactory.createLineBranchXmlType();
+		branch.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		branch.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
 		intiBranchData(branch);
 		return branch;
 	}
@@ -208,13 +210,13 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public XfrBranchXmlType createXfrBranch() {
-		XfrBranchXmlType branch = this.getFactory().createXfrBranchXmlType();
-		branch.setXfrInfo(this.getFactory().createTransformerInfoXmlType());
+		XfrBranchXmlType branch = odmObjFactory.createXfrBranchXmlType();
+		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		intiBranchData(branch);
 		return branch;
 	}
 	public Xfr3WBranchXmlType createXfr3WBranch() {
-		Xfr3WBranchXmlType branch = this.getFactory().createXfr3WBranchXmlType();
+		Xfr3WBranchXmlType branch = odmObjFactory.createXfr3WBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
@@ -225,12 +227,12 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public PSXfrBranchXmlType createPSXfrBranch() {
-		PSXfrBranchXmlType branch = this.getFactory().createPSXfrBranchXmlType();
+		PSXfrBranchXmlType branch = odmObjFactory.createPSXfrBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
 	public PSXfr3WBranchXmlType createPSXfr3WBranch() {
-		PSXfr3WBranchXmlType branch = this.getFactory().createPSXfr3WBranchXmlType();
+		PSXfr3WBranchXmlType branch = odmObjFactory.createPSXfr3WBranchXmlType();
 		intiBranchData(branch);
 		return branch;
 	}
@@ -299,14 +301,14 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, long number) throws Exception {
-		DCLineData2TXmlType dcLine = getFactory().createDCLineData2TXmlType();
+		DCLineData2TXmlType dcLine = odmObjFactory.createDCLineData2TXmlType();
 		addBranch2BaseCase(dcLine, recId, invId, null, new Long(number).toString());
 		
-		ConverterXmlType rectifier = getFactory().createConverterXmlType();
+		ConverterXmlType rectifier = odmObjFactory.createConverterXmlType();
 		dcLine.setRectifier(rectifier);
 		dcLine.getRectifier().setBusId(createBusRef(recId));
 	
-		ConverterXmlType inverter = getFactory().createConverterXmlType();
+		ConverterXmlType inverter = odmObjFactory.createConverterXmlType();
 		dcLine.setInverter(inverter);
 		dcLine.getInverter().setBusId(createBusRef(invId));
 		return dcLine;
@@ -324,8 +326,8 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	public TielineXmlType createTieline() {
 		if (getAclfNet().getTieLineList() == null)
-			getAclfNet().setTieLineList(this.getFactory().createLoadflowNetXmlTypeTieLineList());
-		TielineXmlType tieLine = this.getFactory().createTielineXmlType();
+			getAclfNet().setTieLineList(odmObjFactory.createLoadflowNetXmlTypeTieLineList());
+		TielineXmlType tieLine = odmObjFactory.createTielineXmlType();
 		getAclfNet().getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}	
@@ -337,8 +339,8 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	public InterchangeXmlType createInterchange() {
 		if (getAclfNet().getInterchangeList() == null)
-			getAclfNet().setInterchangeList(this.getFactory().createLoadflowNetXmlTypeInterchangeList());
-		InterchangeXmlType interchange = this.getFactory().createInterchangeXmlType();
+			getAclfNet().setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
+		InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
 		getAclfNet().getInterchangeList().getInterchange().add(interchange);
 		return interchange;
 	}	
@@ -354,8 +356,8 @@ public class AclfModelParser extends AbstractModelParser {
 	 */
 	public FlowInterfaceRecXmlType createInterface() {
 		if (getAclfNet().getInterfaceList() == null)
-			getAclfNet().setInterfaceList(this.getFactory().createLoadflowNetXmlTypeInterfaceList());
-		FlowInterfaceRecXmlType inter = this.getFactory().createFlowInterfaceRecXmlType();
+			getAclfNet().setInterfaceList(odmObjFactory.createLoadflowNetXmlTypeInterfaceList());
+		FlowInterfaceRecXmlType inter = odmObjFactory.createFlowInterfaceRecXmlType();
 		getAclfNet().getInterfaceList().getInterface().add(inter);
 		return inter;
 	}	

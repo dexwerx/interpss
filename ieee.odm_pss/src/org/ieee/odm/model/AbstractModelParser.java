@@ -24,9 +24,7 @@
 
 package org.ieee.odm.model;
 
-/**
- * Abstract Xml parser as the base for all the IEEE DOM schema parsers. 
- */
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -58,11 +56,13 @@ import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.StudyScenarioXmlType;
 
+/**
+ * Abstract Xml parser as the base for all the IEEE DOM schema parsers. 
+ */
 public abstract class AbstractModelParser implements IODMModelParser {
 	// add "Bus" pre-fix to the bus number to create Bus Id
 	public static final String BusIdPreFix = "Bus";
@@ -81,8 +81,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 
 	protected StudyCaseXmlType pssStudyCase = null;
 	
-	protected ObjectFactory _factory = null;
-	public ObjectFactory getFactory() {	return this._factory == null? new ObjectFactory() : this._factory; }
+//	protected ObjectFactory _factory = null;
+//	public ObjectFactory getFactory() {	return this._factory == null? new ObjectFactory() : this._factory; }
 	
 	/*
 	 *	Constructor 
@@ -174,7 +174,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @param originalFormat
 	 */
 	public void setLFTransInfo(OriginalDataFormatEnumType originalDataFormat) {
-		ContentInfoXmlType info = getFactory().createContentInfoXmlType();
+		ContentInfoXmlType info = odmObjFactory.createContentInfoXmlType();
 		getStudyCase().setContentInfo(info);
 		info.setOriginalDataFormat(originalDataFormat);
 		info.setAdapterProviderName("www.interpss.org");
@@ -216,9 +216,9 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public NetAreaXmlType createNetworkArea() {
 		if(getBaseCase().getAreaList() == null){
-			getBaseCase().setAreaList(this.getFactory().createNetworkXmlTypeAreaList());
+			getBaseCase().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		}
-		NetAreaXmlType area = this.getFactory().createNetAreaXmlType();
+		NetAreaXmlType area = odmObjFactory.createNetAreaXmlType();
 		getBaseCase().getAreaList().getArea().add(area);
 		return area;
 	}
@@ -230,9 +230,9 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public NetZoneXmlType createNetworkLossZone() {
 		if(getBaseCase().getLossZoneList() == null){
-			getBaseCase().setLossZoneList(this.getFactory().createNetworkXmlTypeLossZoneList());
+			getBaseCase().setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
 		}
-		NetZoneXmlType zone = this.getFactory().createNetZoneXmlType();
+		NetZoneXmlType zone = odmObjFactory.createNetZoneXmlType();
 		getBaseCase().getLossZoneList().getLossZone().add(zone);
 		return zone;
 	}
@@ -336,7 +336,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public BusIDRefXmlType createBusRef(String id) {
 		BusXmlType rec = this.getBus(id);
-		BusIDRefXmlType refBus = getFactory().createBusIDRefXmlType();
+		BusIDRefXmlType refBus = odmObjFactory.createBusIDRefXmlType();
 		refBus.setIdRef(rec);
 		return refBus;
 	}
@@ -478,7 +478,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public void stdout() {
 		try {
-			JAXBElement<StudyCaseXmlType> element = getFactory().createPssStudyCase(getStudyCase());
+			JAXBElement<StudyCaseXmlType> element = odmObjFactory.createPssStudyCase(getStudyCase());
 			createMarshaller().marshal( element, System.out );
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -492,7 +492,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public String toXmlDoc(boolean addXsi) {
 		OutputStream ostream = new ByteArrayOutputStream();
 		try {
-			JAXBElement<StudyCaseXmlType> element = getFactory().createPssStudyCase(getStudyCase());
+			JAXBElement<StudyCaseXmlType> element = odmObjFactory.createPssStudyCase(getStudyCase());
 			createMarshaller().marshal( element, ostream );
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -506,7 +506,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		else {
 			try {
 				OutputStream ostream = new FileOutputStream(new File(outfile));
-				JAXBElement<StudyCaseXmlType> element = getFactory().createPssStudyCase(getStudyCase());
+				JAXBElement<StudyCaseXmlType> element = odmObjFactory.createPssStudyCase(getStudyCase());
 				createMarshaller().marshal( element, ostream );
 			} catch (Exception e) {
 				return e.toString() + " " + outfile;

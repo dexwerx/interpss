@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.bpa.dynamic;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -32,10 +34,10 @@ import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.DStabBranchFaultXmlType;
-import org.ieee.odm.schema.DStabBusFaultXmlType;
 import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
+import org.ieee.odm.schema.DStabBranchFaultXmlType;
+import org.ieee.odm.schema.DStabBusFaultXmlType;
 import org.ieee.odm.schema.DcLineFaultEnumType;
 import org.ieee.odm.schema.DcLineFaultXmlType;
 import org.ieee.odm.schema.GenChangeDynamicEventXmlType;
@@ -83,7 +85,7 @@ public class BPADynamicFaultOperationRecord {
     		
     		// bus fault
     		if(mode==1||mode==-1||mode==2||mode==-2){ 
-    			DStabBusFaultXmlType busFault=parser.getFactory().createDStabBusFaultXmlType();
+    			DStabBusFaultXmlType busFault=odmObjFactory.createDStabBusFaultXmlType();
     			busFault.setFaultCategory(AcscFaultCategoryEnumType.FAULT_3_PHASE);
     			
     			// not permanent bus fault;
@@ -142,7 +144,7 @@ public class BPADynamicFaultOperationRecord {
     		}
 			// branch fault
     		else if(mode==3||mode==-3){
-    			DStabBranchFaultXmlType braFault=parser.getFactory().createDStabBranchFaultXmlType();	
+    			DStabBranchFaultXmlType braFault=odmObjFactory.createDStabBranchFaultXmlType();	
 				braFault.setFaultCategory(AcscFaultCategoryEnumType.FAULT_3_PHASE);
 				
 				if(breaker1Opened==false&&breaker2Opened==false){    				
@@ -185,7 +187,7 @@ public class BPADynamicFaultOperationRecord {
     		if(strAry[12].equals("")){
     			String busId = BPABusRecord.getBusId(strAry[1]);
         		BusIDRefXmlType bus=parser.createBusRef(busId);
-    			LoadChangeDynamicEventXmlType loadChange=parser.getFactory().createLoadChangeDynamicEventXmlType();
+    			LoadChangeDynamicEventXmlType loadChange=odmObjFactory.createLoadChangeDynamicEventXmlType();
      		    loadChange.setBus(bus);
      		    
      		    double busRatedV=ModelStringUtil.getDouble(strAry[2], 0.0);
@@ -213,7 +215,7 @@ public class BPADynamicFaultOperationRecord {
     		else{
     			String busId = BPABusRecord.getBusId(strAry[1]);
         		BusIDRefXmlType bus=parser.createBusRef(busId);
-    			GenChangeDynamicEventXmlType genChange= parser.getFactory().createGenChangeDynamicEventXmlType();
+    			GenChangeDynamicEventXmlType genChange= odmObjFactory.createGenChangeDynamicEventXmlType();
      		    genChange.setBus(bus);
      		    
      		    double busRatedV=ModelStringUtil.getDouble(strAry[2], 0.0);
@@ -238,7 +240,7 @@ public class BPADynamicFaultOperationRecord {
         else if(mode==5){
         	int sign=new Integer(str.substring(32, 33).trim()).intValue();
       	    if(sign>0){
-      		    DcLineFaultXmlType dcFault=parser.getFactory().createDcLineFaultXmlType();
+      		    DcLineFaultXmlType dcFault=odmObjFactory.createDcLineFaultXmlType();
       		    dcFault.setPermanentFault(true);
       		  
       		    String bus1Id = BPABusRecord.getBusId(strAry[1]);
