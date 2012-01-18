@@ -49,8 +49,7 @@ public class ODMModelParser extends AbstractModelParser {
 	/**
 	 * create the base case object of type LoadflowXmlType
 	 */
-	@Override
-	public NetworkXmlType createBaseCase() {
+	@Override public NetworkXmlType createBaseCase() {
 		ODMLogger.getLogger().severe("Programming error: ODMModelParser.createBaseCase() called");
 		return null;
 	}

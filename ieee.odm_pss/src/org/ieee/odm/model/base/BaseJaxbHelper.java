@@ -272,8 +272,7 @@ public class BaseJaxbHelper {
 		addOwner(rec, id, 1.0);
 	}
 	
-	public static void addOwner(BaseRecordXmlType rec, String id, 
-			double ownership) {
+	public static void addOwner(BaseRecordXmlType rec, String id, double ownership) {
 		OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
 		rec.getOwnerList().add(owner);
 		owner.setId(id);
@@ -318,7 +317,8 @@ public class BaseJaxbHelper {
 	}		
 	
 	/**
-	 * 
+	 * ComplexXmlType to string
+	 *  
 	 * @param c
 	 * @return
 	 */
@@ -326,18 +326,42 @@ public class BaseJaxbHelper {
 		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + "]";
 	}
 	
+	/**
+	 * YXmlType to string
+	 *  
+	 * @param c
+	 * @return
+	 */
 	public static String toStr(YXmlType c) {
 		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
 	}
 
+	/**
+	 * ZXmlType to string
+	 *  
+	 * @param c
+	 * @return
+	 */
 	public static String toStr(ZXmlType c) {
 		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
 	}
 	
+	/**
+	 * PowerXmlType to string
+	 *  
+	 * @param c
+	 * @return
+	 */
 	public static String toStr(PowerXmlType c) {
 		return c == null? "null" : "[" + c.getRe() + "+j" + c.getIm() + " " + c.getUnit() + "]";
 	}
 	
+	/**
+	 * VoltageXmlType to string
+	 *  
+	 * @param c
+	 * @return
+	 */
 	public static String toStr(VoltageXmlType c) {
 		return c == null? "null" : "[" + c.getValue() + " " + c.getUnit() + "]";
 	}

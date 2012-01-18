@@ -25,6 +25,7 @@
 package org.ieee.odm.model;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+import static org.ieee.odm.model.base.ModelContansts.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,7 +44,6 @@ import javax.xml.bind.Unmarshaller;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.base.ModelContansts;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
@@ -97,7 +97,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		if (!(this instanceof ODMModelParser)) {
 			this.getStudyCase().setId("ODM_StudyCase");
-			this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
+			this.getStudyCase().setSchemaVersion(ODM_Schema_Version);
 		}
 	}
 
@@ -113,7 +113,8 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			this.pssStudyCase = elem.getValue();
 			return true;
 		} catch (JAXBException e) { 
-			e.printStackTrace(); 
+			e.printStackTrace();
+			ODMLogger.getLogger().severe(e.toString());
 			return false;
 		}
 	}
@@ -125,7 +126,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 			JAXBElement<StudyCaseXmlType> elem = (JAXBElement<StudyCaseXmlType>)createUnmarshaller().unmarshal(bStr);
 			this.pssStudyCase = elem.getValue();
 			return true;
-		} catch (JAXBException e) { e.printStackTrace(); return false;}
+		} catch (JAXBException e) { 			
+			e.printStackTrace();
+			ODMLogger.getLogger().severe(e.toString());
+			return false;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -194,7 +199,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public StudyCaseXmlType getStudyCase() {
 		if (this.pssStudyCase == null) {
 			this.pssStudyCase = new StudyCaseXmlType();
-			this.pssStudyCase.setSchemaVersion(ModelContansts.ODM_Schema_Version);
+			this.pssStudyCase.setSchemaVersion(ODM_Schema_Version);
 			this.pssStudyCase.setBaseCase(BaseJaxbHelper.network(createBaseCase()));
 		}	
 		return this.pssStudyCase;
@@ -447,7 +452,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	private static Unmarshaller unmarshaller = null;
 	public Unmarshaller createUnmarshaller() throws JAXBException {
 		if (unmarshaller == null) {
-			JAXBContext jaxbContext = JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
+			JAXBContext jaxbContext = JAXBContext.newInstance(ODM_Schema_NS);
 			unmarshaller = jaxbContext.createUnmarshaller();
 			//unmarshaller.setProperty(Marshaller.JAXB_ENCODING, "GB18030");
 		}
@@ -463,7 +468,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	private Marshaller marshaller = null;
 	public Marshaller createMarshaller() throws JAXBException {
 		if (marshaller == null) {
-			JAXBContext jaxbContext	= JAXBContext.newInstance(ModelContansts.ODM_Schema_NS);
+			JAXBContext jaxbContext	= JAXBContext.newInstance(ODM_Schema_NS);
 			marshaller = jaxbContext.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			//marshaller.setProperty(Marshaller.JAXB_ENCODING, "GB18030");
