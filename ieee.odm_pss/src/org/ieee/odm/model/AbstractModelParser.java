@@ -61,7 +61,7 @@ import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.StudyScenarioXmlType;
 
 /**
- * Abstract Xml parser as the base for all the IEEE DOM schema parsers. 
+ * Abstract Xml parser implementation as the base for all the IEEE DOM schema parsers. 
  */
 public abstract class AbstractModelParser implements IODMModelParser {
 	// add "Bus" pre-fix to the bus number to create Bus Id
@@ -489,7 +489,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * 
 	 * @param addXsi not used in Jabx. It is for XmlBeans
 	 */
-	public String toXmlDoc(boolean addXsi) {
+	public String toXmlDoc() {
 		OutputStream ostream = new ByteArrayOutputStream();
 		try {
 			JAXBElement<StudyCaseXmlType> element = odmObjFactory.createPssStudyCase(getStudyCase());
@@ -500,9 +500,9 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return ostream.toString();
 	}	
 
-	public String toXmlDoc(boolean addXsi, String outfile) {
+	public String toXmlDoc(String outfile) {
 		if (outfile == null)
-			return toXmlDoc(addXsi);
+			return toXmlDoc();
 		else {
 			try {
 				OutputStream ostream = new FileOutputStream(new File(outfile));

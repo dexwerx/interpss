@@ -32,28 +32,65 @@ import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.StudyScenarioXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * Xml parser interface for the IEEE DOM schema. 
  */
-
 public interface IODMModelParser {
 	final static String defaultEncoding = "UTF-8";
 	final static String chineseEncoding = "GB18030";
 	
+	/**
+	 * parse the file and create an ODM model object
+	 * 
+	 * @param xmlFile
+	 * @return
+	 */
 	boolean parse(File xmlFile);
 	
+	/**
+	 * parse the string and create an ODM model object
+	 * 
+	 * @param xmlString
+	 * @return
+	 */
 	boolean parse(String xmlString);
 	
+	/**
+	 * parse the InputStream and create an ODM model object
+	 * 
+	 * @param xmlString
+	 * @return
+	 */
 	boolean parse(InputStream in);
 	
-	//ObjectFactory getFactory();
-	
+	/**
+	 * get the ODM xml document root element
+	 * 
+	 * @return
+	 */
 	StudyCaseXmlType getStudyCase();
 	
+	/**
+	 * get Study scenario element
+	 * 
+	 * @return
+	 */
 	StudyScenarioXmlType getStudyScenario();	
 
+	/**
+	 * get bus element by bus id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	BusXmlType getBus(String id);
 	
-	String toXmlDoc(boolean addXsi);
+	/**
+	 * output the content of the ODM object to an xml document
+	 * 
+	 * @param addXsi
+	 * @return
+	 */
+	String toXmlDoc();
 	
 	/**
 	 * If outfile = null, return the Xml doc, otherwise, write the xml doc
@@ -63,5 +100,5 @@ public interface IODMModelParser {
 	 * @param outfile
 	 * @return
 	 */
-	String toXmlDoc(boolean addXsi, String outfile);
+	String toXmlDoc(String outfile);
 }

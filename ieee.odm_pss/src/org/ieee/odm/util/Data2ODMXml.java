@@ -105,7 +105,7 @@ public class Data2ODMXml {
 			}
 			logger.info("File parsing time(ms): " + (new Date().getTime() - date.getTime()));
 			// convert the model to a XML document string
-			xmlStr = (adapter.getModel()).toXmlDoc(true);			
+			xmlStr = (adapter.getModel()).toXmlDoc();			
 			
 			// output the XML document to the output file 
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
