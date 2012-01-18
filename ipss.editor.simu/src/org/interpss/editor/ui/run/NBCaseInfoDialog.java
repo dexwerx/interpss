@@ -389,7 +389,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				dstabCase.setDesc(this.descTextArea.getText());
 				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 			}
-			FileUtil.writeText2File(runStudyCaseFilename, this.odmParser.toXmlDoc(false));
+			FileUtil.writeText2File(runStudyCaseFilename, this.odmParser.toXmlDoc());
 		}
 		
 		// ipss schema
@@ -617,7 +617,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
 	 if (this.isODMFormat()) {
-		 dialog.display(this.odmParser.toXmlDoc(false));
+		 dialog.display(this.odmParser.toXmlDoc());
 	 }
 	 else
 		 dialog.display(new IpssXmlParser().toString(this.studyCaseXmlDoc.getIpssXmlDoc()));
