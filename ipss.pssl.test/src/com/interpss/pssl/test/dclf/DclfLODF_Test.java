@@ -132,7 +132,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 		new DclfDslODMRunner(algoDsl)
 				.runDclfCase(dclfCase, DclfAnalysisType.All);
 		
-		System.out.println(parser.toXmlDoc(false));		
+		System.out.println(parser.toXmlDoc());		
 	}
 	
 	@Test

@@ -243,7 +243,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 			.runDclfCase(dclfCase, DclfAnalysisType.All);
 
 		
-		System.out.println(parser.toXmlDoc(false));
+		System.out.println(parser.toXmlDoc());
 	}
 	
 	@Test
