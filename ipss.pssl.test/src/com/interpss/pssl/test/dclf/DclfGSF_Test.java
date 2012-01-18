@@ -24,10 +24,13 @@
 
 package com.interpss.pssl.test.dclf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -64,7 +67,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
 		assertTrue(helper.getSenAnalysisList() != null);
 		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
 		DclfBranchSensitivityXmlType gsf = helper.createGSF(dclfCase);
 		dclfCase.getGenShiftFactor().add(gsf);
 /*
@@ -101,14 +104,14 @@ public class DclfGSF_Test extends BaseTestSetup {
 		bus.setBusId("Bus3");
 		
 		BranchShiftFactorXmlType sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		BranchRefXmlType line = helper.createBranchRefXmlType();
+		BranchRefXmlType line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus2_Bus3");
 		line.setFromBusId("Bus2");
 		line.setToBusId("Bus3");
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus3_Bus4");
 		line.setFromBusId("Bus3");
@@ -162,21 +165,21 @@ public class DclfGSF_Test extends BaseTestSetup {
 		bus.setPercent(50.0);
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus9_Bus14");
 		line.setFromBusId("Bus9");
 		line.setToBusId("Bus14");
 
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus6_Bus13");
 		line.setFromBusId("Bus6");
 		line.setToBusId("Bus13");
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus12_Bus13");
 		line.setFromBusId("Bus12");
@@ -213,24 +216,24 @@ public class DclfGSF_Test extends BaseTestSetup {
 		bus.setBusId("Bus2");
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
-		gsf.setMinLoadForDistFactor(helper.createActivePower(5.0, "MW"));
+		gsf.setMinLoadForDistFactor(BaseDataSetter.createActivePowerValue(5.0, ActivePowerUnitType.fromValue("MW")));
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus9_Bus14_1");
 		line.setFromBusId("Bus9");
 		line.setToBusId("Bus14");
 
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus6_Bus13_1");
 		line.setFromBusId("Bus6");
 		line.setToBusId("Bus13");
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-		line = helper.createBranchRefXmlType();
+		line = odmObjFactory.createBranchRefXmlType();
 		sf.setBranch(line);
 		line.setBranchId("Bus12_Bus13_1");
 		line.setFromBusId("Bus12");

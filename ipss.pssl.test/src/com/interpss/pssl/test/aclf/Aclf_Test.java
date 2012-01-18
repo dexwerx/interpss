@@ -28,6 +28,8 @@ import static com.interpss.pssl.plugin.IpssAdapter.importAclfNet;
 import static com.interpss.pssl.plugin.IpssAdapter.FileFormat.IEEECommonFormat;
 import static org.interpss.CorePluginFunction.AclfResultSummary;
 import static com.interpss.pssl.simu.IpssAclf.createAclfAlgo;
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -71,7 +73,7 @@ public class Aclf_Test extends BaseTestSetup {
 				.getAclfNet();	
 		
 		IpssScenarioHelper helper = new IpssScenarioHelper(new AclfModelParser());
-		IpssAclfAlgorithmXmlType algoXml = helper.createIpssAclfAlgorithm();
+		IpssAclfAlgorithmXmlType algoXml = odmObjFactory.createIpssAclfAlgorithmXmlType();
 		
 		algoXml.setLfMethod(LfMethodEnumType.NR);
 		algoXml.setNonDivergent(true);

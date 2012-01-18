@@ -72,7 +72,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
 		assertTrue(helper.getSenAnalysisList() != null);
 		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
 		GenLossFactorXmlType lfactor = helper.createGenLossFactor(dclfCase);
 		/*
 			<pss:genLossFactor>

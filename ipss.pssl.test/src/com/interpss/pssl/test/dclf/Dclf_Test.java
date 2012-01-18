@@ -76,7 +76,7 @@ public class Dclf_Test extends BaseTestSetup {
 		IpssScenarioHelper helper = new IpssScenarioHelper(new AclfModelParser());
 		assertTrue(helper.getSenAnalysisList() != null);
 		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
 		
 		dclfCase.setCaculatelDclf(true);
 		

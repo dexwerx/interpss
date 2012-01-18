@@ -24,8 +24,12 @@
 
 package com.interpss.pssl.test.aclf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+import static org.ieee.odm.model.base.BaseDataSetter.*;
+
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ContingencyAnalysisEnumType;
 import org.ieee.odm.schema.ContingencyAnalysisXmlType;
 import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
@@ -83,11 +87,11 @@ public class ContingencyAnalysisTest extends BaseTestSetup {
 		xml.setType(ContingencyAnalysisEnumType.N_1);
 		xml.setLimitRunCases(false);
 		
-		IpssAclfAlgorithmXmlType algo = helper.createIpssAclfAlgorithm();
+		IpssAclfAlgorithmXmlType algo = odmObjFactory.createIpssAclfAlgorithmXmlType();
 		xml.setDefaultAclfAlgorithm(algo);
 		
 		algo.setLfMethod(LfMethodEnumType.NR);
-		algo.setTolerance(helper.createApparentPower(0.001));
+		algo.setTolerance(createApparentPower(0.001, ApparentPowerUnitType.PU));
 		algo.setMaxIterations(20);
 		algo.setNonDivergent(true);
 		

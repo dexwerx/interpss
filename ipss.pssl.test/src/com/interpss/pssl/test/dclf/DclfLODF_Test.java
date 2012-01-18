@@ -59,7 +59,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
 		assertTrue(helper.getSenAnalysisList() != null);
 		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenCase();
+		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
 		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
 
 		/*  One outage branch sample
