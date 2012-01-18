@@ -62,7 +62,7 @@ public class BPAFormat extends IpssFileAdapterBase {
 		adapter.parseInputFile(IODMAdapter.NetType.DStabNet, filepathAry);
 		this.parser = adapter.getModel();
 		if (debug)
-			System.out.println(adapter.getModel().toXmlDoc(false, outfile));
+			System.out.println(adapter.getModel().toXmlDoc(outfile));
 
 		String filepath = filepathAry[0];
 		if (CorePluginSpringFactory.getOdm2DStabMapper().map2Model((DStabModelParser)adapter.getModel(), simuCtx)) {

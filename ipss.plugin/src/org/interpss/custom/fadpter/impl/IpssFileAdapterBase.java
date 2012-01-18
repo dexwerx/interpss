@@ -63,7 +63,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 		adapter.parseInputFile(filepath);
 		this.parser = adapter.getModel();
 		if (debug)
-			System.out.println(adapter.getModel().toXmlDoc(false, outfile));
+			System.out.println(adapter.getModel().toXmlDoc(outfile));
 		
 		if (CorePluginSpringFactory.getOdm2AclfMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
