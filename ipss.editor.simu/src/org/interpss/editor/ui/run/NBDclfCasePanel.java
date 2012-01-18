@@ -25,6 +25,7 @@
 package org.interpss.editor.ui.run;
 
 import static com.interpss.common.util.NetUtilFunc.ToBranchId;
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.List;
 import java.util.Vector;
@@ -32,7 +33,9 @@ import java.util.Vector;
 import javax.swing.JDialog;
 
 import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -395,8 +398,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
 		
-		gsf.setMinLoadForDistFactor(helper.createActivePower(
-				new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), "MW"));
+		gsf.setMinLoadForDistFactor(BaseDataSetter.createActivePowerValue(
+				new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), 
+				ActivePowerUnitType.fromValue("MW")));
 
 		gsf.getBranchSFactor().clear();
 			
@@ -405,14 +409,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         		if (id.startsWith("b:")) { // branch
         			String braId = id.substring(2);
     	    		BranchShiftFactorXmlType sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-    	    		BranchRefXmlType line = helper.createBranchRefXmlType();
+    	    		BranchRefXmlType line = odmObjFactory.createBranchRefXmlType();
     				sf.setBranch(line);
     				RunUIUtilFunc.setBranchIdInfo(line, braId);				
         		}
         		else {  // interface
         			String braId = id.substring(2);
     	    		InterfaceShiftFactorXmlType sf = helper.createInterfaceSFactor(gsf.getInterfaceSFactor());
-    	    		FlowInterfaceRecXmlType inf = helper.createInterface();
+    	    		FlowInterfaceRecXmlType inf = odmObjFactory.createFlowInterfaceRecXmlType();
     				sf.setInterface(inf);
     				inf.setId(braId);
         		}

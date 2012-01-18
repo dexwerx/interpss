@@ -318,9 +318,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		casedata.getEdFile().setDate(this.edDateTextField.getText());
 		
 		if (casedata.getLoadDist() == null) {
-			PtLoadDistributionXmlType load = odmParser.getFactory().createPtLoadDistributionXmlType();
+			PtLoadDistributionXmlType load = odmObjFactory.createPtLoadDistributionXmlType();
 			casedata.setLoadDist(load);
-			ActivePowerXmlType p = odmParser.getFactory().createActivePowerXmlType();
+			ActivePowerXmlType p = odmObjFactory.createActivePowerXmlType();
 			load.setMinLoadForDistFactor(p);
 		}
 		casedata.getLoadDist().getMinLoadForDistFactor().setValue(
