@@ -37,14 +37,14 @@ import com.interpss.dist.DistBus;
 import com.interpss.dist.adpter.DistGenerator;
 import com.interpss.dist.adpter.DistUtility;
 import com.interpss.dist.adpter.DistXformer;
-import com.interpss.pssl.simu.IpssDist;
-import com.interpss.pssl.simu.IpssDist.DistNetDSL;
+import com.interpss.pssl.simu.net.IpssDistNet;
+import com.interpss.pssl.simu.net.IpssDistNet.DistNetDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DistSys_Test extends BaseTestSetup {
 	@Test
 	public void singlePointTest1() {
-		DistNetDSL distNet = IpssDist.createDistNetwork("Sample DistNetwork")      
+		DistNetDSL distNet = IpssDistNet.createDistNetwork("Sample DistNetwork")      
         						.setBaseKva(100000.0);
 		  
 		DistUtility util = distNet.addUtility("Bus1", 138.0, UnitType.kV);

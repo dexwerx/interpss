@@ -34,8 +34,8 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.IpssAclfNet;
-import com.interpss.pssl.simu.IpssAclfNet.AclfNetworkDSL;
+import com.interpss.pssl.simu.net.IpssAclfNet;
+import com.interpss.pssl.simu.net.IpssAclfNet.AclfNetworkDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class AclfNet_Test extends BaseTestSetup {
