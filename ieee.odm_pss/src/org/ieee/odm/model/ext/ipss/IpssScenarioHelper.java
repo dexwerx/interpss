@@ -25,7 +25,9 @@
 package org.ieee.odm.model.ext.ipss;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+import static org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.ieee.odm.common.ODMLogger;
@@ -82,13 +84,21 @@ public class IpssScenarioHelper {
 		this.parser.getStudyCase().setStudyScenario(odmObjFactory.createIpssStudyScenario(sce));
 	}
 	
+	/*
+	 *             Study case level functions
+	 *             ==========================
+	 */
+	
 	/**
 	 * get the current study case id
 	 * 
 	 * @return
 	 */
 	public String getCurStudyCaseId() {
-		return this.getIpssScenario().getStudyCaseList().getCurStudyCaseId();
+		if (this.getIpssScenario().getStudyCaseList().getCurStudyCaseId() != null)
+			return this.getIpssScenario().getStudyCaseList().getCurStudyCaseId();
+		else
+			return null;
 	}
 	
 	/**
@@ -122,9 +132,73 @@ public class IpssScenarioHelper {
 				if (scase.getId().equals(id))
 					return scase;
 			}
+			ODMLogger.getLogger().info("Study case not found, id: " + id);
 		}
 		return this.getIpssScenario().getStudyCaseList().getStudyCase().get(0);
 	}	
+	
+	/**
+	 * add a new study case
+	 * 
+	 * @return
+	 */
+	public IpssStudyCaseXmlType addNewStudyCase() {
+		IpssStudyCaseXmlType scase = odmObjFactory.createIpssStudyCaseXmlType();
+		scase.setSimuAlgo(odmObjFactory.createIpssSimuAlgorithmXmlType());
+		List<IpssStudyCaseXmlType> list = this.getIpssScenario().getStudyCaseList().getStudyCase();
+		list.add(scase);
+		scase.setId("StudyCaseId-" + list.size());
+		return scase;
+	}
+	
+	/**
+	 * delete the study case identified by the studyCase id.
+	 * 
+	 *   - If the scenario only contains one study case, it cannot be deleted
+	 *   - The method returns the next Study case id. If not next, it returns the first
+	 * 
+	 * @param studyCaseId
+	 * @return
+	 */
+	public String deleteStudyCase(String studyCaseId) {
+		List<IpssStudyCaseXmlType> list = this.getIpssScenario().getStudyCaseList().getStudyCase();
+		// if there is only one study case, do nothing
+		if (list.size() == 1) {
+			ODMLogger.getLogger().info("number of case = 1, cannot delete the case");
+			return studyCaseId;
+		}
+		
+		int cnt = 0;
+		for ( IpssStudyCaseXmlType scase : list) {
+			if (scase.getId().equals(studyCaseId)) {
+				//list.remove(cnt);
+				break;
+			}
+			else
+				cnt++;
+		}
+		
+		list.remove(cnt);
+		if (cnt >= list.size())
+			cnt = 0;
+		String id = list.get(cnt).getId();
+		ODMLogger.getLogger().info("Delete study case id: " + studyCaseId + " returning next  study case id: " + id);
+		return id;
+	}
+	
+	/**
+	 * get study case id array
+	 * 
+	 * @return
+	 */
+	public String[] getStudyCaseIdAry() {
+		String[] sAry = new String[this.getIpssScenario().getStudyCaseList().getStudyCase().size()];
+		int cnt = 0;
+		for ( IpssStudyCaseXmlType scase : this.getIpssScenario().getStudyCaseList().getStudyCase()) {
+			sAry[cnt++] = scase.getId();
+		}
+		return sAry;
+	}
 
 	/*
 	 *             Grid functions
@@ -441,6 +515,52 @@ public class IpssScenarioHelper {
 		return (PTradingEDHourlyAnalysisXmlType)simuAlgo.getPtAnalysis().getValue();
 	}
 
+	/**
+	 * get PTrading case name array
+	 * 
+	 * @return
+	 */
+	public List<String> getPTradingCaseNameAry() {
+		List<String> list = new ArrayList<String>();
+		for ( IpssStudyCaseXmlType scase : this.getIpssScenario().getStudyCaseList().getStudyCase()) {
+			if (scase.getSimuAlgo().getPtAnalysis() != null) {
+				list.add(scase.getSimuAlgo().getPtAnalysis().getValue().getName());
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * get study case id by PTrading case name
+	 * 
+	 * @return
+	 */
+	public String getStudyCaseIdByPtCaseName(String ptCaseName) {
+		for ( IpssStudyCaseXmlType scase : this.getIpssScenario().getStudyCaseList().getStudyCase()) {
+			if (scase.getSimuAlgo().getPtAnalysis() != null) {
+				if (ptCaseName.equals(scase.getSimuAlgo().getPtAnalysis().getValue().getName()))
+					return scase.getId();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * create a new study case and init PTradingAnalysis 
+	 * 
+	 * @param ptName
+	 * @return
+	 */
+	public IpssStudyCaseXmlType addNewPTradingStudyCase(String ptName) {
+		IpssStudyCaseXmlType scase = this.addNewStudyCase();
+		PTradingEDHourlyAnalysisXmlType ptCase = odmObjFactory.createPTradingEDHourlyAnalysisXmlType();
+		scase.getSimuAlgo().setPtAnalysis(odmObjFactory.createPtAnalysis(ptCase));
+		ptCase.setName(ptName);
+		ptCase.setDesc("Study Case description");
+		initPTradingEDHourlyAnalysis(ptCase);
+		return scase;
+	}
+	
 	private IpssStudyScenarioXmlType getIpssScenario() {
 		if (parser.getStudyScenario() == null) {
 			IpssStudyScenarioXmlType studyScenario = odmObjFactory.createIpssStudyScenarioXmlType();

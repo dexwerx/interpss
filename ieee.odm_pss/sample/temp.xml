@@ -19,6 +19,7 @@
 			<ns3:enableGridRun>false</ns3:enableGridRun>
 		</ns3:gridRunOption>
 		<ns3:studyCaseList>
+			<ns3:curStudyCaseId>StudyCaseId</ns3:curStudyCaseId>
 			<ns3:studyCase id="StudyCaseId">
 				<ns3:simuAlgo>
 					<ns3:aclfAnalysis areaName="Aclf Study Case">
