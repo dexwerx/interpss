@@ -65,8 +65,8 @@ public class IEEE14InterfaceCaseTest  extends PluginTestSetup {
   		
 		//System.out.println("Flow export: " + inf.flowExport());
 		//System.out.println("Flow import: " + inf.flowImport());
-  		assertTrue(Math.abs(inf.flowExport()-0.88234)<0.0001);
-  		assertTrue(Math.abs(inf.flowImport()+0.88234)<0.0001);
+  		assertTrue(Math.abs(inf.flowExport().getReal()-0.88234)<0.0001);
+  		assertTrue(Math.abs(inf.flowImport().getReal()+0.88234)<0.0001);
 
   		assertTrue(!inf.onPeakViolation());
   		assertTrue(inf.offPeakViolation());

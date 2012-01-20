@@ -84,7 +84,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;
 	    }
-		String xml=parser.toXmlDoc(false);
+		String xml=parser.toXmlDoc();
 		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_0615_notBE.xml"));
 		out.write(xml.getBytes());
 		out.flush();
@@ -123,7 +123,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 	
 		//parser.stdout();
 		
-		String xml=parser.toXmlDoc(false);
+		String xml=parser.toXmlDoc();
 		FileOutputStream out=new FileOutputStream(new File("testdata/ieee_odm/07c_2010_Mach_Exc0627.xml"));
 		out.write(xml.getBytes());
 		out.flush();
