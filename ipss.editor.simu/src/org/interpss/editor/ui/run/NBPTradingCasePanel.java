@@ -24,6 +24,7 @@
 
 package org.interpss.editor.ui.run;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.interpss.CorePluginFunction.DclfGSFBranchFlow;
 
@@ -66,6 +67,7 @@ import org.interpss.ui.SwingInputVerifyUtil;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.common.func.IFunction;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
@@ -117,7 +119,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
      
     public void init(Object netContainer, Object simuCtx) {
     	// for non-graphic file, netContainer == null
-		IpssLogger.getLogger().info("NBPTradingCasePanel init() called");
+		ipssLogger.info("NBPTradingCasePanel init() called");
 	    //_netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)simuCtx;
 	    
@@ -156,13 +158,14 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 ////////////////////////////////////////////////////////////////////
 //////            Set Data to Editor                          //////    
 ////////////////////////////////////////////////////////////////////    
+    
 	/**
 	*	Set form data to the editor
 	*
 	* @return false if there is any problem
 	*/
 	public boolean setForm2Editor() {
-		IpssLogger.getLogger().info("NBPTradingCasePanel setForm2Editor() called");
+		ipssLogger.info("NBPTradingCasePanel setForm2Editor() called");
 		
 		// load FlowInterface if necessary
 		if (!RunUIUtilFunc.loadFlowInterfaceFiles(this._simuCtx.getAclfNet(), this._ptXml))
@@ -194,7 +197,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		if (aclfXml.getTolerance() != null)
 			this.lfToleranceTextField.setText(Number2String.toStr(aclfXml.getTolerance(), "0.0000"));
 		
-		aclfXml.setGenQAdjustment(true);
+		//aclfXml.setGenQAdjustment(true);
 		if (aclfXml.isGenQAdjustment()) {
 			lfAssistGenQAdjStespTextField.setText(
 					new Integer(aclfXml.getGenQAdjOption().getNoRunsLfAssist()).toString());
@@ -256,8 +259,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			this._ptXml.setGenAnalysis(odmObjFactory.createPtGenAnalysisXmlType());
 		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
 		this.genAnalysisEdHourComboBox.setSelectedItem(genAnalysis.getHour() == null? "12:00" : genAnalysis.getHour());
-		if (genAnalysis.getGenBus() != null)
-			this.genAnalysisGenBusListComboBox.setSelectedItem(genAnalysis.getGenBus().getId());
+		if (genAnalysis.getGenBus() != null) {
+			String[] sAry = StringUtil.getIdNameAry(genAnalysis.getGenBus(), new IFunction<Object,String>() {
+				@Override public String f(Object value) { return ((IDRecordXmlType)value).getId(); } });
+			this.genAnalysisGenBusList.setModel(new javax.swing.DefaultComboBoxModel(sAry));    	
+		}
 
 		// output panel
 		PtAclfOutputXmlType outOpt = this._ptXml.getAclfAnalysis().getOutputOption();
@@ -292,7 +298,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	* @return false if there is any problem
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
-		IpssLogger.getLogger().info("NBPTradingCasePanel saveEditor2Form() called");
+		ipssLogger.info("NBPTradingCasePanel saveEditor2Form() called");
 		
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg);
@@ -305,6 +311,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
 	public boolean saveCaseData(Vector<String> errMsg) {
 		boolean noError = true;
+		if (this._ptXml.getCaseData() == null) {
+			this._ptXml.setCaseData(odmObjFactory.createPtCaseDataXmlType());
+		}
 		PtCaseDataXmlType casedata = this._ptXml.getCaseData();
 		
 		casedata.getEdFile().setFilename(
@@ -332,7 +341,14 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		casedata.getInterfaceFile().setLimitFilename(
 				interfaceLimitTextField.getText());
 
+		if (this._ptXml.getAclfAnalysis() == null) {
+			this._ptXml.setAclfAnalysis(odmObjFactory.createPtAclfAnalysisXmlType());
+		}
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
+		
+		if (aclfXml.getGenQAdjOption() == null) {
+			aclfXml.setGenQAdjOption(odmObjFactory.createPtGenQAdjustXmlType());
+		}
 
 		aclfXml.setGenQAdjustment(true);
 		if (aclfXml.isGenQAdjustment()) {
@@ -347,6 +363,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	}
 
 	public boolean saveAclfAnalysis(Vector<String> errMsg) {
+		boolean noError = true;
+
+		if (this._ptXml.getAclfAnalysis() == null) {
+			this._ptXml.setAclfAnalysis(odmObjFactory.createPtAclfAnalysisXmlType());
+			this._ptXml.getAclfAnalysis().setGenSwingAllocOption(odmObjFactory.createPtSwingAllocXmlType());
+		}
 		PtAclfAnalysisXmlType aclfXml = this._ptXml.getAclfAnalysis();
 	 	
 		aclfXml.setHour(this.aclfEdHourComboBox.getSelectedItem().toString());
@@ -355,6 +377,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		aclfXml.setSwingBusPQAlloc(swingAllocCheckBox.isSelected());
 		if (aclfXml.isSwingBusPQAlloc()) {
+			if (this.swingAllocZoneComboBox.getSelectedItem() == null) {
+				errMsg.add(new String("Please select swing bus power allocation zone"));
+				noError = false;
+			}
 			String n = (String)this.swingAllocZoneComboBox.getSelectedItem();
 			aclfXml.getGenSwingAllocOption().setZoneNumber(
 					new Long(n).longValue());
@@ -364,16 +390,19 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 					new Double(swingAllocAccFactorTextField.getText()).doubleValue());
 		}
 		
-		boolean noError = true;
 		return noError;
 	}
 
 	public boolean saveBranchAnalysis(Vector<String> errMsg) {
 		boolean noError = true;
 		
+		if (this._ptXml.getBranchAnalysis() == null) {
+			this._ptXml.setBranchAnalysis(odmObjFactory.createPtBranchAnalysisXmlType());
+		}
+		PtBranchAnalysisXmlType braAnalysis = this._ptXml.getBranchAnalysis();
+		
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
-		PtBranchAnalysisXmlType braAnalysis = this._ptXml.getBranchAnalysis();
 		braAnalysis.setHour((String)this.branchAnalysisEdHourComboBox.getSelectedItem());
 		braAnalysis.setType(this.outageSingleRadioButton.isSelected()? PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE :
 			(this.outageMultiRadioButton.isSelected()? PtBranchAnalysisEnumType.MULTI_BRANCH_OUTAGE :
@@ -404,11 +433,26 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	public boolean saveGenAnalysis(Vector<String> errMsg) {
 		boolean noError = true;
 		
+		if (this._ptXml.getGenAnalysis() == null) {
+			this._ptXml.setGenAnalysis(odmObjFactory.createPtGenAnalysisXmlType());
+		}
 		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
+		
 		genAnalysis.setHour((String)this.genAnalysisEdHourComboBox.getSelectedItem());
-		IDRecordXmlType bus = odmObjFactory.createIDRecordXmlType();
-		genAnalysis.setGenBus(bus);
-		bus.setId((String)this.genAnalysisGenBusListComboBox.getSelectedItem());	
+		
+		int size = this.genAnalysisGenBusList.getModel().getSize();
+		if (size == 0) {
+			noError = false;
+		}
+		else {
+			genAnalysis.getGenBus().clear();
+			for (int i = 0; i < size; i++) {
+				String id = (String)this.genAnalysisGenBusList.getModel().getElementAt(i);
+				IDRecordXmlType bus = odmObjFactory.createIDRecordXmlType();
+				genAnalysis.getGenBus().add(bus);
+				bus.setId(id);	
+			}
+		}
 
 		return noError;
 	}
@@ -416,7 +460,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	public boolean saveOutputConfig(Vector<String> errMsg) {
 		boolean noError = true;
 
+		if (this._ptXml.getAclfAnalysis().getOutputOption() == null) {
+			this._ptXml.getAclfAnalysis().setOutputOption(odmObjFactory.createPtAclfOutputXmlType());
+		}
 		PtAclfOutputXmlType outOpt = this._ptXml.getAclfAnalysis().getOutputOption();
+		
 		outOpt.setLargeGSFPoints(
 					new Integer(largeGSFPointsTextField.getText()).intValue());
 		outOpt.setBusVoltageViolation(this.outVoltViolationCheckBox.isSelected());
@@ -518,6 +566,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisEdHourComboBox = new javax.swing.JComboBox();
         genAnalysisGenBusLabel = new javax.swing.JLabel();
         genAnalysisGenBusListComboBox = new javax.swing.JComboBox();
+        genAnalysisAddGenButton = new javax.swing.JButton();
+        genAnalysisRemoveGenButton = new javax.swing.JButton();
+        multiOutageBranchScrollPane1 = new javax.swing.JScrollPane();
+        genAnalysisGenBusList = new javax.swing.JList();
         runCalLossFactorsButton = new javax.swing.JButton();
         outputConfigPanel = new javax.swing.JPanel();
         outVoltViolationCheckBox = new javax.swing.JCheckBox();
@@ -991,7 +1043,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         branchAnalysisTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Analysis Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         branchAnalysisTypeButtonGroup.add(outageSingleRadioButton);
-        outageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        outageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         outageSingleRadioButton.setSelected(true);
         outageSingleRadioButton.setText("Single Outage");
         outageSingleRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1223,6 +1275,25 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisGenBusListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        genAnalysisAddGenButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        genAnalysisAddGenButton.setText("Add");
+        genAnalysisAddGenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genAnalysisAddGenButtonActionPerformed(evt);
+            }
+        });
+
+        genAnalysisRemoveGenButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        genAnalysisRemoveGenButton.setText("Remove");
+        genAnalysisRemoveGenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genAnalysisRemoveGenButtonActionPerformed(evt);
+            }
+        });
+
+        genAnalysisGenBusList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        multiOutageBranchScrollPane1.setViewportView(genAnalysisGenBusList);
+
         runCalLossFactorsButton.setFont(new java.awt.Font("Dialog", 0, 12));
         runCalLossFactorsButton.setText("Cal LossFactor");
         runCalLossFactorsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1235,36 +1306,55 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisPanel.setLayout(genAnalysisPanelLayout);
         genAnalysisPanelLayout.setHorizontalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
+                .addContainerGap(200, Short.MAX_VALUE)
+                .add(runCalLossFactorsButton)
+                .add(179, 179, 179))
             .add(genAnalysisPanelLayout.createSequentialGroup()
+                .add(83, 83, 83)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(167, 167, 167)
-                        .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(genAnalysisEdHourLabel)
-                            .add(genAnalysisGenBusLabel))
-                        .add(25, 25, 25)
-                        .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(66, 66, 66)
+                        .add(genAnalysisEdHourLabel)
+                        .add(18, 18, 18)
+                        .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(57, 57, 57))
                     .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(189, 189, 189)
-                        .add(runCalLossFactorsButton)))
-                .addContainerGap(128, Short.MAX_VALUE))
+                        .add(45, 45, 45)
+                        .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(genAnalysisPanelLayout.createSequentialGroup()
+                                .add(genAnalysisGenBusLabel)
+                                .add(18, 18, 18)
+                                .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(genAnalysisPanelLayout.createSequentialGroup()
+                                .add(multiOutageBranchScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                                .add(18, 18, 18)
+                                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(genAnalysisRemoveGenButton)
+                                    .add(genAnalysisAddGenButton))))))
+                .add(129, 129, 129))
         );
         genAnalysisPanelLayout.setVerticalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(genAnalysisPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(genAnalysisEdHourLabel))
-                .add(18, 18, 18)
+                    .add(genAnalysisEdHourLabel)
+                    .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(34, 34, 34)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(genAnalysisGenBusLabel)
                     .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 260, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(multiOutageBranchScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(genAnalysisPanelLayout.createSequentialGroup()
+                        .add(genAnalysisAddGenButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(genAnalysisRemoveGenButton)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 159, Short.MAX_VALUE)
                 .add(runCalLossFactorsButton)
-                .add(40, 40, 40))
+                .add(32, 32, 32))
         );
 
         pTradingAnalysisTabbedPane.addTab("Gen Analysis", genAnalysisPanel);
@@ -1421,15 +1511,15 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
  
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
     	if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 0 )
-        	IpssLogger.getLogger().info("Panel selection changed - Case Data Panel");
+        	ipssLogger.info("Panel selection changed - Case Data Panel");
     	else if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 1 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Aclf Analysis Panel");
+        	ipssLogger.info("Panel selection changed - Aclf Analysis Panel");
     	}	
     	else if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 2 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Line Outage Analysis Panel");
+        	ipssLogger.info("Panel selection changed - Line Outage Analysis Panel");
     	}	
     	else if ( pTradingAnalysisTabbedPane.getSelectedIndex() == 3 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - Output Config Panel");
+        	ipssLogger.info("Panel selection changed - Output Config Panel");
     	}	
     }//GEN-LAST:event_panelSelectionChanged
 
@@ -1457,7 +1547,7 @@ private boolean saveInputData() {
  88888888888888888888888888888888888*/
 
 private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runAclfAnalysisButtonActionPerformed
-	IpssLogger.getLogger().info("Aclf analysis button selected");
+	ipssLogger.info("Aclf analysis button selected");
 	
 	this.parent.setAlwaysOnTop(false);
 
@@ -1544,7 +1634,7 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
  8888888888888888888888888888*/
 
 private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runBranchAnalysisButtonActionPerformed
-	IpssLogger.getLogger().info("Line outage analysis button selected");
+	ipssLogger.info("Line outage analysis button selected");
 	
 	this.parent.setAlwaysOnTop(false);
 
@@ -1590,22 +1680,22 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 }//GEN-LAST:event_runBranchAnalysisButtonActionPerformed
 
 private void outageSingleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageSingleRadioButtonActionPerformed
-	IpssLogger.getLogger().info("outageSingleRadioButtonActionPerformed() called");
+	ipssLogger.info("outageSingleRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(false, false, false);
 }//GEN-LAST:event_outageSingleRadioButtonActionPerformed
 
 private void outageMultiRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageMultiRadioButtonActionPerformed
-	IpssLogger.getLogger().info("outageMultiRadioButtonActionPerformed() called");
+	ipssLogger.info("outageMultiRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(true, false, false);
 }//GEN-LAST:event_outageMultiRadioButtonActionPerformed
 
 private void outageScheduleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageScheduleRadioButtonActionPerformed
-	IpssLogger.getLogger().info("outageScheduleRadioButtonActionPerformed() called");
+	ipssLogger.info("outageScheduleRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(false, true, false);
 }//GEN-LAST:event_outageScheduleRadioButtonActionPerformed
 
 private void branchFlowRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFlowRadioButtonActionPerformed
-	IpssLogger.getLogger().info("branchFlowRadioButtonActionPerformed() called");
+	ipssLogger.info("branchFlowRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(false, false, true);
 }//GEN-LAST:event_branchFlowRadioButtonActionPerformed
 
@@ -1621,25 +1711,25 @@ private void disableOutageAnalysisCompoment(boolean multi, boolean file, boolean
 }
 
 private void addOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutageBranchButtonActionPerformed
-	IpssLogger.getLogger().info("addOutageBranchButtonActionPerformed() called");
+	ipssLogger.info("addOutageBranchButtonActionPerformed() called");
 	String id = (String)this.braAnalysisBranchListComboBox.getSelectedItem();
 	RunUIUtilFunc.addItemJList(multiOutageBranchList, id);
 }//GEN-LAST:event_addOutageBranchButtonActionPerformed
 
 private void removeOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOutageBranchButtonActionPerformed
-	IpssLogger.getLogger().info("removeOutageBranchButtonActionPerformed() called");
+	ipssLogger.info("removeOutageBranchButtonActionPerformed() called");
     RunUIUtilFunc.removeItemJList(this.multiOutageBranchList);
 }//GEN-LAST:event_removeOutageBranchButtonActionPerformed
 
 private void outageFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outageFileSelectButtonActionPerformed
-	IpssLogger.getLogger().info("outageFileSelectButtonActionPerformed() called");
+	ipssLogger.info("outageFileSelectButtonActionPerformed() called");
 }//GEN-LAST:event_outageFileSelectButtonActionPerformed
 
 /* 888888888888888888888888
  *  Gen Analysis
  8888888888888888888888888888*/
 private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCalLossFactorsButtonActionPerformed
-	IpssLogger.getLogger().info("runCalLossFactorsButtonActionPerformed() called");
+	ipssLogger.info("runCalLossFactorsButtonActionPerformed() called");
 	
 	this.parent.setAlwaysOnTop(false);
 	if (!saveInputData())
@@ -1659,11 +1749,16 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 
 			try {
 				ptXml.getGenAnalysis().setType(PtGenAnalysisEnumType.LOSS_FACTOR);
-				Object lfactor = new PTradingDslODMRunner(net)
+				double[] lfactors = (double[])new PTradingDslODMRunner(net)
 					.runPTradingAnalysis(ptXml, PtAnalysisType.Gen);
-				UISpringFactory.getOutputTextDialog("Gen Loss Factor Results")
-					.display("LossFactor: gen@"+ptXml.getGenAnalysis().getGenBus().getId()
-							 + " " + Number2String.toStr((Double)lfactor));
+				
+				String str = "LossFactor: \n";
+				int cnt = 0;
+				for ( IDRecordXmlType genBus : ptXml.getGenAnalysis().getGenBus() ) {
+					str += "gen@" + genBus.getId() + " " + Number2String.toStr(lfactors[cnt++]) + "\n";
+				}
+				
+				UISpringFactory.getOutputTextDialog("Gen Loss Factor Results").display(str);
 			} catch (InterpssException e) {
 				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();	
@@ -1677,6 +1772,17 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
 		}
 	}.start();
 }//GEN-LAST:event_runCalLossFactorsButtonActionPerformed
+
+private void genAnalysisAddGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genAnalysisAddGenButtonActionPerformed
+    ipssLogger.info("genAddGenButtonActionPerformed() called");
+	String id = (String)this.genAnalysisGenBusListComboBox.getSelectedItem();
+	RunUIUtilFunc.addItemJList(this.genAnalysisGenBusList, id);
+}//GEN-LAST:event_genAnalysisAddGenButtonActionPerformed
+
+private void genAnalysisRemoveGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genAnalysisRemoveGenButtonActionPerformed
+    ipssLogger.info("genRemoveGenButtonActionPerformed() called");
+    RunUIUtilFunc.removeItemJList(this.genAnalysisGenBusList);
+}//GEN-LAST:event_genAnalysisRemoveGenButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfAnalysisPanel;
@@ -1705,11 +1811,14 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
     private javax.swing.JLabel edLoadPFactorLabel;
     private javax.swing.JLabel edLossPercentLabel;
     private javax.swing.JTextField edLossPercentTextField;
+    private javax.swing.JButton genAnalysisAddGenButton;
     private javax.swing.JComboBox genAnalysisEdHourComboBox;
     private javax.swing.JLabel genAnalysisEdHourLabel;
     private javax.swing.JLabel genAnalysisGenBusLabel;
+    private javax.swing.JList genAnalysisGenBusList;
     private javax.swing.JComboBox genAnalysisGenBusListComboBox;
     private javax.swing.JPanel genAnalysisPanel;
+    private javax.swing.JButton genAnalysisRemoveGenButton;
     private javax.swing.JLabel interfaceFileLabel;
     private javax.swing.JPanel interfaceFilePanel;
     private javax.swing.JTextField interfaceFileTextField;
@@ -1736,6 +1845,7 @@ private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent e
     private javax.swing.JPanel loadDistributionPanel;
     private javax.swing.JList multiOutageBranchList;
     private javax.swing.JScrollPane multiOutageBranchScrollPane;
+    private javax.swing.JScrollPane multiOutageBranchScrollPane1;
     private javax.swing.JCheckBox outAreaSummaryCheckBox;
     private javax.swing.JCheckBox outBranchViolationCheckBox;
     private javax.swing.JCheckBox outInterfaceViolationCheckBox;
