@@ -36,6 +36,7 @@
 						The default AclfAlgo applies to all study scenarios, for contingency analysis
 						</ns:documentation></ns:annotation>
 					</ns:element>
+					<ns:element name="powerTrading" minOccurs="0" maxOccurs="1" type="ipss:PowerTradingXmlType"></ns:element>
 					<ns:element name="studyCaseList" maxOccurs="1" minOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
@@ -85,6 +86,41 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+	<ns:complexType name="PowerTradingXmlType">
+		<ns:sequence>
+			<ns:element name="aggreatePricing" type="ipss:AggregatePricingXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="AggregatePricingXmlType">
+		<ns:sequence>
+			<ns:element name="pricingNode" type="ipss:AggregatePricingNodeXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="AggregatePricingNodeXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BusRefXmlType">
+				<ns:sequence>
+					<ns:element name="allocFactor" type="pss:FactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="nodeType" type="ipss:AggregatePricingNodeEnumType" minOccurs="0" maxOccurs="1"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:simpleType name="AggregatePricingNodeEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="STATION_POWER"></ns:enumeration>
+			<ns:enumeration value="ETC_TOR"></ns:enumeration>
+			<ns:enumeration value="DEMAND_RESPONSE"></ns:enumeration>
+			<ns:enumeration value="ParticipateLoad"></ns:enumeration>
+			<ns:enumeration value="DEFAULT_LAP"></ns:enumeration>
+			<ns:enumeration value="SUBLAP"></ns:enumeration>
+			<ns:enumeration value="TH"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+	
 	<ns:complexType name="GridComputingXmlType">
 		<ns:sequence>
 			<ns:element name="enableGridRun" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
