@@ -25,7 +25,7 @@
 package org.ieee.odm.model.ext.ipss;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-import static org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc.*;
+import static org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc.initPTradingEDHourlyAnalysis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,6 @@ import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.GridComputingXmlType;
 import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
-import org.ieee.odm.schema.IpssSimuAlgorithmXmlType;
 import org.ieee.odm.schema.IpssStudyCaseXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
@@ -144,7 +143,6 @@ public class IpssScenarioHelper {
 	 */
 	public IpssStudyCaseXmlType addNewStudyCase() {
 		IpssStudyCaseXmlType scase = odmObjFactory.createIpssStudyCaseXmlType();
-		scase.setSimuAlgo(odmObjFactory.createIpssSimuAlgorithmXmlType());
 		List<IpssStudyCaseXmlType> list = this.getIpssScenario().getStudyCaseList().getStudyCase();
 		list.add(scase);
 		scase.setId("StudyCaseId-" + list.size());
@@ -231,11 +229,11 @@ public class IpssScenarioHelper {
 	 * get AclfAnalysis of the study case of StudyCaseId 
 	 */
 	public AclfAnalysisXmlType getAclfAnalysis(String studyCaseId) {
-		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
-		if (simuAlgo.getAclfAnalysis() == null) {
-			simuAlgo.setAclfAnalysis(odmObjFactory.createAclfAnalysisXmlType());
+		IpssStudyCaseXmlType scase = getStudyCase(studyCaseId); 
+		if (scase.getAclfAnalysis() == null) {
+			scase.setAclfAnalysis(odmObjFactory.createAclfAnalysisXmlType());
 		}
-		return simuAlgo.getAclfAnalysis();
+		return scase.getAclfAnalysis();
 	}
 
  	/*
@@ -254,11 +252,11 @@ public class IpssScenarioHelper {
 	 * get ContingencyAnalysis of the study case of studyCaseId 
 	 */
 	public ContingencyAnalysisXmlType getContingencyAnalysis(String studyCaseId) {
-		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
-		if (simuAlgo.getContingencyAnalysis() == null) {
-			simuAlgo.setContingencyAnalysis(odmObjFactory.createContingencyAnalysisXmlType());
+		IpssStudyCaseXmlType scase = getStudyCase(studyCaseId); 
+		if (scase.getContingencyAnalysis() == null) {
+			scase.setContingencyAnalysis(odmObjFactory.createContingencyAnalysisXmlType());
 		}
-		return simuAlgo.getContingencyAnalysis();
+		return scase.getContingencyAnalysis();
 	}	
 
 	/*
@@ -277,11 +275,11 @@ public class IpssScenarioHelper {
 	 * get AcscFaultAnalysis of the study case of studyCaseId 
 	 */
 	public AcscFaultAnalysisXmlType getAcscFaultAnalysis(String studyCaseId) {
-		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
-		if (simuAlgo.getAcscAnalysis() == null) {
-			simuAlgo.setAcscAnalysis(odmObjFactory.createAcscFaultAnalysisXmlType());
+		IpssStudyCaseXmlType scase = getStudyCase(studyCaseId); 
+		if (scase.getAcscAnalysis() == null) {
+			scase.setAcscAnalysis(odmObjFactory.createAcscFaultAnalysisXmlType());
 		}
-		return simuAlgo.getAcscAnalysis();
+		return scase.getAcscAnalysis();
 	}
 
 	/**
@@ -327,11 +325,11 @@ public class IpssScenarioHelper {
 	 * get DStabSimulation of the study case of studyCaseId 
 	 */
 	public DStabSimulationXmlType getDStabSimulation(String studyCaseId) {
-		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
-		if (simuAlgo.getDStabAnalysis() == null) {
-			simuAlgo.setDStabAnalysis(odmObjFactory.createDStabSimulationXmlType());
+		IpssStudyCaseXmlType scase = getStudyCase(studyCaseId); 
+		if (scase.getDStabAnalysis() == null) {
+			scase.setDStabAnalysis(odmObjFactory.createDStabSimulationXmlType());
 		}
-		return simuAlgo.getDStabAnalysis();
+		return scase.getDStabAnalysis();
 	}
 	
 	/*
@@ -352,11 +350,11 @@ public class IpssScenarioHelper {
 	 * 
 	 */
 	public List<DclfSenAnalysisXmlType> getSenAnalysisList(String studyCaseId) {
-		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
-		if (simuAlgo.getSenAnalysis() == null) {
+		IpssStudyCaseXmlType scase = getStudyCase(studyCaseId); 
+		if (scase.getSenAnalysis() == null) {
 			ODMLogger.getLogger().severe("contact support@interpss.org");
 		}
-		return simuAlgo.getSenAnalysis();
+		return scase.getSenAnalysis();
 	}
 	
 	/**
@@ -507,12 +505,12 @@ public class IpssScenarioHelper {
 	 * @return
 	 */
 	public PTradingEDHourlyAnalysisXmlType getPtEDHourlyAnalysis(String studyCaseId) {
-		IpssSimuAlgorithmXmlType simuAlgo = getSimuAlgo(studyCaseId); 
-		if (simuAlgo.getPtAnalysis() == null) {
+		IpssStudyCaseXmlType scase = getStudyCase(studyCaseId); 
+		if (scase.getPtAnalysis() == null) {
 			PTradingEDHourlyAnalysisXmlType pt = odmObjFactory.createPTradingEDHourlyAnalysisXmlType();
-			simuAlgo.setPtAnalysis(odmObjFactory.createPtAnalysis(pt));
+			scase.setPtAnalysis(odmObjFactory.createPtAnalysis(pt));
 		}
-		return (PTradingEDHourlyAnalysisXmlType)simuAlgo.getPtAnalysis().getValue();
+		return (PTradingEDHourlyAnalysisXmlType)scase.getPtAnalysis().getValue();
 	}
 
 	/**
@@ -523,8 +521,8 @@ public class IpssScenarioHelper {
 	public List<String> getPTradingCaseNameAry() {
 		List<String> list = new ArrayList<String>();
 		for ( IpssStudyCaseXmlType scase : this.getIpssScenario().getStudyCaseList().getStudyCase()) {
-			if (scase.getSimuAlgo().getPtAnalysis() != null) {
-				list.add(scase.getSimuAlgo().getPtAnalysis().getValue().getName());
+			if (scase.getPtAnalysis() != null) {
+				list.add(scase.getPtAnalysis().getValue().getName());
 			}
 		}
 		return list;
@@ -537,8 +535,8 @@ public class IpssScenarioHelper {
 	 */
 	public String getStudyCaseIdByPtCaseName(String ptCaseName) {
 		for ( IpssStudyCaseXmlType scase : this.getIpssScenario().getStudyCaseList().getStudyCase()) {
-			if (scase.getSimuAlgo().getPtAnalysis() != null) {
-				if (ptCaseName.equals(scase.getSimuAlgo().getPtAnalysis().getValue().getName()))
+			if (scase.getPtAnalysis() != null) {
+				if (ptCaseName.equals(scase.getPtAnalysis().getValue().getName()))
 					return scase.getId();
 			}
 		}
@@ -554,7 +552,7 @@ public class IpssScenarioHelper {
 	public IpssStudyCaseXmlType addNewPTradingStudyCase(String ptName) {
 		IpssStudyCaseXmlType scase = this.addNewStudyCase();
 		PTradingEDHourlyAnalysisXmlType ptCase = odmObjFactory.createPTradingEDHourlyAnalysisXmlType();
-		scase.getSimuAlgo().setPtAnalysis(odmObjFactory.createPtAnalysis(ptCase));
+		scase.setPtAnalysis(odmObjFactory.createPtAnalysis(ptCase));
 		ptCase.setName(ptName);
 		ptCase.setDesc("Study Case description");
 		initPTradingEDHourlyAnalysis(ptCase);
@@ -569,15 +567,7 @@ public class IpssScenarioHelper {
 			
 			IpssStudyCaseXmlType scenario = odmObjFactory.createIpssStudyCaseXmlType();
 			studyScenario.getStudyCaseList().getStudyCase().add(scenario);
-
-			IpssSimuAlgorithmXmlType simuAlgo = odmObjFactory.createIpssSimuAlgorithmXmlType();
-			scenario.setSimuAlgo(simuAlgo);
 		}
 		return (IpssStudyScenarioXmlType)parser.getStudyScenario();
-	}
-
-
-	private IpssSimuAlgorithmXmlType getSimuAlgo(String studyCaseId) {
-		return getStudyCase(studyCaseId).getSimuAlgo();
 	}
 }

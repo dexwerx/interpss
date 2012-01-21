@@ -60,34 +60,31 @@
 	</ns:complexType>
 
 	<ns:complexType name="IpssStudyCaseXmlType">
-		<ns:annotation><ns:documentation>
-		for define a study scenario. 
-		</ns:documentation></ns:annotation>
+		<ns:annotation>
+			<ns:documentation>
+				for define a study scenario. 
+		</ns:documentation>
+		</ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseStudyCaseXmlType">
+				<ns:annotation>
+					<ns:documentation>
+						for define a study scenario analysis details. It is defined using choice, indicating
+						that only one analysis type : aclf, acsc or dstab could be selected. 
+					</ns:documentation>
+				</ns:annotation>
 				<ns:sequence>
-					<ns:element name="simuAlgo" minOccurs="1" maxOccurs="1" type="ipss:IpssSimuAlgorithmXmlType">
-					</ns:element>
+					<ns:element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></ns:element>
+					<ns:element name="contingencyAnalysis" minOccurs="0" maxOccurs="1" type="ipss:ContingencyAnalysisXmlType"></ns:element>
+					<ns:element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></ns:element>
+					<ns:element ref="ipss:ptAnalysis" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></ns:element>
+					<ns:element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="IpssSimuAlgorithmXmlType">
-		<ns:annotation><ns:documentation>
-		for define a study scenario analysis details. It is defined using choice, indicating
-		that only one analysis type : aclf, acsc or dstab could be selected. 
-		</ns:documentation></ns:annotation>	
-		<ns:sequence>
-			<ns:element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></ns:element>
-			<ns:element name="contingencyAnalysis" minOccurs="0" maxOccurs="1" type="ipss:ContingencyAnalysisXmlType"></ns:element>
-			<ns:element name="senAnalysis" minOccurs="0" maxOccurs="unbounded" type="ipss:DclfSenAnalysisXmlType"></ns:element>
-			<ns:element ref="ipss:ptAnalysis" minOccurs="0" maxOccurs="1"></ns:element>
-			<ns:element name="acscAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AcscFaultAnalysisXmlType"></ns:element>
-			<ns:element name="dStabAnalysis" minOccurs="0" maxOccurs="1" type="ipss:DStabSimulationXmlType"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-	
 	<ns:complexType name="GridComputingXmlType">
 		<ns:sequence>
 			<ns:element name="enableGridRun" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>

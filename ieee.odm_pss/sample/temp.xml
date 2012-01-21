@@ -21,7 +21,6 @@
 		<ns3:studyCaseList>
 			<ns3:curStudyCaseId>StudyCaseId</ns3:curStudyCaseId>
 			<ns3:studyCase id="StudyCaseId">
-				<ns3:simuAlgo>
 					<ns3:aclfAnalysis areaName="Aclf Study Case">
 						<ns2:desc>Study case description</ns2:desc>
 						<ns3:aclfAlgo>
@@ -115,7 +114,6 @@
 							</ns3:aclfAlgo>
 						</ns3:aclfInitialization>
 					</ns3:dStabAnalysis>
-				</ns3:simuAlgo>
 			</ns3:studyCase>
 		</ns3:studyCaseList>
 	</ns2:ipssStudyScenario>

@@ -346,7 +346,7 @@ public class AclfModelParser extends AbstractModelParser {
 	}	
 
 	public List<FlowInterfaceRecXmlType> getInterfaceList() {
-		return getAclfNet().getInterfaceList().getInterface();
+		return getAclfNet().getFlowInterfaceList().getFlowInterface();
 	}	
 	
 	/**
@@ -355,10 +355,10 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public FlowInterfaceRecXmlType createInterface() {
-		if (getAclfNet().getInterfaceList() == null)
-			getAclfNet().setInterfaceList(odmObjFactory.createLoadflowNetXmlTypeInterfaceList());
+		if (getAclfNet().getFlowInterfaceList() == null)
+			getAclfNet().setFlowInterfaceList(odmObjFactory.createLoadflowNetXmlTypeFlowInterfaceList());
 		FlowInterfaceRecXmlType inter = odmObjFactory.createFlowInterfaceRecXmlType();
-		getAclfNet().getInterfaceList().getInterface().add(inter);
+		getAclfNet().getFlowInterfaceList().getFlowInterface().add(inter);
 		return inter;
 	}	
 
@@ -369,8 +369,8 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @return
 	 */
 	public FlowInterfaceRecXmlType getInterface(String id) {
-		if (getAclfNet().getInterfaceList() != null)
-			for (FlowInterfaceRecXmlType inter : getAclfNet().getInterfaceList().getInterface()) {
+		if (getAclfNet().getFlowInterfaceList() != null)
+			for (FlowInterfaceRecXmlType inter : getAclfNet().getFlowInterfaceList().getFlowInterface()) {
 				if (id.equals(inter.getId()))
 					return inter;
 			}
