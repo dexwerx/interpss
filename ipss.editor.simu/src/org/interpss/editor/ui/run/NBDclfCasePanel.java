@@ -26,6 +26,7 @@ package org.interpss.editor.ui.run;
 
 import static com.interpss.common.util.NetUtilFunc.ToBranchId;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.io.File;
 import java.util.List;
@@ -35,9 +36,8 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.ext.ipss.AggregatePricingHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -59,7 +59,6 @@ import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
@@ -69,7 +68,6 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.flow.FlowInterface;
@@ -117,7 +115,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
      
     public void init(Object netContainer, Object simuCtx) {
     	// for non-graphic file, netContainer == null
-		IpssLogger.getLogger().info("NBAclfCasePanel init() called");
+		ipssLogger.info("NBAclfCasePanel init() called");
 	    //_netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)simuCtx;
 	    
@@ -165,7 +163,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	* @return false if there is any problem
 	*/
 	public boolean setForm2Editor() {
-		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
+		ipssLogger.info("NBAclfCasePanel setForm2Editor() called");
 		
 		// load FlowInterface if necessary
 		if (!RunUIUtilFunc.loadFlowInterfaceFiles(this._simuCtx.getAclfNet(), this._ptXml, this._ptInfoXml))
@@ -185,7 +183,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		if (!setLODF2Editor())
 			return false;
 		
-		if (!setOutConfig2Editor())
+		if (!setConfig2Editor())
 			return false;
 		
 		return true;
@@ -197,7 +195,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 
 	public boolean setGSF2Editor() {
-		IpssLogger.getLogger().info("NBAclfCasePanel setGSF2Editor() called");
+		ipssLogger.info("NBAclfCasePanel setGSF2Editor() called");
 		
 		if (this._senXml.getGenShiftFactor().size() > 0) {
 			DclfBranchSensitivityXmlType gsf = this._senXml.getGenShiftFactor().get(0);
@@ -225,7 +223,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 
 	public boolean setLODF2Editor() {
-		IpssLogger.getLogger().info("NBAclfCasePanel setLODF2Editor() called");
+		ipssLogger.info("NBAclfCasePanel setLODF2Editor() called");
 		
 		LineOutageDFactorXmlType lodf = 
 			this._senXml.getLineOutageDFactor() != null && this._senXml.getLineOutageDFactor().size() > 0?
@@ -258,8 +256,28 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		return true;
 	}
 
-	public boolean setOutConfig2Editor() {
-		IpssLogger.getLogger().info("NBAclfCasePanel setOutConfig2Editor() called");
+	public boolean setConfig2Editor() {
+		ipssLogger.info("NBAclfCasePanel setOutConfig2Editor() called");
+		
+		interfaceFileTextField.setText(this._ptInfoXml.getInterfaceFilename());
+		
+		if (this._ptInfoXml.getLoadDist() != null) {
+			if (this._ptInfoXml.getLoadDist().getMinLoadForDistFactor() != null)
+				this.loadDistThreshholdTextField.setText(
+						Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
+			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null) {
+				this.loadDistAPNodeFileTextField.setText(
+						this._ptInfoXml.getLoadDist().getAggregatePricing().getAggregatePricingFilename());
+				if ( RunUIUtilFunc.loadAPNodeFile(_ptInfoXml)) {
+					AggregatePricingHelper helper = new AggregatePricingHelper(this._ptInfoXml.getLoadDist().getAggregatePricing());
+					String[] idAry = helper.getAPNodeIdAry();
+					this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
+				}
+				else {
+					this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No AP Node defined"}));
+				}
+			}
+		}
 		
 		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
 		if (outConfig != null) {
@@ -370,7 +388,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	* @return false if there is any problem
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
-		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
+		ipssLogger.info("NBAclfCasePanel saveEditor2Form() called");
 		
 		saveEditor2GSF(errMsg);
 
@@ -384,7 +402,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 
 	public boolean saveEditor2GSF(Vector<String> errMsg) {
-		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2GSF() called");
+		ipssLogger.info("NBAclfCasePanel saveEditor2GSF() called");
 
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
@@ -433,7 +451,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 
 	public boolean saveEditor2LODF(Vector<String> errMsg) {
-		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2LODF() called");
+		ipssLogger.info("NBAclfCasePanel saveEditor2LODF() called");
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
 		this._senXml.getLineOutageDFactor().clear();
@@ -463,7 +481,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	}
 	
 	public boolean saveEditor2OutConfig(Vector<String> errMsg) {
-		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2OutConfig() called");
+		ipssLogger.info("NBAclfCasePanel saveEditor2OutConfig() called");
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
 		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
@@ -707,7 +725,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         setPreferredSize(new java.awt.Dimension(515, 410));
 
-        runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         runDclfTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
         runDclfTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -928,27 +946,29 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        gsfAPNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfAPNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfAPNodeLabel.setText("AP Node");
+        gsfAPNodeLabel.setEnabled(false);
 
-        gsfAPNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfAPNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gsfAPNodeComboBox.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout gsfWithdrawPanelLayout = new org.jdesktop.layout.GroupLayout(gsfWithdrawPanel);
         gsfWithdrawPanel.setLayout(gsfWithdrawPanelLayout);
         gsfWithdrawPanelLayout.setHorizontalGroup(
             gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfWithdrawPanelLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .addContainerGap()
+                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(gsfWithdrawPanelLayout.createSequentialGroup()
                         .add(gsfBasecaseRadioButton)
                         .add(12, 12, 12)
                         .add(gsfAPNodeRadioButton))
                     .add(gsfWithdrawPanelLayout.createSequentialGroup()
                         .add(gsfAPNodeLabel)
-                        .add(18, 18, 18)
-                        .add(gsfAPNodeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(gsfAPNodeComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         gsfWithdrawPanelLayout.setVerticalGroup(
@@ -1083,9 +1103,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+                        .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 226, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(gsfPanelLayout.createSequentialGroup()
@@ -1979,48 +1999,72 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
  
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
     	if ( runDclfTabbedPane.getSelectedIndex() == 0 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - GF Panel");
+        	ipssLogger.info("Panel selection changed - GF Panel");
         	initGsfTabPanel();
     	}
     	else if ( runDclfTabbedPane.getSelectedIndex() == 1 ) {
-        	IpssLogger.getLogger().info("Panel selection changed - LODF Panel");
+        	ipssLogger.info("Panel selection changed - LODF Panel");
     	    initLodfTabPanel();
     	}	
     }//GEN-LAST:event_panelSelectionChanged
 
 /*888888888888888888888
+ *  Configuration    
+  8888888888888888888888*/
+
+private void selectInterfaceFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInterfaceFileButtonActionPerformed
+    ipssLogger.info("selectInterfaceFileButtonActionPerformed() called");
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		interfaceFileTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_selectInterfaceFileButtonActionPerformed
+
+private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAPNodeFileButtonActionPerformed
+    ipssLogger.info("selectAPNodeFileButtonActionPerformed() called");
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		this.loadDistAPNodeFileTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_selectAPNodeFileButtonActionPerformed
+    
+/*888888888888888888888
  *  GSF    
  8888888888888888888888*/
 
     private void gsfBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfBasecaseRadioButtonActionPerformed
-        IpssLogger.getLogger().info("gsfLoadDFactorRadioButtonActionPerformed() called");
-        setLoadDFactorRadioButton(this.gsfBasecaseRadioButton.isSelected());
+        ipssLogger.info("gsfLoadDFactorRadioButtonActionPerformed() called");
+        this.gsfAPNodeLabel.setEnabled(false);
+        this.gsfAPNodeComboBox.setEditable(false);
     }//GEN-LAST:event_gsfBasecaseRadioButtonActionPerformed
 
-    private void setLoadDFactorRadioButton(boolean checked) {
-//    	this.gsfLoadThreshholdLabel.setEnabled(checked);
-//    	this.gsfLoadThreshholdTextField.setEnabled(checked);
-    }
-    
+    private void gsfAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAPNodeRadioButtonActionPerformed
+        ipssLogger.info("gsfAPNodeRadioButtonActionPerformed() called");
+        this.gsfAPNodeLabel.setEnabled(true);
+        this.gsfAPNodeComboBox.setEditable(true);
+    }//GEN-LAST:event_gsfAPNodeRadioButtonActionPerformed
+
     private void gsfMonitorAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorAddBranchButtonActionPerformed
-        IpssLogger.getLogger().info("gsfAddBranchButtonActionPerformed() called");
+        ipssLogger.info("gsfAddBranchButtonActionPerformed() called");
     	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(gsfMonitorBranchList, "b:"+id);
     }//GEN-LAST:event_gsfMonitorAddBranchButtonActionPerformed
 
     private void gsfMonitorAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorAddInterfaceButtonActionPerformed
-        IpssLogger.getLogger().info("gsfAddInterfaceButtonActionPerformed() called");
+        ipssLogger.info("gsfAddInterfaceButtonActionPerformed() called");
     	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(gsfMonitorBranchList, "i:"+id);        
     }//GEN-LAST:event_gsfMonitorAddInterfaceButtonActionPerformed
 
     private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorRemoveBranchButtonActionPerformed
-        IpssLogger.getLogger().info("gsfRemoveBranchButtonActionPerformed() called");
+        ipssLogger.info("gsfRemoveBranchButtonActionPerformed() called");
         RunUIUtilFunc.removeItemJList(this.gsfMonitorBranchList);
     }//GEN-LAST:event_gsfMonitorRemoveBranchButtonActionPerformed
 
     private void gsfSelectedGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfSelectedGSFButtonActionPerformed
-        IpssLogger.getLogger().info("gsfCalculateButtonActionPerformed() called");
+        ipssLogger.info("gsfCalculateButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
 
         Vector<String> errMsg = new Vector<String>();
@@ -2044,7 +2088,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 					new DclfDslODMRunner(algoDsl).runDclfCase(_senXml, DclfAnalysisType.GSF);
 					outText = SenAnalysisOutput.outGSF(_senXml.getGenShiftFactor().get(0)).toString();
 				} catch (PSSLException e) {
-					IpssLogger.getLogger().severe(e.toString());
+					ipssLogger.severe(e.toString());
 					outText = e.toString();
 				}
 				algoDsl.destroy();    	
@@ -2058,7 +2102,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_gsfSelectedGSFButtonActionPerformed
 
     private void gsfLargetBranchGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLargetBranchGSFButtonActionPerformed
-        IpssLogger.getLogger().info("gsfBranchLargetGSFButtonActionPerformed() called");
+        ipssLogger.info("gsfBranchLargetGSFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
 
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
@@ -2092,7 +2136,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 }//GEN-LAST:event_gsfLargetBranchGSFButtonActionPerformed
 
     private void gsfAllBranchGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAllBranchGSFButtonActionPerformed
-        IpssLogger.getLogger().info("gsfBranchLargetGSFButtonActionPerformed() called");
+        ipssLogger.info("gsfBranchLargetGSFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
 
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
@@ -2127,7 +2171,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_gsfAllBranchGSFButtonActionPerformed
 
     private void gsfAllInterfaceGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAllInterfaceGSFButtonActionPerformed
-        IpssLogger.getLogger().info("gsfAllInterfaceGSFButtonActionPerformed() called");
+        ipssLogger.info("gsfAllInterfaceGSFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
 
 //    	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
@@ -2159,7 +2203,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_gsfAllInterfaceGSFButtonActionPerformed
 
     private void gsfLargetInterfaceGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                            
-        IpssLogger.getLogger().info("gsfLargetInterfaceGSFButtonActionPerformed() called");
+        ipssLogger.info("gsfLargetInterfaceGSFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
 
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
@@ -2189,12 +2233,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
  888888888888888888888 */
     
     private void lodfSingleTypeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfSingleTypeRadioButtonActionPerformed
-        IpssLogger.getLogger().info("lodfSingleTypeRadioButtonActionPerformed() called");
+        ipssLogger.info("lodfSingleTypeRadioButtonActionPerformed() called");
         setLodfComponentStatus(false);
     }//GEN-LAST:event_lodfSingleTypeRadioButtonActionPerformed
 
     private void lodfMultiTypeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMultiTypeRadioButtonActionPerformed
-        IpssLogger.getLogger().info("lodfMultiTypeRadioButtonActionPerformed() called");
+        ipssLogger.info("lodfMultiTypeRadioButtonActionPerformed() called");
         setLodfComponentStatus(true);
     }//GEN-LAST:event_lodfMultiTypeRadioButtonActionPerformed
     
@@ -2205,29 +2249,29 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }
     
     private void lodfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfAddBranchButtonActionPerformed
-        IpssLogger.getLogger().info("lodfAddBranchButtonActionPerformed() called");
+        ipssLogger.info("lodfAddBranchButtonActionPerformed() called");
     	String id = (String)this.lodfBranchListComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(lodfMultiOutageBranchList, id);
     }//GEN-LAST:event_lodfAddBranchButtonActionPerformed
 
     private void lodfRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfRemoveBranchButtonActionPerformed
-        IpssLogger.getLogger().info("lodfRemoveBranchButtonActionPerformed() called");
+        ipssLogger.info("lodfRemoveBranchButtonActionPerformed() called");
         RunUIUtilFunc.removeItemJList(this.lodfMultiOutageBranchList);
     }//GEN-LAST:event_lodfRemoveBranchButtonActionPerformed
 
     private void lodfMonitorAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMonitorAddBranchButtonActionPerformed
-        IpssLogger.getLogger().info("lodfMonitorAddBranchButtonActionPerformed() called");
+        ipssLogger.info("lodfMonitorAddBranchButtonActionPerformed() called");
     	String id = (String)this.lodfMonitorBranchListComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(lodfMonitorBranchInterfaceList, "b:"+id);
     }//GEN-LAST:event_lodfMonitorAddBranchButtonActionPerformed
 
     private void lodfMonitorRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfMonitorRemoveButtonActionPerformed
-        IpssLogger.getLogger().info("lodfMonitorRemoveButtonActionPerformed() called");
+        ipssLogger.info("lodfMonitorRemoveButtonActionPerformed() called");
         RunUIUtilFunc.removeItemJList(this.lodfMonitorBranchInterfaceList);
     }//GEN-LAST:event_lodfMonitorRemoveButtonActionPerformed
     
     private void lodfSelectedLODFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfSelectedLODFButtonActionPerformed
-        IpssLogger.getLogger().info("lodfCalculateButtonActionPerformed() called");
+        ipssLogger.info("lodfCalculateButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
     	
         Vector<String> errMsg = new Vector<String>();    	
@@ -2252,7 +2296,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 					LineOutageDFactorXmlType lodf = senXml.getLineOutageDFactor().get(0);
 			    	outText = SenAnalysisOutput.outLODF(lodf).toString(); // this.odmParser.toXmlDoc(false);
 				} catch (PSSLException e) {
-					IpssLogger.getLogger().severe(e.toString());
+					ipssLogger.severe(e.toString());
 					outText = e.toString();
 				}		
 				
@@ -2266,7 +2310,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_lodfSelectedLODFButtonActionPerformed
 
     private void lodfLargestLODFButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        IpssLogger.getLogger().info("lodfLargetLODFButtonActionPerformed() called");
+        ipssLogger.info("lodfLargetLODFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
     	
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
@@ -2293,7 +2337,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 					DblBranchValue maxLODF = algoDsl.largestLODF();
 					outText = SenAnalysisOutput.outLargestLODF(id, maxLODF).toString();
 				} catch (PSSLException e) {
-					IpssLogger.getLogger().severe(e.toString());
+					ipssLogger.severe(e.toString());
 					outText = e.toString();
 				}		
 				
@@ -2307,7 +2351,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }      
 
     private void lodfAllLODFButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        IpssLogger.getLogger().info("lodfAllLODFButtonActionPerformed() called");
+        ipssLogger.info("lodfAllLODFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
     	
 		final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
@@ -2334,7 +2378,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 					List<DblBranchValue> lodfList = algoDsl.largestLODFs(outPoints);
 					outText = SenAnalysisOutput.outLODFList(id, lodfList).toString();
 				} catch (PSSLException e) {
-					IpssLogger.getLogger().severe(e.toString());
+					ipssLogger.severe(e.toString());
 					outText = e.toString();
 				}		
 				
@@ -2570,23 +2614,6 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 //		atToAreaUpdateButton.setEnabled(false);
 //	}
 }//GEN-LAST:event_atToAreaUpdateButtonActionPerformed
-
-private void gsfAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAPNodeRadioButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_gsfAPNodeRadioButtonActionPerformed
-
-private void selectInterfaceFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectInterfaceFileButtonActionPerformed
-    JFileChooser fc = getExcelFileChooser();
-    if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-        File file = fc.getSelectedFile();
-        interfaceFileTextField.setText(file.getAbsolutePath());
-    }
-}//GEN-LAST:event_selectInterfaceFileButtonActionPerformed
-
-private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAPNodeFileButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_selectAPNodeFileButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel areaTransPanel;

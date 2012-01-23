@@ -25,6 +25,8 @@
 
 package org.interpss.editor.ui;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.File;
 import java.util.Set;
 import java.util.TreeSet;
@@ -39,7 +41,6 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.InterPSSXmlType;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -48,7 +49,9 @@ import com.interpss.core.aclf.flow.FlowInterface;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.pssl.adpter.aclf.AggregatePricingFileProcessor;
 import com.interpss.pssl.algo.aclf.EDHourlyLoadflow;
+import com.interpss.pssl.file.ExcelFileReader;
 
 public class RunUIUtilFunc  {
 	public static String Template_RunCase = "template/RunCaseTemplate.xml";
@@ -228,7 +231,7 @@ public class RunUIUtilFunc  {
   				if (parser.parse(xmlFile))
   					return parser;
   		} catch (Exception e) {
-  			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
+  			ipssLogger.info("This might be caused by first time loading the file, " + e.toString());
   		}		
 
   		// use template file
@@ -242,7 +245,7 @@ public class RunUIUtilFunc  {
   		
   		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;
-		IpssLogger.getLogger().info("Loading template file: " + filename);
+		ipssLogger.info("Loading template file: " + filename);
 		File xmlFile = new File(filename);
 		parser.parse(xmlFile);
 		return parser;
@@ -265,7 +268,7 @@ public class RunUIUtilFunc  {
   				return parser.getRootDoc();
   			}
   		} catch (Exception e) {
-  			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
+  			ipssLogger.info("This might be caused by first time loading the file, " + e.toString());
   		}
   		
   		String wdir = GraphSpringFactory.getIpssGraphicEditor().getWorkspace();
@@ -301,14 +304,14 @@ public class RunUIUtilFunc  {
 
 			String f1 = ptInfo.getInterfaceFilename();
 			if (new File(f1).exists()) {
-				IpssLogger.getLogger().info("Load interface file: " + f1);
+				ipssLogger.info("Load interface file: " + f1);
 				hrLoadflow.setInterfaceFilename(f1);
 			}
 
 			if (ptXml != null && ptXml.getCaseData() != null) {
 				String f2 = ptXml.getCaseData().getInterfaceLimitFilename();
 				if (new File(f2).exists()) {
-					IpssLogger.getLogger().info("Load interface limit file: " + f2);
+					ipssLogger.info("Load interface limit file: " + f2);
 					hrLoadflow.setFlowInterfaceLimitFilename(f2);
 				}
 			}
@@ -316,10 +319,27 @@ public class RunUIUtilFunc  {
 			try {
 				hrLoadflow.loadFlowInterface();
 			} catch (InterpssException e) {
-				IpssLogger.getLogger().severe(e.toString());
+				ipssLogger.severe(e.toString());
 				return false;
 			}
 		}
 		return true;
+	}
+
+	public static boolean loadAPNodeFile(PowerTradingInfoXmlType ptInfo) {
+		// load FlowInterface if necessary
+		String f1 = ptInfo.getLoadDist().getAggregatePricing().getAggregatePricingFilename();
+		if (new File(f1).exists()) {
+			ipssLogger.info("Load APNode file: " + f1);
+			try {
+				ExcelFileReader reader = new ExcelFileReader(f1, 0);
+				AggregatePricingFileProcessor proc = new AggregatePricingFileProcessor(ptInfo.getLoadDist().getAggregatePricing());		
+				reader.processFile(proc);		
+				return true;
+			} catch (InterpssException e) {
+				ipssLogger.severe("");
+			}
+		}
+		return false;
 	}
 }

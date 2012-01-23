@@ -38,6 +38,7 @@ import javax.swing.JFileChooser;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.ext.ipss.AggregatePricingHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
@@ -178,9 +179,18 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			if (this._ptInfoXml.getLoadDist().getMinLoadForDistFactor() != null)
 				this.loadDistThreshholdTextField.setText(
 						Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
-			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null)
+			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null) {
 				this.loadDistAPNodeFileTextField.setText(
 						this._ptInfoXml.getLoadDist().getAggregatePricing().getAggregatePricingFilename());
+				if ( RunUIUtilFunc.loadAPNodeFile(_ptInfoXml)) {
+					AggregatePricingHelper helper = new AggregatePricingHelper(this._ptInfoXml.getLoadDist().getAggregatePricing());
+					String[] idAry = helper.getAPNodeIdAry();
+					this.genLoadDistAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
+				}
+				else {
+					this.genLoadDistAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No AP Node defined"}));
+				}
+			}
 		}
 		
 		// Case Data Panel
@@ -505,6 +515,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         lfResultButtonGroup = new javax.swing.ButtonGroup();
         branchAnalysisTypeButtonGroup = new javax.swing.ButtonGroup();
+        loadDistButtonGroup = new javax.swing.ButtonGroup();
         pTradingAnalysisTabbedPane = new javax.swing.JTabbedPane();
         caseDataPanel = new javax.swing.JPanel();
         edFilePanel = new javax.swing.JPanel();
@@ -584,9 +595,14 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisGenBusListComboBox = new javax.swing.JComboBox();
         genAnalysisAddGenButton = new javax.swing.JButton();
         genAnalysisRemoveGenButton = new javax.swing.JButton();
-        multiOutageBranchScrollPane1 = new javax.swing.JScrollPane();
+        genAnalysisGenScrollPane = new javax.swing.JScrollPane();
         genAnalysisGenBusList = new javax.swing.JList();
         runCalLossFactorsButton = new javax.swing.JButton();
+        genLoadDisPanel = new javax.swing.JPanel();
+        genLoadDistBasecaseRadioButton = new javax.swing.JRadioButton();
+        genLoadDistAPNodeRadioButton = new javax.swing.JRadioButton();
+        genLoadDistAPNodeLabel = new javax.swing.JLabel();
+        genLoadDistAPNodeComboBox = new javax.swing.JComboBox();
         outputConfigPanel = new javax.swing.JPanel();
         outVoltViolationCheckBox = new javax.swing.JCheckBox();
         voltUpperLimitLabel = new javax.swing.JLabel();
@@ -728,7 +744,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         loadDistAPNodeFileLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         loadDistAPNodeFileLabel.setText("APNode File");
 
-        loadDistAPNodeFileTextField.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        loadDistAPNodeFileTextField.setFont(new java.awt.Font("Dialog", 0, 10));
         loadDistAPNodeFileTextField.setText("Aggregate Pricing Node File");
 
         selectLoadDistAPNodeFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -1321,7 +1337,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisGenBusListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        genAnalysisAddGenButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        genAnalysisAddGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
         genAnalysisAddGenButton.setText("Add");
         genAnalysisAddGenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1329,7 +1345,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             }
         });
 
-        genAnalysisRemoveGenButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        genAnalysisRemoveGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
         genAnalysisRemoveGenButton.setText("Remove");
         genAnalysisRemoveGenButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1338,7 +1354,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         genAnalysisGenBusList.setFont(new java.awt.Font("Dialog", 0, 12));
-        multiOutageBranchScrollPane1.setViewportView(genAnalysisGenBusList);
+        genAnalysisGenScrollPane.setViewportView(genAnalysisGenBusList);
 
         runCalLossFactorsButton.setFont(new java.awt.Font("Dialog", 0, 12));
         runCalLossFactorsButton.setText("Cal LossFactor");
@@ -1348,37 +1364,102 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             }
         });
 
+        genLoadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        loadDistButtonGroup.add(genLoadDistBasecaseRadioButton);
+        genLoadDistBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        genLoadDistBasecaseRadioButton.setSelected(true);
+        genLoadDistBasecaseRadioButton.setText("BasecaseLoad");
+        genLoadDistBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genLoadDistBasecaseRadioButtonActionPerformed(evt);
+            }
+        });
+
+        loadDistButtonGroup.add(genLoadDistAPNodeRadioButton);
+        genLoadDistAPNodeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        genLoadDistAPNodeRadioButton.setText("AP Node");
+        genLoadDistAPNodeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genLoadDistAPNodeRadioButtonActionPerformed(evt);
+            }
+        });
+
+        genLoadDistAPNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        genLoadDistAPNodeLabel.setText("AP Node");
+        genLoadDistAPNodeLabel.setEnabled(false);
+
+        genLoadDistAPNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        genLoadDistAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        genLoadDistAPNodeComboBox.setEnabled(false);
+
+        org.jdesktop.layout.GroupLayout genLoadDisPanelLayout = new org.jdesktop.layout.GroupLayout(genLoadDisPanel);
+        genLoadDisPanel.setLayout(genLoadDisPanelLayout);
+        genLoadDisPanelLayout.setHorizontalGroup(
+            genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLoadDisPanelLayout.createSequentialGroup()
+                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, genLoadDisPanelLayout.createSequentialGroup()
+                        .add(27, 27, 27)
+                        .add(genLoadDistBasecaseRadioButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
+                        .add(genLoadDistAPNodeRadioButton))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, genLoadDisPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(genLoadDistAPNodeLabel)
+                        .add(18, 18, 18)
+                        .add(genLoadDistAPNodeComboBox, 0, 161, Short.MAX_VALUE)))
+                .add(27, 27, 27))
+        );
+        genLoadDisPanelLayout.setVerticalGroup(
+            genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(genLoadDisPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(genLoadDistBasecaseRadioButton)
+                    .add(genLoadDistAPNodeRadioButton))
+                .add(18, 18, 18)
+                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(genLoadDistAPNodeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(genLoadDistAPNodeLabel))
+                .add(17, 17, 17))
+        );
+
         org.jdesktop.layout.GroupLayout genAnalysisPanelLayout = new org.jdesktop.layout.GroupLayout(genAnalysisPanel);
         genAnalysisPanel.setLayout(genAnalysisPanelLayout);
         genAnalysisPanelLayout.setHorizontalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap(200, Short.MAX_VALUE)
-                .add(runCalLossFactorsButton)
-                .add(179, 179, 179))
             .add(genAnalysisPanelLayout.createSequentialGroup()
-                .add(83, 83, 83)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(66, 66, 66)
-                        .add(genAnalysisEdHourLabel)
-                        .add(18, 18, 18)
-                        .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(57, 57, 57))
-                    .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(45, 45, 45)
+                        .add(83, 83, 83)
                         .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(genAnalysisPanelLayout.createSequentialGroup()
-                                .add(genAnalysisGenBusLabel)
+                                .add(66, 66, 66)
+                                .add(genAnalysisEdHourLabel)
                                 .add(18, 18, 18)
-                                .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(genAnalysisPanelLayout.createSequentialGroup()
-                                .add(multiOutageBranchScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                                .add(18, 18, 18)
+                                .add(20, 20, 20)
                                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(genAnalysisRemoveGenButton)
-                                    .add(genAnalysisAddGenButton))))))
-                .add(129, 129, 129))
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, genLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(genAnalysisPanelLayout.createSequentialGroup()
+                                        .add(19, 19, 19)
+                                        .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(genAnalysisPanelLayout.createSequentialGroup()
+                                                .add(genAnalysisGenBusLabel)
+                                                .add(18, 18, 18)
+                                                .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 109, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                            .add(genAnalysisPanelLayout.createSequentialGroup()
+                                                .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(genAnalysisRemoveGenButton)
+                                                    .add(genAnalysisAddGenButton)))))))))
+                    .add(genAnalysisPanelLayout.createSequentialGroup()
+                        .add(187, 187, 187)
+                        .add(runCalLossFactorsButton)))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         genAnalysisPanelLayout.setVerticalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1387,20 +1468,22 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(genAnalysisEdHourLabel)
                     .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(34, 34, 34)
+                .add(29, 29, 29)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genAnalysisGenBusLabel)
-                    .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(genAnalysisGenBusLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(multiOutageBranchScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(genAnalysisPanelLayout.createSequentialGroup()
                         .add(genAnalysisAddGenButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(genAnalysisRemoveGenButton)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 159, Short.MAX_VALUE)
+                        .add(genAnalysisRemoveGenButton))
+                    .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(23, 23, 23)
+                .add(genLoadDisPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(18, 18, 18)
                 .add(runCalLossFactorsButton)
-                .add(32, 32, 32))
+                .add(39, 39, 39))
         );
 
         pTradingAnalysisTabbedPane.addTab("Gen Analysis", genAnalysisPanel);
@@ -1845,6 +1928,19 @@ private void genAnalysisRemoveGenButtonActionPerformed(java.awt.event.ActionEven
     RunUIUtilFunc.removeItemJList(this.genAnalysisGenBusList);
 }//GEN-LAST:event_genAnalysisRemoveGenButtonActionPerformed
 
+private void genLoadDistBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genLoadDistBasecaseRadioButtonActionPerformed
+	ipssLogger.info("genLoadDistBasecaseRadioButtonActionPerformed() called");
+	this.genLoadDistAPNodeLabel.setEnabled(false);
+	this.genLoadDistAPNodeComboBox.setEnabled(false);
+    //setLoadDFactorRadioButton(this.genLoadDistBasecaseRadioButton.isSelected());
+}//GEN-LAST:event_genLoadDistBasecaseRadioButtonActionPerformed
+
+private void genLoadDistAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genLoadDistAPNodeRadioButtonActionPerformed
+	ipssLogger.info("genLoadDistAPNodeRadioButtonActionPerformed() called");
+	this.genLoadDistAPNodeLabel.setEnabled(true);
+	this.genLoadDistAPNodeComboBox.setEnabled(true);
+}//GEN-LAST:event_genLoadDistAPNodeRadioButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfAnalysisPanel;
     private javax.swing.JComboBox aclfEdHourComboBox;
@@ -1878,8 +1974,14 @@ private void genAnalysisRemoveGenButtonActionPerformed(java.awt.event.ActionEven
     private javax.swing.JLabel genAnalysisGenBusLabel;
     private javax.swing.JList genAnalysisGenBusList;
     private javax.swing.JComboBox genAnalysisGenBusListComboBox;
+    private javax.swing.JScrollPane genAnalysisGenScrollPane;
     private javax.swing.JPanel genAnalysisPanel;
     private javax.swing.JButton genAnalysisRemoveGenButton;
+    private javax.swing.JPanel genLoadDisPanel;
+    private javax.swing.JComboBox genLoadDistAPNodeComboBox;
+    private javax.swing.JLabel genLoadDistAPNodeLabel;
+    private javax.swing.JRadioButton genLoadDistAPNodeRadioButton;
+    private javax.swing.JRadioButton genLoadDistBasecaseRadioButton;
     private javax.swing.JLabel interfaceFileLabel;
     private javax.swing.JPanel interfaceFilePanel;
     private javax.swing.JTextField interfaceFileTextField;
@@ -1903,12 +2005,12 @@ private void genAnalysisRemoveGenButtonActionPerformed(java.awt.event.ActionEven
     private javax.swing.JTextField lfToleranceTextField;
     private javax.swing.JLabel loadDistAPNodeFileLabel;
     private javax.swing.JTextField loadDistAPNodeFileTextField;
+    private javax.swing.ButtonGroup loadDistButtonGroup;
     private javax.swing.JLabel loadDistThreshholdLabel;
     private javax.swing.JTextField loadDistThreshholdTextField;
     private javax.swing.JPanel loadDistributionPanel;
     private javax.swing.JList multiOutageBranchList;
     private javax.swing.JScrollPane multiOutageBranchScrollPane;
-    private javax.swing.JScrollPane multiOutageBranchScrollPane1;
     private javax.swing.JCheckBox outAreaSummaryCheckBox;
     private javax.swing.JCheckBox outBranchViolationCheckBox;
     private javax.swing.JCheckBox outInterfaceViolationCheckBox;
