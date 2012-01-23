@@ -275,24 +275,49 @@ public class RunUIUtilFunc  {
 		return parser.getRootDoc();
 	}	
 	
+	/**
+	 * Load interface file
+	 * 
+	 * @param net
+	 * @param ptInfo
+	 * @return
+	 */
+	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PowerTradingInfoXmlType ptInfo) {
+		return loadFlowInterfaceFiles(net, null, ptInfo);
+	}
+	
+	/**
+	 * Load interface file and interface limit file
+	 * 
+	 * @param net
+	 * @param ptXml
+	 * @param ptInfo
+	 * @return
+	 */
 	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml, PowerTradingInfoXmlType ptInfo) {
 		// load FlowInterface if necessary
 		if (!net.isFlowInterfaceLoaded()) {
-			if (ptXml.getCaseData() != null) {
-				String f1 = ptInfo.getInterfaceFilename();
+			EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);
+
+			String f1 = ptInfo.getInterfaceFilename();
+			if (new File(f1).exists()) {
+				IpssLogger.getLogger().info("Load interface file: " + f1);
+				hrLoadflow.setInterfaceFilename(f1);
+			}
+
+			if (ptXml != null && ptXml.getCaseData() != null) {
 				String f2 = ptXml.getCaseData().getInterfaceLimitFilename();
-				if (new File(f1).exists() && new File(f2).exists()) {
-					IpssLogger.getLogger().info("Load interface file: " + f1 + ", " + f2);
-					EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);
-					hrLoadflow.setInterfaceFilename(f1);
+				if (new File(f2).exists()) {
+					IpssLogger.getLogger().info("Load interface limit file: " + f2);
 					hrLoadflow.setFlowInterfaceLimitFilename(f2);
-					try {
-						hrLoadflow.loadFlowInterface();
-					} catch (InterpssException e) {
-						IpssLogger.getLogger().severe(e.toString());
-						return false;
-					}
 				}
+			}
+
+			try {
+				hrLoadflow.loadFlowInterface();
+			} catch (InterpssException e) {
+				IpssLogger.getLogger().severe(e.toString());
+				return false;
 			}
 		}
 		return true;

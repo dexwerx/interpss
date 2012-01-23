@@ -174,9 +174,14 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		// 
 //		if (!RunUIUtilFunc.loadFlowInterfaceFiles(this._simuCtx.getAclfNet(), this._ptXml))
 //			return false;
-		if (this._ptInfoXml.getLoadDist() != null && this._ptInfoXml.getLoadDist().getMinLoadForDistFactor() != null)
-			this.loadDistThreshholdTextField.setText(
-					Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
+		if (this._ptInfoXml.getLoadDist() != null) {
+			if (this._ptInfoXml.getLoadDist().getMinLoadForDistFactor() != null)
+				this.loadDistThreshholdTextField.setText(
+						Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
+			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null)
+				this.loadDistAPNodeFileTextField.setText(
+						this._ptInfoXml.getLoadDist().getAggregatePricing().getAggregatePricingFilename());
+		}
 		
 		// Case Data Panel
 		PtCaseDataXmlType casedata = this._ptXml.getCaseData();
@@ -338,6 +343,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().setValue(
 				new Double(this.loadDistThreshholdTextField.getText()).doubleValue());
 		this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().setUnit(ActivePowerUnitType.MW);
+
+		if (this._ptInfoXml.getLoadDist().getAggregatePricing() == null)
+			this._ptInfoXml.getLoadDist().setAggregatePricing(odmObjFactory.createAggregatePricingXmlType());
+		this._ptInfoXml.getLoadDist().getAggregatePricing().setAggregatePricingFilename(
+				this.loadDistAPNodeFileTextField.getText());
 		
 		this._ptInfoXml.setInterfaceFilename(
 				interfaceFileTextField.getText());
@@ -1634,6 +1644,10 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 	}.start();
 }//GEN-LAST:event_runAclfAnalysisButtonActionPerformed
 
+/* 888888888888888888888888
+ *  Case data
+ 8888888888888888888888888888*/
+
 private void selectEdFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEdFileButtonActionPerformed
 	JFileChooser fc = getExcelFileChooser();
 	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -1665,6 +1679,14 @@ private void lfAssistGenFileSelectButtonActionPerformed(java.awt.event.ActionEve
 		lfAssistGenFileTextField.setText(file.getAbsolutePath());
 	}
 }//GEN-LAST:event_lfAssistGenFileSelectButtonActionPerformed
+
+private void selectLoadDistAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectLoadDistAPNodeFileButtonActionPerformed
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		this.loadDistAPNodeFileTextField.setText(file.getAbsolutePath());
+	}
+}//GEN-LAST:event_selectLoadDistAPNodeFileButtonActionPerformed
 
 /* 888888888888888888888888
  *  Branch Analysis
@@ -1822,10 +1844,6 @@ private void genAnalysisRemoveGenButtonActionPerformed(java.awt.event.ActionEven
     ipssLogger.info("genRemoveGenButtonActionPerformed() called");
     RunUIUtilFunc.removeItemJList(this.genAnalysisGenBusList);
 }//GEN-LAST:event_genAnalysisRemoveGenButtonActionPerformed
-
-private void selectLoadDistAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectLoadDistAPNodeFileButtonActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_selectLoadDistAPNodeFileButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfAnalysisPanel;

@@ -26,7 +26,6 @@ package org.interpss.editor.ui.run;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import java.io.File;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -49,7 +48,6 @@ import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
-import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
