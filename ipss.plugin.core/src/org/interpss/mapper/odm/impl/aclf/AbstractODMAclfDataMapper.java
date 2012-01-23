@@ -144,6 +144,11 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 * @param intList
 	 */
 	public void mapInterfaceData(AclfNetwork net, List<FlowInterfaceRecXmlType> intList) {
+		if (net.isFlowInterfaceLoaded()) {
+			net.getFlowInterfaceList().clear();
+			net.setFlowInterfaceLoaded(false);
+		}
+		
 		for (FlowInterfaceRecXmlType xmlIntf : intList ) {
 			FlowInterface intf = CoreObjectFactory.createInterface(net, xmlIntf.getId());
 
