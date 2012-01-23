@@ -36,9 +36,9 @@ import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ProjectFileUtil {
 	public static String StdRunStudyCase = "RunStudyCase.xml";
-	public static String StdRunStudyCase_Aclf = "RunStudyCaseStdAclf.xml";
-	public static String StdRunStudyCase_Acsc = "RunStudyCaseStdAcsc.xml";
-	public static String StdRunStudyCase_DStab = "RunStudyCaseStdDStab.xml";
+//	public static String StdRunStudyCase_Aclf = "RunStudyCaseStdAclf.xml";
+//  public static String StdRunStudyCase_Acsc = "RunStudyCaseStdAcsc.xml";
+//	public static String StdRunStudyCase_DStab = "RunStudyCaseStdDStab.xml";
 //	public static String StdRunStudyCase_SenAnalysis = "RunStudyCaseStdSenAnalysis.xml";
 //	public static String StdRunStudyCase_PTradingAnalysis = "RunStudyCasePTradingAnalysis.xml";
 	
@@ -49,15 +49,11 @@ public class ProjectFileUtil {
 	
 	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, SimuRunEnum caseType) {
 		if (caseType == SimuRunEnum.SenAnalysis ||
+				caseType == SimuRunEnum.Aclf ||
+				caseType == SimuRunEnum.Acsc ||
+				caseType == SimuRunEnum.DStab ||
 				caseType == SimuRunEnum.TradingAnalysis)
 			return getProjectFile(doc, StdRunStudyCase);
-
-		else if (caseType == SimuRunEnum.Aclf)
-			return getProjectFile(doc, StdRunStudyCase_Aclf);
-		else if (caseType == SimuRunEnum.Acsc)
-			return getProjectFile(doc, StdRunStudyCase_Acsc);
-		else if (caseType == SimuRunEnum.DStab)
-			return getProjectFile(doc, StdRunStudyCase_DStab);
 		else 
 			return null;
 	}
