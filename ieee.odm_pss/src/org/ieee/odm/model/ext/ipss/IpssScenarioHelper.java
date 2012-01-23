@@ -260,22 +260,7 @@ public class IpssScenarioHelper {
 		}
 		return this.getPowerTradingInfo().getLoadDist().getAggregatePricing();
 	}
-
-	public AggregatePricingNodeXmlType getAggregatePricingNode(String id) {
-		for ( AggregatePricingNodeXmlType node : getAggregatePricing().getApNode()) {
-			if ( node.getId().equals(id))
-				return node;
-		}
-		return null;
-	}
-
-	public AggregatePricingNodeXmlType createAggregatePricingNode(String id) {
-		AggregatePricingNodeXmlType node = odmObjFactory.createAggregatePricingNodeXmlType();
-		node.setId(id);
-		getAggregatePricing().getApNode().add(node);
-		return node;
-	}
-
+	
 	/*
 	 *             Aclf functions
 	 *             ==============

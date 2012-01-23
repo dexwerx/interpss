@@ -68,4 +68,13 @@ public class AggregatePricingHelper {
 		bus.setBusId(id);
 		return bus;
 	}
+
+	public String[] getAPNodeIdAry() {
+		String[] sAry = new String[this.ap.getApNode().size()];
+		int cnt = 0;
+		for ( AggregatePricingNodeXmlType node : this.ap.getApNode()) {
+			sAry[cnt++] = node.getId();
+		}		
+		return sAry;
+	}	
 }
