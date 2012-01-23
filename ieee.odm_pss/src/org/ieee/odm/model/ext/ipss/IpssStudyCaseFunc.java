@@ -31,7 +31,6 @@ import org.ieee.odm.schema.PtAclfAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfOutputXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.ieee.odm.schema.PtEDispatchFileXmlType;
-import org.ieee.odm.schema.PtInterfaceFileXmlType;
 
 /**
  * InterPSS extension study case help funcions
@@ -57,10 +56,7 @@ public class IpssStudyCaseFunc {
 		edfile.setLossPercent(2.5);
 		edfile.setLoadPFactor(0.98);
 
-		PtInterfaceFileXmlType interf = odmObjFactory.createPtInterfaceFileXmlType();
-		casedata.setInterfaceFile(interf);
-		interf.setInterfaceFilename("Interface file ...");
-		interf.setLimitFilename("Interface limit file ...");
+		casedata.setInterfaceLimitFilename("Interface limit file ...");
 		
 		PtAclfAnalysisXmlType aclf = odmObjFactory.createPtAclfAnalysisXmlType();
 		pt.setAclfAnalysis(aclf);

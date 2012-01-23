@@ -18,6 +18,11 @@
 		<ns3:gridRunOption>
 			<ns3:enableGridRun>false</ns3:enableGridRun>
 		</ns3:gridRunOption>
+		<ns3:powerTradingInfo>
+			<ns3:loadDist>
+				<ns3:minLoadForDistFactor unit="MW" value="5.0" />
+			</ns3:loadDist>
+		</ns3:powerTradingInfo>
 		<ns3:studyCaseList>
 			<ns3:curStudyCaseId>StudyCaseId</ns3:curStudyCaseId>
 			<ns3:studyCase id="StudyCaseId">
@@ -55,13 +60,7 @@
 								<ns3:lossPercent>2.5</ns3:lossPercent>
 								<ns3:loadPFactor>0.98</ns3:loadPFactor>
 							</ns3:edFile>
-							<ns3:loadDist>
-								<ns3:minLoadForDistFactor unit="MW" value="5.0" />
-							</ns3:loadDist>
-							<ns3:interfaceFile>
-								<ns3:interfaceFilename>Load file ...</ns3:interfaceFilename>
-								<ns3:limitFilename>Load file ...</ns3:limitFilename>
-							</ns3:interfaceFile>
+							<ns3:interfaceLimitFilename>Load file ...</ns3:interfaceLimitFilename>
 						</ns3:caseData>
 						<ns3:aclfAnalysis>
 							<ns3:hour>12:00</ns3:hour>

@@ -36,7 +36,7 @@
 						The default AclfAlgo applies to all study scenarios, for contingency analysis
 						</ns:documentation></ns:annotation>
 					</ns:element>
-					<ns:element name="powerTrading" minOccurs="0" maxOccurs="1" type="ipss:PowerTradingXmlType"></ns:element>
+					<ns:element name="powerTradingInfo" minOccurs="0" maxOccurs="1" type="ipss:PowerTradingInfoXmlType"></ns:element>
 					<ns:element name="studyCaseList" maxOccurs="1" minOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
@@ -86,30 +86,53 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="PowerTradingXmlType">
+	<ns:complexType name="PowerTradingInfoXmlType">
 		<ns:sequence>
-			<ns:element name="aggreatePricing" type="ipss:AggregatePricingXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="interfaceFilename" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="loadDist" type="ipss:PtLoadDistributionXmlType" maxOccurs="1" minOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
+	<ns:complexType name="PtLoadDistributionXmlType">
+		<ns:sequence>
+			<ns:element name="minLoadForDistFactor" minOccurs="0" type="pss:ActivePowerXmlType"></ns:element>
+			<ns:element name="aggregatePricing" type="ipss:AggregatePricingXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
 	<ns:complexType name="AggregatePricingXmlType">
-		<ns:sequence>
-			<ns:element name="pricingNode" type="ipss:AggregatePricingNodeXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-
-	<ns:complexType name="AggregatePricingNodeXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:BusRefXmlType">
+			<ns:extension base="pss:NameTagXmlType">
 				<ns:sequence>
-					<ns:element name="allocFactor" type="pss:FactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
-					<ns:element name="nodeType" type="ipss:AggregatePricingNodeEnumType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="aggregatePricingFilename" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="apNode" type="ipss:AggregatePricingNodeXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:simpleType name="AggregatePricingNodeEnumType">
+	<ns:complexType name="AggregatePricingNodeXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType">
+				<ns:sequence>
+					<ns:element name="apNode" type="ipss:AggregatePricingBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="AggregatePricingBusXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BusRefXmlType">
+				<ns:sequence>
+					<ns:element name="allocFactor" type="pss:FactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="busType" type="ipss:AggregatePricingBusEnumType" minOccurs="0" maxOccurs="1"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:simpleType name="AggregatePricingBusEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="STATION_POWER"></ns:enumeration>
 			<ns:enumeration value="ETC_TOR"></ns:enumeration>

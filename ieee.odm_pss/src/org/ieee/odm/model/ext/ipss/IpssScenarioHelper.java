@@ -37,6 +37,10 @@ import org.ieee.odm.schema.AclfAnalysisXmlType;
 import org.ieee.odm.schema.AcscBranchFaultXmlType;
 import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ActivePowerXmlType;
+import org.ieee.odm.schema.AggregatePricingNodeXmlType;
+import org.ieee.odm.schema.AggregatePricingXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.ContingencyAnalysisXmlType;
@@ -51,6 +55,8 @@ import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
+import org.ieee.odm.schema.PowerTradingInfoXmlType;
+import org.ieee.odm.schema.PtLoadDistributionXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 
@@ -63,6 +69,15 @@ import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 public class IpssScenarioHelper {
 	private IODMModelParser parser = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param parser
+	 */
+	public IpssScenarioHelper () {
+		this.parser = new AclfModelParser();
+	}
+
 	/**
 	 * constructor
 	 * 
@@ -211,6 +226,54 @@ public class IpssScenarioHelper {
 			this.getIpssScenario().setGridRunOption(odmObjFactory.createGridComputingXmlType());
 		}
 		return this.getIpssScenario().getGridRunOption();
+	}
+
+	/*
+	 *             PowerTradingInfo functions
+	 *             ==========================
+	 */
+
+	/**
+	 * get the power trading into object
+	 */
+	public PowerTradingInfoXmlType getPowerTradingInfo() {
+		if (this.getIpssScenario().getPowerTradingInfo() == null) {
+			this.getIpssScenario().setPowerTradingInfo(odmObjFactory.createPowerTradingInfoXmlType());
+			PtLoadDistributionXmlType load = odmObjFactory.createPtLoadDistributionXmlType();
+			this.getIpssScenario().getPowerTradingInfo().setLoadDist(load);
+			ActivePowerXmlType p = odmObjFactory.createActivePowerXmlType();
+			load.setMinLoadForDistFactor(p);
+			p.setValue(5.0);
+			p.setUnit(ActivePowerUnitType.MW);			
+		}
+		return this.getIpssScenario().getPowerTradingInfo();
+	}
+
+	/**
+	 * get the AggregatePricing object
+	 * 
+	 * @return
+	 */
+	public AggregatePricingXmlType getAggregatePricing() {
+		if (this.getPowerTradingInfo().getLoadDist().getAggregatePricing() == null) {
+			this.getPowerTradingInfo().getLoadDist().setAggregatePricing(odmObjFactory.createAggregatePricingXmlType());
+		}
+		return this.getPowerTradingInfo().getLoadDist().getAggregatePricing();
+	}
+
+	public AggregatePricingNodeXmlType getAggregatePricingNode(String id) {
+		for ( AggregatePricingNodeXmlType node : getAggregatePricing().getApNode()) {
+			if ( node.getId().equals(id))
+				return node;
+		}
+		return null;
+	}
+
+	public AggregatePricingNodeXmlType createAggregatePricingNode(String id) {
+		AggregatePricingNodeXmlType node = odmObjFactory.createAggregatePricingNodeXmlType();
+		node.setId(id);
+		getAggregatePricing().getApNode().add(node);
+		return node;
 	}
 
 	/*
@@ -487,8 +550,8 @@ public class IpssScenarioHelper {
 	}
 	
 /*
- *             PTrading functions
- *             ==================
+ *             PTradingAnalysis functions
+ *             ==========================
  */
 	
 	/**

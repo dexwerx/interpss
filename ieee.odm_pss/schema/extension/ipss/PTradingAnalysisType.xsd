@@ -94,8 +94,7 @@
 		<ns:sequence>
 			<ns:element name="baseCaseFile" type="ipss:PtBaseCaseFileXmlType" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="edFile" type="ipss:PtEDispatchFileXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="loadDist" type="ipss:PtLoadDistributionXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="interfaceFile" type="ipss:PtInterfaceFileXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="interfaceLimitFilename" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 
@@ -104,19 +103,6 @@
 			<ns:element name="filename" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="format" type="ipss:InputFileFormatEnumType" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="version" type="ipss:InputFileVersionEnumType" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>
-	</ns:complexType>	
-
-	<ns:complexType name="PtLoadDistributionXmlType">
-		<ns:sequence>
-			<ns:element name="minLoadForDistFactor" minOccurs="0" type="pss:ActivePowerXmlType"></ns:element>
-		</ns:sequence>
-	</ns:complexType>	
-
-	<ns:complexType name="PtInterfaceFileXmlType">
-		<ns:sequence>
-			<ns:element name="interfaceFilename" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="limitFilename" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 
