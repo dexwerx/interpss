@@ -39,7 +39,6 @@ import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
-import org.ieee.odm.schema.AggregatePricingNodeXmlType;
 import org.ieee.odm.schema.AggregatePricingXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
