@@ -32,6 +32,7 @@ import java.util.TreeSet;
 import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
+import org.ieee.odm.schema.PowerTradingInfoXmlType;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.xml.IpssXmlParser;
@@ -274,12 +275,12 @@ public class RunUIUtilFunc  {
 		return parser.getRootDoc();
 	}	
 	
-	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml) {
+	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml, PowerTradingInfoXmlType ptInfo) {
 		// load FlowInterface if necessary
 		if (!net.isFlowInterfaceLoaded()) {
 			if (ptXml.getCaseData() != null) {
-				String f1 = ptXml.getCaseData().getInterfaceFile().getInterfaceFilename();
-				String f2 = ptXml.getCaseData().getInterfaceFile().getLimitFilename();
+				String f1 = ptInfo.getInterfaceFilename();
+				String f2 = ptXml.getCaseData().getInterfaceLimitFilename();
 				if (new File(f1).exists() && new File(f2).exists()) {
 					IpssLogger.getLogger().info("Load interface file: " + f1 + ", " + f2);
 					EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);

@@ -279,7 +279,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				this.casenameComboBox.setSelectedItem(casename);
 				// set the case data to the actual data editing panel
 				_tradingCaseInfoPanel.setODMParser(this.odmParser);
-				_tradingCaseInfoPanel.setXmlCaseData(ptXml);
+				_tradingCaseInfoPanel.setXmlCaseData(ptXml, helper.getPowerTradingInfo());
 				// set the case data to the actual data editing panel
 				_tradingCaseInfoPanel.setForm2Editor();
 			}
@@ -293,7 +293,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				casedesc = senXml.getDesc();
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setODMParser(this.odmParser);
-				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPtEDHourlyAnalysis(curStudyCaseId));
+				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPtEDHourlyAnalysis(curStudyCaseId), helper.getPowerTradingInfo());
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setForm2Editor();
 			}
