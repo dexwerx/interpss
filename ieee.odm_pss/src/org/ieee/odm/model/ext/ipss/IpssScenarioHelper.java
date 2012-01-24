@@ -237,13 +237,8 @@ public class IpssScenarioHelper {
 	 */
 	public PowerTradingInfoXmlType getPowerTradingInfo() {
 		if (this.getIpssScenario().getPowerTradingInfo() == null) {
-			this.getIpssScenario().setPowerTradingInfo(odmObjFactory.createPowerTradingInfoXmlType());
-			PtLoadDistributionXmlType load = odmObjFactory.createPtLoadDistributionXmlType();
-			this.getIpssScenario().getPowerTradingInfo().setLoadDist(load);
-			ActivePowerXmlType p = odmObjFactory.createActivePowerXmlType();
-			load.setMinLoadForDistFactor(p);
-			p.setValue(5.0);
-			p.setUnit(ActivePowerUnitType.MW);			
+			this.getIpssScenario().setPowerTradingInfo(
+					IpssStudyCaseFunc.createDefaultPtInfo());
 		}
 		return this.getIpssScenario().getPowerTradingInfo();
 	}
