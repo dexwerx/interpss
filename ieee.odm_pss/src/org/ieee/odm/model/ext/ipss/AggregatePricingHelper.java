@@ -64,7 +64,7 @@ public class AggregatePricingHelper {
 
 	public AggregatePricingBusXmlType createAggregatePricingBus(String id, AggregatePricingNodeXmlType node) {
 		AggregatePricingBusXmlType bus = odmObjFactory.createAggregatePricingBusXmlType();
-		node.getApNode().add(bus);
+		node.getApBus().add(bus);
 		bus.setBusId(id);
 		return bus;
 	}

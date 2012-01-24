@@ -26,7 +26,9 @@ package org.ieee.odm.model.ext.ipss;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
+import org.ieee.odm.schema.PowerTradingInfoXmlType;
 import org.ieee.odm.schema.PtAclfAnalysisXmlType;
 import org.ieee.odm.schema.PtAclfOutputXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
@@ -76,5 +78,19 @@ public class IpssStudyCaseFunc {
 		outOpt.setInterfaceLimitViolation(false);
 		outOpt.setZoneSummary(true);
 		outOpt.setAreaSummary(true);
+	}
+	
+	/**
+	 * create a PowerTradingInfoXml object with default values
+	 * 
+	 * @return
+	 */
+	public static PowerTradingInfoXmlType createDefaultPtInfo() {
+		PowerTradingInfoXmlType ptInfo = odmObjFactory.createPowerTradingInfoXmlType();
+		ptInfo.setLoadDist(odmObjFactory.createPtLoadDistributionXmlType());
+		ptInfo.getLoadDist().setMinLoadForDistFactor(odmObjFactory.createActivePowerXmlType());
+		ptInfo.getLoadDist().getMinLoadForDistFactor().setValue(5.0);
+		ptInfo.getLoadDist().getMinLoadForDistFactor().setUnit(ActivePowerUnitType.MW);
+		return ptInfo;
 	}
 }

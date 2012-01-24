@@ -71,7 +71,13 @@
 		<ns:sequence>
 			<ns:element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtGenAnalysisEnumType"></ns:element>
-			<ns:element name="genBus" type="pss:IDRecordXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
+			<ns:element name="genBus" type="pss:IDRecordXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
+			<ns:element name="loadBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType">
+                <ns:annotation>
+                	<ns:documentation>Only LoadDistribution, APNode apply</ns:documentation>
+                </ns:annotation>
+			</ns:element>
+			<ns:element name="apNodeId" minOccurs="0" type="ns:string"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 

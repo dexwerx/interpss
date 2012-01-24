@@ -102,6 +102,10 @@
     			<ns:annotation>
     				<ns:documentation>Withdraw bus is defined using load distribution factor.</ns:documentation>
     			</ns:annotation></ns:enumeration>
+    		<ns:enumeration value="APNode">
+    			<ns:annotation>
+    				<ns:documentation>Withdraw buses are defined by an aggregate pricing node.</ns:documentation>
+    			</ns:annotation></ns:enumeration>
     		<ns:enumeration value="NoBus"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
@@ -122,7 +126,7 @@
 					<ns:element name="injectBus" type="ipss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 					<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType"></ns:element>
 					<ns:element name="withdrawBus" type="ipss:SenAnalysisBusXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="minLoadForDistFactor" minOccurs="0" type="pss:ActivePowerXmlType"></ns:element>
+					<ns:element name="apNodeId" minOccurs="0" type="ns:string"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>

@@ -115,7 +115,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
-					<ns:element name="apNode" type="ipss:AggregatePricingBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+					<ns:element name="apBus" type="ipss:AggregatePricingBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
