@@ -25,11 +25,11 @@
 package com.interpss.pssl.test.dclf;
 
 import static com.interpss.core.DclfFunction.DclfBranchAptr;
-
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
+import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
@@ -115,7 +115,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		monitor.setCircuitId("1");
 		
 		new DclfDslODMRunner(algoDsl)
-				.runDclfCase(dclfCase, DclfAnalysisType.All);
+				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssStudyCaseFunc.createDefaultPtInfo());
 		
 		
 		System.out.println(parser.toXmlDoc());			

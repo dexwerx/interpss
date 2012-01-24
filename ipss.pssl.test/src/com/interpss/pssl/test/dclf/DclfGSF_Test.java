@@ -28,9 +28,8 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -216,7 +215,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		bus.setBusId("Bus2");
 		
 		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
-		gsf.setMinLoadForDistFactor(BaseDataSetter.createActivePowerValue(5.0, ActivePowerUnitType.fromValue("MW")));
+//		gsf.setMinLoadForDistFactor(BaseDataSetter.createActivePowerValue(5.0, ActivePowerUnitType.fromValue("MW")));
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = odmObjFactory.createBranchRefXmlType();
@@ -240,7 +239,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		line.setToBusId("Bus13");
 		
 		new DclfDslODMRunner(algoDsl)
-			.runDclfCase(dclfCase, DclfAnalysisType.All);
+			.runDclfCase(dclfCase, DclfAnalysisType.All,  IpssStudyCaseFunc.createDefaultPtInfo());
 
 		
 		System.out.println(parser.toXmlDoc());
