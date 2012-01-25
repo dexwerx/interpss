@@ -37,6 +37,7 @@ import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.dclf.common.ReferenceBusException;
 import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.odm.DclfDslODMRunner;
 import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
@@ -137,7 +138,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 	}
 	
 	@Test
-	public void lodfTest() throws PSSLException{
+	public void lodfTest() throws PSSLException, ReferenceBusException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
@@ -193,7 +194,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 	}
 
 	@Test
-	public void n_1Test() throws PSSLException {
+	public void n_1Test() throws PSSLException, ReferenceBusException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

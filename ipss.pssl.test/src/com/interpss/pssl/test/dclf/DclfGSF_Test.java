@@ -43,6 +43,7 @@ import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.BusSenAnalysisType;
+import com.interpss.core.dclf.common.ReferenceBusException;
 import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.odm.DclfDslODMRunner;
 import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
@@ -246,7 +247,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 	}
 	
 	@Test
-	public void gsfTest() {
+	public void gsfTest()  throws ReferenceBusException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

@@ -32,6 +32,7 @@ import org.junit.Test;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.dclf.SenAnalysisType;
+import com.interpss.core.dclf.common.ReferenceBusException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssPTrading;
@@ -41,7 +42,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class QSen_Test extends BaseTestSetup {
 	@Test
-	public void dVdQ_SenTest() throws IpssNumericException {
+	public void dVdQ_SenTest() throws IpssNumericException, ReferenceBusException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
