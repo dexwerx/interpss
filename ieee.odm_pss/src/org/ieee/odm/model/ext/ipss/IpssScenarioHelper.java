@@ -37,8 +37,6 @@ import org.ieee.odm.schema.AclfAnalysisXmlType;
 import org.ieee.odm.schema.AcscBranchFaultXmlType;
 import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.AggregatePricingXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
@@ -52,10 +50,10 @@ import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.IpssStudyCaseXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
+import org.ieee.odm.schema.LODFOutageEnumType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.PowerTradingInfoXmlType;
-import org.ieee.odm.schema.PtLoadDistributionXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
 
@@ -439,6 +437,7 @@ public class IpssScenarioHelper {
 	 */
 	public LineOutageDFactorXmlType createLODF(DclfSenAnalysisXmlType dclfCase) {
 		LineOutageDFactorXmlType lodf = odmObjFactory.createLineOutageDFactorXmlType();
+		lodf.setOutageType(LODFOutageEnumType.SINGLE_BRANCH);
 		dclfCase.getLineOutageDFactor().add(lodf);
 		return lodf;
 	}

@@ -46,22 +46,29 @@
 	</ns:complexType>	
 
 	<ns:complexType name="LineOutageDFactorXmlType">
-		<ns:annotation>
-			<ns:documentation>
-				lodf is for storing LODF calculation results. It should have the same dimension as the outtageBranch,
-			    meaning for each outage branch, there should be a corresponding lodf
-			</ns:documentation></ns:annotation>	
 		<ns:sequence>
+			<ns:element name="outageType" type="ipss:LODFOutageEnumType" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="outageBranch" type="pss:BranchRefXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 			<ns:element name="monitorBranch" type="ipss:LODFMonitorBranchXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
+	<ns:simpleType name="LODFOutageEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="SingleBranch"></ns:enumeration>
+			<ns:enumeration value="MultiBranch"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
 
 	<ns:complexType name="LODFMonitorBranchXmlType">
 		<ns:sequence>
 			<ns:element name="branch" type="pss:BranchRefXmlType" minOccurs="1"></ns:element>
-			<ns:element name="lodf" type="ns:double" minOccurs="0" maxOccurs="unbounded"></ns:element>
+			<ns:element name="lodf" type="ns:double" minOccurs="0" maxOccurs="unbounded">
+				<ns:annotation><ns:documentation>
+					lodf is for storing LODF calculation results. It should have the same dimension as the outageBranch,
+			    	of the LineOutageDFactorXmlType object, meaning for each outage branch, there should be a corresponding lodf
+				</ns:documentation></ns:annotation>	
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>	
     
