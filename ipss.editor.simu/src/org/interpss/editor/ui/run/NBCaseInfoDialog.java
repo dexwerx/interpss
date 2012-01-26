@@ -266,15 +266,14 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 					helper.getCurStudyCaseId() : studyCaseIdAry[0];
 			
 			if (_caseType == SimuRunEnum.TradingAnalysis) {
-				PTradingEDHourlyAnalysisXmlType ptXml = helper.getPtEDHourlyAnalysis(curStudyCaseId);			
+				PTradingEDHourlyAnalysisXmlType curPtXml = helper.getPtEDHourlyAnalysis(curStudyCaseId);			
 			    this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 			    		helper.getPTradingCaseNameAry().toArray()));
-				casename = ptXml.getName();
-				casedesc = ptXml.getDesc();
+				casename = curPtXml.getName();
+				casedesc = curPtXml.getDesc();
 				this.casenameComboBox.setSelectedItem(casename);
 				// set the case data to the actual data editing panel
-				_tradingCaseInfoPanel.setODMParser(this.odmParser);
-				_tradingCaseInfoPanel.setXmlCaseData(ptXml, helper.getPowerTradingInfo());
+				_tradingCaseInfoPanel.setXmlCaseData(curPtXml, helper.getPowerTradingInfo());
 				// set the case data to the actual data editing panel
 				_tradingCaseInfoPanel.setForm2Editor();
 			}
@@ -287,7 +286,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				casename = senXml.getName();
 				casedesc = senXml.getDesc();
 				// set the case data to the actual data editing panel
-				_dclfCaseInfoPanel.setODMParser(this.odmParser);
 				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPowerTradingInfo());
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setForm2Editor();
@@ -404,6 +402,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 			}
 			
+			// save the xml run configuration file
 			FileUtil.writeText2File(runStudyCaseFilename, this.odmParser.toXmlDoc());
 		}
 		
@@ -590,7 +589,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+ // TODO -----------
+ // ----------------
+    
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		_returnOK = false;
 		if (_caseType == SimuRunEnum.Aclf)
@@ -620,6 +622,9 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     		_appSimuCtx.getProjData().setDirty(true);
     		if (_caseType == SimuRunEnum.Aclf) {
     			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
+    			/*
+    			 * For the Aclf dialog box, Aclf analysis or Contingency analysis could be selected.
+    			 */
     			this._caseType = _aclfCaseInfoPanel.getPanelSelected() == NBAclfCasePanel.LoadflowPanel? 
     					SimuRunEnum.Aclf : SimuRunEnum.ContingencyAnalysis;
     		}

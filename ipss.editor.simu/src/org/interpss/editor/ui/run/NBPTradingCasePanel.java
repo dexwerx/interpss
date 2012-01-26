@@ -37,9 +37,8 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.AggregatePricingHelper;
-import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
@@ -91,8 +90,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	
     private SimuContext _simuCtx = null;
     
-	private ODMModelParser odmParser = new ODMModelParser();
-    public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
+//	private ODMModelParser odmParser = new ODMModelParser();
+//    public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
     
     private PTradingEDHourlyAnalysisXmlType _ptXml = null;
     private PowerTradingInfoXmlType _ptInfoXml = null;
@@ -427,7 +426,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		}
 		PtBranchAnalysisXmlType braAnalysis = this._ptXml.getBranchAnalysis();
 		
-		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+//		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
 		
 		braAnalysis.setHour((String)this.branchAnalysisEdHourComboBox.getSelectedItem());
 		braAnalysis.setType(this.outageSingleRadioButton.isSelected()? PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE :
@@ -439,7 +438,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 				this.branchFlowRadioButton.isSelected()) {
 			braAnalysis.getBranch().clear();
 			String braId = (String)this.braAnalysisBranchListComboBox.getSelectedItem();
-			BranchRefXmlType outage = helper.creatBranchRef(braAnalysis.getBranch());
+			BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(braAnalysis.getBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 			if (this.branchFlowRadioButton.isSelected()) {
 			    braAnalysis.setBranchFlowOutPoints(
@@ -1877,6 +1876,7 @@ private void outageFileSelectButtonActionPerformed(java.awt.event.ActionEvent ev
 /* 888888888888888888888888
  *  Gen Analysis
  8888888888888888888888888888*/
+
 private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCalLossFactorsButtonActionPerformed
 	ipssLogger.info("runCalLossFactorsButtonActionPerformed() called");
 	

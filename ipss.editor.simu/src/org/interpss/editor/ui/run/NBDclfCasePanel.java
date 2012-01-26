@@ -35,7 +35,7 @@ import java.util.Vector;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.AggregatePricingHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
@@ -87,8 +87,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	
     private SimuContext _simuCtx = null;
 
-	private ODMModelParser odmParser = new ODMModelParser();
-    public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
+//	private ODMModelParser odmParser = new ODMModelParser();
+//    public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
 
     private DclfSenAnalysisXmlType _senXml = null;
     private PowerTradingInfoXmlType _ptInfoXml = null;
@@ -236,39 +236,39 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				genIdAry[i++] = bus.getBusId();
 			}
 			this.gsfGenBusList.setModel(new javax.swing.DefaultComboBoxModel(genIdAry));
+
+			DclfBranchSensitivityXmlType gsf =  this._senXml.getGenShiftFactor().get(0);
+			// withdraw bus info are the same for all gsf
+			if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.SINGLE_BUS) {
+				this.gsfSingleBusRadioButtonActionPerformed(null);
+				this.gsfSingleBusRadioButton.setSelected(true);
+				String busId = gsf.getWithdrawBus().get(0).getBusId();
+				this.gsfAPNodeComboBox.setSelectedItem(busId);
+			}
+			else if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.AP_NODE) {
+				this.gsfAPNodeRadioButtonActionPerformed(null);
+				this.gsfAPNodeRadioButton.setEnabled(true);
+				this.gsfAPNodeRadioButton.setSelected(true);
+				this.gsfAPNodeComboBox.setSelectedItem(gsf.getApNodeId());
+			}
+			else {
+				this.gsfBasecaseRadioButtonActionPerformed(null);
+				this.gsfBasecaseRadioButton.setSelected(true);
+			}
+				
+			// branch/interface info are the same for all gsf
+			String[] braInfIdAry = new String[gsf.getBranchSFactor().size()+gsf.getInterfaceSFactor().size()];
+			int cnt = 0;
+			for ( BranchShiftFactorXmlType sf : gsf.getBranchSFactor()) {
+				BranchRefXmlType branch = sf.getBranch();
+				braInfIdAry[cnt++] = "b:" + ToBranchId.f(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
+			}
+			for ( InterfaceShiftFactorXmlType inf : gsf.getInterfaceSFactor()) {
+				FlowInterfaceRecXmlType in = inf.getInterface();
+				braInfIdAry[cnt++] = "i:" + in.getId();
+			}
+	    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(braInfIdAry));    	
 		}
-		
-		DclfBranchSensitivityXmlType gsf =  this._senXml.getGenShiftFactor().get(0);
-		// withdraw bus info are the same for all gsf
-		if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.SINGLE_BUS) {
-			this.gsfSingleBusRadioButtonActionPerformed(null);
-			this.gsfSingleBusRadioButton.setSelected(true);
-			String busId = gsf.getWithdrawBus().get(0).getBusId();
-			this.gsfAPNodeComboBox.setSelectedItem(busId);
-		}
-		else if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.AP_NODE) {
-			this.gsfAPNodeRadioButtonActionPerformed(null);
-			this.gsfAPNodeRadioButton.setEnabled(true);
-			this.gsfAPNodeRadioButton.setSelected(true);
-			this.gsfAPNodeComboBox.setSelectedItem(gsf.getApNodeId());
-		}
-		else {
-			this.gsfBasecaseRadioButtonActionPerformed(null);
-			this.gsfBasecaseRadioButton.setSelected(true);
-		}
-			
-		// branch/interface info are the same for all gsf
-		String[] braInfIdAry = new String[gsf.getBranchSFactor().size()+gsf.getInterfaceSFactor().size()];
-		int cnt = 0;
-		for ( BranchShiftFactorXmlType sf : gsf.getBranchSFactor()) {
-			BranchRefXmlType branch = sf.getBranch();
-			braInfIdAry[cnt++] = "b:" + ToBranchId.f(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
-		}
-		for ( InterfaceShiftFactorXmlType inf : gsf.getInterfaceSFactor()) {
-			FlowInterfaceRecXmlType in = inf.getInterface();
-			braInfIdAry[cnt++] = "i:" + in.getId();
-		}
-    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(braInfIdAry));    	
 
 		return true;
 	}
@@ -432,7 +432,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	}
 		this._senXml.getGenShiftFactor().clear();
 
-		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+		IpssScenarioHelper helper = new IpssScenarioHelper();
 		for (String genId : genIdAry) {
 			DclfBranchSensitivityXmlType gsf = helper.createGSF(this._senXml);
 			
@@ -496,7 +496,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 	public boolean saveEditor2LODF(Vector<String> errMsg) {
 		ipssLogger.info("NBAclfCasePanel saveEditor2LODF() called");
-		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+		IpssScenarioHelper helper = new IpssScenarioHelper();
 		
 		this._senXml.getLineOutageDFactor().clear();
 		LineOutageDFactorXmlType lodf = helper.createLODF(this._senXml);
@@ -508,7 +508,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    		errMsg.add("Select outage branch and add to the outage branch list");
 	    	}
 	    	for (String braId : outageBranchIdAry) {
-		    	BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+		    	BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 				RunUIUtilFunc.setBranchIdInfo(outage, braId);
 	    	}
 		}
@@ -518,7 +518,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    	if (braId == null) {
 	    		errMsg.add("Select an outage branch");
 	    	}
-	    	BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+	    	BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 		}
 
@@ -536,7 +536,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	
 	public boolean saveEditor2OutConfig(Vector<String> errMsg) {
 		ipssLogger.info("NBAclfCasePanel saveEditor2OutConfig() called");
-		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
+		IpssScenarioHelper helper = new IpssScenarioHelper();
 		
 		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
 		if (outConfig == null)
@@ -2512,7 +2512,6 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
 			}
 		}.start();
     }                                                     
-    
     
     /*
      *  PTDF    
