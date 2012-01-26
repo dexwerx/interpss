@@ -24,9 +24,9 @@
 
 package org.interpss.editor.ui.run;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static com.interpss.common.util.NetUtilFunc.ToBranchId;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.io.File;
 import java.util.List;
@@ -45,8 +45,8 @@ import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
+import org.ieee.odm.schema.LODFOutageEnumType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
-import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.PowerTradingInfoXmlType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
@@ -66,9 +66,11 @@ import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.common.func.IFunction;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.NetUtilFunc;
+import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.flow.FlowInterface;
 import com.interpss.pssl.common.PSSLException;
@@ -89,7 +91,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     public void setODMParser(ODMModelParser parser) { 	this.odmParser = parser;   }
 
     private DclfSenAnalysisXmlType _senXml = null;
-    private PTradingEDHourlyAnalysisXmlType _ptXml = null;    
     private PowerTradingInfoXmlType _ptInfoXml = null;
     
     /** Creates new form NBAclfCasePanel */
@@ -100,23 +101,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	initInputVerifier(new DataVerifier());
     }
     
-    /**
-     * Implementation of the onMsgEvent method.
-  	* 
-  	* @param msg the msg object
-     */
-     public void onMsgEvent(IpssMessage msg) {
+     @Override public void onMsgEvent(IpssMessage msg) {
     	 // do nothing
      }
 
-     public boolean onMsgEventStatus(IpssMessage msg) {
+     @Override public boolean onMsgEventStatus(IpssMessage msg) {
   	   throw new InterpssRuntimeException("Method not implemented");
      }
      
     public void init(Object netContainer, Object simuCtx) {
     	// for non-graphic file, netContainer == null
 		ipssLogger.info("NBAclfCasePanel init() called");
-	    //_netContainer = (GFormContainer)netContainer;
+		
 	    _simuCtx = (SimuContext)simuCtx;
 	    
 	    this.runDclfTabbedPane.setSelectedIndex(1);
@@ -133,8 +129,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
     		this.gsfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
-//    		this.gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-//    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));    	
     	}
     }
 
@@ -147,9 +141,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	}
     }
    
-    public void setXmlCaseData(DclfSenAnalysisXmlType senXml, PTradingEDHourlyAnalysisXmlType pt, PowerTradingInfoXmlType ptInfo) {
+    public void setXmlCaseData(DclfSenAnalysisXmlType senXml, PowerTradingInfoXmlType ptInfo) {
     	this._senXml = senXml;
-    	this._ptXml = pt;
     	this._ptInfoXml = ptInfo;
     }    
     
@@ -165,8 +158,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		ipssLogger.info("NBAclfCasePanel setForm2Editor() called");
 		
-		// load FlowInterface if necessary
-		if (!RunUIUtilFunc.loadFlowInterfaceFiles(this._simuCtx.getAclfNet(), this._ptXml, this._ptInfoXml))
+		// load FlowInterface if exists
+		if (!RunUIUtilFunc.loadFlowInterfaceFiles(this._simuCtx.getAclfNet(), this._ptInfoXml))
 			return false;
 
 		if (this._simuCtx.getAclfNet().isFlowInterfaceLoaded()) {
@@ -174,16 +167,17 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			this.gsfMonitorInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 					RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.FlowInterface).toArray()));
 		}
-		else
+		else {
 			setFlowInterfaceStatus(false);
+		}
+		
+		if (!setConfig2Editor())
+			return false;
 		
 		if (!setGSF2Editor())
 			return false;
 
 		if (!setLODF2Editor())
-			return false;
-		
-		if (!setConfig2Editor())
 			return false;
 		
 		return true;
@@ -192,33 +186,90 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	private void setFlowInterfaceStatus(boolean b) {
 		this.gsfMonitorInterfaceListComboBox.setEnabled(b);
 		this.gsfMonitorAddInterfaceButton.setEnabled(b);
+		this.gsfAllInterfaceGSFButton.setEnabled(b);
+		this.gsfLargetInterfaceGSFButton.setEnabled(b);
+	}
+
+	public boolean setConfig2Editor() {
+		ipssLogger.info("NBAclfCasePanel setOutConfig2Editor() called");
+		
+		interfaceFileTextField.setText(this._ptInfoXml.getInterfaceFilename());
+		
+		// set PowerTrading info to the configuration panel
+		if (this._ptInfoXml.getLoadDist() != null) {
+			if (this._ptInfoXml.getLoadDist().getMinLoadForDistFactor() != null)
+				this.loadDistThreshholdTextField.setText(
+						Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
+
+			// load and configure AP Node info if exists
+			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null) {
+				this.loadDistAPNodeFileTextField.setText(
+						this._ptInfoXml.getLoadDist().getAggregatePricing().getAggregatePricingFilename());
+				if ( !RunUIUtilFunc.loadAPNodeFile(_ptInfoXml)) {
+					// when there is a problem loading the APNode info, disable the APNode radio button
+					this._ptInfoXml.getLoadDist().setAggregatePricing(null);
+					this.gsfAPNodeRadioButton.setEnabled(false);
+				}
+			}
+			else
+				this.gsfAPNodeRadioButton.setEnabled(false);
+		}		
+
+		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
+		if (outConfig != null) {
+			this.outAllBranchPointsTextField.setText(outConfig.getAllBranchPoints().toString());
+			this.outAllInterfacePointsTextField.setText(outConfig.getAllInterfacePoints().toString());
+		}
+		
+		return true;
 	}
 
 	public boolean setGSF2Editor() {
 		ipssLogger.info("NBAclfCasePanel setGSF2Editor() called");
-		
+
+		// set gen bus list
 		if (this._senXml.getGenShiftFactor().size() > 0) {
-			DclfBranchSensitivityXmlType gsf = this._senXml.getGenShiftFactor().get(0);
-			
-			SenAnalysisBusXmlType bus = gsf.getInjectBus().get(0);
-			this.gsfInjectBusComboBox.setSelectedItem(bus.getBusId());
-			
-//			this.gsfLoadThreshholdTextField.setText(
-//					Number2String.toStr(gsf.getMinLoadForDistFactor().getValue(), "#0.0"));
-			
-			String[] ary = new String[gsf.getBranchSFactor().size()+gsf.getInterfaceSFactor().size()];
-			int cnt = 0;
-			for ( BranchShiftFactorXmlType sf : gsf.getBranchSFactor()) {
-				BranchRefXmlType branch = sf.getBranch();
-				ary[cnt++] = "b:" + ToBranchId.f(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
+			int i = 0;
+			String[] genIdAry = new String[this._senXml.getGenShiftFactor().size()];
+			for (DclfBranchSensitivityXmlType gsf : this._senXml.getGenShiftFactor()) {
+				SenAnalysisBusXmlType bus = gsf.getInjectBus().get(0);
+				genIdAry[i++] = bus.getBusId();
 			}
-			for ( InterfaceShiftFactorXmlType inf : gsf.getInterfaceSFactor()) {
-				FlowInterfaceRecXmlType in = inf.getInterface();
-				ary[cnt++] = "i:" + in.getId();
-			}
-	    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    	
+			this.gsfGenBusList.setModel(new javax.swing.DefaultComboBoxModel(genIdAry));
 		}
 		
+		DclfBranchSensitivityXmlType gsf =  this._senXml.getGenShiftFactor().get(0);
+		// withdraw bus info are the same for all gsf
+		if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.SINGLE_BUS) {
+			this.gsfSingleBusRadioButtonActionPerformed(null);
+			this.gsfSingleBusRadioButton.setSelected(true);
+			String busId = gsf.getWithdrawBus().get(0).getBusId();
+			this.gsfAPNodeComboBox.setSelectedItem(busId);
+		}
+		else if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.AP_NODE) {
+			this.gsfAPNodeRadioButtonActionPerformed(null);
+			this.gsfAPNodeRadioButton.setEnabled(true);
+			this.gsfAPNodeRadioButton.setSelected(true);
+			this.gsfAPNodeComboBox.setSelectedItem(gsf.getApNodeId());
+		}
+		else {
+			this.gsfBasecaseRadioButtonActionPerformed(null);
+			this.gsfBasecaseRadioButton.setSelected(true);
+		}
+			
+		// branch/interface info are the same for all gsf
+		String[] braInfIdAry = new String[gsf.getBranchSFactor().size()+gsf.getInterfaceSFactor().size()];
+		int cnt = 0;
+		for ( BranchShiftFactorXmlType sf : gsf.getBranchSFactor()) {
+			BranchRefXmlType branch = sf.getBranch();
+			braInfIdAry[cnt++] = "b:" + ToBranchId.f(branch.getFromBusId(), branch.getToBusId(), branch.getCircuitId());
+		}
+		for ( InterfaceShiftFactorXmlType inf : gsf.getInterfaceSFactor()) {
+			FlowInterfaceRecXmlType in = inf.getInterface();
+			braInfIdAry[cnt++] = "i:" + in.getId();
+		}
+    	gsfMonitorBranchList.setModel(new javax.swing.DefaultComboBoxModel(braInfIdAry));    	
+
 		return true;
 	}
 
@@ -230,64 +281,30 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				this._senXml.getLineOutageDFactor().get(0) : null;
 
 		if ( lodf != null && lodf.getOutageBranch() != null ) {
-			if (lodf.getOutageBranch().size() <= 1) { 
+			if (lodf.getOutageType() == LODFOutageEnumType.SINGLE_BRANCH) { 
 				this.lodfSingleTypeRadioButton.setSelected(true);
-				if (lodf.getOutageBranch().size() == 1) { 
-					String braId = lodf.getOutageBranch().get(0).getBranchId();
-					this.lodfBranchListComboBox.setSelectedItem(braId);
-				}
+				String braId = lodf.getOutageBranch().get(0).getBranchId();
+				this.lodfBranchListComboBox.setSelectedItem(braId);
+				setLodfComponentStatus(false);
 			}
 			else {
 				this.lodfMultiTypeRadioButton.setSelected(true);
-				// TODO
+				String[] ary = StringUtil.getIdNameAry(lodf.getOutageBranch(), new IFunction<Object,String>() {
+					@Override public String f(Object value) { return ((BranchRefXmlType)value).getBranchId(); }});
+				this.lodfMultiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    			
+				setLodfComponentStatus(true);
 			}
 		}
 
 		if ( lodf != null && lodf.getMonitorBranch() != null) {
-			String[] ary = new String[lodf.getMonitorBranch().size()];
-			int cnt = 0;
-			for (LODFMonitorBranchXmlType monitor : lodf.getMonitorBranch()) {
-		    	String id = monitor.getBranch().getBranchId();
-				ary[cnt++] = "b:" + id;
-			}
+			String[] ary = StringUtil.getIdNameAry(lodf.getMonitorBranch(), new IFunction<Object,String>() {
+				@Override public String f(Object value) {return "b:" + ((LODFMonitorBranchXmlType)value).getBranch().getBranchId();	}});
 			lodfMonitorBranchInterfaceList.setModel(new javax.swing.DefaultComboBoxModel(ary));    			
 		}
 		
 		return true;
 	}
-
-	public boolean setConfig2Editor() {
-		ipssLogger.info("NBAclfCasePanel setOutConfig2Editor() called");
-		
-		interfaceFileTextField.setText(this._ptInfoXml.getInterfaceFilename());
-		
-		if (this._ptInfoXml.getLoadDist() != null) {
-			if (this._ptInfoXml.getLoadDist().getMinLoadForDistFactor() != null)
-				this.loadDistThreshholdTextField.setText(
-						Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
-			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null) {
-				this.loadDistAPNodeFileTextField.setText(
-						this._ptInfoXml.getLoadDist().getAggregatePricing().getAggregatePricingFilename());
-				if ( RunUIUtilFunc.loadAPNodeFile(_ptInfoXml)) {
-					AggregatePricingHelper helper = new AggregatePricingHelper(this._ptInfoXml.getLoadDist().getAggregatePricing());
-					String[] idAry = helper.getAPNodeIdAry();
-					this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
-				}
-				else {
-					this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No AP Node defined"}));
-				}
-			}
-		}
-		
-		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
-		if (outConfig != null) {
-			this.outAllBranchPointsTextField.setText(outConfig.getAllBranchPoints().toString());
-			this.outAllInterfacePointsTextField.setText(outConfig.getAllInterfacePoints().toString());
-		}
-		
-		return true;
-	}
-
+	
 	public boolean setTDFactor2Editor() {
 /*
 		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
@@ -390,6 +407,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		ipssLogger.info("NBAclfCasePanel saveEditor2Form() called");
 		
+		// clear the APNode info, since it should be stored
+		if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null)
+			this._ptInfoXml.getLoadDist().getAggregatePricing().getApNode().clear();
+		
 		saveEditor2GSF(errMsg);
 
 		saveEditor2LODF(errMsg);
@@ -403,48 +424,71 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 	public boolean saveEditor2GSF(Vector<String> errMsg) {
 		ipssLogger.info("NBAclfCasePanel saveEditor2GSF() called");
+		
+    	String[] genIdAry = RunUIUtilFunc.getJListItemAry(this.gsfGenBusList);
+    	if (genIdAry.length == 0) {
+    		errMsg.add("Please select at least gen bus for GSF analysis");
+    		return false;
+    	}
+		this._senXml.getGenShiftFactor().clear();
 
 		IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
-		
-		this._senXml.getGenShiftFactor().clear();
-		DclfBranchSensitivityXmlType gsf = helper.createGSF(this._senXml);
-		
-		gsf.setSenType(SensitivityEnumType.P_ANGLE);
-		
-		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
-		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
-		
-		String busId = (String)this.gsfInjectBusComboBox.getSelectedItem();
-		if (busId == null) {
-			errMsg.add("Select a gen bus");
-		}
-		bus.setBusId(busId);
-		
-		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
-		
-//		gsf.setMinLoadForDistFactor(BaseDataSetter.createActivePowerValue(
-//				new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), 
-//				ActivePowerUnitType.fromValue("MW")));
-
-		gsf.getBranchSFactor().clear();
+		for (String genId : genIdAry) {
+			DclfBranchSensitivityXmlType gsf = helper.createGSF(this._senXml);
 			
-    	for (String id : RunUIUtilFunc.getJListItemAry(gsfMonitorBranchList)) {
-    		if (id != null) {
-        		if (id.startsWith("b:")) { // branch
-        			String braId = id.substring(2);
-    	    		BranchShiftFactorXmlType sf = helper.createBranchSFactor(gsf.getBranchSFactor());
-    	    		BranchRefXmlType line = odmObjFactory.createBranchRefXmlType();
-    				sf.setBranch(line);
-    				RunUIUtilFunc.setBranchIdInfo(line, braId);				
-        		}
-        		else {  // interface
-        			String braId = id.substring(2);
-    	    		InterfaceShiftFactorXmlType sf = helper.createInterfaceSFactor(gsf.getInterfaceSFactor());
-    	    		FlowInterfaceRecXmlType inf = odmObjFactory.createFlowInterfaceRecXmlType();
-    				sf.setInterface(inf);
-    				inf.setId(braId);
-        		}
-    		}
+			gsf.setSenType(SensitivityEnumType.P_ANGLE);
+			
+			/*
+			 * set Injection bus
+			 */
+			gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+			SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
+			bus.setBusId(genId);
+			
+			// although the withdraw bus info and the monitor branch/interface info
+			// are the same for all gen buses, they need to be set at each gsf recard
+			// level
+			
+			/*
+			 * set withdraw bus
+			 */
+			if (this.gsfSingleBusRadioButton.isSelected()) { 
+				gsf.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+				gsf.getWithdrawBus().clear();
+				bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
+				String busId = (String)this.gsfAPNodeComboBox.getSelectedItem();
+				bus.setBusId(busId);
+			}
+			else if (this.gsfBasecaseRadioButton.isSelected()) 
+				gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
+			else {
+				gsf.setWithdrawBusType(SenBusAnalysisEnumType.AP_NODE);
+				String apNodeId = (String)this.gsfAPNodeComboBox.getSelectedItem();
+				gsf.setApNodeId(apNodeId);
+			}
+			
+			/*
+			 * set Monitor branches/interfaces
+			 */
+			gsf.getBranchSFactor().clear();
+	    	for (String id : RunUIUtilFunc.getJListItemAry(gsfMonitorBranchList)) {
+	    		if (id != null) {
+	        		if (id.startsWith("b:")) { // branch
+	        			String braId = id.substring(2);
+	    	    		BranchShiftFactorXmlType sf = helper.createBranchSFactor(gsf.getBranchSFactor());
+	    	    		BranchRefXmlType line = odmObjFactory.createBranchRefXmlType();
+	    				sf.setBranch(line);
+	    				RunUIUtilFunc.setBranchIdInfo(line, braId);				
+	        		}
+	        		else {  // interface
+	        			String braId = id.substring(2);
+	    	    		InterfaceShiftFactorXmlType sf = helper.createInterfaceSFactor(gsf.getInterfaceSFactor());
+	    	    		FlowInterfaceRecXmlType inf = odmObjFactory.createFlowInterfaceRecXmlType();
+	    				sf.setInterface(inf);
+	    				inf.setId(braId);
+	        		}
+	    		}
+	    	}
     	}
 		
 		return true;
@@ -458,9 +502,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		LineOutageDFactorXmlType lodf = helper.createLODF(this._senXml);
 
 		if (this.lodfMultiTypeRadioButton.isSelected()) {
-			
+			lodf.setOutageType(LODFOutageEnumType.MULTI_BRANCH);
+	    	String[] outageBranchIdAry = RunUIUtilFunc.getJListItemAry(this.lodfMultiOutageBranchList);
+	    	if (outageBranchIdAry.length == 0) {
+	    		errMsg.add("Select outage branch and add to the outage branch list");
+	    	}
+	    	for (String braId : outageBranchIdAry) {
+		    	BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+				RunUIUtilFunc.setBranchIdInfo(outage, braId);
+	    	}
 		}
 		else {  // single outage branch
+			lodf.setOutageType(LODFOutageEnumType.SINGLE_BRANCH);
 	    	String braId = (String)this.lodfBranchListComboBox.getSelectedItem();
 	    	if (braId == null) {
 	    		errMsg.add("Select an outage branch");
@@ -469,7 +522,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 		}
 
-		for (String id : RunUIUtilFunc.getJListItemAry(this.lodfMonitorBranchInterfaceList)) {
+		String[] braIntfIdAry = RunUIUtilFunc.getJListItemAry(this.lodfMonitorBranchInterfaceList);
+		for (String id : braIntfIdAry) {
     		if (id.startsWith("b:")) { // branch
     			String braId = id.substring(2);
     			BranchRefXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
@@ -553,7 +607,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		return true;
 	}
 
-	private void saveFromAreaBusList2AreaTransfer() {
+//	private void saveFromAreaBusList2AreaTransfer() {
 /*
 		areaTransfer.setInjectBusList(null);
 		areaTransfer.setInjectBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeInjectBusList());
@@ -565,9 +619,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
 */		
-	}
+//	}
 	
-	private void saveToAreaBusList2AreaTransfer() {
+//	private void saveToAreaBusList2AreaTransfer() {
 /*		
 		areaTransfer.setWithdrawBusList(null);
 		areaTransfer.setWithdrawBusList(IpssXmlParser.getFactory().createDclfSensitivityXmlTypeWithdrawBusList());
@@ -579,7 +633,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
 */		
-	}
+//	}
 	
     /** This method is called from within the constructor to
      * initialize the form.
@@ -592,7 +646,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gsfWithdrawButtonGroup = new javax.swing.ButtonGroup();
         lodfTypeButtonGroup = new javax.swing.ButtonGroup();
-        loadDFactorButtonGroup = new javax.swing.ButtonGroup();
         runDclfTabbedPane = new javax.swing.JTabbedPane();
         configPanel = new javax.swing.JPanel();
         interfaceFileLabel = new javax.swing.JLabel();
@@ -610,14 +663,15 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         outAllInterfacePointsTextField = new javax.swing.JTextField();
         gsfPanel = new javax.swing.JPanel();
         gsfInjectionPanel = new javax.swing.JPanel();
-        gsfInjBusSelPanel = new javax.swing.JPanel();
+        gsfGenBusSelPanel = new javax.swing.JPanel();
         gsfGenBusLabel = new javax.swing.JLabel();
         gsfInjectBusComboBox = new javax.swing.JComboBox();
         gsfAddGenButton = new javax.swing.JButton();
         gsfRemoveGenButton = new javax.swing.JButton();
-        gfsGenScrollPane = new javax.swing.JScrollPane();
-        gfsGenBusList = new javax.swing.JList();
+        gsfGenScrollPane = new javax.swing.JScrollPane();
+        gsfGenBusList = new javax.swing.JList();
         gsfWithdrawPanel = new javax.swing.JPanel();
+        gsfSingleBusRadioButton = new javax.swing.JRadioButton();
         gsfBasecaseRadioButton = new javax.swing.JRadioButton();
         gsfAPNodeRadioButton = new javax.swing.JRadioButton();
         gsfAPNodeLabel = new javax.swing.JLabel();
@@ -740,9 +794,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         interfaceFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         interfaceFileTextField.setText("Interface File ...");
+        interfaceFileTextField.setToolTipText("Interface definition file");
 
         selectInterfaceFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
         selectInterfaceFileButton.setText("Select ...");
+        selectInterfaceFileButton.setToolTipText("Click to load the interface definition file");
         selectInterfaceFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectInterfaceFileButtonActionPerformed(evt);
@@ -757,15 +813,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         loadDistThreshholdTextField.setColumns(3);
         loadDistThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         loadDistThreshholdTextField.setText("5.0");
+        loadDistThreshholdTextField.setToolTipText("When use the basecase load for load distribution factor calculation, the threshhold for min load in Mw for the calculation.");
 
         loadDistAPNodeFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         loadDistAPNodeFileLabel.setText("AP Node File");
 
         loadDistAPNodeFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         loadDistAPNodeFileTextField.setText("APNode File ...");
+        loadDistAPNodeFileTextField.setToolTipText("Aggregate pricing node file");
 
         selectAPNodeFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
         selectAPNodeFileButton.setText("Select ...");
+        selectAPNodeFileButton.setToolTipText("Click to load the aggregate pricing node file");
         selectAPNodeFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectAPNodeFileButtonActionPerformed(evt);
@@ -790,7 +849,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                         .add(loadDistThreshholdLabel)
                         .add(18, 18, 18)
                         .add(loadDistThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         loadDistributionPanelLayout.setVerticalGroup(
             loadDistributionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -815,6 +874,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         outAllBranchPointsTextField.setColumns(5);
         outAllBranchPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         outAllBranchPointsTextField.setText("50");
+        outAllBranchPointsTextField.setToolTipText("Max rows for branch analysis output");
 
         outAllInterfacePointsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         outAllInterfacePointsLabel.setText("All Interface Output Points");
@@ -822,6 +882,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         outAllInterfacePointsTextField.setColumns(5);
         outAllInterfacePointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         outAllInterfacePointsTextField.setText("10");
+        outAllInterfacePointsTextField.setToolTipText("Max rows for interface analysis output");
 
         org.jdesktop.layout.GroupLayout configPanelLayout = new org.jdesktop.layout.GroupLayout(configPanel);
         configPanel.setLayout(configPanelLayout);
@@ -830,7 +891,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(configPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(loadDistributionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(11, 11, 11))
+                .add(28, 28, 28))
             .add(configPanelLayout.createSequentialGroup()
                 .add(33, 33, 33)
                 .add(interfaceFileLabel)
@@ -880,20 +941,34 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gsfGenBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfGenBusLabel.setText("Gen Bus    ");
-        gsfInjBusSelPanel.add(gsfGenBusLabel);
+        gsfGenBusSelPanel.add(gsfGenBusLabel);
 
         gsfInjectBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gsfInjBusSelPanel.add(gsfInjectBusComboBox);
+        gsfInjectBusComboBox.setToolTipText("Generator bus in the system for injection geneator selection");
+        gsfGenBusSelPanel.add(gsfInjectBusComboBox);
 
         gsfAddGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
         gsfAddGenButton.setText("Add");
+        gsfAddGenButton.setToolTipText("Add a generator bus from the Gen Bus dropdown list to the injection generator bus list");
+        gsfAddGenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfAddGenButtonActionPerformed(evt);
+            }
+        });
 
         gsfRemoveGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
         gsfRemoveGenButton.setText("Remove");
+        gsfRemoveGenButton.setToolTipText("Remove a generator bus from the injection generator bus list.\nYou need first select one and only one item.");
+        gsfRemoveGenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfRemoveGenButtonActionPerformed(evt);
+            }
+        });
 
-        gfsGenBusList.setFont(new java.awt.Font("Dialog", 0, 12));
-        gfsGenScrollPane.setViewportView(gfsGenBusList);
+        gsfGenBusList.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfGenBusList.setToolTipText("Selected injection generator buses for GSF analysis. You should select at least one gen bus.");
+        gsfGenScrollPane.setViewportView(gsfGenBusList);
 
         org.jdesktop.layout.GroupLayout gsfInjectionPanelLayout = new org.jdesktop.layout.GroupLayout(gsfInjectionPanel);
         gsfInjectionPanel.setLayout(gsfInjectionPanelLayout);
@@ -901,10 +976,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfInjectionPanelLayout.createSequentialGroup()
                 .add(34, 34, 34)
-                .add(gsfInjBusSelPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(gsfGenBusSelPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfInjectionPanelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(gfsGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE)
+                .add(gsfGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfAddGenButton)
@@ -914,23 +989,34 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gsfInjectionPanelLayout.setVerticalGroup(
             gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfInjectionPanelLayout.createSequentialGroup()
-                .add(gsfInjBusSelPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(gsfGenBusSelPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfInjectionPanelLayout.createSequentialGroup()
                         .add(gsfAddGenButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(gsfRemoveGenButton))
-                    .add(gfsGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(gsfGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         gsfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
+        gsfWithdrawButtonGroup.add(gsfSingleBusRadioButton);
+        gsfSingleBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfSingleBusRadioButton.setSelected(true);
+        gsfSingleBusRadioButton.setText("Bus");
+        gsfSingleBusRadioButton.setToolTipText("Single bus as the withdraw bus");
+        gsfSingleBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfSingleBusRadioButtonActionPerformed(evt);
+            }
+        });
+
         gsfWithdrawButtonGroup.add(gsfBasecaseRadioButton);
         gsfBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfBasecaseRadioButton.setSelected(true);
-        gsfBasecaseRadioButton.setText("BasecaseLoad");
+        gsfBasecaseRadioButton.setText("BaseCase");
+        gsfBasecaseRadioButton.setToolTipText("Use load buses in the network as the withdraw bus. The distribution\nfactor is calculated according relative size of the load, excluding \nthose small load less than the threshhold (normally, 5Mw)");
         gsfBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfBasecaseRadioButtonActionPerformed(evt);
@@ -939,19 +1025,21 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gsfWithdrawButtonGroup.add(gsfAPNodeRadioButton);
         gsfAPNodeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfAPNodeRadioButton.setText("AP Node");
+        gsfAPNodeRadioButton.setText("APNode");
+        gsfAPNodeRadioButton.setToolTipText("Use aggregate pricing node for load distribution factor calculation.");
         gsfAPNodeRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfAPNodeRadioButtonActionPerformed(evt);
             }
         });
 
-        gsfAPNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        gsfAPNodeLabel.setText("AP Node");
+        gsfAPNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfAPNodeLabel.setText("Bus");
         gsfAPNodeLabel.setEnabled(false);
 
-        gsfAPNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfAPNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gsfAPNodeComboBox.setToolTipText("Withdraw bus selection in case the Bus option is selected, or AP Node selection in case the APNode option is selected.");
         gsfAPNodeComboBox.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout gsfWithdrawPanelLayout = new org.jdesktop.layout.GroupLayout(gsfWithdrawPanel);
@@ -960,21 +1048,23 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfWithdrawPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(gsfSingleBusRadioButton)
+                    .add(gsfAPNodeLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfWithdrawPanelLayout.createSequentialGroup()
                         .add(gsfBasecaseRadioButton)
-                        .add(12, 12, 12)
-                        .add(gsfAPNodeRadioButton))
-                    .add(gsfWithdrawPanelLayout.createSequentialGroup()
-                        .add(gsfAPNodeLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(gsfAPNodeComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .add(gsfAPNodeRadioButton))
+                    .add(gsfAPNodeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 145, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(6, 6, 6))
         );
         gsfWithdrawPanelLayout.setVerticalGroup(
             gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfWithdrawPanelLayout.createSequentialGroup()
                 .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(gsfSingleBusRadioButton)
                     .add(gsfBasecaseRadioButton)
                     .add(gsfAPNodeRadioButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 16, Short.MAX_VALUE)
@@ -1029,7 +1119,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(gsfMonitorBranchPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(gsfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .add(gsfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                     .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                         .add(gsfMonitorAddBranchButton)
                         .add(gsfMonitorAddInterfaceButton)
@@ -1055,40 +1145,45 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap())
         );
 
-        gsfSelectedGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfSelectedGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfSelectedGSFButton.setText("Selected GSF");
+        gsfSelectedGSFButton.setToolTipText("For the selected branch/interface, calculate GSF for the select gen");
         gsfSelectedGSFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfSelectedGSFButtonActionPerformed(evt);
             }
         });
 
-        gsfAllBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfAllBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfAllBranchGSFButton.setText("All Branch GSF");
+        gsfAllBranchGSFButton.setToolTipText("For the selected branch, calculate all GSF");
         gsfAllBranchGSFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfAllBranchGSFButtonActionPerformed(evt);
             }
         });
 
-        gsfLargetBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLargetBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfLargetBranchGSFButton.setText("Larget Branch GSF");
+        gsfLargetBranchGSFButton.setToolTipText("For the selected branch, calculate the largest GSF");
         gsfLargetBranchGSFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfLargetBranchGSFButtonActionPerformed(evt);
             }
         });
 
-        gsfAllInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfAllInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfAllInterfaceGSFButton.setText("All Interface GSF");
+        gsfAllInterfaceGSFButton.setToolTipText("For the selected interface, calculate all GSF.");
         gsfAllInterfaceGSFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfAllInterfaceGSFButtonActionPerformed(evt);
             }
         });
 
-        gsfLargetInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLargetInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         gsfLargetInterfaceGSFButton.setText("Largest Interface GSF");
+        gsfLargetInterfaceGSFButton.setToolTipText("For the selected inerface, calculate the largest GSF");
         gsfLargetInterfaceGSFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gsfLargetInterfaceGSFButtonActionPerformed(evt);
@@ -1103,10 +1198,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 226, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(gsfPanelLayout.createSequentialGroup()
                         .add(52, 52, 52)
@@ -1123,7 +1218,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(gsfAllInterfaceGSFButton)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         gsfPanelLayout.setVerticalGroup(
             gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1166,7 +1261,6 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         lodfTypeButtonGroup.add(lodfMultiTypeRadioButton);
         lodfMultiTypeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lodfMultiTypeRadioButton.setText("Multii-Branch");
-        lodfMultiTypeRadioButton.setEnabled(false);
         lodfMultiTypeRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lodfMultiTypeRadioButtonActionPerformed(evt);
@@ -1310,8 +1404,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap())
         );
 
-        lodfAllLODFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfAllLODFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lodfAllLODFButton.setText("All LODF");
+        lodfAllLODFButton.setToolTipText("For the selected outage branch, calculate all LODF");
         lodfAllLODFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lodfAllLODFButtonActionPerformed(evt);
@@ -1326,8 +1421,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        lodfLargetLODFButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lodfLargetLODFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lodfLargetLODFButton.setText("Largest LODF");
+        lodfLargetLODFButton.setToolTipText("For the selected outage branch, calculated the largest LODF");
         lodfLargetLODFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lodfLargestLODFButtonActionPerformed(evt);
@@ -1630,10 +1726,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap()
                 .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(ptdfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+                    .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(64, 64, 64))
+                .add(81, 81, 81))
             .add(ptdfPanelLayout.createSequentialGroup()
                 .add(217, 217, 217)
                 .add(ptdfCalculateButton)
@@ -1998,15 +2094,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }// </editor-fold>//GEN-END:initComponents
  
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
-    	if ( runDclfTabbedPane.getSelectedIndex() == 0 ) {
-        	ipssLogger.info("Panel selection changed - GF Panel");
-        	initGsfTabPanel();
-    	}
-    	else if ( runDclfTabbedPane.getSelectedIndex() == 1 ) {
-        	ipssLogger.info("Panel selection changed - LODF Panel");
-    	    initLodfTabPanel();
-    	}	
+//    	if ( runDclfTabbedPane.getSelectedIndex() == 0 ) {
+//        	ipssLogger.info("Panel selection changed - GF Panel");
+//        	initGsfTabPanel();
+//    	}
+//    	else if ( runDclfTabbedPane.getSelectedIndex() == 1 ) {
+//        	ipssLogger.info("Panel selection changed - LODF Panel");
+//    	    initLodfTabPanel();
+//    	}	
     }//GEN-LAST:event_panelSelectionChanged
+
+// TODO ------
+// -----------
 
 /*888888888888888888888
  *  Configuration    
@@ -2029,39 +2128,64 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 		this.loadDistAPNodeFileTextField.setText(file.getAbsolutePath());
 	}
 }//GEN-LAST:event_selectAPNodeFileButtonActionPerformed
-    
+
 /*888888888888888888888
  *  GSF    
  8888888888888888888888*/
 
-    private void gsfBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfBasecaseRadioButtonActionPerformed
+private void gsfSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfSingleBusRadioButtonActionPerformed
+    ipssLogger.info("gsfSingleBusRadioButtonActionPerformed() called");
+    this.gsfAPNodeLabel.setEnabled(true);
+    this.gsfAPNodeLabel.setText("Bus");
+    this.gsfAPNodeComboBox.setEnabled(true);
+    this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));    	
+    
+}//GEN-LAST:event_gsfSingleBusRadioButtonActionPerformed
+
+private void gsfBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfBasecaseRadioButtonActionPerformed
         ipssLogger.info("gsfLoadDFactorRadioButtonActionPerformed() called");
         this.gsfAPNodeLabel.setEnabled(false);
-        this.gsfAPNodeComboBox.setEditable(false);
-    }//GEN-LAST:event_gsfBasecaseRadioButtonActionPerformed
+        this.gsfAPNodeComboBox.setEnabled(false);
+}//GEN-LAST:event_gsfBasecaseRadioButtonActionPerformed
 
-    private void gsfAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAPNodeRadioButtonActionPerformed
+private void gsfAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAPNodeRadioButtonActionPerformed
         ipssLogger.info("gsfAPNodeRadioButtonActionPerformed() called");
         this.gsfAPNodeLabel.setEnabled(true);
-        this.gsfAPNodeComboBox.setEditable(true);
-    }//GEN-LAST:event_gsfAPNodeRadioButtonActionPerformed
+        this.gsfAPNodeLabel.setText("APNode");
+        this.gsfAPNodeComboBox.setEnabled(true);
+		AggregatePricingHelper helper = new AggregatePricingHelper(this._ptInfoXml.getLoadDist().getAggregatePricing());
+		String[] idAry = helper.getAPNodeIdAry();
+		this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
+}//GEN-LAST:event_gsfAPNodeRadioButtonActionPerformed
 
-    private void gsfMonitorAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorAddBranchButtonActionPerformed
+ private void gsfAddGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddGenButtonActionPerformed
+        ipssLogger.info("gsfAddGenButtonActionPerformed() called");
+    	String id = (String)this.gsfInjectBusComboBox.getSelectedItem();
+    	RunUIUtilFunc.addItemJList(this.gsfGenBusList, id);
+}//GEN-LAST:event_gsfAddGenButtonActionPerformed
+
+private void gsfRemoveGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfRemoveGenButtonActionPerformed
+        ipssLogger.info("gsfRemoveGenButtonActionPerformed() called");
+        RunUIUtilFunc.removeItemJList(this.gsfGenBusList);
+}//GEN-LAST:event_gsfRemoveGenButtonActionPerformed
+
+private void gsfMonitorAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorAddBranchButtonActionPerformed
         ipssLogger.info("gsfAddBranchButtonActionPerformed() called");
     	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(gsfMonitorBranchList, "b:"+id);
-    }//GEN-LAST:event_gsfMonitorAddBranchButtonActionPerformed
+}//GEN-LAST:event_gsfMonitorAddBranchButtonActionPerformed
 
-    private void gsfMonitorAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorAddInterfaceButtonActionPerformed
+private void gsfMonitorAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorAddInterfaceButtonActionPerformed
         ipssLogger.info("gsfAddInterfaceButtonActionPerformed() called");
     	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(gsfMonitorBranchList, "i:"+id);        
-    }//GEN-LAST:event_gsfMonitorAddInterfaceButtonActionPerformed
+}//GEN-LAST:event_gsfMonitorAddInterfaceButtonActionPerformed
 
-    private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorRemoveBranchButtonActionPerformed
+private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfMonitorRemoveBranchButtonActionPerformed
         ipssLogger.info("gsfRemoveBranchButtonActionPerformed() called");
         RunUIUtilFunc.removeItemJList(this.gsfMonitorBranchList);
-    }//GEN-LAST:event_gsfMonitorRemoveBranchButtonActionPerformed
+}//GEN-LAST:event_gsfMonitorRemoveBranchButtonActionPerformed
 
     private void gsfSelectedGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfSelectedGSFButtonActionPerformed
         ipssLogger.info("gsfCalculateButtonActionPerformed() called");
@@ -2085,8 +2209,8 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 
 				String outText = "";
 				try {
-					new DclfDslODMRunner(algoDsl).runDclfCase(_senXml, DclfAnalysisType.GSF);
-					outText = SenAnalysisOutput.outGSF(_senXml.getGenShiftFactor().get(0)).toString();
+					new DclfDslODMRunner(algoDsl).runDclfCase(_senXml, DclfAnalysisType.GSF, _ptInfoXml);
+					outText = SenAnalysisOutput.outGSF(_senXml.getGenShiftFactor(), _ptInfoXml).toString();
 				} catch (PSSLException e) {
 					ipssLogger.severe(e.toString());
 					outText = e.toString();
@@ -2107,7 +2231,6 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
-//				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
     	
     	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
     	if (id == null) {
@@ -2141,7 +2264,6 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
-//				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
     	
     	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
     	if (id == null) {
@@ -2174,9 +2296,8 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
         ipssLogger.info("gsfAllInterfaceGSFButtonActionPerformed() called");
     	this.parent.setAlwaysOnTop(false);
 
-//    	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
-//				.setRefBus()
-//				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
+    	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
+				.setRefBus();
     	
     	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
     	if (id == null) {
@@ -2192,10 +2313,10 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 				IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
 				appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 						"Run GSF Analysis ...", "Run SenAnalysis");
-//				List<DblBusValue> gsfList = algoDsl.monitorFlowInterface(monitorInf).largestGSFs(outPoints);
-//				String outText = SenAnalysisOutput.outGSFList(monitorInf, gsfList).toString();
-//				algoDsl.destroy();
-//				UISpringFactory.getOutputTextDialog("Largest GSF Calculation Results").display(outText);   
+				List<DblBusValue> gsfList = algoDsl.monitorFlowInterface(monitorInf).largestGSFs(outPoints);
+				String outText = SenAnalysisOutput.outGSFList(monitorInf, gsfList).toString();
+				algoDsl.destroy();
+				UISpringFactory.getOutputTextDialog("Largest GSF Calculation Results").display(outText);   
 
 				appStatus.busyStop("Run GSF Analysis finished");			
 			}
@@ -2208,7 +2329,6 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
-//				.addLoadWithdrawBus(new Double(this.gsfLoadThreshholdTextField.getText()).doubleValue(), UnitType.mW);
     	
     	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
 		final FlowInterface monitorInf = _simuCtx.getAclfNet().getFlowInterface(id);
@@ -2246,6 +2366,8 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
     	this.lodfAddBranchButton.setEnabled(multi);
     	this.lodfRemoveBranchButton.setEnabled(multi);
     	this.lodfMultiOutageBranchList.setEnabled(multi);
+    	this.lodfAllLODFButton.setEnabled(!multi);
+    	this.lodfLargetLODFButton.setEnabled(!multi);
     }
     
     private void lodfAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lodfAddBranchButtonActionPerformed
@@ -2292,7 +2414,7 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 
 				String outText = "";
 				try {
-					new DclfDslODMRunner(algoDsl).runDclfCase(senXml, DclfAnalysisType.LODF);
+					new DclfDslODMRunner(algoDsl).runDclfCase(senXml, DclfAnalysisType.LODF, _ptInfoXml);
 					LineOutageDFactorXmlType lodf = senXml.getLineOutageDFactor().get(0);
 			    	outText = SenAnalysisOutput.outLODF(lodf).toString(); // this.odmParser.toXmlDoc(false);
 				} catch (PSSLException e) {
@@ -2481,7 +2603,6 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 }//GEN-LAST:event_ptdfSingleInjectBusRadioButtonActionPerformed
 
     private void ptdfAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfAddInterfaceButtonActionPerformed
-        // TODO add your handling code here:
 }//GEN-LAST:event_ptdfAddInterfaceButtonActionPerformed
 
     private void ptdfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfCalculateButtonActionPerformed
@@ -2498,14 +2619,14 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 //    	dialog.display(str);
     }//GEN-LAST:event_ptdfCalculateButtonActionPerformed
 
-    private void setMultiBusWithdrawStatus(boolean b) {
-        this.ptdfWithdarwBusList.setEnabled(b);
-        this.ptdfAddWithBusButton.setEnabled(b);
-        this.ptdfRemoveWithBusButton.setEnabled(b);
-        this.ptdfLoadDistFactorLabel.setEnabled(b);
-        this.ptdfPercentLabel.setEnabled(b);
-        this.ptdfDistFactorTextField.setEnabled(b);
-    }
+//    private void setMultiBusWithdrawStatus(boolean b) {
+//        this.ptdfWithdarwBusList.setEnabled(b);
+//        this.ptdfAddWithBusButton.setEnabled(b);
+//        this.ptdfRemoveWithBusButton.setEnabled(b);
+//        this.ptdfLoadDistFactorLabel.setEnabled(b);
+//        this.ptdfPercentLabel.setEnabled(b);
+//        this.ptdfDistFactorTextField.setEnabled(b);
+//    }
 
     /*
      * Area Transfer Analysis
@@ -2521,7 +2642,6 @@ private void atAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_atAddBranchButtonActionPerformed
 
 private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddInterfaceButtonActionPerformed
-// TODO add your handling code here:
 }//GEN-LAST:event_atAddInterfaceButtonActionPerformed
 
 private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButtonActionPerformed
@@ -2650,8 +2770,6 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JTextField atTransAmtTextField;
     private javax.swing.JComboBox atTransAmtUnitComboBox;
     private javax.swing.JPanel configPanel;
-    private javax.swing.JList gfsGenBusList;
-    private javax.swing.JScrollPane gfsGenScrollPane;
     private javax.swing.JComboBox gsfAPNodeComboBox;
     private javax.swing.JLabel gsfAPNodeLabel;
     private javax.swing.JRadioButton gsfAPNodeRadioButton;
@@ -2660,7 +2778,9 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JButton gsfAllInterfaceGSFButton;
     private javax.swing.JRadioButton gsfBasecaseRadioButton;
     private javax.swing.JLabel gsfGenBusLabel;
-    private javax.swing.JPanel gsfInjBusSelPanel;
+    private javax.swing.JList gsfGenBusList;
+    private javax.swing.JPanel gsfGenBusSelPanel;
+    private javax.swing.JScrollPane gsfGenScrollPane;
     private javax.swing.JComboBox gsfInjectBusComboBox;
     private javax.swing.JPanel gsfInjectionPanel;
     private javax.swing.JButton gsfLargetBranchGSFButton;
@@ -2676,11 +2796,11 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JPanel gsfPanel;
     private javax.swing.JButton gsfRemoveGenButton;
     private javax.swing.JButton gsfSelectedGSFButton;
+    private javax.swing.JRadioButton gsfSingleBusRadioButton;
     private javax.swing.ButtonGroup gsfWithdrawButtonGroup;
     private javax.swing.JPanel gsfWithdrawPanel;
     private javax.swing.JLabel interfaceFileLabel;
     private javax.swing.JTextField interfaceFileTextField;
-    private javax.swing.ButtonGroup loadDFactorButtonGroup;
     private javax.swing.JLabel loadDistAPNodeFileLabel;
     private javax.swing.JTextField loadDistAPNodeFileTextField;
     private javax.swing.JLabel loadDistThreshholdLabel;

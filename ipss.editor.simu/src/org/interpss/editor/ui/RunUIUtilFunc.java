@@ -299,10 +299,10 @@ public class RunUIUtilFunc  {
 	 */
 	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml, PowerTradingInfoXmlType ptInfo) {
 		// load FlowInterface if necessary
-		if (!net.isFlowInterfaceLoaded()) {
+		String f1 = ptInfo.getInterfaceFilename();
+		if (f1 != null && !net.isFlowInterfaceLoaded()) {
 			EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);
 
-			String f1 = ptInfo.getInterfaceFilename();
 			if (new File(f1).exists()) {
 				ipssLogger.info("Load interface file: " + f1);
 				hrLoadflow.setInterfaceFilename(f1);

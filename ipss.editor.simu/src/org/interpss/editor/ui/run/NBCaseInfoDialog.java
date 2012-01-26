@@ -280,29 +280,29 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			}
 			else if (_caseType == SimuRunEnum.SenAnalysis) {
 				DclfSenAnalysisXmlType senXml;
-				if (helper.getSenAnalysisList(curStudyCaseId).size() > 0)
-					senXml = helper.getSenAnalysisList(curStudyCaseId).get(0);
+				if (helper.getSenAnalysisList().size() > 0)
+					senXml = helper.getSenAnalysisList().get(0);
 				else
-					senXml = helper.createSenAnalysis(curStudyCaseId);
+					senXml = helper.createSenAnalysis();
 				casename = senXml.getName();
 				casedesc = senXml.getDesc();
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setODMParser(this.odmParser);
-				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPtEDHourlyAnalysis(curStudyCaseId), helper.getPowerTradingInfo());
+				_dclfCaseInfoPanel.setXmlCaseData(senXml, helper.getPowerTradingInfo());
 				// set the case data to the actual data editing panel
 				_dclfCaseInfoPanel.setForm2Editor();
 			}
 			else if (_caseType == SimuRunEnum.Aclf) {
-				AclfAnalysisXmlType aclfXml = helper.getAclfAnalysis(curStudyCaseId);			
+				AclfAnalysisXmlType aclfXml = helper.getAclfAnalysis();			
 				casename = aclfXml.getName();
 				casedesc = aclfXml.getDesc();
 				// set the case data to the actual data editing panel
-				_aclfCaseInfoPanel.setXmlCaseData(aclfXml, helper.getContingencyAnalysis(curStudyCaseId), helper.getGridRunOption());
+				_aclfCaseInfoPanel.setXmlCaseData(aclfXml, helper.getContingencyAnalysis(), helper.getGridRunOption());
 				// set the case data to the actual data editing panel
 				_aclfCaseInfoPanel.setForm2Editor();
 			}			
 			else if (_caseType == SimuRunEnum.Acsc) {
-				AcscFaultAnalysisXmlType acscXml = helper.getAcscFaultAnalysis(curStudyCaseId);			
+				AcscFaultAnalysisXmlType acscXml = helper.getAcscFaultAnalysis();			
 				casename = acscXml.getName();
 				casedesc = acscXml.getDesc();
 				// set the case data to the actual data editing panel
@@ -311,7 +311,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				_acscCaseInfoPanel.setForm2Editor();
 			}
 			if (_caseType == SimuRunEnum.DStab) {
-				DStabSimulationXmlType dstabXml = helper.getDStabSimulation(curStudyCaseId);			
+				DStabSimulationXmlType dstabXml = helper.getDStabSimulation();			
 				casename = dstabXml.getName();
 				casedesc = dstabXml.getDesc();
 				_dstabCaseInfoPanel.setXmlCaseData(dstabXml, helper.getGridRunOption());
@@ -377,28 +377,28 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			}
 			else if (_caseType == SimuRunEnum.SenAnalysis) {
 				DclfSenAnalysisXmlType dclfCase;
-				if (helper.getSenAnalysisList(this.curStudyCaseId).size() > 0)
-					dclfCase = helper.getSenAnalysisList(this.curStudyCaseId).get(0);
+				if (helper.getSenAnalysisList().size() > 0)
+					dclfCase = helper.getSenAnalysisList().get(0);
 				else
-					dclfCase = helper.createSenAnalysis(this.curStudyCaseId);			
+					dclfCase = helper.createSenAnalysis();			
 				dclfCase.setName("SenAnalysis");
 				dclfCase.setDesc("");
 				_dclfCaseInfoPanel.saveEditor2Form(errMsg);
 			}	
 			else if (_caseType == SimuRunEnum.Aclf) {
-				AclfAnalysisXmlType aclfCase = helper.getAclfAnalysis(this.curStudyCaseId);			
+				AclfAnalysisXmlType aclfCase = helper.getAclfAnalysis();			
 				aclfCase.setName("Aclf Aanlaysis");
 				aclfCase.setDesc("");
 				this._aclfCaseInfoPanel.saveEditor2Form(errMsg);	
 			}			
 			else if (_caseType == SimuRunEnum.Acsc) {
-				AcscFaultAnalysisXmlType acscCase = helper.getAcscFaultAnalysis(this.curStudyCaseId);			
+				AcscFaultAnalysisXmlType acscCase = helper.getAcscFaultAnalysis();			
 				acscCase.setName("Acsc Analysis");
 				acscCase.setDesc("");
 				_acscCaseInfoPanel.saveEditor2Form(errMsg);
 			}
 			else if (_caseType == SimuRunEnum.DStab) {
-				DStabSimulationXmlType dstabCase = helper.getDStabSimulation(this.curStudyCaseId);			
+				DStabSimulationXmlType dstabCase = helper.getDStabSimulation();			
 				dstabCase.setName("Transien Stability Simulation");
 				dstabCase.setDesc("");
 				_dstabCaseInfoPanel.saveEditor2Form(errMsg);
