@@ -467,18 +467,6 @@ public class IpssScenarioHelper {
 	}
 	
 	/**
-	 * create BranchRef object and add to the branch list
-	 * 
-	 * @param braList
-	 * @return
-	 */
-	public BranchRefXmlType creatBranchRef(List<BranchRefXmlType> braList) {
-		BranchRefXmlType bra = odmObjFactory.createBranchRefXmlType();
-		braList.add(bra);
-		return bra;
-	}
-	
-	/**
 	 * create MonitorBranch object and add to the branch list
 	 * 
 	 * @param braList

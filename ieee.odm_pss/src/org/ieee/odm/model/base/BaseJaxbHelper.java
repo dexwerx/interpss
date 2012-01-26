@@ -27,11 +27,13 @@ package org.ieee.odm.model.base;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.Comparator;
+import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BaseRecordXmlType;
+import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BreakerDistBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -315,6 +317,18 @@ public class BaseJaxbHelper {
 			}
 		}
 	}		
+	
+	/**
+	 * create BranchRef object and add to the branch list
+	 * 
+	 * @param braList
+	 * @return
+	 */
+	public static BranchRefXmlType creatBranchRef(List<BranchRefXmlType> braList) {
+		BranchRefXmlType bra = odmObjFactory.createBranchRefXmlType();
+		braList.add(bra);
+		return bra;
+	}
 	
 	/**
 	 * ComplexXmlType to string
