@@ -27,6 +27,7 @@ package com.interpss.pssl.test.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
 import org.ieee.odm.schema.BranchRefXmlType;
@@ -79,7 +80,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 				</pss:monitorBranch>
 			</pss:lineOutageDFactor>
 */
-		BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+		BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 		outage.setBranchId("Bus4_Bus7_1");
 		outage.setFromBusId("Bus4");
 		outage.setToBusId("Bus7");
@@ -113,7 +114,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 */
 		lodf = helper.createLODF(dclfCase);
 		
-		outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 		outage.setBranchId("Bus6_Bus13_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus13");

@@ -321,7 +321,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		assertTrue(NumericUtil.equals(f, 0.095813, 0.00001));
 		
 		algoDsl.setRefBus()
-				.addLoadWithdrawBus(5.0, UnitType.mW);		
+				.addNetLoadBasedWithdrawBus(5.0, UnitType.mW);		
 		f = algoDsl.injectionBusId("Bus2")
 						.monitorBranch("Bus9", "Bus14")
 						.genShiftFactor();		

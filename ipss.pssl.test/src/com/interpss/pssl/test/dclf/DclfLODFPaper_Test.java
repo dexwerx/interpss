@@ -28,6 +28,7 @@ import static com.interpss.core.DclfFunction.DclfBranchAptr;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
 import org.ieee.odm.schema.BranchRefXmlType;
@@ -85,19 +86,19 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
 		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
 		
-		BranchRefXmlType outage = helper.creatBranchRef(lodf.getOutageBranch());
+		BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 		outage.setBranchId("Bus1_Bus5_1");
 		outage.setFromBusId("Bus1");
 		outage.setToBusId("Bus5");
 		outage.setCircuitId("1");
 
-		outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 		outage.setBranchId("Bus3_Bus4_1");
 		outage.setFromBusId("Bus3");
 		outage.setToBusId("Bus4");
 		outage.setCircuitId("1");
 
-		outage = helper.creatBranchRef(lodf.getOutageBranch());
+		outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
 		outage.setBranchId("Bus6_Bus11_1");
 		outage.setFromBusId("Bus6");
 		outage.setToBusId("Bus11");
