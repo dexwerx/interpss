@@ -8,6 +8,8 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.util.DocumentUtilFunc;
 import org.interpss.editor.util.RunUtilFunc;
 
+import com.interpss.pssl.simu.BaseDSL;
+
 public class RunTradingAnalysis extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
 
@@ -21,7 +23,8 @@ public class RunTradingAnalysis extends IpssAbstractActionDefault {
 	@Override
 	public void update() {
 		IpssEditorDocument doc = getCurrentDocument();
-		// TODO add 
-		setEnabled(DocumentUtilFunc.isAclfDocument(doc) || DocumentUtilFunc.isDStabDocument(doc));
+		setEnabled( BaseDSL.analysisEnabled(BaseDSL.IpssAnalysisType.PowerTrainding) &&
+				( DocumentUtilFunc.isAclfDocument(doc) || 
+				  DocumentUtilFunc.isDStabDocument(doc)));
 	}
 }
