@@ -1711,7 +1711,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 				runner.runPtAclfAnalysis(ptXml, ptInfoXml, genPVSwingBusList);
 				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
 					.display(PTradingOutput.outHourLoaflowResult(net, ptXml, 
-							runner.getHrLoadflow().getLfAssitGenList()));
+							runner.getHrLoadflow().getLfAssistGenList()));
 			} catch (InterpssException e) {
 				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();	

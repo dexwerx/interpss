@@ -300,7 +300,6 @@ public class RunUIUtilFunc  {
 	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml, PowerTradingInfoXmlType ptInfo) {
 		// load FlowInterface if necessary
 		String f1 = ptInfo.getInterfaceFilename();
-		String f2 = ptXml.getCaseData().getInterfaceLimitFilename();
 		if (f1 != null && !net.isFlowInterfaceLoaded()) {
 			EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);
 
@@ -312,7 +311,9 @@ public class RunUIUtilFunc  {
 				else 
 					f1 = null;
 
+				String f2 = null;
 				if (ptXml != null && ptXml.getCaseData() != null) {
+					f2 = ptXml.getCaseData().getInterfaceLimitFilename();
 					if (new File(f2).exists()) {
 						ipssLogger.info("Load interface limit file: " + f2);
 						//hrLoadflow.setFlowInterfaceLimitFilename(f2);
