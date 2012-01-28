@@ -39,6 +39,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.pssl.simu.BaseDSL;
 
 public class InterPSS {
 	/*
@@ -82,6 +83,7 @@ public class InterPSS {
 				&& Parm_Native.equals(appParameters.getParamLowerCase(SOptStr))) {
 			IpssLogger.getLogger().info("Using native sparse solver");
 			IpssPlugin.setSparseEqnSolver(SparseEquation.SolverType.Native);
+			BaseDSL.sparseSolver = BaseDSL.SparseSolverType.Native;
 		}
 		else 
 			IpssLogger.getLogger().info("Using default Java sparse solver");
