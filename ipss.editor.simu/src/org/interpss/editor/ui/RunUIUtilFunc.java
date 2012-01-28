@@ -300,24 +300,28 @@ public class RunUIUtilFunc  {
 	public static boolean loadFlowInterfaceFiles(AclfNetwork net, PTradingEDHourlyAnalysisXmlType ptXml, PowerTradingInfoXmlType ptInfo) {
 		// load FlowInterface if necessary
 		String f1 = ptInfo.getInterfaceFilename();
+		String f2 = ptXml.getCaseData().getInterfaceLimitFilename();
 		if (f1 != null && !net.isFlowInterfaceLoaded()) {
 			EDHourlyLoadflow hrLoadflow = new EDHourlyLoadflow(net);
 
-			if (new File(f1).exists()) {
-				ipssLogger.info("Load interface file: " + f1);
-				hrLoadflow.setInterfaceFilename(f1);
-			}
-
-			if (ptXml != null && ptXml.getCaseData() != null) {
-				String f2 = ptXml.getCaseData().getInterfaceLimitFilename();
-				if (new File(f2).exists()) {
-					ipssLogger.info("Load interface limit file: " + f2);
-					hrLoadflow.setFlowInterfaceLimitFilename(f2);
-				}
-			}
-
 			try {
-				hrLoadflow.loadFlowInterface();
+				if (new File(f1).exists()) {
+					ipssLogger.info("Load interface file: " + f1);
+					//hrLoadflow.setInterfaceFilename(f1);
+				}
+				else 
+					f1 = null;
+
+				if (ptXml != null && ptXml.getCaseData() != null) {
+					if (new File(f2).exists()) {
+						ipssLogger.info("Load interface limit file: " + f2);
+						//hrLoadflow.setFlowInterfaceLimitFilename(f2);
+					}
+					else
+						f2 = null;
+				}
+
+				hrLoadflow.loadFlowInterface(f1, f2);
 			} catch (InterpssException e) {
 				ipssLogger.severe(e.toString());
 				return false;

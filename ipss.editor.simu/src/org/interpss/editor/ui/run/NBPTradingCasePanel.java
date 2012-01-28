@@ -318,7 +318,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		ipssLogger.info("NBPTradingCasePanel saveEditor2Form() called");
 		
-		this._ptInfoXml.getLoadDist().getAggregatePricing().getApNode().clear();
+		if (this._ptInfoXml.getLoadDist() != null &&
+				this._ptInfoXml.getLoadDist().getAggregatePricing() != null)
+			this._ptInfoXml.getLoadDist().getAggregatePricing().getApNode().clear();
 
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg);
