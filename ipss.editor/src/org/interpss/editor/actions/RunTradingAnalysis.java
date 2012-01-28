@@ -21,6 +21,7 @@ public class RunTradingAnalysis extends IpssAbstractActionDefault {
 	@Override
 	public void update() {
 		IpssEditorDocument doc = getCurrentDocument();
+		// TODO add 
 		setEnabled(DocumentUtilFunc.isAclfDocument(doc) || DocumentUtilFunc.isDStabDocument(doc));
 	}
 }
