@@ -15,22 +15,28 @@
 	</ns:annotation>
     
 		
+    <ns:annotation>
+		<ns:documentation>
+		All modification type is a child of the ModifyRecordXmlType.
+		
+                ModifyRecordXmlType  (abstract)
+                       ^
+                       |
+              MyModificationXmlType
+              
+        Modification info is intended to be applied to OSM network object.       
+ 		</ns:documentation>
+	</ns:annotation>
+    
 <!-- 
 	Scheduled Branch outage
 	======================= 
  -->
-    <ns:annotation>
-		<ns:documentation>
-		All modification type is a child of the ModifyRecordXmlType.
-                ModifyRecordXmlType  (abstract)
-                       ^
-                       |
-              MyModificationXmlType 
- 		</ns:documentation>
-	</ns:annotation>
-    
 
     <ns:complexType name="OutageScheduleXmlType">
+    	<ns:annotation><ns:documentation>
+    		Data structure for stoing schedules outage info
+    	</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>
@@ -68,21 +74,22 @@
 		</ns:restriction>
 	</ns:simpleType>
     
-	
-<!-- 
-	DclfContingency Analysis
-	======================== 
- -->
- 
     <ns:simpleType name="ScheduledOutageBranchEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="Single"></ns:enumeration>
 			<ns:enumeration value="Multiple"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
-    
+	
+<!-- 
+	DclfContingency Analysis
+	======================== 
+ -->
 
     <ns:complexType name="DclfContingencySetXmlType">
+    	<ns:annotation><ns:documentation>
+   			Data structure for describing contingency for Dclf based contingency analysis  		
+    	</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>
@@ -104,11 +111,6 @@
 	</ns:complexType>
     
 
-<!-- 
-	EDispatch
-	========= 
- -->
-
     <ns:complexType name="DclfContingencyBranchXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BranchRefXmlType">
@@ -121,9 +123,18 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+
     
+<!-- 
+	EDispatch
+	========= 
+ -->
 
     <ns:complexType name="GenLoadModifyXmlType">
+    	<ns:annotation><ns:documentation>
+    		Data structure for storing ED information. The info will be used to modify Loadflow 
+    		network object
+    	</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>

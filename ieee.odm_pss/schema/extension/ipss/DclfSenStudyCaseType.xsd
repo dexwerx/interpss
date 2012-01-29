@@ -13,6 +13,9 @@
 	</ns:annotation>
 
 	<ns:complexType name="DclfSenAnalysisXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining Dclf sensitivity analysis
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
@@ -28,14 +31,86 @@
 		</ns:complexContent>
 	</ns:complexType>	
 
-	<ns:complexType name="SenAnalysisOutOptionXmlType">
+	<ns:complexType name="DclfSensitivityXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining a sensitivity analysis. It has a type and 1-* injection bus(es), 0-* withdraw bus(es).
+		</ns:documentation></ns:annotation>
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType">
+				<ns:sequence>
+					<ns:element name="senType" minOccurs="1" maxOccurs="1" type="ipss:SenAnalysisEnumType" />
+					<ns:element name="injectBusType" minOccurs="1" type="ipss:SenAnalysisBusEnumType"></ns:element>
+					<ns:element name="injectBus" type="ipss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+					<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenAnalysisBusEnumType"></ns:element>
+					<ns:element name="withdrawBus" type="ipss:SenAnalysisBusXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="apNodeId" minOccurs="0" type="ns:string">
+						<ns:annotation><ns:documentation>
+							Aggregate Pricing node id, used for defining the withdraw bus list
+						</ns:documentation></ns:annotation>
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:simpleType name="SenAnalysisEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="PAngle"></ns:enumeration>
+			<ns:enumeration value="QVoltage"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+	
+    <ns:simpleType name="SenAnalysisBusEnumType">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="SingleBus"></ns:enumeration>
+    		<ns:enumeration value="MultipleBus"></ns:enumeration>
+    		<ns:enumeration value="LoadDistribution">
+    			<ns:annotation><ns:documentation>
+    				Withdraw bus is defined using load distribution factor.
+    			</ns:documentation></ns:annotation>
+    		</ns:enumeration>
+    		<ns:enumeration value="APNode">
+    			<ns:annotation> <ns:documentation>
+    				Withdraw buses are defined by an aggregate pricing node.
+    			</ns:documentation></ns:annotation>
+    		</ns:enumeration>
+    		<ns:enumeration value="NoBus"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+
+    <ns:complexType name="DclfBranchSensitivityXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining branch sensitivity calculation. It is used, for example,
+			for defining GSF calculation.
+		</ns:documentation></ns:annotation>
+    	<ns:complexContent>
+    		<ns:extension base="ipss:DclfSensitivityXmlType">
+    			<ns:sequence>
+    				<ns:element name="branchSFactor" type="ipss:BranchShiftFactorXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+    				<ns:element name="interfaceSFactor" type="ipss:InterfaceShiftFactorXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+
+	<ns:complexType name="LineOutageDFactorXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining line outage distribution factor.
+		</ns:documentation></ns:annotation>
 		<ns:sequence>
-			<ns:element name="allBranchPoints" type="ns:int" minOccurs="0"></ns:element>
-			<ns:element name="allInterfacePoints" type="ns:int" minOccurs="0"></ns:element>
+			<ns:element name="outageType" type="ipss:LODFOutageEnumType" minOccurs="1" maxOccurs="1"></ns:element>
+			<ns:element name="outageBranch" type="pss:BranchRefXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+			<ns:element name="monitorBranch" type="ipss:LODFMonitorBranchXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
+
 	<ns:complexType name="GenLossFactorXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining generator loss factor calculation.
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="ipss:DclfSensitivityXmlType">
 				<ns:sequence>
@@ -44,14 +119,6 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
-
-	<ns:complexType name="LineOutageDFactorXmlType">
-		<ns:sequence>
-			<ns:element name="outageType" type="ipss:LODFOutageEnumType" minOccurs="1" maxOccurs="1"></ns:element>
-			<ns:element name="outageBranch" type="pss:BranchRefXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-			<ns:element name="monitorBranch" type="ipss:LODFMonitorBranchXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
 
 	<ns:simpleType name="LODFOutageEnumType">
 		<ns:restriction base="ns:string">
@@ -94,28 +161,6 @@
     	</ns:complexContent>
     </ns:complexType>   
      
-	<ns:simpleType name="SensitivityEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="PAngle"></ns:enumeration>
-			<ns:enumeration value="QVoltage"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-	
-    <ns:simpleType name="SenBusAnalysisEnumType">
-    	<ns:restriction base="ns:string">
-    		<ns:enumeration value="SingleBus"></ns:enumeration>
-    		<ns:enumeration value="MultipleBus"></ns:enumeration>
-    		<ns:enumeration value="LoadDistribution">
-    			<ns:annotation>
-    				<ns:documentation>Withdraw bus is defined using load distribution factor.</ns:documentation>
-    			</ns:annotation></ns:enumeration>
-    		<ns:enumeration value="APNode">
-    			<ns:annotation>
-    				<ns:documentation>Withdraw buses are defined by an aggregate pricing node.</ns:documentation>
-    			</ns:annotation></ns:enumeration>
-    		<ns:enumeration value="NoBus"></ns:enumeration>
-    	</ns:restriction>
-    </ns:simpleType>
     
 	<ns:complexType name="SenAnalysisBusXmlType">
 		<ns:sequence>
@@ -124,33 +169,6 @@
 		</ns:sequence>
 	</ns:complexType>
 	    
-	<ns:complexType name="DclfSensitivityXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseRecordXmlType">
-				<ns:sequence>
-					<ns:element name="senType" minOccurs="1" maxOccurs="1" type="ipss:SensitivityEnumType" />
-					<ns:element name="injectBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType"></ns:element>
-					<ns:element name="injectBus" type="ipss:SenAnalysisBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-					<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType"></ns:element>
-					<ns:element name="withdrawBus" type="ipss:SenAnalysisBusXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="apNodeId" minOccurs="0" type="ns:string"></ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-    <ns:complexType name="DclfBranchSensitivityXmlType">
-    	<ns:complexContent>
-    		<ns:extension base="ipss:DclfSensitivityXmlType">
-    			<ns:sequence>
-    				<ns:element name="branchSFactor" type="ipss:BranchShiftFactorXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-    				<ns:element name="interfaceSFactor" type="ipss:InterfaceShiftFactorXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-    			</ns:sequence>
-    		</ns:extension>
-    	</ns:complexContent>
-    </ns:complexType>
-
-
 	<ns:complexType name="BranchShiftFactorXmlType">
 		<ns:sequence>
 			<ns:element name="shiftFactor" type="ns:double" minOccurs="0"></ns:element>
@@ -163,6 +181,13 @@
 		<ns:sequence>
 			<ns:element name="shiftFactor" type="ns:double" minOccurs="0"></ns:element>
 			<ns:element name="interface" type="pss:FlowInterfaceRecXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+   	<ns:complexType name="SenAnalysisOutOptionXmlType">
+		<ns:sequence>
+			<ns:element name="allBranchPoints" type="ns:int" minOccurs="0"></ns:element>
+			<ns:element name="allInterfacePoints" type="ns:int" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
     

@@ -6,6 +6,8 @@
 	elementFormDefault="qualified">
 
     <ns:include schemaLocation="../basecase/NetRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="../basecase/shortcircuit/SCRecordType.xsd"></ns:include>
+    <ns:include schemaLocation="../basecase/dynamic/MachineModel.xsd"></ns:include>
 
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>

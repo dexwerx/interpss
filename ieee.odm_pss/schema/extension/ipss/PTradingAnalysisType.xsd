@@ -23,8 +23,14 @@
         For e-dispatch based hourly power trading analysis
 		</ns:documentation></ns:annotation>
     </ns:element>
-	
+
+<!-- 
+      Base PTrading analysis type
+ -->	
 	<ns:complexType name="PTradingAnalysisXmlType" abstract="true">
+		<ns:annotation><ns:documentation>
+			Base type for PowerTraing analysis
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
@@ -33,7 +39,14 @@
 		</ns:complexContent>
 	</ns:complexType>	
 
+<!-- 
+      Hourly ED Based PTrading analysis type
+ -->	
+
 	<ns:complexType name="PTradingEDHourlyAnalysisXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for hourly ED info based PowerTrading analysis
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="ipss:PTradingAnalysisXmlType">
 				<ns:sequence>
@@ -72,7 +85,7 @@
 			<ns:element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtGenAnalysisEnumType"></ns:element>
 			<ns:element name="genBus" type="pss:IDRecordXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
-			<ns:element name="loadBusType" minOccurs="1" type="ipss:SenBusAnalysisEnumType">
+			<ns:element name="loadBusType" minOccurs="1" type="ipss:SenAnalysisBusEnumType">
                 <ns:annotation>
                 	<ns:documentation>Only LoadDistribution, APNode apply</ns:documentation>
                 </ns:annotation>

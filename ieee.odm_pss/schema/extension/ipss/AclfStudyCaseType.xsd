@@ -12,10 +12,10 @@
 		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
 	</ns:annotation>
 
-<!-- 
-	Aclf StudyCase
- -->
 	<ns:complexType name="AclfAnalysisXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining an Aclf analysis for the study case
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>

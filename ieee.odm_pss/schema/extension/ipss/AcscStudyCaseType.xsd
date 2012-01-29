@@ -31,14 +31,21 @@
 	Acsc Study Scenario
  -->
 	<ns:complexType name="AcscFaultAnalysisXmlType">
+        <ns:annotation><ns:documentation>
+        	Data structure for defining an Acsc analysis for the study case
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
-					<ns:element ref="ipss:acscFault" minOccurs="1" ></ns:element>
+					<ns:element ref="ipss:acscFault" minOccurs="1" >
+        				<ns:annotation><ns:documentation>
+        					the field should be substitude with acscBusFault or acscBranchFault
+						</ns:documentation></ns:annotation>
+					</ns:element>
 					<ns:element name="preFaultBusVoltage" minOccurs="0" maxOccurs="1" type="pss:PreFaultBusVoltageEnumType"></ns:element>
-					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
+					<ns:element name="multiFactor" type="pss:FactorXmlType" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
-						bus voltage multiplying factor in percent
+							bus voltage multiplying factor
 						</ns:documentation></ns:annotation>
 					</ns:element>						
 				</ns:sequence>

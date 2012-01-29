@@ -42,15 +42,12 @@
 
 
 	<ns:complexType name="OwnerXmlType">
+		<ns:sequence>
+			<ns:element name="ownership" type="pss:FactorXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+		</ns:sequence>
 		<ns:attribute name="id" type="ns:string" use="required"></ns:attribute>
 		<ns:attribute name="name" type="ns:string" use="optional"></ns:attribute>
 		<ns:attribute name="number" type="ns:int" use="optional"></ns:attribute>
-		<ns:attribute name="ownership" type="ns:double" use="optional">
-			<ns:annotation>
-				<ns:documentation>
-					ownership in pu</ns:documentation>
-			</ns:annotation>
-		</ns:attribute>
 	</ns:complexType>									
 
 	

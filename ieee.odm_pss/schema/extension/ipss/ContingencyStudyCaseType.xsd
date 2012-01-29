@@ -13,6 +13,9 @@
 	</ns:annotation>
 
 	<ns:complexType name="ContingencyAnalysisXmlType">
+		<ns:annotation><ns:documentation>
+			Data structure for defining Aclf based contingency analysis for the study case
+		</ns:documentation>	</ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
@@ -42,8 +45,7 @@
 
 	<ns:complexType name="ContingencyOptionXmlType">
 		<ns:sequence>
-			<ns:element name="busVLimitPU" type="pss:LimitXmlType" minOccurs="0">
-			</ns:element>
+			<ns:element name="busVLimitPU" type="pss:LimitXmlType" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 </ns:schema>

@@ -16,6 +16,9 @@
 	</ns:annotation>
 	
 	<ns:complexType name="DStabSimulationXmlType">
+        <ns:annotation><ns:documentation>
+        	Data structure for defining DStab analysis for the study case
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BaseAnalysisTypeXmlType">
 				<ns:sequence>
@@ -24,8 +27,8 @@
 					<ns:element name="disableDynEvents" type="ns:boolean" maxOccurs="1" minOccurs="0">
                        <ns:annotation><ns:documentation>
                             when disableDynEvents = true, SetPointChange events might be added. All other 
-                            dynamic events are ignore.  
-							When study SetPointChange dynamic evetns, you must disableDynEvents = true. 
+                            dynamic events are ignored.  
+							When study SetPointChange dynamic events, you must set disableDynEvents = true. 
 							There should be not be more than one SetPointChange dynamic events
 						</ns:documentation></ns:annotation>
 					</ns:element>
@@ -41,8 +44,7 @@
 	
 	<ns:complexType name="DStabSimuSettingXmlType">
 		<ns:sequence>
-			<ns:element name="dstabMethod" maxOccurs="1" minOccurs="1" type="pss:DStabMethodEnumType">
-			</ns:element>
+			<ns:element name="dstabMethod" maxOccurs="1" minOccurs="1" type="pss:DStabMethodEnumType"></ns:element>
 			<ns:element name="totalTime" maxOccurs="1" minOccurs="1" type="pss:TimePeriodXmlType" />
 			<ns:element name="step" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1" />
 			<ns:element name="absMachineAngle" type="ns:boolean" maxOccurs="1" minOccurs="0" />
@@ -51,6 +53,37 @@
 			<ns:element name="staticLoadModel" type="ipss:StaticLoadModelXmlType" maxOccurs="1" minOccurs="1">
 			</ns:element>
 		</ns:sequence>
+	</ns:complexType>
+
+
+	<ns:complexType name="DynamicEventXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseRecordXmlType">
+				<ns:annotation>	<ns:documentation>
+					Only "simple" fault could be simulated, meaning at any time there should be on active fault event, although
+					any number of faults could be defined.
+        		</ns:documentation></ns:annotation>
+				<ns:sequence>
+					<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
+					<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="permanentFault" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:choice>
+						<ns:annotation>	<ns:documentation>
+							There are three dynamic event types. Only one type could be selected for a dynamic event.
+        				</ns:documentation>	</ns:annotation>
+						<ns:element name="fault" type="pss:AcscBaseFaultXmlType" maxOccurs="1" minOccurs="0" >
+							<ns:annotation>	<ns:documentation>
+								Fault include bus fault, branch fault and branch outage.
+        					</ns:documentation>	</ns:annotation>
+        				</ns:element>
+						<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType" />
+						<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType" />
+					</ns:choice>
+				</ns:sequence>
+				<ns:attribute name="id" type="ns:string"></ns:attribute>
+				<ns:attribute name="eventType" type="ipss:DynamicEventEnumType" />
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 
 
@@ -68,33 +101,6 @@
 			<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 			<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
-	</ns:complexType>
-
-
-	<ns:complexType name="DynamicEventXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseAnalysisTypeXmlType">
-				<ns:annotation>	<ns:documentation>
-					Only "simple" fault could be simulated, meaning at any time there should be on active fault event, although
-					any number of faults could be defined.
-        		</ns:documentation></ns:annotation>
-				<ns:sequence>
-					<ns:element name="startTime" type="pss:TimePeriodXmlType" minOccurs="1"></ns:element>
-					<ns:element name="duration" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="permanentFault" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:choice>
-						<ns:annotation>	<ns:documentation>
-							There are three dynamic event types. Only one type could be selected for a dynamic event.
-        				</ns:documentation>	</ns:annotation>
-						<ns:element name="fault" type="pss:AcscBaseFaultXmlType" maxOccurs="1" minOccurs="0" />
-						<ns:element name="loadChangeData" minOccurs="0" maxOccurs="1" type="ipss:DStabLoadChangeXmlType" />
-						<ns:element name="setPointChangeData" minOccurs="0" type="ipss:DStabSetPointChangeXmlType" />
-					</ns:choice>
-				</ns:sequence>
-				<ns:attribute name="id" type="ns:string"></ns:attribute>
-				<ns:attribute name="eventType" type="pss:DynamicEventEnumType" />
-			</ns:extension>
-		</ns:complexContent>
 	</ns:complexType>
 
 
@@ -158,5 +164,53 @@
 			<ns:enumeration value="CONST_P"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>	
+	
+    <ns:simpleType name="DynamicEventEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Fault" />
+			<ns:enumeration value="LoadChange" />
+			<ns:enumeration value="SetPointChange" />
+			<ns:enumeration value="None" />
+		</ns:restriction>
+	</ns:simpleType>
+	
+	
+    <ns:complexType name="LoadChangeDynamicEventXmlType">
+		<ns:sequence>
+			<ns:element name="loadChangeCategory" maxOccurs="1" minOccurs="0" type="ipss:LoadChangeCategoryEnumType"></ns:element>
+			<ns:element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="operationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="operateAtFrequence" type="pss:FrequencyXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="operateAtVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="operationDelayTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="constantPChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="constantIChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="constantZChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+    
+
+    <ns:simpleType name="LoadChangeCategoryEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="LowFrequence"></ns:enumeration>
+			<ns:enumeration value="LowVoltage"></ns:enumeration>
+			<ns:enumeration value="FixedTime"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+    
+
+    <ns:complexType name="GenChangeDynamicEventXmlType">
+		<ns:sequence>
+			<ns:element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="generatorId" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="operationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="operationDelayTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="genChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="genOutage" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+    		
 	
 </ns:schema>
