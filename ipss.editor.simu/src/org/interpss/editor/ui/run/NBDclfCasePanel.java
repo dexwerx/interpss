@@ -48,10 +48,10 @@ import org.ieee.odm.schema.LODFMonitorBranchXmlType;
 import org.ieee.odm.schema.LODFOutageEnumType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PowerTradingInfoXmlType;
+import org.ieee.odm.schema.SenAnalysisBusEnumType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
+import org.ieee.odm.schema.SenAnalysisEnumType;
 import org.ieee.odm.schema.SenAnalysisOutOptionXmlType;
-import org.ieee.odm.schema.SenBusAnalysisEnumType;
-import org.ieee.odm.schema.SensitivityEnumType;
 import org.interpss.datatype.DblBranchValue;
 import org.interpss.datatype.DblBusValue;
 import org.interpss.editor.jgraph.GraphSpringFactory;
@@ -239,13 +239,13 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
 			DclfBranchSensitivityXmlType gsf =  this._senXml.getGenShiftFactor().get(0);
 			// withdraw bus info are the same for all gsf
-			if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.SINGLE_BUS) {
+			if (gsf.getWithdrawBusType() == SenAnalysisBusEnumType.SINGLE_BUS) {
 				this.gsfSingleBusRadioButtonActionPerformed(null);
 				this.gsfSingleBusRadioButton.setSelected(true);
 				String busId = gsf.getWithdrawBus().get(0).getBusId();
 				this.gsfAPNodeComboBox.setSelectedItem(busId);
 			}
-			else if (gsf.getWithdrawBusType() == SenBusAnalysisEnumType.AP_NODE) {
+			else if (gsf.getWithdrawBusType() == SenAnalysisBusEnumType.AP_NODE) {
 				this.gsfAPNodeRadioButtonActionPerformed(null);
 				this.gsfAPNodeRadioButton.setEnabled(true);
 				this.gsfAPNodeRadioButton.setSelected(true);
@@ -436,12 +436,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		for (String genId : genIdAry) {
 			DclfBranchSensitivityXmlType gsf = helper.createGSF(this._senXml);
 			
-			gsf.setSenType(SensitivityEnumType.P_ANGLE);
+			gsf.setSenType(SenAnalysisEnumType.P_ANGLE);
 			
 			/*
 			 * set Injection bus
 			 */
-			gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+			gsf.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 			SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 			bus.setBusId(genId);
 			
@@ -453,16 +453,16 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			 * set withdraw bus
 			 */
 			if (this.gsfSingleBusRadioButton.isSelected()) { 
-				gsf.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+				gsf.setWithdrawBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 				gsf.getWithdrawBus().clear();
 				bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 				String busId = (String)this.gsfAPNodeComboBox.getSelectedItem();
 				bus.setBusId(busId);
 			}
 			else if (this.gsfBasecaseRadioButton.isSelected()) 
-				gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
+				gsf.setWithdrawBusType(SenAnalysisBusEnumType.LOAD_DISTRIBUTION);
 			else {
-				gsf.setWithdrawBusType(SenBusAnalysisEnumType.AP_NODE);
+				gsf.setWithdrawBusType(SenAnalysisBusEnumType.AP_NODE);
 				String apNodeId = (String)this.gsfAPNodeComboBox.getSelectedItem();
 				gsf.setApNodeId(apNodeId);
 			}

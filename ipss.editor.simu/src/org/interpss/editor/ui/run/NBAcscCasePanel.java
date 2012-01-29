@@ -24,6 +24,8 @@
 
 package org.interpss.editor.ui.run;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import java.util.Vector;
 
 import javax.swing.JDialog;
@@ -31,6 +33,8 @@ import javax.swing.JDialog;
 import org.ieee.odm.schema.AcscBaseFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
+import org.ieee.odm.schema.FactorUnitType;
+import org.ieee.odm.schema.FactorXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -110,7 +114,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
             this.fixedVoltRadioButton.setSelected(true);
             this.mFactorLabel.setEnabled(true);
             this.mFactorTextField.setEnabled(true);
-            this.mFactorTextField.setText(Number2String.toStr(xmlCaseData.getMultiFactor(), "#0.##"));
+            this.mFactorTextField.setText(Number2String.toStr(xmlCaseData.getMultiFactor().getValue(), "#0.##"));
         } 
         else
             this.loadflowVoltRadioButton.setSelected(true);
@@ -141,7 +145,10 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 				 SwingInputVerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
 				errMsg.add("Prefault bus voltage multiplying factor out of range < 50% or > 150%");
 			}
-			xmlCaseData.setMultiFactor(SwingInputVerifyUtil.getDouble(this.mFactorTextField));
+			FactorXmlType f = odmObjFactory.createFactorXmlType();
+			f.setValue(SwingInputVerifyUtil.getDouble(this.mFactorTextField));
+			f.setUnit(FactorUnitType.PERCENT);
+			xmlCaseData.setMultiFactor(f);
 	    }
 	    else
 	    	xmlCaseData.setPreFaultBusVoltage(PreFaultBusVoltageEnumType.LOADFLOW);
