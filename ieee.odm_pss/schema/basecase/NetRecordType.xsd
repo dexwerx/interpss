@@ -4,8 +4,7 @@
 	xmlns:pss="http://www.ieee.org/odm/Schema/2008"
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified" >
-
-    
+  
 
     <ns:include schemaLocation="../common/DataType.xsd"></ns:include>
     
@@ -15,7 +14,6 @@
 	</ns:annotation>
     
     <ns:element name="baseCase" type="pss:NetworkXmlType">
-		
         <ns:annotation><ns:documentation>
 		Base network for defining a generic network with bus and branch objects. For testing purpose.
 		substitutionGroup is used to define network, for example, loadflow study
@@ -23,7 +21,6 @@
     </ns:element>
     
     <ns:element name="bus" type="pss:BusXmlType">
-		
         <ns:annotation><ns:documentation>
 		Base bus for defining a generic bus with bus and branch objects.
 		substitutionGroup is used to define network, for example, loadflow study
@@ -32,7 +29,6 @@
     
 
     <ns:element name="branch" type="pss:BaseBranchXmlType">
-		
         <ns:annotation><ns:documentation>
 		Base branch for defining a generic branch with bus and branch objects.
 		substitutionGroup is used to define network, for example, loadflow study
@@ -50,9 +46,10 @@
 				<ns:sequence>
 					<ns:element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></ns:element>
                     <ns:element name="autoBranchId" type="ns:boolean" minOccurs="0">
-						<ns:annotation>
-							<ns:documentation>if true, the branch id will be auto generated formId->toId(cirNo). The original branchId will be moved to the name field.</ns:documentation>
-						</ns:annotation></ns:element>
+						<ns:annotation><ns:documentation>
+						if true, the branch id will be auto generated formId->toId(cirNo). The original branchId will be moved to the name field.
+						</ns:documentation></ns:annotation>
+					</ns:element>
                     <ns:element name="frequency" type="pss:FrequencyXmlType" minOccurs="0"></ns:element>
 					<ns:element name="busList" minOccurs="1" maxOccurs="1">
 						<ns:complexType>
@@ -118,8 +115,10 @@
 				<ns:sequence>
 					<ns:element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
-						For DC system, baseBase might be defined at the Network level</ns:documentation>
-						</ns:annotation></ns:element>
+						For DC system, baseVoltage might be defined at the Network level.
+						Therefore, the baseVoltage field is optional.
+						</ns:documentation></ns:annotation>
+					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -134,16 +133,6 @@
 					<ns:element name="toBus" type="pss:BusIDRefXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 					<ns:element name="tertiaryBus" type="pss:BusIDRefXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 				</ns:sequence>
-<!-- 
-				<ns:attribute name="fromBusId" type="ns:string" use="optional">
-				<ns:annotation><ns:documentation>
-					fromBusId, toBusId, tertirayBusId are for cases, where ref bus is not defined. For example
-					in defining Study Scenario, where net might not be defined. Using fromBus, toBus and tertiaryBus
-					to define bus ref is recommended </ns:documentation>
-				</ns:annotation></ns:attribute>
-				<ns:attribute name="toBusId" type="ns:string" use="optional"></ns:attribute>
-				<ns:attribute name="tertiaryBusId" type="ns:string" use="optional"></ns:attribute>
- -->				
 				<ns:attribute name="circuitId" type="ns:string" use="optional"></ns:attribute>
 			</ns:extension>
 		</ns:complexContent>
@@ -170,8 +159,7 @@
     <ns:complexType name="BusIDRefXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:IDRefRecordXmlType">
-				<ns:sequence>
-				</ns:sequence>
+				<ns:sequence></ns:sequence>
 				<ns:attribute name="windingType" type="pss:BusWindingEnumType" use="optional">
 					<ns:annotation><ns:documentation>
 					optional, for indicating xfr terminal bus winding type (Primary, Secondary or tertiary).
@@ -361,77 +349,7 @@
 		</ns:sequence>
 	</ns:complexType>
 	
-    
-<!-- 
-	 Aclf Network record type
-	 =======================
- -->
-
-<!-- 
-	 Acsc Network record type
-	 ========================
- -->
- 
-    <ns:complexType name="MutualZeroZXmlType">
-		<ns:sequence>
-			<ns:element name="branchFromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="branchToBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="branchCirId" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="zM" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="bIJ1pu" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="bIJ2pu" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="bKL1pu" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="bKL2pu" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-    	
-
-    <ns:complexType name="AcscBaseFaultXmlType" abstract="true">
-		<ns:sequence>
-			<ns:element name="faultType" minOccurs="1" type="pss:AcscFaultTypeEnumType" />
-			<ns:element name="faultCategory" minOccurs="1" type="pss:AcscFaultCategoryEnumType" />
-			<ns:element name="zLG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0" />
-			<ns:element name="zLL" type="pss:ZXmlType" maxOccurs="1" minOccurs="0" />
-		</ns:sequence>
-	</ns:complexType>
-
-
-    <ns:complexType name="AcscBusFaultXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:AcscBaseFaultXmlType">
-				<ns:sequence>
-					<ns:element name="refBus" type="pss:BusRefXmlType" minOccurs="1" />
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-
-	<ns:complexType name="AcscBranchFaultXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:AcscBaseFaultXmlType">
-				<ns:sequence>
-					<ns:element name="refBranch" type="pss:BranchRefXmlType" minOccurs="1" />
-					<ns:element name="distance" type="ns:double" maxOccurs="1" minOccurs="0" />
-					<ns:element name="branchReclosure" type="ns:boolean" maxOccurs="1" minOccurs="0" />
-					<ns:element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1" />
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
- 
- <!-- 
-    <ns:complexType name="BranchOutageXmlType">
-		<ns:sequence>
-			<ns:element name="faultCategory" type="pss:AcscFaultCategoryEnumType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="fromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="toBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="cirId" type="ns:string" minOccurs="0" maxOccurs="1"></ns:element>
-			<ns:element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
- -->
- 	
+	
     <ns:complexType name="DcLineFaultXmlType">
 		<ns:sequence>
 			<ns:element name="fromACBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
@@ -461,109 +379,5 @@
 			<ns:enumeration value="current_change_by_specification"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
-    
-<!-- 
-	 DStab Network record type
-	 =========================
- -->
 
-     <ns:complexType name="BaseDStabFaultXmlType">
-		<ns:sequence>
-			<ns:element name="faultCategory" type="pss:AcscFaultCategoryEnumType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="faultStartTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="firstOperationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="secondOperationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="faultDurationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="faultZ" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="permanentFault" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-
-
-	<ns:complexType name="DStabBranchFaultXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseDStabFaultXmlType">
-				<ns:sequence>
-					<ns:element name="fromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-					<ns:element name="toBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="faultedCirId" type="ns:string" maxOccurs="unbounded" minOccurs="0"></ns:element>
-					<ns:element name="fromBusRatedV" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="toBusRatedV" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="faultLocationFromFromSide" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-    
-
-    <ns:complexType name="DStabBusFaultXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:BaseDStabFaultXmlType">
-				<ns:sequence>
-			<ns:element name="faultedBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="faultedBusRatedV" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="remoteEndBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="remoteEndBusRatedV" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-	
-
-    <ns:simpleType name="DynamicEventEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="Fault" />
-			<ns:enumeration value="LoadChange" />
-			<ns:enumeration value="SetPointChange" />
-			<ns:enumeration value="None" />
-		</ns:restriction>
-	</ns:simpleType>
-	
-    		
-    <ns:simpleType name="MachineControllerEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="Exciter" />
-			<ns:enumeration value="Governor" />
-			<ns:enumeration value="Stabilizer" />
-		</ns:restriction>
-	</ns:simpleType>
-	
-	
-    <ns:complexType name="LoadChangeDynamicEventXmlType">
-		<ns:sequence>
-			<ns:element name="loadChangeCategory" maxOccurs="1" minOccurs="0" type="pss:LoadChangeCategoryEnumType"></ns:element>
-			<ns:element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="operationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="operateAtFrequence" type="pss:FrequencyXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="operateAtVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="operationDelayTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="constantPChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="constantIChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="constantZChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-    
-
-    <ns:simpleType name="LoadChangeCategoryEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="LowFrequence"></ns:enumeration>
-			<ns:enumeration value="LowVoltage"></ns:enumeration>
-			<ns:enumeration value="FixedTime"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-    
-
-    <ns:complexType name="GenChangeDynamicEventXmlType">
-		<ns:sequence>
-			<ns:element name="bus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="busRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="generatorId" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="operationTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="operationDelayTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="genChange" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="genOutage" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
-    
 </ns:schema>

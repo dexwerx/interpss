@@ -16,11 +16,9 @@
 
     <ns:complexType name="LoadCharacteristicXmlType">
 		<ns:sequence>
-			<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType">
-			</ns:element>
+			<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType"></ns:element>
 			<ns:element name="locationId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-			<ns:element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType">
-			</ns:element>
+			<ns:element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType"></ns:element>
 			<ns:element name="LoadModel" type="pss:LoadCharacteristicModelListXmlType" maxOccurs="1" minOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
@@ -48,12 +46,9 @@
 
     <ns:complexType name="LoadCharacteristicModelListXmlType">
 		<ns:sequence>
-			<ns:element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadIEEEStaticLoadXmlType">
-			</ns:element>
-			<ns:element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadComplexLoadXmlType">
-			</ns:element>
-			<ns:element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadInductionMotorXmlType">
-			</ns:element>
+			<ns:element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadIEEEStaticLoadXmlType"></ns:element>
+			<ns:element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadComplexLoadXmlType"></ns:element>
+			<ns:element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadInductionMotorXmlType"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
     
@@ -141,12 +136,9 @@
     	
     <ns:complexType name="DynamicLoadModelSelectionXmlType">
 		<ns:choice>
-			<ns:element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadIEEEStaticLoadXmlType">
-			</ns:element>
-			<ns:element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadComplexLoadXmlType">
-			</ns:element>
-			<ns:element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadInductionMotorXmlType">
-			</ns:element>
+			<ns:element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadIEEEStaticLoadXmlType"></ns:element>
+			<ns:element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadComplexLoadXmlType"></ns:element>
+			<ns:element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DynamicLoadInductionMotorXmlType"></ns:element>
 		</ns:choice>
 	</ns:complexType>
 </ns:schema>

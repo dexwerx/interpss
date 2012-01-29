@@ -5,8 +5,6 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified" >
 
-	
-
     <ns:include schemaLocation="../../../common/DataType.xsd" />
     
 	

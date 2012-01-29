@@ -6,18 +6,11 @@
 	elementFormDefault="qualified" >
 	
     <ns:include schemaLocation="../../common/DataType.xsd" />
-    
     <ns:include schemaLocation="exc/IEEEExciterModel.xsd" />
-    
     <ns:include schemaLocation="exc/BPAExciterModel.xsd" />
-    
     <ns:include schemaLocation="gov/IEEEGovernorModel.xsd" />
-    
     <ns:include schemaLocation="gov/BPAGovernorModel.xsd" />
-    
     <ns:include schemaLocation="pss/IEEEStabilizerModel.xsd" />
-    
-	
     <ns:include schemaLocation="pss/BPAStabilizerModel.xsd" />
     
 		
@@ -42,7 +35,6 @@
     <ns:element name="subTransientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
     
     <ns:element name="eq11Ed11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
-    
 
     <ns:element name="eq11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11MachineXmlType" />
     
@@ -66,13 +58,18 @@
 		</ns:complexContent>
 	</ns:complexType>
     
-
+    <ns:simpleType name="MachineControllerEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Exciter" />
+			<ns:enumeration value="Governor" />
+			<ns:enumeration value="Stabilizer" />
+		</ns:restriction>
+	</ns:simpleType>
+	
     <ns:complexType abstract="true" name="MachineModelXmlType">
-		<ns:annotation>
-      <ns:documentation>
+		<ns:annotation><ns:documentation>
 		Parent type for all machine model types
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation></ns:annotation>
 		<ns:sequence>
 			<ns:element maxOccurs="1" minOccurs="0" name="name" type="ns:string" />
 			<ns:element maxOccurs="1" minOccurs="0" name="desc" type="ns:string" />
@@ -83,12 +80,10 @@
     <ns:complexType name="EquiMachineXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:MachineModelXmlType">
-				<ns:annotation>
-          <ns:documentation>
+				<ns:annotation><ns:documentation>
 				There are two ways to define an equivalent machine: equivalent source data or equivalent gen data
 				from Loadflow analysis
-				</ns:documentation>
-        </ns:annotation>
+				</ns:documentation></ns:annotation>
 				<ns:choice>
 					<ns:element minOccurs="0" name="equivSource" type="pss:ScEquivSourceXmlType" />
 					<ns:element minOccurs="0" name="equivGen">
@@ -143,12 +138,10 @@
 					<ns:element maxOccurs="1" minOccurs="1" name="xd1" type="ns:double" />
 					<ns:element maxOccurs="1" minOccurs="1" name="Td01" type="pss:TimePeriodXmlType" />
 					<ns:choice>
-						<ns:annotation>
-              <ns:documentation>
+						<ns:annotation><ns:documentation>
 						Two ways to define machine saturation. format-1: se100, se120 and sliner; 
 						format-2: e1, e2, se1, se2 and af
-						</ns:documentation>
-            </ns:annotation>
+						</ns:documentation></ns:annotation>
 						<ns:element name="seFmt1">
 							<ns:complexType>
 								<ns:sequence>
@@ -203,9 +196,6 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-
-<!-- below not used -->
-
     <ns:complexType name="Eq11Ed11MachineXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:Eq1Ed1MachineXmlType">
@@ -219,34 +209,5 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-    
 
-    <ns:simpleType name="GeneratorEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="EquivGenUnit" />
-			<ns:enumeration value="Classical" />
-			<ns:enumeration value="Transient" />
-			<ns:enumeration value="SubTransient" />
-		</ns:restriction>
-	</ns:simpleType>
-    
-
-    <ns:complexType name="GeneratorModelListXmlType">
-		<ns:sequence>
-			<ns:element maxOccurs="1" minOccurs="0" name="equivGenUnit" type="pss:EquiMachineXmlType">	</ns:element>
-			<ns:element maxOccurs="1" minOccurs="0" name="classicalModel" type="pss:ClassicMachineXmlType" />
-			<ns:element maxOccurs="1" minOccurs="0" name="transModel" type="pss:Eq1Ed1MachineXmlType">	</ns:element>
-			<ns:element maxOccurs="1" minOccurs="0" name="subTransientModel" type="pss:Eq11Ed11MachineXmlType">
-			</ns:element>
-		</ns:sequence>
-	</ns:complexType>
-    
-    <ns:complexType name="MachineModelSelectionXmlType">
-		<ns:choice>
-			<ns:element maxOccurs="1" minOccurs="0" name="equiGenUnit" type="pss:EquiMachineXmlType">			</ns:element>
-			<ns:element maxOccurs="1" minOccurs="0" name="classicalModel" type="pss:ClassicMachineXmlType">			</ns:element>
-			<ns:element maxOccurs="1" minOccurs="0" name="transModel" type="pss:Eq1Ed1MachineXmlType">			</ns:element>
-			<ns:element maxOccurs="1" minOccurs="0" name="subTransientModel" type="pss:Eq11Ed11MachineXmlType">			</ns:element>
-		</ns:choice>
-	</ns:complexType>
 </ns:schema>
