@@ -24,10 +24,10 @@
 
 package org.interpss.mapper.odm.impl.acsc;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static com.interpss.core.AcscFunction.AcscXfrAptr;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
-import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import javax.xml.bind.JAXBElement;
 
@@ -35,6 +35,7 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BasicScBusXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
@@ -44,7 +45,6 @@ import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
-import org.ieee.odm.schema.ScSimpleBusXmlType;
 import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
@@ -136,9 +136,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						helper.setAclfBusData(acscBusXml);
 						
 						setAcscBusData(acscBusXml, acscBus);
-					} else if (bus.getValue() instanceof ScSimpleBusXmlType){
+					} else if (bus.getValue() instanceof BasicScBusXmlType){
 						// no loadflow info included
-						ScSimpleBusXmlType acscBusXml = (ScSimpleBusXmlType) bus.getValue();
+						BasicScBusXmlType acscBusXml = (BasicScBusXmlType) bus.getValue();
 						// map the base bus info part
 						mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
 						AbstractODMAcscDataMapper.setAcscBusNoLFData(acscBusXml, acscBus);
@@ -213,7 +213,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		} 
 	}
 
-	public static void setAcscBusNoLFData(ScSimpleBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
+	public static void setAcscBusNoLFData(BasicScBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
 		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
 			setContributeBusNoLFInfo(acscBusXml, acscBus);
 		} else { // non-contributing
@@ -242,7 +242,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 		}
 	}
 
-	private static void setContributeBusNoLFInfo(ScSimpleBusXmlType busData, AcscBus acscBus) {
+	private static void setContributeBusNoLFInfo(BasicScBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
 		if (busData.getScGenData() != null) {
 			setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 

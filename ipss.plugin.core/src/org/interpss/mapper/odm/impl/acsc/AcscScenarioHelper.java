@@ -39,6 +39,7 @@ import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.ieee.odm.schema.AcscFaultTypeEnumType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.PreFaultBusVoltageEnumType;
 import org.ieee.odm.schema.ZXmlType;
@@ -89,8 +90,10 @@ public class AcscScenarioHelper {
 															.getAcscFaultAnalysis();
 			mapFault(scAnalysisXml);
 			
-			if (scAnalysisXml.getMultiFactor() != null && scAnalysisXml.getMultiFactor() != 0.0)
-				this.acscAglo.setMultiFactor(scAnalysisXml.getMultiFactor() * 0.01);
+			if (scAnalysisXml.getMultiFactor() != null && scAnalysisXml.getMultiFactor().getValue() != 0.0) {
+				double f = scAnalysisXml.getMultiFactor().getUnit() == FactorUnitType.PU ? 1.0 : 0.01;
+				this.acscAglo.setMultiFactor(scAnalysisXml.getMultiFactor().getValue() * f);
+			}
 			
 			// algo.multiFactor in PU and acscData.getMFactor in %
 			if (scAnalysisXml.getPreFaultBusVoltage() != null)
