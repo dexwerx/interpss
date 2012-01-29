@@ -118,13 +118,22 @@
 	<ns:complexType name="DStabSetPointChangeXmlType">
 		<ns:sequence>
 			<ns:element name="refGenBus" type="pss:BusRefXmlType" minOccurs="1" maxOccurs="1"></ns:element>
-			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="pss:MachineControllerEnumType"></ns:element>
+			<ns:element name="controllerType" minOccurs="1" maxOccurs="1" type="ipss:MachineControllerEnumType"></ns:element>
 			<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="valueChangeType" minOccurs="1" maxOccurs="1" type="pss:SetPointChangeEnumType">			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 	
 	
+    <ns:simpleType name="MachineControllerEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Exciter" />
+			<ns:enumeration value="Governor" />
+			<ns:enumeration value="Stabilizer" />
+		</ns:restriction>
+	</ns:simpleType>
+	
+		
 	<ns:complexType name="DynamicNetEqnSolveConfigXmlType">
 		<ns:sequence>
 			<ns:element name="netEqnItrNoEvent" type="ns:int" minOccurs="0" maxOccurs="1"></ns:element>

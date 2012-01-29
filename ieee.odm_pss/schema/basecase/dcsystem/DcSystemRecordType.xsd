@@ -87,7 +87,6 @@
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="Points"></ns:enumeration>
 			<ns:enumeration value="Function"></ns:enumeration>
-			<ns:enumeration value="value"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
 

@@ -58,14 +58,6 @@
 		</ns:complexContent>
 	</ns:complexType>
     
-    <ns:simpleType name="MachineControllerEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="Exciter" />
-			<ns:enumeration value="Governor" />
-			<ns:enumeration value="Stabilizer" />
-		</ns:restriction>
-	</ns:simpleType>
-	
     <ns:complexType abstract="true" name="MachineModelXmlType">
 		<ns:annotation><ns:documentation>
 		Parent type for all machine model types

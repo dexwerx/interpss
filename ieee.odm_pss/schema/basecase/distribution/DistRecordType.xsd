@@ -15,38 +15,28 @@
     
 	
     <ns:element name="distNet" type="pss:DistributionNetXmlType" substitutionGroup="pss:baseCase">
-		
         <ns:annotation><ns:documentation>
 		Network for distribution system analysis
 		</ns:documentation></ns:annotation>
     </ns:element>
     
     <ns:element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus" />
-    
     <ns:element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus" />
-    
     <ns:element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus" />
-    
     <ns:element name="distIndMotorBus" type="pss:InductionMotorDistBusXmlType" substitutionGroup="pss:bus" />
-    
     <ns:element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus" />
-    
 	
     <ns:element name="distNonContributeBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus" />
-    
     <ns:element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch" />
-    
     <ns:element name="distXfrBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch" />
-    
     <ns:element name="distReactorBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch" />
+    <ns:element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch" />
     
 
 <!-- 
 	Network types
 	=============
  -->	
-    <ns:element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch" />
-    
 
     <ns:complexType name="DistributionNetXmlType">
 		<ns:annotation><ns:documentation>
