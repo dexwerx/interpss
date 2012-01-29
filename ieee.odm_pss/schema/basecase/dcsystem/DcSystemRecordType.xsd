@@ -30,28 +30,38 @@
 	</ns:element>
 
 <!-- 
-		PV Model definition
+	PV Model element definition
  -->
 	<ns:element name="pvModel" type="pss:BasePVModelXmlType">
 		<ns:annotation><ns:documentation>
+			base pv model 
 		</ns:documentation></ns:annotation>
 	</ns:element>	
 
 	<ns:element name="ivFuncPVModel" type="pss:PVModelIVFunctionXmlType" substitutionGroup="pss:pvModel">
 		<ns:annotation><ns:documentation>
+			I/V function based PV model
 		</ns:documentation></ns:annotation>
 	</ns:element>
 
 	<ns:element name="ivPointPVModel" type="pss:PVModelIVCurveXmlType" substitutionGroup="pss:pvModel">
 		<ns:annotation><ns:documentation>
+			I/V point based PV model
 		</ns:documentation></ns:annotation>
 	</ns:element>
 	
 <!-- 
-		Network object
+	Network type
+
+		- PV behavior is defined by PV Model type. A network consists of
+		  a set of PV models
+		- PV configuration at a DC bus is described by PV Module type
+		- A PV module consists of 1-* PV module items, which has ref to a 
+		  PV Model	
  -->	
 	<ns:complexType name="DcNetworkXmlType">
 		<ns:annotation><ns:documentation>
+			Data structure for defining DC system network   
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:NetworkXmlType">
@@ -68,11 +78,12 @@
 		</ns:complexContent>
 	</ns:complexType>
 	
-	<!--
-			PV Model 
- 	-->
+<!--
+		PV Model type
+-->
 	<ns:complexType name="BasePVModelXmlType" abstract="true">
 		<ns:annotation><ns:documentation>
+			Base PV model 
 		</ns:documentation></ns:annotation>
 		<ns:sequence>
 			<ns:element name="dataType" type="pss:PVModuleDataEnumType" minOccurs="1"></ns:element>
@@ -93,6 +104,7 @@
 
 	<ns:complexType name="PVModelIVFunctionXmlType">
 		<ns:annotation><ns:documentation>
+			I/V function based PV model
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BasePVModelXmlType">
@@ -113,8 +125,8 @@
 
 	<ns:complexType name="PVModelIVCurveXmlType">
 		<ns:annotation><ns:documentation>
-		</ns:documentation>
-		</ns:annotation>
+			I/V curve based PV model
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:BasePVModelXmlType">
 				<ns:sequence>
@@ -130,16 +142,16 @@
 
 
 	<ns:complexType name="PVModelPointXmlType">
-		<ns:annotation>
-			<ns:documentation></ns:documentation>
-		</ns:annotation>
+		<ns:annotation><ns:documentation>
+			Data structure for defining PV model data point
+		</ns:documentation></ns:annotation>
 		<ns:attribute name="volt" type="ns:double" use="required"></ns:attribute>
 		<ns:attribute name="amp" type="ns:double" use="required"></ns:attribute>
 	</ns:complexType>
 
-	<!--  
-		Bus objects
- 	-->	
+<!--  
+		Bus type
+-->	
 	<ns:complexType name="DcBusXmlType">
 		<ns:annotation><ns:documentation>
 		</ns:documentation></ns:annotation>
@@ -175,14 +187,6 @@
 	</ns:complexType>
 
 
-    <ns:complexType name="PVModuleXmlType">
-      	<ns:sequence>
-       		<ns:element name="pvModuleItem" type="pss:PVModuleItemXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-       	</ns:sequence>
-       	<ns:attribute name="dataType" type="pss:PVModuleDataEnumType" use="required"></ns:attribute>
-    </ns:complexType>
-
-
 	<ns:simpleType name="DcBusCodeEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="Connection"></ns:enumeration>
@@ -194,11 +198,21 @@
 		</ns:restriction>
 	</ns:simpleType>
 
+<!--
+	PV Module type 
+ -->
 	
+    <ns:complexType name="PVModuleXmlType">
+      	<ns:sequence>
+       		<ns:element name="pvModuleItem" type="pss:PVModuleItemXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+       	</ns:sequence>
+       	<ns:attribute name="dataType" type="pss:PVModuleDataEnumType" use="required"></ns:attribute>
+    </ns:complexType>
+
+
 	<ns:complexType name="PVModuleItemXmlType">
-		<ns:annotation>
-			<ns:documentation></ns:documentation>
-		</ns:annotation>
+		<ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
 		<ns:sequence>
 			<ns:element name="shadingFactor" type="ns:double" minOccurs="0">
 				<ns:annotation><ns:documentation>
@@ -212,9 +226,9 @@
 		<ns:attribute name="desc" type="ns:string" use="optional"></ns:attribute>
 	</ns:complexType>
 
-	<!--
-			Inverter 
-	 -->
+<!--
+		Inverter type 
+ -->
 	<ns:complexType name="DcAcInverterXmlType">
 		<ns:annotation>
 			<ns:documentation>
@@ -264,9 +278,9 @@
 		<ns:attribute name="c2" type="ns:double" use="required"></ns:attribute>
 	</ns:complexType>
 
-	<!--  
-		Branch objects
- 	-->
+<!--  
+		Branch type
+-->
 	<ns:complexType name="DcBranchXmlType">
 		<ns:annotation><ns:documentation>
 		</ns:documentation></ns:annotation>
