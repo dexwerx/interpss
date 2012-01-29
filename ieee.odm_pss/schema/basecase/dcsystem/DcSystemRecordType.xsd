@@ -11,6 +11,9 @@
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
 	
+<!-- 
+	DC Sys Net element definition
+ -->
 	<ns:element name="dcNet" type="pss:DcNetworkXmlType" substitutionGroup="pss:baseCase">
 		<ns:annotation><ns:documentation>
 		Network for Dc system analysis analysis. 
@@ -53,11 +56,13 @@
 <!-- 
 	Network type
 
-		- PV behavior is defined by PV Model type. A network consists of
-		  a set of PV models
+		- PV behavior is defined by PV Model type. PV model data is defined
+		  at the network level and referenced by DC bus.
 		- PV configuration at a DC bus is described by PV Module type
 		- A PV module consists of 1-* PV module items, which has ref to a 
-		  PV Model	
+		  PV Model
+		- PV module item has parameters, such as shading factor, to modify
+		  PV model characteristics at the module item level.  	
  -->	
 	<ns:complexType name="DcNetworkXmlType">
 		<ns:annotation><ns:documentation>
