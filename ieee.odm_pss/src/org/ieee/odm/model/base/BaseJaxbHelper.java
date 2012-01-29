@@ -44,6 +44,7 @@ import org.ieee.odm.schema.DcBranchXmlType;
 import org.ieee.odm.schema.DcBusXmlType;
 import org.ieee.odm.schema.DcNetworkXmlType;
 import org.ieee.odm.schema.DistributionNetXmlType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.FeederDistBranchXmlType;
 import org.ieee.odm.schema.GeneratorDistBusXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
@@ -274,11 +275,20 @@ public class BaseJaxbHelper {
 		addOwner(rec, id, 1.0);
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param rec
+	 * @param id
+	 * @param ownership ownership in pu
+	 */
 	public static void addOwner(BaseRecordXmlType rec, String id, double ownership) {
 		OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
 		rec.getOwnerList().add(owner);
 		owner.setId(id);
-		owner.setOwnership(ownership);
+		owner.setOwnership(odmObjFactory.createFactorXmlType());
+		owner.getOwnership().setValue(ownership);
+		owner.getOwnership().setUnit(FactorUnitType.PU);
 	}
 	
 	/**
