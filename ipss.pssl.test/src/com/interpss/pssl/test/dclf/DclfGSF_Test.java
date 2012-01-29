@@ -34,9 +34,9 @@ import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.SenAnalysisBusEnumType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
-import org.ieee.odm.schema.SenBusAnalysisEnumType;
-import org.ieee.odm.schema.SensitivityEnumType;
+import org.ieee.odm.schema.SenAnalysisEnumType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -93,13 +93,13 @@ public class DclfGSF_Test extends BaseTestSetup {
   						</pss:branchSFactor>
   					</pss:genShiftFactor>
 */
-		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		gsf.setSenType(SenAnalysisEnumType.P_ANGLE);
 		
-		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		gsf.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId("Bus2");
 		
-		gsf.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		gsf.setWithdrawBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus3");
 		
@@ -150,13 +150,13 @@ public class DclfGSF_Test extends BaseTestSetup {
   						</pss:branchSFactor>
   					</pss:genShiftFactor>
 */
-		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		gsf.setSenType(SenAnalysisEnumType.P_ANGLE);
 		
-		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		gsf.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId("Bus2");
 		
-		gsf.setWithdrawBusType(SenBusAnalysisEnumType.MULTIPLE_BUS);
+		gsf.setWithdrawBusType(SenAnalysisBusEnumType.MULTIPLE_BUS);
 		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus13");
 		bus.setPercent(50.0);
@@ -209,13 +209,13 @@ public class DclfGSF_Test extends BaseTestSetup {
   						</pss:branchSFactor>
   					</pss:genShiftFactor>
  */
-		gsf.setSenType(SensitivityEnumType.P_ANGLE);
+		gsf.setSenType(SenAnalysisEnumType.P_ANGLE);
 		
-		gsf.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		gsf.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		bus = helper.createSenAnalysisBus(gsf.getInjectBus());
 		bus.setBusId("Bus2");
 		
-		gsf.setWithdrawBusType(SenBusAnalysisEnumType.LOAD_DISTRIBUTION);
+		gsf.setWithdrawBusType(SenAnalysisBusEnumType.LOAD_DISTRIBUTION);
 //		gsf.setMinLoadForDistFactor(BaseDataSetter.createActivePowerValue(5.0, ActivePowerUnitType.fromValue("MW")));
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());

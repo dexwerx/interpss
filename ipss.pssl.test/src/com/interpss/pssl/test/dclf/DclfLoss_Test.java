@@ -31,9 +31,9 @@ import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
+import org.ieee.odm.schema.SenAnalysisBusEnumType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
-import org.ieee.odm.schema.SenBusAnalysisEnumType;
-import org.ieee.odm.schema.SensitivityEnumType;
+import org.ieee.odm.schema.SenAnalysisEnumType;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -92,13 +92,13 @@ public class DclfLoss_Test extends BaseTestSetup {
 				</pss:withdrawBusList>
 			</pss:genLossFactor>
 */
-		lfactor.setSenType(SensitivityEnumType.P_ANGLE);
+		lfactor.setSenType(SenAnalysisEnumType.P_ANGLE);
 		
-		lfactor.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		lfactor.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		SenAnalysisBusXmlType bus = helper.createSenAnalysisBus(lfactor.getInjectBus());
 		bus.setBusId("Bus2");
 		
-		lfactor.setWithdrawBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		lfactor.setWithdrawBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus3");		
 		
@@ -127,13 +127,13 @@ public class DclfLoss_Test extends BaseTestSetup {
   					</pss:genLossFactor>
  		
  */
-		lfactor.setSenType(SensitivityEnumType.P_ANGLE);
+		lfactor.setSenType(SenAnalysisEnumType.P_ANGLE);
 		
-		lfactor.setInjectBusType(SenBusAnalysisEnumType.SINGLE_BUS);
+		lfactor.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 		bus = helper.createSenAnalysisBus(lfactor.getInjectBus());
 		bus.setBusId("Bus2");
 		
-		lfactor.setWithdrawBusType(SenBusAnalysisEnumType.MULTIPLE_BUS);
+		lfactor.setWithdrawBusType(SenAnalysisBusEnumType.MULTIPLE_BUS);
 		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus13");
 		bus.setPercent(50.0);
