@@ -6,18 +6,11 @@
 	elementFormDefault="qualified" >
 	
     <ns:include schemaLocation="basecase/loadflow/LFRecordType.xsd"></ns:include>
-    
     <ns:include schemaLocation="basecase/shortcircuit/SCRecordType.xsd"></ns:include>
-    
     <ns:include schemaLocation="basecase/dynamic/DstabRecordType.xsd"></ns:include>
-    
     <ns:include schemaLocation="basecase/opf/OPFRecordType.xsd"></ns:include>
-    
     <ns:include schemaLocation="basecase/distribution/DistRecordType.xsd"></ns:include>
-	
     <ns:include schemaLocation="basecase/dcsystem/DcSystemRecordType.xsd"></ns:include>
-    
-
     <ns:include schemaLocation="scenario/StudyScenario.xsd"></ns:include>
     
 
@@ -26,7 +19,6 @@
 	</ns:annotation>
     
     <ns:element name="pssStudyCase" type="pss:StudyCaseXmlType">
-		
         <ns:annotation><ns:documentation>
 		</ns:documentation></ns:annotation>
     </ns:element>
@@ -75,16 +67,18 @@
 		<ns:sequence>
 			<ns:element name="originalDataFormat" minOccurs="1" maxOccurs="1" type="pss:OriginalDataFormatEnumType">
 				<ns:annotation><ns:documentation>
-				for describing the original data format, from which this xml file is produced
+					for describing the original data format, from which this xml file is produced
 				</ns:documentation></ns:annotation>
 			</ns:element>
 			<ns:element name="originalFormatVersion" type="ns:string" minOccurs="0"></ns:element>
 			<ns:element name="adapterProviderName" type="ns:string" minOccurs="0" maxOccurs="1">
-				<ns:annotation><ns:documentation>adapter provider name this file was created or this file is intended for
+				<ns:annotation><ns:documentation>
+					adapter provider name this file was created or this file is intended for
 				</ns:documentation></ns:annotation>
 			</ns:element>
 			<ns:element name="adapterProviderVersion" type="ns:string" minOccurs="0" maxOccurs="1">
-				<ns:annotation><ns:documentation>adapter provider version this file was created or this file is intended for
+				<ns:annotation><ns:documentation>
+					adapter provider version this file was created or this file is intended for
 				</ns:documentation></ns:annotation>
 			</ns:element>
 		</ns:sequence>
@@ -93,9 +87,10 @@
 
     <ns:simpleType name="ODMSchemaVersionEnumType">
 		<ns:restriction base="ns:string">
+			<ns:enumeration value="V0.9.0"></ns:enumeration>
 			<ns:enumeration value="V0.8.2"></ns:enumeration>
 			<ns:enumeration value="V0.8.1"></ns:enumeration>
-			<ns:enumeration value="V0.8"></ns:enumeration>
+			<ns:enumeration value="V0.8.0"></ns:enumeration>
 		</ns:restriction>
     </ns:simpleType>
     
