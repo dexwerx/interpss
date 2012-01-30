@@ -22,21 +22,19 @@
     
     <ns:element name="equiMachModel" substitutionGroup="pss:machineModel" type="pss:EquiMachineXmlType" />
     
-	<!--  transientMachModel and eq1Ed1MachMode are the same -->
     <ns:element name="classicMachModel" substitutionGroup="pss:machineModel" type="pss:ClassicMachineXmlType" />
     
-    <ns:element name="transientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq1Ed1MachineXmlType" />
-    
-    <ns:element name="eq1Ed1MachModel" substitutionGroup="pss:machineModel" type="pss:Eq1Ed1MachineXmlType" />
-    
-	<!--  subTransientMachModel and eq11Ed11MachMode are the same -->
     <ns:element name="eq1MachModel" substitutionGroup="pss:machineModel" type="pss:Eq1MachineXmlType" />
-    
-    <ns:element name="subTransientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
-    
-    <ns:element name="eq11Ed11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
+
+	<!--  transientMachModel and eq1Ed1MachMode are the same -->
+    <ns:element name="eq1Ed1MachModel" substitutionGroup="pss:machineModel" type="pss:Eq1Ed1MachineXmlType" />
+    <ns:element name="transientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq1Ed1MachineXmlType" />
 
     <ns:element name="eq11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11MachineXmlType" />
+    
+	<!--  subTransientMachModel and eq11Ed11MachMode are the same -->
+    <ns:element name="subTransientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
+    <ns:element name="eq11Ed11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
     
 
     <ns:complexType name="DynamicGeneratorXmlType">

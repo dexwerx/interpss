@@ -17,38 +17,31 @@
 			Naming convention
 			    excIEEE*, ExcIEEE* : for IEEE types  
 	 -->		
-	<!-- IEEE std 1992--> 
+	 
     <ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
     
+	<!-- IEEE std 1992--> 
     <ns:element name="excIEEE1992TypeAC1A" substitutionGroup="pss:exciter" type="pss:ExcIEEE1992TypeAC1AXmlType" />
+    <ns:element name="excIEEE1992TypeST1A" substitutionGroup="pss:exciter" type="pss:ExcIEEE1992TypeST1AXmlType" />
     
     
     <!-- IEEE std 1981--> 
-    <ns:element name="excIEEE1992TypeST1A" substitutionGroup="pss:exciter" type="pss:ExcIEEE1992TypeST1AXmlType" />
     
     <ns:element name="excIEEE1981TypeAC2" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981TypeAC2XmlType" />
-    
     <ns:element name="excIEEE1981ST1" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981ST1XmlType" />
-    
     <ns:element name="excIEEE1981TypeDC1" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981TypeDC1XmlType" />
+    <ns:element name="excIEEE1981TypeDC2" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981TypeDC2XmlType" />
     
     
     <!-- IEEE std 1968--> 
-    <ns:element name="excIEEE1981TypeDC2" substitutionGroup="pss:exciter" type="pss:ExcIEEE1981TypeDC2XmlType" />
     
     <ns:element name="excIEEE1968Type1" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type1XmlType" />
-    
     <ns:element name="excIEEE1968Type1S" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type1SXmlType" />
-    
     <ns:element name="excIEEEModified1968Type1" substitutionGroup="pss:exciter" type="pss:ExcIEEEModified1968Type1XmlType" />
-    
     <ns:element name="excIEEE1968Type2" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type2XmlType" />
-    
     <ns:element name="excIEEE1968Type4" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type4XmlType" />
-    
-	
     <ns:element name="excIEEE1968Type3" substitutionGroup="pss:exciter" type="pss:ExcIEEE1968Type3XmlType" />
     
 
@@ -295,7 +288,6 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-    
 
 
 <!-- 
@@ -324,7 +316,6 @@
 					<ns:element maxOccurs="1" minOccurs="0" name="VUEL_INPUT_POSITION" type="ns:int" />
 					<ns:element maxOccurs="1" minOccurs="0" name="UOEL" type="ns:double" />
 					<ns:element maxOccurs="1" minOccurs="0" name="VS_INPUT_POSITION" type="ns:int" />
-					
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -350,11 +341,6 @@
 					<ns:element maxOccurs="1" minOccurs="1" name="KC" type="ns:double" />
 					<ns:element maxOccurs="1" minOccurs="1" name="KLR" type="ns:double" />
 					<ns:element maxOccurs="1" minOccurs="1" name="ILR" type="ns:double" />
-<!-- moved to the parent ExcSimpleTypeXmlType 
-					<element maxOccurs="1" minOccurs="1" name="TR" type="pss:TimePeriodXmlType"/>
-					<element maxOccurs="1" minOccurs="1" name="RC" type="ns:double"/>
-					<element maxOccurs="1" minOccurs="1" name="XC" type="ns:double"/>
- -->
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>

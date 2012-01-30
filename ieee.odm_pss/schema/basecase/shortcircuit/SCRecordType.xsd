@@ -200,41 +200,4 @@
 		</ns:sequence>
 	</ns:complexType>
     	
-<!-- 
-		fault objects
- -->
- 
-    <ns:complexType name="AcscBaseFaultXmlType" abstract="true">
-		<ns:sequence>
-			<ns:element name="faultType" minOccurs="1" type="pss:AcscFaultTypeEnumType" />
-			<ns:element name="faultCategory" minOccurs="1" type="pss:AcscFaultCategoryEnumType" />
-			<ns:element name="zLG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0" />
-			<ns:element name="zLL" type="pss:ZXmlType" maxOccurs="1" minOccurs="0" />
-		</ns:sequence>
-	</ns:complexType>
-
-
-    <ns:complexType name="AcscBusFaultXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:AcscBaseFaultXmlType">
-				<ns:sequence>
-					<ns:element name="refBus" type="pss:BusRefXmlType" minOccurs="1" />
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-
-	<ns:complexType name="AcscBranchFaultXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:AcscBaseFaultXmlType">
-				<ns:sequence>
-					<ns:element name="refBranch" type="pss:BranchRefXmlType" minOccurs="1" />
-					<ns:element name="distance" type="ns:double" maxOccurs="1" minOccurs="0" />
-					<ns:element name="branchReclosure" type="ns:boolean" maxOccurs="1" minOccurs="0" />
-					<ns:element name="reclosureTime" type="pss:TimePeriodXmlType" minOccurs="0" maxOccurs="1" />
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>	
-</ns:schema>
+ </ns:schema>

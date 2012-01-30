@@ -15,7 +15,6 @@
     
 	
     <ns:element name="opfNet" type="pss:OpfNetworkXmlType" substitutionGroup="pss:baseCase">
-		
         <ns:annotation><ns:documentation>
 		Network for OPF analysis. aclfBus and opfGenBus could be used to define bus objects,
 		aclfLine/aclfXfr/aclfPSXfr could be used to define branch objects.
@@ -26,7 +25,6 @@
 		Network object
  -->	
     <ns:element name="opfGenBus" type="pss:OpfGenBusXmlType" substitutionGroup="pss:bus">
-		
         <ns:annotation><ns:documentation>
 		Bus record for OPF Generator
 		</ns:documentation></ns:annotation>

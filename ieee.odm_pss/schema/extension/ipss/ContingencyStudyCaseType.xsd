@@ -24,7 +24,7 @@
 					<ns:element name="option" minOccurs="0" type="ipss:ContingencyOptionXmlType" />
 					<ns:element name="limitRunCases" minOccurs="0" type="ns:boolean" />
 					<ns:element name="maxRunCases" minOccurs="0" type="ns:int" />
-					<ns:element name="aclfStudyCase" minOccurs="0" maxOccurs="unbounded" type="pss:AclfStudyCaseXmlType">
+					<ns:element name="aclfStudyCase" minOccurs="0" maxOccurs="unbounded" type="ipss:AclfStudyCaseXmlType">
 						<ns:annotation><ns:documentation>
 							For Custom type, where a set of aclfStudyCase could be defined for Contingency analysis
 						</ns:documentation>	</ns:annotation>
@@ -33,6 +33,18 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+	
+	<ns:complexType name="AclfStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseStudyCaseXmlType">
+				<ns:sequence>
+					<ns:element name="aclfAlgorithm"
+						type="pss:AclfAlgorithmXmlType" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
 	
     <ns:simpleType name="ContingencyAnalysisEnumType">
     	<ns:restriction base="ns:string">
