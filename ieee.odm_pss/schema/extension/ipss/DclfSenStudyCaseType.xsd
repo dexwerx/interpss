@@ -6,7 +6,10 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
+    <ns:include schemaLocation=""></ns:include>
+    <ns:include schemaLocation=""></ns:include>
+    <ns:include schemaLocation=""></ns:include>
+    <ns:import namespace="http://www.ieee.org/odm/Schema/2008" schemaLocation="../../scenario/StudyScenario.xsd" />
 	
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
@@ -45,13 +48,19 @@
 					<ns:element name="withdrawBus" type="ipss:SenAnalysisBusXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					<ns:element name="apNodeId" minOccurs="0" type="ns:string">
 						<ns:annotation><ns:documentation>
-							Aggregate Pricing node id, used for defining the withdraw bus list
+							Aggregate Pricing node id, used for defining the injection bus list
+						</ns:documentation></ns:annotation>
+					</ns:element>
+					<ns:element name="userFilename" minOccurs="0" type="ns:string">
+						<ns:annotation><ns:documentation>
+							User file name for defining the withdraw bus list
 						</ns:documentation></ns:annotation>
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+
 
 	<ns:simpleType name="SenAnalysisEnumType">
 		<ns:restriction base="ns:string">
@@ -64,16 +73,24 @@
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="SingleBus"></ns:enumeration>
     		<ns:enumeration value="MultipleBus"></ns:enumeration>
-    		<ns:enumeration value="LoadDistribution">
-    			<ns:annotation><ns:documentation>
-    				Withdraw bus is defined using load distribution factor.
-    			</ns:documentation></ns:annotation>
-    		</ns:enumeration>
+
     		<ns:enumeration value="APNode">
     			<ns:annotation> <ns:documentation>
-    				Withdraw buses are defined by an aggregate pricing node.
+    				Injection buses are defined by an aggregate pricing node.
     			</ns:documentation></ns:annotation>
     		</ns:enumeration>
+
+    		<ns:enumeration value="LoadDistribution">
+    			<ns:annotation><ns:documentation>
+    				Withdraw buses might be defined using load distribution factor based on basecase load.
+    			</ns:documentation></ns:annotation>
+    		</ns:enumeration>
+    		<ns:enumeration value="UserFile">
+    			<ns:annotation> <ns:documentation>
+    				Withdraw buses might be defined by a user file.
+    			</ns:documentation></ns:annotation>
+    		</ns:enumeration>
+
     		<ns:enumeration value="NoBus"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
@@ -163,10 +180,14 @@
      
     
 	<ns:complexType name="SenAnalysisBusXmlType">
-		<ns:sequence>
-			<ns:element name="busId" type="ns:string" minOccurs="1"></ns:element>
-			<ns:element name="percent" type="ns:double" minOccurs="0"></ns:element>
-		</ns:sequence>
+    	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
+				<ns:sequence>
+					<ns:element name="busId" type="ns:string" minOccurs="1"></ns:element>
+					<ns:element name="allocFactor" type="pss:FactorXmlType" minOccurs="0"></ns:element>
+				</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
 	</ns:complexType>
 	    
 	<ns:complexType name="BranchShiftFactorXmlType">

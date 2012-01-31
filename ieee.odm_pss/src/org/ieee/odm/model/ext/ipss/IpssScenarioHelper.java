@@ -485,8 +485,9 @@ public class IpssScenarioHelper {
 	 * @param busList
 	 * @return
 	 */
-	public SenAnalysisBusXmlType createSenAnalysisBus(List<SenAnalysisBusXmlType> busList) {
+	public static SenAnalysisBusXmlType createSenAnalysisBus(List<SenAnalysisBusXmlType> busList) {
 		SenAnalysisBusXmlType bus = odmObjFactory.createSenAnalysisBusXmlType();
+		bus.setAllocFactor(odmObjFactory.createFactorXmlType());
 		busList.add(bus);
 		return bus;
 	}
