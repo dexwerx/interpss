@@ -6,6 +6,8 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="lodfTypeButtonGroup">
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="gsfInjectionButtonGroup">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -36,9 +38,9 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="runDclfTabbedPane" min="-2" pref="391" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="runDclfTabbedPane" pref="388" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -78,7 +80,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="loadDistributionPanel" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
@@ -87,7 +89,7 @@
                       <Component id="interfaceFileTextField" min="-2" pref="230" max="-2" attributes="1"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="selectInterfaceFileButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="46" max="32767" attributes="0"/>
+                      <EmptySpace pref="58" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
@@ -130,7 +132,7 @@
                           <Component id="outAllInterfacePointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="outAllInterfacePointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="136" max="32767" attributes="0"/>
+                      <EmptySpace pref="133" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -146,11 +148,15 @@
             </Component>
             <Component class="javax.swing.JTextField" name="interfaceFileTextField">
               <Properties>
+                <Property name="columns" type="int" value="25"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Interface File ..."/>
                 <Property name="toolTipText" type="java.lang.String" value="Interface definition file"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[90, 20]"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="selectInterfaceFileButton">
@@ -158,7 +164,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="10" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Select ..."/>
+                <Property name="text" type="java.lang.String" value="Select"/>
                 <Property name="toolTipText" type="java.lang.String" value="Click to load the interface definition file"/>
               </Properties>
               <Events>
@@ -252,11 +258,15 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="loadDistAPNodeFileTextField">
                   <Properties>
+                    <Property name="columns" type="int" value="25"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="APNode File ..."/>
                     <Property name="toolTipText" type="java.lang.String" value="Aggregate pricing node file"/>
+                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[90, 20]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="selectAPNodeFileButton">
@@ -264,7 +274,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Select ..."/>
+                    <Property name="text" type="java.lang.String" value="Select"/>
                     <Property name="toolTipText" type="java.lang.String" value="Click to load the aggregate pricing node file"/>
                   </Properties>
                   <Events>
@@ -324,37 +334,34 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Component id="gsfWithdrawPanel" max="32767" attributes="1"/>
+                          <Component id="gsfInjectionPanel" alignment="0" max="32767" attributes="1"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="gsfSelectedGSFButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="gsfInjectionPanel" max="32767" attributes="1"/>
-                                  <Component id="gsfWithdrawPanel" alignment="0" max="32767" attributes="1"/>
-                              </Group>
+                              <Component id="gsfLargetBranchGSFButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfAllBranchGSFButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="gsfSelectedGSFButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="gsfLargetBranchGSFButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="gsfAllBranchGSFButton" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                                      <Component id="gsfLargetInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="gsfAllInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="47" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="gsfLargetInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="gsfAllInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="47" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="60" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -364,11 +371,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="gsfInjectionPanel" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfInjectionPanel" min="-2" pref="142" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="gsfWithdrawPanel" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="1"/>
+                          <Component id="gsfMonitorBranchPanel" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -381,7 +388,7 @@
                           <Component id="gsfLargetInterfaceGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="gsfAllInterfaceGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -402,70 +409,114 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="34" pref="34" max="34" attributes="0"/>
-                          <Component id="gsfGenBusSelPanel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="14" max="32767" attributes="0"/>
-                          <Component id="gsfGenScrollPane" min="-2" pref="115" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="gsfAddGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfRemoveGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="gsfGenBusRadioButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="gsfGenAPNodeRadioButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="gsfGenScrollPane" min="-2" pref="115" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="gsfAddGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="gsfRemoveGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="gsfGenBusLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="gsfGenBusComboBox" pref="144" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="gsfGenBusSelPanel" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="gsfGenAPNodeRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfGenBusRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="gsfGenBusComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfGenBusLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="gsfAddGenButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="gsfRemoveGenButton" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="gsfGenScrollPane" min="-2" pref="86" max="-2" attributes="0"/>
+                              <Component id="gsfGenScrollPane" min="-2" pref="61" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="gsfGenBusSelPanel">
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="gsfGenBusLabel">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Dialog" size="12" style="0"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Gen Bus    "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JComboBox" name="gsfInjectBusComboBox">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Dialog" size="12" style="0"/>
-                        </Property>
-                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="4">
-                            <StringItem index="0" value="Item 1"/>
-                            <StringItem index="1" value="Item 2"/>
-                            <StringItem index="2" value="Item 3"/>
-                            <StringItem index="3" value="Item 4"/>
-                          </StringArray>
-                        </Property>
-                        <Property name="toolTipText" type="java.lang.String" value="Generator bus in the system for injection geneator selection"/>
-                      </Properties>
-                    </Component>
-                  </SubComponents>
-                </Container>
+                <Component class="javax.swing.JRadioButton" name="gsfGenBusRadioButton">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="gsfInjectionButtonGroup"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="12" style="0"/>
+                    </Property>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="GenBus"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfGenBusRadioButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="gsfGenAPNodeRadioButton">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="gsfInjectionButtonGroup"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="12" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="APNode"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Use aggregate pricing node for load distribution factor calculation."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfGenAPNodeRadioButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="gsfGenBusLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="12" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Gen Bus    "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="gsfGenBusComboBox">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="12" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Generator bus in the system for injection geneator selection"/>
+                  </Properties>
+                </Component>
                 <Component class="javax.swing.JButton" name="gsfAddGenButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -529,19 +580,31 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="gsfSingleBusRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfAPNodeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="gsfBasecaseRadioButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="gsfAPNodeRadioButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfLoadUserFileTextField" alignment="0" pref="208" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="gsfLoadSingleBusRadioButton" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="21" pref="21" max="21" attributes="0"/>
+                                          <Component id="gsfLoadBusLabel" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="gsfLoadBasecaseRadioButton" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="gsfLoadUserDefinedRadioButton" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="21" pref="21" max="21" attributes="0"/>
+                                          <Component id="gsfLoadBusComboBox" min="-2" pref="98" max="-2" attributes="1"/>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <Component id="gsfAPNodeComboBox" min="-2" pref="145" max="-2" attributes="1"/>
+                              <Component id="gsfLoadUserFileButton" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -549,27 +612,25 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="gsfSingleBusRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfBasecaseRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="gsfAPNodeRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfLoadBasecaseRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfLoadSingleBusRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfLoadUserDefinedRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="gsfAPNodeLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="gsfAPNodeComboBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="gsfLoadBusComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfLoadBusLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="gsfLoadUserFileTextField" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="gsfLoadUserFileButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="gsfSingleBusRadioButton">
+                <Component class="javax.swing.JRadioButton" name="gsfLoadSingleBusRadioButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="gsfWithdrawButtonGroup"/>
@@ -582,10 +643,10 @@
                     <Property name="toolTipText" type="java.lang.String" value="Single bus as the withdraw bus"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfSingleBusRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLoadSingleBusRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="gsfBasecaseRadioButton">
+                <Component class="javax.swing.JRadioButton" name="gsfLoadBasecaseRadioButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="gsfWithdrawButtonGroup"/>
@@ -597,25 +658,21 @@
                     <Property name="toolTipText" type="java.lang.String" value="Use load buses in the network as the withdraw bus. The distribution&#xa;factor is calculated according relative size of the load, excluding &#xa;those small load less than the threshhold (normally, 5Mw)"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfBasecaseRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLoadBasecaseRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="gsfAPNodeRadioButton">
+                <Component class="javax.swing.JRadioButton" name="gsfLoadUserDefinedRadioButton">
                   <Properties>
-                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="gsfWithdrawButtonGroup"/>
-                    </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="APNode"/>
-                    <Property name="toolTipText" type="java.lang.String" value="Use aggregate pricing node for load distribution factor calculation."/>
+                    <Property name="text" type="java.lang.String" value="User"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfAPNodeRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLoadUserDefinedRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="gsfAPNodeLabel">
+                <Component class="javax.swing.JLabel" name="gsfLoadBusLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -624,7 +681,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="gsfAPNodeComboBox">
+                <Component class="javax.swing.JComboBox" name="gsfLoadBusComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -640,6 +697,26 @@
                     <Property name="toolTipText" type="java.lang.String" value="Withdraw bus selection in case the Bus option is selected, or AP Node selection in case the APNode option is selected."/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="gsfLoadUserFileTextField">
+                  <Properties>
+                    <Property name="columns" type="int" value="25"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="User defined file ..."/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="gsfLoadUserFileButton">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Select"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLoadUserFileButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -659,17 +736,15 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="gsfMonitorScrollPane" alignment="0" pref="217" max="32767" attributes="1"/>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="gsfMonitorAddBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="gsfMonitorAddInterfaceButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="gsfMonitorInterfaceListComboBox" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="gsfMonitorBranchListComboBox" alignment="0" min="-2" pref="172" max="-2" attributes="1"/>
-                              </Group>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="gsfMonitorAddBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorAddInterfaceButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorInterfaceListComboBox" alignment="0" max="32767" attributes="1"/>
+                              <Component id="gsfMonitorBranchListComboBox" alignment="0" pref="172" max="32767" attributes="1"/>
                               <Component id="gsfMonitorRemoveBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorScrollPane" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -687,7 +762,7 @@
                           <Component id="gsfMonitorScrollPane" min="-2" pref="91" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                           <Component id="gsfMonitorRemoveBranchButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="21" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -879,11 +954,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lodfOutageBranchPanel" min="-2" max="-2" attributes="1"/>
-                          <Component id="lodfMonitorBranchPanel" min="-2" max="-2" attributes="1"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lodfMonitorBranchPanel" max="32767" attributes="1"/>
+                          <Component id="lodfOutageBranchPanel" alignment="0" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lodfSelectedLODFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lodfLargetLODFButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -909,14 +984,15 @@
                               <Component id="lodfTypePanel" alignment="0" min="-2" max="-2" attributes="1"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="lodfAddBranchButton" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="lodfRemoveBranchButton" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="lodfBranchListComboBox" alignment="0" min="-2" pref="174" max="-2" attributes="1"/>
+                                  <Component id="lodfAddBranchButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="lodfRemoveBranchButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lodfMultiBranchScrollPane" alignment="0" min="-2" pref="202" max="-2" attributes="1"/>
+                                      <Component id="lodfBranchListComboBox" alignment="0" min="-2" pref="174" max="-2" attributes="1"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -933,8 +1009,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lodfBranchListComboBox" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="lodfMultiBranchScrollPane" min="-2" pref="108" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lodfMultiBranchScrollPane" min="-2" pref="63" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lodfAddBranchButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lodfRemoveBranchButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1114,7 +1190,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="lodfMonitorBranchListComboBox" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="lodfMonitorScrollPane" pref="115" max="32767" attributes="0"/>
+                          <Component id="lodfMonitorScrollPane" pref="127" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lodfMonitorAddBranchButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1249,7 +1325,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
                       <Component id="ptdfCalculateButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="194" max="32767" attributes="0"/>
+                      <EmptySpace pref="208" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

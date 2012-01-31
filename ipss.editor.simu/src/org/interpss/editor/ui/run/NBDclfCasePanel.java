@@ -125,7 +125,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     
     private void initGsfTabPanel() {
     	if (_simuCtx != null) {   // this method might be called be init(), when thre 0-panel is selected
-    		this.gsfInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    		this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
     		this.gsfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
@@ -208,11 +208,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				if ( !RunUIUtilFunc.loadAPNodeFile(_ptInfoXml)) {
 					// when there is a problem loading the APNode info, disable the APNode radio button
 					this._ptInfoXml.getLoadDist().setAggregatePricing(null);
-					this.gsfAPNodeRadioButton.setEnabled(false);
+					this.gsfGenAPNodeRadioButton.setEnabled(false);
 				}
 			}
 			else
-				this.gsfAPNodeRadioButton.setEnabled(false);
+				this.gsfGenAPNodeRadioButton.setEnabled(false);
 		}		
 
 		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
@@ -240,20 +240,20 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			DclfBranchSensitivityXmlType gsf =  this._senXml.getGenShiftFactor().get(0);
 			// withdraw bus info are the same for all gsf
 			if (gsf.getWithdrawBusType() == SenAnalysisBusEnumType.SINGLE_BUS) {
-				this.gsfSingleBusRadioButtonActionPerformed(null);
-				this.gsfSingleBusRadioButton.setSelected(true);
+				this.gsfLoadSingleBusRadioButtonActionPerformed(null);
+				this.gsfLoadSingleBusRadioButton.setSelected(true);
 				String busId = gsf.getWithdrawBus().get(0).getBusId();
-				this.gsfAPNodeComboBox.setSelectedItem(busId);
+				this.gsfLoadBusComboBox.setSelectedItem(busId);
 			}
 			else if (gsf.getWithdrawBusType() == SenAnalysisBusEnumType.AP_NODE) {
-				this.gsfAPNodeRadioButtonActionPerformed(null);
-				this.gsfAPNodeRadioButton.setEnabled(true);
-				this.gsfAPNodeRadioButton.setSelected(true);
-				this.gsfAPNodeComboBox.setSelectedItem(gsf.getApNodeId());
+				this.gsfLoadUserDefinedRadioButtonActionPerformed(null);
+				this.gsfLoadUserDefinedRadioButton.setEnabled(true);
+				this.gsfLoadUserDefinedRadioButton.setSelected(true);
+				this.gsfLoadBusComboBox.setSelectedItem(gsf.getApNodeId());
 			}
 			else {
-				this.gsfBasecaseRadioButtonActionPerformed(null);
-				this.gsfBasecaseRadioButton.setSelected(true);
+				this.gsfLoadBasecaseRadioButtonActionPerformed(null);
+				this.gsfLoadBasecaseRadioButton.setSelected(true);
 			}
 				
 			// branch/interface info are the same for all gsf
@@ -452,18 +452,18 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			/*
 			 * set withdraw bus
 			 */
-			if (this.gsfSingleBusRadioButton.isSelected()) { 
+			if (this.gsfLoadSingleBusRadioButton.isSelected()) { 
 				gsf.setWithdrawBusType(SenAnalysisBusEnumType.SINGLE_BUS);
 				gsf.getWithdrawBus().clear();
 				bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
-				String busId = (String)this.gsfAPNodeComboBox.getSelectedItem();
+				String busId = (String)this.gsfLoadBusComboBox.getSelectedItem();
 				bus.setBusId(busId);
 			}
-			else if (this.gsfBasecaseRadioButton.isSelected()) 
+			else if (this.gsfLoadBasecaseRadioButton.isSelected()) 
 				gsf.setWithdrawBusType(SenAnalysisBusEnumType.LOAD_DISTRIBUTION);
 			else {
 				gsf.setWithdrawBusType(SenAnalysisBusEnumType.AP_NODE);
-				String apNodeId = (String)this.gsfAPNodeComboBox.getSelectedItem();
+				String apNodeId = (String)this.gsfLoadBusComboBox.getSelectedItem();
 				gsf.setApNodeId(apNodeId);
 			}
 			
@@ -646,6 +646,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gsfWithdrawButtonGroup = new javax.swing.ButtonGroup();
         lodfTypeButtonGroup = new javax.swing.ButtonGroup();
+        gsfInjectionButtonGroup = new javax.swing.ButtonGroup();
         runDclfTabbedPane = new javax.swing.JTabbedPane();
         configPanel = new javax.swing.JPanel();
         interfaceFileLabel = new javax.swing.JLabel();
@@ -663,19 +664,22 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         outAllInterfacePointsTextField = new javax.swing.JTextField();
         gsfPanel = new javax.swing.JPanel();
         gsfInjectionPanel = new javax.swing.JPanel();
-        gsfGenBusSelPanel = new javax.swing.JPanel();
+        gsfGenBusRadioButton = new javax.swing.JRadioButton();
+        gsfGenAPNodeRadioButton = new javax.swing.JRadioButton();
         gsfGenBusLabel = new javax.swing.JLabel();
-        gsfInjectBusComboBox = new javax.swing.JComboBox();
+        gsfGenBusComboBox = new javax.swing.JComboBox();
         gsfAddGenButton = new javax.swing.JButton();
         gsfRemoveGenButton = new javax.swing.JButton();
         gsfGenScrollPane = new javax.swing.JScrollPane();
         gsfGenBusList = new javax.swing.JList();
         gsfWithdrawPanel = new javax.swing.JPanel();
-        gsfSingleBusRadioButton = new javax.swing.JRadioButton();
-        gsfBasecaseRadioButton = new javax.swing.JRadioButton();
-        gsfAPNodeRadioButton = new javax.swing.JRadioButton();
-        gsfAPNodeLabel = new javax.swing.JLabel();
-        gsfAPNodeComboBox = new javax.swing.JComboBox();
+        gsfLoadSingleBusRadioButton = new javax.swing.JRadioButton();
+        gsfLoadBasecaseRadioButton = new javax.swing.JRadioButton();
+        gsfLoadUserDefinedRadioButton = new javax.swing.JRadioButton();
+        gsfLoadBusLabel = new javax.swing.JLabel();
+        gsfLoadBusComboBox = new javax.swing.JComboBox();
+        gsfLoadUserFileTextField = new javax.swing.JTextField();
+        gsfLoadUserFileButton = new javax.swing.JButton();
         gsfMonitorBranchPanel = new javax.swing.JPanel();
         gsfMonitorBranchListComboBox = new javax.swing.JComboBox();
         gsfMonitorAddBranchButton = new javax.swing.JButton();
@@ -792,12 +796,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         interfaceFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         interfaceFileLabel.setText("Interface File");
 
+        interfaceFileTextField.setColumns(25);
         interfaceFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         interfaceFileTextField.setText("Interface File ...");
         interfaceFileTextField.setToolTipText("Interface definition file");
+        interfaceFileTextField.setMaximumSize(new java.awt.Dimension(90, 20));
 
         selectInterfaceFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        selectInterfaceFileButton.setText("Select ...");
+        selectInterfaceFileButton.setText("Select");
         selectInterfaceFileButton.setToolTipText("Click to load the interface definition file");
         selectInterfaceFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -818,12 +824,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         loadDistAPNodeFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         loadDistAPNodeFileLabel.setText("AP Node File");
 
+        loadDistAPNodeFileTextField.setColumns(25);
         loadDistAPNodeFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         loadDistAPNodeFileTextField.setText("APNode File ...");
         loadDistAPNodeFileTextField.setToolTipText("Aggregate pricing node file");
+        loadDistAPNodeFileTextField.setMaximumSize(new java.awt.Dimension(90, 20));
 
         selectAPNodeFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        selectAPNodeFileButton.setText("Select ...");
+        selectAPNodeFileButton.setText("Select");
         selectAPNodeFileButton.setToolTipText("Click to load the aggregate pricing node file");
         selectAPNodeFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -891,7 +899,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(configPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(loadDistributionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(28, 28, 28))
+                .add(40, 40, 40))
             .add(configPanelLayout.createSequentialGroup()
                 .add(33, 33, 33)
                 .add(interfaceFileLabel)
@@ -899,7 +907,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(interfaceFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 230, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(selectInterfaceFileButton)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
             .add(configPanelLayout.createSequentialGroup()
                 .add(31, 31, 31)
                 .add(configPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -932,21 +940,39 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(configPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(outAllInterfacePointsLabel)
                     .add(outAllInterfacePointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         runDclfTabbedPane.addTab("Configuration", configPanel);
 
         gsfInjectionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Injection Generator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
+        gsfInjectionButtonGroup.add(gsfGenBusRadioButton);
+        gsfGenBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfGenBusRadioButton.setSelected(true);
+        gsfGenBusRadioButton.setText("GenBus");
+        gsfGenBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfGenBusRadioButtonActionPerformed(evt);
+            }
+        });
+
+        gsfInjectionButtonGroup.add(gsfGenAPNodeRadioButton);
+        gsfGenAPNodeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfGenAPNodeRadioButton.setText("APNode");
+        gsfGenAPNodeRadioButton.setToolTipText("Use aggregate pricing node for load distribution factor calculation.");
+        gsfGenAPNodeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfGenAPNodeRadioButtonActionPerformed(evt);
+            }
+        });
+
         gsfGenBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfGenBusLabel.setText("Gen Bus    ");
-        gsfGenBusSelPanel.add(gsfGenBusLabel);
 
-        gsfInjectBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfInjectBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gsfInjectBusComboBox.setToolTipText("Generator bus in the system for injection geneator selection");
-        gsfGenBusSelPanel.add(gsfInjectBusComboBox);
+        gsfGenBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gsfGenBusComboBox.setToolTipText("Generator bus in the system for injection geneator selection");
 
         gsfAddGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
         gsfAddGenButton.setText("Add");
@@ -975,72 +1001,97 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gsfInjectionPanelLayout.setHorizontalGroup(
             gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfInjectionPanelLayout.createSequentialGroup()
-                .add(34, 34, 34)
-                .add(gsfGenBusSelPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfInjectionPanelLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .add(gsfGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addContainerGap()
                 .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(gsfAddGenButton)
-                    .add(gsfRemoveGenButton))
-                .add(21, 21, 21))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfInjectionPanelLayout.createSequentialGroup()
+                        .add(gsfGenBusRadioButton)
+                        .add(18, 18, 18)
+                        .add(gsfGenAPNodeRadioButton)
+                        .add(46, 46, 46))
+                    .add(gsfInjectionPanelLayout.createSequentialGroup()
+                        .add(gsfGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(gsfAddGenButton)
+                            .add(gsfRemoveGenButton))
+                        .addContainerGap(26, Short.MAX_VALUE))
+                    .add(gsfInjectionPanelLayout.createSequentialGroup()
+                        .add(gsfGenBusLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfGenBusComboBox, 0, 144, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         gsfInjectionPanelLayout.setVerticalGroup(
             gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfInjectionPanelLayout.createSequentialGroup()
-                .add(gsfGenBusSelPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(gsfGenAPNodeRadioButton)
+                    .add(gsfGenBusRadioButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(gsfGenBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(gsfGenBusLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gsfInjectionPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfInjectionPanelLayout.createSequentialGroup()
                         .add(gsfAddGenButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(gsfRemoveGenButton))
-                    .add(gsfGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(gsfGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 61, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         gsfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
-        gsfWithdrawButtonGroup.add(gsfSingleBusRadioButton);
-        gsfSingleBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfSingleBusRadioButton.setSelected(true);
-        gsfSingleBusRadioButton.setText("Bus");
-        gsfSingleBusRadioButton.setToolTipText("Single bus as the withdraw bus");
-        gsfSingleBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        gsfWithdrawButtonGroup.add(gsfLoadSingleBusRadioButton);
+        gsfLoadSingleBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadSingleBusRadioButton.setSelected(true);
+        gsfLoadSingleBusRadioButton.setText("Bus");
+        gsfLoadSingleBusRadioButton.setToolTipText("Single bus as the withdraw bus");
+        gsfLoadSingleBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gsfSingleBusRadioButtonActionPerformed(evt);
+                gsfLoadSingleBusRadioButtonActionPerformed(evt);
             }
         });
 
-        gsfWithdrawButtonGroup.add(gsfBasecaseRadioButton);
-        gsfBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfBasecaseRadioButton.setText("BaseCase");
-        gsfBasecaseRadioButton.setToolTipText("Use load buses in the network as the withdraw bus. The distribution\nfactor is calculated according relative size of the load, excluding \nthose small load less than the threshhold (normally, 5Mw)");
-        gsfBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        gsfWithdrawButtonGroup.add(gsfLoadBasecaseRadioButton);
+        gsfLoadBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadBasecaseRadioButton.setText("BaseCase");
+        gsfLoadBasecaseRadioButton.setToolTipText("Use load buses in the network as the withdraw bus. The distribution\nfactor is calculated according relative size of the load, excluding \nthose small load less than the threshhold (normally, 5Mw)");
+        gsfLoadBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gsfBasecaseRadioButtonActionPerformed(evt);
+                gsfLoadBasecaseRadioButtonActionPerformed(evt);
             }
         });
 
-        gsfWithdrawButtonGroup.add(gsfAPNodeRadioButton);
-        gsfAPNodeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfAPNodeRadioButton.setText("APNode");
-        gsfAPNodeRadioButton.setToolTipText("Use aggregate pricing node for load distribution factor calculation.");
-        gsfAPNodeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        gsfLoadUserDefinedRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadUserDefinedRadioButton.setText("User");
+        gsfLoadUserDefinedRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gsfAPNodeRadioButtonActionPerformed(evt);
+                gsfLoadUserDefinedRadioButtonActionPerformed(evt);
             }
         });
 
-        gsfAPNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfAPNodeLabel.setText("Bus");
-        gsfAPNodeLabel.setEnabled(false);
+        gsfLoadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadBusLabel.setText("Bus");
+        gsfLoadBusLabel.setEnabled(false);
 
-        gsfAPNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gsfAPNodeComboBox.setToolTipText("Withdraw bus selection in case the Bus option is selected, or AP Node selection in case the APNode option is selected.");
-        gsfAPNodeComboBox.setEnabled(false);
+        gsfLoadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gsfLoadBusComboBox.setToolTipText("Withdraw bus selection in case the Bus option is selected, or AP Node selection in case the APNode option is selected.");
+        gsfLoadBusComboBox.setEnabled(false);
+
+        gsfLoadUserFileTextField.setColumns(25);
+        gsfLoadUserFileTextField.setFont(new java.awt.Font("Dialog", 0, 10));
+        gsfLoadUserFileTextField.setText("User defined file ...");
+
+        gsfLoadUserFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        gsfLoadUserFileButton.setText("Select");
+        gsfLoadUserFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsfLoadUserFileButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout gsfWithdrawPanelLayout = new org.jdesktop.layout.GroupLayout(gsfWithdrawPanel);
         gsfWithdrawPanel.setLayout(gsfWithdrawPanelLayout);
@@ -1049,32 +1100,40 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(gsfWithdrawPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(gsfSingleBusRadioButton)
-                    .add(gsfAPNodeLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(gsfLoadUserFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                     .add(gsfWithdrawPanelLayout.createSequentialGroup()
-                        .add(gsfBasecaseRadioButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(gsfAPNodeRadioButton))
-                    .add(gsfAPNodeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 145, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(6, 6, 6))
+                        .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(gsfLoadSingleBusRadioButton)
+                            .add(gsfWithdrawPanelLayout.createSequentialGroup()
+                                .add(21, 21, 21)
+                                .add(gsfLoadBusLabel)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(gsfWithdrawPanelLayout.createSequentialGroup()
+                                .add(gsfLoadBasecaseRadioButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(gsfLoadUserDefinedRadioButton))
+                            .add(gsfWithdrawPanelLayout.createSequentialGroup()
+                                .add(21, 21, 21)
+                                .add(gsfLoadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 98, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfLoadUserFileButton))
+                .addContainerGap())
         );
         gsfWithdrawPanelLayout.setVerticalGroup(
             gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfWithdrawPanelLayout.createSequentialGroup()
                 .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(gsfSingleBusRadioButton)
-                    .add(gsfBasecaseRadioButton)
-                    .add(gsfAPNodeRadioButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 16, Short.MAX_VALUE)
-                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfWithdrawPanelLayout.createSequentialGroup()
-                        .add(gsfAPNodeLabel)
-                        .add(14, 14, 14))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfWithdrawPanelLayout.createSequentialGroup()
-                        .add(gsfAPNodeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .add(gsfLoadBasecaseRadioButton)
+                    .add(gsfLoadSingleBusRadioButton)
+                    .add(gsfLoadUserDefinedRadioButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(gsfWithdrawPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(gsfLoadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(gsfLoadBusLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(gsfLoadUserFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(gsfLoadUserFileButton))
         );
 
         gsfMonitorBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Monitor Branch/Interface", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
@@ -1118,15 +1177,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfMonitorBranchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(gsfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                    .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                        .add(gsfMonitorAddBranchButton)
-                        .add(gsfMonitorAddInterfaceButton)
-                        .add(gsfMonitorInterfaceListComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(gsfMonitorBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 172, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(gsfMonitorRemoveBranchButton))
-                .addContainerGap())
+                .add(gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(gsfMonitorAddBranchButton)
+                    .add(gsfMonitorAddInterfaceButton)
+                    .add(gsfMonitorInterfaceListComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(gsfMonitorBranchListComboBox, 0, 172, Short.MAX_VALUE)
+                    .add(gsfMonitorRemoveBranchButton)
+                    .add(gsfMonitorScrollPane, 0, 0, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         gsfMonitorBranchPanelLayout.setVerticalGroup(
             gsfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1142,10 +1200,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(gsfMonitorScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(3, 3, 3)
                 .add(gsfMonitorRemoveBranchButton)
-                .addContainerGap())
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        gsfSelectedGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfSelectedGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfSelectedGSFButton.setText("Selected GSF");
         gsfSelectedGSFButton.setToolTipText("For the selected branch/interface, calculate GSF for the select gen");
         gsfSelectedGSFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1154,7 +1212,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        gsfAllBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfAllBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfAllBranchGSFButton.setText("All Branch GSF");
         gsfAllBranchGSFButton.setToolTipText("For the selected branch, calculate all GSF");
         gsfAllBranchGSFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1163,7 +1221,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        gsfLargetBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfLargetBranchGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfLargetBranchGSFButton.setText("Larget Branch GSF");
         gsfLargetBranchGSFButton.setToolTipText("For the selected branch, calculate the largest GSF");
         gsfLargetBranchGSFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1172,7 +1230,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        gsfAllInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfAllInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfAllInterfaceGSFButton.setText("All Interface GSF");
         gsfAllInterfaceGSFButton.setToolTipText("For the selected interface, calculate all GSF.");
         gsfAllInterfaceGSFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1181,7 +1239,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        gsfLargetInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfLargetInterfaceGSFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfLargetInterfaceGSFButton.setText("Largest Interface GSF");
         gsfLargetInterfaceGSFButton.setToolTipText("For the selected inerface, calculate the largest GSF");
         gsfLargetInterfaceGSFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1195,30 +1253,29 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gsfPanelLayout.setHorizontalGroup(
             gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(gsfPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(gsfPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(16, 16, 16))
+            .add(gsfPanelLayout.createSequentialGroup()
+                .add(59, 59, 59)
+                .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfPanelLayout.createSequentialGroup()
+                        .add(gsfSelectedGSFButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(gsfLargetBranchGSFButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfAllBranchGSFButton))
                     .add(gsfPanelLayout.createSequentialGroup()
-                        .add(52, 52, 52)
-                        .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, gsfPanelLayout.createSequentialGroup()
-                                .add(gsfSelectedGSFButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(gsfLargetBranchGSFButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(gsfAllBranchGSFButton))
-                            .add(gsfPanelLayout.createSequentialGroup()
-                                .add(44, 44, 44)
-                                .add(gsfLargetInterfaceGSFButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(gsfAllInterfaceGSFButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(44, 44, 44)
+                        .add(gsfLargetInterfaceGSFButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(gsfAllInterfaceGSFButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         gsfPanelLayout.setVerticalGroup(
             gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1226,10 +1283,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap()
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(gsfPanelLayout.createSequentialGroup()
-                        .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(gsfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(gsfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(gsfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(gsfLargetBranchGSFButton)
@@ -1239,7 +1296,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(gsfLargetInterfaceGSFButton)
                     .add(gsfAllInterfaceGSFButton))
-                .add(29, 29, 29))
+                .add(19, 19, 19))
         );
 
         runDclfTabbedPane.addTab("GSF", gsfPanel);
@@ -1326,13 +1383,14 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(lodfTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(lodfOutageBranchPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lodfOutageBranchPanelLayout.createSequentialGroup()
-                                .add(lodfAddBranchButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(lodfRemoveBranchButton))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lodfBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 174, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lodfMultiBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 202, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(lodfAddBranchButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(lodfRemoveBranchButton))
+                    .add(lodfOutageBranchPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(lodfMultiBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 202, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(lodfBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 174, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         lodfOutageBranchPanelLayout.setVerticalGroup(
@@ -1344,8 +1402,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lodfBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(lodfMultiBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 108, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lodfMultiBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(lodfOutageBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lodfAddBranchButton)
                     .add(lodfRemoveBranchButton))
@@ -1396,7 +1454,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(lodfMonitorBranchPanelLayout.createSequentialGroup()
                 .add(lodfMonitorBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
-                .add(lodfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                .add(lodfMonitorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lodfMonitorBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lodfMonitorAddBranchButton)
@@ -1404,7 +1462,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap())
         );
 
-        lodfAllLODFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lodfAllLODFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lodfAllLODFButton.setText("All LODF");
         lodfAllLODFButton.setToolTipText("For the selected outage branch, calculate all LODF");
         lodfAllLODFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1421,7 +1479,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        lodfLargetLODFButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lodfLargetLODFButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lodfLargetLODFButton.setText("Largest LODF");
         lodfLargetLODFButton.setToolTipText("For the selected outage branch, calculated the largest LODF");
         lodfLargetLODFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1454,10 +1512,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, lodfPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lodfOutageBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lodfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(lodfMonitorBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(lodfOutageBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(58, 58, 58)
                 .add(lodfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lodfSelectedLODFButton)
                     .add(lodfLargetLODFButton)
@@ -1733,7 +1791,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(ptdfPanelLayout.createSequentialGroup()
                 .add(217, 217, 217)
                 .add(ptdfCalculateButton)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
         ptdfPanelLayout.setVerticalGroup(
             ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -2086,9 +2144,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 391, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -2133,35 +2191,23 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
  *  GSF    
  8888888888888888888888*/
 
-private void gsfSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfSingleBusRadioButtonActionPerformed
-    ipssLogger.info("gsfSingleBusRadioButtonActionPerformed() called");
-    this.gsfAPNodeLabel.setEnabled(true);
-    this.gsfAPNodeLabel.setText("Bus");
-    this.gsfAPNodeComboBox.setEnabled(true);
-    this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));    	
-    
-}//GEN-LAST:event_gsfSingleBusRadioButtonActionPerformed
+private void gsfGenBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfGenBusRadioButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_gsfGenBusRadioButtonActionPerformed
 
-private void gsfBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfBasecaseRadioButtonActionPerformed
-        ipssLogger.info("gsfLoadDFactorRadioButtonActionPerformed() called");
-        this.gsfAPNodeLabel.setEnabled(false);
-        this.gsfAPNodeComboBox.setEnabled(false);
-}//GEN-LAST:event_gsfBasecaseRadioButtonActionPerformed
-
-private void gsfAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAPNodeRadioButtonActionPerformed
+private void gsfGenAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfGenAPNodeRadioButtonActionPerformed
         ipssLogger.info("gsfAPNodeRadioButtonActionPerformed() called");
-        this.gsfAPNodeLabel.setEnabled(true);
-        this.gsfAPNodeLabel.setText("APNode");
-        this.gsfAPNodeComboBox.setEnabled(true);
+        this.gsfGenBusLabel.setEnabled(true);
+        this.gsfGenBusLabel.setText("APNode");
+        this.gsfGenBusComboBox.setEnabled(true);
 		AggregatePricingHelper helper = new AggregatePricingHelper(this._ptInfoXml.getLoadDist().getAggregatePricing());
 		String[] idAry = helper.getAPNodeIdAry();
-		this.gsfAPNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
-}//GEN-LAST:event_gsfAPNodeRadioButtonActionPerformed
+		this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
+}//GEN-LAST:event_gsfGenAPNodeRadioButtonActionPerformed
 
  private void gsfAddGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfAddGenButtonActionPerformed
         ipssLogger.info("gsfAddGenButtonActionPerformed() called");
-    	String id = (String)this.gsfInjectBusComboBox.getSelectedItem();
+    	String id = (String)this.gsfGenBusComboBox.getSelectedItem();
     	RunUIUtilFunc.addItemJList(this.gsfGenBusList, id);
 }//GEN-LAST:event_gsfAddGenButtonActionPerformed
 
@@ -2186,6 +2232,30 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
         ipssLogger.info("gsfRemoveBranchButtonActionPerformed() called");
         RunUIUtilFunc.removeItemJList(this.gsfMonitorBranchList);
 }//GEN-LAST:event_gsfMonitorRemoveBranchButtonActionPerformed
+
+private void gsfLoadSingleBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadSingleBusRadioButtonActionPerformed
+    ipssLogger.info("gsfSingleBusRadioButtonActionPerformed() called");
+    this.gsfLoadBusLabel.setEnabled(true);
+    this.gsfLoadBusLabel.setText("Bus");
+    this.gsfLoadBusComboBox.setEnabled(true);
+    this.gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));    	
+    
+}//GEN-LAST:event_gsfLoadSingleBusRadioButtonActionPerformed
+
+private void gsfLoadBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadBasecaseRadioButtonActionPerformed
+        ipssLogger.info("gsfLoadDFactorRadioButtonActionPerformed() called");
+        this.gsfLoadBusLabel.setEnabled(false);
+        this.gsfLoadBusComboBox.setEnabled(false);
+}//GEN-LAST:event_gsfLoadBasecaseRadioButtonActionPerformed
+
+private void gsfLoadUserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadUserFileButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_gsfLoadUserFileButtonActionPerformed
+
+private void gsfLoadUserDefinedRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfLoadUserDefinedRadioButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_gsfLoadUserDefinedRadioButtonActionPerformed
 
     private void gsfSelectedGSFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfSelectedGSFButtonActionPerformed
         ipssLogger.info("gsfCalculateButtonActionPerformed() called");
@@ -2769,21 +2839,26 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JTextField atTransAmtTextField;
     private javax.swing.JComboBox atTransAmtUnitComboBox;
     private javax.swing.JPanel configPanel;
-    private javax.swing.JComboBox gsfAPNodeComboBox;
-    private javax.swing.JLabel gsfAPNodeLabel;
-    private javax.swing.JRadioButton gsfAPNodeRadioButton;
     private javax.swing.JButton gsfAddGenButton;
     private javax.swing.JButton gsfAllBranchGSFButton;
     private javax.swing.JButton gsfAllInterfaceGSFButton;
-    private javax.swing.JRadioButton gsfBasecaseRadioButton;
+    private javax.swing.JRadioButton gsfGenAPNodeRadioButton;
+    private javax.swing.JComboBox gsfGenBusComboBox;
     private javax.swing.JLabel gsfGenBusLabel;
     private javax.swing.JList gsfGenBusList;
-    private javax.swing.JPanel gsfGenBusSelPanel;
+    private javax.swing.JRadioButton gsfGenBusRadioButton;
     private javax.swing.JScrollPane gsfGenScrollPane;
-    private javax.swing.JComboBox gsfInjectBusComboBox;
+    private javax.swing.ButtonGroup gsfInjectionButtonGroup;
     private javax.swing.JPanel gsfInjectionPanel;
     private javax.swing.JButton gsfLargetBranchGSFButton;
     private javax.swing.JButton gsfLargetInterfaceGSFButton;
+    private javax.swing.JRadioButton gsfLoadBasecaseRadioButton;
+    private javax.swing.JComboBox gsfLoadBusComboBox;
+    private javax.swing.JLabel gsfLoadBusLabel;
+    private javax.swing.JRadioButton gsfLoadSingleBusRadioButton;
+    private javax.swing.JRadioButton gsfLoadUserDefinedRadioButton;
+    private javax.swing.JButton gsfLoadUserFileButton;
+    private javax.swing.JTextField gsfLoadUserFileTextField;
     private javax.swing.JButton gsfMonitorAddBranchButton;
     private javax.swing.JButton gsfMonitorAddInterfaceButton;
     private javax.swing.JList gsfMonitorBranchList;
@@ -2795,7 +2870,6 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JPanel gsfPanel;
     private javax.swing.JButton gsfRemoveGenButton;
     private javax.swing.JButton gsfSelectedGSFButton;
-    private javax.swing.JRadioButton gsfSingleBusRadioButton;
     private javax.swing.ButtonGroup gsfWithdrawButtonGroup;
     private javax.swing.JPanel gsfWithdrawPanel;
     private javax.swing.JLabel interfaceFileLabel;
