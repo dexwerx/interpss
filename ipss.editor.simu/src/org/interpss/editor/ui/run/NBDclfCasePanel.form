@@ -334,34 +334,37 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="gsfWithdrawPanel" max="32767" attributes="1"/>
-                          <Component id="gsfInjectionPanel" alignment="0" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="gsfSelectedGSFButton" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="gsfLargetBranchGSFButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="gsfAllBranchGSFButton" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="gsfInjectionPanel" max="32767" attributes="1"/>
+                                  <Component id="gsfWithdrawPanel" alignment="0" max="32767" attributes="1"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="gsfMonitorBranchPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                              <Component id="gsfLargetInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="gsfAllInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="47" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="gsfSelectedGSFButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="gsfLargetBranchGSFButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="gsfAllBranchGSFButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                                      <Component id="gsfLargetInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="gsfAllInterfaceGSFButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace pref="47" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="60" max="32767" attributes="0"/>
+                      <EmptySpace pref="15" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -377,7 +380,7 @@
                           </Group>
                           <Component id="gsfMonitorBranchPanel" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="gsfLargetBranchGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="gsfSelectedGSFButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -424,12 +427,12 @@
                                       <Component id="gsfAddGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="gsfRemoveGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                                  <EmptySpace pref="27" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="gsfGenBusLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="gsfGenBusComboBox" pref="144" max="32767" attributes="0"/>
+                                  <Component id="gsfGenBusComboBox" pref="145" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -580,7 +583,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="gsfLoadUserFileTextField" alignment="0" pref="208" max="32767" attributes="0"/>
+                              <Component id="gsfLoadUserFileTextField" alignment="0" pref="209" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="gsfLoadSingleBusRadioButton" min="-2" max="-2" attributes="0"/>
@@ -638,7 +641,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Bus"/>
                     <Property name="toolTipText" type="java.lang.String" value="Single bus as the withdraw bus"/>
                   </Properties>
@@ -654,6 +656,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="BaseCase"/>
                     <Property name="toolTipText" type="java.lang.String" value="Use load buses in the network as the withdraw bus. The distribution&#xa;factor is calculated according relative size of the load, excluding &#xa;those small load less than the threshhold (normally, 5Mw)"/>
                   </Properties>
@@ -663,6 +666,9 @@
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="gsfLoadUserDefinedRadioButton">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="gsfWithdrawButtonGroup"/>
+                    </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
@@ -705,6 +711,7 @@
                       <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="User defined file ..."/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="gsfLoadUserFileButton">
@@ -713,6 +720,7 @@
                       <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Select"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsfLoadUserFileButtonActionPerformed"/>
@@ -1325,7 +1333,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
                       <Component id="ptdfCalculateButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="208" max="32767" attributes="0"/>
+                      <EmptySpace pref="194" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
