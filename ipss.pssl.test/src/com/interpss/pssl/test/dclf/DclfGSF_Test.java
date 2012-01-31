@@ -34,6 +34,7 @@ import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.SenAnalysisBusEnumType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.ieee.odm.schema.SenAnalysisEnumType;
@@ -159,10 +160,12 @@ public class DclfGSF_Test extends BaseTestSetup {
 		gsf.setWithdrawBusType(SenAnalysisBusEnumType.MULTIPLE_BUS);
 		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus13");
-		bus.setPercent(50.0);
+		bus.getAllocFactor().setValue(50.0);
+		bus.getAllocFactor().setUnit(FactorUnitType.PERCENT);
 		bus = helper.createSenAnalysisBus(gsf.getWithdrawBus());
 		bus.setBusId("Bus14");
-		bus.setPercent(50.0);
+		bus.getAllocFactor().setValue(50.0);
+		bus.getAllocFactor().setUnit(FactorUnitType.PERCENT);
 		
 		sf = helper.createBranchSFactor(gsf.getBranchSFactor());
 		line = odmObjFactory.createBranchRefXmlType();

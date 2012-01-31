@@ -30,6 +30,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.SenAnalysisBusEnumType;
 import org.ieee.odm.schema.SenAnalysisBusXmlType;
@@ -136,10 +137,13 @@ public class DclfLoss_Test extends BaseTestSetup {
 		lfactor.setWithdrawBusType(SenAnalysisBusEnumType.MULTIPLE_BUS);
 		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus13");
-		bus.setPercent(50.0);
+		bus.getAllocFactor().setValue(50.0);
+		bus.getAllocFactor().setUnit(FactorUnitType.PERCENT);
+		
 		bus = helper.createSenAnalysisBus(lfactor.getWithdrawBus());
 		bus.setBusId("Bus14");
-		bus.setPercent(50.0);		
+		bus.getAllocFactor().setValue(50.0);
+		bus.getAllocFactor().setUnit(FactorUnitType.PERCENT);
 		
 		new DclfDslODMRunner(algoDsl)
 				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssStudyCaseFunc.createDefaultPtInfo());
