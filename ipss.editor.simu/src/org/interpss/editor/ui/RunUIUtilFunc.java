@@ -49,7 +49,7 @@ import com.interpss.core.aclf.flow.FlowInterface;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
-import com.interpss.pssl.adpter.aclf.AggregatePricingFileProcessor;
+import com.interpss.pssl.adpter.aclf.AggregateGenFileProcessor;
 import com.interpss.pssl.algo.aclf.EDHourlyLoadflow;
 import com.interpss.pssl.file.ExcelFileReader;
 
@@ -333,12 +333,12 @@ public class RunUIUtilFunc  {
 
 	public static boolean loadAPNodeFile(PowerTradingInfoXmlType ptInfo) {
 		// load FlowInterface if necessary
-		String f1 = ptInfo.getLoadDist().getAggregatePricing().getAggregatePricingFilename();
+		String f1 = ptInfo.getLoadDist().getAggregateGen().getAggregatePricingFilename();
 		if (new File(f1).exists()) {
 			ipssLogger.info("Load APNode file: " + f1);
 			try {
 				ExcelFileReader reader = new ExcelFileReader(f1, 0);
-				AggregatePricingFileProcessor proc = new AggregatePricingFileProcessor(ptInfo.getLoadDist().getAggregatePricing());		
+				AggregateGenFileProcessor proc = new AggregateGenFileProcessor(ptInfo.getLoadDist().getAggregateGen());		
 				reader.processFile(proc);		
 				return true;
 			} catch (InterpssException e) {

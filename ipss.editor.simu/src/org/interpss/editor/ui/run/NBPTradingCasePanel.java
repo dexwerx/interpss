@@ -325,8 +325,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		ipssLogger.info("NBPTradingCasePanel saveEditor2Form() called");
 		
 		if (this._ptInfoXml.getLoadDist() != null &&
-				this._ptInfoXml.getLoadDist().getAggregatePricing() != null)
-			this._ptInfoXml.getLoadDist().getAggregatePricing().getApNode().clear();
+				this._ptInfoXml.getLoadDist().getAggregateGen() != null)
+			this._ptInfoXml.getLoadDist().getAggregateGen().getApGroup().clear();
 
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg);
@@ -364,8 +364,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 				new Double(this.loadDistThreshholdTextField.getText()).doubleValue());
 		this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().setUnit(ActivePowerUnitType.MW);
 
-		if (this._ptInfoXml.getLoadDist().getAggregatePricing() == null)
-			this._ptInfoXml.getLoadDist().setAggregatePricing(odmObjFactory.createAggregatePricingXmlType());
+		if (this._ptInfoXml.getLoadDist().getAggregateGen() == null)
+			this._ptInfoXml.getLoadDist().setAggregateGen(odmObjFactory.createAggregateGenXmlType());
 		
 		this._ptInfoXml.setInterfaceFilename(
 				interfaceFileTextField.getText());

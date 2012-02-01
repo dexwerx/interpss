@@ -36,7 +36,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.ext.ipss.AggregatePricingHelper;
+import org.ieee.odm.model.ext.ipss.AggregateGenHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
@@ -194,12 +194,12 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 						Number2String.toStr(this._ptInfoXml.getLoadDist().getMinLoadForDistFactor().getValue(), "#0.0"));
 
 			// load and configure AP Node info if exists
-			if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null) {
+			if (this._ptInfoXml.getLoadDist().getAggregateGen() != null) {
 				this.genAPNodeFileTextField.setText(
-						this._ptInfoXml.getLoadDist().getAggregatePricing().getAggregatePricingFilename());
+						this._ptInfoXml.getLoadDist().getAggregateGen().getAggregatePricingFilename());
 				if ( !RunUIUtilFunc.loadAPNodeFile(_ptInfoXml)) {
 					// when there is a problem loading the APNode info, disable the APNode radio button
-					this._ptInfoXml.getLoadDist().setAggregatePricing(null);
+					this._ptInfoXml.getLoadDist().setAggregateGen(null);
 					this.gsfGenAPNodeRadioButton.setEnabled(false);
 				}
 			}
@@ -314,8 +314,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		ipssLogger.info("NBAclfCasePanel saveEditor2Form() called");
 		
 		// clear the APNode info, since it should be stored
-		if (this._ptInfoXml.getLoadDist().getAggregatePricing() != null)
-			this._ptInfoXml.getLoadDist().getAggregatePricing().getApNode().clear();
+		if (this._ptInfoXml.getLoadDist().getAggregateGen() != null)
+			this._ptInfoXml.getLoadDist().getAggregateGen().getApGroup().clear();
 		
 		saveEditor2GSF(errMsg);
 
@@ -1372,8 +1372,8 @@ private void gsfGenBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt)
 private void gsfGenAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfGenAPNodeRadioButtonActionPerformed
 	ipssLogger.info("gsfAPNodeRadioButtonActionPerformed() called");
 	this.gsfGenBusLabel.setText("APNode");
-	AggregatePricingHelper helper = new AggregatePricingHelper(this._ptInfoXml.getLoadDist().getAggregatePricing());
-	String[] idAry = helper.getAPNodeIdAry();
+	AggregateGenHelper helper = new AggregateGenHelper(this._ptInfoXml.getLoadDist().getAggregateGen());
+	String[] idAry = helper.getAPGroupIdAry();
 	this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
 	this.gsfGenBusList.setEnabled(false);
 	this.gsfAddGenButton.setEnabled(false);
