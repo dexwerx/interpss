@@ -779,7 +779,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(configPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(outAllInterfacePointsLabel)
                     .add(outAllInterfacePointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         runDclfTabbedPane.addTab("Configuration", configPanel);
@@ -893,7 +893,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
 
         gsfWithdrawButtonGroup.add(gsfLoadBasecaseRadioButton);
-        gsfLoadBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfLoadBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfLoadBasecaseRadioButton.setSelected(true);
         gsfLoadBasecaseRadioButton.setText("BaseCase");
         gsfLoadBasecaseRadioButton.setToolTipText("Use load buses in the network as the withdraw bus. The distribution\nfactor is calculated according relative size of the load, excluding \nthose small load less than the threshhold (normally, 5Mw)");
@@ -912,21 +912,21 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        gsfLoadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfLoadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfLoadBusLabel.setText("Bus");
         gsfLoadBusLabel.setEnabled(false);
 
-        gsfLoadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        gsfLoadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gsfLoadBusComboBox.setToolTipText("Withdraw bus selection in case the Bus option is selected, or AP Node selection in case the APNode option is selected.");
         gsfLoadBusComboBox.setEnabled(false);
 
         gsfLoadUserFileTextField.setColumns(25);
-        gsfLoadUserFileTextField.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        gsfLoadUserFileTextField.setFont(new java.awt.Font("Dialog", 0, 10));
         gsfLoadUserFileTextField.setText("User defined file ...");
         gsfLoadUserFileTextField.setEnabled(false);
 
-        gsfLoadUserFileButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        gsfLoadUserFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
         gsfLoadUserFileButton.setText("Select");
         gsfLoadUserFileButton.setEnabled(false);
         gsfLoadUserFileButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1139,7 +1139,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(gsfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(gsfLargetInterfaceGSFButton)
                     .add(gsfAllInterfaceGSFButton))
-                .add(19, 19, 19))
+                .add(21, 21, 21))
         );
 
         runDclfTabbedPane.addTab("GSF", gsfPanel);
@@ -1648,7 +1648,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(ptdfCalculateButton)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         runDclfTabbedPane.addTab("PTDF", ptdfPanel);
@@ -1989,7 +1989,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                .add(runDclfTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

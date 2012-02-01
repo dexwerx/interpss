@@ -8,8 +8,6 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="loadDistButtonGroup">
     </Component>
-    <Component class="javax.swing.ButtonGroup" name="genInjectButtonGroup">
-    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -76,15 +74,22 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="edFilePanel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="loadDistributionPanel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="lfAssistGenPanel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="interfaceFilePanel" alignment="0" max="32767" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lfAssistGenPanel" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="interfaceFilePanel" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="loadDistributionPanel" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="edFilePanel" alignment="0" max="32767" attributes="1"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -93,12 +98,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="edFilePanel" min="-2" pref="114" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                      <Component id="loadDistributionPanel" min="-2" pref="82" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="loadDistributionPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="interfaceFilePanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="lfAssistGenPanel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lfAssistGenPanel" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -119,43 +124,44 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="edLoadPFactorLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="edLoadPFacorTextField" pref="29" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="325" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="edFileLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="edGenPFactorLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="edGenPFactorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="edFileLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="edGenPFacorTextField" min="-2" pref="52" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="edDateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="edLossPercentLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="edLossPercentTextField" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
-                                              <Component id="edDateTextField" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="edFileTextField" min="-2" pref="242" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="selectEdFileButton" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="edLoadPFactorLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="edLoadPFacorTextField" max="32767" attributes="1"/>
+                                      <Component id="edGenPFacorTextField" alignment="0" pref="52" max="32767" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="edDateLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="edLossPercentLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="edLossPercentTextField" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                      <Component id="edDateTextField" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="edFileTextField" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="selectEdFileButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace pref="23" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -163,15 +169,15 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="edFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="edFileTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="selectEdFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="edFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="edGenPFactorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="edGenPFacorTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="edGenPFactorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="edDateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -180,9 +186,9 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="edLoadPFactorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="edLoadPFacorTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="edLoadPFactorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="edLossPercentLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="edLossPercentTextField" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -196,7 +202,7 @@
                 <Component class="javax.swing.JLabel" name="edFileLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Daily ED File"/>
                   </Properties>
@@ -205,7 +211,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="25"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="ED file"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -216,7 +222,7 @@
                 <Component class="javax.swing.JButton" name="selectEdFileButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Select"/>
                   </Properties>
@@ -227,7 +233,7 @@
                 <Component class="javax.swing.JTextField" name="edGenPFacorTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0.90"/>
                   </Properties>
@@ -235,7 +241,7 @@
                 <Component class="javax.swing.JLabel" name="edGenPFactorLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Gen PFator (PU)"/>
                   </Properties>
@@ -243,7 +249,7 @@
                 <Component class="javax.swing.JLabel" name="edDateLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Date (mm/dd/yyyy)"/>
                   </Properties>
@@ -251,7 +257,7 @@
                 <Component class="javax.swing.JTextField" name="edDateTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="mm/dd/yyyy"/>
                   </Properties>
@@ -259,7 +265,7 @@
                 <Component class="javax.swing.JTextField" name="edLoadPFacorTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0.98"/>
                   </Properties>
@@ -267,7 +273,7 @@
                 <Component class="javax.swing.JLabel" name="edLoadPFactorLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Load PFator (PU)"/>
                   </Properties>
@@ -275,7 +281,7 @@
                 <Component class="javax.swing.JTextField" name="edLossPercentTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="2.5"/>
                   </Properties>
@@ -283,7 +289,7 @@
                 <Component class="javax.swing.JLabel" name="edLossPercentLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Network Loss %"/>
                   </Properties>
@@ -306,23 +312,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="loadDistThreshholdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="loadDistAPNodeFileLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="loadDistThreshholdLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="loadDistAPNodeFileTextField" min="-2" max="-2" attributes="1"/>
-                                  <EmptySpace pref="20" max="32767" attributes="0"/>
-                                  <Component id="selectLoadDistAPNodeFileButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="loadDistThreshholdTextField" min="-2" pref="51" max="-2" attributes="0"/>
-                                  <EmptySpace pref="296" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="loadDistThreshholdTextField" min="-2" pref="51" max="-2" attributes="0"/>
+                          <EmptySpace pref="281" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -334,12 +327,6 @@
                               <Component id="loadDistThreshholdTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="loadDistAPNodeFileTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="loadDistAPNodeFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="selectLoadDistAPNodeFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -348,7 +335,7 @@
                 <Component class="javax.swing.JLabel" name="loadDistThreshholdLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Threshhold (Mw)   "/>
                   </Properties>
@@ -357,41 +344,10 @@
                   <Properties>
                     <Property name="columns" type="int" value="3"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="5.0"/>
                   </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="loadDistAPNodeFileLabel">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="APNode File"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="loadDistAPNodeFileTextField">
-                  <Properties>
-                    <Property name="columns" type="int" value="25"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Aggregate Pricing Node File"/>
-                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[70, 20]"/>
-                    </Property>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="selectLoadDistAPNodeFileButton">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Select"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectLoadDistAPNodeFileButtonActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -409,33 +365,32 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="23" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="interfaceFileLabel" min="-2" max="-2" attributes="0"/>
                               <Component id="interfaceLimitLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="interfaceFileTextField" max="32767" attributes="1"/>
-                              <Component id="interfaceLimitTextField" alignment="0" pref="209" max="32767" attributes="1"/>
+                              <Component id="interfaceFileTextField" min="0" pref="0" max="32767" attributes="1"/>
+                              <Component id="interfaceLimitTextField" alignment="0" min="-2" pref="256" max="-2" attributes="1"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="selectInterfaceFileButton" min="-2" max="-2" attributes="0"/>
                               <Component id="selectInterfaceLimitButton" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="35" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="interfaceFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="interfaceFileTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="interfaceFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="selectInterfaceFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -453,7 +408,7 @@
                 <Component class="javax.swing.JLabel" name="interfaceFileLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Interface File"/>
                   </Properties>
@@ -462,7 +417,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="25"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Interface File"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -473,7 +428,7 @@
                 <Component class="javax.swing.JButton" name="selectInterfaceFileButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Select"/>
                   </Properties>
@@ -484,7 +439,7 @@
                 <Component class="javax.swing.JLabel" name="interfaceLimitLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Limit File"/>
                   </Properties>
@@ -493,7 +448,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="25"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Interface Limit file"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -504,7 +459,7 @@
                 <Component class="javax.swing.JButton" name="selectInterfaceLimitButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Select"/>
                   </Properties>
@@ -529,28 +484,28 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lfAssistGenFileLabel" min="-2" max="-2" attributes="0"/>
                               <Component id="lfAssistGenQAdjStepsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lfAssistGenFileLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lfAssistGenFileTextField" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="19" max="32767" attributes="0"/>
-                                  <Component id="lfAssistGenFileSelectButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="lfAssistGenQAdjStespTextField" min="-2" pref="33" max="-2" attributes="1"/>
                                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                                   <Component id="lfAssistGenQAdjToleranceLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="lfAssistGenQAdjToleranceTextField" min="-2" pref="33" max="-2" attributes="1"/>
-                                  <EmptySpace pref="112" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                  <Component id="lfAssistGenFileTextField" min="-2" pref="257" max="-2" attributes="0"/>
+                                  <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                  <Component id="lfAssistGenFileSelectButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace pref="11" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -566,8 +521,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lfAssistGenQAdjToleranceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lfAssistGenQAdjToleranceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lfAssistGenQAdjStepsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lfAssistGenQAdjStespTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lfAssistGenQAdjStepsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -578,7 +533,7 @@
                 <Component class="javax.swing.JLabel" name="lfAssistGenFileLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="LF Assist File"/>
                   </Properties>
@@ -587,7 +542,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="25"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="LF Assistance Gen File"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -598,7 +553,7 @@
                 <Component class="javax.swing.JButton" name="lfAssistGenFileSelectButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Select"/>
                   </Properties>
@@ -609,7 +564,7 @@
                 <Component class="javax.swing.JLabel" name="lfAssistGenQAdjStepsLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Q Adj Run Steps"/>
                   </Properties>
@@ -617,7 +572,7 @@
                 <Component class="javax.swing.JTextField" name="lfAssistGenQAdjStespTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="3"/>
                   </Properties>
@@ -625,7 +580,7 @@
                 <Component class="javax.swing.JLabel" name="lfAssistGenQAdjToleranceLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Q Adj Tolerance"/>
                   </Properties>
@@ -633,7 +588,7 @@
                 <Component class="javax.swing.JTextField" name="lfAssistGenQAdjToleranceTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0.1"/>
                   </Properties>
@@ -1352,53 +1307,41 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="1">
-                                      <Component id="genAnalysisGenBusLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="genAnalysisGenBusListComboBox" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="genAnalysisGenScrollPane" min="-2" pref="148" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="genAnalysisRemoveGenButton" min="-2" max="-2" attributes="0"/>
-                                          <Component id="genAnalysisAddGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="genAnalysisEdHourLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                                      <Component id="genAnalysisEdHourComboBox" min="-2" pref="77" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="genAnalysisGenBusRadioButton" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Component id="genAnalysisAPNodeRadioButton" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="146" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="192" max="32767" attributes="0"/>
                       <Component id="runCalLossFactorsButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="187" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
+                      <Component id="genAnalysisGenScrollPane" min="-2" pref="148" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="genAnalysisRemoveGenButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="genAnalysisAddGenButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       <Component id="genLoadDisPanel" min="-2" max="-2" attributes="1"/>
                       <EmptySpace pref="64" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="genAnalysisEdHourLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="genAnalysisEdHourComboBox" min="-2" pref="77" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="genAnalysisGenBusLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="genAnalysisGenBusListComboBox" min="-2" pref="110" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="178" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1410,17 +1353,12 @@
                           <Component id="genAnalysisEdHourLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="genAnalysisEdHourComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="genAnalysisGenBusRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="genAnalysisAPNodeRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="genAnalysisGenBusListComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="genAnalysisGenBusLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="genAnalysisAddGenButton" min="-2" max="-2" attributes="0"/>
@@ -1431,7 +1369,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="genLoadDisPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="23" max="32767" attributes="0"/>
+                      <EmptySpace pref="33" max="32767" attributes="0"/>
                       <Component id="runCalLossFactorsButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
@@ -1482,35 +1420,6 @@
                   </StringArray>
                 </Property>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="genAnalysisGenBusRadioButton">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="genInjectButtonGroup"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Gen Bus"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genAnalysisGenBusRadioButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="genAnalysisAPNodeRadioButton">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="genInjectButtonGroup"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="AP Node"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genAnalysisAPNodeRadioButtonActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="genAnalysisGenBusLabel">
               <Properties>
@@ -1645,6 +1554,9 @@
               <SubComponents>
                 <Component class="javax.swing.JRadioButton" name="genLoadDistBusRadioButton">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="loadDistButtonGroup"/>
+                    </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
@@ -1712,7 +1624,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="25"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="10" style="0"/>
+                      <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="User defined file ..."/>
                     <Property name="enabled" type="boolean" value="false"/>
