@@ -37,7 +37,7 @@ import org.ieee.odm.schema.AclfAnalysisXmlType;
 import org.ieee.odm.schema.AcscBranchFaultXmlType;
 import org.ieee.odm.schema.AcscBusFaultXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
-import org.ieee.odm.schema.AggregatePricingXmlType;
+import org.ieee.odm.schema.AggregateGenXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.ContingencyAnalysisXmlType;
@@ -246,11 +246,11 @@ public class IpssScenarioHelper {
 	 * 
 	 * @return
 	 */
-	public AggregatePricingXmlType getAggregatePricing() {
-		if (this.getPowerTradingInfo().getLoadDist().getAggregatePricing() == null) {
-			this.getPowerTradingInfo().getLoadDist().setAggregatePricing(odmObjFactory.createAggregatePricingXmlType());
+	public AggregateGenXmlType getAggregateGroup() {
+		if (this.getPowerTradingInfo().getLoadDist().getAggregateGen() == null) {
+			this.getPowerTradingInfo().getLoadDist().setAggregateGen(odmObjFactory.createAggregateGenXmlType());
 		}
-		return this.getPowerTradingInfo().getLoadDist().getAggregatePricing();
+		return this.getPowerTradingInfo().getLoadDist().getAggregateGen();
 	}
 	
 	/*

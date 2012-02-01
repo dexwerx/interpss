@@ -88,43 +88,43 @@
 	<ns:complexType name="PtLoadDistributionXmlType">
 		<ns:sequence>
 			<ns:element name="minLoadForDistFactor" minOccurs="0" type="pss:ActivePowerXmlType"></ns:element>
-			<ns:element name="aggregatePricing" type="ipss:AggregatePricingXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="aggregateGen" type="ipss:AggregateGenXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 	
-	<ns:complexType name="AggregatePricingXmlType">
+	<ns:complexType name="AggregateGenXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:NameTagXmlType">
 				<ns:sequence>
 					<ns:element name="aggregatePricingFilename" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="apNode" type="ipss:AggregatePricingNodeXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+					<ns:element name="apGroup" type="ipss:AggregateGenGroupXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="AggregatePricingNodeXmlType">
+	<ns:complexType name="AggregateGenGroupXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
-					<ns:element name="apBus" type="ipss:AggregatePricingBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+					<ns:element name="apBus" type="ipss:AggregateGenBusXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="AggregatePricingBusXmlType">
+	<ns:complexType name="AggregateGenBusXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BusRefXmlType">
 				<ns:sequence>
 					<ns:element name="allocFactor" type="pss:FactorXmlType" minOccurs="1" maxOccurs="1"></ns:element>
-					<ns:element name="busType" type="ipss:AggregatePricingBusEnumType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="busType" type="ipss:AggregateGenBusEnumType" minOccurs="0" maxOccurs="1"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:simpleType name="AggregatePricingBusEnumType">
+	<ns:simpleType name="AggregateGenBusEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="STATION_POWER"></ns:enumeration>
 			<ns:enumeration value="ETC_TOR"></ns:enumeration>

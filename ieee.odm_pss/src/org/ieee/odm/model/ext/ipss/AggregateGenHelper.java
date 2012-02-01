@@ -26,53 +26,53 @@ package org.ieee.odm.model.ext.ipss;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.schema.AggregatePricingBusXmlType;
-import org.ieee.odm.schema.AggregatePricingNodeXmlType;
-import org.ieee.odm.schema.AggregatePricingXmlType;
+import org.ieee.odm.schema.AggregateGenBusXmlType;
+import org.ieee.odm.schema.AggregateGenGroupXmlType;
+import org.ieee.odm.schema.AggregateGenXmlType;
 
 /**
  * 
  * @author mzhou
  *
  */
-public class AggregatePricingHelper {
-	private AggregatePricingXmlType ap = null;
+public class AggregateGenHelper {
+	private AggregateGenXmlType ap = null;
 	
 	/**
 	 * constructor
 	 * 
 	 * @param parser
 	 */
-	public AggregatePricingHelper (AggregatePricingXmlType ap) {
+	public AggregateGenHelper (AggregateGenXmlType ap) {
 		this.ap = ap;
 	}
 
-	public AggregatePricingNodeXmlType getAggregatePricingNode(String id) {
-		for ( AggregatePricingNodeXmlType node : this.ap.getApNode()) {
+	public AggregateGenGroupXmlType getAggregateGenGroup(String id) {
+		for ( AggregateGenGroupXmlType node : this.ap.getApGroup()) {
 			if ( node.getId().equals(id))
 				return node;
 		}
 		return null;
 	}
 
-	public AggregatePricingNodeXmlType createAggregatePricingNode(String id) {
-		AggregatePricingNodeXmlType node = odmObjFactory.createAggregatePricingNodeXmlType();
+	public AggregateGenGroupXmlType createAggregateGenGroup(String id) {
+		AggregateGenGroupXmlType node = odmObjFactory.createAggregateGenGroupXmlType();
 		node.setId(id);
-		this.ap.getApNode().add(node);
+		this.ap.getApGroup().add(node);
 		return node;
 	}
 
-	public AggregatePricingBusXmlType createAggregatePricingBus(String id, AggregatePricingNodeXmlType node) {
-		AggregatePricingBusXmlType bus = odmObjFactory.createAggregatePricingBusXmlType();
+	public AggregateGenBusXmlType createAggregateGenBus(String id, AggregateGenGroupXmlType node) {
+		AggregateGenBusXmlType bus = odmObjFactory.createAggregateGenBusXmlType();
 		node.getApBus().add(bus);
 		bus.setBusId(id);
 		return bus;
 	}
 
-	public String[] getAPNodeIdAry() {
-		String[] sAry = new String[this.ap.getApNode().size()];
+	public String[] getAPGroupIdAry() {
+		String[] sAry = new String[this.ap.getApGroup().size()];
 		int cnt = 0;
-		for ( AggregatePricingNodeXmlType node : this.ap.getApNode()) {
+		for ( AggregateGenGroupXmlType node : this.ap.getApGroup()) {
 			sAry[cnt++] = node.getId();
 		}		
 		return sAry;
