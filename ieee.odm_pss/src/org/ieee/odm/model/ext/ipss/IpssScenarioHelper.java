@@ -423,7 +423,7 @@ public class IpssScenarioHelper {
 	 * @param dclfCase
 	 * @return
 	 */
-	public DclfBranchSensitivityXmlType createGSF(DclfSenAnalysisXmlType dclfCase) {
+	public static DclfBranchSensitivityXmlType createGSF(DclfSenAnalysisXmlType dclfCase) {
 		DclfBranchSensitivityXmlType gsf = odmObjFactory.createDclfBranchSensitivityXmlType();
 		dclfCase.getGenShiftFactor().add(gsf);
 		return gsf;
@@ -435,7 +435,7 @@ public class IpssScenarioHelper {
 	 * @param dclfCase
 	 * @return
 	 */
-	public LineOutageDFactorXmlType createLODF(DclfSenAnalysisXmlType dclfCase) {
+	public static LineOutageDFactorXmlType createLODF(DclfSenAnalysisXmlType dclfCase) {
 		LineOutageDFactorXmlType lodf = odmObjFactory.createLineOutageDFactorXmlType();
 		lodf.setOutageType(LODFOutageEnumType.SINGLE_BRANCH);
 		dclfCase.getLineOutageDFactor().add(lodf);
@@ -448,7 +448,7 @@ public class IpssScenarioHelper {
 	 * @param dclfCase
 	 * @return
 	 */
-	public SenAnalysisOutOptionXmlType createSenAnalysisOutConfig(DclfSenAnalysisXmlType dclfCase) {
+	public static SenAnalysisOutOptionXmlType createSenAnalysisOutConfig(DclfSenAnalysisXmlType dclfCase) {
 		SenAnalysisOutOptionXmlType out = odmObjFactory.createSenAnalysisOutOptionXmlType();
 		dclfCase.setOutOption(out);
 		return out;
@@ -460,7 +460,7 @@ public class IpssScenarioHelper {
 	 * @param dclfCase
 	 * @return
 	 */
-	public GenLossFactorXmlType createGenLossFactor(DclfSenAnalysisXmlType dclfCase) {
+	public static GenLossFactorXmlType createGenLossFactor(DclfSenAnalysisXmlType dclfCase) {
 		GenLossFactorXmlType lf = odmObjFactory.createGenLossFactorXmlType();
 		dclfCase.getGenLossFactors().add(lf);
 		return lf;
@@ -472,7 +472,7 @@ public class IpssScenarioHelper {
 	 * @param braList
 	 * @return
 	 */	
-	public BranchRefXmlType createMonitorBranch(List<LODFMonitorBranchXmlType> braList) {
+	public static BranchRefXmlType createMonitorBranch(List<LODFMonitorBranchXmlType> braList) {
 		LODFMonitorBranchXmlType bra = odmObjFactory.createLODFMonitorBranchXmlType();
 		braList.add(bra);
 		bra.setBranch(odmObjFactory.createBranchRefXmlType());
@@ -498,7 +498,7 @@ public class IpssScenarioHelper {
 	 * @param braList
 	 * @return
 	 */	
-	public BranchShiftFactorXmlType createBranchSFactor(List<BranchShiftFactorXmlType> braList) {
+	public static BranchShiftFactorXmlType createBranchSFactor(List<BranchShiftFactorXmlType> braList) {
 		BranchShiftFactorXmlType sf = odmObjFactory.createBranchShiftFactorXmlType();
 		braList.add(sf);
 		return sf;
@@ -510,7 +510,7 @@ public class IpssScenarioHelper {
 	 * @param braList
 	 * @return
 	 */	
-	public InterfaceShiftFactorXmlType createInterfaceSFactor(List<InterfaceShiftFactorXmlType> infList) {
+	public static InterfaceShiftFactorXmlType createInterfaceSFactor(List<InterfaceShiftFactorXmlType> infList) {
 		InterfaceShiftFactorXmlType sf = odmObjFactory.createInterfaceShiftFactorXmlType();
 		infList.add(sf);
 		return sf;

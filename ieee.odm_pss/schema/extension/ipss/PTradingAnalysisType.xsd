@@ -87,10 +87,11 @@
 			<ns:element name="genBus" type="pss:IDRecordXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
 			<ns:element name="loadBusType" minOccurs="1" type="ipss:SenAnalysisBusEnumType">
                 <ns:annotation>
-                	<ns:documentation>Only LoadDistribution, APNode apply</ns:documentation>
+                	<ns:documentation>Only SingleBus, LoadDistribution, User_File applies</ns:documentation>
                 </ns:annotation>
 			</ns:element>
-			<ns:element name="apNodeId" minOccurs="0" type="ns:string"></ns:element>
+			<ns:element name="loadBusId" minOccurs="0" type="ns:string"></ns:element>
+			<ns:element name="userFilename" minOccurs="0" type="ns:string"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 
