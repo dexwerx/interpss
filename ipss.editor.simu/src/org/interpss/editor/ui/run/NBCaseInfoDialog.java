@@ -244,6 +244,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		       _caseType == SimuRunEnum.Acsc ||
 		       _caseType == SimuRunEnum.Aclf;    	
     }
+    
+// TODO    
 	/**
 	*	Set form data to the editor
 	*
@@ -346,6 +348,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         return true;
 	}
 	
+// TODO	
 	/**
 	*	Save editor screen data to the form
 	*
@@ -590,9 +593,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
- // TODO -----------
- // ----------------
-    
+ // TODO 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		_returnOK = false;
 		if (_caseType == SimuRunEnum.Aclf)

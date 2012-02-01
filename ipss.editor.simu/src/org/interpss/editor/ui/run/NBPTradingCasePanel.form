@@ -84,7 +84,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="interfaceFilePanel" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="loadDistributionPanel" alignment="0" max="32767" attributes="1"/>
+                                  <Component id="loadDistPanel" alignment="0" max="32767" attributes="1"/>
                                   <Component id="edFilePanel" alignment="0" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -98,7 +98,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="edFilePanel" min="-2" pref="114" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                      <Component id="loadDistributionPanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="loadDistPanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="interfaceFilePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -296,7 +296,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="loadDistributionPanel">
+            <Container class="javax.swing.JPanel" name="loadDistPanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -651,14 +651,14 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                                      <Component id="lfToleranceLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="aclfToleranceLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                      <Component id="lfToleranceTextField" min="-2" pref="59" max="-2" attributes="1"/>
+                                      <Component id="aclfToleranceTextField" min="-2" pref="59" max="-2" attributes="1"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="useCachedVoltCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="aclfUseCachedVoltCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="aclfEdHourComboBox" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -677,9 +677,9 @@
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lfToleranceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lfToleranceLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
-                          <Component id="useCachedVoltCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="aclfToleranceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="aclfToleranceLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                          <Component id="aclfUseCachedVoltCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="swingAllocCheckBox" min="-2" max="-2" attributes="0"/>
@@ -761,7 +761,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lfToleranceLabel">
+            <Component class="javax.swing.JLabel" name="aclfToleranceLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -769,7 +769,7 @@
                 <Property name="text" type="java.lang.String" value="Lf Tolerance"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="lfToleranceTextField">
+            <Component class="javax.swing.JTextField" name="aclfToleranceTextField">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -777,7 +777,7 @@
                 <Property name="text" type="java.lang.String" value="0.0001"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="useCachedVoltCheckBox">
+            <Component class="javax.swing.JCheckBox" name="aclfUseCachedVoltCheckBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -893,15 +893,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
-                              <Component id="branchAnalysisEdHourLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaEdHourLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Component id="branchAnalysisEdHourComboBox" min="-2" pref="77" max="-2" attributes="0"/>
+                              <Component id="braAnaEdHourComboBox" min="-2" pref="77" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                              <Component id="braAnalysisBranchLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaBranchLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="braAnalysisBranchListComboBox" min="-2" pref="184" max="-2" attributes="0"/>
+                              <Component id="braAnaBranchListComboBox" min="-2" pref="184" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="138" max="32767" attributes="0"/>
@@ -916,17 +916,17 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-                              <Component id="outageAnalysisPanel" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageAnalysisPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="branchAnalysisTypePanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaTypePanel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                      <Component id="braFlowOutPointsLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="braAnaFlowOutPointsLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="braFlowOutPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="braAnaFlowOutPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace pref="251" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -936,22 +936,22 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="branchAnalysisEdHourComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="branchAnalysisEdHourLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaEdHourComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaEdHourLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="braAnalysisBranchListComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="braAnalysisBranchLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaBranchListComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaBranchLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Component id="branchAnalysisTypePanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="braAnaTypePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="outageAnalysisPanel" min="-2" max="-2" attributes="0"/>
+                      <Component id="braAnaOutageAnalysisPanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="braFlowOutPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="braFlowOutPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaFlowOutPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaFlowOutPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="runBranchAnalysisButton" min="-2" max="-2" attributes="0"/>
@@ -961,7 +961,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="branchAnalysisEdHourLabel">
+            <Component class="javax.swing.JLabel" name="braAnaEdHourLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -969,7 +969,7 @@
                 <Property name="text" type="java.lang.String" value="ED Hour"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="branchAnalysisEdHourComboBox">
+            <Component class="javax.swing.JComboBox" name="braAnaEdHourComboBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1005,7 +1005,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="braAnalysisBranchListComboBox">
+            <Component class="javax.swing.JComboBox" name="braAnaBranchListComboBox">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1020,7 +1020,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="braAnalysisBranchLabel">
+            <Component class="javax.swing.JLabel" name="braAnaBranchLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1028,7 +1028,7 @@
                 <Property name="text" type="java.lang.String" value="Branch"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JPanel" name="branchAnalysisTypePanel">
+            <Container class="javax.swing.JPanel" name="braAnaTypePanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1044,13 +1044,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Component id="outageSingleRadioButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaOutageSingleRadioButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="outageMultiRadioButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaOutageMultiRadioButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="outageScheduleRadioButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaOutageScheduleRadioButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="branchFlowRadioButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="braAnaFlowRadioButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1059,10 +1059,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="outageSingleRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="outageMultiRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="outageScheduleRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="branchFlowRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageSingleRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageMultiRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageScheduleRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaFlowRadioButton" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="7" max="32767" attributes="0"/>
                       </Group>
@@ -1070,7 +1070,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="outageSingleRadioButton">
+                <Component class="javax.swing.JRadioButton" name="braAnaOutageSingleRadioButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="branchAnalysisTypeButtonGroup"/>
@@ -1082,10 +1082,10 @@
                     <Property name="text" type="java.lang.String" value="Single Outage"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="outageSingleRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaOutageSingleRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="outageMultiRadioButton">
+                <Component class="javax.swing.JRadioButton" name="braAnaOutageMultiRadioButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="branchAnalysisTypeButtonGroup"/>
@@ -1097,10 +1097,10 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="outageMultiRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaOutageMultiRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="outageScheduleRadioButton">
+                <Component class="javax.swing.JRadioButton" name="braAnaOutageScheduleRadioButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="branchAnalysisTypeButtonGroup"/>
@@ -1112,10 +1112,10 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="outageScheduleRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaOutageScheduleRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="branchFlowRadioButton">
+                <Component class="javax.swing.JRadioButton" name="braAnaFlowRadioButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="branchAnalysisTypeButtonGroup"/>
@@ -1126,12 +1126,12 @@
                     <Property name="text" type="java.lang.String" value="Branch Flow"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="branchFlowRadioButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaFlowRadioButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="outageAnalysisPanel">
+            <Container class="javax.swing.JPanel" name="braAnaOutageAnalysisPanel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1147,19 +1147,19 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="multiOutageBranchScrollPane" min="-2" pref="249" max="-2" attributes="0"/>
+                                  <Component id="braAnaMultiOutageBranchScrollPane" min="-2" pref="249" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="removeOutageBranchButton" min="-2" max="-2" attributes="0"/>
-                                      <Component id="addOutageBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="braAnaRemoveOutageBranchButton" min="-2" max="-2" attributes="0"/>
+                                      <Component id="braAnaAddOutageBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="outageFileLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="braAnaOutageFileLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="outageFileTextField" pref="236" max="32767" attributes="0"/>
+                                  <Component id="braAnaOutageFileTextField" pref="236" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="outageFileSelectButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="braAnaOutageFileSelectButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1170,32 +1170,32 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="multiOutageBranchScrollPane" min="-2" pref="82" max="-2" attributes="0"/>
+                              <Component id="braAnaMultiOutageBranchScrollPane" min="-2" pref="82" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="addOutageBranchButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="braAnaAddOutageBranchButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="removeOutageBranchButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="braAnaRemoveOutageBranchButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="outageFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="outageFileTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="outageFileSelectButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageFileTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageFileSelectButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="multiOutageBranchScrollPane">
+                <Container class="javax.swing.JScrollPane" name="braAnaMultiOutageBranchScrollPane">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JList" name="multiOutageBranchList">
+                    <Component class="javax.swing.JList" name="braAnaMultiOutageBranchList">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Dialog" size="12" style="0"/>
@@ -1208,7 +1208,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="addOutageBranchButton">
+                <Component class="javax.swing.JButton" name="braAnaAddOutageBranchButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -1217,10 +1217,10 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addOutageBranchButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaAddOutageBranchButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="removeOutageBranchButton">
+                <Component class="javax.swing.JButton" name="braAnaRemoveOutageBranchButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -1229,10 +1229,10 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeOutageBranchButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaRemoveOutageBranchButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="outageFileLabel">
+                <Component class="javax.swing.JLabel" name="braAnaOutageFileLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -1241,7 +1241,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="outageFileTextField">
+                <Component class="javax.swing.JTextField" name="braAnaOutageFileTextField">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="12" style="0"/>
@@ -1250,7 +1250,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="outageFileSelectButton">
+                <Component class="javax.swing.JButton" name="braAnaOutageFileSelectButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
@@ -1259,12 +1259,12 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="outageFileSelectButtonActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaOutageFileSelectButtonActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="braFlowOutPointsLabel">
+            <Component class="javax.swing.JLabel" name="braAnaFlowOutPointsLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1273,7 +1273,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="braFlowOutPointsTextField">
+            <Component class="javax.swing.JTextField" name="braAnaFlowOutPointsTextField">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1677,13 +1677,13 @@
                           <Component id="outLfResultCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                              <Component id="lfResultFormatLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="outLfResultFormatLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="lfSummaryRadioButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="outLfSummaryRadioButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lfBusStyleRadioButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="outLfBusStyleRadioButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="toekn_Label" min="-2" max="-2" attributes="0"/>
+                              <Component id="outToekn_Label" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="outInterfaceViolationCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
@@ -1705,9 +1705,9 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                      <Component id="largeGSFPointsLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="outLargeGSFPointsLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="largeGSFPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="outLargeGSFPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -1731,8 +1731,8 @@
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="outBranchViolationCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="largeGSFPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="largeGSFPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outLargeGSFPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outLargeGSFPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="outInterfaceViolationCheckBox" min="-2" max="-2" attributes="0"/>
@@ -1744,10 +1744,10 @@
                       <Component id="outLfResultCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lfResultFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lfSummaryRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="toekn_Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lfBusStyleRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outLfResultFormatLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outLfSummaryRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outToekn_Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="outLfBusStyleRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="154" max="32767" attributes="0"/>
                   </Group>
@@ -1796,7 +1796,7 @@
                 <Property name="text" type="java.lang.String" value="0.85"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="largeGSFPointsLabel">
+            <Component class="javax.swing.JLabel" name="outLargeGSFPointsLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1804,7 +1804,7 @@
                 <Property name="text" type="java.lang.String" value="Large GSF Points"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="largeGSFPointsTextField">
+            <Component class="javax.swing.JTextField" name="outLargeGSFPointsTextField">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1856,7 +1856,7 @@
                 <Property name="text" type="java.lang.String" value="Loadflow Result"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="lfSummaryRadioButton">
+            <Component class="javax.swing.JRadioButton" name="outLfSummaryRadioButton">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="lfResultButtonGroup"/>
@@ -1868,7 +1868,7 @@
                 <Property name="text" type="java.lang.String" value="Summary"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="lfBusStyleRadioButton">
+            <Component class="javax.swing.JRadioButton" name="outLfBusStyleRadioButton">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="lfResultButtonGroup"/>
@@ -1879,7 +1879,7 @@
                 <Property name="text" type="java.lang.String" value="BusStyle"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lfResultFormatLabel">
+            <Component class="javax.swing.JLabel" name="outLfResultFormatLabel">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -1887,7 +1887,7 @@
                 <Property name="text" type="java.lang.String" value="LF Rsult Format   ["/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="toekn_Label">
+            <Component class="javax.swing.JLabel" name="outToekn_Label">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
