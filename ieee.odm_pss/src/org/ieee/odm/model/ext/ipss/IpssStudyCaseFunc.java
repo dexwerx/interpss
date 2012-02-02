@@ -88,9 +88,18 @@ public class IpssStudyCaseFunc {
 	public static PowerTradingInfoXmlType createDefaultPtInfo() {
 		PowerTradingInfoXmlType ptInfo = odmObjFactory.createPowerTradingInfoXmlType();
 		ptInfo.setLoadDist(odmObjFactory.createPtLoadDistributionXmlType());
+		setDefaultPtInfo(ptInfo);
+		return ptInfo;
+	}
+
+	/**
+	 * set the PowerTradingInfoXml object with default values
+	 * 
+	 */
+	public static void setDefaultPtInfo(PowerTradingInfoXmlType ptInfo) {
 		ptInfo.getLoadDist().setMinLoadForDistFactor(odmObjFactory.createActivePowerXmlType());
 		ptInfo.getLoadDist().getMinLoadForDistFactor().setValue(5.0);
 		ptInfo.getLoadDist().getMinLoadForDistFactor().setUnit(ActivePowerUnitType.MW);
-		return ptInfo;
+		ptInfo.getLoadDist().setAggregateGen(odmObjFactory.createAggregateGenXmlType());
 	}
 }
