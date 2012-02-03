@@ -44,12 +44,14 @@ import org.ieee.odm.schema.ContingencyAnalysisXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
+import org.ieee.odm.schema.FlowInterfaceRefXmlType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.GridComputingXmlType;
 import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.IpssStudyCaseXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LODFMonitorBranchXmlType;
+import org.ieee.odm.schema.LODFMonitorInterfaceXmlType;
 import org.ieee.odm.schema.LODFOutageEnumType;
 import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
@@ -477,6 +479,19 @@ public class IpssScenarioHelper {
 		braList.add(bra);
 		bra.setBranch(odmObjFactory.createBranchRefXmlType());
 		return bra.getBranch();
+	}
+
+	/**
+	 * create MonitorInterface object and add to the interface list
+	 * 
+	 * @param intfList
+	 * @return
+	 */	
+	public static FlowInterfaceRefXmlType createMonitorInterface(List<LODFMonitorInterfaceXmlType> intfList) {
+		LODFMonitorInterfaceXmlType intf = odmObjFactory.createLODFMonitorInterfaceXmlType();
+		intfList.add(intf);
+		intf.setInterface(odmObjFactory.createFlowInterfaceRefXmlType());
+		return intf.getInterface();
 	}
 
 	/**

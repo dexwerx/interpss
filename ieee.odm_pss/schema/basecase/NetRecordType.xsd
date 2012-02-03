@@ -206,6 +206,15 @@
     </ns:complexType>
     
 
+    <ns:complexType name="FlowInterfaceRefXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
+    			<ns:attribute name="interfaceId" type="ns:string" use="required"></ns:attribute>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+
     <ns:complexType name="BranchRatingLimitXmlType">
 		<ns:sequence>
 			<ns:element name="mva" type="pss:MvaRatingXmlType" minOccurs="0"></ns:element>
