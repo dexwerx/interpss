@@ -263,7 +263,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		if (this._ptXml.getGenAnalysis() == null) 
 			this._ptXml.setGenAnalysis(odmObjFactory.createPtGenAnalysisXmlType());
 		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
-		this.genAnalysisEdHourComboBox.setSelectedItem(genAnalysis.getHour() == null? "12:00" : genAnalysis.getHour());
 		if (genAnalysis.getGenBus() != null) {
 			String[] sAry = StringUtil.getIdNameAry(genAnalysis.getGenBus(), new IFunction<Object,String>() {
 				@Override public String f(Object value) { return ((IDRecordXmlType)value).getId(); } });
@@ -322,6 +321,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	* @return false if there is any problem
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
+		return saveEditor2Form(errMsg, false);
+	}
+	public boolean saveEditor2Form(Vector<String> errMsg, boolean run) throws Exception {
 		ipssLogger.info("NBPTradingCasePanel saveEditor2Form() called");
 		
 		if (this._ptInfoXml.getLoadDist() != null &&
@@ -329,9 +331,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			this._ptInfoXml.getLoadDist().getAggregateGen().getApGroup().clear();
 
 		saveCaseData(errMsg);
-		saveAclfAnalysis(errMsg);
+		saveAclfAnalysis(errMsg, run);
 		saveBranchAnalysis(errMsg);
-		saveGenAnalysis(errMsg);
+		saveGenAnalysis(errMsg, run);
 		saveOutputConfig(errMsg);
 
 		return errMsg.size() == 0;
@@ -394,7 +396,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveAclfAnalysis(Vector<String> errMsg) {
+	public boolean saveAclfAnalysis(Vector<String> errMsg, boolean run) {
 		boolean noError = true;
 
 		if (this._ptXml.getAclfAnalysis() == null) {
@@ -409,7 +411,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		aclfXml.setSwingBusPQAlloc(swingAllocCheckBox.isSelected());
 		if (aclfXml.isSwingBusPQAlloc()) {
-			if (this.swingAllocZoneComboBox.getSelectedItem() == null) {
+			if (this.swingAllocZoneComboBox.getSelectedItem() == null && run) {
 				errMsg.add(new String("Please select swing bus power allocation zone"));
 				noError = false;
 			}
@@ -458,7 +460,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveGenAnalysis(Vector<String> errMsg) {
+	public boolean saveGenAnalysis(Vector<String> errMsg, boolean run) {
 		boolean noError = true;
 		
 		if (this._ptXml.getGenAnalysis() == null) {
@@ -466,10 +468,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		}
 		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
 		
-		genAnalysis.setHour((String)this.genAnalysisEdHourComboBox.getSelectedItem());
-		
 		int size = this.genAnalysisGenBusList.getModel().getSize();
-		if (size == 0) {
+		if (size == 0 && run) {
 			errMsg.add("Please select at least one generator");
 			noError = false;
 		}
@@ -605,8 +605,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaFlowOutPointsTextField = new javax.swing.JTextField();
         runBranchAnalysisButton = new javax.swing.JButton();
         genAnalysisPanel = new javax.swing.JPanel();
-        genAnalysisEdHourLabel = new javax.swing.JLabel();
-        genAnalysisEdHourComboBox = new javax.swing.JComboBox();
         genAnalysisGenBusLabel = new javax.swing.JLabel();
         genAnalysisGenBusListComboBox = new javax.swing.JComboBox();
         genAnalysisAddGenButton = new javax.swing.JButton();
@@ -1322,12 +1320,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         pTradingAnalysisTabbedPane.addTab("Branch Analysis", branchAnalysisPanel);
 
-        genAnalysisEdHourLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        genAnalysisEdHourLabel.setText("ED Hour");
-
-        genAnalysisEdHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        genAnalysisEdHourComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", " " }));
-
         genAnalysisGenBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         genAnalysisGenBusLabel.setText("Gen Bus");
 
@@ -1461,43 +1453,35 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         genAnalysisPanel.setLayout(genAnalysisPanelLayout);
         genAnalysisPanelLayout.setHorizontalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap(192, Short.MAX_VALUE)
-                .add(runCalLossFactorsButton)
-                .add(187, 187, 187))
             .add(genAnalysisPanelLayout.createSequentialGroup()
-                .add(121, 121, 121)
-                .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(genAnalysisRemoveGenButton)
-                    .add(genAnalysisAddGenButton))
-                .add(146, 146, 146))
-            .add(genAnalysisPanelLayout.createSequentialGroup()
-                .add(51, 51, 51)
-                .add(genLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
-            .add(genAnalysisPanelLayout.createSequentialGroup()
-                .add(142, 142, 142)
-                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(genAnalysisEdHourLabel)
-                        .add(41, 41, 41)
-                        .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(genAnalysisGenBusLabel)
-                        .add(18, 18, 18)
-                        .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(178, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
+                        .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(genAnalysisPanelLayout.createSequentialGroup()
+                                .add(70, 70, 70)
+                                .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(genAnalysisRemoveGenButton)
+                                    .add(genAnalysisAddGenButton))
+                                .add(82, 82, 82))
+                            .add(genLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(genAnalysisPanelLayout.createSequentialGroup()
+                                .add(91, 91, 91)
+                                .add(genAnalysisGenBusLabel)
+                                .add(18, 18, 18)
+                                .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(55, 55, 55))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
+                        .add(runCalLossFactorsButton)
+                        .add(179, 179, 179))))
         );
         genAnalysisPanelLayout.setVerticalGroup(
             genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(genAnalysisPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genAnalysisEdHourLabel)
-                    .add(genAnalysisEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(27, 27, 27)
                 .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(genAnalysisGenBusLabel))
@@ -1510,9 +1494,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                     .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(genLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 67, Short.MAX_VALUE)
                 .add(runCalLossFactorsButton)
-                .add(23, 23, 23))
+                .add(38, 38, 38))
         );
 
         pTradingAnalysisTabbedPane.addTab("Gen Analysis", genAnalysisPanel);
@@ -1684,7 +1668,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 private boolean saveInputData() {
 	Vector<String> errMsg = new Vector<String>();
 	try {
-    	if (!saveEditor2Form(errMsg)) {
+    	if (!saveEditor2Form(errMsg, true)) {
     		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
 			return false;
     	}
@@ -2029,8 +2013,6 @@ private void genLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent
     private javax.swing.JLabel edLossPercentLabel;
     private javax.swing.JTextField edLossPercentTextField;
     private javax.swing.JButton genAnalysisAddGenButton;
-    private javax.swing.JComboBox genAnalysisEdHourComboBox;
-    private javax.swing.JLabel genAnalysisEdHourLabel;
     private javax.swing.JLabel genAnalysisGenBusLabel;
     private javax.swing.JList genAnalysisGenBusList;
     private javax.swing.JComboBox genAnalysisGenBusListComboBox;
