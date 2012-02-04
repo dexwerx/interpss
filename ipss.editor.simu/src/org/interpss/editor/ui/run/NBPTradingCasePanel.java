@@ -41,7 +41,7 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
-import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.LfResultFormatEnumType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.PowerTradingInfoXmlType;
@@ -50,10 +50,7 @@ import org.ieee.odm.schema.PtAclfOutputXmlType;
 import org.ieee.odm.schema.PtBranchAnalysisEnumType;
 import org.ieee.odm.schema.PtBranchAnalysisXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
-import org.ieee.odm.schema.PtGenAnalysisEnumType;
-import org.ieee.odm.schema.PtGenAnalysisXmlType;
 import org.ieee.odm.schema.PtLoadDistributionXmlType;
-import org.ieee.odm.schema.SenAnalysisBusEnumType;
 import org.interpss.datatype.DblBusValue;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
@@ -68,7 +65,6 @@ import org.interpss.ui.SwingInputVerifyUtil;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.func.IFunction;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
@@ -140,12 +136,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		this.braAnaBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
-
-		this.genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
-		this.genLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));
-		
 	}
     
     public void setXmlCaseData(PTradingEDHourlyAnalysisXmlType pt, PowerTradingInfoXmlType ptInfo) {
@@ -234,22 +224,15 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 				this.braAnaOutageSingleRadioButton.setSelected(true);
 			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.MULTI_BRANCH_OUTAGE)
 				this.braAnaOutageMultiRadioButton.setSelected(true);
-			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.OUTAGE_SCHEDULE)
-				this.braAnaOutageScheduleRadioButton.setSelected(true);
-			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.BRANCH_FLOW)
-				this.braAnaFlowRadioButton.setSelected(true);
+			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.GEN_CONTRIBUTION)
+				this.braAnaGenContibRadioButton.setSelected(true);
 
 		if (this.braAnaOutageMultiRadioButton.isSelected()) {
 			braAnaOutageMultiRadioButtonActionPerformed(null);
 			// TODO
 		}
-		else if (this.braAnaOutageScheduleRadioButton.isSelected()) {
-			braAnaOutageScheduleRadioButtonActionPerformed(null);
-		}
-		else if (this.braAnaFlowRadioButton.isSelected()) {
-			braAnaFlowRadioButtonActionPerformed(null);
-			this.braAnaFlowOutPointsTextField.setText(
-					braAnalysis.getBranchFlowOutPoints().toString());
+		else if (this.braAnaGenContibRadioButton.isSelected()) {
+			braAnaGenContibRadioButtonActionPerformed(null);
 		}
 		
 		if (braAnalysis.getBranch() != null && braAnalysis.getBranch().size() > 0) {
@@ -257,33 +240,10 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			this.braAnaBranchListComboBox.setSelectedItem(branch.getBranchId());
 		}
 		
-		// Gen analysis Analysis
-		// =====================
-		
-		if (this._ptXml.getGenAnalysis() == null) 
-			this._ptXml.setGenAnalysis(odmObjFactory.createPtGenAnalysisXmlType());
-		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
-		if (genAnalysis.getGenBus() != null) {
-			String[] sAry = StringUtil.getIdNameAry(genAnalysis.getGenBus(), new IFunction<Object,String>() {
-				@Override public String f(Object value) { return ((IDRecordXmlType)value).getId(); } });
-			this.genAnalysisGenBusList.setModel(new javax.swing.DefaultComboBoxModel(sAry));    	
-		}
-		
-		if (genAnalysis.getLoadBusType() == SenAnalysisBusEnumType.SINGLE_BUS) {
-			this.genLoadDistBusRadioButton.setSelected(true);
-			genLoadDistBusRadioButtonActionPerformed(null);
-			String id = genAnalysis.getLoadBusId();
-			this.genLoadDistLoadBusComboBox.setSelectedItem(id);
-		}
-		else if (genAnalysis.getLoadBusType() == SenAnalysisBusEnumType.LOAD_DISTRIBUTION) {
-			this.genLoadDistBasecaseRadioButton.setSelected(true);
-			this.genLoadDistBasecaseRadioButtonActionPerformed(null);
-		}
-		else {
-			this.genLoadDistUserRadioButton.setSelected(true);
-			this.genLoadDistUserRadioButtonActionPerformed(null);
-			this.genLoadDistUserFileTextField.setText(genAnalysis.getUserFilename());
-		}
+		this.braAnaFlowOutPointsTextField.setText(
+				braAnalysis.getBranchFlowOutPoints().toString());
+		this.braAnaViolationThreshholdTextField.setText(
+				Number2String.toStr(braAnalysis.getViolationThreshhold().getValue(), "0.0"));
 
 		// output panel
 		// ============
@@ -333,7 +293,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg, run);
 		saveBranchAnalysis(errMsg);
-		saveGenAnalysis(errMsg, run);
+		//saveGenAnalysis(errMsg, run);
 		saveOutputConfig(errMsg);
 
 		return errMsg.size() == 0;
@@ -438,65 +398,27 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		braAnalysis.setHour((String)this.braAnaEdHourComboBox.getSelectedItem());
 		braAnalysis.setType(this.braAnaOutageSingleRadioButton.isSelected()? PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE :
 			(this.braAnaOutageMultiRadioButton.isSelected()? PtBranchAnalysisEnumType.MULTI_BRANCH_OUTAGE :
-				(this.braAnaOutageScheduleRadioButton.isSelected()? PtBranchAnalysisEnumType.SINGLE_BRANCH_OUTAGE :
-					PtBranchAnalysisEnumType.BRANCH_FLOW)));
+					PtBranchAnalysisEnumType.GEN_CONTRIBUTION));
 
 		if (this.braAnaOutageSingleRadioButton.isSelected() ||
-				this.braAnaFlowRadioButton.isSelected()) {
+				this.braAnaGenContibRadioButton.isSelected()) {
 			braAnalysis.getBranch().clear();
 			String braId = (String)this.braAnaBranchListComboBox.getSelectedItem();
 			BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(braAnalysis.getBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
-			if (this.braAnaFlowRadioButton.isSelected()) {
-			    braAnalysis.setBranchFlowOutPoints(
-			    		new Integer(this.braAnaFlowOutPointsTextField.getText()).intValue());
-			}
 		}
 		else if (this.braAnaOutageMultiRadioButton.isSelected()) {
 		}
-		else if (this.braAnaOutageScheduleRadioButton.isSelected()) {
-		}
 		
-		return noError;
-	}
+	    if (braAnalysis.getViolationThreshhold() == null)
+	    	braAnalysis.setViolationThreshhold(odmObjFactory.createFactorXmlType());
+	    braAnalysis.getViolationThreshhold().setValue(
+	    		new Double(this.braAnaViolationThreshholdTextField.getText()).intValue());
+	    braAnalysis.getViolationThreshhold().setUnit(FactorUnitType.PERCENT);
+	    braAnalysis.setBranchFlowOutPoints(
+	    		new Integer(this.braAnaFlowOutPointsTextField.getText()).intValue());
 
-	public boolean saveGenAnalysis(Vector<String> errMsg, boolean run) {
-		boolean noError = true;
-		
-		if (this._ptXml.getGenAnalysis() == null) {
-			this._ptXml.setGenAnalysis(odmObjFactory.createPtGenAnalysisXmlType());
-		}
-		PtGenAnalysisXmlType genAnalysis = this._ptXml.getGenAnalysis();
-		
-		int size = this.genAnalysisGenBusList.getModel().getSize();
-		if (size == 0 && run) {
-			errMsg.add("Please select at least one generator");
-			noError = false;
-		}
-		else {
-			genAnalysis.getGenBus().clear();
-			for (int i = 0; i < size; i++) {
-				String id = (String)this.genAnalysisGenBusList.getModel().getElementAt(i);
-				IDRecordXmlType bus = odmObjFactory.createIDRecordXmlType();
-				genAnalysis.getGenBus().add(bus);
-				bus.setId(id);	
-			}
-		}
-		
-		if (this.genLoadDistBusRadioButton.isSelected()) {
-			genAnalysis.setLoadBusType(SenAnalysisBusEnumType.SINGLE_BUS);
-			String id = (String)this.genLoadDistLoadBusComboBox.getSelectedItem();
-			genAnalysis.setLoadBusId(id);
-		}
-		else if (this.genLoadDistBasecaseRadioButton.isSelected()) {
-			genAnalysis.setLoadBusType(SenAnalysisBusEnumType.LOAD_DISTRIBUTION);
-		}
-		else {
-			genAnalysis.setLoadBusType(SenAnalysisBusEnumType.USER_FILE);
-			genAnalysis.setUserFilename(this.genLoadDistUserFileTextField.getText());
-		}
-
-		return noError;
+	    return noError;
 	}
 
 	public boolean saveOutputConfig(Vector<String> errMsg) {
@@ -588,11 +510,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaEdHourComboBox = new javax.swing.JComboBox();
         braAnaBranchListComboBox = new javax.swing.JComboBox();
         braAnaBranchLabel = new javax.swing.JLabel();
-        braAnaTypePanel = new javax.swing.JPanel();
         braAnaOutageSingleRadioButton = new javax.swing.JRadioButton();
         braAnaOutageMultiRadioButton = new javax.swing.JRadioButton();
-        braAnaOutageScheduleRadioButton = new javax.swing.JRadioButton();
-        braAnaFlowRadioButton = new javax.swing.JRadioButton();
+        braAnaGenContibRadioButton = new javax.swing.JRadioButton();
         braAnaOutageAnalysisPanel = new javax.swing.JPanel();
         braAnaMultiOutageBranchScrollPane = new javax.swing.JScrollPane();
         braAnaMultiOutageBranchList = new javax.swing.JList();
@@ -601,25 +521,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaOutageFileLabel = new javax.swing.JLabel();
         braAnaOutageFileTextField = new javax.swing.JTextField();
         braAnaOutageFileSelectButton = new javax.swing.JButton();
+        braAnaImportOutageBranchButton = new javax.swing.JButton();
+        braAnaViolationThreshholdLabel = new javax.swing.JLabel();
+        braAnaViolationThreshholdTextField = new javax.swing.JTextField();
         braAnaFlowOutPointsLabel = new javax.swing.JLabel();
         braAnaFlowOutPointsTextField = new javax.swing.JTextField();
         runBranchAnalysisButton = new javax.swing.JButton();
-        genAnalysisPanel = new javax.swing.JPanel();
-        genAnalysisGenBusLabel = new javax.swing.JLabel();
-        genAnalysisGenBusListComboBox = new javax.swing.JComboBox();
-        genAnalysisAddGenButton = new javax.swing.JButton();
-        genAnalysisRemoveGenButton = new javax.swing.JButton();
-        genAnalysisGenScrollPane = new javax.swing.JScrollPane();
-        genAnalysisGenBusList = new javax.swing.JList();
-        genLoadDisPanel = new javax.swing.JPanel();
-        genLoadDistBusRadioButton = new javax.swing.JRadioButton();
-        genLoadDistBasecaseRadioButton = new javax.swing.JRadioButton();
-        genLoadDistUserRadioButton = new javax.swing.JRadioButton();
-        genLoadDistLoadBusLabel = new javax.swing.JLabel();
-        genLoadDistLoadBusComboBox = new javax.swing.JComboBox();
-        genLoadDistUserFileTextField = new javax.swing.JTextField();
-        genLoadDistUserFileButton = new javax.swing.JButton();
-        runCalLossFactorsButton = new javax.swing.JButton();
         outputConfigPanel = new javax.swing.JPanel();
         outVoltViolationCheckBox = new javax.swing.JCheckBox();
         voltUpperLimitLabel = new javax.swing.JLabel();
@@ -1095,14 +1002,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         braAnaBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        braAnaBranchLabel.setText("Branch");
-
-        braAnaTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Analysis Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+        braAnaBranchLabel.setText("Outage Branch");
 
         branchAnalysisTypeButtonGroup.add(braAnaOutageSingleRadioButton);
         braAnaOutageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         braAnaOutageSingleRadioButton.setSelected(true);
-        braAnaOutageSingleRadioButton.setText("Single Outage");
+        braAnaOutageSingleRadioButton.setText("Single");
         braAnaOutageSingleRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 braAnaOutageSingleRadioButtonActionPerformed(evt);
@@ -1111,7 +1016,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         branchAnalysisTypeButtonGroup.add(braAnaOutageMultiRadioButton);
         braAnaOutageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        braAnaOutageMultiRadioButton.setText("Multi Outage");
+        braAnaOutageMultiRadioButton.setText("Multiple");
         braAnaOutageMultiRadioButton.setEnabled(false);
         braAnaOutageMultiRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1119,50 +1024,15 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             }
         });
 
-        branchAnalysisTypeButtonGroup.add(braAnaOutageScheduleRadioButton);
-        braAnaOutageScheduleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        braAnaOutageScheduleRadioButton.setText("Outage Schedule");
-        braAnaOutageScheduleRadioButton.setEnabled(false);
-        braAnaOutageScheduleRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        branchAnalysisTypeButtonGroup.add(braAnaGenContibRadioButton);
+        braAnaGenContibRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        braAnaGenContibRadioButton.setText("GenContrib");
+        braAnaGenContibRadioButton.setToolTipText("Calculate gen contribution to a branch flow");
+        braAnaGenContibRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                braAnaOutageScheduleRadioButtonActionPerformed(evt);
+                braAnaGenContibRadioButtonActionPerformed(evt);
             }
         });
-
-        branchAnalysisTypeButtonGroup.add(braAnaFlowRadioButton);
-        braAnaFlowRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        braAnaFlowRadioButton.setText("Branch Flow");
-        braAnaFlowRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                braAnaFlowRadioButtonActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout braAnaTypePanelLayout = new org.jdesktop.layout.GroupLayout(braAnaTypePanel);
-        braAnaTypePanel.setLayout(braAnaTypePanelLayout);
-        braAnaTypePanelLayout.setHorizontalGroup(
-            braAnaTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(braAnaTypePanelLayout.createSequentialGroup()
-                .add(15, 15, 15)
-                .add(braAnaOutageSingleRadioButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(braAnaOutageMultiRadioButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(braAnaOutageScheduleRadioButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(braAnaFlowRadioButton)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        braAnaTypePanelLayout.setVerticalGroup(
-            braAnaTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(braAnaTypePanelLayout.createSequentialGroup()
-                .add(braAnaTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(braAnaOutageSingleRadioButton)
-                    .add(braAnaOutageMultiRadioButton)
-                    .add(braAnaOutageScheduleRadioButton)
-                    .add(braAnaFlowRadioButton))
-                .addContainerGap(7, Short.MAX_VALUE))
-        );
 
         braAnaOutageAnalysisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -1205,6 +1075,15 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             }
         });
 
+        braAnaImportOutageBranchButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        braAnaImportOutageBranchButton.setText("Import");
+        braAnaImportOutageBranchButton.setEnabled(false);
+        braAnaImportOutageBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                braAnaImportOutageBranchButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout braAnaOutageAnalysisPanelLayout = new org.jdesktop.layout.GroupLayout(braAnaOutageAnalysisPanel);
         braAnaOutageAnalysisPanel.setLayout(braAnaOutageAnalysisPanelLayout);
         braAnaOutageAnalysisPanelLayout.setHorizontalGroup(
@@ -1216,6 +1095,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                         .add(braAnaMultiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 249, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(braAnaImportOutageBranchButton)
                             .add(braAnaRemoveOutageBranchButton)
                             .add(braAnaAddOutageBranchButton)))
                     .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
@@ -1230,11 +1110,13 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
                 .add(braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(braAnaMultiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
                         .add(braAnaAddOutageBranchButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(braAnaRemoveOutageBranchButton)))
+                        .add(braAnaRemoveOutageBranchButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(braAnaImportOutageBranchButton))
+                    .add(braAnaMultiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 87, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(braAnaOutageFileLabel)
@@ -1242,13 +1124,17 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                     .add(braAnaOutageFileSelectButton)))
         );
 
+        braAnaViolationThreshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        braAnaViolationThreshholdLabel.setText("Violation Threshhold (%)");
+
+        braAnaViolationThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        braAnaViolationThreshholdTextField.setText("90");
+
         braAnaFlowOutPointsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        braAnaFlowOutPointsLabel.setText("BranchFlow Output Points");
-        braAnaFlowOutPointsLabel.setEnabled(false);
+        braAnaFlowOutPointsLabel.setText("Gen Contribution Output Points");
 
         braAnaFlowOutPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         braAnaFlowOutPointsTextField.setText("20");
-        braAnaFlowOutPointsTextField.setEnabled(false);
 
         runBranchAnalysisButton.setFont(new java.awt.Font("Dialog", 0, 12));
         runBranchAnalysisButton.setText("Run Analysis");
@@ -1263,36 +1149,45 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         branchAnalysisPanelLayout.setHorizontalGroup(
             branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(branchAnalysisPanelLayout.createSequentialGroup()
-                .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(167, 167, 167)
+                .add(braAnaEdHourLabel)
+                .add(26, 26, 26)
+                .add(braAnaEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(179, Short.MAX_VALUE))
+            .add(branchAnalysisPanelLayout.createSequentialGroup()
+                .add(88, 88, 88)
+                .add(braAnaBranchLabel)
+                .add(27, 27, 27)
+                .add(braAnaBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 184, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(115, Short.MAX_VALUE))
+            .add(branchAnalysisPanelLayout.createSequentialGroup()
+                .add(32, 32, 32)
+                .add(braAnaOutageAnalysisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+            .add(branchAnalysisPanelLayout.createSequentialGroup()
+                .add(57, 57, 57)
+                .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                     .add(branchAnalysisPanelLayout.createSequentialGroup()
-                        .add(167, 167, 167)
-                        .add(braAnaEdHourLabel)
-                        .add(26, 26, 26)
-                        .add(braAnaEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(braAnaViolationThreshholdLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(braAnaViolationThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(branchAnalysisPanelLayout.createSequentialGroup()
-                        .add(102, 102, 102)
-                        .add(braAnaBranchLabel)
-                        .add(33, 33, 33)
-                        .add(braAnaBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 184, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(138, Short.MAX_VALUE))
+                        .add(braAnaFlowOutPointsLabel)
+                        .add(18, 18, 18)
+                        .add(braAnaFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(215, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, branchAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap(205, Short.MAX_VALUE)
+                .addContainerGap(198, Short.MAX_VALUE)
                 .add(runBranchAnalysisButton)
-                .add(186, 186, 186))
+                .add(193, 193, 193))
             .add(branchAnalysisPanelLayout.createSequentialGroup()
-                .add(23, 23, 23)
-                .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(branchAnalysisPanelLayout.createSequentialGroup()
-                        .add(10, 10, 10)
-                        .add(braAnaOutageAnalysisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(braAnaTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
-            .add(branchAnalysisPanelLayout.createSequentialGroup()
-                .add(49, 49, 49)
-                .add(braAnaFlowOutPointsLabel)
+                .add(103, 103, 103)
+                .add(braAnaOutageSingleRadioButton)
                 .add(18, 18, 18)
-                .add(braAnaFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(251, Short.MAX_VALUE))
+                .add(braAnaOutageMultiRadioButton)
+                .add(18, 18, 18)
+                .add(braAnaGenContibRadioButton)
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         branchAnalysisPanelLayout.setVerticalGroup(
             branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1302,204 +1197,30 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                     .add(braAnaEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(braAnaEdHourLabel))
                 .add(18, 18, 18)
+                .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(braAnaOutageSingleRadioButton)
+                    .add(braAnaOutageMultiRadioButton)
+                    .add(braAnaGenContibRadioButton))
+                .add(13, 13, 13)
                 .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(braAnaBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(braAnaBranchLabel))
-                .add(4, 4, 4)
-                .add(braAnaTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(braAnaOutageAnalysisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(braAnaViolationThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(braAnaViolationThreshholdLabel))
+                .add(4, 4, 4)
                 .add(branchAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(braAnaFlowOutPointsLabel)
                     .add(braAnaFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(40, 40, 40)
+                .add(29, 29, 29)
                 .add(runBranchAnalysisButton)
-                .add(139, 139, 139))
+                .add(154, 154, 154))
         );
 
-        pTradingAnalysisTabbedPane.addTab("Branch Analysis", branchAnalysisPanel);
-
-        genAnalysisGenBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        genAnalysisGenBusLabel.setText("Gen Bus");
-
-        genAnalysisGenBusListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        genAnalysisAddGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        genAnalysisAddGenButton.setText("Add");
-        genAnalysisAddGenButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genAnalysisAddGenButtonActionPerformed(evt);
-            }
-        });
-
-        genAnalysisRemoveGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        genAnalysisRemoveGenButton.setText("Remove");
-        genAnalysisRemoveGenButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genAnalysisRemoveGenButtonActionPerformed(evt);
-            }
-        });
-
-        genAnalysisGenBusList.setFont(new java.awt.Font("Dialog", 0, 12));
-        genAnalysisGenScrollPane.setViewportView(genAnalysisGenBusList);
-
-        genLoadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
-
-        loadDistButtonGroup.add(genLoadDistBusRadioButton);
-        genLoadDistBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        genLoadDistBusRadioButton.setText("Load Bus");
-        genLoadDistBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genLoadDistBusRadioButtonActionPerformed(evt);
-            }
-        });
-
-        loadDistButtonGroup.add(genLoadDistBasecaseRadioButton);
-        genLoadDistBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        genLoadDistBasecaseRadioButton.setSelected(true);
-        genLoadDistBasecaseRadioButton.setText("Basecase");
-        genLoadDistBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genLoadDistBasecaseRadioButtonActionPerformed(evt);
-            }
-        });
-
-        loadDistButtonGroup.add(genLoadDistUserRadioButton);
-        genLoadDistUserRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        genLoadDistUserRadioButton.setText("User");
-        genLoadDistUserRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genLoadDistUserRadioButtonActionPerformed(evt);
-            }
-        });
-
-        genLoadDistLoadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        genLoadDistLoadBusLabel.setText("Load Bus");
-        genLoadDistLoadBusLabel.setEnabled(false);
-
-        genLoadDistLoadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        genLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        genLoadDistLoadBusComboBox.setEnabled(false);
-
-        genLoadDistUserFileTextField.setColumns(25);
-        genLoadDistUserFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        genLoadDistUserFileTextField.setText("User defined file ...");
-        genLoadDistUserFileTextField.setEnabled(false);
-
-        genLoadDistUserFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        genLoadDistUserFileButton.setText("Select");
-        genLoadDistUserFileButton.setEnabled(false);
-        genLoadDistUserFileButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genLoadDistUserFileButtonActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout genLoadDisPanelLayout = new org.jdesktop.layout.GroupLayout(genLoadDisPanel);
-        genLoadDisPanel.setLayout(genLoadDisPanelLayout);
-        genLoadDisPanelLayout.setHorizontalGroup(
-            genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(genLoadDisPanelLayout.createSequentialGroup()
-                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, genLoadDisPanelLayout.createSequentialGroup()
-                        .add(20, 20, 20)
-                        .add(genLoadDistUserFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 248, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
-                        .add(genLoadDistUserFileButton))
-                    .add(genLoadDisPanelLayout.createSequentialGroup()
-                        .add(42, 42, 42)
-                        .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLoadDistBusRadioButton)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLoadDistLoadBusLabel))
-                        .add(21, 21, 21)
-                        .add(genLoadDistLoadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLoadDisPanelLayout.createSequentialGroup()
-                .addContainerGap(137, Short.MAX_VALUE)
-                .add(genLoadDistBasecaseRadioButton)
-                .add(16, 16, 16)
-                .add(genLoadDistUserRadioButton)
-                .add(82, 82, 82))
-        );
-        genLoadDisPanelLayout.setVerticalGroup(
-            genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(genLoadDisPanelLayout.createSequentialGroup()
-                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genLoadDistUserRadioButton)
-                    .add(genLoadDistBasecaseRadioButton)
-                    .add(genLoadDistBusRadioButton))
-                .add(14, 14, 14)
-                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genLoadDistLoadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(genLoadDistLoadBusLabel))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(genLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genLoadDistUserFileButton)
-                    .add(genLoadDistUserFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        runCalLossFactorsButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        runCalLossFactorsButton.setText("Cal LossFactor");
-        runCalLossFactorsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runCalLossFactorsButtonActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout genAnalysisPanelLayout = new org.jdesktop.layout.GroupLayout(genAnalysisPanel);
-        genAnalysisPanel.setLayout(genAnalysisPanelLayout);
-        genAnalysisPanelLayout.setHorizontalGroup(
-            genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(genAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
-                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
-                        .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(genAnalysisPanelLayout.createSequentialGroup()
-                                .add(70, 70, 70)
-                                .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(genAnalysisRemoveGenButton)
-                                    .add(genAnalysisAddGenButton))
-                                .add(82, 82, 82))
-                            .add(genLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(genAnalysisPanelLayout.createSequentialGroup()
-                                .add(91, 91, 91)
-                                .add(genAnalysisGenBusLabel)
-                                .add(18, 18, 18)
-                                .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                        .add(55, 55, 55))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, genAnalysisPanelLayout.createSequentialGroup()
-                        .add(runCalLossFactorsButton)
-                        .add(179, 179, 179))))
-        );
-        genAnalysisPanelLayout.setVerticalGroup(
-            genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(genAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(genAnalysisGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(genAnalysisGenBusLabel))
-                .add(18, 18, 18)
-                .add(genAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(genAnalysisPanelLayout.createSequentialGroup()
-                        .add(genAnalysisAddGenButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(genAnalysisRemoveGenButton))
-                    .add(genAnalysisGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
-                .add(genLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 67, Short.MAX_VALUE)
-                .add(runCalLossFactorsButton)
-                .add(38, 38, 38))
-        );
-
-        pTradingAnalysisTabbedPane.addTab("Gen Analysis", genAnalysisPanel);
+        pTradingAnalysisTabbedPane.addTab("Outage Analysis", branchAnalysisPanel);
 
         outVoltViolationCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         outVoltViolationCheckBox.setSelected(true);
@@ -1801,7 +1522,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 	ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
 
 	try {
-		if (this.braAnaFlowRadioButton.isSelected()) {
+		if (this.braAnaGenContibRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)
 								.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
@@ -1840,15 +1561,10 @@ private void braAnaOutageMultiRadioButtonActionPerformed(java.awt.event.ActionEv
 	disableOutageAnalysisCompoment(true, false, false);
 }//GEN-LAST:event_braAnaOutageMultiRadioButtonActionPerformed
 
-private void braAnaOutageScheduleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaOutageScheduleRadioButtonActionPerformed
-	ipssLogger.info("outageScheduleRadioButtonActionPerformed() called");
-	disableOutageAnalysisCompoment(false, true, false);
-}//GEN-LAST:event_braAnaOutageScheduleRadioButtonActionPerformed
-
-private void braAnaFlowRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaFlowRadioButtonActionPerformed
+private void braAnaGenContibRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaGenContibRadioButtonActionPerformed
 	ipssLogger.info("branchFlowRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(false, false, true);
-}//GEN-LAST:event_braAnaFlowRadioButtonActionPerformed
+}//GEN-LAST:event_braAnaGenContibRadioButtonActionPerformed
 
 private void disableOutageAnalysisCompoment(boolean multi, boolean file, boolean outPoints) {
 	this.braAnaMultiOutageBranchList.setEnabled(multi);
@@ -1876,101 +1592,9 @@ private void braAnaOutageFileSelectButtonActionPerformed(java.awt.event.ActionEv
 	ipssLogger.info("outageFileSelectButtonActionPerformed() called");
 }//GEN-LAST:event_braAnaOutageFileSelectButtonActionPerformed
 
-//TODO
-/* 888888888888888888888888
- *  Gen Analysis
- 8888888888888888888888888888*/
-
-private void runCalLossFactorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCalLossFactorsButtonActionPerformed
-	ipssLogger.info("runCalLossFactorsButtonActionPerformed() called");
-	
-	this.parent.setAlwaysOnTop(false);
-	if (!saveInputData())
-		return;
-
-	final AclfNetwork net = this._simuCtx.getAclfNet();
-	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
-	final PowerTradingInfoXmlType ptInfoXml = this._ptInfoXml;
-	
-	new Thread() {
-		public void run() {
-			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
-			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
-					"Run PowerTrading Analysis ...", "Run PTraing");
-
-			// Book marked the AclfNetwork object
-			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
-
-			try {
-				ptXml.getGenAnalysis().setType(PtGenAnalysisEnumType.LOSS_FACTOR);
-				double[] lfactors = (double[])new PTradingDslODMRunner(net)
-					.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Gen);
-				
-				String str = "LossFactor: \n";
-				int cnt = 0;
-				for ( IDRecordXmlType genBus : ptXml.getGenAnalysis().getGenBus() ) {
-					str += "gen@" + genBus.getId() + " " + Number2String.toStr(lfactors[cnt++]) + "\n";
-				}
-				
-				UISpringFactory.getOutputTextDialog("Gen Loss Factor Results").display(str);
-			} catch (InterpssException e) {
-				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
-				recorderBaseNet.endRecording().apply();	
-				return;
-			}
-
-			// roll-back AclfNet to the bookmarked point
-			recorderBaseNet.endRecording().apply();	
-
-			appStatus.busyStop("Run PowerTrading Analysis finished");			
-		}
-	}.start();
-}//GEN-LAST:event_runCalLossFactorsButtonActionPerformed
-
-private void genAnalysisAddGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genAnalysisAddGenButtonActionPerformed
-    ipssLogger.info("genAddGenButtonActionPerformed() called");
-	String id = (String)this.genAnalysisGenBusListComboBox.getSelectedItem();
-	RunUIUtilFunc.addItemJList(this.genAnalysisGenBusList, id);
-}//GEN-LAST:event_genAnalysisAddGenButtonActionPerformed
-
-private void genAnalysisRemoveGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genAnalysisRemoveGenButtonActionPerformed
-    ipssLogger.info("genRemoveGenButtonActionPerformed() called");
-    RunUIUtilFunc.removeItemJList(this.genAnalysisGenBusList);
-}//GEN-LAST:event_genAnalysisRemoveGenButtonActionPerformed
-
-private void genLoadDistBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genLoadDistBusRadioButtonActionPerformed
-	ipssLogger.info("genLoadDistBusRadioButtonActionPerformed() called");
-	this.genLoadDistLoadBusLabel.setEnabled(true);
-	this.genLoadDistLoadBusComboBox.setEnabled(true);
-	this.genLoadDistUserFileTextField.setEnabled(false);
-	this.genLoadDistUserFileButton.setEnabled(false);
-}//GEN-LAST:event_genLoadDistBusRadioButtonActionPerformed
-
-private void genLoadDistBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genLoadDistBasecaseRadioButtonActionPerformed
-	ipssLogger.info("genLoadDistBasecaseRadioButtonActionPerformed() called");
-	this.genLoadDistLoadBusLabel.setEnabled(false);
-	this.genLoadDistLoadBusComboBox.setEnabled(false);
-	this.genLoadDistUserFileTextField.setEnabled(false);
-	this.genLoadDistUserFileButton.setEnabled(false);
-}//GEN-LAST:event_genLoadDistBasecaseRadioButtonActionPerformed
-
-private void genLoadDistUserRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genLoadDistUserRadioButtonActionPerformed
-	ipssLogger.info("genLoadDistAPNodeRadioButtonActionPerformed() called");
-	this.genLoadDistLoadBusLabel.setEnabled(false);
-	this.genLoadDistLoadBusComboBox.setEnabled(false);
-	this.genLoadDistUserFileTextField.setEnabled(true);
-	this.genLoadDistUserFileButton.setEnabled(true);
-}//GEN-LAST:event_genLoadDistUserRadioButtonActionPerformed
-
-private void genLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genLoadDistUserFileButtonActionPerformed
-	ipssLogger.info("genLoadDistUserFileButtonActionPerformed() called");
-	JFileChooser fc = getExcelFileChooser();
-	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-		File file = fc.getSelectedFile();
-		this.genLoadDistUserFileTextField.setText(file.getAbsolutePath());
-	}
-}//GEN-LAST:event_genLoadDistUserFileButtonActionPerformed
-
+private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaImportOutageBranchButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_braAnaImportOutageBranchButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfAnalysisPanel;
@@ -1986,7 +1610,8 @@ private void genLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent
     private javax.swing.JLabel braAnaEdHourLabel;
     private javax.swing.JLabel braAnaFlowOutPointsLabel;
     private javax.swing.JTextField braAnaFlowOutPointsTextField;
-    private javax.swing.JRadioButton braAnaFlowRadioButton;
+    private javax.swing.JRadioButton braAnaGenContibRadioButton;
+    private javax.swing.JButton braAnaImportOutageBranchButton;
     private javax.swing.JList braAnaMultiOutageBranchList;
     private javax.swing.JScrollPane braAnaMultiOutageBranchScrollPane;
     private javax.swing.JPanel braAnaOutageAnalysisPanel;
@@ -1994,10 +1619,10 @@ private void genLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent
     private javax.swing.JButton braAnaOutageFileSelectButton;
     private javax.swing.JTextField braAnaOutageFileTextField;
     private javax.swing.JRadioButton braAnaOutageMultiRadioButton;
-    private javax.swing.JRadioButton braAnaOutageScheduleRadioButton;
     private javax.swing.JRadioButton braAnaOutageSingleRadioButton;
     private javax.swing.JButton braAnaRemoveOutageBranchButton;
-    private javax.swing.JPanel braAnaTypePanel;
+    private javax.swing.JLabel braAnaViolationThreshholdLabel;
+    private javax.swing.JTextField braAnaViolationThreshholdTextField;
     private javax.swing.JPanel branchAnalysisPanel;
     private javax.swing.ButtonGroup branchAnalysisTypeButtonGroup;
     private javax.swing.JPanel caseDataPanel;
@@ -2012,21 +1637,6 @@ private void genLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent
     private javax.swing.JLabel edLoadPFactorLabel;
     private javax.swing.JLabel edLossPercentLabel;
     private javax.swing.JTextField edLossPercentTextField;
-    private javax.swing.JButton genAnalysisAddGenButton;
-    private javax.swing.JLabel genAnalysisGenBusLabel;
-    private javax.swing.JList genAnalysisGenBusList;
-    private javax.swing.JComboBox genAnalysisGenBusListComboBox;
-    private javax.swing.JScrollPane genAnalysisGenScrollPane;
-    private javax.swing.JPanel genAnalysisPanel;
-    private javax.swing.JButton genAnalysisRemoveGenButton;
-    private javax.swing.JPanel genLoadDisPanel;
-    private javax.swing.JRadioButton genLoadDistBasecaseRadioButton;
-    private javax.swing.JRadioButton genLoadDistBusRadioButton;
-    private javax.swing.JComboBox genLoadDistLoadBusComboBox;
-    private javax.swing.JLabel genLoadDistLoadBusLabel;
-    private javax.swing.JButton genLoadDistUserFileButton;
-    private javax.swing.JTextField genLoadDistUserFileTextField;
-    private javax.swing.JRadioButton genLoadDistUserRadioButton;
     private javax.swing.JLabel interfaceFileLabel;
     private javax.swing.JPanel interfaceFilePanel;
     private javax.swing.JTextField interfaceFileTextField;
@@ -2061,7 +1671,6 @@ private void genLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent
     private javax.swing.JTabbedPane pTradingAnalysisTabbedPane;
     private javax.swing.JButton runAclfAnalysisButton;
     private javax.swing.JButton runBranchAnalysisButton;
-    private javax.swing.JButton runCalLossFactorsButton;
     private javax.swing.JButton selectEdFileButton;
     private javax.swing.JButton selectInterfaceFileButton;
     private javax.swing.JButton selectInterfaceLimitButton;
