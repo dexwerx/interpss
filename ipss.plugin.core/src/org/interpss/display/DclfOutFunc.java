@@ -227,7 +227,8 @@ public class DclfOutFunc {
 	public static StringBuffer gsfBranchFlow(AclfNetwork net, String branchId, List<DblBusValue> gsfList) {
 		StringBuffer buffer = new StringBuffer();		
 
-		buffer.append("Monitor Branch : " + branchId + "\n\n");
+		if (branchId != null)
+			buffer.append("Monitor Branch : " + branchId + "\n\n");
 		
 		buffer.append("         Gen         Injection      GSF     FlowContrib\n");
 		buffer.append("        BusId           (MW)                    (MW)\n");
