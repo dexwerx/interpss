@@ -53,7 +53,6 @@
 					<ns:element name="caseData" type="ipss:PtCaseDataXmlType" maxOccurs="1"></ns:element>
 					<ns:element name="aclfAnalysis" type="ipss:PtAclfAnalysisXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="branchAnalysis" type="ipss:PtBranchAnalysisXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="genAnalysis" type="ipss:PtGenAnalysisXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -75,11 +74,11 @@
 		<ns:sequence>
 			<ns:element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>			<ns:element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtBranchAnalysisEnumType"></ns:element>
 			<ns:element name="branch" type="pss:BranchRefXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
-			<ns:element name="outageScheduleFile" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="violationThreshhold" type="pss:FactorXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="branchFlowOutPoints" type="ns:int" maxOccurs="1" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
-
+<!-- 
 	<ns:complexType name="PtGenAnalysisXmlType">
 		<ns:sequence>
 			<ns:element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>
@@ -100,13 +99,13 @@
 			<ns:enumeration value="LossFactor"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
+ -->
 
 	<ns:simpleType name="PtBranchAnalysisEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="SingleBranchOutage"></ns:enumeration>
 			<ns:enumeration value="MultiBranchOutage"></ns:enumeration>
-			<ns:enumeration value="OutageSchedule"></ns:enumeration>
-			<ns:enumeration value="BranchFlow"></ns:enumeration>
+			<ns:enumeration value="GenContribution"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
 	
