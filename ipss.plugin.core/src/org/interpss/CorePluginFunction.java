@@ -162,9 +162,9 @@ public class CorePluginFunction {
 	 *   
 	 *   StringBuffer outText = dclfGSFBranchFlow.apply(net, branchId, gsfList);
 	 */
-	public static IFunction3<AclfNetwork, String, List<DblBusValue>, StringBuffer> DclfGSFBranchFlow = 
+	public static IFunction3<AclfNetwork, String, List<DblBusValue>, StringBuffer> DclfGSFBranchInterfaceFlow = 
 		new IFunction3<AclfNetwork, String, List<DblBusValue>, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net, String branchId, List<DblBusValue> gsfList) {
-				return DclfOutFunc.gsfBranchFlow(net, branchId, gsfList);
+				return DclfOutFunc.gsfBranchInterfaceFlow(net, branchId, gsfList);
 			}};
 }

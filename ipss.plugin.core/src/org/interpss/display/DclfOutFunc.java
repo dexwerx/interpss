@@ -220,15 +220,15 @@ public class DclfOutFunc {
 	 * Output GSF branch flow analysis results 
 	 * 
 	 * @param net
-	 * @param branchId
+	 * @param braIntId
 	 * @param gsfList
 	 * @return
 	 */
-	public static StringBuffer gsfBranchFlow(AclfNetwork net, String branchId, List<DblBusValue> gsfList) {
+	public static StringBuffer gsfBranchInterfaceFlow(AclfNetwork net, String braIntId, List<DblBusValue> gsfList) {
 		StringBuffer buffer = new StringBuffer();		
 
-		if (branchId != null)
-			buffer.append("Monitor Branch : " + branchId + "\n\n");
+		if (braIntId != null)
+			buffer.append("Monitor Branch/interface : " + braIntId + "\n\n");
 		
 		buffer.append("         Gen         Injection      GSF     FlowContrib\n");
 		buffer.append("        BusId           (MW)                    (MW)\n");
