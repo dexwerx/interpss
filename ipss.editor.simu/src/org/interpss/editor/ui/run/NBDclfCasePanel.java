@@ -421,7 +421,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		else {
 	    	injectIdAry = RunUIUtilFunc.getJListItemAry(this.gsfGenBusList);
 	    	if (injectIdAry.length == 0 && run) {
-	    		errMsg.add("Please select at least gen bus for GSF analysis");
+	    		errMsg.add("Please select at least one gen bus for GSF analysis");
 	    		return false;
 	    	}
 		}

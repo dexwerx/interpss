@@ -26,7 +26,7 @@ package org.interpss.editor.ui.run;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-import static org.interpss.CorePluginFunction.DclfGSFBranchFlow;
+import static org.interpss.CorePluginFunction.DclfGSFBranchInterfaceFlow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
@@ -65,6 +66,7 @@ import org.interpss.ui.SwingInputVerifyUtil;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.common.func.IFunction;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
@@ -75,7 +77,9 @@ import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
+import com.interpss.pssl.adpter.dclf.OutageScheduleFileProcessor;
 import com.interpss.pssl.display.PTradingOutput;
+import com.interpss.pssl.file.ExcelFileReader;
 import com.interpss.pssl.odm.PTradingDslODMRunner;
 import com.interpss.pssl.odm.PTradingDslODMRunner.PtAnalysisType;
 import com.interpss.simu.SimuContext;
@@ -144,10 +148,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     }
 
 // TODO
-////////////////////////////////////////////////////////////////////
-//////            Set Data to Editor                          //////    
-////////////////////////////////////////////////////////////////////    
-    
 	/**
 	*	Set form data to the editor
 	*
@@ -227,10 +227,16 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			else if (braAnalysis.getType() == PtBranchAnalysisEnumType.GEN_CONTRIBUTION)
 				this.braAnaGenContibRadioButton.setSelected(true);
 
-		if (this.braAnaOutageMultiRadioButton.isSelected()) {
-			braAnaOutageMultiRadioButtonActionPerformed(null);
-			// TODO
+		if (this.braAnaOutageSingleRadioButton.isSelected()) {
+			this.braAnaOutageSingleRadioButtonActionPerformed(null);
 		}
+		else if (this.braAnaOutageMultiRadioButton.isSelected()) {
+			braAnaOutageMultiRadioButtonActionPerformed(null);
+			String[] ary = StringUtil.getIdNameAry(braAnalysis.getBranch(), new IFunction<Object,String>() {
+				@Override public String f(Object value) {return ((BranchRefXmlType)value).getBranchId();	}});
+			this.braAnaMultiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    			
+	    	this.braAnaOutageFileTextField.setText(braAnalysis.getOutageScheduleFilename());
+	    }
 		else if (this.braAnaGenContibRadioButton.isSelected()) {
 			braAnaGenContibRadioButtonActionPerformed(null);
 		}
@@ -270,10 +276,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	}
 
 // TODO
-////////////////////////////////////////////////////////////////////
-//////            Set Data to ODM Xml                         //////    
-////////////////////////////////////////////////////////////////////	
-
 	/**
 	*	Save editor screen data to the form
 	*
@@ -292,7 +294,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg, run);
-		saveBranchAnalysis(errMsg);
+		saveBranchAnalysis(errMsg, run);
 		//saveGenAnalysis(errMsg, run);
 		saveOutputConfig(errMsg);
 
@@ -387,7 +389,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveBranchAnalysis(Vector<String> errMsg) {
+	public boolean saveBranchAnalysis(Vector<String> errMsg, boolean run) {
 		boolean noError = true;
 		
 		if (this._ptXml.getBranchAnalysis() == null) {
@@ -400,14 +402,25 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 			(this.braAnaOutageMultiRadioButton.isSelected()? PtBranchAnalysisEnumType.MULTI_BRANCH_OUTAGE :
 					PtBranchAnalysisEnumType.GEN_CONTRIBUTION));
 
+		braAnalysis.getBranch().clear();
 		if (this.braAnaOutageSingleRadioButton.isSelected() ||
 				this.braAnaGenContibRadioButton.isSelected()) {
-			braAnalysis.getBranch().clear();
 			String braId = (String)this.braAnaBranchListComboBox.getSelectedItem();
 			BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(braAnalysis.getBranch());
 			RunUIUtilFunc.setBranchIdInfo(outage, braId);
 		}
 		else if (this.braAnaOutageMultiRadioButton.isSelected()) {
+	    	String[] braIdAry = RunUIUtilFunc.getJListItemAry(this.braAnaMultiOutageBranchList);
+	    	if (braIdAry.length == 0 && run) {
+	    		errMsg.add("Please select at least one outage branch for multi-branch outage analysis");
+	    		return false;
+	    	}
+	    	for (String braId : braIdAry) {
+				BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(braAnalysis.getBranch());
+				RunUIUtilFunc.setBranchIdInfo(outage, braId);
+	    	}
+	    	if (this.braAnaOutageFileTextField.getText() != null)
+	    		braAnalysis.setOutageScheduleFilename(this.braAnaOutageFileTextField.getText());
 		}
 		
 	    if (braAnalysis.getViolationThreshhold() == null)
@@ -1017,7 +1030,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         branchAnalysisTypeButtonGroup.add(braAnaOutageMultiRadioButton);
         braAnaOutageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         braAnaOutageMultiRadioButton.setText("Multiple");
-        braAnaOutageMultiRadioButton.setEnabled(false);
         braAnaOutageMultiRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 braAnaOutageMultiRadioButtonActionPerformed(evt);
@@ -1089,21 +1101,22 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaOutageAnalysisPanelLayout.setHorizontalGroup(
             braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .add(braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(braAnaOutageFileLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(braAnaOutageFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(braAnaOutageFileSelectButton))
+                    .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
+                        .add(33, 33, 33)
                         .add(braAnaMultiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 249, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(braAnaImportOutageBranchButton)
                             .add(braAnaRemoveOutageBranchButton)
-                            .add(braAnaAddOutageBranchButton)))
-                    .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
-                        .add(braAnaOutageFileLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(braAnaOutageFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(braAnaOutageFileSelectButton)))
+                            .add(braAnaAddOutageBranchButton))))
                 .addContainerGap())
         );
         braAnaOutageAnalysisPanelLayout.setVerticalGroup(
@@ -1115,9 +1128,11 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(braAnaRemoveOutageBranchButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(braAnaImportOutageBranchButton))
-                    .add(braAnaMultiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 87, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                        .add(braAnaImportOutageBranchButton)
+                        .add(18, 18, 18))
+                    .add(braAnaOutageAnalysisPanelLayout.createSequentialGroup()
+                        .add(braAnaMultiOutageBranchScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)))
                 .add(braAnaOutageAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(braAnaOutageFileLabel)
                     .add(braAnaOutageFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1526,7 +1541,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 			Object rtn = new PTradingDslODMRunner(net)
 								.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
 			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-			outText = DclfGSFBranchFlow.f(net, braId, (List<DblBusValue>)rtn).toString();
+			outText = DclfGSFBranchInterfaceFlow.f(net, braId, (List<DblBusValue>)rtn).toString();
 		}
 		else if (this.braAnaOutageSingleRadioButton.isSelected()) {
 			Object rtn = new PTradingDslODMRunner(net)
@@ -1553,28 +1568,27 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 
 private void braAnaOutageSingleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaOutageSingleRadioButtonActionPerformed
 	ipssLogger.info("outageSingleRadioButtonActionPerformed() called");
-	disableOutageAnalysisCompoment(false, false, false);
+	disableOutageAnalysisCompoment(false, false);
 }//GEN-LAST:event_braAnaOutageSingleRadioButtonActionPerformed
 
 private void braAnaOutageMultiRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaOutageMultiRadioButtonActionPerformed
 	ipssLogger.info("outageMultiRadioButtonActionPerformed() called");
-	disableOutageAnalysisCompoment(true, false, false);
+	disableOutageAnalysisCompoment(true, true);
 }//GEN-LAST:event_braAnaOutageMultiRadioButtonActionPerformed
 
 private void braAnaGenContibRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaGenContibRadioButtonActionPerformed
 	ipssLogger.info("branchFlowRadioButtonActionPerformed() called");
-	disableOutageAnalysisCompoment(false, false, true);
+	disableOutageAnalysisCompoment(false, false);
 }//GEN-LAST:event_braAnaGenContibRadioButtonActionPerformed
 
-private void disableOutageAnalysisCompoment(boolean multi, boolean file, boolean outPoints) {
+private void disableOutageAnalysisCompoment(boolean multi, boolean file) {
 	this.braAnaMultiOutageBranchList.setEnabled(multi);
 	this.braAnaAddOutageBranchButton.setEnabled(multi);
 	this.braAnaRemoveOutageBranchButton.setEnabled(multi);
 	this.braAnaOutageFileLabel.setEnabled(file);
 	this.braAnaOutageFileSelectButton.setEnabled(file);
 	this.braAnaOutageFileTextField.setEnabled(file);
-	this.braAnaFlowOutPointsLabel.setEnabled(outPoints);
-	this.braAnaFlowOutPointsTextField.setEnabled(outPoints);
+	this.braAnaImportOutageBranchButton.setEnabled(file);
 }
 
 private void braAnaAddOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaAddOutageBranchButtonActionPerformed
@@ -1590,10 +1604,28 @@ private void braAnaRemoveOutageBranchButtonActionPerformed(java.awt.event.Action
 
 private void braAnaOutageFileSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaOutageFileSelectButtonActionPerformed
 	ipssLogger.info("outageFileSelectButtonActionPerformed() called");
+	JFileChooser fc = getExcelFileChooser();
+	if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		File file = fc.getSelectedFile();
+		this.braAnaOutageFileTextField.setText(file.getAbsolutePath());
+	}
 }//GEN-LAST:event_braAnaOutageFileSelectButtonActionPerformed
 
 private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaImportOutageBranchButtonActionPerformed
-    // TODO add your handling code here:
+	ipssLogger.info("braAnaImportOutageBranchButtonActionPerformed() called");
+	try {
+		AclfModelParser parser = new AclfModelParser();
+		ExcelFileReader reader = new ExcelFileReader(this.braAnaOutageFileTextField.getText(), 0);
+		OutageScheduleFileProcessor proc = new OutageScheduleFileProcessor(parser);		
+		reader.processFile(proc);		
+		String dateStr = this._ptXml.getCaseData().getEdFile().getDate();
+		String[] braIdAry = proc.getOutageBranch(dateStr);
+		braAnaMultiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(braIdAry));
+	} catch (InterpssException e) {
+		ipssLogger.severe(e.toString());
+		braAnaMultiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"File import error"}));
+	}
+	
 }//GEN-LAST:event_braAnaImportOutageBranchButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

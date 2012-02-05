@@ -1070,7 +1070,6 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Multiple"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaOutageMultiRadioButtonActionPerformed"/>
@@ -1103,10 +1102,18 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="braAnaOutageFileLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="braAnaOutageFileTextField" pref="236" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="braAnaOutageFileSelectButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="braAnaMultiOutageBranchScrollPane" min="-2" pref="249" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -1114,13 +1121,6 @@
                                       <Component id="braAnaRemoveOutageBranchButton" min="-2" max="-2" attributes="0"/>
                                       <Component id="braAnaAddOutageBranchButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="braAnaOutageFileLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="braAnaOutageFileTextField" pref="236" max="32767" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="braAnaOutageFileSelectButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1137,10 +1137,13 @@
                                   <Component id="braAnaRemoveOutageBranchButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="braAnaImportOutageBranchButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="braAnaMultiOutageBranchScrollPane" min="-2" pref="87" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="braAnaMultiOutageBranchScrollPane" pref="94" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="braAnaOutageFileLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="braAnaOutageFileTextField" alignment="3" min="-2" max="-2" attributes="0"/>
