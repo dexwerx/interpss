@@ -597,11 +597,11 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="aclfAnalysisPanel">
+        <Container class="javax.swing.JPanel" name="lfAnalysisPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Aclf Analysis">
-                <Property name="tabTitle" type="java.lang.String" value="Aclf Analysis"/>
+              <JTabbedPaneConstraints tabName="LF Analysis">
+                <Property name="tabTitle" type="java.lang.String" value="LF Analysis"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -640,10 +640,6 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
-                              <Component id="runAclfAnalysisButton" min="-2" max="-2" attributes="1"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="154" max="-2" attributes="0"/>
@@ -661,6 +657,12 @@
                                   <Component id="aclfUseCachedVoltCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="aclfEdHourComboBox" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
+                              <Component id="runAclfAnalysisButton" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="runDclfAnalysisButton" min="-2" max="-2" attributes="1"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="69" max="32767" attributes="0"/>
@@ -701,17 +703,16 @@
                           </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
-                              <Component id="runAclfAnalysisButton" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="swingAllocToleranceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="swingAllocToleraceLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="swingAllocToleranceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="swingAllocToleraceLabel" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="runAclfAnalysisButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="runDclfAnalysisButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -869,10 +870,21 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Run Analysis"/>
+                <Property name="text" type="java.lang.String" value="Aclf Analysis"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runAclfAnalysisButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="runDclfAnalysisButton">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Dclf Analysis"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="runDclfAnalysisButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -890,53 +902,37 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
-                      <Component id="braAnaEdHourLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="braAnaEdHourComboBox" min="-2" pref="77" max="-2" attributes="0"/>
-                      <EmptySpace pref="179" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                      <Component id="braAnaBranchLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="braAnaBranchListComboBox" min="-2" pref="184" max="-2" attributes="0"/>
-                      <EmptySpace pref="115" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="braAnaOutageAnalysisPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="38" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="1">
-                              <Component id="braAnaViolationThreshholdLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="braAnaViolationThreshholdTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
+                              <Component id="braAnaEdHourLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="braAnaEdHourComboBox" min="-2" pref="77" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="braAnaFlowOutPointsLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                              <Component id="braAnaBranchLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              <Component id="braAnaBranchListComboBox" min="-2" pref="184" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageAnalysisPanel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageSingleRadioButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="braAnaFlowOutPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="braAnaOutageMultiRadioButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="braAnaGenContibRadioButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="195" max="-2" attributes="0"/>
+                              <Component id="runBranchAnalysisButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="215" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="198" max="32767" attributes="0"/>
-                      <Component id="runBranchAnalysisButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
-                      <Component id="braAnaOutageSingleRadioButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="braAnaOutageMultiRadioButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="braAnaGenContibRadioButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="140" max="32767" attributes="0"/>
+                      <EmptySpace pref="38" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -961,19 +957,9 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="braAnaOutageAnalysisPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="braAnaViolationThreshholdTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="braAnaViolationThreshholdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="braAnaFlowOutPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="braAnaFlowOutPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       <Component id="runBranchAnalysisButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="154" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1070,6 +1056,7 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Multiple"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="braAnaOutageMultiRadioButtonActionPerformed"/>
@@ -1242,38 +1229,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="braAnaViolationThreshholdLabel">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Violation Threshhold (%)"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="braAnaViolationThreshholdTextField">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="90"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="braAnaFlowOutPointsLabel">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Gen Contribution Output Points"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="braAnaFlowOutPointsTextField">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="20"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="runBranchAnalysisButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1299,50 +1254,60 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="outZoneSummaryCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="outAreaSummaryCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="outLfResultCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                              <Component id="outLfResultFormatLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="outLfSummaryRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="outLfBusStyleRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="outToekn_Label" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="outInterfaceViolationCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="voltUpperLimitLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="voltUpperLimitTextField" min="-2" pref="36" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="outVoltViolationCheckBox" alignment="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="outBranchViolationCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="outZoneSummaryCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outAreaSummaryCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outLfResultCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outInterfaceViolationCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="voltUpperLimitLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="voltUpperLimitTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="outVoltViolationCheckBox" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
+                                      <Component id="outBranchViolationCheckBox" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                       <Component id="voltLowerLimitLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="voltLowerLimitTextField" min="-2" pref="36" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                      <Component id="outLargeGSFPointsLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                                      <Component id="outLfResultFormatLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="outLfSummaryRadioButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="outLargeGSFPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="outLfBusStyleRadioButton" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="outToekn_Label" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="outFlowOutPointsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Component id="outLargeGSFPointsLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="outViolationThreshholdLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="outViolationThreshholdTextField" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="outFlowOutPointsTextField" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="outLargeGSFPointsTextField" min="-2" pref="36" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="83" max="32767" attributes="0"/>
+                      <EmptySpace pref="126" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1359,11 +1324,7 @@
                           <Component id="voltLowerLimitTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="outBranchViolationCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="outLargeGSFPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="outLargeGSFPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="outBranchViolationCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="outInterfaceViolationCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -1379,7 +1340,25 @@
                           <Component id="outToekn_Label" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="outLfBusStyleRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="154" max="32767" attributes="0"/>
+                      <EmptySpace pref="15" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="outLargeGSFPointsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="outLargeGSFPointsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="outViolationThreshholdLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="outFlowOutPointsLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="outViolationThreshholdTextField" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Component id="outFlowOutPointsTextField" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1424,22 +1403,6 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="0.85"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="outLargeGSFPointsLabel">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Large GSF Points"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="outLargeGSFPointsTextField">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="5"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="outBranchViolationCheckBox">
@@ -1523,6 +1486,54 @@
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="]"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="outLargeGSFPointsLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Large GSF Output Points"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="outLargeGSFPointsTextField">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="5"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="outViolationThreshholdLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Violation Threshhold (%)"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="outViolationThreshholdTextField">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="90"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="outFlowOutPointsLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Gen Contrib Analysis Output Points"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="outFlowOutPointsTextField">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="5"/>
               </Properties>
             </Component>
           </SubComponents>
