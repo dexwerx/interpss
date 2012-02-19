@@ -30,7 +30,7 @@ import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.PowerTradingInfoXmlType;
 import org.ieee.odm.schema.PtAclfAnalysisXmlType;
-import org.ieee.odm.schema.PtAclfOutputXmlType;
+import org.ieee.odm.schema.PtAnalysisOutputXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.ieee.odm.schema.PtEDispatchFileXmlType;
 
@@ -68,8 +68,8 @@ public class IpssStudyCaseFunc {
 		aclf.setGenQAdjustment(false);
 		aclf.setSwingBusPQAlloc(false);
 		
-		PtAclfOutputXmlType outOpt = odmObjFactory.createPtAclfOutputXmlType();
-		aclf.setOutputOption(outOpt);
+		PtAnalysisOutputXmlType outOpt = odmObjFactory.createPtAnalysisOutputXmlType();
+		pt.setOutputOption(outOpt);
 		outOpt.setBusVoltageUpperLimitPU(1.15);
 		outOpt.setBusVoltageLowerLimitPU(0.80);
 		outOpt.setLargeGSFPoints(5);

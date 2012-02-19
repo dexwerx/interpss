@@ -53,6 +53,7 @@
 					<ns:element name="caseData" type="ipss:PtCaseDataXmlType" maxOccurs="1"></ns:element>
 					<ns:element name="aclfAnalysis" type="ipss:PtAclfAnalysisXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 					<ns:element name="branchAnalysis" type="ipss:PtBranchAnalysisXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="outputOption" type="ipss:PtAnalysisOutputXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -66,7 +67,6 @@
 			<ns:element name="genQAdjOption" type="ipss:PtGenQAdjustXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="swingBusPQAlloc" type="ns:boolean" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="genSwingAllocOption" type="ipss:PtSwingAllocXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="outputOption" type="ipss:PtAclfOutputXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 
@@ -75,8 +75,6 @@
 			<ns:element name="hour" type="ns:string" maxOccurs="1" minOccurs="1"></ns:element>			<ns:element name="type" maxOccurs="1" minOccurs="1" type="ipss:PtBranchAnalysisEnumType"></ns:element>
 			<ns:element name="branch" type="pss:BranchRefXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
 			<ns:element name="outageScheduleFilename" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="violationThreshhold" type="pss:FactorXmlType" maxOccurs="1" minOccurs="0"></ns:element>
-			<ns:element name="branchFlowOutPoints" type="ns:int" maxOccurs="1" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>	
 <!-- 
@@ -159,9 +157,12 @@
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:complexType name="PtAclfOutputXmlType">
+	<ns:complexType name="PtAnalysisOutputXmlType">
 		<ns:sequence>
 			<ns:element name="largeGSFPoints" type="ns:int" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="branchFlowOutPoints" type="ns:int" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="violationThreshhold" type="pss:FactorXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="outageShiftedFlowThreshhold" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="busVoltageViolation" type="ns:boolean" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="busVoltageUpperLimitPU" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="busVoltageLowerLimitPU" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
