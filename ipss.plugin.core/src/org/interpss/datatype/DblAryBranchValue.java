@@ -24,10 +24,6 @@
 
 package org.interpss.datatype;
 
-import java.util.Comparator;
-
-import org.interpss.numeric.util.Number2String;
-
 import com.interpss.core.aclf.AclfBranch;
 
 /**
@@ -36,38 +32,36 @@ import com.interpss.core.aclf.AclfBranch;
  * @author mzhou
  *
  */
-public class DblBranchValue extends BranchValueBase {
-	public double value;
+public class DblAryBranchValue extends BranchValueBase {
+	public double[] aryValue;
 	
-	public DblBranchValue(double x) {
-		this.value = x;
+	public DblAryBranchValue(double[] x) {
+		this.aryValue = x;
 	}
 	
-	public DblBranchValue(String id, double x) {
+	public DblAryBranchValue(String id, double[] x) {
 		this.id = id;
-		this.value = x;
+		this.aryValue = x;
 	}	
 	
-	public DblBranchValue(AclfBranch b, double x) {
+	public DblAryBranchValue(AclfBranch b, double[] x) {
 		this.branch = b;
-		this.id = branch.getId();
-		this.value = x;
+		this.id = b.getId();
+		this.aryValue = x;
 	}	
 
-	/**
-	 * Branch data object absolute value comparator. For use Collections.sort() in the descending order
-	 * 
-	 * @return
-	 */
-	public static Comparator<DblBranchValue> getAbsComparator() {
-		return new Comparator<DblBranchValue>() {
-			@Override public int compare(DblBranchValue o1, DblBranchValue o2) {
-		        return Math.abs(o1.value) < Math.abs(o2.value)? 1 : -1;
-		    }
-		};
+	public DblAryBranchValue(int size) {
+		this.aryValue = new double[size];
+	}
+	
+	public DblAryBranchValue(String id, int size) {
+		this.id = id;
+		this.aryValue = new double[size];
 	}	
 	
-	@Override public String toString() {
-		return Number2String.toStr(value) + "@" + (branch!=null?branch.getId():"NotFound");
-	}
+	public DblAryBranchValue(AclfBranch b, int size) {
+		this.branch = b;
+		this.id = b.getId();
+		this.aryValue = new double[size];
+	}	
 }

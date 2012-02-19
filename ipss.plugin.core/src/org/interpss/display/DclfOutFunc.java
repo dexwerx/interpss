@@ -224,13 +224,16 @@ public class DclfOutFunc {
 	 * @param gsfList
 	 * @return
 	 */
-	public static StringBuffer gsfBranchInterfaceFlow(AclfNetwork net, String braIntId, List<DblBusValue> gsfList) {
+	public static StringBuffer gsfBranchInterfaceFlow(AclfNetwork net, String braIntId, List<DblBusValue> gsfList, boolean outage) {
 		StringBuffer buffer = new StringBuffer();		
 
 		if (braIntId != null)
 			buffer.append("Monitor Branch/interface : " + braIntId + "\n\n");
 		
-		buffer.append("         Gen         Injection      GSF     FlowContrib\n");
+		if (outage)
+			buffer.append("         Gen         Injection   EquivGSF   FlowContrib\n");
+		else
+			buffer.append("         Gen         Injection      GSF     FlowContrib\n");
 		buffer.append("        BusId           (MW)                    (MW)\n");
 		buffer.append("    --------------  -----------  --------   -----------\n");
 		if (gsfList.size() > 0) {

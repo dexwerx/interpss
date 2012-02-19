@@ -24,10 +24,6 @@
 
 package org.interpss.datatype;
 
-import java.util.Comparator;
-
-import org.interpss.numeric.util.Number2String;
-
 import com.interpss.core.aclf.AclfBus;
 
 /**
@@ -36,16 +32,16 @@ import com.interpss.core.aclf.AclfBus;
  * @author mzhou
  *
  */
-public class DblBusValue extends BusValueBase {
-	public double value;
+public class DblAryBusValue extends BusValueBase {
+	public double[] aryValue;
 	
 	/**
 	 * constructor
 	 * 
 	 * @param x
 	 */
-	public DblBusValue(double x) {
-		this.value = x;
+	public DblAryBusValue(double[] x) {
+		this.aryValue = x;
 	}
 
 	/**
@@ -54,9 +50,9 @@ public class DblBusValue extends BusValueBase {
 	 * @param id
 	 * @param x
 	 */
-	public DblBusValue(String id, double x) {
+	public DblAryBusValue(String id, double[] x) {
 		this.id = id;
-		this.value = x;
+		this.aryValue = x;
 	}
 	
 	/**
@@ -65,39 +61,41 @@ public class DblBusValue extends BusValueBase {
 	 * @param bus
 	 * @param x
 	 */
-	public DblBusValue(AclfBus bus, double x) {
+	public DblAryBusValue(AclfBus bus, double[] x) {
 		this.bus = bus;
 		this.id = bus.getId();
-		this.value = x;
+		this.aryValue = x;
 	}
 
 	/**
-	 * Bus data object comparator. For use Collections.sort() in the descending order
+	 * constructor
 	 * 
-	 * @return
+	 * @param x
 	 */
-	public static Comparator<DblBusValue> getComparator() {
-		return new Comparator<DblBusValue>() {
-			@Override public int compare(DblBusValue o1, DblBusValue o2) {
-		        return o1.value < o2.value? 1 : -1;
-		    }
-		};
+	public DblAryBusValue(int size) {
+		this.aryValue = new double[size];
 	}
 
 	/**
-	 * Bus data object absolute value comparator. For use Collections.sort() in the descending order
+	 * constructor
 	 * 
-	 * @return
+	 * @param id
+	 * @param x
 	 */
-	public static Comparator<DblBusValue> getAbsComparator() {
-		return new Comparator<DblBusValue>() {
-			@Override public int compare(DblBusValue o1, DblBusValue o2) {
-		        return Math.abs(o1.value) < Math.abs(o2.value)? 1 : -1;
-		    }
-		};
+	public DblAryBusValue(String id, int size) {
+		this.id = id;
+		this.aryValue = new double[size];
 	}
 	
-	@Override public String toString() {
-		return Number2String.toStr(value) + "@" + (bus!=null?bus.getId():"NotFound");
+	/**
+	 * constructor
+	 * 
+	 * @param bus
+	 * @param x
+	 */
+	public DblAryBusValue(AclfBus bus, int size) {
+		this.bus = bus;
+		this.id = bus.getId();
+		this.aryValue = new double[size];
 	}
 }

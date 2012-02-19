@@ -12,7 +12,7 @@ import org.interpss.display.impl.AclfOut_PSSE;
 
 import com.interpss.common.func.IFunction;
 import com.interpss.common.func.IFunction2;
-import com.interpss.common.func.IFunction3;
+import com.interpss.common.func.IFunction4;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
@@ -162,9 +162,9 @@ public class CorePluginFunction {
 	 *   
 	 *   StringBuffer outText = dclfGSFBranchFlow.apply(net, branchId, gsfList);
 	 */
-	public static IFunction3<AclfNetwork, String, List<DblBusValue>, StringBuffer> DclfGSFBranchInterfaceFlow = 
-		new IFunction3<AclfNetwork, String, List<DblBusValue>, StringBuffer>() {
-			@Override public StringBuffer f(AclfNetwork net, String branchId, List<DblBusValue> gsfList) {
-				return DclfOutFunc.gsfBranchInterfaceFlow(net, branchId, gsfList);
+	public static IFunction4<AclfNetwork, String, List<DblBusValue>, Boolean, StringBuffer> DclfGSFBranchInterfaceFlow = 
+		new IFunction4<AclfNetwork, String, List<DblBusValue>, Boolean, StringBuffer>() {
+			@Override public StringBuffer f(AclfNetwork net, String branchId, List<DblBusValue> gsfList, Boolean outage) {
+				return DclfOutFunc.gsfBranchInterfaceFlow(net, branchId, gsfList, outage);
 			}};
 }
