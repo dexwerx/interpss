@@ -250,12 +250,18 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		// ============
 		
 		PtAnalysisOutputXmlType outOpt = this._ptXml.getOutputOption();
-		outLargeGSFPointsTextField.setText(
-					new Integer(outOpt.getLargeGSFPoints()).toString());
-		this.outFlowOutPointsTextField.setText(
+		if (outOpt.getLargeGSFPoints() != null)
+			outLargeGSFPointsTextField.setText(
+					outOpt.getLargeGSFPoints().toString());
+		if (outOpt.getBranchFlowOutPoints() != null)
+			this.outFlowOutPointsTextField.setText(
 				outOpt.getBranchFlowOutPoints().toString());
-		this.outViolationThreshholdTextField.setText(
+		if (outOpt.getViolationThreshhold() != null)
+			this.outViolationThreshholdTextField.setText(
 				Number2String.toStr(outOpt.getViolationThreshhold().getValue(), "0.0"));
+		if (outOpt.getOutageShiftedFlowThreshhold() != null)
+			this.outOutageShiftedFlowThreshholdTextField.setText(
+				Number2String.toStr(outOpt.getOutageShiftedFlowThreshhold().getValue(), "0.0"));
 		this.outVoltViolationCheckBox.setSelected(outOpt.isBusVoltageViolation());
 		this.voltUpperLimitTextField.setText(
 				new Double(outOpt.getBusVoltageUpperLimitPU()).toString());
@@ -435,11 +441,19 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 		outOpt.setLargeGSFPoints(
 					new Integer(outLargeGSFPointsTextField.getText()).intValue());
-	    if (outOpt.getViolationThreshhold() == null)
+	    
+		if (outOpt.getViolationThreshhold() == null)
 	    	outOpt.setViolationThreshhold(odmObjFactory.createFactorXmlType());
 	    outOpt.getViolationThreshhold().setValue(
 	    		new Double(this.outViolationThreshholdTextField.getText()).intValue());
 	    outOpt.getViolationThreshhold().setUnit(FactorUnitType.PERCENT);
+	    
+		if (outOpt.getOutageShiftedFlowThreshhold() == null)
+	    	outOpt.setOutageShiftedFlowThreshhold(odmObjFactory.createActivePowerXmlType());
+	    outOpt.getOutageShiftedFlowThreshhold().setValue(
+	    		new Double(this.outOutageShiftedFlowThreshholdTextField.getText()));
+	    outOpt.getOutageShiftedFlowThreshhold().setUnit(ActivePowerUnitType.MW);
+
 	    outOpt.setBranchFlowOutPoints(
 	    		new Integer(this.outFlowOutPointsTextField.getText()).intValue());
 
@@ -557,6 +571,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outViolationThreshholdTextField = new javax.swing.JTextField();
         outFlowOutPointsLabel = new javax.swing.JLabel();
         outFlowOutPointsTextField = new javax.swing.JTextField();
+        outOutageShiftedFlowThreshholdLabel = new javax.swing.JLabel();
+        outOutageShiftedFlowThreshholdTextField = new javax.swing.JTextField();
 
         setFont(new java.awt.Font("Dialog", 0, 12));
 
@@ -766,7 +782,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lfAssistGenPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lf Assistance Generator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+        lfAssistGenPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "MustRun Gen", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         lfAssistGenFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         lfAssistGenFileLabel.setText("LF Assist File");
@@ -1271,7 +1287,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outLargeGSFPointsTextField.setText("5");
 
         outViolationThreshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        outViolationThreshholdLabel.setText("Violation Threshhold (%)");
+        outViolationThreshholdLabel.setText("Flow Violation Threshhold (%)");
 
         outViolationThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         outViolationThreshholdTextField.setText("90");
@@ -1282,6 +1298,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         outFlowOutPointsTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         outFlowOutPointsTextField.setText("5");
 
+        outOutageShiftedFlowThreshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        outOutageShiftedFlowThreshholdLabel.setText("Outage ShiftedFlow Threshhold (Mw)");
+
+        outOutageShiftedFlowThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        outOutageShiftedFlowThreshholdTextField.setText("0.1");
+
         org.jdesktop.layout.GroupLayout outputConfigPanelLayout = new org.jdesktop.layout.GroupLayout(outputConfigPanel);
         outputConfigPanel.setLayout(outputConfigPanelLayout);
         outputConfigPanelLayout.setHorizontalGroup(
@@ -1289,7 +1311,20 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             .add(outputConfigPanelLayout.createSequentialGroup()
                 .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(outputConfigPanelLayout.createSequentialGroup()
-                        .add(34, 34, 34)
+                        .add(58, 58, 58)
+                        .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(outFlowOutPointsLabel)
+                            .add(outViolationThreshholdLabel)
+                            .add(outOutageShiftedFlowThreshholdLabel)
+                            .add(outLargeGSFPointsLabel))
+                        .add(41, 41, 41)
+                        .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(outLargeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(outFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(outViolationThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(outOutageShiftedFlowThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(outputConfigPanelLayout.createSequentialGroup()
+                        .add(37, 37, 37)
                         .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(outZoneSummaryCheckBox)
                             .add(outAreaSummaryCheckBox)
@@ -1315,25 +1350,13 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                                 .add(18, 18, 18)
                                 .add(outLfBusStyleRadioButton)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(outToekn_Label))))
-                    .add(outputConfigPanelLayout.createSequentialGroup()
-                        .add(58, 58, 58)
-                        .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(outFlowOutPointsLabel)
-                            .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                .add(outLargeGSFPointsLabel)
-                                .add(outViolationThreshholdLabel)))
-                        .add(54, 54, 54)
-                        .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(outViolationThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(outFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(outLargeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(126, Short.MAX_VALUE))
+                                .add(outToekn_Label)))))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         outputConfigPanelLayout.setVerticalGroup(
             outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outputConfigPanelLayout.createSequentialGroup()
-                .add(20, 20, 20)
+                .add(23, 23, 23)
                 .add(outVoltViolationCheckBox)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -1357,21 +1380,23 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                     .add(outLfSummaryRadioButton)
                     .add(outToekn_Label)
                     .add(outLfBusStyleRadioButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 15, Short.MAX_VALUE)
-                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(outputConfigPanelLayout.createSequentialGroup()
-                        .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(outLargeGSFPointsLabel)
-                            .add(outLargeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(outViolationThreshholdLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(outFlowOutPointsLabel))
-                    .add(outputConfigPanelLayout.createSequentialGroup()
-                        .add(outViolationThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(4, 4, 4)
-                        .add(outFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(65, 65, 65))
+                .add(18, 18, 18)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(outLargeGSFPointsLabel)
+                    .add(outLargeGSFPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(outFlowOutPointsLabel)
+                    .add(outFlowOutPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(13, 13, 13)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(outViolationThreshholdLabel)
+                    .add(outViolationThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(outputConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(outOutageShiftedFlowThreshholdLabel)
+                    .add(outOutageShiftedFlowThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(41, 41, 41))
         );
 
         pTradingAnalysisTabbedPane.addTab("Output Config", outputConfigPanel);
@@ -1490,14 +1515,14 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 		public void run() {
 			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
-					"Run PowerTrading Aclf Analysis ...", "Run PTraing");
+					"Run PowerTrading Aclf Analysis ...", "Run Analysis");
 			// Book marked the AclfNetwork object
 			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
 			try {
 				PTradingDslODMRunner runner = new PTradingDslODMRunner(net);
 				runner.runPtAclfAnalysis(ptXml, ptInfoXml, genPVSwingBusList);
 				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
-					.display(PTradingOutput.outHourLoaflowResult(net, ptXml, 
+					.display(PTradingOutput.outHourLoaflowResult(net, ptXml, ptInfoXml, 
 							runner.getHrLoadflow().getLfAssistGenList()));
 			} catch (InterpssException e) {
 				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
@@ -1537,7 +1562,7 @@ private void runDclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 		public void run() {
 			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
-					"Run Dclf Analysis ...", "Run PTraing");
+					"Run Dclf Analysis ...", "Run Analysis");
 
 			// Book marked the AclfNetwork object
 			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
@@ -1579,61 +1604,77 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 	if (!saveInputData())
 		return;
 	
-	String outText = "";
-	
 	final AclfNetwork net = this._simuCtx.getAclfNet();
 	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
 	final PowerTradingInfoXmlType ptInfoXml = this._ptInfoXml;
 
-	// Book marked the AclfNetwork object
-	ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
 
-	PtBranchAnalysisXmlType braAnalysis = ptXml.getBranchAnalysis();
-	String hr = braAnalysis.getHour();
-	try {
-		if (this.braAnaGenContibRadioButton.isSelected()) {
-			Object rtn = new PTradingDslODMRunner(net)
-								.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
-			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-			outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n" +
-					  DclfGSFBranchInterfaceFlow.f(net, braId, (List<DblBusValue>)rtn).toString();
+	new Thread() {
+		public void run() {
+			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run Outage Analysis ...", "Run Analysis");
+
+			// Book marked the AclfNetwork object
+			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
+
+			String outText = "";
+
+			PtBranchAnalysisXmlType braAnalysis = ptXml.getBranchAnalysis();
+			String hr = braAnalysis.getHour();
+			try {
+				if (braAnaGenContibRadioButton.isSelected()) {
+					Object rtn = new PTradingDslODMRunner(net)
+										.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
+					String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
+					outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n" +
+							  DclfGSFBranchInterfaceFlow.f(net, braId, (List<DblBusValue>)rtn, false).toString();
+				}
+				else if (braAnaOutageSingleRadioButton.isSelected()) {
+					Object rtn = new PTradingDslODMRunner(net)
+						.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
+					String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
+					outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n" + 
+						      "Outage Branch:" + braId+ "\n\n" + rtn.toString();
+				}
+				else {
+					// not implemented
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				recorderBaseNet.endRecording().apply();
+				return;
+			}
+			
+			// roll-back AclfNet to the bookmarked point
+			recorderBaseNet.endRecording().apply();		
+			
+			UISpringFactory.getOutputTextDialog("Outage Analysis Results")
+				.display(outText);   	
+			
+			appStatus.busyStop("Run Outage Analysis finished");			
 		}
-		else if (this.braAnaOutageSingleRadioButton.isSelected()) {
-			Object rtn = new PTradingDslODMRunner(net)
-				.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
-			String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-			outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n" + 
-				      "Outage Branch:" + braId+ "\n\n" + rtn.toString();
-		}
-		else {
-			// not implemented
-		}
-	} catch (Exception e) {
-		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
-		recorderBaseNet.endRecording().apply();
-		return;
-	}
+	}.start();
 	
-	// roll-back AclfNet to the bookmarked point
-	recorderBaseNet.endRecording().apply();		
-	
-	UISpringFactory.getOutputTextDialog("Outage Analysis Results")
-		.display(outText);   	
 }//GEN-LAST:event_runBranchAnalysisButtonActionPerformed
 
 private void braAnaOutageSingleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaOutageSingleRadioButtonActionPerformed
 	ipssLogger.info("outageSingleRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(false, false);
+	this.braAnaBranchLabel.setText("Outage Branch");
 }//GEN-LAST:event_braAnaOutageSingleRadioButtonActionPerformed
 
 private void braAnaOutageMultiRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaOutageMultiRadioButtonActionPerformed
 	ipssLogger.info("outageMultiRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(true, true);
+	this.braAnaBranchLabel.setText("Outage Branch");
 }//GEN-LAST:event_braAnaOutageMultiRadioButtonActionPerformed
 
 private void braAnaGenContibRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_braAnaGenContibRadioButtonActionPerformed
 	ipssLogger.info("branchFlowRadioButtonActionPerformed() called");
 	disableOutageAnalysisCompoment(false, false);
+	this.braAnaBranchLabel.setText("Monitor Branch");
 }//GEN-LAST:event_braAnaGenContibRadioButtonActionPerformed
 
 private void disableOutageAnalysisCompoment(boolean multi, boolean file) {
@@ -1750,6 +1791,8 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
     private javax.swing.JCheckBox outLfResultCheckBox;
     private javax.swing.JLabel outLfResultFormatLabel;
     private javax.swing.JRadioButton outLfSummaryRadioButton;
+    private javax.swing.JLabel outOutageShiftedFlowThreshholdLabel;
+    private javax.swing.JTextField outOutageShiftedFlowThreshholdTextField;
     private javax.swing.JLabel outToekn_Label;
     private javax.swing.JLabel outViolationThreshholdLabel;
     private javax.swing.JTextField outViolationThreshholdTextField;
