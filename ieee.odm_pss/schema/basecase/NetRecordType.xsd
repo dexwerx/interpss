@@ -20,6 +20,11 @@
 		</ns:documentation></ns:annotation>
     </ns:element>
     
+    <ns:element name="childNet" type="pss:NetworkXmlType">
+        <ns:annotation><ns:documentation>
+		</ns:documentation></ns:annotation>
+    </ns:element>
+
     <ns:element name="bus" type="pss:BusXmlType">
         <ns:annotation><ns:documentation>
 		Base bus for defining a generic bus with bus and branch objects.
@@ -45,11 +50,6 @@
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
 					<ns:element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></ns:element>
-                    <ns:element name="autoBranchId" type="ns:boolean" minOccurs="0">
-						<ns:annotation><ns:documentation>
-						if true, the branch id will be auto generated formId->toId(cirNo). The original branchId will be moved to the name field.
-						</ns:documentation></ns:annotation>
-					</ns:element>
                     <ns:element name="frequency" type="pss:FrequencyXmlType" minOccurs="0"></ns:element>
 					<ns:element name="busList" minOccurs="1" maxOccurs="1">
 						<ns:complexType>
@@ -78,7 +78,19 @@
 								<ns:element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType"></ns:element>
 							</ns:sequence>
 						</ns:complexType>
-					</ns:element>				</ns:sequence>
+					</ns:element>					<ns:element name="type" type="pss:NetworkTypeEnumType" minOccurs="0" maxOccurs="1">
+						<ns:annotation><ns:documentation>
+						MainNetwork or ChildNetwork. A Child network might has child networks.
+						</ns:documentation></ns:annotation>
+					</ns:element>
+                    <ns:element name="hasChildNet" type="ns:boolean" minOccurs="0"></ns:element>
+                    <ns:element name="parentNet" type="pss:NetworkRefXmlType" minOccurs="0"></ns:element>
+                    <ns:element name="autoBranchId" type="ns:boolean" minOccurs="0">
+						<ns:annotation><ns:documentation>
+						if true, the branch id will be auto generated formId->toId(cirNo). The original branchId will be moved to the name field.
+						</ns:documentation></ns:annotation>
+					</ns:element>
+				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
@@ -105,6 +117,42 @@
 		</ns:restriction>
 	</ns:simpleType>
     
+
+    <ns:simpleType name="NetworkTypeEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="MainNetwork"></ns:enumeration>
+			<ns:enumeration value="ChildNetwork"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+
+
+    <ns:complexType name="NetworkRefXmlType">
+    	<ns:annotation>
+    		<ns:documentation>used to reference parent containing network.</ns:documentation>
+    	</ns:annotation>
+    	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
+    			<ns:sequence>
+    				<ns:element name="interfaceBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1">
+    				<ns:annotation>
+    					<ns:documentation>interface bus id, where this network is connecting to the parent network.</ns:documentation>
+    				</ns:annotation>
+    				</ns:element>
+    			</ns:sequence>
+    			<ns:attribute name="netId" type="ns:string" use="required">
+    				<ns:annotation>
+    					<ns:documentation>parent containing network id. It might be stored in a different file.</ns:documentation>
+    				</ns:annotation>
+    			</ns:attribute>
+    			<ns:attribute name="parentBusId" type="ns:string" use="required">
+    				<ns:annotation>
+    					<ns:documentation>parent bus id, where this network is attached to. It might be stored in a different file.</ns:documentation>
+    				</ns:annotation>
+    			</ns:attribute>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
 
     <ns:complexType name="BusXmlType" abstract="true">
         <ns:annotation>

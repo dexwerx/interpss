@@ -37,6 +37,10 @@
 						Base case power network data for power system simulation purpose
 						</ns:documentation></ns:annotation>
 					</ns:element>
+					<ns:element ref="pss:childNet" minOccurs="0" maxOccurs="unbounded">
+						<ns:annotation><ns:documentation>
+						</ns:documentation></ns:annotation>
+					</ns:element>
 					<ns:element name="modificationList" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
 						Modifications to be applied to the base case. Also, modification could be defined at the study scenario level
