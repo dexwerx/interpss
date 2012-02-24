@@ -31,7 +31,6 @@ import java.util.logging.Level;
 import org.ieee.odm.common.ODMLogger;
 import org.interpss.numeric.sparse.base.SparseEquation;
 import org.interpss.spring.NumericSpringFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -39,12 +38,22 @@ import com.interpss.core.algo.BusNumberArrangeRule;
 import com.interpss.spring.CoreCommonSpringFactory;
 
 public class IpssPlugin {
+	public final static String CtxPath = "org/interpss/spring/PluginSpringCtx.xml";
+	
 	public static void init() {
 		init(Level.WARNING);
 	}
 	
+	public static void init(String[] paths) {
+		init(paths, Level.WARNING);
+	}
+
 	public static void init(Level level) {
-		setSpringAppCtx();
+		init(new String[] {CtxPath}, level);
+	}
+
+	public static void init(String[] paths, Level level) {
+		setSpringAppCtx(paths);
 		setLoggerLevel(level);
 		setSparseEqnSolver(SparseEquation.SolverType.Default);
 	}
@@ -69,11 +78,7 @@ public class IpssPlugin {
 		ODMLogger.getLogger().setLevel(level);
 	}	
 
-	private static void setSpringAppCtx() {
-		if (CoreCommonSpringFactory.springAppCtx == null) {
-			CoreCommonSpringFactory.springAppCtx = new ClassPathXmlApplicationContext(
-					new String[] {
-							"org/interpss/spring/PluginSpringCtx.xml"});
-		}
+	private static void setSpringAppCtx(String[] paths) {
+		CoreCommonSpringFactory.setAppContext(paths);
 	}	
 }
