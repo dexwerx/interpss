@@ -234,6 +234,7 @@ public class DclfOutFunc {
 			buffer.append("         Gen         Injection   EquivGSF   FlowContrib\n");
 		else
 			buffer.append("         Gen         Injection      GSF     FlowContrib\n");
+		
 		buffer.append("        BusId           (MW)                    (MW)\n");
 		buffer.append("    --------------  -----------  --------   -----------\n");
 		if (gsfList.size() > 0) {

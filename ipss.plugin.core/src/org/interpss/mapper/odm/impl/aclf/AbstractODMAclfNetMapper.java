@@ -24,14 +24,13 @@
 
 package org.interpss.mapper.odm.impl.aclf;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
-import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
@@ -42,14 +41,11 @@ import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.NetworkCategoryEnumType;
-import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
-import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
@@ -72,12 +68,12 @@ import com.interpss.simu.SimuCtxType;
  * @author mzhou
  * @param Tfrom from object type
  */
-public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
+public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
 	/**
 	 * constructor
 	 * 
 	 */
-	public AbstractODMAclfDataMapper() {
+	public AbstractODMAclfNetMapper() {
 	}
 	
 	/**
@@ -88,42 +84,33 @@ public abstract class AbstractODMAclfDataMapper<Tfrom> extends AbstractODMSimuCt
 	 */
 	@Override public boolean map2Model(Tfrom p, SimuContext simuCtx) {
 		boolean noError = true;
-		AclfModelParser parser = (AclfModelParser)p;
-		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
-			LoadflowNetXmlType xmlNet = parser.getAclfNet();
-			simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
-			try {
-				AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
-				mapAclfNetworkData(adjNet, xmlNet);
-				simuCtx.setAclfNet(adjNet);
+		LoadflowNetXmlType xmlNet = (LoadflowNetXmlType)p; 
+		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
+		try {
+			AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
+			mapAclfNetworkData(adjNet, xmlNet);
+			simuCtx.setAclfNet(adjNet);
 
-				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
-					LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-					AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
-					mapAclfBusData(busRec, aclfBus, adjNet);
-				}
-
-				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
-					BaseBranchXmlType xmlBranch = b.getValue();
-					Branch branch = null;
-					if (xmlBranch instanceof PSXfr3WBranchXmlType || xmlBranch instanceof Xfr3WBranchXmlType)
-						branch = CoreObjectFactory.createAclf3WXformer();
-					else
-						branch = CoreObjectFactory.createAclfBranch();
-					mapAclfBranchData(xmlBranch, branch, adjNet);
-				}
-			} catch (InterpssException e) {
-				e.printStackTrace();
-				ipssLogger.severe(e.toString());
-				noError = false;
+			for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
+				LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
+				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
+				mapAclfBusData(busRec, aclfBus, adjNet);
 			}
-		} else {
-			ipssLogger.severe("Error: currently only Transmission NetworkType has been implemented");
-			return false;
+
+			for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
+				BaseBranchXmlType xmlBranch = b.getValue();
+				Branch branch = null;
+				if (xmlBranch instanceof PSXfr3WBranchXmlType || xmlBranch instanceof Xfr3WBranchXmlType)
+					branch = CoreObjectFactory.createAclf3WXformer();
+				else
+					branch = CoreObjectFactory.createAclfBranch();
+				mapAclfBranchData(xmlBranch, branch, adjNet);
+			}
+		} catch (InterpssException e) {
+			e.printStackTrace();
+			ipssLogger.severe(e.toString());
+			noError = false;
 		}
-		
-		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
-		simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		return noError;
 	}
 

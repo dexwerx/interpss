@@ -24,7 +24,7 @@
 
 package org.interpss.spring;
 
-import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.ODMAclfParserMapper;
 import org.interpss.mapper.odm.ODMAcscDataMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
@@ -45,8 +45,8 @@ public class CorePluginSpringFactory extends CoreSimuSpringFactory {
 	/**
 	 * create a ODMAclfDataMapper object from the Spring container
 	 */
-	public static ODMAclfDataMapper getOdm2AclfMapper() {
-		return (ODMAclfDataMapper) springAppCtx.getBean("odm2AclfMapper");
+	public static ODMAclfParserMapper getOdm2AclfMapper() {
+		return (ODMAclfParserMapper) springAppCtx.getBean("odm2AclfMapper");
 	}	
 
 	/**

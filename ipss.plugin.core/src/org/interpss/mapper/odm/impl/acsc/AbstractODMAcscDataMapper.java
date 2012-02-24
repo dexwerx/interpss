@@ -53,8 +53,9 @@ import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
-import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfParserMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -82,7 +83,7 @@ import com.interpss.simu.SimuCtxType;
  *
  * @param <Tfrom>
  */
-public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
+public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfParserMapper<Tfrom> {
 	/**
 	 * constructor
 	 * 
@@ -150,6 +151,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 				}
 
 				// map the branch info
+				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
 				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) {
 					if (branch.getValue() instanceof LineShortCircuitXmlType || 
 							branch.getValue() instanceof XfrShortCircuitXmlType ||
@@ -157,7 +159,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
-						mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet);
+						aclfNetMapper.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet);
 						setAcscBranchData(acscBraXml, acscBranch);
 					}
 					else {
@@ -195,7 +197,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfDa
 	 * @return
 	 */
 	public void mapAcscNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) {
-		mapAclfNetworkData(net, xmlNet);
+		new ODMAclfNetMapper().mapAclfNetworkData(net, xmlNet);
 		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());		
 	}	
 

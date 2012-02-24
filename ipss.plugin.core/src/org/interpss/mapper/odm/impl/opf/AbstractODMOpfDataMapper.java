@@ -37,8 +37,9 @@ import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
-import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfDataMapper;
+import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfParserMapper;
 import org.interpss.mapper.odm.impl.aclf.AclfBusDataHelper;
 import org.interpss.numeric.datatype.LimitType;
 
@@ -58,7 +59,7 @@ import com.interpss.simu.SimuCtxType;
  *
  * @param <Tfrom>
  */
-public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDataMapper<Tfrom> {
+public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfParserMapper<Tfrom> {
 	/**
 	 * constructor
 	 * 
@@ -86,6 +87,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 				OpfNetwork opfNet = mapNetworkData(xmlNet);
 				simuCtx.setOpfNet(opfNet);
 
+				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					if (bus.getValue() instanceof OpfGenBusXmlType) {
 						OpfGenBusXmlType busRec = (OpfGenBusXmlType) bus.getValue();
@@ -94,13 +96,13 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 					else {
 						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 						OpfBus opfBus = OpfObjectFactory.createOpfBus(busRec.getId(), opfNet);
-						mapAclfBusData(busRec, opfBus, opfNet);
+						aclfNetMapper.mapAclfBusData(busRec, opfBus, opfNet);
 					}
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					OpfBranch aclfBranch = OpfObjectFactory.createOpfBranch();
-					mapAclfBranchData(b.getValue(), aclfBranch, opfNet);
+					aclfNetMapper.mapAclfBranchData(b.getValue(), aclfBranch, opfNet);
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();
@@ -126,7 +128,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfDa
 	
 	private OpfNetwork mapNetworkData(OpfNetworkXmlType xmlNet) throws InterpssException {
 		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
-		mapAclfNetworkData(opfNet, xmlNet);
+		new ODMAclfNetMapper().mapAclfNetworkData(opfNet, xmlNet);
 		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
 		return opfNet;
 	}
