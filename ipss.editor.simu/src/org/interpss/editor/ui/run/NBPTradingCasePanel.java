@@ -66,7 +66,7 @@ import org.interpss.ui.SwingInputVerifyUtil;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.func.IFunction;
+import com.interpss.common.func.FunctionAdapter;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.IpssLogger;
@@ -232,7 +232,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		}
 		else if (this.braAnaOutageMultiRadioButton.isSelected()) {
 			braAnaOutageMultiRadioButtonActionPerformed(null);
-			String[] ary = StringUtil.getIdNameAry(braAnalysis.getBranch(), new IFunction<Object,String>() {
+			String[] ary = StringUtil.getIdNameAry(braAnalysis.getBranch(), new FunctionAdapter<Object,String>() {
 				@Override public String f(Object value) {return ((BranchRefXmlType)value).getBranchId();	}});
 			this.braAnaMultiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    			
 	    	this.braAnaOutageFileTextField.setText(braAnalysis.getOutageScheduleFilename());

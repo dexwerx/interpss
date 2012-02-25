@@ -69,7 +69,7 @@ import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.func.IFunction;
+import com.interpss.common.func.FunctionAdapter;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.util.NetUtilFunc;
@@ -121,6 +121,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    this.runDclfTabbedPane.setSelectedIndex(1);
 	    
     	if (_simuCtx != null) {   
+    		this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
     		this.gsfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
 
@@ -128,7 +130,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
     		this.lodfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
-
+    		
     		this.genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
     		this.genLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
@@ -293,7 +295,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			}
 			else {
 				this.lodfMultiTypeRadioButton.setSelected(true);
-				String[] ary = StringUtil.getIdNameAry(lodf.getOutageBranch(), new IFunction<Object,String>() {
+				String[] ary = StringUtil.getIdNameAry(lodf.getOutageBranch(), new FunctionAdapter<Object,String>() {
 					@Override public String f(Object value) { return ((BranchRefXmlType)value).getBranchId(); }});
 				this.lodfMultiOutageBranchList.setModel(new javax.swing.DefaultComboBoxModel(ary));    			
 				setLodfComponentStatus(true);
@@ -301,9 +303,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 
 		if ( lodf != null && lodf.getMonitorBranch() != null) {
-			String[] ary1 = StringUtil.getIdNameAry(lodf.getMonitorBranch(), new IFunction<Object,String>() {
+			String[] ary1 = StringUtil.getIdNameAry(lodf.getMonitorBranch(), new FunctionAdapter<Object,String>() {
 				@Override public String f(Object value) {return "b:" + ((LODFMonitorBranchXmlType)value).getBranch().getBranchId();	}});
-			String[] ary2 = StringUtil.getIdNameAry(lodf.getMonitorInterface(), new IFunction<Object,String>() {
+			String[] ary2 = StringUtil.getIdNameAry(lodf.getMonitorInterface(), new FunctionAdapter<Object,String>() {
 				@Override public String f(Object value) {return "i:" + ((LODFMonitorInterfaceXmlType)value).getInterface().getInterfaceId(); }});
 			lodfMonitorBranchInterfaceList.setModel(new javax.swing.DefaultComboBoxModel(StringUtil.merge(ary1, ary2)));    			
 		}
@@ -313,7 +315,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	
 	public boolean setLossFactor2Editor() {
 		if (this._senXml.getGenLossFactors().size() > 0) {
-			String[] sAry = StringUtil.getIdNameAry(this._senXml.getGenLossFactors(), new IFunction<Object,String>() {
+			String[] sAry = StringUtil.getIdNameAry(this._senXml.getGenLossFactors(), new FunctionAdapter<Object,String>() {
 				@Override public String f(Object value) { return ((GenLossFactorXmlType)value).getInjectBus().get(0).getBusId(); } });
 			this.genAnalysisGenBusList.setModel(new javax.swing.DefaultComboBoxModel(sAry));   
 			
@@ -931,7 +933,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap())
         );
 
-        gsfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+        gsfWithdrawPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         gsfWithdrawButtonGroup.add(gsfLoadSingleBusRadioButton);
         gsfLoadSingleBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -1462,7 +1464,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         genLoadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         genAnalysisLodfTypeButtonGroup.add(genLoadDistBusRadioButton);
-        genLoadDistBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        genLoadDistBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         genLoadDistBusRadioButton.setText("Load Bus");
         genLoadDistBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1471,7 +1473,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
 
         genAnalysisLodfTypeButtonGroup.add(genLoadDistBasecaseRadioButton);
-        genLoadDistBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        genLoadDistBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         genLoadDistBasecaseRadioButton.setSelected(true);
         genLoadDistBasecaseRadioButton.setText("Basecase");
         genLoadDistBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1481,7 +1483,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         });
 
         genAnalysisLodfTypeButtonGroup.add(genLoadDistUserRadioButton);
-        genLoadDistUserRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        genLoadDistUserRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         genLoadDistUserRadioButton.setText("User");
         genLoadDistUserRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
