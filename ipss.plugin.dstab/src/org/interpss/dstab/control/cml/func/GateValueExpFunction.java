@@ -24,10 +24,10 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionExpressionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionExpressionAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 
-public class GateValueExpFunction extends FunctionExpressionAdapter {
+public class GateValueExpFunction extends CMLFunctionExpressionAdapter {
 	/**
 	 * evaluate function value based on the input 2D double array. The array matches the input expression list
 	 *

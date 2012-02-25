@@ -31,7 +31,7 @@ import static com.interpss.common.util.IpssLogger.ipssLogger;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.util.Number2String;
 
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * An implementation of 2nd order transfer function block
@@ -55,7 +55,7 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-public class TFunc2ndOrderBlock extends ControlBlock1stOrderAdapter {
+public class TFunc2ndOrderBlock extends CMLControlBlock1stOrderAdapter {
 	private double k = 0.0;
 	private double a = 0.0;
 	private double b = 0.0;

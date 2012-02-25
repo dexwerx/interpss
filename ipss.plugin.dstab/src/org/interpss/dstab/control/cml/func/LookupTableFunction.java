@@ -28,7 +28,7 @@ import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.func.ILookupTable;
-import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLLookupTableFunctionAdapter;
 
 /**
  * A function for calculating y = k * u
@@ -36,7 +36,7 @@ import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
  * @author mzhou
  *
  */
-public class LookupTableFunction extends LookupTableFunctionAdapter {
+public class LookupTableFunction extends CMLLookupTableFunctionAdapter {
 
 	/**
 	 * constructor

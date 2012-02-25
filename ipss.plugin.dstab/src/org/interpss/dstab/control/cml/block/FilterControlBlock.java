@@ -31,7 +31,7 @@ import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockTyp
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * A filter controller implementation
@@ -39,7 +39,7 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-public class FilterControlBlock extends ControlBlock1stOrderAdapter {
+public class FilterControlBlock extends CMLControlBlock1stOrderAdapter {
 	protected double k = 0.0;
 	protected double t1 = 0.0;
 	protected double t2 = 0.0;

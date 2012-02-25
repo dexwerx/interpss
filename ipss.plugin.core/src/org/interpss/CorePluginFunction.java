@@ -2,6 +2,7 @@ package org.interpss;
 
 import java.util.List;
 
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
 import org.interpss.datatype.DblBusValue;
 import org.interpss.display.AclfOutFunc;
@@ -9,7 +10,12 @@ import org.interpss.display.DclfOutFunc;
 import org.interpss.display.AclfOutFunc.BusIdStyle;
 import org.interpss.display.impl.AclfOut_BusStyle;
 import org.interpss.display.impl.AclfOut_PSSE;
+import org.interpss.spring.CorePluginSpringFactory;
 
+import com.interpss.common.exp.InterpssException;
+import com.interpss.common.func.Function2Adapter;
+import com.interpss.common.func.Function4Adapter;
+import com.interpss.common.func.FunctionAdapter;
 import com.interpss.common.func.IFunction;
 import com.interpss.common.func.IFunction2;
 import com.interpss.common.func.IFunction4;
@@ -27,6 +33,18 @@ import com.interpss.dstab.devent.BranchOutageType;
  */
 public class CorePluginFunction {
 	/* **********************************************************
+	 * 		ODM Mapping functions
+	 ************************************************************/
+
+	public static IFunction<AclfModelParser, AclfNetwork> ToAclfNet = 
+		new FunctionAdapter<AclfModelParser, AclfNetwork>() {
+			@Override public AclfNetwork fEx(AclfModelParser parser) throws InterpssException {
+				return CorePluginSpringFactory.getOdm2AclfMapper()
+						.map2Model(parser)
+						.getAclfNet();
+		}};
+	
+	/* **********************************************************
 	 * 		Aclf Output function, including Sensitivity analysis
 	 ************************************************************/
 	
@@ -39,7 +57,7 @@ public class CorePluginFunction {
 	 *   StringBuffer outText = aclfResultSummary.apply(aclfNet);
 	 */
 	public static IFunction<AclfNetwork, StringBuffer> AclfResultSummary = 
-		new IFunction<AclfNetwork, StringBuffer>() {
+		new FunctionAdapter<AclfNetwork, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net) {
 				return AclfOutFunc.loadFlowSummary(net);
 		}};
@@ -53,7 +71,7 @@ public class CorePluginFunction {
 	 *   StringBuffer outText = aclfResultBusStype.apply(aclfNet);
 	 */
 	public static IFunction<AclfNetwork, StringBuffer> AclfResultBusStyle = 
-		new IFunction<AclfNetwork, StringBuffer>() {
+		new FunctionAdapter<AclfNetwork, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net) {
 				return AclfOut_BusStyle.lfResultsBusStyle(net, BusIdStyle.BusId_No);
 			}
@@ -63,7 +81,7 @@ public class CorePluginFunction {
 	 * Function for output LF result in the Bus Style format
 	 */
 	public static IFunction2<AclfNetwork, BusIdStyle, StringBuffer> AclfResultBusStyle2 = 
-		new IFunction2<AclfNetwork, BusIdStyle, StringBuffer>() {
+		new Function2Adapter<AclfNetwork, BusIdStyle, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net, BusIdStyle style) {
 				return AclfOut_BusStyle.lfResultsBusStyle(net, style);
 			}
@@ -74,7 +92,7 @@ public class CorePluginFunction {
 	 * 	
 	 */
 	public static IFunction2<AclfNetwork, AclfOut_PSSE.Format, StringBuffer> AclfResultPsseStyle = 
-		new IFunction2<AclfNetwork, AclfOut_PSSE.Format, StringBuffer>() {
+		new Function2Adapter<AclfNetwork, AclfOut_PSSE.Format, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net, AclfOut_PSSE.Format format) {
 				return AclfOut_PSSE.lfResults(net, format);
 			}
@@ -85,7 +103,7 @@ public class CorePluginFunction {
 	 * 
 	 */
 	public static IFunction<AclfNetwork, StringBuffer> OutputLF4Google = 
-		new IFunction<AclfNetwork, StringBuffer>() {
+		new FunctionAdapter<AclfNetwork, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net) {
 				if (net.getOriginalDataFormat() == OriginalDataFormat.CIM)
 					return AclfOutFunc.loadFlowSummary(net);
@@ -98,7 +116,7 @@ public class CorePluginFunction {
 	 * 
 	 */
 	public static IFunction2<AclfBus, OriginalDataFormat, String> OutputBusId = 
-		new IFunction2<AclfBus, OriginalDataFormat, String>() {
+		new Function2Adapter<AclfBus, OriginalDataFormat, String>() {
 			@Override public String f(AclfBus bus, OriginalDataFormat fmt) {
 				if (fmt == OriginalDataFormat.CIM)
 					return "Bus" + bus.getNumber();
@@ -111,7 +129,7 @@ public class CorePluginFunction {
 	 * 
 	 */
 	public static IFunction<Double, String> FormatKVStr = 
-		new IFunction<Double, String>() {
+		new FunctionAdapter<Double, String>() {
 			@Override public String f(Double kv) {
 				if (kv > 1000.0)
 					return String.format("%6.1f ", kv);
@@ -127,7 +145,7 @@ public class CorePluginFunction {
 	 * Function to map ODM AcscFaultCategoryEnumType to InterPSS BranchOutageType
 	 */
 	public static IFunction<AcscFaultCategoryEnumType, BranchOutageType> MapBranchOutageType = 
-		new IFunction<AcscFaultCategoryEnumType, BranchOutageType>() {
+		new FunctionAdapter<AcscFaultCategoryEnumType, BranchOutageType>() {
 			@Override public BranchOutageType f(AcscFaultCategoryEnumType caty) {
 				if (caty == AcscFaultCategoryEnumType.OUTAGE_1_PHASE)
 					return BranchOutageType.SINGLE_PHASE;
@@ -149,7 +167,7 @@ public class CorePluginFunction {
 	 *   StringBuffer outText = dclfResult.apply(dclfAlgo, true/false);
 	 */
 	public static IFunction2<DclfAlgorithm, Boolean, StringBuffer> DclfResult = 
-		new IFunction2<DclfAlgorithm, Boolean, StringBuffer>() {
+		new Function2Adapter<DclfAlgorithm, Boolean, StringBuffer>() {
 			@Override public StringBuffer f(DclfAlgorithm algo, Boolean branchVioaltion) {
 				return DclfOutFunc.dclfResults(algo, branchVioaltion);
 			}};
@@ -163,7 +181,7 @@ public class CorePluginFunction {
 	 *   StringBuffer outText = dclfGSFBranchFlow.apply(net, branchId, gsfList);
 	 */
 	public static IFunction4<AclfNetwork, String, List<DblBusValue>, Boolean, StringBuffer> DclfGSFBranchInterfaceFlow = 
-		new IFunction4<AclfNetwork, String, List<DblBusValue>, Boolean, StringBuffer>() {
+		new Function4Adapter<AclfNetwork, String, List<DblBusValue>, Boolean, StringBuffer>() {
 			@Override public StringBuffer f(AclfNetwork net, String branchId, List<DblBusValue> gsfList, Boolean outage) {
 				return DclfOutFunc.gsfBranchInterfaceFlow(net, branchId, gsfList, outage);
 			}};

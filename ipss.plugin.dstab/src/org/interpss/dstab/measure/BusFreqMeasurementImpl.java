@@ -31,7 +31,7 @@ import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * An implementation of bus frequency measurement device. This also serves as an
@@ -40,7 +40,7 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
+public class BusFreqMeasurementImpl extends CMLControlBlock1stOrderAdapter {
 	private static final long serialVersionUID = 1;
 
 	private double baseFreq = 0.0;

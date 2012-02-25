@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
  * A Function to calculate Rectifier regulation Fex(In) per IEEE 421.5, Appendix-D
@@ -32,7 +32,7 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-public class FexFunction extends FunctionAdapter {
+public class FexFunction extends CMLFunctionAdapter {
 	/**
 	 * evaluate function value based on the input double array. The array matches the input var rec list
 	 *

@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml.func;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
  * Function : y = | Kp * Vt + j Ki * It |
@@ -34,7 +34,7 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  * 
  */
-public class VthevFunction extends FunctionAdapter {
+public class VthevFunction extends CMLFunctionAdapter {
 	private double kp = 1.0;
 	private double ki = 1.0;
 

@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
  * A function for calculating y = k * u
@@ -32,7 +32,7 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-public class SwitchFunction extends FunctionAdapter {
+public class SwitchFunction extends CMLFunctionAdapter {
 	private double e = 1.0;
 
 	/**

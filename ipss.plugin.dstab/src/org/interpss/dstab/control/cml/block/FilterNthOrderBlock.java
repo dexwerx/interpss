@@ -27,7 +27,7 @@ package org.interpss.dstab.control.cml.block;
 import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NoLimit;
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * Transfer Function:
@@ -41,7 +41,7 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-public class FilterNthOrderBlock extends ControlBlock1stOrderAdapter {
+public class FilterNthOrderBlock extends CMLControlBlock1stOrderAdapter {
 	private double t1 = 0.0;
 	private double t2 = 0.0;
 	

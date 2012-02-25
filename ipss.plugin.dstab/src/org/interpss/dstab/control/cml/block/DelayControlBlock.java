@@ -30,7 +30,7 @@ import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockTyp
 import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.NonWindup;
 
 import com.interpss.dstab.controller.block.ICMLLimitExpression;
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 import com.interpss.dstab.datatype.LimitExpression;
 
@@ -40,7 +40,7 @@ import com.interpss.dstab.datatype.LimitExpression;
  * @author mzhou
  *
  */
-public class DelayControlBlock extends ControlBlock1stOrderAdapter implements ICMLLimitExpression {
+public class DelayControlBlock extends CMLControlBlock1stOrderAdapter implements ICMLLimitExpression {
 	protected double k = 0.0;
 	protected double t = 0.0;
 	protected LimitExpression limit = null;

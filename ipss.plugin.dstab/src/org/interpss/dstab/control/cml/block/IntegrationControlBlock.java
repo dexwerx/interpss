@@ -30,7 +30,7 @@ import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockTyp
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * An implementation of integration block
@@ -38,7 +38,7 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-public class IntegrationControlBlock extends ControlBlock1stOrderAdapter {
+public class IntegrationControlBlock extends CMLControlBlock1stOrderAdapter {
 	protected double k = 0.0;
 	protected LimitType limit = null;
 

@@ -27,7 +27,7 @@ package org.interpss.dstab.control.cml.block;
 import org.interpss.numeric.datatype.LimitType;
 
 import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockType.*;
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * An implementation of PI controller block
@@ -35,7 +35,7 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
  * @author mzhou
  *
  */
-public class PIControlBlock extends ControlBlock1stOrderAdapter {
+public class PIControlBlock extends CMLControlBlock1stOrderAdapter {
 	protected double kp = 0.0;
 	protected double ki = 0.0;
 	protected LimitType limit = null;

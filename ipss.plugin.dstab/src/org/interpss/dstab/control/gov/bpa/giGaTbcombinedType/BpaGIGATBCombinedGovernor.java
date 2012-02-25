@@ -18,9 +18,9 @@ import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.block.ICMLControlBlock;
 import com.interpss.dstab.controller.block.ICMLFunction;
 import com.interpss.dstab.controller.block.ICMLStaticBlock;
-import com.interpss.dstab.controller.block.adapt.ControlBlockAdapter;
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
-import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlockAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLStaticBlockAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 
 /**
@@ -51,7 +51,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		//1.1 freqDeadBandFunc
 		public double freqDeadBand=0.002;
 		@AnFunctionField( input="mach.speed-1" )
-		public ICMLFunction freqDeadBandFunc = new FunctionAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number?
+		public ICMLFunction freqDeadBandFunc = new CMLFunctionAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number?
 		    public double eval(double[] dAry) { 
 		    	if(Math.abs(dAry[0])<0.5*freqDeadBand) return 0;
 		    	else return dAry[0];
@@ -73,7 +73,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 	            type= CMLFieldEnum.ControlBlock,
 	            input="this.delayBlock.y",
 	            y0="this.customPresserControlBlock.u0"	)//TODO not sure
-		public ICMLControlBlock customLoadControlBlock = new ControlBlockAdapter() {
+		public ICMLControlBlock customLoadControlBlock = new CMLControlBlockAdapter() {
 			private IntegrationControlBlock intgBlock = new IntegrationControlBlock(
                     NonWindup, ki1, intgMax, intgMin);
 			private WashoutControlBlock difBlock = new WashoutControlBlock(
@@ -120,7 +120,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 			            type= CMLFieldEnum.ControlBlock,
 			            input="this.delayBlock.y",
 			            y0="this.gainBlock.u0"	)
-				public ICMLControlBlock customPresserControlBlock = new ControlBlockAdapter() {
+				public ICMLControlBlock customPresserControlBlock = new CMLControlBlockAdapter() {
 					private IntegrationControlBlock intgBlock = new IntegrationControlBlock(
 		                    NonWindup, ki2, intg2Max, intg2Min);
 					private WashoutControlBlock difBlock = new WashoutControlBlock(
@@ -186,7 +186,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		            type= CMLFieldEnum.ControlBlock,
 		            input="this.gainBlock.y-lvdtBlock.y",
 		            y0="this.gainBlock.u0"	)
-			public ICMLControlBlock elecHydrControlBlock = new ControlBlockAdapter() {
+			public ICMLControlBlock elecHydrControlBlock = new CMLControlBlockAdapter() {
 				private IntegrationControlBlock intgBlock = new IntegrationControlBlock(
 	                    NonWindup, ki, intg3Max, intg3Min);
 				private WashoutControlBlock difBlock = new WashoutControlBlock(
@@ -242,7 +242,7 @@ import com.interpss.dstab.datatype.CMLFieldEnum;
 		            type= CMLFieldEnum.StaticBlock,
 		            input="this.velLimitBlock.y",
 		            y0="this.servoMotorBlock.u0"	)
-			public ICMLStaticBlock rateLimitBlock = new StaticBlockAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number?
+			public ICMLStaticBlock rateLimitBlock = new CMLStaticBlockAdapter() {//TODO a function at the beginning of the main frame, shall the control blocks be assigned init order number?
 			    double y_last=0;
 			    double deltaY=0;
 			    double rate=0;

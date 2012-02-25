@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionExpressionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionExpressionAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 
 /**
@@ -33,7 +33,7 @@ import com.interpss.dstab.datatype.ExpCalculator;
  * @author mzhou
  *
  */
-public class GainExpFunction extends FunctionExpressionAdapter {
+public class GainExpFunction extends CMLFunctionExpressionAdapter {
 	private double k = 1.0;
 
 	/**

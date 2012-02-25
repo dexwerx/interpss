@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
  * An implementation of Power function: output = input ^ k, k = 0, 1, 2, ...
@@ -32,7 +32,7 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-public class PowerFunction extends FunctionAdapter {
+public class PowerFunction extends CMLFunctionAdapter {
 	private int k = 0;
 
 	/**

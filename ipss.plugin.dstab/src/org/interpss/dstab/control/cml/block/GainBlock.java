@@ -29,7 +29,7 @@ import static com.interpss.dstab.controller.block.ICMLStaticBlock.StaticBlockTyp
 
 import org.interpss.numeric.datatype.LimitType;
 
-import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLStaticBlockAdapter;
 
 /**
  * An implementation of gain block
@@ -37,7 +37,7 @@ import com.interpss.dstab.controller.block.adapt.StaticBlockAdapter;
  * @author mzhou
  *
  */
-public class GainBlock extends StaticBlockAdapter {
+public class GainBlock extends CMLStaticBlockAdapter {
 	protected double k = 0.0;
 	protected LimitType limit = null;
 

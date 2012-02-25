@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
  * An implementation of function y = Se(Efd) 
@@ -32,7 +32,7 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-public class SeFunction extends FunctionAdapter {
+public class SeFunction extends CMLFunctionAdapter {
 	private double e1 = 1.0;
 	private double se_e1 = 1.0;
 	private double e2 = 1.0;

@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
  * A function to select low input value y = min[u1, u2]
@@ -32,7 +32,7 @@ import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
  * @author mzhou
  *
  */
-public class LowValueFunction extends FunctionAdapter {
+public class LowValueFunction extends CMLFunctionAdapter {
 	/**
 	 * Calculate input from the output value
 	 * 

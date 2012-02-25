@@ -25,14 +25,14 @@
 package org.interpss.dstab.control.cml.block;
 
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLControlBlock1stOrderAdapter;
 
 /**
  * An implementation of washout block
  * 
  * Transfer function  K * ( T * s ) / ( 1 + T * s )
  */
-public class WashoutControlBlock extends ControlBlock1stOrderAdapter {
+public class WashoutControlBlock extends CMLControlBlock1stOrderAdapter {
 	protected double k = 0.0;
 	protected double t = 0.0;
 
