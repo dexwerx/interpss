@@ -6,8 +6,13 @@
 <!--
 		ODM model to ipss SimuContext mapping 
  -->	
-	<bean id="odm2AclfMapper" 
+	<bean id="odm2AclfParserMapper" 
 	      class="org.interpss.mapper.odm.ODMAclfParserMapper"
+	      scope="singleton">	
+	</bean>	
+
+	<bean id="odm2AclfNetMapper" 
+	      class="org.interpss.mapper.odm.ODMAclfNetMapper"
 	      scope="singleton">	
 	</bean>	
 

@@ -36,6 +36,7 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
+import com.interpss.common.func.FunctionAdapter;
 import com.interpss.common.func.IFunction;
 
 /**
@@ -53,7 +54,7 @@ public class ODMUnitHelper {
 	 * 
 	 */
 	public static IFunction<ApparentPowerUnitType, UnitType> ToApparentPowerUnit = 
-		new IFunction<ApparentPowerUnitType, UnitType>() {
+		new FunctionAdapter<ApparentPowerUnitType, UnitType>() {
 			@Override public UnitType f(ApparentPowerUnitType from) {
 				return toApparentPowerUnit(from);
 			}
@@ -71,7 +72,7 @@ public class ODMUnitHelper {
 	 * 
 	 */
 	public static IFunction<ActivePowerUnitType, UnitType> ToActivePowerUnit = 
-		new IFunction<ActivePowerUnitType, UnitType>() {
+		new FunctionAdapter<ActivePowerUnitType, UnitType>() {
 			@Override public UnitType f(ActivePowerUnitType from) {
 				return toActivePowerUnit(from);
 			}
@@ -89,7 +90,7 @@ public class ODMUnitHelper {
 	 * 
 	 */
 	public static IFunction<ReactivePowerUnitType, UnitType> ToReactivePowerUnit = 
-		new IFunction<ReactivePowerUnitType, UnitType>() {
+		new FunctionAdapter<ReactivePowerUnitType, UnitType>() {
 			@Override public UnitType f(ReactivePowerUnitType from) {
 				return toReactivePowerUnit(from);
 			}
@@ -107,7 +108,7 @@ public class ODMUnitHelper {
 	 * 
 	 */
 	public static IFunction<ZUnitType, UnitType> ToZUnit = 
-		new IFunction<ZUnitType, UnitType>() {
+		new FunctionAdapter<ZUnitType, UnitType>() {
 			@Override public UnitType f(ZUnitType from) {
 				return toZUnit(from);
 			}
@@ -135,7 +136,7 @@ public class ODMUnitHelper {
 	 * @return
 	 */
 	public static IFunction<YUnitType, UnitType> ToYUnit = 
-		new IFunction<YUnitType, UnitType>() {
+		new FunctionAdapter<YUnitType, UnitType>() {
 			@Override public UnitType f(YUnitType from) {
 				return toYUnit(from);
 			}
@@ -160,7 +161,7 @@ public class ODMUnitHelper {
 	 * @return
 	 */
 	public static IFunction<VoltageUnitType, UnitType> ToVoltageUnit = 
-		new IFunction<VoltageUnitType, UnitType>() {
+		new FunctionAdapter<VoltageUnitType, UnitType>() {
 			@Override public UnitType f(VoltageUnitType from) {
 				return toVoltageUnit(from);
 			}
@@ -180,7 +181,7 @@ public class ODMUnitHelper {
 	 * @return
 	 */
 	public static IFunction<CurrentUnitType, UnitType> ToCurrentUnit = 
-		new IFunction<CurrentUnitType, UnitType>() {
+		new FunctionAdapter<CurrentUnitType, UnitType>() {
 			@Override public UnitType f(CurrentUnitType from) {
 				return toCurrentUnit(from);
 			}
@@ -201,7 +202,7 @@ public class ODMUnitHelper {
 	 * @return
 	 */
 	public static IFunction<AngleUnitType, UnitType> ToAngleUnit = 
-		new IFunction<AngleUnitType, UnitType>() {
+		new FunctionAdapter<AngleUnitType, UnitType>() {
 			@Override public UnitType f(AngleUnitType from) {
 				return toAngleUnit(from);
 			}
@@ -220,7 +221,7 @@ public class ODMUnitHelper {
 	 * @return
 	 */
 	public static IFunction<FactorUnitType, UnitType> ToFactorUnit = 
-		new IFunction<FactorUnitType, UnitType>() {
+		new FunctionAdapter<FactorUnitType, UnitType>() {
 			@Override public UnitType f(FactorUnitType from) {
 				return toFactorUnit(from);
 			}
@@ -239,7 +240,7 @@ public class ODMUnitHelper {
 	 * @return
 	 */
 	public static IFunction<LengthUnitType, UnitType> ToLengthUnit = 
-		new IFunction<LengthUnitType, UnitType>() {
+		new FunctionAdapter<LengthUnitType, UnitType>() {
 			@Override public UnitType f(LengthUnitType from) {
 				return toLengthUnit(from);
 			}

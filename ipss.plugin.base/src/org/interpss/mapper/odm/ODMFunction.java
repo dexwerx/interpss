@@ -26,8 +26,13 @@ package org.interpss.mapper.odm;
 
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.interpss.numeric.NumericConstant;
 
+import com.interpss.common.func.Function2Adapter;
+import com.interpss.common.func.FunctionAdapter;
+import com.interpss.common.func.IFunction;
 import com.interpss.common.func.IFunction2;
 
 /**
@@ -45,7 +50,7 @@ public class ODMFunction {
 	 * 
 	 */
 	public static IFunction2<ActivePowerXmlType, Double, Double> AcivePower2Mw = 
-		new IFunction2<ActivePowerXmlType, Double, Double>() {
+		new Function2Adapter<ActivePowerXmlType, Double, Double>() {
 			@Override public Double f(ActivePowerXmlType from, Double baseKva) {
 				if (from.getUnit() == ActivePowerUnitType.HP)
 					return from.getValue() * NumericConstant.HPtoKW * 0.001;
@@ -60,4 +65,12 @@ public class ODMFunction {
 				return 0.0;
 			}
 		};
+
+	public static IFunction<IDRefRecordXmlType, String> BusXmlRef2BusId = 
+		new FunctionAdapter<IDRefRecordXmlType, String>() {
+			@Override public String f(IDRefRecordXmlType busXmlRef) {
+				return ((BusXmlType)busXmlRef.getIdRef()).getId();
+			}
+		};
+
 }

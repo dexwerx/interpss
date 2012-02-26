@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AcscFaultCategoryEnumType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.interpss.datatype.DblBusValue;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
@@ -36,11 +37,19 @@ public class CorePluginFunction {
 	 * 		ODM Mapping functions
 	 ************************************************************/
 
-	public static IFunction<AclfModelParser, AclfNetwork> ToAclfNet = 
+	public static IFunction<AclfModelParser, AclfNetwork> AclfParser2AclfNet = 
 		new FunctionAdapter<AclfModelParser, AclfNetwork>() {
-			@Override public AclfNetwork fEx(AclfModelParser parser) throws InterpssException {
-				return CorePluginSpringFactory.getOdm2AclfMapper()
+			@Override public AclfNetwork fx(AclfModelParser parser) throws InterpssException {
+				return CorePluginSpringFactory.getOdm2AclfParserMapper()
 						.map2Model(parser)
+						.getAclfNet();
+		}};
+	
+	public static IFunction<LoadflowNetXmlType, AclfNetwork> AclfXmlNet2AclfNet = 
+		new FunctionAdapter<LoadflowNetXmlType, AclfNetwork>() {
+			@Override public AclfNetwork fx(LoadflowNetXmlType xmlNet) throws InterpssException {
+				return CorePluginSpringFactory.getOdm2AclfNetMapper()
+						.map2Model(xmlNet)
 						.getAclfNet();
 		}};
 	
