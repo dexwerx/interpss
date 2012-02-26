@@ -95,6 +95,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private DclfSenAnalysisXmlType _senXml = null;
     private PowerTradingInfoXmlType _ptInfoXml = null;
+
+    private Object[] allBranchIdAry = null;
+    private Object[] genBusIdAry = null;
+    private Object[] loadBusIdAry = null;
     
     /** Creates new form NBAclfCasePanel */
     public NBDclfCasePanel(JDialog parent) {
@@ -111,8 +115,8 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
      @Override public boolean onMsgEventStatus(IpssMessage msg) {
   	   throw new InterpssRuntimeException("Method not implemented");
      }
-     
-    public void init(Object netContainer, Object simuCtx) {
+    
+     public void init(Object netContainer, Object simuCtx) {
     	// for non-graphic file, netContainer == null
 		ipssLogger.info("NBAclfCasePanel init() called");
 		
@@ -121,22 +125,20 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    this.runDclfTabbedPane.setSelectedIndex(1);
 	    
     	if (_simuCtx != null) {   
-    		this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
-    		this.gsfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
+    	     allBranchIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray();
+    	     genBusIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray();
+    	     loadBusIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray();
 
-    		this.lodfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
-    		this.lodfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
+    	     this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(genBusIdAry));
+    	     this.gsfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.allBranchIdAry));
+
+    	     this.lodfBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.allBranchIdAry));
+    	     this.lodfMonitorBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.allBranchIdAry));
     		
-    		this.genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
-    		this.genLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));
+    	     this.genAnalysisGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(genBusIdAry));
+    	     this.genLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(loadBusIdAry));
     	}
-	}
+     }
    
     public void setXmlCaseData(DclfSenAnalysisXmlType senXml, PowerTradingInfoXmlType ptInfo) {
     	this._senXml = senXml;
@@ -1674,8 +1676,7 @@ private void selectAPNodeFileButtonActionPerformed(java.awt.event.ActionEvent ev
 private void gsfGenBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfGenBusRadioButtonActionPerformed
     ipssLogger.info("gsfGenBusRadioButtonActionPerformed() called");
 	this.gsfGenBusLabel.setText("Gen Bus");
-	this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray()));
+	this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.genBusIdAry));
 	this.gsfGenBusList.setEnabled(true);
 	this.gsfAddGenButton.setEnabled(true);
 	this.gsfRemoveGenButton.setEnabled(true);
@@ -1719,8 +1720,7 @@ private void gsfLoadSingleBusRadioButtonActionPerformed(java.awt.event.ActionEve
     this.gsfLoadBusLabel.setEnabled(true);
     this.gsfLoadBusLabel.setText("Bus");
     this.gsfLoadBusComboBox.setEnabled(true);
-    this.gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray()));    	
+    this.gsfLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.loadBusIdAry));    	
 	this.gsfLoadUserFileButton.setEnabled(false);
 	this.gsfLoadUserFileTextField.setEnabled(false);
 }//GEN-LAST:event_gsfLoadSingleBusRadioButtonActionPerformed

@@ -96,6 +96,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     // for cache PV/Swing bus voltage of the previous run
     private List<DblBusValue> genPVSwingBusVoltCacheList = null;
 
+    private Object[] allBranchIdAry = null;
+
     /** Creates new form NBAclfCasePanel */
     public NBPTradingCasePanel(JDialog parent) {
     	initComponents();
@@ -120,6 +122,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    
 	    this.pTradingAnalysisTabbedPane.setSelectedIndex(1);
 	    
+	     allBranchIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray();
+	    
 	    // populate the Swing alloc zone
 	    AclfNetwork net = _simuCtx.getAclfNet();
 	    try {
@@ -138,8 +142,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		this.aclfUseCachedVoltCheckBox.setSelected(false);
 		this.aclfUseCachedVoltCheckBox.setEnabled(false);
 		
-		this.braAnaBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray()));
+		this.braAnaBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.allBranchIdAry));
 	}
     
     public void setXmlCaseData(PTradingEDHourlyAnalysisXmlType pt, PowerTradingInfoXmlType ptInfo) {
