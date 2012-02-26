@@ -20,6 +20,12 @@
 		</ns:documentation></ns:annotation>
 	</ns:element>
 
+	<ns:element name="childDcNet" type="pss:DcNetworkXmlType" substitutionGroup="pss:childNet">
+		<ns:annotation><ns:documentation>
+		DC system Network could be defined as a child network 
+		</ns:documentation></ns:annotation>
+	</ns:element>
+
 	<ns:element name="dcBus" type="pss:DcBusXmlType" substitutionGroup="pss:bus">
 		<ns:annotation><ns:documentation>
 		Bus record for Dc system analysis

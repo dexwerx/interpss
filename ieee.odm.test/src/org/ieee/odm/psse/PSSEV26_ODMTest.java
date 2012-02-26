@@ -142,7 +142,7 @@ public class PSSEV26_ODMTest {
       </bus>
 		 */
 		bus = parser.getAclfBus("Bus32252");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.OFF);
+		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 20.32);
 		
 		// bus turned off case
@@ -158,7 +158,7 @@ public class PSSEV26_ODMTest {
       </bus>
  */
 		bus = parser.getAclfBus("Bus32252");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.OFF);
+		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 
 		// Branch info
 		// =========

@@ -20,6 +20,12 @@
 		</ns:documentation></ns:annotation>
     </ns:element>
     
+    <ns:element name="childDistNet" type="pss:DistributionNetXmlType" substitutionGroup="pss:childNet">
+        <ns:annotation><ns:documentation>
+		Distribution network could be defined as a child network
+		</ns:documentation></ns:annotation>
+    </ns:element>
+
     <ns:element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus" />
     <ns:element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus" />
     <ns:element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus" />

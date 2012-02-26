@@ -6,7 +6,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/ODMSchema.xsd ">
 	
-	<ns2:schemaVersion>V0.8</ns2:schemaVersion>
+	<ns2:schemaVersion>V0.8.0</ns2:schemaVersion>
     <ns2:networkCategory>Transmission</ns2:networkCategory>
     <ns2:analysisCategory>Loadflow</ns2:analysisCategory>
 	<ns2:aclfNet id="AclfNetId">
@@ -75,18 +75,6 @@
 								<ns3:steps>4</ns3:steps>
 								<ns3:accFactor>1.5</ns3:accFactor>
 							</ns3:genSwingAllocOption>
-							<ns3:outputOption>
-								<ns3:largeGSFPoints>5</ns3:largeGSFPoints>
-								<ns3:busVoltageViolation>true</ns3:busVoltageViolation>
-								<ns3:busVoltageUpperLimitPU>0.0</ns3:busVoltageUpperLimitPU>
-								<ns3:busVoltageLowerLimitPU>0.0</ns3:busVoltageLowerLimitPU>
-								<ns3:branchLimitViolation>false</ns3:branchLimitViolation>
-								<ns3:interfaceLimitViolation>false</ns3:interfaceLimitViolation>
-								<ns3:zoneSummary>false</ns3:zoneSummary>
-								<ns3:areaSummary>false</ns3:areaSummary>
-								<ns3:lfResult>false</ns3:lfResult>
-								<ns3:lfResultFormat>Summary</ns3:lfResultFormat>
-							</ns3:outputOption>
 						</ns3:aclfAnalysis>
 					</ns3:ptEDHourlyAnalysis>
 					<ns3:acscAnalysis>

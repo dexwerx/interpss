@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -207,6 +208,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 
 	protected NetworkXmlType getBaseCase() {
 		return this.pssStudyCase.getBaseCase().getValue();
+	}
+
+	public List<JAXBElement<? extends NetworkXmlType>> getChildNetList() {
+		return this.pssStudyCase.getChildNet();
 	}
 
 	public StudyScenarioXmlType getStudyScenario() {

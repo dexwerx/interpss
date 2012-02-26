@@ -74,11 +74,9 @@ public class AclfModelParser extends AbstractModelParser {
 	/**
 	 * create the base case object of type LoadflowXmlType
 	 */
-	@Override
-	public NetworkXmlType createBaseCase() {
+	@Override public NetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			LoadflowNetXmlType baseCase = odmObjFactory.createLoadflowNetXmlType();
-			
 			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
 			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
