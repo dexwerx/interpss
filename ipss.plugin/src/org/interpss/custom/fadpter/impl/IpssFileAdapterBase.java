@@ -65,7 +65,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 		if (debug)
 			System.out.println(adapter.getModel().toXmlDoc(outfile));
 		
-		if (CorePluginSpringFactory.getOdm2AclfMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
+		if (CorePluginSpringFactory.getOdm2AclfParserMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}
