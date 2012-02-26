@@ -21,7 +21,7 @@ public class PEESFormatTest {
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_5Bus_Test.raw"));		
 		
 		AclfNetwork net = CorePluginSpringFactory
-				.getOdm2AclfMapper()
+				.getOdm2AclfParserMapper()
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();	
 		

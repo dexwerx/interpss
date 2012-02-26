@@ -7,7 +7,7 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.ODMAclfParserMapper;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -24,7 +24,7 @@ public class Bpa07c_0615_Test extends DStabTestSetupBase{
 		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615_notBE.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
-		if (!new ODMAclfDataMapper()
+		if (!new ODMAclfParserMapper()
 					.map2Model(parser, simuCtx)) {
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;

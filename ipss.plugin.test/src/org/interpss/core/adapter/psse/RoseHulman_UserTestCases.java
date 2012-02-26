@@ -49,7 +49,7 @@ public class RoseHulman_UserTestCases extends PluginTestSetup {
 		assertTrue(adapter.parseInputFile("testData/psse/v30/HEonly_with_loads_added_for_interconnects3.raw"));		
 		
 		AclfNetwork net = CorePluginSpringFactory
-				.getOdm2AclfMapper()
+				.getOdm2AclfParserMapper()
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();		
 		

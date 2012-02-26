@@ -10,7 +10,7 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.block.ICMLFunction;
-import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 import com.interpss.dstab.datatype.CMLFieldEnum;
 
 // User custom code begin 
@@ -43,7 +43,7 @@ public class TestAnnotateExciter extends AnnotateExciter {
     
     @AnFunctionField(
             input={"this.refPoint", "pss.vs", "mach.vt"})
-    public ICMLFunction seFunc1 = new FunctionAdapter() {
+    public ICMLFunction seFunc1 = new CMLFunctionAdapter() {
     	public double eval(double[] dAry)  {
     		return 0.0;
     	}

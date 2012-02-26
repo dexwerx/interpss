@@ -17,7 +17,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.dstab.output.TextSimuOutputHandler;
-import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.ODMAclfParserMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.numeric.NumericConstant;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		assertTrue(adapter.parseInputFile("testData/bpa/07c-dc2load.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
-		if (!new ODMAclfDataMapper()
+		if (!new ODMAclfParserMapper()
 					.map2Model(parser, simuCtx)) {
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;
@@ -79,7 +79,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 		assertTrue(adapter.parseInputFile("testData/bpa/07c_0615_notBE.dat")); 
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
-		if (!new ODMAclfDataMapper()
+		if (!new ODMAclfParserMapper()
 					.map2Model(parser, simuCtx)) {
 			  System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			  return;
@@ -312,7 +312,7 @@ public class BpaO7CTest extends DStabTestSetupBase{
 			//System.out.println(parser.toXmlDoc(false));
 
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
-			if (!new ODMAclfDataMapper()
+			if (!new ODMAclfParserMapper()
 						.map2Model(parser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 				return;

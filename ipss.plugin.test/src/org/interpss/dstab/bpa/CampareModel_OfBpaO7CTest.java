@@ -7,7 +7,7 @@ import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.mapper.odm.ODMAclfDataMapper;
+import org.interpss.mapper.odm.ODMAclfParserMapper;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class CampareModel_OfBpaO7CTest extends DStabTestSetupBase{
 			//System.out.println(parser.toXmlDoc(false));
 
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);
-			if (!new ODMAclfDataMapper().map2Model(aclfParser, simuCtx)) {
+			if (!new ODMAclfParserMapper().map2Model(aclfParser, simuCtx)) {
 				System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 				return;
 			}
