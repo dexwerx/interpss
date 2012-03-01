@@ -1812,15 +1812,24 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
     	
-    	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
-    	if (id == null) {
+    	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
+    	if (id == null || !id.startsWith("b:")) {
     		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
     		return;
     	}
+		String braId = id.substring(2);
+		
+//    	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
+//    	if (id == null) 
+//    		id = (String)gsfMonitorBranchListComboBox.getItemAt(0);
+//    	if (id == null) {
+//    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
+//    		return;
+//    	}
     	
-		final String fromId = NetUtilFunc.findFromID(id);
-		final String toId = NetUtilFunc.findToID(id);
-		final String cirId = NetUtilFunc.findCirNo(id);    	
+		final String fromId = NetUtilFunc.findFromID(braId);
+		final String toId = NetUtilFunc.findToID(braId);
+		final String cirId = NetUtilFunc.findCirNo(braId);    	
 		final AclfBranch monitorBranch = _simuCtx.getAclfNet().getAclfBranch(fromId, toId, cirId);
 		
 		new Thread() {
@@ -1845,15 +1854,24 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
     	
-    	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
-    	if (id == null) {
+    	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
+    	if (id == null || !id.startsWith("b:")) {
     		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
     		return;
     	}
+		String braId = id.substring(2);
+		
+//    	String id = (String)gsfMonitorBranchListComboBox.getSelectedItem();
+//    	if (id == null) 
+//    		id = (String)gsfMonitorBranchListComboBox.getItemAt(0);
+//    	if (id == null) {
+//    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
+//    		return;
+//    	}
     	
-		final String fromId = NetUtilFunc.findFromID(id);
-		final String toId = NetUtilFunc.findToID(id);
-		final String cirId = NetUtilFunc.findCirNo(id);    	
+		final String fromId = NetUtilFunc.findFromID(braId);
+		final String toId = NetUtilFunc.findToID(braId);
+		final String cirId = NetUtilFunc.findCirNo(braId);    	
 		final AclfBranch monitorBranch = _simuCtx.getAclfNet().getAclfBranch(fromId, toId, cirId);
 		final int outPoints = this._senXml.getOutOption().getAllBranchPoints();
 		
@@ -1879,13 +1897,22 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
     	
-    	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
-    	if (id == null) {
+    	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
+    	if (id == null || !id.startsWith("i:")) {
     		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
     		return;
     	}
+		String infId = id.substring(2);
+		
+//    	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
+//    	if (id == null) 
+//    		id = (String)gsfMonitorInterfaceListComboBox.getItemAt(0);
+//    	if (id == null) {
+//    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
+//    		return;
+//    	}
     	
-		final FlowInterface monitorInf = _simuCtx.getAclfNet().getFlowInterface(id);
+		final FlowInterface monitorInf = _simuCtx.getAclfNet().getFlowInterface(infId);
 		final int outPoints = this._senXml.getOutOption().getAllInterfacePoints();
 		
 		new Thread() {
@@ -1910,8 +1937,22 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet())
 				.setRefBus();
     	
-    	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
-		final FlowInterface monitorInf = _simuCtx.getAclfNet().getFlowInterface(id);
+    	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
+    	if (id == null || !id.startsWith("i:")) {
+    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
+    		return;
+    	}
+		String infId = id.substring(2);
+		
+//    	String id = (String)gsfMonitorInterfaceListComboBox.getSelectedItem();
+//    	if (id == null) 
+//    		id = (String)gsfMonitorInterfaceListComboBox.getItemAt(0);
+//    	if (id == null) {
+//    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
+//    		return;
+//    	}
+
+    	final FlowInterface monitorInf = _simuCtx.getAclfNet().getFlowInterface(infId);
 		
 		new Thread() {
 			public void run() {
@@ -2026,12 +2067,15 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	
     	final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
 		
-    	final String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	if (id == null) 
+    		id = (String)this.lodfBranchListComboBox.getItemAt(0);
     	if (id == null) {
     		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
     		return;
     	}
     	
+		final String branchId = id;
 		final String fromId = NetUtilFunc.findFromID(id);
 		final String toId = NetUtilFunc.findToID(id);
 		final String cirId = NetUtilFunc.findCirNo(id);    	
@@ -2046,7 +2090,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
 				try {
 					algoDsl.outageBranch(fromId, toId, cirId);
 					DblBranchValue maxLODF = algoDsl.largestLODF();
-					outText = SenAnalysisOutput.outLargestLODF(id, maxLODF).toString();
+					outText = SenAnalysisOutput.outLargestLODF(branchId, maxLODF).toString();
 				} catch (PSSLException e) {
 					ipssLogger.severe(e.toString());
 					outText = e.toString();
@@ -2067,11 +2111,15 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	
 		final DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(_simuCtx.getAclfNet());
 		
-    	final String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	String id = (String)this.lodfBranchListComboBox.getSelectedItem();
+    	if (id == null) 
+    		id = (String)this.lodfBranchListComboBox.getItemAt(0);
     	if (id == null) {
     		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
     		return;
     	}
+
+    	final String branchId = id;
 		final String fromId = NetUtilFunc.findFromID(id);
 		final String toId = NetUtilFunc.findToID(id);
 		final String cirId = NetUtilFunc.findCirNo(id);    	
@@ -2087,7 +2135,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
 				try {
 					algoDsl.outageBranch(fromId, toId, cirId);
 					List<DblBranchValue> lodfList = algoDsl.largestLODFs(outPoints);
-					outText = SenAnalysisOutput.outLODFList(id, lodfList).toString();
+					outText = SenAnalysisOutput.outLODFList(branchId, lodfList).toString();
 				} catch (PSSLException e) {
 					ipssLogger.severe(e.toString());
 					outText = e.toString();
