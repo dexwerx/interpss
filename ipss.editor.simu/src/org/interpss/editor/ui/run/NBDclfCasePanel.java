@@ -727,10 +727,10 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        loadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+        loadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         loadDistThreshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        loadDistThreshholdLabel.setText("Threshhold (Mw)   ");
+        loadDistThreshholdLabel.setText("Min Load Threshhold (Mw)   ");
 
         loadDistThreshholdTextField.setColumns(3);
         loadDistThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -744,9 +744,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(loadDisPanelLayout.createSequentialGroup()
                 .add(19, 19, 19)
                 .add(loadDistThreshholdLabel)
-                .add(18, 18, 18)
+                .add(71, 71, 71)
                 .add(loadDistThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
         loadDisPanelLayout.setVerticalGroup(
             loadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -806,7 +806,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                     .add(configPanelLayout.createSequentialGroup()
                         .add(18, 18, 18)
                         .add(loadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         configPanelLayout.setVerticalGroup(
             configPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1398,7 +1398,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         lodfLargetBranchLODFButton.setToolTipText("For the selected outage branch, calculated the largest LODF");
         lodfLargetBranchLODFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	lodfLargestBranchLODFButtonActionPerformed(evt);
+                lodfLargestBranchLODFButtonActionPerformed(evt);
             }
         });
 
@@ -1463,7 +1463,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         genAnalysisGenBusList.setFont(new java.awt.Font("Dialog", 0, 12));
         genAnalysisGenScrollPane.setViewportView(genAnalysisGenBusList);
 
-        genLoadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution Factor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+        genLoadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         genAnalysisLodfTypeButtonGroup.add(genLoadDistBusRadioButton);
         genLoadDistBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));

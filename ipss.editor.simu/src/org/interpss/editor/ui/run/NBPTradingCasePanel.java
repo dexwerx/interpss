@@ -78,7 +78,7 @@ import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.pssl.adpter.dclf.OutageScheduleFileProcessor;
-import com.interpss.pssl.display.PTradingOutput;
+import com.interpss.pssl.display.PtAclfOutput;
 import com.interpss.pssl.file.ExcelFileReader;
 import com.interpss.pssl.odm.PTradingDslODMRunner;
 import com.interpss.pssl.odm.PTradingDslODMRunner.PtAnalysisType;
@@ -302,7 +302,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
 		saveCaseData(errMsg);
 		saveAclfAnalysis(errMsg, run);
-		saveBranchAnalysis(errMsg, run);
+		saveOutageAnalysis(errMsg, run);
 		//saveGenAnalysis(errMsg, run);
 		saveOutputConfig(errMsg);
 
@@ -397,7 +397,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		return noError;
 	}
 
-	public boolean saveBranchAnalysis(Vector<String> errMsg, boolean run) {
+	public boolean saveOutageAnalysis(Vector<String> errMsg, boolean run) {
 		boolean noError = true;
 		
 		if (this._ptXml.getBranchAnalysis() == null) {
@@ -661,7 +661,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                         .add(edFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 242, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
                         .add(selectEdFileButton)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         edFilePanelLayout.setVerticalGroup(
             edFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -691,7 +691,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         loadDistPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         loadDistThreshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        loadDistThreshholdLabel.setText("Threshhold (Mw)   ");
+        loadDistThreshholdLabel.setText("Min Load Threshhold (Mw)   ");
 
         loadDistThreshholdTextField.setColumns(3);
         loadDistThreshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -704,9 +704,9 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             .add(loadDistPanelLayout.createSequentialGroup()
                 .add(19, 19, 19)
                 .add(loadDistThreshholdLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(67, 67, 67)
                 .add(loadDistThreshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         loadDistPanelLayout.setVerticalGroup(
             loadDistPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -755,8 +755,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         interfaceFilePanel.setLayout(interfaceFilePanelLayout);
         interfaceFilePanelLayout.setHorizontalGroup(
             interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, interfaceFilePanelLayout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+            .add(interfaceFilePanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(interfaceFileLabel)
                     .add(interfaceLimitLabel))
@@ -768,7 +768,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(selectInterfaceFileButton)
                     .add(selectInterfaceLimitButton))
-                .addContainerGap())
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         interfaceFilePanelLayout.setVerticalGroup(
             interfaceFilePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -837,7 +837,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                         .add(lfAssistGenFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 257, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
                         .add(lfAssistGenFileSelectButton)))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         lfAssistGenPanelLayout.setVerticalGroup(
             lfAssistGenPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -862,15 +862,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
             .add(caseDataPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(caseDataPanelLayout.createSequentialGroup()
-                        .add(lfAssistGenPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(11, 11, 11))
-                    .add(caseDataPanelLayout.createSequentialGroup()
-                        .add(caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, interfaceFilePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, loadDistPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, edFilePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                    .add(lfAssistGenPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, interfaceFilePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, loadDistPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, edFilePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .add(12, 12, 12))
         );
         caseDataPanelLayout.setVerticalGroup(
             caseDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -882,7 +879,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(interfaceFilePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lfAssistGenPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(33, 33, 33))
+                .add(23, 23, 23))
         );
 
         pTradingAnalysisTabbedPane.addTab("Case Data", caseDataPanel);
@@ -1059,7 +1056,6 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         branchAnalysisTypeButtonGroup.add(braAnaOutageMultiRadioButton);
         braAnaOutageMultiRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         braAnaOutageMultiRadioButton.setText("Multiple");
-        braAnaOutageMultiRadioButton.setEnabled(false);
         braAnaOutageMultiRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 braAnaOutageMultiRadioButtonActionPerformed(evt);
@@ -1525,7 +1521,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 				PTradingDslODMRunner runner = new PTradingDslODMRunner(net);
 				runner.runPtAclfAnalysis(ptXml, ptInfoXml, genPVSwingBusList);
 				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
-					.display(PTradingOutput.outHourLoaflowResult(net, ptXml, ptInfoXml, 
+					.display(PtAclfOutput.outHourLoaflowResult(net, ptXml, ptInfoXml, 
 							runner.getHrLoadflow().getLfAssistGenList()));
 			} catch (InterpssException e) {
 				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
@@ -1628,20 +1624,19 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 			try {
 				if (braAnaGenContibRadioButton.isSelected()) {
 					Object rtn = new PTradingDslODMRunner(net)
-										.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
+										.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.BranchOutage);
 					String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
 					outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n" +
 							  DclfGSFBranchInterfaceFlow.f(net, braId, (List<DblBusValue>)rtn, false).toString();
 				}
-				else if (braAnaOutageSingleRadioButton.isSelected()) {
-					Object rtn = new PTradingDslODMRunner(net)
-						.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Branch);
-					String braId = ptXml.getBranchAnalysis().getBranch().get(0).getBranchId();
-					outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n" + 
-						      "Outage Branch:" + braId+ "\n\n" + rtn.toString();
-				}
 				else {
-					// not implemented
+					Object rtn = new PTradingDslODMRunner(net)
+						.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.BranchOutage);
+					outText = "\n  Hour : " + hr + "\n" + "  ============\n\n\n"; 
+					int cnt = 0;
+					for (BranchRefXmlType braXml : ptXml.getBranchAnalysis().getBranch())
+						outText += "Outage Branch [" + ++cnt + "]: " + braXml.getBranchId() + "\n";
+					outText += "\n\n" + rtn.toString();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
