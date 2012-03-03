@@ -1709,7 +1709,7 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
 	ipssLogger.info("braAnaImportOutageBranchButtonActionPerformed() called");
 	try {
 		AclfModelParser parser = new AclfModelParser();
-		ExcelFileReader reader = new ExcelFileReader(this.braAnaOutageFileTextField.getText(), 0);
+		ExcelFileReader reader = new ExcelFileReader(this.braAnaOutageFileTextField.getText(), 0, "Outage schedule");
 		OutageScheduleFileProcessor proc = new OutageScheduleFileProcessor(parser);		
 		reader.processFile(proc);		
 		String dateStr = this._ptXml.getCaseData().getEdFile().getDate();

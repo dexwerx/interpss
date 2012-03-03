@@ -335,9 +335,9 @@ public class RunUIUtilFunc  {
 		// load FlowInterface if necessary
 		String f1 = ptInfo.getLoadDist().getAggregateGen().getAggregatePricingFilename();
 		if (new File(f1).exists()) {
-			ipssLogger.info("Load APNode file: " + f1);
+			ipssLogger.info("Load Generator Group file: " + f1);
 			try {
-				ExcelFileReader reader = new ExcelFileReader(f1, 0);
+				ExcelFileReader reader = new ExcelFileReader(f1, 0, "Generator Group");
 				AggregateGenFileProcessor proc = new AggregateGenFileProcessor(ptInfo.getLoadDist().getAggregateGen());		
 				reader.processFile(proc);		
 				return true;
