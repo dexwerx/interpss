@@ -33,6 +33,7 @@ import org.interpss.numeric.util.Number2String;
 
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
 import com.interpss.core.aclf.adj.FunctionLoad;
@@ -268,6 +269,9 @@ public class AclfOutFunc {
 	 * @return
 	 */
 	public static StringBuffer voltageViolationReport(AclfNetwork net, double max, double min) {
+		return voltageViolationReport(net, max, min, false);
+	}
+	public static StringBuffer voltageViolationReport(AclfNetwork net, double max, double min, boolean disLfAssistGen) {
 		StringBuffer buf = new StringBuffer("");
 		buf.append("\n");
 		buf.append("                   Bus Voltage Violation Report   \n\n");
@@ -284,6 +288,20 @@ public class AclfOutFunc {
 						bus.getId(), bus.getArea().getNumber(), bus.getZone().getNumber(),
 						bus.getVoltageMag(), bus.getGenCodeBaseCase(), bus.getGenCode()));
   		}		
+		
+		buf.append("\n\nLF Assistance Gen List\nAreaNo,  ZoneNo,  GenNo\n");
+
+		if (disLfAssistGen) {
+			for (Bus b : net.getBusList()) {
+				AclfBus bus = (AclfBus)b;
+				if (bus.isActive() &&
+						(bus.getVoltageMag() > max || bus.getVoltageMag() < min) &&
+						(bus.getGenCodeBaseCase() ==  AclfGenCode.GEN_PV && !bus.isGen()))
+					buf.append(String.format("%d,  %d,  %s\n", 
+							bus.getArea().getNumber(), bus.getZone().getNumber(), bus.getId().substring(3)));
+	  		}		
+		}
+		
 		buf.append("\n");
 		return buf;
 	}
