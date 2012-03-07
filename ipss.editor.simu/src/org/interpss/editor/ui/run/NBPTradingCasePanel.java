@@ -535,6 +535,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         swingAllocToleranceTextField = new javax.swing.JTextField();
         runAclfAnalysisButton = new javax.swing.JButton();
         runDclfAnalysisButton = new javax.swing.JButton();
+        run24HrDclfAnalysisButton = new javax.swing.JButton();
         branchAnalysisPanel = new javax.swing.JPanel();
         braAnaEdHourLabel = new javax.swing.JLabel();
         braAnaEdHourComboBox = new javax.swing.JComboBox();
@@ -936,10 +937,18 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         });
 
         runDclfAnalysisButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        runDclfAnalysisButton.setText("Dclf Analysis");
+        runDclfAnalysisButton.setText("Dclf (SelHr)");
         runDclfAnalysisButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runDclfAnalysisButtonActionPerformed(evt);
+            }
+        });
+
+        run24HrDclfAnalysisButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        run24HrDclfAnalysisButton.setText("Dclf (24Hr)");
+        run24HrDclfAnalysisButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                run24HrDclfAnalysisButtonActionPerformed(evt);
             }
         });
 
@@ -985,10 +994,12 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                             .add(aclfUseCachedVoltCheckBox)
                             .add(aclfEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .add(lfAnalysisPanelLayout.createSequentialGroup()
-                        .add(135, 135, 135)
+                        .add(85, 85, 85)
                         .add(runAclfAnalysisButton)
                         .add(18, 18, 18)
-                        .add(runDclfAnalysisButton)))
+                        .add(runDclfAnalysisButton)
+                        .add(18, 18, 18)
+                        .add(run24HrDclfAnalysisButton)))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
         lfAnalysisPanelLayout.setVerticalGroup(
@@ -1025,7 +1036,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
                 .add(108, 108, 108)
                 .add(lfAnalysisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(runAclfAnalysisButton)
-                    .add(runDclfAnalysisButton))
+                    .add(runDclfAnalysisButton)
+                    .add(run24HrDclfAnalysisButton))
                 .add(42, 42, 42))
         );
 
@@ -1522,7 +1534,8 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 				runner.runPtAclfAnalysis(ptXml, ptInfoXml, genPVSwingBusList);
 				UISpringFactory.getOutputTextDialog("BaseCase Aclf Analysis Results")
 					.display(PtAclfOutput.outHourLoaflowResult(net, ptXml, ptInfoXml, 
-							runner.getHrLoadflow().getLfAssistGenList()));
+							runner.getHrLoadflow().getLfAssistGenList(),
+							runner.getHrLoadflow().getAclfQAdjusttor().getMustRunGenList()));
 			} catch (InterpssException e) {
 				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();	
@@ -1589,6 +1602,42 @@ private void runDclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 		}
 	}.start();
 }//GEN-LAST:event_runDclfAnalysisButtonActionPerformed
+
+private void run24HrDclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_run24HrDclfAnalysisButtonActionPerformed
+	ipssLogger.info("run24HrDclfAnalysisButtonActionPerformed");
+	this.parent.setAlwaysOnTop(false);
+
+	if (!saveInputData())
+		return;
+	
+	final AclfNetwork net = this._simuCtx.getAclfNet();
+	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
+	final PowerTradingInfoXmlType ptInfoXml = this._ptInfoXml;
+
+	new Thread() {
+		public void run() {
+			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run 24Hr Dclf Analysis ...", "Run Analysis");
+
+			String outText = "";
+			try {
+				Object rtn = new PTradingDslODMRunner(net)
+										.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Dclf24Hr);
+				outText = rtn.toString();
+			} catch (Exception e) {
+				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				return;
+			}
+			
+			UISpringFactory.getOutputTextDialog("24 Hr Dclf Analysis Results")
+				.display(outText);   	
+
+			appStatus.busyStop("Run Dclf Analysis finished");			
+		}
+	}.start();
+}//GEN-LAST:event_run24HrDclfAnalysisButtonActionPerformed
+
 
 //TODO
 /* 888888888888888888888888
@@ -1798,6 +1847,7 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
     private javax.swing.JCheckBox outZoneSummaryCheckBox;
     private javax.swing.JPanel outputConfigPanel;
     private javax.swing.JTabbedPane pTradingAnalysisTabbedPane;
+    private javax.swing.JButton run24HrDclfAnalysisButton;
     private javax.swing.JButton runAclfAnalysisButton;
     private javax.swing.JButton runBranchAnalysisButton;
     private javax.swing.JButton runDclfAnalysisButton;
