@@ -98,6 +98,6 @@ public class DblBusValue extends BusValueBase {
 	}
 	
 	@Override public String toString() {
-		return Number2String.toStr(value) + "@" + (bus!=null?bus.getId():"NotFound");
+		return Number2String.toStr(value) + "@" + (bus!=null?(bus.getId()+"["+bus.getArea().getNumber()+","+bus.getZone().getNumber()+"]"):"NotFound");
 	}
 }
