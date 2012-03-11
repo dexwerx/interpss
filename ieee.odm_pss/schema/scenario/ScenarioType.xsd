@@ -51,7 +51,7 @@
 		</ns:complexContent>
 	</ns:complexType>
 	
-	<ns:complexType name="BaseStudyCaseXmlType">
+	<ns:complexType name="BaseAnalysisCaseXmlType">
 		<ns:annotation><ns:documentation>
 		for define a study scenario. 
 		</ns:documentation></ns:annotation>

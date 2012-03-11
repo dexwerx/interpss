@@ -36,7 +36,7 @@
 	
 	<ns:complexType name="AclfStudyCaseXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:BaseStudyCaseXmlType">
+			<ns:extension base="pss:BaseAnalysisCaseXmlType">
 				<ns:sequence>
 					<ns:element name="aclfAlgorithm"
 						type="pss:AclfAlgorithmXmlType" minOccurs="0">

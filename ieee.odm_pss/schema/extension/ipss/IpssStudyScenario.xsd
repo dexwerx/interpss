@@ -37,16 +37,16 @@
 						</ns:documentation></ns:annotation>
 					</ns:element>
 					<ns:element name="powerTradingInfo" minOccurs="0" maxOccurs="1" type="ipss:PowerTradingInfoXmlType"></ns:element>
-					<ns:element name="studyCaseList" maxOccurs="1" minOccurs="1">
+					<ns:element name="analysisCaseList" maxOccurs="1" minOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="curStudyCaseId" type="ns:string" minOccurs="0">
+								<ns:element name="curAnalysisCaseId" type="ns:string" minOccurs="0">
 									<ns:annotation><ns:documentation>
 									current study case id. It is used for example in GUI to indicating the
 									active study case being worked on
 									</ns:documentation></ns:annotation>								
 								</ns:element>
-								<ns:element name="studyCase" type="ipss:IpssStudyCaseXmlType" maxOccurs="unbounded" minOccurs="1">
+								<ns:element name="analysisCase" type="ipss:IpssAnalysisCaseXmlType" maxOccurs="unbounded" minOccurs="1">
 									<ns:annotation><ns:documentation>
 									Typically, there is one study scenario. However, one can define many scenarios,
 									for example, for N-1 contingency analysis
@@ -60,12 +60,12 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="IpssStudyCaseXmlType">
+	<ns:complexType name="IpssAnalysisCaseXmlType">
 		<ns:annotation><ns:documentation>
 			Data structure for define a study scenario. 
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
-			<ns:extension base="pss:BaseStudyCaseXmlType">
+			<ns:extension base="pss:BaseAnalysisCaseXmlType">
 				<ns:sequence>
 					<ns:element name="aclfAnalysis" minOccurs="0" maxOccurs="1" type="ipss:AclfAnalysisXmlType"></ns:element>
 					<ns:element name="contingencyAnalysis" minOccurs="0" maxOccurs="1" type="ipss:ContingencyAnalysisXmlType"></ns:element>

@@ -180,8 +180,8 @@
 					<ns:element name="pFactor" type="pss:PowerFactorXmlType" minOccurs="1"></ns:element>
 					<ns:element name="grounding" type="pss:GroundingXmlType" maxOccurs="1"></ns:element>
 					<ns:element name="z1" type="pss:NamedZXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
-					<ns:element name="z0" type="pss:ZXmlType" maxOccurs="1"></ns:element>
-					<ns:element name="z2" type="pss:ZXmlType" maxOccurs="1"></ns:element>
+					<ns:element name="z0" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="z2" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>

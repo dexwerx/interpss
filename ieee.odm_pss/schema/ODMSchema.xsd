@@ -18,6 +18,14 @@
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
     
+    <ns:annotation>
+		<ns:documentation>
+		      StudyCase  -- BaseCase
+		                 -- (*) ChildNet
+		                 -- StudyScenario -- (*) AnalysisCase
+		</ns:documentation>
+	</ns:annotation>
+
     <ns:element name="pssStudyCase" type="pss:StudyCaseXmlType">
         <ns:annotation><ns:documentation>
 		</ns:documentation></ns:annotation>
