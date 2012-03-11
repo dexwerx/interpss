@@ -35,12 +35,12 @@ import org.ieee.odm.schema.PtCaseDataXmlType;
 import org.ieee.odm.schema.PtEDispatchFileXmlType;
 
 /**
- * InterPSS extension study case help funcions
+ * InterPSS extension analysis case help funcions
  * 
  * @author mzhou
  *
  */
-public class IpssStudyCaseFunc {
+public class IpssAnalysisCaseFunc {
 	/**
 	 * initialize the PTradingEDHourlyAnalysis object
 	 * 

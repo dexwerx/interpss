@@ -6,11 +6,11 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-	<ns:include schemaLocation="AclfStudyCaseType.xsd" />
-	<ns:include schemaLocation="ContingencyStudyCaseType.xsd" />
-	<ns:include schemaLocation="AcscStudyCaseType.xsd" />
-	<ns:include schemaLocation="DclfSenStudyCaseType.xsd" />
-	<ns:include schemaLocation="DStabStudyCaseType.xsd" />
+	<ns:include schemaLocation="AclfAnalysisCaseType.xsd" />
+	<ns:include schemaLocation="ContingencyAnalysisCaseType.xsd" />
+	<ns:include schemaLocation="AcscAnalysisCaseType.xsd" />
+	<ns:include schemaLocation="DclfSenAnalysisCaseType.xsd" />
+	<ns:include schemaLocation="DStabAnalysisCaseType.xsd" />
 	<ns:include schemaLocation="PTradingAnalysisType.xsd" />
 	<ns:include schemaLocation="IpssModification.xsd" />
 
