@@ -109,8 +109,8 @@ public class DStabScenarioHelper {
 	 * @throws InterpssException
 	 */
 	public void mapOneFaultScenario( IpssStudyScenarioXmlType sScenarioXml) throws InterpssException {
-		if(	sScenarioXml.getStudyCaseList().getStudyCase() != null &&
-				sScenarioXml.getStudyCaseList().getStudyCase().size() == 1){
+		if(	sScenarioXml.getAnalysisCaseList().getAnalysisCase() != null &&
+				sScenarioXml.getAnalysisCaseList().getAnalysisCase().size() == 1){
 			// first we check if dstab analysis type, scenario is defined and only one scenario 
 			// is defined
 			
