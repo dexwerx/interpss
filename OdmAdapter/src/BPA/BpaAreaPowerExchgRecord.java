@@ -49,8 +49,8 @@ public class BpaAreaPowerExchgRecord {
 			String zoneStr="";
 			String zoneStrPlus="";
 			int zoneNum=1;
-			if(area.getZoneList()!=null&&area.getZoneList().getZone().size()>0){
-				for(NetZoneXmlType zone:area.getZoneList().getZone()){
+			if(area.getZone()!=null&&area.getZone().size()>0){
+				for(NetZoneXmlType zone:area.getZone()){
 					if(zoneNum<21)zoneStr+=StringUtil.addSpace(zone.getName(),2)+" ";
 					else zoneStrPlus+=StringUtil.addSpace(zone.getName(),2)+" ";
 					zoneNum++;

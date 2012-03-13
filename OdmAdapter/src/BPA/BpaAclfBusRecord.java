@@ -1,12 +1,14 @@
 package BPA;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.AclfGenDataXmlType;
+import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenDataXmlType;
-import org.ieee.odm.schema.LoadflowLoadDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowLoadXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
@@ -61,8 +63,8 @@ public class BpaAclfBusRecord {
 		
 		//LoadP LoadQ
 		if(busXml.getLoadData()!=null){
-			LoadflowBusXmlType.LoadData loadData=busXml.getLoadData();
-			LoadflowLoadDataXmlType equivLoadData=loadData.getEquivLoad();
+			AclfLoadDataXmlType loadData=busXml.getLoadData();
+			LoadflowLoadXmlType equivLoadData=loadData.getEquivLoad();
 			double loadP=equivLoadData.getConstPLoad().getRe();
 			double loadQ=equivLoadData.getConstPLoad().getIm();
 			if(equivLoadData.getConstPLoad().getUnit()==ApparentPowerUnitType.PU){ 
@@ -82,8 +84,8 @@ public class BpaAclfBusRecord {
 		
 		//Pmax F4.0 ,Others F5.0
 		if(busXml.getGenData()!=null){
-			LoadflowBusXmlType.GenData genData=busXml.getGenData();
-			LoadflowGenDataXmlType xmlEquivGenData = genData.getEquivGen();
+			AclfGenDataXmlType genData=busXml.getGenData();
+			LoadflowGenXmlType xmlEquivGenData = genData.getEquivGen();
 			if(xmlEquivGenData.getCode()!=LFGenCodeEnumType.NONE_GEN){
 				//pmax
 				if(xmlEquivGenData.getPLimit()!=null){
@@ -137,8 +139,8 @@ public class BpaAclfBusRecord {
 		
 		//F4.3
 		if(busXml.getGenData()!=null){
-			LoadflowBusXmlType.GenData genData=busXml.getGenData();
-			LoadflowGenDataXmlType xmlEquivGenData = genData.getEquivGen();
+			AclfGenDataXmlType genData=busXml.getGenData();
+			LoadflowGenXmlType xmlEquivGenData = genData.getEquivGen();
 			double vmag=xmlEquivGenData.getDesiredVoltage().getValue();
 			if(xmlEquivGenData.getDesiredVoltage().getUnit()==VoltageUnitType.KV)
 				vmag=UnitConverter.convVoltUnit(vmag, VoltageUnitType.KV, VoltageUnitType.PU, busXml.getBaseVoltage().getValue());
@@ -156,8 +158,8 @@ public class BpaAclfBusRecord {
 	private String getBusType(){
 		String busType="B ";
 		if(busXml.getGenData()!=null){
-			LoadflowBusXmlType.GenData genData=busXml.getGenData();
-			LoadflowGenDataXmlType xmlEquivGenData = genData.getEquivGen();
+			AclfGenDataXmlType genData=busXml.getGenData();
+			LoadflowGenXmlType xmlEquivGenData = genData.getEquivGen();
 			if(xmlEquivGenData.getCode()==LFGenCodeEnumType.PV)busType="BQ";
 			else if (xmlEquivGenData.getCode()==LFGenCodeEnumType.SWING)busType="BS";
 		}		
