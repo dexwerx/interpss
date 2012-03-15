@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class PowerWorldAdapter extends AbstractODMAdapter{
@@ -26,7 +28,13 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	
 	private enum FileTypeSpecifier{CVS,Blank};
 	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE};
-
+	private List<String> argumentFileds;
+	private FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
+	
+	public PowerWorldAdapter(){
+		super();
+	}
+	
 	@Override
 	protected IODMModelParser parseInputFile(IFileReader din, String encoding)
 			throws Exception {
@@ -43,7 +51,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		String str;
 		String dataType;
 		RecType recordType=null;
-		List<String> argumentFileds;
+		
+		
+		
 		do{
 			str=din.readLine();
 			try{
@@ -85,7 +95,8 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			    argumentFileds=getArgumentFields(str);
 			    
 			} //end of processing data type 
-		 
+			 else if(str.startsWith("//"))
+				 ODMLogger.getLogger().fine("comments:"+str);
 			 else if(str.startsWith("{"))
 			    	ODMLogger.getLogger().info(recordType.toString()+" type data follows");
 			 
@@ -96,15 +107,17 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			 else if(!str.trim().isEmpty()){
 				 
 				   if(recordType==RecType.BUS) 
-					   processBusBasicData(str, baseCaseNet);
+					   processBusBasicData(str, parser);
 				   else if(recordType==RecType.LOAD)
 					   processBusLoadData(str, baseCaseNet);
 				   else if(recordType==RecType.GEN)
 					   processBusGenData(str, baseCaseNet);
 				   else if(recordType==RecType.SHUNT)
 					   processShuntData(str, baseCaseNet);
-				   else if(recordType==RecType.XFORMER)
+				   else if(recordType==RecType.BRANCH)
 					   processBranchData(str, baseCaseNet);
+				   else if(recordType==RecType.XFORMER)
+					   processXFormerData(str, baseCaseNet);
 				   else if(recordType==RecType.TRI_W_XFORMER)
 					   process3WXFomerData(str, baseCaseNet);
 				   else if(recordType==RecType.AREA)
@@ -130,7 +143,75 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		return null;
 	}
 	
-	private void processBusBasicData(String busDataStr,LoadflowNetXmlType baseCaseNet){
+	private void processBusBasicData(String busDataStr,AclfModelParser parser){
+		/*
+		 * DATA (BUS, [BusNum,BusName,BusNomVolt,BusPUVolt,BusAngle,BusG:1,BusB:1,AreaNum,ZoneNum,
+            SubNum,BusSlack])
+		 */
+		
+		//TODO no bus type defined here, delay the type definition until Gen Data is processed
+		
+		long busNum=-1;
+		int areaNum=-1,zoneNum=-1;// purposely set to -1, a not real number;
+		String busName="",busId="";
+		double nomVolt, puVolt,angle,busG,busB;
+		boolean isSlackBus=false;
+		
+		String[] busBasicData=getDataFields(busDataStr, dataSeparator);
+		int i=0;
+		try {
+		if(argumentFileds!=null){
+		for(String field:argumentFileds){// fields are already trimmed.
+			 // Note the sequence of the arguments are not defined by PowerWorld, 
+			//if statement is used here to judge their existence.
+			if(field.equals("BusNum")){
+				busNum=Long.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("BusName")){
+				busName=busBasicData[i];
+			}
+			else if(field.equals("BusNomVolt")){
+				nomVolt=Double.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("BusPUVolt")){
+				puVolt=Double.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("BusAngle")){
+				angle=Double.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("BusG:1")){// Eliminate the "1"?
+				busG=Double.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("BusB:1")){
+				busB=Double.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("AreaNum")){
+				areaNum=Integer.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("ZoneNum")){
+				zoneNum=Integer.valueOf(busBasicData[i]);
+			}
+			else if(field.equals("BusSlack")){
+				if(busBasicData[i].equals("YES")) isSlackBus=true;
+			}
+			i++;
+		  }//end for
+		}
+		if(busNum==-1) logErr("bus Num is not defined yet!");
+		busId=AclfModelParser.BusIdPreFix+busNum;
+		
+		LoadflowBusXmlType bus=parser.createAclfBus(busId);
+		bus.setId(busId);
+		if(!busName.equals("")) bus.setName(busName);
+		bus.setNumber(busNum);
+		if(areaNum!=-1)bus.setAreaNumber(areaNum);
+		if(zoneNum!=-1)bus.setZoneNumber(zoneNum);
+		
+		//TODO work on other fields
+		} catch (ODMException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -196,7 +277,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		List<String> arguFieldsList=new ArrayList<String>(arguFields.length);
 		
 		for(int i=0;i<arguFields.length;i++){
-			arguFieldsList.add(arguFields[i]);
+			arguFieldsList.add(arguFields[i].trim());
 		}
 		
 		return arguFieldsList;
