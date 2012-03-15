@@ -164,6 +164,7 @@
     
     <ns:complexType name="EDGenItemXmlType">
 		<ns:attribute name="genName" type="ns:string"></ns:attribute>
+		<ns:attribute name="busId" type="ns:string"></ns:attribute>
 		<ns:attribute name="genMW" type="ns:double"></ns:attribute>
 		<ns:attribute name="mustRun" type="ns:boolean" use="optional"></ns:attribute>
 	</ns:complexType>
