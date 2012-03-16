@@ -26,6 +26,8 @@ package org.ieee.odm.model.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import javax.activation.UnsupportedDataTypeException;
+
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -71,8 +73,48 @@ public class AclfDataSetter extends BaseDataSetter {
 		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
 		loadData.setEquivLoad(equivLoad);
     	bus.getLoadData().getEquivLoad().setCode(code);
-    	equivLoad.setConstPLoad(createPowerValue(p, q, unit));
+    	if(code==LFLoadCodeEnumType.CONST_P)
+    	    equivLoad.setConstPLoad(createPowerValue(p, q, unit));
+    	else if(code==LFLoadCodeEnumType.CONST_I)
+    		equivLoad.setConstILoad(createPowerValue(p, q, unit));
+    	else if (code==LFLoadCodeEnumType.CONST_Z)
+    		equivLoad.setConstZLoad(createPowerValue(p, q, unit));
+		else
+			try {
+				throw new UnsupportedDataTypeException();
+			} catch (UnsupportedDataTypeException e) {
+				e.printStackTrace();
+			}
+    	
 	}
+	/**
+	 * set ZIP type (or Function Type) of load data to a load flow Bus
+	 * 
+	 * @param bus
+	 * @param loadSP
+	 * @param loadSQ
+	 * @param loadIP
+	 * @param loadIQ
+	 * @param loadZP
+	 * @param loadZQ
+	 * @param unit
+	 */
+	public static void setZIPLoadData(LoadflowBusXmlType bus,double loadSP,
+			double loadSQ,double loadIP,double loadIQ, double loadZP, double loadZQ,
+			ApparentPowerUnitType unit){
+		
+		AclfLoadDataXmlType loadData = odmObjFactory.createAclfLoadDataXmlType();
+		bus.setLoadData(loadData);
+		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
+		loadData.setEquivLoad(equivLoad);
+    	bus.getLoadData().getEquivLoad().setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
+    	
+    	equivLoad.setConstPLoad(createPowerValue(loadSP, loadSQ, unit));
+    	equivLoad.setConstILoad(createPowerValue(loadIP, loadIQ, unit));
+    	equivLoad.setConstZLoad(createPowerValue(loadZP, loadZQ, unit));
+	}
+	
+	
 	
 	/**
 	 * set EquivGen object, then set value(code, p, q, unit) to the created EquivGenData object
