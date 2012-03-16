@@ -38,7 +38,7 @@ import javax.swing.JFileChooser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.AggregateGenHelper;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
+import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -219,7 +219,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				this.gsfGenAPNodeRadioButton.setEnabled(false);
 		}	
 		else 
-			IpssStudyCaseFunc.setDefaultPtInfo(this._ptInfoXml);
+			IpssAnalysisCaseFunc.setDefaultPtInfo(this._ptInfoXml);
 
 		SenAnalysisOutOptionXmlType outConfig = this._senXml.getOutOption();
 		if (outConfig != null) {

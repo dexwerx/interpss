@@ -34,7 +34,7 @@ import org.ieee.odm.schema.AclfAnalysisXmlType;
 import org.ieee.odm.schema.AcscFaultAnalysisXmlType;
 import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
-import org.ieee.odm.schema.IpssStudyCaseXmlType;
+import org.ieee.odm.schema.IpssAnalysisCaseXmlType;
 import org.ieee.odm.schema.PTradingAnalysisXmlType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.interpss.editor.SimuRunEnum;
@@ -259,13 +259,13 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		
 		if (isODMFormat()) {
 			/*
-			 * ODM schema supports multiple study cases
+			 * ODM schema supports multiple analysis cases
 			 * 
 			 */
 			IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
-			String[] studyCaseIdAry = helper.getStudyCaseIdAry();
-			this.curStudyCaseId = helper.getCurStudyCaseId() != null?
-					helper.getCurStudyCaseId() : studyCaseIdAry[0];
+			String[] studyCaseIdAry = helper.getAnalysisCaseIdAry();
+			this.curStudyCaseId = helper.getCurAnalysisCaseId() != null?
+					helper.getCurAnalysisCaseId() : studyCaseIdAry[0];
 			
 			if (_caseType == SimuRunEnum.TradingAnalysis) {
 				PTradingEDHourlyAnalysisXmlType curPtXml = helper.getPtEDHourlyAnalysis(curStudyCaseId);			
@@ -370,7 +370,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				String casename = (String)this.casenameComboBox.getSelectedItem();
 				String desc = this.descTextArea.getText();
 
-				helper.setCurStudyCaseId(this.curStudyCaseId);
+				helper.setCurAnalysisCaseId(this.curStudyCaseId);
 				PTradingAnalysisXmlType ptCase = helper.getPtEDHourlyAnalysis(this.curStudyCaseId);			
 				ptCase.setName(casename);
 				ptCase.setDesc(desc);
@@ -462,7 +462,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        caseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Study Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+        caseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Analysis Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         casenameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         casenameLabel.setText("Casename");
@@ -649,7 +649,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 		return;
     }	
     
-	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Run Study Case Xml");
+	IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Run Analysis Case Xml");
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
 	 if (this.isODMFormat()) {
@@ -672,8 +672,8 @@ private void casenameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
          *   2) Editing event, ptCaseName changed, and therefore, not exists, id == null
          */
         if (id != null) {
-        	ipssLogger.info("selected study case id: " + id);
-        	helper.setCurStudyCaseId(id);
+        	ipssLogger.info("selected analysis case id: " + id);
+        	helper.setCurAnalysisCaseId(id);
         	this.setForm2Editor();
         }
     }
@@ -683,8 +683,8 @@ private void addCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     ipssLogger.info("add case clicked ");
 	IpssScenarioHelper helper = new IpssScenarioHelper(this.odmParser);
     if (this._caseType == SimuRunEnum.TradingAnalysis) {
-    	IpssStudyCaseXmlType scase = helper.addNewPTradingStudyCase("StudyCase mm-dd-yyyy");
-    	helper.setCurStudyCaseId(scase.getId());
+    	IpssAnalysisCaseXmlType scase = helper.addNewPTradingStudyCase("StudyCase mm-dd-yyyy");
+    	helper.setCurAnalysisCaseId(scase.getId());
     	this.setForm2Editor();
     }
 }//GEN-LAST:event_addCaseButtonActionPerformed
@@ -695,8 +695,8 @@ private void deleteCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//
     if (this._caseType == SimuRunEnum.TradingAnalysis) {
         String ptCaseName = (String)this.casenameComboBox.getSelectedItem();
         String curId = helper.getStudyCaseIdByPtCaseName(ptCaseName);
-        String id = helper.deleteStudyCase(curId);
-    	helper.setCurStudyCaseId(id);
+        String id = helper.deleteAnalysisCase(curId);
+    	helper.setCurAnalysisCaseId(id);
     	this.setForm2Editor();
     }
 }//GEN-LAST:event_deleteCaseButtonActionPerformed

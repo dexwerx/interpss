@@ -24,6 +24,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dcSen_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin.pt"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

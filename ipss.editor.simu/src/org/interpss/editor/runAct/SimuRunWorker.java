@@ -45,8 +45,8 @@ import org.jgraph.JGraph;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.pssl.odm.AclfDslODMRunner;
-import com.interpss.pssl.odm.ContingencyDslODMRunner;
+import com.interpss.pssl.plugin.odm.AclfDslODMRunner;
+import com.interpss.pssl.plugin.odm.ContingencyDslODMRunner;
 import com.interpss.simu.SimuContext;
 
 public class SimuRunWorker extends Thread {
