@@ -183,7 +183,7 @@ public class BPANetRecord {
 			if(!strAry[4].equals("")){
 				exchangePower= new Double(strAry[4]).doubleValue();				
 			}			
-			if(!fAreaName.equals("")&& exchangePower!=0){
+			if(!fAreaName.equals("")&&!tAreaName.equals("")){//&& exchangePower!=0
 				InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
 				baseCaseNet.getInterchangeList().getInterchange().add(interchange);
 				

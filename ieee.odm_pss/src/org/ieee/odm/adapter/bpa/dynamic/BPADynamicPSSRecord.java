@@ -311,8 +311,12 @@ public class BPADynamicPSSRecord {
     		}
     		pss.setVSMIN(vsmin);		    		
 //    		//TODO KQS MVAbase for SP SG
-           //double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
-            //pss.setKQSBase
+            double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
+            
+            if(kqsMvaBase>0.0){
+            	double newKqs=pss.getKQS()*kqsMvaBase/dynGen.getRatedPower().getValue();
+            	pss.setKQS(newKqs);
+            }
     	}
     	else if(str.substring(0, 3).trim().equals("SI")){
     		PssBPADualInputXmlType dualPss= DStabParserHelper.createPssBPADualInputXmlType(dynGen);

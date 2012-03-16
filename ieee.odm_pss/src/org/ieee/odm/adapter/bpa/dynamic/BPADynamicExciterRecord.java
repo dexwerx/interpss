@@ -80,7 +80,7 @@ public class BPADynamicExciterRecord {
     		if(!strAry[3].equals("")){
     			id=strAry[3];
     		} 
-    		exc.setDesc("IEEE1968 Type1, machId#" + id);
+    		exc.setDesc("BPA EA type, machId#" + id);
     		
     		//TR
     		double Tr=ModelStringUtil.getDouble(strAry[4], 0.0);
