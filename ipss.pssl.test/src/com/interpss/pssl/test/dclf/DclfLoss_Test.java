@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
+import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.GenLossFactorXmlType;
@@ -146,7 +146,7 @@ public class DclfLoss_Test extends BaseTestSetup {
 		bus.getAllocFactor().setUnit(FactorUnitType.PERCENT);
 		
 		new DclfDslODMRunner(algoDsl)
-				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssStudyCaseFunc.createDefaultPtInfo());
+				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssAnalysisCaseFunc.createDefaultPtInfo());
 		
 		
 		System.out.println(parser.toXmlDoc());

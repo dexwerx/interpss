@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
+import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -243,7 +243,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 		line.setToBusId("Bus13");
 		
 		new DclfDslODMRunner(algoDsl)
-			.runDclfCase(dclfCase, DclfAnalysisType.All,  IpssStudyCaseFunc.createDefaultPtInfo());
+			.runDclfCase(dclfCase, DclfAnalysisType.All,  IpssAnalysisCaseFunc.createDefaultPtInfo());
 
 		
 		System.out.println(parser.toXmlDoc());

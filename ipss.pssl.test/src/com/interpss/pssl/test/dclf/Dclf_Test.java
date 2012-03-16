@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.model.ext.ipss.IpssStudyCaseFunc;
+import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.exp.IpssNumericException;
@@ -82,7 +82,7 @@ public class Dclf_Test extends BaseTestSetup {
 		dclfCase.setCaculatelDclf(true);
 		
 		new DclfDslODMRunner(algoDsl)
-				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssStudyCaseFunc.createDefaultPtInfo());
+				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssAnalysisCaseFunc.createDefaultPtInfo());
 
 		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());		
 	}

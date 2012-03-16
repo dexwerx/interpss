@@ -43,7 +43,7 @@ import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.core.datatype.IFaultResult;
-import com.interpss.pssl.odm.AcscDslODMRunner;
+import com.interpss.pssl.plugin.odm.AcscDslODMRunner;
 import com.interpss.pssl.test.BaseTestSetup;
 import com.interpss.simu.util.sample.SampleCases;
 
