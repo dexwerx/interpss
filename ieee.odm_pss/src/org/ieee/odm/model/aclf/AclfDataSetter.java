@@ -46,6 +46,11 @@ import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowLoadXmlType;
 import org.ieee.odm.schema.MvaRatingXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
+import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
+import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
+import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
@@ -167,7 +172,42 @@ public class AclfDataSetter extends BaseDataSetter {
 
 	public static void setBusShuntVar(LoadflowBusXmlType bus, double var, YUnitType unit) {
 		setBusShuntY(bus, 0.0, var, unit);
-	}	
+	}
+	/**
+	 * set the shunt compensator data
+	 * @param bus
+	 * @param shuntId
+	 * @param mode
+	 * @param normalMvar
+	 * @param vHigh
+	 * @param vLow
+	 */
+	public static void setShuntCompensatorData(LoadflowBusXmlType bus,ShuntCompensatorModeEnumType mode
+			, double normalMvar, double vHigh, double vLow){
+		ShuntCompensatorDataXmlType shuntData=odmObjFactory.createShuntCompensatorDataXmlType();
+		bus.setShuntCompensatorData(shuntData);
+		ShuntCompensatorXmlType shunt=odmObjFactory.createShuntCompensatorXmlType();
+		shuntData.getShuntCompensator().add(shunt);
+		shunt.setDesiredVoltageRange(createVoltageLimit(vHigh, vLow, VoltageUnitType.KV));
+		shunt.setNorminalQOutput(createReactivePowerValue(normalMvar, ReactivePowerUnitType.MVAR));
+		shunt.setMode(mode);
+
+	}
+	public static void addShuntCompensatorBlock(LoadflowBusXmlType bus,int steps, double mvarPerStep,
+			ReactivePowerUnitType type){
+		
+		if(bus.getShuntCompensatorData()==null){
+			ShuntCompensatorDataXmlType shuntData=odmObjFactory.createShuntCompensatorDataXmlType();
+			bus.setShuntCompensatorData(shuntData);
+		}
+		ShuntCompensatorXmlType shunt= bus.getShuntCompensatorData().getShuntCompensator().get(0);
+		ShuntCompensatorBlockXmlType block=odmObjFactory.createShuntCompensatorBlockXmlType();
+		shunt.getBlock().add(block);
+		block.setSteps(steps);
+		block.setIncrementB(createReactivePowerValue(mvarPerStep, type));
+		
+	}
+	
 
 	public static void addBusShuntY(LoadflowBusXmlType bus, double re, double im, YUnitType unit) {
 		if (bus.getShuntY() == null)
