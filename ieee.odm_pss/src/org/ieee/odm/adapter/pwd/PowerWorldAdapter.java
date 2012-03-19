@@ -24,6 +24,8 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NetAreaXmlType;
+import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
@@ -146,9 +148,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				   else if(recordType==RecType.TRI_W_XFORMER)
 					   process3WXFomerData(str, baseCaseNet);
 				   else if(recordType==RecType.AREA)
-					   processAreaData(str, baseCaseNet);
+					   processAreaData(str, parser);
 				   else if(recordType==RecType.ZONE)
-					   processZoneData(str, baseCaseNet);
+					   processZoneData(str, parser);
+				   //TODO make a criteria for determining the completeness of data and stop;
 			   }
 			   
 			}catch(Exception e){
@@ -608,9 +611,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	    
 	    // create a branch record
 	    BranchXmlType branch=null;
-	    //TODO base voltage difference criteria is not enough for detecting 3w xformer.
+	    //TODO this base voltage difference criteria is not enough for detecting 3w xformer in the B5R example.
 	    if(parser.getAclfBus(fromBusId).getBaseVoltage().getValue()!=
-	    	parser.getAclfBus(toBusId).getVoltage().getValue())
+	    	parser.getAclfBus(toBusId).getBaseVoltage().getValue())
 		branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
 	    else branch=parser.createXfrBranch(fromBusId, toBusId, circuitId);
 		
@@ -683,10 +686,56 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		
 	}
-	private void processAreaData(String areaDataStr,LoadflowNetXmlType baseCaseNet){
+	private void processAreaData(String areaDataStr,AclfModelParser parser){
+		/*
+		 * DATA (AREA, [AreaNum,AreaName,BGAGC,BGAutoSS,BGAutoXF,EnforceGenMWLimits,SchedName,SAName,
+           ConvergenceTol,AreaEDIncludeLossPF,BusSlack,AreaUnSpecifiedStudyMW])
+		 */
+		//now only consider areaNum, areaName
+		
+		int areaNum=-1;
+		String areaName="";
+		String[] areaData=getDataFields(areaDataStr, dataSeparator);
+		int i=0;
+		i=argumentFileds.indexOf("AreaNum");
+		areaNum=Integer.valueOf(areaData[i]);
+		
+		i=argumentFileds.indexOf("AreaName");
+		areaName=areaData[i];
+		
+		NetAreaXmlType area=odmObjFactory.createNetAreaXmlType();
+		area.setNumber(areaNum);
+		area.setName(areaName);
+		if(parser.getAclfNet().getAreaList()==null)
+			parser.getAclfNet().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
+		
+		parser.getAclfNet().getAreaList().getArea().add(area);
+		
+		
+		
 		
 	}
-	private void processZoneData(String zoneDataStr,LoadflowNetXmlType baseCaseNet){
+	private void processZoneData(String zoneDataStr,AclfModelParser parser){
+		/*
+		 * DATA (ZONE, [ZoneNum,ZoneName,SchedName])
+		 */
+		int zoneNum=-1;
+		String zoneName="";
+		String[] zoneData=getDataFields(zoneDataStr, dataSeparator);
+		int i=0;
+		i=argumentFileds.indexOf("AreaNum");
+		zoneNum=Integer.valueOf(zoneData[i]);
+		
+		i=argumentFileds.indexOf("AreaName");
+		zoneName=zoneData[i];
+		
+		NetZoneXmlType zone=odmObjFactory.createNetZoneXmlType();
+		zone.setNumber(zoneNum);
+		zone.setName(zoneName);
+		if(parser.getAclfNet().getLossZoneList()==null)
+			parser.getAclfNet().setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
+		
+		parser.getAclfNet().getLossZoneList().getLossZone().add(zone);
 		
 	}
 	private boolean isDataCompleted(String str){
