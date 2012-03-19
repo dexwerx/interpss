@@ -251,7 +251,8 @@
 			<ns:element name="idcmax" type="ns:double" minOccurs="0"></ns:element>
 			<ns:element name="mpptHigh" type="ns:double" minOccurs="0"></ns:element>
 			<ns:element name="mpptLow" type="ns:double" minOccurs="0"></ns:element>
-			<ns:element name="vac" type="ns:double" minOccurs="0"></ns:element>
+			<ns:element name="vac" type="pss:VoltageXmlType" minOccurs="0"></ns:element>
+			<ns:element name="acPFactor" type="pss:PowerFactorXmlType" minOccurs="0"></ns:element>
 			<ns:choice>
 				<ns:element name="loss" type="pss:InverterLossEqnXmlType" minOccurs="1" maxOccurs="1"></ns:element>
 				<ns:element name="lossParamList" minOccurs="1">
