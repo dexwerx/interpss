@@ -56,7 +56,9 @@ import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.core.net.Network;
 import com.interpss.core.net.OriginalDataFormat;
+import com.interpss.dist.DistNetwork;
 
 /**
  * Aclf system output functions
@@ -99,6 +101,7 @@ public class AclfOutFunc {
 	 */
 	public static StringBuffer loadFlowSummary(AclfNetwork net, boolean includeAdj) {
 		StringBuffer str = new StringBuffer(_loadFlowSummary((AclfNetwork) net));
+
 		try {
 			if (includeAdj) {
 				if (net.hasPVBusLimit())
@@ -121,6 +124,20 @@ public class AclfOutFunc {
 			}
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
+		}
+		
+		if (net.isContainChildNet()) {
+		  	for (Network n : net.getChildNetworks()) {
+	  			AclfNetwork aclfNet = null;
+		  		if (n instanceof AclfNetwork) {
+		  			aclfNet = (AclfNetwork)n;
+		  		}
+		  		if (n instanceof DistNetwork) {
+		  			aclfNet = ((DistNetwork)n).getAclfNet();
+		  		}
+		  		str.append("\n\nChildNet : " + n.getId());
+		  		str.append(_loadFlowSummary(aclfNet));
+		  	}
 		}
 		return str;
 	}

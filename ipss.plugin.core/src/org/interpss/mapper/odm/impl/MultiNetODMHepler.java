@@ -36,10 +36,10 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 
 
-public class MultiNetHepler {
+public class MultiNetODMHepler {
 	private AclfModelParser aclfParser;
 	
-	public MultiNetHepler(AclfModelParser aclfParser) {
+	public MultiNetODMHepler(AclfModelParser aclfParser) {
 		this.aclfParser = aclfParser;
 	}
 	
