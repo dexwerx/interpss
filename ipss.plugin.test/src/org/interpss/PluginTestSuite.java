@@ -15,6 +15,7 @@ import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
+import org.interpss.core.adapter.odm.IEEEODMTest;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.dclf.DclfIeee14BusCaseTest;
 import org.interpss.core.net.IEEE14_WalkThroughTest;
@@ -127,6 +128,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	// odm test cases
 	GuideSample_TestCase.class,
+	IEEEODMTest.class,
 })
 public class PluginTestSuite {
 }

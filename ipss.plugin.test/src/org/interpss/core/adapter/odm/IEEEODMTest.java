@@ -37,10 +37,32 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.simu.SimuContext;
 
 public class IEEEODMTest extends PluginTestSetup {
 	@Test 
+	public void testCase() throws Exception {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus.xml")
+							.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
+							.load()
+							.getAclfNet();
+  		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow();
+  		//System.out.println(net.net2String());
+	  	
+  		assertTrue(net.isLfConverged());		
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
+  		AclfSwingBus swing = swingBus.toSwingBus();
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.32393)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.16549)<0.0001);
+
+  		//System.out.println(AclfOut.lfResultsBusStyle(net));
+	}
+
+	//@Test 
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("odm");
 		SimuContext simuCtx = adapter.load("testData/ieee_odm/ieee14Bus.xml");
