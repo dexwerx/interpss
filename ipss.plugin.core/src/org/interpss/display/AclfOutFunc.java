@@ -24,7 +24,7 @@ package org.interpss.display;
  */
 
 
-import static com.interpss.core.AclfFunction.BranchRatingAptr;
+import static com.interpss.core.funcImpl.AclfFunction.BranchRatingAptr;
 import static org.interpss.CorePluginFunction.OutputBusId;
 
 import org.apache.commons.math.complex.Complex;

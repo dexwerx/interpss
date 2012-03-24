@@ -24,9 +24,9 @@
 
 package org.interpss.mapper.editor;
 
-import static com.interpss.core.AcscFunction.AcscLineAptr;
-import static com.interpss.core.AcscFunction.AcscXfrAptr;
-import static com.interpss.core.AcscFunction.Str2ScGroundCode;
+import static com.interpss.core.funcImpl.AcscFunction.AcscLineAptr;
+import static com.interpss.core.funcImpl.AcscFunction.AcscXfrAptr;
+import static com.interpss.core.funcImpl.AcscFunction.Str2ScGroundCode;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.db.BaseDataBean;

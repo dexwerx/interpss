@@ -25,7 +25,7 @@
 package org.interpss.mapper.editor;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
-import static com.interpss.core.AcscFunction.Str2ScGroundCode;
+import static com.interpss.core.funcImpl.AcscFunction.Str2ScGroundCode;
 
 import java.util.List;
 

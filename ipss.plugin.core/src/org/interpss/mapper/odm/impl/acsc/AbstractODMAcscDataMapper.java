@@ -25,7 +25,7 @@
 package org.interpss.mapper.odm.impl.acsc;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
-import static com.interpss.core.AcscFunction.AcscXfrAptr;
+import static com.interpss.core.funcImpl.AcscFunction.*;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
@@ -62,7 +62,6 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.AcscFunction;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
@@ -297,7 +296,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 
 	private void setAcscLineFormInfo(LineShortCircuitXmlType braXml, AcscBranch acscBra) {
 		double baseV = acscBra.getFromAclfBus().getBaseVoltage();
-		AcscLine line = AcscFunction.AcscLineAptr.f(acscBra);
+		AcscLine line = AcscLineAptr.f(acscBra);
 		ZXmlType z0 = braXml.getZ0();
 		if (z0 != null)
 			line.setZ0(new Complex(z0.getRe(), z0.getIm()),	ToZUnit.f(z0.getUnit()), baseV);

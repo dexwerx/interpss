@@ -29,7 +29,7 @@ package org.interpss.mapper.editor;
  * object to an AcscAdjNetwork simu object.
  */
 
-import static com.interpss.core.AcscFunction.*;
+import static com.interpss.core.funcImpl.AcscFunction.*;
 
 import java.util.List;
 
