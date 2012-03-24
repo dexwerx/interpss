@@ -27,7 +27,7 @@
 					<ns:element name="isoCode" type="ns:string" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="normalOffLineStatus" type="ns:boolean" minOccurs="0"></ns:element>
 					<ns:element name="ownerList" minOccurs="0" maxOccurs="unbounded" type="pss:OwnerXmlType"></ns:element>
-					<ns:element name="nvPairList" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					<ns:element name="nvPair" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 					<ns:element name="extension" type="ns:anySimpleType" minOccurs="0"></ns:element>
 				</ns:sequence>
 				<ns:attribute name="areaNumber" type="ns:int" use="optional"></ns:attribute>
