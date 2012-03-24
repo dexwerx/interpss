@@ -24,7 +24,7 @@
 
 package com.interpss.pssl.test.dclf;
 
-import static com.interpss.core.DclfFunction.DclfBranchAptr;
+import static com.interpss.core.dclf.funcImpl.DclfFunction.DclfBranchAptr;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
