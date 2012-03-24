@@ -259,7 +259,7 @@ public class BaseJaxbHelper {
 	public static void addNVPair(BaseRecordXmlType rec, String name, 
 					String value) {
     	NameValuePairXmlType nvPair = odmObjFactory.createNameValuePairXmlType();
-    	rec.getNvPairList().add(nvPair);
+    	rec.getNvPair().add(nvPair);
     	nvPair.setName(name);
     	nvPair.setValue(value);
 	}
