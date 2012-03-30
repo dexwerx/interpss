@@ -80,7 +80,6 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		RecType recordType=null;
 		
 		
-		
 		do{
 			str=din.readLine();
 			try{
@@ -115,7 +114,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			    }
 			    else ODMLogger.getLogger().warning("Undifined data type:"+dataType);
 			    
-			    //get all the argument fields of a record;
+			    //get all the argument fields of a record, then save them to a list.
 			    while(!isDataCompleted(str)){
 					str+=din.readLine();
 				}
@@ -125,11 +124,17 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			 else if(str.startsWith("//"))
 				 ODMLogger.getLogger().fine("comments:"+str);
 			 else if(str.startsWith("{"))
-			    	ODMLogger.getLogger().info(recordType.toString()+" type data follows");
+			    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
 			 
-			 else if(str.startsWith("}"))
+			 else if(str.startsWith("}")){
 					ODMLogger.getLogger().info(recordType.toString()+" type data ends");
-			
+					//TODO Assume the zone type data is at the end of load flow data definition 
+			        if (recordType==RecType.ZONE) {
+			        	ODMLogger.getLogger().info("End of processing Zone data, " +
+			        			"LoadFlow data processing completed!");
+			        	break;
+			        }
+			 }
 			 // start processing record data
 			 else if(!str.trim().isEmpty()){
 				 
@@ -151,7 +156,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					   processAreaData(str, parser);
 				   else if(recordType==RecType.ZONE)
 					   processZoneData(str, parser);
-				   //TODO make a criteria for determining the completeness of data and stop;
+				  
 			   }
 			   
 			}catch(Exception e){
@@ -181,7 +186,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		long busNum=-1;
 		int areaNum=-1,zoneNum=-1;// purposely set to -1, a not real number;
 		String busName="",busId="";
-		double basekV=0, puVolt=0,angle=0,busG=0,busB=0;
+		double basekV=0, puVolt=0,angle=-360,busG=0,busB=0;
 		boolean isSlackBus=false;
 		
 		String[] busBasicData=getDataFields(busDataStr, dataSeparator);
@@ -240,12 +245,16 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		bus.setBaseVoltage(BaseDataSetter.createVoltageValue(basekV, VoltageUnitType.KV));
 		bus.setVoltage(BaseDataSetter.createVoltageValue(puVolt, VoltageUnitType.PU));
+		if(angle!=-360)bus.setAngle(BaseDataSetter.createAngleValue(angle,AngleUnitType.DEG));
 		
 		if (busG != 0.0 || busB != 0.0) {
 			bus.setShuntY(BaseDataSetter.createYValue(busG, busB,YUnitType.MVAR));
 		}
 		
-		if(isSlackBus)swingBusNum=busNum;
+		if(isSlackBus){
+			swingBusNum=busNum;
+			
+		}
 		
 		//Data specified for other types of Buses(PV,PQ) is defined in Load and Gen data.
 		
@@ -377,6 +386,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	
 	if(regBusNum!=-1){
 		if(regBusNum==busNum) { //this generator control the bus it connects to
+			
 			if(busNum!=swingBusNum){//This bus is a PV bus
 				VoltageXmlType v=bus.getVoltage();
 				AclfDataSetter.setGenData(bus,
@@ -524,14 +534,14 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		//TODO How to determine the number of blocks
 		i=argumentFileds.indexOf("SSBlockNumSteps") ;
-		if(i!=-1)steps1=Integer.valueOf(shuntData[i]);
+		if(i!=-1)steps1=new Double(shuntData[i]).intValue();
 		
 		i=argumentFileds.indexOf("SSBlockMVarPerStep");
 		if(i!=-1)MVarPerStep1=Double.valueOf(shuntData[i]);
 		
 		
 		i=argumentFileds.indexOf("SSBlockNumSteps:1") ;
-		if(i!=-1)steps2=Integer.valueOf(shuntData[i]);
+		if(i!=-1)steps2=new Double(shuntData[i]).intValue();
 		
 		i=argumentFileds.indexOf("SSBlockMVarPerStep:1");
 		if(i!=-1)MVarPerStep2=Double.valueOf(shuntData[i]);
@@ -624,12 +634,13 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		if(branch instanceof LineBranchXmlType){
 			if(g!=0||b!=0)((LineBranchXmlType) branch).setToShuntY(
 					BaseDataSetter.createYValue(g, b, YUnitType.PU));
-			
-		else if(branch instanceof XfrBranchXmlType)
+		}
+		else if(branch instanceof XfrBranchXmlType){
 			if(g!=0||b!=0)((XfrBranchXmlType) branch).setMagnitizingY(
 					BaseDataSetter.createYValue(g, b, YUnitType.PU));
 			((XfrBranchXmlType) branch).setFromTurnRatio(
 					BaseDataSetter.createTurnRatioPU(lineTap));
+			//TODO define toTurnRatio
 			//TODO what is the difference between transformer tap and turn ratio;
 			
 		}
@@ -723,10 +734,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		String zoneName="";
 		String[] zoneData=getDataFields(zoneDataStr, dataSeparator);
 		int i=0;
-		i=argumentFileds.indexOf("AreaNum");
+		i=argumentFileds.indexOf("ZoneNum");
 		zoneNum=Integer.valueOf(zoneData[i]);
 		
-		i=argumentFileds.indexOf("AreaName");
+		i=argumentFileds.indexOf("ZoneName");
 		zoneName=zoneData[i];
 		
 		NetZoneXmlType zone=odmObjFactory.createNetZoneXmlType();
@@ -781,13 +792,57 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	}
 	
 	private String[] getDataFields(String str,FileTypeSpecifier type){
-		String separator;
+	
+		String[] dataFields=new String[argumentFileds.size()];
+		if(type==FileTypeSpecifier.Blank) {
+			int j=-1;
+			int k=0;
+			//get the quote index
+			List<Integer> quoteIndexAry=new ArrayList<Integer>(); 
+			do{
+				j=str.indexOf("\"",j+1);//index of double-quote
+				if(j!=-1)quoteIndexAry.add(j);
+			}while (j!=-1);
+			
+			int index=0;
+		    for(int n=0;n<quoteIndexAry.size();n++){
+		    	//System.out.println("n="+n+", n%2="+n%2);
+		    	String sub="";
+		    	
+		    	if(n%2==0){
+		    		sub=str.substring(index, quoteIndexAry.get(n));
+		    		
+		    		String[] temp=sub.split("\\s++");
+				    for(String value:temp){
+					   if(!value.trim().equals(""))dataFields[k++]=value;
+				    }
+				    
+		    	}
+		    	
+		    	else {
+		    		//sub=str.substring(quoteIndexAry.get(n++)+1, quoteIndexAry.get(n));
+		    		sub=str.substring(index, quoteIndexAry.get(n));
+		    		dataFields[k++]=sub;
+		    	    if(n==quoteIndexAry.size()-1){
+		    		   sub=str.substring(quoteIndexAry.get(n)+1);
+		    		   String[] temp=sub.split("\\s++");
+				       for(String value:temp){
+					       if(!value.trim().equals(""))dataFields[k++]=value;
+				        }
+		    	    }
+		    	}
+		    		index=quoteIndexAry.get(n)+1;
+		    }
+		}
+		else {
+			String[] tempDataFields=str.split(",");
+			for(int i=0;i<tempDataFields.length;i++){
+				 dataFields[i]=tempDataFields[i].trim();
+			}
+		}
 		
-		if(type==FileTypeSpecifier.Blank) separator=" ";//by default
-		else separator=","; 
 		
-		String[] arguFields=str.split(separator);
-		return arguFields;
+		return dataFields;
 	}
 	
 	
