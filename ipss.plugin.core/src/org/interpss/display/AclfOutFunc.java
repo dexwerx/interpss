@@ -313,9 +313,13 @@ public class AclfOutFunc {
 				AclfBus bus = (AclfBus)b;
 				if (bus.isActive() &&
 						(bus.getVoltageMag() > max || bus.getVoltageMag() < min) &&
-						(bus.getGenCodeBaseCase() ==  AclfGenCode.GEN_PV && !bus.isGen()))
-					buf.append(String.format("%d,  %d,  %s\n", 
+						(bus.getGenCodeBaseCase() ==  AclfGenCode.GEN_PV && !bus.isGen())) {
+					buf.append(String.format("%d,  %d,  %s, ", 
 							bus.getArea().getNumber(), bus.getZone().getNumber(), bus.getId().substring(3)));
+					buf.append(" voltage, QLimit: " + 
+							Number2String.toDebugStr(bus.getVoltageMag()) + " " +  
+							(bus.getQGenLimit()!=null? bus.getQGenLimit():"not defined") + "\n");
+				}
 	  		}		
 		}
 		
