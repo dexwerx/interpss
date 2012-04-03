@@ -38,7 +38,13 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
-
+ /**
+  * PowerWorld-TO-ODM Adapter based on power world v16 data definition
+  * 
+  * @version 0.1  04/03/2012
+  * @author Tony Huang
+  * 
+  */
 public class PowerWorldAdapter extends AbstractODMAdapter{
 	
 	public  static final String Token_Data="DATA";
@@ -52,7 +58,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	public  static final String Token_Area="AREA";
 	public  static final String Token_Zone="ZONE";
 	
-	private enum FileTypeSpecifier{CVS,Blank};
+	private enum FileTypeSpecifier{CSV,Blank};
 	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE};
 	private List<String> argumentFileds;
 	private FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
@@ -115,12 +121,13 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			    else ODMLogger.getLogger().warning("Undifined data type:"+dataType);
 			    
 			    //get all the argument fields of a record, then save them to a list.
-			    while(!isDataCompleted(str)){
+			    while(!isArgumentFieldsCompleted(str)){
 					str+=din.readLine();
 				}
 			    argumentFileds=getArgumentFields(str);
 			    
-			} //end of processing data type 
+			} //end of processing data type
+			
 			 else if(str.startsWith("//"))
 				 ODMLogger.getLogger().fine("comments:"+str);
 			 else if(str.startsWith("{"))
@@ -136,8 +143,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			        }
 			 }
 			 // start processing record data
+			//TODO assume all data in one line; NE-ISO file uses multiple lines to store some data, e.g. transformer data;
 			 else if(!str.trim().isEmpty()){
-				 
+				  
 				   if(recordType==RecType.BUS) 
 					   processBusBasicData(str, parser);
 				   else if(recordType==RecType.LOAD)
@@ -145,7 +153,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				   else if(recordType==RecType.GEN)
 					   processBusGenData(str, parser);
 				   else if(recordType==RecType.SHUNT)
-					   processShuntData(str, parser);
+					   processBusShuntData(str, parser);
 				   else if(recordType==RecType.BRANCH)
 					   processBranchData(str, parser);
 				   else if(recordType==RecType.XFORMER)
@@ -166,7 +174,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			
 		}while (str!=null);
 		
-		return null;
+		return parser;
 	}
 
 	@Override
@@ -194,7 +202,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		try {
 		if(argumentFileds!=null){
 		for(String field:argumentFileds){// fields are already trimmed.
-			 // Note the sequence of the arguments are not defined by PowerWorld, 
+			// Note the sequence of the arguments are not defined by PowerWorld, 
 			//if statement is used here to judge their existence.
 			if(field.equals("BusNum")){
 				busNum=Long.valueOf(busBasicData[i]);
@@ -320,6 +328,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
    GenRMPCT,GenUseCapCurve,GenUseLDCRCC,GenXLDCRCC,GenMVABase,GenZR,GenZX,
    GenStepR,GenStepX,GenStepTap,AreaNum,ZoneNum])
 		 */
+		
 		/*Now we Only consider the following 
 		  BusNum,GenID,GenStatus,GenMW,GenMVR,GenEnforceMWLimits,GenMWMin,
 		   GenMWMax GenRegNum,GenMVRMin,GenMVRMax,GenMVABase,AreaNum,ZoneNum
@@ -441,7 +450,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		else{// the regulated bus is a PV bus
 			
 			//TODO how to define a remote bus that a generator controls/regulates, as a PV?
-			//
+			
 			//it is a PQ bus itself?
 			
 			//set remote bus data
@@ -485,7 +494,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	
 	
 	}
-	private void processShuntData(String shuntDataStr,AclfModelParser parser){
+	private void processBusShuntData(String shuntDataStr,AclfModelParser parser){
 		/*
 		 * DATA (SHUNT, [BusNum,ShuntID,AreaNum,ZoneNum,SSRegNum,SSStatus,SSCMode,SSVHigh,SSVLow,SSNMVR,
             SSBlockNumSteps,SSBlockMVarPerStep,SSBlockNumSteps:1,SSBlockMVarPerStep:1,
@@ -580,51 +589,54 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		//TODO exact meanings of LineAMVA,LineBMVA,LineCMVA
 		long fromBusNum=-1,toBusNum=-1;
 		String fromBusId, toBusId,circuitId="1";
-		boolean closed=true;
+		boolean closed=true, isXfmr=false;
 		double r=0,x=0,b=0,g=0, // all per unit value on system base;
 		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
 		       lineTap=1.0;//mvaRatingB,mvaRatingC,
-		String[] shuntData=getDataFields(branchDataStr, dataSeparator);
+		String[] branchData=getDataFields(branchDataStr, dataSeparator);
 		int i=-1;
 		try{
+		//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
 		i=argumentFileds.indexOf("BusNum") ;
-		fromBusNum=Long.valueOf(shuntData[i]); //mandatory field
+		fromBusNum=Long.valueOf(branchData[i]); //mandatory field
 		
 		i=argumentFileds.indexOf("BusNum:1") ;
-		toBusNum=Long.valueOf(shuntData[i]); //mandatory field
+		toBusNum=Long.valueOf(branchData[i]); //mandatory field
 		
-		i=argumentFileds.indexOf("LineCircuit"); if(i!=-1)circuitId=shuntData[i];
+		i=argumentFileds.indexOf("LineCircuit"); if(i!=-1)circuitId=branchData[i];
+		
+		i=argumentFileds.indexOf("LineXfmr"); if(i!=-1)isXfmr=branchData[i].equals("YES")?true:false;
 		
 		i=argumentFileds.indexOf("LineStatus"); 
-	    if(i!=-1)closed=shuntData[i].equals("Closed")?true:false;
+	    if(i!=-1)closed=branchData[i].equals("Closed")?true:false;
 	    
-	    i=argumentFileds.indexOf("LineR"); if(i!=-1)r=Double.valueOf(shuntData[i]);
+	    i=argumentFileds.indexOf("LineR"); if(i!=-1)r=Double.valueOf(branchData[i]);
 	    
-	    i=argumentFileds.indexOf("LineX"); if(i!=-1)x=Double.valueOf(shuntData[i]);
-	    i=argumentFileds.indexOf("LineC"); if(i!=-1)b=Double.valueOf(shuntData[i]);
-	    i=argumentFileds.indexOf("LineG"); if(i!=-1)g=Double.valueOf(shuntData[i]);
+	    i=argumentFileds.indexOf("LineX"); if(i!=-1)x=Double.valueOf(branchData[i]);
+	    i=argumentFileds.indexOf("LineC"); if(i!=-1)b=Double.valueOf(branchData[i]);
+	    i=argumentFileds.indexOf("LineG"); if(i!=-1)g=Double.valueOf(branchData[i]);
 	    
 	    i=argumentFileds.indexOf("LineAMVA"); 
-	    if(i!=-1)mvaRatingA=Double.valueOf(shuntData[i]); // line limit rating
+	    if(i!=-1)mvaRatingA=Double.valueOf(branchData[i]); // line limit rating
 	    
 	    i=argumentFileds.indexOf("LineBMVA"); //same as LineAMVA:1?
-	    if(i!=-1)mvaRatingB=Double.valueOf(shuntData[i]);
+	    if(i!=-1)mvaRatingB=Double.valueOf(branchData[i]);
 	    i=argumentFileds.indexOf("LineCMVA"); //same as LineAMVA:2?
-	    if(i!=-1)mvaRatingC=Double.valueOf(shuntData[i]);
+	    if(i!=-1)mvaRatingC=Double.valueOf(branchData[i]);
 	    
 	    
 	    i=argumentFileds.indexOf("LineTap"); 
-	    if(i!=-1)lineTap=Double.valueOf(shuntData[i]); 
+	    if(i!=-1)lineTap=Double.valueOf(branchData[i]); 
 	    
 	    fromBusId=parser.BusIdPreFix+fromBusNum;
 	    toBusId=parser.BusIdPreFix+toBusNum;
 	    
 	    // create a branch record
 	    BranchXmlType branch=null;
-	    //TODO this base voltage difference criteria is not enough for detecting 3w xformer in the B5R example.
-	    if(parser.getAclfBus(fromBusId).getBaseVoltage().getValue()!=
-	    	parser.getAclfBus(toBusId).getBaseVoltage().getValue())
-		branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
+	    
+	    //parser.getAclfBus(fromBusId).getBaseVoltage().getValue()!=parser.getAclfBus(toBusId).getBaseVoltage().getValue()
+    	
+	    if(!isXfmr)branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
 	    else branch=parser.createXfrBranch(fromBusId, toBusId, circuitId);
 		
 		branch.setOffLine(!closed);
@@ -641,7 +653,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			((XfrBranchXmlType) branch).setFromTurnRatio(
 					BaseDataSetter.createTurnRatioPU(lineTap));
 			//TODO define toTurnRatio
-			//TODO what is the difference between transformer tap and turn ratio;
+			//what is the difference between transformer tap and turn ratio;
+			
+			//TODO NE-ISO use Branch type to define transformer
 			
 		}
 		
@@ -749,7 +763,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		parser.getAclfNet().getLossZoneList().getLossZone().add(zone);
 		
 	}
-	private boolean isDataCompleted(String str){
+	private boolean isArgumentFieldsCompleted(String str){
 		
 		boolean leftParenthesis=false;
 		boolean rightParenthesis=false;
