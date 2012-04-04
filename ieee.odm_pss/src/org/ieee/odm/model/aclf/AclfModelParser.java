@@ -26,6 +26,7 @@ package org.ieee.odm.model.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import org.ieee.odm.common.ODMException;
@@ -34,8 +35,8 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
-import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.FlowInterfaceRecXmlType;
+import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -373,5 +374,22 @@ public class AclfModelParser extends AbstractModelParser {
 					return inter;
 			}
 		return null;
+	}	
+	/**
+	 * get Interface record by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+
+	private Hashtable<String, FlowInterfaceRecXmlType> interfaceLookupTable = null;
+	public FlowInterfaceRecXmlType getInterfaceCached(String id) {
+		if (this.interfaceLookupTable == null) {
+			this.interfaceLookupTable = new Hashtable<String, FlowInterfaceRecXmlType>();
+			for (FlowInterfaceRecXmlType inter : getAclfNet().getFlowInterfaceList().getFlowInterface()) {
+				this.interfaceLookupTable.put(inter.getId(), inter);
+			}
+		}
+		return this.interfaceLookupTable.get(id);
 	}	
 }
