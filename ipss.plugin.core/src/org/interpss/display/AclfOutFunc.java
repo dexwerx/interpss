@@ -31,6 +31,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
@@ -156,24 +157,21 @@ public class AclfOutFunc {
 				str.append("  ---------------------------------------------------------------------------------------\n");
 			}
 				 
-			net.forEachAclfBus(new IAclfBusVisitor() {
-				public void visit(AclfBus bus) {
-					if (bus.isActive()) {
-						Complex busPQ = bus.getPowerInjection();
-						str.append("  ");
-						str.append(String.format("%-12s ", OutputBusId.f(bus, bus.getNetwork().getOriginalDataFormat())));
-						str.append(String.format("%-10s ", bus.getName()));
-						str.append(String.format("%-17s ", bus.code2String()));
-						str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
-						str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
-						str.append(String.format("%10.4f", busPQ.getReal()));
-						str.append(String.format("%10.4f", busPQ.getImaginary()));
-						if (bus.getNetwork().getOriginalDataFormat() == OriginalDataFormat.CIM) 
-							str.append(String.format("   %s", bus.getId()));
-						str.append("\n");
+			for (Bus b : net.getBusList()) {
+				AclfBus bus = (AclfBus)b;
+				if (bus.isActive()) {
+					if (bus.isParent()) {
+						if (!bus.getId().startsWith(Constants.Token_ParentBusPrefix))
+							str.append(busLfSummary(bus));
+						for (Bus sec : bus.getBusSecList()) {
+							AclfBus busSec = (AclfBus)sec;
+							str.append(busLfSummary(busSec));
+						}
 					}
+					else
+						str.append(busLfSummary(bus));
 				}
-			});
+			}
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
@@ -183,6 +181,23 @@ public class AclfOutFunc {
 		return str;
 	}
 
+	private static String busLfSummary(AclfBus bus) {
+		final StringBuffer str = new StringBuffer("");
+		Complex busPQ = bus.getPQResults();
+		str.append("  ");
+		str.append(String.format("%-12s ", OutputBusId.f(bus, bus.getNetwork().getOriginalDataFormat())));
+		str.append(String.format("%-10s ", bus.getName()));
+		str.append(String.format("%-17s ", bus.code2String()));
+		str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
+		str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
+		str.append(String.format("%10.4f", busPQ.getReal()));
+		str.append(String.format("%10.4f", busPQ.getImaginary()));
+		if (bus.getNetwork().getOriginalDataFormat() == OriginalDataFormat.CIM) 
+			str.append(String.format("   %s", bus.getId()));
+		str.append("\n");
+		return str.toString();
+	}
+	
 	/**
 	 * output load Loss allocation result
 	 * 

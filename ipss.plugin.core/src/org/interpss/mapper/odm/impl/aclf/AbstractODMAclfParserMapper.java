@@ -67,7 +67,10 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 			return false;
 		}
 		
-		OriginalDataFormatEnumType ofmt = parser.getStudyCase().getContentInfo().getOriginalDataFormat();
+		OriginalDataFormatEnumType ofmt = 
+				parser.getStudyCase().getContentInfo() != null?
+						parser.getStudyCase().getContentInfo().getOriginalDataFormat() :
+							OriginalDataFormatEnumType.CUSTOM;
 		simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		return noError;
 	}
