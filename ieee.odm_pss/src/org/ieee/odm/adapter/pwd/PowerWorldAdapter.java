@@ -26,11 +26,15 @@ import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
 import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
+import org.ieee.odm.schema.TapLimitXmlType;
+import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -57,9 +61,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	public  static final String Token_3WXFormer="3WXFORMER";
 	public  static final String Token_Area="AREA";
 	public  static final String Token_Zone="ZONE";
+	public  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
 	
 	private enum FileTypeSpecifier{CSV,Blank};
-	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE};
+	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO};
 	private List<String> argumentFileds;
 	private FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
 	private long swingBusNum=-1;
@@ -118,6 +123,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			    else if(dataType.equals(Token_Zone)){
 			  		recordType=RecType.ZONE;
 			    }
+			    else if(dataType.equals(Token_CaseInfo)){
+			  		recordType=RecType.CASE_INFO;
+			    }
 			    else ODMLogger.getLogger().warning("Undifined data type:"+dataType);
 			    
 			    //get all the argument fields of a record, then save them to a list.
@@ -164,6 +172,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					   processAreaData(str, parser);
 				   else if(recordType==RecType.ZONE)
 					   processZoneData(str, parser);
+				   else if(recordType==RecType.CASE_INFO){
+					   //TODO
+					   ODMLogger.getLogger().info("Case Info data# "+str);
+				   }
 				  
 			   }
 			   
@@ -192,10 +204,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		
 		long busNum=-1;
-		int areaNum=-1,zoneNum=-1;// purposely set to -1, a not real number;
+		int areaNum=-1,zoneNum=-1,ownerNum=-1;// purposely set to -1, a not real number;
 		String busName="",busId="";
 		double basekV=0, puVolt=0,angle=-360,busG=0,busB=0;
-		boolean isSlackBus=false;
+		boolean isSlackBus=false,busConnected=true;
 		
 		String[] busBasicData=getDataFields(busDataStr, dataSeparator);
 		int i=0;
@@ -209,6 +221,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			}
 			else if(field.equals("BusName")){
 				busName=busBasicData[i];
+			}
+			
+			else if(field.equals("BusStatus")){
+				busConnected=field.equalsIgnoreCase("Connected")||field.equalsIgnoreCase("Closed")?true:false;
 			}
 			else if(field.equals("BusNomVolt")){
 				basekV=Double.valueOf(busBasicData[i]);
@@ -235,8 +251,11 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			else if(field.equals("ZoneNum")){
 				zoneNum=Integer.valueOf(busBasicData[i]);
 			}
+			else if(field.equals("OwnerNum")){
+				ownerNum=Integer.valueOf(busBasicData[i]);
+			}
 			else if(field.equals("BusSlack")){
-				if(busBasicData[i].equals("YES")) isSlackBus=true;
+				if(busBasicData[i].equalsIgnoreCase("YES")) isSlackBus=true;
 			}
 			i++;
 		  }//end for
@@ -247,10 +266,13 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		LoadflowBusXmlType bus=parser.createAclfBus(busId);
 		bus.setId(busId);
 		bus.setNumber(busNum);
+		bus.setOffLine(!busConnected);
+		
 		if(!busName.equals("")) bus.setName(busName);
 		if(areaNum!=-1)bus.setAreaNumber(areaNum);
 		if(zoneNum!=-1)bus.setZoneNumber(zoneNum);
-		
+		//TODO OwnerNumber
+		//if(ownerNum!=-1)bus.getOwnerList().add(new OwnerXmlType());//setOwnerNumber(ownerNum);
 		bus.setBaseVoltage(BaseDataSetter.createVoltageValue(basekV, VoltageUnitType.KV));
 		bus.setVoltage(BaseDataSetter.createVoltageValue(puVolt, VoltageUnitType.PU));
 		if(angle!=-360)bus.setAngle(BaseDataSetter.createAngleValue(angle,AngleUnitType.DEG));
@@ -296,9 +318,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			else if(s.equals("LoadSMW")) loadSMW=Double.valueOf(loadData[i]);
 			else if(s.equals("LoadSMVR"))loadSMVR=Double.valueOf(loadData[i]);
 			else if(s.equals("LoadIMW")) loadIMW=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadIMVR"))loadSMVR=Double.valueOf(loadData[i]);
+			else if(s.equals("LoadIMVR"))loadIMVR=Double.valueOf(loadData[i]);
 			else if(s.equals("LoadZMW")) loadZMW=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadZMVR"))loadSMVR=Double.valueOf(loadData[i]);
+			else if(s.equals("LoadZMVR"))loadZMVR=Double.valueOf(loadData[i]);
 			else if(s.equals("AreaNum")) areaNum=Integer.valueOf(loadData[i]);
 			else if(s.equals("ZoneNum")) zoneNum=Integer.valueOf(loadData[i]);
 		    i++;		
@@ -406,7 +428,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				LoadflowGenXmlType equivGen=bus.getGenData().getEquivGen();
 				equivGen.setId(genId);
 				equivGen.setOffLine(!genOnLine);
-				
+				//equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase, ApparentPowerUnitType.MVA));
 				equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
 							genMWMax, genMWMin, ActivePowerUnitType.MW));
 				
@@ -429,7 +451,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				
 				LoadflowGenXmlType equivGen=bus.getGenData().getEquivGen();
 				equivGen.setId(genId);
-				
+				//equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase, ApparentPowerUnitType.MVA));
 				equivGen.setOffLine(!genOnLine);
 								
 				//p limit
@@ -484,16 +506,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			if(zoneNum!=-1)equivGen.setZoneNumber(zoneNum);
 			// define the remote control bus
 			equivGen.setRemoteVoltageControlBus(parser.createBusRef(regBusId));
-			
-		}
+		  }
+	   }
 	}
 	
-	
-	
-	
-	
-	
-	}
 	private void processBusShuntData(String shuntDataStr,AclfModelParser parser){
 		/*
 		 * DATA (SHUNT, [BusNum,ShuntID,AreaNum,ZoneNum,SSRegNum,SSStatus,SSCMode,SSVHigh,SSVLow,SSNMVR,
@@ -585,14 +601,18 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		 * BusNum:1-># of toBus
 		 * LineC->shuntB(Per unit susceptance (B) of branch on the system base), 50% at each end; 
 		 * LineG->Per unit conductance (G) of branch on the system base
+		 * LineXfmr: the flag indicating whether the branch is a Line or transformer;
 		 */
 		//TODO exact meanings of LineAMVA,LineBMVA,LineCMVA
+		
 		long fromBusNum=-1,toBusNum=-1;
 		String fromBusId, toBusId,circuitId="1";
 		boolean closed=true, isXfmr=false;
 		double r=0,x=0,b=0,g=0, // all per unit value on system base;
+		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
 		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
 		       lineTap=1.0;//mvaRatingB,mvaRatingC,
+		
 		String[] branchData=getDataFields(branchDataStr, dataSeparator);
 		int i=-1;
 		try{
@@ -605,10 +625,12 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		i=argumentFileds.indexOf("LineCircuit"); if(i!=-1)circuitId=branchData[i];
 		
-		i=argumentFileds.indexOf("LineXfmr"); if(i!=-1)isXfmr=branchData[i].equals("YES")?true:false;
+		i=argumentFileds.indexOf("LineXfmr"); if(i!=-1)isXfmr=branchData[i].equalsIgnoreCase("YES")?true:false;
+		//both LineXfmr or BranchDeviceType could be used to define branch type
+		i=argumentFileds.indexOf("BranchDeviceType");if(i!=-1)isXfmr=branchData[i].equalsIgnoreCase("Transformer")?true:false;
 		
 		i=argumentFileds.indexOf("LineStatus"); 
-	    if(i!=-1)closed=branchData[i].equals("Closed")?true:false;
+	    if(i!=-1)closed=branchData[i].equalsIgnoreCase("Closed")?true:false;
 	    
 	    i=argumentFileds.indexOf("LineR"); if(i!=-1)r=Double.valueOf(branchData[i]);
 	    
@@ -624,6 +646,17 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	    i=argumentFileds.indexOf("LineCMVA"); //same as LineAMVA:2?
 	    if(i!=-1)mvaRatingC=Double.valueOf(branchData[i]);
 	    
+	    i=argumentFileds.indexOf("LineShuntMW"); 
+	    if(i!=-1)fBusShuntMW=Double.valueOf(branchData[i]);
+	    
+	    i=argumentFileds.indexOf("LineShuntMW:1"); 
+	    if(i!=-1)tBusShuntMW=Double.valueOf(branchData[i]);
+	    
+	    i=argumentFileds.indexOf("LineShuntMVR"); 
+	    if(i!=-1)fBusShuntMvar=Double.valueOf(branchData[i]);
+	    
+	    i=argumentFileds.indexOf("LineShuntMVR:1"); 
+	    if(i!=-1)tBusShuntMvar=Double.valueOf(branchData[i]);
 	    
 	    i=argumentFileds.indexOf("LineTap"); 
 	    if(i!=-1)lineTap=Double.valueOf(branchData[i]); 
@@ -638,21 +671,37 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
     	
 	    if(!isXfmr)branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
 	    else branch=parser.createXfrBranch(fromBusId, toBusId, circuitId);
-		
+	    
+		/*
+		 * common setting for branch type
+		 */
 		branch.setOffLine(!closed);
 		branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
+		//processing lint shunt at from bus 
+		if(fBusShuntMW!=0||fBusShuntMvar!=0){
+			LoadflowBusXmlType fromBus=parser.getAclfBus(fromBusId);
+			AclfDataSetter.addBusShuntY(fromBus, fBusShuntMW, fBusShuntMvar, YUnitType.MVAR);
+		}
+		//processing lint shunt at to bus 
+		if(tBusShuntMW!=0||tBusShuntMvar!=0){
+			LoadflowBusXmlType toBus=parser.getAclfBus(toBusId);
+			AclfDataSetter.addBusShuntY(toBus, tBusShuntMW, tBusShuntMvar, YUnitType.MVAR);
+		}
 		
-		
+		//branch is Line type
 		if(branch instanceof LineBranchXmlType){
-			if(g!=0||b!=0)((LineBranchXmlType) branch).setToShuntY(
+			if(g!=0||b!=0)((LineBranchXmlType) branch).setTotalShuntY(
 					BaseDataSetter.createYValue(g, b, YUnitType.PU));
 		}
+		//branch is Transformer type
 		else if(branch instanceof XfrBranchXmlType){
 			if(g!=0||b!=0)((XfrBranchXmlType) branch).setMagnitizingY(
 					BaseDataSetter.createYValue(g, b, YUnitType.PU));
 			((XfrBranchXmlType) branch).setFromTurnRatio(
 					BaseDataSetter.createTurnRatioPU(lineTap));
-			//TODO define toTurnRatio
+			//TODO define toTurnRatio, set 1.0 by default
+			((XfrBranchXmlType) branch).setToTurnRatio(
+					BaseDataSetter.createTurnRatioPU(1.0));
 			//what is the difference between transformer tap and turn ratio;
 			
 			//TODO NE-ISO use Branch type to define transformer
@@ -681,22 +730,47 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		*/
 		long fromBusNum=-1,toBusNum=-1;
 		String fromBusId, toBusId,circuitId="1";
-		String[] shuntData=getDataFields(xfomerDataStr, dataSeparator);
+		int tableNum=0;
+		double xTapMin=0,xTapMax=0,xTapStep=0,xRegMin=0,xRegMax=0;
+		double xfmrBaseMva=0;
+		String[] xfmrData=getDataFields(xfomerDataStr, dataSeparator);
 		int i=-1;
 		try{
 		i=argumentFileds.indexOf("BusNum") ;
-		fromBusNum=Long.valueOf(shuntData[i]); //mandatory field
+		fromBusNum=Long.valueOf(xfmrData[i]); //mandatory field
 		
 		i=argumentFileds.indexOf("BusNum:1") ;
-		toBusNum=Long.valueOf(shuntData[i]); //mandatory field
+		toBusNum=Long.valueOf(xfmrData[i]); //mandatory field
 		
-		i=argumentFileds.indexOf("LineCircuit"); if(i!=-1)circuitId=shuntData[i];
+		i=argumentFileds.indexOf("LineCircuit"); if(i!=-1)circuitId=xfmrData[i];
+		
+		i=argumentFileds.indexOf("XFRegMin"); if(i!=-1)xRegMin=Double.valueOf(xfmrData[i]);
+		i=argumentFileds.indexOf("XFRegMax"); if(i!=-1)xRegMax=Double.valueOf(xfmrData[i]);
+		i=argumentFileds.indexOf("XFTapMin"); if(i!=-1)xTapMin=Double.valueOf(xfmrData[i]);
+		i=argumentFileds.indexOf("XFTapMax"); if(i!=-1)xTapMax=Double.valueOf(xfmrData[i]);
+		i=argumentFileds.indexOf("XFTapStep"); if(i!=-1)xTapStep=Double.valueOf(xfmrData[i]);
+		
+		i=argumentFileds.indexOf("XFMVABase"); if(i!=-1)xfmrBaseMva=Double.valueOf(xfmrData[i]);
+		
+		i=argumentFileds.indexOf("XFTableNum"); if(i!=-1)tableNum=Integer.valueOf(xfmrData[i]);
 		
 		fromBusId=parser.BusIdPreFix+fromBusNum;
 		toBusId=parser.BusIdPreFix+toBusNum;
 		
 		XfrBranchXmlType xfr=parser.getXfrBranch(fromBusId, toBusId, circuitId);
 		//TODO set type and regulation info;
+		TransformerInfoXmlType xfmrInfo=new TransformerInfoXmlType();
+		xfr.setXfrInfo(xfmrInfo);
+		xfmrInfo.setZTableNumber(tableNum);
+		if(xfmrBaseMva!=0)
+		xfmrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfmrBaseMva, ApparentPowerUnitType.MVA));
+		
+		
+		TapAdjustmentXmlType tapAdj=new TapAdjustmentXmlType();
+		xfr.setTapAdjustment(tapAdj);
+		if(xTapMax!=0)tapAdj.setTapLimit(BaseDataSetter.createTapLimit(xTapMax, xTapMin));
+		if(xTapStep!=0)tapAdj.setTapAdjStepSize(xTapStep);
+		//TODO what is regulated value for?
 		
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -735,9 +809,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			parser.getAclfNet().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		
 		parser.getAclfNet().getAreaList().getArea().add(area);
-		
-		
-		
+				
 		
 	}
 	private void processZoneData(String zoneDataStr,AclfModelParser parser){
@@ -763,6 +835,14 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		parser.getAclfNet().getLossZoneList().getLossZone().add(zone);
 		
 	}
+	private void processOwnerData(String ownerDataStr,AclfModelParser parser){
+		//TODO
+		/*
+		 * 1. owner data
+		 * 2. subData, judge if ownerDataStr.trim().startWith("<SubData")
+		 */
+	}
+	
 	private boolean isArgumentFieldsCompleted(String str){
 		
 		boolean leftParenthesis=false;
