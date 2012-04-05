@@ -30,6 +30,7 @@ import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -95,6 +96,8 @@ public class ODMObjectFactory {
 			return new UCTE_DEFAdapter();
 		else if ( f == ODMFileFormatEnum.BPA ) 
 			return new BPAAdapter();
+		else if ( f == ODMFileFormatEnum.PWD ) 
+			return new PowerWorldAdapter();
 		
 		throw new ODMException("Error - unkown ODM file type");
 	}

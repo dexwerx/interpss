@@ -36,5 +36,6 @@ public enum ODMFileFormatEnum {
 	GePSLF, 
 	PsseV26, 
 	PsseV30, 
-	BPA
+	BPA,
+	PWD
 }
