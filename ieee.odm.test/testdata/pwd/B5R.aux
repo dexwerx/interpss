@@ -1,0 +1,355 @@
+DATA (BUS, [BusNum,BusName,BusNomVolt,BusPUVolt,BusAngle,BusG:1,BusB:1,AreaNum,ZoneNum,
+   SubNum,BusSlack])
+{
+    1 "Bus 1   " 345.00 1.000000   0.000000   0.0000   0.0000    2    1 "" "YES"
+    2 "Bus 2   " 345.00 1.000000  -0.160879   0.0000   0.0000    1    1 "" "NO "
+    3 "Bus 3   " 345.00 1.009431  -0.830859   0.0000   0.0000    1    1 "" "NO "
+    4 "Bus 4   " 138.00 0.992277  -2.753217   0.0000   0.0000    1    1 "" "NO "
+    5 "Bus 5   "  34.50 0.993431  -8.539077   0.0000   0.0000    1    1 "" "NO "
+   10 "Bus 2STR" 345.00 1.021339   0.245619   0.0000   0.0000    1    1 "" "NO "
+}
+
+DATA (LOAD, [BusNum,LoadID,LoadStatus,LoadSMW,LoadSMVR,LoadIMW,LoadIMVR,LoadZMW,LoadZMVR,
+   AreaNum,ZoneNum])
+{
+    1 "1 " "Closed"   100.000     0.000     0.000     0.000     0.000     0.000 2 1
+    2 "1 " "Closed"   200.000   100.000     0.000     0.000     0.000     0.000 1 1
+    3 "1 " "Closed"   100.000    50.000     0.000     0.000     0.000     0.000 1 1
+    5 "1 " "Closed"   100.000     0.000     0.000     0.000     0.000     0.000 1 1
+}
+
+DATA (GEN, [BusNum,GenID,GenStatus,GenMW,GenMVR,GenAGCAble,GenEnforceMWLimits,GenMWMin,
+   GenMWMax,GenParFac,GenAVRAble,GenVoltSet,GenRegNum,GenMVRMin,GenMVRMax,
+   GenRMPCT,GenUseCapCurve,GenUseLDCRCC,GenXLDCRCC,GenMVABase,GenZR,GenZX,
+   GenStepR,GenStepX,GenStepTap,AreaNum,ZoneNum])
+{
+    1 "1" "Closed"  100.0056 -157.3738 "YES" "YES"    0.0000  800.0000    1.0000 "YES" 1.000000     1 -99998.9990 99998.9990  100.0000 "NO " "NO"  0.000  100.0000   0.00000   1.00000   0.00000   0.00000   1.00000 2 1
+    2 "1" "Closed"  400.8590  327.2292 "YES" "YES"  150.0000  600.0000    1.0000 "YES" 1.000000     2 -9900.0000 9900.0000  100.0000 "NO " "NO"  0.000  100.0000   0.00000   1.00000   0.00000   0.00000   1.00000 1 1
+}
+
+DATA (SHUNT, [BusNum,ShuntID,AreaNum,ZoneNum,SSRegNum,SSStatus,SSCMode,SSVHigh,SSVLow,SSNMVR,
+   SSBlockNumSteps,SSBlockMVarPerStep,SSBlockNumSteps:1,SSBlockMVarPerStep:1,
+   SSBlockNumSteps:2,SSBlockMVarPerStep:2,SSBlockNumSteps:3,SSBlockMVarPerStep:3,
+   SSBlockNumSteps:4,SSBlockMVarPerStep:4,SSBlockNumSteps:5,SSBlockMVarPerStep:5,
+   SSBlockNumSteps:6,SSBlockMVarPerStep:6,SSBlockNumSteps:7,SSBlockMVarPerStep:7,
+   SSBlockNumSteps:8,SSBlockMVarPerStep:8,SSBlockNumSteps:9,SSBlockMVarPerStep:9])
+{
+    3 " 1" 1 1 3 "Open  " "Fixed" 1.0000 1.0000     0.000  3.000   -10.000  4.000    20.000  0.000     0.000  0.000     0.000  0.000     0.000  0.000     0.000  0.000     0.000  0.000     0.000  0.000     0.000  0.000     0.000
+}
+
+DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
+   LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineXfmr,LineTap,
+   LinePhase,SeriesCapStatus])
+{
+    1     2 " 1" "Closed"  0.030000  0.160000  0.000000  0.000000   150.000  9999.000  9999.000     0.000     0.000     0.000     0.000  "NO"    1.000000   0.000000 "Not Bypassed"
+    1     3 " 1" "Closed"  0.015000  0.080000  0.000000  0.000000   300.000  9999.000  9999.000     0.000     0.000     0.000     0.000  "NO"    1.000000   0.000000 "Not Bypassed"
+    2     4 " 1" "Closed"  0.015000  0.080000  0.000000  0.000000   250.000  9999.000  9999.000     0.000     0.000     0.000     0.000  "NO"    1.000000   0.000000 "Not Bypassed"
+    4     3 " 1" "Closed"  0.015000  0.080000  0.000000  0.000000   200.000   200.000   200.000     0.000     0.000     0.000     0.000  "NO"    1.000000   0.000000 "Not Bypassed"
+    4     5 " 1" "Closed"  0.000000  0.100000  0.000000  0.000000  1000.000  1000.000  1000.000     0.000     0.000     0.000     0.000  "YES"    0.993750   0.000000 "Not Bypassed"
+    1    10 "1" "Closed"  0.000000  0.025000  0.000000  0.000000  1000.000     0.000     0.000     0.000     0.000     0.000     0.000   "YES"   1.015050   0.000000 "Not Bypassed"
+    2    10 "1" "Closed"  0.000000 -0.005000  0.000000  0.000000  1000.000     0.000     0.000     0.000     0.000     0.000     0.000   "YES"   0.990000   0.000000 "Not Bypassed"
+    3    10 "1" "Closed"  0.000000  0.015000  0.000000  0.000000  1000.000     0.000     0.000     0.000     0.000     0.000     0.000   "YES"   1.000000   0.000000 "Not Bypassed"
+}
+
+DATA (TRANSFORMER, [BusNum,BusNum:1,LineCircuit,LineXFType,XFAuto,XFRegMin,XFRegMax,XFTapMin,
+   XFTapMax,XFStep,XFTableNum,XFRegBus])
+{
+    4     5 " 1" "LTC" "YES"   0.99000   1.00000   0.90000   1.10000   0.00625      0 5
+}
+
+DATA (3WXFORMER, [BusName_NomVolt:4,BusNum3W:3,BusName3W,BusName3W:1,BusName3W:2,BusName3W:3,
+   LineCircuit,NomVolt3W,NomVolt3W:1,NomVolt3W:2,Tap3W,Tap3W:1,Tap3W:2,Tap3W:3,
+   R3W,R3W:1,R3W:2,X3W,X3W:1,X3W:2])
+{
+"1 2 3" 10 "Bus 1   " "Bus 2   " "Bus 3   " "Bus 2STR" "1" 345.000 345.000 345.000  1.005  1.010  0.990  1.000  0.000  0.000  0.000  0.020  0.010  0.040
+}
+
+DATA (AREA, [AreaNum,AreaName,BGAGC,BGAutoSS,BGAutoXF,EnforceGenMWLimits,SchedName,SAName,
+   ConvergenceTol,AreaEDIncludeLossPF,BusSlack,AreaUnSpecifiedStudyMW])
+{
+1 "Home    " "   ED     " "YES" "YES" "YES" "" ""   1.0000 "YES" ""        0.000
+2 "2       " "   ED     " "YES" "YES" "YES" "" ""   1.0000 "YES" ""        0.000
+}
+
+DATA (ZONE, [ZoneNum,ZoneName,SchedName])
+{
+1 "1       " ""
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING SECTION AREA/ZONE FILTER SETTINGS
+//--------------------------------------------------------------------------------
+DATA (AREA, [AreaNum,AreaName,BGDisplayFilter])
+{
+1 "Home    " "YES"
+2 "2       " "YES"
+}
+
+DATA (ZONE, [ZoneNum,ZoneName,BGDisplayFilter])
+{
+1 "1       " "YES"
+}
+DATA (GEN, [BusNum,GenID,GenCostModel,GenIOA,GenIOB,GenIOC,GenIOD,GenFuelCost,GenFixedCost,
+   GenFuelType])
+{
+    1 "1" "Cubic"   219.81    7.034   0.0044  0.00000     2.28     0.00 "Unknown"
+    2 "1" "Cubic"   239.40    7.780   0.0016  0.00000     1.67     0.00 "Unknown"
+}
+
+DATA (LOAD, [BusNum,LoadID,GenAGCAble,GenFixedCost,GenMWMax,GenMWMin])
+{
+    1 "1 " "YES"     0.00      0.000      0.000
+    2 "1 " "YES"     0.00      0.000      0.000
+    3 "1 " "YES"     0.00      0.000      0.000
+    5 "1 " "YES"     0.00      0.000      0.000
+}
+
+//--------------------------------------------------------------------------------
+//THE FOLLOWING ARE THE SIMULATION SOLUTIONS OPTIONS
+//--------------------------------------------------------------------------------
+DATA (SIM_SOLUTION_OPTIONS, [FlatStart,ChkAreaInt,ChkShunts,ChkTaps,ChkPhaseShifters,EnforceGenMWLimits,
+   RestoreSolution,RestoreState,MaxItr,ConvergenceTol,ChkVars,SBase,
+   AllowMultIslands,DisableOptMult,RestoreInitState,DoOneIteration,LossSenseFunc,
+   SolutionMethod,DisableGenMVRCheck,ModelPSDiscrete,PreventOscillations,
+   MinLTCSense,IncludePenaltyFactors,EnforceConvex,LogDisableLogging,
+   LogDisableLogging:1,LogDisableLogging:2,LogDisableLogging:3,
+   LogDisableLogging:4,LogDisableLogging:5])
+{
+"YES" "YES" "YES" "YES" "YES" "YES" "NO " "NO "     50  0.003 "NO " "100.000" "YES" "NO " "YES" "NO "      0 "OMRectNR" "NO " "NO " "NO "  0.050 "YES" "NO " "NO " "NO " "NO " "NO " "NO " "NO "
+}
+
+//--------------------------------------------------------------------------------
+//THE FOLLOWING ARE THE ENVIRONMENT OPTIONS
+//--------------------------------------------------------------------------------
+DATA (SIM_ENVIRONMENT_OPTIONS, [ShowLog,ShowHints,SaveContour,MeasurementUnits,ShowBlackouts,ShowXY,KiloOrMega,
+   ClockStyle,XfmrSymbol,MainOneLineFile,UseDefaultOneline,DefaultOnelineFile,
+   MinScreenFontSize,MinMetaFontSize,DisplayOnly,AutoLoadScript,UsedFileList])
+{
+"YES" "NO " "NO "      0 "NO " "YES"      0      1      0 "b5r.PWD" "NO " ""  3.500  2.000 "     0" "NO "      6
+}
+
+//--------------------------------------------------------------------------------
+//THE FOLLOWING ARE THE SIMULATION OPTIONS
+//--------------------------------------------------------------------------------
+DATA (SIM_SIMULATION_OPTIONS, [EndTime,StartTime,StartDay,TimeSpeedUp,UseFixedTimeStep,PowerBlockSize,
+   TransRampTime,FreqModel,AutoStart,AutoSolveOnLoad,UseTapDelays,CurrentDay,
+   EndDay,CostUnservedEnergy,CaseLoadMult,TapDelay,CurrentTime,NeverEnds])
+{
+36000.000 21600.000      0 60.000 "NO "  0.500 600.000 60.000 "NO " "YES" "YES"      0      0  0.000  1.000 30.000 22860.000 "YES"
+}
+
+//--------------------------------------------------------------------------------
+//THE FOLLOWING ARE MISC PROGRAM OPTIONS
+//--------------------------------------------------------------------------------
+DATA (SIM_MISC_OPTIONS, [HighlightAnalogs,HighLimitColor,LowLimitColor,ChkHeating,SaveSchedToPWT,
+   SaveCaseInfoToPWT,SaveOptionstoPWT,UseDefaultPWT,DefaultPWT,
+   TemplateAuxDataFile,EnforceRampLimits])
+{
+"NO "    255 16711680 "NO " "YES" "YES" "YES" "NO " "" "" "NO "
+}
+
+//--------------------------------------------------------------------------------
+//THE FOLLOWING ARE CASE INFO DEFAULT OPTIONS
+//--------------------------------------------------------------------------------
+DATA (CASEINFO_OPTIONS, [SOFontSize,CaseInfoEnterColor,CaseInfoToggleColor,CaseInfoLimitColor,
+   CaseInfoRowHeight,DisableCaseInfoRefresh,FontName,FontStyles,FontColor,
+   CaseInfoCopyIncludeObjectName,CaseInfoCopyIncludeColumnHeadings,
+   CaseInfoColumnHeadingTypes,CaseInfoBackgroundColor,
+   CaseInfoHeadingBackgroundColor,CaseInfoNotUsedColor,CaseInfoDataFillColor])
+{
+     8 8388608  32768    255     16 "NO " "Tahoma" "BOLD"      0 "YES" "YES" "     0" 16777215 13160660 7895160  65535
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING ARE THE LIMIT MONITORING SETTINGS.
+//--------------------------------------------------------------------------------
+DATA (LIMIT_MONITORING_OPTIONS, [LMS_IgnoreRadial])
+{
+"NO "
+}
+
+DATA (LIMITSET, [LSNum,LSName,LSPULow,LSPUHigh,LSLinePercent,LSInterfacePercent,LSLineRateSet,
+   LSLineRateSet:1,LSInterfaceRateSet,LSInterfaceRateSet:1,LSDisabled,LSAmpMVA,
+   LSEndMonitor,LSLowVSuspectCutoff])
+{
+         1 "Default"      0.900      1.100    100.000    100.000 "A" "A" "A" "A" "NO " "Amp/MVA" "Higher"      0.000
+}
+
+DATA (AREA, [AreaNum,BGReportLimits,BGReportLimMinKV,BGReportLimMaxKV])
+{
+1 "YES"     0.0000  9999.0000
+2 "YES"     0.0000  9999.0000
+}
+
+DATA (ZONE, [ZoneNum,BGReportLimits,BGReportLimMinKV,BGReportLimMaxKV])
+{
+1 "YES"     0.0000  9999.0000
+}
+
+DATA (BUS, [BusNum,BusMonEle,LSName])
+{
+    1 "Yes" "Default"
+    2 "Yes" "Default"
+    3 "Yes" "Default"
+    4 "Yes" "Default"
+    5 "Yes" "Default"
+   10 "Yes" "Default"
+}
+
+DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,LineMonEle,LSName])
+{
+    1     2 " 1" "YES" "Default"
+    1     3 " 1" "YES" "Default"
+    2     4 " 1" "YES" "Default"
+    4     3 " 1" "YES" "Default"
+    4     5 " 1" "YES" "Default"
+    1    10 "1" "YES" "Default"
+    2    10 "1" "YES" "Default"
+    3    10 "1" "YES" "Default"
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING THE OPF OPTIONS AND RESULTS.
+//--------------------------------------------------------------------------------
+DATA (OPF_OPTIONS, [OPF_ObjFunc,OPF_SolutionType,OPF_MaxLPIterations,OPF_GenCostModel,
+   OPF_PtsPerCurve,OPF_MWPerSegment,OPF_DisPhaseShift,OPF_DisGenMW,
+   OPF_DisGenMW:1,OPF_SaveLinCurve,OPF_DisLineEnforce,OPF_DisIntEnforce,
+   OPF_DisableACE,OPF_MinControlSense,OPF_MinPhaseShiftSense,OPF_PhaseShiftCost,
+   OPF_LineCorrectTol,OPF_LineMVARelease,OPF_LineMaxViolCost,OPF_IntCorrectTol,
+   OPF_IntMWRelease,OPF_IntMaxViolCost,OPFCalculateBusReactiveLMP,OPFPFUpdate,
+   OPFPFUpdateGenChange,OPFIncludeUnenforceCost,OPFAreaSlackCost,OPFGenSlackCost,
+   OPFPhaseChangeTolerance,OPFGenAllowCommitment,OPFGenAllowDecommitment,
+   SCOPFMaxOuterLoopItr,SCOPFOuterLoopType])
+{
+     0      0   2500      1      5 10.000 "NO " "NO " "YES" "NO " "NO " "NO " "NO "  0.010  0.001  0.100  2.000 75.000 1000.000  2.000 75.000 1000.000 "NO "      0 "" "NO " 10000.000 10000.000  0.001 "YES" "NO " "" ""
+}
+
+DATA (AREA, [AreaNum,OPFAreaMWMC,AreaLPUnenforceable,OPFAreaXFPS,OPFAreaLineLim,
+   OPFAreaInterfaceLim])
+{
+1 "" "   " "NO " "NO " "NO "
+2 "" "   " "NO " "NO " "NO "
+}
+
+DATA (BUS, [BusNum,BusMCMW])
+{
+    1     0.0000
+    2     0.0000
+    3     0.0000
+    4     0.0000
+    5     0.0000
+   10     0.0000
+}
+
+DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,LineMCMVA,LPOPFConstraint,LineLPUnenforceableMVA,
+   LineLPEnforceMVAEquality])
+{
+    1     2 " 1" "" "No" "   " "NO "
+    1     3 " 1" "" "No" "   " "NO "
+    2     4 " 1" "" "No" "   " "NO "
+    4     3 " 1" "" "No" "   " "NO "
+    4     5 " 1" "" "No" "   " "NO "
+    1    10 "1" "" "No" "   " "NO "
+    2    10 "1" "" "No" "   " "NO "
+    3    10 "1" "" "No" "   " "NO "
+}
+
+DATA (GEN, [BusNum,GenID,GenLPMW])
+{
+    1 "1" "If Agcable"
+    2 "1" "If Agcable"
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING SECTION CONTAINS OPTIONS FOR THE CONTINGENCY ANALYSIS.
+//--------------------------------------------------------------------------------
+DATA (CTG_OPTIONS, [CtgFileName:1,CTG_DoNotAutoOpen,CTG_AlwaysSaveResults,CTG_WhatToDoWithBC,
+   CTG_WhatToDoWithBC:1,CTG_WhatToDoWithBC:2,CTG_BCFlows,CTG_BCFlows:1,
+   CTG_BCFlows:2,CTG_BCLowVolt,CTG_BCLowVolt:1,CTG_BCLowVolt:2,CTG_BCHighVolt,
+   CTG_BCHighVolt:1,CTG_BCHighVolt:2,CTG_BCInterface,CTG_BCInterface:1,
+   CTG_BCInterface:2,CTG_ReportIDBusBy,CTG_ReportAll,CTG_ReportOptionSettings,
+   CTG_ReportMonitoredAreas,CTG_ReportMonitoredZones,CTG_ReportCaseSummary,
+   CTG_ReportBaseCaseOutages,CTG_ReportBusVoltageExtremes,
+   CTG_ReportLargestBranchFlow,CTG_ReportLargestInterfaceFlow,CTG_ReportCondense,
+   CTG_ReportOnlyViolations,CTG_ReportCreateTables,CTG_ReportFieldSeparator,
+   CTG_CalculationMethod,ReactivePowerModel,AllowAmpLimits,ActionStatus,
+   CTGFullSave,CTGFullSaveTypes,UseAreaPartsMakeUpPower,
+   CTG_ReportInactiveViolations])
+{
+"" "YES" "YES"      1 NO  NO   0.000  0.000 999.000  0.000  0.000  2.000  0.000  0.000  2.000  0.000  0.000 999.000      0 "NO " "NO " "NO " "NO " "NO " "NO " "NO " "NO " "NO " "NO " "NO " "NO " "$" "     0" "     0" "NO " "CHECK"    0        0 "Area Part Factors" "NO "
+}
+
+// THE FOLLOWING SECTION CONTAINS OPTIONS FOR MAKE UP GENERATION FOR CONTINGENCY ANALYSIS.
+DATA (AREA, [AreaNum,AreaName,CTGMakeUpGen])
+{
+1 "Home    "     0.0000
+2 "2       "     0.0000
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING SECTIONS CONTAINS THE ATC SETTINGS.
+//--------------------------------------------------------------------------------
+DATA (ATC_OPTIONS, [GenEnforceMWLimits,MaxItr,ATC_SolMethod,ATC_LinCalcMethod,ATC_LimitersSaved,
+   ATC_MaxLimCtg,ATC_MaxLimElements,ATC_MaxMWLimit,ATC_IncBranchCtg,
+   ATC_EnfOpfConstraints,ATC_IgnorePTDFBelow,ATC_TransferTol,
+   ATC_MultipleScenarios,ReactivePowerModel,AllowAmpLimits,ATCTransactor,
+   ATCTransactor:1,ATCLimitersToIterateOn,ATCIgnoreLimitersBelow,
+   VaryLoadConstantPF,ATC_IgnoreBaseLimitations])
+{
+"YES"     10      1      1     50     10     10 99999.000 "YES" "NO "  0.010  5.000 "NO " "     0" "NO " "" "" "     1" " 0.000" "YES" "YES"
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING THE PV OPTIONS
+//--------------------------------------------------------------------------------
+DATA (PVCURVE_OPTIONS, [qvMinVolt,qvMaxVolt,qvSave,CtgFileName,PVCMinStep,PVCMaxShift,PVCReduceFactor,
+   PVCPowerFac,PVCSaveStateItr,PVCStoreStatesWhere,PVCStateArchivePrefix,
+   PVCArchiveState,PVCSaveToFile,PVCPauseBetweenItr,PVCEnforcePosLoad,
+   PVCCTGFileType,PVCInadequateVolt,PVCCollapseCushion,PVCLowVCushion,
+   PVCStopWhenInadequate,PVCFlagLowVolt,PVCFlagHighVolt,PVCLockControls,
+   PVCAutoLaunchQV,PVCSkipCtg,PVCNumLimitCases,PVCOutFile,PVCEnforceAGC,
+   PVCEnforceGenMWLimits,PVCQVCtgPolicy,PVCQVAccel,PVCQVMaxVInc,PVCQVMaxVDec,
+   PVCIniStep,PVCCapped,PVCUseConstantPF,PVCQVOptionsFile,PVCFlagInadequate,
+   PVCRunBaseToCompletion,PVDoCOISplit,PVCOIPercent,PVCOIPDCIMaxMW])
+{
+ 0.000 9999.900 "" ""  0.100 -9999.900  2.000 100.000      1 "" "" "None" "NO " "NO " "NO " None  0.900  0.000  0.000 "NO " "NO " "NO "      7 "NO " "NO "      1 "" "NO " "NO " "Just Unsolved" "NO " -1.000 -1.000  1.000 "NO " "NO " "" "YES" "NO " "NO "  1.000 3100.000
+}
+
+DATA (BUS, [BusNum,PVmonBusVoltage,PVmonBusAngle,PVmonBusPLoad,PVmonBusQLoad])
+{
+    1 "NO " "NO " "NO " "NO "
+    2 "NO " "NO " "NO " "NO "
+    3 "NO " "NO " "NO " "NO "
+    4 "NO " "NO " "NO " "NO "
+    5 "NO " "NO " "NO " "NO "
+   10 "NO " "NO " "NO " "NO "
+}
+
+DATA (GEN, [BusNum,GenID,PVMonGenMW,PVMonGenMVR,PVMonGenMVRReserve])
+{
+    1 "1" "NO " "NO " "NO "
+    2 "1" "NO " "NO " "NO "
+}
+
+DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,PVMonBranchMW,PVMonBranchMVR,PVMonBranchMVA])
+{
+    1     2 " 1" "NO" "NO" "NO"
+    1     3 " 1" "NO" "NO" "NO"
+    2     4 " 1" "NO" "NO" "NO"
+    4     3 " 1" "NO" "NO" "NO"
+    4     5 " 1" "NO" "NO" "NO"
+    1    10 "1" "NO" "NO" "NO"
+    2    10 "1" "NO" "NO" "NO"
+    3    10 "1" "NO" "NO" "NO"
+}
+
+//--------------------------------------------------------------------------------
+// THE FOLLOWING THE QV OPTIONS
+//--------------------------------------------------------------------------------
+DATA (QVCURVE_OPTIONS, [qvStepSize,qvMinVolt,qvMaxVolt,qvSave,qvPlot,qvOutputDir,qvFilePrefix,qvFileExt,
+   qvDoCTGs,qvAutoIDBusV,qvAutoIDdVdQ,qvAutoIDLimGroup,QVSkipBaseCase,
+   QVOutputFileName,QVUseInitialVAsVMax])
+{
+ 0.010  0.100  1.100 "NO " "NO " "C:\pw\Version.80\Code80" "QV_" ".TXT" "NO " "   0" "   0" "Default" "NO " "" "NO "
+}
+
