@@ -31,47 +31,41 @@ import java.io.File;
 import org.ieee.odm.ODMFileFormatEnum;
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 import org.interpss.spring.CorePluginSpringFactory;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 
 public class BPAFormat extends IpssFileAdapterBase {
 	public BPAFormat(IPSSMsgHub msgHub) {
-		super(msgHub);
+		super(msgHub, ODMFileFormatEnum.BPA);
 	}
-	/**
-	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
-	 * object will be created to hold the data for loadflow analysis.
-	 * 
-	 * @param simuCtx the SimuContext object
-	 * @param filepath full path path of the input file
-	 * @param msg the SessionMsg object
-	 */
-	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
-		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug, outfile);
- 	}
 	
 	@Override
-	public void load(final SimuContext simuCtx, final String[] filepathAry, boolean debug, String outfile) throws Exception{
-		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
-		adapter.parseInputFile(IODMAdapter.NetType.DStabNet, filepathAry);
-		this.parser = adapter.getModel();
-		if (debug)
-			System.out.println(adapter.getModel().toXmlDoc(outfile));
+	public void load(final SimuContext simuCtx, final String[] filepathAry, boolean debug, String outfile) throws InterpssException {
+		try {
+			IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.BPA);
+			adapter.parseInputFile(IODMAdapter.NetType.DStabNet, filepathAry);
+			this.parser = adapter.getModel();
+			if (debug)
+				System.out.println(adapter.getModel().toXmlDoc(outfile));
 
-		String filepath = filepathAry[0];
-		if (CorePluginSpringFactory.getOdm2DStabMapper().map2Model((DStabModelParser)adapter.getModel(), simuCtx)) {
-  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+			String filepath = filepathAry[0];
+			if (CorePluginSpringFactory.getOdm2DStabMapper().map2Model((DStabModelParser)adapter.getModel(), simuCtx)) {
+	  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+	  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+			}
+			else {
+				msgHub.sendErrorMsg("Error to load file: " + filepath);
+	  			ipssLogger.severe("Error to load file: " + filepath);
+			}		
+		} catch (ODMException e) {
+			ipssLogger.severe(e.toString());
+			throw new InterpssException("Error while loading custom file through ODM, " + e.toString());
 		}
-		else {
-			msgHub.sendErrorMsg("Error to load file: " + filepath);
-  			ipssLogger.severe("Error to load file: " + filepath);
-		}		
  	}
 }

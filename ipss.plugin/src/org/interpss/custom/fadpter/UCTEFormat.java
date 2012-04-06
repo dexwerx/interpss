@@ -25,44 +25,13 @@
 package org.interpss.custom.fadpter;
 
 import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.ODMObjectFactory;
-import org.ieee.odm.adapter.IODMAdapter;
 import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.simu.SimuContext;
 
 public class UCTEFormat extends IpssFileAdapterBase {
 
 	public UCTEFormat(IPSSMsgHub msgHub) {
-		super(msgHub);
+		super(msgHub, ODMFileFormatEnum.UCTE);
 	}
-	/**
-	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
-	 * object will be created to hold the data for loadflow analysis.
-	 * 
-	 * @param simuCtx the SimuContext object
-	 * @param filepath full path path of the input file
-	 * @param msg the SessionMsg object
-	 */
-	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
-		IODMAdapter adapter = ODMObjectFactory.createODMAdapter(ODMFileFormatEnum.UCTE);
-		loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug, outfile);
- 	}
-	
-	/**
-	 * Create a SimuContext object and Load the data in the data file, specified by the filepath, into the object. 
-	 * An AclfAdjNetwork object will be created to hold the data for loadflow analysis.
-	 * 
-	 * @param filepath full path path of the input file
-	 * @param msg the SessionMsg object
-	 * @return the created SimuContext object.
-	 */
-//	@Override
-//	public SimuContext load(final String filepath) throws Exception{
-//  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, this.msgHub);
-//  		load(simuCtx, filepath);
-//  		return simuCtx;
-//	}
 }

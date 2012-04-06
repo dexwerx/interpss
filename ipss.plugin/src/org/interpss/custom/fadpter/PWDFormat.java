@@ -1,7 +1,7 @@
  /*
-  * @(#)BPAFormat.java   
+  * @(#)GEFormat.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2006-2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 02/01/2008
+  * @Date 05/01/2008
   * 
   *   Revision History
   *   ================
@@ -29,9 +29,8 @@ import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 
 import com.interpss.common.msg.IPSSMsgHub;
 
-public class ODMFormat extends IpssFileAdapterBase {
-	public ODMFormat(IPSSMsgHub msgHub) {
-		// this adapter is not used so far
-		super(msgHub, ODMFileFormatEnum.BPA);
+public class PWDFormat extends IpssFileAdapterBase {
+	public PWDFormat(IPSSMsgHub msgHub) {
+		super(msgHub, ODMFileFormatEnum.PWD);
 	}
 }

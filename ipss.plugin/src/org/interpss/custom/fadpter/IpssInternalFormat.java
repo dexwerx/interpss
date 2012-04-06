@@ -24,6 +24,8 @@
 
 package org.interpss.custom.fadpter;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,6 +41,7 @@ import org.interpss.custom.fadpter.impl.IpssInternalFormat_in;
 import org.interpss.custom.fadpter.impl.IpssInternalFormat_out;
 
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
@@ -58,20 +61,25 @@ public class IpssInternalFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-		
-		// load the loadflow data into the AclfAdjNetwork object
-		final AclfNetwork adjNet = IpssInternalFormat_in.loadFile(din, msgHub);
-  		// System.out.println(adjNet.net2String());
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws InterpssException{
+		try {
+			final File file = new File(filepath);
+			final InputStream stream = new FileInputStream(file);
+			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+			
+			// load the loadflow data into the AclfAdjNetwork object
+			final AclfNetwork adjNet = IpssInternalFormat_in.loadFile(din, msgHub);
+	  		// System.out.println(adjNet.net2String());
 
-		// set the simuContext object
-  		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
-  		simuCtx.setAclfNet(adjNet);
-  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  		simuCtx.setDesc("This project is created by input file " + filepath);
+			// set the simuContext object
+	  		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
+	  		simuCtx.setAclfNet(adjNet);
+	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+	  		simuCtx.setDesc("This project is created by input file " + filepath);
+		} catch (Exception e) {
+			ipssLogger.severe(e.toString());
+			throw new InterpssException(e.toString());
+		}
 	}
 	
 	/**
@@ -83,7 +91,7 @@ public class IpssInternalFormat extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath) throws Exception{
+	public SimuContext load(final String filepath) throws InterpssException{
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, false, null);
   		return simuCtx;
@@ -94,15 +102,20 @@ public class IpssInternalFormat extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext simuCtx) throws Exception{
-        final File file = new File(filepath);
-        final OutputStream stream = new FileOutputStream(file);
-        final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(stream));
+	public boolean save(final String filepath, final SimuContext simuCtx) throws InterpssException {
+		try {
+	        final File file = new File(filepath);
+	        final OutputStream stream = new FileOutputStream(file);
+	        final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(stream));
 
-        boolean r = IpssInternalFormat_out.save(out, simuCtx, msgHub);
-        
-        out.flush();
-        out.close();
-        return r;
+	        boolean r = IpssInternalFormat_out.save(out, simuCtx, msgHub);
+	        
+	        out.flush();
+	        out.close();
+	        return r;
+		} catch (Exception e) {
+			ipssLogger.severe(e.toString());
+			throw new InterpssException(e.toString());
+		}
    }
 }

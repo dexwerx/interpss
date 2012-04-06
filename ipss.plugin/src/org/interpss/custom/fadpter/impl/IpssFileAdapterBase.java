@@ -28,13 +28,17 @@ import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.io.File;
 
+import org.ieee.odm.ODMFileFormatEnum;
+import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.spring.CorePluginSpringFactory;
 
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
@@ -43,6 +47,7 @@ import com.interpss.simu.SimuCtxType;
 
 public class IpssFileAdapterBase implements IpssFileAdapter {
 	protected IPSSMsgHub msgHub;
+	private ODMFileFormatEnum format;
 
 	private String name;
 	private String[] versionList = null;
@@ -58,8 +63,32 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 		this.msgHub = msgHub;
 	}
 	
+	public IpssFileAdapterBase(IPSSMsgHub msgHub, ODMFileFormatEnum format) {
+		this.msgHub = msgHub;
+		this.format = format;
+	}
+
+	/**
+	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
+	 * object will be created to hold the data for loadflow analysis.
+	 * 
+	 * @param simuCtx the SimuContext object
+	 * @param filepath full path path of the input file
+	 * @param msg the SessionMsg object
+	 */
+	@Override
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws InterpssException {
+		try {
+			IODMAdapter adapter = ODMObjectFactory.createODMAdapter(this.format);
+			loadByODMTransformation(adapter, simuCtx, filepath, msgHub, debug, outfile);
+		} catch (ODMException e) {
+			ipssLogger.severe(e.toString());
+			throw new InterpssException("Error while loading custom file through ODM, " + e.toString());
+		}
+ 	}
+	
 	protected void loadByODMTransformation(final IODMAdapter adapter, final SimuContext simuCtx, final String filepath, 
-						final IPSSMsgHub msg, boolean debug, String outfile)  throws Exception{		
+						final IPSSMsgHub msg, boolean debug, String outfile)  throws InterpssException {		
 		adapter.parseInputFile(filepath);
 		this.parser = adapter.getModel();
 		if (debug)
@@ -146,37 +175,33 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 		description = s;
 	}
 
-	public void load(SimuContext simuCtx, String filepath, boolean debug, String outfile) throws Exception {
-		throw new InterpssRuntimeException("Load need to implemented");
+	public void load(SimuContext simuCtx, String[] filepathAry, boolean debug, String outfile) throws InterpssException {
+		throw new InterpssRuntimeException("Load() need to implemented");
 	}
 
-	public void load(SimuContext simuCtx, String[] filepathAry, boolean debug, String outfile) throws Exception {
-		throw new InterpssRuntimeException("Load need to implemented");
-	}
-
-	public SimuContext load(String filepath) throws Exception {
+	public SimuContext load(String filepath) throws InterpssException {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, false, null);
   		return simuCtx;
 	}
 
-	public SimuContext loadDebug(String filepath) throws Exception {
+	public SimuContext loadDebug(String filepath) throws InterpssException {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, true, null);
   		return simuCtx;
 	}
 
-	public SimuContext loadDebug(String filepath, String outfile) throws Exception {
+	public SimuContext loadDebug(String filepath, String outfile) throws InterpssException {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, true, outfile);
   		return simuCtx;
 	}
 
-	public AclfNetwork loadAclfNet(String filepath) throws Exception {
+	public AclfNetwork loadAclfNet(String filepath) throws InterpssException {
 		return load(filepath).getAclfNet();
 	}
 
-	public boolean save(String filepath, SimuContext net) throws Exception {
+	public boolean save(String filepath, SimuContext net) throws InterpssException {
 		throw new InterpssRuntimeException("Save need to implemented");
 	}
 

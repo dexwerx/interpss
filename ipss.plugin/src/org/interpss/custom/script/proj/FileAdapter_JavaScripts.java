@@ -24,6 +24,8 @@
 
 package org.interpss.custom.script.proj;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +38,7 @@ import javax.script.ScriptEngine;
 import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
 
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
@@ -54,20 +57,25 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws Exception{
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-      	String scripts = "", s;
-      	while ((s = din.readLine()) != null) {
-      		scripts += s + "\n";
-       	}
-      	// System.out.println(str);
-      	
-		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
-		engine.eval(scripts);
-		Object loader = getScritingObject(engine, msgHub);
-		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
+	public void load(final SimuContext simuCtx, final String filepath, boolean debug, String outfile) throws InterpssException{
+		try {
+			final File file = new File(filepath);
+			final InputStream stream = new FileInputStream(file);
+			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+	      	String scripts = "", s;
+	      	while ((s = din.readLine()) != null) {
+	      		scripts += s + "\n";
+	       	}
+	      	// System.out.println(str);
+	      	
+			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
+			engine.eval(scripts);
+			Object loader = getScritingObject(engine, msgHub);
+			((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
+		} catch (Exception e) {
+			ipssLogger.severe(e.toString());
+			throw new InterpssException(e.toString());
+		}
 	}
 	
 	private Object getScritingObject(ScriptEngine engine, IPSSMsgHub msg) {
@@ -93,7 +101,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath) throws Exception {
+	public SimuContext load(final String filepath) throws InterpssException {
   		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
   		load(simuCtx, filepath, false, null);
   		return simuCtx;
@@ -104,7 +112,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net) throws Exception{
+	public boolean save(final String filepath, final SimuContext net) throws InterpssException{
 		throw new InterpssRuntimeException("FileAdapter_IpssInternalFormat.save not implemented");
 	}
 }

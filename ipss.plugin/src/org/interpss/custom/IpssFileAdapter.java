@@ -26,6 +26,7 @@ package org.interpss.custom;
 
 import org.ieee.odm.model.IODMModelParser;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 
@@ -36,7 +37,7 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	
 	public static enum FileFormat { 
 			IEEECDF, PSSE, GE_PSLF, 
-			UCTE, IEEE_ODM, BPA, 
+			UCTE, IEEE_ODM, BPA, PWD,
 			IpssInternal, Custom };
 	public static enum Version { 
 			NotDefined, 
@@ -88,48 +89,52 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 * Load the file into the a SimuNetwork object
 	 *  
 	 */
-	void load(SimuContext simuCtx, String filepath, boolean debug, String outfile) throws Exception;
+	void load(SimuContext simuCtx, String filepath, boolean debug, String outfile) throws InterpssException;
 
 	/**
 	 * Load the files into the a SimuNetwork object
 	 *  
 	 */
-	void load(SimuContext simuCtx, String[] filepathAry, boolean debug, String outfile) throws Exception;
+	void load(SimuContext simuCtx, String[] filepathAry, boolean debug, String outfile) throws InterpssException;
 
 	/**
 	 * Load the file and create a SimuNetwork object
 	 *  
+	 * @param filepath 
 	 * @return a SimuNetwork object
 	 */
-	SimuContext load(String filepath) throws Exception;
+	SimuContext load(String filepath) throws InterpssException;
 
 	/**
 	 * Load the file and create a SimuNetwork object
 	 *  
+	 * @param filepath 
 	 * @return a SimuNetwork object
 	 */
-	SimuContext loadDebug(String filepath) throws Exception;
+	SimuContext loadDebug(String filepath) throws InterpssException;
 	
 	/**
 	 * Load the file and create a SimuNetwork object
 	 *  
+	 * @param filepath 
+	 * @param outfile 
 	 * @return a SimuNetwork object
 	 */
-	SimuContext loadDebug(String filepath, String outfile) throws Exception;
+	SimuContext loadDebug(String filepath, String outfile) throws InterpssException;
 
 	/**
 	 * Load the file and create a SimuNetwork object
 	 *  
 	 * @return a SimuNetwork object
 	 */
-	AclfNetwork loadAclfNet(String filepath) throws Exception;
+	AclfNetwork loadAclfNet(String filepath) throws InterpssException;
 	
 	/**
      * No need to be implemented if you do not write simulaiton results back to a datafile
 	 * 
 	 * @see com.interpss.io.adapter.IFileAdapter#save(java.lang.String, com.interpss.core.simu.SimuContext)
 	 */
-	boolean save(String filepath, SimuContext net) throws Exception;
+	boolean save(String filepath, SimuContext net) throws InterpssException;
 	
 	/**
 	 * get the IEEE ODMModelParser, if ODM is used for import data

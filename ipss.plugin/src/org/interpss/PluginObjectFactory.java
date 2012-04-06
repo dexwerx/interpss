@@ -28,6 +28,7 @@ import org.interpss.custom.fadpter.BPAFormat;
 import org.interpss.custom.fadpter.GEFormat;
 import org.interpss.custom.fadpter.IeeeCDFFormat;
 import org.interpss.custom.fadpter.PTIFormat;
+import org.interpss.custom.fadpter.PWDFormat;
 import org.interpss.custom.fadpter.UCTEFormat;
 import org.interpss.spring.PluginSpringFactory;
 
@@ -51,6 +52,9 @@ public class PluginObjectFactory {
 		} 
 		else if (f == IpssFileAdapter.FileFormat.BPA) {
 			return new BPAFormat(PluginSpringFactory.getIpssMsgHub());
+		} 
+		else if (f == IpssFileAdapter.FileFormat.PWD) {
+			return new PWDFormat(PluginSpringFactory.getIpssMsgHub());
 		} 
 		else if (f == IpssFileAdapter.FileFormat.UCTE) {
 			return new UCTEFormat(PluginSpringFactory.getIpssMsgHub());
