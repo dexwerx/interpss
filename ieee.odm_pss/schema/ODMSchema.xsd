@@ -115,6 +115,7 @@
 			<ns:enumeration value="PSAT"></ns:enumeration>
 			<ns:enumeration value="IEEE-ODM-PSS"></ns:enumeration>
 			<ns:enumeration value="BPA"></ns:enumeration>
+			<ns:enumeration value="PowerWorld"></ns:enumeration>
 			<ns:enumeration value="GE-PSLF"></ns:enumeration>
 			<ns:enumeration value="Cim"></ns:enumeration>
 			<ns:enumeration value="Custom"></ns:enumeration>

@@ -26,22 +26,17 @@ import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
-import org.ieee.odm.schema.OwnerXmlType;
+import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
-import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
-import org.ieee.odm.schema.TapLimitXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
@@ -79,8 +74,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		AclfModelParser parser=new AclfModelParser(encoding);
 		
-		//TODO 
-		//parser.setLFTransInfo(OriginalDataFormatEnumType.PowerWorld)
+		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
 		
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
