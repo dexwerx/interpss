@@ -136,12 +136,12 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			    
 			} //end of processing data type
 			
-			 else if(str.startsWith("//"))
+			 else if(str.trim().startsWith("//"))
 				 ODMLogger.getLogger().fine("comments:"+str);
-			 else if(str.startsWith("{"))
+			 else if(str.trim().startsWith("{"))
 			    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
 			 
-			 else if(str.startsWith("}")){
+			 else if(str.trim().startsWith("}")){
 					ODMLogger.getLogger().info(recordType.toString()+" type data ends");
 					//TODO Assume the zone type data is at the end of load flow data definition 
 			        if (recordType==RecType.ZONE) {
@@ -612,7 +612,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
 		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
 		       lineTap=1.0;//mvaRatingB,mvaRatingC,
-		
+		//System.out.println("processing branch#"+branchDataStr);
 		String[] branchData=getDataFields(branchDataStr, dataSeparator);
 		int i=-1;
 		try{
