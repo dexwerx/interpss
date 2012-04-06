@@ -74,7 +74,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		AclfModelParser parser=new AclfModelParser(encoding);
 		
-		//parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
+		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
 		
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
