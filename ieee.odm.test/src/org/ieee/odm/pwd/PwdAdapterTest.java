@@ -70,7 +70,7 @@ public class PwdAdapterTest {
 		assertTrue(adapter.parseInputFile("testdata/powerworld/ieee14.aux"));
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		
-		//parser.stdout();
+		parser.stdout();
 		
 		//check network data
 		assertTrue(parser.getAclfNet().getBasePower().getValue()==100.0);
@@ -81,6 +81,7 @@ public class PwdAdapterTest {
 		//check bus data
 		LoadflowBusXmlType bus2=(LoadflowBusXmlType) parser.getBus("Bus2");
 		assertTrue(bus2.getBaseVoltage().getValue()==132.00);
+		assertTrue(bus2.isOffLine()==false);
 		
 		assertTrue(bus2.getGenData().getEquivGen().getDesiredVoltage().getValue()==1.045000);
 		assertTrue(bus2.getGenData().getEquivGen().getPower().getRe()-40<1E-4);

@@ -74,7 +74,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		AclfModelParser parser=new AclfModelParser(encoding);
 		
-		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
+		//parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
 		
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
@@ -218,7 +218,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			}
 			
 			else if(field.equals("BusStatus")){
-				busConnected=field.equalsIgnoreCase("Connected")||field.equalsIgnoreCase("Closed")?true:false;
+				busConnected=(busBasicData[i].equalsIgnoreCase("Connected")||busBasicData[i].equalsIgnoreCase("Closed"))?true:false;
 			}
 			else if(field.equals("BusNomVolt")){
 				basekV=Double.valueOf(busBasicData[i]);
