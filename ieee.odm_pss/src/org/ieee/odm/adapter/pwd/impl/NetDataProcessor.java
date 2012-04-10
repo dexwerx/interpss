@@ -73,6 +73,10 @@ public class NetDataProcessor {
 		/*
 		 * 1. owner data
 		 * 2. subData, judge if ownerDataStr.trim().startWith("<SubData")
+		 * 
+		 * add the owner data to a HashTable(ownerNum, OwnerXmlType)
+		 * then for each bus/branch/gen(defined in the subdata), set the corresponding Owner
+		 *
 		 */
 	}
 }

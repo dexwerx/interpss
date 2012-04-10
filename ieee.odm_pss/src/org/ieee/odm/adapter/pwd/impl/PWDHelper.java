@@ -22,13 +22,13 @@ public class PWDHelper {
 			
 			int index=0;
 		    for(int n=0;n<quoteIndexAry.size();n++){
-		    	//System.out.println("n="+n+", n%2="+n%2);
+		    	
 		    	String sub="";
 		    	
 		    	if(n%2==0){
 		    		sub=str.substring(index, quoteIndexAry.get(n));
 		    		
-		    		String[] temp=sub.split("\\s++");
+		    		String[] temp=sub.split("\\s++");// separating substrings without double-quote with blank
 				    for(String value:temp){
 					   if(!value.trim().equals(""))dataFields[k++]=value;
 				    }
@@ -36,11 +36,11 @@ public class PWDHelper {
 		    	}
 		    	
 		    	else {
-		    		//sub=str.substring(quoteIndexAry.get(n++)+1, quoteIndexAry.get(n));
-		    		sub=str.substring(index, quoteIndexAry.get(n));
+		    		
+		    		sub=str.substring(index, quoteIndexAry.get(n));//select a data field with double-quote 
 		    		dataFields[k++]=sub;
 		    	    if(n==quoteIndexAry.size()-1){
-		    		   sub=str.substring(quoteIndexAry.get(n)+1);
+		    		   sub=str.substring(quoteIndexAry.get(n)+1);// from the last double-quote to the end;
 		    		   String[] temp=sub.split("\\s++");
 				       for(String value:temp){
 					       if(!value.trim().equals(""))dataFields[k++]=value;
