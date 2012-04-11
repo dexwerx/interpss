@@ -7,9 +7,28 @@ import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter.FileTypeSpecifier;
 
 public class PWDHelper {
-	public static String[] getDataFields(String str, List<String> argumentFileds){
+	/**
+	 * Parse an input string according to the field definition in the nv pair. For example,  
+	 * 
+		  [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
+             LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineXfmr,LineTap,
+             LinePhase,SeriesCapStatus]
+		    4     5 " 1" "Closed"  0.000000  0.100000  0.000000  0.000000  1000.000  1000.000  1000.000     0.000     0.000     0.000     0.000  "YES"    0.993750   0.000000 "Not Bypassed"
+	 * 
+	 * after the parsing, the nv pair list will store
+	 * 
+	 *       <"BusNum","4">, <"BusNum:1","5">, ....
+	 * 
+	 * @param str
+	 * @param nvpairs
+	 */
+	public static void parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs){
+		parseDataFields(str, nvpairs, false);
+	}
+	
+	public static void parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs, boolean debug){
 		
-		String[] dataFields=new String[argumentFileds.size()];
+		String[] dataFields=new String[nvpairs.size()];
 		if(PowerWorldAdapter.dataSeparator==FileTypeSpecifier.Blank) {
 			int j=-1;
 			int k=0;
@@ -36,11 +55,20 @@ public class PWDHelper {
 		    	}
 		    	
 		    	else {
+<<<<<<< .mine
+		    		//sub=str.substring(quoteIndexAry.get(n++)+1, quoteIndexAry.get(n));
+		    		sub=str.substring(index, quoteIndexAry.get(n)); //select a data field with double-quote 
+=======
 		    		
 		    		sub=str.substring(index, quoteIndexAry.get(n));//select a data field with double-quote 
+>>>>>>> .r6524
 		    		dataFields[k++]=sub;
 		    	    if(n==quoteIndexAry.size()-1){
+<<<<<<< .mine
+		    		   sub=str.substring(quoteIndexAry.get(n)+1); // from the last double-quote to the end;
+=======
 		    		   sub=str.substring(quoteIndexAry.get(n)+1);// from the last double-quote to the end;
+>>>>>>> .r6524
 		    		   String[] temp=sub.split("\\s++");
 				       for(String value:temp){
 					       if(!value.trim().equals(""))dataFields[k++]=value;
@@ -57,8 +85,12 @@ public class PWDHelper {
 			}
 		}
 		
+		int cnt = 0;
+		for (PowerWorldAdapter.NVPair nv: nvpairs) {
+			nv.value = dataFields[cnt++];
+		}
 		
-		return dataFields;
+		if (debug)
+			System.out.println(nvpairs);
 	}
-
 }

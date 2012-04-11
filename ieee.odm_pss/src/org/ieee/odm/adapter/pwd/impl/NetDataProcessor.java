@@ -15,8 +15,12 @@ import org.ieee.odm.schema.NetZoneXmlType;
   * @author Tony Huang
   * 
   */
-public class NetDataProcessor {
-	public static void processAreaData(String areaDataStr, List<String> argumentFileds, AclfModelParser parser){
+public class NetDataProcessor extends BaseDataProcessor  {
+	public NetDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
+		super(nvPairs, parser);
+	}
+	
+	public void processAreaData(String areaDataStr){
 		/*
 		 * DATA (AREA, [AreaNum,AreaName,BGAGC,BGAutoSS,BGAutoXF,EnforceGenMWLimits,SchedName,SAName,
            ConvergenceTol,AreaEDIncludeLossPF,BusSlack,AreaUnSpecifiedStudyMW])
@@ -25,13 +29,13 @@ public class NetDataProcessor {
 		
 		int areaNum=-1;
 		String areaName="";
-		String[] areaData=PWDHelper.getDataFields(areaDataStr, argumentFileds);
-		int i=0;
-		i=argumentFileds.indexOf("AreaNum");
-		areaNum=Integer.valueOf(areaData[i]);
-		
-		i=argumentFileds.indexOf("AreaName");
-		areaName=areaData[i];
+		PWDHelper.parseDataFields(areaDataStr, inputNvPairs);
+		for (PowerWorldAdapter.NVPair nv: inputNvPairs) {
+			if (nv.name.equals("AreaNum"))
+				areaNum=Integer.valueOf(nv.value);
+			else if (nv.name.equals("AreaName"))
+				areaName=nv.value;
+		}		
 		
 		NetAreaXmlType area=odmObjFactory.createNetAreaXmlType();
 		area.setNumber(areaNum);
@@ -40,23 +44,21 @@ public class NetDataProcessor {
 			parser.getAclfNet().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		
 		parser.getAclfNet().getAreaList().getArea().add(area);
-				
-		
 	}
 	
-	public static void processZoneData(String zoneDataStr, List<String> argumentFileds, AclfModelParser parser){
+	public void processZoneData(String zoneDataStr){
 		/*
 		 * DATA (ZONE, [ZoneNum,ZoneName,SchedName])
 		 */
 		int zoneNum=-1;
 		String zoneName="";
-		String[] zoneData=PWDHelper.getDataFields(zoneDataStr, argumentFileds);
-		int i=0;
-		i=argumentFileds.indexOf("ZoneNum");
-		zoneNum=Integer.valueOf(zoneData[i]);
-		
-		i=argumentFileds.indexOf("ZoneName");
-		zoneName=zoneData[i];
+		PWDHelper.parseDataFields(zoneDataStr, inputNvPairs);
+		for (PowerWorldAdapter.NVPair nv: inputNvPairs) {
+			if (nv.name.equals("ZoneNum"))
+					zoneNum=Integer.valueOf(nv.value);
+			else if (nv.name.equals("ZoneName"))
+				zoneName=nv.value;
+		}
 		
 		NetZoneXmlType zone=odmObjFactory.createNetZoneXmlType();
 		zone.setNumber(zoneNum);
@@ -68,7 +70,7 @@ public class NetDataProcessor {
 		
 	}
 	
-	private void processOwnerData(String ownerDataStr, List<String> argumentFileds, AclfModelParser parser){
+	public void processOwnerData(String ownerDataStr){
 		//TODO
 		/*
 		 * 1. owner data
