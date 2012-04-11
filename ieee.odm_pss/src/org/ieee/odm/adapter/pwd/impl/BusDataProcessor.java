@@ -29,10 +29,15 @@ import org.ieee.odm.schema.YUnitType;
   * @author Tony Huang
   * 
   */
-public class BusDataProcessor {
+public class BusDataProcessor extends BaseDataProcessor {
 	public static long swingBusNum=-1;
 	
-	public static void processBusBasicData(String busDataStr, List<String> argumentFileds, AclfModelParser parser){
+	public BusDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
+		super(nvPairs, parser);
+	}
+	
+	
+	public void processBusBasicData(String busDataStr){
 		/*
 		 * DATA (BUS, [BusNum,BusName,BusNomVolt,BusPUVolt,BusAngle,BusG:1,BusB:1,AreaNum,ZoneNum,
             SubNum,BusSlack])
@@ -45,57 +50,54 @@ public class BusDataProcessor {
 		double basekV=0, puVolt=0,angle=-360,busG=0,busB=0;
 		boolean isSlackBus=false,busConnected=true;
 		
-		String[] busBasicData=PWDHelper.getDataFields(busDataStr, argumentFileds);
-		int i=0;
+		PWDHelper.parseDataFields(busDataStr, inputNvPairs);
 		try {
-		if(argumentFileds!=null){
-		for(String field:argumentFileds){// fields are already trimmed.
+		for(PowerWorldAdapter.NVPair nv:inputNvPairs){// fields are already trimmed.
 			// Note the sequence of the arguments are not defined by PowerWorld, 
 			//if statement is used here to judge their existence.
-			if(field.equals("BusNum")){
-				busNum=Long.valueOf(busBasicData[i]);
+			if(nv.name.equals("BusNum")){
+				busNum=Long.valueOf(nv.value);
 			}
-			else if(field.equals("BusName")){
-				busName=busBasicData[i];
+			else if(nv.name.equals("BusName")){
+				busName=nv.value;
 			}
 			
-			else if(field.equals("BusStatus")){
-				busConnected=(busBasicData[i].equalsIgnoreCase("Connected")||busBasicData[i].equalsIgnoreCase("Closed"))?true:false;
+			else if(nv.name.equals("BusStatus")){
+				busConnected=(nv.value.equalsIgnoreCase("Connected")||nv.value.equalsIgnoreCase("Closed"))?true:false;
 			}
-			else if(field.equals("BusNomVolt")){
-				basekV=Double.valueOf(busBasicData[i]);
+			else if(nv.name.equals("BusNomVolt")){
+				basekV=Double.valueOf(nv.value);
 			}
-			else if(field.equals("BusPUVolt")){
-				puVolt=Double.valueOf(busBasicData[i]);
+			else if(nv.name.equals("BusPUVolt")){
+				puVolt=Double.valueOf(nv.value);
 			}
-			else if(field.equals("BusAngle")){
-				angle=Double.valueOf(busBasicData[i]);
+			else if(nv.name.equals("BusAngle")){
+				angle=Double.valueOf(nv.value);
 			}
 			
 			//'User Input Value: Represents the MW injection that the system
 			//would see from the shunt at 1.0 per unit voltage (positive value represents Load)
 			//TODO what is its relationship to 'Shunt'
-			else if(field.equals("BusG:1")){
-				busG=Double.valueOf(busBasicData[i]);
+			else if(nv.name.equals("BusG:1")){
+				busG=Double.valueOf(nv.value);
 			}
-			else if(field.equals("BusB:1")){
-				busB=Double.valueOf(busBasicData[i]);
+			else if(nv.name.equals("BusB:1")){
+				busB=Double.valueOf(nv.value);
 			}
-			else if(field.equals("AreaNum")){
-				areaNum=Integer.valueOf(busBasicData[i]);
+			else if(nv.name.equals("AreaNum")){
+				areaNum=Integer.valueOf(nv.value);
 			}
-			else if(field.equals("ZoneNum")){
-				zoneNum=Integer.valueOf(busBasicData[i]);
+			else if(nv.name.equals("ZoneNum")){
+				zoneNum=Integer.valueOf(nv.value);
 			}
-			else if(field.equals("OwnerNum")){
-				ownerNum=Integer.valueOf(busBasicData[i]);
+			else if(nv.name.equals("OwnerNum")){
+				ownerNum=Integer.valueOf(nv.value);
 			}
-			else if(field.equals("BusSlack")){
-				if(busBasicData[i].equalsIgnoreCase("YES")) isSlackBus=true;
+			else if(nv.name.equals("BusSlack")){
+				if(nv.value.equalsIgnoreCase("YES")) isSlackBus=true;
 			}
-			i++;
-		  }//end for
 		}
+		
 		if(busNum==-1) 
 			ODMLogger.getLogger().severe("bus Num is not defined yet!");
 		busId=AclfModelParser.BusIdPreFix+busNum;
@@ -132,7 +134,7 @@ public class BusDataProcessor {
 		
 	}
 	
-	public static void processBusLoadData(String busLoadDataStr, List<String> argumentFileds, AclfModelParser parser){
+	public void processBusLoadData(String busLoadDataStr){
 		/*
 		 * DATA (LOAD, [BusNum,LoadID,LoadStatus,LoadSMW,LoadSMVR,LoadIMW,LoadIMVR,LoadZMW,LoadZMVR,
    AreaNum,ZoneNum])
@@ -144,23 +146,21 @@ public class BusDataProcessor {
 		int areaNum=-1,zoneNum=-1;
 		boolean loadOnLine=false;
 		
-		String[] loadData=PWDHelper.getDataFields(busLoadDataStr, argumentFileds);
-		int i=0;
-		for(String s:argumentFileds){
-			if(s.equals("BusNum")) busNum=Long.valueOf(loadData[i]); //mandatory filed
-			else if(s.equals("LoadID")) loadId=loadData[i];
-			else if(s.equals("LoadStatus")) {
-				if(loadData[i].equals("Closed"))loadOnLine=true;
+		PWDHelper.parseDataFields(busLoadDataStr, inputNvPairs);
+		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
+			if(nv.name.equals("BusNum")) busNum=Long.valueOf(nv.value); //mandatory filed
+			else if(nv.name.equals("LoadID")) loadId=nv.value;
+			else if(nv.name.equals("LoadStatus")) {
+				if(nv.value.equals("Closed"))loadOnLine=true;
 			}
-			else if(s.equals("LoadSMW")) loadSMW=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadSMVR"))loadSMVR=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadIMW")) loadIMW=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadIMVR"))loadIMVR=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadZMW")) loadZMW=Double.valueOf(loadData[i]);
-			else if(s.equals("LoadZMVR"))loadZMVR=Double.valueOf(loadData[i]);
-			else if(s.equals("AreaNum")) areaNum=Integer.valueOf(loadData[i]);
-			else if(s.equals("ZoneNum")) zoneNum=Integer.valueOf(loadData[i]);
-		    i++;		
+			else if(nv.name.equals("LoadSMW")) loadSMW=Double.valueOf(nv.value);
+			else if(nv.name.equals("LoadSMVR"))loadSMVR=Double.valueOf(nv.value);
+			else if(nv.name.equals("LoadIMW")) loadIMW=Double.valueOf(nv.value);
+			else if(nv.name.equals("LoadIMVR"))loadIMVR=Double.valueOf(nv.value);
+			else if(nv.name.equals("LoadZMW")) loadZMW=Double.valueOf(nv.value);
+			else if(nv.name.equals("LoadZMVR"))loadZMVR=Double.valueOf(nv.value);
+			else if(nv.name.equals("AreaNum")) areaNum=Integer.valueOf(nv.value);
+			else if(nv.name.equals("ZoneNum")) zoneNum=Integer.valueOf(nv.value);
 		}
 		
 		busId=parser.BusIdPreFix+busNum;
@@ -180,7 +180,7 @@ public class BusDataProcessor {
 		
 	}
 	
-	public static void processBusGenData(String busGenDataStr, List<String> argumentFileds, AclfModelParser parser){
+	public void processBusGenData(String busGenDataStr){
 		/*
 		 * DATA (GEN, [BusNum,GenID,GenStatus,GenMW,GenMVR,GenAGCAble,GenEnforceMWLimits,GenMWMin,
    GenMWMax,GenParFac,GenAVRAble,GenVoltSet,GenRegNum,GenMVRMin,GenMVRMax,
@@ -198,31 +198,30 @@ public class BusDataProcessor {
 	double genMW=0,genMVR=0,genMWMin=0,genMWMax=0,genMVRMin=-9999,genMVRMax=9999,genMVABase=100;
 	boolean genOnLine=false;
 	boolean pLimitForced=true;
-	String[] genData=PWDHelper.getDataFields(busGenDataStr, argumentFileds);
-	int i=0;
-	/*
-	for(String s:argumentFileds){
-		if(s.equals("BusNum")) busNum=Long.valueOf(genData[i]); //mandatory filed
-		else if(s.equals("GenID")) genId=genData[i];
-		else if(s.equals("GenStatus")) {
-			if(genData[i].equals("Closed"))genOnLine=true;
+	
+	PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
+	for(PowerWorldAdapter.NVPair nv:inputNvPairs){
+		if(nv.name.equals("BusNum")) busNum=Long.valueOf(nv.value); //mandatory filed
+		else if(nv.name.equals("GenID")) genId=nv.value;
+		else if(nv.name.equals("GenStatus")) {
+			if(nv.value.equals("Closed"))genOnLine=true;
 		}
-		else if(s.equals("GenMW")) genMW=Double.valueOf(genData[i]);
-		else if(s.equals("GenMVR"))genMVR=Double.valueOf(genData[i]);
-		else if(s.equals("GenEnforceMWLimits")){
-			if(genData[i].equalsIgnoreCase("YES"))pLimit=true;
+		else if(nv.name.equals("GenMW")) genMW=Double.valueOf(nv.value);
+		else if(nv.name.equals("GenEnforceMWLimits")){
+			if(nv.value.equalsIgnoreCase("YES"))pLimitForced=true;
 		}
-		else if(s.equals("GenMWMin"))genMWMin=Double.valueOf(genData[i]);
-		else if(s.equals("GenMWMax")) genMWMax=Double.valueOf(genData[i]);
-		else if(s.equals("GenMVRMin"))genMVRMin=Double.valueOf(genData[i]);
-		else if(s.equals("GenMVRMax")) genMVRMax=Double.valueOf(genData[i]);
-		else if(s.equals("GenMVABase")) genMVABase=Double.valueOf(genData[i]);
-		else if(s.equals("AreaNum")) areaNum=Integer.valueOf(genData[i]);
-		else if(s.equals("ZoneNum")) zoneNum=Integer.valueOf(genData[i]);
-		
-	    i++;		
+		else if(nv.name.equals("GenRegNum")) regBusNum=Integer.valueOf(nv.value);
+		else if(nv.name.equals("GenMVR"))genMVR=Double.valueOf(nv.value);
+		else if(nv.name.equals("GenMWMin"))genMWMin=Double.valueOf(nv.value);
+		else if(nv.name.equals("GenMWMax")) genMWMax=Double.valueOf(nv.value);
+		else if(nv.name.equals("GenMVRMin"))genMVRMin=Double.valueOf(nv.value);
+		else if(nv.name.equals("GenMVRMax")) genMVRMax=Double.valueOf(nv.value);
+		else if(nv.name.equals("GenMVABase")) genMVABase=Double.valueOf(nv.value);
+		else if(nv.name.equals("AreaNum")) areaNum=Integer.valueOf(nv.value);
+		else if(nv.name.equals("ZoneNum")) zoneNum=Integer.valueOf(nv.value);
 	}
-	*/
+
+	/*
 	i=argumentFileds.indexOf("BusNum") ;
 	if(i!=-1)busNum=Long.valueOf(genData[i]); //mandatory field
 	
@@ -247,7 +246,7 @@ public class BusDataProcessor {
 	i=argumentFileds.indexOf("GenMVABase"); if(i!=-1) genMVABase=Double.valueOf(genData[i]);
 	i=argumentFileds.indexOf("AreaNum"); if(i!=-1)areaNum=Integer.valueOf(genData[i]);
 	i=argumentFileds.indexOf("ZoneNum"); if(i!=-1)zoneNum=Integer.valueOf(genData[i]);
-	
+	*/
 	String busId=parser.BusIdPreFix+busNum;
 	LoadflowBusXmlType bus=parser.getAclfBus(busId);
 
@@ -347,7 +346,7 @@ public class BusDataProcessor {
 	   }
 	}
 	
-	public static void processBusShuntData(String shuntDataStr, List<String> argumentFileds, AclfModelParser parser){
+	public void processBusShuntData(String shuntDataStr){
 		/*
 		 * DATA (SHUNT, [BusNum,ShuntID,AreaNum,ZoneNum,SSRegNum,SSStatus,SSCMode,SSVHigh,SSVLow,SSNMVR,
             SSBlockNumSteps,SSBlockMVarPerStep,SSBlockNumSteps:1,SSBlockMVarPerStep:1,
@@ -364,7 +363,50 @@ public class BusDataProcessor {
 		double vHigh=1.0,vLow=1.0,normalMVR=0,MVarPerStep1=0,MVarPerStep2=0;
 		ShuntCompensatorModeEnumType mode=null; //Control Mode: Fixed, Discrete, Continuous, or Bus Shunt;
 		
-		String[] shuntData=PWDHelper.getDataFields(shuntDataStr, argumentFileds);
+		PWDHelper.parseDataFields(shuntDataStr, inputNvPairs);
+		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
+			if (nv.name.equals("BusNum"))
+				busNum=Long.valueOf(nv.value); //mandatory field
+			else if (nv.name.equals("SSRegNum"))
+				regBusNum=Long.valueOf(nv.value);
+			else if (nv.name.equals("ShuntID")) 
+				shuntId=nv.value;
+			else if (nv.name.equals("SSStatus")) 
+		    	closed=nv.value.equals("Closed")?true:false;
+		    else if (nv.name.equals("AreaNum")) 
+		    	areaNum=Integer.valueOf(nv.value);
+		    else if (nv.name.equals("ZoneNum")) 
+		    	zoneNum=Integer.valueOf(nv.value);
+			
+		    else if (nv.name.equals("SSCMode"))
+		    	mode=nv.value.equals("Discrete")?ShuntCompensatorModeEnumType.DISCRETE:
+		    				(nv.value.equals("Continuous")?ShuntCompensatorModeEnumType.CONTINUOUS:
+		    					ShuntCompensatorModeEnumType.FIXED);
+			
+			else if (nv.name.equals("SSVHigh"))
+				vHigh=Double.valueOf(nv.value);
+			
+			else if (nv.name.equals("SSVLow"))
+				vLow=Double.valueOf(nv.value);
+			
+			else if (nv.name.equals("SSNMVR"))
+				normalMVR=Double.valueOf(nv.value);
+			
+			//TODO How to determine the number of blocks
+			else if (nv.name.equals("SSBlockNumSteps"))
+				steps1=new Double(nv.value).intValue();
+			
+			else if (nv.name.equals("SSBlockMVarPerStep"))
+				MVarPerStep1=Double.valueOf(nv.value);
+			
+			
+			else if (nv.name.equals("SSBlockNumSteps:1"))
+				steps2=new Double(nv.value).intValue();
+			
+			else if (nv.name.equals("SSBlockMVarPerStep:1"))
+				MVarPerStep2=Double.valueOf(nv.value);
+		}
+/*		
 		int i=-1;
 		i=argumentFileds.indexOf("BusNum") ;
 		if(i!=-1)busNum=Long.valueOf(shuntData[i]); //mandatory field
@@ -407,7 +449,7 @@ public class BusDataProcessor {
 		
 		i=argumentFileds.indexOf("SSBlockMVarPerStep:1");
 		if(i!=-1)MVarPerStep2=Double.valueOf(shuntData[i]);
-		
+*/		
 		
 		String busId=parser.BusIdPreFix+busNum;
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
