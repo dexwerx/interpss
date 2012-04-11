@@ -41,7 +41,7 @@ public class PWDHelper {
 			
 			int index=0;
 		    for(int n=0;n<quoteIndexAry.size();n++){
-		    	
+		    	//System.out.println("n="+n+", n%2="+n%2);
 		    	String sub="";
 		    	
 		    	if(n%2==0){
@@ -55,20 +55,11 @@ public class PWDHelper {
 		    	}
 		    	
 		    	else {
-<<<<<<< .mine
 		    		//sub=str.substring(quoteIndexAry.get(n++)+1, quoteIndexAry.get(n));
 		    		sub=str.substring(index, quoteIndexAry.get(n)); //select a data field with double-quote 
-=======
-		    		
-		    		sub=str.substring(index, quoteIndexAry.get(n));//select a data field with double-quote 
->>>>>>> .r6524
 		    		dataFields[k++]=sub;
 		    	    if(n==quoteIndexAry.size()-1){
-<<<<<<< .mine
 		    		   sub=str.substring(quoteIndexAry.get(n)+1); // from the last double-quote to the end;
-=======
-		    		   sub=str.substring(quoteIndexAry.get(n)+1);// from the last double-quote to the end;
->>>>>>> .r6524
 		    		   String[] temp=sub.split("\\s++");
 				       for(String value:temp){
 					       if(!value.trim().equals(""))dataFields[k++]=value;
