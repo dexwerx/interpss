@@ -61,7 +61,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	private  static final String Token_Zone="ZONE";
 	private  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
 	
-	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO};
+	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
 
 	public static enum FileTypeSpecifier{CSV,Blank};
 	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
@@ -125,7 +125,11 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				    else if(dataType.equals(Token_CaseInfo)){
 				  		recordType=RecType.CASE_INFO;
 				    }
-				    else ODMLogger.getLogger().warning("Undifined data type:"+dataType);
+				    else {
+				    	//TODO add undefined record type
+				    	recordType=RecType.Undefined;
+				    	ODMLogger.getLogger().warning("Undifined data type:"+dataType);
+				    }
 				    
 				    //get all the argument fields of a record, then save them to a list.
 				    while(!isArgumentFieldsCompleted(str)){
