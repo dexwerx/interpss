@@ -35,11 +35,17 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 
 
 public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	private double threshhold = 0.00001;
 	
+	/**
+	 * constructor 
+	 * 
+	 * @param threshhold zero impedance is define as abs(Z) < threshhold 
+	 */
 	public ZeroZBranchProcesor(double threshhold) {
 		this.threshhold = threshhold;
 	}
@@ -90,7 +96,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 				throw new InterpssException("Branch from bus and to bus have different parent bus, branch id:" + branch.getId());
 		
 		
-		AclfBus parentBus = null;
+		Bus parentBus = null;
 		/*
 		 * First check if fromBus or toBus is a parent bus
 		 */
@@ -103,9 +109,9 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		 * if a child bus section, use get<*>Bus() returns the parent
 		 */
 		else if (fromBus.isChildSection())
-			parentBus = (AclfBus)fromBus.getParent();
+			parentBus = fromBus.getParent();
 		else if (toBus.isChildSection())
-			parentBus = (AclfBus)toBus.getParent();
+			parentBus = toBus.getParent();
 		/*
 		 * Last, we create the parent, if the branch buses are not
 		 * processed before

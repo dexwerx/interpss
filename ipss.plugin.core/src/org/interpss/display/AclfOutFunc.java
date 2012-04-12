@@ -136,7 +136,8 @@ public class AclfOutFunc {
 		  		if (n instanceof DistNetwork) {
 		  			aclfNet = ((DistNetwork)n).getAclfNet();
 		  		}
-		  		str.append("\n\nChildNet : " + n.getId());
+		  		str.append("\n\nChildNet : " + n.getId() + "\n");
+		  		str.append("Parent net interface bus Id: " + n.getParentNetInterfaceBusId() + "\n");
 		  		str.append(_loadFlowSummary(aclfNet));
 		  	}
 		}
