@@ -98,7 +98,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		if (!(this instanceof ODMModelParser)) {
 			this.getStudyCase().setId("ODM_StudyCase");
-			this.getStudyCase().setSchemaVersion(ODM_Schema_Version);
 		}
 	}
 
@@ -200,7 +199,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public StudyCaseXmlType getStudyCase() {
 		if (this.pssStudyCase == null) {
 			this.pssStudyCase = new StudyCaseXmlType();
-			this.pssStudyCase.setSchemaVersion(ODM_Schema_Version);
 			this.pssStudyCase.setBaseCase(BaseJaxbHelper.network(createBaseCase()));
 		}	
 		return this.pssStudyCase;
