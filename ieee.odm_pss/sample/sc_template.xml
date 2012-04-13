@@ -2,8 +2,7 @@
 <pss:pssStudyCase id="Two-Area_Stability-Study" 
     xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/ODMSchema.xsd ">
-  <pss:schemaVersion>V0.9.0</pss:schemaVersion>
+    xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/ODMSchema.xsd "  schemaVersion="0.9.0">
   <pss:networkCategory>Transmission</pss:networkCategory>
   <pss:analysisCategory>ShortCircuit</pss:analysisCategory>
   <pss:acscNet id="AcscBaseCase">
@@ -33,24 +32,4 @@
     <pss:hasLoadflowData>true</pss:hasLoadflowData>
     <pss:positiveSeqDataOnly>true</pss:positiveSeqDataOnly>
   </pss:acscNet>
-  <pss:ipssStudyScenario id="idvalue0">
-  	<studyCaseList>
-  		<studyCase id="sutdycase1">
-  			<acscAnalysis>
-  				<acscFault>
-  					<pss:faultType>BusFault</pss:faultType>
-  					<pss:faultCategory>Fault3Phase</pss:faultCategory>
-  				</acscFault>
-  			</acscAnalysis>
-  	    </studyCase>
-  		<studyCase id="sutdycase2">
-  			<acscAnalysis>
-  				<acscFault>
-  					<pss:faultType>BusFault</pss:faultType>
-  					<pss:faultCategory>Fault3Phase</pss:faultCategory>
-  				</acscFault>
-  			</acscAnalysis>
-  	    </studyCase>
-  	</studyCaseList>
-  </pss:ipssStudyScenario>
 </pss:pssStudyCase>

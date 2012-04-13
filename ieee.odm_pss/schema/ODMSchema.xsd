@@ -33,48 +33,51 @@
     
 
     <ns:complexType name="StudyCaseXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:IDRecordXmlType">
-				<ns:sequence>
-					<ns:element name="schemaVersion" minOccurs="1" maxOccurs="1" type="pss:ODMSchemaVersionEnumType" />
-					<ns:element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType" />
-					<ns:element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></ns:element>
-					<ns:element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></ns:element>
-					<ns:element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
-						<ns:annotation><ns:documentation>
-						Base case power network data for power system simulation purpose
-						</ns:documentation></ns:annotation>
-					</ns:element>
-					<ns:element ref="pss:childNet" minOccurs="0" maxOccurs="unbounded">
-						<ns:annotation><ns:documentation>
-						</ns:documentation></ns:annotation>
-					</ns:element>
-					<ns:element name="modificationList" minOccurs="0" maxOccurs="1">
-						<ns:annotation><ns:documentation>
-						Modifications to be applied to the base case. Also, modification could be defined at the study scenario level
-						</ns:documentation></ns:annotation>
-						<ns:complexType>
-							<ns:sequence>
-								<ns:element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0">
-									<ns:annotation><ns:documentation>
-									Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved 
-									using the record id. ModifyRecordXmlType is an abstract type. All modification record types are sub-type
-									of ModifyRecordXmlType.
-									</ns:documentation></ns:annotation>
-								</ns:element>
-							</ns:sequence>
-						</ns:complexType>
-					</ns:element>
-					<ns:element ref="pss:studyScenario" minOccurs="0" maxOccurs="1">
-						<ns:annotation><ns:documentation>
-						A study case might include a list of study scenarios, for example, Loadflow study, SC study ...
-						</ns:documentation></ns:annotation>					</ns:element>
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-    
-						
+    	<ns:complexContent>
+    		<ns:extension base="pss:IDRecordXmlType">
+    			<ns:sequence>
+    				<ns:element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType" />
+    				<ns:element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></ns:element>
+    				<ns:element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></ns:element>
+    				<ns:element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
+    					<ns:annotation>
+    						<ns:documentation>Base case power network data for power system simulation purpose</ns:documentation>
+    					</ns:annotation>
+    				</ns:element>
+    				<ns:element ref="pss:childNet" minOccurs="0" maxOccurs="unbounded">
+    					<ns:annotation>
+    						<ns:documentation></ns:documentation>
+    					</ns:annotation>
+    				</ns:element>
+    				<ns:element name="modificationList" minOccurs="0" maxOccurs="1">
+    					<ns:annotation>
+    						<ns:documentation>Modifications to be applied to the base case. Also, modification could be defined at the study scenario level</ns:documentation>
+    					</ns:annotation>
+    					<ns:complexType>
+    						<ns:sequence>
+    							<ns:element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0">
+    								<ns:annotation>
+    									<ns:documentation>
+    										Each modifyRecord may describe different modification for some purpose. Each ModifyRecord is retrieved using the record id. ModifyRecordXmlType is an
+    										abstract type. All modification record types are sub-type of ModifyRecordXmlType.
+    									</ns:documentation>
+    								</ns:annotation>
+    							</ns:element>
+    						</ns:sequence>
+    					</ns:complexType>
+    				</ns:element>
+    				<ns:element ref="pss:studyScenario" minOccurs="0" maxOccurs="1">
+    					<ns:annotation>
+    						<ns:documentation>A study case might include a list of study scenarios, for example, Loadflow study, SC study ...</ns:documentation>
+    					</ns:annotation>
+    				</ns:element>
+    			</ns:sequence>
+    			<ns:attribute name="schemaVersion" type="ns:string" fixed="0.9.0"/>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+
     <ns:complexType name="ContentInfoXmlType">
 		<ns:sequence>
 			<ns:element name="originalDataFormat" minOccurs="1" maxOccurs="1" type="pss:OriginalDataFormatEnumType">
@@ -95,16 +98,6 @@
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
-    
-
-    <ns:simpleType name="ODMSchemaVersionEnumType">
-		<ns:restriction base="ns:string">
-			<ns:enumeration value="V0.9.0"></ns:enumeration>
-			<ns:enumeration value="V0.8.2"></ns:enumeration>
-			<ns:enumeration value="V0.8.1"></ns:enumeration>
-			<ns:enumeration value="V0.8.0"></ns:enumeration>
-		</ns:restriction>
-    </ns:simpleType>
     
     <ns:simpleType name="OriginalDataFormatEnumType">
 		<ns:restriction base="ns:string">
