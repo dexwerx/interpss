@@ -49,7 +49,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		long busNum=-1;
 		int areaNum=-1,zoneNum=-1,ownerNum=-1;// purposely set to -1, a not real number;
 		String busName="",busId="";
-		double basekV=0, puVolt=0,angle=-360,busG=0,busB=0;
+		double basekV=0, puVolt=0,kvVolt=0,angle=-360,busG=0,busB=0;
 		boolean isSlackBus=false,busConnected=true;
 		
 		PWDHelper.parseDataFields(busDataStr, inputNvPairs);
@@ -72,6 +72,9 @@ public class BusDataProcessor extends BaseDataProcessor {
 			}
 			else if(nv.name.equals("BusPUVolt")){
 				puVolt=Double.valueOf(nv.value);
+			}
+			else if(nv.name.equals("BusKVVolt")){
+				kvVolt=Double.valueOf(nv.value);
 			}
 			else if(nv.name.equals("BusAngle")){
 				angle=Double.valueOf(nv.value);
@@ -115,7 +118,11 @@ public class BusDataProcessor extends BaseDataProcessor {
 		//TODO OwnerNumber
 		//if(ownerNum!=-1)bus.getOwnerList().add(new OwnerXmlType());//setOwnerNumber(ownerNum);
 		bus.setBaseVoltage(BaseDataSetter.createVoltageValue(basekV, VoltageUnitType.KV));
+		if(puVolt==0&&kvVolt!=0){
+			puVolt=kvVolt/basekV;
+		}
 		bus.setVoltage(BaseDataSetter.createVoltageValue(puVolt, VoltageUnitType.PU));
+		
 		if(angle!=-360)bus.setAngle(BaseDataSetter.createAngleValue(angle,AngleUnitType.DEG));
 		
 		if (busG != 0.0 || busB != 0.0) {
@@ -197,6 +204,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 	long busNum=-1,regBusNum=-1;
 	int areaNum=-1,zoneNum=-1;
 	String genId="";
+	double genVoltSet=0;
 	double genMW=0,genMVR=0,genMWMin=0,genMWMax=0,genMVRMin=-9999,genMVRMax=9999,genMVABase=100;
 	boolean genOnLine=false;
 	boolean pLimitForced=true;
@@ -254,19 +262,20 @@ public class BusDataProcessor extends BaseDataProcessor {
 					areaNum = Integer.valueOf(nv.value);
 				else if (nv.name.equals("ZoneNum"))
 					zoneNum = Integer.valueOf(nv.value);
+				else if(nv.name.equals("GenVoltSet"))
+						genVoltSet=Double.valueOf(nv.value);
 			}
 
 			String busId = parser.BusIdPreFix + busNum;
 			LoadflowBusXmlType bus = parser.getAclfBus(busId);
 
 			if (regBusNum != -1) {
-				if (regBusNum == busNum) { // this generator control the bus it
-											// connects to
+				// this generator control the bus it connects to
+				if (regBusNum == busNum) { 
 
 					if (busNum != swingBusNum) {// This bus is a PV bus
-						VoltageXmlType v = bus.getVoltage();
-						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, v
-								.getValue(), v.getUnit(), 0, AngleUnitType.DEG,
+						
+						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, genVoltSet, VoltageUnitType.PU, 0, AngleUnitType.DEG,
 								genMW, genMVR, ApparentPowerUnitType.MVA);
 
 						LoadflowGenXmlType equivGen = bus.getGenData()
@@ -291,18 +300,17 @@ public class BusDataProcessor extends BaseDataProcessor {
 							equivGen.setZoneNumber(zoneNum);
 
 					} else { // swing bus
-						VoltageXmlType v = bus.getVoltage();
+						//VoltageXmlType v = bus.getVoltage();
 						AngleXmlType angle = bus.getAngle();
 						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.SWING,
-								v.getValue(), v.getUnit(), angle.getValue(),
+								genVoltSet, VoltageUnitType.PU, angle.getValue(),
 								angle.getUnit(), genMW, genMVR,
 								ApparentPowerUnitType.MVA);
 
 						LoadflowGenXmlType equivGen = bus.getGenData()
 								.getEquivGen();
 						equivGen.setId(genId);
-						// equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase,
-						// ApparentPowerUnitType.MVA));
+						equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
 						equivGen.setOffLine(!genOnLine);
 
 						// p limit
@@ -323,31 +331,35 @@ public class BusDataProcessor extends BaseDataProcessor {
 
 					}
 
-				} else {// the regulated bus is a PV bus
+				} else {// the regulated bus is a remote bus
 
-					// TODO how to define a remote bus that a generator
-					// controls/regulates, as a PV?
+					// TODO 
+					// how to define a remote bus that a generator controls/regulates, as a PV?
 
-					// it is a PQ bus itself?
+					// And this gen bus is a PV bus itself?
 
 					// set remote bus data
+					
 					String regBusId = parser.BusIdPreFix + regBusNum;
+					/*
 					LoadflowBusXmlType regBus = parser.getAclfBus(regBusId);
 					VoltageXmlType vSet = regBus.getVoltage();
 
 					AclfDataSetter.setGenData(regBus, LFGenCodeEnumType.PV,
-							vSet.getValue(), vSet.getUnit(), 0,
+							genVoltSet, VoltageUnitType.PU, 0,
 							AngleUnitType.DEG, 0, 0, ApparentPowerUnitType.MVA);
-
+                    */
 					// set this gen bus data
-					VoltageXmlType v = bus.getVoltage();
-					AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PQ, 0,
+					//VoltageXmlType v = bus.getVoltage();
+					AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, genVoltSet,
 							VoltageUnitType.PU, 0, AngleUnitType.DEG, genMW,
 							genMVR, ApparentPowerUnitType.MVA);
 
-					LoadflowGenXmlType equivGen = bus.getGenData()
-							.getEquivGen();
+					LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
+							
 					equivGen.setId(genId);
+					equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
+					
 					equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
 							genMWMax, genMWMin, ActivePowerUnitType.MW));
 
