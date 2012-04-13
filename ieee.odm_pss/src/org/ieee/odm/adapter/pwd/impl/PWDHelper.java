@@ -94,6 +94,8 @@ public class PWDHelper {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			System.out.println("input: " + str + "\n" + 
+					           "data fields: " + nvpairs + "\n");
 		}
 		
 		
