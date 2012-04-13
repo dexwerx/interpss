@@ -17,15 +17,16 @@ public class PWD_IEEE14Bus_LF {
 		
 		AclfNetwork net = PluginObjectFactory
 			.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
-			.load("testData/pwd/ieee14.AUX")
+			.load("testData/pwd/ieee14_rmtCtrl.AUX")//ieee14.AUX
 			.getAclfNet();	
 
-//		System.out.println(net.net2String());
+		//System.out.println(net.net2String());
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		algo.loadflow();
 
 		System.out.println(AclfOutFunc.loadFlowSummary(net));
+		
 	}	
 }
 
