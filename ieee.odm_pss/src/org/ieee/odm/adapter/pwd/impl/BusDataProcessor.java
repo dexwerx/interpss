@@ -31,6 +31,8 @@ import org.ieee.odm.schema.YUnitType;
   */
 public class BusDataProcessor extends BaseDataProcessor {
 	public static long swingBusNum=-1;
+	private boolean subDataBegins=false;
+	private boolean subDataEnds=false;
 	
 	public BusDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
 		super(nvPairs, parser);
@@ -199,151 +201,171 @@ public class BusDataProcessor extends BaseDataProcessor {
 	boolean genOnLine=false;
 	boolean pLimitForced=true;
 	
-	PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
-	for(PowerWorldAdapter.NVPair nv:inputNvPairs){
-		if(nv.name.equals("BusNum")) busNum=Long.valueOf(nv.value); //mandatory filed
-		else if(nv.name.equals("GenID")) genId=nv.value;
-		else if(nv.name.equals("GenStatus")) {
-			if(nv.value.equals("Closed"))genOnLine=true;
-		}
-		else if(nv.name.equals("GenMW")) genMW=Double.valueOf(nv.value);
-		else if(nv.name.equals("GenEnforceMWLimits")){
-			if(nv.value.equalsIgnoreCase("YES"))pLimitForced=true;
-		}
-		else if(nv.name.equals("GenRegNum")) regBusNum=Integer.valueOf(nv.value);
-		else if(nv.name.equals("GenMVR"))genMVR=Double.valueOf(nv.value);
-		else if(nv.name.equals("GenMWMin"))genMWMin=Double.valueOf(nv.value);
-		else if(nv.name.equals("GenMWMax")) genMWMax=Double.valueOf(nv.value);
-		else if(nv.name.equals("GenMVRMin"))genMVRMin=Double.valueOf(nv.value);
-		else if(nv.name.equals("GenMVRMax")) genMVRMax=Double.valueOf(nv.value);
-		else if(nv.name.equals("GenMVABase")) genMVABase=Double.valueOf(nv.value);
-		else if(nv.name.equals("AreaNum")) areaNum=Integer.valueOf(nv.value);
-		else if(nv.name.equals("ZoneNum")) zoneNum=Integer.valueOf(nv.value);
+	
+	if(busGenDataStr.trim().startsWith("<SUBDATA")){
+		subDataBegins=true;
 	}
-
+	else if(busGenDataStr.trim().startsWith("<///SUBDATA>")){
+		subDataEnds=true;
+	}
+	
 	/*
-	i=argumentFileds.indexOf("BusNum") ;
-	if(i!=-1)busNum=Long.valueOf(genData[i]); //mandatory field
+	 * skips SubData, since they are not used in load flow analysis;
+	 */
 	
-	i=argumentFileds.indexOf("GenID"); if(i!=-1)genId=genData[i];
-	
-	i=argumentFileds.indexOf("GenStatus"); 
-    if(i!=-1)genOnLine=genData[i].equals("Closed")?true:false;
-	
-    i=argumentFileds.indexOf("GenMW"); if(i!=-1)genMW=Double.valueOf(genData[i]);
-    
-    i=argumentFileds.indexOf("GenEnforceMWLimits"); 
-    if(i!=-1)pLimitForced=genData[i].equals("YES")?true:false;
-    
-    i=argumentFileds.indexOf("GenRegNum"); if(i!=-1)regBusNum=Integer.valueOf(genData[i]);
-    
-    i=argumentFileds.indexOf("GenMVR"); if(i!=-1)genMVR=Double.valueOf(genData[i]);
-	i=argumentFileds.indexOf("GenMWMin"); if(i!=-1)genMWMin=Double.valueOf(genData[i]);
-	
-	i=argumentFileds.indexOf("GenMWMax"); if(i!=-1)genMWMax=Double.valueOf(genData[i]);
-	i=argumentFileds.indexOf("GenMVRMin"); if(i!=-1)genMVRMin=Double.valueOf(genData[i]);
-	i=argumentFileds.indexOf("GenMVRMax"); if(i!=-1)genMVRMax=Double.valueOf(genData[i]);
-	i=argumentFileds.indexOf("GenMVABase"); if(i!=-1) genMVABase=Double.valueOf(genData[i]);
-	i=argumentFileds.indexOf("AreaNum"); if(i!=-1)areaNum=Integer.valueOf(genData[i]);
-	i=argumentFileds.indexOf("ZoneNum"); if(i!=-1)zoneNum=Integer.valueOf(genData[i]);
-	*/
-	String busId=parser.BusIdPreFix+busNum;
-	LoadflowBusXmlType bus=parser.getAclfBus(busId);
+	if (!(subDataBegins ^ subDataEnds)) {// if there is no subData or subData ends
 
-	
-	if(regBusNum!=-1){
-		if(regBusNum==busNum) { //this generator control the bus it connects to
+		   if(subDataBegins=true){ //reset to false;
+				subDataBegins=false;
+				subDataEnds=false;
+			}
+
 			
-			if(busNum!=swingBusNum){//This bus is a PV bus
-				VoltageXmlType v=bus.getVoltage();
-				AclfDataSetter.setGenData(bus,
-						LFGenCodeEnumType.PV,
-						v.getValue(), v.getUnit(),
-						0, AngleUnitType.DEG,genMW, genMVR, ApparentPowerUnitType.MVA);
-				
-				LoadflowGenXmlType equivGen=bus.getGenData().getEquivGen();
-				equivGen.setId(genId);
-				equivGen.setOffLine(!genOnLine);
-				//equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase, ApparentPowerUnitType.MVA));
-				equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
+			PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
+
+			for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
+				if (nv.name.equals("BusNum"))
+					busNum = Long.valueOf(nv.value); // mandatory filed
+				else if (nv.name.equals("GenID"))
+					genId = nv.value;
+				else if (nv.name.equals("GenStatus")) {
+					if (nv.value.equals("Closed"))
+						genOnLine = true;
+				} else if (nv.name.equals("GenMW"))
+					genMW = Double.valueOf(nv.value);
+				else if (nv.name.equals("GenEnforceMWLimits")) {
+					if (nv.value.equalsIgnoreCase("YES"))
+						pLimitForced = true;
+				} else if (nv.name.equals("GenRegNum"))
+					regBusNum = Integer.valueOf(nv.value);
+				else if (nv.name.equals("GenMVR"))
+					genMVR = Double.valueOf(nv.value);
+				else if (nv.name.equals("GenMWMin"))
+					genMWMin = Double.valueOf(nv.value);
+				else if (nv.name.equals("GenMWMax"))
+					genMWMax = Double.valueOf(nv.value);
+				else if (nv.name.equals("GenMVRMin"))
+					genMVRMin = Double.valueOf(nv.value);
+				else if (nv.name.equals("GenMVRMax"))
+					genMVRMax = Double.valueOf(nv.value);
+				else if (nv.name.equals("GenMVABase"))
+					genMVABase = Double.valueOf(nv.value);
+				else if (nv.name.equals("AreaNum"))
+					areaNum = Integer.valueOf(nv.value);
+				else if (nv.name.equals("ZoneNum"))
+					zoneNum = Integer.valueOf(nv.value);
+			}
+
+			String busId = parser.BusIdPreFix + busNum;
+			LoadflowBusXmlType bus = parser.getAclfBus(busId);
+
+			if (regBusNum != -1) {
+				if (regBusNum == busNum) { // this generator control the bus it
+											// connects to
+
+					if (busNum != swingBusNum) {// This bus is a PV bus
+						VoltageXmlType v = bus.getVoltage();
+						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, v
+								.getValue(), v.getUnit(), 0, AngleUnitType.DEG,
+								genMW, genMVR, ApparentPowerUnitType.MVA);
+
+						LoadflowGenXmlType equivGen = bus.getGenData()
+								.getEquivGen();
+						equivGen.setId(genId);
+						equivGen.setOffLine(!genOnLine);
+						// equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase,
+						// ApparentPowerUnitType.MVA));
+						equivGen.setPLimit(BaseDataSetter
+								.createActivePowerLimit(genMWMax, genMWMin,
+										ActivePowerUnitType.MW));
+
+						equivGen.getPLimit().setActive(pLimitForced);
+
+						equivGen.setQLimit(BaseDataSetter
+								.createReactivePowerLimit(genMVRMax, genMVRMin,
+										ReactivePowerUnitType.MVAR));
+
+						if (areaNum != -1)
+							equivGen.setAreaNumber(areaNum);
+						if (zoneNum != -1)
+							equivGen.setZoneNumber(zoneNum);
+
+					} else { // swing bus
+						VoltageXmlType v = bus.getVoltage();
+						AngleXmlType angle = bus.getAngle();
+						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.SWING,
+								v.getValue(), v.getUnit(), angle.getValue(),
+								angle.getUnit(), genMW, genMVR,
+								ApparentPowerUnitType.MVA);
+
+						LoadflowGenXmlType equivGen = bus.getGenData()
+								.getEquivGen();
+						equivGen.setId(genId);
+						// equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase,
+						// ApparentPowerUnitType.MVA));
+						equivGen.setOffLine(!genOnLine);
+
+						// p limit
+						equivGen.setPLimit(BaseDataSetter
+								.createActivePowerLimit(genMWMax, genMWMin,
+										ActivePowerUnitType.MW));
+						// TODO need to set plimitforced?
+						equivGen.getPLimit().setActive(pLimitForced);
+						// q limit
+						equivGen.setQLimit(BaseDataSetter
+								.createReactivePowerLimit(genMVRMax, genMVRMin,
+										ReactivePowerUnitType.MVAR));
+
+						if (areaNum != -1)
+							equivGen.setAreaNumber(areaNum);
+						if (zoneNum != -1)
+							equivGen.setZoneNumber(zoneNum);
+
+					}
+
+				} else {// the regulated bus is a PV bus
+
+					// TODO how to define a remote bus that a generator
+					// controls/regulates, as a PV?
+
+					// it is a PQ bus itself?
+
+					// set remote bus data
+					String regBusId = parser.BusIdPreFix + regBusNum;
+					LoadflowBusXmlType regBus = parser.getAclfBus(regBusId);
+					VoltageXmlType vSet = regBus.getVoltage();
+
+					AclfDataSetter.setGenData(regBus, LFGenCodeEnumType.PV,
+							vSet.getValue(), vSet.getUnit(), 0,
+							AngleUnitType.DEG, 0, 0, ApparentPowerUnitType.MVA);
+
+					// set this gen bus data
+					VoltageXmlType v = bus.getVoltage();
+					AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PQ, 0,
+							VoltageUnitType.PU, 0, AngleUnitType.DEG, genMW,
+							genMVR, ApparentPowerUnitType.MVA);
+
+					LoadflowGenXmlType equivGen = bus.getGenData()
+							.getEquivGen();
+					equivGen.setId(genId);
+					equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
 							genMWMax, genMWMin, ActivePowerUnitType.MW));
-				
-				equivGen.getPLimit().setActive(pLimitForced);
-				
-				equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit( 
-						genMVRMax, genMVRMin, ReactivePowerUnitType.MVAR));
-				
-				if(areaNum!=-1)equivGen.setAreaNumber(areaNum);
-				if(zoneNum!=-1)equivGen.setZoneNumber(zoneNum);
-								
+
+					equivGen.getPLimit().setActive(pLimitForced);
+
+					equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit(
+							genMVRMax, genMVRMin, ReactivePowerUnitType.MVAR));
+
+					if (areaNum != -1)
+						equivGen.setAreaNumber(areaNum);
+					if (zoneNum != -1)
+						equivGen.setZoneNumber(zoneNum);
+					// define the remote control bus
+					equivGen.setRemoteVoltageControlBus(parser
+							.createBusRef(regBusId));
+				}
 			}
-			else{ //swing bus
-				VoltageXmlType v=bus.getVoltage();
-				AngleXmlType angle=bus.getAngle();
-				AclfDataSetter.setGenData(bus,
-						LFGenCodeEnumType.SWING,
-						v.getValue(), v.getUnit(),
-						angle.getValue(), angle.getUnit(),genMW, genMVR, ApparentPowerUnitType.MVA);
-				
-				LoadflowGenXmlType equivGen=bus.getGenData().getEquivGen();
-				equivGen.setId(genId);
-				//equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase, ApparentPowerUnitType.MVA));
-				equivGen.setOffLine(!genOnLine);
-								
-				//p limit
-				equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
-						genMWMax, genMWMin, ActivePowerUnitType.MW));
-				//TODO need to set plimitforced?
-				equivGen.getPLimit().setActive(pLimitForced);
-				//q limit
-				equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit( 
-						genMVRMax, genMVRMin, ReactivePowerUnitType.MVAR));
-				
-				if(areaNum!=-1)equivGen.setAreaNumber(areaNum);
-				if(zoneNum!=-1)equivGen.setZoneNumber(zoneNum);
-				
-			}
-			
-		}
-		else{// the regulated bus is a PV bus
-			
-			//TODO how to define a remote bus that a generator controls/regulates, as a PV?
-			
-			//it is a PQ bus itself?
-			
-			//set remote bus data
-			String regBusId=parser.BusIdPreFix+regBusNum;
-			LoadflowBusXmlType regBus=parser.getAclfBus(regBusId);
-			VoltageXmlType vSet=regBus.getVoltage();
-			
-			AclfDataSetter.setGenData(regBus,
-					LFGenCodeEnumType.PV,
-					vSet.getValue(), vSet.getUnit(),
-					0, AngleUnitType.DEG,0, 0, ApparentPowerUnitType.MVA);
-			
-			// set this gen bus data
-			VoltageXmlType v=bus.getVoltage();
-			AclfDataSetter.setGenData(bus,
-					LFGenCodeEnumType.PQ,
-					0, VoltageUnitType.PU,
-					0, AngleUnitType.DEG,genMW, genMVR, ApparentPowerUnitType.MVA);
-			
-			LoadflowGenXmlType equivGen=bus.getGenData().getEquivGen();
-			equivGen.setId(genId);
-			equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
-						genMWMax, genMWMin, ActivePowerUnitType.MW));
-			
-			equivGen.getPLimit().setActive(pLimitForced);
-			
-			equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit( 
-					genMVRMax, genMVRMin, ReactivePowerUnitType.MVAR));
-			
-			if(areaNum!=-1)equivGen.setAreaNumber(areaNum);
-			if(zoneNum!=-1)equivGen.setZoneNumber(zoneNum);
-			// define the remote control bus
-			equivGen.setRemoteVoltageControlBus(parser.createBusRef(regBusId));
-		  }
-	   }
+		}//end of if-subData
 	}
 	
 	public void processBusShuntData(String shuntDataStr){
@@ -372,7 +394,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 			else if (nv.name.equals("ShuntID")) 
 				shuntId=nv.value;
 			else if (nv.name.equals("SSStatus")) 
-		    	closed=nv.value.equals("Closed")?true:false;
+		    	closed=nv.value.equalsIgnoreCase("Closed")?true:false;
 		    else if (nv.name.equals("AreaNum")) 
 		    	areaNum=Integer.valueOf(nv.value);
 		    else if (nv.name.equals("ZoneNum")) 
@@ -450,6 +472,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		i=argumentFileds.indexOf("SSBlockMVarPerStep:1");
 		if(i!=-1)MVarPerStep2=Double.valueOf(shuntData[i]);
 */		
+		//TODO no shunt status defined in ODM
 		
 		String busId=parser.BusIdPreFix+busNum;
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);

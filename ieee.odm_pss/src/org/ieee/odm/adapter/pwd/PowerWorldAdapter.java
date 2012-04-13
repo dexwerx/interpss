@@ -148,12 +148,6 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				 
 				 else if(str.trim().startsWith("}")){
 						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
-						//TODO Assume the zone type data is at the end of load flow data definition 
-				        if (recordType==RecType.ZONE) {
-				        	ODMLogger.getLogger().info("End of processing Zone data, " +
-				        			"LoadFlow data processing completed!");
-				        	break;
-				        }
 				 }
 				 // start processing record data
 				//TODO assume all data in one line; NE-ISO file uses multiple lines to store some data, e.g. transformer data;
