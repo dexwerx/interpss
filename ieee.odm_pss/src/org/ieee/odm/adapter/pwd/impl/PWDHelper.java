@@ -29,52 +29,71 @@ public class PWDHelper {
 	public static void parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs, boolean debug){
 		
 		String[] dataFields=new String[nvpairs.size()];
-		if(PowerWorldAdapter.dataSeparator==FileTypeSpecifier.Blank) {
-			int j=-1;
-			int k=0;
-			//get the quote index
-			List<Integer> quoteIndexAry=new ArrayList<Integer>(); 
-			do{
-				j=str.indexOf("\"",j+1);//index of double-quote
-				if(j!=-1)quoteIndexAry.add(j);
-			}while (j!=-1);
-			
-			int index=0;
-		    for(int n=0;n<quoteIndexAry.size();n++){
-		    	//System.out.println("n="+n+", n%2="+n%2);
-		    	String sub="";
-		    	
-		    	if(n%2==0){
-		    		sub=str.substring(index, quoteIndexAry.get(n));
-		    		
-		    		String[] temp=sub.split("\\s++");// separating substrings without double-quote with blank
-				    for(String value:temp){
-					   if(!value.trim().equals(""))dataFields[k++]=value;
-				    }
-				    
-		    	}
-		    	
-		    	else {
-		    		//sub=str.substring(quoteIndexAry.get(n++)+1, quoteIndexAry.get(n));
-		    		sub=str.substring(index, quoteIndexAry.get(n)); //select a data field with double-quote 
-		    		dataFields[k++]=sub;
-		    	    if(n==quoteIndexAry.size()-1){
-		    		   sub=str.substring(quoteIndexAry.get(n)+1); // from the last double-quote to the end;
-		    		   String[] temp=sub.split("\\s++");
-				       for(String value:temp){
-					       if(!value.trim().equals(""))dataFields[k++]=value;
-				        }
-		    	    }
-		    	}
-		    		index=quoteIndexAry.get(n)+1;
-		    }
-		}
-		else {
-			String[] tempDataFields=str.split(",");
-			for(int i=0;i<tempDataFields.length;i++){
-				 dataFields[i]=tempDataFields[i].trim();
+		System.out.println("nv size="+nvpairs.size());
+		str=str.trim();
+		try{
+		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Blank) {
+				int j = -1;
+				int k = 0;
+				// get the quote index
+				List<Integer> quoteIndexAry = new ArrayList<Integer>();
+				do {
+					j = str.indexOf("\"", j + 1);// index of double-quote
+					if (j != -1)
+						quoteIndexAry.add(j);
+				} while (j != -1);
+
+				int index = 0;
+				for (int n = 0; n < quoteIndexAry.size(); n++) {
+					String sub = "";
+
+					if (n % 2 == 0) {
+						sub = str.substring(index, quoteIndexAry.get(n));
+						// separating substrings without double-quote with blank
+						if(!sub.trim().isEmpty()){
+						  String[] temp = sub.trim().split("\\s++");
+								
+						  for (String value : temp) {
+							//if (!value.trim().equals(""))
+								dataFields[k++] = value.trim();
+						  }
+						}
+
+					}
+
+					else {
+						//make the data field within a quote as one data 
+						sub = str.substring(index, quoteIndexAry.get(n)); 
+						dataFields[k++] = sub;
+						if (n == quoteIndexAry.size() - 1) {
+							//from the last quote to the end
+							sub = str.substring(quoteIndexAry.get(n) + 1); 
+							if(!sub.trim().isEmpty()){
+							   String[] temp = sub.trim().split("\\s++");
+							   for (String value : temp) {
+									dataFields[k++] = value.trim();
+							   }
+							}
+						}
+					}
+					index = quoteIndexAry.get(n) + 1;
+					System.out.println("n=" +n+", k="+k);
+//					for(String s:dataFields){
+//						System.out.print(s+",");
+//					}
+//					System.out.println();
+					
+				}
+			} else {
+				String[] tempDataFields = str.split(",");
+				for (int i = 0; i < tempDataFields.length; i++) {
+					dataFields[i] = tempDataFields[i].trim();
+				}
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+		
 		
 		int cnt = 0;
 		for (PowerWorldAdapter.NVPair nv: nvpairs) {

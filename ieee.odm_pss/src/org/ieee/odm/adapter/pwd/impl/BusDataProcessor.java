@@ -222,7 +222,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 
 			
 			PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
-
+            
 			for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
 				if (nv.name.equals("BusNum"))
 					busNum = Long.valueOf(nv.value); // mandatory filed

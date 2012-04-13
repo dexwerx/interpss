@@ -21,8 +21,11 @@ import org.ieee.odm.schema.ZUnitType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
-  * @version 0.1  04/03/2012
+  * @version 0.2  
   * @author Tony Huang
+  * 
+  * ====revision history===
+  * 
   * 
   */
 public class BranchDataProcessor extends BaseDataProcessor  {
@@ -52,7 +55,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
 		       lineTap=1.0;//mvaRatingB,mvaRatingC,
 		//System.out.println("processing branch#"+branchDataStr);
-		PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
+		PWDHelper.parseDataFields(branchDataStr, inputNvPairs,true);
 		try{
 			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 				//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
