@@ -154,14 +154,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
 				 }
 				 // start processing record data
-				//TODO assume all data in one line; NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+				//TODO assume all data in one line; 
 				 else if(!str.trim().isEmpty()){
-					   //consider data stored in multiple lines
-					   if(recordType!=RecType.CASE_INFO&&recordType!=RecType.Undefined){
-					      while(!isDataFiledsCompleted(str)){
-							str+=din.readLine();
-						  }
-					   }
+		
 					   if(recordType==RecType.BUS) 
 						   busProc.processBusBasicData(str);
 					   else if(recordType==RecType.LOAD)
@@ -170,8 +165,15 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						   busProc.processBusGenData(str);
 					   else if(recordType==RecType.SHUNT)
 						   busProc.processBusShuntData(str);
-					   else if(recordType==RecType.BRANCH)
+					   else if(recordType==RecType.BRANCH){
+						   //TODO
+						   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+						   while(!isDataFiledsCompleted(str)){
+								str+=din.readLine();
+						   }
 						   branchProc.processBranchData(str);
+					   }
+						   
 					   else if(recordType==RecType.XFORMER)
 						   branchProc.processXFormerData(str);
 					   else if(recordType==RecType.TRI_W_XFORMER)
@@ -181,7 +183,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					   else if(recordType==RecType.ZONE)
 						   netProc.processZoneData(str);
 					   else{
-						   ODMLogger.getLogger().warning("unsupported data #"+str);
+						  // ODMLogger.getLogger().warning("unsupported data #"+str);
 					   }
 					  
 				   }
