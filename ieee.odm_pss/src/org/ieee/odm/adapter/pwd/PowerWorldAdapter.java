@@ -143,7 +143,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				    parseFieldNames(str);
 				    
 				} //end of processing data type
-				}//end of if str is not null  
+				
 				
 				 else if(str.trim().startsWith("//"))
 					 ODMLogger.getLogger().fine("comments:"+str);
@@ -185,6 +185,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					   }
 					  
 				   }
+				}//end of if str is not null  
 			}while (str!=null);
 		}catch(Exception e){
 			e.printStackTrace();

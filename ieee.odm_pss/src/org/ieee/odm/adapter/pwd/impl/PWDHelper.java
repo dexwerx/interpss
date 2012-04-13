@@ -29,7 +29,7 @@ public class PWDHelper {
 	public static void parseDataFields(String str, List<PowerWorldAdapter.NVPair> nvpairs, boolean debug){
 		
 		String[] dataFields=new String[nvpairs.size()];
-		System.out.println("nv size="+nvpairs.size());
+		//System.out.println("nv size="+nvpairs.size());
 		str=str.trim();
 		try{
 		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Blank) {
@@ -77,11 +77,13 @@ public class PWDHelper {
 						}
 					}
 					index = quoteIndexAry.get(n) + 1;
-					System.out.println("n=" +n+", k="+k);
-//					for(String s:dataFields){
-//						System.out.print(s+",");
-//					}
-//					System.out.println();
+					//System.out.println("n=" +n+", k="+k);
+					/*
+					for(String s:dataFields){
+						System.out.print(s+",");
+					}
+					System.out.println();
+					*/
 					
 				}
 			} else {

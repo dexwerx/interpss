@@ -55,7 +55,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
 		       lineTap=1.0;//mvaRatingB,mvaRatingC,
 		//System.out.println("processing branch#"+branchDataStr);
-		PWDHelper.parseDataFields(branchDataStr, inputNvPairs,true);
+		PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
 		try{
 			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 				//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
