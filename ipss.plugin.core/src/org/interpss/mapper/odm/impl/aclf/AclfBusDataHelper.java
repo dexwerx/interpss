@@ -30,9 +30,10 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToApparentPowerUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
+import static org.interpss.mapper.odm.ODMFunction.BusXmlRef2BusId;
 
 import org.apache.commons.math.complex.Complex;
-import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.schema.AclfGenDataXmlType;
 import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.AngleXmlType;
@@ -130,11 +131,15 @@ public class AclfBusDataHelper {
 		if (busXmlData.getShuntCompensatorData() != null) {
 			ReactivePowerXmlType shuntB = busXmlData.getShuntCompensatorData().getEquivQ();
 //			byte unit = shuntB.getUnit() == ReactivePowerUnitType.MVAR? UnitType.mVar : UnitType.PU;
-			UnitType unit = ToReactivePowerUnit.f(shuntB.getUnit());
-			Complex ypu = UnitHelper.yConversion(new Complex(0.0, shuntB.getValue()),
-					aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
-			//System.out.println("----------->" + shuntB.getValue() + ", " + shuntB.getUnit() + ", " + ypu.getImaginary());
-			aclfBus.setShuntY(ypu);
+			if (shuntB != null) {
+				UnitType unit = ToReactivePowerUnit.f(shuntB.getUnit());
+				Complex ypu = UnitHelper.yConversion(new Complex(0.0, shuntB.getValue()),
+						aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
+				//System.out.println("----------->" + shuntB.getValue() + ", " + shuntB.getUnit() + ", " + ypu.getImaginary());
+				aclfBus.setShuntY(ypu);
+			}
+			else 
+				ODMLogger.getLogger().warning("ShuntCompensatorData.equivQ not defined");
 		}
 	}
 	
@@ -186,7 +191,7 @@ public class AclfBusDataHelper {
 					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
 					// be changed to PQ bus
-					String remoteId = BaseJaxbHelper.getRecId(xmlEquivGenData.getRemoteVoltageControlBus());
+					String remoteId = BusXmlRef2BusId.fx(xmlEquivGenData.getRemoteVoltageControlBus());
 					if (remoteId != null) {
 						AclfBus remoteBus = aclfNet.getAclfBus(remoteId);
 	  					if (remoteBus != null) {
