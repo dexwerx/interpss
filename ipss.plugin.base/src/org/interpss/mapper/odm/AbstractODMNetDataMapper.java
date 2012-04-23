@@ -24,7 +24,9 @@
 
 package org.interpss.mapper.odm;
 
-import org.ieee.odm.model.base.BaseJaxbHelper;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static org.interpss.mapper.odm.ODMFunction.BusXmlRef2BusId;
+
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
@@ -36,7 +38,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
-import static com.interpss.common.util.IpssLogger.ipssLogger;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Branch3W;
@@ -129,10 +130,10 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 				branchRec.getCircuitId() : Constants.Token_DefaultBranchCirNo;
 		branch.setCircuitNumber(cirId);
 		try {
-			String fromBusId = BaseJaxbHelper.getRecId(branchRec.getFromBus());
-			String toBusId = BaseJaxbHelper.getRecId(branchRec.getToBus());
+			String fromBusId = BusXmlRef2BusId.fx(branchRec.getFromBus());
+			String toBusId = BusXmlRef2BusId.fx(branchRec.getToBus());
 			if (branch instanceof Branch3W) {
-				String tertBusId = BaseJaxbHelper.getRecId(branchRec.getTertiaryBus());
+				String tertBusId = BusXmlRef2BusId.fx(branchRec.getTertiaryBus());
 				net.add3WBranch((Branch3W)branch, fromBusId, toBusId, tertBusId);
 			}
 			else
@@ -140,8 +141,8 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InterpssException(e.toString() + ", the branch is ignored " +
-					(branchRec.getFromBus().getIdRef() == null? "null" : BaseJaxbHelper.getRecId(branchRec.getFromBus()) + " -> " + 
-					(branchRec.getToBus().getIdRef() == null? "null" : BaseJaxbHelper.getRecId(branchRec.getToBus()))));
+					(branchRec.getFromBus().getIdRef() == null? "null" : BusXmlRef2BusId.fx(branchRec.getFromBus()) + " -> " + 
+					(branchRec.getToBus().getIdRef() == null? "null" : BusXmlRef2BusId.fx(branchRec.getToBus()))));
 		}
 
 		branch.setName(branchRec.getName() == null ? "" : branchRec.getName());

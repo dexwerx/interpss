@@ -30,6 +30,7 @@ import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.interpss.numeric.NumericConstant;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.func.Function2Adapter;
 import com.interpss.common.func.FunctionAdapter;
 import com.interpss.common.func.IFunction;
@@ -68,8 +69,11 @@ public class ODMFunction {
 
 	public static IFunction<IDRefRecordXmlType, String> BusXmlRef2BusId = 
 		new FunctionAdapter<IDRefRecordXmlType, String>() {
-			@Override public String f(IDRefRecordXmlType busXmlRef) {
-				return ((BusXmlType)busXmlRef.getIdRef()).getId();
+			@Override public String fx(IDRefRecordXmlType busXmlRef) throws InterpssException {
+				if (busXmlRef.getIdRef() == null)
+					throw new InterpssException("Bus ref is null");
+				else
+					return ((BusXmlType)busXmlRef.getIdRef()).getId();
 			}
 		};
 
