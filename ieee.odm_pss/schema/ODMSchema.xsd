@@ -46,7 +46,10 @@
     				</ns:element>
     				<ns:element ref="pss:childNet" minOccurs="0" maxOccurs="unbounded">
     					<ns:annotation>
-    						<ns:documentation></ns:documentation>
+    						<ns:documentation>
+    						It is assumed that parent network of the child network is always defined before
+    						the child network in the childNet list
+    						</ns:documentation>
     					</ns:annotation>
     				</ns:element>
     				<ns:element name="modificationList" minOccurs="0" maxOccurs="1">
