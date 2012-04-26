@@ -201,7 +201,7 @@ public class Number2String {
 	 * @return formatted string 
 	 */
 	public static String toStr(final Complex c) {
-		return toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
+		return c == null? "null" : toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
 	}
 
 	public static String toStr(final Complex c, String format) {
