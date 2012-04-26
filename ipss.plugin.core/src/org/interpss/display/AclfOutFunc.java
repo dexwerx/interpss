@@ -25,13 +25,16 @@ package org.interpss.display;
 
 
 import static com.interpss.core.funcImpl.AclfFunction.BranchRatingAptr;
+import static com.interpss.dc.DcPluginFunction.OutputSolarNet;
 import static org.interpss.CorePluginFunction.OutputBusId;
+import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
@@ -59,6 +62,7 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Network;
 import com.interpss.core.net.OriginalDataFormat;
+import com.interpss.dc.DcNetwork;
 import com.interpss.dist.DistNetwork;
 
 /**
@@ -140,6 +144,23 @@ public class AclfOutFunc {
 		  		str.append("Parent net interface bus Id: " + n.getParentNetInterfaceBusId() + "\n");
 		  		str.append(_loadFlowSummary(aclfNet));
 		  	}
+		  	
+		  	for (Network n2nd : net.getChildNetworks()) {
+		  		if (n2nd.isContainChildNet()) {
+				  	for (Network n3rd : n2nd.getChildNetworks()) {
+				  		str.append("\n\nChildNet : " + n3rd.getId() + "\n");
+				  		str.append("Parent net interface bus Id: " + n3rd.getParentNetInterfaceBusId() + "\n");
+				  		if (n3rd instanceof DcNetwork) {
+				  			try {
+				  			str.append(OutputSolarNet.fx((DcNetwork)n3rd));
+				  			} catch (InterpssException e) {
+				  				ipssLogger.severe(e.toString());
+				  				str.append(e.toString());
+				  			}
+				  		}
+				  	}		  			
+		  		}
+		  	}		  	
 		}
 		return str;
 	}
