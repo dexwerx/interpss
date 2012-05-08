@@ -11,13 +11,13 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 
-public class PWD_IEEE14Bus_LF {
+public class PWD_IEEE14Bus_rmtCtrl_LF {
 	public static void main(String args[]) throws InterpssException {
 		IpssPlugin.init();
 		
 		AclfNetwork net = PluginObjectFactory
 			.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
-			.load("testData/pwd/ieee14.AUX")//ieee14.AUX
+			.load("testData/pwd/ieee14_rmtCtrl.AUX")//ieee14.AUX
 			.getAclfNet();	
 
 		//System.out.println(net.net2String());
