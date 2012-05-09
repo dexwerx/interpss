@@ -24,29 +24,29 @@
 
     <ns:complexType name="ShuntCompensatorXmlType">
 		<ns:sequence>
-			<ns:element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0">	</ns:element>
-			<ns:element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"> </ns:element>
-			<ns:element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"> </ns:element>
-			<ns:element name="bInit" type="ns:double" minOccurs="1"></ns:element>
-			<ns:element name="VarPercent" type="ns:double" maxOccurs="1" minOccurs="0"> </ns:element>
-			<ns:element name="block" type="pss:ShuntCompensatorBlockXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
-			<ns:element name="remoteControlledBus" type="pss:IDRefRecordXmlType" minOccurs="0"></ns:element>
-			<ns:element name="vscDcLine" type="ns:string" minOccurs="0"></ns:element>
-			<ns:element name="bZeroSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="bPosSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="gZeroSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0">		</ns:element>
-			<ns:element name="gPosSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="maxSections" type="ns:long" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="maxVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="minVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="norminalQOutput" type="pss:ReactivePowerXmlType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="norminalVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="norminalSwitchedInSections" type="ns:long" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="slop" type="ns:double" maxOccurs="1" minOccurs="0">			</ns:element>
-			<ns:element name="reactivePowerPerSec" type="pss:ReactivePowerXmlType" maxOccurs="1" minOccurs="0">			</ns:element>
+			<ns:element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0"/>
+			<ns:element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"/>
+			<ns:element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"/>
+			<ns:element name="bInit" type="ns:double" minOccurs="1"/>
+			<ns:element name="VarPercent" type="ns:double" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="block" type="pss:ShuntCompensatorBlockXmlType" maxOccurs="unbounded" minOccurs="1"/>
+			<ns:element name="remoteControlledBus" type="pss:IDRefRecordXmlType" minOccurs="0"/>
+			<ns:element name="vscDcLine" type="ns:string" minOccurs="0"/>
+			<ns:element name="bZeroSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="bPosSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="gZeroSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="gPosSeqPerSection" type="pss:YUnitType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="maxSections" type="ns:long" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="maxVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="minVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="norminalQOutput" type="pss:ReactivePowerXmlType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="norminalVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="norminalSwitchedInSections" type="ns:long" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="slop" type="ns:double" maxOccurs="1" minOccurs="0"/>
+			<ns:element name="reactivePowerPerSec" type="pss:ReactivePowerXmlType" maxOccurs="1" minOccurs="0"/>
 		</ns:sequence>
-		<ns:attribute name="mode" use="required" type="pss:ShuntCompensatorModeEnumType">		</ns:attribute>
-		<ns:attribute name="offLine" type="ns:boolean" use="required"></ns:attribute>
+		<ns:attribute name="mode" use="required" type="pss:ShuntCompensatorModeEnumType"/>
+		<ns:attribute name="offLine" type="ns:boolean" use="required"/>
 	</ns:complexType>
 
 	<ns:complexType name="ShuntCompensatorBlockXmlType">

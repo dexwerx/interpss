@@ -133,9 +133,13 @@
     	<ns:complexContent>
     		<ns:extension base="pss:NameTagXmlType">
     			<ns:sequence>
-    				<ns:element name="interfaceBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1">
+    				<ns:element name="interfaceBus" type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1">
     				<ns:annotation>
-    					<ns:documentation>interface bus id, where this network is connecting to the parent network.</ns:documentation>
+    					<ns:documentation>
+    					interface bus id, where this network is connecting to the parent network. It is optional
+    					since in many cases, it could be identified. For example, utility bus in a distribution network,
+    					inverter bus in a solar system. 
+    					</ns:documentation>
     				</ns:annotation>
     				</ns:element>
     			</ns:sequence>
