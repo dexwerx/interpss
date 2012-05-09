@@ -226,6 +226,19 @@ public class AclfParserHelper extends BaseJaxbHelper {
 				else
 					loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
 			}
+			
+			ShuntCompensatorDataXmlType shuntData = busRec.getShuntCompensatorData();
+			if (shuntData != null) {
+				ODMLogger.getLogger().info("Bus " + busRec.getId() + " has ShuntCompensatorData");
+				if (shuntData.getEquivQ() == null) {
+					shuntData.setEquivQ(shuntData.getShuntCompensator().get(0).getNorminalQOutput());
+					if (shuntData.getShuntCompensator().size() > 1) {
+						for (int cnt = 1; cnt < shuntData.getShuntCompensator().size(); cnt++)
+							shuntData.getEquivQ().setValue(shuntData.getEquivQ().getValue() + 
+									shuntData.getShuntCompensator().get(cnt).getNorminalQOutput().getValue());
+					}
+				}
+			}
 		}
 		
 		return ok;
