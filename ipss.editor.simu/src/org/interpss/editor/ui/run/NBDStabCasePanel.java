@@ -25,7 +25,7 @@
 package org.interpss.editor.ui.run;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-import static com.interpss.dstab.DStabFunction.*;
+import static com.interpss.dstab.funcImpl.DStabFunction.*;
 
 import java.util.List;
 import java.util.Vector;

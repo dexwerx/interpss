@@ -29,9 +29,9 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.ui.util.IpssFileFilter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 
 public class FileChooserConfig {

@@ -24,8 +24,7 @@
 
 package org.interpss.editor.io;
 
-import org.interpss.custom.IpssFileAdapter;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;

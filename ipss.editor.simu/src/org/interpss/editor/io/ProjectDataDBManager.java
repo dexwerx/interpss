@@ -36,7 +36,6 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.spring.PluginSpringFactory;
-import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.exp.InterpssException;
