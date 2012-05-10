@@ -61,7 +61,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			for (Branch bra : net.getBranchList()) {
 				AclfBranch branch = (AclfBranch)bra;
 				if (branch.getZ().abs() < this.threshhold) {
-					branch.setBranchCode(AclfBranchCode.ZERO_IMPEDENCE);
+					if (branch.getBranchCode() == AclfBranchCode.LINE)
+						branch.setBranchCode(AclfBranchCode.ZERO_IMPEDENCE);
+					else
+						ipssLogger.warning("Branch " + branch.getId() + " z < threshhold, but it is not a transmission line");
 				}
 			}
 		  	
@@ -94,7 +97,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			if (fromBus.getParent().getId()
 					.equals(toBus.getParent().getId()))
 				throw new InterpssException("Branch from bus and to bus have different parent bus, branch id:" + branch.getId());
-		
 		
 		Bus parentBus = null;
 		/*
