@@ -28,7 +28,7 @@ import java.io.File;
 
 import org.interpss.AppConstants;
 import org.interpss.InterPSS;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.editor.SimuRunEnum;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
