@@ -1,6 +1,6 @@
 package org.interpss.custom.run;
 
-import org.interpss.custom.IpssCustomAdapter;
+import org.interpss.fadapter.IpssCustomAdapter;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.InterPSSXmlType;
 

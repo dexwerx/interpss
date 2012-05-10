@@ -23,7 +23,7 @@
 			</list>
 	-->
 	<bean id="fileAdapterIeeeCommonFormat" 
-	      class="org.interpss.custom.fadpter.IeeeCDFFormat"
+	      class="org.interpss.fadapter.IeeeCDFFormat"
 	      scope="singleton"	
 	      p:name="IEEE Common Format"
 	      p:fileFilterString="dat"
@@ -34,7 +34,7 @@
 	</bean>	
 	
 	<bean id="fileAdapterBPAFormat" 
-	      class="org.interpss.custom.fadpter.BPAFormat"
+	      class="org.interpss.fadapter.BPAFormat"
 	      scope="singleton"	
 	      p:name="BPA Format"
 	      p:fileFilterString="dat"
@@ -45,7 +45,7 @@
 	</bean>	
 
 	<bean id="fileAdapterBPAFormatDStab" 
-	      class="org.interpss.custom.fadpter.BPAFormat"
+	      class="org.interpss.fadapter.BPAFormat"
 	      scope="singleton"	
 	      p:name="BPA Format DStab"
 	      p:fileFilterString="dat"
@@ -57,7 +57,7 @@
 	</bean>	
 
 	<bean id="fileAdapterIeeeODMXml" 
-	      class="org.interpss.custom.fadpter.ODMFormat"
+	      class="org.interpss.fadapter.ODMFormat"
 	      scope="singleton"	
 	      p:name="IEEE ODM Xml Model"
 	      p:fileFilterString="xml"
@@ -68,7 +68,7 @@
 	</bean>	
 
 	<bean id="fileAdapterUCTEFormat" 
-	      class="org.interpss.custom.fadpter.UCTEFormat"
+	      class="org.interpss.fadapter.UCTEFormat"
 	      scope="singleton"	
 	      p:name="UCTE Format"
 	      p:fileFilterString="uct"
@@ -79,7 +79,7 @@
 	</bean>	
 	
 	<bean id="fileAdapterPSSEFormat" 
-	      class="org.interpss.custom.fadpter.PTIFormat"
+	      class="org.interpss.fadapter.PTIFormat"
 	      scope="singleton"	
 	      p:name="PSS/E Format"
 	      p:fileFilterString="raw"
@@ -96,7 +96,7 @@
 	</bean>
 	
 	<bean id="fileAdapterGEFormat" 
-	      class="org.interpss.custom.fadpter.GEFormat"
+	      class="org.interpss.fadapter.GEFormat"
 	      scope="singleton"	
 	      p:name="GE-PSLF Format"
 	      p:fileFilterString="epc"
@@ -107,7 +107,7 @@
 	</bean>	
 	
 	<bean id="fileAdapterIpssInternalFormat" 
-	      class="org.interpss.custom.fadpter.IpssInternalFormat"
+	      class="org.interpss.fadapter.IpssInternalFormat"
 	      scope="singleton"	
 	      p:name="InterPSS Internal Format"
 	      p:fileFilterString="ipssdata|dat"

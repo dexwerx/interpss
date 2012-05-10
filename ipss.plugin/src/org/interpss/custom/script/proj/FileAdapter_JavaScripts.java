@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
-import org.interpss.custom.fadpter.impl.IpssFileAdapterBase;
+import org.interpss.fadapter.impl.IpssFileAdapterBase;
 
 import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InterpssException;

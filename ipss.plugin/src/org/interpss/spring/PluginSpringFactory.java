@@ -29,9 +29,9 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.output.IOutputSimuResult;
 import org.interpss.output.ISimuRecManager;
 import org.interpss.ui.IDialogUtil;
