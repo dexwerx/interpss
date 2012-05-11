@@ -31,8 +31,10 @@ import org.interpss.IpssPlugin;
 import org.interpss.PluginObjectFactory;
 import org.interpss.custom.IpssFileAdapter;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class NEISO_LF {
 	public static void main(String args[]) throws InterpssException {
@@ -44,6 +46,9 @@ public class NEISO_LF {
 				.load("testData/pwd/neiso_test.aux")
 				.getAclfNet();	
 		System.out.println("No of buses: " + net.getNoBus() + ", branches: " + net.getNoBranch());
+		
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		algo.loadflow();		
 	}	
 }
 
