@@ -1,5 +1,5 @@
  /*
-  * @(#)IEEECDF_ODMTest.java   
+  * @(#)OdmXml_Test.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.opf;
+package org.ieee.odm.odm_xml;
 
 import static org.junit.Assert.assertTrue;
 
@@ -30,20 +30,21 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.ieee.odm.model.ODMModelParser;
-import org.ieee.odm.model.opf.OpfModelParser;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.junit.Test;
 
-public class OpfSample_3BusTest { 
+public class OdmXml_ODMTest { 
 	@Test
 	public void testCase() throws Exception {
-		File file = new File("testdata/ieee_odm/opf_3bus_test.xml");
+		File file = new File("testdata/ieee_odm/Ieee14Bus_odm.xml");
 		ODMModelParser parser = new ODMModelParser();
 		parser.parse(new FileInputStream(file));
 		//System.out.println(parser.toXmlDoc(false));
 		
-		OpfModelParser opfParser = parser.toOpfModelParser();
-		assertTrue(opfParser.getAclfNet().getBasePower().getValue() == 100.0);
-		assertTrue(opfParser.getAclfNet().getBusList().getBus().size() == 3);
+		AclfModelParser aclfParser = parser.toAclfModelParser();
+		//System.out.println(aclfParser.toXmlDoc(false));
+		assertTrue(aclfParser.getAclfNet().getBasePower().getValue() == 100.0);
+		assertTrue(aclfParser.getAclfNet().getBusList().getBus().size() == 14);
 	}
 }
 

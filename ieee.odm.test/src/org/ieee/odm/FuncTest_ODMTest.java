@@ -8,7 +8,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
 
-public class FuncTestCase {
+public class FuncTest_ODMTest {
 	static String PSSStudyCaseHead = "<pssStudyCase xmlns=\"http://www.ieee.org/odm/Schema/2008\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
 	static String PSSStudyCaseEnd = "</pssStudyCase>";
 	

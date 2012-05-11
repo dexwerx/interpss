@@ -37,7 +37,7 @@ import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.junit.Test;
 
-public class ProcessOPFData_Test { 
+public class ProcessOPFData_ODMTest { 
 	@Test
 	public void testCase() throws Exception {
 /*
