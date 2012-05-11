@@ -35,12 +35,6 @@
 		Line Branch record for defining line for AC Loadflow  
 		</ns:documentation></ns:annotation>
     </ns:element>
-    
-    <ns:element name="aclfBreaker" type="pss:LineBranchXmlType" substitutionGroup="pss:branch">
-        <ns:annotation><ns:documentation>
-		Breaker record for defining line for AC Loadflow  
-		</ns:documentation></ns:annotation>
-    </ns:element>
 
     <ns:element name="aclfXfr" type="pss:XfrBranchXmlType" substitutionGroup="pss:branch">
         <ns:annotation><ns:documentation>
