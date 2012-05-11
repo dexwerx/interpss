@@ -311,11 +311,19 @@
 	
     <ns:complexType name="LineBranchInfoXmlType">
 		<ns:sequence>
-			<ns:element name="length" type="pss:LengthXmlType" minOccurs="0"></ns:element>
-			<ns:element name="lossFactor" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="type" type="pss:LineBranchEnumType" minOccurs="0"/>
+			<ns:element name="length" type="pss:LengthXmlType" minOccurs="0"/>
+			<ns:element name="lossFactor" type="ns:double" minOccurs="0" maxOccurs="1"/>
 		</ns:sequence>
 	</ns:complexType>
+	
     
+    <ns:simpleType name="LineBranchEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="OverheadLine"></ns:enumeration>
+			<ns:enumeration value="Breaker"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>    
 	
     <ns:complexType name="XfrBranchXmlType">
 		<ns:complexContent>
