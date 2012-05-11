@@ -32,25 +32,31 @@
     
     <ns:element name="aclfLine" type="pss:LineBranchXmlType" substitutionGroup="pss:branch">
         <ns:annotation><ns:documentation>
-		Line Branch record for define 
+		Line Branch record for defining line for AC Loadflow  
 		</ns:documentation></ns:annotation>
     </ns:element>
     
+    <ns:element name="aclfBreaker" type="pss:LineBranchXmlType" substitutionGroup="pss:branch">
+        <ns:annotation><ns:documentation>
+		Breaker record for defining line for AC Loadflow  
+		</ns:documentation></ns:annotation>
+    </ns:element>
+
     <ns:element name="aclfXfr" type="pss:XfrBranchXmlType" substitutionGroup="pss:branch">
         <ns:annotation><ns:documentation>
-		Xfr Branch record for define 
+		Xfr Branch record for  defining line for AC Loadflow  
 		</ns:documentation></ns:annotation>
     </ns:element>
     
     <ns:element name="aclf3WXfr" type="pss:Xfr3WBranchXmlType" substitutionGroup="pss:branch">
         <ns:annotation><ns:documentation>
-		3W Xfr Branch record for define 
+		3W Xfr Branch record for defining line for AC Loadflow  
 		</ns:documentation></ns:annotation>
     </ns:element>
     
     <ns:element name="aclfPSXfr" type="pss:PSXfrBranchXmlType" substitutionGroup="pss:branch">
         <ns:annotation><ns:documentation>
-		PS Xfr Branch record for define 
+		PS Xfr Branch record for defining line for AC Loadflow  
 		</ns:documentation></ns:annotation>
     </ns:element>
     
