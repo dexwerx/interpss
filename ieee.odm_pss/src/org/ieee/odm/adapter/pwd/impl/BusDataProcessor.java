@@ -31,8 +31,8 @@ import org.ieee.odm.schema.YUnitType;
   */
 public class BusDataProcessor extends BaseDataProcessor {
 	public static long swingBusNum=-1;
-	private boolean subDataBegins=false;
-	private boolean subDataEnds=false;
+	private boolean isSubDataSection=false;
+
 	
 	public BusDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
 		super(nvPairs, parser);
@@ -100,6 +100,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 			}
 			else if(nv.name.equals("BusSlack")){
 				if(nv.value.equalsIgnoreCase("YES")) isSlackBus=true;
+				if(isSlackBus) System.out.println ("==>Swing Bus #"+busDataStr);
 			}
 		}
 		
@@ -131,6 +132,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		
 		if(isSlackBus){
 			swingBusNum=busNum;
+			System.out.println ("==>Swing Bus number:"+swingBusNum);
 			
 		}
 		
@@ -209,26 +211,25 @@ public class BusDataProcessor extends BaseDataProcessor {
 	boolean genOnLine=false;
 	boolean pLimitForced=true;
 	
+	if(busGenDataStr.trim().contains("ROLLINS_34.5_ROLL")){
+		System.out.print("");
+	}
 	
 	if(busGenDataStr.trim().startsWith("<SUBDATA")){
-		subDataBegins=true;
+		isSubDataSection=true;
+		return;
 	}
-	else if(busGenDataStr.trim().startsWith("<///SUBDATA>")){
-		subDataEnds=true;
+	else if(busGenDataStr.trim().startsWith("</SUBDATA>")){
+		isSubDataSection=false;
+		return;
 	}
 	
 	/*
 	 * skips SubData, since they are not used in load flow analysis;
 	 */
 	
-	if (!(subDataBegins ^ subDataEnds)) {// if there is no subData or subData ends
-
-		   if(subDataBegins=true){ //reset to false;
-				subDataBegins=false;
-				subDataEnds=false;
-			}
-
-			
+	if (!isSubDataSection) {// if there is no subData or subData ends
+		
 			PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
             
 			for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
@@ -271,7 +272,9 @@ public class BusDataProcessor extends BaseDataProcessor {
 
 			if (regBusNum != -1) {
 				// this generator control the bus it connects to
-				if (regBusNum == busNum) { 
+				//TODO generator regulates itself by default when regBusNum==0
+			
+				if (regBusNum == busNum||regBusNum==0) { 
 
 					if (busNum != swingBusNum) {// This bus is a PV bus
 						
