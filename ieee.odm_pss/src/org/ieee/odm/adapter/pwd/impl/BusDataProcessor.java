@@ -100,7 +100,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 			}
 			else if(nv.name.equals("BusSlack")){
 				if(nv.value.equalsIgnoreCase("YES")) isSlackBus=true;
-				if(isSlackBus) System.out.println ("==>Swing Bus #"+busDataStr);
+				//if(isSlackBus) System.out.println ("==>Swing Bus #"+busDataStr);
 			}
 		}
 		
@@ -132,7 +132,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		
 		if(isSlackBus){
 			swingBusNum=busNum;
-			System.out.println ("==>Swing Bus number:"+swingBusNum);
+			//System.out.println ("==>Swing Bus number:"+swingBusNum);
 			
 		}
 		
@@ -210,10 +210,6 @@ public class BusDataProcessor extends BaseDataProcessor {
 	double genMW=0,genMVR=0,genMWMin=0,genMWMax=0,genMVRMin=-9999,genMVRMax=9999,genMVABase=100;
 	boolean genOnLine=false;
 	boolean pLimitForced=true;
-	
-	if(busGenDataStr.trim().contains("ROLLINS_34.5_ROLL")){
-		System.out.print("");
-	}
 	
 	if(busGenDataStr.trim().startsWith("<SUBDATA")){
 		isSubDataSection=true;
