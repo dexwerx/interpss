@@ -20,7 +20,7 @@ public class CutomLFTest extends VStabTestSetup {
 		IODMAdapter adapter= new IeeeCDFAdapter();
 		assertTrue(adapter.parseInputFile("testdata/ieee_cdf/Ieee14.ieee"));// error with 005ieee.ieee
 		AclfNetwork net=CorePluginSpringFactory
-		                .getOdm2AclfMapper()
+		                .getOdm2AclfParserMapper()
 		                .map2Model((AclfModelParser)adapter.getModel())
 		                .getAclfNet();
 		CustomLfAlgorithm customLf=new CustomLfAlgorithm(net);

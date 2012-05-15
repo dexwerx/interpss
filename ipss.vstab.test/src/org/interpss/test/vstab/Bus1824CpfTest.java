@@ -2,7 +2,7 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.VStabObjectFactory;

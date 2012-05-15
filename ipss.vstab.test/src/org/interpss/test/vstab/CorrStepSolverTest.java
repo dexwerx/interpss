@@ -3,9 +3,9 @@ package org.interpss.test.vstab;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.test.VStabTestSetup;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
@@ -122,7 +122,7 @@ public class CorrStepSolverTest extends VStabTestSetup {
 	
 	@Test
 	public void ieee039_VmagTestCase() throws Exception {
-		IpssFileAdapter adapter=PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter=CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 	    SimuContext sim=adapter.load("testData/ieee_cdf/ieee039.ieee");
 	    AclfNetwork net=sim.getAclfNet();
 	    LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.NETWORK,LoadIncType.CONST_PF,null);
