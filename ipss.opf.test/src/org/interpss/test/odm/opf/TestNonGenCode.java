@@ -2,8 +2,8 @@ package org.interpss.test.odm.opf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.CorePluginObjFactory;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfBus;
@@ -15,7 +15,7 @@ public class TestNonGenCode {
       @Test
 	  public void aNonGenCodeTest() throws Exception{
   		String filePath="testdata/opf/ieee30.ieee";
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load(filePath);
 
 		AclfNetwork net = simuCtx.getAclfNet();
