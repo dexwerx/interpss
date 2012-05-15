@@ -4,10 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
@@ -24,7 +24,7 @@ import com.interpss.simu.SimuContext;
 public class ContingencyControlFileCaseTest extends PluginTestSetup {
 	@Test
 	public void cr113BusSwitchingModelCaseTest() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(
 				IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30);
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
  		//System.out.println(simuCtx.getAclfNet().net2String());
@@ -35,7 +35,7 @@ public class ContingencyControlFileCaseTest extends PluginTestSetup {
 
 	//@Test
 	public void cr113BusCaseTest() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(
 				IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30);
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
 // 		System.out.println(simuCtx.getAclfNet().net2String());

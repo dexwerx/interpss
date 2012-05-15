@@ -26,9 +26,9 @@ package org.interpss.core.adapter.ieee;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 public class IEEE300BusTest extends PluginTestSetup {
 	@Test
 	public void xtestCase5() throws Exception{
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testData/ieee_format/ieee300.ieee")
 				.getAclfNet();	

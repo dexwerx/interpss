@@ -31,9 +31,9 @@ import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.OpenMapRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SparseRealMatrix;
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
@@ -44,7 +44,7 @@ import com.interpss.core.aclf.AclfNetwork;
 public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testData/ieee_format/UCTE_2000_WinterOffPeak.ieee")
 				.getAclfNet();

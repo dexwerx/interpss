@@ -26,9 +26,9 @@ package org.interpss.core.adapter.bpa;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 public class BPASampleTestCases extends PluginTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
 				.load("testData/bpa/IEEE9.dat")
 				.getAclfNet();	
@@ -60,7 +60,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 
 	@Test
 	public void odmAdapterTestCase1() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
 				.load("testData/bpa/Test009bpa.dat")
 				.getAclfNet();	
@@ -77,7 +77,7 @@ public class BPASampleTestCases extends PluginTestSetup {
 	}
 	
 	public void outputTestCase() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.BPA)
 				.load("testData/bpa/Test009bpa.dat")
 				.getAclfNet();	

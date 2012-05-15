@@ -26,9 +26,9 @@ package org.interpss.core.adapter.ge;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 public class GESampleTestCases extends PluginTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.GE_PSLF)
 				.load("testdata/ge/Sample18Bus.epc")
 				.getAclfNet();	

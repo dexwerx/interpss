@@ -24,9 +24,7 @@
 
 package org.interpss.schema;
 
-import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.*;
-import static com.interpss.dstab.cache.YMatrixChangeRecorder.YMatrixChangeRecord;
-
+import static com.interpss.dstab.cache.StateVariableRecorder.StateVarRecType.MachineState;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -48,6 +46,7 @@ import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
 import com.interpss.dstab.cache.StateVariableRecorder;
 import com.interpss.dstab.cache.YMatrixChangeRecorder;
+import com.interpss.dstab.cache.YMatrixChangeRecorder.YMatrixChangeRecord;
 import com.interpss.dstab.common.DStabOutSymbol;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;

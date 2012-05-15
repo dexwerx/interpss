@@ -26,24 +26,20 @@ package org.interpss.core.adapter.pwd;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.algo.ZeroZBranchProcesor;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
-import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class PWDIEEE14BusTestCase extends PluginTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
 				.load("testData/pwd/ieee14.AUX")
 				.getAclfNet();	

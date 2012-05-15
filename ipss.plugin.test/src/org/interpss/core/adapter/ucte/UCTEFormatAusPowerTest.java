@@ -27,9 +27,9 @@ package org.interpss.core.adapter.ucte;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ import com.interpss.simu.SimuContext;
 public class UCTEFormatAusPowerTest extends PluginTestSetup { 
 	@Test 
 	public void testCaseAclfNet() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.UCTE)
 				.load("testData/ucte/MarioTest1_Simple.uct")
 				.getAclfNet();
@@ -62,7 +62,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 	
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
@@ -80,7 +80,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 
 	//@Test
 	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct");
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
@@ -97,7 +97,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 
 	//@Test
 	public void testCase3() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
@@ -115,7 +115,7 @@ public class UCTEFormatAusPowerTest extends PluginTestSetup {
 
 	//@Test
 	public void testCase4() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.UCTE);
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 

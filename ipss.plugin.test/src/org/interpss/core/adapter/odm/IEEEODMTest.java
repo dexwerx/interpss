@@ -27,7 +27,7 @@ package org.interpss.core.adapter.odm;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;

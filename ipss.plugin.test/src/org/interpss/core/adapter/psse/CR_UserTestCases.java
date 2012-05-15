@@ -27,9 +27,9 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
 
@@ -44,7 +44,7 @@ import com.interpss.simu.SimuContext;
 public class CR_UserTestCases extends PluginTestSetup {
 	//@Test
 	public void testCase1() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30)
 				.load("testData/psse/PSSE_5Bus_Test.raw")
 				.getAclfNet();	

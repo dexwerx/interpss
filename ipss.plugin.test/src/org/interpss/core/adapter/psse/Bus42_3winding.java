@@ -26,9 +26,9 @@ package org.interpss.core.adapter.psse;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -38,7 +38,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 public class Bus42_3winding extends PluginTestSetup {
 	@Test
 	public void testCaseNoDC() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30)
 				.load("testData/psse/v30/42bus_3winding_from_PSSE_V30_NoDC.raw")
 				.getAclfNet();	
@@ -53,7 +53,7 @@ public class Bus42_3winding extends PluginTestSetup {
 
 	//@Test
 	public void testCase1() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30)
 				.load("testData/psse/v30/42bus_3winding_from_PSSE_V30.raw")
 				.getAclfNet();	

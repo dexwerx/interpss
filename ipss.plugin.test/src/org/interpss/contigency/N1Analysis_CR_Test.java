@@ -25,8 +25,8 @@
 package org.interpss.contigency;
 
 import org.interpss.PluginTestSetup;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.ContingencyOutFunc;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
 
