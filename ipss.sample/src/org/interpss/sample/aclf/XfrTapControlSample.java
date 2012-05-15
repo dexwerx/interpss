@@ -25,12 +25,12 @@
 package org.interpss.sample.aclf;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.IpssPlugin;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.exp.IpssNumericException;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -50,7 +50,7 @@ import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XfrTapControlSample {
 	public static void main(String args[]) throws IpssNumericException, InterpssException {
-		CoreCommonSpringFactory.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringFactory.setAppContext(new String[] {IpssPlugin.CtxPath});
 		
 		AclfNetwork net = SampleCases.sample2BusXfr();
 		

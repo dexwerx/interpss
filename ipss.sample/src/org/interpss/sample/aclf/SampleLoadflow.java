@@ -47,7 +47,7 @@ import com.interpss.core.aclf.adpter.AclfLoadBus;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.IpssAclfNet;
+import com.interpss.pssl.simu.net.IpssAclfNet;
 
 
 public class SampleLoadflow {
@@ -131,7 +131,7 @@ public class SampleLoadflow {
 	
 	public static void main(String args[]) {
 		// set session message to Warning level
-		IPSSMsgHub msg = IpssAclf.getMsgHub();
+		IPSSMsgHub msg = IpssAclf.psslMsg;
 		
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 		

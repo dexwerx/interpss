@@ -25,9 +25,9 @@ package org.interpss.sample.net;
 
 import java.util.logging.Level;
 
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -50,7 +50,7 @@ public class IEEE14_WalkThrouhg {
     	/*
     	 * step-1 input the base case 
     	 */
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testData/ieee14.ieee")
 				.getAclfNet();

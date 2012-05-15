@@ -34,7 +34,7 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.simu.IpssAclf;
-import com.interpss.pssl.simu.IpssAclfNet;
+import com.interpss.pssl.simu.net.IpssAclfNet;
 
 
 public class SampleLoadflowDSL {

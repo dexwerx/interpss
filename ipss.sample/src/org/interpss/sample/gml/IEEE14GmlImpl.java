@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.graphdrawing.gml.GraphType;
 import org.graphdrawing.gml.GraphmlType;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.IpssPlugin;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.impl.IPSSMsgHubImpl;
 import com.interpss.core.aclf.AclfNetwork;
@@ -23,7 +23,7 @@ public class IEEE14GmlImpl {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS core simulation engine configuration
-		CoreCommonSpringFactory.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringFactory.setAppContext(new String[] {IpssPlugin.CtxPath});
 
     	// Build the base case network
 		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");

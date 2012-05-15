@@ -1,7 +1,7 @@
 package org.interpss.sample.acsc;
 
-import static com.interpss.core.AcscFunction.AcscXfrAptr;
-import static com.interpss.core.AcscFunction.BusFault2Str;
+import static com.interpss.core.funcImpl.AcscFunction.AcscXfrAptr;
+import static com.interpss.core.funcImpl.AcscFunction.BusFault2Str;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.display.AcscOutFunc;

@@ -2,8 +2,8 @@ package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
 import org.interpss.IpssPlugin;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;

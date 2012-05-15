@@ -29,16 +29,17 @@ import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfBusNetRef;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
+import com.interpss.simu.mnet.AclfBusChildNetRef;
 import com.interpss.simu.util.sample.SampleCases;
 
 public class AclfMultiNetSample {
@@ -51,12 +52,12 @@ public class AclfMultiNetSample {
 	  	System.out.println(AclfOutFunc.loadFlowSummary(mainNet));
 	  	
 	  	System.out.println("--------> LF results of ChildNet at Bus2");
-	  	AclfBusNetRef bus2 = (AclfBusNetRef)mainNet.getAclfBus("0002");
-	  	System.out.println(AclfOutFunc.loadFlowSummary(bus2.getAclfNetRef()));
+	  	AclfBusChildNetRef bus2 = (AclfBusChildNetRef)mainNet.getAclfBus("0002");
+	  	System.out.println(AclfOutFunc.loadFlowSummary((AclfNetwork)bus2.getChildNetRef()));
 
 	  	System.out.println("--------> LF results of ChildNet at Bus3");
-	  	AclfBusNetRef bus3 = (AclfBusNetRef)mainNet.getAclfBus("0003");
-	  	System.out.println(AclfOutFunc.loadFlowSummary(bus3.getAclfNetRef()));
+	  	AclfBusChildNetRef bus3 = (AclfBusChildNetRef)mainNet.getAclfBus("0003");
+	  	System.out.println(AclfOutFunc.loadFlowSummary((AclfNetwork)bus3.getChildNetRef()));
 	}
 
 	public static AclfNetwork createNet() throws InterpssException {
@@ -76,13 +77,13 @@ public class AclfMultiNetSample {
   		swingBus.setVoltMag(1.0, UnitType.PU);
   		swingBus.setVoltAng(0.0, UnitType.Deg);
   		
-  		AclfBusNetRef bus2 = CoreObjectFactory.createAclfBusNetRef("0002", mainNet);
+  		AclfBusChildNetRef bus2 = SimuObjectFactory.createAclfBusNetRef("0002", mainNet);
   		bus2.setAttributes("Bus 2", "");
   		bus2.setBaseVoltage(4000.0);
   		bus2.setGenCode(AclfGenCode.GEN_PQ);
   		bus2.setLoadCode(AclfLoadCode.CONST_P);
   		
-  		AclfBusNetRef bus3 = CoreObjectFactory.createAclfBusNetRef("0003", mainNet);
+  		AclfBusChildNetRef bus3 = SimuObjectFactory.createAclfBusNetRef("0003", mainNet);
   		bus2.setAttributes("Bus 3", "");
   		bus2.setBaseVoltage(4000.0);
   		bus2.setGenCode(AclfGenCode.GEN_PQ);
@@ -110,12 +111,12 @@ public class AclfMultiNetSample {
 		//    - bus2 is a PQ bus
 		//    - there is one and only one Swing bus in the child net netSub1, which is linked to bus2 
 		//      of the mainNet
-		bus2.setAclfNet(netSub1);
+		bus2.setChildNetRef(netSub1);
 		
 		AclfNetwork netSub2 = CoreObjectFactory.createAclfNetwork();
 		SampleCases.load_LF_5BusSystem(netSub2);
 		// set netSub2 as a childNet at bus3
-		bus3.setAclfNet(netSub2);
+		bus3.setChildNetRef(netSub2);
 		
 		return mainNet;
 	}

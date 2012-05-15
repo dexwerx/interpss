@@ -29,11 +29,9 @@ import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.core.algo.impl.DefaultNrSolver;
-import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
 
 
@@ -112,7 +110,7 @@ public class CustomNRMethod {
 	
 	public static void main(String args[]) {
 		// set session message to Warning level
-		IPSSMsgHub msg = IpssAclf.getMsgHub();
+		//IPSSMsgHub msg = IpssAclf.getMsgHub();
 		
 		// create a sample 5-bus system for Loadflow 
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();

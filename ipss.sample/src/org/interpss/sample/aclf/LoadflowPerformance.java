@@ -26,25 +26,23 @@ package org.interpss.sample.aclf;
 
 import java.util.logging.Level;
 
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.IpssPlugin;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.util.PerformanceTimer;
 import org.interpss.spring.PluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringFactory;
 
 
 public class LoadflowPerformance {
 	public static void main(String args[]) throws Exception {
-		CoreCommonSpringFactory.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringFactory.setAppContext(new String[] {IpssPlugin.CtxPath});
 
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 
@@ -59,7 +57,7 @@ public class LoadflowPerformance {
 	  	timer.logStd("Time for loading the case: ");
 
 		AclfNetwork adjNet = simuCtx.getAclfNet();
-		IPSSMsgHub msg = IpssAclf.getMsgHub();
+		//IPSSMsgHub msg = IpssAclf.getMsgHub();
 
 		/*
 		 * time running a full NR loadflow

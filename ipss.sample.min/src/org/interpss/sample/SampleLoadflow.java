@@ -26,10 +26,10 @@ package org.interpss.sample;
 
 import static org.junit.Assert.assertTrue;
 
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -41,7 +41,7 @@ public class SampleLoadflow {
 	public void set2BusNetworkData() throws Exception {
 		IpssPlugin.init();
 		
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 			.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 			.loadDebug("testData/ieee14.ieee")
 			.getAclfNet();	

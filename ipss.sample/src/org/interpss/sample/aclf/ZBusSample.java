@@ -27,27 +27,25 @@ package org.interpss.sample.aclf;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.IpssPlugin;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnComplex;
 
 import com.interpss.CoreObjectFactory;
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.util.sample.SampleCases;
 import com.interpss.spring.CoreCommonSpringFactory;
 
 
 public class ZBusSample {
 	public static void main(String args[]) throws IpssNumericException {
-		CoreCommonSpringFactory.setAppContext(Constants.SpringConfigPath_Plugin);
+		CoreCommonSpringFactory.setAppContext(new String[] {IpssPlugin.CtxPath});
 		
 		// set session message to Warning level
-		IPSSMsgHub msg = IpssAclf.getMsgHub();
+		//IPSSMsgHub msg = IpssAclf.getMsgHub();
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 		
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();

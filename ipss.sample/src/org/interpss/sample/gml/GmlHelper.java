@@ -24,7 +24,7 @@
 
 package org.interpss.sample.gml;
 
-import static com.interpss.common.util.NetUtilFunc.*;
+import static com.interpss.common.util.NetUtilFunc.ToBranchId2;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

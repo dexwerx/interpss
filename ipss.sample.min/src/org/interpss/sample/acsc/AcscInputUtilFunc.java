@@ -1,14 +1,12 @@
 package org.interpss.sample.acsc;
 
-import static com.interpss.core.AcscFunction.AcscPSXfrAptr;
-import static com.interpss.core.AcscFunction.AcscXfrAptr;
+import static com.interpss.core.funcImpl.AcscFunction.*;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
-import com.interpss.core.AcscFunction;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -60,7 +58,7 @@ public class AcscInputUtilFunc {
 		bus.setScZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit);
 		bus.setScZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit);
 		bus.setScZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit);
-		bus.getGrounding().setCode(AcscFunction.Str2ScGroundCode.f(gCode));
+		bus.getGrounding().setCode(Str2ScGroundCode.f(gCode));
 		bus.getGrounding().setZ(new Complex(rg,xg), gzUnit, bus.getBaseVoltage(), net.getBaseKva());
 		return bus;
 	}
