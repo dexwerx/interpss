@@ -21,12 +21,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.NamedInputStream;
 import org.interpss.editor.util.Utilities;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 
 public class IpssNewCustomDialog extends javax.swing.JDialog {

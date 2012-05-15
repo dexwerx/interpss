@@ -12,10 +12,10 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.editor.util.ExtensionFilter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 
 /*

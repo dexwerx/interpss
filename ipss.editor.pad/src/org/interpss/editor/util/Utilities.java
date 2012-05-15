@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
 
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.GPPluginInvoker;
@@ -60,6 +59,7 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.resources.Translator;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 import org.jgraph.JGraph;
@@ -380,7 +380,7 @@ public final class Utilities {
 			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
 			file.setFilePathName(abpath);
 			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
-			CoreCommonSpringFactory.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);
+			IpssLogger.getLogger().info("Custom Data, File:" + abpath);
 		}
 
 		GraphSpringFactory.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
