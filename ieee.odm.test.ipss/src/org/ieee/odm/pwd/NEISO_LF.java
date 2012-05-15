@@ -27,9 +27,9 @@ package org.ieee.odm.pwd;
 import java.util.logging.Level;
 
 import org.ieee.odm.common.ODMLogger;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -41,7 +41,7 @@ public class NEISO_LF {
 		IpssPlugin.init();
 
 		ODMLogger.getLogger().setLevel(Level.INFO);
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
 				.load("testData/pwd/neiso_test.aux")
 				.getAclfNet();	
