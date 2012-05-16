@@ -19,7 +19,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
@@ -34,5 +33,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin.pt"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
