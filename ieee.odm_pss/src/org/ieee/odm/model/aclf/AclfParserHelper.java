@@ -85,13 +85,11 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	}
 	
 	/**
-	 * consolidate bus genContributionList and loadContributionList to the equiv gen and load 
+	 * consolidate bus genContributionList to the equiv gen 
 	 * 
 	 */
-	public static boolean createBusEquivData(AclfModelParser parser) {
+	public static boolean createBusEquivGenData(AclfModelParser parser) {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
-		boolean ok = true;
-
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			AclfGenDataXmlType genData = busRec.getGenData();
@@ -178,7 +176,19 @@ public class AclfParserHelper extends BaseJaxbHelper {
 						genData.getEquivGen().setVoltageLimit(null);
 				}
 			}
-			
+		}
+
+		return true;
+	}
+	
+	/**
+	 * consolidate bus loadContributionList to the load 
+	 * 
+	 */
+	public static boolean createBusEquivLoadData(AclfModelParser parser) {
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
+		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
+			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			AclfLoadDataXmlType loadData = busRec.getLoadData();
 			if (loadData != null) {
 				if ( loadData.getContributeLoad().size() > 0) {
@@ -226,7 +236,16 @@ public class AclfParserHelper extends BaseJaxbHelper {
 				else
 					loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
 			}
-			
+		}
+
+		return true;
+	}
+
+	public static boolean createBusEquivShuntData(AclfModelParser parser) {
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
+
+		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
+			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			ShuntCompensatorDataXmlType shuntData = busRec.getShuntCompensatorData();
 			if (shuntData != null) {
 				ODMLogger.getLogger().info("Bus " + busRec.getId() + " has ShuntCompensatorData");
@@ -240,8 +259,18 @@ public class AclfParserHelper extends BaseJaxbHelper {
 				}
 			}
 		}
+
+		return true;
+	}
+
+	public static boolean createBusEquivData(AclfModelParser parser) {
+		createBusEquivGenData(parser);
 		
-		return ok;
+		createBusEquivLoadData(parser);
+
+		createBusEquivShuntData(parser);
+
+		return true;
 	}
 	
 	/**
