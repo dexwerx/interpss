@@ -48,8 +48,8 @@ public class PWD_IEEE14Bus_ODMTest {
 		assertTrue(adapter.parseInputFile("testdata/pwd/Ieee14.AUX"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
+		//System.out.println(parser.toXmlDoc());
 		
-		System.out.println(parser.toXmlDoc());
 		assertTrue(parser.getAclfBus("Bus1").getGenData().getEquivGen().getCode()
 				==LFGenCodeEnumType.SWING);
 		assertTrue(parser.getAclfBus("Bus2").getGenData().getEquivGen().getCode()
