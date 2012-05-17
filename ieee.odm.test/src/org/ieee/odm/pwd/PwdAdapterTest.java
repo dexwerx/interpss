@@ -1,5 +1,6 @@
 package org.ieee.odm.pwd;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -33,11 +35,13 @@ public class PwdAdapterTest {
 		
 		//check bus data
 		LoadflowBusXmlType bus1=(LoadflowBusXmlType) parser.getBus("Bus1");
+		assertTrue(bus1.getGenData().getEquivGen().getCode()==LFGenCodeEnumType.SWING);
 		assertTrue(bus1.getGenData().getEquivGen().getDesiredVoltage().getValue()==1.0);
-		assertTrue(bus1.getGenData().getEquivGen().getPower().getRe()-100.01<1E-4);
-		assertTrue(bus1.getGenData().getEquivGen().getQLimit().getMax()-99998.999<1E-4);
-		assertTrue(bus1.getGenData().getEquivGen().getQLimit().getMin()-(-99998.999)<1E-4);
-		assertTrue(bus1.getGenData().getEquivGen().getPLimit().getMax()-800.0<1E-4);
+		
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getPower().getRe()-100.0056)<1E-3);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getQLimit().getMax()-99998.999)<1E-3);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getQLimit().getMin()-(-99998.999))<1E-3);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getPLimit().getMax()-800.0)<1E-4);
 		assertTrue(bus1.getGenData().getEquivGen().getPLimit().getMin()==0.0);
 		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getRe()==100.0);
 		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getIm()==0.0);
@@ -65,13 +69,13 @@ public class PwdAdapterTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void IEEE14Bustest(){
 		IODMAdapter adapter = new PowerWorldAdapter();
 		assertTrue(adapter.parseInputFile("testdata/pwd/ieee14.aux"));
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
 		
-		//parser.stdout();
+		parser.stdout();
 		
 		//check network data
 		assertTrue(parser.getAclfNet().getBasePower().getValue()==100.0);
@@ -85,10 +89,10 @@ public class PwdAdapterTest {
 		assertTrue(bus2.isOffLine()==false);
 		
 		assertTrue(bus2.getGenData().getEquivGen().getDesiredVoltage().getValue()==1.045000);
-		assertTrue(bus2.getGenData().getEquivGen().getPower().getRe()-40<1E-4);
-		assertTrue(bus2.getGenData().getEquivGen().getQLimit().getMax()-50.0<1E-4);
-		assertTrue(bus2.getGenData().getEquivGen().getQLimit().getMin()-(-40.0)<1E-4);
-		assertTrue(bus2.getGenData().getEquivGen().getPLimit().getMax()-10000.0<1E-4);
+		assertEquals(bus2.getGenData().getEquivGen().getPower().getRe(),40);
+		assertEquals(bus2.getGenData().getEquivGen().getQLimit().getMax(),50.0);
+		assertEquals(bus2.getGenData().getEquivGen().getQLimit().getMin(),-40.0);
+		assertEquals(bus2.getGenData().getEquivGen().getPLimit().getMax(),10000.0);
 		assertTrue(bus2.getGenData().getEquivGen().getPLimit().getMin()==-10000.0);
 		
 		assertTrue(bus2.getLoadData().getEquivLoad().getConstPLoad().getRe()==21.700);
