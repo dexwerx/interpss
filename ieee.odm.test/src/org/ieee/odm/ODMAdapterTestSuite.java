@@ -9,6 +9,8 @@ import org.ieee.odm.psse.PSSEV30_GuideSampleTest;
 import org.ieee.odm.psse.PSSEV30_NEISO_ODMTest;
 import org.ieee.odm.psse.PSSEV30_ODMTest;
 import org.ieee.odm.psse.PSSEV30_SegmentTest;
+import org.ieee.odm.pwd.PWD_IEEE14Bus_ODMTest;
+import org.ieee.odm.pwd.PwdAdapterTest;
 import org.ieee.odm.ucte.UCTE_ODMTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -35,8 +37,11 @@ import org.junit.runners.Suite.SuiteClasses;
 	PSSEV30_GuideSampleTest.class,
 	PSSEV30_SegmentTest.class,
 	
+	PWD_IEEE14Bus_ODMTest.class,
+	PwdAdapterTest.class,
+	
 	OpfSample_3Bus_ODMTest.class,
-	ProcessOPFData_ODMTest.class,
+	//ProcessOPFData_ODMTest.class,
 
 	OdmXml_ODMTest.class,
 })

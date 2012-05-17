@@ -1,10 +1,6 @@
 package org.ieee.odm.pwd;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
