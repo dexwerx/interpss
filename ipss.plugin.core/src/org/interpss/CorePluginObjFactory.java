@@ -27,6 +27,7 @@ import org.interpss.fadapter.BPAFormat;
 import org.interpss.fadapter.GEFormat;
 import org.interpss.fadapter.IeeeCDFFormat;
 import org.interpss.fadapter.IpssFileAdapter;
+import org.interpss.fadapter.IpssInternalFormat;
 import org.interpss.fadapter.PTIFormat;
 import org.interpss.fadapter.PWDFormat;
 import org.interpss.fadapter.UCTEFormat;
@@ -58,6 +59,9 @@ public class CorePluginObjFactory {
 		} 
 		else if (f == IpssFileAdapter.FileFormat.UCTE) {
 			return new UCTEFormat(CorePluginSpringFactory.getIpssMsgHub());
+		} 
+		else if (f == IpssFileAdapter.FileFormat.IpssInternal) {
+			return new IpssInternalFormat(CorePluginSpringFactory.getIpssMsgHub());
 		} 
 		throw new InterpssException("Error - File adapter format/version not implemented");
 	}
