@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<pssStudyCase id="ODM_StudyCase"
+<pssStudyCase id="ODM_StudyCase" schemaVersion="0.9.0"
     xmlns="http://www.ieee.org/odm/Schema/2008"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/ODMSchema.xsd ">
-    <schemaVersion>V0.9.0</schemaVersion>
     <contentInfo>
         <originalDataFormat>IEEE-CDF</originalDataFormat>
         <adapterProviderName>www.interpss.org</adapterProviderName>
