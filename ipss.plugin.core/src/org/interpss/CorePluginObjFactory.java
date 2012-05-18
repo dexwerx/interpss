@@ -60,6 +60,9 @@ public class CorePluginObjFactory {
 		else if (f == IpssFileAdapter.FileFormat.UCTE) {
 			return new UCTEFormat(CorePluginSpringFactory.getIpssMsgHub());
 		} 
+		else if (f == IpssFileAdapter.FileFormat.IEEE_ODM) {
+			return new IpssInternalFormat(CorePluginSpringFactory.getIpssMsgHub());
+		} 
 		else if (f == IpssFileAdapter.FileFormat.IpssInternal) {
 			return new IpssInternalFormat(CorePluginSpringFactory.getIpssMsgHub());
 		} 

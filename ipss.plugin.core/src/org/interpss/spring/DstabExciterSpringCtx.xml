@@ -24,13 +24,6 @@
 			</list>
 	-->
 	
-	<bean id="cmlScriptingExciter" 
-	  	class="org.interpss.dstab.script.cml.CMLScriptingExciter"
-	    scope="prototype"	
-	    p:name="CML Scripting Exciter"
-	    p:category="InterPSS" 
-	    p:desc="InterPSS CML scripting exciter implementation" />
-
 	<bean id="simpleExciter" 
 	      class="org.interpss.dstab.control.exc.simple.SimpleExciter"
 	      scope="prototype"	
@@ -137,28 +130,4 @@
 	      p:name="BPA FK"
 	      p:category="BPA-Exciter"
 	      p:desc="The BAP FK Type exciter implementation" />
-
-	<bean id="exciterList" 
-	      class="java.util.ArrayList"
-	      scope="singleton">	
-		<constructor-arg>
-			<list>
-				<ref bean="cmlScriptingExciter"/>
-				<ref bean="simpleExciter"/>
-				<ref bean="ieee1968Type1Exciter"/>
-				<ref bean="ieee1968Type1sExciter"/>
-				<ref bean="ieee1968Type2Exciter"/>
-				<ref bean="ieee1968Type3Exciter"/>
-				<ref bean="ieee1968Type4Exciter"/>
-				<!-- BPA -->
-				<ref bean="bpa_eaExciter"/>
-				<ref bean="bpa_ecExciter"/>
-				<ref bean="bpa_ekExciter"/>
-				<ref bean="bpa_faExciter"/>
-				<ref bean="bpa_fjExciter"/>
-				<ref bean="bpa_fkExciter"/>
-				<!-- ref bean="sampleCustomExciter"/ -->
-			</list>
-		</constructor-arg>
-	</bean>
 </beans>
