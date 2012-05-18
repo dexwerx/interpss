@@ -5,7 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spring"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Derby"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
@@ -30,11 +29,11 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-httpclient-3.0.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-javaflow.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.grid.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-3.8.jar"/>
@@ -43,5 +42,6 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
 	<classpathentry kind="lib" path="C:/eclipse/GEditor/plugin/custom.plugin/dist/custom.plugin.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/db/derby.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
