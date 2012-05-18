@@ -2,34 +2,31 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spring"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
-	<classpathentry kind="var" path="IPSS_LIB/batik/batik-awt-util.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/batik/batik-dom.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/batik/batik-svggen.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/batik/batik-util.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/xml/castor-1.0-xml.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-common-2.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-sqlmap-2.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/jnlp.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/jraphpad/jibble.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/jraphpad/lowagie.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
-	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/swing/bounce.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.editor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-dom.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-util.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/xml/castor-1.0-xml.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-common-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-sqlmap-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xerces.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/jnlp.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/report/jasperreports.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/jraphpad/jibble.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/jraphpad/lowagie.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/swing/bounce.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

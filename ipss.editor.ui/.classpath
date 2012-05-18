@@ -2,23 +2,23 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
-	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math-2.2.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-common-2.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-sqlmap-2.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="var" path="IPSS_LIB/spring/spring-2.5.6.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/java/tools.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.numeric"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.editor"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-common-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-sqlmap-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/spring/spring-2.5.6.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/java/tools.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
 	<classpathentry kind="output" path="runtime"/>
