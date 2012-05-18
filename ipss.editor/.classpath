@@ -14,7 +14,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin.pt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.pt"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/report/jasperreports.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>

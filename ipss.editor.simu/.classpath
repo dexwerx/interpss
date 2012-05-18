@@ -11,7 +11,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl.plugin.pt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.pt"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.schema"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
