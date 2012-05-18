@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.dstab"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.QA"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/chart/jcommon-1.0.0.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/chart/jfreechart-1.0.0-rc2.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
