@@ -27,7 +27,7 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
@@ -40,7 +40,7 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class GuideSampleTestCases extends PluginTestSetup {
+public class GuideSampleTestCases extends EditorTestSetup {
 	//@Test
 	public void testCase() throws Exception {
 		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("psse");

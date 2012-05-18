@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
@@ -24,7 +24,7 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
-public class UserStephenCaseTest extends PluginTestSetup {
+public class UserStephenCaseTest extends EditorTestSetup {
 	@Test
 	public void caseTest1() throws Exception {
 		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);

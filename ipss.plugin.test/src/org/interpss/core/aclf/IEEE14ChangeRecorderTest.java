@@ -3,7 +3,7 @@ package org.interpss.core.aclf;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class IEEE14ChangeRecorderTest  extends PluginTestSetup {
+public class IEEE14ChangeRecorderTest  extends EditorTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

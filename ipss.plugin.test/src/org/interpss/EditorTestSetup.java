@@ -36,7 +36,7 @@ import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class PluginTestSetup {
+public class EditorTestSetup {
 	protected static IPSSMsgHub msg;
 
 	public void loadCaseData(String filename, SimuContext simuCtx) {

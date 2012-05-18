@@ -1,12 +1,12 @@
 package org.interpss.ed;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.ed.EDAlgorithm.LossType;
 import org.interpss.ed.EDAlgorithm.ScheduleType;
 import org.interpss.ed.sample.SampleObjectFactory;
 import org.junit.Test;
 
-public class CostFuncCaseTest  extends PluginTestSetup {
+public class CostFuncCaseTest  extends EditorTestSetup {
 	@Test
 	public void EDC1Case() throws Exception {
 		IEDGenUnit[] genAry = SampleObjectFactory.createEDC1();

@@ -1,9 +1,9 @@
 package org.interpss.cmd;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.junit.Test;
 
-public class RunExecTest  extends PluginTestSetup {
+public class RunExecTest  extends EditorTestSetup {
 	@Test
 	public void runExec() throws Exception {
     	/*

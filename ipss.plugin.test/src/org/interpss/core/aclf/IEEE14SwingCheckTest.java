@@ -2,7 +2,7 @@ package org.interpss.core.aclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -13,7 +13,7 @@ import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class IEEE14SwingCheckTest  extends PluginTestSetup {
+public class IEEE14SwingCheckTest  extends EditorTestSetup {
 	@Test
 	public void run3WXfrOffCase() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

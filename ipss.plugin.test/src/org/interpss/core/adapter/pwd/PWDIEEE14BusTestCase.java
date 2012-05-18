@@ -27,7 +27,7 @@ package org.interpss.core.adapter.pwd;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
@@ -36,7 +36,7 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
-public class PWDIEEE14BusTestCase extends PluginTestSetup {
+public class PWDIEEE14BusTestCase extends EditorTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

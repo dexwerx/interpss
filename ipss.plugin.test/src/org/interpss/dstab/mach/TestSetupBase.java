@@ -25,7 +25,7 @@
 package org.interpss.dstab.mach;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
@@ -42,7 +42,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class TestSetupBase extends PluginTestSetup {
+public class TestSetupBase extends EditorTestSetup {
 	protected IPSSMsgHub msg;
 	protected DStabilityNetwork net = null;
 

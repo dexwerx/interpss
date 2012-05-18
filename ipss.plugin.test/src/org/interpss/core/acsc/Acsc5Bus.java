@@ -3,7 +3,7 @@ package org.interpss.core.acsc;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class Acsc5Bus  extends PluginTestSetup {
+public class Acsc5Bus  extends EditorTestSetup {
 	@Test
 	public void lg() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACSC_NET);

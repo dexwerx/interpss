@@ -27,7 +27,7 @@ package org.interpss.core.adapter.internal;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
@@ -38,7 +38,7 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class Bus1824Test extends PluginTestSetup {
+public class Bus1824Test extends EditorTestSetup {
 	@Test
 	public void testCaseNR() throws Exception {
   		System.out.println("Start loading data ...");

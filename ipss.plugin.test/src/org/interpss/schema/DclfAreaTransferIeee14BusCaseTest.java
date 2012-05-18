@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.AreaTransferAnalysisXmlType;
@@ -24,7 +24,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class DclfAreaTransferIeee14BusCaseTest extends PluginTestSetup {
+public class DclfAreaTransferIeee14BusCaseTest extends EditorTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

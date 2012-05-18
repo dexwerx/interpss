@@ -26,7 +26,7 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
@@ -40,7 +40,7 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class IEEE14Test extends PluginTestSetup {
+public class IEEE14Test extends EditorTestSetup {
 	@Test
 	public void testCase1() throws Exception {
   		/*

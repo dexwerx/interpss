@@ -28,14 +28,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.junit.Test;
 
 import com.interpss.dstab.mach.MachineController;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
 import com.interpss.spring.DStabSpringFactory;
 
-public class DStabControllerTest extends PluginTestSetup {
+public class DStabControllerTest extends EditorTestSetup {
 	@Test
 	public void testSimuControllerList() {
 		List<MachineController> excList = DStabSpringFactory.getControllerList("exciterList");

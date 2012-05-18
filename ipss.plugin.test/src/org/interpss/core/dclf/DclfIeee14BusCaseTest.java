@@ -2,7 +2,7 @@ package org.interpss.core.dclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class DclfIeee14BusCaseTest extends PluginTestSetup {
+public class DclfIeee14BusCaseTest extends EditorTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

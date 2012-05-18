@@ -26,11 +26,11 @@ package org.interpss.gridgain;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.junit.Test;
 
-public class GridGainFuncTest extends PluginTestSetup {
+public class GridGainFuncTest extends EditorTestSetup {
 	/*
 	 * this test make sure there at least one slave node running
 	 */

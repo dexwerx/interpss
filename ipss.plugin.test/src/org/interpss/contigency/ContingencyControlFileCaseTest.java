@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.custom.run.psseCon.ContingencyFileParser;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
@@ -21,7 +21,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class ContingencyControlFileCaseTest extends PluginTestSetup {
+public class ContingencyControlFileCaseTest extends EditorTestSetup {
 	@Test
 	public void cr113BusSwitchingModelCaseTest() throws Exception {
 		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(

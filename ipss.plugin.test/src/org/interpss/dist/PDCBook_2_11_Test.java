@@ -26,7 +26,7 @@ package org.interpss.dist;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -37,7 +37,7 @@ import com.interpss.dist.DistNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class PDCBook_2_11_Test  extends PluginTestSetup { 
+public class PDCBook_2_11_Test  extends EditorTestSetup { 
 	@Test
 	public void lfTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DISTRIBUTE_NET);

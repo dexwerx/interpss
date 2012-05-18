@@ -2,7 +2,7 @@ package org.interpss.core.aclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -20,7 +20,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.util.sample.SampleCases;
 
-public class IEEE14BusCaseTest  extends PluginTestSetup {
+public class IEEE14BusCaseTest  extends EditorTestSetup {
 	//@Test
 	public void run3WXfrOffCase() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

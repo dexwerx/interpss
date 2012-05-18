@@ -27,7 +27,7 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
@@ -37,7 +37,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.pssl.simu.IpssAclf;
 
-public class IEEECommonFormat_CommaTest extends PluginTestSetup {
+public class IEEECommonFormat_CommaTest extends EditorTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

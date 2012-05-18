@@ -26,7 +26,7 @@ package org.interpss.core.adapter.odm;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
@@ -40,7 +40,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.simu.SimuContext;
 
-public class IEEEODMTest extends PluginTestSetup {
+public class IEEEODMTest extends EditorTestSetup {
 	@Test 
 	public void testCase() throws Exception {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus.xml")

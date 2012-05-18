@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.schema.AnalysisRunDataType;
 import org.interpss.xml.schema.BranchRecXmlType;
@@ -25,7 +25,7 @@ import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class DclfSchemaIeee14BusCaseTest extends PluginTestSetup {
+public class DclfSchemaIeee14BusCaseTest extends EditorTestSetup {
 	@Test
 	public void doNothingCaseTest() throws Exception {
 		

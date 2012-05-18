@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
@@ -48,7 +48,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class RuleCaseTest extends PluginTestSetup {
+public class RuleCaseTest extends EditorTestSetup {
 /*
 			<ipss:ruleBase>
 				<ipss:preventiveRuleSetList>

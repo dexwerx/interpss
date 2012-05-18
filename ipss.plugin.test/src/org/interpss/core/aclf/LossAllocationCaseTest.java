@@ -2,7 +2,7 @@ package org.interpss.core.aclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.util.sample.SampleCases;
 
-public class LossAllocationCaseTest  extends PluginTestSetup {
+public class LossAllocationCaseTest  extends EditorTestSetup {
 	@Test
 	public void lossAllocationStep() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

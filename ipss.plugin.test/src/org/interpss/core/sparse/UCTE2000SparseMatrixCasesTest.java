@@ -32,7 +32,7 @@ import org.apache.commons.math.linear.OpenMapRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SparseRealMatrix;
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
@@ -41,7 +41,7 @@ import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
 
-public class UCTE2000SparseMatrixCasesTest extends PluginTestSetup {
+public class UCTE2000SparseMatrixCasesTest extends EditorTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

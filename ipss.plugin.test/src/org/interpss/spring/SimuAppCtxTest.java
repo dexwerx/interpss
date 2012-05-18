@@ -27,7 +27,7 @@ package org.interpss.spring;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
@@ -44,7 +44,7 @@ import com.interpss.simu.util.sample.SampleCases;
 import com.interpss.spring.CoreSimuSpringFactory;
 import com.interpss.spring.CoreSpringFactory;
 
-public class SimuAppCtxTest extends PluginTestSetup {
+public class SimuAppCtxTest extends EditorTestSetup {
 	
 	@Test
 	public void testSimuCtxAclf() {

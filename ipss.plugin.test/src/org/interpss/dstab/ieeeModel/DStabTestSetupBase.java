@@ -27,7 +27,7 @@ package org.interpss.dstab.ieeeModel;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.dstab.output.DatabaseSimuOutputHandler;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
@@ -51,7 +51,7 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class DStabTestSetupBase extends PluginTestSetup{
+public class DStabTestSetupBase extends EditorTestSetup{
 	
 	protected IPSSMsgHub msg;
 

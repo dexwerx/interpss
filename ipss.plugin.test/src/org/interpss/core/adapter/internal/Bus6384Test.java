@@ -26,7 +26,7 @@ package org.interpss.core.adapter.internal;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.junit.Test;
@@ -37,7 +37,7 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class Bus6384Test extends PluginTestSetup {
+public class Bus6384Test extends EditorTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		//IpssLogger.getLogger().setLevel(Level.INFO);

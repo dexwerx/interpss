@@ -24,7 +24,7 @@
 
 package org.interpss.contigency;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.display.ContingencyOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
@@ -39,7 +39,7 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 
-public class N1Analysis_CR_Test extends PluginTestSetup {
+public class N1Analysis_CR_Test extends EditorTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("psse");

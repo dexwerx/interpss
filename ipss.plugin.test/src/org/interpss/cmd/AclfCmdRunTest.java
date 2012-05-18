@@ -3,12 +3,12 @@ package org.interpss.cmd;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.InterPSS;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.junit.Test;
 
 import com.interpss.simu.SimuContext;
 
-public class AclfCmdRunTest  extends PluginTestSetup {
+public class AclfCmdRunTest  extends EditorTestSetup {
 	@Test
 	public void runIEEE14Aclf() throws Exception {
 		SimuContext simuCtx = (SimuContext)CmdLineRunner.cmdLineRun(

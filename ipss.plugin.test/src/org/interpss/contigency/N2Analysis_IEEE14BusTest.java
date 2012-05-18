@@ -25,7 +25,7 @@
 package org.interpss.contigency;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.display.ContingencyOutFunc;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.schema.ModificationXmlType;
@@ -43,7 +43,7 @@ import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 
-public class N2Analysis_IEEE14BusTest extends PluginTestSetup {
+public class N2Analysis_IEEE14BusTest extends EditorTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

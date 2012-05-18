@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.xml.IpssXmlParser;
@@ -42,7 +42,7 @@ import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.simu.util.sample.SampleCases;
 
-public class AcscSchemaSampleCaseTest extends PluginTestSetup {
+public class AcscSchemaSampleCaseTest extends EditorTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		File xmlFile = new File("testData/xml/RunAcscCase.xml");

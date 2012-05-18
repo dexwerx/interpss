@@ -27,7 +27,7 @@ package org.interpss.dist;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ import com.interpss.dist.DistNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class PDCBook_2_12_Test  extends PluginTestSetup { 
+public class PDCBook_2_12_Test  extends EditorTestSetup { 
 	@Test
 	public void lfTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DISTRIBUTE_NET);

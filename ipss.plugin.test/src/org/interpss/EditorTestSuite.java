@@ -130,5 +130,5 @@ import org.junit.runners.Suite.SuiteClasses;
 	GuideSample_TestCase.class,
 	IEEEODMTest.class,
 })
-public class PluginTestSuite {
+public class EditorTestSuite {
 }

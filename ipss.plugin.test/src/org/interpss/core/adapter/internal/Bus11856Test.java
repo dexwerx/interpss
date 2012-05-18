@@ -27,7 +27,7 @@ package org.interpss.core.adapter.internal;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.sparse.SparseEqnComplex;
@@ -43,7 +43,7 @@ import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.simu.SimuContext;
 
-public class Bus11856Test extends PluginTestSetup {
+public class Bus11856Test extends EditorTestSetup {
 	@Test
 	public void testCase1() throws Exception {
         long starttime = System.currentTimeMillis() ;

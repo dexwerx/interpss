@@ -27,7 +27,7 @@ package org.interpss.core.adapter.ge;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
@@ -38,7 +38,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
-public class GESampleTestCases extends PluginTestSetup {
+public class GESampleTestCases extends EditorTestSetup {
 	@Test
 	public void odmAdapterTestCase() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

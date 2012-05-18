@@ -27,7 +27,7 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
 
@@ -35,7 +35,7 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
-public class Bus42_3winding extends PluginTestSetup {
+public class Bus42_3winding extends EditorTestSetup {
 	@Test
 	public void testCaseNoDC() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

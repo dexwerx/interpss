@@ -2,7 +2,7 @@ package org.interpss.core.net;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -18,7 +18,7 @@ import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class IEEE14_WalkThroughTest  extends PluginTestSetup {
+public class IEEE14_WalkThroughTest  extends EditorTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK);

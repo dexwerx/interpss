@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
@@ -40,7 +40,7 @@ import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class UCTEFormatAusPowerTest extends PluginTestSetup { 
+public class UCTEFormatAusPowerTest extends EditorTestSetup { 
 	@Test 
 	public void testCaseAclfNet() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

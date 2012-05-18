@@ -25,13 +25,13 @@
 package org.interpss.core.adapter.ucte;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
 
-public class UCTEFormatIEEE14BusTest extends PluginTestSetup {
+public class UCTEFormatIEEE14BusTest extends EditorTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		AclfNetwork net = CorePluginObjFactory

@@ -30,7 +30,7 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.interpss.PluginTestSetup;
+import org.interpss.EditorTestSetup;
 import org.interpss.mapper.odm.ODMAclfParserMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.CorePluginSpringFactory;
@@ -46,7 +46,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class GuideSample_TestCase extends PluginTestSetup {
+public class GuideSample_TestCase extends EditorTestSetup {
 	@Test
 	public void testCase() throws Exception {
 		IODMAdapter adapter = new PSSEV30Adapter();
