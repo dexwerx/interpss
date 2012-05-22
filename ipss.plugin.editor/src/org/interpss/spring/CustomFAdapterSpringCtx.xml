@@ -55,7 +55,7 @@
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>	
-
+<!-- 
 	<bean id="fileAdapterIeeeODMXml" 
 	      class="org.interpss.fadapter.ODMFormat"
 	      scope="singleton"	
@@ -66,7 +66,7 @@
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>	
-
+ -->
 	<bean id="fileAdapterUCTEFormat" 
 	      class="org.interpss.fadapter.UCTEFormat"
 	      scope="singleton"	
@@ -142,7 +142,7 @@
 				<ref bean="fileAdapterPSSEFormat"/>
 				<ref bean="fileAdapterGEFormat"/>
 				<ref bean="fileAdapterUCTEFormat"/>
-				<ref bean="fileAdapterIeeeODMXml"/>
+				<!-- ref bean="fileAdapterIeeeODMXml"/ -->
 				<ref bean="fileAdapterIeeeCommonFormat"/>
 				<ref bean="fileAdapterIpssInternalFormat"/>
 				<ref bean="fileAdapterJavaScripts"/>
