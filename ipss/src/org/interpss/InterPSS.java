@@ -82,7 +82,7 @@ public class InterPSS {
 		if (appParameters.getParam(SOptStr) != null
 				&& Parm_Native.equals(appParameters.getParamLowerCase(SOptStr))) {
 			IpssLogger.getLogger().info("Using native sparse solver");
-			IpssPlugin.setSparseEqnSolver(SparseEquation.SolverType.Native);
+			IpssCorePlugin.setSparseEqnSolver(SparseEquation.SolverType.Native);
 			BaseDSL.sparseSolver = BaseDSL.SparseSolverType.Native;
 		}
 		else 
