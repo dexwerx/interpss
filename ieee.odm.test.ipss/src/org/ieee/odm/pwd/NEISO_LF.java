@@ -28,7 +28,7 @@ import java.util.logging.Level;
 
 import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginObjFactory;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
@@ -38,7 +38,7 @@ import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class NEISO_LF {
 	public static void main(String args[]) throws InterpssException {
-		IpssPlugin.init();
+		IpssCorePlugin.init();
 
 		ODMLogger.getLogger().setLevel(Level.INFO);
 		AclfNetwork net = CorePluginObjFactory
