@@ -1,7 +1,7 @@
 package com.interpss.pssl.test;
 
 
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.junit.BeforeClass;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -13,7 +13,7 @@ public class BaseTestSetup {
 	
 	@BeforeClass
 	public static void setSpringAppCtx() {
-		IpssPlugin.init();
+		IpssCorePlugin.init();
 		msg = CoreCommonSpringFactory.getIpssMsgHub();
 		BaseDSL.setMsgHub(msg);
 	}
