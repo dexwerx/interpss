@@ -3,10 +3,10 @@ package org.interpss.test.facts.injector.svc;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.general.SVCControlType;
 import org.interpss.facts.injector.svc.SVCInjectorLF;
 import org.interpss.facts.injector.svc.SVCInjectorSolver;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;

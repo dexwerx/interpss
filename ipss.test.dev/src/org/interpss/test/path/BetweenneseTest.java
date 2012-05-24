@@ -10,9 +10,9 @@ import java.util.Map.Entry;
 
 import org.intepss.path.EdgeBetweennessDigraph;
 import org.intepss.path.IPSSActivePowerDigraph;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.test.DevTestSetup;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class BetweenneseTest extends DevTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssPlugin.init();
-		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
+		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
 	    LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		net.accept(algo);
 		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph(net);

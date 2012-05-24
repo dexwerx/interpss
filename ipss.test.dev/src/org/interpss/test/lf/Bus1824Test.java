@@ -26,8 +26,8 @@ package org.interpss.test.lf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.CorePluginObjFactory;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
@@ -41,7 +41,7 @@ import com.interpss.simu.SimuContext;
 public class Bus1824Test extends DevTestSetup {
 	@Test
 	public void testCaseNR() throws Exception {
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IpssInternal);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IpssInternal);
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS1824.ipssdat");
   		System.out.println("End loading data ...");
 

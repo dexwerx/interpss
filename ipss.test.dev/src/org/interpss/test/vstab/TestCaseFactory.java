@@ -1,13 +1,13 @@
 package org.interpss.test.vstab;
 
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.CorePluginObjFactory;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.CPFAlgorithm;
 import org.interpss.vstab.cpf.GenDispPattern;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.GenDispPattern.Pattern;
+import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.cpf.impl.GenDispatch;
@@ -26,7 +26,7 @@ public class TestCaseFactory {
 	}
 	public static CPFAlgorithm createCpfAlgo(String ieeeNetName) throws Exception{
 		String filePath="testData/ieee_cdf/"+ieeeNetName+".ieee";
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load(filePath);
 
 		AclfNetwork net = simuCtx.getAclfNet();

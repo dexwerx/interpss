@@ -2,9 +2,9 @@ package org.interpss.test.path;
 
 import org.intepss.path.CommunityDetection;
 import org.intepss.path.IPSSActivePowerDigraph;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -20,7 +20,7 @@ public class CommunityTestSZNormal {
 	 */
 	public static void main(String[] args) throws InterpssException, Exception {
 		IpssPlugin.init();
-		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30).load("d:/work/data/SZEQ0924_2_3Trans_eq.raw").getAclfNet();
+		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30).load("d:/work/data/SZEQ0924_2_3Trans_eq.raw").getAclfNet();
 	    LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		net.accept(algo);
 		IPSSActivePowerDigraph apd = new IPSSActivePowerDigraph(net);

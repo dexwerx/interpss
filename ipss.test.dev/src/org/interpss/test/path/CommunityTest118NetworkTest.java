@@ -4,9 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.intepss.path.CommunityDetection;
 import org.intepss.path.IPSSNetworkGraph;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.util.NumericUtil;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class CommunityTest118NetworkTest extends DevTestSetup {
 	@Test
 	public void test1() throws Exception {
 		IpssPlugin.init();
-		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testdata/ieee_cdf/ieee118cdf.txt")
 				.getAclfNet();
 

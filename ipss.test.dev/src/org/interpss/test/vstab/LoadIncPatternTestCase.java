@@ -2,8 +2,8 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.CorePluginObjFactory;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.test.DevTestSetup;
 import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
@@ -66,7 +66,7 @@ public class LoadIncPatternTestCase extends DevTestSetup {
 	@Test
 	public void testCase3() throws Exception {
 		
-		AclfNetwork net=PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testData/ieee_cdf/ieee14.ieee").getAclfNet();
+		AclfNetwork net=CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testData/ieee_cdf/ieee14.ieee").getAclfNet();
 		Bus[] bAry={net.getBus("Bus4")};
 		LoadIncPattern ldPtn=new LoadIncPattern(net,LoadIncScope.BUS,LoadIncType.CONST_PF,bAry);
 		assertTrue(ldPtn.getIncBusList().size()==1);

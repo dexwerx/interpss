@@ -3,10 +3,10 @@ package org.interpss.test.facts.simult.svc;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.general.SVCControlType;
 import org.interpss.facts.simult.svc.SVCSimultLF;
 import org.interpss.facts.simult.svc.SVCSimultSolver;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;

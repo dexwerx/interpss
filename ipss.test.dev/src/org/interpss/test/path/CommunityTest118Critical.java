@@ -5,9 +5,9 @@ import java.util.HashMap;
 import org.apache.commons.math.complex.Complex;
 import org.intepss.path.CommunityDetection;
 import org.intepss.path.IPSSActivePowerDigraph;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
@@ -26,7 +26,7 @@ public class CommunityTest118Critical {
 	 */
 	public static void main(String[] args) throws InterpssException, Exception {
 		IpssPlugin.init();
-		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
+		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
 		HashMap<String, Complex> originalGenPower = new HashMap<String, Complex>();
 		HashMap<String, Complex> originalLoadPower = new HashMap<String, Complex>();
 		for (Bus bus : net.getBusList()) {

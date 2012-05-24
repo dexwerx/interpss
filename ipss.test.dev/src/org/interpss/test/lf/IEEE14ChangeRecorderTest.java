@@ -3,7 +3,7 @@ package org.interpss.test.lf;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;

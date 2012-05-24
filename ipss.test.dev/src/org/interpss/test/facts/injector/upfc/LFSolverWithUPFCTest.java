@@ -3,10 +3,10 @@ package org.interpss.test.facts.injector.upfc;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.facts.injector.upfc.LFSolverWithUPFC;
 import org.interpss.facts.injector.upfc.UPFCControlType;
 import org.interpss.facts.injector.upfc.UPFCLF;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.spring.PluginSpringFactory;
 import org.interpss.test.DevTestSetup;

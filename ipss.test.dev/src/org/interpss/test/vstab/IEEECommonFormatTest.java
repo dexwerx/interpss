@@ -26,9 +26,9 @@ package org.interpss.test.vstab;
 
 import static org.junit.Assert.assertTrue;
 
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
@@ -44,7 +44,7 @@ import com.interpss.simu.SimuContext;
 public class IEEECommonFormatTest extends DevTestSetup {
 	@Test 
 	public void bus005testCase() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testData/ieee_cdf/ieee005.ieee")
 				.getAclfNet();		
@@ -65,7 +65,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 	
 	@Test 
 	public void bus14testCase() throws Exception {
-		AclfNetwork net = PluginObjectFactory
+		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.load("testData/ieee_cdf/ieee14.ieee")
 				.getAclfNet();		
@@ -86,7 +86,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 
 	@Test
 	public void bus39testCase() throws Exception{
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee039.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -108,7 +108,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 
 	@Test
 	public void bus30testCase() throws Exception{
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee30.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -129,7 +129,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 
 	@Test
 	public void bus57testCase() throws Exception{
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee57.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -152,7 +152,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 
 	@Test
 	public void bus118testCase() throws Exception{
-		IpssFileAdapter adapter = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
+		IpssFileAdapter adapter = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF);
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -173,7 +173,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 	
 	  @Test
 	   public void runEuro2000SummerCase() throws Exception {
-			AclfNetwork net = PluginObjectFactory
+			AclfNetwork net = CorePluginObjFactory
 			.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 			.load("testData/ieee_cdf/UCTE_2000_Summer.ieee")
 			.getAclfNet();
@@ -189,7 +189,7 @@ public class IEEECommonFormatTest extends DevTestSetup {
 	   }
 	  @Test
 	   public void runEuro2002SummerCase() throws Exception {
-			AclfNetwork net = PluginObjectFactory
+			AclfNetwork net = CorePluginObjFactory
 			.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 			.load("testData/ieee_cdf/UCTE_2002_Summer.ieee")
 			.getAclfNet();

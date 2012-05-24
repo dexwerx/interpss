@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.vstab.VStabObjectFactory;
 import org.interpss.vstab.cpf.GenDispPattern;
-import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.GenDispPattern.Pattern;
+import org.interpss.vstab.cpf.LoadIncPattern;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncScope;
 import org.interpss.vstab.cpf.LoadIncPattern.LoadIncType;
 import org.interpss.vstab.cpf.impl.GenDispatch;

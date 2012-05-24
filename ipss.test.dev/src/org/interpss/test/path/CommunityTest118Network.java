@@ -2,9 +2,9 @@ package org.interpss.test.path;
 
 import org.intepss.path.CommunityDetection;
 import org.intepss.path.IPSSNetworkGraph;
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
@@ -18,7 +18,7 @@ public class CommunityTest118Network {
 	 */
 	public static void main(String[] args) throws InterpssException, Exception {
 		IpssPlugin.init();
-		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
+		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
 		IPSSNetworkGraph ng = new IPSSNetworkGraph(net);
 //		IPSSActivePowerDigraph apd = new IPSSActivePowerDigraph("testdata/ieee_cdf/ieee14.ieee");
 		CommunityDetection cd = new CommunityDetection(ng.getnGraph(), net);
