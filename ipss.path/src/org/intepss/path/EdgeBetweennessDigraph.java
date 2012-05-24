@@ -12,13 +12,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Stack;
-import java.util.Map.Entry;
 
+import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssPlugin;
-import org.interpss.PluginObjectFactory;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.fadapter.IpssFileAdapter;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -349,7 +349,7 @@ public class EdgeBetweennessDigraph extends DirectedWeightedMultigraph<String, D
 		
 		IpssPlugin.init();
 //		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph("testdata/ieee_cdf/ieee14.ieee");
-		AclfNetwork net = PluginObjectFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
+		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF).load("testdata/ieee_cdf/ieee118cdf.txt").getAclfNet();
 	    LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		net.accept(algo);
 		IPSSActivePowerDigraph afd = new IPSSActivePowerDigraph(net);
