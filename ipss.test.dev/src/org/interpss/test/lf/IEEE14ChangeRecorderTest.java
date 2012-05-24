@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import com.interpss.simu.SimuContext;
 public class IEEE14ChangeRecorderTest  extends DevTestSetup {
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		AclfNetwork net = simuCtx.getAclfNet();

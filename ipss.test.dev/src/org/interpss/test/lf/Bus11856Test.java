@@ -27,7 +27,7 @@ package org.interpss.test.lf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.fadapter.IpssFileAdapter;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class Bus11856Test extends DevTestSetup {
 	public void testCase1() throws Exception {
         long starttime = System.currentTimeMillis() ;
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 //  		for(int i = 0; i < 10; i++) {
   			SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
   	  		System.out.println("End loading data ...");
@@ -74,7 +74,7 @@ public class Bus11856Test extends DevTestSetup {
 //	public void testZiiCase() throws Exception {
 //        long starttime = System.currentTimeMillis() ;
 //  		System.out.println("Start loading data ...");
-//		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+//		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 //		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
 //  		System.out.println("End loading data ...");
 //  		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);

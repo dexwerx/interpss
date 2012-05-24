@@ -3,7 +3,7 @@ package org.interpss.test.lf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.fadapter.IpssFileAdapter;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class IEEE14Test extends DevTestSetup {
 
 	@Test
 	public void test() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee14a.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
         LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);

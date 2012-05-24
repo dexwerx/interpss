@@ -7,7 +7,7 @@ import org.interpss.facts.general.SVCControlType;
 import org.interpss.facts.simult.svc.SVCSimultLF;
 import org.interpss.facts.simult.svc.SVCSimultSolver;
 import org.interpss.fadapter.IpssFileAdapter;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class IEEE118SVCTest extends DevTestSetup {
 
 	@Test
 	public void testLFSolverWithSVCConstQIEEE118() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
@@ -32,7 +32,7 @@ public class IEEE118SVCTest extends DevTestSetup {
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
 //				thisID = "6";
 				System.out.println("Testing " + thisID);
-				IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+				IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				AclfBus bus = newNet.getAclfBus(thisID);

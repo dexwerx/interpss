@@ -8,7 +8,7 @@ import org.interpss.facts.injector.svc.SVCInjectorLF;
 import org.interpss.facts.injector.svc.SVCInjectorSolver;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -72,7 +72,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstQIEEE14() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
@@ -94,7 +94,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstBIEEE14() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
@@ -120,7 +120,7 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstVIEEE14() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
@@ -154,11 +154,11 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstV57() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee57.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
-			IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+			IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 			SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 			AclfNetwork newNet = newSimuCtx.getAclfNet();
 			// Test SVC on load bus
@@ -189,11 +189,11 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstV118() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
-			IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+			IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 			SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 			AclfNetwork newNet = newSimuCtx.getAclfNet();
 			// Test SVC on load bus
@@ -217,14 +217,14 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstQ57() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee57.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
-				IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+				IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
@@ -244,14 +244,14 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstQ118() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
-				IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+				IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
@@ -271,14 +271,14 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstB57() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee57.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
-				IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+				IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee57.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);
@@ -301,14 +301,14 @@ public class LFSolverWithSVCTest extends DevTestSetup {
 	
 	@Test
 	public void testLFSolverWithSVCConstB118() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_cdf/ieee118.ieee");
 		AclfNetwork net = simuCtx.getAclfNet();
 		for (Bus thisBus : net.getBusList()) {
 			// Test SVC on load bus
 			String thisID = thisBus.getId();
 			if ((net.getAclfBus(thisID).getGenCode() != AclfGenCode.SWING) && (net.getAclfBus(thisID).getGenCode() != AclfGenCode.GEN_PV)) {
-				IpssFileAdapter newAdapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+				IpssFileAdapter newAdapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext newSimuCtx = newAdapter.load("testData/ieee_cdf/ieee118.ieee");
 				AclfNetwork newNet = newSimuCtx.getAclfNet();
 				System.out.println("Testing " + thisID);

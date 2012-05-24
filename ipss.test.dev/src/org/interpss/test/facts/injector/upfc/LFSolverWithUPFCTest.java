@@ -8,7 +8,7 @@ import org.interpss.facts.injector.upfc.UPFCControlType;
 import org.interpss.facts.injector.upfc.UPFCLF;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.test.DevTestSetup;
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class LFSolverWithUPFCTest extends DevTestSetup {
 	
 	@Test
 	public void testConstPQIEEE14() throws Exception {
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		AclfNetwork net = simuCtx.getAclfNet();
 		

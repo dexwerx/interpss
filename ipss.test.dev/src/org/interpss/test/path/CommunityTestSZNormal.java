@@ -3,7 +3,7 @@ package org.interpss.test.path;
 import org.intepss.path.CommunityDetection;
 import org.intepss.path.IPSSActivePowerDigraph;
 import org.interpss.CorePluginObjFactory;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
@@ -19,7 +19,7 @@ public class CommunityTestSZNormal {
 	 * @throws InterpssException 
 	 */
 	public static void main(String[] args) throws InterpssException, Exception {
-		IpssPlugin.init();
+		IpssCorePlugin.init();
 		AclfNetwork net = CorePluginObjFactory.getFileAdapter(IpssFileAdapter.FileFormat.PSSE, IpssFileAdapter.Version.PSSE_30).load("d:/work/data/SZEQ0924_2_3Trans_eq.raw").getAclfNet();
 	    LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm();
 		net.accept(algo);
