@@ -34,7 +34,7 @@ import org.interpss.db.IpssDBCase;
 import org.interpss.dstab.output.DStabSimuDBRecord;
 import org.interpss.numeric.util.StringHelper;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.exp.InterpssException;
@@ -214,7 +214,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 						"selectIpssCaseForProject", projId);
 				for (int i = 0; i < caseList.size(); i++) {
 					IpssDBCase aCase = (IpssDBCase) caseList.get(i);
-					ISimuRecManager simuRecMgr = PluginSpringFactory
+					ISimuRecManager simuRecMgr = EditorPluginSpringFactory
 							.getSimuRecManager();
 					simuRecMgr.deleteAllSimuRec(aCase.getCaseDbId(),
 							IProjectDataManager.CaseType_DStabSimuRec);

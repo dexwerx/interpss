@@ -36,7 +36,7 @@ import org.interpss.grid.gridgain.task.singleJob.DStabSingleJobTask;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.schema.ContingencyAnalysisXmlType;
@@ -98,7 +98,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
 					
 				  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
-					PluginSpringFactory.getXml2LfAlgorithmMapper()
+					EditorPluginSpringFactory.getXml2LfAlgorithmMapper()
 							.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
 					analysis.perform(algo, ContingencyAnalysisType.N1);
 					//System.out.println(analysis.getResult(IRemoteResult.DisplayType_SecViolation));		
@@ -110,7 +110,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 					buffer.append(analysis.getResult(IRemoteResult.DisplayType_SecAssessment));		
 					dialog.display(buffer);					
 				} catch (InterpssException e) {
-					PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}
@@ -135,7 +135,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 						dialog.display(adjNet);
 					}
 				} catch (GridException e) {
-					PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Grid Aclf Error", e.toString());
 					return false;
 				}
@@ -152,7 +152,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			  		analysis.setMaxRunCase(this.xmlContingency.getMaxRunCases());
 				
 			  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
-				PluginSpringFactory.getXml2LfAlgorithmMapper()
+				EditorPluginSpringFactory.getXml2LfAlgorithmMapper()
 						.map2Model(this.xmlContingency.getDefaultAclfAlgorithm(), algo);
 				analysis.analysis(algo, ContingencyAnalysisType.N1);
 				
@@ -221,7 +221,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean runLoadflow_internal(AclfNetwork aclfAdjNet,
 			LoadflowAlgorithm algo) {
 		algo.setAclfNetwork(aclfAdjNet);
-		PluginSpringFactory.getXml2LfAlgorithmMapper()
+		EditorPluginSpringFactory.getXml2LfAlgorithmMapper()
 				.map2Model(this.getAclfCaseData().getAclfAlgorithm(), algo);
 
 		algo.loadflow();

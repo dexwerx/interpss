@@ -60,7 +60,7 @@ import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.resources.Translator;
 import org.interpss.fadapter.IpssFileAdapter;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellViewFactory;
@@ -319,7 +319,7 @@ public final class Utilities {
 			file = new GPGraphpadFile(new GraphLayoutCache(model, cellViewFactory));
 
 		} catch (Exception e ) {
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Graphic File Open Error", e.toString());
 			e.printStackTrace();
 		}
@@ -369,7 +369,7 @@ public final class Utilities {
 
 		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath, version);
 		if (appSimuContext == null) {
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
 			return null;
 		} else {
 			file.setSimuAppContext(appSimuContext);
@@ -408,7 +408,7 @@ public final class Utilities {
 	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
 		IpssLogger.getLogger().info("Load project data from DB ...");
 		IAppSimuContext appSimuContext = GraphSpringFactory.getIpssGraphicEditor().getCurrentAppSimuContext();
-		IProjectDataManager projManager = PluginSpringFactory
+		IProjectDataManager projManager = EditorPluginSpringFactory
 				.getProjectDataDBManager();
 		projManager.loadProjectDataFromDB(item.getProjDbId(), item
 				.getName(), item.getFileNameNoExt(), appSimuContext);

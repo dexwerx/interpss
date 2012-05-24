@@ -37,7 +37,7 @@ import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.spring.EditorSpringFactory;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -93,7 +93,7 @@ public class IpssProjectPanel extends JPanel {
 		icons.put("txt", IpssIconFactory.ICON_TEXT);
 		icons.put("ipssrpt", IpssIconFactory.ICON_REPORT);
 
-		List adapterList = PluginSpringFactory.getCustomFileAdapterList();
+		List adapterList = EditorPluginSpringFactory.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			icons.put(adapter.getExtension(), IpssIconFactory.ICON_CUS);
@@ -324,7 +324,7 @@ public class IpssProjectPanel extends JPanel {
 				addNewAllProject(project);
 				EditorSpringFactory.getAppContext().addProject(project);
 			} catch (Exception ex) {
-				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+				EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"InterPSS Project '" + projectname + "' Open Error",
 						ex.toString());
 				ex.printStackTrace();
@@ -489,7 +489,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringFactory
+					|| (Utilities.haveExt(EditorPluginSpringFactory
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;
@@ -512,7 +512,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringFactory
+					|| (Utilities.haveExt(EditorPluginSpringFactory
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;

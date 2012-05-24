@@ -34,7 +34,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.DStabGridMessageRouter;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.numeric.util.StringHelper;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.GridComputingXmlType;
 
@@ -209,7 +209,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// make sure net.id defined here. It has to be unique if run multiple grid runs
 			String caseId = "DStabNetId";
 			net.setId(caseId);
-			PluginSpringFactory.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
+			EditorPluginSpringFactory.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			RemoteMessageTable result = new GridRunner(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm()).executeSingleJobTask(timeout);
@@ -219,7 +219,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			net.initialization();
 			return result.getReturnStatus();
 		} catch (GridException e) {
-			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
 			return false;
 		}
@@ -238,7 +238,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
-		PluginSpringFactory.getXml2DStabAlgorithmMapper()
+		EditorPluginSpringFactory.getXml2DStabAlgorithmMapper()
 				.map2Model(this.getXmlCaseData(), simuCtx.getDynSimuAlgorithm());
 
 		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm());

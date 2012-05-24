@@ -37,7 +37,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algo.BusNumberArrangeRule;
 import com.interpss.spring.CoreCommonSpringFactory;
 
-public class IpssPlugin {
+public class IpssEditorPlugin {
 	public final static String CtxPath = "org/interpss/spring/PluginSpringCtx.xml";
 	
 	public static void init() {

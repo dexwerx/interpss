@@ -59,7 +59,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
@@ -1448,7 +1448,7 @@ private boolean saveInputData() {
 	Vector<String> errMsg = new Vector<String>();
 	try {
     	if (!saveEditor2Form(errMsg, true)) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", errMsg);
 			return false;
     	}
     	
@@ -1457,7 +1457,7 @@ private boolean saveInputData() {
     	}
     } catch (Exception e) {
     	IpssLogger.logErr(e);
-    	PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", e.toString());
+    	EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Input Data Error", e.toString());
 		return false;
     }
     return true;
@@ -1537,7 +1537,7 @@ private void runAclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 							runner.getHrLoadflow().getLfAssistGenList(),
 							runner.getHrLoadflow().getAclfQAdjusttor().getMustRunGenList()));
 			} catch (InterpssException e) {
-				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();	
 				return;
 			}
@@ -1587,7 +1587,7 @@ private void runDclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt
 				outText = "\n  Hour : " + hr + "\n" + "  ============\n\n" + 
 						      rtn.toString();
 			} catch (Exception e) {
-				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();
 				return;
 			}
@@ -1626,7 +1626,7 @@ private void run24HrDclfAnalysisButtonActionPerformed(java.awt.event.ActionEvent
 										.runPTradingAnalysis(ptXml, ptInfoXml, PtAnalysisType.Dclf24Hr);
 				outText = rtn.toString();
 			} catch (Exception e) {
-				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				return;
 			}
 			
@@ -1689,7 +1689,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
+				EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(parent, "Analysis Error", e.toString());
 				recorderBaseNet.endRecording().apply();
 				return;
 			}

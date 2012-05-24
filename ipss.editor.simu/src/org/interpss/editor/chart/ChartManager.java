@@ -44,7 +44,7 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.output.BaseSimuDBRecord;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
@@ -73,16 +73,16 @@ public class ChartManager {
 					"No element selected for addPopupMenuAction()");
 			JMenu simuCaseMenu = new JMenu("Select SimuCase");
 			menu.add(simuCaseMenu);
-			String[] caseIdList = PluginSpringFactory.getSimuRecManager()
+			String[] caseIdList = EditorPluginSpringFactory.getSimuRecManager()
 					.getCaseIdList();
 			for (final String str : caseIdList) {
-				if (PluginSpringFactory.getSimuRecManager().getDBCaseId(str) != appSimuCtx
+				if (EditorPluginSpringFactory.getSimuRecManager().getDBCaseId(str) != appSimuCtx
 						.getDbSimuCaseId()) {
 					simuCaseMenu.add(new AbstractAction(str) {
 						private static final long serialVersionUID = 1L;
 
 						public void actionPerformed(ActionEvent e) {
-							appSimuCtx.setDbSimuCaseId(PluginSpringFactory
+							appSimuCtx.setDbSimuCaseId(EditorPluginSpringFactory
 									.getSimuRecManager().getDBCaseId(str));
 						}
 					});
@@ -174,7 +174,7 @@ public class ChartManager {
 		}
 		machStateMenu.add(new AbstractAction("Machine State Table Output") {
 			private static final long serialVersionUID = 1L;
-			ISimuRecManager simuRecManager = PluginSpringFactory
+			ISimuRecManager simuRecManager = EditorPluginSpringFactory
 					.getSimuRecManager();
 
 			public void actionPerformed(ActionEvent e) {
@@ -186,7 +186,7 @@ public class ChartManager {
 							IProjectDataManager.CaseType_DStabSimuRec);
 				} catch (Exception ex) {
 					IpssLogger.logErr(ex);
-					PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 							"Error to GetSimuRecList",
 							ex.toString()
 									+ "\n Please contact InterPSS support");
@@ -434,14 +434,14 @@ public class ChartManager {
 	 */
 	public static Object[] getStatesNameList(int caseId, String elemId,
 			String recType) {
-		ISimuRecManager simuRecManager = PluginSpringFactory.getSimuRecManager();
+		ISimuRecManager simuRecManager = EditorPluginSpringFactory.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
 					elemId, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList form DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return null;
@@ -489,7 +489,7 @@ public class ChartManager {
 			IpssLogger.logErr(ex);
 		}	
 		
-		ISimuRecManager simuRecManager = PluginSpringFactory.getSimuRecManager();
+		ISimuRecManager simuRecManager = EditorPluginSpringFactory.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
@@ -501,7 +501,7 @@ public class ChartManager {
 			 */
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return;

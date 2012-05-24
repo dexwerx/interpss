@@ -54,7 +54,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.spring.CoreSimuSpringFactory;
 
-public class PluginSpringFactory extends CoreSimuSpringFactory {
+public class EditorPluginSpringFactory extends CoreSimuSpringFactory {
 	/**
 	 * Get the IEditorDialogUtil(singleton) from the SpringAppContext.
 	 *  

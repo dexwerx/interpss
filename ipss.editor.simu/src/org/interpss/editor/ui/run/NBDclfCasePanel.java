@@ -63,7 +63,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
@@ -1774,7 +1774,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
         Vector<String> errMsg = new Vector<String>();
         saveEditor2GSF(errMsg, true);
     	if (errMsg.size() > 0) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
     		return;
     	}
     	
@@ -1814,7 +1814,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	
     	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
     	if (id == null || !id.startsWith("b:")) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
     		return;
     	}
 		String braId = id.substring(2);
@@ -1856,7 +1856,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	
     	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
     	if (id == null || !id.startsWith("b:")) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor branch");
     		return;
     	}
 		String braId = id.substring(2);
@@ -1899,7 +1899,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	
     	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
     	if (id == null || !id.startsWith("i:")) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
     		return;
     	}
 		String infId = id.substring(2);
@@ -1939,7 +1939,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	
     	String id = (String)this.gsfMonitorBranchList.getSelectedValue();
     	if (id == null || !id.startsWith("i:")) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select a monitor interface");
     		return;
     	}
 		String infId = id.substring(2);
@@ -2027,7 +2027,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
         Vector<String> errMsg = new Vector<String>();    	
     	saveEditor2LODF(errMsg, true);
     	if (errMsg.size() > 0) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
     		return;
     	}
 
@@ -2071,7 +2071,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	if (id == null) 
     		id = (String)this.lodfBranchListComboBox.getItemAt(0);
     	if (id == null) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
     		return;
     	}
     	
@@ -2115,7 +2115,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	if (id == null) 
     		id = (String)this.lodfBranchListComboBox.getItemAt(0);
     	if (id == null) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", "Select an outage branch");
     		return;
     	}
 
@@ -2162,7 +2162,7 @@ private void gsfMonitorRemoveBranchButtonActionPerformed(java.awt.event.ActionEv
     	Vector<String> errMsg = new Vector<String>();    	
     	saveEditor2LossFactor(errMsg, true);
     	if (errMsg.size() > 0) {
-    		PluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
+    		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
     		return;
     	}
 

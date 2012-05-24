@@ -28,7 +28,7 @@ import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.jgraph.JGraph;
 
@@ -109,7 +109,7 @@ public class SimuActionAdapter {
 	}
 
 	public static void menu_tools_debug_refData() {
-		String str = PluginSpringFactory.getRefDataManager().toString();
+		String str = EditorPluginSpringFactory.getRefDataManager().toString();
   		IOutputTextDialog dialog = UISpringFactory.getOutputTextDialog("Reference Data");
   		dialog.display(str);		
 	}

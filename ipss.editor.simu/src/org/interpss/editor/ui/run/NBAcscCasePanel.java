@@ -41,7 +41,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.numeric.util.Number2String;
 import org.interpss.spring.EditorSimuSpringFactory;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.util.IpssLogger;
@@ -290,7 +290,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	        this.mFactorTextField.setEnabled(false);
 		}
 		else {
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
 					"Loadflow not run yet. Please run load flow analysis first");
 	        this.mFactorLabel.setEnabled(true);
 	        this.mFactorTextField.setEnabled(true);

@@ -29,8 +29,8 @@ import java.util.Vector;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
-import org.interpss.spring.PluginSpringFactory;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
@@ -63,7 +63,7 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		// Currently only project in graph mode needs the mapping
 		Vector<String> errMsg = gFormContainer.checkData(msg);
 		if (errMsg != null) {
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 						"Network data error", errMsg);
 			return false;
 		}
@@ -96,28 +96,28 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 
 		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
-					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
 				if (!simuCtx.checkData()) {
-					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				if (!simuCtx.checkData()) {
-					PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Transient stabiliry Data Error",
 							"Please see the message list for details");
 					return false;
@@ -131,23 +131,23 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		if (klass == GFormContainer.class) {
 			IGNetForm netForm = ((GFormContainer) editNet).getGNetForm();
 			if (netForm.getAppType().equals(IGNetForm.AppType_Distribution)) {
-				return PluginSpringFactory.getForm2DistNetMapper()
+				return EditorPluginSpringFactory.getForm2DistNetMapper()
 						.map2Model((GFormContainer) editNet);
 			} else if (netForm.getAppType().equals(
 					IGNetForm.AppType_Transmission)) {
 				if (netForm.getNetType()
 						.equals(IGNetForm.NetType_DStabilityNet)) {
-					return PluginSpringFactory.getForm2DStabNetMapper()
+					return EditorPluginSpringFactory.getForm2DStabNetMapper()
 								.map2Model((GFormContainer) editNet);
 				} else if (netForm.getNetType().equals(
 						IGNetForm.NetType_AcscNetwork)) {
-					return PluginSpringFactory.getForm2AcscNetMapper()
+					return EditorPluginSpringFactory.getForm2AcscNetMapper()
 								.map2Model((GFormContainer) editNet);
 				} else if (netForm.getNetType().equals(
 						IGNetForm.NetType_AclfNetwork)
 						|| netForm.getNetType().equals(
 								IGNetForm.NetType_AclfAdjNetwork)) {
-					return PluginSpringFactory.getForm2AclfNetMapper()
+					return EditorPluginSpringFactory.getForm2AclfNetMapper()
 								.map2Model((GFormContainer) editNet);
 				}
 			}

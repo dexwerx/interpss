@@ -10,7 +10,7 @@ import org.interpss.editor.coreframework.IpssXmlDocument;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 
 public class IpssIconFactory {
 
@@ -31,7 +31,7 @@ public class IpssIconFactory {
 		if (filename.endsWith("ipss"))
 			return ICON_GRAPH;
 		// if (filename.endsWith("ipssdat"))
-		if (Utilities.haveExt(PluginSpringFactory
+		if (Utilities.haveExt(EditorPluginSpringFactory
 				.getCustomFileAdapterList(), org.interpss.editor.util.Utilities
 				.getFileExt(filename)))
 			return ICON_CUS;

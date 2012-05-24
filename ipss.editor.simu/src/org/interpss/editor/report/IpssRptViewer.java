@@ -46,7 +46,7 @@ import net.sf.jasperreports.view.JRSaveContributor;
 import net.sf.jasperreports.view.JRViewer;
 
 import org.interpss.editor.io.FileChooserConfig;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.spring.CoreCommonSpringFactory;
@@ -117,7 +117,7 @@ public class IpssRptViewer extends JRViewer {
 			this.refreshPage();
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Report Error", e.toString());
 		}
 	}
@@ -128,7 +128,7 @@ public class IpssRptViewer extends JRViewer {
 			jasperPrint = (JasperPrint) JRLoader.loadObject(filename);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"InterPSS Report Error", e.toString());
 		}
 		loadReport(jasperPrint);
@@ -153,7 +153,7 @@ public class IpssRptViewer extends JRViewer {
 			JRSaver.saveObject(jasperPrint, new File(filename));
 		} catch (JRException e) {
 			IpssLogger.logErr(e);
-			PluginSpringFactory.getEditorDialogUtil().showMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 					"Save InterPSS Report Error", e.toString());
 		}
 	}

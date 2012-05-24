@@ -31,7 +31,7 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 import org.interpss.editor.jgraph.ui.impl.form.DummyNetForm;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 import org.interpss.ui.WinUtilities;
 
@@ -318,7 +318,7 @@ public class DummyProjectEditDialog extends javax.swing.JDialog implements IForm
 		try {
         	if (!saveEditor2Form(errMsg)) {
         		IpssLogger.getLogger().severe(errMsg.toString());
-        		PluginSpringFactory.getEditorDialogUtil().showMsgDialog("Network Data Error", errMsg);
+        		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog("Network Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {

@@ -12,7 +12,7 @@ import org.interpss.db.DBManager;
 import org.interpss.db.IpssDBCase;
 import org.interpss.grid.GridConstants;
 import org.interpss.output.ISimuRecManager;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.ui.IProjectDataManager;
 
 import com.interpss.common.datatype.Constants;
@@ -41,8 +41,8 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 	}
 
 	public boolean init(int projDbId, String caseName) throws InterpssException {
-		IProjectDataManager projDataMgr = PluginSpringFactory.getProjectDataDBManager();
-		ISimuRecManager simuRecMgr = PluginSpringFactory.getSimuRecManager();
+		IProjectDataManager projDataMgr = EditorPluginSpringFactory.getProjectDataDBManager();
+		ISimuRecManager simuRecMgr = EditorPluginSpringFactory.getSimuRecManager();
 
 		this.excRecTypeId = simuRecMgr.getRecTypeId(
 				ISimuRecManager.REC_TYPE_DStabExcStates,
@@ -100,7 +100,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean onMsgEventStatus(IpssMessage event) {
-		ISimuRecManager simuRecMgr = PluginSpringFactory.getSimuRecManager();
+		ISimuRecManager simuRecMgr = EditorPluginSpringFactory.getSimuRecManager();
 		DStabSimuEvent e = (DStabSimuEvent) event;
 		try {
 			int dbCaseId = getDBCaseId();
@@ -108,7 +108,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 					&& e.getHashtableData().get(GridConstants.SeKey_CaseId) != null) {
 				// Grid computing case, where case id return from the msg
 				String caseId = (String) e.getHashtableData().get(GridConstants.SeKey_CaseId);
-				dbCaseId = PluginSpringFactory.getSimuRecManager().getDBCaseId(
+				dbCaseId = EditorPluginSpringFactory.getSimuRecManager().getDBCaseId(
 						caseId);
 			}
 
@@ -221,7 +221,7 @@ public class DatabaseSimuOutputHandler extends AbstractSimuOutputHandler
 			}
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"InterPSS DB Access Error",
 					ex.toString() + "\n Please contact InterPSS support");
 			return false;

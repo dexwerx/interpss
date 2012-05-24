@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.grid.gridgain.util.GridEnvHelper;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
@@ -239,7 +239,7 @@ public class RunActUtilFunc {
 				return null;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			PluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
+			EditorPluginSpringFactory.getEditorDialogUtil().showErrMsgDialog(
 					"Error to Create DB SimuRecord",
 					e.toString() + "\nPlease contact InterPSS support");
 		}

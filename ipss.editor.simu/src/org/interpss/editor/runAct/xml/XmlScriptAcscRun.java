@@ -25,7 +25,7 @@
 package org.interpss.editor.runAct.xml;
 
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.InterPSSXmlType;
 import org.interpss.xml.schema.RunAcscStudyCaseXmlType;
@@ -69,10 +69,10 @@ public class XmlScriptAcscRun {
 					xmlCase = xmlDefaultCase;
 				} 
 				if (xmlCase.getModification() != null)
-					PluginSpringFactory.getModXml2NetMapper()
+					EditorPluginSpringFactory.getModXml2NetMapper()
 						.map2Model(xmlCase.getModification(), faultNet);
 
-				PluginSpringFactory.getXml2ScAlgorithmMapper()
+				EditorPluginSpringFactory.getXml2ScAlgorithmMapper()
 						.map2Model(xmlCase, algo);
 				
 				Object fault = algo.getFaultList().get(0);
