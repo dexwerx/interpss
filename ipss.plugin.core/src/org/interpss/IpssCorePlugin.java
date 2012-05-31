@@ -34,6 +34,7 @@ import org.interpss.spring.NumericSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.BusNumberArrangeRule;
 import com.interpss.spring.CoreCommonSpringFactory;
 
@@ -53,6 +54,7 @@ public class IpssCorePlugin {
 	}
 
 	public static void init(String[] paths, Level level) {
+		IpssLogger.initLogger();
 		setSpringAppCtx(paths);
 		setLoggerLevel(level);
 		setSparseEqnSolver(SparseEquation.SolverType.Default);
@@ -78,7 +80,7 @@ public class IpssCorePlugin {
 		ODMLogger.getLogger().setLevel(level);
 	}	
 
-	private static void setSpringAppCtx(String[] paths) {
+	protected static void setSpringAppCtx(String[] paths) {
 		CoreCommonSpringFactory.setAppContext(paths);
 	}	
 }
