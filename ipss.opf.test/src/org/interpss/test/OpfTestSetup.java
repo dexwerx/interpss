@@ -24,7 +24,7 @@
 
 package org.interpss.test;
 
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.junit.BeforeClass;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -34,8 +34,8 @@ public class OpfTestSetup {
 
 	@BeforeClass
 	public static void setSpringAppCtx() {
-		IpssPlugin.init();
-		msg = IpssPlugin.getMsgHub();
+		IpssCorePlugin.init();
+		msg = IpssCorePlugin.getMsgHub();
 	}
 }
 
