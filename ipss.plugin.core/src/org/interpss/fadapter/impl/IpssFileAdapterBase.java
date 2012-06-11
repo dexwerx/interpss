@@ -217,5 +217,13 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 	 */
 	public void setVersionSelected(String versionSelected) {
 		this.versionSelected = versionSelected;
+		
+		/*
+		 * Please note : the following is implementation specific for ipss editor 
+		 */
+		if (versionSelected.equals("PSS/E-26"))
+			this.format = ODMFileFormatEnum.PsseV26;
+		else if (versionSelected.equals("PSS/E-30") && versionSelected.equals("PSS/E-29"))
+			this.format = ODMFileFormatEnum.PsseV30;
 	}
 }
