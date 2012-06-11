@@ -2,8 +2,21 @@ package org.ieee.odm.adapter.psse;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+import org.ieee.odm.ODMFileFormatEnum;
+import org.ieee.odm.adapter.psse.v30.impl.PSSEV30BusDataRec;
+import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
+import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
+import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
+import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
+import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -19,7 +32,7 @@ import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.XformerZTableXmlType;
 
 public class PSSENetDataRec {
-	static public class HeaderRec {
+	public static class HeaderRec {
 		public static void procLineString(String lineStr, int lineNo, PsseVersion version, 
 				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
 			if (lineNo == 1) {
@@ -44,7 +57,50 @@ public class PSSENetDataRec {
 				// the 3rd line is treated as the network id and network name
 				baseCaseNet.setName(lineStr);
 			}
-		}			
+		}	
+		
+		public static ODMFileFormatEnum getVersion(String filename) {
+/* 
+ *   Sample header lines
+ * 
+==========
+ 0    100.00     / RAW29 (REV 30)  THU, JUL 31 2008  13:42
+                               100.0                        
+==========                                                            
+                                                            
+==========                                                            
+0,   100.00, 30, 0, 1,  60.00     / PSS(R)E 30 RAW created by rawd30  SAT, FEB 05 2011  18:16
+PSS(R)E SAMPLE CASE
+ALL DATA CATEGORIES WITH SEQUENCE DATA
+==========
+
+==========
+0,100.0
+  20110729120000,CASE_D:033111-EMSDB:DB53,CASE:012411-EMSDB:DB52, 10
+VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
+==========                                                            
+ */
+			try {
+				final File file = new File(filename);
+				final InputStream stream = new FileInputStream(file);
+				final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+
+				String lineStr = null;
+				int lineNo = 0;
+		      	do {
+		      		lineStr = din.readLine();
+		      		if (lineStr.contains("VER 26"))
+		      			return ODMFileFormatEnum.PsseV26;
+		      		else if (lineStr.contains("RAW29"))
+		      			return ODMFileFormatEnum.PsseV30;
+		      		lineNo++;
+		      		
+		    	} while (lineNo < 3);
+			} catch (Exception e) {
+				ODMLogger.getLogger().severe(e.toString());
+			}			
+			return ODMFileFormatEnum.PsseV30;
+		}
 	}
 
 	/*
