@@ -9,6 +9,7 @@ import org.ieee.odm.psse.PSSEV30_GuideSampleTest;
 import org.ieee.odm.psse.PSSEV30_NEISO_ODMTest;
 import org.ieee.odm.psse.PSSEV30_ODMTest;
 import org.ieee.odm.psse.PSSEV30_SegmentTest;
+import org.ieee.odm.psse.PSSE_HearderVer_ODMTest;
 import org.ieee.odm.pwd.PWD_IEEE14Bus_ODMTest;
 import org.ieee.odm.pwd.PwdAdapterTest;
 import org.ieee.odm.ucte.UCTE_ODMTest;
@@ -31,6 +32,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //	org.ieee.odm.psse.old.XBeanPSSEV30_GuideSampleTest.class,
 //	org.ieee.odm.psse.old.XBeanPSSEV30_SegmentTest.class,
 
+	PSSE_HearderVer_ODMTest.class,
 	PSSEV30_ODMTest.class,
 	PSSEV30_NEISO_ODMTest.class,
 	PSSEV26_ODMTest.class,
