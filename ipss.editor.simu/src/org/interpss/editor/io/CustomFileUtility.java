@@ -24,7 +24,10 @@
 
 package org.interpss.editor.io;
 
+import org.ieee.odm.ODMFileFormatEnum;
+import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.interpss.fadapter.IpssFileAdapter;
+import org.interpss.fadapter.PTIFormat;
 import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.common.util.IpssLogger;
@@ -33,6 +36,8 @@ import com.interpss.simu.SimuContext;
 public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {
 		String ext = filepath.substring(filepath.lastIndexOf('.') + 1);
+		
+		
 		IpssLogger.getLogger().info("Custom file path, ext, version : " + 
 				filepath + ", " + ext + ", " + version);
 		/*
@@ -41,6 +46,17 @@ public class CustomFileUtility {
 		
 		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter(ext);
 		
+		/*
+		 * sometimes, pss/e version is unknown. We here get the version info from
+		 * the first three header lines. 
+		 */
+		if (adapter instanceof PTIFormat &&
+				(version == null || version.equals(""))) {
+			version = "PSS/E-26";
+			if (PSSENetDataRec.HeaderRec.getVersion(filepath) == ODMFileFormatEnum.PsseV30)
+				version = "PSS/E-30";
+		}
+
 		if (adapter == null) {
 			IpssLogger.getLogger().severe(
 					"Custom Input File Adapter not found, file : " + filepath);
