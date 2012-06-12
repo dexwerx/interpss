@@ -485,7 +485,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 
         lfResultButtonGroup = new javax.swing.ButtonGroup();
         branchAnalysisTypeButtonGroup = new javax.swing.ButtonGroup();
-        loadDistButtonGroup = new javax.swing.ButtonGroup();
+        glFactorLoadDistButtonGroup = new javax.swing.ButtonGroup();
         pTradingAnalysisTabbedPane = new javax.swing.JTabbedPane();
         caseDataPanel = new javax.swing.JPanel();
         edFilePanel = new javax.swing.JPanel();
@@ -554,6 +554,24 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaOutageFileSelectButton = new javax.swing.JButton();
         braAnaImportOutageBranchButton = new javax.swing.JButton();
         runBranchAnalysisButton = new javax.swing.JButton();
+        genLossFactorPanel = new javax.swing.JPanel();
+        glFactorEdHourLabel = new javax.swing.JLabel();
+        glFactorEdHourComboBox = new javax.swing.JComboBox();
+        glFactorGenBusLabel = new javax.swing.JLabel();
+        glFactorGenBusListComboBox = new javax.swing.JComboBox();
+        glFactorAddGenButton = new javax.swing.JButton();
+        glFactorRemoveGenButton = new javax.swing.JButton();
+        glFactorGenScrollPane = new javax.swing.JScrollPane();
+        glFactorGenBusList = new javax.swing.JList();
+        glFactorLoadDisPanel = new javax.swing.JPanel();
+        glFactorLoadDistBusRadioButton = new javax.swing.JRadioButton();
+        glFactorLoadDistBasecaseRadioButton = new javax.swing.JRadioButton();
+        glFactorLoadDistUserRadioButton = new javax.swing.JRadioButton();
+        glFactorLoadDistLoadBusLabel = new javax.swing.JLabel();
+        glFactorLoadDistLoadBusComboBox = new javax.swing.JComboBox();
+        glFactorLoadDistUserFileTextField = new javax.swing.JTextField();
+        glFactorLoadDistUserFileButton = new javax.swing.JButton();
+        runGLFactorButton = new javax.swing.JButton();
         outputConfigPanel = new javax.swing.JPanel();
         outVoltViolationCheckBox = new javax.swing.JCheckBox();
         voltUpperLimitLabel = new javax.swing.JLabel();
@@ -1056,8 +1074,7 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         braAnaBranchLabel.setText("Outage Branch");
 
         branchAnalysisTypeButtonGroup.add(braAnaOutageSingleRadioButton);
-        braAnaOutageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        braAnaOutageSingleRadioButton.setSelected(true);
+        braAnaOutageSingleRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         braAnaOutageSingleRadioButton.setText("Single");
         braAnaOutageSingleRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1240,6 +1257,200 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
         );
 
         pTradingAnalysisTabbedPane.addTab("Outage Analysis", branchAnalysisPanel);
+
+        glFactorEdHourLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        glFactorEdHourLabel.setText("ED Hour");
+
+        glFactorEdHourComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorEdHourComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", " " }));
+
+        glFactorGenBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorGenBusLabel.setText("Gen Bus");
+
+        glFactorGenBusListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        glFactorAddGenButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        glFactorAddGenButton.setText("Add");
+        glFactorAddGenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                glFactorAddGenButtonActionPerformed(evt);
+            }
+        });
+
+        glFactorRemoveGenButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        glFactorRemoveGenButton.setText("Remove");
+        glFactorRemoveGenButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                glFactorRemoveGenButtonActionPerformed(evt);
+            }
+        });
+
+        glFactorGenBusList.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorGenScrollPane.setViewportView(glFactorGenBusList);
+
+        glFactorLoadDisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Distribution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        glFactorLoadDistButtonGroup.add(glFactorLoadDistBusRadioButton);
+        glFactorLoadDistBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        glFactorLoadDistBusRadioButton.setText("Load Bus");
+        glFactorLoadDistBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                glFactorLoadDistBusRadioButtonActionPerformed(evt);
+            }
+        });
+
+        glFactorLoadDistButtonGroup.add(glFactorLoadDistBasecaseRadioButton);
+        glFactorLoadDistBasecaseRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        glFactorLoadDistBasecaseRadioButton.setSelected(true);
+        glFactorLoadDistBasecaseRadioButton.setText("Basecase");
+        glFactorLoadDistBasecaseRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                glFactorLoadDistBasecaseRadioButtonActionPerformed(evt);
+            }
+        });
+
+        glFactorLoadDistButtonGroup.add(glFactorLoadDistUserRadioButton);
+        glFactorLoadDistUserRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        glFactorLoadDistUserRadioButton.setText("User");
+        glFactorLoadDistUserRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                glFactorLoadDistUserRadioButtonActionPerformed(evt);
+            }
+        });
+
+        glFactorLoadDistLoadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorLoadDistLoadBusLabel.setText("Load Bus");
+        glFactorLoadDistLoadBusLabel.setEnabled(false);
+
+        glFactorLoadDistLoadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        glFactorLoadDistLoadBusComboBox.setEnabled(false);
+
+        glFactorLoadDistUserFileTextField.setColumns(25);
+        glFactorLoadDistUserFileTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        glFactorLoadDistUserFileTextField.setText("User defined file ...");
+        glFactorLoadDistUserFileTextField.setEnabled(false);
+
+        glFactorLoadDistUserFileButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        glFactorLoadDistUserFileButton.setText("Select");
+        glFactorLoadDistUserFileButton.setEnabled(false);
+        glFactorLoadDistUserFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                glFactorLoadDistUserFileButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout glFactorLoadDisPanelLayout = new org.jdesktop.layout.GroupLayout(glFactorLoadDisPanel);
+        glFactorLoadDisPanel.setLayout(glFactorLoadDisPanelLayout);
+        glFactorLoadDisPanelLayout.setHorizontalGroup(
+            glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(glFactorLoadDisPanelLayout.createSequentialGroup()
+                .add(glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, glFactorLoadDisPanelLayout.createSequentialGroup()
+                        .add(20, 20, 20)
+                        .add(glFactorLoadDistUserFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 248, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 28, Short.MAX_VALUE)
+                        .add(glFactorLoadDistUserFileButton))
+                    .add(glFactorLoadDisPanelLayout.createSequentialGroup()
+                        .add(42, 42, 42)
+                        .add(glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, glFactorLoadDistBusRadioButton)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, glFactorLoadDistLoadBusLabel))
+                        .add(21, 21, 21)
+                        .add(glFactorLoadDistLoadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, glFactorLoadDisPanelLayout.createSequentialGroup()
+                .addContainerGap(137, Short.MAX_VALUE)
+                .add(glFactorLoadDistBasecaseRadioButton)
+                .add(16, 16, 16)
+                .add(glFactorLoadDistUserRadioButton)
+                .add(82, 82, 82))
+        );
+        glFactorLoadDisPanelLayout.setVerticalGroup(
+            glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(glFactorLoadDisPanelLayout.createSequentialGroup()
+                .add(glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(glFactorLoadDistUserRadioButton)
+                    .add(glFactorLoadDistBasecaseRadioButton)
+                    .add(glFactorLoadDistBusRadioButton))
+                .add(14, 14, 14)
+                .add(glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(glFactorLoadDistLoadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(glFactorLoadDistLoadBusLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(glFactorLoadDisPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(glFactorLoadDistUserFileButton)
+                    .add(glFactorLoadDistUserFileTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        runGLFactorButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        runGLFactorButton.setText("Calculate ");
+        runGLFactorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runGLFactorButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout genLossFactorPanelLayout = new org.jdesktop.layout.GroupLayout(genLossFactorPanel);
+        genLossFactorPanel.setLayout(genLossFactorPanelLayout);
+        genLossFactorPanelLayout.setHorizontalGroup(
+            genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(genLossFactorPanelLayout.createSequentialGroup()
+                .add(167, 167, 167)
+                .add(glFactorEdHourLabel)
+                .add(26, 26, 26)
+                .add(glFactorEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(179, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLossFactorPanelLayout.createSequentialGroup()
+                .addContainerGap(215, Short.MAX_VALUE)
+                .add(runGLFactorButton)
+                .add(194, 194, 194))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLossFactorPanelLayout.createSequentialGroup()
+                .addContainerGap(62, Short.MAX_VALUE)
+                .add(genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(genLossFactorPanelLayout.createSequentialGroup()
+                        .add(70, 70, 70)
+                        .add(glFactorGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(glFactorRemoveGenButton)
+                            .add(glFactorAddGenButton)))
+                    .add(glFactorLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(genLossFactorPanelLayout.createSequentialGroup()
+                        .add(91, 91, 91)
+                        .add(glFactorGenBusLabel)
+                        .add(18, 18, 18)
+                        .add(glFactorGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(53, 53, 53))
+        );
+        genLossFactorPanelLayout.setVerticalGroup(
+            genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, genLossFactorPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(glFactorEdHourComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(glFactorEdHourLabel))
+                .add(18, 18, 18)
+                .add(genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(glFactorGenBusListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(glFactorGenBusLabel))
+                .add(18, 18, 18)
+                .add(genLossFactorPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(genLossFactorPanelLayout.createSequentialGroup()
+                        .add(glFactorAddGenButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(glFactorRemoveGenButton))
+                    .add(glFactorGenScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(glFactorLoadDisPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(39, 39, 39)
+                .add(runGLFactorButton)
+                .add(159, 159, 159))
+        );
+
+        pTradingAnalysisTabbedPane.addTab("Gen Loss Factor", genLossFactorPanel);
 
         outVoltViolationCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         outVoltViolationCheckBox.setSelected(true);
@@ -1771,6 +1982,54 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
 	
 }//GEN-LAST:event_braAnaImportOutageBranchButtonActionPerformed
 
+private void runGLFactorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runGLFactorButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_runGLFactorButtonActionPerformed
+
+private void glFactorAddGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorAddGenButtonActionPerformed
+    ipssLogger.info("genAddGenButtonActionPerformed() called");
+    String id = (String)this.glFactorGenBusListComboBox.getSelectedItem();
+    RunUIUtilFunc.addItemJList(this.glFactorGenBusList, id);
+}//GEN-LAST:event_glFactorAddGenButtonActionPerformed
+
+private void glFactorRemoveGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorRemoveGenButtonActionPerformed
+    ipssLogger.info("genRemoveGenButtonActionPerformed() called");
+    RunUIUtilFunc.removeItemJList(this.glFactorGenBusList);
+}//GEN-LAST:event_glFactorRemoveGenButtonActionPerformed
+
+private void glFactorLoadDistBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistBusRadioButtonActionPerformed
+    ipssLogger.info("genLoadDistBusRadioButtonActionPerformed() called");
+    this.glFactorLoadDistLoadBusLabel.setEnabled(true);
+    this.glFactorLoadDistLoadBusComboBox.setEnabled(true);
+    this.glFactorLoadDistUserFileTextField.setEnabled(false);
+    this.glFactorLoadDistUserFileButton.setEnabled(false);
+}//GEN-LAST:event_glFactorLoadDistBusRadioButtonActionPerformed
+
+private void glFactorLoadDistBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistBasecaseRadioButtonActionPerformed
+    ipssLogger.info("genLoadDistBasecaseRadioButtonActionPerformed() called");
+    this.glFactorLoadDistLoadBusLabel.setEnabled(false);
+    this.glFactorLoadDistLoadBusComboBox.setEnabled(false);
+    this.glFactorLoadDistUserFileTextField.setEnabled(false);
+    this.glFactorLoadDistUserFileButton.setEnabled(false);
+}//GEN-LAST:event_glFactorLoadDistBasecaseRadioButtonActionPerformed
+
+private void glFactorLoadDistUserRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistUserRadioButtonActionPerformed
+    ipssLogger.info("genLoadDistAPNodeRadioButtonActionPerformed() called");
+    this.glFactorLoadDistLoadBusLabel.setEnabled(false);
+    this.glFactorLoadDistLoadBusComboBox.setEnabled(false);
+    this.glFactorLoadDistUserFileTextField.setEnabled(true);
+    this.glFactorLoadDistUserFileButton.setEnabled(true);
+}//GEN-LAST:event_glFactorLoadDistUserRadioButtonActionPerformed
+
+private void glFactorLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistUserFileButtonActionPerformed
+    ipssLogger.info("genLoadDistUserFileButtonActionPerformed() called");
+    JFileChooser fc = getExcelFileChooser();
+    if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        File file = fc.getSelectedFile();
+        this.glFactorLoadDistUserFileTextField.setText(file.getAbsolutePath());
+    }
+}//GEN-LAST:event_glFactorLoadDistUserFileButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox aclfEdHourComboBox;
@@ -1808,6 +2067,24 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
     private javax.swing.JLabel edLoadPFactorLabel;
     private javax.swing.JLabel edLossPercentLabel;
     private javax.swing.JTextField edLossPercentTextField;
+    private javax.swing.JPanel genLossFactorPanel;
+    private javax.swing.JButton glFactorAddGenButton;
+    private javax.swing.JComboBox glFactorEdHourComboBox;
+    private javax.swing.JLabel glFactorEdHourLabel;
+    private javax.swing.JLabel glFactorGenBusLabel;
+    private javax.swing.JList glFactorGenBusList;
+    private javax.swing.JComboBox glFactorGenBusListComboBox;
+    private javax.swing.JScrollPane glFactorGenScrollPane;
+    private javax.swing.JPanel glFactorLoadDisPanel;
+    private javax.swing.JRadioButton glFactorLoadDistBasecaseRadioButton;
+    private javax.swing.JRadioButton glFactorLoadDistBusRadioButton;
+    private javax.swing.ButtonGroup glFactorLoadDistButtonGroup;
+    private javax.swing.JComboBox glFactorLoadDistLoadBusComboBox;
+    private javax.swing.JLabel glFactorLoadDistLoadBusLabel;
+    private javax.swing.JButton glFactorLoadDistUserFileButton;
+    private javax.swing.JTextField glFactorLoadDistUserFileTextField;
+    private javax.swing.JRadioButton glFactorLoadDistUserRadioButton;
+    private javax.swing.JButton glFactorRemoveGenButton;
     private javax.swing.JLabel interfaceFileLabel;
     private javax.swing.JPanel interfaceFilePanel;
     private javax.swing.JTextField interfaceFileTextField;
@@ -1823,7 +2100,6 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
     private javax.swing.JLabel lfAssistGenQAdjToleranceLabel;
     private javax.swing.JTextField lfAssistGenQAdjToleranceTextField;
     private javax.swing.ButtonGroup lfResultButtonGroup;
-    private javax.swing.ButtonGroup loadDistButtonGroup;
     private javax.swing.JPanel loadDistPanel;
     private javax.swing.JLabel loadDistThreshholdLabel;
     private javax.swing.JTextField loadDistThreshholdTextField;
@@ -1851,6 +2127,7 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
     private javax.swing.JButton runAclfAnalysisButton;
     private javax.swing.JButton runBranchAnalysisButton;
     private javax.swing.JButton runDclfAnalysisButton;
+    private javax.swing.JButton runGLFactorButton;
     private javax.swing.JButton selectEdFileButton;
     private javax.swing.JButton selectInterfaceFileButton;
     private javax.swing.JButton selectInterfaceLimitButton;
