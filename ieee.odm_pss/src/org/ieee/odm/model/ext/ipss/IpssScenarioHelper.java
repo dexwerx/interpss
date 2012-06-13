@@ -457,18 +457,6 @@ public class IpssScenarioHelper {
 	}	
 
 	/**
-	 * create GenLossFactor object and add to the dclfCase
-	 * 
-	 * @param dclfCase
-	 * @return
-	 */
-	public static GenLossFactorXmlType createGenLossFactor(DclfSenAnalysisXmlType dclfCase) {
-		GenLossFactorXmlType lf = odmObjFactory.createGenLossFactorXmlType();
-		dclfCase.getGenLossFactors().add(lf);
-		return lf;
-	}
-	
-	/**
 	 * create MonitorBranch object and add to the branch list
 	 * 
 	 * @param braList
