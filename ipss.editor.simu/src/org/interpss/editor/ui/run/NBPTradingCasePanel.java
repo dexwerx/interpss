@@ -43,6 +43,7 @@ import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.FactorUnitType;
+import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.LfResultFormatEnumType;
 import org.ieee.odm.schema.PTradingEDHourlyAnalysisXmlType;
 import org.ieee.odm.schema.PowerTradingInfoXmlType;
@@ -51,7 +52,10 @@ import org.ieee.odm.schema.PtAnalysisOutputXmlType;
 import org.ieee.odm.schema.PtBranchAnalysisEnumType;
 import org.ieee.odm.schema.PtBranchAnalysisXmlType;
 import org.ieee.odm.schema.PtCaseDataXmlType;
+import org.ieee.odm.schema.PtGenLossFactorXmlType;
 import org.ieee.odm.schema.PtLoadDistributionXmlType;
+import org.ieee.odm.schema.SenAnalysisBusEnumType;
+import org.ieee.odm.schema.SenAnalysisBusXmlType;
 import org.interpss.datatype.DblBusValue;
 import org.interpss.editor.jgraph.GraphSpringFactory;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
@@ -78,10 +82,16 @@ import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Zone;
 import com.interpss.pssl.adpter.dclf.OutageScheduleFileProcessor;
+import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.display.PtAclfOutput;
+import com.interpss.pssl.display.SenAnalysisOutput;
 import com.interpss.pssl.file.ExcelFileReader;
+import com.interpss.pssl.odm.DclfDslODMRunner;
+import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.odm.PTradingDslODMRunner;
 import com.interpss.pssl.odm.PTradingDslODMRunner.PtAnalysisType;
+import com.interpss.pssl.simu.IpssPTrading;
+import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 
 public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
@@ -97,6 +107,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
     private List<DblBusValue> genPVSwingBusVoltCacheList = null;
 
     private Object[] allBranchIdAry = null;
+    private Object[] genBusIdAry = null;
+    private Object[] loadBusIdAry = null;
 
     /** Creates new form NBAclfCasePanel */
     public NBPTradingCasePanel(JDialog parent) {
@@ -123,6 +135,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 	    this.pTradingAnalysisTabbedPane.setSelectedIndex(1);
 	    
 	     allBranchIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AllBranch).toArray();
+	     genBusIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenBus).toArray();
+	     loadBusIdAry = RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.LoadBus).toArray();
 	    
 	    // populate the Swing alloc zone
 	    AclfNetwork net = _simuCtx.getAclfNet();
@@ -143,6 +157,8 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		this.aclfUseCachedVoltCheckBox.setEnabled(false);
 		
 		this.braAnaBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.allBranchIdAry));
+	    this.glFactorGenBusListComboBox.setModel(new javax.swing.DefaultComboBoxModel(genBusIdAry));
+	    this.glFactorLoadDistLoadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(loadBusIdAry));
 	}
     
     public void setXmlCaseData(PTradingEDHourlyAnalysisXmlType pt, PowerTradingInfoXmlType ptInfo) {
@@ -247,6 +263,36 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		if (braAnalysis.getBranch() != null && braAnalysis.getBranch().size() > 0) {
 			BranchRefXmlType branch = braAnalysis.getBranch().get(0);
 			this.braAnaBranchListComboBox.setSelectedItem(branch.getBranchId());
+		}
+	
+		// Gen Loss Factor
+		// ===============
+		
+		PtGenLossFactorXmlType glfactor = this._ptXml.getGenLossFactorAnalysis();
+		if (glfactor != null) {
+			this.glFactorEdHourComboBox.setSelectedItem(glfactor.getHour() == null? "12:00" : aclfXml.getHour());
+			if (glfactor.getGenLossFactors().size() > 0) {
+				String[] sAry = StringUtil.getIdNameAry(glfactor.getGenLossFactors(), new FunctionAdapter<Object,String>() {
+					@Override public String f(Object value) { return ((GenLossFactorXmlType)value).getInjectBus().get(0).getBusId(); } });
+				this.glFactorGenBusList.setModel(new javax.swing.DefaultComboBoxModel(sAry));   
+				
+				GenLossFactorXmlType gen = glfactor.getGenLossFactors().get(0);
+				if (gen.getWithdrawBusType() == SenAnalysisBusEnumType.SINGLE_BUS) {
+					this.glFactorLoadDistBusRadioButton.setSelected(true);
+					glFactorLoadDistBusRadioButtonActionPerformed(null);
+					String id = gen.getWithdrawBus().get(0).getBusId();
+					this.glFactorLoadDistLoadBusComboBox.setSelectedItem(id);
+				}
+				else if (gen.getWithdrawBusType() == SenAnalysisBusEnumType.LOAD_DISTRIBUTION) {
+					this.glFactorLoadDistBasecaseRadioButton.setSelected(true);
+					this.glFactorLoadDistBasecaseRadioButtonActionPerformed(null);
+				}
+				else {
+					this.glFactorLoadDistUserRadioButton.setSelected(true);
+					this.glFactorLoadDistUserRadioButtonActionPerformed(null);
+					this.glFactorLoadDistUserFileTextField.setText(gen.getUserFilename());
+				}
+			}		
 		}
 		
 		// output panel
@@ -433,6 +479,51 @@ public class NBPTradingCasePanel extends javax.swing.JPanel implements IFormData
 		
 	    return noError;
 	}
+	
+	public boolean saveEditor2LossFactor(Vector<String> errMsg, boolean run) {
+		boolean noError = true;
+
+		if (this._ptXml.getGenLossFactorAnalysis() == null)
+			this._ptXml.setGenLossFactorAnalysis(odmObjFactory.createPtGenLossFactorXmlType());
+		PtGenLossFactorXmlType glfactor = this._ptXml.getGenLossFactorAnalysis();
+		
+		glfactor.setHour((String)this.glFactorEdHourComboBox.getSelectedItem());
+		glfactor.getGenLossFactors().clear();
+		int size = this.glFactorGenBusList.getModel().getSize();
+		if (size == 0 && run) {
+			errMsg.add("Please select at least one generator for gen loss factor calculation");
+			noError = false;
+		}
+		else {
+			for (int i = 0; i < size; i++) {
+				String id = (String)this.glFactorGenBusList.getModel().getElementAt(i);
+				GenLossFactorXmlType gen = odmObjFactory.createGenLossFactorXmlType();
+				glfactor.getGenLossFactors().add(gen);
+				gen.setInjectBusType(SenAnalysisBusEnumType.SINGLE_BUS);
+				SenAnalysisBusXmlType bus = odmObjFactory.createSenAnalysisBusXmlType();
+				bus.setBusId(id);
+				gen.getInjectBus().add(bus);
+			
+				if (this.glFactorLoadDistBusRadioButton.isSelected()) {
+					gen.setWithdrawBusType(SenAnalysisBusEnumType.SINGLE_BUS);
+					id = (String)this.glFactorLoadDistLoadBusComboBox.getSelectedItem();
+					bus = odmObjFactory.createSenAnalysisBusXmlType();
+					bus.setBusId(id);
+					gen.getWithdrawBus().add(bus);
+				}
+				else if (this.glFactorLoadDistBasecaseRadioButton.isSelected()) {
+					gen.setWithdrawBusType(SenAnalysisBusEnumType.LOAD_DISTRIBUTION);
+				}
+				else {
+					gen.setWithdrawBusType(SenAnalysisBusEnumType.USER_FILE);
+					gen.setUserFilename(this.glFactorLoadDistUserFileTextField.getText());
+				}
+			}
+		}
+
+		return noError;
+	}
+	
 
 	public boolean saveOutputConfig(Vector<String> errMsg) {
 		boolean noError = true;
@@ -1872,7 +1963,7 @@ private void runBranchAnalysisButtonActionPerformed(java.awt.event.ActionEvent e
 		public void run() {
 			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
-					"Run Outage Analysis ...", "Run Analysis");
+					"Run branch analysis ...", "Run Analysis");
 
 			// Book marked the AclfNetwork object
 			ChangeRecorder recorderBaseNet = new ChangeRecorder(net);	
@@ -1982,23 +2073,61 @@ private void braAnaImportOutageBranchButtonActionPerformed(java.awt.event.Action
 	
 }//GEN-LAST:event_braAnaImportOutageBranchButtonActionPerformed
 
+//TODO
+/* 888888888888888888888888
+*  Gen loss factor
+8888888888888888888888888888*/
+
 private void runGLFactorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runGLFactorButtonActionPerformed
-    // TODO add your handling code here:
+    ipssLogger.info("runGLFactorButtonActionPerformed() called");
+    
+	this.parent.setAlwaysOnTop(false);
+    
+	Vector<String> errMsg = new Vector<String>();    	
+	saveEditor2LossFactor(errMsg, true);
+	if (errMsg.size() > 0) {
+		EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(this.parent, "Data Error", errMsg);
+		return;
+	}
+
+	final PTradingEDHourlyAnalysisXmlType ptXml = this._ptXml;
+	
+	new Thread() {
+		public void run() {
+			IAppStatus appStatus = GraphSpringFactory.getIpssGraphicEditor().getAppStatus();
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run GenLossFactor Analysis ...", "Run PtAnalysis");
+
+			String outText = "";
+			try {
+				new PTradingDslODMRunner(_simuCtx.getAclfNet()).runPtGenLossFactorAnalysis(ptXml, _ptInfoXml);
+		    	outText = SenAnalysisOutput.outLossFactor(ptXml.getGenLossFactorAnalysis().getGenLossFactors(),  _ptInfoXml).toString(); 
+			} catch (InterpssException e) {
+				ipssLogger.severe(e.toString());
+				outText = e.toString();
+			}		
+			
+			UISpringFactory.getOutputTextDialog("LODF Calculation Results").display(outText, 60, 15);   
+			
+			appStatus.busyStop("Run LODF GSF Analysis finished");			
+		}
+	}.start();
+    
 }//GEN-LAST:event_runGLFactorButtonActionPerformed
 
 private void glFactorAddGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorAddGenButtonActionPerformed
-    ipssLogger.info("genAddGenButtonActionPerformed() called");
+    ipssLogger.info("glFactorAddGenButtonActionPerformed() called");
     String id = (String)this.glFactorGenBusListComboBox.getSelectedItem();
     RunUIUtilFunc.addItemJList(this.glFactorGenBusList, id);
 }//GEN-LAST:event_glFactorAddGenButtonActionPerformed
 
 private void glFactorRemoveGenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorRemoveGenButtonActionPerformed
-    ipssLogger.info("genRemoveGenButtonActionPerformed() called");
+    ipssLogger.info("glFactorRemoveGenButtonActionPerformed() called");
     RunUIUtilFunc.removeItemJList(this.glFactorGenBusList);
 }//GEN-LAST:event_glFactorRemoveGenButtonActionPerformed
 
 private void glFactorLoadDistBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistBusRadioButtonActionPerformed
-    ipssLogger.info("genLoadDistBusRadioButtonActionPerformed() called");
+    ipssLogger.info("glFactorLoadDistBusRadioButtonActionPerformed() called");
     this.glFactorLoadDistLoadBusLabel.setEnabled(true);
     this.glFactorLoadDistLoadBusComboBox.setEnabled(true);
     this.glFactorLoadDistUserFileTextField.setEnabled(false);
@@ -2006,7 +2135,7 @@ private void glFactorLoadDistBusRadioButtonActionPerformed(java.awt.event.Action
 }//GEN-LAST:event_glFactorLoadDistBusRadioButtonActionPerformed
 
 private void glFactorLoadDistBasecaseRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistBasecaseRadioButtonActionPerformed
-    ipssLogger.info("genLoadDistBasecaseRadioButtonActionPerformed() called");
+    ipssLogger.info("glFactorLoadDistBasecaseRadioButtonActionPerformed() called");
     this.glFactorLoadDistLoadBusLabel.setEnabled(false);
     this.glFactorLoadDistLoadBusComboBox.setEnabled(false);
     this.glFactorLoadDistUserFileTextField.setEnabled(false);
@@ -2014,7 +2143,7 @@ private void glFactorLoadDistBasecaseRadioButtonActionPerformed(java.awt.event.A
 }//GEN-LAST:event_glFactorLoadDistBasecaseRadioButtonActionPerformed
 
 private void glFactorLoadDistUserRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistUserRadioButtonActionPerformed
-    ipssLogger.info("genLoadDistAPNodeRadioButtonActionPerformed() called");
+    ipssLogger.info("glFactorLoadDistUserRadioButtonActionPerformed() called");
     this.glFactorLoadDistLoadBusLabel.setEnabled(false);
     this.glFactorLoadDistLoadBusComboBox.setEnabled(false);
     this.glFactorLoadDistUserFileTextField.setEnabled(true);
@@ -2022,7 +2151,7 @@ private void glFactorLoadDistUserRadioButtonActionPerformed(java.awt.event.Actio
 }//GEN-LAST:event_glFactorLoadDistUserRadioButtonActionPerformed
 
 private void glFactorLoadDistUserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_glFactorLoadDistUserFileButtonActionPerformed
-    ipssLogger.info("genLoadDistUserFileButtonActionPerformed() called");
+    ipssLogger.info("glFactorLoadDistUserFileButtonActionPerformed() called");
     JFileChooser fc = getExcelFileChooser();
     if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
