@@ -9,7 +9,7 @@ import org.interpss.mapper.odm.ODMOpfDataMapper;
 import org.interpss.test.OpfTestSetup;
 
 import com.interpss.SimuObjectFactory;
-import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 public class ODM2OpfMapperTest extends OpfTestSetup {
@@ -26,7 +26,7 @@ public class ODM2OpfMapperTest extends OpfTestSetup {
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.OPF_NET);
 			new ODMOpfDataMapper()
 					.map2Model(parser, simuCtx);
-			OpfNetwork opfnet=simuCtx.getOpfNet();
+			DclfOpfNetwork opfnet=(DclfOpfNetwork)simuCtx.getOpfNet();
 			System.out.print(opfnet.net2String());
 		}
 	}

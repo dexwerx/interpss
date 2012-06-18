@@ -1,6 +1,6 @@
 package org.interpss.opf.dc;
 
-import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 
 /**
  *  DCOPFSolver and its implementation follows the visitor pattern, 
@@ -11,7 +11,7 @@ import com.interpss.opf.OpfNetwork;
  */
 
 public interface DCOPFSolver {
-    public boolean solveDCOPF(OpfNetwork opfNet);
+    public boolean solveDCOPF(DclfOpfNetwork opfNet);
 
     //      moved to opfNetwork
 //	public boolean isDCOPFSolved();

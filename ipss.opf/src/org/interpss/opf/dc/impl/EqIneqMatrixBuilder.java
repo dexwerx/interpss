@@ -36,18 +36,18 @@ import org.apache.commons.math.linear.RealMatrix;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
-import com.interpss.opf.OpfBranch;
-import com.interpss.opf.OpfBus;
-import com.interpss.opf.OpfGenBus;
-import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfBranch;
+import com.interpss.opf.dclf.DclfOpfBus;
+import com.interpss.opf.dclf.DclfOpfGenBus;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 
 public class EqIneqMatrixBuilder {
 	public final static double DEFAULT_BIJ = 10000; 
 		// 10000=1/0.0001 ,namely set the line Xij minimum to be 0.0001;
 	
-	private OpfNetwork opfNet = null;
+	private DclfOpfNetwork opfNet = null;
 	
-	public EqIneqMatrixBuilder(OpfNetwork opfNet) {
+	public EqIneqMatrixBuilder(DclfOpfNetwork opfNet) {
 		this.opfNet = opfNet;
 		this.formBusIndexTable();
 	}
@@ -149,7 +149,7 @@ public class EqIneqMatrixBuilder {
 		// get the constraint data from network file ;
 	    for (Bus bus:opfNet.getBusList()) {
 	    	if(opfNet.isOpfGenBus(bus)){
-	    		OpfGenBus genOPF= opfNet.toOpfGenBus(bus);
+	    		DclfOpfGenBus genOPF= opfNet.toOpfGenBus(bus);
 	    		genFixCostVector.setEntry(i, genOPF.getCoeffA()*baseMVA);
 	  			i++;
 	    	}
@@ -187,7 +187,7 @@ public class EqIneqMatrixBuilder {
 	public ArrayRealVector formBeq() {
 		ArrayRealVector beq = new ArrayRealVector(opfNet.getNoActiveBus());
 		for (Bus b : opfNet.getBusList()) {
-			OpfBus acbus = (OpfBus) b;
+			DclfOpfBus acbus = (DclfOpfBus) b;
 			int busIndex = acbus.getSortNumber();
 			if (acbus.isLoad()) {
 				beq.setEntry(busIndex, acbus.getLoadP());
@@ -209,19 +209,19 @@ public class EqIneqMatrixBuilder {
 		int swingIndex = this.getSwingBusIndex();
 		for (Branch bra : opfNet.getBranchList()) {
 			if (bra.isAclfBranch()) {
-				OpfBranch aclfBra = (OpfBranch) bra;
+				DclfOpfBranch aclfBra = (DclfOpfBranch) bra;
 				// create branch admittance matrix
 				bij = (aclfBra.getZ().getImaginary() > 0.00001) ? 1 / aclfBra
 						.getZ().getImaginary() : DEFAULT_BIJ; // in case x=0;
 				braAdmDiag.setEntry(braIndex, braIndex, bij);
 
 				// create branch-bus connected or adjacent matrix;
-				if (!((OpfBus) bra.getFromBus()).isSwing()) {
+				if (!((DclfOpfBus) bra.getFromBus()).isSwing()) {
 					int fromBusIndex = bra.getFromBus().getSortNumber();
 					fromBusIndex=(fromBusIndex<swingIndex)?fromBusIndex:fromBusIndex-1; // insure nonswing bus;
 					braBusAdjacent.setEntry(braIndex, fromBusIndex, 1);
 				}
-				if (!((OpfBus) bra.getToBus()).isSwing()) {
+				if (!((DclfOpfBus) bra.getToBus()).isSwing()) {
 					int toBusIndex = bra.getToBus().getSortNumber();
 					toBusIndex=(toBusIndex<swingIndex)?toBusIndex:toBusIndex-1; 
 					braBusAdjacent.setEntry(braIndex, toBusIndex, -1);
@@ -280,7 +280,7 @@ public class EqIneqMatrixBuilder {
 		// form the bt;
 		for (Branch bra : opfNet.getBranchList()) {
 			if (bra.isAclfBranch()) {
-				OpfBranch acBranch = (OpfBranch) bra;
+				DclfOpfBranch acBranch = (DclfOpfBranch) bra;
 				double ratingMva1 = acBranch.getRatingMva1()/baseMVA;
 				bt.setEntry(braIndex, -ratingMva1);
 				braIndex++;
@@ -306,7 +306,7 @@ public class EqIneqMatrixBuilder {
 		// get the constraint data from network file ;
 	    for (Bus bus:opfNet.getBusList()) {
 	    	  if(opfNet.isOpfGenBus(bus)){
-	    		OpfGenBus genOPF=opfNet.toOpfGenBus(bus);	
+	    		DclfOpfGenBus genOPF=opfNet.toOpfGenBus(bus);	
 	  			b_Pmax.setEntry(i, isMax?
 	  					-genOPF.getCapacityLimit().getMax()/baseMVA :
 	  					genOPF.getCapacityLimit().getMin()/baseMVA);
@@ -329,12 +329,12 @@ public class EqIneqMatrixBuilder {
 				numOfBus, numOfBus);
 
 		for (Bus b : opfNet.getBusList()) {
-			OpfBus busi = (OpfBus) b;
+			DclfOpfBus busi = (DclfOpfBus) b;
 			int i = busi.getSortNumber();
 			double Bii = 0;
 			for (Branch bra : busi.getBranchList()) {
 				if (bra.isAclfBranch()) {
-					OpfBranch aclfBranch = (OpfBranch) bra;
+					DclfOpfBranch aclfBranch = (DclfOpfBranch) bra;
 					Bus busj = bra.getToBus().getId().equals(busi.getId()) ? bra.getFromBus() : bra	.getToBus();
 					int j = busj.getSortNumber();
 					double Bij = 1.0 / aclfBranch.getZ().getImaginary();// aclfBranch.b1ft();
@@ -360,7 +360,7 @@ public class EqIneqMatrixBuilder {
 
 		for (int busIndex = 0; busIndex < opfNet.getNoActiveBus(); busIndex++) {
 			Bus b = opfNet.getBusList().get(busIndex);
-			OpfBus bus = (OpfBus) b;
+			DclfOpfBus bus = (DclfOpfBus) b;
 			if (!bus.isSwing()) {
 				// swingSortNum=bus.getSortNumber();
 				NonSwingBusRows[idx] = busIndex;
@@ -373,7 +373,7 @@ public class EqIneqMatrixBuilder {
 	private int getSwingBusIndex(){
 		// assume there is one swing bus in the system
 		for(Bus b : opfNet.getBusList()){
-			if(((OpfBus)b).isSwing()){
+			if(((DclfOpfBus)b).isSwing()){
 				return b.getSortNumber();
 			}
 		}

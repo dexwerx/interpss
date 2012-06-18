@@ -39,11 +39,11 @@ import org.interpss.opf.dc.util.Apache2ColtAdapter;
 import quadprogj.QuadProgJ;
 
 import com.interpss.core.net.Bus;
-import com.interpss.opf.OpfBus;
-import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfBus;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 
 public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
-	private OpfNetwork opfNet=null;
+	private DclfOpfNetwork opfNet=null;
 	private QuadProgJ  qpj=null;
 //	private boolean isDCOPFSolved=false;
   
@@ -63,7 +63,7 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 	public QuadProgDCOPFSolverImpl(){
 	}
 	
-	public boolean solveDCOPF(OpfNetwork opfNet) {
+	public boolean solveDCOPF(DclfOpfNetwork opfNet) {
 		this.opfNet=opfNet;
 		EqIneqMatrixBuilder helper = new EqIneqMatrixBuilder(opfNet);
 		this.qpj= new QuadProgJ(
@@ -114,7 +114,7 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 			int genIndex=0;
 			for(Bus b:opfNet.getBusList()){
 				if(opfNet.isOpfGenBus(b)){
-					((OpfBus) b).setGenP(optimX[genIndex]);
+					((DclfOpfBus) b).setGenP(optimX[genIndex]);
 					genIndex++;
 				}
 			}
@@ -124,7 +124,7 @@ public class QuadProgDCOPFSolverImpl implements DCOPFSolver{
 			int cnt = 0;
 			double baseMVA=opfNet.getBaseKva()/1000.0;
 			for(Bus b: opfNet.getBusList()){
-				OpfBus bus=(OpfBus) b;
+				DclfOpfBus bus=(DclfOpfBus) b;
 				if(!bus.isSwing()){
 					bus.setVoltageAng(busAngle[nonSwingBusIndex]);
 					nonSwingBusIndex++;

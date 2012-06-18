@@ -1,12 +1,12 @@
 package org.interpss.opf.dc.util;
 
 import com.interpss.core.net.Bus;
-import com.interpss.opf.OpfBus;
-import com.interpss.opf.OpfGenBus;
-import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfBus;
+import com.interpss.opf.dclf.DclfOpfGenBus;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 
 public class OpfOutFunc {
-	public static String opfResultSummary(OpfNetwork opfnet) {
+	public static String opfResultSummary(DclfOpfNetwork opfnet) {
 		 final StringBuffer str = new StringBuffer("\n\n");
 		 str.append("                     ---DCOPF SOLUTION RESULT SUMMARY---            \n");
 		 str.append("      -----------------------------------------------------------------\n");
@@ -16,7 +16,7 @@ public class OpfOutFunc {
 		 for(Bus b:opfnet.getBusList()) {
 			 str.append(String.format("%12s", b.getId()));
 			 if(opfnet.isOpfGenBus(b)){
-				 OpfGenBus opfBus=(OpfGenBus) b;
+				 DclfOpfGenBus opfBus=(DclfOpfGenBus) b;
 				 
 				 str.append(String.format("%8s","True"));
 				 str.append(String.format("%14.3f",opfBus.getGenP()));
@@ -26,7 +26,7 @@ public class OpfOutFunc {
 			 else {
 			     str.append("                      ");// just to control the output style, no meaning at all
 			 }
-			 OpfBus bus = (OpfBus)b;
+			 DclfOpfBus bus = (DclfOpfBus)b;
 			 str.append(String.format("%17.3f %15.2f", bus.getVoltageAng(), bus.getLMP()));	
 			 str.append("\n");
 		 }

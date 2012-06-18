@@ -39,7 +39,7 @@ import org.interpss.test.OpfTestSetup;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
-import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -58,7 +58,7 @@ public class OpfSample  extends OpfTestSetup {
 	  	  		return;
 			}	
 			
-			OpfNetwork opfNet = simuCtx.getOpfNet();
+			DclfOpfNetwork opfNet = (DclfOpfNetwork)simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 
 			QuadProgDCOPFSolverImpl solver=new QuadProgDCOPFSolverImpl();
@@ -103,7 +103,7 @@ public class OpfSample  extends OpfTestSetup {
 	  	  		return;
 			}	
 			
-			OpfNetwork opfNet = simuCtx.getOpfNet();
+			DclfOpfNetwork opfNet = (DclfOpfNetwork)simuCtx.getOpfNet();
 //			System.out.println(opfNet.net2String());
 			
 			DCOPFSolver solver=new QuadProgDCOPFSolverImpl();
