@@ -58,8 +58,8 @@ import org.ieee.odm.schema.MixedLoadDistBusXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
-import org.ieee.odm.schema.OpfGenBusXmlType;
-import org.ieee.odm.schema.OpfNetworkXmlType;
+import org.ieee.odm.schema.OpfDclfGenBusXmlType;
+import org.ieee.odm.schema.OpfDclfNetworkXmlType;
 import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -98,8 +98,8 @@ public class BaseJaxbHelper {
 		// be careful with inheritance here 
 		if (net instanceof DStabNetXmlType) 
 			return odmObjFactory.createDstabNet((DStabNetXmlType)net);
-		else if (net instanceof OpfNetworkXmlType) 
-			return odmObjFactory.createOpfNet((OpfNetworkXmlType)net);
+		else if (net instanceof OpfDclfNetworkXmlType) 
+			return odmObjFactory.createDclfOpfNet((OpfDclfNetworkXmlType)net);
 		else if (net instanceof ShortCircuitNetXmlType) 
 			return odmObjFactory.createAcscNet((ShortCircuitNetXmlType)net);
 		else if (net instanceof LoadflowNetXmlType) 
@@ -204,8 +204,8 @@ public class BaseJaxbHelper {
 		// be careful with inheritance here 
 		if (bus instanceof DStabBusXmlType)
 			return odmObjFactory.createDstabBus((DStabBusXmlType)bus);
-		else if (bus instanceof OpfGenBusXmlType)
-			return odmObjFactory.createOpfGenBus((OpfGenBusXmlType)bus);
+		else if (bus instanceof OpfDclfGenBusXmlType)
+			return odmObjFactory.createDclfOpfGenBus((OpfDclfGenBusXmlType)bus);
 		else if (bus instanceof LoadflowBusXmlType)
 			return odmObjFactory.createAclfBus((LoadflowBusXmlType)bus);
 		else if (bus instanceof DcBusXmlType)

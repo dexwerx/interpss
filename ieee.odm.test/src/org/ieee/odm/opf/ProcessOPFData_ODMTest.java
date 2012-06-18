@@ -34,7 +34,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.OpfGenBusXmlType;
+import org.ieee.odm.schema.OpfDclfGenBusXmlType;
 import org.junit.Test;
 
 public class ProcessOPFData_ODMTest { 
@@ -63,14 +63,14 @@ public class ProcessOPFData_ODMTest {
 		
 		// a file could be used to store all Opf related info and
 		// load here
-		OpfGenBusXmlType opfGenBus = (OpfGenBusXmlType)ModelStringUtil.casting(
+		OpfDclfGenBusXmlType opfGenBus = (OpfDclfGenBusXmlType)ModelStringUtil.casting(
 				aclfBus, "aclfBus", "opfGenBus", parser.getEncoding());
 		opfGenBus.setCoeffA(1.0);
 		opfGenBus.setCoeffB(0.5);
 		parser.replaceBus("Bus2", opfGenBus);
 
 		aclfBus = parser.getBus("Bus2");
-		assertTrue(aclfBus instanceof OpfGenBusXmlType);
+		assertTrue(aclfBus instanceof OpfDclfGenBusXmlType);
 		//System.out.println(opfParser.toXmlDoc(false));
 	}
 }
