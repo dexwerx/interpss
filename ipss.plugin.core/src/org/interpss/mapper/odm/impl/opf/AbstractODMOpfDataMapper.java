@@ -31,11 +31,14 @@ import javax.xml.bind.JAXBElement;
 import org.ieee.odm.model.opf.OpfModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BaseOpfNetworkXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OpfDclfGenBusXmlType;
 import org.ieee.odm.schema.OpfDclfNetworkXmlType;
+import org.ieee.odm.schema.OpfGenBusXmlType;
+import org.ieee.odm.schema.OpfNetworkEnumType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
@@ -46,6 +49,11 @@ import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.OpfObjectFactory;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.opf.BaseOpfNetwork;
+import com.interpss.opf.OpfBranch;
+import com.interpss.opf.OpfBus;
+import com.interpss.opf.OpfGenBus;
+import com.interpss.opf.OpfNetwork;
 import com.interpss.opf.dclf.DclfOpfBranch;
 import com.interpss.opf.dclf.DclfOpfBus;
 import com.interpss.opf.dclf.DclfOpfGenBus;
@@ -82,28 +90,50 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		
 		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
 				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {
-			OpfDclfNetworkXmlType xmlNet = parser.getOpfNet();
+			BaseOpfNetworkXmlType xmlNet = parser.getOpfNet();
 			simuCtx.setNetType(SimuCtxType.OPF_NET);
 			try {
-				DclfOpfNetwork opfNet = mapNetworkData(xmlNet);
+				BaseOpfNetwork opfNet = null;
+				if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) 
+					opfNet = mapDclfOpfNetData((OpfDclfNetworkXmlType)xmlNet);
+				else 
+					opfNet = mapOpfNetData((OpfNetworkXmlType)xmlNet);
 				simuCtx.setOpfNet(opfNet);
 
 				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					if (bus.getValue() instanceof OpfDclfGenBusXmlType) {
-						OpfDclfGenBusXmlType busRec = (OpfDclfGenBusXmlType) bus.getValue();
-						mapGenBusData(busRec, opfNet);
+						if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
+							OpfDclfGenBusXmlType opfDclfGen = (OpfDclfGenBusXmlType) bus.getValue();
+							mapDclfOpfGenBusData(opfDclfGen, (DclfOpfNetwork)opfNet);
+						}
+						else {
+							OpfGenBusXmlType opfGen = (OpfGenBusXmlType) bus.getValue();
+							mapOpfGenBusData(opfGen, (OpfNetwork)opfNet);
+						}
 					} 
 					else {
 						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-						DclfOpfBus opfBus = OpfObjectFactory.createDclfOpfBus(busRec.getId(), opfNet);
-						aclfNetMapper.mapAclfBusData(busRec, opfBus, opfNet);
+						if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
+							DclfOpfBus opfDclfBus = OpfObjectFactory.createDclfOpfBus(busRec.getId(), (DclfOpfNetwork)opfNet);
+							aclfNetMapper.mapAclfBusData(busRec, opfDclfBus, opfNet);
+						}
+						else {
+							OpfBus opfBus = OpfObjectFactory.createOpfBus(busRec.getId(), (OpfNetwork)opfNet);
+							aclfNetMapper.mapAclfBusData(busRec, opfBus, opfNet);
+						}
 					}
 				}
 
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
-					DclfOpfBranch aclfBranch = OpfObjectFactory.createDclfOpfBranch();
-					aclfNetMapper.mapAclfBranchData(b.getValue(), aclfBranch, opfNet);
+					if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
+						DclfOpfBranch opfDclfBranch = OpfObjectFactory.createDclfOpfBranch();
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfDclfBranch, (DclfOpfNetwork)opfNet);
+					}
+					else {
+						OpfBranch opfBranch = OpfObjectFactory.createOpfBranch();
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (DclfOpfNetwork)opfNet);
+					}
 				}
 			} catch (InterpssException e) {
 				e.printStackTrace();
@@ -127,7 +157,38 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		return noError;
 	}
 	
-	private DclfOpfNetwork mapNetworkData(OpfDclfNetworkXmlType xmlNet) throws InterpssException {
+	/*
+	 *    OPF model mapper
+	 *    ================
+	 */
+	private OpfNetwork mapOpfNetData(OpfNetworkXmlType xmlNet) throws InterpssException {
+		OpfNetwork opfNet = OpfObjectFactory.createOpfNetwork();
+		new ODMAclfNetMapper().mapAclfNetworkData(opfNet, xmlNet);
+		
+		// mapping details
+		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
+		
+		return opfNet;
+	}
+
+	public OpfGenBus mapOpfGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
+		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId(), net);
+		mapBaseBusData(busRec, opfGenBus, net);
+
+		AclfBusDataHelper helper = new AclfBusDataHelper(net, opfGenBus);
+		helper.setAclfBusData(busRec);
+		
+		// TODO: mapping details
+		
+		return opfGenBus;
+	}
+	
+	/*
+	 *    DCLF OPF model mapper
+	 *    =====================
+	 */
+	
+	private DclfOpfNetwork mapDclfOpfNetData(OpfDclfNetworkXmlType xmlNet) throws InterpssException {
 		DclfOpfNetwork opfNet = OpfObjectFactory.createDclfOpfNetwork();
 		new ODMAclfNetMapper().mapAclfNetworkData(opfNet, xmlNet);
 		opfNet.setAnglePenaltyFactor(xmlNet.getAnglePenaltyFactor());	
@@ -142,7 +203,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 	 * @return
 	 * @throws Exception
 	 */
-	public DclfOpfGenBus mapGenBusData(OpfDclfGenBusXmlType busRec, DclfOpfNetwork net) throws InterpssException {
+	public DclfOpfGenBus mapDclfOpfGenBusData(OpfDclfGenBusXmlType busRec, DclfOpfNetwork net) throws InterpssException {
 		DclfOpfGenBus opfGenBus = OpfObjectFactory.createDclfOpfGenBus(busRec.getId(), net);
 		mapBaseBusData(busRec, opfGenBus, net);
 
