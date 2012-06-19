@@ -21,10 +21,6 @@
     </ns:element>
 
 
-<!-- 
-	For DCLF based OPF implementation using the Quad Programming optimization algorithm	
- -->	
-	
     <ns:complexType name="BaseOpfNetworkXmlType" abstract="true">
     	<ns:annotation>
     		<ns:documentation></ns:documentation>
