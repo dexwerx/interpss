@@ -1,7 +1,7 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.grid.gridgain.GridRunner;
 import org.interpss.grid.gridgain.job.ContingencyAnaysisReJob;
@@ -10,7 +10,7 @@ import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.grid.result.IRemoteResult;
 import org.interpss.grid.result.RemoteResultFactory;
 import org.interpss.sample.grid.impl.GridHelper;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
@@ -40,12 +40,12 @@ public class IEEE14_ContingencyAnalysis {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS core simulation engine configuration
-		IpssPlugin.init();
+		IpssCorePlugin.init();
 
     	/*
     	 * step-1 Build the base case
     	 */
-		IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee14.ieee");
 		AclfNetwork adjNet = simuCtx.getAclfNet();
 		adjNet.setId("IEEE14BusNetId");

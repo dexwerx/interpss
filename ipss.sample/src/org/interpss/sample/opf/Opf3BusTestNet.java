@@ -12,10 +12,12 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.OpfNetwork;
+import com.interpss.opf.dclf.DclfOpfGenBus;
+import com.interpss.opf.dclf.DclfOpfNetwork;
 
 public class Opf3BusTestNet {
-	public static OpfNetwork create3BusNetwork() throws IpssNumericException {
-		OpfNetwork net = OpfObjectFactory.createOpfNetwork();
+	public static DclfOpfNetwork create3BusNetwork() throws IpssNumericException {
+		DclfOpfNetwork net = OpfObjectFactory.createDclfOpfNetwork();
 		net.setAnglePenaltyFactor(1.0); 
 		
 		//create bus1;
@@ -23,7 +25,7 @@ public class Opf3BusTestNet {
 		//ID	atNode	FCost	a	b	capL	capU	initMoney
 		//1	    1  142.735	10.694	0.00463	20	200	    10000
 		  
-		OpfGenBus bus1= OpfObjectFactory.createOpfGenBus("Bus1", net);
+		DclfOpfGenBus bus1= OpfObjectFactory.createDclfOpfGenBus("Bus1", net);
 		bus1.setBaseVoltage(10, UnitType.kV);
 		bus1.setAttributes("Bus 1", "");
 		bus1.setLoadCode(AclfLoadCode.CONST_P);
@@ -36,7 +38,7 @@ public class Opf3BusTestNet {
 		
 		//bus2
 		//2	2	218.335	18.1	0.00612	10	150	10000
-		OpfGenBus bus2 = OpfObjectFactory.createOpfGenBus("Bus2", net);
+		DclfOpfGenBus bus2 = OpfObjectFactory.createDclfOpfGenBus("Bus2", net);
 		bus2.setAttributes("Bus 2", "");
 		bus2.setBaseVoltage(10, UnitType.kV);
 		bus2.setLoadCode(AclfLoadCode.CONST_P);
@@ -49,7 +51,7 @@ public class Opf3BusTestNet {
 		
 		//bus3
 		//3	3	118.821	37.8896	0.01433	5	20	10000
-		OpfGenBus bus3 = OpfObjectFactory.createOpfGenBus("Bus3", net);
+		DclfOpfGenBus bus3 = OpfObjectFactory.createDclfOpfGenBus("Bus3", net);
 		bus3.setBaseVoltage(10, UnitType.kV);
 		bus3.setAttributes("Bus 3", "");
 		bus3.setLoadCode(AclfLoadCode.CONST_P);

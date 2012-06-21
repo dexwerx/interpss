@@ -26,7 +26,7 @@ package org.interpss.sample.net;
 import java.util.logging.Level;
 
 import org.interpss.CorePluginObjFactory;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
 
 import com.interpss.CoreObjectFactory;
@@ -45,7 +45,7 @@ public class IEEE14_WalkThrouhg {
 	 */
 	public static void main(String[] args) throws Exception {
 		// InterPSS plugin initialization
-		IpssPlugin.init(Level.WARNING);
+		IpssCorePlugin.init(Level.WARNING);
 
     	/*
     	 * step-1 input the base case 

@@ -27,7 +27,7 @@ package org.interpss.sample.aclf;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnComplex;
@@ -42,7 +42,7 @@ import com.interpss.spring.CoreCommonSpringFactory;
 
 public class ZBusSample {
 	public static void main(String args[]) throws IpssNumericException {
-		CoreCommonSpringFactory.setAppContext(new String[] {IpssPlugin.CtxPath});
+		CoreCommonSpringFactory.setAppContext(new String[] {IpssCorePlugin.CtxPath});
 		
 		// set session message to Warning level
 		//IPSSMsgHub msg = IpssAclf.getMsgHub();

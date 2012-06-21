@@ -1,7 +1,7 @@
 package org.interpss.sample.grid.sample;
 
 import org.gridgain.grid.Grid;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.grid.gridgain.GridRunner;
@@ -9,7 +9,7 @@ import org.interpss.grid.gridgain.util.GridEnvHelper;
 import org.interpss.grid.msg.RemoteMessageTable;
 import org.interpss.sample.grid.impl.GridHelper;
 import org.interpss.sample.grid.impl.single.CustomSingleLocalTask;
-import org.interpss.spring.PluginSpringFactory;
+import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -27,7 +27,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		IpssPlugin.init();
+		IpssCorePlugin.init();
 		
 		// init grid computing env
 		Grid grid = GridHelper.initGridEnv();
@@ -36,7 +36,7 @@ public class GridUCTE2000WinterOffPeakCase {
 	    	CustomSingleLocalTask.RemoteNodeId = GridEnvHelper.getAnyRemoteNodeId();
 
 	    	try {
-				IpssFileAdapter adapter = PluginSpringFactory.getCustomFileAdapter("ieee");
+				IpssFileAdapter adapter = EditorPluginSpringFactory.getCustomFileAdapter("ieee");
 				SimuContext simuCtx = adapter.load("testData/UCTE_2000_WinterOffPeak.ieee");
 				AclfNetwork adjNet = simuCtx.getAclfNet();
 	    		adjNet.setId("SampleNetId");
