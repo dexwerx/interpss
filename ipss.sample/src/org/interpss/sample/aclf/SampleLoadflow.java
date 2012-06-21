@@ -24,6 +24,8 @@
 
 package org.interpss.sample.aclf;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
@@ -34,7 +36,6 @@ import org.interpss.numeric.util.PerformanceTimer;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
@@ -51,96 +52,20 @@ import com.interpss.pssl.simu.net.IpssAclfNet;
 
 
 public class SampleLoadflow {
-
-	public static void set2BusNetworkData(AclfNetwork net, IPSSMsgHub msg) {
-		IpssAclfNet.addAclfBus("Bus1", "Bus 1", net)
-				.setBaseVoltage(4000.0)
-				.setGenCode(AclfGenCode.SWING)
-				.setVoltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg)
-				.setLoadCode(AclfLoadCode.NON_LOAD);
-  		
-		IpssAclfNet.addAclfBus("Bus2", "Bus 2", net)
-  				.setBaseVoltage(4000.0)
-  				.setGenCode(AclfGenCode.NON_GEN)
-  				.setLoadCode(AclfLoadCode.CONST_P)
-  				.setLoad(new Complex(1.0, 0.8), UnitType.PU);
-  		
-		IpssAclfNet.addAclfBranch("Bus1", "Bus2", "Branch 1", net)
-				.setBranchCode(AclfBranchCode.LINE)
-				.setZ(new Complex(0.05, 0.1), UnitType.PU);
-	}	
-	
-	public static void simpleLoadflow(IPSSMsgHub msg) {
-		// Create an AclfNetwork object
-		AclfNetwork net = IpssAclfNet.createAclfNetwork("Net")
-				.setBaseKva(100000.0)
-				.getAclfNet();
-
-		// set the network data
-	  	set2BusNetworkData(net, msg);
-	  	
-	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-
-	  	// use the loadflow algorithm to perform loadflow calculation
-	  	PerformanceTimer timer = new PerformanceTimer(IpssLogger.getLogger());
-	  	timer.start();
-	  	algo.loadflow();
-	  	timer.logStd("Duration for loadflow: ");
-	  	
-	  	// output loadflow calculation results
-	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
-    }	
-
-	public static void loadflowWithAdjustment(IPSSMsgHub msg) {
-		// Create an AclfAdjNetwork object
-		AclfNetwork net = IpssAclfNet.createAclfNetwork("Net")
-				.setBaseKva(100000.0)
-				.getAclfNet();
-
-		// set the network data
-	  	set2BusNetworkData(net, msg);
-	  	
-	  	//	  define a function load object, 
-	  	//	  p = p(0)*(a + b*v + (1.0-a-b)*v*v)
-	  	//	  q = q(0)*(a + b*v + (1.0-a-b)*v*v)
-	  	AclfBus bus2 = net.getAclfBus("Bus2");
-  		try {
-  			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus2);
-  			fload.getP().setA(0.3);
-  			fload.getP().setB(0.5);
-  			fload.getQ().setA(0.1);
-  			fload.getQ().setB(0.6);
-  		} catch (InterpssException e) {
-  			e.printStackTrace();
-  			return;
-  		}
-	  	
-	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-
-	  	// use the loadflow algorithm to perform loadflow calculation
-	  	algo.loadflow();
-	  	
-	  	// output loadflow calculation results
-	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
-
-	  	// output net object info for debug purpose 
-	  	System.out.println(net.net2String());
-    }
-	
 	public static void main(String args[]) {
 		// set session message to Warning level
 		IPSSMsgHub msg = IpssAclf.psslMsg;
 		
-		IpssLogger.getLogger().setLevel(Level.WARNING);
+		ipssLogger.setLevel(Level.WARNING);
 		
 		simpleLoadflow(msg);
+
+		simpleLoadflowPSSL(msg);
 
 		loadflowWithAdjustment(msg);
 	}	
 
-	public static void simpleLoadflow1(IPSSMsgHub msg) {
+	public static void simpleLoadflow(IPSSMsgHub msg) {
 		// Create an AclfNetwork object
 		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 
@@ -200,4 +125,81 @@ public class SampleLoadflow {
 	  	// output loadflow calculation results
 	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
     }	
+
+	public static void simpleLoadflowPSSL(IPSSMsgHub msg) {
+		// Create an AclfNetwork object
+		AclfNetwork net = IpssAclfNet.createAclfNetwork("Net")
+				.setBaseKva(100000.0)
+				.getAclfNet();
+
+		// set the network data
+		setSimpleLoadflowDataByPSSL(net, msg);
+	  	
+	  	// create the default loadflow algorithm
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+
+	  	// use the loadflow algorithm to perform loadflow calculation
+	  	PerformanceTimer timer = new PerformanceTimer(ipssLogger);
+	  	timer.start();
+	  	algo.loadflow();
+	  	timer.logStd("Duration for loadflow: ");
+	  	
+	  	// output loadflow calculation results
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
+    }	
+
+	public static void setSimpleLoadflowDataByPSSL(AclfNetwork net, IPSSMsgHub msg) {
+		IpssAclfNet.addAclfBus("Bus1", "Bus 1", net)
+				.setBaseVoltage(4000.0)
+				.setGenCode(AclfGenCode.SWING)
+				.setVoltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg)
+				.setLoadCode(AclfLoadCode.NON_LOAD);
+  		
+		IpssAclfNet.addAclfBus("Bus2", "Bus 2", net)
+  				.setBaseVoltage(4000.0)
+  				.setGenCode(AclfGenCode.NON_GEN)
+  				.setLoadCode(AclfLoadCode.CONST_P)
+  				.setLoad(new Complex(1.0, 0.8), UnitType.PU);
+  		
+		IpssAclfNet.addAclfBranch("Bus1", "Bus2", "Branch 1", net)
+				.setBranchCode(AclfBranchCode.LINE)
+				.setZ(new Complex(0.05, 0.1), UnitType.PU);
+	}	
+
+	public static void loadflowWithAdjustment(IPSSMsgHub msg) {
+		// Create an AclfAdjNetwork object
+		AclfNetwork net = IpssAclfNet.createAclfNetwork("Net")
+				.setBaseKva(100000.0)
+				.getAclfNet();
+
+		// set the network data
+		setSimpleLoadflowDataByPSSL(net, msg);
+	  	
+	  	//	  define a function load object, 
+	  	//	  p = p(0)*(a + b*v + (1.0-a-b)*v*v)
+	  	//	  q = q(0)*(a + b*v + (1.0-a-b)*v*v)
+	  	AclfBus bus2 = net.getAclfBus("Bus2");
+  		try {
+  			FunctionLoad fload = CoreObjectFactory.createFunctionLoad(bus2);
+  			fload.getP().setA(0.3);
+  			fload.getP().setB(0.5);
+  			fload.getQ().setA(0.1);
+  			fload.getQ().setB(0.6);
+  		} catch (InterpssException e) {
+  			e.printStackTrace();
+  			return;
+  		}
+	  	
+	  	// create the default loadflow algorithm
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+
+	  	// use the loadflow algorithm to perform loadflow calculation
+	  	algo.loadflow();
+	  	
+	  	// output loadflow calculation results
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
+
+	  	// output net object info for debug purpose 
+	  	System.out.println(net.net2String());
+    }
 }
