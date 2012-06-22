@@ -535,7 +535,6 @@
     
 
     <ns:complexType name="BaseRatingXmlType">
-    	<ns:sequence></ns:sequence>
     	<ns:attribute name="rating1" type="ns:double"></ns:attribute>
     	<ns:attribute name="rating2" type="ns:double"></ns:attribute>
     	<ns:attribute name="rating3" type="ns:double"></ns:attribute>
@@ -546,7 +545,6 @@
     <ns:complexType name="MvaRatingXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseRatingXmlType">
-				<ns:sequence></ns:sequence>
 		        <ns:attribute name="unit" use="required" type="pss:ApparentPowerUnitType"></ns:attribute>
 			</ns:extension>
 		</ns:complexContent>
@@ -556,7 +554,6 @@
     <ns:complexType name="ActivePowerRatingXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseRatingXmlType">
-				<ns:sequence></ns:sequence>
     	        <ns:attribute name="unit" type="pss:ActivePowerUnitType"></ns:attribute>
 			</ns:extension>
 		</ns:complexContent>
