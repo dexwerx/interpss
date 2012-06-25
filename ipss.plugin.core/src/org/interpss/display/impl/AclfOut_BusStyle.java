@@ -24,6 +24,8 @@
 
 package org.interpss.display.impl;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static com.interpss.dc.DcPluginFunction.OutputSolarNet;
 import static org.interpss.CorePluginFunction.FormatKVStr;
 import static org.interpss.CorePluginFunction.OutputBusId;
 
@@ -33,6 +35,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.datatype.UnitHelper;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -41,6 +44,9 @@ import com.interpss.core.aclf.adpter.AclfGenBus;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.core.net.Network;
+import com.interpss.dc.DcNetwork;
+import com.interpss.dist.DistNetwork;
 
 /**
  * Aclf output functions, IEEE Bus Style
@@ -52,25 +58,60 @@ public class AclfOut_BusStyle {
 	/**
 	 * output LF result in the bus style
 	 * 
-	 * @param net
+	 * @param mainNet
 	 * @param style
 	 * @return
 	 */
-	public static StringBuffer lfResultsBusStyle(AclfNetwork net, AclfOutFunc.BusIdStyle style) {
+	public static StringBuffer lfResultsBusStyle(AclfNetwork mainNet, AclfOutFunc.BusIdStyle style) {
 		StringBuffer str = new StringBuffer("");
 		try {
-			str.append(busStyleTitle(net));
+			str.append(busStyleTitle(mainNet));
 
-			for (Bus b : net.getBusList()) {
+			for (Bus b : mainNet.getBusList()) {
 				AclfBus bus = (AclfBus) b;
 				if (bus.isActive()) {
-					str.append(lfResultsBusStyle(bus, net, style));
+					str.append(lfResultsBusStyle(bus, mainNet, style));
 				}
 			}
 			str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
+		
+		if (mainNet.isContainChildNet()) {
+		  	for (Network n : mainNet.getChildNetworks()) {
+	  			AclfNetwork childNet = null;
+		  		if (n instanceof AclfNetwork) {
+		  			childNet = (AclfNetwork)n;
+		  		}
+		  		if (n instanceof DistNetwork) {
+		  			childNet = ((DistNetwork)n).getAclfNet();
+		  		}
+				str.append("\n\n                                                    *   *   *   *   *   *\n");
+		  		str.append("\n\nChildNet : " + n.getId() + "\n");
+		  		str.append("Parent net [" + mainNet.getId() + "] interface bus Id: " + n.getParentNetInterfaceBusId() + "\n");
+		  		str.append(lfResultsBusStyle(childNet, style));
+		  	}
+		  	
+		  	for (Network childNet : mainNet.getChildNetworks()) {
+		  		if (childNet.isContainChildNet()) {
+				  	for (Network childNet3rd : childNet.getChildNetworks()) {
+						str.append("\n\n                                                    *   *   *   *   *   *\n");
+				  		str.append("\n\nChildNet : " + childNet3rd.getId() + "\n");
+				  		str.append("Parent net [" + childNet.getId() + "] interface bus Id: " + childNet3rd.getParentNetInterfaceBusId() + "\n");
+				  		if (childNet3rd instanceof DcNetwork) {
+				  			try {
+				  			str.append(OutputSolarNet.fx((DcNetwork)childNet3rd));
+				  			} catch (InterpssException e) {
+				  				ipssLogger.severe(e.toString());
+				  				str.append(e.toString());
+				  			}
+				  		}
+				  	}		  			
+		  		}
+		  	}		  	
+		}
+		
 		return str;
 	}
 	
@@ -183,6 +224,10 @@ public class AclfOut_BusStyle {
 	
 	private static StringBuffer busStyleTitle(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
+		
+		if (net.isContainChildNet()) 
+			str.append("\n Main network: " + net.getId() + "\n");
+		
 		str.append("\n\n                                              Load Flow Results\n\n");
 		str.append(AclfOutFunc.maxMismatchToString(net,"                    ") + "\n");
 		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
