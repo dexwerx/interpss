@@ -24,13 +24,15 @@
 
 package org.interpss.util;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static com.interpss.common.util.IpssLogger.ipssLogger;
+import com.interpss.common.exp.InterpssException;
 
 /**
  * A text file reader implementation. The file is processed line by line
@@ -79,12 +81,18 @@ public class TextFileReader {
 			final InputStream stream = new FileInputStream(file);
 			String str = null;
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));		
-				
-	      	do {
-	          	str = din.readLine(); 
-	          	if (str != null)
-	          		procer.processLine(str);
-	        } while (str != null);
+			
+			try {
+				do {
+					str = din.readLine(); 
+					if (str != null)
+						procer.processLine(str);
+				} while (str != null);
+			} catch (InterpssException e)  {
+				ipssLogger.severe(e.toString());
+			} finally {
+				din.close();
+			}
 		} catch (Exception e) {
 			ipssLogger.severe(e.toString());
 			e.printStackTrace();
