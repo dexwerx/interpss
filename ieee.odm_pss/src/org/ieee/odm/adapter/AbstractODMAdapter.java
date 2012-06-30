@@ -27,6 +27,7 @@ package org.ieee.odm.adapter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -73,13 +74,20 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		try {
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 			ODMLogger.getLogger().info("Parse input stream and create the parser object");
-			this.parser = parseInputFile(din, encoding);
+			try {
+				this.parser = parseInputFile(din, encoding);
+			} catch (IOException e) {
+				ODMLogger.getLogger().severe(e.toString());
+				this.errMsgList.add(e.toString());
+				e.printStackTrace();
+				return false;
+			} finally { 
+				din.close();
+			}
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
-			this.errMsgList.add(e.toString());
-			e.printStackTrace();
 			return false;
-		}
+		} 
 		return status;
 	}
 	
@@ -88,7 +96,9 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 			final File file = new File(filename);
 			final InputStream stream = new FileInputStream(file);
 			ODMLogger.getLogger().info("Parse input file and create the parser object, " + filename);
-			return parseInputStream(stream);
+			boolean b = parseInputStream(stream);
+			stream.close();
+			return b;
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());
