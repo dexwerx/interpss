@@ -29,6 +29,7 @@ import static com.interpss.spring.CoreCommonSpringFactory.springAppCtx;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.interpss.app.AppParameters;
 import org.interpss.cmd.CmdLineRunner;
 import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
