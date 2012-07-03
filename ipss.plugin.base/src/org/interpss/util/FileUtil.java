@@ -46,14 +46,25 @@ public class FileUtil {
 	 * Write the text to the file
 	 * 
 	 * @param filename filename
-	 * @param textArea
+	 * @param text
 	 * @return
 	 */
 	public static boolean writeText2File(String filename, String text) {
+		return write2File(filename, text.getBytes());
+	}
+	
+	/**
+	 * Write the text to the file
+	 * 
+	 * @param filename filename
+	 * @param bytes
+	 * @return
+	 */
+	public static boolean write2File(String filename, byte[] bytes) {
 		ipssLogger.info("FileUtil.writeTextarea2File() info to file: " + filename);
 		try {
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
-			out.write(text.getBytes());
+			out.write(bytes);
 			out.flush();
 			out.close();
 			return true;
