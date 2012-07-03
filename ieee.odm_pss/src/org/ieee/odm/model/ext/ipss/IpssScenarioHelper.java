@@ -27,11 +27,15 @@ package org.ieee.odm.model.ext.ipss;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc.initPTradingEDHourlyAnalysis;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.model.ODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.AclfAnalysisXmlType;
 import org.ieee.odm.schema.AcscBranchFaultXmlType;
@@ -45,7 +49,6 @@ import org.ieee.odm.schema.DStabSimulationXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
 import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.ieee.odm.schema.FlowInterfaceRefXmlType;
-import org.ieee.odm.schema.GenLossFactorXmlType;
 import org.ieee.odm.schema.GridComputingXmlType;
 import org.ieee.odm.schema.InterfaceShiftFactorXmlType;
 import org.ieee.odm.schema.IpssAnalysisCaseXmlType;
@@ -96,6 +99,18 @@ public class IpssScenarioHelper {
 		this.parser = new AclfModelParser();
 		this.parser.getStudyCase().setStudyScenario(odmObjFactory.createIpssStudyScenario(sce));
 	}
+	
+	/**
+	 * constructor
+	 * 
+	 * @param sce an existing study scenario xml doc
+	 */
+	public IpssScenarioHelper (String filename) throws FileNotFoundException {
+		File file = new File(filename);
+		this.parser = new ODMModelParser();
+		parser.parse(new FileInputStream(file));	
+	}
+	
 	
 	/*
 	 *             Analysis case level functions
@@ -261,7 +276,8 @@ public class IpssScenarioHelper {
 	 */
 	
 	/**
-	 * get AclfAnalysis of the current analysis case 
+	 * get AclfAnalysis of the first Aclf analysis case. If it does not
+	 * exist, create a new Aclf analysis case. 
 	 */
 	public AclfAnalysisXmlType getAclfAnalysis() {
 		return getAclfAnalysis(null);
