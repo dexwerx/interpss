@@ -36,6 +36,7 @@ import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
 import org.junit.Test;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
@@ -52,7 +53,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class Dclf_Test extends BaseTestSetup {
 	//@Test
-	public void dclfTest() {
+	public void dclfTest() throws InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
@@ -65,7 +66,7 @@ public class Dclf_Test extends BaseTestSetup {
 	}
 
 	@Test
-	public void dclfXmlTest() throws PSSLException {
+	public void dclfXmlTest() throws PSSLException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
@@ -88,7 +89,7 @@ public class Dclf_Test extends BaseTestSetup {
 	}
 	
 	@Test
-	public void b11MatrixTest() throws IpssNumericException {
+	public void b11MatrixTest() throws IpssNumericException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

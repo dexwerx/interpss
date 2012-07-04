@@ -31,17 +31,18 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.pssl.plugin.CmdRunner;
 import com.interpss.pssl.test.BaseTestSetup;
 import com.interpss.simu.SimuContext;
 
 public class Aclf_CmdTest extends BaseTestSetup {
 	@Test
-	public void lfTest()  throws FileNotFoundException {
+	public void lfTest()  throws FileNotFoundException, InterpssException  {
 		SimuContext simuCtx = new CmdRunner()
-				.setInputFilename("testData/aclf/ieee14.ieee")
-				.setFormat(IEEECommonFormat)
-				.setOdmControlFilename("testData/aclf/AclfRun.xml")
+				.inputFilename("testData/aclf/ieee14.ieee")
+				.format(IEEECommonFormat)
+				.odmControlFilename("testData/aclf/AclfRun.xml")
 				.run();
 		
 	  	assertTrue(simuCtx.getAclfNet().isLfConverged());

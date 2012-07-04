@@ -28,6 +28,7 @@ import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.plugin.IpssAdapter;
@@ -36,7 +37,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class Adapter_Test extends BaseTestSetup {
 	@Test
-	public void singlePointTest1() {
+	public void singlePointTest1() throws InterpssException {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

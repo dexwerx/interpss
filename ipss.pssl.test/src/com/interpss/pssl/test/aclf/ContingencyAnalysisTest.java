@@ -39,6 +39,7 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.pssl.common.PSSLException;
@@ -51,7 +52,7 @@ import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 
 public class ContingencyAnalysisTest extends BaseTestSetup {
 	@Test
-	public void test()  throws PSSLException {
+	public void test()  throws PSSLException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
@@ -69,7 +70,7 @@ public class ContingencyAnalysisTest extends BaseTestSetup {
 	}	
 
 	@Test
-	public void xmlTest()  throws PSSLException {
+	public void xmlTest()  throws PSSLException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

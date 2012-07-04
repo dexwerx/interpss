@@ -26,10 +26,9 @@ package com.interpss.pssl.test.aclf;
 
 import static com.interpss.pssl.plugin.IpssAdapter.importAclfNet;
 import static com.interpss.pssl.plugin.IpssAdapter.FileFormat.IEEECommonFormat;
-import static org.interpss.CorePluginFunction.AclfResultSummary;
 import static com.interpss.pssl.simu.IpssAclf.createAclfAlgo;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-
+import static org.interpss.CorePluginFunction.AclfResultSummary;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -38,6 +37,7 @@ import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
 import org.junit.Test;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.pssl.common.PSSLException;
@@ -47,7 +47,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class Aclf_Test extends BaseTestSetup {
 	@Test
-	public void lfTest()  throws PSSLException {
+	public void lfTest()  throws PSSLException, InterpssException {
 		AclfNetwork net = importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IEEECommonFormat)
 				.load()
@@ -66,7 +66,7 @@ public class Aclf_Test extends BaseTestSetup {
 	// AclfAlgorithmXmlType
 	
 	@Test
-	public void lfXmlTest()  throws PSSLException {
+	public void lfXmlTest()  throws PSSLException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
