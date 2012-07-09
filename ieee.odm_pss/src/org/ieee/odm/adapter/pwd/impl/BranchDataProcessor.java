@@ -10,6 +10,8 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.LineBranchEnumType;
+import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -49,11 +51,19 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		
 		long fromBusNum=-1,toBusNum=-1;
 		String fromBusId, toBusId,circuitId="1";
+		String type="";
+		String branchId="";
 		boolean closed=true, isXfmr=false;
 		double r=0,x=0,b=0,g=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
 		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
-		       lineTap=1.0;//mvaRatingB,mvaRatingC,
+		       lineTap=1.0, toTurnRatio=1.0;//mvaRatingB,mvaRatingC,
+		/*
+		 * ONLY for specific application
+		 */
+		String typeToken="CustomString"; //type
+		String idToken="CustomString:1"; //branch Id
+		
 		//System.out.println("processing branch#"+branchDataStr);
 		PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
 		try{
@@ -109,53 +119,13 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    
 			    else if (nv.name.equals("LineTap"))
 					lineTap=Double.valueOf(nv.value); 
+				
+			    else if(nv.name.equals(typeToken))
+			    	type=nv.value;
+			    else if(nv.name.equals(idToken))
+			    	branchId=nv.value;
+			    
 			}
-		/*	
-		//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
-		i=argumentFileds.indexOf("BusNum") ;
-		fromBusNum=Long.valueOf(branchData[i]); //mandatory field
-		
-		i=argumentFileds.indexOf("BusNum:1") ;
-		toBusNum=Long.valueOf(branchData[i]); //mandatory field
-		
-		i=argumentFileds.indexOf("LineCircuit"); if(i!=-1)circuitId=branchData[i];
-		
-		i=argumentFileds.indexOf("LineXfmr"); if(i!=-1)isXfmr=branchData[i].equalsIgnoreCase("YES")?true:false;
-		//both LineXfmr or BranchDeviceType could be used to define branch type
-		i=argumentFileds.indexOf("BranchDeviceType");if(i!=-1)isXfmr=branchData[i].equalsIgnoreCase("Transformer")?true:false;
-		
-		i=argumentFileds.indexOf("LineStatus"); 
-	    if(i!=-1)closed=branchData[i].equalsIgnoreCase("Closed")?true:false;
-	    
-	    i=argumentFileds.indexOf("LineR"); if(i!=-1)r=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineX"); if(i!=-1)x=Double.valueOf(branchData[i]);
-	    i=argumentFileds.indexOf("LineC"); if(i!=-1)b=Double.valueOf(branchData[i]);
-	    i=argumentFileds.indexOf("LineG"); if(i!=-1)g=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineAMVA"); 
-	    if(i!=-1)mvaRatingA=Double.valueOf(branchData[i]); // line limit rating
-	    
-	    i=argumentFileds.indexOf("LineBMVA"); //same as LineAMVA:1?
-	    if(i!=-1)mvaRatingB=Double.valueOf(branchData[i]);
-	    i=argumentFileds.indexOf("LineCMVA"); //same as LineAMVA:2?
-	    if(i!=-1)mvaRatingC=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineShuntMW"); 
-	    if(i!=-1)fBusShuntMW=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineShuntMW:1"); 
-	    if(i!=-1)tBusShuntMW=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineShuntMVR"); 
-	    if(i!=-1)fBusShuntMvar=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineShuntMVR:1"); 
-	    if(i!=-1)tBusShuntMvar=Double.valueOf(branchData[i]);
-	    
-	    i=argumentFileds.indexOf("LineTap"); 
-	    if(i!=-1)lineTap=Double.valueOf(branchData[i]); 
-	    */
 			
 		    fromBusId=parser.BusIdPreFix+fromBusNum;
 		    toBusId=parser.BusIdPreFix+toBusNum;
@@ -163,14 +133,26 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		    // create a branch record
 		    BranchXmlType branch=null;
 		    
-		    //parser.getAclfBus(fromBusId).getBaseVoltage().getValue()!=parser.getAclfBus(toBusId).getBaseVoltage().getValue()
+		    //TODO temp solution to turn transmission line with different base voltage to a transformer branch
+		    
+		    if(parser.getAclfBus(fromBusId).getBaseVoltage().getValue()
+		    		!=parser.getAclfBus(toBusId).getBaseVoltage().getValue())
+		    	isXfmr=true;
 	    	
-		    if(!isXfmr)branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
+		    if(!isXfmr){
+		    	branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
+		    	//TODO add branch type, as line or breaker
+		    	LineBranchInfoXmlType LineInfo=new LineBranchInfoXmlType();
+		    	LineInfo.setType(type.equalsIgnoreCase("line")?LineBranchEnumType.OVERHEAD_LINE:LineBranchEnumType.BREAKER);
+		    	((LineBranchXmlType) branch).setLineInfo(LineInfo);
+		    }
 		    else branch=parser.createXfrBranch(fromBusId, toBusId, circuitId);
+		    
 		    
 			/*
 			 * common setting for branch type
 			 */
+		    
 			branch.setOffLine(!closed);
 			branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
 			//processing lint shunt at from bus 
@@ -197,10 +179,10 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 						BaseDataSetter.createTurnRatioPU(lineTap));
 				//TODO define toTurnRatio, set 1.0 by default
 				((XfrBranchXmlType) branch).setToTurnRatio(
-						BaseDataSetter.createTurnRatioPU(1.0));
+						BaseDataSetter.createTurnRatioPU(toTurnRatio));
 				//what is the difference between transformer tap and turn ratio;
 				
-				//TODO NE-ISO use Branch type to define transformer
+				
 				
 			}
 			
