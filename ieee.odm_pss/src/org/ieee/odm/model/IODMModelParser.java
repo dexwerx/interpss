@@ -63,12 +63,18 @@ public interface IODMModelParser {
 	boolean parse(InputStream in);
 	
 	/**
+	 * check if the network is of type Transmission and Loadflow
+	 * 
+	 * @return
+	 */
+	boolean isTransmissionLoadflow();
+	
+	/**
 	 * get the ODM xml document root element
 	 * 
 	 * @return
 	 */
 	StudyCaseXmlType getStudyCase();
-	
 	/**
 	 * get Study scenario element
 	 * 

@@ -167,6 +167,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public abstract NetworkXmlType createBaseCase();
 	
+	public boolean isTransmissionLoadflow() {
+		return this.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION &&
+			   this.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW;
+	}
+	
 	/*
 	 * 	Case/Network level functions
 	 * 	=========================== 
