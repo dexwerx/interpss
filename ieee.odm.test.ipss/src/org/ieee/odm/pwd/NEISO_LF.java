@@ -30,25 +30,64 @@ import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
+import org.interpss.numeric.datatype.ComplexFunc;
+import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
+import org.interpss.util.FileUtil;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
+import org.interpss.algo.ZeroZBranchProcesor;
 
 public class NEISO_LF {
 	public static void main(String args[]) throws InterpssException {
 		IpssCorePlugin.init();
-
-		ODMLogger.getLogger().setLevel(Level.INFO);
+        IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+		ODMLogger.getLogger().setLevel(Level.ALL);
 		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
 				.load("testData/pwd/neiso_test.aux")
-				.getAclfNet();	
+				.getAclfNet();
+		
+		for(Bus b:net.getBusList())if(((AclfBus)b).isSwing()){
+			System.out.println("Swing Bus: "+b.getId() +", name:"+ b.getName());
+		}
+		
 		System.out.println("No of buses: " + net.getNoBus() + ", branches: " + net.getNoBranch());
 		
+		
+		for(Bus b:net.getBusList())if(b.isIslandBus()){
+			System.out.println("isolated Bus: "+b.getId() +", name:"+ b.getName());
+			b.setStatus(false);
+		}
+
+		double smallBranchZ = 0.00001;
+	  	net.accept(new ZeroZBranchProcesor(smallBranchZ));
+		System.out.println("net zero branch processed:"+net.isZeroZBranchProcessed());
+		
+		System.out.println("data check :"+net.checkData());
+
+		
+		
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		algo.loadflow();		
+		
+		net.initializeBusVoltage();
+		/*
+		net.setBusNumberArranged(true);
+		int sortNum=0;
+		for(Bus b:net.getBusList()){
+			b.setSortNumber(sortNum++);
+		}
+        */
+        //FileUtil.writeText2File("testdata/neisoJmatrix.mtx", net.formJMatrix().toString());
+		algo.setLfMethod(AclfMethod.PQ);
+        algo.loadflow();		
+		//System.out.println("Bus 2952 sortNum:" +net.getAclfBus("Bus2952").getSortNumber());
 	}	
 }
 
