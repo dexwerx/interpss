@@ -175,8 +175,8 @@ public class AclfOutFunc {
 				str.append("  ------------------------------------------------------------------------------------------------------------------\n");
 			}
 			else {
-				str.append("     BusID       Name           Code           Volt(pu)   Angle(deg)     P(pu)     Q(pu)\n");
-				str.append("  ---------------------------------------------------------------------------------------\n");
+				str.append("     BusID          Code           Volt(pu)   Angle(deg)     P(pu)     Q(pu)      Bus Name   \n");
+				str.append("  -------------------------------------------------------------------------------------------\n");
 			}
 				 
 			for (Bus b : net.getBusList()) {
@@ -208,14 +208,17 @@ public class AclfOutFunc {
 	private static String busLfSummary(AclfBus bus) {
 		final StringBuffer str = new StringBuffer("");
 		Complex busPQ = bus.getPQResults();
-		str.append("  ");
+		if (bus.isActive())
+			str.append("  ");
+		else
+			str.append("x ");
 		str.append(String.format("%-12s ", OutputBusId.f(bus, bus.getNetwork().getOriginalDataFormat())));
-		str.append(String.format("%-10s ", bus.getName()));
 		str.append(String.format("%-17s ", bus.code2String()));
 		str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));
 		str.append(String.format("%9.1f   ", bus.getVoltageAng(UnitType.Deg)));
 		str.append(String.format("%10.4f", busPQ.getReal()));
 		str.append(String.format("%10.4f", busPQ.getImaginary()));
+		str.append(String.format("   %-10s ", bus.getName()));
 		if (bus.getNetwork().getOriginalDataFormat() == OriginalDataFormat.CIM) 
 			str.append(String.format("   %s", bus.getId()));
 		str.append("\n");
