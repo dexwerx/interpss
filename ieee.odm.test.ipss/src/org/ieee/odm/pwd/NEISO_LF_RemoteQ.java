@@ -29,23 +29,18 @@ import java.util.logging.Level;
 import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssCorePlugin;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
-import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
-import org.interpss.numeric.util.Number2String;
-import org.interpss.numeric.util.NumericUtil;
 import org.interpss.util.FileUtil;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
-import org.interpss.algo.ZeroZBranchProcesor;
 
 public class NEISO_LF_RemoteQ {
 	public static void main(String args[]) throws InterpssException {
@@ -63,12 +58,11 @@ public class NEISO_LF_RemoteQ {
 		
 		System.out.println("No of buses: " + net.getNoBus() + ", branches: " + net.getNoBranch());
 		
-		
-		for(Bus b:net.getBusList())if(b.isIslandBus()){
-			System.out.println("isolated Bus: "+b.getId() +", name:"+ b.getName());
-		}
-
-		System.out.println("data check :"+net.checkData(CoreObjectFactory.createDefultDataCheckConfiguration()));
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		algo.loadflow();
+        
+        FileUtil.writeText2File("testdata/neiso.txt", 
+        		AclfOutFunc.loadFlowSummary(net).toString());        
 	}	
 }
 

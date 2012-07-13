@@ -29,40 +29,35 @@ import java.util.logging.Level;
 import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssCorePlugin;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
+import org.interpss.util.FileUtil;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.core.net.Bus;
 
 public class NEISO_LF {
 	public static void main(String args[]) throws InterpssException {
 		IpssCorePlugin.init();
         IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
-		ODMLogger.getLogger().setLevel(Level.ALL);
+		ODMLogger.getLogger().setLevel(Level.WARNING);
 
 		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
 				.load("testData/pwd/neiso_test.aux")
 				.getAclfNet();
 		
-		for(Bus b:net.getBusList())if(((AclfBus)b).isSwing()){
-			System.out.println("Swing Bus: "+b.getId() +", name:"+ b.getName());
-		}
-		
-		System.out.println("No of buses: " + net.getNoBus() + ", branches: " + net.getNoBranch());
-		
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		
         //FileUtil.writeText2File("testdata/neisoJmatrix.mtx", net.formJMatrix().toString());
-		algo.setLfMethod(AclfMethod.PQ);
         algo.loadflow();		
-		System.out.println("Bus 2952 sortNum:" +net.getAclfBus("Bus2952").getSortNumber());
+        
+        FileUtil.writeText2File("testdata/neiso.txt", 
+        		AclfOutFunc.loadFlowSummary(net).toString());   
 	}	
 }
 
