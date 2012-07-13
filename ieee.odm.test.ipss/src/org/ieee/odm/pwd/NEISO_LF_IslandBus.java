@@ -47,7 +47,7 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import org.interpss.algo.ZeroZBranchProcesor;
 
-public class NEISO_LF_RemoteQ {
+public class NEISO_LF_IslandBus {
 	public static void main(String args[]) throws InterpssException {
 		IpssCorePlugin.init();
         IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
@@ -66,9 +66,27 @@ public class NEISO_LF_RemoteQ {
 		
 		for(Bus b:net.getBusList())if(b.isIslandBus()){
 			System.out.println("isolated Bus: "+b.getId() +", name:"+ b.getName());
+			b.setStatus(false);
 		}
 
 		System.out.println("data check :"+net.checkData());
+
+		
+		
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		
+		net.initializeBusVoltage();
+		/*
+		net.setBusNumberArranged(true);
+		int sortNum=0;
+		for(Bus b:net.getBusList()){
+			b.setSortNumber(sortNum++);
+		}
+        */
+        //FileUtil.writeText2File("testdata/neisoJmatrix.mtx", net.formJMatrix().toString());
+		algo.setLfMethod(AclfMethod.PQ);
+        //algo.loadflow();		
+		//System.out.println("Bus 2952 sortNum:" +net.getAclfBus("Bus2952").getSortNumber());
 	}	
 }
 
