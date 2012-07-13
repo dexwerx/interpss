@@ -32,10 +32,13 @@ import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
+import org.interpss.numeric.util.Number2String;
+import org.interpss.numeric.util.NumericUtil;
 import org.interpss.util.FileUtil;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
@@ -70,6 +73,13 @@ public class NEISO_LF {
 	  	net.accept(new ZeroZBranchProcesor(smallBranchZ));
 		System.out.println("net zero branch processed:"+net.isZeroZBranchProcessed());
 		
+		//check small impedance branch
+		String smallBra="";
+		for(Branch bra:net.getBranchList()){
+			if(bra.isActive()&&((AclfBranch)bra).getZ().abs()<=0.00001)
+				smallBra+="small impedance branch: "+bra.getId() +", Z:"+ Number2String.toStr(((AclfBranch)bra).getZ())+"\n";
+		}
+		FileUtil.writeText2File("testdata/neisoSmallBranch.txt", smallBra);
 		System.out.println("data check :"+net.checkData());
 
 		
@@ -86,7 +96,7 @@ public class NEISO_LF {
         */
         //FileUtil.writeText2File("testdata/neisoJmatrix.mtx", net.formJMatrix().toString());
 		algo.setLfMethod(AclfMethod.PQ);
-        algo.loadflow();		
+        //algo.loadflow();		
 		//System.out.println("Bus 2952 sortNum:" +net.getAclfBus("Bus2952").getSortNumber());
 	}	
 }
