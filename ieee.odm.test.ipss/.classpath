@@ -8,17 +8,8 @@
 	<classpathentry kind="lib" path="/ipss.lib/lib/ieee/ieee.odm.schema.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_plugin.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor_ui.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_jgraph.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pad.jar"/>	
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.2.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
