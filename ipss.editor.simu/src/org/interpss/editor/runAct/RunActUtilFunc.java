@@ -38,6 +38,7 @@ import org.interpss.spring.UISpringFactory;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.RunStudyCaseXmlType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
@@ -55,6 +56,7 @@ import com.interpss.core.algo.SimpleFaultAlgorithm;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.core.net.DataCheckConfiguration;
 import com.interpss.core.net.reg.IRegulationDevice;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.common.IDStabSimuDatabaseOutputHandler;
@@ -255,14 +257,15 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo) {
-		if (!algo.checkData()) {
+		DataCheckConfiguration config = CoreObjectFactory.createDefultDataCheckConfiguration();
+		if (!algo.checkData(config)) {
 			IpssLogger.getLogger().warning(
 					"DStab simulation data checking failed");
 			return false;
 		}
 
 		// dstab net data changed in the mapping process
-		if (!algo.getDStabNet().checkData()) {
+		if (!algo.getDStabNet().checkData(config)) {
 			IpssLogger.getLogger()
 					.warning("DStab network data checking failed");
 			return false;

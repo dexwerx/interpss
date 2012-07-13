@@ -30,6 +30,7 @@ import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.fadapter.PTIFormat;
 import org.interpss.spring.EditorPluginSpringFactory;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
@@ -81,7 +82,7 @@ public class CustomFileUtility {
 			return false;
 		}
 
-		if (simuCtx != null && !simuCtx.checkData()) {
+		if (simuCtx != null && !simuCtx.checkData(CoreObjectFactory.createDefultDataCheckConfiguration())) {
 			boolean b = EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialogWithOptions(
 					"Network Loadflow Data Error",
 					"Please see the message list for details, Do you want to run the study case?");

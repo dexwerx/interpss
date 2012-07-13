@@ -30,11 +30,12 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.spring.EditorPluginSpringFactory;
-import org.interpss.spring.EditorPluginSpringFactory;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.net.DataCheckConfiguration;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -94,29 +95,30 @@ public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, Sim
 		}
 		msg.sendStatusMsg("Editor data mapped to simuCtx");
 
+		DataCheckConfiguration config = CoreObjectFactory.createDefultDataCheckConfiguration();
 		if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
-				if (!simuCtx.checkData()) {
+				if (!simuCtx.checkData(config)) {
 					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
-				if (!simuCtx.checkData()) {
+				if (!simuCtx.checkData(config)) {
 					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Loadflow Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.ACSC_NET) {
-				if (!simuCtx.checkData()) {
+				if (!simuCtx.checkData(config)) {
 					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Network Ac Short Circuit Data Error",
 							"Please see the message list for details");
 					return false;
 				}
 		} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
-				if (!simuCtx.checkData()) {
+				if (!simuCtx.checkData(config)) {
 					EditorPluginSpringFactory.getEditorDialogUtil().showMsgDialog(
 							"Transient stabiliry Data Error",
 							"Please see the message list for details");
