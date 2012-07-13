@@ -30,22 +30,13 @@ import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssCorePlugin;
 import org.interpss.fadapter.IpssFileAdapter;
-import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
-import org.interpss.numeric.util.Number2String;
-import org.interpss.numeric.util.NumericUtil;
-import org.interpss.util.FileUtil;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algo.AclfMethod;
-import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
-import org.interpss.algo.ZeroZBranchProcesor;
 
 public class NEISO_LF_IslandBus {
 	public static void main(String args[]) throws InterpssException {
@@ -63,30 +54,11 @@ public class NEISO_LF_IslandBus {
 		
 		System.out.println("No of buses: " + net.getNoBus() + ", branches: " + net.getNoBranch());
 		
-		
+		System.out.println("data check :"+net.checkData(CoreObjectFactory.createDefultDataCheckConfiguration()));
+
 		for(Bus b:net.getBusList())if(b.isIslandBus()){
 			System.out.println("isolated Bus: "+b.getId() +", name:"+ b.getName());
-			b.setStatus(false);
 		}
-
-		System.out.println("data check :"+net.checkData());
-
-		
-		
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		
-		net.initializeBusVoltage();
-		/*
-		net.setBusNumberArranged(true);
-		int sortNum=0;
-		for(Bus b:net.getBusList()){
-			b.setSortNumber(sortNum++);
-		}
-        */
-        //FileUtil.writeText2File("testdata/neisoJmatrix.mtx", net.formJMatrix().toString());
-		algo.setLfMethod(AclfMethod.PQ);
-        //algo.loadflow();		
-		//System.out.println("Bus 2952 sortNum:" +net.getAclfBus("Bus2952").getSortNumber());
 	}	
 }
 

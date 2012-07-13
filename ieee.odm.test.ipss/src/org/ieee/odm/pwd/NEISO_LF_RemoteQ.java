@@ -68,7 +68,7 @@ public class NEISO_LF_RemoteQ {
 			System.out.println("isolated Bus: "+b.getId() +", name:"+ b.getName());
 		}
 
-		System.out.println("data check :"+net.checkData());
+		System.out.println("data check :"+net.checkData(CoreObjectFactory.createDefultDataCheckConfiguration()));
 	}	
 }
 

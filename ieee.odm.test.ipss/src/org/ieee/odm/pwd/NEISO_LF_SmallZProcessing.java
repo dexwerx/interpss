@@ -80,7 +80,7 @@ public class NEISO_LF_SmallZProcessing {
 				smallBra+="small impedance branch: "+bra.getId() +", Z:"+ Number2String.toStr(((AclfBranch)bra).getZ())+"\n";
 		}
 		FileUtil.writeText2File("testdata/neisoSmallBranch.txt", smallBra);
-		System.out.println("data check :"+net.checkData());
+		System.out.println("data check :"+net.checkData(CoreObjectFactory.createDefultDataCheckConfiguration()));
 
 		
 		
