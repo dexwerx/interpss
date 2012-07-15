@@ -127,13 +127,17 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		 */
 		if (!parentBus.getId().equals(fromBus.getId()) // if created parentBus is not the fromBus
 				&& !fromBus.isChildSection() 
-				&& !fromBus.isParent())
+				&& !fromBus.isParent()) {
 			parentBus.addSection(parentBus.getBusSecList().size()+1, fromBus);
+			System.out.println(fromBus.getId() + " has been added as small Z child bus");
+		}
 		
 		if (!parentBus.getId().equals(toBus.getId()) // if created parentBus is not the toBus
 				&& !toBus.isChildSection() 
-				&& !toBus.isParent())
+				&& !toBus.isParent()) {
 			parentBus.addSection(parentBus.getBusSecList().size()+1, toBus);
+			System.out.println(toBus.getId() + " has been added as small Z child bus");
+		}
 		
 		// finally, we turn the branch off
 		branch.setStatus(false);
