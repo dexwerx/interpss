@@ -87,6 +87,21 @@ public class CorePluginFunction {
 		};
 
 	/**
+	 * Create output text for Aclf bus result in the BusStyle format
+	 * 
+	 * Usage:
+	 *   import static org.interpss.CorePluginFunction.BusLfResultBusStyle;
+	 *   
+	 *   StringBuffer outText = BusLfResultBusStyle.f(aclfNet, bus);
+	 */
+	public static IFunction2<AclfNetwork, AclfBus, StringBuffer> BusLfResultBusStyle = 
+		new Function2Adapter<AclfNetwork, AclfBus, StringBuffer>() {
+			@Override public StringBuffer f(AclfNetwork net, AclfBus bus) {
+				return AclfOut_BusStyle.busResult(net, bus);
+			}
+		};
+			
+	/**
 	 * Function for output LF result in the Bus Style format
 	 */
 	public static IFunction2<AclfNetwork, BusIdStyle, StringBuffer> AclfResultBusStyle2 = 

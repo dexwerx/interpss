@@ -55,6 +55,13 @@ import com.interpss.dist.DistNetwork;
  *
  */
 public class AclfOut_BusStyle {
+	public static StringBuffer busResult(AclfNetwork net, AclfBus bus) {
+		StringBuffer str = new StringBuffer("");
+		str.append(title());
+		str.append(lfResultsBusStyle(bus, net, AclfOutFunc.BusIdStyle.BusId_Name));
+		return str;
+	}
+	
 	/**
 	 * output LF result in the bus style
 	 * 
@@ -230,6 +237,12 @@ public class AclfOut_BusStyle {
 		
 		str.append("\n\n                                              Load Flow Results\n\n");
 		str.append(AclfOutFunc.maxMismatchToString(net,"                    ") + "\n");
+		str.append(title());
+		return str;
+	}
+	
+	private static StringBuffer title() {
+		StringBuffer str = new StringBuffer("");
 		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 		str.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
 		str.append("              baseKV    Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
