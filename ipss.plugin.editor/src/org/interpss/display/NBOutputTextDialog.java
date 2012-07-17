@@ -48,8 +48,8 @@ import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.spring.UISpringFactory;
 import org.interpss.ui.WinUtilities;
 
-import com.interpss.QA.QAObjectFactory;
-import com.interpss.QA.compare.IQAFileProcessor;
+import com.interpss.QA.compare.dep.IQAFileProcessor;
+import com.interpss.QA.compare.dep.QAObjectFactory;
 import com.interpss.QA.rfile.QAFileReader;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
