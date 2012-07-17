@@ -58,7 +58,7 @@ public class AclfOut_BusStyle {
 	public static StringBuffer busResult(AclfNetwork net, AclfBus bus) {
 		StringBuffer str = new StringBuffer("");
 		str.append(title());
-		str.append(lfResultsBusStyle(bus, net, AclfOutFunc.BusIdStyle.BusId_Name));
+		str.append(lfResultsBusStyle(bus, net, AclfOutFunc.BusIdStyle.BusId_No));
 		return str;
 	}
 	
