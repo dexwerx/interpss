@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="F:/workspace_new/trunk/ipss.lib/lib/ipss/ipss_core.jar"/>
+	<classpathentry kind="lib" path="F:/workspace_new/ieee.odm_pss/lib/xbean.jar"/>
+	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
