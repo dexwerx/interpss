@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.vstab"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.opf"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.facts"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
+	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_pssl.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_ext.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math-2.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/spring/spring-2.5.6.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor_ui.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor_simu.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_editor.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_jgraph.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/custom/custom.plugin.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.jar"/>
+	<classpathentry kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
+	<classpathentry kind="lib" path="lib/gephi-toolkit.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
