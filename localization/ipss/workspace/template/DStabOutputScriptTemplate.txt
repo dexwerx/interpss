@@ -1,0 +1,22 @@
+<DStabOutScriptDescriptionBegin> // do not modify this line
+
+/*   available variables
+	mach.angle, mach.speed, mach.pe, mach.pm, mach.q, 
+	mach.e, mach.eq1, mach.eq11, mach.ed1, mach.ed11,
+        mach.ifd, mach.efd,
+	exc.efd, gov.pm, pss.vs,
+	bus.vmag, bus.vang, bus.pload, bus.qload
+     variables have to be group as [ machine, controller, bus, ...]
+*/
+
+@AnDStabOutputScripting (
+    filename = "c:/tmp/ipssout.csv",
+    varList = { "str.Angle(Mach@0001),  0001, mach.angle",  // display str, bus id, variable
+    		"str.Speed(Mach@0001),  0001, mach.speed",
+    		"str.Speed(Mach@0001),  0001, mach.pe",
+    		"str.Efd(Mach@0001),    0001, exc.efd",
+    		"str.PSS(Mach@0001),    0001, pss.vs",
+    		"str.Voltage(Bus@0002), 0002, bus.vmag"}
+)
+
+<DStabOutScriptDescriptionEnd> // do not modify this line

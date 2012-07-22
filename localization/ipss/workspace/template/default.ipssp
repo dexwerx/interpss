@@ -1,0 +1,28 @@
+<ipssp-1.0>
+	<items>
+		<item filename="Readme.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStabPlotScriptTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStabOutputScriptTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStabCMLExciterTemplete.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStabCMLGovernorTemplete.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStabCMLStabilizerTemplete.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStabCMLDynamicBusDeviceTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="AclfBusScriptingTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="AclfBranchScriptingTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="AcscBusScriptingTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="AcscBranchScriptingTemplate.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="RunCaseScriptsTemplate.txt" projDbId ="0" status="close">
+	</item>
+	</items>
+</ipssp-1.0>

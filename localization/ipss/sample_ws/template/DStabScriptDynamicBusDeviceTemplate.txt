@@ -1,0 +1,90 @@
+package dsl.device;
+
+import java.util.Hashtable;
+
+import org.apache.commons.math.complex.Complex;
+
+import com.interpss.common.datatype.ComplexFunc;
+import com.interpss.common.datatype.Constants;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
+import com.interpss.dstab.mach.Machine;
+
+public class <classname> extends ScriptDynamicBusDeviceImpl {
+   private Complex z1;
+
+   /**
+    * Init the device using the input object
+    * 
+    * @param abus the bus object
+    * @param net the network object
+    * @param msg the MessageHub object
+    * @return false if there is anything wrong 
+    */
+   public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
+      super.initStates(abus, net, msg);
+      // the total load on the bus is 2.0+j1.0 pu, half is treated as static load
+      // the other half is model as a Bus Device
+      Complex load = new Complex(1.0, 0.5);
+      Complex cload = load.conjugate();
+      this.z1 = ComplexFunc.div(abus.getVoltageMag()*abus.getVoltageMag(), cload);
+      abus.setZ1(z1);
+      return true;
+   }
+
+   /**
+    * Solve a step of ODE
+    * 
+    * @param dt time step
+    * @param method ODE solution method
+    * @param abus the bus object
+    * @param net the network object
+    * @param msg the MessageHub object
+    * @return false if there is anything wrong 
+    */
+   public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
+      // do nothing
+      return true;
+   }
+
+   /**
+    * Get the device output object, normally the inject cuerrent into the network 
+    * 
+    * @param abus the bus object
+    */
+   public Object getOutputObject() {
+      // half of the load is treated as an injection current
+      Complex i = getDStabBus().getVoltage().divide(this.z1);
+      return new Complex(-i.getReal(), -i.getImaginary());
+   }
+
+   /**
+    * Get the device states 
+    * 
+    * @param abus the bus object
+    * @refMach the ref machine object
+    */
+   public Hashtable getStates(Object refMach) {
+      DStabBus abus = getDStabBus();
+      Hashtable<String, Double> hashtable = new java.util.Hashtable<String, Double>();
+      hashtable.put("Bus Voltage Msg", new Double(abus.getVoltageMag()));
+      double refAngle = 0.0;
+      if (refMach != null) {
+          refAngle = ((Machine)refMach).getAngle();
+      }
+      hashtable.put("Bus Voltage Ang (deg)", 
+	               new Double((abus.getVoltageAng()-refAngle)*Constants.RtoD));
+      return hashtable;
+   }
+
+   /**
+    * update device attributes
+    * 
+    */
+   public boolean updateAttributes(boolean netChange)  {
+      return true;
+   }
+}

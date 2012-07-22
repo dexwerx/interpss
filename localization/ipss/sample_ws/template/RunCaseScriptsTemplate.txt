@@ -1,0 +1,26 @@
+package <package>;
+
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.*;
+import com.interpss.core.aclfadj.*;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.simu.ISimuCaseRunner;
+import com.interpss.simu.SimuContext;
+
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
+
+public class <classname> implements ISimuCaseRunner {
+	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
+	  	LoadflowAlgorithm algo = 
+			CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
+	  	algo.loadflow(msg);
+  		return simuCtx.getAclfAdjNet().isLfConverged();
+  	}
+  	
+	public void displayResult(SimuContext simuCtx) {
+		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+		dialog.display(simuCtx.getAclfAdjNet());
+	}
+}

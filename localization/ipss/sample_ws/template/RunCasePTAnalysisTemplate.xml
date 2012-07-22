@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipss:InterPSS xmlns:ipss="http://www.interpss.org/schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
+	<ipss:runStudyCase>
+		<ipss:analysisRunType>PowerTradingAnalysis</ipss:analysisRunType>
+		<ipss:tradingAnalysis>
+			<ipss:tradingStudyCaseList>
+				<ipss:tradingStudyCase>
+					<ipss:recId>RunPTradingCase_1</ipss:recId>
+					<ipss:recName>Run Power Trading Analysis Study Case</ipss:recName>
+					<ipss:combinedBranches>
+						<ipss:recId>idvalue1</ipss:recId>
+						<ipss:fromBusId>ipss:fromBusId</ipss:fromBusId>
+						<ipss:toBusId>ipss:toBusId</ipss:toBusId>
+					</ipss:combinedBranches>
+				</ipss:tradingStudyCase></ipss:tradingStudyCaseList></ipss:tradingAnalysis>
+	</ipss:runStudyCase>
+</ipss:InterPSS>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build_lib" name="com.interpss">
+    <target description="init setup" name="init">
+      	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
+    	
+      	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
+      	<property name="lib_ipss" value="${dev_lib}/ipss"/>
+      	<property name="lib_ieee" value="${dev_lib}/ieee"/>
+    	
+      	<property name="dev_lib.dev" value="${dev_base}/ipss.lib.dev/lib"/>
+      	<property name="lib.dev_ipss" value="${dev_lib.dev}/ipss"/>
+    	
+      	<property name="web_lib" value="${dev_base}/ipss.web/war/WEB-INF/lib"/>
+
+    	<property name="dist_base" value="C:/eclipse/GEditor"/>
+      	<property name="dist_lib" value="${dist_base}/lib"/>
+      	<property name="dist_lib.ieee" value="${dist_lib}/ieee"/>
+        <property name="dist_lib.ipss" value="${dist_lib}/ipss"/>
+    </target>
+
+	<target depends="jar_lib, copy_lib" description="buld ipss lib files" name="build_lib" />
+
+	<!-- 
+		build the ipss lib files
+	-->
+
+    <target depends="init" description="jar ipss lib files" name="jar_lib">
+    	<echo message="** build ipss lib files **"/>
+    	
+    	<!-- Core lib
+    	-->
+    	<echo message="- jar core lib files -"/>
+     	<jar destfile="${lib_ipss}/ipss_core.jar">
+     	  	<fileset dir="${dev_base}/ipss.numeric/runtime" excludes="CVS/**,model/**" />	
+     	  	<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
+  	  		<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
+      		<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
+      	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+  			<fileset dir="${dev_base}/ipss.opf_EMF/runtime" excludes="CVS/**,model/**" />
+     	  	<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
+  	  	</jar>		
+
+    	<jar destfile="${lib.dev_ipss}/ipss_dist.jar">
+      	  	<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+  	  	  	<fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
+  	  	  	<fileset dir="${dev_base}/ipss.plugin.dist/runtime" excludes="CVS/**,model/**" />	
+    	</jar>		
+
+        <jar destfile="${lib.dev_ipss}/ipss_dcsys.jar">
+        	<fileset dir="${dev_base}/ipss.dc_EMF/runtime" excludes="CVS/**,model/**" />	
+    	  	<fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
+    	  	<fileset dir="${dev_base}/ipss.plugin.dc/runtime" excludes="CVS/**,model/**" />	
+        </jar>		
+
+        <jar destfile="${lib_ipss}/ipss_ext.jar">
+     	  	<fileset dir="${dev_base}/ipss.opf/bin" excludes="CVS/**,model/**" />	
+  	  	</jar>		
+
+    	<!-- ODM -->
+    	<echo message="- jar odm lib files -"/>
+     	<jar destfile="${lib_ieee}/ieee.odm_pss.jar" 
+     	  		basedir="${dev_base}/ieee.odm_pss/runtime" excludes="CVS/**,model/**" />	
+    	
+    	<!-- Plugin lib -->
+    	<echo message="- jar plugin lib files -"/>
+   	  	<jar destfile="${lib_ipss}/ipss_plugin.jar"> 
+ 	  	  	<fileset dir="${dev_base}/ipss.plugin/runtime" excludes="CVS/**,model/**" />	
+	  	  	<fileset dir="${dev_base}/ipss.plugin.dstab/runtime" excludes="CVS/**,model/**" />	
+	  	  	<fileset dir="${dev_base}/ipss.plugin.base/bin" excludes="CVS/**,model/**" />	
+      	</jar>	
+    	
+      	<jar destfile="${lib_ipss}/ipss_plugin.grid.jar" 
+      		basedir="${dev_base}/ipss.plugin.grid/runtime" 
+      		excludes="CVS/**,model/**" />	
+
+    	<!-- App lib -->
+    	<echo message="- jar app lib files -"/>
+	  	<jar destfile="${dev_lib}/ipss.jar" 
+	  		basedir="${dev_base}/ipss/runtime" 
+	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.log" />	
+
+	  	<jar destfile="${lib_ipss}/ipss_editor.jar" 
+	  		basedir="${dev_base}/ipss.editor/runtime" 
+	  		excludes="CVS/**,model/**" />	
+
+	  	<jar destfile="${lib_ipss}/ipss_pad.jar" 
+	  		basedir="${dev_base}/ipss.editor.pad/runtime" 
+	  		excludes="CVS/**,model/**" />	
+
+     	<jar destfile="${lib_ipss}/ipss_editor_simu.jar" 
+     	  		basedir="${dev_base}/ipss.editor.simu/runtime" 
+     	  		excludes="CVS/**,model/**" />	
+
+    	<jar destfile="${lib_ipss}/ipss_xml.jar" 
+   	  		basedir="${dev_base}/ipss.xml/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+    	
+   	  	<jar destfile="${lib_ipss}/ipss_editor_ui.jar" 
+   	  		basedir="${dev_base}/ipss.editor.ui/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+
+   	  	<jar destfile="${lib_ipss}/ipss_jgraph.jar" 
+   	  		basedir="${dev_base}/ipss.editor.jgraph/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+
+   	  	<jar destfile="${lib_ipss}/tsinghua.jar" 
+   	  		basedir="${dev_base}/tsinghua/bin" 
+   	  		excludes="CVS/**,model/**" />	
+
+    	<!-- Dev -->
+	  	<jar destfile="${lib_ipss}/ipss_pssl.jar">
+   	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
+	  	</jar>	
+   	</target>
+	
+    <target depends="init" description="jar ipss lib files" name="copy_lib">
+    	<echo message="** copy ipss lib files **"/>
+    	
+    	<!-- copy to ipss.web -->
+    	<echo message="- copy lib files to ipss.web -"/>
+  	  	<copy file="${lib_ieee}/ieee.odm_pss.jar" 	todir="${web_lib}"/>
+
+    	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${web_lib}"/>
+  	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${web_lib}"/>
+  	  	<copy file="${lib_ipss}/ipss_plugin.jar" 	todir="${web_lib}"/>
+    	
+  	  	<copy file="${lib.dev_ipss}/ipss_dcsys.jar" todir="${web_lib}"/>
+  	  	<copy file="${lib.dev_ipss}/ipss_dist.jar" 	todir="${web_lib}"/>
+    	
+    	<!-- copy to GEditor -->
+    	<echo message="- copy lib files to GEditor -"/>
+  	  	<copy file="${lib_ieee}/ieee.odm_pss.jar" 	todir="${dist_lib.ieee}"/>
+
+    	<copy file="${lib_ipss}/ipss_core.jar" 		todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_ext.jar" 		todir="${dist_lib.ipss}"/>
+    	
+  	  	<copy file="${lib_ipss}/ipss_plugin.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_plugin.grid.jar" 	todir="${dist_lib.ipss}"/>
+    	
+  	  	<copy file="${lib_ipss}/ipss_editor.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_editor_ui.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_editor_simu.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_jgraph.jar" 	todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_pad.jar" 		todir="${dist_lib.ipss}"/>
+  	  	<copy file="${lib_ipss}/ipss_xml.jar" 		todir="${dist_lib.ipss}"/>
+
+    	<copy file="${dev_lib}/ipss.jar" 			todir="${dist_lib}"/>
+   	</target>
+	
+    <target depends="init" description="copy report templates to GEditor" name="copy_report_template">
+    	<copydir src="${dev_base}/ipss/reportTemplate"
+    	         dest="${dist_base}/reportTemplate"
+    	         includes="**/*.jasper"
+    	/>
+    </target>
+	
+    <target depends="init" description="copy ipss schema to GEditor" name="copyIpssSchema">
+    	<copydir src="${dev_base}/ipss.xml/schema"
+    	         dest="${dist_base}/schema"
+    	         includes="**/*.xsd"
+    	/>
+    </target>	
+	
+</project>

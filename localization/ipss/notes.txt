@@ -1,0 +1,8 @@
+To run InterPSS editor,
+
+- Check out the ipss.lib project in the trunk
+- unzip the IpssDB.zip and SampleDB.zip to the same db dir
+- run the main method of InterPSS.java, set
+   
+   program arguments = -o editor
+   VM arguments = -Xms256m -Xmx1024m 

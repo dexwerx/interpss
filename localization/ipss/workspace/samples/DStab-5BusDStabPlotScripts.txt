@@ -1,0 +1,47 @@
+package ipss.tools;
+
+import java.util.Hashtable;
+import java.util.List;
+
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.impl.ScriptToolAdapter;
+
+public class OutDStabResult2TextDialog extends ScriptToolAdapter {
+   public void outDStabResult2TextDialog(
+	   IOutputTextDialog textDialog,   // out text dialog
+	   List<String> nameList,          // variable name list
+	   List<Hashtable<String, String>> valueList  // var value list
+                  ) {  
+      // clear the text area
+      textDialog.clearTextArea();
+
+/* do not modify anything above this line */
+	 
+      // create a comma delimited names (Time, Machine Angle ...
+      String nameLine = "";
+      int cnt = 0;
+      for ( String str : nameList) {
+         nameLine += str;
+         if ( cnt++ < nameList.size()-1)
+            nameLine += ", ";
+      }
+      textDialog.appendText(nameLine + "\n");
+
+      // create comma delimited value lines
+      for ( Hashtable<String, String> table : valueList) {
+         String valueLine = "";
+         for ( int j = 0; j < nameList.size(); j++) {
+            String name = nameList.get(j);
+            valueLine += table.get(name);
+            if ( j < nameList.size()-1)
+               valueLine += ", ";
+         }
+         textDialog.appendText(valueLine + "\n");
+      }
+
+/* do not modify anything below this line   */
+
+      // show the text dialog box 
+      textDialog.showDialog();
+   }
+}

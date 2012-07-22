@@ -1,0 +1,40 @@
+<ipss:InterPSS xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd " xmlns:ipss="http://www.interpss.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ipss:runStudyCase>
+		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
+		<ipss:gridRunOption>
+			<ipss:enableGridRun>false</ipss:enableGridRun>
+		<ipss:timeout>60000</ipss:timeout><ipss:remoteNodeName>Logical Node - 1</ipss:remoteNodeName></ipss:gridRunOption>
+		<ipss:standardRun>
+		<ipss:runAclfStudyCase>
+		<ipss:aclfStudyCaseList>
+			<ipss:aclfStudyCase>
+				<ipss:recId>RunAclfCaseTest_1</ipss:recId>
+				<ipss:recName>Run Aclf Study Case-1</ipss:recName>
+				<ipss:recDesc>Desc</ipss:recDesc><ipss:aclfAlgorithm>
+				<ipss:lfMethod>NR</ipss:lfMethod>
+				<ipss:maxIterations>20</ipss:maxIterations>
+				<ipss:tolerance>0.0010</ipss:tolerance>
+				<ipss:toleranceUnit>KVA</ipss:toleranceUnit>
+				<ipss:initBusVoltage>false</ipss:initBusVoltage>
+				<ipss:displaySummary>true</ipss:displaySummary>
+                                <ipss:accFactor>0.0</ipss:accFactor>
+			   <ipss:nonDivergent>false</ipss:nonDivergent></ipss:aclfAlgorithm>
+			</ipss:aclfStudyCase>
+			<ipss:aclfStudyCase>
+				<ipss:recId>RunAclfCaseTest_2</ipss:recId>
+				<ipss:recName>Run Aclf Study Case-2</ipss:recName>
+				<ipss:recDesc/><ipss:aclfAlgorithm>
+				<ipss:lfMethod>PQ</ipss:lfMethod>
+				<ipss:maxIterations>20</ipss:maxIterations>
+				<ipss:tolerance>0.0010</ipss:tolerance>
+				<ipss:toleranceUnit>KVA</ipss:toleranceUnit>
+				<ipss:initBusVoltage>true</ipss:initBusVoltage>
+				<ipss:displaySummary>true</ipss:displaySummary>
+				<ipss:accFactor>0.0</ipss:accFactor>
+			   <ipss:nonDivergent>false</ipss:nonDivergent></ipss:aclfAlgorithm>
+			</ipss:aclfStudyCase>
+		<ipss:aclfStudyCase><ipss:recId>Run_Aclf_Study_Case-3</ipss:recId><ipss:recName>Run Aclf Study Case-3</ipss:recName><ipss:recDesc/><ipss:aclfAlgorithm><ipss:lfMethod>NR</ipss:lfMethod><ipss:maxIterations>20</ipss:maxIterations><ipss:tolerance>1.0E-4</ipss:tolerance><ipss:initBusVoltage>true</ipss:initBusVoltage><ipss:displaySummary>true</ipss:displaySummary><ipss:accFactor>1.0</ipss:accFactor><ipss:nonDivergent>true</ipss:nonDivergent></ipss:aclfAlgorithm></ipss:aclfStudyCase></ipss:aclfStudyCaseList>
+		</ipss:runAclfStudyCase>
+		</ipss:standardRun>
+	</ipss:runStudyCase>
+</ipss:InterPSS>

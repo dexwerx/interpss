@@ -1,0 +1,51 @@
+<ipss:InterPSS xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd " xmlns:ipss="http://www.interpss.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ipss:runStudyCase>
+		<ipss:analysisRunType>RunDStab</ipss:analysisRunType>
+		<ipss:standardRun>
+		<ipss:runDStabStudyCase>
+		<ipss:dStabStudyCaseList>
+		<ipss:dStabStudyCase>
+			<ipss:recId>DStabRun_1</ipss:recId>
+			<ipss:recName>Run DStab Case-1</ipss:recName>
+			<ipss:recDesc/><ipss:simuConfig>
+				<ipss:totalSimuTimeSec>10.0</ipss:totalSimuTimeSec>
+				<ipss:simuStepSec>0.01</ipss:simuStepSec>
+				<ipss:simuMethod>ModifiedEuler</ipss:simuMethod>
+				<ipss:absoluteMachAngValue>false</ipss:absoluteMachAngValue>
+				<ipss:refMachineBusId>Mach@0004</ipss:refMachineBusId>
+			</ipss:simuConfig>
+			<ipss:aclfAlgorithm>
+				<ipss:lfMethod>NR</ipss:lfMethod>
+				<ipss:maxIterations>20</ipss:maxIterations>
+				<ipss:tolerance>1.0E-4</ipss:tolerance>
+			<ipss:initBusVoltage>false</ipss:initBusVoltage><ipss:displaySummary>false</ipss:displaySummary><ipss:nonDivergent>false</ipss:nonDivergent></ipss:aclfAlgorithm>
+			<ipss:dynamicEventData>
+				<ipss:disableEvent>false</ipss:disableEvent>
+				<ipss:eventList>
+					<ipss:event>
+						<ipss:recId>Fault-0001</ipss:recId>
+						<ipss:recName>Fault@0001</ipss:recName>
+						<ipss:eventType>Fault</ipss:eventType>
+						<ipss:startTimeSec>0.0</ipss:startTimeSec>
+						<ipss:durationSec>0.1</ipss:durationSec>
+						<ipss:fault>
+							<ipss:faultType>BusFault</ipss:faultType>
+							<ipss:faultCategory>Fault_3P</ipss:faultCategory>
+							<ipss:busBranchId>Bus-1(0001)</ipss:busBranchId>
+						<ipss:zLG><ipss:re>0.0</ipss:re><ipss:im>0.0</ipss:im></ipss:zLG><ipss:zLL><ipss:re>0.0</ipss:re><ipss:im>0.0</ipss:im></ipss:zLL><ipss:distance>100.0</ipss:distance><ipss:branchReclosure>false</ipss:branchReclosure></ipss:fault>
+					<ipss:permanent>false</ipss:permanent></ipss:event>
+				</ipss:eventList>
+			</ipss:dynamicEventData>
+			<ipss:netEqnSolveConfig><ipss:netEqnItrNoEvent>3</ipss:netEqnItrNoEvent><ipss:netEqnItrWithEvent>5</ipss:netEqnItrWithEvent></ipss:netEqnSolveConfig><ipss:staticLoadModel><ipss:staticLoadType>CONST_Z</ipss:staticLoadType></ipss:staticLoadModel><ipss:outputConfig>
+				<ipss:outputFilter>false</ipss:outputFilter>
+				<ipss:outputVarList>
+					<ipss:variableName>Machine - Mach@0001</ipss:variableName>
+					<ipss:variableName>Bus - 0005</ipss:variableName>
+				</ipss:outputVarList>
+			</ipss:outputConfig>
+		<ipss:outputScripting><ipss:scripting>false</ipss:scripting></ipss:outputScripting></ipss:dStabStudyCase>
+		</ipss:dStabStudyCaseList>
+		</ipss:runDStabStudyCase>
+		</ipss:standardRun>
+	</ipss:runStudyCase>
+</ipss:InterPSS>

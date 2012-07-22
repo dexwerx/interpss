@@ -1,0 +1,39 @@
+<AclfBusScriptingClassname> {  // do not modify this line
+/*
+  // for PQ Generation Bus 
+
+   public boolean isGenPQ() { return true; }
+   public double getGenP() { return 0.0; }
+   public double getGenQ() { return 0.0; }
+*/
+
+/*
+  // for PV Generation Bus 
+
+  public boolean isGenPV() { return true; }
+  public double getGenP() { return 0.0; }
+  public double getVoltageMag() { return 1.0; }
+*/
+
+/*
+  // for Swing/Slack Generation Bus 
+
+  public boolean isSwing() { return true; }
+  public double getVoltageMag() { return 1.0; }
+  public double getVoltageAng() { return 0.0; }
+/*
+
+/*
+  // for bus load
+
+   public boolean isLoad() { return true; }
+   public double getLoadP() { return 0.0; }
+   public double getLoadQ() { return 0.0; }
+*/
+
+/*
+  // for bus shunt Y
+
+   public Complex getShuntY() { return new Complex(0.0, 0.0); }
+*/
+}

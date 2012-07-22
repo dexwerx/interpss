@@ -1,0 +1,17 @@
+<AcscBusScriptingClassname> {  // do not modify this line
+/*
+   Define Z1 for symmetric fault, Z2,Z0 for non-symmetric fault, all in PU
+*/
+   public Complex getZ1() { return new Complex(0.0, 0.0); }
+   public Complex getZ2() { return new Complex(0.0, 0.0); }
+   public Complex getZ0() { return new Complex(0.0, 0.0); }
+
+/*
+   Define bus ground, GroundCode [BusGroundCode.UNGROUNDED, BusGroundCode.SOLID_GROUNDED, BusGroundCode.ZGROUNDED]
+   For ZGround, define getGroundZ() in PU
+*/
+   public BusGroundCode getGroundCode() {
+	return BusGroundCode.SOLID_GROUNDED; }
+   public Complex getGroundZ() { return new Complex(0.0,0.0); }
+
+}

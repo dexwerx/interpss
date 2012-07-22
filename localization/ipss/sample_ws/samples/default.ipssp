@@ -1,0 +1,98 @@
+<ipssp-1.0>
+	<items>
+		<item filename="IEEE-14Bus.ipss" projDbId ="86" status="active">
+		<items>
+		<item filename="IEEE14Bus_DclfRunXmlScript.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="AclfSummary_IEEE-14Bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE14Bus_multicase.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE14Bus_multicase_N-1.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE14Bus_Protect.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE-14BusRunStudyCaseStdAclf.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE-14BusRunStudyCaseScripting.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE-14BusRunStudyCaseStdSenAnalysis.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="IEEE-14BusRunStudyCasePTradingAnalysis.xml" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="aclf-5bus.ipss" projDbId ="5" status="close">
+		<items>
+		<item filename="AclfSummary_aclf-5bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="acsc-5bus.ipss" projDbId ="6" status="close">
+		<items>
+		<item filename="Acsc3PFault_acsc-5bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="AcscNSFault_acsc-5bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="acsc-5busRunStudyCaseStdAcsc.xml" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="DStab-5Bus.ipss" projDbId ="58" status="close">
+		<items>
+		<item filename="DStab-5BusDStabPlotScripts.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStab-5BusDStabOutputScripts.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="DStab-5BusRunStudyCaseStdDStab.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="DStab-5BusRunStudyCaseScripting.xml" projDbId ="0" status="close">
+	</item>
+		<item filename="DStab-5BusRunStudyCaseStdAcsc.xml" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="PDCBook_2-11.ipss" projDbId ="7" status="close">
+	</item>
+		<item filename="PDCBook_2-12.ipss" projDbId ="8" status="close">
+		<items>
+		<item filename="AclfSummary_PDCBook_2-12.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="AclfIeeeBusStyle_PDCBook_2-12.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="Acsc3PFault_PDCBook_2-12.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="acsc-5Bus-lf.ipss" projDbId ="16" status="close">
+		<items>
+		<item filename="Acsc3PFault_acsc-5Bus-lf.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="NegativeBranchX.ipss" projDbId ="34" status="close">
+		<items>
+		<item filename="AclfIeeeBusStyle_NegativeBranchX.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="AclfSimple2Bus.ipss" projDbId ="35" status="close">
+	</item>
+		<item filename="DStab-5BusScripting.ipss" projDbId ="38" status="close">
+		<items>
+		<item filename="DStab-5BusScriptingDStabOutputScripts.txt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="seminar_KS.ipss" projDbId ="54" status="close">
+	</item>
+		<item filename="DStab-5Bus-2Line.ipss" projDbId ="59" status="close">
+		<items>
+		<item filename="DStab-5Bus-2LineDStabOutputScripts.txt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="PDCBook_2-12_MP.ipss" projDbId ="73" status="close">
+	</item>
+	</items>
+</ipssp-1.0>

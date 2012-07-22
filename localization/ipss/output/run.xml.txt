@@ -1,0 +1,32 @@
+<ipss:InterPSS xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd " xmlns:ipss="http://www.interpss.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ipss:runStudyCase>
+		<ipss:analysisRunType>RunDclf</ipss:analysisRunType>
+		<ipss:standardRun>
+		<ipss:runDclfStudyCase>
+			<ipss:dclfStudyCaseList>
+				<ipss:dclfStudyCase>
+					<ipss:recId>RunDclfCase_1</ipss:recId>
+					<ipss:recName>Run Dclf Study Case</ipss:recName>
+					<ipss:recDesc/><ipss:caculatelDclf>false</ipss:caculatelDclf>
+					<ipss:pTransferDistFactor>
+							<ipss:senType>PAngle</ipss:senType>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								
+							<ipss:injectBus><ipss:busId>1</ipss:busId></ipss:injectBus></ipss:injectBusList>
+							<ipss:withdrawBusType>SingleBus</ipss:withdrawBusType>
+							<ipss:withdrawBusList>
+								
+								
+								
+							<ipss:withdrawBus><ipss:busId>23</ipss:busId><ipss:percent>100.0</ipss:percent></ipss:withdrawBus></ipss:withdrawBusList>
+							
+							
+							
+					<ipss:branch><ipss:fromBusId>1</ipss:fromBusId><ipss:toBusId>101</ipss:toBusId><ipss:circuitNumber>1 </ipss:circuitNumber></ipss:branch><ipss:branch><ipss:fromBusId>11</ipss:fromBusId><ipss:toBusId>12</ipss:toBusId><ipss:circuitNumber>1 </ipss:circuitNumber></ipss:branch></ipss:pTransferDistFactor>
+				<ipss:areaTransferAnalysis><ipss:injectBusList><ipss:injectBus><ipss:busId>1</ipss:busId><ipss:percent>0.0</ipss:percent></ipss:injectBus><ipss:injectBus><ipss:busId>101</ipss:busId><ipss:percent>50.0</ipss:percent></ipss:injectBus><ipss:injectBus><ipss:busId>2</ipss:busId><ipss:percent>0.0</ipss:percent></ipss:injectBus></ipss:injectBusList><ipss:withdrawBusList><ipss:withdrawBus><ipss:busId>31</ipss:busId><ipss:percent>0.0</ipss:percent></ipss:withdrawBus><ipss:withdrawBus><ipss:busId>311</ipss:busId><ipss:percent>50.0</ipss:percent></ipss:withdrawBus><ipss:withdrawBus><ipss:busId>32</ipss:busId><ipss:percent>0.0</ipss:percent></ipss:withdrawBus><ipss:withdrawBus><ipss:busId>33</ipss:busId><ipss:percent>0.0</ipss:percent></ipss:withdrawBus></ipss:withdrawBusList><ipss:branch><ipss:fromBusId>1</ipss:fromBusId><ipss:toBusId>3</ipss:toBusId><ipss:circuitNumber>1 </ipss:circuitNumber></ipss:branch><ipss:transderAmountMW>0.0</ipss:transderAmountMW><ipss:fromArea><ipss:areaNo>1</ipss:areaNo></ipss:fromArea><ipss:toArea><ipss:areaNo>4</ipss:areaNo></ipss:toArea></ipss:areaTransferAnalysis></ipss:dclfStudyCase>
+			</ipss:dclfStudyCaseList>
+		</ipss:runDclfStudyCase>
+		</ipss:standardRun>
+	</ipss:runStudyCase>
+</ipss:InterPSS>

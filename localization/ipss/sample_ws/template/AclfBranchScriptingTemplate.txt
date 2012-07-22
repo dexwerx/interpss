@@ -1,0 +1,29 @@
+<AclfBranchScriptingClassname> {  // do not modify this line
+/*
+  To describe a branch using branch impedance, implement the following, all in PU:
+*/
+   public Complex yff() { return new Complex(0.0,0.0); }
+   public Complex yft() { return new Complex(0.0,0.0); }
+   public Complex ytf() { return new Complex(0.0,0.0); }
+   public Complex ytt() { return new Complex(0.0,0.0); }
+
+/*
+   // Implement the following methods, if need to use PQ method
+
+   public double b11ft() { return 0.0; }
+   public double b11tf() { return 0.0; }
+   public double b1ft() { return 0.0; }
+   public double b1ft() { return 0.0; }
+*/
+
+   public double getRatingMva1() { return 0.0; }
+   public double getRatingMva2() { return 0.0; }
+   public double getRatingMva3() { return 0.0; }
+
+/*
+   // For an electric branch, implement the following
+
+   public Complex currentIntoNetFromSide() { return new Complex(0.0,0.0); }
+   public Complex currentIntoNetToSide() { return new Complex(0.0,0.0); }
+*/
+}
