@@ -6,6 +6,9 @@ import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
+import org.interpss.core.smallz.IEEE14BusBreakerTest;
+import org.interpss.core.smallz.IEEE14BusBreaker_lf_Test;
+import org.interpss.core.smallz.SampleSwitchBreakerModelTest;
 import org.interpss.dstab.DStab_2Bus;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
 import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
@@ -26,6 +29,11 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	// small Z branch
+	SampleSwitchBreakerModelTest.class,
+	IEEE14BusBreaker_lf_Test.class,
+	IEEE14BusBreakerTest.class,
+	
 	// DStab controller building blocks
 	DelayControlBlockTests.class,
 	FilterControlBlockTests.class,
