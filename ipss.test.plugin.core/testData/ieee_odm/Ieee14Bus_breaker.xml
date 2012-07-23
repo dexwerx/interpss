@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<pssStudyCase id="ODM_StudyCase"
+<pssStudyCase id="ODM_StudyCase" schemaVersion="0.9.0"
     xmlns="http://www.ieee.org/odm/Schema/2008"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/ODMSchema.xsd ">
-    <schemaVersion>V0.9.0</schemaVersion>
     <contentInfo>
         <originalDataFormat>IEEE-CDF</originalDataFormat>
         <adapterProviderName>www.interpss.org</adapterProviderName>
@@ -11,6 +10,9 @@
     </contentInfo>
     <networkCategory>Transmission</networkCategory>
     <analysisCategory>Loadflow</analysisCategory>
+    <!--  
+       net diagram: https://drive.google.com/a/interpss.org/?tab=mo#folders/0BzjeDvtdQBeyVFBZRnN1WGFzUXc
+    -->
     <aclfNet id="Base_Case_from_IEEECDF_format">
         <nvPair>
                 <name>Date</name>
@@ -118,6 +120,21 @@
                 <voltage unit="PU" value="1.062"/>
                 <angle unit="DEG" value="-13.37"/>
             </aclfBus>
+            <aclfBus id="Bus71" offLine="false" number="7" zoneNumber="1" areaNumber="1" name="Bus 7     ZV">
+                <baseVoltage unit="KV" value="35.0"/>
+                <voltage unit="PU" value="1.062"/>
+                <angle unit="DEG" value="-13.37"/>
+            </aclfBus>
+            <aclfBus id="Bus72" offLine="false" number="7" zoneNumber="1" areaNumber="1" name="Bus 7     ZV">
+                <baseVoltage unit="KV" value="35.0"/>
+                <voltage unit="PU" value="1.062"/>
+                <angle unit="DEG" value="-13.37"/>
+            </aclfBus>
+            <aclfBus id="Bus73" offLine="false" number="7" zoneNumber="1" areaNumber="1" name="Bus 7     ZV">
+                <baseVoltage unit="KV" value="35.0"/>
+                <voltage unit="PU" value="1.062"/>
+                <angle unit="DEG" value="-13.37"/>
+            </aclfBus>                                    
             <aclfBus id="Bus8" offLine="false" number="8" zoneNumber="1" areaNumber="1" name="Bus 8     TV">
                 <baseVoltage unit="KV" value="10.0"/>
                 <voltage unit="PU" value="1.09"/>
@@ -213,6 +230,7 @@
             </aclfBus>
         </busList>        
         <branchList>
+        <!--  Zero-Z Branch -->
             <aclfLine circuitId="1" id="Bus1_to_Bus15_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus1"/>
                 <toBus idRef="Bus15"/>
@@ -229,6 +247,8 @@
                 <totalShuntY unit="PU" im="0.0528" re="0.0"/>
                 <lineInfo/>
             </aclfLine>
+
+        <!--  Zero-Z Branch -->
             <aclfLine circuitId="1" id="Bus1_to_Bus16_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus1"/>
                 <toBus idRef="Bus16"/>
@@ -286,7 +306,7 @@
             </aclfLine>
             <aclfXfr circuitId="1" id="Bus4_to_Bus7_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus4"/>
-                <toBus idRef="Bus7"/>
+                <toBus idRef="Bus73"/>
                 <z unit="PU" im="0.20912" re="0.0"/>
                 <ratingLimit/>
                 <fromTurnRatio unit="PU" value="0.978"/>
@@ -345,7 +365,7 @@
                 <lineInfo/>
             </aclfLine>
             <aclfXfr circuitId="1" id="Bus7_to_Bus8_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
-                <fromBus idRef="Bus7"/>
+                <fromBus idRef="Bus71"/>
                 <toBus idRef="Bus8"/>
                 <z unit="PU" im="0.17615" re="0.0"/>
                 <ratingLimit/>
@@ -358,7 +378,7 @@
                 </xfrInfo>
             </aclfXfr>
             <aclfXfr circuitId="1" id="Bus7_to_Bus9_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
-                <fromBus idRef="Bus7"/>
+                <fromBus idRef="Bus72"/>
                 <toBus idRef="Bus9"/>
                 <z unit="PU" im="0.11001" re="0.0"/>
                 <ratingLimit/>
@@ -370,6 +390,30 @@
                     <toRatedVoltage unit="KV" value="35.0"/>
                 </xfrInfo>
             </aclfXfr>
+        <!--  Zero-Z Branch -->
+            <aclfLine circuitId="1" id="Bus73_to_Bus7_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+                <fromBus idRef="Bus73"/>
+                <toBus idRef="Bus7"/>
+                <z unit="PU" im="0.00000001" re="0.00000001"/>
+                <ratingLimit/>
+                <lineInfo/>
+            </aclfLine>
+        <!--  Zero-Z Branch -->
+            <aclfLine circuitId="1" id="Bus72_to_Bus7_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+                <fromBus idRef="Bus72"/>
+                <toBus idRef="Bus7"/>
+                <z unit="PU" im="0.00000001" re="0.00000001"/>
+                <ratingLimit/>
+                <lineInfo/>
+            </aclfLine>
+        <!--  Zero-Z Branch -->
+            <aclfLine circuitId="1" id="Bus71_to_Bus7_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+                <fromBus idRef="Bus71"/>
+                <toBus idRef="Bus7"/>
+                <z unit="PU" im="0.00000001" re="0.00000001"/>
+                <ratingLimit/>
+                <lineInfo/>
+            </aclfLine>
             <aclfLine circuitId="1" id="Bus9_to_Bus10_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus9"/>
                 <toBus idRef="Bus10"/>
@@ -384,6 +428,7 @@
                 <ratingLimit/>
                 <lineInfo/>
             </aclfLine>
+        <!--  Zero-Z Branch -->
             <aclfLine circuitId="1" id="Bus17_to_Bus14_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus17"/>
                 <toBus idRef="Bus14"/>
@@ -412,6 +457,7 @@
                 <ratingLimit/>
                 <lineInfo/>
             </aclfLine>
+        <!--  Zero-Z Branch -->
             <aclfLine circuitId="1" id="Bus18_to_Bus14_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus18"/>
                 <toBus idRef="Bus14"/>
