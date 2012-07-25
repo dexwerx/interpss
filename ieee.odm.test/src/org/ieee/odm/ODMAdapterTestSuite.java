@@ -3,7 +3,9 @@ package org.ieee.odm;
 import org.ieee.odm.ieeecdf.IEEECDF_ODMTest;
 import org.ieee.odm.odm_xml.OdmXml_ODMTest;
 import org.ieee.odm.opf.OpfSample_3Bus_ODMTest;
+import org.ieee.odm.opf.OpfSample_3Bus_ODMTest_stephen;
 import org.ieee.odm.opf.ProcessOPFData_ODMTest;
+import org.ieee.odm.opf.matpower.OPF_Matpower_ODMTest;
 import org.ieee.odm.psse.PSSEV26_ODMTest;
 import org.ieee.odm.psse.PSSEV30_GuideSampleTest;
 import org.ieee.odm.psse.PSSEV30_NEISO_ODMTest;
@@ -43,7 +45,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	PwdAdapterTest.class,
 	
 	OpfSample_3Bus_ODMTest.class,
-	//ProcessOPFData_ODMTest.class,
+	OPF_Matpower_ODMTest.class,
+	ProcessOPFData_ODMTest.class,
+	OpfSample_3Bus_ODMTest_stephen.class,
 
 	OdmXml_ODMTest.class,
 })
