@@ -15,7 +15,7 @@ public class OpfModelParserTest {
 		if (OpfParser.parse(in)) {
 			//System.out.println(OpfParser.toXmlDoc(false));	
 			//OpfModelParser OpfParser = new OpfModelParser("testdata/opf_3bus_test.xml");
-		    OpfDclfNetworkXmlType opfNet=OpfParser.getOpfNet();
+		    OpfDclfNetworkXmlType opfNet=OpfParser.getOpfDclfNet();
 		    assertTrue(opfNet.getBusList().getBus().size()==3);
 		    assertTrue(opfNet.getAnglePenaltyFactor()==0.05);
 		    assertTrue(opfNet.getBranchList().getBranch().size()==3);
