@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:pssStudyCase xmlns="http://www.interpss.org/Schema/odm/2008" xmlns:ns2="http://www.ieee.org/odm/Schema/2008" id="ODM_StudyCase">
+    <ns2:contentInfo>
+        <ns2:originalDataFormat>OPF-Matpower</ns2:originalDataFormat>
+        <ns2:adapterProviderName>www.interpss.org</ns2:adapterProviderName>
+        <ns2:adapterProviderVersion>1.00</ns2:adapterProviderVersion>
+    </ns2:contentInfo>
+    <ns2:networkCategory>Transmission</ns2:networkCategory>
+    <ns2:analysisCategory>Loadflow</ns2:analysisCategory>
+    <ns2:aclfNet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:OpfNetworkXmlType" id="Opf_from_Matpower_case9">
+        <ns2:basePower unit="MVA" value="100.0"/>
+        <ns2:busList>
+            <ns2:aclfBus xsi:type="ns2:OpfGenBusXmlType" id="Bus1" areaNumber="1" zoneNumber="1" number="1" offLine="false" name="Bus1">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="Swing" offLine="false">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                        <ns2:desiredVoltage unit="PU" value="1.0"/>
+                        <ns2:desiredAngle unit="DEG" value="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+                <ns2:operatingMode>PVGenerator</ns2:operatingMode>
+                <ns2:incCost>
+                    <ns2:costModel>Quadratic model</ns2:costModel>
+                    <ns2:quadraticModel>
+                        <ns2:sqrCoeff value="0.11" unit="dollarPerMWSquare"/>
+                        <ns2:linCoeff value="5.0" unit="dollarPerMW"/>
+                        <ns2:constCoeff>150.0</ns2:constCoeff>
+                    </ns2:quadraticModel>
+                </ns2:incCost>
+                <ns2:constraints>
+                    <ns2:activePowerLimit unit="MW" max="250.0" min="10.0"/>
+                </ns2:constraints>
+            </ns2:aclfBus>
+            <ns2:aclfBus xsi:type="ns2:OpfGenBusXmlType" id="Bus2" areaNumber="1" zoneNumber="1" number="2" offLine="false" name="Bus2">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PV" offLine="false">
+                        <ns2:power unit="MVA" re="163.0" im="0.0"/>
+                        <ns2:desiredVoltage unit="PU" value="1.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+                <ns2:operatingMode>PVGenerator</ns2:operatingMode>
+                <ns2:incCost>
+                    <ns2:costModel>Quadratic model</ns2:costModel>
+                    <ns2:quadraticModel>
+                        <ns2:sqrCoeff value="0.085" unit="dollarPerMWSquare"/>
+                        <ns2:linCoeff value="1.2" unit="dollarPerMW"/>
+                        <ns2:constCoeff>600.0</ns2:constCoeff>
+                    </ns2:quadraticModel>
+                </ns2:incCost>
+                <ns2:constraints>
+                    <ns2:activePowerLimit unit="MW" max="300.0" min="10.0"/>
+                </ns2:constraints>
+            </ns2:aclfBus>
+            <ns2:aclfBus xsi:type="ns2:OpfGenBusXmlType" id="Bus3" areaNumber="1" zoneNumber="1" number="3" offLine="false" name="Bus3">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PV" offLine="false">
+                        <ns2:power unit="MVA" re="85.0" im="0.0"/>
+                        <ns2:desiredVoltage unit="PU" value="1.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+                <ns2:operatingMode>PVGenerator</ns2:operatingMode>
+                <ns2:incCost>
+                    <ns2:costModel>Quadratic model</ns2:costModel>
+                    <ns2:quadraticModel>
+                        <ns2:sqrCoeff value="0.1225" unit="dollarPerMWSquare"/>
+                        <ns2:linCoeff value="1.0" unit="dollarPerMW"/>
+                        <ns2:constCoeff>335.0</ns2:constCoeff>
+                    </ns2:quadraticModel>
+                </ns2:incCost>
+                <ns2:constraints>
+                    <ns2:activePowerLimit unit="MW" max="270.0" min="10.0"/>
+                </ns2:constraints>
+            </ns2:aclfBus>
+            <ns2:aclfBus id="Bus4" areaNumber="1" zoneNumber="1" number="4" offLine="false" name="Bus4">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PQ">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+            </ns2:aclfBus>
+            <ns2:aclfBus id="Bus5" areaNumber="1" zoneNumber="1" number="5" offLine="false" name="Bus5">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PQ">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+                <ns2:loadData>
+                    <ns2:equivLoad code="CONST_P">
+                        <ns2:constPLoad unit="MVA" re="90.0" im="30.0"/>
+                    </ns2:equivLoad>
+                </ns2:loadData>
+            </ns2:aclfBus>
+            <ns2:aclfBus id="Bus6" areaNumber="1" zoneNumber="1" number="6" offLine="false" name="Bus6">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PQ">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+            </ns2:aclfBus>
+            <ns2:aclfBus id="Bus7" areaNumber="1" zoneNumber="1" number="7" offLine="false" name="Bus7">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PQ">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+                <ns2:loadData>
+                    <ns2:equivLoad code="CONST_P">
+                        <ns2:constPLoad unit="MVA" re="100.0" im="35.0"/>
+                    </ns2:equivLoad>
+                </ns2:loadData>
+            </ns2:aclfBus>
+            <ns2:aclfBus id="Bus8" areaNumber="1" zoneNumber="1" number="8" offLine="false" name="Bus8">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PQ">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+            </ns2:aclfBus>
+            <ns2:aclfBus id="Bus9" areaNumber="1" zoneNumber="1" number="9" offLine="false" name="Bus9">
+                <ns2:baseVoltage unit="KV" value="345.0"/>
+                <ns2:voltage unit="PU" value="1.0"/>
+                <ns2:angle unit="DEG" value="0.0"/>
+                <ns2:genData>
+                    <ns2:equivGen code="PQ">
+                        <ns2:power unit="MVA" re="0.0" im="0.0"/>
+                    </ns2:equivGen>
+                </ns2:genData>
+                <ns2:loadData>
+                    <ns2:equivLoad code="CONST_P">
+                        <ns2:constPLoad unit="MVA" re="125.0" im="50.0"/>
+                    </ns2:equivLoad>
+                </ns2:loadData>
+            </ns2:aclfBus>
+        </ns2:busList>
+        <ns2:branchList>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus1_to_Bus4_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus1"/>
+                <ns2:toBus idRef="Bus4"/>
+                <ns2:z unit="PU" re="0.0" im="0.0576"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="250.0" rating2="250.0" rating3="250.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus4_to_Bus5_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus4"/>
+                <ns2:toBus idRef="Bus5"/>
+                <ns2:z unit="PU" re="0.017" im="0.092"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="250.0" rating2="250.0" rating3="250.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus5_to_Bus6_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus5"/>
+                <ns2:toBus idRef="Bus6"/>
+                <ns2:z unit="PU" re="0.039" im="0.17"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="150.0" rating2="150.0" rating3="150.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus3_to_Bus6_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus3"/>
+                <ns2:toBus idRef="Bus6"/>
+                <ns2:z unit="PU" re="0.0" im="0.0586"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="300.0" rating2="300.0" rating3="300.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus6_to_Bus7_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus6"/>
+                <ns2:toBus idRef="Bus7"/>
+                <ns2:z unit="PU" re="0.0119" im="0.1008"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="150.0" rating2="150.0" rating3="150.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus7_to_Bus8_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus7"/>
+                <ns2:toBus idRef="Bus8"/>
+                <ns2:z unit="PU" re="0.0085" im="0.072"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="250.0" rating2="250.0" rating3="250.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus8_to_Bus2_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus8"/>
+                <ns2:toBus idRef="Bus2"/>
+                <ns2:z unit="PU" re="0.0" im="0.0625"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="250.0" rating2="250.0" rating3="250.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus8_to_Bus9_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus8"/>
+                <ns2:toBus idRef="Bus9"/>
+                <ns2:z unit="PU" re="0.032" im="0.161"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="250.0" rating2="250.0" rating3="250.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+            <ns2:aclfLine xsi:type="ns2:OpfBranchXmlType" circuitId="1" id="Bus9_to_Bus4_cirId_1" areaNumber="1" zoneNumber="1" offLine="false">
+                <ns2:fromBus idRef="Bus9"/>
+                <ns2:toBus idRef="Bus4"/>
+                <ns2:z unit="PU" re="0.01" im="0.085"/>
+                <ns2:ratingLimit>
+                    <ns2:mw unit="MW" rating1="250.0" rating2="250.0" rating3="250.0"/>
+                </ns2:ratingLimit>
+                <ns2:lineInfo/>
+            </ns2:aclfLine>
+        </ns2:branchList>
+        <ns2:anglePenaltyFactor>0.0</ns2:anglePenaltyFactor>
+    </ns2:aclfNet>
+</ns2:pssStudyCase>
