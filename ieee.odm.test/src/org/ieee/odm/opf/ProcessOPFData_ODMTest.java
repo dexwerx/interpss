@@ -52,7 +52,7 @@ public class ProcessOPFData_ODMTest {
  */
 		
 		File file = new File("testdata/ieee_odm/Ieee14Bus_opf.xml");
-		OpfModelParser parser = new OpfModelParser();
+		OpfModelParser parser = new OpfModelParser(OpfModelParser.OpfNetType.DclfOpf);
 		parser.parse(new FileInputStream(file));
 		//System.out.println(parser.toXmlDoc(false));
 		assertTrue(parser.getAclfNet().getBasePower().getValue() == 100.0);
