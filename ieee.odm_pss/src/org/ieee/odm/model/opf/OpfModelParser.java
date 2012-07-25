@@ -26,11 +26,11 @@ package org.ieee.odm.model.opf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.schema.ActivePowerLimitXmlType;
-import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseOpfNetworkXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
@@ -184,12 +184,35 @@ public class OpfModelParser extends AclfModelParser {
 	//	return odmObjFactory.createActivePowerLimitXmlType();
 	//}
 	
-	public OpfBranchXmlType createOpfBranch(String fromId, String toId, String cirId) throws ODMException {
+	public OpfBranchXmlType createOpfBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
 		OpfBranchXmlType branch =  createOpfBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
 	
+	/**
+	 * For situations, where cirNomber is not defined
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @return
+	 */
+	public OpfBranchXmlType createOpfBranch(String fromId, String toId) {
+		OpfBranchXmlType branch =  createOpfBranch();
+		int cirNo = 1;
+		boolean done = false;
+		while(!done) {
+			try {
+				addBranch2BaseCase(branch, fromId, toId, null, new Integer(cirNo).toString());
+				done = true;
+			} catch (ODMBranchDuplicationException e) {
+				cirNo++;
+				ODMLogger.getLogger().info("Branch " + fromId + " is a parallel branch, cirId set to " + cirNo);
+			}
+		}
+		return branch;
+	}
+
 	public OpfNetworkXmlType getOpfNetwork(){
 		return (OpfNetworkXmlType) getBaseCase();
 	}

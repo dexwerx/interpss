@@ -29,6 +29,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -242,7 +243,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws ODMException {
+	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
 		LineBranchXmlType branch = createLineBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
@@ -254,12 +255,12 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws ODMException {
+	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
 		XfrBranchXmlType branch = createXfrBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMException {
+	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMBranchDuplicationException {
 		Xfr3WBranchXmlType branch = createXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
 		return branch;
@@ -271,12 +272,12 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws ODMException {
+	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
 		PSXfrBranchXmlType branch = createPSXfrBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
-	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMException {
+	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMBranchDuplicationException {
 		PSXfr3WBranchXmlType branch = createPSXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
 		return branch;

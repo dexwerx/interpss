@@ -71,7 +71,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 		int gencnt = 0;
 		// Matpower does not specify cirId for parallel lines
 		// Here cirId is used for this purpose
-		int cirId = 1;
+		//int cirId = 1;
 		do {
 			str = din.readLine(); // kvaBase
 			if (str != null) {
@@ -90,7 +90,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 					} else if (dataType == GenData) {
 						processGenData(str, parser);
 					} else if (dataType == BranchData) {
-						processBranchData(str, cirId++, parser);
+						processBranchData(str, /*cirId++,*/ parser);
 					} else if (dataType == AreaData) {
 						// TODO: Not implemented yet.
 						// processAreaData(str, parser);
@@ -276,7 +276,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 
 	}
 
-	private void processBranchData(final String str, int cirId,OpfModelParser parser) {
+	private void processBranchData(final String str, /*int cirId,*/ OpfModelParser parser) {
 		// parse the input data line
 		final String[] s = getBranchDataFields(str);
 		final String fid = AbstractModelParser.BusIdPreFix + s[0];
@@ -284,7 +284,9 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 
 		OpfBranchXmlType opfBra = null;
 		try {
-			opfBra = parser.createOpfBranch(fid, tid, Integer.toString(cirId));
+			// MapPower does not have branch cirId defined. It will be auto set in the 
+			// branch creation process
+			opfBra = parser.createOpfBranch(fid, tid);
 		} catch (Exception e) {
 			this.logErr("branch data error, " + e.toString());
 		}

@@ -27,6 +27,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.text.NumberFormat;
 
+import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -83,7 +84,7 @@ public class BPAXfrBranchRecord {
 		try {
 			branchRec = dataType == transformer ?
 								parser.createXfrBranch(fid, tid, cirId) : parser.createPSXfrBranch(fid, tid, cirId);
-		} catch (ODMException e) {
+		} catch (ODMBranchDuplicationException e) {
 			ODMLogger.getLogger().severe("branch data error, " + e.toString()+ 
 					"  " + fname + "->" + tname + "_" + cirId);
 			return;

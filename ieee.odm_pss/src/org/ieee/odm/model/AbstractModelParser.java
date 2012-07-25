@@ -25,7 +25,7 @@
 package org.ieee.odm.model;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-import static org.ieee.odm.model.base.ModelContansts.*;
+import static org.ieee.odm.model.base.ModelContansts.ODM_Schema_NS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -42,6 +42,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -430,12 +431,12 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		branch.setZoneNumber(1);
 	}
 	
-	protected void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws ODMException {
+	protected void addBranch2BaseCase(BaseBranchXmlType branch, String fromId, String toId, String tertId, String cirId)  throws ODMBranchDuplicationException {
 		String id = tertId == null ?
 				ModelStringUtil.formBranchId(fromId, toId, cirId) : ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		if (this.objectCache.get(id) != null ||
 				this.objectCache.get(ModelStringUtil.formBranchId(toId, fromId, cirId)) != null) {
-			throw new ODMException("Branch record duplication, bus id: " + id);
+			throw new ODMBranchDuplicationException("Branch record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, branch);		
 		branch.setCircuitId(cirId);
