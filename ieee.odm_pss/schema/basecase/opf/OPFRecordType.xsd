@@ -87,7 +87,10 @@
 		<ns:complexContent>
 			<ns:extension base="pss:LoadflowBusXmlType">
 				<ns:sequence>
-                    <ns:element name="operatingMode" type="pss:OpfGenOperatingModeEnumType" maxOccurs="1" minOccurs="1"></ns:element>
+					<ns:element name="operatingMode"
+						type="pss:OpfGenOperatingModeEnumType" maxOccurs="1"
+						minOccurs="1">
+					</ns:element>
 					<ns:element name="incCost" type="pss:IncCostXmlType"
 						maxOccurs="1" minOccurs="1">
 					</ns:element>
@@ -150,10 +153,10 @@
     
     <ns:complexType name="quadraticModelXmlType">
     	<ns:sequence>
-    		<ns:element name="sqrCoeff" type="ns:double" maxOccurs="1"
+    		<ns:element name="sqrCoeff" type="pss:sqrCoeffXmlType" maxOccurs="1"
     			minOccurs="1">
     		</ns:element>
-    		<ns:element name="linCoeff" type="ns:double" maxOccurs="1"
+    		<ns:element name="linCoeff" type="pss:linCoeffXmlType" maxOccurs="1"
     			minOccurs="1">
     		</ns:element>
     		<ns:element name="constCoeff" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
@@ -261,4 +264,24 @@
 		</ns:complexContent>
 	</ns:complexType>
     
+
+    <ns:complexType name="sqrCoeffXmlType">
+    	<ns:attribute name="value" type="ns:double"></ns:attribute>
+    	<ns:attribute name="unit" type="pss:ActivePowerPriceEnumType"></ns:attribute>
+    </ns:complexType>
+
+    <ns:complexType name="linCoeffXmlType">
+    	<ns:attribute name="value" type="ns:double"></ns:attribute>
+    	<ns:attribute name="unit" type="pss:ActivePowerPriceEnumType"></ns:attribute>
+    </ns:complexType>
+
+    <ns:simpleType name="ActivePowerPriceEnumType">    		
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="dollarPerMW"></ns:enumeration>
+			<ns:enumeration value="dollarPerKW"></ns:enumeration>
+			<ns:enumeration value="dollarPerMWSquare"></ns:enumeration>
+			<ns:enumeration value="dollarPerKWSquare"></ns:enumeration>
+		</ns:restriction>	
+    </ns:simpleType>
+
 </ns:schema>
