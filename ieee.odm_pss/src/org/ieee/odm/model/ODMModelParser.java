@@ -75,7 +75,7 @@ public class ODMModelParser extends AbstractModelParser {
 	}
 
 	public OpfModelParser toOpfModelParser() {
-		return (OpfModelParser)copyTo(new OpfModelParser());
+		return (OpfModelParser)copyTo(new OpfModelParser(OpfModelParser.OpfNetType.OPF));
 	}
 	
 	private AbstractModelParser copyTo(AbstractModelParser parser) {

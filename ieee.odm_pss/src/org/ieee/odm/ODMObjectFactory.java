@@ -69,7 +69,7 @@ public class ODMObjectFactory {
 	}
 	
 	public static OpfModelParser createOpfModelParser() {
-		OpfModelParser parser = new OpfModelParser();
+		OpfModelParser parser = new OpfModelParser(OpfModelParser.OpfNetType.OPF);
 		return parser;
 	}
 
