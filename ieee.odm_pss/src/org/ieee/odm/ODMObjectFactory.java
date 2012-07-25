@@ -28,6 +28,7 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.odm.adapter.opf.matpower.OpfMatpowerAdapter;
 import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
@@ -81,7 +82,7 @@ public class ODMObjectFactory {
 	public static AcscModelParser createAcscModelParser() {
 		AcscModelParser parser = new AcscModelParser();
 		return parser;
-	}
+	}	
 	
 	public static IODMAdapter createODMAdapter(ODMFileFormatEnum f) throws ODMException {
 		if ( f == ODMFileFormatEnum.IeeeCDF ) 
@@ -98,6 +99,8 @@ public class ODMObjectFactory {
 			return new BPAAdapter();
 		else if ( f == ODMFileFormatEnum.PWD ) 
 			return new PowerWorldAdapter();
+		else if ( f == ODMFileFormatEnum.MatPower ) 
+			return new OpfMatpowerAdapter();
 		
 		throw new ODMException("Error - unkown ODM file type");
 	}

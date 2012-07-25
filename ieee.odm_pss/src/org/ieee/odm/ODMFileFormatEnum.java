@@ -37,5 +37,6 @@ public enum ODMFileFormatEnum {
 	PsseV26, 
 	PsseV30, 
 	BPA,
-	PWD
+	PWD,
+	MatPower
 }
