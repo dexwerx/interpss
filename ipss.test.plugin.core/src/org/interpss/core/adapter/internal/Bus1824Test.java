@@ -35,7 +35,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.simu.SimuContext;
 
 public class Bus1824Test extends CorePluginTestSetup {
 	@Test

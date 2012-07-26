@@ -26,7 +26,7 @@ package org.interpss.core.smallz;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.algo.ZeroZBranchProcesor;
 import org.interpss.display.AclfOutFunc;

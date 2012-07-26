@@ -24,12 +24,8 @@
 
 package org.interpss.core.adapter.psse;
 
-import org.interpss.CorePluginObjFactory;
 import org.interpss.CorePluginTestSetup;
-import org.interpss.fadapter.IpssFileAdapter;
 import org.junit.Test;
-
-import com.interpss.simu.SimuContext;
 
 public class Ver30_3_TestCases extends CorePluginTestSetup {
 	@Test

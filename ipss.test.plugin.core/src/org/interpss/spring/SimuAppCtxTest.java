@@ -26,7 +26,7 @@ package org.interpss.spring;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.TestUtilFunc;

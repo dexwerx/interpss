@@ -26,11 +26,12 @@ package org.interpss.core.sparse;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.linear.LUDecomposition;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.OpenMapRealMatrix;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.SparseRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.OpenMapRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SparseRealMatrix;
 import org.interpss.CorePluginObjFactory;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
@@ -59,8 +60,8 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 
 	  	System.out.println("Common Math ... ");
 		long starttime = System.currentTimeMillis() ;
-		LUDecomposition lu = new LUDecompositionImpl(m);
-		double[] result = lu.getSolver().solve(b);
+		LUDecomposition lu = new LUDecomposition(m);
+		RealVector result = lu.getSolver().solve(new ArrayRealVector(b));
 	  	System.out.println("time for full matrix : " + (System.currentTimeMillis() - starttime)*0.001);
 		
 //		int cnt = 0;
@@ -82,8 +83,8 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 			Vector_xy xy = eqn.getX(i+1);
 			//System.out.println(cnt++ + ", " + xy.x);
 			//System.out.println(cnt++ + ", " + xy.y);
-	  		assertTrue(Math.abs(result[cnt++] - xy.x ) < 0.0001);
-	  		assertTrue(Math.abs(result[cnt++] - xy.y ) < 0.0001);
+	  		assertTrue(Math.abs(result.getEntry(cnt++) - xy.x ) < 0.0001);
+	  		assertTrue(Math.abs(result.getEntry(cnt++) - xy.y ) < 0.0001);
 		}
 		
 		/*

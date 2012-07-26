@@ -26,7 +26,7 @@ package org.interpss.dstab;
 
 import java.util.logging.Level;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.numeric.NumericConstant;
 
@@ -38,11 +38,8 @@ import com.interpss.core.acsc.fault.AcscBusFault;
 import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
-import com.interpss.dstab.mach.Machine;
-import com.interpss.simu.SimuContext;
 import com.interpss.spring.CoreCommonSpringFactory;
 
 public class DStabTestSetupBase extends CorePluginTestSetup {
