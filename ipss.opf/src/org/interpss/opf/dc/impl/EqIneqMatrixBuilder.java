@@ -29,9 +29,9 @@ package org.interpss.opf.dc.impl;
  * to feed into the QuafProgCalculator for DC-OPF calculation
  */
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealMatrix;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.net.Branch;
@@ -137,7 +137,7 @@ public class EqIneqMatrixBuilder {
 		int numOfGen = opfNet.getNoOfGen(),
 				numOfBus = opfNet.getNoActiveBus();
 		ArrayRealVector A = new ArrayRealVector(numOfGen + numOfBus - 1);
-		A.set(0, getGenCoeffAVector());
+		A.setSubVector(0, getGenCoeffAVector());
 		return A;
 	}
 		
@@ -263,10 +263,10 @@ public class EqIneqMatrixBuilder {
 		ArrayRealVector b_Pmin = formGenInequConstraintPmin();
 
 		ArrayRealVector biq = new ArrayRealVector(numOfBranch * 2 + numOfGen * 2);
-		biq.set(0, bt);
-		biq.set(numOfBranch, bt);
-		biq.set(numOfBranch * 2, b_Pmin);
-		biq.set(numOfGen + numOfBranch * 2, b_Pmax);
+		biq.setSubVector(0, bt);
+		biq.setSubVector(numOfBranch, bt);
+		biq.setSubVector(numOfBranch * 2, b_Pmin);
+		biq.setSubVector(numOfGen + numOfBranch * 2, b_Pmax);
 		return biq;
 	}
 
