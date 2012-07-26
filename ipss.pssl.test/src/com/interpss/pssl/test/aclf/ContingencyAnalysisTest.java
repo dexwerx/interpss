@@ -25,7 +25,7 @@
 package com.interpss.pssl.test.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-import static org.ieee.odm.model.base.BaseDataSetter.*;
+import static org.ieee.odm.model.base.BaseDataSetter.createApparentPower;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;

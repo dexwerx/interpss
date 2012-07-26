@@ -27,7 +27,7 @@ package com.interpss.pssl.test.dist;
 import static org.interpss.CorePluginFunction.AclfResultBusStyle;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 

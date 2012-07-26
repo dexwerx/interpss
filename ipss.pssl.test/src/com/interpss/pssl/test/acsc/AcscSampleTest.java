@@ -27,7 +27,7 @@ package com.interpss.pssl.test.acsc;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AcscBusFaultXmlType;

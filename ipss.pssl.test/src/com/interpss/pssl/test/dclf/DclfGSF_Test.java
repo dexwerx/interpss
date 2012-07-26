@@ -28,8 +28,8 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
