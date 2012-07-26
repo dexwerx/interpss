@@ -29,7 +29,7 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;

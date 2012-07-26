@@ -25,13 +25,14 @@
 package org.interpss.mapper.odm.impl.acsc;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
-import static com.interpss.core.funcImpl.AcscFunction.*;
+import static com.interpss.core.funcImpl.AcscFunction.AcscLineAptr;
+import static com.interpss.core.funcImpl.AcscFunction.AcscXfrAptr;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import javax.xml.bind.JAXBElement;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;

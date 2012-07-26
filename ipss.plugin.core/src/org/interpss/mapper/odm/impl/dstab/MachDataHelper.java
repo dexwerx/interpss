@@ -27,7 +27,7 @@ package org.interpss.mapper.odm.impl.dstab;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.schema.ActivePowerXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;

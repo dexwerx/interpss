@@ -31,7 +31,7 @@ package org.interpss.mapper.odm.impl.acsc;
 
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.AcscBaseFaultXmlType;
 import org.ieee.odm.schema.AcscBranchFaultXmlType;

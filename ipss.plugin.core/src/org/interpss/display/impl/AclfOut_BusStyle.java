@@ -29,7 +29,7 @@ import static com.interpss.dc.DcPluginFunction.OutputSolarNet;
 import static org.interpss.CorePluginFunction.FormatKVStr;
 import static org.interpss.CorePluginFunction.OutputBusId;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;

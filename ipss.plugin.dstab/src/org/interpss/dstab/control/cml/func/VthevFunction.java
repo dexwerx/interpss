@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 
 import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 

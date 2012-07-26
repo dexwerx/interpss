@@ -26,7 +26,7 @@ package org.interpss.dstab.control.exc.ieee.y1968.type3;
 
 import java.lang.reflect.Field;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.numeric.datatype.LimitType;
