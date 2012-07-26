@@ -26,7 +26,7 @@ package org.interpss.editor.form;
 
 import java.util.Vector;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.editor.data.aclf.AclfBusData;
 import org.interpss.editor.data.acsc.AcscBusData;
 import org.interpss.editor.data.acsc.AcscNetData;

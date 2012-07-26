@@ -26,7 +26,7 @@ package org.interpss.mapper.runCase.dep;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.xml.IpssXmlHelper;
 import org.interpss.xml.schema.AclfAlgorithmXmlType;
@@ -42,7 +42,6 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;

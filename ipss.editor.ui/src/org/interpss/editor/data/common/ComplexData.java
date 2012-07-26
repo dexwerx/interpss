@@ -24,7 +24,7 @@
 
 package org.interpss.editor.data.common;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.db.BaseDataBean;
 
 /**

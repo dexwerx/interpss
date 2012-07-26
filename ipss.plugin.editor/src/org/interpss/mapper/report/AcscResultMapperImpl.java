@@ -27,7 +27,7 @@ package org.interpss.mapper.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.complex.ComplexFormat;
+import org.apache.commons.math3.complex.ComplexFormat;
 import org.eclipse.emf.common.util.EList;
 import org.interpss.numeric.datatype.Complex3x1;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -60,9 +60,9 @@ public class AcscResultMapperImpl {
 			bean.setBusName(fBranch.getFaultBranch().getName());
 			bean.setFaultType("BranchFault");
 			bean.setFaultCode(fBranch.getFaultCode().toString());
-			bean.setFaultAmpspu(ComplexFormat.formatComplex(fBranch
+			bean.setFaultAmpspu(new ComplexFormat().format(fBranch
 					.getFaultResult().getSCCurrent_012().b_1));
-			bean.setFaultAmps(ComplexFormat.formatComplex(fBranch
+			bean.setFaultAmps(new ComplexFormat().format(fBranch
 					.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV,
 							baseKVA).b_1));
 			bean.setFaultDistance(Number2String.toStr("##0.0", fBranch
@@ -76,9 +76,9 @@ public class AcscResultMapperImpl {
 			bean.setBusName(fBus.getAcscBus().getName());
 			bean.setFaultType("BusFault");
 			bean.setFaultCode(fBus.getFaultCode().toString());
-			bean.setFaultAmpspu(ComplexFormat.formatComplex(fBus
+			bean.setFaultAmpspu(new ComplexFormat().format(fBus
 					.getFaultResult().getSCCurrent_012().b_1));
-			bean.setFaultAmps(ComplexFormat.formatComplex(fBus.getFaultResult()
+			bean.setFaultAmps(new ComplexFormat().format(fBus.getFaultResult()
 					.getSCCurrent_012(UnitType.Amp, baseV, baseKVA).b_1));
 			bean.setFaultDistance(" ");
 		}

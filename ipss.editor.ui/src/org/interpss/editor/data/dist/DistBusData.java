@@ -31,7 +31,7 @@ package org.interpss.editor.data.dist;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.common.ComplexData;
 import org.interpss.editor.data.common.GroundData;

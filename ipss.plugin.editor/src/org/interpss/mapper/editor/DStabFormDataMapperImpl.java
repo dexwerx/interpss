@@ -29,7 +29,7 @@ import static com.interpss.core.funcImpl.AcscFunction.Str2ScGroundCode;
 
 import java.util.List;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.db.BaseDataBean;
 import org.interpss.dstab.device.ScriptDynamicBusDeviceHolder;
 import org.interpss.editor.data.dstab.DStabBusData;

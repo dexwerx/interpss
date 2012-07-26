@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;

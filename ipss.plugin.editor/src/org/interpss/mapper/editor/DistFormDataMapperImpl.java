@@ -29,11 +29,11 @@ package org.interpss.mapper.editor;
  * object to an AcscAdjNetwork simu object.
  */
 
-import static com.interpss.core.funcImpl.AcscFunction.*;
+import static com.interpss.core.funcImpl.AcscFunction.Str2ScGroundCode;
 
 import java.util.List;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.editor.data.common.GroundData;
 import org.interpss.editor.data.common.ScPointData;
 import org.interpss.editor.data.common.XfrConnectData;
@@ -52,7 +52,6 @@ import com.interpss.DistObjectFactory;
 import com.interpss.common.mapper.AbstractMapping;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.XFormerConnectCode;
-import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.dist.DistBranch;
 import com.interpss.dist.DistBranchCode;
 import com.interpss.dist.DistBus;

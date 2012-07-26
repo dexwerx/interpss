@@ -26,7 +26,7 @@ package org.interpss.mapper.editor;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.db.BaseDataBean;
 import org.interpss.editor.data.aclf.AclfAdjBranchData;
 import org.interpss.editor.data.aclf.AclfAdjBusData;

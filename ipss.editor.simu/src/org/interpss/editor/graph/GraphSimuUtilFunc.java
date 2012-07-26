@@ -24,7 +24,7 @@
 
 package org.interpss.editor.graph;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.editor.form.base.BaseBranchForm;
 import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import org.interpss.editor.jgraph.cells.BranchEdge;

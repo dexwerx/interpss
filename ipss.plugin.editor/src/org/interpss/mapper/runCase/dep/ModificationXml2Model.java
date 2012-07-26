@@ -26,7 +26,7 @@ package org.interpss.mapper.runCase.dep;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.xml.IpssXmlHelper;

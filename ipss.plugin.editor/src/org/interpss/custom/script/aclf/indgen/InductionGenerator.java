@@ -26,7 +26,7 @@ package org.interpss.custom.script.aclf.indgen;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.custom.script.aclf.AbstractAclfBusScriptEditing;
 import org.interpss.numeric.NumericConstant;
 
