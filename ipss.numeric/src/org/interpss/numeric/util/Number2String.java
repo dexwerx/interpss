@@ -26,7 +26,7 @@ package org.interpss.numeric.util;
 
 import java.text.DecimalFormat;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 
 /**
  * Num2Str class is for formated output. It is based on the DicimalFormat class.

@@ -26,7 +26,7 @@ package test.org.interpss;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.numeric.datatype.ComplexFunc;
 import org.junit.Test;
 

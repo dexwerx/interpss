@@ -24,9 +24,9 @@
 
 package test.org.interpss;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class RealMatrixTest {
 		System.out.println(p.getColumnDimension()); // 2
 
 		// Invert p, using LU decomposition
-		RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
+		RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
 		System.out.println(pInverse.toString()); 
 		
   		//assertTrue(NumericUtil.equals(eqn.getXi(4), 2.8 ));

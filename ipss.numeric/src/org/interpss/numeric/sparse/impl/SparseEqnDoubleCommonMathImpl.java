@@ -24,10 +24,11 @@
 
 package org.interpss.numeric.sparse.impl;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.LUDecomposition;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.interpss.numeric.sparse.base.AbstractSparseEqnDouble;
 
 /**
@@ -37,8 +38,8 @@ import org.interpss.numeric.sparse.base.AbstractSparseEqnDouble;
 
 public class SparseEqnDoubleCommonMathImpl extends AbstractSparseEqnDouble {
 	RealMatrix A = null;
-	double[] B = null;
-	double[] X = null;
+	RealVector B = null;
+	RealVector X = null;
 	
 	public SparseEqnDoubleCommonMathImpl() {
 	}
@@ -51,7 +52,7 @@ public class SparseEqnDoubleCommonMathImpl extends AbstractSparseEqnDouble {
 	public void setDimension(int n) {
 		super.setDimension(n);
 		this.A = new Array2DRowRealMatrix( n, n );
-		this.B = new double[n];
+		this.B = new ArrayRealVector(n);
 	}
 	
 	@Override
@@ -72,22 +73,22 @@ public class SparseEqnDoubleCommonMathImpl extends AbstractSparseEqnDouble {
 
 	@Override
 	public double getXi( final int i ) {
-		return this.X[i];
+		return this.X.getEntry(i);
 	}
 	
 	@Override
 	public void setBi( final double bi, final int i ) {
-		this.B[i] = bi;
+		this.B.setEntry(i, bi);
 	}
 
 	@Override
 	public void addToBi( final double bi, final int i ) {
-		this.B[i] += bi;
+		this.B.setEntry(i, bi+this.B.getEntry(i));
 	}
 	
 	@Override
 	public void solveEqn() {
-		LUDecomposition lu = new LUDecompositionImpl(A);
+		LUDecomposition lu = new LUDecomposition(A);
 		this.X = lu.getSolver().solve(B);
 	}
 }

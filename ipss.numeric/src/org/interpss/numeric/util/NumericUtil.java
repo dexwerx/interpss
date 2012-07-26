@@ -24,7 +24,7 @@
 
 package org.interpss.numeric.util;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 
 public class NumericUtil {
 	private static final double ERR = 1.0e-10;

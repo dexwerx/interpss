@@ -24,7 +24,7 @@
 
 package org.interpss.numeric.datatype;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 
 /**
  * Data structure class for manipulating 2x1 [d,q] vector

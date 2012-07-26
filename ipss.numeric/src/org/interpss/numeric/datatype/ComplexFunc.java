@@ -24,7 +24,7 @@
 
 package org.interpss.numeric.datatype;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.numeric.util.Number2String;
 
 /**
