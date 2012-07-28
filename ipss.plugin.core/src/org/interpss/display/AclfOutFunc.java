@@ -211,7 +211,7 @@ public class AclfOutFunc {
 		if (bus.isActive())
 			str.append("  ");
 		else
-			str.append("x ");
+			str.append("- ");
 		str.append(String.format("%-12s ", OutputBusId.f(bus, bus.getNetwork().getOriginalDataFormat())));
 		str.append(String.format("%-17s ", bus.code2String()));
 		str.append(String.format("%10.5f   ", bus.getVoltageMag(UnitType.PU)));

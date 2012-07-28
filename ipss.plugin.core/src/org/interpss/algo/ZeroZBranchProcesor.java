@@ -124,16 +124,39 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 * @return
 	 */
 	private Bus selectParentBus(List<Bus> busList) {
-	  	for (Bus b : busList) {
+	  	// first select Swing or PV
+		for (Bus b : busList) {
 	  		AclfBus bus = (AclfBus)b;
 	  		// if the bus is a gen/load bus
-	  		if (!bus.isNonContribute())
-	  			return b;
-	  		// if the bus has three or more zero Z branch connected.
-	  		else if (bus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE) > 2)
+	  		if (bus.isSwing() || bus.isGenPV())
 	  			return b;
 	  	}
-	  	// at the end, the first bus in the list is selected
-		return busList.get(0);
+		// next select PQ bus
+		for (Bus b : busList) {
+	  		AclfBus bus = (AclfBus)b;
+	  		// if the bus is a gen/load bus
+	  		if (bus.isGenPQ())
+	  			return b;
+	  	}
+	  	// then select Load bus
+		for (Bus b : busList) {
+	  		AclfBus bus = (AclfBus)b;
+	  		// if the bus is a gen/load bus
+	  		if (bus.isLoad())
+	  			return b;
+	  	}
+	  	// at the end, select bus with largest zero-z branches
+		Bus bus = busList.get(0);
+		int cnt = 0;
+		for (Bus b : busList) {
+	  		AclfBus aclfBus = (AclfBus)b;
+	  		// if the bus is a gen/load bus
+	  		if (aclfBus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE) > cnt) {
+	  			bus = b;
+	  			cnt = aclfBus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE);
+	  		}
+	  	}
+		
+		return bus;
 	}
 }
