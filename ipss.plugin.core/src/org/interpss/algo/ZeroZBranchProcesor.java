@@ -43,6 +43,7 @@ import com.interpss.core.net.Bus;
  */
 public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	private double threshold = 0.00001;
+	private boolean allowZeroZBranchLoop = false;
 	
 	/**
 	 * constructor 
@@ -53,6 +54,16 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		this.threshold = threshold;
 	}
 
+	/**
+	 * constructor 
+	 * 
+	 * @param threshold zero impedance is define as abs(Z) < threshold 
+	 */
+	public ZeroZBranchProcesor(double threshold, boolean allowZeroZBranchLoop) {
+		this.threshold = threshold;
+		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
+	}
+	
 	@Override
 	public boolean visit(AclfNetwork net) {
 		try {
@@ -68,7 +79,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  		if (!b.isVisited()) {
 		  			// find all buses on the zero z branch path of the bus, including
 		  			// the bus itself
-		  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses();
+		  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
 		  			// if more than one, meaning there is zero-z branch(es), process
 		  			// zero-z branch
 		  			if (list.size() > 1) {
