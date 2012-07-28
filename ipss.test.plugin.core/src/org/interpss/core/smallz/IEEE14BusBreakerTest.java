@@ -51,7 +51,7 @@ public class IEEE14BusBreakerTest extends CorePluginTestSetup {
 				.getAclfNet();
 		
 	  	double smallBranchZ = 0.00001;
-	  	net.accept(new ZeroZBranchProcesor(smallBranchZ));
+	  	net.accept(new ZeroZBranchProcesor(smallBranchZ, true));
 	  	assertTrue(net.isZeroZBranchProcessed());
 	  	
 	  	// at this point, all buses and small-z branches should be visited
@@ -81,9 +81,10 @@ public class IEEE14BusBreakerTest extends CorePluginTestSetup {
 	  	//System.out.println(list);
 	  	assertTrue(list.size() == 3);	   
 	
-	  	list = net.getAclfBus("Bus7").findZeroZPathBuses(false);
-	  	//System.out.println(list);
-	  	assertTrue(list.size() == 4);	
+	  	// there is a zero-z branch loop
+	  	list = net.getAclfBus("Bus7").findZeroZPathBuses(true);
+	  	System.out.println(list);
+	  	assertTrue(list.size() == 5);	
 
 	  	list = net.getAclfBus("Bus2").findZeroZPathBuses(false);
 	  	//System.out.println(list);

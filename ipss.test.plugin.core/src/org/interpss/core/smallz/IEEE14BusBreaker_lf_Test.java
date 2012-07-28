@@ -30,6 +30,7 @@ import java.util.logging.Level;
 
 import org.interpss.CorePluginTestSetup;
 import org.interpss.algo.ZeroZBranchProcesor;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
 
@@ -86,7 +87,7 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
 		
 	  	// process zero impedance branches in the network
 	  	double smallBranchZ = 0.00001;
-	  	net.accept(new ZeroZBranchProcesor(smallBranchZ));
+	  	net.accept(new ZeroZBranchProcesor(smallBranchZ, true));
 	  	assertTrue(net.isZeroZBranchProcessed());
 	  	//System.out.println(net.net2String());
 
@@ -98,7 +99,7 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
 	  	algo.loadflow();
 	  	
 	  	// output loadflow calculation results
-	  	//System.out.println(AclfOutFunc.loadFlowSummary(net));
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
 
 	  	//System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
 	  	assertTrue(net.getNoActiveBus() == 14);
