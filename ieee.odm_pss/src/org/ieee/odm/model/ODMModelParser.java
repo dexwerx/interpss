@@ -1,5 +1,5 @@
  /*
-  * @(#)AclfModelParser.java   
+  * @(#)ODMModelParser.java   
   *
   * Copyright (C) 2009 www.interpss.org
   *
