@@ -195,7 +195,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			ODMLogger.getLogger().severe(e.toString());
 		}
 		
-		AclfParserHelper.createBusEquivShuntData(parser);
+		AclfParserHelper.postProcessing(parser);
 		
 		return parser;
 	}

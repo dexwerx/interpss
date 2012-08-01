@@ -241,11 +241,18 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		return true;
 	}
 
-	public static boolean createBusEquivShuntData(AclfModelParser parser) {
+	public static boolean postProcessing(AclfModelParser parser) {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
+
+			// turn-off bus if bus voltage is 0.0
+			if (busRec.getVoltage().getValue() < 0.1) {
+				busRec.setOffLine(Boolean.TRUE);
+			}
+			
+			// create bus equiv shunt data
 			ShuntCompensatorDataXmlType shuntData = busRec.getShuntCompensatorData();
 			if (shuntData != null) {
 				ODMLogger.getLogger().info("Bus " + busRec.getId() + " has ShuntCompensatorData");
@@ -268,7 +275,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		
 		createBusEquivLoadData(parser);
 
-		createBusEquivShuntData(parser);
+		postProcessing(parser);
 
 		return true;
 	}
