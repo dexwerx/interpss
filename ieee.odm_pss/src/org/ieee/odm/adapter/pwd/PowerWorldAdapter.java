@@ -3,6 +3,8 @@ package org.ieee.odm.adapter.pwd;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
@@ -14,8 +16,11 @@ import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
@@ -195,10 +200,26 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 			ODMLogger.getLogger().severe(e.toString());
 		}
 		
-		AclfParserHelper.postProcessing(parser);
+		postProcessing(parser);
 		
 		return parser;
 	}
+	
+	public boolean postProcessing(AclfModelParser parser) {
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
+
+		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
+			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
+			// turn-off bus if bus voltage is 0.0
+			if (busRec.getVoltage().getValue() < 0.1) {
+				busRec.setOffLine(Boolean.TRUE);
+			}
+		}
+
+		AclfParserHelper.createBusEquivShuntData(parser);
+		
+		return true;
+	}	
 
 	@Override
 	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din, String encoding) {
