@@ -201,7 +201,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 		
 		/*Now we Only consider the following 
 		  BusNum,GenID,GenStatus,GenMW,GenMVR,GenEnforceMWLimits,GenMWMin,
-		   GenMWMax GenRegNum,GenMVRMin,GenMVRMax,GenMVABase,AreaNum,ZoneNum
+		   GenMWMax GenRegNum,GenMVRMin,GenMVRMax,GenVoltSet,GenMVABase,AreaNum,ZoneNum
 		*/
 	long busNum=-1,regBusNum=-1;
 	int areaNum=-1,zoneNum=-1;
@@ -268,8 +268,8 @@ public class BusDataProcessor extends BaseDataProcessor {
 
 			if (regBusNum != -1) {
 				// this generator control the bus it connects to
-				//TODO generator regulates itself by default when regBusNum==0
-			
+				
+				//generator regulates itself by default when regBusNum==0
 				if (regBusNum == busNum||regBusNum==0) { 
 
 					if (busNum != swingBusNum) {// This bus is a PV bus
@@ -332,10 +332,8 @@ public class BusDataProcessor extends BaseDataProcessor {
 
 				} else {// the regulated bus is a remote bus
 
-					// TODO 
-					// how to define a remote bus that a generator controls/regulates, as a PV?
-
-					// And this gen bus is a PV bus itself?
+					//Define a remote bus that a generator controls/regulates, as a PV
+					// And this gen bus is a PV bus itself
 
 					// set remote bus data
 					

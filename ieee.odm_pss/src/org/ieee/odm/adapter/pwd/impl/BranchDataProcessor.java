@@ -56,7 +56,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		boolean closed=true, isXfmr=false;
 		double r=0,x=0,b=0,g=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
-		       mvaRatingA=9999,mvaRatingB=9999,mvaRatingC=9999,
+		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999,
 		       lineTap=1.0, toTurnRatio=1.0;//mvaRatingB,mvaRatingC,
 		/*
 		 * ONLY for specific application
@@ -98,12 +98,12 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 					g=Double.valueOf(nv.value);
 			    
 			    else if (nv.name.equals("LineAMVA"))
-					mvaRatingA=Double.valueOf(nv.value); // line limit rating
+					mvaRating1=Double.valueOf(nv.value); // line limit rating
 			    
-			    else if (nv.name.equals("LineBMVA"))
-					mvaRatingB=Double.valueOf(nv.value);
-			    else if (nv.name.equals("LineCMVA"))
-					mvaRatingC=Double.valueOf(nv.value);
+			    else if (nv.name.equals("LineAMVA:1")||nv.name.equals("LineBMVA"))
+					mvaRating2=Double.valueOf(nv.value);
+			    else if (nv.name.equals("LineAMVA:2")||nv.name.equals("LineCMVA"))
+					mvaRating3=Double.valueOf(nv.value);
 			    
 			    else if (nv.name.equals("LineShuntMW"))
 					fBusShuntMW=Double.valueOf(nv.value);
@@ -190,7 +190,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			branch.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
 			
 			AclfDataSetter.setBranchRatingLimitData(branch.getRatingLimit(),
-					mvaRatingA, mvaRatingB, mvaRatingC, ApparentPowerUnitType.MVA);
+					mvaRating1, mvaRating2, mvaRating3, ApparentPowerUnitType.MVA);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
