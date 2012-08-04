@@ -134,6 +134,21 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		    BranchXmlType branch=null;
 		    
 		    //TODO temp solution to turn transmission line with different base voltage to a transformer branch
+/*
+DATA (BRANCH, [CustomString, CustomString:1,     CustomString:2, BusNum, BusNum:1, LineCircuit, LineXfmr, LineR,   LineX,   LineG,   LineC,   
+               "Transformer" "BLISVILL_115_PS01" "PS01"          7765    7763      1            "Yes"     0.000023 0.001250 0.000000 0.000000 
+
+LineAMVA, LineAMVA:1, LineAMVA:2, LineMonEle, LSName, LineXFType, LineStatus, LineTap, XFRegTargetType,           LinePhase, 
+318.0     318.0       318.0       "YES"       "115"   "Phase"     "Closed"    1        "Middle of Reg Range"      -13.125    
+
+XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNum])            
+"No"      0         -22.083725  -2.083725  -60.0     60.0      1.875   30 
+
+    - LineXfmr = "Yes" xformer branch
+    - LinePhase != 0, PShafting xformer 
+ */
+		    
+		    //TODO temp solution to turn transmission line with different base voltage to a transformer branch
 		    
 		    if(parser.getAclfBus(fromBusId).getBaseVoltage().getValue()
 		    		!=parser.getAclfBus(toBusId).getBaseVoltage().getValue())
