@@ -131,6 +131,11 @@ public class AclfBranchDataHelper {
 		double baseKva = aclfNet.getBaseKva();
 		
 		aclfBra.setBranchCode(AclfBranchCode.XFORMER);
+		setXfrData(braXfr, aclfBra, baseKva);
+	}
+
+	
+	private void setXfrData(XfrBranchXmlType braXfr, AclfBranch aclfBra, double baseKva) throws InterpssException {
 		setXformerInfoData(braXfr, aclfBra);
 
 		YXmlType fromShuntY = braXfr.getMagnitizingY();
@@ -151,8 +156,9 @@ public class AclfBranchDataHelper {
 	public void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
-
-		setXfrBranchData(braPsXfr);
+		double baseKva = aclfNet.getBaseKva();
+		
+		setXfrData(braPsXfr, aclfBra, baseKva);
 		
 		AclfPSXformer psXfr = aclfBra.toPSXfr();
 		if(braPsXfr.getFromAngle() != null)
