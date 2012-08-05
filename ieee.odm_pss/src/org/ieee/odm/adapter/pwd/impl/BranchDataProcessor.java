@@ -4,17 +4,25 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.List;
 
+import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.AdjustmentModeEnumType;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
+import org.ieee.odm.schema.AngleLimitXmlType;
+import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.ObjectFactory;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -53,11 +61,13 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		String fromBusId, toBusId,circuitId="1";
 		String type="";
 		String branchId="";
-		boolean closed=true, isXfmr=false;
+		boolean closed=true, isXfmr=false, isPhXfmr=false;
 		double r=0,x=0,b=0,g=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
-		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999,
-		       lineTap=1.0, toTurnRatio=1.0;//mvaRatingB,mvaRatingC,
+		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999,//mvar rating
+		       lineTap=1.0, toTurnRatio=1.0;//tap ratio
+		double phaseAngle=0.0;
+		double xfrRegMin=0, xfrRegMax=0;
 		/*
 		 * ONLY for specific application
 		 */
@@ -118,8 +128,14 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 					tBusShuntMvar=Double.valueOf(nv.value);
 			    
 			    else if (nv.name.equals("LineTap"))
-					lineTap=Double.valueOf(nv.value); 
+					lineTap=Double.valueOf(nv.value);
 				
+			    else if (nv.name.equals("LinePhase"))
+			    	phaseAngle=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFRegMin"))
+			    	xfrRegMin=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFRegMax"))
+			    	xfrRegMax=Double.valueOf(nv.value);
 			    else if(nv.name.equals(typeToken))
 			    	type=nv.value;
 			    else if(nv.name.equals(idToken))
@@ -161,7 +177,14 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 		    	LineInfo.setType(type.equalsIgnoreCase("line")?LineBranchEnumType.OVERHEAD_LINE:LineBranchEnumType.BREAKER);
 		    	((LineBranchXmlType) branch).setLineInfo(LineInfo);
 		    }
-		    else branch=parser.createXfrBranch(fromBusId, toBusId, circuitId);
+		    else{
+		    	//phase shifting transformer
+		    	 branch=phaseAngle!=0?parser.createPSXfrBranch(fromBusId, toBusId, circuitId)
+		    	//traditional transformer
+		    			               :parser.createXfrBranch(fromBusId, toBusId, circuitId);;
+		    	
+		    	
+		    }
 		    
 		    
 			/*
@@ -183,22 +206,57 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 			
 			//branch is Line type
 			if(branch instanceof LineBranchXmlType){
-				if(g!=0||b!=0)((LineBranchXmlType) branch).setTotalShuntY(
+				LineBranchXmlType line= (LineBranchXmlType) branch;
+				if(g!=0||b!=0)line.setTotalShuntY(
 						BaseDataSetter.createYValue(g, b, YUnitType.PU));
 			}
 			//branch is Transformer type
 			else if(branch instanceof XfrBranchXmlType){
-				if(g!=0||b!=0)((XfrBranchXmlType) branch).setMagnitizingY(
-						BaseDataSetter.createYValue(g, b, YUnitType.PU));
-				((XfrBranchXmlType) branch).setFromTurnRatio(
-						BaseDataSetter.createTurnRatioPU(lineTap));
-				//TODO define toTurnRatio, set 1.0 by default
-				((XfrBranchXmlType) branch).setToTurnRatio(
-						BaseDataSetter.createTurnRatioPU(toTurnRatio));
-				//what is the difference between transformer tap and turn ratio;
 				
+				if(phaseAngle==0){//transformer
+				XfrBranchXmlType xfr=(XfrBranchXmlType) branch;
+				AclfDataSetter.createXformerData(xfr,r, x, ZUnitType.PU, lineTap, toTurnRatio, 
+						g, b, YUnitType.PU);
 				
-				
+				BusXmlType fromBusRec = parser.getBus(fromBusId);
+				BusXmlType toBusRec = parser.getBus(toBusId);
+				  if (fromBusRec != null && toBusRec != null) {
+					AclfDataSetter.setXfrRatingData(xfr,
+							fromBusRec.getBaseVoltage().getValue(), 
+							toBusRec.getBaseVoltage().getValue(), 
+							fromBusRec.getBaseVoltage().getUnit());				
+				  }
+				  else {
+					ODMLogger.getLogger().severe("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fromBusId + ", " + toBusId);
+				  }
+				}
+				else{// Phase shifting transformer
+					PSXfrBranchXmlType psXfr= (PSXfrBranchXmlType) branch;
+					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x, ZUnitType.PU, lineTap, toTurnRatio, phaseAngle, 0, AngleUnitType.DEG, g, b, YUnitType.PU);
+					
+					//angle adjustment
+					AngleAdjustmentXmlType angAdj= new AngleAdjustmentXmlType();
+					psXfr.setAngleAdjustment(angAdj);
+					angAdj.setAngleLimit( new AngleLimitXmlType());
+					BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrRegMax, xfrRegMin);
+					
+					angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+					angAdj.setDesiredMeasuredOnFromSide(true);
+					
+					//xfr rating
+					BusXmlType fromBusRec = parser.getBus(fromBusId);
+					BusXmlType toBusRec = parser.getBus(toBusId);
+					  if (fromBusRec != null && toBusRec != null) {
+						AclfDataSetter.setXfrRatingData(psXfr,
+								fromBusRec.getBaseVoltage().getValue(), 
+								toBusRec.getBaseVoltage().getValue(), 
+								fromBusRec.getBaseVoltage().getUnit());				
+					  }
+					  else {
+						ODMLogger.getLogger().severe("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fromBusId + ", " + toBusId);
+					  }
+					}
+								
 			}
 			
 			//set rating limit
