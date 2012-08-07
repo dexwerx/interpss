@@ -87,17 +87,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:LoadflowBusXmlType">
 				<ns:sequence>
-					<ns:element name="operatingMode"
-						type="pss:OpfGenOperatingModeEnumType" maxOccurs="1"
-						minOccurs="1">
-					</ns:element>
-					<ns:element name="incCost" type="pss:IncCostXmlType"
-						maxOccurs="1" minOccurs="1">
-					</ns:element>
-					<ns:element name="constraints"
-						type="pss:ConstraintsXmlType" maxOccurs="1" minOccurs="1">
-					</ns:element>
-
+					<ns:element name="opfGenList" type="pss:opfGenListXmlType" maxOccurs="1" minOccurs="1"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -284,4 +274,31 @@
 		</ns:restriction>	
     </ns:simpleType>
 
+
+
+    <ns:complexType name="opfGenListXmlType">
+    	<ns:sequence>
+    		<ns:element name="opfGen" type="pss:opfGenXmlType" maxOccurs="unbounded" minOccurs="1"></ns:element>
+    	</ns:sequence>
+    </ns:complexType>
+
+    <ns:complexType name="opfGenXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:AclfGenDataXmlType">
+    			<ns:sequence>
+    				<ns:element name="operatingMode"
+    					type="pss:OpfGenOperatingModeEnumType" maxOccurs="1"
+    					minOccurs="1">
+    				</ns:element>
+    				<ns:element name="incCost" type="pss:IncCostXmlType"
+    					maxOccurs="1" minOccurs="1">
+    				</ns:element>
+    				<ns:element name="constraints"
+    					type="pss:ConstraintsXmlType" maxOccurs="1" minOccurs="1">
+    				</ns:element>
+    			</ns:sequence>
+    			<ns:attribute name="genId" type="ns:string"></ns:attribute>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
 </ns:schema>
