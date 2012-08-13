@@ -97,14 +97,16 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 				else if (nv.name.equals("LineStatus"))
 					closed=nv.value.equalsIgnoreCase("Closed")?true:false;
 			    
-			    else if (nv.name.equals("LineR"))
+				// LineR:1, LineX:1, LineG:1, LineC:1, XFStep:1, XFTapMax:1, XFTapMin:1, LineTap:1
+				
+			    else if (nv.name.equals("LineR") || nv.name.equals("LineR:1"))
 					r=Double.valueOf(nv.value);
 			    
-			    else if (nv.name.equals("LineX"))
+			    else if (nv.name.equals("LineX") || nv.name.equals("LineX:1"))
 					x=Double.valueOf(nv.value);
-			    else if (nv.name.equals("LineC"))
+			    else if (nv.name.equals("LineC") || nv.name.equals("LineC:1"))
 					b=Double.valueOf(nv.value);
-			    else if (nv.name.equals("LineG"))
+			    else if (nv.name.equals("LineG") || nv.name.equals("LineG:1"))
 					g=Double.valueOf(nv.value);
 			    
 			    else if (nv.name.equals("LineAMVA"))
@@ -127,7 +129,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    else if (nv.name.equals("LineShuntMVR:1"))
 					tBusShuntMvar=Double.valueOf(nv.value);
 			    
-			    else if (nv.name.equals("LineTap"))
+			    else if (nv.name.equals("LineTap") || nv.name.equals("LineTap:1"))
 					lineTap=Double.valueOf(nv.value);
 				
 			    else if (nv.name.equals("LinePhase"))
