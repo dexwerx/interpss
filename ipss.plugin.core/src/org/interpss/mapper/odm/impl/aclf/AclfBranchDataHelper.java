@@ -36,6 +36,7 @@ import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.Transformer3WInfoXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
@@ -183,10 +184,16 @@ public class AclfBranchDataHelper {
 		
 		TransformerInfoXmlType xfrData = xfrBranch.getXfrInfo();
 		if (xfrData != null) {
-			if (xfrData.getFromRatedVoltage() != null)
+			if (xfrData.getFromRatedVoltage() != null) {
 				fromRatedV = xfrData.getFromRatedVoltage().getValue();
-			if (xfrData.getToRatedVoltage() != null)
+				if (xfrData.getFromRatedVoltage().getUnit() == VoltageUnitType.KV)
+					fromRatedV *= 1000.0;
+			}
+			if (xfrData.getToRatedVoltage() != null) {
 				toRatedV = xfrData.getToRatedVoltage().getValue();
+				if (xfrData.getToRatedVoltage().getUnit() == VoltageUnitType.KV)
+					toRatedV *= 1000.0;
+			}
 
 			if (xfrData.isDataOnSystemBase() != null && !xfrData.isDataOnSystemBase()) {
 				if (xfrData.getRatedPower() != null) {
@@ -203,9 +210,11 @@ public class AclfBranchDataHelper {
 		AclfXformer xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
 				ToZUnit.f(xfrBranch.getZ().getUnit()), baseV);
-		xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
+		if (fromRatedV != fromBaseV)
+			xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
 				xfrBranch.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
-		xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
+		if (toRatedV != toBaseV)
+			xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
 				xfrBranch.getToTurnRatio().getValue()/tapratio, UnitType.PU);
 	}
 	
