@@ -180,7 +180,7 @@ public class AclfBranchDataHelper {
 		double fromRatedV = fromBaseV;
 		double toRatedV = toBaseV;
 		double zratio = 1.0;
-		double tapratio = 1.0;
+		double fromTapratio = 1.0, toTapratio = 1.0;
 		
 		TransformerInfoXmlType xfrData = xfrBranch.getXfrInfo();
 		if (xfrData != null) {
@@ -202,7 +202,8 @@ public class AclfBranchDataHelper {
 								baseKva / xfrData.getRatedPower().getValue() :
 								0.001 * baseKva / xfrData.getRatedPower().getValue();
 				}
-				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+				fromTapratio = fromRatedV/fromBaseV;
+				toTapratio = toRatedV/toBaseV ;
 			}
 		}
 		
@@ -210,9 +211,9 @@ public class AclfBranchDataHelper {
 		AclfXformer xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
 				ToZUnit.f(xfrBranch.getZ().getUnit()), baseV);
-		double ratio = xfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?tapratio:1.0);
+		double ratio = xfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?fromTapratio:1.0);
 		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
-		ratio = xfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?tapratio:1.0);
+		ratio = xfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 	}
 	
