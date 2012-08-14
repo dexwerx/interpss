@@ -175,12 +175,12 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
     - LinePhase != 0, PShafting xformer 
  */
 		    
-		    //TODO temp solution to turn transmission line with different base voltage to a transformer branch
-		    
+		    /* Not needed, since InterPSS object model will handle the issue
 		    if(parser.getAclfBus(fromBusId).getBaseVoltage().getValue()
 		    		!=parser.getAclfBus(toBusId).getBaseVoltage().getValue())
 		    	isXfmr=true;
-	    	
+	    	*/
+		    
 		    if(!isXfmr){
 		    	branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
 		    	//TODO add branch type, as line or breaker
