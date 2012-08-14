@@ -55,5 +55,24 @@ public class PWD_IEEE14Bus_ODMTest {
 		assertTrue(parser.getAclfBus("Bus2").getGenData().getEquivGen().getCode()
 				==LFGenCodeEnumType.PV);
 	}
+
+	@Test
+	public void testCase_multiline() throws Exception {
+		final LogManager logMgr = LogManager.getLogManager();
+		Logger logger = Logger.getLogger("IEEE ODM Logger");
+		logger.setLevel(Level.INFO);
+		logMgr.addLogger(logger);
+		
+		IODMAdapter adapter = new PowerWorldAdapter();
+		assertTrue(adapter.parseInputFile("testdata/pwd/Ieee14_multiline.AUX"));
+		
+		AclfModelParser parser = (AclfModelParser)adapter.getModel();
+		//System.out.println(parser.toXmlDoc());
+		
+		assertTrue(parser.getAclfBus("Bus1").getGenData().getEquivGen().getCode()
+				==LFGenCodeEnumType.SWING);
+		assertTrue(parser.getAclfBus("Bus2").getGenData().getEquivGen().getCode()
+				==LFGenCodeEnumType.PV);
+	}
 }
 
