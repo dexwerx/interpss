@@ -25,6 +25,7 @@ import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
+import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -68,6 +69,8 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		       lineTap=1.0, toTurnRatio=1.0;//tap ratio
 		double phaseAngle=0.0;
 		double xfrRegMin=0, xfrRegMax=0;
+		double xfrMvaBase = 0.0, xfrFromSideNominalKV = 0.0, xfrToSideNominalKV=0.0;
+		
 		/*
 		 * ONLY for specific application
 		 */
@@ -142,7 +145,13 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    	type=nv.value;
 			    else if(nv.name.equals(idToken))
 			    	branchId=nv.value;
-			    
+				
+			    else if (nv.name.equals("XFMVABase"))
+			    	xfrMvaBase=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFNominalKV"))
+			    	xfrFromSideNominalKV=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFNominalKV:1"))
+			    	xfrToSideNominalKV=Double.valueOf(nv.value);
 			}
 			
 		    fromBusId=parser.BusIdPreFix+fromBusNum;
@@ -213,52 +222,65 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 						BaseDataSetter.createYValue(g, b, YUnitType.PU));
 			}
 			//branch is Transformer type
-			else if(branch instanceof XfrBranchXmlType){
-				
-				if(phaseAngle==0){//transformer
-				XfrBranchXmlType xfr=(XfrBranchXmlType) branch;
-				AclfDataSetter.createXformerData(xfr,r, x, ZUnitType.PU, lineTap, toTurnRatio, 
-						g, b, YUnitType.PU);
-				
-				BusXmlType fromBusRec = parser.getBus(fromBusId);
-				BusXmlType toBusRec = parser.getBus(toBusId);
-				  if (fromBusRec != null && toBusRec != null) {
-					AclfDataSetter.setXfrRatingData(xfr,
-							fromBusRec.getBaseVoltage().getValue(), 
-							toBusRec.getBaseVoltage().getValue(), 
-							fromBusRec.getBaseVoltage().getUnit());				
-				  }
-				  else {
-					ODMLogger.getLogger().severe("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fromBusId + ", " + toBusId);
-				  }
-				}
-				else{// Phase shifting transformer
-					PSXfrBranchXmlType psXfr= (PSXfrBranchXmlType) branch;
-					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x, ZUnitType.PU, lineTap, toTurnRatio, phaseAngle, 0, AngleUnitType.DEG, g, b, YUnitType.PU);
-					
-					//angle adjustment
-					AngleAdjustmentXmlType angAdj= new AngleAdjustmentXmlType();
-					psXfr.setAngleAdjustment(angAdj);
-					angAdj.setAngleLimit( new AngleLimitXmlType());
-					BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrRegMax, xfrRegMin);
-					
-					angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-					angAdj.setDesiredMeasuredOnFromSide(true);
-					
-					//xfr rating
+			else if (branch instanceof XfrBranchXmlType) {
+
+				if (phaseAngle == 0) {// transformer
+					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
+					AclfDataSetter.createXformerData(xfr, r, x, ZUnitType.PU,
+							lineTap, toTurnRatio, g, b, YUnitType.PU);
+
 					BusXmlType fromBusRec = parser.getBus(fromBusId);
 					BusXmlType toBusRec = parser.getBus(toBusId);
-					  if (fromBusRec != null && toBusRec != null) {
-						AclfDataSetter.setXfrRatingData(psXfr,
-								fromBusRec.getBaseVoltage().getValue(), 
-								toBusRec.getBaseVoltage().getValue(), 
-								fromBusRec.getBaseVoltage().getUnit());				
-					  }
-					  else {
-						ODMLogger.getLogger().severe("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fromBusId + ", " + toBusId);
-					  }
+					if (fromBusRec != null && toBusRec != null) {
+						AclfDataSetter.setXfrRatingData(xfr, fromBusRec
+								.getBaseVoltage().getValue(), toBusRec
+								.getBaseVoltage().getValue(), fromBusRec
+								.getBaseVoltage().getUnit());
+					} else {
+						ODMLogger.getLogger().severe(
+								"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
+										+ fromBusId + ", " + toBusId);
 					}
-								
+				} else {// Phase shifting transformer
+					PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType) branch;
+					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x,
+							ZUnitType.PU, lineTap, toTurnRatio, phaseAngle, 0,
+							AngleUnitType.DEG, g, b, YUnitType.PU);
+
+					// angle adjustment
+					AngleAdjustmentXmlType angAdj = new AngleAdjustmentXmlType();
+					psXfr.setAngleAdjustment(angAdj);
+					angAdj.setAngleLimit(new AngleLimitXmlType());
+					BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrRegMax,
+							xfrRegMin);
+
+					angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+					angAdj.setDesiredMeasuredOnFromSide(true);
+
+					// xfr rating
+					BusXmlType fromBusRec = parser.getBus(fromBusId);
+					BusXmlType toBusRec = parser.getBus(toBusId);
+					if (fromBusRec != null && toBusRec != null) {
+						AclfDataSetter.setXfrRatingData(psXfr, fromBusRec
+								.getBaseVoltage().getValue(), toBusRec
+								.getBaseVoltage().getValue(), fromBusRec
+								.getBaseVoltage().getUnit());
+					} else {
+						ODMLogger.getLogger().severe(
+								"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
+										+ fromBusId + ", " + toBusId);
+					}
+				}
+				
+				if (xfrMvaBase != 0.0) {
+					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
+					xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
+					TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
+					xfrInfo.setDataOnSystemBase(false);
+					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
+					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
+					xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
+				}
 			}
 			
 			//set rating limit
