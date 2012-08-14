@@ -210,12 +210,10 @@ public class AclfBranchDataHelper {
 		AclfXformer xfr = aclfBra.toXfr();
 		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
 				ToZUnit.f(xfrBranch.getZ().getUnit()), baseV);
-		if (fromRatedV != fromBaseV)
-			xfr.setFromTurnRatio(xfrBranch.getFromTurnRatio().getValue() == 0.0 ? 1.0 : 
-				xfrBranch.getFromTurnRatio().getValue()*tapratio, UnitType.PU);
-		if (toRatedV != toBaseV)
-			xfr.setToTurnRatio(xfrBranch.getToTurnRatio().getValue() == 0.0 ? 1.0 : 
-				xfrBranch.getToTurnRatio().getValue()/tapratio, UnitType.PU);
+		double ratio = xfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?tapratio:1.0);
+		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
+		ratio = xfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?tapratio:1.0);
+		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 	}
 	
 	/*
