@@ -30,6 +30,7 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
+import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
@@ -332,6 +333,16 @@ public class AclfBranchDataHelper {
 
 			if (!xfrData.isDataOnSystemBase())
 				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+			
+			if (xfrData.getStarVMag() != null && xfrData.getStarVAng() != null) {
+				if (xfrData.getStarVMag().getUnit() == VoltageUnitType.PU || xfrData.getStarVAng().getUnit() == AngleUnitType.DEG) {
+					xfr3W.getAclf3WBranch().setVoltageStarBus(new Complex(
+							xfrData.getStarVMag().getValue(), Math.toRadians(xfrData.getStarVAng().getValue())));
+				}
+				else {
+					throw new InterpssException("function not implemented yet"); 
+				}
+			}
 		}	
 		
 		/*
