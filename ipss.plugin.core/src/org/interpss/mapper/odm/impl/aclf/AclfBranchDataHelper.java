@@ -48,6 +48,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.Aclf3WXformer;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfLine;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
@@ -336,8 +337,10 @@ public class AclfBranchDataHelper {
 			
 			if (xfrData.getStarVMag() != null && xfrData.getStarVAng() != null) {
 				if (xfrData.getStarVMag().getUnit() == VoltageUnitType.PU || xfrData.getStarVAng().getUnit() == AngleUnitType.DEG) {
-					xfr3W.getAclf3WBranch().setVoltageStarBus(new Complex(
-							xfrData.getStarVMag().getValue(), Math.toRadians(xfrData.getStarVAng().getValue())));
+					AclfBus starBus = (AclfBus)xfr3W.getAclf3WBranch().getStarBus();
+					starBus.setVoltageMag(xfrData.getStarVMag().getValue());
+					starBus.setVoltageAng(Math.toRadians(xfrData.getStarVAng().getValue()));
+					xfr3W.getAclf3WBranch().setVoltageStarBus(starBus.getVoltage());
 				}
 				else {
 					throw new InterpssException("function not implemented yet"); 
@@ -366,8 +369,8 @@ public class AclfBranchDataHelper {
 		double tertRatio = xml3WXfr.getTertTurnRatio().getValue()*tapratio;
 		
 		xfr3W.setFromTurnRatio(fromRatio == 0.0 ? 1.0 : fromRatio);
-		xfr3W.setToTurnRatio(toRatio == 0.0 ? 1.0 : fromRatio);
-		xfr3W.setTertTurnRatio(tertRatio == 0.0 ? 1.0 : fromRatio);
+		xfr3W.setToTurnRatio(toRatio == 0.0 ? 1.0 : toRatio);
+		xfr3W.setTertTurnRatio(tertRatio == 0.0 ? 1.0 : tertRatio);
 		
 /*
                 <ratingLimit>
