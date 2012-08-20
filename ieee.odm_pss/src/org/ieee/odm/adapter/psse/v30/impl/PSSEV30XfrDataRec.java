@@ -69,8 +69,11 @@ public class PSSEV30XfrDataRec {
 	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
 							PsseVersion version, AclfModelParser parser) {
 		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
-
-		boolean is3W = k != 0; 
+		
+		double sysMVABase=parser.getAclfNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
+                parser.getAclfNet().getBasePower().getValue(): parser.getAclfNet().getBasePower().getValue()*0.001;
+		
+        boolean is3W = k != 0; 
 		boolean isPsXfr = false;
     	if ( (is3W && (ang1 != 0.0 || ang2 != 0.0 || ang3 != 0.0)) ||
        		 (!is3W && ang1 != 0.0) || cod == 3 || cod == -3) {
@@ -184,8 +187,7 @@ public class PSSEV30XfrDataRec {
     			//p=U1^2*g
     			//I=U1*b
     			double g_rv=mag1/(nomv1*nomv1)*1.0E-6;//real value of conductance
-    			double sysMVABase=parser.getAclfNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
-    					                   parser.getAclfNet().getBasePower().getValue(): parser.getAclfNet().getBasePower().getValue()*0.001;
+    			
     			double vbase=parser.getAclfBus(fid).getBaseVoltage().getValue();
                 double Ybase=sysMVABase/(vbase*vbase);
                 double g_pu=g_rv/Ybase; // based on system base
@@ -233,18 +235,24 @@ public class PSSEV30XfrDataRec {
        		// system base quantities; 
        		branchRec.setZ(BaseDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
         	xfrInfo.setDataOnSystemBase(true);
+        	//TODO This system base attribute is updated by both cz and cw, might cause some problems which are hard to identified;
+       	    //It might be better to change these basic settings to system base,to avoid potential problem.However, these might make it hard for direct comparison
        	}
        	else if (cz == 2) {
        		// when CZ is 2, they are the resistance and reactance, respectively, in pu on 
        		// winding one to two base MVA (SBASE1-2) and winding one bus base voltage; 
+       		r1_2=r1_2*sysMVABase/sbase1_2;
+       		x1_2=x1_2*sysMVABase/sbase1_2;
        		branchRec.setZ(BaseDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
-        	xfrInfo.setDataOnSystemBase(false);
+        	xfrInfo.setDataOnSystemBase(true);
+        	
+       		
        	}
        	else if (cz == 3) {
        		// when CZ is 3, R1-2 is the load loss in watts, and X1-2 is the impedance magnitude 
        		// in pu on winding one to two base MVA (SBASE1-2) and winding one bus base voltage.
-       		double zpu = x1_2;
-       		double rpu = r1_2 * 0.001 * 0.001 / sbase1_2;  
+       		double zpu = x1_2*sysMVABase/sbase1_2;
+       		double rpu = r1_2 * 0.001 * 0.001 /sysMVABase;  
        		branchRec.setZ(BaseDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
         	xfrInfo.setDataOnSystemBase(true);
        	}
@@ -256,15 +264,20 @@ public class PSSEV30XfrDataRec {
            		branch3WRec.setZ31(BaseDataSetter.createZValue(r3_1, x3_1, ZUnitType.PU));
            	}
            	else if (cz == 2) {
+           		r2_3*=sysMVABase/sbase2_3;
+           		x2_3*=sysMVABase/sbase2_3;
+           		r3_1*=sysMVABase/sbase3_1;
+           		x3_1*=sysMVABase/sbase3_1;
            		branch3WRec.setZ23(BaseDataSetter.createZValue(r2_3, x2_3, ZUnitType.PU));
            		branch3WRec.setZ31(BaseDataSetter.createZValue(r3_1, x3_1, ZUnitType.PU));
            	}
            	else if (cz == 3) {
-           		double zpu = x2_3;
-           		double rpu = r2_3  * 0.001 * 0.001 / sbase2_3;  
+           		double zpu = x2_3*sysMVABase/sbase2_3;
+           		double rpu = r2_3  * 0.001 * 0.001 / sysMVABase;  
            		branch3WRec.setZ23(BaseDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
-           		zpu = x3_1;
-           		rpu = r3_1  * 0.001 * 0.001 / sbase3_1;  
+           		
+           		zpu = x3_1*sysMVABase/sbase3_1;
+           		rpu = r3_1  * 0.001 * 0.001 / sysMVABase;  
            		branch3WRec.setZ31(BaseDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
            	}
        	}
@@ -284,13 +297,17 @@ public class PSSEV30XfrDataRec {
        	}
        	else if (cw == 2) {
        		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
-        	xfrInfo.setDataOnSystemBase(false);
+       		//TODO It seems not proper to use system base here, since the turnRatio is, in fact, still based on system base.
+        	//xfrInfo.setDataOnSystemBase(false);
+       		windv1 /=parser.getAclfBus(fid).getBaseVoltage().getValue();
+       		
        	}
-  		
+  		/*
   		if (!xfrInfo.isDataOnSystemBase()) {
-  			windv1 /= nomv1;
+  			windv1 /= nomv1; //NOMV1 is used only in converting magnetizing data between per unit admittance values and physical units when CM is 2
   			xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(nomv1, VoltageUnitType.KV));
   		}
+  		*/
   		branchRec.setFromTurnRatio(BaseDataSetter.createTurnRatioPU(windv1));
 	
     	if (isPsXfr && is3W) {
@@ -431,10 +448,13 @@ public class PSSEV30XfrDataRec {
 					is present for information purposes only; it is not used in any of the calculations
 					for modeling the transformer. NOMV2 = 0.0 by default.								
   		 */
+      	/*
   		if (!xfrInfo.isDataOnSystemBase()) {
   			windv2 /= nomv2;
   			xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(nomv2, VoltageUnitType.KV));
   		}
+  		*/
+      	if(cw==2) windv2 /=parser.getAclfBus(tid).getBaseVoltage().getValue();
   		branchRec.setToTurnRatio(BaseDataSetter.createTurnRatioPU(windv2));
 
   		if (is3W) {
@@ -457,11 +477,14 @@ public class PSSEV30XfrDataRec {
 		*/
        	if (is3W) {
     		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branchRec; 
-    		Transformer3WInfoXmlType xfr3WInfo = (Transformer3WInfoXmlType)xfrInfo;
+    		
+    		/*Transformer3WInfoXmlType xfr3WInfo = (Transformer3WInfoXmlType)xfrInfo;
       		if (!xfrInfo.isDataOnSystemBase()) {
       			windv3 /= nomv3;
       			xfr3WInfo.setTertRatedVoltage(BaseDataSetter.createVoltageValue(nomv3, VoltageUnitType.KV));
       		}
+      		*/
+    		if(cw==2)windv3 /=parser.getAclfBus(tertId).getBaseVoltage().getValue();
       		branch3WXfr.setTertTurnRatio(BaseDataSetter.createTurnRatioPU(windv3));
       		branch3WXfr.setRatingLimit13(odmObjFactory.createBranchRatingLimitXmlType());
            	AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
