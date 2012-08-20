@@ -79,7 +79,7 @@ public class PSSEV30XfrDataRec {
 /*
 	    Line-1 
 	    For 2W and 3W Xfr: 
-	    	I,     J,     K,    CKT, CW,CZ,CM, MAG1,     MAG2,    NMETR,’NAME’,        STAT,O1,F1,...,O4,F4
+	    	I,     J,     K,    CKT, CW,CZ,CM, MAG1,     MAG2,    NMETR,æ‰¤AMEï¿½        STAT,O1,F1,...,O4,F4
 	        26,    54,    0,    '1 ',1, 1, 1,  0.00000,  0.00000, 2,    '        ',    1,   1,1.0000,   0,1.0000,   0,1.0000,   0,1.0000
             27824, 27871, 27957,'W ',2, 2, 1,  0.00089,  -0.00448,1,    'D575121     ',1,   1,1.0000
 
@@ -180,8 +180,23 @@ public class PSSEV30XfrDataRec {
 		// sample data : 1,   0.00089,  -0.00448
     	if (cm == 2) {
     		//TODO
-    		if (mag1 != 0.0 || mag2 != 0.0)
-    			branchRec.setMagnitizingY(BaseDataSetter.createYValue(mag1, mag2, YUnitType.PU));
+    		if (mag1 != 0.0 || mag2 != 0.0){
+    			//p=U1^2*g
+    			//I=U1*b
+    			double g_rv=mag1/(nomv1*nomv1)*1.0E-6;//real value of conductance
+    			double sysMVABase=parser.getAclfNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
+    					                   parser.getAclfNet().getBasePower().getValue(): parser.getAclfNet().getBasePower().getValue()*0.001;
+    			double vbase=parser.getAclfBus(fid).getBaseVoltage().getValue();
+                double Ybase=sysMVABase/(vbase*vbase);
+                double g_pu=g_rv/Ybase; // based on system base
+                
+                double Ybase_w12=sbase1_2/(nomv1*nomv1);
+                double b_rv=mag2*Ybase_w12;
+                double b_pu=b_rv/Ybase;
+    			
+    			branchRec.setMagnitizingY(BaseDataSetter.createYValue(g_pu, b_pu, YUnitType.PU));
+    		}
+    			
     	}
     	else {
     		if (mag1 != 0.0 || mag2 != 0.0)
@@ -293,10 +308,10 @@ public class PSSEV30XfrDataRec {
 		 * The transformer control mode for automatic adjustments of the winding one
 			tap or phase shift angle during power flow solutions: 0 for no control (fixed tap
 			and phase shift); 
-			±1 for voltage control; 
-			±2 for reactive power flow control; 
-			±3 for active power flow control; 
-			±4 for control of a dc line quantity (+4 is valid only for two-winding transformers). 
+			ï¿½ for voltage control; 
+			ï¿½ for reactive power flow control; 
+			ï¿½ for active power flow control; 
+			ï¿½ for control of a dc line quantity (+4 is valid only for two-winding transformers). 
 			
 			If the control mode is entered as a positive
 			number, automatic adjustment of this transformer winding is enabled when the
@@ -324,20 +339,20 @@ public class PSSEV30XfrDataRec {
 		//Sample data : 1,    31, 1.10000, 0.90000, 1.09255, 1.04255, 33, 0, 0.00000, 0.00000
       	/*
         RMA1, RMI1 The upper and lower limits, respectively, of either:
-				• Off-nominal turns ratio in pu of winding one bus base voltage when
+				ï¿½Off-nominal turns ratio in pu of winding one bus base voltage when
 					|COD1| is 1 or 2 and CW is 1; RMA1 = 1.1 and RMI1 = 0.9 by default.
-				• Actual winding one voltage in kV when |COD1| is 1 or 2 and CW is 2. No
+				ï¿½Actual winding one voltage in kV when |COD1| is 1 or 2 and CW is 2. No
 					default is allowed.
-				• Phase shift angle in degrees when |COD1| is 3. No default is allowed.
-				• Not used when |COD1| is 0 or 4; RMA1 = 1.1 and RMI1 = 0.9 by default.
+				ï¿½Phase shift angle in degrees when |COD1| is 3. No default is allowed.
+				ï¿½Not used when |COD1| is 0 or 4; RMA1 = 1.1 and RMI1 = 0.9 by default.
 		VMA1, VMI1 The upper and lower limits, respectively, of either:
-				• Voltage at the controlled bus (bus |CONT1|) in pu when |COD1| is 1.
+				ï¿½Voltage at the controlled bus (bus |CONT1|) in pu when |COD1| is 1.
 					VMA1 = 1.1 and VMI1 = 0.9 by default.
-				• Reactive power flow into the transformer at the winding one bus end in
+				ï¿½Reactive power flow into the transformer at the winding one bus end in
 					Mvar when |COD1| is 2. No default is allowed.
-				• Active power flow into the transformer at the winding one bus end in MW
+				ï¿½Active power flow into the transformer at the winding one bus end in MW
 					when |COD1| is 3. No default is allowed.
-				• Not used when |COD1| is 0 or 4; VMA1 = 1.1 and VMI1 = 0.9 by default.
+				ï¿½Not used when |COD1| is 0 or 4; VMA1 = 1.1 and VMI1 = 0.9 by default.
 		NTP1 The number of tap positions available; used when COD1 is 1 or 2. NTP1 must be
 				between 2 and 9999. NTP1 = 33 by default.
       	 */
@@ -391,7 +406,7 @@ public class PSSEV30XfrDataRec {
 
       	/*
       	 	TAB1 The number of a transformer impedance correction table if this transformer
-				winding’s impedance is to be a function of either off-nominal turns ratio or
+				windingæŠ¯ impedance is to be a function of either off-nominal turns ratio or
 				phase shift angle (see Section 4.1.1.11), or 0 if no transformer impedance correction
 				is to be applied to this transformer winding. TAB1 = 0 by default.					
 
