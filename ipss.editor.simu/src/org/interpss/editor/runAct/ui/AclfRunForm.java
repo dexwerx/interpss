@@ -24,6 +24,11 @@
 
 package org.interpss.editor.runAct.ui;
 
+import static com.interpss.dist.funcImpl.DistFunction.GeneratorAptr;
+import static com.interpss.dist.funcImpl.DistFunction.IndMotorAptr;
+import static com.interpss.dist.funcImpl.DistFunction.MixedLoadAptr;
+import static com.interpss.dist.funcImpl.DistFunction.SynMotorAptr;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.display.ContingencyOutFunc;
@@ -48,8 +53,11 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
+import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.dist.DistBranch;
 import com.interpss.dist.DistBus;
+import com.interpss.dist.DistBusCode;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dist.adpter.DistBusAdapter;
 import com.interpss.simu.SimuContext;
@@ -176,7 +184,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	private boolean runLoadflow(DistNetwork distNet, SimuContext simuCtx) {
 		boolean converge = true;
 		if (distNet.getLoadScheduleData().getSchedulePoints() == 0) {
-			distNet.setNameplateAclfNetData();
+			setNameplateAclfNetData(distNet);
 			converge = runLoadflow_internal(distNet.getAcscNet(), simuCtx
 					.getLoadflowAlgorithm());
 
@@ -208,6 +216,31 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			}
 		}
 		return converge;
+	}
+	
+	private void setNameplateAclfNetData(DistNetwork distNet) {
+		AclfNetwork net = distNet.getAclfNet();
+
+		for( Bus b : distNet.getBusList()) {
+			DistBus bus = (DistBus)b;
+			if (bus.getBusCode() == DistBusCode.GENERATOR) {
+				GeneratorAptr.f(bus).setAclfBusData(net.getBaseKva());
+			}
+			else if (bus.getBusCode() == DistBusCode.SYN_MOTOR) {
+				SynMotorAptr.f(bus).setAclfBusData(net.getBaseKva());
+			}
+			else if (bus.getBusCode() == DistBusCode.IND_MOTOR) {
+				IndMotorAptr.f(bus).setAclfBusData(net.getBaseKva());
+			}
+			else if (bus.getBusCode() == DistBusCode.MIXED_LOAD) {
+				MixedLoadAptr.f(bus).setAclfBusData(net.getBaseKva());
+			}
+		}
+
+		for( Branch br : distNet.getBranchList()) {
+			DistBranch branch = (DistBranch)br;
+			branch.getAcscBranch().setStatus(branch.isActive());
+		}		
 	}
 
 	private boolean runLoadflow(AclfNetwork aclfAdjNet, SimuContext simuCtx) {
