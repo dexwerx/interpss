@@ -338,8 +338,8 @@ public class AclfBranchDataHelper {
 			if (xfrData.getStarVMag() != null && xfrData.getStarVAng() != null) {
 				if (xfrData.getStarVMag().getUnit() == VoltageUnitType.PU || xfrData.getStarVAng().getUnit() == AngleUnitType.DEG) {
 					AclfBus starBus = (AclfBus)xfr3W.getAclf3WBranch().getStarBus();
-					starBus.setVoltageMag(xfrData.getStarVMag().getValue());
-					starBus.setVoltageAng(Math.toRadians(xfrData.getStarVAng().getValue()));
+					starBus.setVoltage(xfrData.getStarVMag().getValue(),
+					                   Math.toRadians(xfrData.getStarVAng().getValue()));
 					xfr3W.getAclf3WBranch().setVoltageStarBus(starBus.getVoltage());
 				}
 				else {

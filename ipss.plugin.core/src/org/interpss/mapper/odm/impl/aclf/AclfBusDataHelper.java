@@ -46,8 +46,10 @@ import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
+import org.interpss.numeric.datatype.ComplexFunc;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.numeric.util.Number2String;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
@@ -105,6 +107,7 @@ public class AclfBusDataHelper {
 			angRad = UnitHelper.angleConversion(busXmlData.getAngle().getValue(), unit, UnitType.Rad); 
 		}
 		aclfBus.setVoltage(vpu, angRad);
+		//System.out.println(aclfBus.getId() + "  " + Number2String.toStr(aclfBus.getVoltage()));
 
 		if (busXmlData.getGenData() != null) {
 			mapGenData(busXmlData.getGenData());
