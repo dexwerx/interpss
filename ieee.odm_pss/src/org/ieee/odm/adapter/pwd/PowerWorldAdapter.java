@@ -137,7 +137,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				    else {
 				    	//TODO add undefined record type
 				    	recordType=RecType.Undefined;
-				    	ODMLogger.getLogger().warning("Undifined data type:"+dataType);
+				    	ODMLogger.getLogger().info("Undifined data type:"+dataType);
 				    }
 				    
 				    //get all the argument fields of a record, then save them to a list.
