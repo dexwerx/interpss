@@ -233,6 +233,7 @@ public class AclfBranchDataHelper {
 		
 		Aclf3WXformer branch3W = (Aclf3WXformer)this.branch;
 		branch3W.setBranchCode(AclfBranchCode.W3_XFORMER);
+		// create three 2W xfr branch objects and a star bus object 
 		branch3W.create2WBranches(AclfBranchCode.XFORMER);
 		
 		// set winding status
@@ -240,6 +241,7 @@ public class AclfBranchDataHelper {
 		branch3W.getToAclfBranch().setStatus(!xml3WXfr.isOffLine() && !xml3WXfr.isWind2OffLine());
 		branch3W.getTertAclfBranch().setStatus(!xml3WXfr.isOffLine() && !xml3WXfr.isWind3OffLine());
 		
+		// create a 3W xfr wrapper (adapter) for processing 3W data
 		Xfr3WAdapter xfr3W = branch3W.to3WXfr();
 		
 		setXfr3WData(xml3WXfr, xfr3W);
@@ -362,6 +364,7 @@ public class AclfBranchDataHelper {
 		Complex z23 = new Complex(xml3WXfr.getZ23().getRe()*zratio, xml3WXfr.getZ23().getIm()*zratio);
 		Complex z31 = new Complex(xml3WXfr.getZ31().getRe()*zratio, xml3WXfr.getZ31().getIm()*zratio);
 		UnitType unit = ToZUnit.f(xml3WXfr.getZ().getUnit());
+		// set 3W xfr branch z to the three 2W xfr branches
 		xfr3W.setZ(z12, z31, z23, unit, baseV);
 
 		double fromRatio = xml3WXfr.getFromTurnRatio().getValue()*tapratio;
