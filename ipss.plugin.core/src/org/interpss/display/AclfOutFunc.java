@@ -386,31 +386,54 @@ public class AclfOutFunc {
 			str
 					.append(" ---------------------     ------------ ------ -------- ------------ ------------ ------------\n");
 			for (Branch b : net.getBranchList()) {
+				
 				AclfBranch bra = (AclfBranch) b;
-				if (bra.isActive()) {
-					AclfBranchRating adapter = BranchRatingAptr.f(bra);
-					if (adapter.isRatingViolated(SecAnalysisViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
-						str.append(Number2String.toStr(-25, bra.getId()));
-						Complex mva = bra.powerFrom2To(UnitType.mVA);
-						String side = "From";
-						if (bra.powerFrom2To(UnitType.mVA).abs() < bra
-								.powerTo2From(UnitType.mVA).abs()) {
-							mva = bra.powerTo2From(UnitType.mVA);
-							side = "To";
-						}
-
-						str.append("     " + Number2String.toStr("####0.0", mva.abs()));
-						str.append("   " + Number2String.toStr("##0.0", 100.0*CoreUtilFunc.calPFactor(mva.getReal(), mva.getImaginary())) + "%");
-						str.append("    " + Number2String.toStr(-4, side));
-						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva1()));
-						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva2()));
-						str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva3()));
-						str.append("\n");
-					}
+				if(!bra.is3WXfr())processBranchMvaRatingViolation(net, str, bra);
+				else {
+					//Todo bra.to3WXfr()
+					
+					/*Branch fBranch=3WXfr.getFromBranch
+					 * tBranch
+					 * terBranch
+					 * 
+					 * processBranchMvaRatingViolation(net, str, fbranch);
+					 * processBranchMvaRatingViolation(net, str, tbranch);
+					 * processBranchMvaRatingViolation(net, str, terbranch);
+					 * 
+					 * 
+					 */
+					
+					
 				}
+			
 			}
 		}
 		return str;
+	}
+
+	private static void processBranchMvaRatingViolation(AclfNetwork net,
+			StringBuffer str, AclfBranch bra) {
+		if (bra.isActive()) {
+			AclfBranchRating adapter = BranchRatingAptr.f(bra);
+			if (adapter.isRatingViolated(SecAnalysisViolationType.BRANCH_THERMAL_MVA_RATING, net.getBaseKva())) {
+				str.append(Number2String.toStr(-25, bra.getId()));
+				Complex mva = bra.powerFrom2To(UnitType.mVA);
+				String side = "From";
+				if (bra.powerFrom2To(UnitType.mVA).abs() < bra
+						.powerTo2From(UnitType.mVA).abs()) {
+					mva = bra.powerTo2From(UnitType.mVA);
+					side = "To";
+				}
+
+				str.append("     " + Number2String.toStr("####0.0", mva.abs()));
+				str.append("   " + Number2String.toStr("##0.0", 100.0*CoreUtilFunc.calPFactor(mva.getReal(), mva.getImaginary())) + "%");
+				str.append("    " + Number2String.toStr(-4, side));
+				str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva1()));
+				str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva2()));
+				str.append("      " + Number2String.toStr("####0.0", bra.getRatingMva3()));
+				str.append("\n");
+			}
+		}
 	}
 
 	/**
