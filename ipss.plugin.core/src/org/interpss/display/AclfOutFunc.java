@@ -386,26 +386,12 @@ public class AclfOutFunc {
 			str
 					.append(" ---------------------     ------------ ------ -------- ------------ ------------ ------------\n");
 			for (Branch b : net.getBranchList()) {
-				
-				AclfBranch bra = (AclfBranch) b;
-				if(!bra.is3WXfr())processBranchMvaRatingViolation(net, str, bra);
-				else {
-					//Todo bra.to3WXfr()
-					
-					/*Branch fBranch=3WXfr.getFromBranch
-					 * tBranch
-					 * terBranch
-					 * 
-					 * processBranchMvaRatingViolation(net, str, fbranch);
-					 * processBranchMvaRatingViolation(net, str, tbranch);
-					 * processBranchMvaRatingViolation(net, str, terbranch);
-					 * 
-					 * 
-					 */
-					
-					
+				if (b instanceof AclfBranch) {
+					// branch Mva rating violation only applies to 2W xfr or
+					// line branch
+					AclfBranch bra = (AclfBranch) b;
+					processBranchMvaRatingViolation(net, str, bra);
 				}
-			
 			}
 		}
 		return str;
