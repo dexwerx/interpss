@@ -56,7 +56,7 @@ public class PWD_IEEE14Bus_ODMTest {
 				==LFGenCodeEnumType.PV);
 	}
 
-	@Test
+	//@Test
 	public void testCase_multiline() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
 		Logger logger = Logger.getLogger("IEEE ODM Logger");
