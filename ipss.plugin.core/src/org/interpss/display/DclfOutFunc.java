@@ -102,7 +102,8 @@ public class DclfOutFunc {
 		for (Bus bus : algo.getAclfNetwork().getBusList()) {
 			AclfBus aclfBus = (AclfBus)bus; 
 			int n = bus.getSortNumber();
-			double angle = Math.toDegrees(algo.getBusAngle(n));
+			double angle = algo.getAclfNetwork().isRefBus(bus)?
+					0.0 : Math.toDegrees(algo.getBusAngle(n));
 			double p = (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
 			str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
 					+ String.format("%8.2f",angle) + "         "
