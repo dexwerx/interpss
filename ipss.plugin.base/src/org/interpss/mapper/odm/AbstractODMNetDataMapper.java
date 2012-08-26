@@ -38,6 +38,8 @@ import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.core.aclf.Aclf3WXformer;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Branch3W;
@@ -134,7 +136,7 @@ public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMappi
 			String toBusId = BusXmlRef2BusId.fx(branchRec.getToBus());
 			if (branch instanceof Branch3W) {
 				String tertBusId = BusXmlRef2BusId.fx(branchRec.getTertiaryBus());
-				net.add3WBranch((Branch3W)branch, fromBusId, toBusId, tertBusId);
+				((AclfNetwork)net).add3WXfr((Aclf3WXformer)branch, fromBusId, toBusId, tertBusId);
 			}
 			else
 				net.addBranch(branch, fromBusId, toBusId);
