@@ -190,20 +190,21 @@ public class AclfBusDataHelper {
 				// remote bus voltage
 				ipssLogger.fine("Bus is a RemoteQBus, id: " + aclfBus.getId());
 					aclfBus.setGenCode(AclfGenCode.GEN_PQ);
-					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
-					// be changed to PQ bus
+			  		final AclfPQGenBus gen = aclfBus.toPQBus();
+			  		gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(), xmlEquivGenData.getPower().getIm()), 
+ 					           ToApparentPowerUnit.f(xmlEquivGenData.getPower().getUnit()));
 					String remoteId = BusXmlRef2BusId.fx(xmlEquivGenData.getRemoteVoltageControlBus());
 					if (remoteId != null) {
+						// TODO : the remote bus might located behind the bus in the ODM file
+						// The remote bus to be adjusted is normally defined as a PV bus. It needs to
+						// be changed to PQ bus
 						AclfBus remoteBus = aclfNet.getAclfBus(remoteId);
 	  					if (remoteBus != null) {
 	  	  					if (remoteBus.isGenPV())
 	  	  						remoteBus.setGenCode(AclfGenCode.GEN_PQ);
+
 	  	  			  		final RemoteQBus reQBus = CoreObjectFactory.createRemoteQBus(aclfBus, 
 	  	  			  				RemoteQControlType.BUS_VOLTAGE, aclfNet, remoteId);
-	  			  			final AclfPQGenBus gen = aclfBus.toPQBus();
-	  			  			gen.setGen(new Complex(xmlEquivGenData.getPower().getRe(),
-	  			  					               xmlEquivGenData.getPower().getIm()), 
-	  			  					           ToApparentPowerUnit.f(xmlEquivGenData.getPower().getUnit()));
 	  	  			  		reQBus.setQLimit(new LimitType(xmlEquivGenData.getQLimit().getMax(), 
 	  														xmlEquivGenData.getQLimit().getMin()), 
 	  														ToReactivePowerUnit.f(xmlEquivGenData.getQLimit().getUnit()));						
