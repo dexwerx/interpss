@@ -80,8 +80,9 @@ public class DclfOutFunc {
 				str.append(Number2String.toFixLengthStr(22, aclfBra.getId()) + "     "	+ String.format("%8.2f",mwFlow));
 				str.append("     " + String.format("%8.2f", limitMva)); 
 				if (limitMva > 0.0)
-					str.append("      " + String.format("%5.1f", loading) + "      " + (v? "x" : " ") + "\n");
+					str.append("      " + String.format("%5.1f", loading) + "      " + (v? "x" : " "));
 			}
+			str.append("\n");
 		}		
 		return str.toString();
 	}
@@ -104,7 +105,8 @@ public class DclfOutFunc {
 			int n = bus.getSortNumber();
 			double angle = algo.getAclfNetwork().isRefBus(bus)?
 					0.0 : Math.toDegrees(algo.getBusAngle(n));
-			double p = (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
+			double p =  algo.getAclfNetwork().isRefBus(bus)?
+					0.0 : (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
 			str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
 					+ String.format("%8.2f",angle) + "         "
 					+ ((p != 0.0)? String.format("%8.2f",p) : "") 
