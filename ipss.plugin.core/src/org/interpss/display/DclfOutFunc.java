@@ -27,11 +27,13 @@ package org.interpss.display;
 import java.util.List;
 
 import org.interpss.datatype.DblBusValue;
+import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -69,10 +71,12 @@ public class DclfOutFunc {
 		str.append(branchFlowTitle() + "\n");
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
 			AclfBranch aclfBra = (AclfBranch)bra;
-			double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
-			double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
-			double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
-			double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+			//double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
+			//double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
+			//double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
+			//double shiftAng = aclfBra.isPSXfr()? (aclfBra.toPSXfr().getFromAngle()-aclfBra.toPSXfr().getToAngle()) : 0.0;
+			double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
+			
 			double limitMva = aclfBra.getRatingMva1();
 			double loading = Math.abs(100*(mwFlow)/limitMva);
 			boolean v = Math.abs(mwFlow) > limitMva;
@@ -105,8 +109,7 @@ public class DclfOutFunc {
 			int n = bus.getSortNumber();
 			double angle = algo.getAclfNetwork().isRefBus(bus)?
 					0.0 : Math.toDegrees(algo.getBusAngle(n));
-			double p =  algo.getAclfNetwork().isRefBus(bus)?
-					0.0 : (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
+			double p =  busP(aclfBus, algo) * baseMva; 
 			str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
 					+ String.format("%8.2f",angle) + "         "
 					+ ((p != 0.0)? String.format("%8.2f",p) : "") 
@@ -116,6 +119,23 @@ public class DclfOutFunc {
 		str.append(branchFlow(algo, branchViolation? 100.0 : 0.0));
 		
 		return str;
+	}
+	
+	public static double busP(AclfBus bus, DclfAlgorithm algo) {
+		if (algo.getAclfNetwork().isRefBus(bus)) {
+			return pflowIntoNet(bus, algo);
+		}
+		else
+			return bus.getGenP() - bus.getLoadP();
+	}
+
+	public static double pflowIntoNet(AclfBus bus, DclfAlgorithm algo) {
+		double sum = 0.0;
+		for (Branch bra : bus.getBranchList()) {
+			double p = algo.getBranchFlow((AclfBranch)bra, UnitType.PU);
+			sum += bra.isFromBus(bus)? p : -p;
+		}
+		return sum;
 	}
 
 	/**
