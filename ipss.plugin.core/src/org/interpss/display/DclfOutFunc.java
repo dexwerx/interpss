@@ -76,6 +76,7 @@ public class DclfOutFunc {
 			//double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
 			//double shiftAng = aclfBra.isPSXfr()? (aclfBra.toPSXfr().getFromAngle()-aclfBra.toPSXfr().getToAngle()) : 0.0;
 			double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
+			//double mwFlow = (fAng-tAng - shiftAng)*aclfBra.b1ft()*baseMva;
 			
 			double limitMva = aclfBra.getRatingMva1();
 			double loading = Math.abs(100*(mwFlow)/limitMva);
@@ -121,7 +122,7 @@ public class DclfOutFunc {
 		return str;
 	}
 	
-	public static double busP(AclfBus bus, DclfAlgorithm algo) {
+    public static double busP(AclfBus bus, DclfAlgorithm algo) {
 		if (algo.getAclfNetwork().isRefBus(bus)) {
 			return pflowIntoNet(bus, algo);
 		}
