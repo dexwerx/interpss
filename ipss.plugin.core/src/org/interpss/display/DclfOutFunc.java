@@ -33,7 +33,6 @@ import org.interpss.numeric.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -71,12 +70,7 @@ public class DclfOutFunc {
 		str.append(branchFlowTitle() + "\n");
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
 			AclfBranch aclfBra = (AclfBranch)bra;
-			//double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
-			//double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
-			//double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
-			//double shiftAng = aclfBra.isPSXfr()? (aclfBra.toPSXfr().getFromAngle()-aclfBra.toPSXfr().getToAngle()) : 0.0;
 			double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
-			//double mwFlow = (fAng-tAng - shiftAng)*aclfBra.b1ft()*baseMva;
 			
 			double limitMva = aclfBra.getRatingMva1();
 			double loading = Math.abs(100*(mwFlow)/limitMva);
@@ -149,14 +143,8 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String lineOutageAnalysisBranchFlow(AclfBranch aclfBra, DclfAlgorithm algo, double mw, double f) {
-		AclfNetwork net = algo.getAclfNetwork();
-		double baseMva = net.getBaseKva() * 0.001;
-
 		String str = "";
-
-		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
-		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
-		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+		double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
 		
 		double limitMva = aclfBra.getRatingMva1();
 		double deratedLimit = limitMva - mw*f;
@@ -200,14 +188,8 @@ public class DclfOutFunc {
 	 */
 	public static String tradeAnalysisBranchFlow(AclfBranch aclfBra, DclfAlgorithm algo, 
 							double mw, double f, double dfactor) {
-		AclfNetwork net = algo.getAclfNetwork();
-		double baseMva = net.getBaseKva() * 0.001;
-
 		String str = "";
-
-		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
-		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
-		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+		double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
 		
 		double newMva = mwFlow + mw * f;
 		double limitMva = aclfBra.getRatingMva1() * dfactor;
