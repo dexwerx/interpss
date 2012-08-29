@@ -42,7 +42,10 @@ import com.interpss.core.net.Bus;
  *
  */
 public class ZeroZBranchProcesor implements IAclfNetBVisitor {
-	private double threshold = 0.00001;
+	public static enum Method {ZValue, BranchType};
+	
+	Method method = Method.ZValue;
+	private double threshold = 0.0;
 	private boolean allowZeroZBranchLoop = false;
 	
 	/**
@@ -51,6 +54,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 * @param threshold zero impedance is define as abs(Z) < threshold 
 	 */
 	public ZeroZBranchProcesor(double threshold) {
+		this.method = Method.ZValue;
 		this.threshold = threshold;
 	}
 
@@ -59,7 +63,18 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 * 
 	 * @param threshold zero impedance is define as abs(Z) < threshold 
 	 */
+	public ZeroZBranchProcesor(boolean allowZeroZBranchLoop) {
+		this.method = Method.BranchType;
+		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
+	}
+
+	/**
+	 * constructor 
+	 * 
+	 * @param threshold zero impedance is define as abs(Z) < threshold 
+	 */
 	public ZeroZBranchProcesor(double threshold, boolean allowZeroZBranchLoop) {
+		this.method = Method.ZValue;
 		this.threshold = threshold;
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
@@ -72,7 +87,8 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	net.setVisitedStatus(false);
 		  	
 		  	// mark small Z branch with regarding to the threshold
-		  	// line branch will be truned to ZERO_IMPEDENCE branch
+		  	// line branch will be turned to ZERO_IMPEDENCE branch
+		  	// if threshold = 0.0, Breaker branches are turned to zero-z branch
 		  	net.markSmallZBranch(this.threshold);		
 			
 		  	for (Bus b : net.getBusList()) {

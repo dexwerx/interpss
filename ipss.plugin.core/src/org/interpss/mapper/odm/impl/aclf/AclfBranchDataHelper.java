@@ -32,6 +32,7 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -88,7 +89,11 @@ public class AclfBranchDataHelper {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 
-		aclfBra.setBranchCode(AclfBranchCode.LINE);
+		if (braLine.getLineInfo() != null && braLine.getLineInfo().getType() == LineBranchEnumType.BREAKER)
+			aclfBra.setBranchCode(AclfBranchCode.BREAKER);
+		else
+			aclfBra.setBranchCode(AclfBranchCode.LINE);
+
 		//System.out.println(braXmlData.getLineData().getZ().getIm());
 		AclfLine line = aclfBra.toLine();
 		if (braLine.getZ() == null) {
