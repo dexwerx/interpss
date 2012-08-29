@@ -110,7 +110,7 @@ public class DclfOutFunc {
 			int n = bus.getSortNumber();
 			double angle = algo.getAclfNetwork().isRefBus(bus)?
 					0.0 : Math.toDegrees(algo.getBusAngle(n));
-			double p =  busP(aclfBus, algo) * baseMva; 
+			double p =  algo.getBusPower(aclfBus) * baseMva; 
 			str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
 					+ String.format("%8.2f",angle) + "         "
 					+ ((p != 0.0)? String.format("%8.2f",p) : "") 
@@ -122,23 +122,6 @@ public class DclfOutFunc {
 		return str;
 	}
 	
-    public static double busP(AclfBus bus, DclfAlgorithm algo) {
-		if (algo.getAclfNetwork().isRefBus(bus)) {
-			return pflowIntoNet(bus, algo);
-		}
-		else
-			return bus.getGenP() - bus.getLoadP();
-	}
-
-	public static double pflowIntoNet(AclfBus bus, DclfAlgorithm algo) {
-		double sum = 0.0;
-		for (Branch bra : bus.getBranchList()) {
-			double p = algo.getBranchFlow((AclfBranch)bra, UnitType.PU);
-			sum += bra.isFromBus(bus)? p : -p;
-		}
-		return sum;
-	}
-
 	/**
 	 * line outage analysis output title
 	 * 
