@@ -76,7 +76,44 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
     }	
 
 	@Test 
-	public void case2_zeroZBranchProcessing()  throws InterpssException {
+	public void case2_zeroZBranchProcessingBranchTyre()  throws InterpssException {
+		// Create an AclfNetwork object
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
+				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
+				.load()
+				.getAclfNet();
+
+		IpssLogger.getLogger().setLevel(Level.INFO);
+		
+	  	// process zero impedance branches in the network
+	  	//double smallBranchZ = 0.00001;
+	  	//net.accept(new ZeroZBranchProcesor(smallBranchZ, true));
+	  	net.accept(new ZeroZBranchProcesor(true));
+	  	assertTrue(net.isZeroZBranchProcessed());
+	  	//System.out.println(net.net2String());
+
+	  	// create the default loadflow algorithm
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+
+	  	// use the loadflow algorithm to perform loadflow calculation
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.loadflow();
+	  	
+	  	// output loadflow calculation results
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
+
+	  	//System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
+	  	assertTrue(net.getNoActiveBus() == 14);
+	  	assertTrue(net.getNoActiveBranch() == 20);
+
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
+  		AclfSwingBus swing = swingBus.toSwingBus();
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.3239)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.1655)<0.0001);
+	}	
+
+	@Test 
+	public void case2_zeroZBranchProcessingZValue()  throws InterpssException {
 		// Create an AclfNetwork object
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
 				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
