@@ -208,7 +208,7 @@ public class EqIneqMatrixBuilder {
 		Array2DRowRealMatrix braBusAdjacent = new Array2DRowRealMatrix(numOfBranch, numOfBus - 1);
 		int swingIndex = this.getSwingBusIndex();
 		for (Branch bra : opfNet.getBranchList()) {
-			if (bra.isAclfBranch()) {
+			//if (bra.isAclfBranch()) {
 				DclfOpfBranch aclfBra = (DclfOpfBranch) bra;
 				// create branch admittance matrix
 				bij = (aclfBra.getZ().getImaginary() > 0.00001) ? 1 / aclfBra
@@ -227,7 +227,7 @@ public class EqIneqMatrixBuilder {
 					braBusAdjacent.setEntry(braIndex, toBusIndex, -1);
 				}
 				braIndex++;
-			}
+			//}
 		}
 
 		int genIndex = 0;
@@ -279,12 +279,12 @@ public class EqIneqMatrixBuilder {
 		int braIndex = 0;
 		// form the bt;
 		for (Branch bra : opfNet.getBranchList()) {
-			if (bra.isAclfBranch()) {
+			//if (bra.isAclfBranch()) {
 				DclfOpfBranch acBranch = (DclfOpfBranch) bra;
 				double ratingMva1 = acBranch.getRatingMva1()/baseMVA;
 				bt.setEntry(braIndex, -ratingMva1);
 				braIndex++;
-			}
+			//}
 		}
 		return bt;
 	}
@@ -333,14 +333,14 @@ public class EqIneqMatrixBuilder {
 			int i = busi.getSortNumber();
 			double Bii = 0;
 			for (Branch bra : busi.getBranchList()) {
-				if (bra.isAclfBranch()) {
+				//if (bra.isAclfBranch()) {
 					DclfOpfBranch aclfBranch = (DclfOpfBranch) bra;
 					Bus busj = bra.getToBus().getId().equals(busi.getId()) ? bra.getFromBus() : bra	.getToBus();
 					int j = busj.getSortNumber();
 					double Bij = 1.0 / aclfBranch.getZ().getImaginary();// aclfBranch.b1ft();
 					tempBusAdm.setEntry(i, j, -Bij);
 					Bii += Bij;
-				}
+				//}
 			}
 			tempBusAdm.setEntry(i, i, Bii);
 		}
