@@ -183,9 +183,9 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 		    
 		    if(!isXfmr){
 		    	branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
-		    	//TODO add branch type, as line or breaker
 		    	LineBranchInfoXmlType LineInfo=new LineBranchInfoXmlType();
-		    	LineInfo.setType(type.equalsIgnoreCase("line")?LineBranchEnumType.OVERHEAD_LINE:LineBranchEnumType.BREAKER);
+		    	LineInfo.setType(type.equalsIgnoreCase("line")? LineBranchEnumType.OVERHEAD_LINE :
+		    		(type.equalsIgnoreCase("breaker")? LineBranchEnumType.BREAKER : LineBranchEnumType.OTHER));
 		    	((LineBranchXmlType) branch).setLineInfo(LineInfo);
 		    }
 		    else{
