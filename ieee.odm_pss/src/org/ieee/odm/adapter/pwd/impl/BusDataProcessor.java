@@ -203,28 +203,30 @@ public class BusDataProcessor extends BaseDataProcessor {
 		  BusNum,GenID,GenStatus,GenMW,GenMVR,GenEnforceMWLimits,GenMWMin,
 		   GenMWMax GenRegNum,GenMVRMin,GenMVRMax,GenVoltSet,GenMVABase,AreaNum,ZoneNum
 		*/
-	long busNum=-1,regBusNum=-1;
-	int areaNum=-1,zoneNum=-1;
-	String genId="";
-	double genVoltSet=0;
-	double genMW=0,genMVR=0,genMWMin=0,genMWMax=0,genMVRMin=-9999,genMVRMax=9999,genMVABase=100;
-	boolean genOnLine=false;
-	boolean pLimitForced=true;
+		long busNum=-1,regBusNum=-1;
+		int areaNum=-1,zoneNum=-1;
+		String genId="";
+		double genVoltSet=0;
+		double genMW=0,genMVR=0,genMWMin=0,genMWMax=0,genMVRMin=-9999,genMVRMax=9999,genMVABase=100;
+		boolean genOnLine=false;
+		boolean pLimitForced=true;
+		double partFactor = 0.0;
+		boolean genAGCAble = false;
+		
+		if(busGenDataStr.trim().startsWith("<SUBDATA")){
+			isSubDataSection=true;
+			return;
+		}
+		else if(busGenDataStr.trim().startsWith("</SUBDATA>")){
+			isSubDataSection=false;
+			return;
+		}
 	
-	if(busGenDataStr.trim().startsWith("<SUBDATA")){
-		isSubDataSection=true;
-		return;
-	}
-	else if(busGenDataStr.trim().startsWith("</SUBDATA>")){
-		isSubDataSection=false;
-		return;
-	}
+		/*
+		 * skips SubData, since they are not used in load flow analysis;
+		 */
 	
-	/*
-	 * skips SubData, since they are not used in load flow analysis;
-	 */
-	
-	if (!isSubDataSection) {// if there is no subData or subData ends
+		if (!isSubDataSection) {// if there is no subData or subData ends
 		
 			PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
             
@@ -260,7 +262,11 @@ public class BusDataProcessor extends BaseDataProcessor {
 				else if (nv.name.equals("ZoneNum"))
 					zoneNum = Integer.valueOf(nv.value);
 				else if(nv.name.equals("GenVoltSet"))
-						genVoltSet=Double.valueOf(nv.value);
+					genVoltSet=Double.valueOf(nv.value);
+				else if(nv.name.equals("GenAGCAble"))
+					genAGCAble= "yes".equals(nv.value.trim().toLowerCase());
+				else if(nv.name.equals("GenParFac"))
+					partFactor=Double.valueOf(nv.value);
 			}
 
 			String busId = parser.BusIdPreFix + busNum;
@@ -373,6 +379,10 @@ public class BusDataProcessor extends BaseDataProcessor {
 					equivGen.setRemoteVoltageControlBus(parser
 							.createBusRef(regBusId));
 				}
+
+				LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
+				if (genAGCAble)
+					equivGen.setMwControlParticipateFactor(partFactor);
 			}
 		}//end of if-subData
 	}
