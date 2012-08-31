@@ -82,14 +82,22 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	@Override
 	public boolean visit(AclfNetwork net) {
 		try {
-			// bus and branch visited status will be used
+		  	// bus and branch visited status will be used
 			// in the processing
 		  	net.setVisitedStatus(false);
+		  	
+		  	// TODO
+		  	// marked those branches with visited = true, if they need 
+		  	// not to be processed
 		  	
 		  	// mark small Z branch with regarding to the threshold
 		  	// line branch will be turned to ZERO_IMPEDENCE branch
 		  	// if threshold = 0.0, Breaker branches are turned to zero-z branch
-		  	net.markSmallZBranch(this.threshold);		
+		  	net.markSmallZBranch(this.threshold, true);		
+
+		  	// bus and branch visited status will be used
+			// in the processing
+		  	net.setVisitedStatus(false);
 			
 		  	for (Bus b : net.getBusList()) {
 		  		if (!b.isVisited()) {

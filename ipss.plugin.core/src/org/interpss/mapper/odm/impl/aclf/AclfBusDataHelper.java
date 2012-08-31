@@ -226,6 +226,9 @@ public class AclfBusDataHelper {
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}
+		
+		if (xmlEquivGenData.getMwControlParticipateFactor() != null)
+			aclfBus.setGenPartFactor(xmlEquivGenData.getMwControlParticipateFactor());
 	}
 	
 	private void mapLoadData(AclfLoadDataXmlType loadData) {
