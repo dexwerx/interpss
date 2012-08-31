@@ -222,7 +222,10 @@ public class AclfBusDataHelper {
 			double angRad = UnitHelper.angleConversion(angXml.getValue(),
 					ToAngleUnit.f(angXml.getUnit()), UnitType.Rad);				
 			swing.setVoltMag(vpu, UnitType.PU);
-			swing.setVoltAng(angRad, UnitType.Rad);				
+			swing.setVoltAng(angRad, UnitType.Rad);		
+			if (xmlEquivGenData.getPower() != null) 
+				swing.setGenP(xmlEquivGenData.getPower().getRe(),
+						ToApparentPowerUnit.f(xmlEquivGenData.getPower().getUnit()));
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}
