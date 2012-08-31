@@ -88,7 +88,7 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		//System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0)<0.1);
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.07)<0.1);
 
 		algo.destroy();			
 	}
@@ -113,9 +113,9 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0)<0.1);
-  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.30)<0.01);
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.07)<0.1);
+  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.28)<0.01);
 
 		algo.destroy();			
 	}
@@ -160,8 +160,8 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 		
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0)<0.1);
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.07)<0.1);
 		
 		algo.destroy();	
 	}
