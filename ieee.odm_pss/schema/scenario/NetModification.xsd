@@ -10,7 +10,6 @@
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
 
-
 	<ns:complexType name="NetModificationXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
