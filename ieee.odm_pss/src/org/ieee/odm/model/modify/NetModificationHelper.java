@@ -24,7 +24,12 @@
 
 package org.ieee.odm.model.modify;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.ModifyRecordXmlType;
+import org.ieee.odm.schema.NetModificationXmlType;
 
 /**
  *
@@ -36,4 +41,27 @@ public class NetModificationHelper {
 		this.parser = parser;
 	}
 	
+	/**
+	 * create an ContingencySet modifyRecord
+	 * 
+	 * @return
+	 */
+	public NetModificationXmlType createNetModificationList() {
+		NetModificationXmlType rec = odmObjFactory.createNetModificationXmlType();
+		addModifyRecord(rec);
+		return rec;
+	}	
+	
+	public BranchChangeRecXmlType createBranchChangeRecXmlType(NetModificationXmlType netModifyList) {
+		BranchChangeRecXmlType branchChange = odmObjFactory.createBranchChangeRecXmlType();
+		netModifyList.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
+		return branchChange;
+	}
+	
+	private void addModifyRecord(ModifyRecordXmlType rec) {
+		if (this.parser.getStudyCase().getModificationList() == null) {
+			this.parser.getStudyCase().setModificationList(odmObjFactory.createStudyCaseXmlTypeModificationList());
+		}
+		this.parser.getStudyCase().getModificationList().getModification().add(rec);
+	}	
 }

@@ -5,6 +5,9 @@ import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.modify.NetModificationHelper;
+import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.NetModificationXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
@@ -24,6 +27,15 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		AclfModelParser parser=new AclfModelParser(encoding);
 		
 		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
+		
+		NetModificationHelper helper = new NetModificationHelper(parser);
+		
+		NetModificationXmlType netModList = helper.createNetModificationList();
+		
+		BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(netModList);
+		
+		branchChange.setBranchId("");
+		// ...
 
 		return parser;
 	}
