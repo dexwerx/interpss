@@ -3,7 +3,7 @@ package org.interpss.sample.acsc;
 import static com.interpss.core.funcImpl.AcscFunction.AcscXfrAptr;
 import static com.interpss.core.funcImpl.AcscFunction.BusFault2Str;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.display.AcscOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.junit.Test;
