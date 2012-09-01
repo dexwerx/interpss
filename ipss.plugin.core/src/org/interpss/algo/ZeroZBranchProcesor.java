@@ -24,6 +24,7 @@
 package org.interpss.algo;
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.interpss.common.exp.InterpssException;
@@ -47,6 +48,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	Method method = Method.ZValue;
 	private double threshold = 0.0;
 	private boolean allowZeroZBranchLoop = false;
+	private List<String> protectedBranchIds = new ArrayList<String>();
 	
 	/**
 	 * constructor 
@@ -79,6 +81,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
 	
+	public List<String> getProtectedBranchIdList() {
+		return this.protectedBranchIds;
+	}
+ 	
 	@Override
 	public boolean visit(AclfNetwork net) {
 		try {
@@ -86,9 +92,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			// in the processing
 		  	net.setVisitedStatus(false);
 		  	
-		  	// TODO
-		  	// marked those branches with visited = true, if they need 
-		  	// not to be processed
+		  	// marked those protected branches with visited = true
+		  	if (this.protectedBranchIds.size() > 0) 
+		  		for (String id : this.protectedBranchIds)
+		  			net.getAclfBranch(id).setVisited(true);
 		  	
 		  	// mark small Z branch with regarding to the threshold
 		  	// line branch will be turned to ZERO_IMPEDENCE branch
