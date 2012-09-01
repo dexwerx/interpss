@@ -37,10 +37,11 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		NetModificationXmlType netModList = helper.createNetModificationList();
 		
 		// create a branch change set object to represent a contingency
-		BranchChangeRecSetXmlType branchChangeSet = helper.createBranchChangeRecSetXmlType(netModList);
+		BranchChangeRecSetXmlType contingency = helper.createBranchChangeRecSetXmlType(netModList);
+		contingency.setId("");
 		
 		// for each contingency, one to many branch change could be defined
-		BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(branchChangeSet);
+		BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(contingency);
 		
 		branchChange.setBranchId("");
 		// ...
