@@ -107,9 +107,4 @@ public class PWDHelper {
 		if (debug)
 			System.out.println(nvpairs);
 	}
-	
-	public static void contingencySampleCode() {
-		// the goal is to create ODM parser object to contain a list of contingencies
-		
-	}
 }
