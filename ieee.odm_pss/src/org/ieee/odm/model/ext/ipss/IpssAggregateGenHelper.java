@@ -35,7 +35,7 @@ import org.ieee.odm.schema.AggregateGenXmlType;
  * @author mzhou
  *
  */
-public class AggregateGenHelper {
+public class IpssAggregateGenHelper {
 	private AggregateGenXmlType ap = null;
 	
 	/**
@@ -43,7 +43,7 @@ public class AggregateGenHelper {
 	 * 
 	 * @param parser
 	 */
-	public AggregateGenHelper (AggregateGenXmlType ap) {
+	public IpssAggregateGenHelper (AggregateGenXmlType ap) {
 		this.ap = ap;
 	}
 

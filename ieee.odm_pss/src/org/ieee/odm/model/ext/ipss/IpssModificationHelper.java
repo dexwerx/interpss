@@ -43,10 +43,10 @@ import org.ieee.odm.schema.OutageScheduleXmlType;
  * @author mzhou
  *
  */
-public class ModificationHelper {
+public class IpssModificationHelper {
 	private IODMModelParser parser = null;
 	
-	public ModificationHelper (IODMModelParser parser) {
+	public IpssModificationHelper (IODMModelParser parser) {
 		this.parser = parser;
 	}
 	

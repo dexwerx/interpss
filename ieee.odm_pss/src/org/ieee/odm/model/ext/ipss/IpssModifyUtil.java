@@ -27,7 +27,7 @@ package org.ieee.odm.model.ext.ipss;
 import org.ieee.odm.schema.DclfContingencySetXmlType;
 import org.ieee.odm.schema.DclfContingencyXmlType;
 
-public class ModifyUtil {
+public class IpssModifyUtil {
 	/**
 	 * get contingency from the contingency set
 	 * 
