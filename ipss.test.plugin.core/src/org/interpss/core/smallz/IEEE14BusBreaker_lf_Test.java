@@ -65,9 +65,9 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
 	  	// output loadflow calculation results
 	  	//System.out.println(AclfOutFunc.loadFlowSummary(net));
 
-	  	//	  	System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
-	  	//assertTrue(net.getNoActiveBus() == 18);
-	  	//assertTrue(net.getNoActiveBranch() == 24);
+	  	//System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
+	  	assertTrue(net.getNoActiveBus() == 22);
+	  	assertTrue(net.getNoActiveBranch() == 29);
 	  	
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
   		AclfSwingBus swing = swingBus.toSwingBus();
@@ -141,6 +141,47 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
 	  	//System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
 	  	assertTrue(net.getNoActiveBus() == 14);
 	  	assertTrue(net.getNoActiveBranch() == 20);
+
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
+  		AclfSwingBus swing = swingBus.toSwingBus();
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-2.3239)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()+0.1655)<0.0001);
+	}	
+
+	@Test 
+	public void case2_zeroZBranch_ProtectedBranch()  throws InterpssException {
+		// Create an AclfNetwork object
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
+				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
+				.load()
+				.getAclfNet();
+
+		IpssLogger.getLogger().setLevel(Level.INFO);
+		
+	  	// process zero impedance branches in the network
+	  	double smallBranchZ = 0.00001;
+	  	ZeroZBranchProcesor proc = new ZeroZBranchProcesor(smallBranchZ, true);
+	  	
+	  	// add one protected branch
+	  	proc.getProtectedBranchIdList().add("Bus18->Bus14(1)");
+	  	
+	  	net.accept(proc);
+	  	assertTrue(net.isZeroZBranchProcessed());
+	  	//System.out.println(net.net2String());
+
+	  	// create the default loadflow algorithm
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+
+	  	// use the loadflow algorithm to perform loadflow calculation
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.loadflow();
+	  	
+	  	// output loadflow calculation results
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
+
+	  	System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
+	  	assertTrue(net.getNoActiveBus() == 15);
+	  	assertTrue(net.getNoActiveBranch() == 21);
 
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
   		AclfSwingBus swing = swingBus.toSwingBus();
