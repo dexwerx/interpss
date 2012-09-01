@@ -37,8 +37,8 @@ import com.interpss.core.dclf.common.ReferenceBusException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssAclf.LfAlgoDSL;
+import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.IpssPTrading;
-import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class QSen_Test extends BaseTestSetup {

@@ -48,8 +48,8 @@ import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.odm.DclfDslODMRunner;
 import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
 import com.interpss.pssl.plugin.IpssAdapter;
+import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.IpssPTrading;
-import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODFPaper_Test extends BaseTestSetup {
