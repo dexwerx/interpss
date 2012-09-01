@@ -380,6 +380,7 @@ public class BusDataProcessor extends BaseDataProcessor {
 							.createBusRef(regBusId));
 				}
 
+				// process generator participation factor
 				LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
 				if (genAGCAble)
 					equivGen.setMwControlParticipateFactor(partFactor);
