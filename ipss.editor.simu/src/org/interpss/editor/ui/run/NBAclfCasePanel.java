@@ -36,7 +36,6 @@ import org.ieee.odm.schema.ContingencyAnalysisXmlType;
 import org.ieee.odm.schema.GridComputingXmlType;
 import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
-
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;

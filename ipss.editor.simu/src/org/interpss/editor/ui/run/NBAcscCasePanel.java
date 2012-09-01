@@ -40,8 +40,8 @@ import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import org.interpss.numeric.util.Number2String;
-import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.spring.EditorPluginSpringFactory;
+import org.interpss.spring.EditorSimuSpringFactory;
 import org.interpss.ui.SwingInputVerifyUtil;
 
 import com.interpss.common.util.IpssLogger;

@@ -37,8 +37,8 @@ import javax.swing.JFileChooser;
 
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.ext.ipss.AggregateGenHelper;
-import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
+import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
 import org.ieee.odm.schema.BranchShiftFactorXmlType;
 import org.ieee.odm.schema.DclfBranchSensitivityXmlType;
@@ -79,8 +79,8 @@ import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.display.SenAnalysisOutput;
 import com.interpss.pssl.odm.DclfDslODMRunner;
 import com.interpss.pssl.odm.DclfDslODMRunner.DclfAnalysisType;
+import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.IpssPTrading;
-import com.interpss.pssl.simu.IpssPTrading.DclfAlgorithmDSL;
 import com.interpss.simu.SimuContext;
 
 public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
