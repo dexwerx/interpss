@@ -27,7 +27,9 @@ package org.ieee.odm.model.modify;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.BusChangeRecSetXmlType;
 import org.ieee.odm.schema.BusChangeRecXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
@@ -54,26 +56,48 @@ public class NetModificationHelper {
 	}	
 	
 	/**
-	 * create an BranchChangeRecXmlType record and added to the netModifyList
+	 * create an BranchChangeRecSetXmlType record and added to the netModifyList
 	 * 
 	 * @return
 	 */	
-	public BranchChangeRecXmlType createBranchChangeRecXmlType(NetModificationXmlType netModifyList) {
+	public BranchChangeRecSetXmlType createBranchChangeRecSetXmlType(NetModificationXmlType netModifyList) {
+		BranchChangeRecSetXmlType branchChangeSet = odmObjFactory.createBranchChangeRecSetXmlType();
+		netModifyList.getBranchChangeRecSetList().add(branchChangeSet);
+		return branchChangeSet;
+	}
+	
+	/**
+	 * create an BranchChangeRecXmlType record and added to the branchSet
+	 * 
+	 * @return
+	 */	
+	public BranchChangeRecXmlType createBranchChangeRecXmlType(BranchChangeRecSetXmlType branchSet) {
 		BranchChangeRecXmlType branchChange = odmObjFactory.createBranchChangeRecXmlType();
-		netModifyList.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
+		branchSet.getBranchChangeRecords().add(branchChange);
 		return branchChange;
 	}
 	
 	/**
-	 * create an BusChangeRecXmlType record and added to the netModifyList
+	 * create an BusChangeRecSetXmlType record and added to the netModifyList
 	 * 
 	 * @return
 	 */	
-	public BusChangeRecXmlType createBusChangeRecXmlType(NetModificationXmlType netModifyList) {
-		BusChangeRecXmlType busChange = odmObjFactory.createBusChangeRecXmlType();
-		netModifyList.getBusChangeRecList().getBusChangeRec().add(busChange);
-		return busChange;
+	public BusChangeRecSetXmlType createBusChangeRecSetXmlType(NetModificationXmlType netModifyList) {
+		BusChangeRecSetXmlType busChangeSet = odmObjFactory.createBusChangeRecSetXmlType();
+		netModifyList.getBusChangeRecSetList().add(busChangeSet);
+		return busChangeSet;
 	}
+	
+	/**
+	 * create an BusChangeRecXmlType record and added to the busSet
+	 * 
+	 * @return
+	 */	
+	public BusChangeRecXmlType createBusChangeRecXmlType(BusChangeRecSetXmlType busSet) {
+		BusChangeRecXmlType busChange = odmObjFactory.createBusChangeRecXmlType();
+		busSet.getBusChangeRecords().add(busChange);
+		return busChange;
+	}	
 
 	private void addModifyRecord(ModifyRecordXmlType rec) {
 		if (this.parser.getStudyCase().getModificationList() == null) {
