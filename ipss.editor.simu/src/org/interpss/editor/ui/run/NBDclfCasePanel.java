@@ -36,7 +36,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.ext.ipss.AggregateGenHelper;
+import org.ieee.odm.model.ext.ipss.IpssAggregateGenHelper;
 import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
 import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
 import org.ieee.odm.schema.BranchRefXmlType;
@@ -1500,7 +1500,7 @@ private void gsfGenBusRadioButtonActionPerformed(java.awt.event.ActionEvent evt)
 private void gsfGenAPNodeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsfGenAPNodeRadioButtonActionPerformed
 	ipssLogger.info("gsfAPNodeRadioButtonActionPerformed() called");
 	this.gsfGenBusLabel.setText("Gen Group");
-	AggregateGenHelper helper = new AggregateGenHelper(this._ptInfoXml.getLoadDist().getAggregateGen());
+	IpssAggregateGenHelper helper = new IpssAggregateGenHelper(this._ptInfoXml.getLoadDist().getAggregateGen());
 	String[] idAry = helper.getAPGroupIdAry();
 	this.gsfGenBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(idAry));
 	this.gsfGenBusList.setEnabled(false);
