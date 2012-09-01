@@ -28,6 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.BusChangeRecXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
 
@@ -42,7 +43,7 @@ public class NetModificationHelper {
 	}
 	
 	/**
-	 * create an ContingencySet modifyRecord
+	 * create an NetModificationXmlType for net modification records
 	 * 
 	 * @return
 	 */
@@ -52,12 +53,28 @@ public class NetModificationHelper {
 		return rec;
 	}	
 	
+	/**
+	 * create an BranchChangeRecXmlType record and added to the netModifyList
+	 * 
+	 * @return
+	 */	
 	public BranchChangeRecXmlType createBranchChangeRecXmlType(NetModificationXmlType netModifyList) {
 		BranchChangeRecXmlType branchChange = odmObjFactory.createBranchChangeRecXmlType();
 		netModifyList.getBranchChangeRecList().getBranchChangeRec().add(branchChange);
 		return branchChange;
 	}
 	
+	/**
+	 * create an BusChangeRecXmlType record and added to the netModifyList
+	 * 
+	 * @return
+	 */	
+	public BusChangeRecXmlType createBusChangeRecXmlType(NetModificationXmlType netModifyList) {
+		BusChangeRecXmlType busChange = odmObjFactory.createBusChangeRecXmlType();
+		netModifyList.getBusChangeRecList().getBusChangeRec().add(busChange);
+		return busChange;
+	}
+
 	private void addModifyRecord(ModifyRecordXmlType rec) {
 		if (this.parser.getStudyCase().getModificationList() == null) {
 			this.parser.getStudyCase().setModificationList(odmObjFactory.createStudyCaseXmlTypeModificationList());
