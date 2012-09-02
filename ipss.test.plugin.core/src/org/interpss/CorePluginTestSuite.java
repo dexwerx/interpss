@@ -8,6 +8,7 @@ import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.psse.SixBus_DclfPsXfr;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.smallz.IEEE14BusBreakerTest;
+import org.interpss.core.smallz.IEEE14BusBreaker_dclf_Test;
 import org.interpss.core.smallz.IEEE14BusBreaker_lf_Test;
 import org.interpss.core.smallz.SampleSwitchBreakerModelTest;
 import org.interpss.dstab.DStab_2Bus;
@@ -32,6 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	// Dclf
 	SixBus_DclfPsXfr.class,
+	IEEE14BusBreaker_dclf_Test.class,
 	
 	// small Z branch
 	SampleSwitchBreakerModelTest.class,
