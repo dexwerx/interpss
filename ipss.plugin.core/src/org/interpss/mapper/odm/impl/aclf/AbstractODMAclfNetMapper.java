@@ -63,7 +63,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 /**
- * abstract mapper implementation to map ODM to InterPSS object model for Aclf
+ * abstract mapper implementation to map ODM LoadflowNetXmlType object to InterPSS AclfNetwork object
  * 
  * @author mzhou
  * @param Tfrom from object type
@@ -79,7 +79,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	/**
 	 * map into store in the ODM parser into simuCtx object
 	 * 
-	 * @param p ODM parser object, representing a ODM xml file
+	 * @param p a LoadflowNetXmlType object, representing a aclf base network
 	 * @param simuCtx
 	 */
 	@Override public boolean map2Model(Tfrom p, SimuContext simuCtx) {
@@ -107,7 +107,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 				mapAclfBranchData(xmlBranch, branch, adjNet);
 			}
 		} catch (InterpssException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			ipssLogger.severe(e.toString());
 			noError = false;
 		}

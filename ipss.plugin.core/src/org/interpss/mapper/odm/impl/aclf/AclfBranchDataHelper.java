@@ -175,6 +175,8 @@ public class AclfBranchDataHelper {
 		if(braPsXfr.getToAngle() != null)
 			psXfr.setToAngle(braPsXfr.getToAngle().getValue(), 
 					ToAngleUnit.f(braPsXfr.getToAngle().getUnit()));
+		
+		// TODO PsXfr shift angle control
 	}
 
 	private void setXformerInfoData(XfrBranchXmlType xfrBranch, AclfBranch aclfBra) {
@@ -222,6 +224,8 @@ public class AclfBranchDataHelper {
 		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 		ratio = xfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
+		
+		// TODO: XfrTapControl data mapping
 	}
 	
 	/*

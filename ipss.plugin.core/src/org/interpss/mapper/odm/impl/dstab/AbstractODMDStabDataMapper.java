@@ -73,7 +73,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 /**
- * abstract mapper implementation to map ODM to InterPSS object model for DStab
+ * abstract mapper implementation to map ODM DStab parser object to InterPSS DStabNetwork object
  * 
  * @author mzhou
  *

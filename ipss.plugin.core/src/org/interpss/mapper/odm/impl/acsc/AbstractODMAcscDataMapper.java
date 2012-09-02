@@ -77,7 +77,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 /**
- * abstract mapper implementation to map ODM to InterPSS object model for Acsc
+ * abstract mapper implementation to map ODM parser object to InterPSS AcscNetwork object
  * 
  * @author mzhou
  *

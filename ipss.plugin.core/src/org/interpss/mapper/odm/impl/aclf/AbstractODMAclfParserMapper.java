@@ -37,7 +37,7 @@ import org.interpss.mapper.odm.ODMHelper;
 import com.interpss.simu.SimuContext;
 
 /**
- * abstract mapper implementation to map ODM to InterPSS object model for Aclf
+ * abstract mapper implementation to map ODM Aclf parser object to InterPSS AclfNet object
  * 
  * @author mzhou
  * @param Tfrom from object type
