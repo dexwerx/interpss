@@ -103,7 +103,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				//System.out.println("processing data#"+str);
 				if(str!=null){
 				  if(str.startsWith(Token_Data)){
-					dataType=getDataType(str);
+					dataType=PWDHelper.getDataType(str);
 				    if(dataType.equals(Token_Bus)){
 					  		recordType=RecType.BUS;		
 					}
@@ -141,12 +141,12 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				    }
 				    
 				    //get all the argument fields of a record, then save them to a list.
-				    while(!isArgumentFieldsCompleted(str)){
+				    while(!PWDHelper.isArgumentFieldsCompleted(str)){
 						str+=din.readLine();
 					}
 				    
 				    // parse the str for the field definition 
-				    parseFieldNames(str);
+				    PWDHelper.parseFieldNames(str, inputNvPairs);
 				    
 				} //end of processing data type
 				
@@ -174,7 +174,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					   else if(recordType==RecType.BRANCH){
 						   //TODO
 						   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
-						   while(!isDataFiledsCompleted(str)){
+						   while(!PWDHelper.isDataFiledsCompleted(str, inputNvPairs)){
 								str+=din.readLine();
 						   }
 						   branchProc.processBranchData(str);
@@ -227,58 +227,5 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		return null;
 	}
 	
-	private boolean isArgumentFieldsCompleted(String str){
-		
-		boolean leftParenthesis=false;
-		boolean rightParenthesis=false;
-
-		if(str.indexOf("(")>-1)leftParenthesis=true;
-		
-        rightParenthesis=endsWithRightParenthesis(str);
-        
-		return leftParenthesis&&rightParenthesis;
-		
-	}
 	
-	private boolean isDataFiledsCompleted(String dataStr){
-		/*
-		 * data fields are completed only when all nvPairs in the list are completed 
-		 */
-		boolean dataCompleted=true;
-		PWDHelper.parseDataFields(dataStr, inputNvPairs);
-		for(NVPair nv:inputNvPairs){
-			if(nv.value==null){
-				dataCompleted=false;
-				break;
-			}
-		}
-		return dataCompleted;
-	}
-	
-	private boolean endsWithRightParenthesis(String str){
-		return str.trim().endsWith(")");
-	}
-	
-	private String getDataType(String str){
-		int indexOfLeftParenthesis=str.indexOf("(");
-		int indexOfFirstComma=str.indexOf(",");
-		String dataType=str.substring(indexOfLeftParenthesis+1, indexOfFirstComma).trim();
-		
-		return dataType;
-		
-	}
-	/**
-	 * now the in-line comment is not considered yet!. 
-	 */
-	private void parseFieldNames(String str){
-		
-		int indexOfLeftBracket=str.indexOf("[");
-		int indexOfRightBracket=str.indexOf("]");
-		String[] arguFields=str.substring(indexOfLeftBracket+1,
-				indexOfRightBracket).split(",");
-		this.inputNvPairs.clear();
-		for(int i=0;i<arguFields.length;i++){
-			this.inputNvPairs.add(new NVPair(arguFields[i].trim()));
-		}
-	}
 }
