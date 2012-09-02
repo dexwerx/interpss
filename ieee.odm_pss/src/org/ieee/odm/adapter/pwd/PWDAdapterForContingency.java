@@ -62,34 +62,41 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		try {
 			do{
 				str=din.readLine();
-				if (str != null && str.startsWith("DATA")) {
-					if(getDataType(str).equals(CONTINGENCY_Token)){
-						recType=RecType.CONTINGENCY;
+				if (str != null) {
+					if (str.startsWith("DATA")) {
+						if (getDataType(str).equals(CONTINGENCY_Token)) {
+							recType = RecType.CONTINGENCY;
+						} 
+						else if (getDataType(str).equals(CTG_OPTIONS_Token))
+							recType = RecType.CTG_OPTIONS;
+						else if (getDataType(str).equals(GLOBAL_CTG_ACTION_Token))
+							recType = RecType.GLOBALCONTINGENCYACTIONS;
+						else
+							recType = RecType.UNSUPPORTED;
+
+						// parse Field Names
+						while (!PWDHelper.isArgumentFieldsCompleted(str)) {
+							str += din.readLine();
+						}
+						PWDHelper.parseFieldNames(str, inputNvPairs);
+
+					} else if (str.trim().startsWith("//"))
+						ODMLogger.getLogger().fine("comments:" + str);
+					else if (str.trim().startsWith("{"))
+						ODMLogger.getLogger().info(
+								recType.toString() + " type data begins");
+					else if (str.trim().startsWith("}"))
+						ODMLogger.getLogger().info(
+								recType.toString() + " type data ends");
+
+					// start processing record data
+					else if (!str.trim().isEmpty()
+							&& recType == RecType.CONTINGENCY) {
+						ctgProc.processContingencyData(str);
+
 					}
-					else if(getDataType(str).equals(CTG_OPTIONS_Token))
-						recType=RecType.CTG_OPTIONS;
-					else if(getDataType(str).equals(GLOBAL_CTG_ACTION_Token))
-						recType=RecType.GLOBALCONTINGENCYACTIONS;
-					else recType=RecType.UNSUPPORTED;
-					
-					// parse Field Names
-					PWDHelper.parseFieldNames(str, inputNvPairs);
-					
-				} 
-				else if (str.trim().startsWith("//"))
-					ODMLogger.getLogger().fine("comments:" + str);
-				else if (str.trim().startsWith("{"))
-					ODMLogger.getLogger().info(recType.toString() + " type data begins");
-				else if (str.trim().startsWith("}")) 
-					ODMLogger.getLogger().info(recType.toString() + " type data ends");
-				
-				// start processing record data
-				else if (!str.trim().isEmpty()&&recType==RecType.CONTINGENCY) {
-					ctgProc.processContingencyData(str);
-					
-				}
-				
-			}while(str!=null);
+				}// end of if str!=null
+		 }while(str!=null);
 		} catch (Exception e) {
 
 			e.printStackTrace();

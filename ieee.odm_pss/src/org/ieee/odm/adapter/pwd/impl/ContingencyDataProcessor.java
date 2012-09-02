@@ -19,6 +19,7 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 	private NetModificationHelper helper=null;
 	private BranchChangeRecSetXmlType branchTypeCtg=null;
 	boolean skipCtg=false;
+	boolean isCTGSubDataSection=false;
 	public ContingencyDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs,AclfModelParser parser) {
 		super(nvPairs, parser);
 		
@@ -34,7 +35,7 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 	
 	public void processContingencyData(String ctgStr){
       
-		boolean isCTGSubDataSection=false;
+		
 		
 		/*
 		 * DATA (CONTINGENCY,[CTGLabel,CTGSkip,CTGProc,CTGSolved,LoadMW,CustomString]) 
@@ -50,8 +51,14 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 		 */
 		
 		// First need to check whether or not the data input is CTGElement Data
-		isCTGElementData(ctgStr, isCTGSubDataSection);
-		
+		if(ctgStr.trim().startsWith("<SUBDATA")){
+			isCTGSubDataSection=true;
+			return;
+		}
+		else if(ctgStr.trim().startsWith("</SUBDATA>")){
+			isCTGSubDataSection=false;
+			return;
+		}
 		//
 		if(!isCTGSubDataSection){
 			
@@ -69,10 +76,10 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 		// create a branch change set object to represent a contingency
 		for(NVPair nv:inputNvPairs){
 			if(nv.name.equals("CTGSkip")){
-				skipCtg=nv.value.equalsIgnoreCase("NO")?false:true;
+				skipCtg=nv.value.trim().equalsIgnoreCase("NO")?false:true;
 			}
-			if(nv.name.equals("CTGLabel")) ctgId=nv.value;
-			if(nv.name.equals("CustomString")) ctgInfo=nv.value; //Only for this project
+			else if(nv.name.equals("CTGLabel")) ctgId=nv.value;
+			else if(nv.name.equals("CustomString")) ctgInfo=nv.value; //Only for this project
 		}
 		
 		if(!skipCtg){
