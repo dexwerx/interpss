@@ -71,17 +71,17 @@ public class DclfOutFunc {
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
 			AclfBranch aclfBra = (AclfBranch)bra;
 			double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
-			
+			String id = aclfBra.getId();
 			double limitMva = aclfBra.getRatingMva1();
 			double loading = Math.abs(100*(mwFlow)/limitMva);
 			boolean v = Math.abs(mwFlow) > limitMva;
 			if (loading >= threshhold) {
-				str.append(Number2String.toFixLengthStr(22, aclfBra.getId()) + "     "	+ String.format("%8.2f",mwFlow));
+				str.append(Number2String.toFixLengthStr(22, id) + "     "	+ String.format("%8.2f",mwFlow));
 				str.append("     " + String.format("%8.2f", limitMva)); 
 				if (limitMva > 0.0)
 					str.append("      " + String.format("%5.1f", loading) + "      " + (v? "x" : " "));
+				str.append("\n");
 			}
-			str.append("\n");
 		}		
 		return str.toString();
 	}
@@ -100,15 +100,17 @@ public class DclfOutFunc {
 		str.append("=========================================================\n");
 		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
 		for (Bus bus : algo.getAclfNetwork().getBusList()) {
-			AclfBus aclfBus = (AclfBus)bus; 
-			int n = bus.getSortNumber();
-			double angle = algo.getAclfNetwork().isRefBus(bus)?
-					0.0 : Math.toDegrees(algo.getBusAngle(n));
-			double pgen =  (aclfBus.isRefBus()? algo.getBusPower(aclfBus) : aclfBus.getGenP()) * baseMva; 
-			double pload =  aclfBus.getLoadP() * baseMva; 
-			double pshunt = aclfBus.getShuntY().getReal() * baseMva; 
-			str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
-					+ String.format("%8.2f     %8.2f %8.2f %8.2f \n", angle, pgen, pload, pshunt));
+			if (bus.isActive()) {
+				AclfBus aclfBus = (AclfBus)bus; 
+				int n = bus.getSortNumber();
+				double angle = algo.getAclfNetwork().isRefBus(bus)?
+						0.0 : Math.toDegrees(algo.getBusAngle(n));
+				double pgen =  (aclfBus.isRefBus()? algo.getBusPower(aclfBus) : aclfBus.getGenP()) * baseMva; 
+				double pload =  aclfBus.getLoadP() * baseMva; 
+				double pshunt = aclfBus.getShuntY().getReal() * baseMva; 
+				str.append(Number2String.toFixLengthStr(8, bus.getId()) + "        "
+						+ String.format("%8.2f     %8.2f %8.2f %8.2f \n", angle, pgen, pload, pshunt));
+			}
 		}
 
 		str.append(branchFlow(algo, branchViolation? 100.0 : 0.0));
