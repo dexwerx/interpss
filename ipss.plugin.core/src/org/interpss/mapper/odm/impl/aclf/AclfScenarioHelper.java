@@ -61,12 +61,12 @@ public class AclfScenarioHelper {
 	/**
 	 * map the ODM AclfAlgo document to InterPSS Aclf algo model
 	 * 
-	 * @param lfInit
+	 * @param xmlLfInit
 	 */
-	public void mapAclfAlgorithm(AclfAlgorithmXmlType lfInit){
+	public void mapAclfAlgorithm(AclfAlgorithmXmlType xmlLfInit){
 		
 		// set lf method
-		LfMethodEnumType lfMethod = lfInit.getLfMethod();
+		LfMethodEnumType lfMethod = xmlLfInit.getLfMethod();
 		if(lfMethod == LfMethodEnumType.PQ){
 			aclfAlgo.setLfMethod(AclfMethod.PQ);			
 		}else if(lfMethod == LfMethodEnumType.GS){
@@ -75,18 +75,18 @@ public class AclfScenarioHelper {
 		else 
 			aclfAlgo.setLfMethod(AclfMethod.NR);			
 
-		int maxInt =lfInit.getMaxIterations();
+		int maxInt =xmlLfInit.getMaxIterations();
 		aclfAlgo.setMaxIterations(maxInt);
-		ApparentPowerXmlType tol = lfInit.getTolerance();
+		ApparentPowerXmlType tol = xmlLfInit.getTolerance();
 		aclfAlgo.setTolerance(tol.getValue());
-		aclfAlgo.setInitBusVoltage(lfInit.isInitBusVoltage());
+		aclfAlgo.setInitBusVoltage(xmlLfInit.isInitBusVoltage());
 		
-		if(lfInit.getAccFactor()!=null){
-			aclfAlgo.setGsAccFactor(lfInit.getAccFactor());
+		if(xmlLfInit.getAccFactor()!=null){
+			aclfAlgo.setGsAccFactor(xmlLfInit.getAccFactor());
 		}
 		
-		if(lfInit.isNonDivergent()!=null){
-			aclfAlgo.setNonDivergent(lfInit.isNonDivergent());
+		if(xmlLfInit.isNonDivergent()!=null){
+			aclfAlgo.setNonDivergent(xmlLfInit.isNonDivergent());
 		}	
 	}
 }

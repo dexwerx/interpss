@@ -89,38 +89,38 @@ public class AclfBusDataHelper {
 	/**
 	 * map the Loadflow bus ODM object info to the AclfBus object
 	 * 
-	 * @param busXmlData
+	 * @param xmlBusData
 	 * @throws InterpssException
 	 */
-	public void setAclfBusData(LoadflowBusXmlType busXmlData) throws InterpssException {
-		VoltageXmlType vXml = busXmlData.getVoltage();
+	public void setAclfBusData(LoadflowBusXmlType xmlBusData) throws InterpssException {
+		VoltageXmlType vXml = xmlBusData.getVoltage();
 		double vpu = 1.0;
 		if (vXml != null) {
 			UnitType unit = ToVoltageUnit.f(vXml.getUnit());
 			vpu = UnitHelper.vConversion(vXml.getValue(), aclfBus.getBaseVoltage(), unit, UnitType.PU);
 		}
 		double angRad = 0.0;
-		if (busXmlData.getAngle() !=  null) {
-			UnitType unit = ToAngleUnit.f(busXmlData.getAngle().getUnit()); 
-			angRad = UnitHelper.angleConversion(busXmlData.getAngle().getValue(), unit, UnitType.Rad); 
+		if (xmlBusData.getAngle() !=  null) {
+			UnitType unit = ToAngleUnit.f(xmlBusData.getAngle().getUnit()); 
+			angRad = UnitHelper.angleConversion(xmlBusData.getAngle().getValue(), unit, UnitType.Rad); 
 		}
 		aclfBus.setVoltage(vpu, angRad);
 		//System.out.println(aclfBus.getId() + "  " + Number2String.toStr(aclfBus.getVoltage()));
 
-		if (busXmlData.getGenData() != null) {
-			mapGenData(busXmlData.getGenData());
+		if (xmlBusData.getGenData() != null) {
+			mapGenData(xmlBusData.getGenData());
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}
 
-		if (busXmlData.getLoadData() != null) {
-			mapLoadData(busXmlData.getLoadData());
+		if (xmlBusData.getLoadData() != null) {
+			mapLoadData(xmlBusData.getLoadData());
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		}
 
-		if (busXmlData.getShuntY() != null) {
-			YXmlType shuntY = busXmlData.getShuntY();
+		if (xmlBusData.getShuntY() != null) {
+			YXmlType shuntY = xmlBusData.getShuntY();
 //			byte unit = shuntY.getUnit() == YUnitType.MVAR? UnitType.mVar : UnitType.PU;
 			UnitType unit = ToYUnit.f(shuntY.getUnit());
 			Complex ypu = UnitHelper.yConversion(new Complex(shuntY.getRe(), shuntY.getIm()),
@@ -129,8 +129,8 @@ public class AclfBusDataHelper {
 			aclfBus.setShuntY(ypu);
 		}
 
-		if (busXmlData.getShuntCompensatorData() != null) {
-			ReactivePowerXmlType shuntB = busXmlData.getShuntCompensatorData().getEquivQ();
+		if (xmlBusData.getShuntCompensatorData() != null) {
+			ReactivePowerXmlType shuntB = xmlBusData.getShuntCompensatorData().getEquivQ();
 //			byte unit = shuntB.getUnit() == ReactivePowerUnitType.MVAR? UnitType.mVar : UnitType.PU;
 			if (shuntB != null) {
 				UnitType unit = ToReactivePowerUnit.f(shuntB.getUnit());
@@ -144,8 +144,8 @@ public class AclfBusDataHelper {
 		}
 	}
 	
-	private void mapGenData(AclfGenDataXmlType genData) throws InterpssException {
-		LoadflowGenXmlType xmlEquivGenData = genData.getEquivGen();
+	private void mapGenData(AclfGenDataXmlType xmlGenData) throws InterpssException {
+		LoadflowGenXmlType xmlEquivGenData = xmlGenData.getEquivGen();
 		VoltageXmlType vXml = xmlEquivGenData.getDesiredVoltage();
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 			aclfBus.setGenCode(AclfGenCode.GEN_PQ);
@@ -218,7 +218,7 @@ public class AclfBusDataHelper {
 			AclfSwingBus swing = aclfBus.toSwingBus();
 			double vpu = UnitHelper.vConversion(vXml.getValue(),
 					aclfBus.getBaseVoltage(), ToVoltageUnit.f(vXml.getUnit()), UnitType.PU);
-			AngleXmlType angXml = genData.getEquivGen().getDesiredAngle(); 
+			AngleXmlType angXml = xmlGenData.getEquivGen().getDesiredAngle(); 
 			double angRad = UnitHelper.angleConversion(angXml.getValue(),
 					ToAngleUnit.f(angXml.getUnit()), UnitType.Rad);				
 			swing.setVoltMag(vpu, UnitType.PU);
@@ -234,12 +234,12 @@ public class AclfBusDataHelper {
 			aclfBus.setGenPartFactor(xmlEquivGenData.getMwControlParticipateFactor());
 	}
 	
-	private void mapLoadData(AclfLoadDataXmlType loadData) {
-		aclfBus.setLoadCode(loadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
-				AclfLoadCode.CONST_I : (loadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
+	private void mapLoadData(AclfLoadDataXmlType xmlLoadData) {
+		aclfBus.setLoadCode(xmlLoadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
+				AclfLoadCode.CONST_I : (xmlLoadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 		AclfLoadBus loadBus = aclfBus.toLoadBus();
-		LoadflowLoadXmlType xmlEquivLoad = loadData.getEquivLoad();
+		LoadflowLoadXmlType xmlEquivLoad = xmlLoadData.getEquivLoad();
 		if (xmlEquivLoad != null) {
 			PowerXmlType p;
 			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)

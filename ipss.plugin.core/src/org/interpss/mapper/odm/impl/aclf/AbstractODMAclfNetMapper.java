@@ -128,15 +128,15 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * map interface info to the AclfNet object
 	 * 
 	 * @param net
-	 * @param intList
+	 * @param xmlIntList
 	 */
-	public void mapInterfaceData(AclfNetwork net, List<FlowInterfaceRecXmlType> intList) {
+	public void mapInterfaceData(AclfNetwork net, List<FlowInterfaceRecXmlType> xmlIntList) {
 		if (net.isFlowInterfaceLoaded()) {
 			net.getFlowInterfaceList().clear();
 			net.setFlowInterfaceLoaded(false);
 		}
 		
-		for (FlowInterfaceRecXmlType xmlIntf : intList ) {
+		for (FlowInterfaceRecXmlType xmlIntf : xmlIntList ) {
 			FlowInterface intf = CoreObjectFactory.createInterface(net, xmlIntf.getId());
 
 			for ( FlowInterfaceBranchXmlType xmlBra : xmlIntf.getBranchList()) {
@@ -194,18 +194,18 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	/**
 	 * Map the bus record
 	 * 
-	 * @param busRec
+	 * @param xmlBusRec
 	 * @param adjNet
 	 * @return
 	 * @throws Exception
 	 */
-	public AclfBus mapAclfBusData(LoadflowBusXmlType busRec, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
+	public AclfBus mapAclfBusData(LoadflowBusXmlType xmlBusRec, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
 		//AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
 		//adjNet.addBus(aclfBus);
-		mapBaseBusData(busRec, aclfBus, adjNet);
+		mapBaseBusData(xmlBusRec, aclfBus, adjNet);
 
 		AclfBusDataHelper helper = new AclfBusDataHelper(adjNet, aclfBus);
-		helper.setAclfBusData(busRec);
+		helper.setAclfBusData(xmlBusRec);
 		
 		return aclfBus;
 	}
@@ -243,21 +243,21 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 		}
 	}
 	
-	private void setAclfBranchData(BranchXmlType branchRec, Branch branch, AclfNetwork adjNet) throws InterpssException {
-		mapBaseBranchRec(branchRec, branch, adjNet);		
+	private void setAclfBranchData(BranchXmlType xmlBranchRec, Branch branch, AclfNetwork adjNet) throws InterpssException {
+		mapBaseBranchRec(xmlBranchRec, branch, adjNet);		
 		if (branch instanceof AclfBranch) {
 			AclfBranch aclfBranch = (AclfBranch)branch;
-			if (branchRec.getRatingLimit() != null && branchRec.getRatingLimit().getMva() != null) {
+			if (xmlBranchRec.getRatingLimit() != null && xmlBranchRec.getRatingLimit().getMva() != null) {
 				double factor = 1.0;
-				if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.PU)
+				if (xmlBranchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.PU)
 					factor = adjNet.getBaseKva() * 0.001;
-				else if (branchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.KVA)
+				else if (xmlBranchRec.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.KVA)
 					factor = 0.001;
-				aclfBranch.setRatingMva1(branchRec.getRatingLimit().getMva().getRating1() * factor);
-				if (branchRec.getRatingLimit().getMva().getRating2() != null)
-					aclfBranch.setRatingMva2(branchRec.getRatingLimit().getMva().getRating2() * factor);
-				if (branchRec.getRatingLimit().getMva().getRating3() != null)
-					aclfBranch.setRatingMva3(branchRec.getRatingLimit().getMva().getRating3() * factor);
+				aclfBranch.setRatingMva1(xmlBranchRec.getRatingLimit().getMva().getRating1() * factor);
+				if (xmlBranchRec.getRatingLimit().getMva().getRating2() != null)
+					aclfBranch.setRatingMva2(xmlBranchRec.getRatingLimit().getMva().getRating2() * factor);
+				if (xmlBranchRec.getRatingLimit().getMva().getRating3() != null)
+					aclfBranch.setRatingMva3(xmlBranchRec.getRatingLimit().getMva().getRating3() * factor);
 				//if (branchRec.getRatingLimit().getMva().getRating4())
 				//	aclfBranch.setRatingMva4(branchRec.getRatingLimit().getMva().getRating3() * factor);
 			}

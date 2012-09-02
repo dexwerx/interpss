@@ -82,35 +82,35 @@ public class AclfBranchDataHelper {
 	/**
 	 * 	 map the Aclf Line ODM object info to the AclfBranch object
 	 * 
-	 * @param braLine
+	 * @param xmlLineBranch
 	 * @throws InterpssException
 	 */
-	public void setLineBranchData(LineBranchXmlType braLine) throws InterpssException {
+	public void setLineBranchData(LineBranchXmlType xmlLineBranch) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 
-		if (braLine.getLineInfo() != null && braLine.getLineInfo().getType() == LineBranchEnumType.BREAKER)
+		if (xmlLineBranch.getLineInfo() != null && xmlLineBranch.getLineInfo().getType() == LineBranchEnumType.BREAKER)
 			aclfBra.setBranchCode(AclfBranchCode.BREAKER);
 		else
 			aclfBra.setBranchCode(AclfBranchCode.LINE);
 
 		//System.out.println(braXmlData.getLineData().getZ().getIm());
 		AclfLine line = aclfBra.toLine();
-		if (braLine.getZ() == null) {
-		throw new InterpssException("Line data error, Z == null, branch id: " + braLine.getId());
+		if (xmlLineBranch.getZ() == null) {
+		throw new InterpssException("Line data error, Z == null, branch id: " + xmlLineBranch.getId());
 		}
 
-		line.setZ(new Complex(braLine.getZ().getRe(), braLine.getZ().getIm()), 
-				ToZUnit.f(braLine.getZ().getUnit()), 
+		line.setZ(new Complex(xmlLineBranch.getZ().getRe(), xmlLineBranch.getZ().getIm()), 
+				ToZUnit.f(xmlLineBranch.getZ().getUnit()), 
 			aclfBra.getFromAclfBus().getBaseVoltage());
-		if (braLine.getTotalShuntY() != null)
-		line.setHShuntY(new Complex(0.5 * braLine.getTotalShuntY().getRe(),
-					0.5 * braLine.getTotalShuntY().getIm()),
-					ToYUnit.f(braLine.getTotalShuntY().getUnit()), 
+		if (xmlLineBranch.getTotalShuntY() != null)
+		line.setHShuntY(new Complex(0.5 * xmlLineBranch.getTotalShuntY().getRe(),
+					0.5 * xmlLineBranch.getTotalShuntY().getIm()),
+					ToYUnit.f(xmlLineBranch.getTotalShuntY().getUnit()), 
 					aclfBra.getFromAclfBus().getBaseVoltage());
 
-		YXmlType fromShuntY = braLine.getFromShuntY(),
-				 toShuntY = braLine.getToShuntY();
+		YXmlType fromShuntY = xmlLineBranch.getFromShuntY(),
+				 toShuntY = xmlLineBranch.getToShuntY();
 
 		if (fromShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	
@@ -131,22 +131,22 @@ public class AclfBranchDataHelper {
 	/**
 	 * 	 map the Aclf Xfr ODM object info to the AclfBranch object
 	 * 
-	 * @param braXfr
+	 * @param xmlXfrBranch
 	 * @throws InterpssException
 	 */
-	public void setXfrBranchData(XfrBranchXmlType braXfr) throws InterpssException {
+	public void setXfrBranchData(XfrBranchXmlType xmlXfrBranch) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 		
 		aclfBra.setBranchCode(AclfBranchCode.XFORMER);
-		setXfrData(braXfr, aclfBra, baseKva);
+		setXfrData(xmlXfrBranch, aclfBra, baseKva);
 	}
 
 	
-	private void setXfrData(XfrBranchXmlType braXfr, AclfBranch aclfBra, double baseKva) throws InterpssException {
-		setXformerInfoData(braXfr, aclfBra);
+	private void setXfrData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, double baseKva) throws InterpssException {
+		setXformerInfoData(xmlXfrBranch, aclfBra);
 
-		YXmlType fromShuntY = braXfr.getMagnitizingY();
+		YXmlType fromShuntY = xmlXfrBranch.getMagnitizingY();
 		if (fromShuntY != null) {
 			Complex ypu = UnitHelper.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
@@ -158,28 +158,39 @@ public class AclfBranchDataHelper {
 	/**
 	 * 	 map the Aclf PSXfr ODM object info to the AclfBranch object
 	 * 
-	 * @param braPsXfr
+	 * @param xmlPsXfrBranch
 	 * @throws InterpssException
 	 */
-	public void setPsXfrBranchData(PSXfrBranchXmlType braPsXfr) throws InterpssException {
+	public void setPsXfrBranchData(PSXfrBranchXmlType xmlPsXfrBranch) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 		double baseKva = aclfNet.getBaseKva();
 		
-		setXfrData(braPsXfr, aclfBra, baseKva);
+		setXfrData(xmlPsXfrBranch, aclfBra, baseKva);
 		
 		AclfPSXformer psXfr = aclfBra.toPSXfr();
-		if(braPsXfr.getFromAngle() != null)
-			psXfr.setFromAngle(braPsXfr.getFromAngle().getValue(), 
-					ToAngleUnit.f(braPsXfr.getFromAngle().getUnit()));
-		if(braPsXfr.getToAngle() != null)
-			psXfr.setToAngle(braPsXfr.getToAngle().getValue(), 
-					ToAngleUnit.f(braPsXfr.getToAngle().getUnit()));
+		if(xmlPsXfrBranch.getFromAngle() != null)
+			psXfr.setFromAngle(xmlPsXfrBranch.getFromAngle().getValue(), 
+					ToAngleUnit.f(xmlPsXfrBranch.getFromAngle().getUnit()));
+		if(xmlPsXfrBranch.getToAngle() != null)
+			psXfr.setToAngle(xmlPsXfrBranch.getToAngle().getValue(), 
+					ToAngleUnit.f(xmlPsXfrBranch.getToAngle().getUnit()));
 		
 		// TODO PsXfr shift angle control
+		/*
+      	else if (type == 4) {
+//          4 - Variable phase angle for MW control (phase shifter)
+      		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
+      		// TODO pSpec not defined
+      		ps.setPSpecified(0.2);
+      		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));
+      		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+      		net.addPSXfrPControl(ps, controlBusId);          		
+      	}
+*/
 	}
 
-	private void setXformerInfoData(XfrBranchXmlType xfrBranch, AclfBranch aclfBra) {
+	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra) {
 		double baseKva = aclfNet.getBaseKva();
 
 		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
@@ -191,7 +202,7 @@ public class AclfBranchDataHelper {
 		double zratio = 1.0;
 		double fromTapratio = 1.0, toTapratio = 1.0;
 		
-		TransformerInfoXmlType xfrData = xfrBranch.getXfrInfo();
+		TransformerInfoXmlType xfrData = xmlXfrBranch.getXfrInfo();
 		if (xfrData != null) {
 			if (xfrData.getFromRatedVoltage() != null) {
 				fromRatedV = xfrData.getFromRatedVoltage().getValue();
@@ -218,14 +229,38 @@ public class AclfBranchDataHelper {
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		AclfXformer xfr = aclfBra.toXfr();
-		xfr.setZ(new Complex(xfrBranch.getZ().getRe()*zratio, xfrBranch.getZ().getIm()*zratio),
-				ToZUnit.f(xfrBranch.getZ().getUnit()), baseV);
-		double ratio = xfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?fromTapratio:1.0);
+		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe()*zratio, xmlXfrBranch.getZ().getIm()*zratio),
+				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);
+		double ratio = xmlXfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?fromTapratio:1.0);
 		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
-		ratio = xfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
+		ratio = xmlXfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 		
+		
+		
 		// TODO: XfrTapControl data mapping
+/*
+          	if (type == 2) {
+//                2 - Variable tap for voltage control (TCUL, LTC)
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL_LITERAL);
+          		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
+          		// TODO: volt spec is not defined
+          		tapv.setVSpecified(1.0);
+          		tapv.setTapStepSize(stepSize);
+          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addTapControl(tapv, controlBusId);          		
+          	}
+          	else if (type == 3) {
+//              3 - Variable tap (turns ratio) for MVAR control
+          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
+          		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
+          		// TODO: volt spec is not defined
+          		tapv.setVSpecified(1.0);
+          		tapv.setTapStepSize(stepSize);
+          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addTapControl(tapv, controlBusId);          		
+          	}
+ */
 	}
 	
 	/*
