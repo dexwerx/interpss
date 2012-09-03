@@ -14,8 +14,8 @@
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>
-					<ns:element name="busChangeRecSetList" minOccurs="0" maxOccurs="unbounded" type="pss:BusChangeRecSetXmlType">					</ns:element>
-					<ns:element name="branchChangeRecSetList" minOccurs="0" maxOccurs="unbounded" type="pss:BranchChangeRecSetXmlType">					</ns:element>
+					<ns:element name="busChangeRecSet" minOccurs="0" maxOccurs="unbounded" type="pss:BusChangeRecSetXmlType">					</ns:element>
+					<ns:element name="branchChangeRecSet" minOccurs="0" maxOccurs="unbounded" type="pss:BranchChangeRecSetXmlType">					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -25,7 +25,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 		<ns:sequence>
-			<ns:element name="busChangeRecords" minOccurs="0" maxOccurs="unbounded" type="pss:BusChangeRecXmlType">
+			<ns:element name="busChangeRec" minOccurs="0" maxOccurs="unbounded" type="pss:BusChangeRecXmlType">
 			</ns:element>
 		</ns:sequence>
 			</ns:extension>
@@ -37,7 +37,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 		<ns:sequence>
-			<ns:element name="branchChangeRecords" minOccurs="0" maxOccurs="unbounded" type="pss:BranchChangeRecXmlType">
+			<ns:element name="branchChangeRec" minOccurs="0" maxOccurs="unbounded" type="pss:BranchChangeRecXmlType">
 			</ns:element>
 		</ns:sequence>
 			</ns:extension>
