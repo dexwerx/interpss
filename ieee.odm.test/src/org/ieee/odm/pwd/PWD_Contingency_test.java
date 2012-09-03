@@ -24,14 +24,14 @@ public class PWD_Contingency_test {
             
 			//check network data
 			NetModificationXmlType netModify=(NetModificationXmlType) parser.getStudyCase().getModificationList().getModification().get(0);
-			List<BranchChangeRecSetXmlType> branchChangeRecSetList=netModify.getBranchChangeRecSetList();
+			List<BranchChangeRecSetXmlType> branchChangeRecSetList=netModify.getBranchChangeRecSet();
 			//rec set
 			BranchChangeRecSetXmlType braRecSet=branchChangeRecSetList.get(0);
 			//System.out.println("RecSetList.size()="+branchChangeRecSetList.size());
-			assertTrue(braRecSet.getBranchChangeRecords().size()==5);
+			assertTrue(braRecSet.getBranchChangeRec().size()==5);
 			
 			//rec element
-			BranchChangeRecXmlType braCtgElement=braRecSet.getBranchChangeRecords().get(0);
+			BranchChangeRecXmlType braCtgElement=braRecSet.getBranchChangeRec().get(0);
 			assertTrue(braCtgElement.getBranchId().equals("Bus7514_to_Bus7512_cirId_1"));
 			assertTrue(braCtgElement.isOffLine()==true);
 			 
