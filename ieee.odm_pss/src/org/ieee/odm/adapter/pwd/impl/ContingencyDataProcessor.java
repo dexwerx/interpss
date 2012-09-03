@@ -119,6 +119,9 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 		BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(branchTypeCtg);
 		branchChange.setBranchId(braInfo[0]);
 		branchChange.setOffLine(braInfo[1].equalsIgnoreCase("OPEN"));
+		branchChange.setFromBusId(braInfo[2]);
+		branchChange.setToBusId(braInfo[3]);
+		branchChange.setCircuitId(braInfo[4]);
 		
 		//comment
 		if(comment.length()>1)branchChange.setDesc(comment);
@@ -158,9 +161,12 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 			   String branchId=ModelStringUtil.formBranchId(fromId, toId,cirId );
 			   String status=temp[4];
 			   
-			   info=new String[2];
+			   info=new String[5];
 			   info[0]=branchId;
 			   info[1]=status;
+			   info[2]=fromId;
+			   info[3]=toId;
+			   info[4]=cirId;
 		   } else
 			try {
 				throw new Exception("The Contingency Type #"+type+" is NOT supported yet!");
