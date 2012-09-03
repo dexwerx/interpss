@@ -30,20 +30,25 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.TapAdjustmentEnumType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.Transformer3WInfoXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
+import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.Aclf3WXformer;
@@ -51,6 +56,9 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.adj.AdjControlType;
+import com.interpss.core.aclf.adj.PSXfrPControl;
+import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adpter.AclfLine;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.aclf.adpter.AclfXformer;
@@ -176,18 +184,18 @@ public class AclfBranchDataHelper {
 			psXfr.setToAngle(xmlPsXfrBranch.getToAngle().getValue(), 
 					ToAngleUnit.f(xmlPsXfrBranch.getToAngle().getUnit()));
 		
+		if (xmlPsXfrBranch.getAngleAdjustment() != null) {
+			AngleAdjustmentXmlType xmlAngAdj = xmlPsXfrBranch.getAngleAdjustment();
+	/* Sample code
+		PSXfrPControl psxfr = CoreObjectFactory.createPSXfrPControl(branch, AdjControlType.POINT_CONTROL); 
+		psxfr.setControlSpec(0.4);
+		psxfr.setAngLimit(new LimitType(5.0, -0.5), UnitType.Deg);
+		psxfr.setControlOnFromSide(true);
+		psxfr.setFlowFrom2To(true);
+	*/
+		}
+		
 		// TODO PsXfr shift angle control
-		/*
-      	else if (type == 4) {
-//          4 - Variable phase angle for MW control (phase shifter)
-      		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
-      		// TODO pSpec not defined
-      		ps.setPSpecified(0.2);
-      		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));
-      		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-      		net.addPSXfrPControl(ps, controlBusId);          		
-      	}
-*/
 	}
 
 	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra) {
@@ -236,31 +244,27 @@ public class AclfBranchDataHelper {
 		ratio = xmlXfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 		
-		
+		if (xmlXfrBranch.getTapAdjustment() != null) {
+			TapAdjustmentXmlType xmlTapAdj = xmlXfrBranch.getTapAdjustment();
+			if (xmlTapAdj.getAdjustmentType() == TapAdjustmentEnumType.VOLTAGE) {
+	/* Sample code
+		AclfBranch branch = net.getAclfBranch("0001->0002(1)");
+		TapControl tap = CoreObjectFactory.createTapVControlBusVoltage(branch, 
+							AdjControlType.POINT_CONTROL, net, "0002");
+		tap.setControlLimit(new LimitType(1.10, 0.9));
+		tap.setControlOnFromSide(false);
+		tap.setTapOnFromSide(false);
+		tap.setControlSpec(0.95);
+	 */
+        		
+			}
+			else if (xmlTapAdj.getAdjustmentType() == TapAdjustmentEnumType.M_VAR_FLOW) {
+
+        		
+			}
+		}
 		
 		// TODO: XfrTapControl data mapping
-/*
-          	if (type == 2) {
-//                2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL_LITERAL);
-          		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
-          		// TODO: volt spec is not defined
-          		tapv.setVSpecified(1.0);
-          		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addTapControl(tapv, controlBusId);          		
-          	}
-          	else if (type == 3) {
-//              3 - Variable tap (turns ratio) for MVAR control
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
-          		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
-          		// TODO: volt spec is not defined
-          		tapv.setVSpecified(1.0);
-          		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addTapControl(tapv, controlBusId);          		
-          	}
- */
 	}
 	
 	/*
