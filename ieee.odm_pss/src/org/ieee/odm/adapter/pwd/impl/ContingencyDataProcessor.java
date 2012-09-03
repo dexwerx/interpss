@@ -30,7 +30,7 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 		
 	    helper = new NetModificationHelper(parser);		
 		// create a container for bus/branch-change type contingency records
-		netModList = helper.createNetModificationList();
+		netModList = helper.createNetModificationList("ContingencyList", "Created from PWD contingency file");
 	}
 	
 	public void processContingencyData(String ctgStr){

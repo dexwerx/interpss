@@ -49,8 +49,10 @@ public class NetModificationHelper {
 	 * 
 	 * @return
 	 */
-	public NetModificationXmlType createNetModificationList() {
+	public NetModificationXmlType createNetModificationList(String id, String desc) {
 		NetModificationXmlType rec = odmObjFactory.createNetModificationXmlType();
+		rec.setId(id);
+		rec.setDesc(desc);
 		addModifyRecord(rec);
 		return rec;
 	}	
@@ -62,7 +64,7 @@ public class NetModificationHelper {
 	 */	
 	public BranchChangeRecSetXmlType createBranchChangeRecSetXmlType(NetModificationXmlType netModifyList) {
 		BranchChangeRecSetXmlType branchChangeSet = odmObjFactory.createBranchChangeRecSetXmlType();
-		netModifyList.getBranchChangeRecSetList().add(branchChangeSet);
+		netModifyList.getBranchChangeRecSet().add(branchChangeSet);
 		return branchChangeSet;
 	}
 	
@@ -73,7 +75,7 @@ public class NetModificationHelper {
 	 */	
 	public BranchChangeRecXmlType createBranchChangeRecXmlType(BranchChangeRecSetXmlType branchSet) {
 		BranchChangeRecXmlType branchChange = odmObjFactory.createBranchChangeRecXmlType();
-		branchSet.getBranchChangeRecords().add(branchChange);
+		branchSet.getBranchChangeRec().add(branchChange);
 		return branchChange;
 	}
 	
@@ -84,7 +86,7 @@ public class NetModificationHelper {
 	 */	
 	public BusChangeRecSetXmlType createBusChangeRecSetXmlType(NetModificationXmlType netModifyList) {
 		BusChangeRecSetXmlType busChangeSet = odmObjFactory.createBusChangeRecSetXmlType();
-		netModifyList.getBusChangeRecSetList().add(busChangeSet);
+		netModifyList.getBusChangeRecSet().add(busChangeSet);
 		return busChangeSet;
 	}
 	
@@ -95,7 +97,7 @@ public class NetModificationHelper {
 	 */	
 	public BusChangeRecXmlType createBusChangeRecXmlType(BusChangeRecSetXmlType busSet) {
 		BusChangeRecXmlType busChange = odmObjFactory.createBusChangeRecXmlType();
-		busSet.getBusChangeRecords().add(busChange);
+		busSet.getBusChangeRec().add(busChange);
 		return busChange;
 	}	
 
