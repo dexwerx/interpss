@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.InputStream;
 
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.StudyScenarioXmlType;
 
@@ -75,6 +76,22 @@ public interface IODMModelParser {
 	 * @return
 	 */
 	StudyCaseXmlType getStudyCase();
+	
+	/**
+	 * get the first modification record in the ODM xml document
+	 * 
+	 * @return
+	 */
+	ModifyRecordXmlType getModification();
+
+	/**
+	 * get the first modification record in the ODM xml document by Id
+	 * 
+	 * @param id modification record id
+	 * @return
+	 */
+	ModifyRecordXmlType getModification(String id);
+
 	/**
 	 * get Study scenario element
 	 * 

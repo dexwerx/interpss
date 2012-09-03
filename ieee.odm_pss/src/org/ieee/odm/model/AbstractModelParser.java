@@ -54,6 +54,7 @@ import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
@@ -217,7 +218,22 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public List<JAXBElement<? extends NetworkXmlType>> getChildNetList() {
 		return this.pssStudyCase.getChildNet();
 	}
+	
+	public ModifyRecordXmlType getModification() {
+		return this.pssStudyCase.getModificationList() == null? null :
+			this.pssStudyCase.getModificationList().getModification().get(0);
+	}
 
+	public ModifyRecordXmlType getModification(String id) {
+		if (this.pssStudyCase.getModificationList() != null)
+			for (ModifyRecordXmlType mod : this.pssStudyCase.getModificationList().getModification()) {
+				if (mod.getId().equals(id))
+						return mod;
+			}
+		ODMLogger.getLogger().warning("Modification record not found, id: " + id);
+		return null;
+	}
+	
 	public StudyScenarioXmlType getStudyScenario() {
 		return this.pssStudyCase.getStudyScenario() == null? null :
 					this.pssStudyCase.getStudyScenario().getValue();
