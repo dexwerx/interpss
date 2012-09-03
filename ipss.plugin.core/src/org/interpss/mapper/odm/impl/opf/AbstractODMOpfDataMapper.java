@@ -176,9 +176,6 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 								helper.setMwRating();
 							}
 						}
-						
-						
-						
 					}
 				}
 			} catch (InterpssException e) {

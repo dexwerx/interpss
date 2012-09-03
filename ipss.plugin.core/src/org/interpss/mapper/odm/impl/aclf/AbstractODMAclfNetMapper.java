@@ -96,7 +96,10 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
 				mapAclfBusData(busRec, aclfBus, adjNet);
 			}
-
+			// TODO 
+			// process remote bus reference. Remote reference bus of a bus might be located behind 
+			// the bus date record
+			
 			for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 				BaseBranchXmlType xmlBranch = b.getValue();
 				Branch branch = null;

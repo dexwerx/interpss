@@ -46,7 +46,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	public static enum Method {ZValue, BranchType};
 	
 	Method method = Method.ZValue;
-	private double threshold = 0.0;
+	private double threshold = 1.0e-10;
 	private boolean allowZeroZBranchLoop = false;
 	private List<String> protectedBranchIds = new ArrayList<String>();
 	
@@ -85,6 +85,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		return this.protectedBranchIds;
 	}
  	
+	public void setProtectedBranchIdList(List<String> list) {
+		this.protectedBranchIds = list;
+	}
+	
 	@Override
 	public boolean visit(AclfNetwork net) {
 		try {

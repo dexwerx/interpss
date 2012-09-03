@@ -191,7 +191,7 @@ public class AclfBranchDataHelper {
 		if(xmlPsXfrBranch.getToAngle() != null)
 			psXfr.setToAngle(xmlPsXfrBranch.getToAngle().getValue(), 
 					ToAngleUnit.f(xmlPsXfrBranch.getToAngle().getUnit()));
-		
+/*		TODO : ODM data mapping has problem
 		if (xmlPsXfrBranch.getAngleAdjustment() != null) {
 			AngleAdjustmentXmlType xmlAngAdj = xmlPsXfrBranch.getAngleAdjustment();
 			PSXfrPControl psxfr = CoreObjectFactory.createPSXfrPControl(aclfBra, AdjControlType.POINT_CONTROL); 
@@ -199,6 +199,7 @@ public class AclfBranchDataHelper {
 			psxfr.setAngLimit(new LimitType(xmlAngAdj.getMax(), xmlAngAdj.getMin()), ToAngleUnit.f(xmlAngAdj.getAngleLimit().getUnit()));
 			psxfr.setControlOnFromSide(xmlAngAdj.isAngleAdjOnFromSide());
 		}
+*/		
 	}
 
 	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra) {
@@ -246,40 +247,57 @@ public class AclfBranchDataHelper {
 		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 		ratio = xmlXfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
-		
-		if (xmlXfrBranch.getTapAdjustment() != null) {
+
+/* TODO : ODM data mapping has problem
+		if (aclfBra.isXfr() && xmlXfrBranch.getTapAdjustment() != null) {
 			TapAdjustmentXmlType xmlTapAdj = xmlXfrBranch.getTapAdjustment();
 			try {
 				if (xmlTapAdj.getAdjustmentType() == TapAdjustmentEnumType.VOLTAGE) {
+					/*
+					 * often data is not fully defined, the control will be turned off if data is 
+					 * not complete
+					 */ /*
 					VoltageAdjustmentDataXmlType xmlAdjData = xmlTapAdj.getVoltageAdjData();
+					if (xmlAdjData == null || xmlAdjData.getAdjVoltageBus() == null) {
+						ipssLogger.warning("Inconsist Xfr Tap control data: " + aclfBra.getId());
+						return;
+					}
 					String vcBusId = BusXmlRef2BusId.fx(xmlAdjData.getAdjVoltageBus());
 					TapControl tap = CoreObjectFactory.createTapVControlBusVoltage(aclfBra, 
-							AdjControlType.POINT_CONTROL, aclfNet, vcBusId);
+							            AdjControlType.POINT_CONTROL, aclfNet, vcBusId);
 					double factor = xmlTapAdj.getTapLimit().getUnit() == FactorUnitType.PERCENT? 0.01 : 1.0;
 					tap.setVcBusOnFromSide(xmlAdjData.getAdjBusLocation() == TapAdjustBusLocationEnumType.FROM_BUS);
 					tap.setVSpecified(xmlAdjData.getDesiredValue(), ToVoltageUnit.f(xmlAdjData.getDesiredVoltageUnit()));
 					tap.setTurnRatioLimit(new LimitType(xmlTapAdj.getTapLimit().getMax()*factor, xmlTapAdj.getTapLimit().getMin()*factor));
 					tap.setTapOnFromSide(xmlTapAdj.isTapAdjOnFromSide());
-					tap.setTapStepSize(xmlTapAdj.getTapAdjStepSize());
-					tap.setTapSteps(xmlTapAdj.getTapAdjSteps());
+					if (xmlTapAdj.getTapAdjStepSize() != null)
+						tap.setTapStepSize(xmlTapAdj.getTapAdjStepSize());
+					if (xmlTapAdj.getTapAdjSteps() != null)
+						tap.setTapSteps(xmlTapAdj.getTapAdjSteps());
 				}
 				else if (xmlTapAdj.getAdjustmentType() == TapAdjustmentEnumType.M_VAR_FLOW) {
 					MvarFlowAdjustmentDataXmlType xmlAdjData = xmlTapAdj.getMvarFlowAdjData();
+					if (xmlAdjData == null) {
+						ipssLogger.warning("Inconsist Xfr Tap control data: " + aclfBra.getId());
+						return;
+					}
 					TapControl tap = CoreObjectFactory.createTapVControlMvarFlow(aclfBra, 
-							AdjControlType.POINT_CONTROL);
+							            AdjControlType.POINT_CONTROL);
 					double factor = xmlTapAdj.getTapLimit().getUnit() == FactorUnitType.PERCENT? 0.01 : 1.0;
 					tap.setMeteredOnFromSide(xmlAdjData.isMvarMeasuredOnFormSide());
 					tap.setMvarSpecified(xmlAdjData.getDesiredValue(), ToReactivePowerUnit.f(xmlAdjData.getDesiredMvarFlowUnit()), aclfNet.getBaseKva());
 					tap.setTurnRatioLimit(new LimitType(xmlTapAdj.getTapLimit().getMax()*factor, xmlTapAdj.getTapLimit().getMin()*factor));
 					tap.setTapOnFromSide(xmlTapAdj.isTapAdjOnFromSide());
-					tap.setTapStepSize(xmlTapAdj.getTapAdjStepSize());
-					tap.setTapSteps(xmlTapAdj.getTapAdjSteps());
+					if (xmlTapAdj.getTapAdjStepSize() != null)
+						tap.setTapStepSize(xmlTapAdj.getTapAdjStepSize());
+					if (xmlTapAdj.getTapAdjSteps() != null)
+						tap.setTapSteps(xmlTapAdj.getTapAdjSteps());
 				}
 			} catch (InterpssException e) {
 				ipssLogger.severe("Error in mapping Xfr tap control data, " + e.toString());
 			}
 		}
-
+*/
 	}
 	
 	/*
