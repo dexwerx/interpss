@@ -13,6 +13,13 @@ import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
 
+/**
+ * PWD contingency file data processor
+ * 
+ * @version 0.1  09/01/2012
+ * @author Tony Huang
+ * 
+ */
 public class ContingencyDataProcessor extends BaseDataProcessor{
 	
 	private NetModificationXmlType netModList=null;
@@ -34,10 +41,7 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 	}
 	
 	public void processContingencyData(String ctgStr){
-      
-		
-		
-		/*
+ 		/*
 		 * DATA (CONTINGENCY,[CTGLabel,CTGSkip,CTGProc,CTGSolved,LoadMW,CustomString]) 
 		   { 
 		   "005A" "NO " "NO" "NO" 0.0 "88005A-1-2/8804A/88006A-1/1780" 
@@ -93,42 +97,40 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 	private void processCTGElementData(String str) {
 		String action="";
 		String comment="";
-		String id="";
-		String status="";
+		//String id="";
+		//String status="";
 		//TODO process the following CTGElement Data if skipCtg=false
 		if(!skipCtg){
-	    //first process the comment
-		int cmtIndex=str.indexOf("//");
-		
-		if(cmtIndex!=-1){
-			comment=str.substring(cmtIndex+1);
-			str=str.substring(0, cmtIndex);
+		    //first process the comment
+			int cmtIndex=str.indexOf("//");
+			
+			if(cmtIndex!=-1){
+				comment=str.substring(cmtIndex+1);
+				str=str.substring(0, cmtIndex);
+			}
+			
+			//parse CTGElement Data
+			/*
+			 * return format[Action,ModelCriteria,status], since the comment has been subtracted;
+			 */
+			String[] ctgElement=PWDHelper.parseDataFields(str);
+			action=ctgElement[0];
+			
+			//get Branch info, format[branchId, status]
+			String[] braInfo=getNetModelChangeInfo(action,ContingencyType.BRANCH);
+			if (braInfo != null) {
+				// for each contingency, one to many branch change could be defined
+				BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(branchTypeCtg);
+				branchChange.setBranchId(braInfo[0]);
+				branchChange.setOffLine(braInfo[1].equalsIgnoreCase("OPEN"));
+				branchChange.setFromBusId(braInfo[2]);
+				branchChange.setToBusId(braInfo[3]);
+				branchChange.setCircuitId(braInfo[4]);
+				
+				//comment
+				if(comment.length()>1)branchChange.setDesc(comment);				
+			}
 		}
-		
-		//parse CTGElement Data
-		/*
-		 * return format[Action,ModelCriteria,status], since the comment has been subtracted;
-		 */
-		String[] ctgElement=PWDHelper.parseDataFields(str);
-		action=ctgElement[0];
-		
-		//get Branch info, format[branchId, status]
-		String[] braInfo=getNetModelChangeInfo(action,ContingencyType.BRANCH);
-		
-		// for each contingency, one to many branch change could be defined
-		BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(branchTypeCtg);
-		branchChange.setBranchId(braInfo[0]);
-		branchChange.setOffLine(braInfo[1].equalsIgnoreCase("OPEN"));
-		branchChange.setFromBusId(braInfo[2]);
-		branchChange.setToBusId(braInfo[3]);
-		branchChange.setCircuitId(braInfo[4]);
-		
-		//comment
-		if(comment.length()>1)branchChange.setDesc(comment);
-		
-		}
-
-		
 	}
 
 	private void isCTGElementData(String str, boolean isCTGSubDataSection) {
@@ -167,20 +169,11 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 			   info[2]=fromId;
 			   info[3]=toId;
 			   info[4]=cirId;
-		   } else
-			try {
-				throw new Exception("The Contingency Type #"+type+" is NOT supported yet!");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		   }
+		   else
+			   ODMLogger.getLogger().severe("Error: wrong contingency type");
 		}
 		return info;
 		
 	}
-	
-	
-
-
-
 }

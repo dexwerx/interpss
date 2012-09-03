@@ -96,12 +96,11 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 
 					}
 				}// end of if str!=null
-		 }while(str!=null);
+			} while(str!=null);
 		} catch (Exception e) {
-
-			e.printStackTrace();
+			ODMLogger.getLogger().severe("Contingency file processing error: " + e.toString());
+			//e.printStackTrace();
 		}
-		
 	
 		return parser;
 	}
