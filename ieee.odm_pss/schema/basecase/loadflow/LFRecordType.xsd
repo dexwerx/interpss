@@ -392,7 +392,7 @@
 			</ns:element>
 			<ns:element name="tapLimit" type="pss:TapLimitXmlType" minOccurs="1"></ns:element>
 			<ns:element name="tapAdjStepSize" type="ns:double" minOccurs="0"></ns:element>
-			<ns:element name="tapAdjStep" type="ns:int" minOccurs="0"></ns:element>
+			<ns:element name="tapAdjSteps" type="ns:int" minOccurs="0"></ns:element>
 			<ns:element name="tapAdjOnFromSide" type="ns:boolean" minOccurs="1"></ns:element>
 			<ns:sequence>
 				<ns:choice>

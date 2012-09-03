@@ -380,7 +380,7 @@ public class PSSEV30XfrDataRec {
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
            		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(rma, rmi));
-           		tapAdj.setTapAdjStep(ntp);
+           		tapAdj.setTapAdjSteps(ntp);
            		if (Math.abs(cod) == 1) {
                		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
                		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
