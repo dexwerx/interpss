@@ -76,7 +76,7 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
     }	
 
 	@Test 
-	public void case2_zeroZBranchProcessingBranchTyre()  throws InterpssException {
+	public void case2_zeroZBranchProcessingBranchType()  throws InterpssException {
 		// Create an AclfNetwork object
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
 				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
