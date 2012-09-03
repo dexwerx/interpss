@@ -24,7 +24,6 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 		<ns:sequence>
-		    <ns:element maxOccurs="1" minOccurs="0" name="isActive" type="ns:boolean"/>
 			<ns:element maxOccurs="unbounded" minOccurs="0" name="busChangeRec" type="pss:BusChangeRecXmlType">
 			</ns:element>
 		</ns:sequence>
@@ -37,7 +36,6 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 		<ns:sequence>
-		    <ns:element maxOccurs="1" minOccurs="0" name="isActive" type="ns:boolean"/>
 			<ns:element maxOccurs="unbounded" minOccurs="0" name="branchChangeRec" type="pss:BranchChangeRecXmlType">
 			</ns:element>
 		</ns:sequence>
