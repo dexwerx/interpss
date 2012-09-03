@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ns:schema xmlns:ns="http://www.w3.org/2001/XMLSchema" 
-    xmlns:pss="http://www.ieee.org/odm/Schema/2008"
-    targetNamespace="http://www.ieee.org/odm/Schema/2008" 
-	elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ns:schema xmlns:ns="http://www.w3.org/2001/XMLSchema" xmlns:pss="http://www.ieee.org/odm/Schema/2008" elementFormDefault="qualified" targetNamespace="http://www.ieee.org/odm/Schema/2008">
 	
-	<ns:include schemaLocation="ScenarioType.xsd"></ns:include>
+	<ns:include schemaLocation="ScenarioType.xsd"/>
 		
 	<ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
@@ -14,8 +11,10 @@
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>
-					<ns:element name="busChangeRecSet" minOccurs="0" maxOccurs="unbounded" type="pss:BusChangeRecSetXmlType">					</ns:element>
-					<ns:element name="branchChangeRecSet" minOccurs="0" maxOccurs="unbounded" type="pss:BranchChangeRecSetXmlType">					</ns:element>
+					<ns:element maxOccurs="unbounded" minOccurs="0" name="busChangeRecSet" type="pss:BusChangeRecSetXmlType">
+					</ns:element>
+					<ns:element maxOccurs="unbounded" minOccurs="0" name="branchChangeRecSet" type="pss:BranchChangeRecSetXmlType">
+					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -25,7 +24,8 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 		<ns:sequence>
-			<ns:element name="busChangeRec" minOccurs="0" maxOccurs="unbounded" type="pss:BusChangeRecXmlType">
+		    <ns:element maxOccurs="1" minOccurs="0" name="isActive" type="ns:boolean"/>
+			<ns:element maxOccurs="unbounded" minOccurs="0" name="busChangeRec" type="pss:BusChangeRecXmlType">
 			</ns:element>
 		</ns:sequence>
 			</ns:extension>
@@ -37,7 +37,8 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 		<ns:sequence>
-			<ns:element name="branchChangeRec" minOccurs="0" maxOccurs="unbounded" type="pss:BranchChangeRecXmlType">
+		    <ns:element maxOccurs="1" minOccurs="0" name="isActive" type="ns:boolean"/>
+			<ns:element maxOccurs="unbounded" minOccurs="0" name="branchChangeRec" type="pss:BranchChangeRecXmlType">
 			</ns:element>
 		</ns:sequence>
 			</ns:extension>
@@ -49,18 +50,18 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BusRefXmlType">
 				<ns:sequence>
-					<ns:element name="offLine" type="ns:boolean" maxOccurs="1" minOccurs="0">
+					<ns:element maxOccurs="1" minOccurs="0" name="offLine" type="ns:boolean">
 						<ns:annotation>
 							<ns:documentation>
 								turn this bus to a non-contributing bus.
 							</ns:documentation>
 						</ns:annotation>
 					</ns:element>
-					<ns:element name="genOutage" type="ns:boolean" minOccurs="0"></ns:element>
-					<ns:element name="loadShedding" type="ns:boolean" minOccurs="0"></ns:element>
-					<ns:element name="aclfBusChangeData" minOccurs="0" type="pss:AclfBusChangeXmlType"/>
-					<ns:element name="acscBusChangeData" minOccurs="0" type="pss:AcscBusChangeXmlType"/>
-					<ns:element name="dstabBusChangeData" minOccurs="0" type="pss:DStabBusChangeXmlType"/>
+					<ns:element minOccurs="0" name="genOutage" type="ns:boolean"/>
+					<ns:element minOccurs="0" name="loadShedding" type="ns:boolean"/>
+					<ns:element minOccurs="0" name="aclfBusChangeData" type="pss:AclfBusChangeXmlType"/>
+					<ns:element minOccurs="0" name="acscBusChangeData" type="pss:AcscBusChangeXmlType"/>
+					<ns:element minOccurs="0" name="dstabBusChangeData" type="pss:DStabBusChangeXmlType"/>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -68,40 +69,40 @@
 	
 	<ns:complexType name="AclfBusChangeXmlType">
 		<ns:sequence>
-			<ns:element name="loadChangeData" minOccurs="0" type="pss:AclfLoadChangeXmlType"/>
-			<ns:element name="genChangeData" minOccurs="0" type="pss:AclfGenChangeXmlType"/>
+			<ns:element minOccurs="0" name="loadChangeData" type="pss:AclfLoadChangeXmlType"/>
+			<ns:element minOccurs="0" name="genChangeData" type="pss:AclfGenChangeXmlType"/>
 		</ns:sequence>
 	</ns:complexType>
 
 	<ns:complexType name="AclfLoadChangeXmlType">
 		<ns:sequence>
-			<ns:element name="codeChange" minOccurs="0" type="pss:AclfLoadCodeChangeXmlType"/>
-			<ns:element name="valueChange" minOccurs="0" type="pss:ComplexValueChangeXmlType">
+			<ns:element minOccurs="0" name="codeChange" type="pss:AclfLoadCodeChangeXmlType"/>
+			<ns:element minOccurs="0" name="valueChange" type="pss:ComplexValueChangeXmlType">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
 	<ns:complexType name="AclfLoadCodeChangeXmlType">
 		<ns:sequence>
-			<ns:element name="loadCode" type="pss:AclfLoadCodeDataType" />
-			<ns:element name="expLoadP" minOccurs="0" type="ns:double" />
-			<ns:element name="expLoadQ" minOccurs="0" type="ns:double" />
+			<ns:element name="loadCode" type="pss:AclfLoadCodeDataType"/>
+			<ns:element minOccurs="0" name="expLoadP" type="ns:double"/>
+			<ns:element minOccurs="0" name="expLoadQ" type="ns:double"/>
 		</ns:sequence>
 	</ns:complexType>
 
 	<ns:complexType name="AclfGenChangeXmlType">
 		<ns:sequence>
-			<ns:element name="swingVoltageChange" type="pss:DoubleValueChangeXmlType" minOccurs="0"></ns:element>
-			<ns:element name="valueChange" type="pss:ComplexValueChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element minOccurs="0" name="swingVoltageChange" type="pss:DoubleValueChangeXmlType"/>
+			<ns:element maxOccurs="1" minOccurs="0" name="valueChange" type="pss:ComplexValueChangeXmlType"/>
 		</ns:sequence>
 	</ns:complexType>
 
 	<ns:simpleType name="AclfLoadCodeDataType">
 		<ns:restriction base="ns:string">
-			<ns:enumeration value="CONST_P" />
-			<ns:enumeration value="CONST_I" />
-			<ns:enumeration value="CONST_Z" />
-			<ns:enumeration value="EXPONENTIAL" />
+			<ns:enumeration value="CONST_P"/>
+			<ns:enumeration value="CONST_I"/>
+			<ns:enumeration value="CONST_Z"/>
+			<ns:enumeration value="EXPONENTIAL"/>
 		</ns:restriction>
 	</ns:simpleType>
 
@@ -116,10 +117,10 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BranchRefXmlType">
 				<ns:sequence>
-					<ns:element name="offLine" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="aclfBranchChangeData" minOccurs="0" type="pss:AclfBranchChangeXmlType"/>
-					<ns:element name="acscBranchChangeData"	minOccurs="0" type="pss:AcscBranchChangeXmlTYpe"/>
-					<ns:element name="dstabBranchChangeData" minOccurs="0" type="pss:DstabBranchChangeXmlType"/>
+					<ns:element maxOccurs="1" minOccurs="0" name="offLine" type="ns:boolean"/>
+					<ns:element minOccurs="0" name="aclfBranchChangeData" type="pss:AclfBranchChangeXmlType"/>
+					<ns:element minOccurs="0" name="acscBranchChangeData" type="pss:AcscBranchChangeXmlTYpe"/>
+					<ns:element minOccurs="0" name="dstabBranchChangeData" type="pss:DstabBranchChangeXmlType"/>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -127,15 +128,15 @@
 
 	<ns:complexType name="AclfBranchChangeXmlType">
 		<ns:sequence>
-			<ns:element name="branchZChange" minOccurs="0" type="pss:ComplexValueChangeXmlType"></ns:element>
-			<ns:element name="ratingChange" maxOccurs="unbounded" minOccurs="0" type="pss:RatingChangeXmlType"/>
+			<ns:element minOccurs="0" name="branchZChange" type="pss:ComplexValueChangeXmlType"/>
+			<ns:element maxOccurs="unbounded" minOccurs="0" name="ratingChange" type="pss:RatingChangeXmlType"/>
 		</ns:sequence>
 	</ns:complexType>
 
 	<ns:complexType name="RatingChangeXmlType">
 		<ns:sequence>
-			<ns:element name="ratingName" type="ns:string" maxOccurs="1"></ns:element>
-			<ns:element name="change" type="pss:DoubleValueChangeXmlType" maxOccurs="1"></ns:element>
+			<ns:element maxOccurs="1" name="ratingName" type="ns:string"/>
+			<ns:element maxOccurs="1" name="change" type="pss:DoubleValueChangeXmlType"/>
 		</ns:sequence>
 	</ns:complexType>
 
