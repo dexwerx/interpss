@@ -56,11 +56,11 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/psse/v30/SixBus_2WPsXfr.raw")
 					.setFormat(IpssAdapter.FileFormat.PSSE)
 					.setPsseVersion(PsseVersion.PSSE_30)
-					.load()
+					.load(true, "output/odm.xml")
 					.getAclfNet();
+  		//System.out.println(net.net2String());
 
 	  	net.accept(CoreObjectFactory.createLfAlgoVisitor());
-  		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());
   		
@@ -82,12 +82,13 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 					.setPsseVersion(PsseVersion.PSSE_30)
 					.load()
 					.getAclfNet();
+  		//System.out.println(net.net2String());
 		
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 
 		//System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.07)<0.1);
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
 
 		algo.destroy();			
 	}
@@ -107,14 +108,15 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		net.setRefBusId("Bus3");
 		net.setRefBusType(RefBusType.USER_DEFINED);
 		
-		net.getAclfBus("Bus1").setGenP(3.0);
+		net.getAclfBus("Bus1").setGenP(3.0723);
 
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 
-		System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.07)<0.1);
-  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.28)<0.01);
+		//System.out.println(DclfOutFunc.dclfResults(algo, false));
+		//System.out.println(algo.getBusPower(net.getAclfBus("Bus1")));
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0623)<0.0001);
+  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.38)<0.01);
 
 		algo.destroy();			
 	}
@@ -130,9 +132,9 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 					.setPsseVersion(PsseVersion.PSSE_30)
 					.load()
 					.getAclfNet();
+  		//System.out.println(net.net2String());
 
 	  	net.accept(CoreObjectFactory.createLfAlgoVisitor());
-  		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());
   		
@@ -159,8 +161,8 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 		
-		System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.07)<0.1);
+		//System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
 		
 		algo.destroy();	
 	}
