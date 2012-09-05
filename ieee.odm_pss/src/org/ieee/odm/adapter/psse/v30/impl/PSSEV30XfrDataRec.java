@@ -386,16 +386,18 @@ public class PSSEV30XfrDataRec {
                		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
         	    	tapAdj.setVoltageAdjData(vAdjData);
         	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-        	    	vAdjData.setMax(vma);
-        	    	vAdjData.setMin(vmi);       
+        	    	vAdjData.setRange(odmObjFactory.createLimitXmlType());
+        	    	vAdjData.getRange().setMax(vma);
+        	    	vAdjData.getRange().setMin(vmi);       
         	    }
            		else {
                  	tapAdj.setAdjustmentType(TapAdjustmentEnumType.M_VAR_FLOW);
                  	MvarFlowAdjustmentDataXmlType mvaAdjData = odmObjFactory.createMvarFlowAdjustmentDataXmlType(); 
         	    	tapAdj.setMvarFlowAdjData(mvaAdjData);
         	    	mvaAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-        	    	mvaAdjData.setMax(vma);
-        	    	mvaAdjData.setMin(vmi);               		
+        	    	mvaAdjData.setRange(odmObjFactory.createLimitXmlType());
+        	    	mvaAdjData.getRange().setMax(vma);
+        	    	mvaAdjData.getRange().setMin(vmi);               		
            		}
           	}
     	    else {
@@ -403,8 +405,9 @@ public class PSSEV30XfrDataRec {
     	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType();
     	    	branchPsXfr.setAngleAdjustment(angAdj);
     	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(rma, rmi, AngleUnitType.DEG));
-    	    	angAdj.setMax(vma);
-    	    	angAdj.setMin(vmi);
+    	    	angAdj.setRange(odmObjFactory.createLimitXmlType());
+    	    	angAdj.getRange().setMax(vma);
+    	    	angAdj.getRange().setMin(vmi);
     	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
     	    	angAdj.setDesiredMeasuredOnFromSide(onFromSide);
     	    }              	

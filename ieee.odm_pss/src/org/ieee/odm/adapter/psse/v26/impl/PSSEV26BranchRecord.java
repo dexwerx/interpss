@@ -211,8 +211,9 @@ public class PSSEV26BranchRecord {
 	    	VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType(); 
 	    	tapAdj.setVoltageAdjData(vAdjData);
 	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-	    	vAdjData.setMax(vup);
-	    	vAdjData.setMin(vlow);
+	    	vAdjData.setRange(odmObjFactory.createLimitXmlType());
+	    	vAdjData.getRange().setMax(vup);
+	    	vAdjData.getRange().setMin(vlow);
 	    	
 	    	if (iconId != null) {
 		    	tapAdj.setOffLine(false);
@@ -241,8 +242,9 @@ public class PSSEV26BranchRecord {
 	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType(); 
 	    	branchData.setAngleAdjustment(angAdj);
 	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(angmax, angmin, AngleUnitType.DEG));
-	    	angAdj.setMax(mwup);
-	    	angAdj.setMin(mwlow);
+	    	angAdj.setRange(odmObjFactory.createLimitXmlType());
+	    	angAdj.getRange().setMax(mwup);
+	    	angAdj.getRange().setMin(mwlow);
 	    	angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 	    	angAdj.setDesiredMeasuredOnFromSide(true);
 	    }

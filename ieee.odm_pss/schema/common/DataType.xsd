@@ -290,18 +290,24 @@
     
 
     <ns:complexType name="AdjustmentDataXmlType">
-		<ns:annotation><ns:documentation>
-		There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment,
-		max and min are used.
-		</ns:documentation></ns:annotation>
-		<ns:complexContent>
-			<ns:extension base="pss:LimitXmlType">
-				<ns:attribute name="mode" use="required" type="pss:AdjustmentModeEnumType"></ns:attribute>
-				<ns:attribute name="desiredValue" type="ns:double" use="required"></ns:attribute>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-    
+    	<ns:annotation>
+    		<ns:documentation>
+    			There are two adj modes: ValueAdjustment and
+    			RangeAdjustment. For ValueAdjustment, the desiredValue
+    			is used. For RangeAdjustment, max and min are used.
+    		</ns:documentation>
+    	</ns:annotation>
+    			<ns:sequence>
+    				<ns:element name="range" type="pss:LimitXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+    			</ns:sequence>
+    			<ns:attribute name="mode" use="required"
+    				type="pss:AdjustmentModeEnumType">
+    			</ns:attribute>
+    			<ns:attribute name="desiredValue" type="ns:double"
+    				use="required">
+    			</ns:attribute>
+    </ns:complexType>
+
 
     <ns:complexType name="ScEquivSourceXmlType">
 		<ns:sequence>

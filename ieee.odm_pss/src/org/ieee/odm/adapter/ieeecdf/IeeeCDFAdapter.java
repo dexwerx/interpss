@@ -501,11 +501,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 								: (controlSide == 1 ? TapAdjustBusLocationEnumType.NEAR_FROM_BUS
 										: TapAdjustBusLocationEnumType.NEAR_TO_BUS));
 				voltTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-				BaseDataSetter.setLimit(voltTapAdj, maxVoltPQ, minVoltPQ);
+				BaseDataSetter.setLimit(voltTapAdj.getRange(), maxVoltPQ, minVoltPQ);
 			} else if (branchType == 3) {
 				MvarFlowAdjustmentDataXmlType mvarTapAdj = this.factory.createMvarFlowAdjustmentDataXmlType();
 				tapAdj.setMvarFlowAdjData(mvarTapAdj);
-				BaseDataSetter.setLimit(mvarTapAdj, maxVoltPQ, minVoltPQ);
+				BaseDataSetter.setLimit(mvarTapAdj.getRange(), maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
@@ -515,7 +515,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			psXfrBranch.setAngleAdjustment(angAdj);
 			angAdj.setAngleLimit(this.factory.createAngleLimitXmlType());
 			BaseDataSetter.setLimit(angAdj.getAngleLimit(), maxTapAng, minTapAng);
-			BaseDataSetter.setLimit(angAdj, maxVoltPQ, minVoltPQ);
+			BaseDataSetter.setLimit(angAdj.getRange(), maxVoltPQ, minVoltPQ);
 			angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 			angAdj.setDesiredMeasuredOnFromSide(true);
 		}
