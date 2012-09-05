@@ -32,6 +32,7 @@ import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.IpssCorePlugin;
+import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
@@ -64,7 +65,7 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 	  	
   		assertTrue(net.isLfConverged());
   		
-		//System.out.println(AclfOutFunc.loadFlowSummary(net));
+		System.out.println(AclfOutFunc.loadFlowSummary(net));
   		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
   		assertTrue(Math.abs(p.getReal()-3.1032)<0.0001);
@@ -83,11 +84,17 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 					.load()
 					.getAclfNet();
   		//System.out.println(net.net2String());
+		/*
+		net.accept(CoreObjectFactory.createBusNoArrangeVisitor());
+		for (Bus b : net.getBusList())
+			System.out.println(b.getId() + ": " + b.getSortNumber());
+ 		System.out.println(net.formB1Matrix());
+		*/
 		
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
   		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
 
 		algo.destroy();			
@@ -113,10 +120,10 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
 		//System.out.println(algo.getBusPower(net.getAclfBus("Bus1")));
   		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0623)<0.0001);
-  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.38)<0.01);
+  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.65)<0.01);
 
 		algo.destroy();			
 	}
