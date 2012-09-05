@@ -210,7 +210,7 @@ public class PSSEV30_NEISO_ODMTest {
 	      </branch>
 	      */
 		PSXfr3WBranchXmlType psXfr3W = parser.getPSXfr3WBranch("Bus27824", "Bus27871", "Bus27957", "W");
-		assertTrue(!psXfr3W.isOffLine());
+		//assertTrue(!psXfr3W.isOffLine());
 		assertTrue(psXfr3W.getZ().getRe() == 0.00133);
 		assertTrue(psXfr3W.getFromAngle().getValue() == 0.0);
 		assertTrue(psXfr3W.getTertShiftAngle().getValue() == -30.0);
