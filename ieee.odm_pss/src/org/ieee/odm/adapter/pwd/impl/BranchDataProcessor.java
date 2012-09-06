@@ -63,7 +63,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		String type="";
 		String branchId="";
 		boolean closed=true, isXfmr=false, isPhXfmr=false;
-		double r=0,x=0,b=0,g=0, // all per unit value on system base;
+		double r=0,x=0,b=0,g=0, bMag=0,gMag=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
 		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999,//mvar rating
 		       lineTap=1.0, toTurnRatio=1.0;//tap ratio
@@ -109,9 +109,12 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 					x=Double.valueOf(nv.value);
 			    else if (nv.name.equals("LineC") || nv.name.equals("LineC:1"))
 					b=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XfrmerMagnetizingB"))
+			    	bMag=nv.value.isEmpty()?0:Double.valueOf(nv.value);
 			    else if (nv.name.equals("LineG") || nv.name.equals("LineG:1"))
 					g=Double.valueOf(nv.value);
-			    
+			    else if (nv.name.equals("XfrmerMagnetizingG"))
+			        gMag=nv.value.isEmpty()?0:Double.valueOf(nv.value);
 			    else if (nv.name.equals("LineAMVA"))
 					mvaRating1=Double.valueOf(nv.value); // line limit rating
 			    
@@ -154,6 +157,8 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    	xfrToSideNominalKV=Double.valueOf(nv.value);
 			}
 			
+			if(gMag==0&&g!=0)gMag=g;
+			if(bMag==0&&b!=0)bMag=b;
 		    fromBusId=parser.BusIdPreFix+fromBusNum;
 		    toBusId=parser.BusIdPreFix+toBusNum;
 		    
@@ -227,7 +232,7 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 				if (phaseAngle == 0) {// transformer
 					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
 					AclfDataSetter.createXformerData(xfr, r, x, ZUnitType.PU,
-							lineTap, toTurnRatio, g, b, YUnitType.PU);
+							lineTap, toTurnRatio, gMag, bMag, YUnitType.PU);
 
 					BusXmlType fromBusRec = parser.getBus(fromBusId);
 					BusXmlType toBusRec = parser.getBus(toBusId);
@@ -245,7 +250,7 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 					PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType) branch;
 					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x,
 							ZUnitType.PU, lineTap, toTurnRatio, phaseAngle, 0,
-							AngleUnitType.DEG, g, b, YUnitType.PU);
+							AngleUnitType.DEG, gMag, bMag, YUnitType.PU);
 
 					// angle adjustment
 					AngleAdjustmentXmlType angAdj = new AngleAdjustmentXmlType();
