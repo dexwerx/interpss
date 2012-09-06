@@ -82,13 +82,19 @@ public class SixBus_DclfPsXfr_pwd extends CorePluginTestSetup {
 					.setFormat(IpssAdapter.FileFormat.PWD)
 					.load(true, "output/odm.xml")
 					.getAclfNet();
-  		//System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 		/*
 		net.accept(CoreObjectFactory.createBusNoArrangeVisitor());
 		for (Bus b : net.getBusList())
 			System.out.println(b.getId() + ": " + b.getSortNumber());
  		System.out.println(net.formB1Matrix());
+ 		
 		*/
+		/*xfr 1->3
+		  r=0.00024, x=0.03039
+		*/
+		net.getAclfBranch("Bus1->Bus3(1 )").setZ(new Complex(0.00024, 0.03039));
+
 		
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
