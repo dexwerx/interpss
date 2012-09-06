@@ -83,41 +83,28 @@ public class SixBus_DclfPsXfr_pwd extends CorePluginTestSetup {
 					.load(true, "output/odm.xml")
 					.getAclfNet();
   		//System.out.println(net.net2String());
-
-		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
-		algo.calculateDclf();
-
-		System.out.println(DclfOutFunc.dclfResults(algo, false));
-
-		algo.destroy();			
-	}
-	
-	@Test
-	public void dclf_WithXfrZAdjusted() throws Exception {
-		IpssCorePlugin.init();
-        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
-		ODMLogger.getLogger().setLevel(Level.WARNING);
-
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_2WPsXfr.aux")
-					.setFormat(IpssAdapter.FileFormat.PWD)
-					.load(true, "output/odm.xml")
-					.getAclfNet();
-  		//System.out.println(net.net2String());
+		/*
+		net.accept(CoreObjectFactory.createBusNoArrangeVisitor());
+		for (Bus b : net.getBusList())
+			System.out.println(b.getId() + ": " + b.getSortNumber());
+ 		System.out.println(net.formB1Matrix());
  		
-		
+		*/
 		/*xfr 1->3
 		  r=0.00024, x=0.03039
 		*/
 		net.getAclfBranch("Bus1->Bus3(1 )").setZ(new Complex(0.00024, 0.03039));
+		net.getAclfBranch("Bus1->Bus3(1 )").setFromTurnRatio(1.0);
+		net.getAclfBranch("Bus1->Bus3(1 )").setToTurnRatio(1.0);
 
 		
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
 
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		//assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
 
 		algo.destroy();			
 	}
-	
 }
 
