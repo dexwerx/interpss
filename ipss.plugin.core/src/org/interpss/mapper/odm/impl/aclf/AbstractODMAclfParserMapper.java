@@ -43,6 +43,8 @@ import com.interpss.simu.SimuContext;
  * @param Tfrom from object type
  */
 public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
+	ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
+	
 	/**
 	 * constructor
 	 * 
@@ -50,6 +52,10 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 	public AbstractODMAclfParserMapper() {
 	}
 	
+	public void setXfrBranchModel(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
+		this.xfrBranchModel = xfrBranchModel;
+	}
+
 	/**
 	 * map into store in the ODM parser into simuCtx object
 	 * 
@@ -61,7 +67,9 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 		AclfModelParser parser = (AclfModelParser)p;
 		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
-			noError = new ODMAclfNetMapper().map2Model(xmlNet, simuCtx);
+			ODMAclfNetMapper mapper = new ODMAclfNetMapper();
+			mapper.setXfrBranchModel(xfrBranchModel);
+			noError = mapper.map2Model(xmlNet, simuCtx);
 		} else {
 			ipssLogger.severe("Error: currently only Transmission NetworkType has been implemented");
 			return false;

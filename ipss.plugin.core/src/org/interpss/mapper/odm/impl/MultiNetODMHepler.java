@@ -31,6 +31,7 @@ import javax.xml.bind.JAXBElement;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.interpss.mapper.odm.IMultiNetProcessor;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
@@ -38,8 +39,9 @@ import com.interpss.core.aclf.AclfNetwork;
 
 public class MultiNetODMHepler {
 	private AclfModelParser aclfParser;
+	private ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
 	
-	public MultiNetODMHepler(AclfModelParser aclfParser) {
+	public MultiNetODMHepler(AclfModelParser aclfParser, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		this.aclfParser = aclfParser;
 	}
 	
@@ -51,7 +53,7 @@ public class MultiNetODMHepler {
 	 * @throws InterpssException
 	 */
 	public AclfNetwork buildAclfMultiNet(IMultiNetProcessor childNetProcesor) throws InterpssException {
-		AclfNetwork mainNet = AclfParser2AclfNet.fx(aclfParser);
+		AclfNetwork mainNet = AclfParser2AclfNet.fx(aclfParser, this.xfrBranchModel);
 		
 		for (JAXBElement<? extends NetworkXmlType> childNet : aclfParser.getChildNetList()) {
 			childNetProcesor.setMainNet(mainNet).process(childNet.getValue());

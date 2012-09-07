@@ -35,6 +35,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.fadapter.IpssFileAdapter;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.spring.CorePluginSpringFactory;
 
 import com.interpss.SimuObjectFactory;
@@ -48,6 +49,7 @@ import com.interpss.simu.SimuCtxType;
 public class IpssFileAdapterBase implements IpssFileAdapter {
 	protected IPSSMsgHub msgHub;
 	private ODMFileFormatEnum format;
+	private ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
 
 	private String name;
 	private String[] versionList = null;
@@ -94,7 +96,8 @@ public class IpssFileAdapterBase implements IpssFileAdapter {
 		if (debug)
 			System.out.println(adapter.getModel().toXmlDoc(outfile));
 		
-		if (CorePluginSpringFactory.getOdm2AclfParserMapper().map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
+		if (CorePluginSpringFactory.getOdm2AclfParserMapper(this.xfrBranchModel.InterPSS)
+					.map2Model((AclfModelParser)adapter.getModel(), simuCtx)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}

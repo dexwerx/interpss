@@ -25,38 +25,26 @@
 package org.interpss.mapper.odm.impl.aclf;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
-import static org.interpss.mapper.odm.ODMFunction.BusXmlRef2BusId;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
-import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
-import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
-import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
-import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
-import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
-import org.ieee.odm.schema.TapAdjustmentEnumType;
-import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.Transformer3WInfoXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
-import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
-import org.interpss.numeric.datatype.LimitType;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
-import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.Aclf3WXformer;
@@ -64,9 +52,6 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.adj.AdjControlType;
-import com.interpss.core.aclf.adj.PSXfrPControl;
-import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adpter.AclfLine;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.aclf.adpter.AclfXformer;
@@ -83,6 +68,7 @@ import com.interpss.core.net.Branch;
 public class AclfBranchDataHelper {
 	private AclfNetwork aclfNet = null;
 	private Branch branch = null;
+	private ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
 	
 	/**
 	 * constructor
@@ -90,9 +76,10 @@ public class AclfBranchDataHelper {
 	 * @param aclfNet
 	 * @param bra
 	 */
-	public AclfBranchDataHelper(AclfNetwork aclfNet, Branch bra) {
+	public AclfBranchDataHelper(AclfNetwork aclfNet, Branch bra, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		this.aclfNet = aclfNet;
 		this.branch = bra;
+		this.xfrBranchModel = xfrBranchModel;
 	}
 	
 	/**
@@ -251,16 +238,22 @@ public class AclfBranchDataHelper {
 				* (fromRatedV != fromBaseV ? fromTapratio : 1.0);
 		double tTap = xmlXfrBranch.getToTurnRatio().getValue()
 				* (toRatedV != toBaseV ? toTapratio : 1.0);
-
+// TODO
 		// Transformer Impedance X need to be adjusted if to tap is off-nominal;
-		if (Math.abs(tTap - 1.0) > 0.001)
+		if (Math.abs(tTap - 1.0) > 0.001 && this.xfrBranchModel == ODMAclfNetMapper.XfrBranchModel.PSSE)
 			zratio *= tTap * tTap;
 		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe() * zratio, xmlXfrBranch
 				.getZ().getIm() * zratio),
 				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);
 
-		xfr.setFromTurnRatio(fTap / tTap, UnitType.PU);
-		xfr.setToTurnRatio(1.0, UnitType.PU);
+		if (this.xfrBranchModel == ODMAclfNetMapper.XfrBranchModel.InterPSS) {
+			xfr.setFromTurnRatio(fTap, UnitType.PU);
+			xfr.setToTurnRatio(tTap, UnitType.PU);
+		}
+		else {
+			xfr.setFromTurnRatio(fTap / tTap, UnitType.PU);
+			xfr.setToTurnRatio(1.0, UnitType.PU);
+		}
 		/*
 		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe()*zratio, xmlXfrBranch.getZ().getIm()*zratio),
 				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);

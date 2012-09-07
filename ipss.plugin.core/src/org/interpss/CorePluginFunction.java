@@ -11,6 +11,7 @@ import org.interpss.display.DclfOutFunc;
 import org.interpss.display.AclfOutFunc.BusIdStyle;
 import org.interpss.display.impl.AclfOut_BusStyle;
 import org.interpss.display.impl.AclfOut_PSSE;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.spring.CorePluginSpringFactory;
 
 import com.interpss.common.exp.InterpssException;
@@ -37,18 +38,18 @@ public class CorePluginFunction {
 	 * 		ODM Mapping functions
 	 ************************************************************/
 
-	public static IFunction<AclfModelParser, AclfNetwork> AclfParser2AclfNet = 
-		new FunctionAdapter<AclfModelParser, AclfNetwork>() {
-			@Override public AclfNetwork fx(AclfModelParser parser) throws InterpssException {
-				return CorePluginSpringFactory.getOdm2AclfParserMapper()
+	public static IFunction2<AclfModelParser, ODMAclfNetMapper.XfrBranchModel, AclfNetwork> AclfParser2AclfNet = 
+		new Function2Adapter<AclfModelParser, ODMAclfNetMapper.XfrBranchModel, AclfNetwork>() {
+			@Override public AclfNetwork fx(AclfModelParser parser, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) throws InterpssException {
+				return CorePluginSpringFactory.getOdm2AclfParserMapper(xfrBranchModel)
 						.map2Model(parser)
 						.getAclfNet();
 		}};
 	
-	public static IFunction<LoadflowNetXmlType, AclfNetwork> AclfXmlNet2AclfNet = 
-		new FunctionAdapter<LoadflowNetXmlType, AclfNetwork>() {
-			@Override public AclfNetwork fx(LoadflowNetXmlType xmlNet) throws InterpssException {
-				return CorePluginSpringFactory.getOdm2AclfNetMapper()
+	public static IFunction2<LoadflowNetXmlType, ODMAclfNetMapper.XfrBranchModel, AclfNetwork> AclfXmlNet2AclfNet = 
+		new Function2Adapter<LoadflowNetXmlType, ODMAclfNetMapper.XfrBranchModel, AclfNetwork>() {
+			@Override public AclfNetwork fx(LoadflowNetXmlType xmlNet, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) throws InterpssException {
+				return CorePluginSpringFactory.getOdm2AclfNetMapper(xfrBranchModel)
 						.map2Model(xmlNet)
 						.getAclfNet();
 		}};

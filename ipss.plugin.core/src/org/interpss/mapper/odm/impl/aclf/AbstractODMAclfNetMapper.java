@@ -46,6 +46,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
@@ -69,7 +70,7 @@ import com.interpss.simu.SimuCtxType;
  * @param Tfrom from object type
  */
 public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
-	public static enum XfrBranchModel { InterPSS, PSSE}
+	ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
 	
 	/**
 	 * constructor
@@ -78,6 +79,10 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	public AbstractODMAclfNetMapper() {
 	}
 	
+	public void setXfrBranchModel(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
+		this.xfrBranchModel = xfrBranchModel;
+	}
+
 	/**
 	 * map into store in the ODM parser into simuCtx object
 	 * 
@@ -225,7 +230,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 */
 	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet) throws InterpssException {
 		setAclfBranchData((BranchXmlType)xmlBranch, branch, adjNet);
-		AclfBranchDataHelper helper = new AclfBranchDataHelper(adjNet, branch);
+		AclfBranchDataHelper helper = new AclfBranchDataHelper(adjNet, branch, this.xfrBranchModel);
 		if (xmlBranch instanceof LineBranchXmlType) {
 			LineBranchXmlType branchRec = (LineBranchXmlType) xmlBranch;
 			helper.setLineBranchData(branchRec);
