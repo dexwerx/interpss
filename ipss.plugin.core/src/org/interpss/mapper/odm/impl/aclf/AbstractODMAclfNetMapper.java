@@ -69,6 +69,8 @@ import com.interpss.simu.SimuCtxType;
  * @param Tfrom from object type
  */
 public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
+	public static enum XfrBranchModel { InterPSS, PSSE}
+	
 	/**
 	 * constructor
 	 * 
