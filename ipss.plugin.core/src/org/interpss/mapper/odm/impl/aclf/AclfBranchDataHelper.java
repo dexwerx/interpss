@@ -236,17 +236,39 @@ public class AclfBranchDataHelper {
 				}
 				fromTapratio = fromRatedV/fromBaseV;
 				toTapratio = toRatedV/toBaseV ;
+				//update to Standard transform modeling
+				zratio*=toTapratio*toTapratio;
 			}
 		}
 		
+		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		AclfXformer xfr = aclfBra.toXfr();
+		// Use Standard transform modeling, that is from Tap can be off-nominal,
+		// to Tap is normalized to 1.0;
+
+		double fTap = xmlXfrBranch.getFromTurnRatio().getValue()
+				* (fromRatedV != fromBaseV ? fromTapratio : 1.0);
+		double tTap = xmlXfrBranch.getToTurnRatio().getValue()
+				* (toRatedV != toBaseV ? toTapratio : 1.0);
+
+		// Transformer Impedance X need to be adjusted if to tap is off-nominal;
+		if (Math.abs(tTap - 1.0) > 0.001)
+			zratio *= tTap * tTap;
+		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe() * zratio, xmlXfrBranch
+				.getZ().getIm() * zratio),
+				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);
+
+		xfr.setFromTurnRatio(fTap / tTap, UnitType.PU);
+		xfr.setToTurnRatio(1.0, UnitType.PU);
+		/*
 		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe()*zratio, xmlXfrBranch.getZ().getIm()*zratio),
 				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);
 		double ratio = xmlXfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?fromTapratio:1.0);
 		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 		ratio = xmlXfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
+		*/
 
 /* TODO : ODM data mapping has problem
 		if (aclfBra.isXfr() && xmlXfrBranch.getTapAdjustment() != null) {
