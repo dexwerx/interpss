@@ -281,7 +281,8 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
 					xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 					TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
-					xfrInfo.setDataOnSystemBase(false);
+					// TODO it seems PWD xfr data is alwasy on system base
+					xfrInfo.setDataOnSystemBase(true);
 					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
 					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
 					xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
