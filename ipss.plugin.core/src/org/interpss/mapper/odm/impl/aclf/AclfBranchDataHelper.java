@@ -44,6 +44,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.numeric.util.NumericUtil;
 
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
@@ -239,8 +240,8 @@ public class AclfBranchDataHelper {
 		double tTap = xmlXfrBranch.getToTurnRatio().getValue()
 				* (toRatedV != toBaseV ? toTapratio : 1.0);
 // TODO
-		// Transformer Impedance X need to be adjusted if to tap is off-nominal;
-		if (Math.abs(tTap - 1.0) > 0.001 && this.xfrBranchModel == ODMAclfNetMapper.XfrBranchModel.PSSE)
+		// for the PSS/E xfr branch model, Transformer Impedance X need to be adjusted if to tap is off-nominal;
+		if (this.xfrBranchModel == ODMAclfNetMapper.XfrBranchModel.PSSE)
 			zratio *= tTap * tTap;
 		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe() * zratio, xmlXfrBranch
 				.getZ().getIm() * zratio),
