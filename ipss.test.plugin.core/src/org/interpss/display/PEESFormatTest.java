@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.spring.CorePluginSpringFactory;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class PEESFormatTest {
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_5Bus_Test.raw"));		
 		
 		AclfNetwork net = CorePluginSpringFactory
-				.getOdm2AclfParserMapper()
+				.getOdm2AclfParserMapper(ODMAclfNetMapper.XfrBranchModel.InterPSS)
 				.map2Model((AclfModelParser)adapter.getModel())
 				.getAclfNet();	
 		

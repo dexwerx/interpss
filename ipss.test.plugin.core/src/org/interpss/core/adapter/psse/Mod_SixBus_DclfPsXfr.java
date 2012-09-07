@@ -33,17 +33,19 @@ import org.ieee.odm.common.ODMLogger;
 import org.interpss.CorePluginFunction;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.IpssCorePlugin;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.DclfObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.core.net.Branch;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssAdapter.PsseVersion;
 
@@ -68,8 +70,8 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		System.out.println(CorePluginFunction.AclfResultBusStyle.f(net));
   		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
-  		//assertTrue(Math.abs(p.getReal()-3.1032)<0.0001);
-  		//assertTrue(Math.abs(p.getImaginary()-0.5212)<0.0001);	   		
+  		assertTrue(Math.abs(p.getReal()-3.2954)<0.0001);
+  		assertTrue(Math.abs(p.getImaginary()-0.9567)<0.0001);	   		
  	}
 	
 	@Test
@@ -79,8 +81,54 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		ODMLogger.getLogger().setLevel(Level.WARNING);
 
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/psse/v30/Mod_SixBus_2WPsXfr.raw")
-					.setFormat(IpssAdapter.FileFormat.PSSE)
-					.setPsseVersion(PsseVersion.PSSE_30)
+					.format(IpssAdapter.FileFormat.PSSE)
+					.psseVersion(PsseVersion.PSSE_30)
+					.xfrBranchModel(ODMAclfNetMapper.XfrBranchModel.InterPSS)
+					.load()
+					.getAclfNet();
+  		//System.out.println(net.net2String());
+		/*
+		net.accept(CoreObjectFactory.createBusNoArrangeVisitor());
+		for (Bus b : net.getBusList())
+			System.out.println(b.getId() + ": " + b.getSortNumber());
+ 		System.out.println(net.formB1Matrix());
+		*/
+		
+		// because of InterPSS xfrBranchModel, we need to convert to the PSS/E model
+		for (Branch b : net.getBranchList()) {
+			AclfBranch branch = (AclfBranch)b;
+			if (branch.isXfr() || branch.isPSXfr()) {
+				if (branch.getToTurnRatio() != 1.0) {
+					branch.setZ(branch.getZ().multiply(branch.getToTurnRatio()*branch.getToTurnRatio()));
+					branch.setFromTurnRatio(branch.getFromTurnRatio()/branch.getToTurnRatio());
+					branch.setToTurnRatio(1.0);
+					if (branch.isPSXfr()) {
+						branch.setFromPSXfrAngle(branch.getFromPSXfrAngle() - branch.getToPSXfrAngle());
+						branch.setToPSXfrAngle(0.0);
+					}
+				}
+			}
+		} 
+		
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+		algo.calculateDclf();
+
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+
+		algo.destroy();			
+	}
+
+	@Test
+	public void dclf1() throws Exception {
+		IpssCorePlugin.init();
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+		ODMLogger.getLogger().setLevel(Level.WARNING);
+
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/psse/v30/Mod_SixBus_2WPsXfr.raw")
+					.format(IpssAdapter.FileFormat.PSSE)
+					.psseVersion(PsseVersion.PSSE_30)
+					.xfrBranchModel(ODMAclfNetMapper.XfrBranchModel.PSSE)
 					.load()
 					.getAclfNet();
   		//System.out.println(net.net2String());
@@ -95,7 +143,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		//assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
 
 		algo.destroy();			
 	}

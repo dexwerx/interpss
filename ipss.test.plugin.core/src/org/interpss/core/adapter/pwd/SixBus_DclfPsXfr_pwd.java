@@ -40,10 +40,11 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.DclfObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.core.net.RefBusType;
+import com.interpss.core.net.Branch;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssAdapter.PsseVersion;
 
@@ -93,9 +94,24 @@ public class SixBus_DclfPsXfr_pwd extends CorePluginTestSetup {
 		/*xfr 1->3
 		  r=0.00024, x=0.03039
 		*/
-		net.getAclfBranch("Bus1->Bus3(1 )").setZ(new Complex(0.00024, 0.03039));
-		net.getAclfBranch("Bus1->Bus3(1 )").setFromTurnRatio(1.0);
-		net.getAclfBranch("Bus1->Bus3(1 )").setToTurnRatio(1.0);
+		//net.getAclfBranch("Bus1->Bus3(1 )").setZ(new Complex(0.00024, 0.03039));
+		//net.getAclfBranch("Bus1->Bus3(1 )").setFromTurnRatio(1.0);
+		//net.getAclfBranch("Bus1->Bus3(1 )").setToTurnRatio(1.0);
+		
+		for (Branch b : net.getBranchList()) {
+			AclfBranch branch = (AclfBranch)b;
+			if (branch.isXfr() || branch.isPSXfr()) {
+				if (branch.getToTurnRatio() != 1.0) {
+					branch.setZ(branch.getZ().multiply(branch.getToTurnRatio()*branch.getToTurnRatio()));
+					branch.setFromTurnRatio(branch.getFromTurnRatio()/branch.getToTurnRatio());
+					branch.setToTurnRatio(1.0);
+					if (branch.isPSXfr()) {
+						branch.setFromPSXfrAngle(branch.getFromPSXfrAngle() - branch.getToPSXfrAngle());
+						branch.setToPSXfrAngle(0.0);
+					}
+				}
+			}
+		}
 
 		
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);

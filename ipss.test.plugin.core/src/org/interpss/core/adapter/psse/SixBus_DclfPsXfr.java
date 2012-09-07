@@ -123,7 +123,7 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
 		//System.out.println(algo.getBusPower(net.getAclfBus("Bus1")));
   		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0623)<0.0001);
-  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.65)<0.01);
+  		assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle("Bus1"))-4.38)<0.01);
 
 		algo.destroy();			
 	}

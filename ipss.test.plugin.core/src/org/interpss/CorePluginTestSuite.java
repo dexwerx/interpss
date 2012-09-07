@@ -5,6 +5,7 @@ import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
+import org.interpss.core.adapter.psse.Mod_SixBus_DclfPsXfr;
 import org.interpss.core.adapter.psse.SixBus_DclfPsXfr;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.smallz.IEEE14BusBreakerTest;
@@ -32,6 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	// Dclf
+	Mod_SixBus_DclfPsXfr.class,
 	SixBus_DclfPsXfr.class,
 	IEEE14BusBreaker_dclf_Test.class,
 	
