@@ -101,6 +101,31 @@ public class NetModificationHelper {
 		return busChange;
 	}	
 
+	/**
+	 * When NetModificationXmlType is used for contingency analysis, return the
+	 * contingency list
+	 * 
+	 * @return
+	 */
+	public NetModificationXmlType getContingencyList() {
+		return (NetModificationXmlType)parser.getModification();
+	}	
+
+	/**
+	 * When NetModificationXmlType is used for contingency analysis, get contingency
+	 * by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BranchChangeRecSetXmlType getContingency(String id) {
+		for ( BranchChangeRecSetXmlType contingency : getContingencyList().getBranchChangeRecSet()) {
+			if (id.equals(contingency.getId()))
+				return contingency;
+		}
+		return null;
+	}	
+	
 	private void addModifyRecord(ModifyRecordXmlType rec) {
 		if (this.parser.getStudyCase().getModificationList() == null) {
 			this.parser.getStudyCase().setModificationList(odmObjFactory.createStudyCaseXmlTypeModificationList());
