@@ -179,9 +179,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						   }
 						   branchProc.processBranchData(str);
 					   }
-						   
+						   //Here we assumed that TRANSFOMER part data is supplementary to the BRANCH part data
+					       //and is only to provide the transformer control/adjustment data
 					   else if(recordType==RecType.XFORMER)
-						   branchProc.processXFormerData(str);
+						   branchProc.processXFormerControlData(str);
 					   else if(recordType==RecType.TRI_W_XFORMER)
 						   branchProc.process3WXFomerData(str);
 					   else if(recordType==RecType.AREA)

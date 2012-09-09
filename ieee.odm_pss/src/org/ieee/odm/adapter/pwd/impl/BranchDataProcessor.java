@@ -25,8 +25,10 @@ import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
@@ -48,6 +50,7 @@ import org.ieee.odm.schema.ZUnitType;
   */
 public class BranchDataProcessor extends BaseDataProcessor  {
 	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
+	private enum XfrType{Fixed, LTC, Mvar,Phase};
 	
 	public BranchDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
 		super(nvPairs, parser);
@@ -71,7 +74,248 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		String fromBusId, toBusId,circuitId="1";
 		String type="";
 		String branchId="";
-		boolean closed=true, isXfmr=false,isXFAutoControl=false;
+		boolean closed=true, isXfmr=false;
+		double r=0,x=0,b=0,g=0, // all per unit value on system base;
+		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
+		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999;//mvar rating
+
+		/*
+		 * ONLY for specific application
+		 */
+		String typeToken="CustomString"; //type
+		String idToken="CustomString:1"; //branch Id
+		
+		//System.out.println("processing branch#"+branchDataStr);
+		PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
+		
+		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
+			if (nv.name.equals("LineXfmr"))
+				isXfmr=nv.value.equalsIgnoreCase("YES")?true:false;
+			//both LineXfmr or BranchDeviceType could be used to define branch type
+			else if (nv.name.equals("BranchDeviceType"))
+				isXfmr=nv.value.equalsIgnoreCase("Transformer")?true:false;
+		}
+		if(isXfmr==true){
+			process2WXfrData(inputNvPairs);
+		}
+        else {
+			try {
+				for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
+					// TODO branch id, NE-ISO use "customString:1" as the
+					// corresponding argument;
+					if (nv.name.equals("BusNum"))
+						fromBusNum = Long.valueOf(nv.value); // mandatory field
+
+					else if (nv.name.equals("BusNum:1"))
+						toBusNum = Long.valueOf(nv.value); // mandatory field
+
+					else if (nv.name.equals("LineCircuit"))
+						circuitId = nv.value;
+
+					else if (nv.name.equals("LineStatus"))
+						closed = nv.value.equalsIgnoreCase("Closed") ? true
+								: false;
+
+					// LineR:1, LineX:1, LineG:1, LineC:1, 
+					// TODO The suffix of ¡°£º1¡± is used for Transformer
+					// definition,means those data values are based on
+					// transformer MVA base
+					else if (nv.name.equals("LineR")
+							|| nv.name.equals("LineR:1"))
+						r = Double.valueOf(nv.value);
+
+					else if (nv.name.equals("LineX")
+							|| nv.name.equals("LineX:1"))
+						x = Double.valueOf(nv.value);
+					else if (nv.name.equals("LineC")
+							|| nv.name.equals("LineC:1"))
+						b = Double.valueOf(nv.value);
+					else if (nv.name.equals("LineG")
+							|| nv.name.equals("LineG:1"))
+						g = Double.valueOf(nv.value);
+					else if (nv.name.equals("LineAMVA"))
+						mvaRating1 = Double.valueOf(nv.value); // line limit
+																// rating
+
+					else if (nv.name.equals("LineAMVA:1")
+							|| nv.name.equals("LineBMVA"))
+						mvaRating2 = Double.valueOf(nv.value);
+					else if (nv.name.equals("LineAMVA:2")
+							|| nv.name.equals("LineCMVA"))
+						mvaRating3 = Double.valueOf(nv.value);
+
+					else if (nv.name.equals("LineShuntMW"))
+						fBusShuntMW = Double.valueOf(nv.value);
+
+					else if (nv.name.equals("LineShuntMW:1"))
+						tBusShuntMW = Double.valueOf(nv.value);
+
+					else if (nv.name.equals("LineShuntMVR"))
+						fBusShuntMvar = Double.valueOf(nv.value);
+
+					else if (nv.name.equals("LineShuntMVR:1"))
+						tBusShuntMvar = Double.valueOf(nv.value);
+
+					else if (nv.name.equals(typeToken))
+						type = nv.value;
+					else if (nv.name.equals(idToken))
+						branchId = nv.value;
+				}// END OF FOR INTERATION
+
+				fromBusId = parser.BusIdPreFix + fromBusNum;
+				toBusId = parser.BusIdPreFix + toBusNum;
+
+				// create a branch record
+				BranchXmlType branch = parser.createLineBranch(fromBusId,
+						toBusId, circuitId);
+
+				LineBranchInfoXmlType LineInfo = new LineBranchInfoXmlType();
+				LineInfo.setType(type.equalsIgnoreCase("line") ? LineBranchEnumType.OVERHEAD_LINE
+						: (type.equalsIgnoreCase("breaker") ? LineBranchEnumType.BREAKER
+								: LineBranchEnumType.OTHER));
+				((LineBranchXmlType) branch).setLineInfo(LineInfo);
+
+				/*
+				 * common setting for branch type
+				 */
+
+				branch.setOffLine(!closed);
+				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
+				// processing lint shunt at from bus
+				if (fBusShuntMW != 0 || fBusShuntMvar != 0) {
+					LoadflowBusXmlType fromBus = parser.getAclfBus(fromBusId);
+					AclfDataSetter.addBusShuntY(fromBus, fBusShuntMW,
+							fBusShuntMvar, YUnitType.MVAR);
+				}
+				// processing lint shunt at to bus
+				if (tBusShuntMW != 0 || tBusShuntMvar != 0) {
+					LoadflowBusXmlType toBus = parser.getAclfBus(toBusId);
+					AclfDataSetter.addBusShuntY(toBus, tBusShuntMW,
+							tBusShuntMvar, YUnitType.MVAR);
+				}
+
+				// branch is Line type
+
+				LineBranchXmlType line = (LineBranchXmlType) branch;
+				if (g != 0 || b != 0)
+					line.setTotalShuntY(BaseDataSetter.createYValue(g, b,
+							YUnitType.PU));
+
+				// set rating limit
+				branch.setRatingLimit(odmObjFactory
+						.createBranchRatingLimitXmlType());
+
+				AclfDataSetter.setBranchRatingLimitData(
+						branch.getRatingLimit(), mvaRating1, mvaRating2,
+						mvaRating3, ApparentPowerUnitType.MVA);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}// END OF PROCESSING BRANCH
+	}
+    /**
+     * It assumed that the basic loadflow data,such as R,X,TapRatio,etc., 
+     * for Transformer has been processed before this proceesing
+     * 
+     */
+	public void processXFormerControlData(String xfomerDataStr) {
+	
+		/*
+		 * DATA (TRANSFORMER,
+		 * [BusNum,BusNum:1,LineCircuit,LineXFType,XFAuto,XFRegMin
+		 * ,XFRegMax,XFTapMin, XFTapMax,XFStep,XFTableNum,XFRegBus])
+		 */
+		long fromBusNum = -1, toBusNum = -1;
+		String fromBusId, toBusId, circuitId = "1";
+		int tableNum = 0;
+		double xfrTapMin = 0, xfrTapMax = 0, xfrTapStep = 0, xfrRegMin = 0, xfrRegMax = 0;
+		double xfmrBaseMva = 0;
+		boolean isXFAutoControl=false;
+		long regBusNum=-1;
+		String regBusId="";
+		XfrCtrlTargetType regTargetType=null;
+		XfrType xfrType=null;
+		
+		PWDHelper.parseDataFields(xfomerDataStr, inputNvPairs);
+		try {
+			for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
+				if (nv.name.equals("BusNum"))
+					fromBusNum = Long.valueOf(nv.value); // mandatory field
+
+				else if (nv.name.equals("BusNum:1"))
+					toBusNum = Long.valueOf(nv.value); // mandatory field
+
+				else if (nv.name.equals("LineCircuit"))
+					circuitId = nv.value;
+
+				else if (nv.name.equals("XFRegMin"))
+					xfrRegMin = Double.valueOf(nv.value);
+				else if (nv.name.equals("XFRegMax"))
+					xfrRegMax = Double.valueOf(nv.value);
+				else if (nv.name.equals("XFTapMin"))
+					xfrTapMin = Double.valueOf(nv.value);
+				else if (nv.name.equals("XFTapMax"))
+					xfrTapMax = Double.valueOf(nv.value);
+				else if (nv.name.equals("XFStep"))
+					xfrTapStep = Double.valueOf(nv.value);
+				else if (nv.name.equals("XFMVABase"))
+					xfmrBaseMva = Double.valueOf(nv.value);
+				else if (nv.name.equals("XFRegBus"))
+					regBusNum=Long.valueOf(nv.value); 
+				else if (nv.name.equals("XFTableNum"))
+					tableNum = Integer.valueOf(nv.value);
+			    else if (nv.name.equals("XFRegTargetType"))
+			    	regTargetType=nv.value.startsWith("Middle")?XfrCtrlTargetType.Midddle_Of_Range
+			    			       :XfrCtrlTargetType.MaxMin;
+			    else if (nv.name.equals("XFAuto"))
+			    	isXFAutoControl=nv.value.trim().equalsIgnoreCase("No")?false:true;
+			    	
+			    else if (nv.name.equals("XFRegBus"))
+					regBusNum=Long.valueOf(nv.value); 
+			    else if(nv.name.equals("LineXFType"))
+			    	xfrType=nv.value.trim().equalsIgnoreCase("Fixed")?XfrType.Fixed:
+			    		          nv.value.trim().equalsIgnoreCase("LTC")?XfrType.LTC:
+			    		          nv.value.trim().equalsIgnoreCase("Mvar")?XfrType.Mvar:XfrType.Phase;
+				
+			}
+			/*
+			*/
+			fromBusId = parser.BusIdPreFix + fromBusNum;
+			toBusId = parser.BusIdPreFix + toBusNum;
+			regBusId= parser.BusIdPreFix + regBusNum;
+
+			XfrBranchXmlType xfr = parser.getXfrBranch(fromBusId, toBusId,
+					circuitId);
+			if(xfr instanceof PSXfrBranchXmlType){
+				PSXfrBranchXmlType psXfr=(PSXfrBranchXmlType) xfr;
+				if(xfrRegMin!=0|| xfrRegMax!=0){
+					setXfrPhaseControlData(isXFAutoControl, xfrRegMin, xfrRegMax,
+							xfrTapMax, xfrTapMin, regTargetType, psXfr);
+				}
+			}
+			else{
+				if(xfrRegMin!=0|| xfrRegMax!=0)
+			        setTapControlData(isXFAutoControl, xfrRegMin, xfrRegMax,
+					xfrTapMax, xfrTapMin, xfrTapStep, regBusId,
+					regTargetType, xfrType, xfr);
+			}
+			// TODO set type and regulation info;
+			TransformerInfoXmlType xfmrInfo = new TransformerInfoXmlType();
+			xfr.setXfrInfo(xfmrInfo);
+			xfmrInfo.setZTableNumber(tableNum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void process2WXfrData(List<NVPair> xfrDataList){
+		long fromBusNum=-1,toBusNum=-1;
+		String fromBusId, toBusId,circuitId="1";
+		String type="";
+		String xfrId="";
+		boolean closed=true,isXFAutoControl=false;
 		double r=0,x=0,b=0,g=0, bMag=0,gMag=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
 		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999,//mvar rating
@@ -81,21 +325,15 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		double xfrTapMax=0, xfrTapMin=0;
 		double xfrStep=0;
 		double xfrMvaBase = 0.0, xfrFromSideNominalKV = 0.0, xfrToSideNominalKV=0.0;
-		long regBusNum=-1;
+		long regBusNum=-1;//ONLY use for LTC type Transformer
 		String regBusId="";
 		XfrCtrlTargetType regTargetType=null;
-		
-		
-		
-		/*
-		 * ONLY for specific application
-		 */
+		XfrType xfrType=null;
+		//The following is ONLY for specific user-defined format.
 		String typeToken="CustomString"; //type
 		String idToken="CustomString:1"; //branch Id
-		
-		//System.out.println("processing branch#"+branchDataStr);
-		PWDHelper.parseDataFields(branchDataStr, inputNvPairs);
-		try{
+
+try{
 			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 				//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
 				if (nv.name.equals("BusNum"))
@@ -106,12 +344,6 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 				
 				else if (nv.name.equals("LineCircuit"))
 					circuitId=nv.value;
-				
-				else if (nv.name.equals("LineXfmr"))
-					isXfmr=nv.value.equalsIgnoreCase("YES")?true:false;
-				//both LineXfmr or BranchDeviceType could be used to define branch type
-				else if (nv.name.equals("BranchDeviceType"))
-					isXfmr=nv.value.equalsIgnoreCase("Transformer")?true:false;
 				
 				else if (nv.name.equals("LineStatus"))
 					closed=nv.value.equalsIgnoreCase("Closed")?true:false;
@@ -156,6 +388,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 				
 			    else if (nv.name.equals("LinePhase"))
 			    	phaseAngle=Double.valueOf(nv.value);
+				//TODO the following is for Transformer Type Branch
 			    else if (nv.name.equals("XFRegMin"))
 			    	xfrRegMin=Double.valueOf(nv.value);
 			    else if (nv.name.equals("XFRegMax"))
@@ -169,7 +402,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    else if(nv.name.equals(typeToken))
 			    	type=nv.value;
 			    else if(nv.name.equals(idToken))
-			    	branchId=nv.value;
+			    	xfrId=nv.value;
 				
 			    else if (nv.name.equals("XFMVABase"))
 			    	xfrMvaBase=Double.valueOf(nv.value);
@@ -185,7 +418,12 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    	isXFAutoControl=nv.value.trim().equalsIgnoreCase("No")?false:true;
 			    	
 			    else if (nv.name.equals("XFRegBus"))
-					regBusNum=Long.valueOf(nv.value); //mandatory field
+					regBusNum=Long.valueOf(nv.value); 
+			    else if(nv.name.equals("LineXFType"))
+			    	xfrType=nv.value.trim().equalsIgnoreCase("Fixed")?XfrType.Fixed:
+			    		          nv.value.trim().equalsIgnoreCase("LTC")?XfrType.LTC:
+			    		          nv.value.trim().equalsIgnoreCase("Mvar")?XfrType.Mvar:XfrType.Phase;
+				
 			}
 			
 			if(gMag==0&&g!=0)gMag=g;
@@ -195,52 +433,19 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		    if(regBusNum>0)regBusId=parser.BusIdPreFix+regBusNum;
 		    
 		    // create a branch record
-		    BranchXmlType branch=null;
+		    XfrBranchXmlType xfr=null;
 		    
-		    //TODO temp solution to turn transmission line with different base voltage to a transformer branch
-/*
-DATA (BRANCH, [CustomString, CustomString:1,     CustomString:2, BusNum, BusNum:1, LineCircuit, LineXfmr, LineR,   LineX,   LineG,   LineC,   
-               "Transformer" "BLISVILL_115_PS01" "PS01"          7765    7763      1            "Yes"     0.000023 0.001250 0.000000 0.000000 
-
-LineAMVA, LineAMVA:1, LineAMVA:2, LineMonEle, LSName, LineXFType, LineStatus, LineTap, XFRegTargetType,           LinePhase, 
-318.0     318.0       318.0       "YES"       "115"   "Phase"     "Closed"    1        "Middle of Reg Range"      -13.125    
-
-XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNum])            
-"No"      0         -22.083725  -2.083725  -60.0     60.0      1.875   30 
-
-    - LineXfmr = "Yes" xformer branch
-    - LinePhase != 0, PShafting xformer 
- */
+		    //phase shifting transformer or traditional transformer
+		    xfr=phaseAngle!=0?parser.createPSXfrBranch(fromBusId, toBusId, circuitId)
 		    
-		    /* Not needed, since InterPSS object model will handle the issue
-		    if(parser.getAclfBus(fromBusId).getBaseVoltage().getValue()
-		    		!=parser.getAclfBus(toBusId).getBaseVoltage().getValue())
-		    	isXfmr=true;
-	    	*/
-		    
-		    if(!isXfmr){
-		    	branch = parser.createLineBranch(fromBusId, toBusId, circuitId);
-		    	LineBranchInfoXmlType LineInfo=new LineBranchInfoXmlType();
-		    	LineInfo.setType(type.equalsIgnoreCase("line")? LineBranchEnumType.OVERHEAD_LINE :
-		    		(type.equalsIgnoreCase("breaker")? LineBranchEnumType.BREAKER : LineBranchEnumType.OTHER));
-		    	((LineBranchXmlType) branch).setLineInfo(LineInfo);
-		    }
-		    else{
-		    	//phase shifting transformer
-		    	 branch=phaseAngle!=0?parser.createPSXfrBranch(fromBusId, toBusId, circuitId)
-		    	//traditional transformer
 		    			               :parser.createXfrBranch(fromBusId, toBusId, circuitId);;
-		    	
-		    	
-		    }
-		    
 		    
 			/*
-			 * common setting for branch type
+			 * common setting for Transformer branch
 			 */
 		    
-			branch.setOffLine(!closed);
-			branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
+			xfr.setOffLine(!closed);
+			xfr.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
 			//processing lint shunt at from bus 
 			if(fBusShuntMW!=0||fBusShuntMvar!=0){
 				LoadflowBusXmlType fromBus=parser.getAclfBus(fromBusId);
@@ -251,57 +456,15 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 				LoadflowBusXmlType toBus=parser.getAclfBus(toBusId);
 				AclfDataSetter.addBusShuntY(toBus, tBusShuntMW, tBusShuntMvar, YUnitType.MVAR);
 			}
-			
-			//branch is Line type
-			if(branch instanceof LineBranchXmlType){
-				LineBranchXmlType line= (LineBranchXmlType) branch;
-				if(g!=0||b!=0)line.setTotalShuntY(
-						BaseDataSetter.createYValue(g, b, YUnitType.PU));
-			}
-			//branch is Transformer type
-			else if (branch instanceof XfrBranchXmlType) {
 
-				if (phaseAngle == 0) {// transformer type, since it is rare for PSXfr to have LinePhase=0; 
-					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
+			if (phaseAngle == 0) {// transformer type, since it is rare for a PSXfr to have LinePhase=0; 
+					
 					AclfDataSetter.createXformerData(xfr, r, x, ZUnitType.PU,
 							lineTap, toTurnRatio, gMag, bMag, YUnitType.PU);
-					
-                    //tap control of voltage
-					TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
-					xfr.setTapAdjustment(tapAdj);
-					tapAdj.setOffLine(!isXFAutoControl);
-					tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
-					
-	          		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(xfrTapMax, xfrTapMin));
-					tapAdj.getTapLimit().setUnit(FactorUnitType.PU);
-	          		tapAdj.setTapAdjStepSize(xfrStep);
-	          		tapAdj.setTapAdjOnFromSide(true);//PWD standard transformer model tap setting: fromTap:1.0
-	          		
-	          		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
-	          		tapAdj.setVoltageAdjData(vAdjData);
-	          		//common setting
-	          		vAdjData.setRange(new LimitXmlType());
-	          		BaseDataSetter.setLimit(vAdjData.getRange(), xfrRegMax,
-							xfrRegMin);
-	          		vAdjData.setDesiredVoltageUnit(VoltageUnitType.PU);
-	          		
-	          		 if(regTargetType!=null){
-	          			 
-	                    	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
-	                    		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
-	        	          		vAdjData.setDesiredValue((xfrRegMax+xfrRegMin)/2);				
-	        	          		
-	                    	}
-	                    	else{
-	                    		vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-	                    	}
-	                    	
-	          		 }
-	          		
-
-	          		vAdjData.setAdjVoltageBus(parser.createBusRef(regBusId));
-	       			//vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
-					
+					if(xfrRegMin!=0||xfrRegMax!=0)
+                    setTapControlData(isXFAutoControl, xfrRegMin, xfrRegMax,
+							xfrTapMax, xfrTapMin, xfrStep, regBusId,
+							regTargetType, xfrType, xfr);
 					
 					BusXmlType fromBusRec = parser.getBus(fromBusId);
 					BusXmlType toBusRec = parser.getBus(toBusId);
@@ -316,39 +479,14 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 										+ fromBusId + ", " + toBusId);
 					}
 				} else {// Phase shifting transformer
-					PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType) branch;
+					PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType) xfr;
 					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x,
 							ZUnitType.PU, lineTap, toTurnRatio, phaseAngle, 0,
 							AngleUnitType.DEG, gMag, bMag, YUnitType.PU);
 
-					// angle adjustment
-					AngleAdjustmentXmlType angAdj = new AngleAdjustmentXmlType();
-					psXfr.setAngleAdjustment(angAdj);
-					//set control status, active if offLine=false;
-					angAdj.setOffLine(!isXFAutoControl);
-					angAdj.setAngleAdjOnFromSide(true);
-					
-					angAdj.setAngleLimit(new AngleLimitXmlType());
-					//TODO It is assumed here that the {xfrTapMax, xfrTapMin} are also used to represent Angle adjustment Limit;
-					BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrTapMax,
-							xfrTapMin);
-					
-                    if(regTargetType!=null){
-                    	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
-                    		angAdj.setDesiredValue((xfrRegMax+xfrRegMin)/2);
-                    		angAdj.setDesiredActivePowerUnit(ActivePowerUnitType.MW);
-                    		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
-                    	}
-                    	else {
-                    		angAdj.setRange(new LimitXmlType());
-                    		BaseDataSetter.setLimit(angAdj.getRange(), xfrRegMax,
-        							xfrRegMin);
-                    		angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
-                    	}
-                    	
-                    }
-					
-					angAdj.setDesiredMeasuredOnFromSide(true);
+					setXfrPhaseControlData(isXFAutoControl, xfrRegMin,
+							xfrRegMax, xfrTapMax, xfrTapMin, regTargetType,
+							psXfr);
 					
 
 					// xfr rating
@@ -364,95 +502,128 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 								"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
 										+ fromBusId + ", " + toBusId);
 					}
-				}
+				} 
 				
 				if (xfrMvaBase != 0.0) {
-					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
 					xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 					TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
-					// TODO it seems PWD xfr data is alwasy on system base
+					// TODO it seems PWD xfr data is alway on system base
 					xfrInfo.setDataOnSystemBase(true);
 					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
 					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
 					xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
 				}
-			}
-			
+
 			//set rating limit
-			branch.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+			xfr.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
 			
-			AclfDataSetter.setBranchRatingLimitData(branch.getRatingLimit(),
+			AclfDataSetter.setBranchRatingLimitData(xfr.getRatingLimit(),
 					mvaRating1, mvaRating2, mvaRating3, ApparentPowerUnitType.MVA);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-	
-	public void processXFormerData(String xfomerDataStr){
-		/*
-		DATA (TRANSFORMER, [BusNum,BusNum:1,LineCircuit,LineXFType,XFAuto,XFRegMin,XFRegMax,XFTapMin,
-		                    XFTapMax,XFStep,XFTableNum,XFRegBus])
-		*/
-		long fromBusNum=-1,toBusNum=-1;
-		String fromBusId, toBusId,circuitId="1";
-		int tableNum=0;
-		double xTapMin=0,xTapMax=0,xTapStep=0,xRegMin=0,xRegMax=0;
-		double xfmrBaseMva=0;
-		PWDHelper.parseDataFields(xfomerDataStr, inputNvPairs);
-		try{
-			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
-				if (nv.name.equals("BusNum"))
-					fromBusNum=Long.valueOf(nv.value); //mandatory field
-				
-				else if (nv.name.equals("BusNum:1"))
-					toBusNum=Long.valueOf(nv.value); 	//mandatory field
-				
-				else if (nv.name.equals("LineCircuit"))
-					circuitId=nv.value;
-				
-				else if (nv.name.equals("XFRegMin"))
-					xRegMin=Double.valueOf(nv.value);
-				else if (nv.name.equals("XFRegMax"))
-					xRegMax=Double.valueOf(nv.value);
-				else if (nv.name.equals("XFTapMin"))
-					xTapMin=Double.valueOf(nv.value);
-				else if (nv.name.equals("XFTapMax"))
-					xTapMax=Double.valueOf(nv.value);
-				else if (nv.name.equals("XFTapStep"))
-					xTapStep=Double.valueOf(nv.value);
-				
-				else if (nv.name.equals("XFMVABase"))
-					xfmrBaseMva=Double.valueOf(nv.value);
-				
-				else if (nv.name.equals("XFTableNum"))
-					tableNum=Integer.valueOf(nv.value);
-			}
-			/*
-			*/
-			fromBusId=parser.BusIdPreFix+fromBusNum;
-			toBusId=parser.BusIdPreFix+toBusNum;
-			
-			XfrBranchXmlType xfr=parser.getXfrBranch(fromBusId, toBusId, circuitId);
-			//TODO set type and regulation info;
-			TransformerInfoXmlType xfmrInfo=new TransformerInfoXmlType();
-			xfr.setXfrInfo(xfmrInfo);
-			xfmrInfo.setZTableNumber(tableNum);
-			if(xfmrBaseMva!=0)
-			xfmrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfmrBaseMva, ApparentPowerUnitType.MVA));
-			
-			
-			TapAdjustmentXmlType tapAdj=new TapAdjustmentXmlType();
-			xfr.setTapAdjustment(tapAdj);
-			if(xTapMax!=0)tapAdj.setTapLimit(BaseDataSetter.createTapLimit(xTapMax, xTapMin));
-			if(xTapStep!=0)tapAdj.setTapAdjStepSize(xTapStep);
-			//TODO what is regulated value for?
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void process2WXfrData(List<NVPair> xfrDataList){
 		
+		
+	}
+
+	private void setXfrPhaseControlData(boolean isXFAutoControl,
+			double xfrRegMin, double xfrRegMax, double xfrTapMax,
+			double xfrTapMin, XfrCtrlTargetType regTargetType,
+			PSXfrBranchXmlType psXfr) {
+		// angle adjustment
+		AngleAdjustmentXmlType angAdj = new AngleAdjustmentXmlType();
+		psXfr.setAngleAdjustment(angAdj);
+		//set control status, active if offLine=false;
+		angAdj.setOffLine(!isXFAutoControl);
+		angAdj.setAngleAdjOnFromSide(true);
+		
+		angAdj.setAngleLimit(new AngleLimitXmlType());
+		//TODO It is assumed here that the {xfrTapMax, xfrTapMin} are also used to represent Angle adjustment Limit;
+		BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrTapMax,
+				xfrTapMin);
+		
+		if(regTargetType!=null){
+			if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
+				angAdj.setDesiredValue((xfrRegMax+xfrRegMin)/2);
+				angAdj.setDesiredActivePowerUnit(ActivePowerUnitType.MW);
+				angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
+			}
+			else {
+				angAdj.setRange(new LimitXmlType());
+				BaseDataSetter.setLimit(angAdj.getRange(), xfrRegMax,
+						xfrRegMin);
+				angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+			}
+			
+		}
+		
+		angAdj.setDesiredMeasuredOnFromSide(true);
+	}
+
+	private void setTapControlData(boolean isXFAutoControl, double xfrRegMin,
+			double xfrRegMax, double xfrTapMax, double xfrTapMin,
+			double xfrStep, String regBusId, XfrCtrlTargetType regTargetType,
+			XfrType xfrType, XfrBranchXmlType xfr) {
+		//tap control
+		TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
+		xfr.setTapAdjustment(tapAdj);
+		tapAdj.setOffLine(!isXFAutoControl);
+		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(xfrTapMax, xfrTapMin));
+		tapAdj.getTapLimit().setUnit(FactorUnitType.PU);
+		tapAdj.setTapAdjStepSize(xfrStep);
+		tapAdj.setTapAdjOnFromSide(true);//PWD standard transformer model tap setting: fromTap:1.0
+		
+		if(xfrType!=null){
+			if(xfrType==XfrType.LTC){
+				tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
+		  		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
+		  		tapAdj.setVoltageAdjData(vAdjData);
+		  		//common setting
+		  		vAdjData.setRange(new LimitXmlType());
+		  		BaseDataSetter.setLimit(vAdjData.getRange(), xfrRegMax,
+						xfrRegMin);
+		  		vAdjData.setDesiredVoltageUnit(VoltageUnitType.PU);
+		  		
+		  		 if(regTargetType!=null){
+		  			 
+		            	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
+		            		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
+			          		vAdjData.setDesiredValue((xfrRegMax+xfrRegMin)/2);				
+			          		
+		            	}
+		            	else{
+		            		vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+		            	}
+		            	
+		  		 }
+		  		
+		  		vAdjData.setAdjVoltageBus(parser.createBusRef(regBusId));
+		  	    //vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
+			}
+			else if(xfrType==XfrType.Mvar){
+				tapAdj.setAdjustmentType(TapAdjustmentEnumType.M_VAR_FLOW);
+			    MvarFlowAdjustmentDataXmlType mvarAdjData = odmObjFactory.createMvarFlowAdjustmentDataXmlType();
+		  		tapAdj.setMvarFlowAdjData(mvarAdjData);
+		  		//common setting
+		  		mvarAdjData.setRange(new LimitXmlType());
+		  		BaseDataSetter.setLimit(mvarAdjData.getRange(), xfrRegMax,
+						xfrRegMin);
+		  		mvarAdjData.setDesiredMvarFlowUnit(ReactivePowerUnitType.MVAR);
+		  		
+		  		 if(regTargetType!=null){
+		  			 
+		            	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
+		            		mvarAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
+			          		mvarAdjData.setDesiredValue((xfrRegMax+xfrRegMin)/2);				
+			          		
+		            	}
+		            	else{
+		            		mvarAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+		            	}
+		            	
+		  		 }
+			}
+		}//END OF TAP CONTROL SETTING
 	}
 	
 	
