@@ -25,27 +25,38 @@
 package org.interpss.mapper.odm.impl.aclf;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
+import static org.interpss.mapper.odm.ODMFunction.BusXmlRef2BusId;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
+import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
+import org.ieee.odm.schema.TapAdjustmentEnumType;
+import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.Transformer3WInfoXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
+import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.numeric.util.NumericUtil;
 
+import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.Aclf3WXformer;
@@ -53,6 +64,8 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.adj.AdjControlType;
+import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adpter.AclfLine;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
 import com.interpss.core.aclf.adpter.AclfXformer;
@@ -264,7 +277,7 @@ public class AclfBranchDataHelper {
 		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
 		*/
 
-/* TODO : ODM data mapping has problem
+    //TODO : ODM data mapping has problem
 		if (aclfBra.isXfr() && xmlXfrBranch.getTapAdjustment() != null) {
 			TapAdjustmentXmlType xmlTapAdj = xmlXfrBranch.getTapAdjustment();
 			try {
@@ -272,18 +285,32 @@ public class AclfBranchDataHelper {
 					/*
 					 * often data is not fully defined, the control will be turned off if data is 
 					 * not complete
-					 */ /*
+					 */ 
 					VoltageAdjustmentDataXmlType xmlAdjData = xmlTapAdj.getVoltageAdjData();
 					if (xmlAdjData == null || xmlAdjData.getAdjVoltageBus() == null) {
 						ipssLogger.warning("Inconsist Xfr Tap control data: " + aclfBra.getId());
 						return;
 					}
 					String vcBusId = BusXmlRef2BusId.fx(xmlAdjData.getAdjVoltageBus());
-					TapControl tap = CoreObjectFactory.createTapVControlBusVoltage(aclfBra, 
+					TapControl tap = null;
+					//specify the control type
+					if(xmlAdjData.getMode()==AdjustmentModeEnumType.VALUE_ADJUSTMENT){
+						tap=CoreObjectFactory.createTapVControlBusVoltage(aclfBra, 
 							            AdjControlType.POINT_CONTROL, aclfNet, vcBusId);
+						tap.setVSpecified(xmlAdjData.getDesiredValue(), ToVoltageUnit.f(xmlAdjData.getDesiredVoltageUnit()));
+					}
+
+					else {
+						tap=CoreObjectFactory.createTapVControlBusVoltage(aclfBra, 
+				            AdjControlType.RANGE_CONTROL, aclfNet, vcBusId);
+						tap.setControlRange(new LimitType(xmlAdjData.getRange().getMax(),xmlAdjData.getRange().getMin()));
+						
+					}
+					//set control status
+					tap.setStatus(!xmlTapAdj.isOffLine());
+					
 					double factor = xmlTapAdj.getTapLimit().getUnit() == FactorUnitType.PERCENT? 0.01 : 1.0;
 					tap.setVcBusOnFromSide(xmlAdjData.getAdjBusLocation() == TapAdjustBusLocationEnumType.FROM_BUS);
-					tap.setVSpecified(xmlAdjData.getDesiredValue(), ToVoltageUnit.f(xmlAdjData.getDesiredVoltageUnit()));
 					tap.setTurnRatioLimit(new LimitType(xmlTapAdj.getTapLimit().getMax()*factor, xmlTapAdj.getTapLimit().getMin()*factor));
 					tap.setTapOnFromSide(xmlTapAdj.isTapAdjOnFromSide());
 					if (xmlTapAdj.getTapAdjStepSize() != null)
@@ -297,6 +324,7 @@ public class AclfBranchDataHelper {
 						ipssLogger.warning("Inconsist Xfr Tap control data: " + aclfBra.getId());
 						return;
 					}
+					//TODO add Range Control
 					TapControl tap = CoreObjectFactory.createTapVControlMvarFlow(aclfBra, 
 							            AdjControlType.POINT_CONTROL);
 					double factor = xmlTapAdj.getTapLimit().getUnit() == FactorUnitType.PERCENT? 0.01 : 1.0;
@@ -313,7 +341,7 @@ public class AclfBranchDataHelper {
 				ipssLogger.severe("Error in mapping Xfr tap control data, " + e.toString());
 			}
 		}
-*/
+
 	}
 	
 	/*
