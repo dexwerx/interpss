@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
+import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleLimitXmlType;
@@ -17,14 +19,19 @@ import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.FactorUnitType;
+import org.ieee.odm.schema.LimitXmlType;
 import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
+import org.ieee.odm.schema.TapAdjustmentEnumType;
 import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
+import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
@@ -36,10 +43,12 @@ import org.ieee.odm.schema.ZUnitType;
   * @author Tony Huang
   * 
   * ====revision history===
-  * 
+  * 09/08/2012 add Phase Xfr 
   * 
   */
 public class BranchDataProcessor extends BaseDataProcessor  {
+	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
+	
 	public BranchDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
 		super(nvPairs, parser);
 	}
@@ -62,14 +71,21 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		String fromBusId, toBusId,circuitId="1";
 		String type="";
 		String branchId="";
-		boolean closed=true, isXfmr=false, isPhXfmr=false;
+		boolean closed=true, isXfmr=false,isXFAutoControl=false;
 		double r=0,x=0,b=0,g=0, bMag=0,gMag=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
 		       mvaRating1=9999,mvaRating2=9999,mvaRating3=9999,//mvar rating
 		       lineTap=1.0, toTurnRatio=1.0;//tap ratio
 		double phaseAngle=0.0;
 		double xfrRegMin=0, xfrRegMax=0;
+		double xfrTapMax=0, xfrTapMin=0;
+		double xfrStep=0;
 		double xfrMvaBase = 0.0, xfrFromSideNominalKV = 0.0, xfrToSideNominalKV=0.0;
+		long regBusNum=-1;
+		String regBusId="";
+		XfrCtrlTargetType regTargetType=null;
+		
+		
 		
 		/*
 		 * ONLY for specific application
@@ -101,7 +117,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 					closed=nv.value.equalsIgnoreCase("Closed")?true:false;
 			    
 				// LineR:1, LineX:1, LineG:1, LineC:1, XFStep:1, XFTapMax:1, XFTapMin:1, LineTap:1
-				
+				//TODO The suffix of ¡°£º1¡± is used for Transformer definition,means those data values are based on transformer MVA base 
 			    else if (nv.name.equals("LineR") || nv.name.equals("LineR:1"))
 					r=Double.valueOf(nv.value);
 			    
@@ -144,6 +160,12 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    	xfrRegMin=Double.valueOf(nv.value);
 			    else if (nv.name.equals("XFRegMax"))
 			    	xfrRegMax=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFTapMax")||nv.name.equals("XFTapMax:1"))
+			    	xfrTapMax=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFTapMin")||nv.name.equals("XFTapMin:1"))
+			    	xfrTapMin=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFStep")||nv.name.equals("XFStep:1"))
+			    	xfrStep=Double.valueOf(nv.value);
 			    else if(nv.name.equals(typeToken))
 			    	type=nv.value;
 			    else if(nv.name.equals(idToken))
@@ -155,12 +177,22 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    	xfrFromSideNominalKV=Double.valueOf(nv.value);
 			    else if (nv.name.equals("XFNominalKV:1"))
 			    	xfrToSideNominalKV=Double.valueOf(nv.value);
+				
+			    else if (nv.name.equals("XFRegTargetType"))
+			    	regTargetType=nv.value.startsWith("Middle")?XfrCtrlTargetType.Midddle_Of_Range
+			    			       :XfrCtrlTargetType.MaxMin;
+			    else if (nv.name.equals("XFAuto"))
+			    	isXFAutoControl=nv.value.trim().equalsIgnoreCase("No")?false:true;
+			    	
+			    else if (nv.name.equals("XFRegBus"))
+					regBusNum=Long.valueOf(nv.value); //mandatory field
 			}
 			
 			if(gMag==0&&g!=0)gMag=g;
 			if(bMag==0&&b!=0)bMag=b;
 		    fromBusId=parser.BusIdPreFix+fromBusNum;
 		    toBusId=parser.BusIdPreFix+toBusNum;
+		    if(regBusNum>0)regBusId=parser.BusIdPreFix+regBusNum;
 		    
 		    // create a branch record
 		    BranchXmlType branch=null;
@@ -229,11 +261,48 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 			//branch is Transformer type
 			else if (branch instanceof XfrBranchXmlType) {
 
-				if (phaseAngle == 0) {// transformer
+				if (phaseAngle == 0) {// transformer type, since it is rare for PSXfr to have LinePhase=0; 
 					XfrBranchXmlType xfr = (XfrBranchXmlType) branch;
 					AclfDataSetter.createXformerData(xfr, r, x, ZUnitType.PU,
 							lineTap, toTurnRatio, gMag, bMag, YUnitType.PU);
+					
+                    //tap control of voltage
+					TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
+					xfr.setTapAdjustment(tapAdj);
+					tapAdj.setOffLine(!isXFAutoControl);
+					tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
+					
+	          		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(xfrTapMax, xfrTapMin));
+					tapAdj.getTapLimit().setUnit(FactorUnitType.PU);
+	          		tapAdj.setTapAdjStepSize(xfrStep);
+	          		tapAdj.setTapAdjOnFromSide(true);//PWD standard transformer model tap setting: fromTap:1.0
+	          		
+	          		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
+	          		tapAdj.setVoltageAdjData(vAdjData);
+	          		//common setting
+	          		vAdjData.setRange(new LimitXmlType());
+	          		BaseDataSetter.setLimit(vAdjData.getRange(), xfrRegMax,
+							xfrRegMin);
+	          		vAdjData.setDesiredVoltageUnit(VoltageUnitType.PU);
+	          		
+	          		 if(regTargetType!=null){
+	          			 
+	                    	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
+	                    		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
+	        	          		vAdjData.setDesiredValue((xfrRegMax+xfrRegMin)/2);				
+	        	          		
+	                    	}
+	                    	else{
+	                    		vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+	                    	}
+	                    	
+	          		 }
+	          		
 
+	          		vAdjData.setAdjVoltageBus(parser.createBusRef(regBusId));
+	       			//vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
+					
+					
 					BusXmlType fromBusRec = parser.getBus(fromBusId);
 					BusXmlType toBusRec = parser.getBus(toBusId);
 					if (fromBusRec != null && toBusRec != null) {
@@ -255,12 +324,32 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 					// angle adjustment
 					AngleAdjustmentXmlType angAdj = new AngleAdjustmentXmlType();
 					psXfr.setAngleAdjustment(angAdj);
+					//set control status, active if offLine=false;
+					angAdj.setOffLine(!isXFAutoControl);
+					angAdj.setAngleAdjOnFromSide(true);
+					
 					angAdj.setAngleLimit(new AngleLimitXmlType());
-					BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrRegMax,
-							xfrRegMin);
-
-					angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+					//TODO It is assumed here that the {xfrTapMax, xfrTapMin} are also used to represent Angle adjustment Limit;
+					BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrTapMax,
+							xfrTapMin);
+					
+                    if(regTargetType!=null){
+                    	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
+                    		angAdj.setDesiredValue((xfrRegMax+xfrRegMin)/2);
+                    		angAdj.setDesiredActivePowerUnit(ActivePowerUnitType.MW);
+                    		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
+                    	}
+                    	else {
+                    		angAdj.setRange(new LimitXmlType());
+                    		BaseDataSetter.setLimit(angAdj.getRange(), xfrRegMax,
+        							xfrRegMin);
+                    		angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+                    	}
+                    	
+                    }
+					
 					angAdj.setDesiredMeasuredOnFromSide(true);
+					
 
 					// xfr rating
 					BusXmlType fromBusRec = parser.getBus(fromBusId);
@@ -361,6 +450,11 @@ XFAuto,   XFRegBus, XFRegMin,   XFRegMax,  XFTapMin, XFTapMax, XFStep, XFTableNu
 			e.printStackTrace();
 		}
 	}
+	
+	private void process2WXfrData(List<NVPair> xfrDataList){
+		
+	}
+	
 	
 	public void process3WXFomerData(String triWXformerDataStr){
 		/*

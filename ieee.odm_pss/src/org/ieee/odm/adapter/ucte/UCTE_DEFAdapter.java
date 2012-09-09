@@ -604,7 +604,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				psXfrBranch.setAngleAdjustment(angAdj);
           		angAdj.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
-				angAdj.setDesiredPowerUnit(ActivePowerUnitType.MW);
+				angAdj.setDesiredActivePowerUnit(ActivePowerUnitType.MW);
 				angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(angMax, angMin, AngleUnitType.DEG));
 				angAdj.setAngleAdjOnFromSide(false);
 				// this part if not specified in the UCTE spec. We assume it is measured on to side
