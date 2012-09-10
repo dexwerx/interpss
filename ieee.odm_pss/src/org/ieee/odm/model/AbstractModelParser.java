@@ -366,9 +366,12 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public BusIDRefXmlType createBusRef(String id) {
 		BusXmlType rec = this.getBus(id);
-		BusIDRefXmlType refBus = odmObjFactory.createBusIDRefXmlType();
-		refBus.setIdRef(rec);
-		return refBus;
+		if (rec != null) {
+			BusIDRefXmlType refBus = odmObjFactory.createBusIDRefXmlType();
+			refBus.setIdRef(rec);
+			return refBus;
+		}
+		return null;
 	}
 
 	/*

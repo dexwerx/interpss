@@ -4,29 +4,29 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.List;
 
-import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
-import org.ieee.odm.schema.AngleLimitXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.FactorUnitType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LimitXmlType;
 import org.ieee.odm.schema.LineBranchEnumType;
 import org.ieee.odm.schema.LineBranchInfoXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.TapAdjustBusLocationEnumType;
@@ -333,7 +333,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		String typeToken="CustomString"; //type
 		String idToken="CustomString:1"; //branch Id
 
-try{
+		try{
 			for(PowerWorldAdapter.NVPair nv:inputNvPairs){
 				//TODO branch id, NE-ISO use "customString:1" as the corresponding argument;	
 				if (nv.name.equals("BusNum"))
@@ -428,9 +428,9 @@ try{
 			
 			if(gMag==0&&g!=0)gMag=g;
 			if(bMag==0&&b!=0)bMag=b;
-		    fromBusId=parser.BusIdPreFix+fromBusNum;
-		    toBusId=parser.BusIdPreFix+toBusNum;
-		    if(regBusNum>0)regBusId=parser.BusIdPreFix+regBusNum;
+		    fromBusId=AbstractModelParser.BusIdPreFix+fromBusNum;
+		    toBusId=AbstractModelParser.BusIdPreFix+toBusNum;
+		    if(regBusNum>0)regBusId=AbstractModelParser.BusIdPreFix+regBusNum;
 		    
 		    // create a branch record
 		    XfrBranchXmlType xfr=null;
@@ -537,10 +537,19 @@ try{
 		angAdj.setOffLine(!isXFAutoControl);
 		angAdj.setAngleAdjOnFromSide(true);
 		
-		angAdj.setAngleLimit(new AngleLimitXmlType());
-		//TODO It is assumed here that the {xfrTapMax, xfrTapMin} are also used to represent Angle adjustment Limit;
-		BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrTapMax,
-				xfrTapMin);
+		angAdj.setAngleLimit(odmObjFactory.createAngleLimitXmlType());
+		/*
+		 * It is assumed here that the {xfrTapMax, xfrTapMin} are also 
+		 * used to represent Angle adjustment Limit;
+		 */
+		BaseDataSetter.setLimit(angAdj.getAngleLimit(), xfrTapMax, xfrTapMin);
+		angAdj.getAngleLimit().setUnit(AngleUnitType.DEG);
+		
+		/*
+		 * assume the desired value is measured at the from side, since the 
+		 * value is not specified in PWD file
+		 */
+		angAdj.setDesiredMeasuredOnFromSide(true);
 		
 		if(regTargetType!=null){
 			if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
@@ -579,26 +588,37 @@ try{
 		  		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
 		  		tapAdj.setVoltageAdjData(vAdjData);
 		  		//common setting
-		  		vAdjData.setRange(new LimitXmlType());
-		  		BaseDataSetter.setLimit(vAdjData.getRange(), xfrRegMax,
-						xfrRegMin);
 		  		vAdjData.setDesiredVoltageUnit(VoltageUnitType.PU);
 		  		
 		  		 if(regTargetType!=null){
-		  			 
 		            	if(regTargetType==XfrCtrlTargetType.Midddle_Of_Range){
 		            		vAdjData.setMode(AdjustmentModeEnumType.VALUE_ADJUSTMENT);
 			          		vAdjData.setDesiredValue((xfrRegMax+xfrRegMin)/2);				
-			          		
 		            	}
 		            	else{
 		            		vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+		    		  		vAdjData.setRange(odmObjFactory.createLimitXmlType());
+		    		  		BaseDataSetter.setLimit(vAdjData.getRange(), xfrRegMax,
+		    						xfrRegMin);
 		            	}
-		            	
 		  		 }
 		  		
-		  		vAdjData.setAdjVoltageBus(parser.createBusRef(regBusId));
-		  	    //vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
+		  		IDRefRecordXmlType refBus = parser.createBusRef(regBusId);
+		  		if (refBus != null) {
+		  			vAdjData.setAdjVoltageBus(refBus);
+		  			if (regBusId.equals(BaseJaxbHelper.getRecId(xfr.getFromBus())))
+		  				vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.FROM_BUS);
+		  			else if (regBusId.equals(BaseJaxbHelper.getRecId(xfr.getToBus())))
+		  				vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
+		  			else {
+		  				ODMLogger.getLogger().warning("Cannot decide xfr tap control bus location: " + xfr.getId());
+		  				tapAdj.setOffLine(true);
+		  			}
+		  		}
+		  		else
+		  			// when the bus to be voltage controlled cannot be found in the
+		  			// network, the control is turned off
+		  			tapAdj.setOffLine(true);
 			}
 			else if(xfrType==XfrType.Mvar){
 				tapAdj.setAdjustmentType(TapAdjustmentEnumType.M_VAR_FLOW);
