@@ -28,12 +28,14 @@ import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.interpss.mapper.odm.ODMFunction.BusXmlRef2BusId;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToAngleUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToReactivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
+import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.FactorUnitType;
@@ -65,6 +67,7 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adj.AdjControlType;
+import com.interpss.core.aclf.adj.PSXfrPControl;
 import com.interpss.core.aclf.adj.TapControl;
 import com.interpss.core.aclf.adpter.AclfLine;
 import com.interpss.core.aclf.adpter.AclfPSXformer;
@@ -192,15 +195,15 @@ public class AclfBranchDataHelper {
 		if(xmlPsXfrBranch.getToAngle() != null)
 			psXfr.setToAngle(xmlPsXfrBranch.getToAngle().getValue(), 
 					ToAngleUnit.f(xmlPsXfrBranch.getToAngle().getUnit()));
-/*		TODO : ODM data mapping has problem
 		if (xmlPsXfrBranch.getAngleAdjustment() != null) {
 			AngleAdjustmentXmlType xmlAngAdj = xmlPsXfrBranch.getAngleAdjustment();
-			PSXfrPControl psxfr = CoreObjectFactory.createPSXfrPControl(aclfBra, AdjControlType.POINT_CONTROL); 
-			psxfr.setPSpecified(xmlAngAdj.getDesiredValue(), ToActivePowerUnit.f(xmlAngAdj.getDesiredPowerUnit()), baseKva);
-			psxfr.setAngLimit(new LimitType(xmlAngAdj.getMax(), xmlAngAdj.getMin()), ToAngleUnit.f(xmlAngAdj.getAngleLimit().getUnit()));
+			PSXfrPControl psxfr = CoreObjectFactory.createPSXfrPControl(aclfBra, AdjControlType.POINT_CONTROL);
+			psxfr.setStatus(!xmlAngAdj.isOffLine());
+			psxfr.setPSpecified(xmlAngAdj.getDesiredValue(), ToActivePowerUnit.f(xmlAngAdj.getDesiredActivePowerUnit()), baseKva);
+			psxfr.setAngLimit(new LimitType(xmlAngAdj.getAngleLimit().getMax(), xmlAngAdj.getAngleLimit().getMin()), ToAngleUnit.f(xmlAngAdj.getAngleLimit().getUnit()));
 			psxfr.setControlOnFromSide(xmlAngAdj.isAngleAdjOnFromSide());
+			psxfr.setMeteredOnFromSide(xmlAngAdj.isDesiredMeasuredOnFromSide());
 		}
-*/		
 	}
 
 	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra) {
@@ -252,7 +255,7 @@ public class AclfBranchDataHelper {
 				* (fromRatedV != fromBaseV ? fromTapratio : 1.0);
 		double tTap = xmlXfrBranch.getToTurnRatio().getValue()
 				* (toRatedV != toBaseV ? toTapratio : 1.0);
-// TODO
+
 		// for the PSS/E xfr branch model, Transformer Impedance X need to be adjusted if to tap is off-nominal;
 		if (this.xfrBranchModel == ODMAclfNetMapper.XfrBranchModel.PSSE)
 			zratio *= tTap * tTap;
