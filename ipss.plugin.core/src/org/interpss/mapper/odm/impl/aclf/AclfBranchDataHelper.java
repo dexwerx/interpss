@@ -197,12 +197,21 @@ public class AclfBranchDataHelper {
 					ToAngleUnit.f(xmlPsXfrBranch.getToAngle().getUnit()));
 		if (xmlPsXfrBranch.getAngleAdjustment() != null) {
 			AngleAdjustmentXmlType xmlAngAdj = xmlPsXfrBranch.getAngleAdjustment();
-			PSXfrPControl psxfr = CoreObjectFactory.createPSXfrPControl(aclfBra, AdjControlType.POINT_CONTROL);
-			psxfr.setStatus(!xmlAngAdj.isOffLine());
-			psxfr.setPSpecified(xmlAngAdj.getDesiredValue(), ToActivePowerUnit.f(xmlAngAdj.getDesiredActivePowerUnit()), baseKva);
-			psxfr.setAngLimit(new LimitType(xmlAngAdj.getAngleLimit().getMax(), xmlAngAdj.getAngleLimit().getMin()), ToAngleUnit.f(xmlAngAdj.getAngleLimit().getUnit()));
-			psxfr.setControlOnFromSide(xmlAngAdj.isAngleAdjOnFromSide());
-			psxfr.setMeteredOnFromSide(xmlAngAdj.isDesiredMeasuredOnFromSide());
+			if (xmlAngAdj == null ) {
+				ipssLogger.warning("Inconsist PsXfr shifting angle control data: " + aclfBra.getId());
+				return;
+			}
+			if (xmlAngAdj.getMode() == AdjustmentModeEnumType.VALUE_ADJUSTMENT) {
+				PSXfrPControl psxfr = CoreObjectFactory.createPSXfrPControl(aclfBra, AdjControlType.POINT_CONTROL);
+				psxfr.setStatus(!xmlAngAdj.isOffLine());
+				psxfr.setPSpecified(xmlAngAdj.getDesiredValue(), ToActivePowerUnit.f(xmlAngAdj.getDesiredActivePowerUnit()), baseKva);
+				psxfr.setAngLimit(new LimitType(xmlAngAdj.getAngleLimit().getMax(), xmlAngAdj.getAngleLimit().getMin()), ToAngleUnit.f(xmlAngAdj.getAngleLimit().getUnit()));
+				psxfr.setControlOnFromSide(xmlAngAdj.isAngleAdjOnFromSide());
+				psxfr.setMeteredOnFromSide(xmlAngAdj.isDesiredMeasuredOnFromSide());
+			}
+			else {
+				throw new InterpssException("Function not implemented yet, " + aclfBra.getId());
+			}
 		}
 	}
 
@@ -241,15 +250,11 @@ public class AclfBranchDataHelper {
 				fromTapratio = fromRatedV/fromBaseV;
 				toTapratio = toRatedV/toBaseV ;
 				//update to Standard transform modeling
-				zratio*=toTapratio*toTapratio;
+				//zratio*=toTapratio*toTapratio;
 			}
 		}
 		
-		
-		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		AclfXformer xfr = aclfBra.toXfr();
-		// Use Standard transform modeling, that is from Tap can be off-nominal,
-		// to Tap is normalized to 1.0;
 
 		double fTap = xmlXfrBranch.getFromTurnRatio().getValue()
 				* (fromRatedV != fromBaseV ? fromTapratio : 1.0);
@@ -259,6 +264,10 @@ public class AclfBranchDataHelper {
 		// for the PSS/E xfr branch model, Transformer Impedance X need to be adjusted if to tap is off-nominal;
 		if (this.xfrBranchModel == ODMAclfNetMapper.XfrBranchModel.PSSE)
 			zratio *= tTap * tTap;
+
+		// if z unit is ohms, it is assumed that it is measured at the high
+		// voltage side
+		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe() * zratio, xmlXfrBranch
 				.getZ().getIm() * zratio),
 				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);
@@ -271,16 +280,7 @@ public class AclfBranchDataHelper {
 			xfr.setFromTurnRatio(fTap / tTap, UnitType.PU);
 			xfr.setToTurnRatio(1.0, UnitType.PU);
 		}
-		/*
-		xfr.setZ(new Complex(xmlXfrBranch.getZ().getRe()*zratio, xmlXfrBranch.getZ().getIm()*zratio),
-				ToZUnit.f(xmlXfrBranch.getZ().getUnit()), baseV);
-		double ratio = xmlXfrBranch.getFromTurnRatio().getValue()*(fromRatedV != fromBaseV?fromTapratio:1.0);
-		xfr.setFromTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
-		ratio = xmlXfrBranch.getToTurnRatio().getValue()*(toRatedV != toBaseV?toTapratio:1.0);
-		xfr.setToTurnRatio(ratio == 0.0 ? 1.0 : ratio, UnitType.PU);
-		*/
 
-    //TODO : ODM data mapping has problem
 		if (aclfBra.isXfr() && xmlXfrBranch.getTapAdjustment() != null) {
 			TapAdjustmentXmlType xmlTapAdj = xmlXfrBranch.getTapAdjustment();
 			try {
