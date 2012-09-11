@@ -48,9 +48,10 @@ public class SixBus_XfrControl_pwd extends CorePluginTestSetup {
 
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_XfrControl.aux")
 					.setFormat(IpssAdapter.FileFormat.PWD)
-					.load(true, "output/odm.xml")
+					//.load(true, "output/odm.xml")
+					.load()
 					.getAclfNet();
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
   		
   		AclfBranch branch = net.getAclfBranch("Bus1->Bus3(1 )");
   		assertTrue(branch != null);
@@ -61,6 +62,8 @@ public class SixBus_XfrControl_pwd extends CorePluginTestSetup {
   		assertTrue(branch != null);
   		assertTrue(branch.getPSXfrPControl() != null);
   		assertTrue(NumericUtil.equals(branch.getPSXfrPControl().getControlSpec(), -2.1250, 0.0001));
+  		
+  		
 	}
 }
 
