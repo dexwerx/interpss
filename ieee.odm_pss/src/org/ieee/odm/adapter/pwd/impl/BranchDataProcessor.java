@@ -285,8 +285,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			toBusId = parser.BusIdPreFix + toBusNum;
 			regBusId= parser.BusIdPreFix + regBusNum;
 
-			XfrBranchXmlType xfr = parser.getXfrBranch(fromBusId, toBusId,
-					circuitId);
+			XfrBranchXmlType xfr = parser.getXfrBranch(fromBusId, toBusId, circuitId);
 			if(xfr instanceof PSXfrBranchXmlType){
 				PSXfrBranchXmlType psXfr=(PSXfrBranchXmlType) xfr;
 				if(xfrRegMin!=0|| xfrRegMax!=0){
@@ -385,6 +384,8 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    
 			    else if (nv.name.equals("LineTap") || nv.name.equals("LineTap:1"))
 					lineTap=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFFixedTap") || nv.name.equals("XFFixedTap:1"))
+			    	toTurnRatio=Double.valueOf(nv.value);
 				
 			    else if (nv.name.equals("LinePhase"))
 			    	phaseAngle=Double.valueOf(nv.value);
