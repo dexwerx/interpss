@@ -508,7 +508,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 					xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 					TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
 					// TODO it seems PWD xfr data is alway on system base
-					xfrInfo.setDataOnSystemBase(true);
+					xfrInfo.setDataOnSystemBase(false);
 					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
 					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
 					xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
