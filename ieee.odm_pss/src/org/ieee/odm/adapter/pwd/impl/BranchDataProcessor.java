@@ -483,7 +483,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x,
 							ZUnitType.PU, lineTap, toTurnRatio, phaseAngle, 0,
 							AngleUnitType.DEG, gMag, bMag, YUnitType.PU);
-
+					if(xfrRegMin!=0||xfrRegMax!=0)
 					setXfrPhaseControlData(isXFAutoControl, xfrRegMin,
 							xfrRegMax, xfrTapMax, xfrTapMin, regTargetType,
 							psXfr);
