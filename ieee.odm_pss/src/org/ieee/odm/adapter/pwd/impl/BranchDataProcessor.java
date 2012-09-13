@@ -382,9 +382,9 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    else if (nv.name.equals("LineShuntMVR:1"))
 					tBusShuntMvar=Double.valueOf(nv.value);
 			    
-			    else if (nv.name.equals("LineTap") || nv.name.equals("LineTap:1"))
+			    else if (nv.name.equals("LineTap") || nv.name.equals("LineTap:1") || nv.name.equals("XFFixedTap"))
 					lineTap=Double.valueOf(nv.value);
-			    else if (nv.name.equals("XFFixedTap") || nv.name.equals("XFFixedTap:1"))
+			    else if (nv.name.equals("XFFixedTap:1"))
 			    	toTurnRatio=Double.valueOf(nv.value);
 				
 			    else if (nv.name.equals("LinePhase"))
