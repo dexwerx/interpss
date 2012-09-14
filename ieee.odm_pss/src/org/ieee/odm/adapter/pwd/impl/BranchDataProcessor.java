@@ -560,6 +560,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			}
 			else {
 				angAdj.setRange(new LimitXmlType());
+				angAdj.setDesiredActivePowerUnit(ActivePowerUnitType.MW);
 				BaseDataSetter.setLimit(angAdj.getRange(), xfrRegMax,
 						xfrRegMin);
 				angAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
