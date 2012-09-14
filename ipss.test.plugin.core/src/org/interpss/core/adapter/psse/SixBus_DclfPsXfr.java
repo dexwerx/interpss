@@ -128,7 +128,7 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 		algo.destroy();			
 	}
 
-	@Test
+	//@Test
 	public void aclf1() throws Exception {
 		IpssCorePlugin.init();
         IpssCorePlugin.setSparseEqnSolver(SolverType.Native);

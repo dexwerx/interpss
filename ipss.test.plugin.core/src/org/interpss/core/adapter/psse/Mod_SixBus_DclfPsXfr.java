@@ -74,8 +74,8 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		System.out.println(CorePluginFunction.AclfResultBusStyle.f(net));
   		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
-  		assertTrue(Math.abs(p.getReal()-3.2954)<0.0001);
-  		assertTrue(Math.abs(p.getImaginary()-0.9567)<0.0001);	   		
+  		assertTrue(Math.abs(p.getReal()-3.0955)<0.0001);
+  		assertTrue(Math.abs(p.getImaginary()-0.2457)<0.0001);	   		
  	}
 	
 	@Test
@@ -99,8 +99,8 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		System.out.println(CorePluginFunction.AclfResultBusStyle.f(net));
   		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
-  		assertTrue(Math.abs(p.getReal()-3.2955)<0.0001);
-  		assertTrue(Math.abs(p.getImaginary()-0.9571)<0.0001);	   		
+  		assertTrue(Math.abs(p.getReal()-3.0956)<0.0001);
+  		assertTrue(Math.abs(p.getImaginary()-0.2461)<0.0001);	   		
  	}
 	
 	@Test
