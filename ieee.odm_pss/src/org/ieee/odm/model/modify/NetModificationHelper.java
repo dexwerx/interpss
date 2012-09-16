@@ -26,6 +26,10 @@ package org.ieee.odm.model.modify;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.List;
+
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
@@ -125,6 +129,25 @@ public class NetModificationHelper {
 		}
 		return null;
 	}	
+	
+	/**
+	 * get contingency branch id list
+	 * 
+	 * @return
+	 */
+	public List<String> getContingencyBranchIds() {
+		Hashtable<String, Object> table = new Hashtable<String, Object>(); 
+		for ( BranchChangeRecSetXmlType contingency : getContingencyList().getBranchChangeRecSet()) {
+			for (BranchChangeRecXmlType branch : contingency.getBranchChangeRec()) {
+				String branchId =  branch.getFromBusId() + "->" + branch.getToBusId() + "(" + branch.getCircuitId() + ")";
+				if (table.get(branchId) == null)
+					table.put(branchId, branch);
+			}
+		}
+		System.out.println("Total contingency branches " + table.size());
+		
+		return Collections.list(table.keys());
+	}
 	
 	private void addModifyRecord(ModifyRecordXmlType rec) {
 		if (this.parser.getStudyCase().getModificationList() == null) {
