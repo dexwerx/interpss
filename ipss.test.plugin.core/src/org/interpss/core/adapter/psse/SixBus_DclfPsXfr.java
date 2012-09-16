@@ -40,9 +40,11 @@ import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.DclfObjectFactory;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.core.net.Bus;
 import com.interpss.core.net.RefBusType;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssAdapter.PsseVersion;
@@ -96,7 +98,13 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
   		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
-
+  		
+		for (Bus b : net.getBusList()) {
+			//System.out.println(b.getId() + " mismatch " + algo.getMismatch((AclfBus)b));
+			if (!((AclfBus)b).isRefBus())
+				assertTrue(Math.abs(algo.getMismatch((AclfBus)b)) < 0.00001);
+		}
+		
 		algo.destroy();			
 	}
 	
