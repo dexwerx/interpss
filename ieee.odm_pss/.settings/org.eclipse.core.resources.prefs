@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
+encoding//schema/basecase/loadflow/LFRecordType.xsd=UTF8
 encoding//schema/common/DataType.xsd=UTF8
+encoding//schema/scenario/NetModification.xsd=UTF8
+encoding//src/org/ieee/odm/adapter/psse/v30/impl/PSSEV30XfrDataRec.java=UTF-8
