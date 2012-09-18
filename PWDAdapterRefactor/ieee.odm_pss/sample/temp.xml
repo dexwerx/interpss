@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:pssStudyCase 
+	xmlns:ns2="http://www.ieee.org/odm/Schema/2008" 
+	xmlns:ns3="http://www.interpss.org/Schema/odm/2008" 
+	id="ODM_StudyCase"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../schema/ODMSchema.xsd ">
+	
+	<ns2:schemaVersion>V0.8.0</ns2:schemaVersion>
+    <ns2:networkCategory>Transmission</ns2:networkCategory>
+    <ns2:analysisCategory>Loadflow</ns2:analysisCategory>
+	<ns2:aclfNet id="AclfNetId">
+		<ns2:basePower unit="MVA" value="100.0" />
+		<ns2:busList />
+		<ns2:branchList />
+	</ns2:aclfNet>
+	<ns2:ipssStudyScenario id="StudyScenarioId">
+		<ns3:gridRunOption>
+			<ns3:enableGridRun>false</ns3:enableGridRun>
+		</ns3:gridRunOption>
+		<ns3:powerTradingInfo>
+			<ns3:loadDist>
+				<ns3:minLoadForDistFactor unit="MW" value="5.0" />
+			</ns3:loadDist>
+		</ns3:powerTradingInfo>
+		<ns3:studyCaseList>
+			<ns3:curStudyCaseId>StudyCaseId</ns3:curStudyCaseId>
+			<ns3:studyCase id="StudyCaseId">
+					<ns3:aclfAnalysis areaName="Aclf Study Case">
+						<ns2:desc>Study case description</ns2:desc>
+						<ns3:aclfAlgo>
+							<ns2:lfMethod>NR</ns2:lfMethod>
+							<ns2:maxIterations>20</ns2:maxIterations>
+							<ns2:tolerance unit="PU" value="0.0001" />
+						</ns3:aclfAlgo>
+						<ns3:displaySummary>true</ns3:displaySummary>
+					</ns3:aclfAnalysis>
+					<ns3:contingencyAnalysis>
+						<ns3:type>N-1</ns3:type>
+					</ns3:contingencyAnalysis>
+					<ns3:senAnalysis name="StudyCase name">
+						<ns2:desc>StudtCase Desc</ns2:desc>
+						<ns3:outOption>
+							<ns3:allBranchPoints>50</ns3:allBranchPoints>
+							<ns3:allInterfacePoints>10</ns3:allInterfacePoints>
+						</ns3:outOption>
+					</ns3:senAnalysis>				
+					<ns3:ptEDHourlyAnalysis name="StudyCase name">
+						<ns2:desc>StudtCase Desc</ns2:desc>
+						<ns3:caseData>
+							<ns3:baseCaseFile>
+								<ns3:filename>Load file ...</ns3:filename>
+								<ns3:format>PSSE</ns3:format>
+								<ns3:version>V26</ns3:version>
+							</ns3:baseCaseFile>
+							<ns3:edFile>
+								<ns3:filename>Load file ...</ns3:filename>
+								<ns3:date>mm/dd/yyyy</ns3:date>
+								<ns3:genPFactor>0.9</ns3:genPFactor>
+								<ns3:lossPercent>2.5</ns3:lossPercent>
+								<ns3:loadPFactor>0.98</ns3:loadPFactor>
+							</ns3:edFile>
+							<ns3:interfaceLimitFilename>Load file ...</ns3:interfaceLimitFilename>
+						</ns3:caseData>
+						<ns3:aclfAnalysis>
+							<ns3:hour>12:00</ns3:hour>
+							<ns3:genQAdjustment>true</ns3:genQAdjustment>
+							<ns3:genQAdjOption>
+								<ns3:lfAssistGenFilename>Load file ...</ns3:lfAssistGenFilename>
+								<ns3:noRunsLfAssist>3</ns3:noRunsLfAssist>
+							</ns3:genQAdjOption>
+							<ns3:swingBusPQAlloc>true</ns3:swingBusPQAlloc>
+							<ns3:genSwingAllocOption>
+								<ns3:zoneNumber>1</ns3:zoneNumber>
+								<ns3:steps>4</ns3:steps>
+								<ns3:accFactor>1.5</ns3:accFactor>
+							</ns3:genSwingAllocOption>
+						</ns3:aclfAnalysis>
+					</ns3:ptEDHourlyAnalysis>
+					<ns3:acscAnalysis>
+						<ns3:acscBusFault>
+							<ns2:faultType>BusFault</ns2:faultType>
+							<ns2:faultCategory>Fault3Phase</ns2:faultCategory>
+							<ns2:refBus busId="busId"></ns2:refBus>
+						</ns3:acscBusFault>
+					</ns3:acscAnalysis>
+					<ns3:dStabAnalysis>
+						<ns3:simulationSetting>
+							<ns3:dstabMethod>ModifiedEuler</ns3:dstabMethod>
+							<ns3:totalTime unit="Sec" value="0.0" />
+							<ns3:step unit="Sec" value="0.0" />
+							<ns3:staticLoadModel>
+								<ns3:staticLoadType>Constant_Z</ns3:staticLoadType>
+							</ns3:staticLoadModel>
+						</ns3:simulationSetting>
+						<ns3:aclfInitialization>
+							<ns3:aclfAlgo>
+								<ns2:lfMethod>NR</ns2:lfMethod>
+								<ns2:maxIterations>0</ns2:maxIterations>
+								<ns2:tolerance unit="PU" value="0.0" />
+							</ns3:aclfAlgo>
+						</ns3:aclfInitialization>
+					</ns3:dStabAnalysis>
+			</ns3:studyCase>
+		</ns3:studyCaseList>
+	</ns2:ipssStudyScenario>
+</ns2:pssStudyCase>
