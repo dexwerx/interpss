@@ -34,6 +34,7 @@ import org.interpss.CorePluginTestSetup;
 import org.interpss.IpssCorePlugin;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
+import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.sparse.base.SparseEquation.SolverType;
 import org.junit.Test;
@@ -113,6 +114,79 @@ public class SixBus_DclfPsXfr_pwd extends CorePluginTestSetup {
 			}
 		}
 
+		
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+		algo.calculateDclf();
+
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		//assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+
+		algo.destroy();			
+	}
+	
+	/*
+	 * The following three test case is based on a PWD test case, sent by ISO-NE
+	 * 09/19/2012.  
+	 */
+
+	@Test
+	public void dclf1() throws Exception {
+		IpssCorePlugin.init();
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+		ODMLogger.getLogger().setLevel(Level.WARNING);
+
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_2WPsXfr_1.aux")
+					.xfrBranchModel(ODMAclfNetMapper.XfrBranchModel.InterPSS)
+					.setFormat(IpssAdapter.FileFormat.PWD)
+					.load()
+					.getAclfNet();
+
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+		algo.calculateDclf();
+
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		//assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+
+		algo.destroy();			
+	}
+
+	@Test
+	public void dclf2() throws Exception {
+		IpssCorePlugin.init();
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+		ODMLogger.getLogger().setLevel(Level.WARNING);
+
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_2WPsXfr_1.aux")
+					//.xfrBranchModel(ODMAclfNetMapper.XfrBranchModel.InterPSS)
+					.setFormat(IpssAdapter.FileFormat.PWD)
+					.load()
+					.getAclfNet();
+		
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+		algo.calculateDclf();
+
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		//assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+
+		algo.destroy();			
+	}
+
+	@Test
+	public void dclf3() throws Exception {
+		IpssCorePlugin.init();
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+		ODMLogger.getLogger().setLevel(Level.WARNING);
+
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_2WPsXfr_1.aux")
+					//.xfrBranchModel(ODMAclfNetMapper.XfrBranchModel.InterPSS)
+					.setFormat(IpssAdapter.FileFormat.PWD)
+					.load()
+					.getAclfNet();
+		
+		for (Branch b : net.getBranchList()) {
+			AclfBranch branch = (AclfBranch)b;
+			branch.setZ(new Complex(0.0, branch.getZ().getImaginary()));
+		}
 		
 		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		algo.calculateDclf();
