@@ -326,7 +326,7 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 				xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 				TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
 				xfrInfo.setDataOnSystemBase(false);
-				//xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfmrBaseMva, ApparentPowerUnitType.MVA));
+				xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfmrBaseMva, ApparentPowerUnitType.MVA));
 				if (xfrFromSideNominalKV!=0.0)xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
 				if (xfrToSideNominalKV!=0.0)xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
 			}
