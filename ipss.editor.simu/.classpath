@@ -14,17 +14,17 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.pt"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm.schema"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math3-3.0.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-common-2.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-sqlmap-2.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/report/jasperreports.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/swing/swing-layout-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/commons-math3-3.0.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/db/ibatis-common-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/db/ibatis-sqlmap-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/jgraph.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/report/jasperreports.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss.xml.schema.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-3.8.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-ooxml-3.8.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/apache/poi-ooxml-schemas-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/poi-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/poi-ooxml-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/poi-ooxml-schemas-3.8.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>

@@ -10,21 +10,21 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.base"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin.grid"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-awt-util.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-dom.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-svggen.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/batik/batik-util.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/xml/castor-1.0-xml.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-common-2.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/db/ibatis-sqlmap-2.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xerces.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/jnlp.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/report/jasperreports.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/jraphpad/jibble.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/jraphpad/lowagie.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/swing/bounce.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/custom/tsinghua.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/batik/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/batik/batik-dom.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/batik/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/batik/batik-util.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/xml/castor-1.0-xml.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/db/ibatis-common-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/db/ibatis-sqlmap-2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/xml/xerces.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/jgraph.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/jnlp.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/report/jasperreports.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/jraphpad/jibble.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/jraphpad/lowagie.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/swing/bounce.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/custom/tsinghua.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_xml.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.impl.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_core.jar"/>
