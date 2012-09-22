@@ -41,21 +41,7 @@ public class DclfGenAllocator implements IAclfNetBVisitor {
 	
 	@Override
 	public boolean visit(AclfNetwork net) {
-		// normalize gen participation factor
-		double sum = 0.0;
-		for (Bus b : net.getBusList()) {
-			AclfBus bus = (AclfBus)b;
-			if (bus.isActive() && bus.getGenPartFactor() > 0.0) {
-				sum += bus.getGenPartFactor();
-			}
-		}
-
-		if (sum > 0.0)
-			for (Bus b : net.getBusList()) {
-				AclfBus bus = (AclfBus)b;
-				if (bus.isActive() &&  bus.getGenPartFactor() > 0.0)
-					bus.setGenPartFactor(bus.getGenPartFactor()/sum);
-			}
+		net.createDistGenList();
 
 		// calculate system total Gen - Load
 		double diff =  0.0;
