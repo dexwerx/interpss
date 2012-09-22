@@ -224,12 +224,15 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 		/*
 		 * DATA (TRANSFORMER,
 		 * [BusNum,BusNum:1,LineCircuit,LineXFType,XFAuto,XFRegMin
-		 * ,XFRegMax,XFTapMin, XFTapMax,XFStep,XFTableNum,XFRegBus])
+		 * ,XFRegMax,XFTapMin, XFTapMax,XFStep,XFTableNum,XFRegBus
+		 * XFFixedTap,XFFixedTap:1,XFNominalKV,XFNominalKV:1,XFMVABase])
 		 */
 		long fromBusNum = -1, toBusNum = -1;
 		String fromBusId, toBusId, circuitId = "1";
 		int tableNum = 0;
 		double xfrTapMin = 0, xfrTapMax = 0, xfrTapStep = 0, xfrRegMin = 0, xfrRegMax = 0;
+		double fromFixedTap=1.0, toFixedTap=1.0;// original tap position used to define xfr Z and turn ratio
+		double xfrFromSideNominalKV=0.0,xfrToSideNominalKV=0.0;
 		double xfmrBaseMva = 0;
 		boolean isXFAutoControl=false;
 		long regBusNum=-1;
@@ -277,6 +280,14 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			    	xfrType=nv.value.trim().equalsIgnoreCase("Fixed")?XfrType.Fixed:
 			    		          nv.value.trim().equalsIgnoreCase("LTC")?XfrType.LTC:
 			    		          nv.value.trim().equalsIgnoreCase("Mvar")?XfrType.Mvar:XfrType.Phase;
+			    else if (nv.name.equals("XFFixedTap"))
+			    	fromFixedTap=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFFixedTap:1"))
+			    	toFixedTap=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFNominalKV"))
+			    	xfrFromSideNominalKV=Double.valueOf(nv.value);
+			    else if (nv.name.equals("XFNominalKV:1"))
+			    	xfrToSideNominalKV=Double.valueOf(nv.value);
 				
 			}
 			/*
@@ -286,6 +297,13 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			regBusId= parser.BusIdPreFix + regBusNum;
 
 			XfrBranchXmlType xfr = parser.getXfrBranch(fromBusId, toBusId, circuitId);
+			
+			if(xfr.getFromTurnRatio()!=null){
+				xfr.setFromTurnRatio(AclfDataSetter.createTurnRatioPU(
+						xfr.getFromTurnRatio().getValue()*fromFixedTap));
+			}
+			xfr.setToTurnRatio(AclfDataSetter.createTurnRatioPU(toFixedTap));
+			
 			if(xfr instanceof PSXfrBranchXmlType){
 				PSXfrBranchXmlType psXfr=(PSXfrBranchXmlType) xfr;
 				if(xfrRegMin!=0|| xfrRegMax!=0){
@@ -303,6 +321,15 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 			TransformerInfoXmlType xfmrInfo = new TransformerInfoXmlType();
 			xfr.setXfrInfo(xfmrInfo);
 			xfmrInfo.setZTableNumber(tableNum);
+			
+			if (xfmrBaseMva != 0.0) {
+				xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
+				TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
+				xfrInfo.setDataOnSystemBase(false);
+				//xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfmrBaseMva, ApparentPowerUnitType.MVA));
+				if (xfrFromSideNominalKV!=0.0)xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
+				if (xfrToSideNominalKV!=0.0)xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -508,7 +535,6 @@ public class BranchDataProcessor extends BaseDataProcessor  {
 				if (xfrMvaBase != 0.0) {
 					xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 					TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
-					// TODO it seems PWD xfr data is alway on system base
 					xfrInfo.setDataOnSystemBase(false);
 					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
 					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
