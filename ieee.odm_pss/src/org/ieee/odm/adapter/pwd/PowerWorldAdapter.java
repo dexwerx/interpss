@@ -102,6 +102,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				str=din.readLine();
 				//System.out.println("processing data#"+str);
 				if(str!=null){
+					str=str.trim();
 				  if(str.startsWith(Token_Data)){
 					dataType=PWDHelper.getDataType(str);
 				    if(dataType.equals(Token_Bus)){
@@ -151,17 +152,17 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				} //end of processing data type
 				
 				
-				 else if(str.trim().startsWith("//"))
+				 else if(str.startsWith("//"))
 					 ODMLogger.getLogger().fine("comments:"+str);
-				 else if(str.trim().startsWith("{"))
+				 else if(str.startsWith("{"))
 				    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
 				 
-				 else if(str.trim().startsWith("}")){
+				 else if(str.startsWith("}")){
 						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
 				 }
 				 // start processing record data
 				//TODO assume all data in one line; 
-				 else if(!str.trim().isEmpty()){
+				 else if(!str.isEmpty()){
 		
 					   if(recordType==RecType.BUS) 
 						   busProc.processBusBasicData(str);
