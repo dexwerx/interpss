@@ -196,5 +196,31 @@ public class SixBus_DclfPsXfr_pwd extends CorePluginTestSetup {
 
 		algo.destroy();			
 	}
+
+	@Test
+	public void dclf4() throws Exception {
+		IpssCorePlugin.init();
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+		ODMLogger.getLogger().setLevel(Level.WARNING);
+
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_2WPsXfr_2.aux")
+					.xfrBranchModel(ODMAclfNetMapper.XfrBranchModel.InterPSS)
+					.setFormat(IpssAdapter.FileFormat.PWD)
+					.load()
+					.getAclfNet();
+		
+		for (Branch b : net.getBranchList()) {
+			AclfBranch branch = (AclfBranch)b;
+			branch.setZ(new Complex(0.0, branch.getZ().getImaginary()));
+		}
+		
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+		algo.calculateDclf();
+
+		System.out.println(DclfOutFunc.dclfResults(algo, false));
+  		//assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+
+		algo.destroy();			
+	}
 }
 
