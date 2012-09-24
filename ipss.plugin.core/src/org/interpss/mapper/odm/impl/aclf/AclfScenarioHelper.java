@@ -26,8 +26,13 @@ package org.interpss.mapper.odm.impl.aclf;
 
 import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
+import org.ieee.odm.schema.BranchChangeRecSetXmlType;
+import org.ieee.odm.schema.BranchChangeRecXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
 
+import com.interpss.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.Contingency;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
@@ -88,5 +93,20 @@ public class AclfScenarioHelper {
 		if(xmlLfInit.isNonDivergent()!=null){
 			aclfAlgo.setNonDivergent(xmlLfInit.isNonDivergent());
 		}	
+	}
+	
+	/**
+	 * map BranchChangeRecSetXmlType to a Contingency object
+	 * 
+	 * @param contingency
+	 * @param net
+	 * @return
+	 */
+	public static Contingency mapContingency(BranchChangeRecSetXmlType contingency, AclfNetwork net) {
+		Contingency cont = CoreObjectFactory.createContingency(contingency.getId());
+		for (BranchChangeRecXmlType bra : contingency.getBranchChangeRec()) {
+			cont.addOutageBranch(net.getAclfBranch(bra.getFromBusId(), bra.getToBusId(), bra.getCircuitId()));
+		}			
+		return cont;
 	}
 }
