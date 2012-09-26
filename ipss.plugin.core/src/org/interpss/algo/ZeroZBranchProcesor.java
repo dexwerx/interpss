@@ -76,7 +76,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 * @param threshold zero impedance is define as abs(Z) < threshold 
 	 */
 	public ZeroZBranchProcesor(double threshold, boolean allowZeroZBranchLoop) {
-		this.method = Method.ZValue;
+		this.method = Method.BranchType;
 		this.threshold = threshold;
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
@@ -109,26 +109,32 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	// bus and branch visited status will be used
 			// in the processing
 		  	net.setVisitedStatus(false);
+		  		  	
 			
-		  	for (Bus b : net.getBusList()) {
-		  		if (!b.isVisited()) {
-		  			// find all buses on the zero z branch path of the bus, including
-		  			// the bus itself
-		  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
-		  			// if more than one, meaning there is zero-z branch(es), process
-		  			// zero-z branch
-		  			if (list.size() > 1) {
-		  				ipssLogger.info("Select parent bus, total buses: " + list.size());
-		  				Bus parentBus = selectParentBus(list);
-		  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
-		  				for (Bus bus : list) {
-			  				if (!bus.getId().equals(parentBus.getId())) {
-			  					ipssLogger.info("child bus: " + bus.getId());
-			  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
+		  	for (Bus b : net.getBusList()) {		  		
+		  		
+		  		if (b.isStatus()){
+		  			if (!b.isVisited()) {
+			  			// find all buses on the zero z branch path of the bus, including
+			  			// the bus itself
+			  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
+			  			// if more than one, meaning there is zero-z branch(es), process
+			  			// zero-z branch
+			  			if (list.size() > 1) {
+			  				ipssLogger.info("Select parent bus, total buses: " + list.size());
+			  				Bus parentBus = selectParentBus(list);
+			  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
+			  				for (Bus bus : list) {
+				  				if (!bus.getId().equals(parentBus.getId())) {
+				  					ipssLogger.info("child bus: " + bus.getId());
+				  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
+				  				}
 			  				}
-		  				}
-		  			}
+			  			}
+			  		}
 		  		}
+		  		
+		  		
 		  	}
 		  	
 		  	// turn-off processed zero-z branches
@@ -161,36 +167,51 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	private Bus selectParentBus(List<Bus> busList) {
 	  	// first select Swing or PV
 		for (Bus b : busList) {
-	  		AclfBus bus = (AclfBus)b;
-	  		// if the bus is a gen/load bus
-	  		if (bus.isSwing() || bus.isGenPV())
-	  			return b;
+			if (b.isStatus()){
+				AclfBus bus = (AclfBus)b;
+		  		// if the bus is a gen/load bus
+		  		if (bus.isSwing() || bus.isGenPV())
+		  			return b;
+			}
+	  		
 	  	}
 		// next select PQ bus
 		for (Bus b : busList) {
-	  		AclfBus bus = (AclfBus)b;
-	  		// if the bus is a gen/load bus
-	  		if (bus.isGenPQ())
-	  			return b;
+			if (b.isStatus()){
+				AclfBus bus = (AclfBus)b;
+		  		// if the bus is a gen/load bus
+		  		if (bus.isGenPQ())
+		  			return b;
+			}
+	  		
 	  	}
 	  	// then select Load bus
 		for (Bus b : busList) {
-	  		AclfBus bus = (AclfBus)b;
-	  		// if the bus is a gen/load bus
-	  		if (bus.isLoad())
-	  			return b;
+			if(b.isStatus()){
+				AclfBus bus = (AclfBus)b;
+		  		// if the bus is a gen/load bus
+		  		if (bus.isLoad())
+		  			return b;
+			}
+	  		
 	  	}
 	  	// at the end, select bus with largest zero-z branches
 		Bus bus = busList.get(0);
 		int cnt = 0;
+		boolean found = false;
 		for (Bus b : busList) {
-	  		AclfBus aclfBus = (AclfBus)b;
-	  		// if the bus is a gen/load bus
-	  		if (aclfBus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE) > cnt) {
-	  			bus = b;
-	  			cnt = aclfBus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE);
-	  		}
+			if (b.isStatus()){
+				found = true;
+				AclfBus aclfBus = (AclfBus)b;
+		  		// if the bus is a gen/load bus
+		  		if (aclfBus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE) > cnt) {
+		  			bus = b;
+		  			cnt = aclfBus.noConnectedBranch(AclfBranchCode.ZERO_IMPEDENCE);
+		  		}
+			}	  		
 	  	}
+		if (found == false)
+			ipssLogger.warning("No parent bus was found for the bus group of: "+busList.toString());
 		
 		return bus;
 	}
