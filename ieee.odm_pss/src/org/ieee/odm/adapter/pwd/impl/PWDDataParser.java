@@ -52,9 +52,9 @@ public class PWDDataParser {
 	public void parseMetadata(String data) {
 		int cnt = this.poitionTable.size();
 
-		// TODO the follow code needs to be update
+		
 		// "A, B, C, A:1, D"
-		String[] sAry = data.split(",");
+		String[] sAry =PWDHelper.parseMetaData(data);
 		for (String s : sAry) {
 			this.poitionTable.put(++cnt, s.trim());
 		}
@@ -71,7 +71,7 @@ public class PWDDataParser {
 
 		// TODO the follow code needs to be update
 		// "1, 2, C, 4, 5"
-		String[] sAry = data.split(",");
+		String[] sAry = PWDHelper.parseDataFields(data);
 		for (String s : sAry) {
 			this.fieldTable.put(this.poitionTable.get(++cnt), s.trim());
 		}

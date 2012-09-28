@@ -243,4 +243,16 @@ public class PWDHelper {
 			inputNvPairs.add(new NVPair(arguFields[i].trim()));
 		}
 	}
+	/**
+	 * parse a complete data section metaData definition and return as an order string array.
+	 * @param str
+	 * @return A String array storing the metaData definition
+	 */
+	public static String[] parseMetaData(String str){
+		int indexOfLeftBracket=str.indexOf("[");
+		int indexOfRightBracket=str.indexOf("]");
+		String[] arguFields=str.substring(indexOfLeftBracket+1,
+				indexOfRightBracket).split(",");
+		return arguFields;
+	}
 }
