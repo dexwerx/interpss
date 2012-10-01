@@ -34,7 +34,7 @@ public class PWD_Contingency_test {
 			
 			//rec element
 			BranchChangeRecXmlType braCtgElement=braRecSet.getBranchChangeRec().get(0);
-			assertTrue(braCtgElement.getBranchId().equals("Bus514_to_Bus512_cirId_1"));
+			assertTrue(braCtgElement.getBranchId().equals("Bus514_to_Bus7512_cirId_1"));
 			assertTrue(braCtgElement.isOffLine()==true);
 		}
 
