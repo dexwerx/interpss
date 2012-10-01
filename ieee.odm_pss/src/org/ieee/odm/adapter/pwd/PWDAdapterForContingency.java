@@ -1,20 +1,12 @@
 package org.ieee.odm.adapter.pwd;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
 import org.ieee.odm.adapter.pwd.impl.ContingencyDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.PWDHelper;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.modify.NetModificationHelper;
-import org.ieee.odm.schema.BranchChangeRecSetXmlType;
-import org.ieee.odm.schema.BranchChangeRecXmlType;
-import org.ieee.odm.schema.NetModificationXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
  /**
   * PWD contingency data adapter
@@ -26,7 +18,6 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 public class PWDAdapterForContingency extends AbstractODMAdapter{
 	public enum ContingencyType{BRANCH,SERIES_CAPACITOR,DC_LINE_CHANGE,DC_LINE_SETPOINT,PHSXFR_SETPOINT,THREEW_XFR};
 	
-	private List<NVPair> inputNvPairs;
 	private enum RecType{CONTINGENCY,CTG_OPTIONS,GLOBALCONTINGENCYACTIONS,UNSUPPORTED};
 	
 	

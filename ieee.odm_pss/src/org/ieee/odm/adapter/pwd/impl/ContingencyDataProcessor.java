@@ -1,10 +1,6 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import java.util.List;
-
 import org.ieee.odm.adapter.pwd.PWDAdapterForContingency.ContingencyType;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;

@@ -1,8 +1,5 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import java.util.List;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -20,7 +17,6 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YUnitType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
@@ -461,7 +457,7 @@ public class BusDataProcessor extends PWDDataParser {
 
 		//TODO no shunt status defined in ODM
 		
-		String busId=parser.BusIdPreFix+busNum;
+		String busId=AclfModelParser.BusIdPreFix+busNum;
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
 		
 		AclfDataSetter.setShuntCompensatorData(bus, mode, normalMVR, vHigh, vLow);

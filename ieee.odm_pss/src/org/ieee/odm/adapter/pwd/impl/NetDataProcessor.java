@@ -2,9 +2,6 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.List;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.NetAreaXmlType;

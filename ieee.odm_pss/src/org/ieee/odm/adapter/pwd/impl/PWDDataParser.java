@@ -27,6 +27,7 @@ package org.ieee.odm.adapter.pwd.impl;
 import java.util.Hashtable;
 
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 
 /**
@@ -91,10 +92,18 @@ public class PWDDataParser {
 			int cnt =this.fieldTable.size();
 			String[] sAry = PWDHelper.parseDataFields(data);
 			for (String s : sAry) {
-				//System.out.print(s+", ");
+				
 				this.fieldTable.put(this.positionTable.get(cnt++), s.trim());
 			}
+			//Add because the PWD output IEEE14 data detected meta data duplication issue
+			if(sAry.length==this.positionTable.size()){
+				if(this.fieldTable.size()!=this.positionTable.size()){
+			    ODMLogger.getLogger().severe("Duplicated meta data definition detected! "
+				    +"\n"+this.positionTable.toString());
+				}
+			}
 		}
+		
 	    return this.positionTable.size() == this.fieldTable.size();
 	  
 	}

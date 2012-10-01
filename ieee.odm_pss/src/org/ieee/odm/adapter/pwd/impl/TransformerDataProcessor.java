@@ -103,9 +103,9 @@ public class TransformerDataProcessor extends PWDDataParser  {
 		  xfrMvaBase=exist("XFMVABase")?getDouble("XFMVABase"):100;
 			/*
 			*/
-			fromBusId = parser.BusIdPreFix + fromBusNum;
-			toBusId = parser.BusIdPreFix + toBusNum;
-			regBusId= parser.BusIdPreFix + regBusNum;
+			fromBusId =AclfModelParser.BusIdPreFix + fromBusNum;
+			toBusId   =AclfModelParser.BusIdPreFix + toBusNum;
+			regBusId  =AclfModelParser.BusIdPreFix + regBusNum;
 
 			XfrBranchXmlType xfr = parser.getXfrBranch(fromBusId, toBusId, circuitId);
 			if(xfr instanceof PSXfrBranchXmlType){
@@ -256,8 +256,10 @@ public class TransformerDataProcessor extends PWDDataParser  {
 			
 			if(gMag==0&&g!=0)gMag=g;
 			if(bMag==0&&b!=0)bMag=b;
+			
 		    fromBusId=AbstractModelParser.BusIdPreFix+fromBusNum;
 		    toBusId=AbstractModelParser.BusIdPreFix+toBusNum;
+		    
 		    if(regBusNum>0)regBusId=AbstractModelParser.BusIdPreFix+regBusNum;
 		    
 		    // create a branch record
@@ -338,8 +340,8 @@ public class TransformerDataProcessor extends PWDDataParser  {
 					// TODO it seems PWD xfr data is alway on system base
 					xfrInfo.setDataOnSystemBase(false);
 					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
-					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
-					xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
+					if (xfrFromSideNominalKV!=0.0)xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
+					if (xfrToSideNominalKV!=0.0)xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
 				}
 
 			//set rating limit

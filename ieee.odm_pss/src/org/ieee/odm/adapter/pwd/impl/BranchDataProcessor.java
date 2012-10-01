@@ -2,10 +2,6 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.List;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
@@ -147,8 +143,8 @@ public class BranchDataProcessor extends PWDDataParser  {
 					
 			   //END OF DATA PROCESSING, BEGIN DATA SETTING 
 
-				fromBusId = parser.BusIdPreFix + fromBusNum;
-				toBusId = parser.BusIdPreFix + toBusNum;
+				fromBusId =AclfModelParser.BusIdPreFix + fromBusNum;
+				toBusId   =AclfModelParser.BusIdPreFix + toBusNum;
 
 				// create a branch record
 				BranchXmlType branch = parser.createLineBranch(fromBusId,
@@ -194,98 +190,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 			}
 		}// END OF PROCESSING BRANCH
 	}
-    /**
-     * It assumed that the basic loadflow data,such as R,X,TapRatio,etc., 
-     * for Transformer has been processed before the transformer control data
-     * 
-     */
-	public void processXFormerControlData(String xfomerDataStr) {
-	
-		/*
-		 * DATA (TRANSFORMER,
-		 * [BusNum,BusNum:1,LineCircuit,LineXFType,XFAuto,XFRegMin
-		 * ,XFRegMax,XFTapMin, XFTapMax,XFStep,XFTableNum,XFRegBus])
-		 */
-		long fromBusNum = -1, toBusNum = -1;
-		String fromBusId, toBusId, circuitId = "1";
-		int tableNum = 0;
-		double xfrTapMin = 0, xfrTapMax = 0, xfrTapStep = 0, xfrRegMin = 0, xfrRegMax = 0;
-		double xfrMvaBase = 0;
-		boolean isXFAutoControl=false;
-		long regBusNum=-1;
-		String regBusId="";
-		XfrCtrlTargetType regTargetType=null;
-		XfrType xfrType=null;
-		
-		parseData(xfomerDataStr);
-		try {
-			
-			fromBusNum=getLong("BusNum"); //mandatory field
-			
-			toBusNum=getLong("BusNum:1"); //mandatory field
-				
-			circuitId=exist("LineCircuit")?getString("LineCircuit"):"1";
-			
-				 
-			xfrRegMin=exist("XFRegMin")?getDouble("XFRegMin"):0;
-			   
-		    xfrRegMax=exist("XFRegMax")?getDouble("XFRegMax"):0;
-			   
-			   
-			xfrTapMax=exist("XFTapMax")?getDouble("XFTapMax"):exist("XFTapMax:1")?
-					getDouble("XFTapMax:1"):1.0;
-			    
-			    
-			xfrTapMin=exist("XFTapMin")?getDouble("XFTapMin"):exist("XFTapMin:1")?
-					getDouble("XFTapMin:1"):1.0;
-			    
-			xfrTapStep=exist("XFStep")?getDouble("XFStep"):exist("XFStep:1")?
-					getDouble("XFStep:1"):1.0;
-			
-						
-		   if (exist("XFRegTargetType"))
-				regTargetType=getString("XFRegTargetType").startsWith("Middle")?XfrCtrlTargetType.Midddle_Of_Range
-					    			       :XfrCtrlTargetType.MaxMin;
-		  if (exist("XFAuto"))
-				isXFAutoControl=getString("XFAuto").trim().equalsIgnoreCase("No")?false:true;
-					    	
-		  if (exist("XFRegBus"))
-				regBusNum=getLong("XFRegBus"); 
-		  if (exist("LineXFType"))
-				xfrType=getString("LineXFType").trim().equalsIgnoreCase("Fixed")?XfrType.Fixed:
-					   getString("LineXFType").trim().equalsIgnoreCase("LTC")?XfrType.LTC:
-					   getString("LineXFType").trim().equalsIgnoreCase("Mvar")?XfrType.Mvar:XfrType.Phase;
-						
-		  xfrMvaBase=exist("XFMVABase")?getDouble("XFMVABase"):100;
-			/*
-			*/
-			fromBusId = parser.BusIdPreFix + fromBusNum;
-			toBusId = parser.BusIdPreFix + toBusNum;
-			regBusId= parser.BusIdPreFix + regBusNum;
-
-			XfrBranchXmlType xfr = parser.getXfrBranch(fromBusId, toBusId, circuitId);
-			if(xfr instanceof PSXfrBranchXmlType){
-				PSXfrBranchXmlType psXfr=(PSXfrBranchXmlType) xfr;
-				if(xfrRegMin!=0|| xfrRegMax!=0){
-					setXfrPhaseControlData(isXFAutoControl, xfrRegMin, xfrRegMax,
-							xfrTapMax, xfrTapMin, regTargetType, psXfr);
-				}
-			}
-			else{
-				if(xfrRegMin!=0|| xfrRegMax!=0)
-			        setTapControlData(isXFAutoControl, xfrRegMin, xfrRegMax,
-					xfrTapMax, xfrTapMin, xfrTapStep, regBusId,
-					regTargetType, xfrType, xfr);
-			}
-			// TODO set type and regulation info;
-			TransformerInfoXmlType xfmrInfo = new TransformerInfoXmlType();
-			xfr.setXfrInfo(xfmrInfo);
-			xfmrInfo.setZTableNumber(tableNum);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+   
 	
 	private void process2WXfrData(){
 		long fromBusNum=-1,toBusNum=-1;
@@ -412,8 +317,10 @@ public class BranchDataProcessor extends PWDDataParser  {
 			
 			if(gMag==0&&g!=0)gMag=g;
 			if(bMag==0&&b!=0)bMag=b;
+			
 		    fromBusId=AbstractModelParser.BusIdPreFix+fromBusNum;
 		    toBusId=AbstractModelParser.BusIdPreFix+toBusNum;
+		    
 		    if(regBusNum>0)regBusId=AbstractModelParser.BusIdPreFix+regBusNum;
 		    
 		    // create a branch record
@@ -494,8 +401,8 @@ public class BranchDataProcessor extends PWDDataParser  {
 					// TODO it seems PWD xfr data is alway on system base
 					xfrInfo.setDataOnSystemBase(false);
 					xfrInfo.setRatedPower(BaseDataSetter.createApparentPower(xfrMvaBase, ApparentPowerUnitType.MVA));
-					xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
-					xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
+					if (xfrFromSideNominalKV!=0.0)xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(xfrFromSideNominalKV, VoltageUnitType.KV));
+					if (xfrToSideNominalKV!=0.0)xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(xfrToSideNominalKV, VoltageUnitType.KV));
 				}
 
 			//set rating limit
@@ -631,14 +538,4 @@ public class BranchDataProcessor extends PWDDataParser  {
 		}//END OF TAP CONTROL SETTING
 	}
 	
-	
-	public void process3WXFomerData(String triWXformerDataStr){
-		throw new UnsupportedOperationException("The 3winding transformer is not supported yet!");
-		/*
-		 * the 3-winding transformers are treated as 3 2-winding transformers
-		 *  with an additional star bus added to the network;
-		 */
-		
-		
-	}
 }
