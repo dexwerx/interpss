@@ -144,4 +144,44 @@
 	<ns:complexType name="DstabBranchChangeXmlType">
 	</ns:complexType>	
 	
+	<!-- 
+		Outage schedule definition
+		==========================
+	 -->
+	
+	<ns:complexType name="ContingencyOverrideScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+	
+	<ns:complexType name="BranchOverrideScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="BreakerOverrideScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="GenOutageScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="BranchOutageScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
 </ns:schema>
