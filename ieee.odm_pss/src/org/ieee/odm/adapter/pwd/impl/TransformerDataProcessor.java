@@ -2,11 +2,6 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.List;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
-import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -18,14 +13,10 @@ import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LimitXmlType;
-import org.ieee.odm.schema.LineBranchEnumType;
-import org.ieee.odm.schema.LineBranchInfoXmlType;
-import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -39,162 +30,15 @@ import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
- /**
-  * PowerWorld-TO-ODM Adapter based on power world v16 data definition
-  * 
-  * @version 0.3  
-  * @author Tony Huang
-  * 
-  * ====revision history===
-  * 09/08/2012 add Phase Xfr
-  * change the storage scheme from NVPairs to hashtable 
-  * 
-  */
-public class BranchDataProcessor extends PWDDataParser  {
+
+public class TransformerDataProcessor extends PWDDataParser  {
 	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
 	private enum XfrType{Fixed, LTC, Mvar,Phase};
-	
-	public BranchDataProcessor( AclfModelParser parser) {
+	public TransformerDataProcessor(AclfModelParser parser) {
 		super(parser);
+		
 	}
-	
-	public void processBranchData(String branchDataStr) throws ODMException{
-		/*
-		 * DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
-              LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineTap,
-              LinePhase,SeriesCapStatus])
-		 * 
-		 * BusNum-># of fromBus
-		 * BusNum:1-># of toBus
-		 * LineC->shuntB(Per unit susceptance (B) of branch on the system base), 50% at each end; 
-		 * LineG->Per unit conductance (G) of branch on the system base
-		 * LineXfmr: the flag indicating whether the branch is a Line or transformer;
-		 */
-		//TODO exact meanings of LineAMVA,LineBMVA,LineCMVA
-		
-		long fromBusNum=-1,toBusNum=-1;
-		String fromBusId, toBusId,circuitId="1";
-		String type="";
-		String branchId="";
-		boolean closed=true, isXfmr=false;
-		double DEFAULT_MVA_RATING =9999;
-		double DEFAULT_LineX_MINIMUM =1.0E-5;
-		double r=0,x=DEFAULT_LineX_MINIMUM,b=0,g=0, // all per unit value on system base;
-		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
-		       mvaRating1=DEFAULT_MVA_RATING ,mvaRating2=DEFAULT_MVA_RATING ,mvaRating3=DEFAULT_MVA_RATING ;//mvar rating
-   
-		/*
-		 * ONLY for specific application
-		 */
-		String typeToken="CustomString"; //type
-		String idToken="CustomString:1"; //branch Id
-		
-		//data has been processed in the PWD adapter main program;
-		//parseData(branchDataStr);
-		
-		
-			if (exist("LineXfmr"))
-				isXfmr=getString("LineXfmr").equalsIgnoreCase("YES")?true:false;
-			//both LineXfmr or BranchDeviceType could be used to define branch type
-			if (exist("BranchDeviceType"))
-				isXfmr=getString("BranchDeviceType").equalsIgnoreCase("Transformer")?true:false;
-		
-		if(isXfmr==true){
-			process2WXfrData();
-		}
-        else {
-			try {
-				fromBusNum=getLong("BusNum"); //mandatory field
-				
-				toBusNum=getLong("BusNum:1"); //mandatory field
-					
-				circuitId=exist("LineCircuit")?getString("LineCircuit"):"1";
-					
-			   if (exist("LineStatus"))
-					closed=getString("LineStatus").equalsIgnoreCase("Closed")?true:false;
-				    
-				// LineR:1, LineX:1, LineG:1, LineC:1, XFStep:1, XFTapMax:1, XFTapMin:1, LineTap:1
-				//TODO The suffix of ¡°£º1¡± is used for Transformer definition,means those data values are based on transformer MVA base 
-				   
-				r=exist("LineR")?getDouble("LineR"):exist("LineR:1")?getDouble("LineR:1"):0;
-				    
-			    x=exist("LineX")?getDouble("LineX"):exist("LineX:1")?getDouble("LineX:1"):DEFAULT_LineX_MINIMUM;
-				    
-				b=exist("LineC")?getDouble("LineC"):exist("LineC:1")?getDouble("LineC:1"):0;
-				g=exist("LineG")?getDouble("LineG"):exist("LineG:1")?getDouble("LineG:1"):0;
-				
-				mvaRating1=exist("LineAMVA")?getDouble("LineAMVA"):DEFAULT_MVA_RATING; // line limit rating
-				   
-				mvaRating2=exist("LineAMVA:1")?getDouble("LineAMVA:1"):
-					exist("LineBMVA")?getDouble("LineBMVA"):DEFAULT_MVA_RATING;
-
-				mvaRating3=exist("LineAMVA:2")?getDouble("LineAMVA:2"):
-					exist("LineCMVA")?getDouble("LineCMVA"):DEFAULT_MVA_RATING;
-				
-				fBusShuntMW=exist("LineShuntMW")?getDouble("LineShuntMW"):0;
-				    
-				tBusShuntMW=exist("LineShuntMW:1")?getDouble("LineShuntMW:1"):0;
-				    
-				fBusShuntMvar=exist("LineShuntMVR")?getDouble("LineShuntMVR"):0;
-					     
-				tBusShuntMvar=exist("LineShuntMVR:1")?getDouble("LineShuntMVR:1"):0;
-				
-				if(exist(typeToken))
-					   type=getString(typeToken);
-					    
-				if(exist(idToken))
-					   branchId=getString(idToken);
-					
-			   //END OF DATA PROCESSING, BEGIN DATA SETTING 
-
-				fromBusId = parser.BusIdPreFix + fromBusNum;
-				toBusId = parser.BusIdPreFix + toBusNum;
-
-				// create a branch record
-				BranchXmlType branch = parser.createLineBranch(fromBusId,
-						toBusId, circuitId);
-                if(!type.equals("")){
-				LineBranchInfoXmlType LineInfo = new LineBranchInfoXmlType();
-				LineInfo.setType(type.equalsIgnoreCase("line") ? LineBranchEnumType.OVERHEAD_LINE
-						: (type.equalsIgnoreCase("breaker") ? LineBranchEnumType.BREAKER
-								: LineBranchEnumType.OTHER));
-				((LineBranchXmlType) branch).setLineInfo(LineInfo);
-                }
-                
-				branch.setOffLine(!closed);
-				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
-				// processing lint shunt at from bus
-				if (fBusShuntMW != 0 || fBusShuntMvar != 0) {
-					LoadflowBusXmlType fromBus = parser.getAclfBus(fromBusId);
-					AclfDataSetter.addBusShuntY(fromBus, fBusShuntMW,
-							fBusShuntMvar, YUnitType.MVAR);
-				}
-				// processing lint shunt at to bus
-				if (tBusShuntMW != 0 || tBusShuntMvar != 0) {
-					LoadflowBusXmlType toBus = parser.getAclfBus(toBusId);
-					AclfDataSetter.addBusShuntY(toBus, tBusShuntMW,
-							tBusShuntMvar, YUnitType.MVAR);
-				}
-
-				LineBranchXmlType line = (LineBranchXmlType) branch;
-				if (g != 0 || b != 0)
-					line.setTotalShuntY(BaseDataSetter.createYValue(g, b,
-							YUnitType.PU));
-
-				// set rating limit
-				branch.setRatingLimit(odmObjFactory
-						.createBranchRatingLimitXmlType());
-
-				AclfDataSetter.setBranchRatingLimitData(
-						branch.getRatingLimit(), mvaRating1, mvaRating2,
-						mvaRating3, ApparentPowerUnitType.MVA);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}// END OF PROCESSING BRANCH
-	}
-    /**
+	 /**
      * It assumed that the basic loadflow data,such as R,X,TapRatio,etc., 
      * for Transformer has been processed before the transformer control data
      * 
@@ -641,4 +485,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 		
 		
 	}
+	
+	
+
 }

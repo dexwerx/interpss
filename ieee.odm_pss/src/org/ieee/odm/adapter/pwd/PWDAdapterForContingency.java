@@ -32,7 +32,6 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 	
 	public PWDAdapterForContingency(){
 		super();
-		this.inputNvPairs = new ArrayList<NVPair>();
 	}
 	
 	
@@ -56,7 +55,7 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		/*Now we know the contingency data we got is branch status change(most changed to OPEN, some CLOSE)
 		 * so we can defined the exact type  contingency processor before the processing;
 		 */
-		ContingencyDataProcessor ctgProc=new ContingencyDataProcessor(inputNvPairs,parser);
+		ContingencyDataProcessor ctgProc=new ContingencyDataProcessor(parser);
 		
 
 		try {
@@ -78,7 +77,7 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 						while (!PWDHelper.isArgumentFieldsCompleted(str)) {
 							str += din.readLine();
 						}
-						PWDHelper.parseFieldNames(str, inputNvPairs);
+						ctgProc.parseMetadata(str);
 
 					} else if (str.trim().startsWith("//"))
 						ODMLogger.getLogger().fine("comments:" + str);

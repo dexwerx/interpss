@@ -27,6 +27,7 @@ package org.ieee.odm.adapter.pwd.impl;
 import java.util.Hashtable;
 
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.aclf.AclfModelParser;
 
 /**
  * A date parser implementation to parse data file in PWD AUX format 
@@ -35,12 +36,14 @@ import org.ieee.odm.common.ODMException;
  *
  */
 public class PWDDataParser {
-	Hashtable<Integer, String> poitionTable;  // 1, .... n
+	Hashtable<Integer, String> positionTable;  // 1, .... n
 	Hashtable<String, String> fieldTable;
+	protected AclfModelParser parser;
 	
-	public PWDDataParser() {
-		this.poitionTable = new Hashtable<Integer, String>();
+	public PWDDataParser(AclfModelParser parser) {
+		this.positionTable = new Hashtable<Integer, String>();
 		this.fieldTable = new Hashtable<String, String>();
+		this.parser = parser;
 	}
 	
 	/**
@@ -50,13 +53,12 @@ public class PWDDataParser {
 	 * @param data
 	 */
 	public void parseMetadata(String data) {
-		int cnt = this.poitionTable.size();
-
-		
-		// "A, B, C, A:1, D"
+		//renew the position table for each data section
+		this.positionTable.clear();
+		int cnt =0;
 		String[] sAry =PWDHelper.parseMetaData(data);
 		for (String s : sAry) {
-			this.poitionTable.put(++cnt, s.trim());
+			this.positionTable.put(cnt++, s.trim());
 		}
 	}
 
@@ -67,17 +69,43 @@ public class PWDDataParser {
 	 * @return true if all fields are parsed
 	 */
 	public boolean parseData(String data) {
-		int cnt = this.fieldTable.size();
+		//renew the fieldTable before processing each model definition
+		this.fieldTable.clear();
+        int cnt=0;
 
-		// TODO the follow code needs to be update
-		// "1, 2, C, 4, 5"
 		String[] sAry = PWDHelper.parseDataFields(data);
 		for (String s : sAry) {
-			this.fieldTable.put(this.poitionTable.get(++cnt), s.trim());
+			//System.out.print(s+", ");
+			this.fieldTable.put(this.positionTable.get(cnt++), s.trim());
 		}
 		
-		return this.poitionTable.size() == this.fieldTable.size();
+		return this.positionTable.size() == this.fieldTable.size();
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean parseData(String data, boolean appendMode){
+		if(!appendMode) parseData(data);
+		else{
+			int cnt =this.fieldTable.size();
+			String[] sAry = PWDHelper.parseDataFields(data);
+			for (String s : sAry) {
+				//System.out.print(s+", ");
+				this.fieldTable.put(this.positionTable.get(cnt++), s.trim());
+			}
+		}
+	    return this.positionTable.size() == this.fieldTable.size();
+	  
+	}
+	
+	public void clearProcessedData(){
+		this.fieldTable.clear();
+	}
+	public boolean isDataCompleted(){
+		 return this.positionTable.size() == this.fieldTable.size();
+	}
+
 	
 	/**
 	 * check if the data field identified by the key exists
@@ -111,7 +139,7 @@ public class PWDDataParser {
 	 * @throws ODMException throw exception if the field does not exist
 	 */
 	public double getDouble(String key) throws ODMException {
-		return new Double(this.getString(key)).doubleValue();
+		return Double.valueOf(this.getString(key));
 	}
 
 	/**
@@ -122,10 +150,14 @@ public class PWDDataParser {
 	 * @throws ODMException throw exception if the field does not exist
 	 */
 	public int getInt(String key) throws ODMException {
-		return new Integer(this.getString(key)).intValue();
+		return Integer.valueOf(this.getString(key));
+	}
+	
+	public long getLong(String key) throws ODMException {
+		return Long.valueOf(this.getString(key));
 	}
 	
 	public String toString() {
-		return this.poitionTable.toString() + "\n" + this.fieldTable.toString();
+		return this.positionTable.toString() + "\n" + this.fieldTable.toString();
 	}
 } 

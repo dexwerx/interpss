@@ -5,6 +5,7 @@ import java.util.List;
 import org.ieee.odm.adapter.pwd.PWDAdapterForContingency.ContingencyType;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter.NVPair;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -16,22 +17,22 @@ import org.ieee.odm.schema.NetModificationXmlType;
 /**
  * PWD contingency file data processor
  * 
- * @version 0.1  09/01/2012
+ * @version 0.2  09/30/2012
  * @author Tony Huang
+ * ======History======
+ * 093012 Change from NVPair list to PWDDataParser
  * 
  */
-public class ContingencyDataProcessor extends BaseDataProcessor{
+public class ContingencyDataProcessor extends PWDDataParser{
 	
 	private NetModificationXmlType netModList=null;
 	private NetModificationHelper helper=null;
 	private BranchChangeRecSetXmlType branchTypeCtg=null;
 	boolean skipCtg=false;
 	boolean isCTGSubDataSection=false;
-	public ContingencyDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs,AclfModelParser parser) {
-		super(nvPairs, parser);
-		
+	public ContingencyDataProcessor(AclfModelParser parser) {
+		super(parser);
 		// initialization
-		
 		// create empty base network 
 		parser.getAclfNet();
 		
@@ -66,7 +67,7 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 		//
 		if(!isCTGSubDataSection){
 			
-			PWDHelper.parseDataFields(ctgStr, inputNvPairs);
+			parseData(ctgStr);
 			//process basic contingency definition data, including Table, ModelCriteria
 			processBasicCTGData();
 		}
@@ -78,12 +79,14 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 		String ctgInfo="";
 		
 		// create a branch change set object to represent a contingency
-		for(NVPair nv:inputNvPairs){
-			if(nv.name.equals("CTGSkip")){
-				skipCtg=nv.value.trim().equalsIgnoreCase("NO")?false:true;
-			}
-			else if(nv.name.equals("CTGLabel")) ctgId=nv.value;
-			else if(nv.name.equals("CustomString")) ctgInfo=nv.value; //Only for this project
+		try{
+	      if(exist("CTGSkip"))
+					skipCtg=getString("CTGSkip").trim().equalsIgnoreCase("NO")?false:true;
+		  ctgId =getString("CTGLabel");
+		  if(exist("CustomString")) ctgInfo=getString("CustomString"); //Only for this project
+	      } catch (ODMException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 		}
 		
 		if(!skipCtg){
@@ -116,7 +119,7 @@ public class ContingencyDataProcessor extends BaseDataProcessor{
 			String[] ctgElement=PWDHelper.parseDataFields(str);
 			action=ctgElement[0];
 			
-			//get Branch info, format[branchId, status]
+			//get Branch info, format[branchId, status,fromId, toId, cirId]
 			String[] braInfo=getNetModelChangeInfo(action,ContingencyType.BRANCH);
 			if (braInfo != null) {
 				// for each contingency, one to many branch change could be defined
