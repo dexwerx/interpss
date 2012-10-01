@@ -75,7 +75,7 @@ public class IEEE14BusBreakerTest extends CorePluginTestSetup {
 		
 	  	List<Bus> list = net.getAclfBus("Bus1").findZeroZPathBuses(false);
 	  	//System.out.println(list);
-	  	assertTrue(list.size() == 3);	
+	  	assertTrue(list.size() == 4);	
 	  	
 	  	list = net.getAclfBus("Bus14").findZeroZPathBuses(false);
 	  	//System.out.println(list);

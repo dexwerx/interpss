@@ -65,9 +65,9 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
 	  	// output loadflow calculation results
 	  	//System.out.println(AclfOutFunc.loadFlowSummary(net));
 
-	  	//System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
-	  	assertTrue(net.getNoActiveBus() == 22);
-	  	assertTrue(net.getNoActiveBranch() == 29);
+	  	System.out.println("Active buses: " + net.getNoActiveBus() + ", branches: " + net.getNoActiveBranch());
+	  	assertTrue(net.getNoActiveBus() == 23);
+	  	assertTrue(net.getNoActiveBranch() == 30);
 	  	
   		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
   		AclfSwingBus swing = swingBus.toSwingBus();
