@@ -28,35 +28,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.CorePluginTestSetup;
 import org.interpss.algo.ZeroZBranchProcesor;
-import org.interpss.display.DclfOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
-import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.core.net.Branch;
 import com.interpss.pssl.plugin.IpssAdapter;
 
 
-public class IEEE14BusBreaker_dclf_Test extends CorePluginTestSetup {
-	@Test 
-	public void case1_regularMethod() throws  InterpssException {
-		// Create an AclfNetwork object
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
-				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
-				.load()
-				.getAclfNet();
-	  	//System.out.println(net.net2String());
-
-		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
-		algo.calculateDclf();
-
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-2.1900)<0.01);
-
-		algo.destroy();	
-    }	
-	
+public class IEEE14BusBreaker_equivCABranch_Test extends CorePluginTestSetup {
 	@Test 
 	public void case1_smallZ() throws  InterpssException {
 		// Create an AclfNetwork object
@@ -69,15 +49,24 @@ public class IEEE14BusBreaker_dclf_Test extends CorePluginTestSetup {
 	  	net.accept(new ZeroZBranchProcesor(true));
 	  	assertTrue(net.isZeroZBranchProcessed());
 
-		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
-		algo.calculateDclf();
-
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
- 		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-2.1900)<0.01);
-
-		algo.destroy();	
-    }	
-
+	  	/*
+	  	 * identify equivalent CA branches
+	  	 */
+	  	//IpssLogger.ipssLogger.setLevel(Level.INFO);
+	  	for (Branch branch : net.getBranchList()) 
+	  		branch.identifyEquivCABranch();	  	
+	  	
+	  	//System.out.println("Branch Bus1->Bus15-1(1) equivCABranch: " + net.getBranch("Bus1->Bus15-1(1)").getEquivCABranchId());
+	  	//System.out.println("Branch Bus15-1->Bus15(1) equivCABranch: " + net.getBranch("Bus15-1->Bus15(1)").getEquivCABranchId());
+	  	
+	  	/*
+	  	 * Branch Bus1->Bus15-1(1) and Bus15-1->Bus15(1) are small-Z branches. Their equiv CA branch
+	  	 * is branch Bus15->Bus2 with normal Z.
+	  	 */
+	  	assertTrue(net.getBranch("Bus1->Bus15-1(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
+	  	assertTrue(net.getBranch("Bus15-1->Bus15(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
+	}	
+	
 	@Test 
 	public void case1_smallZ_1() throws  InterpssException {
 		// test casa with a small-Z brach loop at Bus-14
@@ -92,12 +81,11 @@ public class IEEE14BusBreaker_dclf_Test extends CorePluginTestSetup {
 	  	net.accept(new ZeroZBranchProcesor(true));
 	  	assertTrue(net.isZeroZBranchProcessed());
 
-		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
-		algo.calculateDclf();
-
-		//System.out.println(DclfOutFunc.dclfResults(algo, false));
- 		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-2.1900)<0.01);
-
-		algo.destroy();	
+	  	//IpssLogger.ipssLogger.setLevel(Level.INFO);
+	  	for (Branch branch : net.getBranchList()) 
+	  		branch.identifyEquivCABranch();	  	
+	  	
+	  	//System.out.println("Branch Bus1->Bus15(1) equivCABranch: " + net.getBranch("Bus1->Bus15(1)").getEquivCABranchId());
+	  	assertTrue(net.getBranch("Bus1->Bus15(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
     }
 }

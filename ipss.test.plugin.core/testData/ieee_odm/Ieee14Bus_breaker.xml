@@ -203,7 +203,13 @@
                     </equivLoad>
                 </loadData>
             </aclfBus>
+            
             <aclfBus id="Bus15" offLine="false" number="15" zoneNumber="1" areaNumber="1" name="Bus 15    HV">
+                <baseVoltage unit="KV" value="132.0"/>
+                <voltage unit="PU" value="1.06"/>
+                <angle unit="DEG" value="0.0"/>
+            </aclfBus>
+            <aclfBus id="Bus15-1" offLine="false" number="15" zoneNumber="1" areaNumber="1" name="Bus 15    HV">
                 <baseVoltage unit="KV" value="132.0"/>
                 <voltage unit="PU" value="1.06"/>
                 <angle unit="DEG" value="0.0"/>
@@ -236,14 +242,23 @@
         </busList>        
         <branchList>
         <!--  Zero-Z Branch -->
-            <aclfLine circuitId="1" id="Bus1_to_Bus15_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+            <aclfLine circuitId="1" id="Bus1_to_Bus15-1_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus1"/>
+                <toBus idRef="Bus15-1"/>
+                <z unit="PU" im="0.00000001" re="0.00000001"/>
+                <ratingLimit/>
+                <totalShuntY unit="PU" im="0.00000001" re="0.00000001"/>
+                <lineInfo><type>Breaker</type></lineInfo>
+            </aclfLine>
+            <aclfLine circuitId="1" id="Bus15-1_to_Bus15_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+                <fromBus idRef="Bus15-1"/>
                 <toBus idRef="Bus15"/>
                 <z unit="PU" im="0.00000001" re="0.00000001"/>
                 <ratingLimit/>
                 <totalShuntY unit="PU" im="0.00000001" re="0.00000001"/>
                 <lineInfo><type>Breaker</type></lineInfo>
             </aclfLine>
+            
             <aclfLine circuitId="1" id="Bus15_to_Bus2_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus15"/>
                 <toBus idRef="Bus2"/>
@@ -270,6 +285,7 @@
                 <totalShuntY unit="PU" im="0.0492" re="0.0"/>
                 <lineInfo/>
             </aclfLine>
+            
             <aclfLine circuitId="1" id="Bus2_to_Bus3_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus2"/>
                 <toBus idRef="Bus3"/>
@@ -450,6 +466,7 @@
                 <ratingLimit/>
                 <lineInfo/>
             </aclfLine>
+            
         <!--  Zero-Z Branch -->
             <aclfLine circuitId="1" id="Bus17_to_Bus14_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus17"/>
@@ -458,6 +475,7 @@
                 <ratingLimit/>
                 <lineInfo><type>Breaker</type></lineInfo>
             </aclfLine>
+            
             <aclfLine circuitId="1" id="Bus10_to_Bus11_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus10"/>
                 <toBus idRef="Bus11"/>
@@ -479,6 +497,7 @@
                 <ratingLimit/>
                 <lineInfo/>
             </aclfLine>
+            
         <!--  Zero-Z Branch -->
             <aclfLine circuitId="1" id="Bus18_to_Bus14_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
                 <fromBus idRef="Bus18"/>
@@ -487,6 +506,7 @@
                 <ratingLimit/>
                 <lineInfo><type>Breaker</type></lineInfo>
             </aclfLine>
+            
         </branchList>
         <lossZoneList>
             <lossZone number="1" name="IEEE 14 BUS"/>
