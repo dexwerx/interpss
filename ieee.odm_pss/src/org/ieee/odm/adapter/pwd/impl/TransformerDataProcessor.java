@@ -169,12 +169,17 @@ public class TransformerDataProcessor extends PWDDataParser  {
 			// LineR:1, LineX:1, LineG:1, LineC:1, XFStep:1, XFTapMax:1, XFTapMin:1, LineTap:1
 			//TODO The suffix of ¡°£º1¡± is used for Transformer definition,means those data values are based on transformer MVA base 
 			   
-			r=exist("LineR")?getDouble("LineR"):exist("LineR:1")?getDouble("LineR:1"):0;
+		    r=exist("LineR")?getDouble("LineR"):0;
+			if(exist("LineR:1"))r=getDouble("LineR:1");
 			    
-		    x=exist("LineX")?getDouble("LineX"):exist("LineX:1")?getDouble("LineX:1"):miniLineX;
+		    x=exist("LineX")?getDouble("LineX"):miniLineX;
+		    if(exist("LineX:1"))x=getDouble("LineX:1");
 			    
-			b=exist("LineC")?getDouble("LineC"):exist("LineC:1")?getDouble("LineC:1"):0;
-			g=exist("LineG")?getDouble("LineG"):exist("LineG:1")?getDouble("LineG:1"):0;
+			b=exist("LineC")?getDouble("LineC"):0;
+			if(exist("LineC:1")) b=getDouble("LineC:1");
+			
+			g=exist("LineG")?getDouble("LineG"):0;
+			if(exist("LineG:1")) g=getDouble("LineG:1");
 			
 			if (exist("XfrmerMagnetizingB"))
 			  bMag=getString("XfrmerMagnetizingB").isEmpty()?0:getDouble("XfrmerMagnetizingB");
@@ -231,7 +236,7 @@ public class TransformerDataProcessor extends PWDDataParser  {
 			   xfrId=getString(idToken);
 				
 			   
-			xfrMvaBase=exist("XFMVABase")?getDouble("XFMVABase"):100;
+			if(exist("XFMVABase")) xfrMvaBase=getDouble("XFMVABase");
 			    
 			if (exist("XFNominalKV"))
 			    xfrFromSideNominalKV=getDouble("XFNominalKV");
