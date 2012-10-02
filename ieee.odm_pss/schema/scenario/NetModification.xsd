@@ -192,24 +192,35 @@
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
 			</ns:extension>
 		</ns:complexContent>
-	</ns:complexType>	
+	</ns:complexType>
 
 	<ns:complexType name="GenDailyDispatchXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
-		<ns:sequence>
-			<ns:element name="hrPoints" type="ns:int" maxOccurs="1"></ns:element>
-			<ns:element name="genDispatches"
-				type="pss:GenDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
+				<ns:sequence>
+			<ns:element name="hourlyDispatches"
+				type="pss:GenHourlyDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
 		</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-	
-	<ns:complexType name="GenDispatchXmlType">
+
+	<ns:complexType name="GenHourlyDispatchXmlType">
 		<ns:sequence>
-			<ns:element name="busname" type="ns:string" maxOccurs="1" minOccurs="1" />
+			<ns:element name="hour" type="ns:int" maxOccurs="1"
+				minOccurs="1" />
+			<ns:element name="dispatches" type="pss:BusGenLoadDispatchXmlType"
+				maxOccurs="unbounded" minOccurs="0" />
 		</ns:sequence>
 	</ns:complexType>
-		
+
+	<ns:complexType name="BusGenLoadDispatchXmlType">
+		<ns:sequence>
+			<ns:element name="busname" type="ns:string" maxOccurs="1">
+			</ns:element>
+			<ns:element name="dispatch" type="pss:ActivePowerXmlType"
+				maxOccurs="1">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
 </ns:schema>

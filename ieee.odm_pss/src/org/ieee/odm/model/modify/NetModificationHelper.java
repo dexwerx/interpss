@@ -35,6 +35,7 @@ import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
 import org.ieee.odm.schema.BusChangeRecSetXmlType;
 import org.ieee.odm.schema.BusChangeRecXmlType;
+import org.ieee.odm.schema.GenDailyDispatchXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
 
@@ -105,6 +106,14 @@ public class NetModificationHelper {
 		return busChange;
 	}	
 
+	/*
+	 * Contingency analysis help method
+	 * ================================
+	 * 
+	 * NetModificationXmlType can be used to represent contingency. The following
+	 * are function for contingency processing
+	 */
+	
 	/**
 	 * When NetModificationXmlType is used for contingency analysis, return the
 	 * contingency list
@@ -149,10 +158,32 @@ public class NetModificationHelper {
 		return Collections.list(table.keys());
 	}
 	
+	/*
+	 * Daily gen/load dispatch help funcitons
+	 * ======================================
+	 * 
+	 */
+	
+	/**
+	 * Get the gen daily dispatch. A GenDailyDispatchXmlType record will be
+	 * created if genDailyDispatch is null.
+	 *   
+	 * @return
+	 */
+	public GenDailyDispatchXmlType getDailyGenDispatch() {
+		if (parser.getModification() == null)
+			addModifyRecord(odmObjFactory.createGenDailyDispatchXmlType());
+		return (GenDailyDispatchXmlType)parser.getModification();
+	}	
+
+	//=====================================
+	//=====================================
+	
 	private void addModifyRecord(ModifyRecordXmlType rec) {
 		if (this.parser.getStudyCase().getModificationList() == null) {
 			this.parser.getStudyCase().setModificationList(odmObjFactory.createStudyCaseXmlTypeModificationList());
 		}
 		this.parser.getStudyCase().getModificationList().getModification().add(rec);
 	}	
+	
 }
