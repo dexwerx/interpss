@@ -2,22 +2,20 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.List;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
-  * @version 0.1  04/03/2012
+  * @version 0.2  09/30/2012
   * @author Tony Huang
   * 
   */
-public class NetDataProcessor extends BaseDataProcessor  {
-	public NetDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
-		super(nvPairs, parser);
+public class NetDataProcessor extends PWDDataParser  {
+	public NetDataProcessor(AclfModelParser parser) {
+		super(parser);
 	}
 	
 	public void processAreaData(String areaDataStr){
@@ -29,14 +27,14 @@ public class NetDataProcessor extends BaseDataProcessor  {
 		
 		int areaNum=-1;
 		String areaName="";
-		PWDHelper.parseDataFields(areaDataStr, inputNvPairs);
-		for (PowerWorldAdapter.NVPair nv: inputNvPairs) {
-			if (nv.name.equals("AreaNum"))
-				areaNum=Integer.valueOf(nv.value);
-			else if (nv.name.equals("AreaName"))
-				areaName=nv.value;
-		}		
+		parseData(areaDataStr);
 		
+		try {
+			areaNum=getInt("AreaNum");
+			areaName=getString("AreaName");
+		} catch (ODMException e) {
+			e.printStackTrace();
+		}
 		NetAreaXmlType area=odmObjFactory.createNetAreaXmlType();
 		area.setNumber(areaNum);
 		area.setName(areaName);
@@ -52,14 +50,16 @@ public class NetDataProcessor extends BaseDataProcessor  {
 		 */
 		int zoneNum=-1;
 		String zoneName="";
-		PWDHelper.parseDataFields(zoneDataStr, inputNvPairs);
-		for (PowerWorldAdapter.NVPair nv: inputNvPairs) {
-			if (nv.name.equals("ZoneNum"))
-					zoneNum=Integer.valueOf(nv.value);
-			else if (nv.name.equals("ZoneName"))
-				zoneName=nv.value;
+		parseData(zoneDataStr);
+	
+		try {
+			zoneNum=getInt("ZoneNum");
+			zoneName=getString("ZoneName");
+		} catch (ODMException e) {
+			e.printStackTrace();
 		}
 		
+				
 		NetZoneXmlType zone=odmObjFactory.createNetZoneXmlType();
 		zone.setNumber(zoneNum);
 		zone.setName(zoneName);

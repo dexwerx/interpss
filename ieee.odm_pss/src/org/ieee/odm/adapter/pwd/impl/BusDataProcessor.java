@@ -1,8 +1,5 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import java.util.List;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -20,7 +17,6 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YUnitType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
@@ -29,13 +25,13 @@ import org.ieee.odm.schema.YUnitType;
   * @author Tony Huang
   * 
   */
-public class BusDataProcessor extends BaseDataProcessor {
+public class BusDataProcessor extends PWDDataParser {
 	public static long swingBusNum=-1;
 	private boolean isSubDataSection=false;
 
 	
-	public BusDataProcessor(List<PowerWorldAdapter.NVPair> nvPairs, AclfModelParser parser) {
-		super(nvPairs, parser);
+	public BusDataProcessor(AclfModelParser parser) {
+		super(parser);
 	}
 	
 	
@@ -51,58 +47,56 @@ public class BusDataProcessor extends BaseDataProcessor {
 		String busName="",busId="";
 		double basekV=0, puVolt=0,kvVolt=0,angle=-360,busG=0,busB=0;
 		boolean isSlackBus=false,busConnected=true;
-		
-		PWDHelper.parseDataFields(busDataStr, inputNvPairs);
+		//first, parse the data and set it to the internal Hashtable
+		parseData(busDataStr);
 		try {
-		for(PowerWorldAdapter.NVPair nv:inputNvPairs){// fields are already trimmed.
-			// Note the sequence of the arguments are not defined by PowerWorld, 
-			//if statement is used here to judge their existence.
-			if(nv.name.equals("BusNum")){
-				busNum=Long.valueOf(nv.value);
-			}
-			else if(nv.name.equals("BusName")){
-				busName=nv.value;
-			}
+
+			busNum=getLong("BusNum");
+	
+			busName=exist("BusName")?getString("BusName"):"";
+
 			
-			else if(nv.name.equals("BusStatus")){
-				busConnected=(nv.value.equalsIgnoreCase("Connected")||nv.value.equalsIgnoreCase("Closed"))?true:false;
+			if(exist("BusStatus")){
+				busConnected=(getString("BusStatus").equalsIgnoreCase("Connected")||getString("BusStatus").equalsIgnoreCase("Closed"))?true:false;
 			}
-			else if(nv.name.equals("BusNomVolt")){
-				basekV=Double.valueOf(nv.value);
+			if(exist("BusNomVolt")){
+				basekV=getDouble("BusNomVolt");
 			}
-			else if(nv.name.equals("BusPUVolt")){
-				puVolt=Double.valueOf(nv.value);
+			if(exist("BusPUVolt")){
+				puVolt=getDouble("BusPUVolt");
 			}
-			else if(nv.name.equals("BusKVVolt")){
-				kvVolt=Double.valueOf(nv.value);
+			if(exist("BusKVVolt")){
+				kvVolt=getDouble("BusKVVolt");
 			}
-			else if(nv.name.equals("BusAngle")){
-				angle=Double.valueOf(nv.value);
+			if(exist("BusAngle")){
+				angle=getDouble("BusAngle");
 			}
 			
 			//'User Input Value: Represents the MW injection that the system
 			//would see from the shunt at 1.0 per unit voltage (positive value represents Load)
 			//TODO what is its relationship to 'Shunt'
-			else if(nv.name.equals("BusG:1")){
-				busG=Double.valueOf(nv.value);
+			
+			busG=exist("BusG:1")?getDouble("BusG:1"):0;
+			
+			busB=exist("BusB:1")?getDouble("BusB:1"):0;
+			
+			if(exist("AreaNum")){
+				areaNum=getInt("AreaNum");
 			}
-			else if(nv.name.equals("BusB:1")){
-				busB=Double.valueOf(nv.value);
+			if(exist("ZoneNum")){
+				zoneNum=getInt("ZoneNum");
 			}
-			else if(nv.name.equals("AreaNum")){
-				areaNum=Integer.valueOf(nv.value);
+			if(exist("OwnerNum")){
+				ownerNum=getInt("OwnerNum");
 			}
-			else if(nv.name.equals("ZoneNum")){
-				zoneNum=Integer.valueOf(nv.value);
+			if(exist("BusSlack")){
+				isSlackBus=getString("BusSlack").equalsIgnoreCase("YES")
+						?isSlackBus=true:false;
 			}
-			else if(nv.name.equals("OwnerNum")){
-				ownerNum=Integer.valueOf(nv.value);
-			}
-			else if(nv.name.equals("BusSlack")){
-				if(nv.value.equalsIgnoreCase("YES")) isSlackBus=true;
-				//if(isSlackBus) System.out.println ("==>Swing Bus #"+busDataStr);
-			}
-		}
+			else
+				throw new ODMException("No slack bus information is provided " +
+						"in the input data!");
+	
 		
 		if(busNum==-1) 
 			ODMLogger.getLogger().severe("bus Num is not defined yet!");
@@ -157,23 +151,27 @@ public class BusDataProcessor extends BaseDataProcessor {
 		int areaNum=-1,zoneNum=-1;
 		boolean loadOnLine=false;
 		
-		PWDHelper.parseDataFields(busLoadDataStr, inputNvPairs);
-		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
-			if(nv.name.equals("BusNum")) busNum=Long.valueOf(nv.value); //mandatory filed
-			else if(nv.name.equals("LoadID")) loadId=nv.value;
-			else if(nv.name.equals("LoadStatus")) {
-				if(nv.value.equals("Closed"))loadOnLine=true;
-			}
-			else if(nv.name.equals("LoadSMW")) loadSMW=Double.valueOf(nv.value);
-			else if(nv.name.equals("LoadSMVR"))loadSMVR=Double.valueOf(nv.value);
-			else if(nv.name.equals("LoadIMW")) loadIMW=Double.valueOf(nv.value);
-			else if(nv.name.equals("LoadIMVR"))loadIMVR=Double.valueOf(nv.value);
-			else if(nv.name.equals("LoadZMW")) loadZMW=Double.valueOf(nv.value);
-			else if(nv.name.equals("LoadZMVR"))loadZMVR=Double.valueOf(nv.value);
-			else if(nv.name.equals("AreaNum")) areaNum=Integer.valueOf(nv.value);
-			else if(nv.name.equals("ZoneNum")) zoneNum=Integer.valueOf(nv.value);
-		}
+		parseData(busLoadDataStr);
+	
+		try {
+		busNum=getLong("BusNum"); //mandatory filed
 		
+		if(exist("LoadID")) loadId=getString("LoadID");
+		if(exist("LoadStatus")) 
+		   loadOnLine=getString("LoadStatus").equalsIgnoreCase("Closed")?true:false;
+       
+		loadSMW  = exist("LoadSMW")?getDouble("LoadSMW"):0;
+		loadSMVR = exist("LoadSMVR")?getDouble("LoadSMVR"):0;
+		loadIMW  = exist("LoadIMW")?getDouble("LoadIMW"):0;
+		loadIMVR = exist("LoadIMVR")?getDouble("LoadIMVR"):0;
+		loadZMW  = exist("LoadZMW")?getDouble("LoadZMW"):0;
+		loadZMVR = exist("LoadZMVR")?getDouble("LoadZMVR"):0;
+		areaNum  = exist("AreaNum")?getInt("AreaNum"):0;
+		zoneNum  = exist("ZoneNum")?getInt("ZoneNum"):0;
+		} catch (ODMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		busId=parser.BusIdPreFix+busNum;
 		
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
@@ -228,46 +226,55 @@ public class BusDataProcessor extends BaseDataProcessor {
 	
 		if (!isSubDataSection) {// if there is no subData or subData ends
 		
-			PWDHelper.parseDataFields(busGenDataStr, inputNvPairs);
-            
-			for (PowerWorldAdapter.NVPair nv : inputNvPairs) {
-				if (nv.name.equals("BusNum"))
-					busNum = Long.valueOf(nv.value); // mandatory filed
-				else if (nv.name.equals("GenID"))
-					genId = nv.value;
-				else if (nv.name.equals("GenStatus")) {
-					if (nv.value.equals("Closed"))
-						genOnLine = true;
-				} else if (nv.name.equals("GenMW"))
-					genMW = Double.valueOf(nv.value);
-				else if (nv.name.equals("GenEnforceMWLimits")) {
-					if (nv.value.equalsIgnoreCase("YES"))
-						pLimitForced = true;
-				} else if (nv.name.equals("GenRegNum"))
-					regBusNum = Integer.valueOf(nv.value);
-				else if (nv.name.equals("GenMVR"))
-					genMVR = Double.valueOf(nv.value);
-				else if (nv.name.equals("GenMWMin"))
-					genMWMin = Double.valueOf(nv.value);
-				else if (nv.name.equals("GenMWMax"))
-					genMWMax = Double.valueOf(nv.value);
-				else if (nv.name.equals("GenMVRMin"))
-					genMVRMin = Double.valueOf(nv.value);
-				else if (nv.name.equals("GenMVRMax"))
-					genMVRMax = Double.valueOf(nv.value);
-				else if (nv.name.equals("GenMVABase"))
-					genMVABase = Double.valueOf(nv.value);
-				else if (nv.name.equals("AreaNum"))
-					areaNum = Integer.valueOf(nv.value);
-				else if (nv.name.equals("ZoneNum"))
-					zoneNum = Integer.valueOf(nv.value);
-				else if(nv.name.equals("GenVoltSet"))
-					genVoltSet=Double.valueOf(nv.value);
-				else if(nv.name.equals("GenAGCAble"))
-					genAGCAble= "yes".equals(nv.value.trim().toLowerCase());
-				else if(nv.name.equals("GenParFac"))
-					partFactor=Double.valueOf(nv.value);
-			}
+		   parseData(busGenDataStr);
+         
+		   try {
+			busNum=getLong("BusNum");// mandatory filed
+		
+		   genId =exist("GenID")?getString("GenID"):"";
+		   
+		   
+		  if (exist("GenStatus")) 
+			  genOnLine =getString("GenStatus").equalsIgnoreCase("Closed")?true:false;
+
+		  if (exist("GenMW"))
+					genMW =getDouble("GenMW");
+		  if(exist("GenEnforceMWLimits")) 
+				 pLimitForced= getString("GenEnforceMWLimits").equalsIgnoreCase("YES")?
+						true:false;
+		  if(exist("GenRegNum"))
+				regBusNum =getInt("GenRegNum");
+		
+		  genMVR =getDouble("GenMVR");
+		  
+		  if(exist("GenMWMin"))
+				genMWMin = getDouble("GenMWMin");
+		  
+		  if (exist("GenMWMax"))
+				genMWMax =getDouble("GenMWMax");
+		  
+		  if (exist("GenMVRMin"))
+					genMVRMin = getDouble("GenMVRMin");
+		  if (exist("GenMVRMax"))
+					genMVRMax = getDouble("GenMVRMax");
+		  if (exist("GenMVABase"))
+					genMVABase =getDouble("GenMVABase");
+		  if (exist("AreaNum"))
+					areaNum = getInt("AreaNum");
+		  if (exist("ZoneNum"))
+		            zoneNum = getInt("ZoneNum");
+		  
+		  if(exist("GenVoltSet"))
+					genVoltSet=getDouble("GenVoltSet");
+		  if(exist("GenAGCAble"))
+			  genAGCAble=getString("GenAGCAble").toLowerCase().equals("yes");
+		  if(exist("GenParFac"))		
+			  partFactor= getDouble("GenParFac");
+		  
+		  } catch (ODMException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		   }
 
 			String busId = parser.BusIdPreFix + busNum;
 			LoadflowBusXmlType bus = parser.getAclfBus(busId);
@@ -344,16 +351,8 @@ public class BusDataProcessor extends BaseDataProcessor {
 					// set remote bus data
 					
 					String regBusId = parser.BusIdPreFix + regBusNum;
-					/*
-					LoadflowBusXmlType regBus = parser.getAclfBus(regBusId);
-					VoltageXmlType vSet = regBus.getVoltage();
-
-					AclfDataSetter.setGenData(regBus, LFGenCodeEnumType.PV,
-							genVoltSet, VoltageUnitType.PU, 0,
-							AngleUnitType.DEG, 0, 0, ApparentPowerUnitType.MVA);
-                    */
+		
 					// set this gen bus data
-					//VoltageXmlType v = bus.getVoltage();
 					AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, genVoltSet,
 							VoltageUnitType.PU, 0, AngleUnitType.DEG, genMW,
 							genMVR, ApparentPowerUnitType.MVA);
@@ -405,96 +404,60 @@ public class BusDataProcessor extends BaseDataProcessor {
 		double vHigh=1.0,vLow=1.0,normalMVR=0,MVarPerStep1=0,MVarPerStep2=0;
 		ShuntCompensatorModeEnumType mode=null; //Control Mode: Fixed, Discrete, Continuous, or Bus Shunt;
 		
-		PWDHelper.parseDataFields(shuntDataStr, inputNvPairs);
-		for(PowerWorldAdapter.NVPair nv:inputNvPairs){
-			if (nv.name.equals("BusNum"))
-				busNum=Long.valueOf(nv.value); //mandatory field
-			else if (nv.name.equals("SSRegNum"))
-				regBusNum=Long.valueOf(nv.value);
-			else if (nv.name.equals("ShuntID")) 
-				shuntId=nv.value;
-			else if (nv.name.equals("SSStatus")) 
-		    	closed=nv.value.equalsIgnoreCase("Closed")?true:false;
-		    else if (nv.name.equals("AreaNum")) 
-		    	areaNum=Integer.valueOf(nv.value);
-		    else if (nv.name.equals("ZoneNum")) 
-		    	zoneNum=Integer.valueOf(nv.value);
+		parseData(shuntDataStr);
+		
+		try {
+			busNum=getLong("BusNum");
+		
+		if(exist("SSRegNum"))
+				regBusNum=getLong("SSRegNum");
+	
+		shuntId=exist("ShuntID")?getString("ShuntID"):"";
+		
+		if(exist("SSStatus")) 
+		    	closed=getString("SSStatus").equalsIgnoreCase("Closed")?true:false;
+		if (exist("AreaNum")) 
+		    	areaNum=getInt("AreaNum");
+		
+		if (exist("ZoneNum")) 
+		    	zoneNum=getInt("ZoneNum");
 			
-		    else if (nv.name.equals("SSCMode"))
-		    	mode=nv.value.equals("Discrete")?ShuntCompensatorModeEnumType.DISCRETE:
-		    				(nv.value.equals("Continuous")?ShuntCompensatorModeEnumType.CONTINUOUS:
+		if (exist("SSCMode")){
+			String modeStr=getString("SSCMode");
+		    	mode=modeStr.equalsIgnoreCase("Discrete")?ShuntCompensatorModeEnumType.DISCRETE:
+		    				(modeStr.equalsIgnoreCase("Continuous")?ShuntCompensatorModeEnumType.CONTINUOUS:
 		    					ShuntCompensatorModeEnumType.FIXED);
-			
-			else if (nv.name.equals("SSVHigh"))
-				vHigh=Double.valueOf(nv.value);
-			
-			else if (nv.name.equals("SSVLow"))
-				vLow=Double.valueOf(nv.value);
-			
-			else if (nv.name.equals("SSNMVR"))
-				normalMVR=Double.valueOf(nv.value);
-			
-			//TODO How to determine the number of blocks
-			else if (nv.name.equals("SSBlockNumSteps"))
-				steps1=new Double(nv.value).intValue();
-			
-			else if (nv.name.equals("SSBlockMVarPerStep"))
-				MVarPerStep1=Double.valueOf(nv.value);
-			
-			
-			else if (nv.name.equals("SSBlockNumSteps:1"))
-				steps2=new Double(nv.value).intValue();
-			
-			else if (nv.name.equals("SSBlockMVarPerStep:1"))
-				MVarPerStep2=Double.valueOf(nv.value);
 		}
-/*		
-		int i=-1;
-		i=argumentFileds.indexOf("BusNum") ;
-		if(i!=-1)busNum=Long.valueOf(shuntData[i]); //mandatory field
-		
-		i=argumentFileds.indexOf("SSRegNum") ;
-		if(i!=-1)regBusNum=Long.valueOf(shuntData[i]);
-		
-		i=argumentFileds.indexOf("ShuntID"); if(i!=-1)shuntId=shuntData[i];
-		
-		i=argumentFileds.indexOf("SSStatus"); 
-	    if(i!=-1)closed=shuntData[i].equals("Closed")?true:false;
-		
-	    i=argumentFileds.indexOf("AreaNum"); if(i!=-1)areaNum=Integer.valueOf(shuntData[i]);
-		i=argumentFileds.indexOf("ZoneNum"); if(i!=-1)zoneNum=Integer.valueOf(shuntData[i]);
-		
-		i=argumentFileds.indexOf("SSCMode");
-		mode=shuntData[i].equals("Discrete")?ShuntCompensatorModeEnumType.DISCRETE:
-			(shuntData[i].equals("Continuous")?ShuntCompensatorModeEnumType.CONTINUOUS:
-				ShuntCompensatorModeEnumType.FIXED);
-		
-		i=argumentFileds.indexOf("SSVHigh") ;
-		if(i!=-1)vHigh=Double.valueOf(shuntData[i]);
-		
-		i=argumentFileds.indexOf("SSVLow") ;
-		if(i!=-1)vLow=Double.valueOf(shuntData[i]);
-		
-		i=argumentFileds.indexOf("SSNMVR") ;
-		if(i!=-1)normalMVR=Double.valueOf(shuntData[i]);
-		
+		if (exist("SSVHigh"))
+			vHigh=getDouble("SSVHigh");
+			
+		if (exist("SSVLow"))
+			vLow=getDouble("SSVLow");
+			
+		if (exist("SSNMVR"))
+				normalMVR=getDouble("SSNMVR");
+			
 		//TODO How to determine the number of blocks
-		i=argumentFileds.indexOf("SSBlockNumSteps") ;
-		if(i!=-1)steps1=new Double(shuntData[i]).intValue();
+		if (exist("SSBlockNumSteps"))
+				steps1=new Double(getString("SSBlockNumSteps")).intValue();
+			
+		if (exist("SSBlockMVarPerStep"))
+				MVarPerStep1=getDouble("SSBlockMVarPerStep");
+			
+			
+		if (exist("SSBlockNumSteps:1"))
+				steps2=new Double(getString("SSBlockNumSteps:1")).intValue();
+			
+		if (exist("SSBlockMVarPerStep:1"))
+				MVarPerStep2=getDouble("SSBlockMVarPerStep:1");
+		} catch (ODMException e) {
+			e.printStackTrace();
+		} 
 		
-		i=argumentFileds.indexOf("SSBlockMVarPerStep");
-		if(i!=-1)MVarPerStep1=Double.valueOf(shuntData[i]);
-		
-		
-		i=argumentFileds.indexOf("SSBlockNumSteps:1") ;
-		if(i!=-1)steps2=new Double(shuntData[i]).intValue();
-		
-		i=argumentFileds.indexOf("SSBlockMVarPerStep:1");
-		if(i!=-1)MVarPerStep2=Double.valueOf(shuntData[i]);
-*/		
+
 		//TODO no shunt status defined in ODM
 		
-		String busId=parser.BusIdPreFix+busNum;
+		String busId=AclfModelParser.BusIdPreFix+busNum;
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
 		
 		AclfDataSetter.setShuntCompensatorData(bus, mode, normalMVR, vHigh, vLow);

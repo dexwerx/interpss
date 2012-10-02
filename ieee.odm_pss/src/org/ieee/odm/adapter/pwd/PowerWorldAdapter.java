@@ -10,7 +10,9 @@ import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.BusDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.NetDataProcessor;
+import org.ieee.odm.adapter.pwd.impl.PWDDataParser;
 import org.ieee.odm.adapter.pwd.impl.PWDHelper;
+import org.ieee.odm.adapter.pwd.impl.TransformerDataProcessor;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -29,32 +31,7 @@ import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
   * 
   */
 public class PowerWorldAdapter extends AbstractODMAdapter{
-	public static class NVPair {
-		public String name, value;
-		public NVPair(String name) {this.name = name;}
-		public String toString() { return "<" + name + "," + (value==null?"null":value) + ">"; }
-	}
-
-	/**
-	 * Stores input data name/value pairs, For example,  
-	 * 
-		  [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
-             LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineXfmr,LineTap,
-             LinePhase,SeriesCapStatus]
-		    4     5 " 1" "Closed"  0.000000  0.100000  0.000000  0.000000  1000.000  1000.000  1000.000     0.000     0.000     0.000     0.000  "YES"    0.993750   0.000000 "Not Bypassed"
-	 * 
-	 * It goes two steps:
-	 * 
-	 * 	Step-1: Create data definition. It looks like the following after Step-1
-	 * 
-	 *       <"BusNum",null>, <"BusNum:1",null>, ....	 
-	 * 
-	 *  Step-2: Parsing the input date string, After the parsing, the nv pair list will store
-	 * 
-	 *       <"BusNum","4">, <"BusNum:1","5">, ....	 
-	 *       
-	 */
-	private List<NVPair> inputNvPairs;
+	
 	
 	private  static final String Token_Data="DATA";
 	private  static final String Token_Bus="BUS";
@@ -76,7 +53,6 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 
 	public PowerWorldAdapter(){
 		super();
-		this.inputNvPairs = new ArrayList<NVPair>();
 	}
 	
 	@Override
@@ -93,10 +69,11 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		String str;
 		String dataType;
 		RecType recordType=null;
-		
-		NetDataProcessor netProc = new NetDataProcessor(this.inputNvPairs, parser);
-		BusDataProcessor busProc = new BusDataProcessor(this.inputNvPairs, parser);
-		BranchDataProcessor branchProc = new BranchDataProcessor(this.inputNvPairs, parser);
+
+		NetDataProcessor netProc = new NetDataProcessor(parser);
+		BusDataProcessor busProc = new BusDataProcessor(parser);
+		BranchDataProcessor branchProc = new BranchDataProcessor(parser);
+		TransformerDataProcessor xfrProc = new TransformerDataProcessor(parser);
 		try{
 			do{
 				str=din.readLine();
@@ -145,9 +122,19 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 				    while(!PWDHelper.isArgumentFieldsCompleted(str)){
 						str+=din.readLine();
 					}
-				    
-				    // parse the str for the field definition 
-				    PWDHelper.parseFieldNames(str, inputNvPairs);
+				    //parse meta data
+				    switch(recordType){
+				    case BUS     :busProc.parseMetadata(str);break;
+				    case GEN     :busProc.parseMetadata(str);break;
+				    case LOAD    :busProc.parseMetadata(str);break;
+				    case SHUNT   :busProc.parseMetadata(str);break;
+				    case BRANCH  :branchProc.parseMetadata(str);break;
+				    case XFORMER :xfrProc.parseMetadata(str);break;
+				    case ZONE    :netProc.parseMetadata(str);break;
+				    case AREA    :netProc.parseMetadata(str);break;
+				   
+				    }
+
 				    
 				} //end of processing data type
 				
@@ -161,7 +148,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
 				 }
 				 // start processing record data
-				//TODO assume all data in one line; 
+				//TODO assume all data in one line except the branch and transformer type 
 				 else if(!str.isEmpty()){
 		
 					   if(recordType==RecType.BUS) 
@@ -173,19 +160,25 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 					   else if(recordType==RecType.SHUNT)
 						   busProc.processBusShuntData(str);
 					   else if(recordType==RecType.BRANCH){
-						   //TODO
+						  
 						   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
-						   while(!PWDHelper.isDataFiledsCompleted(str, inputNvPairs)){
-								str+=din.readLine();
-						   }
+						 //clear the processed data in memory, or it will cause fieldTable size wrong
+						   branchProc.clearProcessedData();  
+						   //System.out.println("processing #"+str);
+						   while(!branchProc.parseData(str,true))
+								str=din.readLine();
+						 
+						   //NOTE:No need to parse data within branch processor anymore
 						   branchProc.processBranchData(str);
+						  
+						   
 					   }
 						   //Here we assumed that TRANSFOMER part data is supplementary to the BRANCH part data
 					       //and is only to provide the transformer control/adjustment data
 					   else if(recordType==RecType.XFORMER)
-						   branchProc.processXFormerControlData(str);
-					   else if(recordType==RecType.TRI_W_XFORMER)
-						   branchProc.process3WXFomerData(str);
+						   xfrProc.processXFormerControlData(str);
+					   else if(recordType==RecType.TRI_W_XFORMER){}
+						   //xfrProc.process3WXFomerData(str);
 					   else if(recordType==RecType.AREA)
 						   netProc.processAreaData(str);
 					   else if(recordType==RecType.ZONE)
