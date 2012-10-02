@@ -145,43 +145,71 @@
 	</ns:complexType>	
 	
 	<!-- 
-		Outage schedule definition
-		==========================
+		Daily Outage/Override schedule definition
+		========================================
 	 -->
 	
-	<ns:complexType name="ContingencyOverrideScheduleXmlType">
+	<ns:complexType name="BaseDailyScheduleXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
+		<ns:sequence>
+			<ns:element name="date" type="ns:date" maxOccurs="1" minOccurs="1" />
+		</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>	
+
+	<ns:complexType name="ContingencyOverrideDailyScheduleXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseDailyScheduleXmlType">
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 	
-	<ns:complexType name="BranchOverrideScheduleXmlType">
+	<ns:complexType name="BranchOverrideDailyScheduleXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:ModifyRecordXmlType">
+			<ns:extension base="pss:BaseDailyScheduleXmlType">
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 
-	<ns:complexType name="BreakerOverrideScheduleXmlType">
+	<ns:complexType name="BreakerOverrideDailyScheduleXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:ModifyRecordXmlType">
+			<ns:extension base="pss:BaseDailyScheduleXmlType">
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 
-	<ns:complexType name="GenOutageScheduleXmlType">
+	<ns:complexType name="GenOutageDailyScheduleXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:ModifyRecordXmlType">
+			<ns:extension base="pss:BaseDailyScheduleXmlType">
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 
-	<ns:complexType name="BranchOutageScheduleXmlType">
+	<ns:complexType name="BranchOutageDailyScheduleXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:ModifyRecordXmlType">
+			<ns:extension base="pss:BaseDailyScheduleXmlType">
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>	
 
+	<ns:complexType name="GenDailyDispatchXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseDailyScheduleXmlType">
+		<ns:sequence>
+			<ns:element name="hrPoints" type="ns:int" maxOccurs="1"></ns:element>
+			<ns:element name="genDispatches"
+				type="pss:GenDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
+		</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	
+	<ns:complexType name="GenDispatchXmlType">
+		<ns:sequence>
+			<ns:element name="busname" type="ns:string" maxOccurs="1" minOccurs="1" />
+		</ns:sequence>
+	</ns:complexType>
+		
 </ns:schema>
