@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.util;
+package org.interpss.util.reader;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import org.interpss.util.ITextFileProcessor;
 
 import com.interpss.common.exp.InterpssException;
 
