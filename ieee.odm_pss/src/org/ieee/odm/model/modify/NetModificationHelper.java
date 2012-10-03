@@ -35,6 +35,7 @@ import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
 import org.ieee.odm.schema.BusChangeRecSetXmlType;
 import org.ieee.odm.schema.BusChangeRecXmlType;
+import org.ieee.odm.schema.DailyOverrideOutageScheduleXmlType;
 import org.ieee.odm.schema.GenDailyDispatchXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
@@ -159,7 +160,7 @@ public class NetModificationHelper {
 	}
 	
 	/*
-	 * Daily gen/load dispatch help funcitons
+	 * Daily gen/load dispatch help functions
 	 * ======================================
 	 * 
 	 */
@@ -170,10 +171,28 @@ public class NetModificationHelper {
 	 *   
 	 * @return
 	 */
-	public GenDailyDispatchXmlType getDailyGenDispatch() {
+	public GenDailyDispatchXmlType getGenDailyDispatch() {
 		if (parser.getModification() == null)
 			addModifyRecord(odmObjFactory.createGenDailyDispatchXmlType());
 		return (GenDailyDispatchXmlType)parser.getModification();
+	}	
+
+	/*
+	 * Daily outage/overrride help functions
+	 * =====================================
+	 * 
+	 */
+	
+	/**
+	 * Get the daily outage/override object. A DailyOverrideOutageScheduleXmlType record will be
+	 * created if getDailyOverrideOutageSchedule is null.
+	 *   
+	 * @return
+	 */
+	public DailyOverrideOutageScheduleXmlType getDailyOverrideOutageSchedule() {
+		if (parser.getModification() == null)
+			addModifyRecord(odmObjFactory.createDailyOverrideOutageScheduleXmlType());
+		return (DailyOverrideOutageScheduleXmlType)parser.getModification();
 	}	
 
 	//=====================================
