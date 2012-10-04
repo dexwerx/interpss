@@ -357,6 +357,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>
+					<ns:element name="areaName" type="ns:string" maxOccurs="1" minOccurs="0" />
 					<ns:element name="lossFactors" type="pss:BranchLossFactorXmlType" maxOccurs="unbounded" minOccurs="0" />
 			</ns:sequence>
 			</ns:extension>
