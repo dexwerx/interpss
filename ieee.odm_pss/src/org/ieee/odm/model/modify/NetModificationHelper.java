@@ -33,6 +33,7 @@ import java.util.List;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.BranchLossAreaAllocationXmlType;
 import org.ieee.odm.schema.BusChangeRecSetXmlType;
 import org.ieee.odm.schema.BusChangeRecXmlType;
 import org.ieee.odm.schema.DailyOverrideOutageScheduleXmlType;
@@ -178,6 +179,23 @@ public class NetModificationHelper {
 	}	
 
 	/*
+	 *  branch loss area Allocation factor help functions
+	 * ==================================================
+	 */
+	
+	/**
+	 * Get the branch loss area Allocation factor object. A BranchLossAreaAllocationXmlType record will be
+	 * created if getBranchLossAreaAllocation is null.
+	 *   
+	 * @return
+	 */
+	public BranchLossAreaAllocationXmlType getBranchLossAreaAllocation() {
+		if (parser.getModification() == null)
+			addModifyRecord(odmObjFactory.createBranchLossAreaAllocationXmlType());
+		return (BranchLossAreaAllocationXmlType)parser.getModification();
+	}	
+
+	/*
 	 * Daily outage/overrride help functions
 	 * =====================================
 	 * 
@@ -193,8 +211,8 @@ public class NetModificationHelper {
 		if (parser.getModification() == null)
 			addModifyRecord(odmObjFactory.createDailyOverrideOutageScheduleXmlType());
 		return (DailyOverrideOutageScheduleXmlType)parser.getModification();
-	}	
-
+	}
+	
 	//=====================================
 	//=====================================
 	

@@ -322,8 +322,7 @@
 	<ns:complexType name="GenDailyDispatchXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
-				<ns:sequence>
-			<ns:element name="hourlyDispatches"
+				<ns:sequence>			<ns:element name="hourlyDispatches"
 				type="pss:GenHourlyDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
 		</ns:sequence>
 			</ns:extension>
@@ -348,4 +347,27 @@
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
+
+	<!-- 
+		Branch Loss Area Allocation Factor
+		==================================
+	 -->
+
+	<ns:complexType name="BranchLossAreaAllocationXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:ModifyRecordXmlType">
+				<ns:sequence>
+					<ns:element name="lossFactors" type="pss:BranchLossFactorXmlType" maxOccurs="unbounded" minOccurs="0" />
+			</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="BranchLossFactorXmlType">
+		<ns:sequence>
+			<ns:element name="branchName" type="ns:string" maxOccurs="1" minOccurs="1" />
+			<ns:element name="factor" type="ns:double" maxOccurs="1" minOccurs="1" />
+		</ns:sequence>
+	</ns:complexType>
+
 </ns:schema>
