@@ -200,11 +200,11 @@
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
 				<ns:sequence>
 					<ns:element name="genOutage" type="pss:GenOutageXmlType" 	maxOccurs="1" minOccurs="0" />
-					<ns:element name="branchOutage" type="pss:TransmissionOutageXmlType" maxOccurs="1" minOccurs="0" />
-					<ns:element name="contingencyOverride" type="pss:ContingencyOverrideXmlType" maxOccurs="1" minOccurs="0" />
-					<ns:element name="branchOverride" type="pss:BranchOverrideXmlType" maxOccurs="1" minOccurs="0" />
-					<ns:element name="breakerOverride" type="pss:BreakerOverrideXmlType" maxOccurs="1" minOccurs="0" />
-					<ns:element name="flowgateOverride" type="pss:FlowgateOverrideXmlType" 	maxOccurs="1" minOccurs="0" />
+					<ns:element name="branchOutage" type="pss:TransmissionOutageXmlType" maxOccurs="unbounded" minOccurs="0" />
+					<ns:element name="contingencyOverride" type="pss:ContingencyOverrideXmlType" maxOccurs="unbounded" minOccurs="0" />
+					<ns:element name="branchOverride" type="pss:BranchOverrideXmlType" maxOccurs="unbounded" minOccurs="0" />
+					<ns:element name="breakerOverride" type="pss:BreakerOverrideXmlType" maxOccurs="unbounded" minOccurs="0" />
+					<ns:element name="flowgateOverride" type="pss:FlowgateOverrideXmlType" 	maxOccurs="unbounded" minOccurs="0" />
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -260,15 +260,21 @@
 
 
 	<ns:complexType name="GenOutageXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseOutageXmlType">
 		<ns:sequence>
 			<ns:element name="unitpNodeId" type="ns:string" maxOccurs="1" minOccurs="1" />
 			<ns:element name="outageType" type="pss:GenOutageEnumType" maxOccurs="1" minOccurs="1" />
 			<ns:element name="physicalReduction" type="ns:double" maxOccurs="1" minOccurs="1" />
 			<ns:element name="fcmExemptMw" type="ns:double" maxOccurs="1" minOccurs="1" />
 		</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 
 	<ns:complexType name="TransmissionOutageXmlType">
+		<ns:complexContent>
+			<ns:extension base="pss:BaseOutageXmlType">
 		<ns:sequence>
 			<ns:element name="coShortName" type="ns:string" maxOccurs="1" minOccurs="1" />
 			<ns:element name="status" type="ns:boolean" maxOccurs="1" minOccurs="1" />
@@ -276,6 +282,8 @@
 			<ns:element name="equipType" type="pss:TransimissionEquiptmentEnumType" maxOccurs="1" minOccurs="1" />
 			<ns:element name="eventStatusChange" type="ns:int" maxOccurs="1" minOccurs="1" />
 		</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 
 	
