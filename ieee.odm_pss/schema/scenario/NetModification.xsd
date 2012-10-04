@@ -199,7 +199,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
 				<ns:sequence>
-					<ns:element name="genOutage" type="pss:GenOutageXmlType" 	maxOccurs="1" minOccurs="0" />
+					<ns:element name="genOutage" type="pss:GenOutageXmlType" 	maxOccurs="unbounded" minOccurs="0" />
 					<ns:element name="branchOutage" type="pss:TransmissionOutageXmlType" maxOccurs="unbounded" minOccurs="0" />
 					<ns:element name="contingencyOverride" type="pss:ContingencyOverrideXmlType" maxOccurs="unbounded" minOccurs="0" />
 					<ns:element name="branchOverride" type="pss:BranchOverrideXmlType" maxOccurs="unbounded" minOccurs="0" />
