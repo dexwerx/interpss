@@ -81,4 +81,8 @@ public class NetDataProcessor extends PWDDataParser  {
 		 *
 		 */
 	}
+	
+	public void processInterfaceData(String interfaceDataStr){
+		//TODO
+	}
 }

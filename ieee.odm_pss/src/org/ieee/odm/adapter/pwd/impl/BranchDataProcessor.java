@@ -70,8 +70,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 		
 		long fromBusNum=-1,toBusNum=-1;
 		String fromBusId, toBusId,circuitId="1";
-		String type="";
-		String branchId="";
+
 		boolean closed=true, isXfmr=false;
 		double DEFAULT_MVA_RATING =9999;
 		double DEFAULT_LineX_MINIMUM =1.0E-5;
@@ -83,7 +82,18 @@ public class BranchDataProcessor extends PWDDataParser  {
 		 * ONLY for specific application
 		 */
 		String typeToken="CustomString"; //type
-		String idToken="CustomString:1"; //branch Id
+		String extendedNameToken="CustomString:1"; //extended name starting by Subation name, e.g., 
+		String equipmentNameToken="CustomString:2"; //equipment name
+		
+		String STATION_TOKEN ="Station";
+		String EQUIMENT_NAME_TOKEN ="EquimentName";
+		
+		String type="",             //extended name, e.g., "Line" 
+			   extBranchName ="",   //unique equipment name, e.g., "Sub2_230_L25" 
+		       equipmentName ="";   //"L25"
+		String substation ="";      //substring before the underscore of customString
+		
+
 		
 		//data has been processed in the PWD adapter main program;
 		//parseData(branchDataStr);
@@ -135,11 +145,18 @@ public class BranchDataProcessor extends PWDDataParser  {
 					     
 				tBusShuntMvar=exist("LineShuntMVR:1")?getDouble("LineShuntMVR:1"):0;
 				
+				//process custom string
 				if(exist(typeToken))
 					   type=getString(typeToken);
 					    
-				if(exist(idToken))
-					   branchId=getString(idToken);
+				if(exist(equipmentNameToken))
+					   equipmentName=getString(equipmentNameToken);
+				
+				if(exist(extendedNameToken)){
+					extBranchName =getString(extendedNameToken);
+					int underScoreIdx = extBranchName.indexOf("_");
+					if(underScoreIdx>0) substation =extBranchName.substring(0, underScoreIdx);
+				}
 					
 			   //END OF DATA PROCESSING, BEGIN DATA SETTING 
 
@@ -149,6 +166,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 				// create a branch record
 				BranchXmlType branch = parser.createLineBranch(fromBusId,
 						toBusId, circuitId);
+				//save custom string info
                 if(!type.equals("")){
 				LineBranchInfoXmlType LineInfo = new LineBranchInfoXmlType();
 				LineInfo.setType(type.equalsIgnoreCase("line") ? LineBranchEnumType.OVERHEAD_LINE
@@ -156,6 +174,11 @@ public class BranchDataProcessor extends PWDDataParser  {
 								: LineBranchEnumType.OTHER));
 				((LineBranchXmlType) branch).setLineInfo(LineInfo);
                 }
+                
+                if(!substation.equals(""))
+                	BaseDataSetter.addNVPair(branch, STATION_TOKEN, substation);
+    			if(!equipmentName.equals(""))
+    				BaseDataSetter.addNVPair(branch, EQUIMENT_NAME_TOKEN, equipmentName);
                 
 				branch.setOffLine(!closed);
 				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));

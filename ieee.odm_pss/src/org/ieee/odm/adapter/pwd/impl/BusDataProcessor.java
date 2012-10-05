@@ -13,6 +13,7 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
@@ -211,6 +212,14 @@ public class BusDataProcessor extends PWDDataParser {
 		double partFactor = 0.0;
 		boolean genAGCAble = false;
 		
+		String STATION_TOKEN ="Station";
+		String EQUIMENT_NAME_TOKEN ="EquimentName";
+		
+		String customString="",     //extended name, e.g., "Sub1_14.9_G1" 
+			   customString_1 =""; //unique equipment name, e.g., "G1" 
+		String substation ="";      //substring before the underscore of customString
+		
+		
 		if(busGenDataStr.trim().startsWith("<SUBDATA")){
 			isSubDataSection=true;
 			return;
@@ -229,6 +238,8 @@ public class BusDataProcessor extends PWDDataParser {
 		   parseData(busGenDataStr);
          
 		   try {
+
+				
 			busNum=getLong("BusNum");// mandatory filed
 		
 		   genId =exist("GenID")?getString("GenID"):"";
@@ -271,6 +282,14 @@ public class BusDataProcessor extends PWDDataParser {
 		  if(exist("GenParFac"))		
 			  partFactor= getDouble("GenParFac");
 		  
+		  //process custom string, this is for specifically customized data 
+		  if(exist("CustomString")) {
+				customString = getString("CustomString"); 
+				int underScoreIdx = customString.indexOf("_");
+				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+		  }
+			if(exist("CustomString:1")) customString_1 = getString("CustomString:1");
+		  
 		  } catch (ODMException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -278,6 +297,10 @@ public class BusDataProcessor extends PWDDataParser {
 
 			String busId = parser.BusIdPreFix + busNum;
 			LoadflowBusXmlType bus = parser.getAclfBus(busId);
+			
+			//save custom string as NV pairs
+			if(!substation.equals(""))BaseDataSetter.addNVPair(bus, STATION_TOKEN, substation);
+			if(!customString_1.equals(""))BaseDataSetter.addNVPair(bus, EQUIMENT_NAME_TOKEN, customString_1);
 
 			if (regBusNum != -1) {
 				// this generator control the bus it connects to

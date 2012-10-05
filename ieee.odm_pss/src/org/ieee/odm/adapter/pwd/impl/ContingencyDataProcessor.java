@@ -16,7 +16,8 @@ import org.ieee.odm.schema.NetModificationXmlType;
  * @version 0.2  09/30/2012
  * @author Tony Huang
  * ======History======
- * 093012 Change from NVPair list to PWDDataParser
+ * 09/30/12 Change from NVPair list to PWDDataParser
+ *  custom string for outage is saved in bus/branch description
  * 
  */
 public class ContingencyDataProcessor extends PWDDataParser{
