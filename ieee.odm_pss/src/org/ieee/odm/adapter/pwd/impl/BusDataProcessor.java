@@ -29,6 +29,8 @@ import org.ieee.odm.schema.YUnitType;
 public class BusDataProcessor extends PWDDataParser {
 	public static long swingBusNum=-1;
 	private boolean isSubDataSection=false;
+	private String STATION_TOKEN ="SubStation";
+	private String substation="";
 
 	
 	public BusDataProcessor(AclfModelParser parser) {
@@ -151,6 +153,8 @@ public class BusDataProcessor extends PWDDataParser {
 		double loadSMVR=0,loadSMW=0,loadIMVR=0,loadIMW=0,loadZMVR=0,loadZMW=0;
 		int areaNum=-1,zoneNum=-1;
 		boolean loadOnLine=false;
+		String CustomStrToken="CustomString";
+		String customString ="";
 		
 		parseData(busLoadDataStr);
 	
@@ -169,6 +173,14 @@ public class BusDataProcessor extends PWDDataParser {
 		loadZMVR = exist("LoadZMVR")?getDouble("LoadZMVR"):0;
 		areaNum  = exist("AreaNum")?getInt("AreaNum"):0;
 		zoneNum  = exist("ZoneNum")?getInt("ZoneNum"):0;
+		
+		substation =""; //renew
+		//process custom string, this is for specifically customized data 
+		  if(exist(CustomStrToken)) {
+				customString = getString(CustomStrToken); 
+				int underScoreIdx = customString.indexOf("_");
+				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+		  }
 		} catch (ODMException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,7 +188,9 @@ public class BusDataProcessor extends PWDDataParser {
 		busId=parser.BusIdPreFix+busNum;
 		
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
-		//TODO no loadId in ODM
+		
+		// store custom string
+
 		
 		if(loadSMW!=0||loadSMVR!=0){
 			if(loadIMW!=0||loadIMVR!=0||loadZMW!=0||loadZMVR!=0)
@@ -186,6 +200,13 @@ public class BusDataProcessor extends PWDDataParser {
 			  else AclfDataSetter.setLoadData(bus, LFLoadCodeEnumType.CONST_P, 
 				loadSMW, loadSMVR, ApparentPowerUnitType.MVA);
 		}
+		
+		//TODO if substaiton is added here, if may cause duplication
+		//if(!substation.equals(""))
+        // 	BaseDataSetter.addNVPair(bus, STATION_TOKEN, substation);
+		if(!customString.equals(""))
+				BaseDataSetter.addNVPair(bus, "Load_"+CustomStrToken, customString);
+      
 		//TODO constI, constZ part of load is not processed. 
 		
 	}
@@ -212,11 +233,9 @@ public class BusDataProcessor extends PWDDataParser {
 		double partFactor = 0.0;
 		boolean genAGCAble = false;
 		
-		String STATION_TOKEN ="Station";
-		String EQUIMENT_NAME_TOKEN ="EquimentName";
-		
 		String customString="",     //extended name, e.g., "Sub1_14.9_G1" 
-			   customString_1 =""; //unique equipment name, e.g., "G1" 
+			   customString_1 ="",  //unique equipment name, e.g., "G1" 
+		       customString_2 ="";
 		String substation ="";      //substring before the underscore of customString
 		
 		
@@ -288,8 +307,11 @@ public class BusDataProcessor extends PWDDataParser {
 				int underScoreIdx = customString.indexOf("_");
 				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
 		  }
-			if(exist("CustomString:1")) customString_1 = getString("CustomString:1");
 		  
+		  if(exist("CustomString:1")) customString_1 = getString("CustomString:1");
+		  
+		  if(exist("CustomString:2")) customString_2 = getString("CustomString:2");
+			
 		  } catch (ODMException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -299,8 +321,10 @@ public class BusDataProcessor extends PWDDataParser {
 			LoadflowBusXmlType bus = parser.getAclfBus(busId);
 			
 			//save custom string as NV pairs
+			if(!customString.equals(""))BaseDataSetter.addNVPair(bus, "Gen_CustomString", customString);
 			if(!substation.equals(""))BaseDataSetter.addNVPair(bus, STATION_TOKEN, substation);
-			if(!customString_1.equals(""))BaseDataSetter.addNVPair(bus, EQUIMENT_NAME_TOKEN, customString_1);
+			if(!customString_1.equals(""))BaseDataSetter.addNVPair(bus, "Gen_CustomString:1", customString_1);
+			if(!customString_2.equals(""))BaseDataSetter.addNVPair(bus, "Gen_CustomString:2", customString_2);
 
 			if (regBusNum != -1) {
 				// this generator control the bus it connects to
@@ -315,6 +339,7 @@ public class BusDataProcessor extends PWDDataParser {
 
 						LoadflowGenXmlType equivGen = bus.getGenData()
 								.getEquivGen();
+						
 						equivGen.setId(genId);
 						equivGen.setOffLine(!genOnLine);
 						// equivGen.setRatedPower(BaseDataSetter.createApparentPower(genMVABase,
@@ -427,6 +452,8 @@ public class BusDataProcessor extends PWDDataParser {
 		double vHigh=1.0,vLow=1.0,normalMVR=0,MVarPerStep1=0,MVarPerStep2=0;
 		ShuntCompensatorModeEnumType mode=null; //Control Mode: Fixed, Discrete, Continuous, or Bus Shunt;
 		
+		String CustomStrToken="CustomString";
+		String customString ="";
 		parseData(shuntDataStr);
 		
 		try {
@@ -473,6 +500,13 @@ public class BusDataProcessor extends PWDDataParser {
 			
 		if (exist("SSBlockMVarPerStep:1"))
 				MVarPerStep2=getDouble("SSBlockMVarPerStep:1");
+		
+		 if(exist(CustomStrToken)) {
+				customString = getString(CustomStrToken); 
+				int underScoreIdx = customString.indexOf("_");
+				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+		  }
+		
 		} catch (ODMException e) {
 			e.printStackTrace();
 		} 
@@ -485,6 +519,16 @@ public class BusDataProcessor extends PWDDataParser {
 		
 		AclfDataSetter.setShuntCompensatorData(bus, mode, normalMVR, vHigh, vLow);
 		ShuntCompensatorXmlType shunt=bus.getShuntCompensatorData().getShuntCompensator().get(0);
+		
+	
+		// store custom string
+		//TODO No nvpair is defined for ShuntCompensatorXmlType
+//		if(!substation.equals(""))
+//		        BaseDataSetter.addNVPair(, STATION_TOKEN, substation);
+		if(!customString.equals(""))
+				BaseDataSetter.addNVPair(bus, "Shunt_"+CustomStrToken, customString);
+		         
+		
 		// regulate a remote bus
 		if(busNum!=regBusNum)
 			shunt.setRemoteControlledBus(parser.createBusRef(parser.BusIdPreFix+regBusNum));

@@ -12,14 +12,23 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
 
 public class CustomStringTest {
-	
+	String STATION_TOKEN ="SubStation";
 	@Test
 	public void SixBusBase_CustromString_test(){
 		IODMAdapter adapter = new PowerWorldAdapter();
 		assertTrue(adapter.parseInputFile("testdata/pwd/SixBusTestCase.aux"));
 		AclfModelParser parser=(AclfModelParser) adapter.getModel();
-		//parser.stdout();
-
+		parser.stdout();
+		//LOAD
+		/*
+		 * DATA (LOAD, [CustomString,BusNum,LoadID,LoadStatus,LoadSMW,LoadSMVR,CustomString:1,
+            CustomSingle,CustomSingle:1,GenAGCAble])
+           {
+            "Sub2_230_LOAD"     2 "1 " "Closed"   100.000000    50.000000 "LDAREA_1" "" "" "YES"
+		 */
+		LoadflowBusXmlType bus2=parser.getAclfBus("Bus2");
+		assertTrue(bus2.getNvPair().get(0).getName().equals("Load_CustomString"));
+		assertTrue(bus2.getNvPair().get(0).getValue().equals("Sub2_230_LOAD"));
         //Gen custom String
 		/*
 		 * DATA (GEN, [CustomString,CustomString:1,CustomString:2,BusNum,GenID,GenStatus,GenMW,GenMVR,
@@ -30,11 +39,16 @@ public class CustomStringTest {
              "Sub1_14.9_G1" "G1" "DZONE_1"    11 "1"
 		 */
 		LoadflowBusXmlType g1=parser.getAclfBus("Bus11");
-		assertTrue(g1.getNvPair().get(0).getName().equals("Station"));
-		assertTrue(g1.getNvPair().get(0).getValue().equals("Sub1"));
+		assertTrue(g1.getNvPair().get(0).getName().equals("Gen_CustomString"));
+		assertTrue(g1.getNvPair().get(0).getValue().equals("Sub1_14.9_G1"));
+		assertTrue(g1.getNvPair().get(1).getName().equals(STATION_TOKEN));
+		assertTrue(g1.getNvPair().get(1).getValue().equals("Sub1"));
 		
-		assertTrue(g1.getNvPair().get(1).getName().equals("EquimentName"));
-		assertTrue(g1.getNvPair().get(1).getValue().equals("G1"));
+		assertTrue(g1.getNvPair().get(2).getName().equals("Gen_CustomString:1"));
+		assertTrue(g1.getNvPair().get(2).getValue().equals("G1"));
+		
+		assertTrue(g1.getNvPair().get(3).getName().equals("Gen_CustomString:2"));
+		assertTrue(g1.getNvPair().get(3).getValue().equals("DZONE_1"));
 		/*
 		for(NameValuePairXmlType nv: g1.getNvPair()){
 			System.out.println ("nv pair--name, value = " +nv.getName()+"  , "+nv.getValue());
@@ -59,10 +73,14 @@ public class CustomStringTest {
                 </nvPair>
 		 */
 		LineBranchXmlType L25=parser.getLineBranch("Bus25", "Bus52", "1");
-		assertTrue(L25.getNvPair().get(0).getName().equals("Station"));
+		assertTrue(L25.getNvPair().get(0).getName().equals(STATION_TOKEN));
 		assertTrue(L25.getNvPair().get(0).getValue().equals("Sub2"));
 		assertTrue(L25.getNvPair().get(1).getName().equals("EquimentName"));
 		assertTrue(L25.getNvPair().get(1).getValue().equals("L25"));
+		assertTrue(L25.getNvPair().get(2).getName().equals("CustomString"));
+		assertTrue(L25.getNvPair().get(2).getValue().equals("Line"));
+		assertTrue(L25.getNvPair().get(3).getName().equals("CustomString:1"));
+		assertTrue(L25.getNvPair().get(3).getValue().equals("Sub2_230_L25"));
 		
 		
 	}

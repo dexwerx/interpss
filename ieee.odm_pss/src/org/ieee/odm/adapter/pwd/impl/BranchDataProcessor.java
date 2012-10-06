@@ -50,6 +50,9 @@ public class BranchDataProcessor extends PWDDataParser  {
 	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
 	private enum XfrType{Fixed, LTC, Mvar,Phase};
 	
+	private String STATION_TOKEN ="SubStation";
+	private String EQUIMENT_NAME_TOKEN ="EquimentName";
+	
 	public BranchDataProcessor( AclfModelParser parser) {
 		super(parser);
 	}
@@ -84,10 +87,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 		String typeToken="CustomString"; //type
 		String extendedNameToken="CustomString:1"; //extended name starting by Subation name, e.g., 
 		String equipmentNameToken="CustomString:2"; //equipment name
-		
-		String STATION_TOKEN ="Station";
-		String EQUIMENT_NAME_TOKEN ="EquimentName";
-		
+
 		String type="",             //extended name, e.g., "Line" 
 			   extBranchName ="",   //unique equipment name, e.g., "Sub2_230_L25" 
 		       equipmentName ="";   //"L25"
@@ -149,10 +149,10 @@ public class BranchDataProcessor extends PWDDataParser  {
 				if(exist(typeToken))
 					   type=getString(typeToken);
 					    
-				if(exist(equipmentNameToken))
+				if(exist(equipmentNameToken)) //CustomString:2
 					   equipmentName=getString(equipmentNameToken);
 				
-				if(exist(extendedNameToken)){
+				if(exist(extendedNameToken)){//CustomString:1
 					extBranchName =getString(extendedNameToken);
 					int underScoreIdx = extBranchName.indexOf("_");
 					if(underScoreIdx>0) substation =extBranchName.substring(0, underScoreIdx);
@@ -166,6 +166,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 				// create a branch record
 				BranchXmlType branch = parser.createLineBranch(fromBusId,
 						toBusId, circuitId);
+				
 				//save custom string info
                 if(!type.equals("")){
 				LineBranchInfoXmlType LineInfo = new LineBranchInfoXmlType();
@@ -179,7 +180,13 @@ public class BranchDataProcessor extends PWDDataParser  {
                 	BaseDataSetter.addNVPair(branch, STATION_TOKEN, substation);
     			if(!equipmentName.equals(""))
     				BaseDataSetter.addNVPair(branch, EQUIMENT_NAME_TOKEN, equipmentName);
+    			 if(!type.equals(""))
+                 	BaseDataSetter.addNVPair(branch,typeToken,type);
+                if(!extBranchName.equals(""))
+                	BaseDataSetter.addNVPair(branch,extendedNameToken,extBranchName);
                 
+    			
+    			
 				branch.setOffLine(!closed);
 				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
 				// processing lint shunt at from bus
@@ -236,7 +243,11 @@ public class BranchDataProcessor extends PWDDataParser  {
 		XfrType xfrType=null;
 		//The following is ONLY for specific user-defined format.
 		String typeToken="CustomString"; //type
-		String idToken="CustomString:1"; //branch Id
+		String extNameToken="CustomString:1"; //extended branch name
+		String equimentNameToken="CustomString:2";
+		String extBranchName ="",   //unique equipment name, e.g., "Sub2_230_L25" 
+			   equipmentName ="";   //"L25"
+			String substation ="";      //substring before the underscore of customString
 
 		try{
 		
@@ -315,9 +326,13 @@ public class BranchDataProcessor extends PWDDataParser  {
 			if(exist(typeToken))
 			   type=getString(typeToken);
 			    
-			if(exist(idToken))
-			   xfrId=getString(idToken);
-				
+			if(exist(extNameToken)){
+				extBranchName=getString(extNameToken);
+				int underScoreIdx = extBranchName.indexOf("_");
+				if(underScoreIdx>0) substation =extBranchName.substring(0, underScoreIdx);
+			}
+			if(exist(equimentNameToken))
+				equipmentName=getString(equimentNameToken);
 			   
 			if(exist("XFMVABase")) xfrMvaBase=getDouble("XFMVABase");
 			    
@@ -358,6 +373,17 @@ public class BranchDataProcessor extends PWDDataParser  {
 		    
 		    			               :parser.createXfrBranch(fromBusId, toBusId, circuitId);;
 		    
+		    //custom string
+		    if(!type.equals(""))  //CustomString
+		    	BaseDataSetter.addNVPair(xfr, "CustomString",extBranchName);
+		    if(!extBranchName.equals(""))
+		    	 BaseDataSetter.addNVPair(xfr, "CustomString:1",extBranchName);
+		    if(!substation.equals(""))
+		    	BaseDataSetter.addNVPair(xfr, STATION_TOKEN, substation);
+		    if(!equipmentName.equals(""))
+		       BaseDataSetter.addNVPair(xfr, EQUIMENT_NAME_TOKEN, equipmentName);
+		    			                
+		    			               
 			/*
 			 * common setting for Transformer branch
 			 */
