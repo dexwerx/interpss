@@ -119,13 +119,14 @@ public class SixBus_DclfPsXfr extends CorePluginTestSetup {
 					.setPsseVersion(PsseVersion.PSSE_30)
 					.load()
 					.getAclfNet();
+
+		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
 		
 		net.setRefBusId("Bus3");
 		net.setRefBusType(RefBusType.USER_DEFINED);
 		
 		net.getAclfBus("Bus1").setGenP(3.0723);
-
-		DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+		
 		algo.calculateDclf();
 
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
