@@ -41,10 +41,13 @@ import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
+import org.interpss.ext.pwd.AclfBranchPWDExtension;
+import org.interpss.ext.pwd.AclfBusPWDExtension;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.numeric.datatype.Unit.UnitType;
@@ -60,6 +63,7 @@ import com.interpss.core.aclf.flow.FlowInterfaceBranch;
 import com.interpss.core.aclf.flow.FlowInterfaceLimit;
 import com.interpss.core.aclf.flow.FlowInterfaceType;
 import com.interpss.core.net.Branch;
+import com.interpss.core.net.OriginalDataFormat;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -70,7 +74,8 @@ import com.interpss.simu.SimuCtxType;
  * @param Tfrom from object type
  */
 public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
-	ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
+	private ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
+	private OriginalDataFormat originalFormat = OriginalDataFormat.IPSS_EDITOR;
 	
 	/**
 	 * constructor
@@ -81,6 +86,10 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	
 	public void setXfrBranchModel(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		this.xfrBranchModel = xfrBranchModel;
+	}
+
+	public void setOriginalDataFormat(OriginalDataFormat format) {
+		this.originalFormat = format;
 	}
 
 	/**
@@ -95,6 +104,8 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 		try {
 			AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
+			adjNet.setOriginalDataFormat(this.originalFormat);		
+			
 			mapAclfNetworkData(adjNet, xmlNet);
 			simuCtx.setAclfNet(adjNet);
 
@@ -210,8 +221,14 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * @throws Exception
 	 */
 	public AclfBus mapAclfBusData(LoadflowBusXmlType xmlBusRec, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
-		//AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
-		//adjNet.addBus(aclfBus);
+		if (adjNet.getOriginalDataFormat() == OriginalDataFormat.PWD) {
+			AclfBusPWDExtension ext = new AclfBusPWDExtension();
+			aclfBus.setExtensionObject(ext);
+			for ( NameValuePairXmlType nv : xmlBusRec.getNvPair()) {
+				ext.put(nv.getName(), nv.getValue());
+			}
+		}
+
 		mapBaseBusData(xmlBusRec, aclfBus, adjNet);
 
 		AclfBusDataHelper helper = new AclfBusDataHelper(adjNet, aclfBus);
@@ -229,6 +246,14 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * @throws Exception
 	 */
 	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet) throws InterpssException {
+		if (adjNet.getOriginalDataFormat() == OriginalDataFormat.PWD) {
+			AclfBranchPWDExtension ext = new AclfBranchPWDExtension();
+			branch.setExtensionObject(ext);
+			for ( NameValuePairXmlType nv : xmlBranch.getNvPair()) {
+				ext.put(nv.getName(), nv.getValue());
+			}
+		}
+
 		setAclfBranchData((BranchXmlType)xmlBranch, branch, adjNet);
 		AclfBranchDataHelper helper = new AclfBranchDataHelper(adjNet, branch, this.xfrBranchModel);
 		if (xmlBranch instanceof LineBranchXmlType) {

@@ -34,6 +34,7 @@ import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
 
+import com.interpss.core.net.OriginalDataFormat;
 import com.interpss.simu.SimuContext;
 
 /**
@@ -43,7 +44,7 @@ import com.interpss.simu.SimuContext;
  * @param Tfrom from object type
  */
 public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimuCtxDataMapper<Tfrom> {
-	ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
+	private ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
 	
 	/**
 	 * constructor
@@ -69,17 +70,18 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 			LoadflowNetXmlType xmlNet = parser.getAclfNet();
 			ODMAclfNetMapper mapper = new ODMAclfNetMapper();
 			mapper.setXfrBranchModel(xfrBranchModel);
+			
+			OriginalDataFormatEnumType ofmt = 
+					parser.getStudyCase().getContentInfo() != null?
+							parser.getStudyCase().getContentInfo().getOriginalDataFormat() :
+								OriginalDataFormatEnumType.CUSTOM;
+			mapper.setOriginalDataFormat(ODMHelper.map(ofmt));		
+
 			noError = mapper.map2Model(xmlNet, simuCtx);
 		} else {
 			ipssLogger.severe("Error: currently only Transmission NetworkType has been implemented");
 			return false;
 		}
-		
-		OriginalDataFormatEnumType ofmt = 
-				parser.getStudyCase().getContentInfo() != null?
-						parser.getStudyCase().getContentInfo().getOriginalDataFormat() :
-							OriginalDataFormatEnumType.CUSTOM;
-		simuCtx.getNetwork().setOriginalDataFormat(ODMHelper.map(ofmt));		
 		return noError;
 	}
 }
