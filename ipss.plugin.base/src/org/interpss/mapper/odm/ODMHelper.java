@@ -124,7 +124,8 @@ public class ODMHelper {
 							(ofmt == OriginalDataFormatEnumType.UCTE_DEF? OriginalDataFormat.UCTE :
 								(ofmt == OriginalDataFormatEnumType.GE_PSLF? OriginalDataFormat.GE_PSLF :
 									(ofmt == OriginalDataFormatEnumType.BPA? OriginalDataFormat.BPA :
-										OriginalDataFormat.IPSS_EDITOR)))));		
+										(ofmt == OriginalDataFormatEnumType.POWER_WORLD? OriginalDataFormat.PWD :
+											OriginalDataFormat.IPSS_EDITOR))))));		
 	}
 	
 	/**
