@@ -340,17 +340,23 @@
 		<ns:sequence>
 			<ns:element name="hour" type="ns:int" maxOccurs="1"
 				minOccurs="1" />
-			<ns:element name="dispatches" type="pss:BusGenLoadDispatchXmlType"
-				maxOccurs="unbounded" minOccurs="0" />
+			<ns:element name="busDispatches" type="pss:BusGenLoadEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
+			<ns:element name="branchDispatches" type="pss:BranchEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:complexType name="BusGenLoadDispatchXmlType">
+	<ns:complexType name="BusGenLoadEDispatchXmlType">
 		<ns:sequence>
-			<ns:element name="busname" type="ns:string" maxOccurs="1">
+			<ns:element name="dispatchId" type="ns:string" maxOccurs="1">	</ns:element>
+			<ns:element name="dispatch" type="pss:ActivePowerXmlType" maxOccurs="1">
 			</ns:element>
-			<ns:element name="dispatch" type="pss:ActivePowerXmlType"
-				maxOccurs="1">
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="BranchEDispatchXmlType">
+		<ns:sequence>
+			<ns:element name="dispatchId" type="ns:string" maxOccurs="1">	</ns:element>
+			<ns:element name="psXfrAnagle" type="pss:AngleLimitXmlType" maxOccurs="1">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
