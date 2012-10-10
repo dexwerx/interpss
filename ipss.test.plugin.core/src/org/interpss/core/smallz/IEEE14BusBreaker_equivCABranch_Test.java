@@ -53,8 +53,8 @@ public class IEEE14BusBreaker_equivCABranch_Test extends CorePluginTestSetup {
 	  	 * identify equivalent CA branches
 	  	 */
 	  	//IpssLogger.ipssLogger.setLevel(Level.INFO);
-	  	for (Branch branch : net.getBranchList()) 
-	  		branch.identifyEquivCABranch();	  	
+	  	//for (Branch branch : net.getBranchList()) 
+	  	//	branch.identifyEquivCABranch();	  	
 	  	
 	  	//System.out.println("Branch Bus1->Bus15-1(1) equivCABranch: " + net.getBranch("Bus1->Bus15-1(1)").getEquivCABranchId());
 	  	//System.out.println("Branch Bus15-1->Bus15(1) equivCABranch: " + net.getBranch("Bus15-1->Bus15(1)").getEquivCABranchId());
@@ -82,8 +82,8 @@ public class IEEE14BusBreaker_equivCABranch_Test extends CorePluginTestSetup {
 	  	assertTrue(net.isZeroZBranchProcessed());
 
 	  	//IpssLogger.ipssLogger.setLevel(Level.INFO);
-	  	for (Branch branch : net.getBranchList()) 
-	  		branch.identifyEquivCABranch();	  	
+	  	//for (Branch branch : net.getBranchList()) 
+	  	//	branch.identifyEquivCABranch();	  	
 	  	
 	  	//System.out.println("Branch Bus1->Bus15(1) equivCABranch: " + net.getBranch("Bus1->Bus15(1)").getEquivCABranchId());
 	  	assertTrue(net.getBranch("Bus1->Bus15(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
