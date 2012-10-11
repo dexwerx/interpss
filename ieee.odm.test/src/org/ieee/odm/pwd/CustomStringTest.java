@@ -64,7 +64,7 @@ public class CustomStringTest {
 		//Xfr Bus25_to_Bus52_cirId_1
 		/*
 		 * <nvPair>
-                    <name>Station</name>
+                    <name>Station</name>ZXZ
                     <value>Sub2</value>
                 </nvPair>
                 <nvPair>
@@ -82,6 +82,46 @@ public class CustomStringTest {
 		assertTrue(L25.getNvPair().get(3).getName().equals("CustomString:1"));
 		assertTrue(L25.getNvPair().get(3).getValue().equals("Sub2_230_L25"));
 		
+		//breaker
+		/*
+		 * DATA (BRANCH, [CustomString,CustomString:1,CustomString:2,BusNum,BusNum:1,LineCircuit,LineXfmr,
+           LineR,LineX,LineC,LineAMVA,LineAMVA:1,LineAMVA:2,LineMonEle,LSName,LineStatus,
+           NormLineStatus])
+           {
+             "Breaker" "Sub1_19.4_1A" "1A"    11     1 "1"
+		 * 
+		 */
+		LineBranchXmlType brk=parser.getLineBranch("Bus11", "Bus1", "1");
+		assertTrue(brk.getNvPair().get(0).getName().equals(STATION_TOKEN));
+		assertTrue(brk.getNvPair().get(0).getValue().equals("Sub1"));
+		assertTrue(brk.getNvPair().get(1).getName().equals("EquimentName"));
+		assertTrue(brk.getNvPair().get(1).getValue().equals("1A"));
+		assertTrue(brk.getNvPair().get(2).getName().equals("CustomString"));
+		assertTrue(brk.getNvPair().get(2).getValue().equals("Breaker"));
+		assertTrue(brk.getNvPair().get(3).getName().equals("CustomString:1"));
+		assertTrue(brk.getNvPair().get(3).getValue().equals("Sub1_19.4_1A"));
+		
+		//transformer
+		/*
+		 * DATA (BRANCH, [CustomString,CustomString:1,CustomString:2
+            {
+            "Transformer" "Sub1_19.4_T12" "T12" 12    21 "T1"
+		 */
+		
+		XfrBranchXmlType xfr=parser.getXfrBranch("Bus12", "Bus21", "T1");
+		assertTrue(xfr.getNvPair().get(0).getName().equals("CustomString"));
+		assertTrue(xfr.getNvPair().get(0).getValue().equals("Transformer"));
+		
+		assertTrue(xfr.getNvPair().get(1).getName().equals("CustomString:1"));
+		assertTrue(xfr.getNvPair().get(1).getValue().equals("Sub1_19.4_T12"));
+		
+		assertTrue(xfr.getNvPair().get(2).getName().equals(STATION_TOKEN));
+		assertTrue(xfr.getNvPair().get(2).getValue().equals("Sub1"));
+		
+		assertTrue(xfr.getNvPair().get(3).getName().equals("EquimentName"));
+		assertTrue(xfr.getNvPair().get(3).getValue().equals("T12"));
+		
+
 		
 	}
 }
