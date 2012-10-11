@@ -375,7 +375,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 		    
 		    //custom string
 		    if(!type.equals(""))  //CustomString
-		    	BaseDataSetter.addNVPair(xfr, "CustomString",extBranchName);
+		    	BaseDataSetter.addNVPair(xfr, "CustomString",type);
 		    if(!extBranchName.equals(""))
 		    	 BaseDataSetter.addNVPair(xfr, "CustomString:1",extBranchName);
 		    if(!substation.equals(""))
