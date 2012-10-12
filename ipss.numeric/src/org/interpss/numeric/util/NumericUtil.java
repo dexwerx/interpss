@@ -37,6 +37,8 @@ public class NumericUtil {
 	 * @return
 	 */
 	public static boolean equals(int x, int y) {
+		if (x != y)
+			System.out.println("x != y, x: " + x + ", y: " + y);
 		return x == y;
 	}
 
@@ -60,7 +62,11 @@ public class NumericUtil {
 	 * @return
 	 */
 	public static boolean equals(double x, double y, double err) {
-		return Math.abs(x - y) < err;
+		double a  = Math.abs(x - y);
+		if (a >= err) {
+			System.out.println("x != y, x: " + x + ", y: " + y);
+		}
+		return a < err;
 	}
 
 	/**
@@ -83,8 +89,7 @@ public class NumericUtil {
 	 * @return
 	 */
 	public static boolean equals(Complex x, Complex y, double err) {
-		return Math.abs(x.getReal() - y.getReal()) < err &&
-				Math.abs(x.getImaginary() - y.getImaginary()) < err;
+		return equals(x.getReal(), y.getReal(), err) && equals(x.getImaginary(), y.getImaginary(), err);
 	}
 	
 	/**
