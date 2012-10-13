@@ -3,7 +3,6 @@ package org.interpss.sample.opf;
 import org.interpss.numeric.exp.IpssNumericException;
 
 import com.interpss.core.net.Bus;
-import com.interpss.opf.OpfGenBus;
 import com.interpss.opf.common.visitor.IOpfGenBusVisitor;
 import com.interpss.opf.dclf.DclfOpfGenBus;
 import com.interpss.opf.dclf.DclfOpfNetwork;

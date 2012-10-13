@@ -28,7 +28,7 @@ import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.util.logging.Level;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.PerformanceTimer;

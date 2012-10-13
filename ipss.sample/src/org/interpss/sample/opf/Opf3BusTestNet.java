@@ -1,6 +1,6 @@
 package org.interpss.sample.opf;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.numeric.datatype.LimitType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.exp.IpssNumericException;
@@ -10,8 +10,6 @@ import com.interpss.OpfObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.opf.OpfGenBus;
-import com.interpss.opf.OpfNetwork;
 import com.interpss.opf.dclf.DclfOpfGenBus;
 import com.interpss.opf.dclf.DclfOpfNetwork;
 
