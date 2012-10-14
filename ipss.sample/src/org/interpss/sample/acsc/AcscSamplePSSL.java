@@ -140,16 +140,16 @@ public class AcscSamplePSSL {
 					.z(new Complex(0.0, 0.015), UnitType.PU)
 					.turnRatio(1.0,  1.05, UnitType.PU)
 					.z0( new Complex(0.0, 0.03), UnitType.PU)
-					.fromGrounding(XfrConnectCode.WYE_UNGROUNDED, new Complex(0.0,0.0), UnitType.PU)
-					.toGrounding(XfrConnectCode.DELTA, new Complex(0.0,0.0), UnitType.PU);
+					.fromGrounding(XfrConnectCode.WYE_UNGROUNDED)
+					.toGrounding(XfrConnectCode.DELTA);
 		
 		netDsl.addAcscBranch("5", "3")
 					.branchCode(AclfBranchCode.XFORMER)
 					.z(new Complex(0.0, 0.03), UnitType.PU)
 					.turnRatio(1.0,  1.05, UnitType.PU)
 					.z0(new Complex(0.0, 0.03), UnitType.PU)
-					.fromGrounding(XfrConnectCode.WYE_UNGROUNDED, new Complex(0.0,0.0), UnitType.PU)
-					.toGrounding(XfrConnectCode.DELTA, new Complex(0.0,0.0), UnitType.PU);
+					.fromGrounding(XfrConnectCode.WYE_UNGROUNDED)
+					.toGrounding(XfrConnectCode.DELTA);
 
 		//System.out.println(netDsl.getAcscNet().net2String());
 		return netDsl.getAclfNet();
