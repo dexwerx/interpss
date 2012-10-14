@@ -174,15 +174,15 @@ public class AcscOutFunc {
 			str.append("     --------  ---------------   --------   --------   ----------\n");
 			for (Bus b : net.getBusList()) {
 				AcscBus bus = (AcscBus) b;
-				str.append("     " + Number2String.toStr(-8, bus.getId()) + " ");
+				str.append("     " + Number2String.toStr(-8, bus.getId()) + "   ");
 				Complex v1 = bf.getFaultResult().getBusVoltage_012(bus).b_1;
 				double vpu = v1.abs();
 				Complex3x1 ampPu = bf.getFaultResult().getBusContriAmps_012(bus);
 				Complex3x1 amps = bf.getFaultResult().getBusContriAmps_012(bus, UnitType.Amp,
 						bus.getBaseVoltage(), net.getBaseKva());
-				str.append(ComplexFunc.toMagAng(v1));
+				str.append(Number2String.toStr(-15, ComplexFunc.toMagAng(v1)));
 				str.append(Number2String.toStr("#######0.#", vpu
-						* bus.getBaseVoltage()) + "   ");
+						* bus.getBaseVoltage()) + " ");
 				str.append(Number2String.toStr("#####0.###", ampPu.b_1.abs())
 						+ "   ");
 				str.append(Number2String.toStr("#######0.#", amps.b_1.abs())
