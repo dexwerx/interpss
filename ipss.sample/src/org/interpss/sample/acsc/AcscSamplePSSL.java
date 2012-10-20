@@ -38,6 +38,8 @@ public class AcscSamplePSSL {
 	public void unitVoltTest() {
 		AcscNetwork faultNet = createTestNet();
 		
+		System.out.println(faultNet.net2String());
+		
 	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
   		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", algo);
 		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
