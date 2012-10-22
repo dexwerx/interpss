@@ -43,7 +43,8 @@ import org.ieee.odm.schema.ZUnitType;
   * 
   * ====revision history===
   * 09/08/2012 add Phase Xfr
-  * change the storage scheme from NVPairs to hashtable 
+  * change the storage scheme from NVPairs to hashtable
+  * 10/22/2012 fix a phase xfr bug when phase angle =0 
   * 
   */
 public class BranchDataProcessor extends PWDDataParser  {
@@ -369,7 +370,7 @@ public class BranchDataProcessor extends PWDDataParser  {
 		    XfrBranchXmlType xfr=null;
 		    
 		    //phase shifting transformer or traditional transformer
-		    xfr=phaseAngle!=0?parser.createPSXfrBranch(fromBusId, toBusId, circuitId)
+		    xfr=(phaseAngle!=0||xfrType==XfrType.Phase)?parser.createPSXfrBranch(fromBusId, toBusId, circuitId)
 		    
 		    			               :parser.createXfrBranch(fromBusId, toBusId, circuitId);;
 		    
@@ -401,7 +402,31 @@ public class BranchDataProcessor extends PWDDataParser  {
 				AclfDataSetter.addBusShuntY(toBus, tBusShuntMW, tBusShuntMvar, YUnitType.MVAR);
 			}
 
-			if (phaseAngle == 0) {// transformer type, since it is rare for a PSXfr to have LinePhase=0; 
+			if (xfr instanceof PSXfrBranchXmlType) {// Phase shifting transformer
+				PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType) xfr;
+				AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x,
+						ZUnitType.PU, fromTurnRatio, toTurnRatio, phaseAngle,
+						0, AngleUnitType.DEG, gMag, bMag, YUnitType.PU);
+				if (xfrRegMin != 0 || xfrRegMax != 0)
+					setXfrPhaseControlData(isXFAutoControl, xfrRegMin,
+							xfrRegMax, xfrTapMax, xfrTapMin, regTargetType,
+							psXfr);
+
+				// xfr rating
+				BusXmlType fromBusRec = parser.getBus(fromBusId);
+				BusXmlType toBusRec = parser.getBus(toBusId);
+				if (fromBusRec != null && toBusRec != null) {
+					AclfDataSetter.setXfrRatingData(psXfr, fromBusRec
+							.getBaseVoltage().getValue(), toBusRec
+							.getBaseVoltage().getValue(), fromBusRec
+							.getBaseVoltage().getUnit());
+				} else {
+					ODMLogger.getLogger().severe(
+							"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
+									+ fromBusId + ", " + toBusId);
+				}
+					
+			} else { //Non-phase shifting transformer
 					
 					AclfDataSetter.createXformerData(xfr, r, x, ZUnitType.PU,
 							fromTurnRatio, toTurnRatio, gMag, bMag, YUnitType.PU);
@@ -422,30 +447,10 @@ public class BranchDataProcessor extends PWDDataParser  {
 								"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
 										+ fromBusId + ", " + toBusId);
 					}
-				} else {// Phase shifting transformer
-					PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType) xfr;
-					AclfDataSetter.createPhaseShiftXfrData(psXfr, r, x,
-							ZUnitType.PU, fromTurnRatio, toTurnRatio, phaseAngle, 0,
-							AngleUnitType.DEG, gMag, bMag, YUnitType.PU);
-					if(xfrRegMin!=0||xfrRegMax!=0)
-					setXfrPhaseControlData(isXFAutoControl, xfrRegMin,
-							xfrRegMax, xfrTapMax, xfrTapMin, regTargetType,
-							psXfr);
 					
-
-					// xfr rating
-					BusXmlType fromBusRec = parser.getBus(fromBusId);
-					BusXmlType toBusRec = parser.getBus(toBusId);
-					if (fromBusRec != null && toBusRec != null) {
-						AclfDataSetter.setXfrRatingData(psXfr, fromBusRec
-								.getBaseVoltage().getValue(), toBusRec
-								.getBaseVoltage().getValue(), fromBusRec
-								.getBaseVoltage().getUnit());
-					} else {
-						ODMLogger.getLogger().severe(
-								"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
-										+ fromBusId + ", " + toBusId);
-					}
+					
+					
+					
 				} 
 				
 				if (xfrMvaBase != 0.0) {
