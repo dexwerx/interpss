@@ -133,8 +133,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			  			}
 			  		}
 		  		}
-		  		
-		  		
 		  	}
 		  	
 		  	// turn-off processed zero-z branches
