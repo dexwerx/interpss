@@ -36,19 +36,44 @@ import com.interpss.core.net.Branch;
  *
  */
 public class DebugOutFunc {
+	private static final String OffSet_Space = "   ";
 	
+	/**
+	 * retrieve bus and connected branches info, level = 1
+	 * 
+	 * @param bus
+	 * @return
+	 */
 	public static StringBuffer busConnectivityInfo(AclfBus bus) {
+		return busConnectivityInfo(bus, 1, "");
+	}
+	
+	/**
+	 * Recursively retrieve bus and connected branches info to the level
+	 * 
+	 * @param bus
+	 * @param level
+	 * @return
+	 */
+	public static StringBuffer busConnectivityInfo(AclfBus bus, int level) {
+		return busConnectivityInfo(bus, level, "");
+	}
+
+	private static StringBuffer busConnectivityInfo(AclfBus bus, int level, String offSet) {
 		StringBuffer buf = new StringBuffer();
 	
-		buf.append("\n\nBus Id: " + bus.getId() + "\n");
-		buf.append("Bus status: " + bus.isActive() + "\n");
+		buf.append("\n\n" + offSet + "Bus Id: " + bus.getId() + "\n");
+		buf.append(offSet + "Bus status: " + bus.isActive() + "\n");
 		
-		buf.append("\nConnected Branch info: \n");
-		for (Branch b : bus.getBranchList()) {
-			AclfBranch bra = (AclfBranch)b;
-			buf.append("  Branch Id : " + bra.getId() + "\n");
-			buf.append("  Branch status: " + bra.isActive() + "\n");
-			buf.append("  Branch type: " + bra.getBranchCode() + "\n\n");
+		buf.append("\n" + offSet + "Connected Branch info: \n");
+		for (Branch bra : bus.getBranchList()) {
+			AclfBranch branch = (AclfBranch)bra;
+			buf.append(offSet + "  Branch Id : " + branch.getId() + "\n");
+			buf.append(offSet + "  Branch status: " + branch.isActive() + "\n");
+			buf.append(offSet + "  Branch type: " + branch.getBranchCode() + "\n\n");
+			
+			if (level > 1)
+				buf.append(busConnectivityInfo((AclfBus)branch.getOppositeBus(bus), level-1, offSet + OffSet_Space));
 		}
 
 		// display debug info the connected branches
