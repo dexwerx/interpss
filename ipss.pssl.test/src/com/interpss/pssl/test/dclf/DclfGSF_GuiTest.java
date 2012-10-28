@@ -29,6 +29,7 @@ import org.junit.Test;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.LODFSenAnalysisType;
+import com.interpss.core.dclf.common.OutageConnectivityException;
 import com.interpss.core.dclf.common.ReferenceBusException;
 import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
@@ -105,7 +106,7 @@ public class DclfGSF_GuiTest extends BaseTestSetup {
 	}
 	
 	@Test
-	public void lodfTest1()  throws ReferenceBusException, InterpssException   {
+	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

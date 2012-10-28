@@ -26,13 +26,6 @@ package com.interpss.pssl.test.dclf;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
-import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.schema.BranchRefXmlType;
-import org.ieee.odm.schema.DclfSenAnalysisXmlType;
-import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -47,96 +40,7 @@ import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODF_Test extends BaseTestSetup {
-	@Test
-	public void lodfTest1() throws PSSLException, InterpssException {
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
-				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
-				.load()
-				.getAclfNet();		
-		
-		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		//AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLODFRun.xml");
 
-		AclfModelParser parser = new AclfModelParser();
-		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
-		assertTrue(helper.getSenAnalysisList() != null);
-		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
-		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
-
-		/*  One outage branch sample
-		 * 
-			<pss:lineOutageDFactor>
-				<pss:outageBranch id="Bus4_Bus7_1" fromBusId="Bus4" toBusId="Bus7" circuitId="1">
-				</pss:outageBranch>
-				<pss:monitorBranch>
-					<pss:branch id="Bus4_Bus9_1" fromBusId="Bus4" toBusId="Bus9" circuitId="1">
-					</pss:branch>
-				</pss:monitorBranch>
-				<pss:monitorBranch>
-					<pss:branch id="Bus5_Bus6_1" fromBusId="Bus5" toBusId="Bus6" circuitId="1">
-					</pss:branch>
-				</pss:monitorBranch>
-			</pss:lineOutageDFactor>
-*/
-		BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
-		outage.setBranchId("Bus4_Bus7_1");
-		outage.setFromBusId("Bus4");
-		outage.setToBusId("Bus7");
-		outage.setCircuitId("1");
-
-		BranchRefXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setBranchId("Bus4_Bus9_1");
-		monitor.setFromBusId("Bus4");
-		monitor.setToBusId("Bus9");
-		monitor.setCircuitId("1");
-		
-		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setBranchId("Bus5_Bus6_1");
-		monitor.setFromBusId("Bus5");
-		monitor.setToBusId("Bus6");
-		monitor.setCircuitId("1");
-
-/*		One outage sample
-  					<pss:lineOutageDFactor>
-  						<pss:outageBranch id="Bus6_Bus13_1" fromBusId="Bus6" toBusId="Bus13" circuitId="1">
-  						</pss:outageBranch>
-  						<pss:monitorBranch>
-  							<pss:branch id="Bus9_Bus14_1" fromBusId="Bus9" toBusId="Bus14" circuitId="1">
-  							</pss:branch>
-  						</pss:monitorBranch>
-  						<pss:monitorBranch>
-  							<pss:branch id="Bus12_Bus13_1" fromBusId="Bus12" toBusId="Bus13" circuitId="1">
-  							</pss:branch>
-  						</pss:monitorBranch>
-  					</pss:lineOutageDFactor>
-*/
-		lodf = helper.createLODF(dclfCase);
-		
-		outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
-		outage.setBranchId("Bus6_Bus13_1");
-		outage.setFromBusId("Bus6");
-		outage.setToBusId("Bus13");
-		outage.setCircuitId("1");
-
-		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setBranchId("Bus9_Bus14_1");
-		monitor.setFromBusId("Bus9");
-		monitor.setToBusId("Bus14");
-		monitor.setCircuitId("1");
-		
-		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setBranchId("Bus12_Bus13_1");
-		monitor.setFromBusId("Bus12");
-		monitor.setToBusId("Bus13");
-		monitor.setCircuitId("1");
-		
-		new DclfDslODMRunner(algoDsl)
-				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssAnalysisCaseFunc.createDefaultPtInfo());
-		
-		System.out.println(parser.toXmlDoc());		
-	}
-	
 	@Test
 	public void lodfTest() throws PSSLException, ReferenceBusException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")

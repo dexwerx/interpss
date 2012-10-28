@@ -27,13 +27,6 @@ package com.interpss.pssl.test.dclf;
 import static com.interpss.core.dclf.funcImpl.DclfFunction.DclfBranchAptr;
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
-import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.schema.BranchRefXmlType;
-import org.ieee.odm.schema.DclfSenAnalysisXmlType;
-import org.ieee.odm.schema.LineOutageDFactorXmlType;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
@@ -42,88 +35,18 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.LODFSenAnalysisType;
+import com.interpss.core.dclf.common.OutageConnectivityException;
 import com.interpss.core.dclf.common.ReferenceBusException;
 import com.interpss.core.net.Branch;
-import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODFPaper_Test extends BaseTestSetup {
-	@Test
-	public void lodfTest3()  throws PSSLException, InterpssException  {
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
-				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
-				.load()
-				.getAclfNet();		
-		
-		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
-										.setRefBus("Bus14");
-		
-		algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		//AclfModelParser parser = algoDsl.runAnalysis("testData/aclf/DclfLODFPaperRun.xml");
-/*
-  					<pss:lineOutageDFactor>
-  						<pss:outageBranch id="Bus1_Bus5_1" fromBusId="Bus1" toBusId="Bus5" circuitId="1" />
-  						<pss:outageBranch id="Bus3_Bus4_1" fromBusId="Bus3" toBusId="Bus4" circuitId="1" />
-  						<pss:outageBranch id="Bus6_Bus11_1" fromBusId="Bus6" toBusId="Bus11" circuitId="1" />
-  						<pss:monitorBranch>
-  							<pss:branch id="Bus2_Bus5_1" fromBusId="Bus2" toBusId="Bus5" circuitId="1">
-  							</pss:branch>
-  						</pss:monitorBranch>
-  						<pss:monitorBranch>
-  							<pss:branch id="Bus6_Bus13_1" fromBusId="Bus6" toBusId="Bus13" circuitId="1">
-  							</pss:branch>
-  						</pss:monitorBranch>
-  					</pss:lineOutageDFactor>
- */
-		AclfModelParser parser = new AclfModelParser();
-		IpssScenarioHelper helper = new IpssScenarioHelper(parser);
-		assertTrue(helper.getSenAnalysisList() != null);
-		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
-		LineOutageDFactorXmlType lodf = helper.createLODF(dclfCase);
-		
-		BranchRefXmlType outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
-		outage.setBranchId("Bus1_Bus5_1");
-		outage.setFromBusId("Bus1");
-		outage.setToBusId("Bus5");
-		outage.setCircuitId("1");
-
-		outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
-		outage.setBranchId("Bus3_Bus4_1");
-		outage.setFromBusId("Bus3");
-		outage.setToBusId("Bus4");
-		outage.setCircuitId("1");
-
-		outage = BaseJaxbHelper.creatBranchRef(lodf.getOutageBranch());
-		outage.setBranchId("Bus6_Bus11_1");
-		outage.setFromBusId("Bus6");
-		outage.setToBusId("Bus11");
-		outage.setCircuitId("1");
-
-		BranchRefXmlType monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setBranchId("Bus2_Bus5_1");
-		monitor.setFromBusId("Bus2");
-		monitor.setToBusId("Bus5");
-		monitor.setCircuitId("1");
-		
-		monitor = helper.createMonitorBranch(lodf.getMonitorBranch());
-		monitor.setBranchId("Bus6_Bus13_1");
-		monitor.setFromBusId("Bus6");
-		monitor.setToBusId("Bus13");
-		monitor.setCircuitId("1");
-		
-		new DclfDslODMRunner(algoDsl)
-				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssAnalysisCaseFunc.createDefaultPtInfo());
-		
-		
-		System.out.println(parser.toXmlDoc());			
-	}
 	
 	@Test
-	public void lodfTest1()  throws ReferenceBusException, InterpssException   {
+	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()

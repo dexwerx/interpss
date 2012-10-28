@@ -25,12 +25,7 @@
 package com.interpss.pssl.test.dclf;
 
 import static org.interpss.CorePluginFunction.DclfResult;
-import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.ext.ipss.IpssAnalysisCaseFunc;
-import org.ieee.odm.model.ext.ipss.IpssScenarioHelper;
-import org.ieee.odm.schema.DclfSenAnalysisXmlType;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.sparse.SparseEqnDouble;
@@ -41,7 +36,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.net.Bus;
-import com.interpss.pssl.common.PSSLException;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
 import com.interpss.pssl.simu.IpssAclf.LfAlgoDSL;
@@ -59,29 +53,6 @@ public class Dclf_Test extends BaseTestSetup {
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 				.runDclfAnalysis();
-
-		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());		
-	}
-
-	@Test
-	public void dclfXmlTest() throws PSSLException, InterpssException  {
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
-				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
-				.load()
-				.getAclfNet();		
-		
-		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
-		//algoDsl.runAnalysis("testData/aclf/DclfRun.xml");
-		
-		IpssScenarioHelper helper = new IpssScenarioHelper(new AclfModelParser());
-		assertTrue(helper.getSenAnalysisList() != null);
-		
-		DclfSenAnalysisXmlType dclfCase = helper.createSenAnalysis();
-		
-		dclfCase.setCaculatelDclf(true);
-		
-		new DclfDslODMRunner(algoDsl)
-				.runDclfCase(dclfCase, DclfAnalysisType.All, IpssAnalysisCaseFunc.createDefaultPtInfo());
 
 		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());		
 	}
