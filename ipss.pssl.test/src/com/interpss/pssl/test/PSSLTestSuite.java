@@ -30,6 +30,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.interpss.pssl.test.dclf.DclfGSF_GuiTest;
 import com.interpss.pssl.test.dclf.DclfGSF_Test;
+import com.interpss.pssl.test.dclf.DclfLODFPaper_OutageBranchDup;
 import com.interpss.pssl.test.dclf.DclfLODFPaper_Test;
 import com.interpss.pssl.test.dclf.DclfLODF_Test;
 import com.interpss.pssl.test.dclf.Dclf_Test;
@@ -45,6 +46,7 @@ import com.interpss.pssl.test.dist.DistSys_Test;
 	DclfGSF_Test.class,
 	DclfLODF_Test.class,
 	DclfLODFPaper_Test.class,
+	DclfLODFPaper_OutageBranchDup.class,
 	QSen_Test.class,
 	
 })
