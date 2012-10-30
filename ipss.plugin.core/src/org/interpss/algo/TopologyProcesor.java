@@ -44,6 +44,7 @@ public class TopologyProcesor {
 	
 	public TopologyProcesor(AclfNetwork net) {
 		this.aclfNet = net;
+		// in the findBranchSubStation(), branch.visited status is used for branch search
 		for (Branch branch : net.getBranchList())
 			if (branch.isActive())
 				branch.setVisited(false);
@@ -79,6 +80,10 @@ public class TopologyProcesor {
 		
 		// recursively search the to bus side
 		searchBranchInSubstation(branch, branch.getToAclfBus(), branchIdList);
+		
+		// reset branch.visited status to its original value (false)
+		for (String id : branchIdList)
+			this.aclfNet.getBranch(id).setVisited(false);
 		
 		return branchIdList;
 	}
