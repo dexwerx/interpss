@@ -34,6 +34,7 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 /**
+ * Class for Network topology processing functions
  * 
  * @author mzhou
  *
@@ -78,15 +79,24 @@ public class TopologyProcesor {
 		return branchIdList;
 	}
 	
+	/**
+	 * Starting from the refBranch (not including), search the refBus side for branches in the substation. 
+	 * Add found branches to the branchIdList
+	 * 
+	 * @param refBranch
+	 * @param refBus
+	 * @param branchIdList
+	 */
 	private void searchBranchInSubstation(AclfBranch refBranch, Bus refBus, List<String> branchIdList) {
-		for (Branch branch : refBus.getBranchList()) {
-			if (!branch.getId().equals(refBranch.getId()) &&
-					branch.isActive() &&
-					!branch.isGroundBranch()) {
+		for (Branch bra : refBus.getBranchList()) {
+			if (!bra.getId().equals(refBranch.getId()) &&   // do not include the refBranch
+					bra.isActive() &&                       // branch has to be active
+					!bra.isGroundBranch()) {                // do not include ground branches
+				AclfBranch branch = (AclfBranch)bra;
 				branchIdList.add(branch.getId());
-				AclfBranch aclfBra = (AclfBranch)branch;
-				if (aclfBra.getBranchCode() == AclfBranchCode.BREAKER)
-					searchBranchInSubstation(aclfBra, aclfBra.getOppositeBus(refBus), branchIdList);
+				if (branch.getBranchCode() == AclfBranchCode.BREAKER)
+					// if the branch is a Breaker, continue the search
+					searchBranchInSubstation(branch, branch.getOppositeBus(refBus), branchIdList);
 			}
 		}
 	}
