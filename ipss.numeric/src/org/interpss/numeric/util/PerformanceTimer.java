@@ -73,4 +73,9 @@ public class PerformanceTimer {
     	end();
         System.out.println(str + " (sec) = " + getDuration()/1000.0 );
     }
+    
+    public String toString(String str) {
+    	end();
+        return str + " (sec) = " + getDuration()/1000.0;
+    }
 }
