@@ -60,5 +60,5 @@ public class NumericConstant {
 
 	public final static double 
 			ZMarginInitV = 0.0001, // pu
-			SmallDoubleNumber = 0.000001;	
+			SmallDoubleNumber = 1.0e-10;	
 }
