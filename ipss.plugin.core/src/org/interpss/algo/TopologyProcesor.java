@@ -44,6 +44,9 @@ public class TopologyProcesor {
 	
 	public TopologyProcesor(AclfNetwork net) {
 		this.aclfNet = net;
+		for (Branch branch : net.getBranchList())
+			if (branch.isActive())
+				branch.setVisited(false);
 	}
 	
 	/**
@@ -58,6 +61,7 @@ public class TopologyProcesor {
 		List<String> branchIdList = new ArrayList<String>();
 		
 		AclfBranch branch = this.aclfNet.getAclfBranch(branchId);
+		branch.setVisited(true);
 		
 		if (branch.getBranchCode() != AclfBranchCode.BREAKER)
 			throw new InterpssException("The starting branch to findBranchInSubstation should be Breaker, "
@@ -91,9 +95,11 @@ public class TopologyProcesor {
 		for (Branch bra : refBus.getBranchList()) {
 			if (!bra.getId().equals(refBranch.getId()) &&   // do not include the refBranch
 					bra.isActive() &&                       // branch has to be active
+					!bra.isVisited() &&                     // make sure the branch has not been visisted to prevent loop situation 
 					!bra.isGroundBranch()) {                // do not include ground branches
 				AclfBranch branch = (AclfBranch)bra;
 				branchIdList.add(branch.getId());
+				branch.setVisited(true);
 				if (branch.getBranchCode() == AclfBranchCode.BREAKER)
 					// if the branch is a Breaker, continue the search
 					searchBranchInSubstation(branch, branch.getOppositeBus(refBus), branchIdList);
