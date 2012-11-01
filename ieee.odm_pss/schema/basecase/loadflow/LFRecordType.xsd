@@ -348,6 +348,7 @@
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="OverheadLine"/>
 			<ns:enumeration value="Breaker"/>
+			<ns:enumeration value="ZBR"/>
 			<ns:enumeration value="Other"/>
 		</ns:restriction>
 	</ns:simpleType>    

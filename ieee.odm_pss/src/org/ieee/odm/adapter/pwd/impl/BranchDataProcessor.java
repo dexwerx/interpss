@@ -173,7 +173,8 @@ public class BranchDataProcessor extends PWDDataParser  {
 				LineBranchInfoXmlType LineInfo = new LineBranchInfoXmlType();
 				LineInfo.setType(type.equalsIgnoreCase("line") ? LineBranchEnumType.OVERHEAD_LINE
 						: (type.equalsIgnoreCase("breaker") ? LineBranchEnumType.BREAKER
-								: LineBranchEnumType.OTHER));
+								: (type.equalsIgnoreCase("zbr") ? LineBranchEnumType.ZBR
+										: LineBranchEnumType.OTHER)));
 				((LineBranchXmlType) branch).setLineInfo(LineInfo);
                 }
                 
