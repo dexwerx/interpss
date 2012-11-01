@@ -111,6 +111,8 @@ public class AclfBranchDataHelper {
 
 		if (xmlLineBranch.getLineInfo() != null && xmlLineBranch.getLineInfo().getType() == LineBranchEnumType.BREAKER)
 			aclfBra.setBranchCode(AclfBranchCode.BREAKER);
+		else if (xmlLineBranch.getLineInfo() != null && xmlLineBranch.getLineInfo().getType() == LineBranchEnumType.ZBR)
+			aclfBra.setBranchCode(AclfBranchCode.ZBR);
 		else
 			aclfBra.setBranchCode(AclfBranchCode.LINE);
 
