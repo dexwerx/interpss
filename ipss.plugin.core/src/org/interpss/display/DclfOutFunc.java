@@ -69,18 +69,20 @@ public class DclfOutFunc {
 		StringBuffer str = new StringBuffer("\n");
 		str.append(branchFlowTitle() + "\n");
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
-			AclfBranch aclfBra = (AclfBranch)bra;
-			double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
-			String id = aclfBra.getId();
-			double limitMva = aclfBra.getRatingMva1();
-			double loading = Math.abs(100*(mwFlow)/limitMva);
-			boolean v = Math.abs(mwFlow) > limitMva;
-			if (loading >= threshhold) {
-				str.append(Number2String.toFixLengthStr(22, id) + "     "	+ String.format("%8.2f",mwFlow));
-				str.append("     " + String.format("%8.2f", limitMva)); 
-				if (limitMva > 0.0)
-					str.append("      " + String.format("%5.1f", loading) + "      " + (v? "x" : " "));
-				str.append("\n");
+			if (bra.isActive()) {
+				AclfBranch aclfBra = (AclfBranch)bra;
+				double mwFlow = algo.getBranchFlow(aclfBra, UnitType.mW);
+				String id = aclfBra.getId();
+				double limitMva = aclfBra.getRatingMva1();
+				double loading = Math.abs(100*(mwFlow)/limitMva);
+				boolean v = Math.abs(mwFlow) > limitMva;
+				if (loading >= threshhold) {
+					str.append(Number2String.toFixLengthStr(22, id) + "     "	+ String.format("%8.2f",mwFlow));
+					str.append("     " + String.format("%8.2f", limitMva)); 
+					if (limitMva > 0.0)
+						str.append("      " + String.format("%5.1f", loading) + "      " + (v? "x" : " "));
+					str.append("\n");
+				}
 			}
 		}		
 		return str.toString();
