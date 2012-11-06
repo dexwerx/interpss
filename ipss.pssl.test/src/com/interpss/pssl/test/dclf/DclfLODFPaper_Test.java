@@ -78,7 +78,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		for (Branch bra : algoDsl.outageBranchList()) {
 			//System.out.println(bra.getId());
 			AclfBranch aclfBra = (AclfBranch)bra;
-			double flow = aclfBra.getWeight().getReal();
+			double flow = aclfBra.getDclfFlow();
 			sum += flow * factors[cnt++];
 		}
 		//System.out.println("Shifted power flow: " + sum);
@@ -100,14 +100,13 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		for (Branch bra : algoDsl.outageBranchList()) {
 			//System.out.println(bra.getId());
 			AclfBranch aclfBra = (AclfBranch)bra;
-			double flow = aclfBra.getWeight().getReal();
+			double flow = aclfBra.getDclfFlow();
 			sum += flow * factors[cnt++];
 		}
 		//System.out.println("Shifted power flow: " + sum);
-		//System.out.println("Total power flow: " + (sum+algoDsl.getMontorBranch().getWeight()));
 		//Shifted power flow: 0.00846884256008724
 		//Total power flow: 0.17880576075139853		
-		assertTrue(NumericUtil.equals(sum+algoDsl.getMontorBranch().getWeight().getReal(), 0.178806, 0.00001));
+		assertTrue(NumericUtil.equals(sum+algoDsl.getMontorBranch().getDclfFlow(), 0.178806, 0.00001));
 		//System.out.println(new Array2DRowRealMatrix(factors));
 		// {{-0.011974841796572601},{0.012142880754380832},{0.31591615777672694}}
 		assertTrue(NumericUtil.equals(factors[0],-0.011975, 0.00001));
