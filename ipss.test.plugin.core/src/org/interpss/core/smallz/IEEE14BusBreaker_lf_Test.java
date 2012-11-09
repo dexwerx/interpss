@@ -26,6 +26,8 @@ package org.interpss.core.smallz;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.interpss.CorePluginTestSetup;
@@ -163,7 +165,9 @@ public class IEEE14BusBreaker_lf_Test extends CorePluginTestSetup {
 	  	ZeroZBranchProcesor proc = new ZeroZBranchProcesor(smallBranchZ, true);
 	  	
 	  	// add one protected branch
-	  	proc.getProtectedBranchIdList().add("Bus18->Bus14(1)");
+	  	List<String> proList = new ArrayList<String>();
+	  	proList.add("Bus18->Bus14(1)");
+	  	proc.setProtectedBranchIdList(proList);
 	  	
 	  	net.accept(proc);
 	  	assertTrue(net.isZeroZBranchProcessed());
