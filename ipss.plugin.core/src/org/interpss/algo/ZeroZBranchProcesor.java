@@ -32,6 +32,7 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.Contingency;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -48,7 +49,12 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	Method method = Method.ZValue;
 	private double threshold = 1.0e-10;
 	private boolean allowZeroZBranchLoop = false;
+	
 	private List<String> protectedBranchIds = new ArrayList<String>();
+	public void setProtectedBranchIdList(List<String> list) { this.protectedBranchIds = list; }
+	
+	private List<Contingency> contingencyList = null;
+	public void setContingencyList(List<Contingency> list) { this.contingencyList = list; }
 	
 	/**
 	 * constructor 
@@ -81,14 +87,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
 	
-	public List<String> getProtectedBranchIdList() {
-		return this.protectedBranchIds;
-	}
+	//public List<String> getProtectedBranchIdList() {
+	//	return this.protectedBranchIds;
+	//}
  	
-	public void setProtectedBranchIdList(List<String> list) {
-		this.protectedBranchIds = list;
-	}
-	
 	@Override
 	public boolean visit(AclfNetwork net) {
 		try {
@@ -100,6 +102,13 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	if (this.protectedBranchIds.size() > 0) 
 		  		for (String id : this.protectedBranchIds)
 		  			net.getAclfBranch(id).setVisited(true);
+		  	
+		  	// marked contingency outage branches with visited = true
+		  	if (this.contingencyList != null)
+		  		for (Contingency cont : this.contingencyList) {
+		  			for (AclfBranch branch : cont.getOutageBranches())
+		  				branch.setVisited(true);
+		  		}
 		  	
 		  	// mark small Z branch with regarding to the threshold
 		  	// line branch will be turned to ZERO_IMPEDENCE branch
