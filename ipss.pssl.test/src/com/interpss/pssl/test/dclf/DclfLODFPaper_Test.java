@@ -44,6 +44,36 @@ import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODFPaper_Test extends BaseTestSetup {
+	//@Test  This method does not work
+	public void lodfTest_Ipss()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load()
+				.getAclfNet();		
+		
+		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
+										.runDclfAnalysis();
+		
+
+		algoDsl.setLODFAnalysisType(LODFSenAnalysisType.MULTI_BRANCH)
+				.addOutageBranch("Bus1", "Bus5", "1")
+				.addOutageBranch("Bus3", "Bus4", "1")
+				.addOutageBranch("Bus6", "Bus11", "1");
+
+		algoDsl.setRefBus("Bus14");
+		
+		AclfBranch monBranch = net.getAclfBranch("Bus2", "Bus5", "1");
+
+		double sum = 0.0;
+		for (Branch bra : algoDsl.outageBranchList()) {
+			AclfBranch aclfBra = (AclfBranch)bra;
+			double flow = aclfBra.getDclfFlow();
+			double gsfFrom = algoDsl.genShiftFactor(aclfBra.getFromBusId(), monBranch);
+			double gsfTo = algoDsl.genShiftFactor(aclfBra.getToBusId(), monBranch);
+			sum += flow * (gsfFrom - gsfTo);
+		}
+		System.out.println("Shifted power flow: " + sum);
+	}
 	
 	@Test
 	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
@@ -81,7 +111,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 			double flow = aclfBra.getDclfFlow();
 			sum += flow * factors[cnt++];
 		}
-		//System.out.println("Shifted power flow: " + sum);
+		System.out.println("Shifted power flow: " + sum);
 		//System.out.println("Total power flow: " + (sum+algoDsl.getMontorBranch().getWeight()));
 		//	Shifted power flow: 0.28184073631614476
 		//Total power flow: 0.6908804780716143
