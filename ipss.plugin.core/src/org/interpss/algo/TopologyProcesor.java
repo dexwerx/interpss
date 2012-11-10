@@ -29,9 +29,14 @@ import java.util.List;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.common.visitor.IAclfBusVisitor;
+import com.interpss.core.common.visitor.IAclfNetVisitor;
+import com.interpss.core.common.visitor.IBusBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
+import com.interpss.core.net.Zone;
 
 /**
  * Class for Network topology processing functions
@@ -41,6 +46,9 @@ import com.interpss.core.net.Bus;
  */
 public class TopologyProcesor {
 	AclfNetwork aclfNet = null;
+	private List<Bus> zoneBusList = null;
+	private List<Branch> zoneBranchList = null;
+	private Bus refBus = null;
 	
 	public TopologyProcesor(AclfNetwork net) {
 		this.aclfNet = net;
@@ -49,6 +57,10 @@ public class TopologyProcesor {
 			if (branch.isActive())
 				branch.setVisited(false);
 	}
+	
+	
+	
+	
 	
 	/**
 	 * Starting from the Breaker branch identified by branchId, find all breakers in 
@@ -111,4 +123,73 @@ public class TopologyProcesor {
 			}
 		}
 	}
+		
+	public boolean checkZoneConnectivity( Long zoneNo){
+		this.zoneBusList = new ArrayList<Bus>();
+		this.zoneBranchList = new ArrayList<Branch>();
+		for (Bus bus : aclfNet.getBusList()){
+			if(bus.getZone().getNumber() == zoneNo)
+				this.zoneBusList.add(bus);
+		}
+		
+		for (Branch bra : aclfNet.getBranchList()){			
+			if (bra.getZone().getNumber() == zoneNo)
+				this.zoneBranchList.add(bra);				
+			
+		}
+		
+		this.refBus = this.zoneBusList.get(0);
+		
+		initForWalk();
+		return visitBuses();
+		
+	}
+	
+	public List<String> getslandedBuses(Long zoneNo ) {
+		List<String> list = new ArrayList<String>();		
+		if (!checkZoneConnectivity(zoneNo)) {
+			for (Bus bus : this.zoneBusList)
+				if (bus.isActive() && bus.getIntFlag() != 1)
+					list.add(bus.getId());
+		}
+		return list;
+	}
+	/*public boolean checkConnectivity(){
+		initForWalk();
+		return visitBuses();
+	}*/
+
+	private void initForWalk(){
+		// walk through bus and its connected branches to mark swing bus and all connected buses
+				//    bus.intFlag = 1    unmarked
+				//    bus.intFlag = 0    marked
+				//    bus.intFlag = -1   marked and the opposite buses of all active connected branches are marked
+		for (Bus bus : this.zoneBusList){
+			bus.setIntFlag(bus.getId().equals(this.refBus.getId())? 0 : 1);
+		}			
+	}
+	
+	private boolean visitBuses(){
+		for(Bus bus: this.zoneBusList){
+			AclfBus aclfBus = (AclfBus) bus;
+			if (aclfBus.getIntFlag() == 0) {  // if the bus is marked, mark the opposite buses
+				for (Branch branch : aclfBus.getBranchList()) {
+					if (branch.isActive()) {  // only count active branch
+						Bus oppBus = branch.getOppositeBus(aclfBus);
+						if (oppBus.getIntFlag() == 1) {
+							oppBus.setIntFlag(0);  // mark the bus							
+						}
+					}
+				}
+				// after the opposite buses are marked, set the bus status as processed
+				bus.setIntFlag(-1);
+			}
+		}
+		for (Bus bus : this.zoneBusList)
+			if (bus.isActive() && bus.getIntFlag() == 1)
+				return false;
+		
+		return true;
+	}
+	
 }
