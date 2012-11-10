@@ -45,6 +45,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODFPaper_Test extends BaseTestSetup {
 	//@Test  This method does not work
+	/*
 	public void lodfTest_Ipss()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
@@ -74,6 +75,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		}
 		System.out.println("Shifted power flow: " + sum);
 	}
+	*/
 	
 	@Test
 	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
