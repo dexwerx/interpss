@@ -46,9 +46,11 @@ import com.interpss.core.net.Zone;
  */
 public class TopologyProcesor {
 	AclfNetwork aclfNet = null;
-	private List<Bus> zoneBusList = null;
-	private List<Branch> zoneBranchList = null;
-	private Bus refBus = null;
+	private List<Bus> groupBusList = null;	
+	private Bus refBus = null;	
+	private List<String> islandedBusList = null;
+	private boolean byzone = false;
+	private boolean byArea = false;
 	
 	public TopologyProcesor(AclfNetwork net) {
 		this.aclfNet = net;
@@ -57,9 +59,6 @@ public class TopologyProcesor {
 			if (branch.isActive())
 				branch.setVisited(false);
 	}
-	
-	
-	
 	
 	
 	/**
@@ -123,73 +122,181 @@ public class TopologyProcesor {
 			}
 		}
 	}
+	/**
+	 * check network connectivity from within a zone or a area	 * 
+	 * @param num zone/area number
+	 * @param byZone search within a zone
+	 * @param byArea search within a area
+	 */
 		
-	public boolean checkZoneConnectivity( Long zoneNo){
-		this.zoneBusList = new ArrayList<Bus>();
-		this.zoneBranchList = new ArrayList<Branch>();
-		for (Bus bus : aclfNet.getBusList()){
-			if(bus.getZone().getNumber() == zoneNo)
-				this.zoneBusList.add(bus);
+	public boolean checkConnectivity( Long num, boolean byZone, boolean byArea){
+		this.groupBusList = new ArrayList<Bus>();		
+		this.byArea = byArea;
+		this.byzone = byZone;
+		if (byZone){			
+			for (Bus bus : aclfNet.getBusList()){
+				if(bus.isActive() && bus.getZone().getNumber() == num)
+					this.groupBusList.add(bus);
+			}			
+		}else{			
+			for (Bus bus : aclfNet.getBusList()){
+				if(bus.isActive() && bus.getArea().getNumber() == num)
+					this.groupBusList.add(bus);
+			}				
+		}		
+		// need to find the proper starting point within that zone or area
+		findRefBus(num);
+		//System.out.println("Ref bus is " + this.refBus.getId());
+		
+		return checkConnectivity(num);
+		
+	}
+	/**
+	 * find that reference bus within a zone/area as the starting porint for the search 
+	 * 
+	 * @param num zone/area number	 
+	 */
+	private boolean findRefBus( Long num){		
+		for(Bus b: this.groupBusList){
+			AclfBus bus = (AclfBus) b;	
+			// If the swing bus is in the zone/area, use it as the ref bus
+			if(bus.isSwing()){
+				this.refBus = b;
+				return true;				
+			}else{
+				// Othersie, find the bus that connecting other zones/areas as the ref bus
+				for(Branch bra: b.getBranchList()){
+					if(bra.isActive()){
+						Bus oppBus = bra.getOppositeBus(b);
+						if(this.byzone){
+							if (oppBus.getZone().getNumber()!=num){
+								this.refBus = b;
+								b.setIntFlag(0);
+								return true;								
+							}							
+						}else{
+							if (oppBus.getArea().getNumber() != num){
+								this.refBus = b;	
+								b.setIntFlag(0);
+								return true;							
+							}
+						}
+					}					
+				}
+			}
 		}
-		
-		for (Branch bra : aclfNet.getBranchList()){			
-			if (bra.getZone().getNumber() == zoneNo)
-				this.zoneBranchList.add(bra);				
-			
-		}
-		
-		this.refBus = this.zoneBusList.get(0);
+		return false;
+	}
+	/**
+	 * recursively check network connectivity from within a zone or a area 
+	 * @param num zone/area number	 
+	 */
+	private boolean checkConnectivity(Long num) {
 		
 		initForWalk();
-		return visitBuses();
 		
+		List<Bus> islandedBusList = visitBuses();
+
+		if (islandedBusList.isEmpty())
+			return true;
+		else {
+			// recersively check the connectivity while the size of the group of buses being searched is
+			// reduced
+			this.groupBusList = islandedBusList;
+			while (findRefBus(num) == true){				
+				islandedBusList = visitBuses();				
+				this.groupBusList = islandedBusList;				
+				//System.out.println("Number of islanded buses is "+ islandedBusList.size());				
+			}
+				
+		}
+		
+		this.islandedBusList = new ArrayList<String>();
+		for (int i = 0; i < this.groupBusList.size(); i++) {
+			Bus b = this.groupBusList.get(i);
+			this.islandedBusList.add(b.getId());
+		}
+		return false;
+
+	}	
+	
+	/**
+	 * return the islanded bus ids
+	 *  
+	 * @return List<String> islanded bus id list	 
+	 */
+	public List<String> getslandedBuses() {		
+		return this.islandedBusList;
 	}
 	
-	public List<String> getslandedBuses(Long zoneNo ) {
-		List<String> list = new ArrayList<String>();		
-		if (!checkZoneConnectivity(zoneNo)) {
-			for (Bus bus : this.zoneBusList)
-				if (bus.isActive() && bus.getIntFlag() != 1)
-					list.add(bus.getId());
-		}
-		return list;
-	}
-	/*public boolean checkConnectivity(){
-		initForWalk();
-		return visitBuses();
-	}*/
 
+	/**
+	 * initialize the network for walk through
+	 * 
+	 * @param 
+	 * @return 	 
+	 */
 	private void initForWalk(){
 		// walk through bus and its connected branches to mark swing bus and all connected buses
 				//    bus.intFlag = 1    unmarked
 				//    bus.intFlag = 0    marked
 				//    bus.intFlag = -1   marked and the opposite buses of all active connected branches are marked
-		for (Bus bus : this.zoneBusList){
+		for (Bus bus : this.groupBusList){
 			bus.setIntFlag(bus.getId().equals(this.refBus.getId())? 0 : 1);
 		}			
 	}
 	
-	private boolean visitBuses(){
-		for(Bus bus: this.zoneBusList){
-			AclfBus aclfBus = (AclfBus) bus;
-			if (aclfBus.getIntFlag() == 0) {  // if the bus is marked, mark the opposite buses
-				for (Branch branch : aclfBus.getBranchList()) {
-					if (branch.isActive()) {  // only count active branch
-						Bus oppBus = branch.getOppositeBus(aclfBus);
-						if (oppBus.getIntFlag() == 1) {
-							oppBus.setIntFlag(0);  // mark the bus							
-						}
-					}
-				}
-				// after the opposite buses are marked, set the bus status as processed
-				bus.setIntFlag(-1);
+	/**
+	 * visit all the buses within the searching group and find out the islanded buses
+	 * 
+	 * @param 
+	 * @return 	List<Bus> a Bus list contains all the islanded buses for this search
+	 */
+	private List<Bus> visitBuses() {
+
+		this.busBranchWalkThrough();
+
+		List<Bus> islandedBusList = new ArrayList<Bus>();
+		for (Bus b : this.groupBusList) {
+			if (b.isActive() && b.getIntFlag() == 1) {
+				islandedBusList.add(b);
 			}
 		}
-		for (Bus bus : this.zoneBusList)
-			if (bus.isActive() && bus.getIntFlag() == 1)
-				return false;
-		
-		return true;
+		return islandedBusList;
 	}
+	
+	private void busBranchWalkThrough() {		
+		// then walk through the bus list until it is done
+		boolean done = false;
+		while (!done) {
+			done = true;
+			for (Bus bus : this.groupBusList) {
+				// visit the bus and connected branches 
+				// return false if the walk is not done
+				if (!this.visitBus(bus))
+					done = false;
+			}			
+		}			
+	}
+	private boolean visitBus(Bus elem) { 
+		boolean done = true;
+		AclfBus aclfBus = (AclfBus)elem;
+		if (aclfBus.getIntFlag() == 0) {  // if the bus is marked, mark the opposite buses
+			for (Branch branch : aclfBus.getBranchList()) {
+				if (branch.isActive()) {  // only count active branch
+					Bus bus = branch.getOppositeBus(aclfBus);
+					if (bus.getIntFlag() == 1) {
+						bus.setIntFlag(0);  // mark the bus
+						done = false;
+					}
+				}
+			}
+			// after the opposite buses are marked, set the bus status as processed
+			aclfBus.setIntFlag(-1);
+		}
+		return done;
+	}
+	
+	
 	
 }
