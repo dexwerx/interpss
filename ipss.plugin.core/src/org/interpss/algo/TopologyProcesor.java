@@ -156,33 +156,36 @@ public class TopologyProcesor {
 	 * 
 	 * @param num zone/area number	 
 	 */
-	private boolean findRefBus( Long num){		
-		for(Bus b: this.groupBusList){
-			AclfBus bus = (AclfBus) b;	
-			// If the swing bus is in the zone/area, use it as the ref bus
+	private boolean findRefBus( Long num){	
+		// If the swing bus is in the zone/area, use it as the ref bus
+		for (Bus b: this.groupBusList){
+			AclfBus bus = (AclfBus) b;				
 			if(bus.isSwing()){
 				this.refBus = b;
+				b.setIntFlag(0);
 				return true;				
-			}else{
-				// Othersie, find the bus that connecting other zones/areas as the ref bus
-				for(Branch bra: b.getBranchList()){
-					if(bra.isActive()){
-						Bus oppBus = bra.getOppositeBus(b);
-						if(this.byzone){
-							if (oppBus.getZone().getNumber()!=num){
-								this.refBus = b;
-								b.setIntFlag(0);
-								return true;								
-							}							
-						}else{
-							if (oppBus.getArea().getNumber() != num){
-								this.refBus = b;	
-								b.setIntFlag(0);
-								return true;							
-							}
+			}
+		}
+		
+		for(Bus b: this.groupBusList){
+			// Othersie, find the bus that connecting other zones/areas as the ref bus
+			for(Branch bra: b.getBranchList()){
+				if(bra.isActive()){
+					Bus oppBus = bra.getOppositeBus(b);
+					if(this.byzone){
+						if (oppBus.getZone().getNumber()!=num){
+							this.refBus = b;
+							b.setIntFlag(0);
+							return true;								
+						}							
+					}else{
+						if (oppBus.getArea().getNumber() != num){
+							this.refBus = b;	
+							b.setIntFlag(0);
+							return true;							
 						}
-					}					
-				}
+					}
+				}					
 			}
 		}
 		return false;
@@ -287,15 +290,56 @@ public class TopologyProcesor {
 					Bus bus = branch.getOppositeBus(aclfBus);
 					if (bus.getIntFlag() == 1) {
 						bus.setIntFlag(0);  // mark the bus
-						done = false;
+						done = false;						
 					}
 				}
 			}
 			// after the opposite buses are marked, set the bus status as processed
-			aclfBus.setIntFlag(-1);
+			aclfBus.setIntFlag(-1);			
 		}
 		return done;
+	}	
+	
+	/**
+	 * Starting from the bus, find all the connecting branches within range steps
+	 * 
+	 * @param busId starting bus id
+	 * @param range the number of buses away from the starting bus
+	 * @return List<String> a list of branches
+	 * @exception
+	 */
+	public List<String> findBranchAroundBusWithinRange(String busId, double range){
+		Bus bus = this.aclfNet.getBus(busId);
+		
+		for (Branch branch : this.aclfNet.getBranchList())
+			if (branch.isActive())
+				branch.setVisited(false);
+		List<String> branchList = new ArrayList<String>();
+		int i = 0;
+		List<Bus> busList = new ArrayList<Bus>();
+		List<Bus> temBusList = new ArrayList<Bus>();
+		busList.add(bus);
+		temBusList = busList;
+		while(i<range){
+			busList = temBusList;
+			temBusList = new ArrayList<Bus>();
+			for(Bus b: busList){
+				for (Branch bra: b.getBranchList()){
+					if(bra.isActive()&& !bra.isVisited()){
+						branchList.add(bra.getId());
+						bra.setVisited(true);
+						Bus oppBus = bra.getOppositeBus(b);
+						temBusList.add(oppBus);
+					}					
+				}
+			}
+			busList = new ArrayList<Bus>();
+			i++;
+		}		
+		return branchList;
 	}
+	
+	
 	
 	
 	
