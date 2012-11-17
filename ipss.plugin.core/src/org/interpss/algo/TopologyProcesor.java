@@ -27,16 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.common.visitor.IAclfBusVisitor;
-import com.interpss.core.common.visitor.IAclfNetVisitor;
-import com.interpss.core.common.visitor.IBusBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
-import com.interpss.core.net.Zone;
 
 /**
  * Class for Network topology processing functions
@@ -58,6 +55,9 @@ public class TopologyProcesor {
 		for (Branch branch : net.getBranchList())
 			if (branch.isActive())
 				branch.setVisited(false);
+		// the status is used to find branches between substations
+		for (Bus bus : net.getBusList())
+			bus.setVisited(false);
 	}
 	
 	
@@ -93,11 +93,33 @@ public class TopologyProcesor {
 		searchBranchInSubstation(branch, branch.getToAclfBus(), branchIdList);
 		
 		// reset branch.visited status to its original value (false)
-		for (String id : branchIdList)
-			this.aclfNet.getBranch(id).setVisited(false);
-		
+		for (String id : branchIdList) {
+			Branch bra = this.aclfNet.getBranch(id);
+			bra.setVisited(false);
+			bra.getFromBus().setVisited(true);
+			bra.getToBus().setVisited(true);
+		}		
 		return branchIdList;
 	}
+	
+	/**
+	 * find branches between substations and add to the branchList
+	 * 
+	 * @param branchList
+	 */
+	public void addBranchBetweenSubstation(List<String> branchList) {
+		for (Branch branch : aclfNet.getBranchList()) {
+			if (branch.isActive())
+				if (branch.getFromBus().isVisited() && branch.getToBus().isVisited()) {
+					if (!StringUtil.contain(branchList, branch.getId())) {
+						branchList.add(branch.getId());
+					}
+				}
+		}
+		
+		for (Bus bus : this.aclfNet.getBusList())
+			bus.setVisited(false);		
+	}	
 	
 	/**
 	 * Starting from the refBranch (not including), search the refBus side for branches in the substation. 
