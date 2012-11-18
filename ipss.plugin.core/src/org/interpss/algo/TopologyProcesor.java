@@ -111,7 +111,10 @@ public class TopologyProcesor {
 	 * 
 	 * @param branchList
 	 */
-	public void addBranchBetweenSubstation(List<String> branchList) {
+	public void addBranchBetweenSubstation(List<String> branchList, List<String> islandBusList) {
+		for (String busId : islandBusList)
+			this.aclfNet.getBus(busId).setVisited(true);		
+		
 		for (Branch branch : aclfNet.getBranchList()) {
 			if (branch.isActive())
 				if (branch.getFromBus().isVisited() && branch.getToBus().isVisited()) {
