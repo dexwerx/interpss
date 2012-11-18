@@ -97,7 +97,11 @@ public class TopologyProcesor {
 			Branch bra = this.aclfNet.getBranch(id);
 			bra.setVisited(false);
 			bra.getFromBus().setVisited(true);
+			for (Bus bus : bra.getFromBus().getBusSecList())
+				bus.setVisited(true);
 			bra.getToBus().setVisited(true);
+			for (Bus bus : bra.getToBus().getBusSecList())
+				bus.setVisited(true);
 		}		
 		return branchIdList;
 	}
