@@ -26,19 +26,57 @@ package org.interpss.core.ca;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.interpss.CorePluginTestSetup;
 import org.interpss.algo.ZeroZBranchProcesor;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.net.Branch;
+import com.interpss.core.aclf.contingency.impl.IslandBusProcesor;
 import com.interpss.pssl.plugin.IpssAdapter;
 
 
 public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 	@Test 
-	public void case1_smallZ() throws  InterpssException {
+	public void case1() throws  InterpssException {
+		// Create an AclfNetwork object
+		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
+				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
+				.load()
+				.getAclfNet();
+	  	//System.out.println(net.net2String());
+
+		List<AclfBranch> list = new ArrayList<AclfBranch>();
+		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
+		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
+		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
+		
+		IslandBusProcesor proc = new IslandBusProcesor(net, 50);
+		proc.findIslandBus(list);
+	  	System.out.println("Original network with islanding");
+	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandSubnetInterface());
+	  	assertTrue(proc.getIslandBusIdList().size() == 15);
+	  	assertTrue(proc.getIslandSubnetInterface().size() == 3);
+
+	  	list.clear();
+		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
+		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
+		
+		proc.findIslandBus(list);
+	  	System.out.println("Original network without islanding");
+	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandSubnetInterface());
+	  	assertTrue(proc.getIslandBusIdList().size() == 0);
+	  	assertTrue(proc.getIslandSubnetInterface().size() == 0);
+	}	
+
+	@Test 
+	public void case_smallZ() throws  InterpssException {
 		// Create an AclfNetwork object
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker.xml")
 				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
@@ -49,43 +87,28 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 	  	net.accept(new ZeroZBranchProcesor(true));
 	  	assertTrue(net.isZeroZBranchProcessed());
 
-	  	/*
-	  	 * identify equivalent CA branches
-	  	 */
-	  	//IpssLogger.ipssLogger.setLevel(Level.INFO);
-	  	//for (Branch branch : net.getBranchList()) 
-	  	//	branch.identifyEquivCABranch();	  	
-	  	
-	  	//System.out.println("Branch Bus1->Bus15-1(1) equivCABranch: " + net.getBranch("Bus1->Bus15-1(1)").getEquivCABranchId());
-	  	//System.out.println("Branch Bus15-1->Bus15(1) equivCABranch: " + net.getBranch("Bus15-1->Bus15(1)").getEquivCABranchId());
-	  	
-	  	/*
-	  	 * Branch Bus1->Bus15-1(1) and Bus15-1->Bus15(1) are small-Z branches. Their equiv CA branch
-	  	 * is branch Bus15->Bus2 with normal Z.
-	  	 */
-	  	//assertTrue(net.getBranch("Bus1->Bus15-1(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
-	  	//assertTrue(net.getBranch("Bus15-1->Bus15(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
-	}	
-	
-	@Test 
-	public void case1_smallZ_1() throws  InterpssException {
-		// test casa with a small-Z brach loop at Bus-14
+	  	List<AclfBranch> list = new ArrayList<AclfBranch>();
+		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
+		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
+		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
 		
-		// Create an AclfNetwork object
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_odm/ieee14Bus_breaker_1.xml")
-				.setFormat(IpssAdapter.FileFormat.IEEE_ODM)
-				.load()
-				.getAclfNet();
-	  	//System.out.println(net.net2String());
-		
-	  	net.accept(new ZeroZBranchProcesor(true));
-	  	assertTrue(net.isZeroZBranchProcessed());
+		IslandBusProcesor proc = new IslandBusProcesor(net, 50);
+		proc.findIslandBus(list);
+	  	System.out.println("Consolidated network with islanding");
+	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandSubnetInterface());
+	  	assertTrue(proc.getIslandBusIdList().size() == 9);
+	  	assertTrue(proc.getIslandSubnetInterface().size() == 3);
 
-	  	//IpssLogger.ipssLogger.setLevel(Level.INFO);
-	  	//for (Branch branch : net.getBranchList()) 
-	  	//	branch.identifyEquivCABranch();	  	
-	  	
-	  	//System.out.println("Branch Bus1->Bus15(1) equivCABranch: " + net.getBranch("Bus1->Bus15(1)").getEquivCABranchId());
-	  	//assertTrue(net.getBranch("Bus1->Bus15(1)").getEquivCABranchId().equals("Bus15->Bus2(1)"));
-    }
+	  	list.clear();
+		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
+		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
+		
+		proc.findIslandBus(list);
+	  	System.out.println("Consolidated network without islanding");
+	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandSubnetInterface());
+	  	assertTrue(proc.getIslandBusIdList().size() == 0);
+	  	assertTrue(proc.getIslandSubnetInterface().size() == 0);
+	}	
 }
