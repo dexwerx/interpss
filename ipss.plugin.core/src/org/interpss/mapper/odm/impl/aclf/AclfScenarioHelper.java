@@ -31,6 +31,7 @@ import org.ieee.odm.schema.BranchChangeRecXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.contingency.Contingency;
 import com.interpss.core.algo.AclfMethod;
@@ -105,7 +106,8 @@ public class AclfScenarioHelper {
 	public static Contingency mapContingency(BranchChangeRecSetXmlType contingency, AclfNetwork net) {
 		Contingency cont = CoreObjectFactory.createContingency(contingency.getId());
 		for (BranchChangeRecXmlType bra : contingency.getBranchChangeRec()) {
-			cont.addOutageBranch(net.getAclfBranch(bra.getFromBusId(), bra.getToBusId(), bra.getCircuitId()));
+			AclfBranch branch = net.getAclfBranch(bra.getFromBusId(), bra.getToBusId(), bra.getCircuitId());
+			cont.addOutageBranch(CoreObjectFactory.createOutageBranch(branch, cont));
 		}			
 		return cont;
 	}

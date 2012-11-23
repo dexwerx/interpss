@@ -33,6 +33,7 @@ import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.contingency.Contingency;
+import com.interpss.core.aclf.contingency.OutageBranch;
 import com.interpss.core.common.visitor.IAclfNetBVisitor;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -106,7 +107,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	// marked contingency outage branches with visited = true
 		  	if (this.contingencyList != null)
 		  		for (Contingency cont : this.contingencyList) {
-		  			for (AclfBranch branch : cont.getOutageBranches())
+		  			for (AclfBranch branch : cont.getOutageAclfBranches())
 		  				branch.setVisited(true);
 		  		}
 		  	
