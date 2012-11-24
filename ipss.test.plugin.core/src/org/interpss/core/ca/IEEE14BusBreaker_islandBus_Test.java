@@ -56,7 +56,7 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
 		
 		IslandBusProcesor proc = new IslandBusProcesor();
-		proc.findIslandBus(list);
+		proc.findIslandBus(list, net);
 	  	System.out.println("Original network with islanding");
 	  	System.out.println(proc.getIslandBusIdList());
 	  	System.out.println(proc.getIslandSubnetInterface());
@@ -67,7 +67,7 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
 		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
 		
-		proc.findIslandBus(list);
+		proc.findIslandBus(list, net);
 	  	System.out.println("Original network without islanding");
 	  	System.out.println(proc.getIslandBusIdList());
 	  	System.out.println(proc.getIslandSubnetInterface());
@@ -93,7 +93,7 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
 		
 		IslandBusProcesor proc = new IslandBusProcesor();
-		proc.findIslandBus(list);
+		proc.findIslandBus(list, net);
 	  	System.out.println("Consolidated network with islanding");
 	  	System.out.println(proc.getIslandBusIdList());
 	  	System.out.println(proc.getIslandSubnetInterface());
@@ -104,7 +104,7 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
 		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
 		
-		proc.findIslandBus(list);
+		proc.findIslandBus(list, net);
 	  	System.out.println("Consolidated network without islanding");
 	  	System.out.println(proc.getIslandBusIdList());
 	  	System.out.println(proc.getIslandSubnetInterface());
