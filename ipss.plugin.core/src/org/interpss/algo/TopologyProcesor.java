@@ -23,6 +23,8 @@
   */
 package org.interpss.algo;
 
+import static com.interpss.common.util.IpssLogger.ipssLogger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,9 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.Contingency;
+import com.interpss.core.aclf.contingency.OutageBranch;
+import com.interpss.core.funcImpl.AclfNetHelper;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
@@ -46,8 +51,6 @@ public class TopologyProcesor {
 	private List<Bus> groupBusList = null;	
 	private Bus refBus = null;	
 	private List<String> islandedBusList = null;
-	private boolean byzone = false;
-	private boolean byArea = false;
 	
 	public TopologyProcesor(AclfNetwork net) {
 		this.aclfNet = net;
@@ -151,6 +154,226 @@ public class TopologyProcesor {
 			}
 		}
 	}
+	
+	
+	
+	
+	/**
+	 * find islanding buses for the contingency, only used for QA purpose
+	 * 
+	 * @param contingency
+	 * @return
+	 */
+	@Deprecated
+	public void findIslandBus(Contingency contingency) throws InterpssException {
+		/*
+		// all equivOutageBranch should be active
+		for (EquivOutageBranch bra : contingency.getEquivOutageBranches()) {
+			AclfBranch equivOutageBranch = bra.getAclfBranch();
+			if (!equivOutageBranch.isActive())
+				throw new InterpssException("Equivalent outage branch is inactive, " + 
+							equivOutageBranch.getId() + "[" + equivOutageBranch.getBranchCode() + "]");
+		}		
+		*/
+
+		for (OutageBranch branch : contingency.getOutageBranches()) {
+			if (branch.getAclfBranch().isActive()) {
+				branch.getAclfBranch().setIntFlag(1);
+				branch.getAclfBranch().setStatus(false);
+			}
+			else
+				branch.getAclfBranch().setIntFlag(0);
+		}		
+
+		List<String> list = new AclfNetHelper(aclfNet).checkRefBus(); 
+		if (list.size() > 0) 
+			ipssLogger.info("There are island buses: " + list.toString() + " for contingency " + contingency.getId());
+		
+		for (OutageBranch branch : contingency.getOutageBranches()) {
+			if (branch.getAclfBranch().getIntFlag() == 1)
+				branch.getAclfBranch().setStatus(true);
+		}		
+
+		contingency.getIslandBuses().clear();
+		if (list.size() > 0) {
+			for (String id : list) {
+				// add island bus to the list
+				contingency.addIslandBus(aclfNet.getAclfBus(id));
+			}
+		}		
+	}
+	
+/*
+ *  ====================================================
+ *  ====================================================	
+ */
+	private int distance = 7;
+
+	private boolean byzone = false;
+	private boolean byArea = false;	
+	/**
+	 * find islanding buses for the contingency by a regional searching algorithm
+	 * 
+	 * @param contingency
+	 * @return
+	 */
+	
+	@Deprecated
+	public void findIslandBusByRegionalSearch(Contingency contingency) throws InterpssException {		
+		
+		for (OutageBranch branch : contingency.getOutageBranches()) {
+			if (branch.getAclfBranch().isActive()) {
+				branch.getAclfBranch().setIntFlag(1);
+				branch.setStatus(false);
+			}
+			else
+				branch.getAclfBranch().setIntFlag(0);
+		}		
+		
+		// Make a judgment of whether to check connectivity by zone or by area
+		// If all outage branches are within one zone -> search within this zone
+		// If all outage branches are whitin one area -> search within this area
+		// else -> search the entire network
+		List<Long> zoneNoList = new ArrayList<Long>(); 
+		List<Long> areaNoList = new ArrayList<Long>(); 
+		boolean byZone = true;
+		boolean byArea = false;
+		for (OutageBranch b : contingency.getOutageBranches()) {	
+			AclfBranch bra = b.getAclfBranch();
+			Long fZoneNum = bra.getFromBus().getZone().getNumber();
+			Long tZoneNum = bra.getToBus().getZone().getNumber();
+			Long fAreaNum = bra.getFromBus().getArea().getNumber();
+			Long tAreaNum = bra.getToBus().getArea().getNumber();
+			/*System.out.print("outagebranches:"+ bra.getId()+": fBus Zone number: "+fZoneNum+";tBus Zone Number: "+tZoneNum);
+			System.out.println();*/
+			
+			if(fZoneNum != tZoneNum){
+				byZone = false;
+				byArea = true;
+			}
+			
+			if(fAreaNum != tAreaNum)
+				byArea = false;
+			
+			if(!this.distanceToNeighbourLargerThanDis(bra, distance, byZone, byArea)){
+				if(byZone){
+					byZone = false;
+					byArea = true;
+				}else
+					byArea = false;
+			}
+			
+			if (!zoneNoList.contains(fZoneNum))
+			     zoneNoList.add(fZoneNum);
+			
+			if (!areaNoList.contains(fAreaNum))
+				areaNoList.add(fAreaNum);			
+		}
+		if ( zoneNoList.size() >=2){
+			byZone = false;
+			byArea = true;
+		}
+		if ( areaNoList.size() >=2){
+			byArea = false;
+		}		
+		
+		/*byArea = true;
+		byZone = false;*/		
+		//List<Long> searchList = new ArrayList<Long>(); 
+		Long searchRegionNum = (long) 0;
+		if (byZone ){
+			searchRegionNum = zoneNoList.get(0);
+			//System.out.println("byzone");
+		}
+		else if (byArea){			
+			searchRegionNum = areaNoList.get(0);
+			//System.out.println("byarea");
+		}
+
+			//System.out.println("byNetwork");
+				
+		TopologyProcesor proc = new TopologyProcesor(aclfNet);
+		List<String> list = new ArrayList<String>();
+		if (byZone || byArea){
+			if(!proc.checkConnectivity(searchRegionNum,byZone, byArea))
+			    list = proc.getslandedBuses();
+		}else
+			list = new AclfNetHelper(aclfNet).checkRefBus(); 
+		
+				
+		if (list.size() > 0) {
+			ipssLogger.info("There are island buses: " + list.toString() + " for contingency " + contingency.getId());			
+		}
+			
+		
+		for (OutageBranch branch : contingency.getOutageBranches()) {
+			if (branch.getAclfBranch().getIntFlag() == 1)
+				branch.getAclfBranch().setStatus(true);
+		}			
+
+		contingency.getIslandBuses().clear();
+		if (list.size() > 0) {
+			for (String id : list) {
+				// add island bus to the list
+				contingency.addIslandBus(aclfNet.getAclfBus(id));
+			}
+		}		
+	}
+	
+	private boolean distanceToNeighbourLargerThanDis(AclfBranch bra, int dis, boolean byZone, boolean byArea	){
+		long zoneNum = 0;
+		long areaNum = 0;
+		if(byZone)
+		    zoneNum = bra.getFromBus().getZone().getNumber();
+		else
+			areaNum = bra.getFromBus().getArea().getNumber();
+		for (Branch branch : this.aclfNet.getBranchList())
+			if (branch.isActive())
+				branch.setVisited(false);		
+		bra.setVisited(true);
+		int i = 0;
+		List<Bus> busList = new ArrayList<Bus>();
+		List<Bus> temBusList = new ArrayList<Bus>();
+		busList.add(bra.getFromBus());
+		busList.add(bra.getToBus());
+		temBusList = busList;
+		
+		while(i<dis ){
+			busList = temBusList;
+			temBusList = new ArrayList<Bus>();
+			for(Bus b: busList){
+				for (Branch bran: b.getBranchList()){
+					if(bran.isActive()&& !bran.isVisited()){							
+						bran.setVisited(true);
+						Bus oppBus = bran.getOppositeBus(b);
+						if(byZone){
+							if(oppBus.getZone().getNumber()!=zoneNum){								
+								return false;
+							}else
+							    temBusList.add(oppBus);
+						}else{
+							if(oppBus.getArea().getNumber()!=areaNum){								
+								return false;
+							}else
+							    temBusList.add(oppBus);
+						}						
+					}					
+				}
+			}
+			busList = new ArrayList<Bus>();
+			i++;
+		}	
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * check network connectivity from within a zone or a area	 * 
 	 * @param num zone/area number
