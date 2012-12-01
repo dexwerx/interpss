@@ -76,14 +76,13 @@ public class ContingencyDataProcessor extends PWDDataParser{
 		String ctgInfo="";
 		
 		// create a branch change set object to represent a contingency
-		try{
+		try	{
 	      if(exist("CTGSkip"))
 					skipCtg=getString("CTGSkip").trim().equalsIgnoreCase("NO")?false:true;
 		  ctgId =getString("CTGLabel");
 		  if(exist("CustomString")) ctgInfo=getString("CustomString"); //Only for this project
-	      } catch (ODMException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	    } catch (ODMException e) {
+			  ODMLogger.getLogger().severe(e.toString());
 		}
 		
 		if(!skipCtg){
