@@ -35,7 +35,6 @@ import org.interpss.numeric.sparse.base.AbstractSparseEqnDouble;
  * Sparse Equation of data type double for solving the [A]X=B problem. 
    using the apache common math lib. It is for illustrating extension implementation.
  */
-
 public class SparseEqnDoubleCommonMathImpl extends AbstractSparseEqnDouble {
 	RealMatrix A = null;
 	RealVector B = null;

@@ -30,16 +30,12 @@ import org.apache.commons.math3.complex.Complex;
 /**
  * Constants for ipss numeric package
  */
-
 public class NumericConstant {
 	public final static int SparseEqnArrayListInitCapacity = 10;
 	public final static int NativeSparseEqnArrayListInitCapacity = 1000;
 	
 	public final static double
-			//			Pai       = Math.PI,
 			HalfPai = Math.PI * 0.5,
-			//RtoD = 180.0 / Math.PI, 
-			//DtoR = 1.0 / RtoD, 
 			SqrtRoot3 = Math.sqrt(3.0), 
 			HPtoKW = 0.746,
 			Mile_Ft = 1.0 / 5280.0; // 1 Mile = 5280 Feet

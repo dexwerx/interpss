@@ -33,7 +33,6 @@ import org.apache.commons.math3.complex.Complex;
  * @author  Mike Zhou
  * @version 1.00 06/01/05
  */
-
 public class Vector_dq  implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
 	
@@ -88,8 +87,7 @@ public class Vector_dq  implements java.io.Serializable {
 	*
 	* @return the string representation of the obj
    */
-	@Override
-	public String toString()	{
+	@Override public String toString()	{
 		return "(" + String.valueOf(d) + " + j" +
 			   String.valueOf(q) + ")\n";
 	}

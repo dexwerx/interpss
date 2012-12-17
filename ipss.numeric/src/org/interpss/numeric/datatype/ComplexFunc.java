@@ -30,7 +30,6 @@ import org.interpss.numeric.util.Number2String;
 /**
  * Complex util function to argument the Complex class
  */
-
 public class ComplexFunc {
 	/**
 	 * Create a Complex object

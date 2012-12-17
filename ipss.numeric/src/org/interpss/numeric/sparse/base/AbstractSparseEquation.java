@@ -67,7 +67,7 @@ public class AbstractSparseEquation implements SparseEquation {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override public void setB2Unit(int i) {
+	@Override public void setB2Unity(int i) {
 		throw new UnsupportedOperationException();
 	}
 

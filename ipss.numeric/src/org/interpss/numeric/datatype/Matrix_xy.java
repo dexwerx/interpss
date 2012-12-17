@@ -28,7 +28,6 @@ package org.interpss.numeric.datatype;
  * Data structure class for manipulating 2x2 matrix [xx, xy, yx, yy]
  * 
  */
-
 public class Matrix_xy implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
 

@@ -24,6 +24,12 @@
 
 package org.interpss.numeric.util;
 
+/**
+ * String utility functions
+ * 
+ * @author mzhou
+ *
+ */
 public class StringHelper {
 	/**
 	 * convert an Object[] to a String[]

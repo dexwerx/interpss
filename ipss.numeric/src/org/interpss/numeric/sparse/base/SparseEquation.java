@@ -29,8 +29,13 @@ import org.interpss.numeric.exp.IpssNumericException;
  * Base Sparse Equation for solving sparse matrix problems.
  * 
  */
-
 public interface SparseEquation {
+	/**
+	 * sparse eqn solver type
+	 * 
+	 * @author mzhou
+	 *
+	 */
 	public static enum SolverType {Default, Native};
 	
 	/**
@@ -98,11 +103,11 @@ public interface SparseEquation {
 	void solveEqn() throws IpssNumericException;			
 
 	/**
-	 * Set all b elements to 0.0 and bi = 1.0, a unit vector.
+	 * Set all b elements to 0.0 and bi = 1.0, a unity vector.
 	 * 
 	 * @param i the element row number
 	 */
-	void setB2Unit(final int i);
+	void setB2Unity(final int i);
 	
 	/**
 	 * Set all b elements to 0.0

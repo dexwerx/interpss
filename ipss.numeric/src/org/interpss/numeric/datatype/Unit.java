@@ -30,6 +30,12 @@ package org.interpss.numeric.datatype;
  */
 
 public class Unit {
+	/**
+	 * unit type
+	 * 
+	 * @author mzhou
+	 *
+	 */
 	public static enum UnitType { 
 			Percent, PU, 
 			Deg, Rad, 
@@ -45,6 +51,9 @@ public class Unit {
 			Ft, M, kM, Mile, // meter
 			Hour, Day, Month, Year }
 
+	/**
+	 * default unit type 
+	 */
 	public static UnitType 
 			VUnit = UnitType.PU, 
 			IUnit = UnitType.PU, 

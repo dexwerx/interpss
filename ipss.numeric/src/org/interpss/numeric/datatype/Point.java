@@ -24,20 +24,34 @@
 
 package org.interpss.numeric.datatype;
 
+/**
+ * data structure to represent a point on x-y plan
+ * 
+ * @author mzhou
+ *
+ */
 public class Point {
 	public double x, y;
 
+	/**
+	 * constructor
+	 */
 	public Point() {
 		this(0.0, 0.0);
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		return "Point: (" + x + "," + y + ")";
 	}
 }

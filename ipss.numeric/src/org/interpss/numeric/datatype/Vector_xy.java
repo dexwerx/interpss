@@ -31,7 +31,6 @@ import org.interpss.numeric.util.Number2String;
  * Data structure class for manipulating 2x1 [x,y] vector
  * 
  */
-
 public class Vector_xy extends Point implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
 

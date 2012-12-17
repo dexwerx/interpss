@@ -31,7 +31,6 @@ import org.interpss.numeric.sparse.base.SparseEquation;
  * Sparse Equation of data type integer. The purpose is for arranging network bus number
  * to minimize the non-zero fill-ins. 	To outside, the index number is from 0 to n-1
  */
-
 public interface SparseEqnInteger extends SparseEquation {
 
   /**

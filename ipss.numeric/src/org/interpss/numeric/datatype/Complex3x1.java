@@ -31,7 +31,6 @@ import org.interpss.numeric.util.Number2String;
 /**
  * Data structure class for manipulating 3x1 [a,b,c] or [0,1,2] complex number vector
  */
-
 public class Complex3x1 implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
 

@@ -31,7 +31,6 @@ import org.apache.commons.math3.complex.Complex;
 /**
  * Num2Str class is for formated output. It is based on the DicimalFormat class.
  */
-
 public class Number2String {
 	/*
 	 *    int, long type
@@ -131,27 +130,17 @@ public class Number2String {
 	public static String toStr(final double d) {
 		return toStr(d, "#0.0000#");
 	}
+
+	/**
+	 * Format a double to the specified format "#0.0000000#'.
+	 * 
+	 * @param d
+	 * @return
+	 */
 	public static String toDebugStr(final double d) {
 		return toStr(d, "#0.0000000#");
 	}
 
-	/**
-	 * Format a double to the specified format pattern. White space will be patched at the begining to
-	 * make formatted string length = pattern string length.
-	 *
-	 * @param pattern format pattern
-	 * @param d number to be formatted
-	 * @return formatted string
-	 */
-/*	public static String toStr(final String pattern, final double d) {
-		final DecimalFormat f = new DecimalFormat(pattern);
-		String str = f.format(d);
-		while (str.length() < pattern.length()) {
-			str = " " + str;
-		}
-		return str;
-	}
-*/
 	/**
 	 * Format a double to the specified format pattern. 
 	 *
@@ -163,11 +152,25 @@ public class Number2String {
 		final DecimalFormat f = new DecimalFormat(pattern);
 		return f.format(d);
 	}
-	// for back compatibility reason
+
+	/**
+	 * Format a double to the specified format pattern. 
+	 * 
+	 * @param pattern
+	 * @param d
+	 * @return
+	 */
 	public static String toStr(final String pattern, final double d) {
 		return toFixLengthStr(d, pattern);
 	}
 
+	/**
+	 * Format a double to the specified format pattern. 
+	 * 
+	 * @param d
+	 * @param pattern
+	 * @return
+	 */
 	public static String toStr(final Double d, final String pattern) {
 		final DecimalFormat f = new DecimalFormat(pattern);
 		return f.format(d==null?0.0:d);
@@ -204,6 +207,13 @@ public class Number2String {
 		return c == null? "null" : toStr(c.getReal()) + " + j" + toStr(c.getImaginary());
 	}
 
+	/**
+	 * Format a complex number by using the default Num2Str.toStr(double) function in format (a + jb).
+	 * 
+	 * @param c
+	 * @param format
+	 * @return
+	 */
 	public static String toStr(final Complex c, String format) {
 		return toStr(format, c.getReal()) + " + j" + toStr(format, c.getImaginary());
 	}

@@ -26,7 +26,26 @@ package org.interpss.numeric.util;
 
 import org.interpss.numeric.datatype.Complex3x1;
 
+/**
+ * utility function for testing
+ * 
+ * @author mzhou
+ *
+ */
 public class TestUtilFunc {
+	/**
+	 * compare complex3x1 value 
+	 * 
+	 * @param iPU_012
+	 * @param zeroRe
+	 * @param zeroIm
+	 * @param oneRe
+	 * @param oneIm
+	 * @param twoRe
+	 * @param twoIm
+	 * @param err
+	 * @return
+	 */
 	public static boolean compare(Complex3x1 iPU_012, double zeroRe,
 			double zeroIm, double oneRe, double oneIm, double twoRe,
 			double twoIm, double err) {
@@ -41,6 +60,18 @@ public class TestUtilFunc {
 		return ok;
 	}
 
+	/**
+	 * compare complex3x1 value
+	 * 
+	 * @param iPU_012
+	 * @param zeroRe
+	 * @param zeroIm
+	 * @param oneRe
+	 * @param oneIm
+	 * @param twoRe
+	 * @param twoIm
+	 * @return
+	 */
 	public static boolean compare(Complex3x1 iPU_012, double zeroRe,
 			double zeroIm, double oneRe, double oneIm, double twoRe,
 			double twoIm) {

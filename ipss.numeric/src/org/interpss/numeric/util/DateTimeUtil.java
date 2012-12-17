@@ -29,10 +29,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Date time utility funcitons
+ * 
+ * @author mzhou
+ *
+ */
 public class DateTimeUtil {
     static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	
 	/**
+	 * check if the date is within
 	 * 
 	 * @param date
 	 * @param begin
@@ -44,6 +51,7 @@ public class DateTimeUtil {
 	}
 
 	/**
+	 * check if the date is within
 	 * 
 	 * @param date
 	 * @param beginStr format "8/18/2007"
@@ -56,6 +64,7 @@ public class DateTimeUtil {
 	}
 
 	/**
+	 * check if the date is within
 	 * 
 	 * @param dateStr
 	 * @param beginStr format "8/18/2007"

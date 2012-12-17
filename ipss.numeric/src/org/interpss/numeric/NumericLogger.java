@@ -27,9 +27,20 @@ package org.interpss.numeric;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * InterPSS numeric logger
+ * 
+ * @author mzhou
+ *
+ */
 public class NumericLogger {
 	private static Logger logger = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @return
+	 */
 	public static Logger getLogger() { 
 		if (logger == null) {
 			logger = Logger.getLogger("ipss.numeric");

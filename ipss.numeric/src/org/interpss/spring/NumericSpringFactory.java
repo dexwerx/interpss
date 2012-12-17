@@ -40,17 +40,24 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class NumericSpringFactory {
 	private static final String DefaultSparseEqnIntegerId 		= "sparseEqnInteger";
+	
 	// use default sparse solver
 	public static String DefaultSparseEqnDoubleId 		= "sparseEqnDouble";
 	public static String DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2";
 	public static String DefaultSparseEqnComplexId 		= "sparseEqnComplex";
 
+	/**
+	 * set default sparse eqn solver
+	 */
 	public static void setDefualtSparseEqnSolver() {
 		DefaultSparseEqnDoubleId 		= "sparseEqnDouble";
 		DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2";
 		DefaultSparseEqnComplexId 		= "sparseEqnComplex";
 	}
 
+	/**
+	 * set the native sparse eqn solver
+	 */
 	public static void setNativeSparseEqnSolver() {
 		DefaultSparseEqnDoubleId 		= "sparseEqnDoubleNative";
 		DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2Native";
@@ -65,6 +72,13 @@ public class NumericSpringFactory {
 	public static SparseEqnInteger getSparseEqnInteger() {
 		return getSparseEqnInteger(DefaultSparseEqnIntegerId);
 	}
+
+	/**
+	 * Get the SparseEqnInteger(singleton) object from the SpringAppContext.
+	 *
+	 *  @param beanId Spring bean Id
+	 * @return the SparseEqnInteger object
+	 */
 	public static SparseEqnInteger getSparseEqnInteger(String beanId) {
 		setup();
 		return (SparseEqnInteger) SpringAppCtx.getBean(beanId);
@@ -78,6 +92,13 @@ public class NumericSpringFactory {
 	public static SparseEqnDouble getSparseEqnDouble() {
 		return getSparseEqnDouble(DefaultSparseEqnDoubleId);
 	}
+
+	/**
+	 * Get the SparseEqnDouble(singleton) object from the SpringAppContext.
+	 *
+	 *  @param beanId Spring bean Id
+	 * @return the SparseEqnDouble object
+	 */
 	public static SparseEqnDouble getSparseEqnDouble(String beanId) {
 		setup();
 		return (SparseEqnDouble) SpringAppCtx.getBean(beanId);
@@ -91,6 +112,13 @@ public class NumericSpringFactory {
 	public static SparseEqnMatrix2x2 getSparseEqnMatrix2x2() {
 		return getSparseEqnMatrix2x2(DefaultSparseEqnMatrix2x2Id);
 	}
+
+	/**
+	 * Get the SparseEqnMatrix2x2(singleton) object from the SpringAppContext.
+	 *
+	 *  @param beanId Spring bean Id
+	 * @return the SparseEqnDouble object
+	 */
 	public static SparseEqnMatrix2x2 getSparseEqnMatrix2x2(String beanId) {
 		setup();
 		return (SparseEqnMatrix2x2) SpringAppCtx.getBean(beanId);
@@ -104,6 +132,13 @@ public class NumericSpringFactory {
 	public static SparseEqnComplex getSparseEqnComplex() {
 		return getSparseEqnComplex(DefaultSparseEqnComplexId);
 	}
+	
+	/**
+	 * Get the SparseEqnComplex(singleton) object from the SpringAppContext.
+	 *
+	 * @param beanId Spring bean id
+	 * @return the SparseEqnComplex object
+	 */
 	public static SparseEqnComplex getSparseEqnComplex(String beanId) {
 		setup();
 		return (SparseEqnComplex) SpringAppCtx.getBean(beanId);

@@ -32,12 +32,9 @@ import org.interpss.numeric.util.Number2String;
  * Limits class for (max, min) limits
  * 
  */
-
 public class LimitType implements java.io.Serializable {
 	private static final long serialVersionUID = 1;
 	
-//	public static boolean Debug = false;
-
 	protected double _max = 0.0, _min = 0.0;
 
 	/**
@@ -190,8 +187,7 @@ public class LimitType implements java.io.Serializable {
 	 *
 	 * @return the string representation of the obj
 	 */
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		return "( " + String.valueOf(getMax()) + ", "
 				+ String.valueOf(getMin()) + " )";
 	}

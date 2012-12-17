@@ -34,7 +34,6 @@ import org.interpss.numeric.sparse.base.SparseEqnObject;
  * To outside, the index number is from 0 to n-1
  *
  */
-
 public interface SparseEqnMatrix2x2 extends SparseEqnObject<Matrix_xy, Vector_xy> {
 	/**
 	* Set b[i] object.
