@@ -57,6 +57,9 @@ import com.interpss.core.net.Zone;
  * @param <Tto> a Network object (AclfNetwork, AcscNetwork)
  */
 public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMapping<Tfrom, Tto> {
+	/**
+	 * constructor
+	 */
 	public AbstractODMNetDataMapper() {
 	}
 	

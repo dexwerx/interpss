@@ -3,6 +3,8 @@ package org.interpss.ext.pwd;
 import java.util.Hashtable;
 
 /**
+ *  AclfBus extension for representing PowerWorld custom fields
+ * 
  *  {Gen_CustomString:2=DZONE_1, Gen_CustomString=Sub1_14.9_G1, Gen_CustomString:1=G1, SubStation=Sub1}
  * 
  * @author mzhou
@@ -23,6 +25,9 @@ public class AclfBusPWDExtension extends Hashtable<String,String> {
 			return null;
 	}
 
+	/**
+	 * to string function
+	 */
 	public String toString() {
 		String str = "AclfBusPWDExtension: " + super.toString();
 		return str;

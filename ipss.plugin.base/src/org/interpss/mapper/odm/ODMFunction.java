@@ -44,7 +44,6 @@ import com.interpss.common.func.IFunction2;
  * @author mzhou
  *
  */
-
 public class ODMFunction {
 	/**
 	 * convert ActivePower ODM object to a MW value
@@ -67,6 +66,9 @@ public class ODMFunction {
 			}
 		};
 
+	/**
+	 * get bus id from a bus ref xml object	
+	 */
 	public static IFunction<IDRefRecordXmlType, String> BusXmlRef2BusId = 
 		new FunctionAdapter<IDRefRecordXmlType, String>() {
 			@Override public String fx(IDRefRecordXmlType busXmlRef) throws InterpssException {

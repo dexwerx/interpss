@@ -47,7 +47,6 @@ import com.interpss.common.func.IFunction;
  * @author mzhou
  *
  */
-
 public class ODMUnitHelper {
 	/**
 	 * convert XML power unit to InterPSS UnitType
@@ -231,7 +230,6 @@ public class ODMUnitHelper {
 				return UnitType.PU;
 			}
 		};
-	
 	
 	/**
 	 * convert XML length unit to Ipss UnitType

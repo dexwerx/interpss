@@ -38,6 +38,9 @@ import com.interpss.simu.SimuCtxType;
  */
 
 public abstract class AbstractODMSimuCtxDataMapper<Tfrom> extends AbstractODMNetDataMapper<Tfrom, SimuContext> {
+	/**
+	 * constructor
+	 */
 	public AbstractODMSimuCtxDataMapper() {
 	}
 	
