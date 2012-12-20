@@ -38,6 +38,9 @@ import com.interpss.core.aclf.AclfBus;
  *
  */
 public class DblBusValue extends BusValueBase {
+	/**
+	 * double value field
+	 */
 	public double value;
 	
 	/**

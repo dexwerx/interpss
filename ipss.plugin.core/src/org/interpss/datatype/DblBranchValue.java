@@ -38,17 +38,37 @@ import com.interpss.core.aclf.AclfBranch;
  *
  */
 public class DblBranchValue extends BranchValueBase {
+	/**
+	 * double value field
+	 */
 	public double value;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param x
+	 */
 	public DblBranchValue(double x) {
 		this.value = x;
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param id
+	 * @param x
+	 */
 	public DblBranchValue(String id, double x) {
 		this.id = id;
 		this.value = x;
 	}	
 	
+	/**
+	 * constructor
+	 * 
+	 * @param b
+	 * @param x
+	 */
 	public DblBranchValue(AclfBranch b, double x) {
 		this.branch = b;
 		this.id = branch.getId();

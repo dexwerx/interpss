@@ -31,6 +31,8 @@ package org.interpss.datatype.base;
  *
  */
 public class ValueBaseId {
-	// value object id
+	/**
+	 *  value object id
+	 */
 	public String id;
 }

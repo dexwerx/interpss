@@ -28,13 +28,19 @@ import org.interpss.datatype.base.ValueBaseId;
 
 
 /**
- * A bus data object of type double
+ * A ref data object of type double[]
  * 
  * @author mzhou
  *
  */
 public class DblAryRefValue extends ValueBaseId {
+	/**
+	 * object ref
+	 */
 	public Object ref;
+	/**
+	 * double[] field
+	 */
 	public double[] aryValue;
 	
 	/**

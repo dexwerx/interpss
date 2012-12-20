@@ -47,14 +47,24 @@ import com.interpss.core.net.Bus;
 public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	public static enum Method {ZValue, BranchType};
 	
-	Method method = Method.ZValue;
+	private Method method = Method.ZValue;
 	private double threshold = 1.0e-10;
 	private boolean allowZeroZBranchLoop = false;
 	
 	private List<String> protectedBranchIds = new ArrayList<String>();
+	/**
+	 * set protected branch id list
+	 * 
+	 * @param list
+	 */
 	public void setProtectedBranchIdList(List<String> list) { this.protectedBranchIds = list; }
 	
 	private List<Contingency> contingencyList = null;
+	/**
+	 * set contingency list for protected branch 
+	 * 
+	 * @param list
+	 */
 	public void setContingencyList(List<Contingency> list) { this.contingencyList = list; }
 	
 	/**
@@ -88,12 +98,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
 	
-	//public List<String> getProtectedBranchIdList() {
-	//	return this.protectedBranchIds;
-	//}
- 	
-	@Override
-	public boolean visit(AclfNetwork net) {
+	@Override public boolean visit(AclfNetwork net) {
 		try {
 		  	// bus and branch visited status will be used
 			// in the processing

@@ -27,6 +27,12 @@ package org.interpss.app;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * App launch parameter help class
+ * 
+ * @author mzhou
+ *
+ */
 public class AppParameters {
 	/**
 	 * This is where we store every sort of session parameters

@@ -35,6 +35,9 @@ import org.interpss.numeric.util.Number2String;
  *
  */
 public class CplxBusValue extends BusValueBase {
+	/**
+	 * complex value field
+	 */
 	public Complex value;
 	
 	/**

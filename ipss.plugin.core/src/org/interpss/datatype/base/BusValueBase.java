@@ -34,5 +34,8 @@ import com.interpss.core.aclf.AclfBus;
  *
  */
 public class BusValueBase extends ValueBaseId {
+	/**
+	 * aclf bus object
+	 */
 	public AclfBus bus;
 }

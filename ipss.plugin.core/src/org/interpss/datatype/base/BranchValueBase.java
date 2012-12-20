@@ -34,5 +34,8 @@ import com.interpss.core.aclf.AclfBranch;
  *
  */
 public class BranchValueBase  extends ValueBaseId {
+	/**
+	 * aclf branch object
+	 */
 	public AclfBranch branch;
 }

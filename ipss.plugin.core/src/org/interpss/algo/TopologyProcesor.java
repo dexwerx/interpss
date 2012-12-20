@@ -47,11 +47,16 @@ import com.interpss.core.net.Bus;
  *
  */
 public class TopologyProcesor {
-	AclfNetwork aclfNet = null;
+	private AclfNetwork aclfNet = null;
 	private List<Bus> groupBusList = null;	
 	private Bus refBus = null;	
 	private List<String> islandedBusList = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param net
+	 */
 	public TopologyProcesor(AclfNetwork net) {
 		this.aclfNet = net;
 		// in the findBranchSubStation(), branch.visited status is used for branch search
@@ -156,6 +161,10 @@ public class TopologyProcesor {
 	}
 	
 	
+	/*
+	 *  ====================================================
+	 *  ====================================================	
+	 */
 	
 	
 	/**
@@ -203,10 +212,6 @@ public class TopologyProcesor {
 		}		
 	}
 	
-/*
- *  ====================================================
- *  ====================================================	
- */
 	private int distance = 7;
 
 	private boolean byzone = false;
@@ -366,12 +371,6 @@ public class TopologyProcesor {
 		
 		return true;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -590,9 +589,4 @@ public class TopologyProcesor {
 		}		
 		return branchList;
 	}
-	
-	
-	
-	
-	
 }

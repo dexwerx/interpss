@@ -29,12 +29,15 @@ import org.interpss.datatype.base.BusValueBase;
 import com.interpss.core.aclf.AclfBus;
 
 /**
- * A bus data object of type double
+ * A bus data object of type double[]
  * 
  * @author mzhou
  *
  */
 public class DblAryBusValue extends BusValueBase {
+	/**
+	 * double[] field
+	 */
 	public double[] aryValue;
 	
 	/**

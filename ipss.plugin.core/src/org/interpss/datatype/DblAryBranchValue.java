@@ -1,5 +1,5 @@
 /*
-  * @(#)DblBranchValue.java   
+  * @(#)DblAryBranchValue.java   
   *
   * Copyright (C) 2006-2011 www.interpss.com
   *
@@ -29,38 +29,75 @@ import org.interpss.datatype.base.BranchValueBase;
 import com.interpss.core.aclf.AclfBranch;
 
 /**
- * A branch data object of type double
+ * A branch data object of type double[]
  * 
  * @author mzhou
  *
  */
 public class DblAryBranchValue extends BranchValueBase {
+	/**
+	 * double[] field
+	 */
 	public double[] aryValue;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param x
+	 */
 	public DblAryBranchValue(double[] x) {
 		this.aryValue = x;
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param id
+	 * @param x
+	 */
 	public DblAryBranchValue(String id, double[] x) {
 		this.id = id;
 		this.aryValue = x;
 	}	
 	
+	/**
+	 * constructor
+	 * 
+	 * @param b
+	 * @param x
+	 */
 	public DblAryBranchValue(AclfBranch b, double[] x) {
 		this.branch = b;
 		this.id = b.getId();
 		this.aryValue = x;
 	}	
 
+	/**
+	 * constructor
+	 * 
+	 * @param size
+	 */
 	public DblAryBranchValue(int size) {
 		this.aryValue = new double[size];
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param id
+	 * @param size
+	 */
 	public DblAryBranchValue(String id, int size) {
 		this.id = id;
 		this.aryValue = new double[size];
 	}	
 	
+	/**
+	 * constructor
+	 * 
+	 * @param b
+	 * @param size
+	 */
 	public DblAryBranchValue(AclfBranch b, int size) {
 		this.branch = b;
 		this.id = b.getId();

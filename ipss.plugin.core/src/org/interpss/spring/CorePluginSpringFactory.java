@@ -44,7 +44,9 @@ public class CorePluginSpringFactory extends CoreSimuSpringFactory {
 	 * 		================================
 	 */
 	/**
-	 * create a ODMAclfDataMapper object from the Spring container
+	 * create a ODMAclfMapper object from the Spring container
+	 * 
+	 * @param xfrBranchModel
 	 */
 	public static ODMAclfParserMapper getOdm2AclfParserMapper(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		ODMAclfParserMapper mapper = (ODMAclfParserMapper) springAppCtx.getBean("odm2AclfParserMapper");
@@ -52,6 +54,12 @@ public class CorePluginSpringFactory extends CoreSimuSpringFactory {
 		return mapper;
 	}	
 
+	/**
+	 * create a ODMAclfNetMapper object from the Spring container
+	 * 
+	 * @param xfrBranchModel
+	 * @return
+	 */
 	public static ODMAclfNetMapper getOdm2AclfNetMapper(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		ODMAclfNetMapper mapper = (ODMAclfNetMapper) springAppCtx.getBean("odm2AclfNetMapper");
 		mapper.setXfrBranchModel(xfrBranchModel);
