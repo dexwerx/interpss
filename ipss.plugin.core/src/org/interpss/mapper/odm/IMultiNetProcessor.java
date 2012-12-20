@@ -1,5 +1,5 @@
 /*
- * @(#)ODMAclfDataMapper.java   
+ * @(#)IMultiNetProcessor.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -29,6 +29,12 @@ import org.ieee.odm.schema.NetworkXmlType;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 
+/**
+ * interface for processing multi-network
+ * 
+ * @author mzhou
+ *
+ */
 public interface IMultiNetProcessor {
 	/**
 	 * get the main parent network object

@@ -1,5 +1,5 @@
 /*
- * @(#)IpssPlugin.java   
+ * @(#)IpssCorePlugin.java   
  *
  * Copyright (C) 2006-2010 www.interpss.org
  *
@@ -38,21 +38,49 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.BusNumberArrangeRule;
 import com.interpss.spring.CoreCommonSpringFactory;
 
+/**
+ * Core plugin runtime configuration functioin
+ * 
+ * @author mzhou
+ *
+ */
 public class IpssCorePlugin {
+	/**
+	 * Core plugin Sptring ctx file path
+	 */
 	public final static String CtxPath = "org/interpss/spring/CorePluginSpringCtx.xml";
 	
+	/**
+	 * initialize core plugin 
+	 */
 	public static void init() {
 		init(Level.WARNING);
 	}
 	
+	/**
+	 * initialize core plugin 
+	 * 
+	 * @param paths array of Spring ctx paths
+	 */
 	public static void init(String[] paths) {
 		init(paths, Level.WARNING);
 	}
 
+	/**
+	 * initialize core plugin 
+	 * 
+	 * @param level log level
+	 */
 	public static void init(Level level) {
 		init(new String[] {CtxPath}, level);
 	}
 
+	/**
+	 * initialize core plugin 
+	 * 
+	 * @param paths array of Spring ctx paths
+	 * @param level log level
+	 */
 	public static void init(String[] paths, Level level) {
 		IpssLogger.initLogger();
 		setSpringAppCtx(paths);
@@ -60,21 +88,36 @@ public class IpssCorePlugin {
 		setSparseEqnSolver(SparseEquation.SolverType.Default);
 	}
 
-	public static void setSparseEqnSolver(SparseEquation.SolverType solver) {
-		if (solver == SparseEquation.SolverType.Default ) {
+	/**
+	 * set sparse eqn solver type
+	 * 
+	 * @param solverType solver type
+	 */
+	public static void setSparseEqnSolver(SparseEquation.SolverType solverType) {
+		if (solverType == SparseEquation.SolverType.Default ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY2;
 			NumericSpringFactory.setDefualtSparseEqnSolver();
 		}
-		else if (solver == SparseEquation.SolverType.Native ) {
+		else if (solverType == SparseEquation.SolverType.Native ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY0;
 			NumericSpringFactory.setNativeSparseEqnSolver();
 		}
 	}
 	
+	/**
+	 * get the MsgHub object
+	 * 
+	 * @return
+	 */
 	public static IPSSMsgHub getMsgHub() {
 		return CoreCommonSpringFactory.getIpssMsgHub();
 	}
 	
+	/**
+	 * get logger level
+	 * 
+	 * @param level
+	 */
 	public static void setLoggerLevel(Level level) {
 		ipssLogger.setLevel(level);
 		ODMLogger.getLogger().setLevel(level);

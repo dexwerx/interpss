@@ -34,7 +34,16 @@ import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfNetMapper;
  *
  */
 public class ODMAclfNetMapper extends AbstractODMAclfNetMapper<LoadflowNetXmlType> {
+	/**
+	 * Xformer branch model
+	 * 
+	 * @author mzhou
+	 *
+	 */
 	public static enum XfrBranchModel { InterPSS, PSSE}
 	
+	/**
+	 * constructor
+	 */
 	public ODMAclfNetMapper() {}
 }

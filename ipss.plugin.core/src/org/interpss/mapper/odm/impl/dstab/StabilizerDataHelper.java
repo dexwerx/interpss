@@ -53,6 +53,11 @@ import com.interpss.dstab.mach.Machine;
 public class StabilizerDataHelper {
 	private Machine mach = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param mach
+	 */
 	public StabilizerDataHelper(Machine mach) {
 		this.mach = mach;
 	}

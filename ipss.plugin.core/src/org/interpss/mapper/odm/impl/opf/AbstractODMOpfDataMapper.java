@@ -214,6 +214,14 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		return opfNet;
 	}
 
+	/**
+	 * map OPF gen bus data
+	 * 
+	 * @param busRec
+	 * @param net
+	 * @return
+	 * @throws InterpssException
+	 */
 	public OpfGenBus mapOpfGenBusData(OpfGenBusXmlType busRec, OpfNetwork net) throws InterpssException {
 		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId(), net);
 		mapBaseBusData(busRec, opfGenBus, net);
@@ -348,9 +356,6 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 			opfGenBus.setConstraints(ctrtIpss);
 			
 		}
-		
-		
-		
 		return opfGenBus;
 	}
 	

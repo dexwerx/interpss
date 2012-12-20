@@ -35,11 +35,32 @@ import org.interpss.spring.CorePluginSpringFactory;
 
 import com.interpss.common.exp.InterpssException;
 
+/**
+ * Core plugin object factory
+ * 
+ * @author mzhou
+ *
+ */
 public class CorePluginObjFactory {
+	/**
+	 * get input file adapter for the file format
+	 * 
+	 * @param f
+	 * @return
+	 * @throws InterpssException
+	 */
 	public static IpssFileAdapter getFileAdapter(IpssFileAdapter.FileFormat f) throws InterpssException {
 		return getFileAdapter(f, IpssFileAdapter.Version.NotDefined);
 	}
 	
+	/**
+	 * get input file adapter for the file format
+	 * 
+	 * @param f
+	 * @param v
+	 * @return
+	 * @throws InterpssException
+	 */
 	public static IpssFileAdapter getFileAdapter(IpssFileAdapter.FileFormat f, IpssFileAdapter.Version v)
 					throws InterpssException {
 		if (f == IpssFileAdapter.FileFormat.IEEECDF) {

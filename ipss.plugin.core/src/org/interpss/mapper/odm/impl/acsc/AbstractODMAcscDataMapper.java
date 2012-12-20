@@ -216,6 +216,13 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		} 
 	}
 
+	/**
+	 * set Acsc bus data for scenario no lf data
+	 * 
+	 * @param acscBusXml
+	 * @param acscBus
+	 * @throws InterpssException
+	 */
 	public static void setAcscBusNoLFData(BasicScBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
 		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
 			setContributeBusNoLFInfo(acscBusXml, acscBus);

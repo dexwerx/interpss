@@ -393,6 +393,12 @@ public class AclfBranchDataHelper {
 		setXfr3WData(xml3WXfr, xfr3W);
 	}
 	
+	/**
+	 * 	 map the Aclf 3W PsXfr ODM object info to the AclfBranch object
+	 * 
+	 * @param xmlPsXfr3W
+	 * @throws InterpssException
+	 */
 	public void setPsXfr3WBranchData(PSXfr3WBranchXmlType xmlPsXfr3W) throws InterpssException {
 		ipssLogger.info("PSXfr3WBranchXmlType: " + xmlPsXfr3W.getId());
 		

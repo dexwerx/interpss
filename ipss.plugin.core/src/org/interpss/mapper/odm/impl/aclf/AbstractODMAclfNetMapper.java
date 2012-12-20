@@ -84,10 +84,20 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	public AbstractODMAclfNetMapper() {
 	}
 	
+	/**
+	 * set xformer branch model
+	 * 
+	 * @param xfrBranchModel
+	 */
 	public void setXfrBranchModel(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		this.xfrBranchModel = xfrBranchModel;
 	}
 
+	/**
+	 * set the original format 
+	 * 
+	 * @param format
+	 */
 	public void setOriginalDataFormat(OriginalDataFormat format) {
 		this.originalFormat = format;
 	}

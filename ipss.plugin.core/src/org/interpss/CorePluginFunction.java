@@ -38,6 +38,9 @@ public class CorePluginFunction {
 	 * 		ODM Mapping functions
 	 ************************************************************/
 
+	/**
+	 * Aclf ODM model parser to AclfNetwork object mapping function
+	 */
 	public static IFunction2<AclfModelParser, ODMAclfNetMapper.XfrBranchModel, AclfNetwork> AclfParser2AclfNet = 
 		new Function2Adapter<AclfModelParser, ODMAclfNetMapper.XfrBranchModel, AclfNetwork>() {
 			@Override public AclfNetwork fx(AclfModelParser parser, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) throws InterpssException {
@@ -46,6 +49,9 @@ public class CorePluginFunction {
 						.getAclfNet();
 		}};
 	
+	/**
+	 * Aclf ODM network xml doc to AclfNetwork object mapping function
+	 */
 	public static IFunction2<LoadflowNetXmlType, ODMAclfNetMapper.XfrBranchModel, AclfNetwork> AclfXmlNet2AclfNet = 
 		new Function2Adapter<LoadflowNetXmlType, ODMAclfNetMapper.XfrBranchModel, AclfNetwork>() {
 			@Override public AclfNetwork fx(LoadflowNetXmlType xmlNet, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) throws InterpssException {

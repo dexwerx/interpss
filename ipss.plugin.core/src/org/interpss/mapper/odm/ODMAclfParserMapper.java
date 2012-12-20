@@ -1,5 +1,5 @@
 /*
- * @(#)ODMAclfDataMapper.java   
+ * @(#)ODMAclfParserMapper.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -34,5 +34,8 @@ import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfParserMapper;
  *
  */
 public class ODMAclfParserMapper extends AbstractODMAclfParserMapper<AclfModelParser> {
+	/**
+	 * constructor
+	 */
 	public ODMAclfParserMapper() {}
 }

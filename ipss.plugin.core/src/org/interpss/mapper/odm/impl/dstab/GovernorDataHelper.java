@@ -55,6 +55,11 @@ import com.interpss.dstab.mach.Machine;
 public class GovernorDataHelper {
 	private Machine mach = null;
 
+	/**
+	 * constructor
+	 * 
+	 * @param mach
+	 */
 	public GovernorDataHelper(Machine mach) {
 		this.mach = mach;
 	}

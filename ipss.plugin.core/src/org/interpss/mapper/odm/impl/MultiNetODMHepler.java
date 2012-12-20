@@ -1,5 +1,5 @@
 /*
- * @(#)ODMAclfDataMapper.java   
+ * @(#)MultiNetODMHepler.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -36,11 +36,22 @@ import org.interpss.mapper.odm.ODMAclfNetMapper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
 
-
+/**
+ * multi-network mapping helper
+ * 
+ * @author mzhou
+ *
+ */
 public class MultiNetODMHepler {
 	private AclfModelParser aclfParser;
 	private ODMAclfNetMapper.XfrBranchModel xfrBranchModel = ODMAclfNetMapper.XfrBranchModel.InterPSS;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param aclfParser
+	 * @param xfrBranchModel
+	 */
 	public MultiNetODMHepler(AclfModelParser aclfParser, ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		this.aclfParser = aclfParser;
 	}

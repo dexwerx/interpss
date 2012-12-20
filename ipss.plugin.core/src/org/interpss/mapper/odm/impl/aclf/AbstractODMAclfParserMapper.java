@@ -53,6 +53,11 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 	public AbstractODMAclfParserMapper() {
 	}
 	
+	/**
+	 * set xformer branch model
+	 * 
+	 * @param xfrBranchModel
+	 */
 	public void setXfrBranchModel(ODMAclfNetMapper.XfrBranchModel xfrBranchModel) {
 		this.xfrBranchModel = xfrBranchModel;
 	}

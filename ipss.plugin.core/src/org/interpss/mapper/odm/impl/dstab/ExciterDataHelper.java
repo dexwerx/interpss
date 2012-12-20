@@ -66,6 +66,11 @@ import com.interpss.dstab.mach.Machine;
 public class ExciterDataHelper {
 	private Machine mach = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param mach
+	 */
 	public ExciterDataHelper(Machine mach) {
 		this.mach = mach;
 	}
