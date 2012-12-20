@@ -112,7 +112,7 @@ public class Bus11856Test extends CorePluginTestSetup {
 		
 		AclfBus bus1 = net.getAclfBus("9a");
 		int busNo = bus1.getSortNumber();
-		eqn.setB2Unit(busNo);
+		eqn.setB2Unity(busNo);
 		
         starttime = System.currentTimeMillis() ;
 		eqn.solveEqn();
