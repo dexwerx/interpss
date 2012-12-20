@@ -22,7 +22,8 @@
   *
   */
 
-package org.interpss.datatype;
+package org.interpss.datatype.base;
+
 
 import com.interpss.core.aclf.AclfBranch;
 

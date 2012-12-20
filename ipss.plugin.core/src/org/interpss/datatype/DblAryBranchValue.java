@@ -24,6 +24,8 @@
 
 package org.interpss.datatype;
 
+import org.interpss.datatype.base.BranchValueBase;
+
 import com.interpss.core.aclf.AclfBranch;
 
 /**

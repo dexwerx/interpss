@@ -24,6 +24,8 @@
 
 package org.interpss.datatype;
 
+import org.interpss.datatype.base.BusValueBase;
+
 import com.interpss.core.aclf.AclfBus;
 
 /**

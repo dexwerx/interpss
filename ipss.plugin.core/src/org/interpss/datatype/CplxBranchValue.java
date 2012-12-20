@@ -25,6 +25,7 @@
 package org.interpss.datatype;
 
 import org.apache.commons.math3.complex.Complex;
+import org.interpss.datatype.base.BranchValueBase;
 import org.interpss.numeric.util.Number2String;
 
 /**

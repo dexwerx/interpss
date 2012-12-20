@@ -1,5 +1,5 @@
 /*
-  * @(#) BusValueBase.java   
+  * @(#) ValueBaseId.java   
   *
   * Copyright (C) 2006-2011 www.interpss.com
   *
@@ -15,23 +15,22 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 04/15/2009
+  * @Date 12/15/2011
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.interpss.datatype;
-
-import com.interpss.core.aclf.AclfBus;
+package org.interpss.datatype.base;
 
 /**
- * Base class for defining data object associated with an AclfBus
+ * Base class for defining id associated data object. 
  * 
  * @author mzhou
  *
  */
-public class BusValueBase extends ValueBaseId {
-	public AclfBus bus;
+public class ValueBaseId {
+	// value object id
+	public String id;
 }

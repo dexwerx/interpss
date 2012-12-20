@@ -24,6 +24,8 @@
 
 package org.interpss.datatype;
 
+import org.interpss.datatype.base.ValueBaseId;
+
 
 /**
  * A bus data object of type double
