@@ -1,5 +1,5 @@
 /*
- * @(#) ModifyUtil.java   
+ * @(#) IpssModifyUtil.java   
  *
  * Copyright (C) 2006-2010 www.interpss.org
  *
@@ -27,6 +27,12 @@ package org.ieee.odm.model.ext.ipss;
 import org.ieee.odm.schema.DclfContingencySetXmlType;
 import org.ieee.odm.schema.DclfContingencyXmlType;
 
+/**
+ * InterPSS extension modification utility functions
+ * 
+ * @author mzhou
+ *
+ */
 public class IpssModifyUtil {
 	/**
 	 * get contingency from the contingency set

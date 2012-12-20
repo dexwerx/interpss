@@ -55,36 +55,72 @@ public class ODMObjectFactory {
     	odmObjFactory = new ObjectFactory();
     } 
 	
+    /**
+     * create an Aclf ODM model parser
+     * 
+     * @return
+     */
 	public static AclfModelParser createAclfModelParser() {
 		AclfModelParser parser = new AclfModelParser();
 		return parser;
 	}
 
+    /**
+     * create a DC system ODM model parser
+     * 
+     * @return
+     */
 	public static DcSystemModelParser createDcSystemModelParser() {
 		DcSystemModelParser parser = new DcSystemModelParser();
 		return parser;
 	}
 
+    /**
+     * create a distribution system ODM model parser
+     * 
+     * @return
+     */
 	public static DistModelParser createDistModelParser() {
 		DistModelParser parser = new DistModelParser();
 		return parser;
 	}
 	
+    /**
+     * create an OFP ODM model parser
+     * 
+     * @return
+     */
 	public static OpfModelParser createOpfModelParser() {
 		OpfModelParser parser = new OpfModelParser(OpfModelParser.OpfNetType.OPF);
 		return parser;
 	}
 
+    /**
+     * create a DStability ODM model parser
+     * 
+     * @return
+     */
 	public static DStabModelParser createDStabModelParser() {
 		DStabModelParser parser = new DStabModelParser();
 		return parser;
 	}
 	
+    /**
+     * create an Acsc ODM model parser
+     * 
+     * @return
+     */
 	public static AcscModelParser createAcscModelParser() {
 		AcscModelParser parser = new AcscModelParser();
 		return parser;
 	}	
 	
+    /**
+     * create an input file adapter for the file format
+     * 
+     * @param f file format
+     * @return
+     */
 	public static IODMAdapter createODMAdapter(ODMFileFormatEnum f) throws ODMException {
 		if ( f == ODMFileFormatEnum.IeeeCDF ) 
 			return new IeeeCDFAdapter();

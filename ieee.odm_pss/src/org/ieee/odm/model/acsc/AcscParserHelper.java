@@ -26,5 +26,11 @@ package org.ieee.odm.model.acsc;
 
 import org.ieee.odm.model.aclf.AclfParserHelper;
 
+/**
+ * Acsc ODM model parser helper utility functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AcscParserHelper extends AclfParserHelper {
 }

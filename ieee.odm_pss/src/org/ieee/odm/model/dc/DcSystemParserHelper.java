@@ -26,5 +26,11 @@ package org.ieee.odm.model.dc;
 
 import org.ieee.odm.model.base.BaseJaxbHelper;
 
+/**
+ * DC System ODM model parser helper functions
+ * 
+ * @author mzhou
+ *
+ */
 public class DcSystemParserHelper extends BaseJaxbHelper {
 }

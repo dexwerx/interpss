@@ -26,5 +26,11 @@ package org.ieee.odm.model.opf;
 
 import org.ieee.odm.model.aclf.AclfParserHelper;
 
+/**
+ * OPF ODM model parser helper functions
+ * 
+ * @author mzhou
+ *
+ */
 public class OpfParserHelper extends AclfParserHelper {
 }

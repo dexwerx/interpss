@@ -44,9 +44,23 @@ import org.ieee.odm.schema.QuadraticModelXmlType;
 import org.ieee.odm.schema.SqrCoeffXmlType;
 import org.ieee.odm.schema.StairStepXmlType;
 
-
+/**
+ * OPF ODM model parser data setter functions
+ * 
+ * @author mzhou
+ *
+ */
 public class OpfDataSetter extends AclfDataSetter {
-	
+	/**
+	 * set QuadraticModel data
+	 * 
+	 * @param incCost
+	 * @param sq
+	 * @param sqUnit
+	 * @param ln
+	 * @param lnUnit
+	 * @param cnst
+	 */
 	public static void setQuadraticModel(IncCostXmlType incCost,double sq, ActivePowerPriceEnumType sqUnit,
 			double ln,ActivePowerPriceEnumType lnUnit,	double cnst ){
 		QuadraticModelXmlType quaModel = odmObjFactory.createQuadraticModelXmlType();		
@@ -68,6 +82,12 @@ public class OpfDataSetter extends AclfDataSetter {
 		
 	}
 	
+	/**
+	 * set PWModel data
+	 * 
+	 * @param incCost
+	 * @param point
+	 */
 	public static void setPWModel(IncCostXmlType incCost, double[] point){
 		PieceWiseLinearModelXmlType pwModel = odmObjFactory.createPieceWiseLinearModelXmlType();
 		int size = point.length;
@@ -88,6 +108,15 @@ public class OpfDataSetter extends AclfDataSetter {
 		
 	}
 	
+	/**
+	 * set Step data
+	 * 
+	 * @param stepList
+	 * @param price_val
+	 * @param priceUnit
+	 * @param amount_val
+	 * @param mwUnit
+	 */
 	private static void setStep(List<StairStepXmlType> stepList,double price_val,
 			OPFUnitCostXmlType priceUnit, double amount_val, MWUnitXmlType mwUnit){
 		StairStepXmlType step = odmObjFactory.createStairStepXmlType();

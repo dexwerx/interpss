@@ -50,9 +50,8 @@ import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * A DStab ODM Xml model parser for the IEEE DOM schema. 
  */
-
 public class DStabModelParser extends AclfModelParser {
 	// some input file might carry DStab Simu data;
 	private DStabSimulationXmlType tranSimu = null;
@@ -65,6 +64,11 @@ public class DStabModelParser extends AclfModelParser {
 		super();
 	}	
 	
+	/**
+	 * constructor
+	 * 
+	 * @param encoding
+	 */
 	public DStabModelParser(String encoding) {
 		super(encoding);
 	}	
@@ -78,6 +82,11 @@ public class DStabModelParser extends AclfModelParser {
 		return (DStabNetXmlType)getBaseCase();
 	}
 	
+	/**
+	 * get DStab Simulation record
+	 * 
+	 * @return
+	 */
 	public DStabSimulationXmlType getDStabSimu() {
 		if (this.tranSimu == null)
 			this.tranSimu = odmObjFactory.createDStabSimulationXmlType();

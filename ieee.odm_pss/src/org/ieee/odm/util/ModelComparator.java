@@ -47,6 +47,11 @@ import org.ieee.odm.schema.StudyCaseXmlType;
 public class ModelComparator {
 	private StudyCaseXmlType baseStudyCase = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param scase
+	 */
 	public ModelComparator(StudyCaseXmlType scase) {
 		this.baseStudyCase = scase;
 	}

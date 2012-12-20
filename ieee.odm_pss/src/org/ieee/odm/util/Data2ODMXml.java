@@ -38,6 +38,12 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
 
+/**
+ * ODM cmd tool implementation
+ * 
+ * @author mzhou
+ *
+ */
 public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
 	private final static String FmtOptStr 	= "-format";
@@ -169,6 +175,12 @@ public class Data2ODMXml {
 	}	
 }
 
+/**
+ * app parameter class for parsing app cmd parameters
+ * 
+ * @author mzhou
+ *
+ */
 class AppParameters {
 	/**
 	 * This is where we store every sort of session parameters

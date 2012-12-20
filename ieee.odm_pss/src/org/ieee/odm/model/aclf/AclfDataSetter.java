@@ -59,7 +59,12 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
 
-
+/**
+ * Aclf model parser data setter functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfDataSetter extends BaseDataSetter {
 	/**
 	 * set load data, first create an equivLoad object, then set value(code, p, q, unit) to the created EquivLoadData object
@@ -124,8 +129,12 @@ public class AclfDataSetter extends BaseDataSetter {
 	/**
 	 * set EquivGen object, then set value(code, p, q, unit) to the created EquivGenData object
 	 * 
-	 * @param busData
+	 * @param bus
 	 * @param code
+	 * @param v
+	 * @param vUnit
+	 * @param ang
+	 * @param angUnit
 	 * @param p
 	 * @param q
 	 * @param pUnit
@@ -146,6 +155,16 @@ public class AclfDataSetter extends BaseDataSetter {
    		}
 	}	
 
+	/**
+	 * set EquivGen object, then set value(code, p, q, unit) to the created EquivGenData object
+	 * 
+	 * @param bus
+	 * @param code
+	 * @param v
+	 * @param vUnit
+	 * @param ang
+	 * @param angUnit
+	 */
 	public static void setGenData(LoadflowBusXmlType bus, LFGenCodeEnumType code, 
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit) {
@@ -170,11 +189,20 @@ public class AclfDataSetter extends BaseDataSetter {
 		bus.getShuntY().setUnit(unit);
 	}	
 
+	/**
+	 * Set bus shunt Y 
+	 * 
+	 * @param bus
+	 * @param var
+	 * @param unit
+	 */
 	public static void setBusShuntVar(LoadflowBusXmlType bus, double var, YUnitType unit) {
 		setBusShuntY(bus, 0.0, var, unit);
 	}
+
 	/**
 	 * set the shunt compensator data
+	 * 
 	 * @param bus
 	 * @param shuntId
 	 * @param mode
@@ -193,9 +221,17 @@ public class AclfDataSetter extends BaseDataSetter {
 		shunt.setMode(mode);
 
 	}
+
+	/**
+	 * set the shunt compensator block
+	 * 
+	 * @param bus
+	 * @param steps
+	 * @param mvarPerStep
+	 * @param type
+	 */
 	public static void addShuntCompensatorBlock(LoadflowBusXmlType bus,int steps, double mvarPerStep,
 			ReactivePowerUnitType type){
-		
 		if(bus.getShuntCompensatorData()==null){
 			ShuntCompensatorDataXmlType shuntData=odmObjFactory.createShuntCompensatorDataXmlType();
 			bus.setShuntCompensatorData(shuntData);
@@ -208,7 +244,14 @@ public class AclfDataSetter extends BaseDataSetter {
 		
 	}
 	
-
+	/**
+	 * add bus shunt Y
+	 * 
+	 * @param bus
+	 * @param re
+	 * @param im
+	 * @param unit
+	 */
 	public static void addBusShuntY(LoadflowBusXmlType bus, double re, double im, YUnitType unit) {
 		if (bus.getShuntY() == null)
 			bus.setShuntY(odmObjFactory.createYXmlType());
@@ -217,6 +260,13 @@ public class AclfDataSetter extends BaseDataSetter {
 		bus.getShuntY().setUnit(unit);
 	}	
 
+	/**
+	 * add bus shunt Y
+	 * 
+	 * @param bus
+	 * @param var
+	 * @param unit
+	 */
 	public static void addBusShuntVar(LoadflowBusXmlType bus, double var, YUnitType unit) {
 		addBusShuntY(bus, 0.0, var, unit);
 	}	
@@ -279,6 +329,19 @@ public class AclfDataSetter extends BaseDataSetter {
 				0.0, 0.0, YUnitType.PU);
 	}
 
+	/**
+	 * add a XformerData object to the branchData object, then set value(r, x, zUnit, gFrom, bFrom, gTo, bTo, yUnit) to the created XfomerData object
+	 * 
+	 * @param branch
+	 * @param r
+	 * @param x
+	 * @param zUnit
+	 * @param fromTurnRaio
+	 * @param toTurnRatio
+	 * @param gMag
+	 * @param bMag
+	 * @param yUnit
+	 */
 	public static void createXformerData(XfrBranchXmlType branch, 
 			             double r, double x, ZUnitType zUnit,
 			             double fromTurnRaio, double toTurnRatio,
@@ -289,7 +352,7 @@ public class AclfDataSetter extends BaseDataSetter {
 				r, x, zUnit, fromTurnRaio, toTurnRatio,
 				gMag, bMag, yUnit);
 	}
-	
+
 	private static void setXformerData(XfrBranchXmlType xfr,
 			double r, double x, ZUnitType zUnit, 
 			double fromTurnRatio, double toTurnRatio,
@@ -457,12 +520,8 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 			double[] mvarAry, ApparentPowerUnitType mvarUnit) {
 		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
-//		MvaRatingXmlType mvaRating = branchLimit.getMva();
-//		for (double x : mvarAry)
-//			if (x > 0.0) {
-//				mvaRating.getRatingAry().add(x);
-//			}
 	}
+
 	/**
 	 * add a RatingLimitData object to the branchData object, then set value(curLimit, curUnit) 
 	 * to the created RatingLimitData object

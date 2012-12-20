@@ -45,15 +45,16 @@ import org.ieee.odm.schema.PieceWiseLinearModelXmlType;
 import org.ieee.odm.schema.QuadraticModelXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. It supports two types of Opf net
- * 
- *   - OpfNetwork
- *   
- *   - OpfDclfNetwork
+ * An OPF ODM Xml parser for the IEEE DOM schema. It supports two types of Opf net
  * 
  */
-
 public class OpfModelParser extends AclfModelParser {
+	/**
+	 * OPF network type
+	 * 
+	 * @author mzhou
+	 *
+	 */
 	public static enum OpfNetType { 
 			OPF,     // Full OPF implementation
 			DclfOpf  // a sample DCLF OPF implementation based on ISU OPF implementation
@@ -63,12 +64,22 @@ public class OpfModelParser extends AclfModelParser {
 	
 	/**
 	 * Default Constructor 
-	 * 
+	 *
+	 * @param type
 	 */
 	public OpfModelParser(OpfNetType type) {
 		super();
 		this.netType = type;
 	}	
+
+	/**
+	 * constructor
+	 * 
+	 * @param encoding
+	 */
+	public OpfModelParser(String encoding) {
+		super(encoding);
+	}
 	
 	/**
 	 * Set BaseCase to Loadflow and Transmission 
@@ -89,6 +100,11 @@ public class OpfModelParser extends AclfModelParser {
 				NetworkCategoryEnumType.TRANSMISSION);		
 	}	
 	
+	/**
+	 * get base OPF network object
+	 * 
+	 * @return
+	 */
 	public BaseOpfNetworkXmlType getBaseOpfNet() {
 		return (BaseOpfNetworkXmlType)getBaseCase();
 	}	
@@ -158,6 +174,7 @@ public class OpfModelParser extends AclfModelParser {
 		busRec.setNumber(number);
 		return busRec;
 	}	
+	
 	/**
 	 * create a LineBranchXmlType object
 	 * 
@@ -171,19 +188,33 @@ public class OpfModelParser extends AclfModelParser {
 		return branch;
 	}
 	
+	/**
+	 * create PWCostModel record
+	 * 
+	 * @return
+	 */
 	public PieceWiseLinearModelXmlType createPWCostModel(){
 		return odmObjFactory.createPieceWiseLinearModelXmlType();
 	}
 	
+	/**
+	 * create QuadraticCostModel record
+	 * 
+	 * @return
+	 */
 	public QuadraticModelXmlType createQuadraticCostModel(){
 		return odmObjFactory.createQuadraticModelXmlType();
 	}
-	
-	// use BaseDataSetter.createActivePowerLimit(double max, double min, ActivePowerUnitType unit)  instead
-	//public ActivePowerLimitXmlType createActivePowerLimit(){
-	//	return odmObjFactory.createActivePowerLimitXmlType();
-	//}
-	
+
+	/**
+	 * create an OPF branch record
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 * @throws ODMBranchDuplicationException
+	 */
 	public OpfBranchXmlType createOpfBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
 		OpfBranchXmlType branch =  createOpfBranch();
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
@@ -213,10 +244,21 @@ public class OpfModelParser extends AclfModelParser {
 		return branch;
 	}
 
+	/**
+	 * get OPF network
+	 * 
+	 * @return
+	 */
 	public OpfNetworkXmlType getOpfNetwork(){
 		return (OpfNetworkXmlType) getBaseCase();
 	}
 	
+	/**
+	 * get OPF Gen Bus by id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public OpfGenBusXmlType getOpfGenBus(String id) {
 		return (OpfGenBusXmlType) getAclfBus(id);
 	}
@@ -233,10 +275,5 @@ public class OpfModelParser extends AclfModelParser {
 	 */
 	public OpfDclfNetworkXmlType getOpfDclfNet() {
 		return (OpfDclfNetworkXmlType)getBaseCase();
-	}
-		
-
-	public OpfModelParser(String encoding) {
-		super(encoding);
 	}
 }

@@ -26,24 +26,60 @@ package org.ieee.odm.common;
 import org.ieee.odm.schema.ComplexXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 
+/**
+ * numeric utility functions for testing purpose
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMNumericUtil {
 	static double ERR = 0.00001;
 	
+	/**
+	 * test equality
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public static boolean equals(ComplexXmlType x, ComplexXmlType y) {
 		return (x == null && y == null) || x != null && y != null &&
 		       Math.abs(x.getRe() - y.getRe()) < ERR && Math.abs(x.getIm() - y.getIm()) < ERR;
 	}
 
+	/**
+	 * test equality
+	 * 
+	 * @param x
+	 * @param y
+	 * @param error tolerance
+	 * @return
+	 */
 	public static boolean equals(ComplexXmlType x, ComplexXmlType y, double err) {
 		return (x == null && y == null) || x != null && y != null &&
 		       Math.abs(x.getRe() - y.getRe()) < err && Math.abs(x.getIm() - y.getIm()) < err;
 	}
 	
+	/**
+	 * test equality
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public static boolean equals(VoltageXmlType x, VoltageXmlType y) {
 		return (x == null && y == null) || x != null && y != null &&
 		       Math.abs(x.getValue() - y.getValue()) < ERR;
 	}
 
+	/**
+	 * test equality
+	 * 
+	 * @param x
+	 * @param y
+	 * @param error tolerance
+	 * @return
+	 */
 	public static boolean equals(VoltageXmlType x, VoltageXmlType y, double err) {
 		return (x == null && y == null) || x != null && y != null &&
 		       Math.abs(x.getValue() - y.getValue()) < err;

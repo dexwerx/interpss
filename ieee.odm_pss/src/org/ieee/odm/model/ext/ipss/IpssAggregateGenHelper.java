@@ -31,6 +31,7 @@ import org.ieee.odm.schema.AggregateGenGroupXmlType;
 import org.ieee.odm.schema.AggregateGenXmlType;
 
 /**
+ * Helper functions for processing aggregate generator
  * 
  * @author mzhou
  *
@@ -47,6 +48,12 @@ public class IpssAggregateGenHelper {
 		this.ap = ap;
 	}
 
+	/**
+	 * get aggregate gen by id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public AggregateGenGroupXmlType getAggregateGenGroup(String id) {
 		for ( AggregateGenGroupXmlType node : this.ap.getApGroup()) {
 			if ( node.getId().equals(id))
@@ -55,6 +62,12 @@ public class IpssAggregateGenHelper {
 		return null;
 	}
 
+	/**
+	 * create aggregate gen group record
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public AggregateGenGroupXmlType createAggregateGenGroup(String id) {
 		AggregateGenGroupXmlType node = odmObjFactory.createAggregateGenGroupXmlType();
 		node.setId(id);
@@ -62,6 +75,13 @@ public class IpssAggregateGenHelper {
 		return node;
 	}
 
+	/**
+	 * create aggregate gen bus
+	 * 
+	 * @param id
+	 * @param node
+	 * @return
+	 */
 	public AggregateGenBusXmlType createAggregateGenBus(String id, AggregateGenGroupXmlType node) {
 		AggregateGenBusXmlType bus = odmObjFactory.createAggregateGenBusXmlType();
 		node.getApBus().add(bus);
@@ -69,6 +89,11 @@ public class IpssAggregateGenHelper {
 		return bus;
 	}
 
+	/**
+	 * get aggregate gen group Ids
+	 * 
+	 * @return
+	 */
 	public String[] getAPGroupIdAry() {
 		String[] sAry = new String[this.ap.getApGroup().size()];
 		int cnt = 0;

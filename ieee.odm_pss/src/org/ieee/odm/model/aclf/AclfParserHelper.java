@@ -48,6 +48,12 @@ import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
+/**
+ * Aclf model parser help functions
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfParserHelper extends BaseJaxbHelper {
 	/**
 	 * create a Contribution Load object
@@ -241,6 +247,12 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		return true;
 	}
 
+	/**
+	 * create bus EquivShuntData
+	 * 
+	 * @param parser
+	 * @return
+	 */
 	public static boolean createBusEquivShuntData(AclfModelParser parser) {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
 
@@ -264,6 +276,12 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		return true;
 	}
 
+	/**
+	 * create bus EquivData info
+	 * 
+	 * @param parser
+	 * @return
+	 */
 	public static boolean createBusEquivData(AclfModelParser parser) {
 		createBusEquivGenData(parser);
 		

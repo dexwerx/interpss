@@ -67,10 +67,17 @@ import org.ieee.odm.schema.StudyScenarioXmlType;
  * Abstract Xml parser implementation as the base for all the IEEE DOM schema parsers. 
  */
 public abstract class AbstractModelParser implements IODMModelParser {
-	// add "Bus" pre-fix to the bus number to create Bus Id
+	/**
+	 * Bus pre-fix, default value "Bus", pre-fix added to the bus number to create Bus Id
+	 */
 	public static final String BusIdPreFix = "Bus";
 	
 	protected String encoding = IODMModelParser.defaultEncoding;
+	/**
+	 * get encoding
+	 * 
+	 * @return
+	 */
 	public String getEncoding() { return this.encoding; }
 	
 	/*
@@ -80,12 +87,14 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	
 	// bus and branch object cache for fast lookup. 
 	protected Hashtable<String,IDRecordXmlType> objectCache = null;
+	/**
+	 * get object cache
+	 * 
+	 * @return
+	 */
 	public Hashtable<String,IDRecordXmlType> getObjectCache() { return this.objectCache; }
 
 	protected StudyCaseXmlType pssStudyCase = null;
-	
-//	protected ObjectFactory _factory = null;
-//	public ObjectFactory getFactory() {	return this._factory == null? new ObjectFactory() : this._factory; }
 	
 	/*
 	 *	Constructor 
@@ -103,11 +112,21 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param encoding
+	 */
 	public AbstractModelParser(String encoding) {
 		this();
 		this.encoding = encoding;
 	}
 	
+	/**
+	 * parse the xml file to create a model parser object
+	 * 
+	 * @param xmlFile
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean parse(File xmlFile) {
 		try {
@@ -121,6 +140,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 	}
 
+	/**
+	 * parse the xml string to create a model parser object
+	 * 
+	 * @param xmlFile
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean parse(String xmlString) {
 		try {
@@ -135,6 +159,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 	}
 	
+	/**
+	 * parse the xml file input stream to create a model parser object
+	 * 
+	 * @param xmlFile
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean parse(InputStream in) {
 		try {
@@ -169,6 +198,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public abstract NetworkXmlType createBaseCase();
 	
+	/**
+	 * check if the network info stored in the model parser object is for 
+	 * transmission network loadflow
+	 */
 	public boolean isTransmissionLoadflow() {
 		return this.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION &&
 			   this.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW;
@@ -215,15 +248,30 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return this.pssStudyCase.getBaseCase().getValue();
 	}
 
+	/**
+	 * get child networks
+	 * 
+	 * @return
+	 */
 	public List<JAXBElement<? extends NetworkXmlType>> getChildNetList() {
 		return this.pssStudyCase.getChildNet();
 	}
 	
+	/**
+	 * get modification info stored in the model parser object
+	 * 
+	 */
 	public ModifyRecordXmlType getModification() {
 		return this.pssStudyCase.getModificationList() == null? null :
 			this.pssStudyCase.getModificationList().getModification().get(0);
 	}
 
+	/**
+	 * get modification record by record id
+	 * 
+	 * @param id modification record id
+	 * 
+	 */
 	public ModifyRecordXmlType getModification(String id) {
 		if (this.pssStudyCase.getModificationList() != null)
 			for (ModifyRecordXmlType mod : this.pssStudyCase.getModificationList().getModification()) {
@@ -234,13 +282,17 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		return null;
 	}
 	
+	/**
+	 * get study scenario info stored in the model object
+	 * 
+	 */
 	public StudyScenarioXmlType getStudyScenario() {
 		return this.pssStudyCase.getStudyScenario() == null? null :
 					this.pssStudyCase.getStudyScenario().getValue();
 	}
 
 	/**
-	 * create a area object
+	 * create a area xml record
 	 * 
 	 * @return
 	 */
@@ -427,6 +479,15 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 		return this.getBranch(id);
 	}	
+	/**
+	 * get the cashed branch record using fromId, toId and cirId
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param tertId
+	 * @param cirId
+	 * @return
+	 */
 	public BaseBranchXmlType getBranch(String fromId, String toId, String tertId, String cirId) {
 		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		return this.getBranch(id);
@@ -477,7 +538,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @return
 	 * @throws JAXBException
 	 */
-	private static Unmarshaller unmarshaller = null;
 	public Unmarshaller createUnmarshaller() throws JAXBException {
 		if (unmarshaller == null) {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ODM_Schema_NS);
@@ -486,6 +546,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 		return unmarshaller;
 	}	
+	private static Unmarshaller unmarshaller = null;
 
 	/**
 	 * create a Jaxb marshaller to marshall the odm object to an Xml document
@@ -493,7 +554,6 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 * @return
 	 * @throws JAXBException
 	 */
-	private Marshaller marshaller = null;
 	public Marshaller createMarshaller() throws JAXBException {
 		if (marshaller == null) {
 			JAXBContext jaxbContext	= JAXBContext.newInstance(ODM_Schema_NS);
@@ -504,6 +564,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 		return marshaller;
 	}
+	private Marshaller marshaller = null;
 	
 	/**
 	 * print the Xml doc to the std out
@@ -519,8 +580,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	}
 	
 	/**
-	 * 
-	 * @param addXsi not used in Jabx. It is for XmlBeans
+	 * convert the model parser to a string
 	 */
 	public String toXmlDoc() {
 		OutputStream ostream = new ByteArrayOutputStream();
@@ -532,7 +592,12 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		}
 		return ostream.toString();
 	}	
-
+	
+	/**
+	 * convert the model parser to a string and write to the file
+	 * 
+	 * @param outfile
+	 */
 	public String toXmlDoc(String outfile) {
 		if (outfile == null)
 			return toXmlDoc();

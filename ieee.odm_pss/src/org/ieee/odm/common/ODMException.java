@@ -24,9 +24,20 @@
 
 package org.ieee.odm.common;
 
+/**
+ * ODM exception
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMException extends Exception {
 	private static final long serialVersionUID = 1;
 
+	/**
+	 * constructor
+	 * 
+	 * @param msg
+	 */
 	public ODMException(String msg) {
 		super(msg);
 	}

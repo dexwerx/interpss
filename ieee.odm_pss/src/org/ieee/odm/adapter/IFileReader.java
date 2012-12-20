@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFAdapter.java   
+ * @(#)IFileReader.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
@@ -24,7 +24,12 @@
 
 package org.ieee.odm.adapter;
 
-
+/**
+ * interface for implementing text file reader
+ *  
+ * @author mzhou
+ *
+ */
 public interface IFileReader {
 	/**
 	 * read a line from an underlying file

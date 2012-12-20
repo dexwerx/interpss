@@ -28,7 +28,19 @@ import java.io.InputStream;
 
 import org.ieee.odm.model.IODMModelParser;
 
+/**
+ * interface for implementing DOM adapter
+ * 
+ * @author mzhou
+ *
+ */
 public interface IODMAdapter {
+	/**
+	 * Network type for implementing ODM adapter
+	 * 
+	 * @author mzhou
+	 *
+	 */
 	public static enum NetType {
 				AclfNet, AcscNet, DStabNet, OPFNet,
 				DcSystemNet, DistributionNet, };

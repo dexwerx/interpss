@@ -26,13 +26,29 @@ package org.ieee.odm.common;
 
 import java.util.logging.Logger;
 
+/**
+ * ODM logger
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMLogger {
 	private static Logger logger = null;
 
+	/**
+	 * set logger level
+	 * 
+	 * @param l
+	 */
 	public static void setLogger(Logger l) {
 		logger = l;
 	}
 
+	/**
+	 * get logger object
+	 * 
+	 * @return
+	 */
 	public static Logger getLogger() { 
 		if (logger == null) 
 			logger = Logger.getLogger("org.ieee.odm");

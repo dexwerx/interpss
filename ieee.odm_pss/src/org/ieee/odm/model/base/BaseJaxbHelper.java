@@ -77,6 +77,12 @@ import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 
+/**
+ * Jaxb xml transformation helper utility functions
+ * 
+ * @author mzhou
+ *
+ */
 public class BaseJaxbHelper {
 	/**
 	 * get the id of the id ref record
@@ -158,12 +164,6 @@ public class BaseJaxbHelper {
 		else if (branch instanceof DcBranchXmlType) 
 			return odmObjFactory.createDcBranch((DcBranchXmlType)branch);
 		
-		/*
-		<element name="distFeederBranch" type="pss:FeederDistBranchXmlType" substitutionGroup="pss:branch"/>
-		<element name="distXfrBranch" type="pss:XFormerDistBranchXmlType" substitutionGroup="pss:branch"/>
-		<element name="distReactorBranch" type="pss:ReactorDistBranchXmlType" substitutionGroup="pss:branch"/>
-		<element name="distBreakerBranch" type="pss:BreakerDistBranchXmlType" substitutionGroup="pss:branch"/>
-	 */
 		else if (branch instanceof FeederDistBranchXmlType) 
 			return odmObjFactory.createDistFeederBranch((FeederDistBranchXmlType)branch);
 		else if (branch instanceof XFormerDistBranchXmlType) 
@@ -210,14 +210,7 @@ public class BaseJaxbHelper {
 			return odmObjFactory.createAclfBus((LoadflowBusXmlType)bus);
 		else if (bus instanceof DcBusXmlType)
 			return odmObjFactory.createDcBus((DcBusXmlType)bus);
-		/*
-		<element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus"/>
-		<element name="distGeneratorBus" type="pss:GeneratorDistBusXmlType" substitutionGroup="pss:bus"/>
-		<element name="distSynMotorBus" type="pss:SynchronousMotorDistBusXmlType" substitutionGroup="pss:bus"/>
-		<element name="distIndMotorBus" type="pss:InductionMotorDistBusXmlType" substitutionGroup="pss:bus"/>
-		<element name="distMixedLoadBus" type="pss:MixedLoadDistBusXmlType" substitutionGroup="pss:bus"/>
-		<element name="distNonContributeSynMotorBus" type="pss:NonContributingDistBusXmlType" substitutionGroup="pss:bus"/>
-	 */
+
 		else if (bus instanceof UtilityDistBusXmlType)
 			return odmObjFactory.createDistUtilityBus((UtilityDistBusXmlType)bus);
 		else if (bus instanceof GeneratorDistBusXmlType)

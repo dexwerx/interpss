@@ -58,7 +58,12 @@ import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
 
-
+/**
+ * Base ODM model parser data setter functions
+ * 
+ * @author mzhou
+ *
+ */
 public class BaseDataSetter extends BaseJaxbHelper {
 	/**
 	 * Set apparent power 
@@ -130,7 +135,6 @@ public class BaseDataSetter extends BaseJaxbHelper {
 	/**
 	 * Set time/period
 	 * 
-	 * @param time
 	 * @param t
 	 * @param unit
 	 */
@@ -141,6 +145,12 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		return time;
 	}
 
+	/**
+	 * Set time/period
+	 * 
+	 * @param t
+	 * @param unit
+	 */
 	public static TimePeriodXmlType createTimeConstSec(double t){
 		TimePeriodXmlType time = odmObjFactory.createTimePeriodXmlType();
 		time.setValue(t);
@@ -176,6 +186,13 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		limit.setMin(min);
 	}
 
+	/**
+	 * create Limit xml record
+	 * 
+	 * @param max
+	 * @param min
+	 * @return
+	 */
 	public static LimitXmlType createLimit(double max, double min) {
 		LimitXmlType limit = odmObjFactory.createLimitXmlType();
 		limit.setMax(max);
@@ -247,6 +264,13 @@ public class BaseDataSetter extends BaseJaxbHelper {
 		return limit;
 	}
 
+	/**
+	 * create TurnRatioLimit xml record
+	 * 
+	 * @param max
+	 * @param min
+	 * @return
+	 */
 	public static TurnRatioLimitXmlType createTurnRatioLimit(double max, double min) {
 		TurnRatioLimitXmlType limit = odmObjFactory.createTurnRatioLimitXmlType();
 		limit.setMax(max);

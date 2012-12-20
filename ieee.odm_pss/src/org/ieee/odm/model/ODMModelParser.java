@@ -36,7 +36,6 @@ import org.ieee.odm.schema.NetworkXmlType;
 /**
  * A generic Xml parser for the IEEE DOM schema, used when the network type is unknown 
  */
-
 public class ODMModelParser extends AbstractModelParser {
 	/**
 	 * Default Constructor 
@@ -53,27 +52,57 @@ public class ODMModelParser extends AbstractModelParser {
 		ODMLogger.getLogger().severe("Programming error: ODMModelParser.createBaseCase() called");
 		return null;
 	}
-	
+
+	/**
+	 * convert to an Aclf model parser
+	 * 
+	 * @return
+	 */
 	public AclfModelParser toAclfModelParser() {
 		return (AclfModelParser)copyTo(new AclfModelParser());
 	}
  	
+	/**
+	 * convert to an Acsc model parser
+	 * 
+	 * @return
+	 */
 	public AcscModelParser toAcscModelParser() {
 		return (AcscModelParser)copyTo(new AcscModelParser());
 	}
 
+	/**
+	 * convert to a DC system model parser
+	 * 
+	 * @return
+	 */
 	public DcSystemModelParser toDcSystemModelParser() {
 		return (DcSystemModelParser)copyTo(new DcSystemModelParser());
 	}
 
+	/**
+	 * convert to a distribution system model parser
+	 * 
+	 * @return
+	 */
 	public DistModelParser toDistModelParser() {
 		return (DistModelParser)copyTo(new DistModelParser());
 	}
 
+	/**
+	 * convert to a dynamic stability network model parser
+	 * 
+	 * @return
+	 */
 	public DStabModelParser toDStabModelParser() {
 		return (DStabModelParser)copyTo(new DStabModelParser());
 	}
 
+	/**
+	 * convert to an OPF model parser
+	 * 
+	 * @return
+	 */
 	public OpfModelParser toOpfModelParser() {
 		return (OpfModelParser)copyTo(new OpfModelParser(OpfModelParser.OpfNetType.OPF));
 	}

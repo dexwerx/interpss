@@ -32,9 +32,8 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * An Acsc ODM Xml parser for the IEEE DOM schema. 
  */
-
 public class AcscModelParser extends AclfModelParser {	
 
 	/**

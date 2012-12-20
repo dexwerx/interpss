@@ -49,9 +49,8 @@ import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * An Aclf Xml parser for the IEEE DOM schema. 
  */
-
 public class AclfModelParser extends AbstractModelParser {
 	/**
 	 * Default Constructor 
@@ -61,6 +60,11 @@ public class AclfModelParser extends AbstractModelParser {
 		super();
 	}	
 	
+	/**
+	 * constructor
+	 * 
+	 * @param encoding
+	 */
 	public AclfModelParser(String encoding) {
 		super(encoding);
 	}	
@@ -187,6 +191,15 @@ public class AclfModelParser extends AbstractModelParser {
 	public PSXfrBranchXmlType getPSXfrBranch(String fromId, String toId, String cirId) {
 		return (PSXfrBranchXmlType)getBranch(fromId, toId, cirId);
 	}
+	/**
+	 * get the ps xfr branch object
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param tertId
+	 * @param cirId
+	 * @return
+	 */
 	public PSXfr3WBranchXmlType getPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) {
 		return (PSXfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
 	}
@@ -215,6 +228,12 @@ public class AclfModelParser extends AbstractModelParser {
 		intiBranchData(branch);
 		return branch;
 	}
+
+	/**
+	 * create a Xfr3WBranchXmlType object
+	 * 
+	 * @return
+	 */
 	public Xfr3WBranchXmlType createXfr3WBranch() {
 		Xfr3WBranchXmlType branch = odmObjFactory.createXfr3WBranchXmlType();
 		intiBranchData(branch);
@@ -231,6 +250,12 @@ public class AclfModelParser extends AbstractModelParser {
 		intiBranchData(branch);
 		return branch;
 	}
+
+	/**
+	 * create a PSXfr3WBranchXmlType object
+	 * 
+	 * @return
+	 */
 	public PSXfr3WBranchXmlType createPSXfr3WBranch() {
 		PSXfr3WBranchXmlType branch = odmObjFactory.createPSXfr3WBranchXmlType();
 		intiBranchData(branch);
@@ -240,7 +265,9 @@ public class AclfModelParser extends AbstractModelParser {
 	/**
 	 * add a new Line branch record to the base case and to the cache table
 	 * 
-	 * @param id
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
 	 * @return
 	 */
 	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
@@ -252,7 +279,9 @@ public class AclfModelParser extends AbstractModelParser {
 	/**
 	 * add a new Xfr branch record to the base case and to the cache table
 	 * 
-	 * @param id
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
 	 * @return
 	 */
 	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
@@ -260,6 +289,16 @@ public class AclfModelParser extends AbstractModelParser {
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
+
+	/**
+	 * add a new Xfr branch record to the base case and to the cache table
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param tertId
+	 * @param cirId
+	 * @return
+	 */
 	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMBranchDuplicationException {
 		Xfr3WBranchXmlType branch = createXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
@@ -269,7 +308,9 @@ public class AclfModelParser extends AbstractModelParser {
 	/**
 	 * add a new PS Xfr branch record to the base case and to the cache table
 	 * 
-	 * @param id
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
 	 * @return
 	 */
 	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
@@ -277,6 +318,15 @@ public class AclfModelParser extends AbstractModelParser {
 		addBranch2BaseCase(branch, fromId, toId, null, cirId);
 		return branch;
 	}
+
+	/**
+	 * add a new 3W PS Xfr branch record to the base case and to the cache table
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
 	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMBranchDuplicationException {
 		PSXfr3WBranchXmlType branch = createPSXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);

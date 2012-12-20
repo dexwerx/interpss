@@ -1,5 +1,5 @@
 /*
- * @(#)UCTE_DEFAdapter.java   
+ * @(#)AbstractODMAdapter.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
@@ -36,26 +36,44 @@ import java.util.List;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 
+/**
+ * abstract base class for implementing ODM adapter 
+ * 
+ * @author mzhou
+ *
+ */
 public abstract class AbstractODMAdapter implements IODMAdapter {
 	private boolean status;
-	//private Logger logger;
 	private List<String> errMsgList;
 	private IODMModelParser parser;
 	
+	/**
+	 * constructor
+	 */
 	public AbstractODMAdapter() {
-		//this.logger = logger;
 		this.status = true;                        
 		this.errMsgList = new ArrayList<String>();
 	}
-	
+
+	/**
+	 * return error message as a string 
+	 */
 	public String errMessage() {
 		return errMsgList.toString();
 	}
 
+	/**
+	 * get the parser object
+	 */
 	public IODMModelParser getModel() {
 		return this.parser;
 	}
 
+	/**
+	 * log error message 
+	 * 
+	 * @param msg
+	 */
 	public void logErr(String msg) {
 		this.status = false;
 		ODMLogger.getLogger().severe(msg);
@@ -66,10 +84,22 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	 *  single files 
 	 */
 	
+	/**
+	 * parse the input stream into a ODM parser object
+	 * 
+	 * @param input
+	 */
 	public boolean parseInputStream(InputStream input) {
 		return parseInputStream(input, IODMModelParser.defaultEncoding);
 	}
 	
+	/**
+	 * parse the input stream into a ODM parser object
+	 * 
+	 * @param stream
+	 * @param encoding
+	 * @return
+	 */
 	public boolean parseInputStream(InputStream stream, String encoding) {
 		try {
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
@@ -91,6 +121,11 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		return status;
 	}
 	
+	/**
+	 * parse the input file into a ODM parser object
+	 * 
+	 * @param filename
+	 */
 	public boolean parseInputFile(String filename) {
 		try {
 			final File file = new File(filename);
@@ -107,10 +142,22 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		}
 	}
 
+	/**
+	 * parse the input fileContent into a ODM parser object
+	 * 
+	 * @param fileContent
+	 */
 	public boolean parseFileContent(String fileContent) {
 		return parseFileContent(fileContent, IODMModelParser.defaultEncoding);
 	}
 	
+	/**
+	 * parse the input fileContent into a ODM parser object
+	 * 
+	 * @param fileContent
+	 * @param encoding
+	 * @return
+	 */
 	public boolean parseFileContent(String fileContent, String encoding) {
 		try {
 			final String[] strList = fileContent.split("\n");
@@ -144,7 +191,8 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	 */
 	
 	/**
-	 * 
+	 * parse the input file streams into a ODM parser object for multi-file scenario
+
 	 * @param streamAry
 	 * @return
 	 */
@@ -165,11 +213,24 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		return status;
 	}
 
+	/**
+	 * parse the input files into a ODM parser object for multi-file scenario
+	 * 
+	 * @param type network type
+	 * @param filenames file name array
+	 */
 	public boolean parseInputFile(NetType type, String[] filenames) {
 		return parseInputFile(type, filenames, IODMModelParser.defaultEncoding);
 	}
 	
-	public boolean parseInputFile(IODMAdapter.NetType type, String[] filenameAry, String encoding) {
+	/**
+	 * parse the input files into a ODM parser object for multi-file scenario
+	 * 
+	 * @param type network type
+	 * @param filenames file name array
+	 * @param encoding
+	 */
+	public boolean parseInputFile(NetType type, String[] filenameAry, String encoding) {
 		try {
 			final InputStream[] streamAry = new InputStream[filenameAry.length];
 			int cnt = 0;
@@ -179,7 +240,10 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 				ODMLogger.getLogger().info("Parse input file and create the parser object, " + filename);
 				streamAry[cnt++] = stream;
 			}
-			return parseInputStream(type, streamAry, encoding);
+			boolean rtn = parseInputStream(type, streamAry, encoding);
+			for (InputStream s : streamAry) 
+				s.close();
+			return rtn;
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			this.errMsgList.add(e.toString());

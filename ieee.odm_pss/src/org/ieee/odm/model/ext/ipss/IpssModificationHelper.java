@@ -1,5 +1,5 @@
 /*
- * @(#)ModificationHelper.java   
+ * @(#)IpssModificationHelper.java   
  *
  * Copyright (C) 2006-2010 www.interpss.org
  *
@@ -46,6 +46,11 @@ import org.ieee.odm.schema.OutageScheduleXmlType;
 public class IpssModificationHelper {
 	private IODMModelParser parser = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param parser
+	 */
 	public IpssModificationHelper (IODMModelParser parser) {
 		this.parser = parser;
 	}
@@ -61,6 +66,12 @@ public class IpssModificationHelper {
 		return rec;
 	}
 
+	/**
+	 * get outage schedule by id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public OutageScheduleXmlType getOutageSchedule(String id) {
 		return (OutageScheduleXmlType)getModifyRecord(id);
 	}
@@ -76,6 +87,12 @@ public class IpssModificationHelper {
 		return rec;
 	}
 
+	/**
+	 * get contingency set by id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public DclfContingencySetXmlType getContingencySet(String id) {
 		return (DclfContingencySetXmlType)getModifyRecord(id);
 	}
@@ -91,6 +108,12 @@ public class IpssModificationHelper {
 		return rec;
 	}
 
+	/**
+	 * get gen/load modification by id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public GenLoadModifyXmlType getGenLoadModify(String id) {
 		return (GenLoadModifyXmlType)getModifyRecord(id);
 	}

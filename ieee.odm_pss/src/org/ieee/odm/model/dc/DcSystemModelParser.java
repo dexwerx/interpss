@@ -34,9 +34,8 @@ import org.ieee.odm.schema.DcNetworkXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 
 /**
- * A Xml parser for the IEEE DOM schema. 
+ * A Dc system Xml model parser for the IEEE DOM schema. 
  */
-
 public class DcSystemModelParser extends AbstractModelParser {
 	/**
 	 * Default Constructor 
@@ -132,7 +131,12 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * 		Branch functions
 	 * 		================
 	 */
-	
+
+	/**
+	 * add Dc system branch
+	 * 
+	 * @param branch
+	 */
 	public void addDcBranch(DcBranchXmlType branch) {
 		getBaseCase().getBranchList().getBranch().add(BaseJaxbHelper.branch(branch));
 		this.objectCache.put(branch.getId(), branch);

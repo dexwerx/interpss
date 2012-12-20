@@ -31,6 +31,12 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 
+/**
+ * DOM model parser string utility functions
+ * 
+ * @author mzhou
+ *
+ */
 public class ModelStringUtil {
 	/**
 	 * form branch id based on from node id, to node id and branch circuit id 
@@ -45,6 +51,15 @@ public class ModelStringUtil {
 		return fromId + "_to_" + toId + "_cirId_" + cirId;
 	}
 	
+	/**
+	 * form branch id based on from node id, to node id and branch circuit id 
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param tertId
+	 * @param cirId
+	 * @return
+	 */
 	public static String formBranchId(String fromId, String toId, String tertId, String cirId) {
 		// the combination of form bus id, to bus id and cirId should be always unique
 		return fromId + "_to_" + toId + "_n_" + tertId + "_cirId_" + cirId;
@@ -117,6 +132,12 @@ public class ModelStringUtil {
 		}
 	}
 
+	/**
+	 * convert str to a long. Return defaultValue number if empty. 
+	 * 
+	 * @param str input string
+	 * @return the number
+	 */
 	public static long getLong(String str, int defaultValue) {
 		try {
 			return new Long(str.trim()).longValue();
@@ -176,14 +197,17 @@ public class ModelStringUtil {
 		return str.substring(beginCol-1, endCol).trim();
 	}
 	
+	/**
+	 * format the double number
+	 *  
+	 * @param d
+	 * @return
+	 */
 	public static double getNumberFormat(double d){
 		DecimalFormat   format=new   DecimalFormat("###0.000000");
 		String str="";
 		str=format.format(d);
 		double e=Double.parseDouble(str);
-		//if(e==0.00000){
-		//	e=0.0;
-		//}
 		return e;
 	}
 	

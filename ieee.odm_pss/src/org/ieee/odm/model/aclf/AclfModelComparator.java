@@ -15,6 +15,12 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.numeric.util.NumericUtil;
 
+/**
+ * Aclf model comparator for testing and verification purpose
+ * 
+ * @author mzhou
+ *
+ */
 public class AclfModelComparator {
 	/**
 	 * compare bus objects: b1 and b2. The error is store in the msgList

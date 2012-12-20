@@ -42,11 +42,17 @@ import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
 
 /**
- *
+ * Network modification helper
+ * 
  */
 public class NetModificationHelper {
 	private IODMModelParser parser = null;
 	
+	/**
+	 * constructor
+	 * 
+	 * @param parser
+	 */
 	public NetModificationHelper (IODMModelParser parser) {
 		this.parser = parser;
 	}

@@ -24,9 +24,20 @@
 
 package org.ieee.odm.common;
 
+/**
+ * ODM branch duplication exception
+ * 
+ * @author mzhou
+ *
+ */
 public class ODMBranchDuplicationException extends Exception {
 	private static final long serialVersionUID = 1;
 
+	/**
+	 * constrcuctor
+	 * 
+	 * @param msg
+	 */
 	public ODMBranchDuplicationException(String msg) {
 		super(msg);
 	}
