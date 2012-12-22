@@ -20,9 +20,11 @@
     
     <ns:annotation>
 		<ns:documentation>
-		      StudyCase  -- BaseCase
-		                 -- (*) ChildNet
-		                 -- StudyScenario -- (*) AnalysisCase
+		     a StudyCase 
+		     	contains a BaseCase
+		        may contain (*) ChildNet
+		        may contain (*) modification records
+		        may contain a StudyScenario, which contains (*) AnalysisCase
 		</ns:documentation>
 	</ns:annotation>
 
