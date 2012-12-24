@@ -22,91 +22,134 @@ public class PWDHelper {
 	 * @param str
 	 * @param nvpairs
 	 */
-
-	
-	public static String[]parseDataFields(String str){
-		List<String> dataList=new ArrayList<String>();
-		String[] dataFields=null;
-		str=str.trim();
-		try{
-		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Blank) {
-				int j = -1;
-				//int k = 0;
-				// get the quote index
-				List<Integer> quoteIndexAry = new ArrayList<Integer>();
-				do {
-					j = str.indexOf("\"", j + 1);// index of double-quote
-					if (j != -1)
-						quoteIndexAry.add(j);
-				} while (j != -1);
-
-				int index = 0;
-				for (int n = 0; n < quoteIndexAry.size(); n++) {
-					String sub = "";
-
-					if (n % 2 == 0) {
-						sub = str.substring(index, quoteIndexAry.get(n));
-						// separating substrings without double-quote with blank
-						if(!sub.trim().isEmpty()){
-						  String[] temp = sub.trim().split("\\s++");
-								
-						  for (String value : temp) {
-							//if (!value.trim().equals(""))
-								//dataFields[k++] = value.trim();
-							  dataList.add(value.trim());
-						  }
-						}
-
-					}
-
-					else {
-						//make the data field within a quote as one data 
-						sub = str.substring(index, quoteIndexAry.get(n)); 
-						//dataFields[k++] = sub;
-						dataList.add(sub);
-						if (n == quoteIndexAry.size() - 1) {
-							//from the last quote to the end
-							sub = str.substring(quoteIndexAry.get(n) + 1); 
-							if(!sub.trim().isEmpty()){
-							   String[] temp = sub.trim().split("\\s++");
-							   for (String value : temp) {
-									//dataFields[k++] = value.trim();
-								   dataList.add(value.trim());
-							   }
-							}
-						}
-					}
-					index = quoteIndexAry.get(n) + 1;
-					//System.out.println("n=" +n+", k="+k);
-					/*
-					for(String s:dataFields){
-						System.out.print(s+",");
-					}
-					System.out.println();
-					*/
-					
+   public static String[] parseDataFields(String Str){
+	    List<String> dataList=new ArrayList<String>();
+		StringBuffer strBuf=new StringBuffer();
+		boolean isEntry = false;
+		int cnt = 0;
+		String s=Str.trim();
+	   char[] charAry =s.toCharArray();
+		for( int i = 0;i<charAry.length;i++){
+			//System.out.println(charAry[i]);
+			if(!(charAry[i]=='"'||charAry[i]=='\'')){
+			   if(!Character.isWhitespace(charAry[i])||cnt==1){
+				strBuf.append(charAry[i]);
+				isEntry=true;
+				if(i == charAry.length-1){
+					dataList.add(strBuf.toString());
 				}
-				
-				//set the result to dataFields[];
-				dataFields=new String[dataList.size()];
-				for(int i=0;i<dataList.size();i++){
-					dataFields[i]=dataList.get(i);
-				}
-				
-			} else {
-				String[] tempDataFields = str.split(",");
-				dataFields=new String[tempDataFields.length];
-				for (int i = 0; i < tempDataFields.length; i++) {
-					dataFields[i] = tempDataFields[i].trim();
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println("input: " + str + "\n" + 
-					           "data fields: " + dataFields+ "\n");
+			   }
+			   //use the space to separate data
+			   else if(isEntry){
+				  // System.out.println(strBuf.toString());
+				   dataList.add(strBuf.toString());
+				   strBuf=new StringBuffer();
+				   isEntry=false;
+			   }
+			   
+			}	   
+		   else{
+			   cnt+=1;
+			   if(cnt==2){
+				//   System.out.println(strBuf.toString());
+				   dataList.add(strBuf.toString());
+				   strBuf=new StringBuffer();
+				   cnt = 0;
+				   isEntry=false;
+			   }
+		   }
+			//the last element
+			
+			//System.out.println(strBuf.toString());				
 		}
-		return dataFields;
-	}
+		//System.out.println(dataList.toString());
+		return dataList.toArray(new String[1]);
+	 
+   }
+	
+//	public static String[]parseDataFields(String str){
+//		List<String> dataList=new ArrayList<String>();
+//		String[] dataFields=null;
+//		str=str.trim();
+//		try{
+//		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Blank) {
+//				int j = -1;
+//				//int k = 0;
+//				// get the quote index
+//				List<Integer> quoteIndexAry = new ArrayList<Integer>();
+//				do {
+//					j = str.indexOf("\"", j + 1);// index of double-quote
+//					if (j != -1)
+//						quoteIndexAry.add(j);
+//				} while (j != -1);
+//
+//				int index = 0;
+//				for (int n = 0; n < quoteIndexAry.size(); n++) {
+//					String sub = "";
+//
+//					if (n % 2 == 0) {
+//						sub = str.substring(index, quoteIndexAry.get(n));
+//						// separating substrings without double-quote with blank
+//						if(!sub.trim().isEmpty()){
+//						  String[] temp = sub.trim().split("\\s++");
+//								
+//						  for (String value : temp) {
+//							//if (!value.trim().equals(""))
+//								//dataFields[k++] = value.trim();
+//							  dataList.add(value.trim());
+//						  }
+//						}
+//
+//					}
+//
+//					else {
+//						//make the data field within a quote as one data 
+//						sub = str.substring(index, quoteIndexAry.get(n)); 
+//						//dataFields[k++] = sub;
+//						dataList.add(sub);
+//						if (n == quoteIndexAry.size() - 1) {
+//							//from the last quote to the end
+//							sub = str.substring(quoteIndexAry.get(n) + 1); 
+//							if(!sub.trim().isEmpty()){
+//							   String[] temp = sub.trim().split("\\s++");
+//							   for (String value : temp) {
+//									//dataFields[k++] = value.trim();
+//								   dataList.add(value.trim());
+//							   }
+//							}
+//						}
+//					}
+//					index = quoteIndexAry.get(n) + 1;
+//					//System.out.println("n=" +n+", k="+k);
+//					/*
+//					for(String s:dataFields){
+//						System.out.print(s+",");
+//					}
+//					System.out.println();
+//					*/
+//					
+//				}
+//				
+//				//set the result to dataFields[];
+//				dataFields=new String[dataList.size()];
+//				for(int i=0;i<dataList.size();i++){
+//					dataFields[i]=dataList.get(i);
+//				}
+//				
+//			} else {
+//				String[] tempDataFields = str.split(",");
+//				dataFields=new String[tempDataFields.length];
+//				for (int i = 0; i < tempDataFields.length; i++) {
+//					dataFields[i] = tempDataFields[i].trim();
+//				}
+//			}
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			System.out.println("input: " + str + "\n" + 
+//					           "data fields: " + dataFields+ "\n");
+//		}
+//		return dataFields;
+//	}
 	
 	/**
 	 * Check whether the Argument Fields is completed yet, since it is
