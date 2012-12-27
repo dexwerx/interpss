@@ -194,13 +194,13 @@ public class AcscScenarioHelper {
 	private static void setFaultInfo(AcscBaseFaultXmlType scFaultXml, AcscBusFault acscBusFault, double baseV, double baseKVA) {
 		// set fault type
 		AcscFaultCategoryEnumType faultCate = scFaultXml.getFaultCategory();
-		if(faultCate.equals(AcscFaultCategoryEnumType.FAULT_3_PHASE)){
+		if(faultCate == AcscFaultCategoryEnumType.FAULT_3_PHASE){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_3P);
-		}else if (faultCate.equals(AcscFaultCategoryEnumType.LINE_TO_GROUND)){
+		}else if (faultCate == AcscFaultCategoryEnumType.LINE_TO_GROUND){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LG);
-		}else if (faultCate.equals(AcscFaultCategoryEnumType.LINE_TO_LINE)){
+		}else if (faultCate == AcscFaultCategoryEnumType.LINE_TO_LINE){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LL);
-		}else if (faultCate.equals(AcscFaultCategoryEnumType.LINE_LINE_TO_GROUND)){
+		}else if (faultCate == AcscFaultCategoryEnumType.LINE_LINE_TO_GROUND){
 			acscBusFault.setFaultCode(SimpleFaultCode.GROUND_LLG);
 		}
 		// set zLG and zLL
