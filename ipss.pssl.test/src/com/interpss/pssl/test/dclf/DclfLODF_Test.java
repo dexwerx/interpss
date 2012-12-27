@@ -56,7 +56,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 		double f = algoDsl.monitorBranch("Bus4", "Bus9", "1")
 	       				.lineOutageDFactor();
 		//System.out.println("LODF (x4->7) -> (4->9): " + f);
-		assertTrue(NumericUtil.equals(f, 0.507821, 0.00001));
+		assertTrue(NumericUtil.equals(f, 0.176530585, 0.00001));
 
 		f = algoDsl.monitorBranch("Bus5", "Bus6", "1")
 	       			.lineOutageDFactor();

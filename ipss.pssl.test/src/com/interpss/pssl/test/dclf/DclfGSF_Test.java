@@ -51,18 +51,18 @@ public class DclfGSF_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		algoDsl.injectionBusId("Bus2")
 			   .withdrawBusId("Bus3");
-		System.out.println("\nInj - Bus2, withdraw - Bus3");
+		//System.out.println("\nInj - Bus2, withdraw - Bus3");
 		
-		double f = algoDsl.monitorBranch("Bus2", "Bus3")
+		double f = algoDsl.monitorBranch("Bus2", "Bus3", "1")
 		   					.genShiftFactor();
 		//System.out.println("monitorBranch - 2->3");
 		//System.out.println("GSF: " + f );	
-		assertTrue(NumericUtil.equals(f, 0.559376, 0.00001));
+		assertTrue(NumericUtil.equals(f, 0.0, 0.00001));
 
 		f = algoDsl.monitorBranch("Bus3", "Bus4")
 					.genShiftFactor();
-		System.out.println("monitorBranch - 3->4");
-		System.out.println("GSF: " + f );	
+		//System.out.println("monitorBranch - 3->4");
+		//System.out.println("GSF: " + f );	
 		assertTrue(NumericUtil.equals(f,-0.440623, 0.00001));
 
 		algoDsl = IpssPTrading.createDclfAlgorithm(net);
@@ -70,7 +70,7 @@ public class DclfGSF_Test extends BaseTestSetup {
 			   .setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS)
 			   .addWithdrawBus("Bus14", 50.0)
 			   .addWithdrawBus("Bus13", 50.0);
-		System.out.println("\nInj - Bus2, withdraw - Bus14 50%, Bus13 50%");
+		//System.out.println("\nInj - Bus2, withdraw - Bus14 50%, Bus13 50%");
 		
 		f = algoDsl.monitorBranch("Bus9", "Bus14")
 					.genShiftFactor();
@@ -120,13 +120,13 @@ public class DclfGSF_Test extends BaseTestSetup {
 		f = algoDsl.injectionBusId("Bus2")
 						.monitorBranch("Bus9", "Bus14")
 						.genShiftFactor();		
-		System.out.print("\nGen 2, monitorBranch - 9->14");
-		System.out.println(" GSF: " + f );		
+		//System.out.print("\nGen 2, monitorBranch - 9->14");
+		//System.out.println(" GSF: " + f );		
 
 		f = algoDsl.monitorBranch("Bus6", "Bus13")
 			.genShiftFactor();		
-		System.out.print("\nGen 2, monitorBranch - 6->13");
-		System.out.println(" GSF: " + f );		
+		//System.out.print("\nGen 2, monitorBranch - 6->13");
+		//System.out.println(" GSF: " + f );		
 	}
 }
 
