@@ -56,12 +56,15 @@ public class InputLineStringParser {
 	 */
 	private Hashtable<String, String> fieldTable;
 	
+	private List<String> dataList;
+	
 	/**
 	 * constructor
 	 */
 	public InputLineStringParser() {
 		this.positionTable = new Hashtable<Integer, String>();
 		this.fieldTable = new Hashtable<String, String>();
+		this.dataList = new ArrayList<String>();
 	}
 	
 	/**
@@ -232,56 +235,61 @@ public class InputLineStringParser {
 	 * @return
 	 */
 	protected String[] parseDataFields(String Str){
-	    List<String> dataList=new ArrayList<String>();
+	    this.dataList.clear();
+	    
 		StringBuffer strBuf=new StringBuffer();
+
 		boolean isEntry = false;
-		//quotation counter
-		int quotCnt = 0;
+
+		boolean quotBegin = false, quotEnd = false;
+
 		String s=Str.trim();
 		//convert the input string to a char array
-	   char[] charAry =s.toCharArray();
-		for( int i = 0;i<charAry.length;i++){
-			
+	    char[] charAry =s.toCharArray();
+
+	    for( int i = 0;i<charAry.length;i++){
 			//string within a quotation is processed separately 
 			// and treated as a whole
 			if(!(charAry[i]=='"'||charAry[i]=='\'')){
-				
-			  //PWD uses the space to separate data, the consecutive non-space
-			  //characters are appended together to form a string, and set the 
-			  //isEntry to be true
-				if (!Character.isWhitespace(charAry[i]) || quotCnt == 1) {
+				//PWD uses the space to separate data, the consecutive non-space
+				//characters are appended together to form a string, and set the 
+				//isEntry to be true
+				if (!Character.isWhitespace(charAry[i]) || quotBegin) {
 					strBuf.append(charAry[i]);
 					isEntry = true;
 					//if the processing data is the last one, since no white space
 					//after it, it needs to be treated specially.
 					if (i == charAry.length - 1) {
-						dataList.add(strBuf.toString());
+						this.dataList.add(strBuf.toString());
 					}
 				}
-			   //if any white space not within a quotation is encountered, then one data entry
-			  // is completed and should be added to the data list
-			   else if(isEntry){
-				   dataList.add(strBuf.toString());
-				   strBuf=new StringBuffer();
+			    //if any white space not within a quotation is encountered, then one data entry
+			    // is completed and should be added to the data list
+				else if(isEntry){
+					this.dataList.add(strBuf.toString());
+				   strBuf.setLength(0);
 				   //reset the flag
 				   isEntry=false;
-			   }
-			   
+				}
 			}	   
-		   else{
-			   quotCnt+=1; 
+			else	{ // charAry[i]=='"' || charAry[i]=='\'')
+				if (!quotBegin)
+					quotBegin = true;
+				else
+					quotEnd = true;
+				
 			   //if the quotation counter is two, then one complete data entry within
 			   // a quotation has been processed and need to save to the data list
-			   if(quotCnt==2){
-				   dataList.add(strBuf.toString());
-				   strBuf=new StringBuffer();
-				   quotCnt = 0;
+			   if(quotEnd){
+				   this.dataList.add(strBuf.toString());
+				   strBuf.setLength(0);
+				   quotBegin = false;
+				   quotEnd = false;
 				   isEntry=false;
 			   }
 		   }
-				
 		}
 		//System.out.println(dataList.toString());
-		return dataList.toArray(new String[1]);
+		return this.dataList.toArray(new String[1]);
 	}	
 } 
