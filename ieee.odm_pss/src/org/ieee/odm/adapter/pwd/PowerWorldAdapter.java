@@ -7,7 +7,7 @@ import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.PWDDataParser;
+import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.BusDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.NetDataProcessor;
@@ -163,7 +163,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						  
 						   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
 						 //clear the processed data in memory, or it will cause fieldTable size wrong
-						   branchProc.clearProcessedData();  
+						   branchProc.clearNVPairTableData();  
 						   //System.out.println("processing #"+str);
 						   while(!branchProc.parseData(str,true))
 								str=din.readLine();

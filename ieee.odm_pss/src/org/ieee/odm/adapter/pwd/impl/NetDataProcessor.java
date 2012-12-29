@@ -2,7 +2,7 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.PWDDataParser;
+import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.NetAreaXmlType;
@@ -14,7 +14,7 @@ import org.ieee.odm.schema.NetZoneXmlType;
   * @author Tony Huang
   * 
   */
-public class NetDataProcessor extends PWDDataParser  {
+public class NetDataProcessor extends InputLineStringParser  {
 	private AclfModelParser parser = null;
 	
 	public NetDataProcessor(AclfModelParser parser) {

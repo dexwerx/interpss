@@ -1,6 +1,6 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import org.ieee.odm.adapter.PWDDataParser;
+import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -27,7 +27,7 @@ import org.ieee.odm.schema.YUnitType;
   * @author Tony Huang
   * 
   */
-public class BusDataProcessor extends PWDDataParser {
+public class BusDataProcessor extends InputLineStringParser {
 	public static long swingBusNum=-1;
 	private boolean isSubDataSection=false;
 	private String STATION_TOKEN ="SubStation";

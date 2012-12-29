@@ -1,6 +1,6 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import org.ieee.odm.adapter.PWDDataParser;
+import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.adapter.pwd.PWDAdapterForContingency.ContingencyType;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -21,7 +21,7 @@ import org.ieee.odm.schema.NetModificationXmlType;
  *  custom string for outage is saved in bus/branch description
  * 
  */
-public class ContingencyDataProcessor extends PWDDataParser{
+public class ContingencyDataProcessor extends InputLineStringParser{
 	
 	private NetModificationXmlType netModList=null;
 	private NetModificationHelper helper=null;

@@ -2,7 +2,7 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.PWDDataParser;
+import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
@@ -48,7 +48,7 @@ import org.ieee.odm.schema.ZUnitType;
   * 10/22/2012 fix a phase xfr bug when phase angle =0 
   * 
   */
-public class BranchDataProcessor extends PWDDataParser  {
+public class BranchDataProcessor extends InputLineStringParser  {
 	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
 	private enum XfrType{Fixed, LTC, Mvar,Phase};
 	

@@ -1,5 +1,5 @@
 /*
- * @(#)PWDDataParser.java   
+ * @(#)InputLineStringParser.java   
  *
  * Copyright (C) 2006 www.interpss.com
  *
@@ -30,7 +30,6 @@ import java.util.List;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfModelParser;
 
 /**
  * Parse an input string according to the field definition in the nv pair. For example,  
@@ -47,7 +46,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
  * @author mzhou
  *
  */
-public class PWDDataParser {
+public class InputLineStringParser {
 	/**
 	 * store key position info { (1, BusNum), (2, BusNum:1) ... }
 	 */
@@ -57,7 +56,10 @@ public class PWDDataParser {
 	 */
 	private Hashtable<String, String> fieldTable;
 	
-	public PWDDataParser() {
+	/**
+	 * constructor
+	 */
+	public InputLineStringParser() {
 		this.positionTable = new Hashtable<Integer, String>();
 		this.fieldTable = new Hashtable<String, String>();
 	}
@@ -97,8 +99,12 @@ public class PWDDataParser {
 		
 		return this.positionTable.size() == this.fieldTable.size();
 	}
+	
 	/**
+	 * parse the string data
 	 * 
+	 * @param data
+	 * @param appendMode
 	 * @return
 	 */
 	public boolean parseData(String data, boolean appendMode){
@@ -120,17 +126,24 @@ public class PWDDataParser {
 		}
 		
 	    return this.positionTable.size() == this.fieldTable.size();
-	  
 	}
 	
-	public void clearProcessedData(){
+	/**
+	 * clear the name-value pair table 
+	 */
+	public void clearNVPairTableData(){
 		this.fieldTable.clear();
 	}
+	
+	/**
+	 * check if all data fields are parsed
+	 * 
+	 * @return
+	 */
 	public boolean isDataCompleted(){
 		 return this.positionTable.size() == this.fieldTable.size();
 	}
 
-	
 	/**
 	 * check if the data field identified by the key exists
 	 * 
@@ -177,18 +190,28 @@ public class PWDDataParser {
 		return Integer.valueOf(this.getString(key));
 	}
 	
+	/**
+	 * Get field of type long
+	 * 
+	 * @param key
+	 * @return
+	 * @throws ODMException throw exception if the field does not exist
+	 */
 	public long getLong(String key) throws ODMException {
 		return Long.valueOf(this.getString(key));
 	}
 	
-	public String toString() {
+	@Override public String toString() {
 		return this.positionTable.toString() + "\n" + this.fieldTable.toString();
 	}
 	
-	//
-	
 	/**
-	 * parse a complete data section metaData definition and return as an order string array.
+	 * parse a complete data section metaData definition and return as an string array.
+	 * 
+	 *    [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA]
+	 *    
+	 *    { "BusNum", "BusNum:1", "LineCircuit", "LineStatus" }
+	 * 
 	 * @param str
 	 * @return A String array storing the metaData definition
 	 */
@@ -200,57 +223,65 @@ public class PWDDataParser {
 		return arguFields;
 	}	
 	
+	/**
+	 * Parse an input string to a string array
+	 *   input string : 4     5 " 1" "Closed"  0.000000  0.100000  0.000000  0.000000
+	 *   to a string array : { "4", "5", " 1", "Closed", "0.000000", "0.100000", "0.000000", "0.000000"}
+	 *   
+	 * @param Str
+	 * @return
+	 */
 	protected String[] parseDataFields(String Str){
-		    List<String> dataList=new ArrayList<String>();
-			StringBuffer strBuf=new StringBuffer();
-			boolean isEntry = false;
-			//quotation counter
-			int quotCnt = 0;
-			String s=Str.trim();
-			//convert the input string to a char array
-		   char[] charAry =s.toCharArray();
-			for( int i = 0;i<charAry.length;i++){
+	    List<String> dataList=new ArrayList<String>();
+		StringBuffer strBuf=new StringBuffer();
+		boolean isEntry = false;
+		//quotation counter
+		int quotCnt = 0;
+		String s=Str.trim();
+		//convert the input string to a char array
+	   char[] charAry =s.toCharArray();
+		for( int i = 0;i<charAry.length;i++){
+			
+			//string within a quotation is processed separately 
+			// and treated as a whole
+			if(!(charAry[i]=='"'||charAry[i]=='\'')){
 				
-				//string within a quotation is processed separately 
-				// and treated as a whole
-				if(!(charAry[i]=='"'||charAry[i]=='\'')){
-					
-				  //PWD uses the space to separate data, the consecutive non-space
-				  //characters are appended together to form a string, and set the 
-				  //isEntry to be true
-					if (!Character.isWhitespace(charAry[i]) || quotCnt == 1) {
-						strBuf.append(charAry[i]);
-						isEntry = true;
-						//if the processing data is the last one, since no white space
-						//after it, it needs to be treated specially.
-						if (i == charAry.length - 1) {
-							dataList.add(strBuf.toString());
-						}
+			  //PWD uses the space to separate data, the consecutive non-space
+			  //characters are appended together to form a string, and set the 
+			  //isEntry to be true
+				if (!Character.isWhitespace(charAry[i]) || quotCnt == 1) {
+					strBuf.append(charAry[i]);
+					isEntry = true;
+					//if the processing data is the last one, since no white space
+					//after it, it needs to be treated specially.
+					if (i == charAry.length - 1) {
+						dataList.add(strBuf.toString());
 					}
-				   //if any white space not within a quotation is encountered, then one data entry
-				  // is completed and should be added to the data list
-				   else if(isEntry){
-					   dataList.add(strBuf.toString());
-					   strBuf=new StringBuffer();
-					   //reset the flag
-					   isEntry=false;
-				   }
-				   
-				}	   
-			   else{
-				   quotCnt+=1; 
-				   //if the quotation counter is two, then one complete data entry within
-				   // a quotation has been processed and need to save to the data list
-				   if(quotCnt==2){
-					   dataList.add(strBuf.toString());
-					   strBuf=new StringBuffer();
-					   quotCnt = 0;
-					   isEntry=false;
-				   }
+				}
+			   //if any white space not within a quotation is encountered, then one data entry
+			  // is completed and should be added to the data list
+			   else if(isEntry){
+				   dataList.add(strBuf.toString());
+				   strBuf=new StringBuffer();
+				   //reset the flag
+				   isEntry=false;
 			   }
-					
-			}
-			//System.out.println(dataList.toString());
-			return dataList.toArray(new String[1]);
-	   }	
+			   
+			}	   
+		   else{
+			   quotCnt+=1; 
+			   //if the quotation counter is two, then one complete data entry within
+			   // a quotation has been processed and need to save to the data list
+			   if(quotCnt==2){
+				   dataList.add(strBuf.toString());
+				   strBuf=new StringBuffer();
+				   quotCnt = 0;
+				   isEntry=false;
+			   }
+		   }
+				
+		}
+		//System.out.println(dataList.toString());
+		return dataList.toArray(new String[1]);
+	}	
 } 
