@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import com.interpss.pssl.test.aclf.AclfNetPool_Test;
 import com.interpss.pssl.test.dclf.DclfGSF_GuiTest;
 import com.interpss.pssl.test.dclf.DclfGSF_Test;
 import com.interpss.pssl.test.dclf.DclfLODFPaper_OutageBranchDup;
@@ -48,6 +49,8 @@ import com.interpss.pssl.test.dist.DistSys_Test;
 	DclfLODFPaper_Test.class,
 	DclfLODFPaper_OutageBranchDup.class,
 	QSen_Test.class,
+	
+	AclfNetPool_Test.class,
 	
 })
 public class PSSLTestSuite {
