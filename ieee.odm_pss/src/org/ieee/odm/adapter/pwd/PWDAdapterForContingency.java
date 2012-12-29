@@ -25,8 +25,6 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		super();
 	}
 	
-	
-	
 	@Override
 	protected IODMModelParser parseInputFile(IFileReader din, String encoding) {
 		String str=""; 
@@ -41,7 +39,7 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		
 		//create contingency data processor
 		
-		//TODO In fact you don't know what kind of contingency the data defined until you get the CTGElement Part
+		//In fact you don't know what kind of contingency the data defined until you get the CTGElement Part
 		
 		/*Now we know the contingency data we got is branch status change(most changed to OPEN, some CLOSE)
 		 * so we can defined the exact type  contingency processor before the processing;
@@ -95,13 +93,12 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		return parser;
 	}
 
-	
-	
 	@Override
 	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din, String encoding) {
 		ODMLogger.getLogger().severe("Method not implemented");
 		return null;
 	}
+	
 	private String getDataType(String str){
 		int indexOfLeftParenthesis=str.indexOf("(");
 		int indexOfFirstComma=str.indexOf(",");

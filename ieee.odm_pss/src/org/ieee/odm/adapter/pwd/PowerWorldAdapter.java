@@ -1,13 +1,10 @@
 package org.ieee.odm.adapter.pwd;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.BusDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.NetDataProcessor;
@@ -22,7 +19,7 @@ import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
+
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
