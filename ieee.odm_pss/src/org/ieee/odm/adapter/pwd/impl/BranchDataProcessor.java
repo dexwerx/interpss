@@ -2,6 +2,7 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import org.ieee.odm.adapter.PWDDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
@@ -54,8 +55,10 @@ public class BranchDataProcessor extends PWDDataParser  {
 	private String STATION_TOKEN ="SubStation";
 	private String EQUIMENT_NAME_TOKEN ="EquimentName";
 	
+	private AclfModelParser parser = null;
+	
 	public BranchDataProcessor( AclfModelParser parser) {
-		super(parser);
+		this.parser = parser;
 	}
 	
 	public void processBranchData(String branchDataStr) throws ODMException{

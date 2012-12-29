@@ -1,5 +1,6 @@
 package org.ieee.odm.adapter.pwd.impl;
 
+import org.ieee.odm.adapter.PWDDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -32,9 +33,10 @@ public class BusDataProcessor extends PWDDataParser {
 	private String STATION_TOKEN ="SubStation";
 	private String substation="";
 
+	private AclfModelParser parser = null;
 	
 	public BusDataProcessor(AclfModelParser parser) {
-		super(parser);
+		this.parser = parser;
 	}
 	
 	

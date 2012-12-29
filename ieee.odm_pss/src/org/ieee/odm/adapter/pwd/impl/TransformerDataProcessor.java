@@ -2,6 +2,7 @@ package org.ieee.odm.adapter.pwd.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import org.ieee.odm.adapter.PWDDataParser;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -34,10 +35,13 @@ import org.ieee.odm.schema.ZUnitType;
 public class TransformerDataProcessor extends PWDDataParser  {
 	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
 	private enum XfrType{Fixed, LTC, Mvar,Phase};
+	
+	private AclfModelParser parser = null;
+	
 	public TransformerDataProcessor(AclfModelParser parser) {
-		super(parser);
-		
+		this.parser = parser;
 	}
+	
 	 /**
      * It assumed that the basic loadflow data,such as R,X,TapRatio,etc., 
      * for Transformer has been processed before the transformer control data

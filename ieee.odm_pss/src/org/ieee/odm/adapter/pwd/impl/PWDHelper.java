@@ -3,9 +3,6 @@ package org.ieee.odm.adapter.pwd.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.FileTypeSpecifier;
-
 public class PWDHelper {
 	/**
 	 * Parse an input string according to the field definition in the nv pair. For example,  
@@ -22,7 +19,8 @@ public class PWDHelper {
 	 * @param str
 	 * @param nvpairs
 	 */
-   public static String[] parseDataFields(String Str){
+	/*
+   public static String[] bparseDataFields(String Str){
 	    List<String> dataList=new ArrayList<String>();
 		StringBuffer strBuf=new StringBuffer();
 		boolean isEntry = false;
@@ -74,7 +72,6 @@ public class PWDHelper {
 		}
 		//System.out.println(dataList.toString());
 		return dataList.toArray(new String[1]);
-	 
    }
 /*	
 	public static String[]parseDataFields(String str){
@@ -176,8 +173,6 @@ public class PWDHelper {
 		
 	}
 	
-	
-	
 	private static boolean endsWithRightParenthesis(String str){
 		return str.trim().endsWith(")");
 	}
@@ -189,18 +184,5 @@ public class PWDHelper {
 		
 		return dataType;
 		
-	}
-
-	/**
-	 * parse a complete data section metaData definition and return as an order string array.
-	 * @param str
-	 * @return A String array storing the metaData definition
-	 */
-	public static String[] parseMetaData(String str){
-		int indexOfLeftBracket=str.indexOf("[");
-		int indexOfRightBracket=str.indexOf("]");
-		String[] arguFields=str.substring(indexOfLeftBracket+1,
-				indexOfRightBracket).split(",");
-		return arguFields;
 	}
 }

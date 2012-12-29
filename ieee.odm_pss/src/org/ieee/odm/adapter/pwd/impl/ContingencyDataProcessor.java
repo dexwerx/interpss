@@ -1,5 +1,6 @@
 package org.ieee.odm.adapter.pwd.impl;
 
+import org.ieee.odm.adapter.PWDDataParser;
 import org.ieee.odm.adapter.pwd.PWDAdapterForContingency.ContingencyType;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -27,8 +28,11 @@ public class ContingencyDataProcessor extends PWDDataParser{
 	private BranchChangeRecSetXmlType branchTypeCtg=null;
 	boolean skipCtg=false;
 	boolean isCTGSubDataSection=false;
+	
+	private AclfModelParser parser = null;
+	
 	public ContingencyDataProcessor(AclfModelParser parser) {
-		super(parser);
+		this.parser = parser;
 		// initialization
 		// create empty base network 
 		parser.getAclfNet();
@@ -112,7 +116,7 @@ public class ContingencyDataProcessor extends PWDDataParser{
 			/*
 			 * return format[Action,ModelCriteria,status], since the comment has been subtracted;
 			 */
-			String[] ctgElement=PWDHelper.parseDataFields(str);
+			String[] ctgElement= parseDataFields(str);
 			action=ctgElement[0];
 			
 			//get Branch info, format[branchId, status,fromId, toId, cirId]
