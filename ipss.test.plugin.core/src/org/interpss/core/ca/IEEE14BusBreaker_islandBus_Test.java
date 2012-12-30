@@ -58,9 +58,9 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		IslandBusProcesor proc = new IslandBusProcesor();
 		proc.findIslandBus(list, net);
 	  	System.out.println("Original network with islanding");
-	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandBusIdSet());
 	  	//System.out.println(proc.getIslandSubnetInterface());
-	  	assertTrue(proc.getIslandBusIdList().size() == 15);
+	  	assertTrue(proc.getIslandBusIdSet().size() == 15);
 	  	//assertTrue(proc.getIslandSubnetInterface().size() == 3);
 
 	  	list.clear();
@@ -69,9 +69,9 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		
 		proc.findIslandBus(list, net);
 	  	System.out.println("Original network without islanding");
-	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandBusIdSet());
 	  //	System.out.println(proc.getIslandSubnetInterface());
-	  	assertTrue(proc.getIslandBusIdList().size() == 0);
+	  	assertTrue(proc.getIslandBusIdSet().size() == 0);
 	  	//assertTrue(proc.getIslandSubnetInterface().size() == 0);
 	}	
 
@@ -95,9 +95,9 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		IslandBusProcesor proc = new IslandBusProcesor();
 		proc.findIslandBus(list, net);
 	  	System.out.println("Consolidated network with islanding");
-	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandBusIdSet());
 	  	//System.out.println(proc.getIslandSubnetInterface());
-	  	assertTrue(proc.getIslandBusIdList().size() == 9);
+	  	assertTrue(proc.getIslandBusIdSet().size() == 9);
 	  	//assertTrue(proc.getIslandSubnetInterface().size() == 3);
 
 	  	list.clear();
@@ -106,9 +106,9 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 		
 		proc.findIslandBus(list, net);
 	  	System.out.println("Consolidated network without islanding");
-	  	System.out.println(proc.getIslandBusIdList());
+	  	System.out.println(proc.getIslandBusIdSet());
 	  	//System.out.println(proc.getIslandSubnetInterface());
-	  	assertTrue(proc.getIslandBusIdList().size() == 0);
+	  	assertTrue(proc.getIslandBusIdSet().size() == 0);
 	  	//assertTrue(proc.getIslandSubnetInterface().size() == 0);
 	}	
 }
