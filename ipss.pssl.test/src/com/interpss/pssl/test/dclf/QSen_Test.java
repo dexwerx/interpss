@@ -74,7 +74,7 @@ public class QSen_Test extends BaseTestSetup {
 		dV_dQ = algoDsl.busSensitivity(SenAnalysisType.QVOLTAGE, "Bus14", "Bus13");
 	  	System.out.println("dV(Bus13)/dQ(Bus14): " + dV_dQ);
 	  	
-	  	net.getAclfBus("Bus14").toLoadBus().setLoad(new Complex(0.1490, 0.1500));
+	  	net.getBus("Bus14").toLoadBus().setLoad(new Complex(0.1490, 0.1500));
 		aclfAlgoDsl.runLoadflow();
 		System.out.println(AclfOutFunc.loadFlowSummary(net));
 /*
