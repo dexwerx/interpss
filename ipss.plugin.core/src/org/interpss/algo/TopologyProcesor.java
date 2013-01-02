@@ -80,7 +80,7 @@ public class TopologyProcesor {
 	public List<String> findBranchInSubStation(String branchId) throws InterpssException {
 		List<String> branchIdList = new ArrayList<String>();
 		
-		AclfBranch branch = this.aclfNet.getAclfBranch(branchId);
+		AclfBranch branch = this.aclfNet.getBranch(branchId);
 		branch.setVisited(true);
 		
 		if (branch.getBranchCode() != AclfBranchCode.BREAKER)
@@ -207,7 +207,7 @@ public class TopologyProcesor {
 		if (list.size() > 0) {
 			for (String id : list) {
 				// add island bus to the list
-				contingency.addIslandBus(aclfNet.getAclfBus(id));
+				contingency.addIslandBus(aclfNet.getBus(id));
 			}
 		}		
 	}
@@ -320,7 +320,7 @@ public class TopologyProcesor {
 		if (list.size() > 0) {
 			for (String id : list) {
 				// add island bus to the list
-				contingency.addIslandBus(aclfNet.getAclfBus(id));
+				contingency.addIslandBus(aclfNet.getBus(id));
 			}
 		}		
 	}

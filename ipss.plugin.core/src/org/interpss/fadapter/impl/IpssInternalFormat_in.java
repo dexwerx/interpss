@@ -279,7 +279,7 @@ public class IpssInternalFormat_in {
 			}
       	}
 
-      	AclfBus bus = adjNet.getAclfBus(id);
+      	AclfBus bus = adjNet.getBus(id);
     	if (bus != null ) {
         	bus.setGenCode(AclfGenCode.GEN_PV);
       		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(bus);
@@ -311,7 +311,7 @@ public class IpssInternalFormat_in {
 			}
       	}
 
-      	AclfBus bus = adjNet.getAclfBus(id);
+      	AclfBus bus = adjNet.getBus(id);
     	if (bus != null) {
        	    bus.setGenCode(AclfGenCode.CAPACITOR);
 			final AclfCapacitorBus cap = bus.toCapacitorBus();

@@ -172,9 +172,9 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 
 			for ( FlowInterfaceBranchXmlType xmlBra : xmlIntf.getBranchList()) {
 				FlowInterfaceBranch branch = CoreObjectFactory.createInterfaceBranch(intf);
-				AclfBranch b = net.getAclfBranch(xmlBra.getFromBusId(), xmlBra.getToBusId(), xmlBra.getCircuitId());
+				AclfBranch b = net.getBranch(xmlBra.getFromBusId(), xmlBra.getToBusId(), xmlBra.getCircuitId());
 				if (b == null) {
-					b = net.getAclfBranch(xmlBra.getToBusId(), xmlBra.getFromBusId(), xmlBra.getCircuitId());
+					b = net.getBranch(xmlBra.getToBusId(), xmlBra.getFromBusId(), xmlBra.getCircuitId());
 					branch.setBranchDir(false);
 				}
 				else

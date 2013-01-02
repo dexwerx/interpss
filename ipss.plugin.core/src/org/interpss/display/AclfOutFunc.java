@@ -147,12 +147,13 @@ public class AclfOutFunc {
 		  	
 		  	for (Network n2nd : net.getChildNetworks()) {
 		  		if (n2nd.isContainChildNet()) {
-				  	for (Network n3rd : n2nd.getChildNetworks()) {
-				  		str.append("\n\nChildNet : " + n3rd.getId() + "\n");
-				  		str.append("Parent net interface bus Id: " + n3rd.getParentNetInterfaceBusId() + "\n");
+				  	for (Object n3rd : n2nd.getChildNetworks()) {
 				  		if (n3rd instanceof DcNetwork) {
 				  			try {
-				  			str.append(OutputSolarNet.fx((DcNetwork)n3rd));
+				  				DcNetwork dcnet = (DcNetwork)n3rd;
+						  		str.append("\n\nChildNet : " + dcnet.getId() + "\n");
+						  		str.append("Parent net interface bus Id: " + dcnet.getParentNetInterfaceBusId() + "\n");
+						  		str.append(OutputSolarNet.fx(dcnet));
 				  			} catch (InterpssException e) {
 				  				ipssLogger.severe(e.toString());
 				  				str.append(e.toString());

@@ -36,6 +36,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
@@ -250,7 +251,7 @@ public class AcscOutFunc {
 			str.append("                              (pu)       (Amp) \n");
 			str.append("     --------------------   --------   ----------\n");
 
-			List<Branch> branchList = net.getBranchList();
+			List<AclfBranch> branchList = net.getBranchList();
 			int cnt = 0;
 			for (int n = 0; n < branchList.size(); n++) {
 				AcscBranch bra = (AcscBranch) branchList.get(n);
@@ -273,7 +274,7 @@ public class AcscOutFunc {
 			str.append("                              (pu)       (Amp)        (pu)       (Amp)        (pu)       (Amp) \n");
 			str.append("     --------------------   --------   ----------   --------   ----------   --------   ----------\n");
 
-			List<Branch> branchList = net.getBranchList();
+			List<AclfBranch> branchList = net.getBranchList();
 			int cnt = 0;
 			for (int n = 0; n < branchList.size(); n++) {
 				AcscBranch bra = (AcscBranch) branchList.get(n);

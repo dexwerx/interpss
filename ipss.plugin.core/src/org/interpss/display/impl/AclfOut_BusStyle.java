@@ -102,13 +102,14 @@ public class AclfOut_BusStyle {
 		  	
 		  	for (Network childNet : mainNet.getChildNetworks()) {
 		  		if (childNet.isContainChildNet()) {
-				  	for (Network childNet3rd : childNet.getChildNetworks()) {
-						str.append("\n\n                                                    *   *   *   *   *   *\n");
-				  		str.append("\n\nChildNet : " + childNet3rd.getId() + "\n");
-				  		str.append("Parent net [" + childNet.getId() + "] interface bus Id: " + childNet3rd.getParentNetInterfaceBusId() + "\n");
-				  		if (childNet3rd instanceof DcNetwork) {
+				  	for (Object obj : childNet.getChildNetworks()) {
+				  		if (obj instanceof DcNetwork) {
+				  			DcNetwork childNet3rd = (DcNetwork)obj;
+							str.append("\n\n                                                    *   *   *   *   *   *\n");
+					  		str.append("\n\nChildNet : " + childNet3rd.getId() + "\n");
+					  		str.append("Parent net [" + childNet.getId() + "] interface bus Id: " + childNet3rd.getParentNetInterfaceBusId() + "\n");
 				  			try {
-				  			str.append(OutputSolarNet.fx((DcNetwork)childNet3rd));
+				  			   str.append(OutputSolarNet.fx((DcNetwork)childNet3rd));
 				  			} catch (InterpssException e) {
 				  				ipssLogger.severe(e.toString());
 				  				str.append(e.toString());

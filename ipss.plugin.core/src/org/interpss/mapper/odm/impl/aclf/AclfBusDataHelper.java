@@ -199,7 +199,7 @@ public class AclfBusDataHelper {
 						// The remote bus to be adjusted is normally defined as a PV bus. It needs to
 						// be changed to PQ bus
 						// In order to process the info in a late stage, we need to save both aclfBus and xmlEquivGenData objects
-						AclfBus remoteBus = aclfNet.getAclfBus(remoteId);
+						AclfBus remoteBus = aclfNet.getBus(remoteId);
 	  					if (remoteBus != null) {
 	  	  					if (remoteBus.isGenPV())
 	  	  						remoteBus.setGenCode(AclfGenCode.GEN_PQ);

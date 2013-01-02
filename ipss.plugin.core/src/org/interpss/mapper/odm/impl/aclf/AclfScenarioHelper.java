@@ -106,7 +106,7 @@ public class AclfScenarioHelper {
 	public static Contingency mapContingency(BranchChangeRecSetXmlType contingency, AclfNetwork net) {
 		Contingency cont = CoreObjectFactory.createContingency(contingency.getId());
 		for (BranchChangeRecXmlType bra : contingency.getBranchChangeRec()) {
-			AclfBranch branch = net.getAclfBranch(bra.getFromBusId(), bra.getToBusId(), bra.getCircuitId());
+			AclfBranch branch = net.getBranch(bra.getFromBusId(), bra.getToBusId(), bra.getCircuitId());
 			cont.addOutageBranch(CoreObjectFactory.createOutageBranch(branch, cont));
 		}			
 		return cont;
