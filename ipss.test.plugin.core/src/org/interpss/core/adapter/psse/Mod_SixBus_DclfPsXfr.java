@@ -72,7 +72,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
   		assertTrue(net.isLfConverged());
   		
 		System.out.println(CorePluginFunction.AclfResultBusStyle.f(net));
-  		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
+  		AclfSwingBus swing = net.getBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
   		assertTrue(Math.abs(p.getReal()-3.0955)<0.0001);
   		assertTrue(Math.abs(p.getImaginary()-0.2457)<0.0001);	   		
@@ -97,7 +97,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
   		assertTrue(net.isLfConverged());
   		
 		System.out.println(CorePluginFunction.AclfResultBusStyle.f(net));
-  		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
+  		AclfSwingBus swing = net.getBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
   		assertTrue(Math.abs(p.getReal()-3.0956)<0.0001);
   		assertTrue(Math.abs(p.getImaginary()-0.2461)<0.0001);	   		
@@ -143,7 +143,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+  		assertTrue(Math.abs(algo.getBusPower(net.getBus("Bus1"))-3.0723)<0.0001);
 
 		algo.destroy();			
 	}
@@ -172,7 +172,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-3.0723)<0.0001);
+  		assertTrue(Math.abs(algo.getBusPower(net.getBus("Bus1"))-3.0723)<0.0001);
 
 		algo.destroy();			
 	}

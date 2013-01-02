@@ -59,7 +59,7 @@ public class GuideSampleTestCases extends CorePluginTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = net.getAclfBus("3011");
+  		AclfBus swingBus = net.getBus("3011");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		System.out.println("------>" + p.getReal() + ", " + p.getImaginary());

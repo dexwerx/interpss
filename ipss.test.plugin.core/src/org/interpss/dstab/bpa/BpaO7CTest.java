@@ -107,7 +107,7 @@ public class BpaO7CTest extends DStabTestSetupBase {
 			}
 		}
 
-		assertTrue(Math.abs(net.getAclfBus("Bus1").getVoltageMag()-1.02484)<0.0001);
+		assertTrue(Math.abs(net.getBus("Bus1").getVoltageMag()-1.02484)<0.0001);
 		AclfBranch bra= (AclfBranch) net.getBranchList().get(0);
 		assertTrue(Math.abs(bra.powerFrom2To().getReal()-16.86)<0.001);
 	}

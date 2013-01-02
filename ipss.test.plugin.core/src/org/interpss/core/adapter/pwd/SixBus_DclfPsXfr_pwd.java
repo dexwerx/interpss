@@ -68,7 +68,7 @@ public class SixBus_DclfPsXfr_pwd extends CorePluginTestSetup {
   		assertTrue(net.isLfConverged());
   		
 		System.out.println(AclfOutFunc.loadFlowSummary(net));
-  		AclfSwingBus swing = net.getAclfBus("Bus1").toSwingBus();
+  		AclfSwingBus swing = net.getBus("Bus1").toSwingBus();
   		Complex p = swing.getGenResults(UnitType.PU);
   		assertTrue(Math.abs(p.getReal()-3.1032)<0.0001);
   		assertTrue(Math.abs(p.getImaginary()-0.5212)<0.0001);	   		

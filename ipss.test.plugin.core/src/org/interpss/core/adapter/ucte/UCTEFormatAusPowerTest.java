@@ -54,7 +54,7 @@ public class UCTEFormatAusPowerTest extends CorePluginTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = net.getAclfBus("B4____1");
+  		AclfBus swingBus = net.getBus("B4____1");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-6.326)<0.01);
@@ -72,7 +72,7 @@ public class UCTEFormatAusPowerTest extends CorePluginTestSetup {
   		
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+  		AclfBus swingBus = simuCtx.getAclfNet().getBus("B4____1");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-6.326)<0.01);
@@ -89,7 +89,7 @@ public class UCTEFormatAusPowerTest extends CorePluginTestSetup {
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+  		AclfBus swingBus = simuCtx.getAclfNet().getBus("B4____1");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-6.483)<0.01);
@@ -107,7 +107,7 @@ public class UCTEFormatAusPowerTest extends CorePluginTestSetup {
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
+  		AclfBus swingBus = simuCtx.getAclfNet().getBus("OB4___1");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-13.981)<0.01);
@@ -125,7 +125,7 @@ public class UCTEFormatAusPowerTest extends CorePluginTestSetup {
   		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
+  		AclfBus swingBus = simuCtx.getAclfNet().getBus("OB4___1");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-8.172)<0.01);

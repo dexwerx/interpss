@@ -52,7 +52,7 @@ public class IEEE14BusBreaker_dclf_Test extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		//System.out.println(DclfOutFunc.dclfResults(algo, false));
-  		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-2.1900)<0.01);
+  		assertTrue(Math.abs(algo.getBusPower(net.getBus("Bus1"))-2.1900)<0.01);
 
 		algo.destroy();	
     }	
@@ -73,7 +73,7 @@ public class IEEE14BusBreaker_dclf_Test extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		//System.out.println(DclfOutFunc.dclfResults(algo, false));
- 		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-2.1900)<0.01);
+ 		assertTrue(Math.abs(algo.getBusPower(net.getBus("Bus1"))-2.1900)<0.01);
 
 		algo.destroy();	
     }	
@@ -96,7 +96,7 @@ public class IEEE14BusBreaker_dclf_Test extends CorePluginTestSetup {
 		algo.calculateDclf();
 
 		//System.out.println(DclfOutFunc.dclfResults(algo, false));
- 		assertTrue(Math.abs(algo.getBusPower(net.getAclfBus("Bus1"))-2.1900)<0.01);
+ 		assertTrue(Math.abs(algo.getBusPower(net.getBus("Bus1"))-2.1900)<0.01);
 
 		algo.destroy();	
     }

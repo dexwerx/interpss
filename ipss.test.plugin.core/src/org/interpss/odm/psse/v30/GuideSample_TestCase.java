@@ -72,7 +72,7 @@ public class GuideSample_TestCase extends CorePluginTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
+  		AclfBus swingBus = simuCtx.getAclfNet().getBus("Bus3011");
 		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		System.out.println(p.getReal() + ", " + p.getImaginary());
@@ -98,7 +98,7 @@ public class GuideSample_TestCase extends CorePluginTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = net.getAclfBus("Bus3011");
+  		AclfBus swingBus = net.getBus("Bus3011");
 		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		//System.out.println(p.getReal() + ", " + p.getImaginary());

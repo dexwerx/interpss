@@ -59,7 +59,7 @@ public class RoseHulman_UserTestCases extends CorePluginTestSetup {
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = net.getAclfBus("Bus1");
+  		AclfBus swingBus = net.getBus("Bus1");
   		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
   		assertTrue(Math.abs(p.getReal()-22.547)<0.01);

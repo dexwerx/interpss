@@ -51,9 +51,9 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 	  	//System.out.println(net.net2String());
 
 		List<AclfBranch> list = new ArrayList<AclfBranch>();
-		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
-		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
-		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
+		list.add(net.getBranch("Bus4->Bus73(1)"));
+		list.add(net.getBranch("Bus4->Bus9(1)"));
+		list.add(net.getBranch("Bus5->Bus6(1)"));
 		
 		IslandBusProcesor proc = new IslandBusProcesor();
 		proc.findIslandBus(list, net);
@@ -64,8 +64,8 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 	  	//assertTrue(proc.getIslandSubnetInterface().size() == 3);
 
 	  	list.clear();
-		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
-		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
+		list.add(net.getBranch("Bus4->Bus73(1)"));
+		list.add(net.getBranch("Bus5->Bus6(1)"));
 		
 		proc.findIslandBus(list, net);
 	  	System.out.println("Original network without islanding");
@@ -88,9 +88,9 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 	  	assertTrue(net.isZeroZBranchProcessed());
 
 	  	List<AclfBranch> list = new ArrayList<AclfBranch>();
-		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
-		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
-		list.add(net.getAclfBranch("Bus5->Bus6(1)"));
+		list.add(net.getBranch("Bus4->Bus73(1)"));
+		list.add(net.getBranch("Bus4->Bus9(1)"));
+		list.add(net.getBranch("Bus5->Bus6(1)"));
 		
 		IslandBusProcesor proc = new IslandBusProcesor();
 		proc.findIslandBus(list, net);
@@ -101,8 +101,8 @@ public class IEEE14BusBreaker_islandBus_Test extends CorePluginTestSetup {
 	  	//assertTrue(proc.getIslandSubnetInterface().size() == 3);
 
 	  	list.clear();
-		list.add(net.getAclfBranch("Bus4->Bus73(1)"));
-		list.add(net.getAclfBranch("Bus4->Bus9(1)"));
+		list.add(net.getBranch("Bus4->Bus73(1)"));
+		list.add(net.getBranch("Bus4->Bus9(1)"));
 		
 		proc.findIslandBus(list, net);
 	  	System.out.println("Consolidated network without islanding");

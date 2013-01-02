@@ -53,12 +53,12 @@ public class SixBus_XfrControl_pwd extends CorePluginTestSetup {
 					.getAclfNet();
   		System.out.println(net.net2String());
   		
-  		AclfBranch branch = net.getAclfBranch("Bus1->Bus3(1 )");
+  		AclfBranch branch = net.getBranch("Bus1->Bus3(1 )");
   		assertTrue(branch != null);
   		assertTrue(branch.getTapControl() != null);
   		assertTrue(NumericUtil.equals(branch.getTapControl().getControlSpec(), 1.0450, 0.0001));
   		
-  		branch = net.getAclfBranch("Bus5->Bus6(T9)");
+  		branch = net.getBranch("Bus5->Bus6(T9)");
   		assertTrue(branch != null);
   		assertTrue(branch.getPSXfrPControl() != null);
   		assertTrue(NumericUtil.equals(branch.getPSXfrPControl().getControlSpec(), -0.75, 0.0001));
