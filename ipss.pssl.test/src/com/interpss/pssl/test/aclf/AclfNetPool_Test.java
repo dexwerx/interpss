@@ -43,10 +43,10 @@ public class AclfNetPool_Test extends BaseTestSetup {
 		
 		AclfNetObjectPool pool = new AclfNetObjectPool(dsl);
 		
-		AclfNetwork net1 = (AclfNetwork)pool.borrowObject();
+		AclfNetwork net1 = pool.borrowObject();
 		System.out.println(net1.getName());
 
-		AclfNetwork net2 = (AclfNetwork)pool.borrowObject();
+		AclfNetwork net2 = pool.borrowObject();
 		System.out.println(net2.getName());
 		
 		assertTrue(pool.getNumActive() == 2);
