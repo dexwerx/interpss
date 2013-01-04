@@ -315,11 +315,8 @@ public class InputLineStringParser {
 			//string within a quotation is processed separately 
 			// and treated as a whole
 			if (!(charAry[i] == '"' || charAry[i] == '\'')) {
-				// PWD uses the space to separate data, the consecutive
-				// non-space
-				// characters are appended together to form a string, and set
-				// the
-				// isEntry to be true
+			   // PWD uses the space to separate data, the consecutive non-space
+			   // characters together form a string
 				if (i > 1 && !quotBegin) {
 					if (Character.isWhitespace(charAry[i - 1])
 							&& (!Character.isWhitespace(charAry[i]))) {
@@ -347,7 +344,7 @@ public class InputLineStringParser {
 				if (!quotBegin){
 					quotBegin = true;
 				    beginIdx=i+1;
-				}else{//quotation completes a pair
+				}else{//this quotation completes a pair
 					endIdx=i;
 					this.dataList.add(s.substring(beginIdx, endIdx));
 					quotBegin = false;
