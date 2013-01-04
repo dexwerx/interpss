@@ -236,7 +236,8 @@ public class InputLineStringParser {
 	 * @param Str
 	 * @return
 	 */
-	protected String[] parseDataFields(String Str){
+	/*
+	public String[] parseDataFields(String Str){
 	    this.dataList.clear();
 	    
 		StringBuilder strBuf=new StringBuilder();
@@ -245,7 +246,10 @@ public class InputLineStringParser {
 
 		boolean quotBegin = false, quotEnd = false;
 
+		int beginIdx =0, endIdx=0;
+		
 		String s=Str.trim();
+			
 		//convert the input string to a char array
 	    char[] charAry =s.toCharArray();
 
@@ -289,6 +293,66 @@ public class InputLineStringParser {
 				   quotEnd = false;
 				   isEntry=false;
 			   }
+		   }
+		}
+		//System.out.println(dataList.toString());
+		return this.dataList.toArray(new String[1]);
+	}	
+	*/
+	public String[] parseDataFields(String Str){
+	    this.dataList.clear();
+
+		boolean quotBegin = false;
+
+		int beginIdx =0, endIdx=0;
+		
+		String s=Str.trim();
+			
+		//convert the input string to a char array
+	    char[] charAry =s.toCharArray();
+
+	    for( int i = 0;i<charAry.length;i++){
+			//string within a quotation is processed separately 
+			// and treated as a whole
+			if (!(charAry[i] == '"' || charAry[i] == '\'')) {
+				// PWD uses the space to separate data, the consecutive
+				// non-space
+				// characters are appended together to form a string, and set
+				// the
+				// isEntry to be true
+				if (i > 1 && !quotBegin) {
+					if (Character.isWhitespace(charAry[i - 1])
+							&& (!Character.isWhitespace(charAry[i]))) {
+
+						beginIdx = i;
+						
+					} else if (i < s.length() - 1) {
+						if (Character.isWhitespace(charAry[i])
+								&& (!Character.isWhitespace(charAry[i - 1]) 
+								&& !(charAry[i - 1] == '"' || charAry[i - 1] == '\''))) {
+							endIdx = i;
+							this.dataList.add(s.substring(beginIdx, endIdx));
+						}
+						
+				    // if the processing data is the last one, since no
+					// white space after it, it needs to be treated specially.
+					} else if (i == s.length() - 1) {
+						endIdx = i;
+						this.dataList.add(s.substring(beginIdx, endIdx));
+					}
+				} // end if i>1 && !quotBegin
+
+			}	   
+			else{ // charAry[i]=='"' || charAry[i]=='\'')
+				if (!quotBegin){
+					quotBegin = true;
+				    beginIdx=i+1;
+				}else{//quotation completes a pair
+					endIdx=i;
+					this.dataList.add(s.substring(beginIdx, endIdx));
+					quotBegin = false;
+				}
+			   
 		   }
 		}
 		//System.out.println(dataList.toString());
