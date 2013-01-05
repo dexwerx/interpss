@@ -61,7 +61,7 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		this.parser = parser;
 	}
 	
-	public void processBranchData(String branchDataStr) throws ODMException{
+	public void processBranchData() throws ODMException{
 		/*
 		 * DATA (BRANCH, [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
               LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineTap,

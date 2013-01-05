@@ -166,7 +166,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 								str=din.readLine();
 						 
 						   //NOTE:No need to parse data within branch processor anymore
-						   branchProc.processBranchData(str);
+						   branchProc.processBranchData();
 						  
 						   
 					   }

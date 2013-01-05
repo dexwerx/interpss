@@ -113,11 +113,15 @@ public class InputLineStringParser {
 	 * @return
 	 */
 	public boolean parseData(String data, boolean appendMode){
+		//System.out.println(data);
 		if(!appendMode) 
 			parseData(data);
 		else{
 			int cnt =this.fieldTable.size();
 			String[] sAry = parseDataFields(data);
+			if(sAry[1].equals("Sub1_19.4_T13")){
+				System.out.print("");
+			}
 			for (String s : sAry) {
 				this.fieldTable.put(this.positionTable.get(cnt++), s.trim());
 			}
@@ -129,7 +133,7 @@ public class InputLineStringParser {
 				}
 			}
 		}
-		
+		//System.out.println("position table="+this.positionTable.size()+", fieldTable ="+this.fieldTable.size());
 	    return this.positionTable.size() == this.fieldTable.size();
 	}
 	
@@ -317,24 +321,26 @@ public class InputLineStringParser {
 			if (!(charAry[i] == '"' || charAry[i] == '\'')) {
 			   // PWD uses the space to separate data, the consecutive non-space
 			   // characters together form a string
-				if (i > 1 && !quotBegin) {
-					if (Character.isWhitespace(charAry[i - 1])
-							&& (!Character.isWhitespace(charAry[i]))) {
+				if (i > 0 && !quotBegin) {
+					if (i <= s.length() - 1) {
+						if (Character.isWhitespace(charAry[i - 1])
+								&& (!Character.isWhitespace(charAry[i]))) {
 
-						beginIdx = i;
-						
-					} else if (i < s.length() - 1) {
-						if (Character.isWhitespace(charAry[i])
-								&& (!Character.isWhitespace(charAry[i - 1]) 
-								&& !(charAry[i - 1] == '"' || charAry[i - 1] == '\''))) {
+							beginIdx = i;
+
+						} else if (Character.isWhitespace(charAry[i])&& 
+								(!Character.isWhitespace(charAry[i - 1]) && 
+								 !(charAry[i - 1] == '"' || charAry[i - 1] == '\''))) {
 							endIdx = i;
 							this.dataList.add(s.substring(beginIdx, endIdx));
 						}
-						
-				    // if the processing data is the last one, since no
-					// white space after it, it needs to be treated specially.
-					} else if (i == s.length() - 1) {
-						endIdx = i;
+					}
+
+						// if the processing data is the last one, since no
+						// white space after it, it needs to be treated
+						// specially.
+					if (i == (s.length()- 1)) {
+						endIdx = s.length();
 						this.dataList.add(s.substring(beginIdx, endIdx));
 					}
 				} // end if i>1 && !quotBegin
