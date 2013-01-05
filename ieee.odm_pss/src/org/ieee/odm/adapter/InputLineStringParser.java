@@ -240,6 +240,66 @@ public class InputLineStringParser {
 	 * @param Str
 	 * @return
 	 */
+	public String[] parseDataFields(String Str){
+	    this.dataList.clear();
+
+		boolean quotBegin = false;
+
+		int beginIdx =0, endIdx=0;
+		
+		String s=Str.trim();
+		int length = s.length();
+		int length_1 = length-1;
+		
+		//convert the input string to a char array
+	    char[] charAry =s.toCharArray();
+
+	    for( int i = 0;i<charAry.length;i++){
+			//string within a quotation is processed separately 
+			// and treated as a whole
+			if (!(charAry[i] == '"' || charAry[i] == '\'')) {
+			   // PWD uses the space to separate data, the consecutive non-space
+			   // characters together form a string
+				if (i > 0 && !quotBegin) {
+					if (i <= length_1) {
+						if (Character.isWhitespace(charAry[i - 1])
+								&& (!Character.isWhitespace(charAry[i]))) {
+							beginIdx = i;
+						} else if (Character.isWhitespace(charAry[i])&& 
+								(!Character.isWhitespace(charAry[i - 1]) && 
+								 !(charAry[i - 1] == '"' || charAry[i - 1] == '\''))) {
+							endIdx = i;
+							this.dataList.add(s.substring(beginIdx, endIdx)); 
+							//this.dataList.add(new String(charAry, beginIdx, endIdx-beginIdx));
+						}
+					}
+					// if the processing data is the last one, since no
+					// white space after it, it needs to be treated
+					// specially.
+					if (i == (length_1)) {
+						endIdx = length;
+						this.dataList.add(s.substring(beginIdx, endIdx));
+						//this.dataList.add(new String(charAry, beginIdx, endIdx-beginIdx));
+					}
+				} // end if i>1 && !quotBegin
+			}	   
+			else{ // charAry[i]=='"' || charAry[i]=='\'')
+				if (!quotBegin){
+					quotBegin = true;
+				    beginIdx=i+1;
+				}else{//this quotation completes a pair
+					endIdx=i;
+					this.dataList.add(s.substring(beginIdx, endIdx));
+					//this.dataList.add(new String(charAry, beginIdx, endIdx-beginIdx));
+					quotBegin = false;
+				}
+			   
+		   }
+		}
+		//System.out.println(dataList.toString());
+		return this.dataList.toArray(new String[1]);
+	}	
+	
 	/*
 	public String[] parseDataFields(String Str){
 	    this.dataList.clear();
@@ -302,67 +362,7 @@ public class InputLineStringParser {
 		//System.out.println(dataList.toString());
 		return this.dataList.toArray(new String[1]);
 	}	
-	*/
-	public String[] parseDataFields(String Str){
-	    this.dataList.clear();
-
-		boolean quotBegin = false;
-
-		int beginIdx =0, endIdx=0;
-		
-		String s=Str.trim();
-			
-		//convert the input string to a char array
-	    char[] charAry =s.toCharArray();
-
-	    for( int i = 0;i<charAry.length;i++){
-			//string within a quotation is processed separately 
-			// and treated as a whole
-			if (!(charAry[i] == '"' || charAry[i] == '\'')) {
-			   // PWD uses the space to separate data, the consecutive non-space
-			   // characters together form a string
-				if (i > 0 && !quotBegin) {
-					if (i <= s.length() - 1) {
-						if (Character.isWhitespace(charAry[i - 1])
-								&& (!Character.isWhitespace(charAry[i]))) {
-
-							beginIdx = i;
-
-						} else if (Character.isWhitespace(charAry[i])&& 
-								(!Character.isWhitespace(charAry[i - 1]) && 
-								 !(charAry[i - 1] == '"' || charAry[i - 1] == '\''))) {
-							endIdx = i;
-							this.dataList.add(s.substring(beginIdx, endIdx));
-						}
-					}
-
-						// if the processing data is the last one, since no
-						// white space after it, it needs to be treated
-						// specially.
-					if (i == (s.length()- 1)) {
-						endIdx = s.length();
-						this.dataList.add(s.substring(beginIdx, endIdx));
-					}
-				} // end if i>1 && !quotBegin
-
-			}	   
-			else{ // charAry[i]=='"' || charAry[i]=='\'')
-				if (!quotBegin){
-					quotBegin = true;
-				    beginIdx=i+1;
-				}else{//this quotation completes a pair
-					endIdx=i;
-					this.dataList.add(s.substring(beginIdx, endIdx));
-					quotBegin = false;
-				}
-			   
-		   }
-		}
-		//System.out.println(dataList.toString());
-		return this.dataList.toArray(new String[1]);
-	}	
 	
-	/*
 	public String[] xparseDataFields(String str){
 		List<String> dataList=new ArrayList<String>();
 		String[] dataFields=null;
