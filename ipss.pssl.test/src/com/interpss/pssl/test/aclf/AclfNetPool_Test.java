@@ -1,5 +1,5 @@
  /*
-  * @(#)AclfSampleTest.java   
+  * @(#)AclfNetPool_Test.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -33,6 +33,7 @@ import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.plugin.IpssAdapter.FileImportDSL;
 import com.interpss.pssl.test.BaseTestSetup;
 import com.interpss.pssl.util.AclfNetObjectPool;
+import com.interpss.pssl.util.impl.AclfNetPoolBookmarkRollback;
 
 public class AclfNetPool_Test extends BaseTestSetup {
 	@Test
@@ -44,10 +45,10 @@ public class AclfNetPool_Test extends BaseTestSetup {
 		AclfNetObjectPool pool = new AclfNetObjectPool(dsl);
 		
 		AclfNetwork net1 = pool.borrowObject();
-		System.out.println(net1.getName());
+		//System.out.println(net1.getName());
 
 		AclfNetwork net2 = pool.borrowObject();
-		System.out.println(net2.getName());
+		//System.out.println(net2.getName());
 		
 		assertTrue(pool.getNumActive() == 2);
 		//System.out.println("active: " + pool.getNumActive() + ", idle: " + pool.getNumIdle());
@@ -57,5 +58,45 @@ public class AclfNetPool_Test extends BaseTestSetup {
 		assertTrue(pool.getNumActive() == 1);
 		//System.out.println("active: " + pool.getNumActive() + ", idle: " + pool.getNumIdle());
 	}		
+
+	@Test
+	public void poolBookmarkTestCase() throws Exception {
+		FileImportDSL dsl = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
+				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
+				.load();		
+		
+		AclfNetObjectPool pool = new AclfNetObjectPool(dsl, new AclfNetPoolBookmarkRollback());
+		
+		/*
+		 * when the first net object created, the name is set to "AclfNetPool created - 1". 
+		 * the object state is bookmarked when it is borrowed from the pool.
+		 */
+		AclfNetwork net1 = pool.borrowObject();
+		System.out.println(net1.getName());
+		assertTrue("AclfNetPool created - 1".equals(net1.getName()));
+
+		AclfNetwork net2 = pool.borrowObject();
+		System.out.println(net2.getName());
+		
+		assertTrue(pool.getNumActive() == 2);
+		//System.out.println("active: " + pool.getNumActive() + ", idle: " + pool.getNumIdle());
+		
+		// here we change the net.name
+		net1.setName("net1 name modified");
+		System.out.println(net1.getName());
+		assertTrue(!"AclfNetPool created - 1".equals(net1.getName()));
+
+		/*
+		 * when the net object returned to the pool, the states are rolled back 
+		 */
+		pool.returnObject(net1);
+
+		assertTrue(pool.getNumActive() == 1);
+		//System.out.println("active: " + pool.getNumActive() + ", idle: " + pool.getNumIdle());
+		
+		net1 = pool.borrowObject();
+		System.out.println(net1.getName());
+		assertTrue("AclfNetPool created - 1".equals(net1.getName()));
+	}	
 }
 
