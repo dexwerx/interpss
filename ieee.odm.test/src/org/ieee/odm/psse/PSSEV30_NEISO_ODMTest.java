@@ -56,7 +56,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		parser.stdout();
+		//parser.stdout();
 		
 		LoadflowNetXmlType net = parser.getAclfNet();
 		assertTrue(net.getBasePower().getValue() == 100.0);
@@ -168,6 +168,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(xfr.getRatingLimit().getMva().getRating1() == 363.0);
 		/*
 	      <branch id="Bus27824_to_Bus27871_n_Bus27957_cirId_W" circuitId="W" name="D575121     " offLine="false">
+          <aclf3WPSXfr wind1OffLine="false" wind2OffLine="false" wind3OffLine="false" circuitId="W" id="Bus27824_to_Bus27871_n_Bus27857_cirId_W" areaNumber="1" zoneNumber="1" offLine="false" name="D575121     ">
 	        <ownerList>
 	          <owner id="1" ownership="1.0"/>
 	        </ownerList>
