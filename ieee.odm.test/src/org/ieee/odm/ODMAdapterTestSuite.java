@@ -13,6 +13,8 @@ import org.ieee.odm.psse.PSSEV30_ODMTest;
 import org.ieee.odm.psse.PSSEV30_SegmentTest;
 import org.ieee.odm.psse.PSSE_HearderVer_ODMTest;
 import org.ieee.odm.pwd.PWD_IEEE14Bus_ODMTest;
+import org.ieee.odm.pwd.LineStringParserTest;
+import org.ieee.odm.pwd.PWD_XfrControl_Test;
 import org.ieee.odm.pwd.PwdAdapterTest;
 import org.ieee.odm.ucte.UCTE_ODMTest;
 import org.junit.runner.RunWith;
@@ -42,7 +44,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	PSSEV30_SegmentTest.class,
 	
 	PWD_IEEE14Bus_ODMTest.class,
+	LineStringParserTest.class,
 	PwdAdapterTest.class,
+	PWD_XfrControl_Test.class,
 	
 	OpfSample_3Bus_ODMTest.class,
 	OPF_Matpower_ODMTest.class,
