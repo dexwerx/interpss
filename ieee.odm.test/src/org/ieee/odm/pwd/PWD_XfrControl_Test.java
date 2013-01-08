@@ -70,7 +70,7 @@ public class PWD_XfrControl_Test {
 		assertTrue(parser.getAclfNet().getBusList().getBus().size()==5);
 		
 		//Xfr Bus1_to_Bus3_cirId_1
-		XfrBranchXmlType xfr13=parser.getXfrBranch("Bus1", "Bus3", "1 ");
+		XfrBranchXmlType xfr13=parser.getXfrBranch("Bus1", "Bus3", "1");
 		TapAdjustmentXmlType tapAdj13=xfr13.getTapAdjustment();
 		double err=0.001;
 		//Tapmin=0.87619   tapMax=1.04781
