@@ -23,8 +23,8 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * 
-  * @version 0.1  04/03/2012
-  * @author Tony Huang
+  * @version 0.2  01/08/2012
+  * @author  
   * 
   */
 public class PowerWorldAdapter extends AbstractODMAdapter{
@@ -41,9 +41,9 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	private  static final String Token_Area="AREA";
 	private  static final String Token_Zone="ZONE";
 	private  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
-	
+	//Define the record data type
 	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
-
+    //Define data specifier, two options defined in PWD, CSV or Blank
 	public static enum FileTypeSpecifier{CSV,Blank};
 	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
 
@@ -51,7 +51,11 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	public PowerWorldAdapter(){
 		super();
 	}
-	
+	/**
+	 * Entry point of the PWD adapter. It reads in the input PWD data file and parses 
+	 * it into an ODM file in memory. The records in the PWD file are processed sequentially
+	 * by the corresponding data record processors, e.g. netDataProcessor, busDataProcessor.
+	 */
 	@Override
 	protected IODMModelParser parseInputFile(IFileReader din, String encoding) {
 		
@@ -74,7 +78,7 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		try{
 			do{
 				str=din.readLine();
-				//System.out.println("processing data#"+str);
+				
 				if(str!=null){
 					str=str.trim();
 				  if(str.startsWith(Token_Data)){
@@ -145,7 +149,6 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
 				 }
 				 // start processing record data
-				//TODO assume all data in one line except the branch and transformer type 
 				 else if(!str.isEmpty()){
 		
 					   if(recordType==RecType.BUS) 
@@ -158,10 +161,10 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 						   busProc.processBusShuntData(str);
 					   else if(recordType==RecType.BRANCH){
 						  
-						   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+						 //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
 						 //clear the processed data in memory, or it will cause fieldTable size wrong
 						   branchProc.clearNVPairTableData();  
-						   //System.out.println("processing #"+str);
+						   
 						   while(!branchProc.parseData(str,true))
 								str=din.readLine();
 						 
@@ -196,7 +199,12 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		return parser;
 	}
-	
+	/**
+	 * Perform data checking, or post processing, after parsing the data into ODM.
+	 * Here the buses whose voltage is less than 0.1, is marked as "OPEN".
+	 * @param parser
+	 * @return
+	 */
 	public boolean postProcessing(AclfModelParser parser) {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
 

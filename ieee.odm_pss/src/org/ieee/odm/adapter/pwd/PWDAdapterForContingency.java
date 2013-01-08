@@ -11,20 +11,24 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
  /**
   * PWD contingency data adapter
   * 
-  * @version 0.1  09/01/2012
-  * @author Tony Huang
+  * @version 0.2  01/08/2012
+  * @author
   * 
   */
 public class PWDAdapterForContingency extends AbstractODMAdapter{
+	//Define the contingency types
 	public enum ContingencyType{BRANCH,SERIES_CAPACITOR,DC_LINE_CHANGE,DC_LINE_SETPOINT,PHSXFR_SETPOINT,THREEW_XFR};
-	
+	//Define the data record types
 	private enum RecType{CONTINGENCY,CTG_OPTIONS,GLOBALCONTINGENCYACTIONS,UNSUPPORTED};
 	
 	
 	public PWDAdapterForContingency(){
 		super();
 	}
-	
+	/** 
+	 * Entry point of the PWD contingency data processor. It reads in the contingency definition data
+	 * and parses it into ODM, saved in ODMModelParser object.
+	 */
 	@Override
 	protected IODMModelParser parseInputFile(IFileReader din, String encoding) {
 		String str=""; 
@@ -98,7 +102,11 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		ODMLogger.getLogger().severe("Method not implemented");
 		return null;
 	}
-	
+	/**
+	 * Get the contingency definition data type
+	 * @param str
+	 * @return record data type string
+	 */
 	private String getDataType(String str){
 		int indexOfLeftParenthesis=str.indexOf("(");
 		int indexOfFirstComma=str.indexOf(",");

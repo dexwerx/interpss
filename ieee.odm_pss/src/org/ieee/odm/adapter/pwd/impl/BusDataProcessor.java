@@ -3,9 +3,11 @@ package org.ieee.odm.adapter.pwd.impl;
 import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.AngleXmlType;
@@ -14,25 +16,24 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
-import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
  /**
-  * PowerWorld-TO-ODM Adapter based on power world v16 data definition
+  * Bus data processor for PowerWorld-TO-ODM Adapter based on power world v16 data definition
+  * This processor processes the bus basic data, e.g. busNum, baseVolt, as well as bus load and
+  * generation data. These data are defined in PWD separately, hence, processed separately in this processor.
   * 
-  * @version 0.1  04/03/2012
-  * @author Tony Huang
+  * @version 0.2  01/08/2013
+  * @author 
   * 
   */
 public class BusDataProcessor extends InputLineStringParser {
 	public static long swingBusNum=-1;
 	private boolean isSubDataSection=false;
 	private String STATION_TOKEN ="SubStation";
-	private String substation="";
-
 	private AclfModelParser parser = null;
 	
 	public BusDataProcessor(AclfModelParser parser) {
@@ -77,10 +78,6 @@ public class BusDataProcessor extends InputLineStringParser {
 				angle=getDouble("BusAngle");
 			}
 			
-			//'User Input Value: Represents the MW injection that the system
-			//would see from the shunt at 1.0 per unit voltage (positive value represents Load)
-			//TODO what is its relationship to 'Shunt'
-			
 			busG=exist("BusG:1")?getDouble("BusG:1"):0;
 			
 			busB=exist("BusB:1")?getDouble("BusB:1"):0;
@@ -105,7 +102,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		
 		if(busNum==-1) 
 			ODMLogger.getLogger().severe("bus Num is not defined yet!");
-		busId=AclfModelParser.BusIdPreFix+busNum;
+		busId=AbstractModelParser.BusIdPreFix+busNum;
 		
 		LoadflowBusXmlType bus=parser.createAclfBus(busId);
 		bus.setId(busId);
@@ -115,7 +112,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		if(!busName.equals("")) bus.setName(busName);
 		if(areaNum!=-1)bus.setAreaNumber(areaNum);
 		if(zoneNum!=-1)bus.setZoneNumber(zoneNum);
-		//TODO OwnerNumber
+		
 		//if(ownerNum!=-1)bus.getOwnerList().add(new OwnerXmlType());//setOwnerNumber(ownerNum);
 		bus.setBaseVoltage(BaseDataSetter.createVoltageValue(basekV, VoltageUnitType.KV));
 		if(puVolt==0&&kvVolt!=0){
@@ -176,24 +173,22 @@ public class BusDataProcessor extends InputLineStringParser {
 		areaNum  = exist("AreaNum")?getInt("AreaNum"):0;
 		zoneNum  = exist("ZoneNum")?getInt("ZoneNum"):0;
 		
-		substation =""; //renew
 		//process custom string, this is for specifically customized data 
 		  if(exist(CustomStrToken)) {
 				customString = getString(CustomStrToken); 
 				int underScoreIdx = customString.indexOf("_");
-				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+				if(underScoreIdx>0)
+					customString.substring(0, underScoreIdx);
 		  }
 		} catch (ODMException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		busId=parser.BusIdPreFix+busNum;
+		busId=AbstractModelParser.BusIdPreFix+busNum;
 		
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
 		
-		// store custom string
+		// END OF DATA PROCESSING ,BEGIN DATA SETTING
 
-		
 		if(loadSMW!=0||loadSMVR!=0){
 			if(loadIMW!=0||loadIMVR!=0||loadZMW!=0||loadZMVR!=0)
 			  AclfDataSetter.setZIPLoadData(bus, loadSMW, loadSMVR, loadIMW, loadIMVR,
@@ -203,11 +198,8 @@ public class BusDataProcessor extends InputLineStringParser {
 				loadSMW, loadSMVR, ApparentPowerUnitType.MVA);
 		}
 		
-		//TODO if substaiton is added here, if may cause duplication
-		//if(!substation.equals(""))
-        // 	BaseDataSetter.addNVPair(bus, STATION_TOKEN, substation);
 		if(!customString.equals(""))
-				BaseDataSetter.addNVPair(bus, "Load_"+CustomStrToken, customString);
+				BaseJaxbHelper.addNVPair(bus, "Load_"+CustomStrToken, customString);
       
 		//TODO constI, constZ part of load is not processed. 
 		
@@ -216,15 +208,11 @@ public class BusDataProcessor extends InputLineStringParser {
 	public void processBusGenData(String busGenDataStr){
 		/*
 		 * DATA (GEN, [BusNum,GenID,GenStatus,GenMW,GenMVR,GenAGCAble,GenEnforceMWLimits,GenMWMin,
-   GenMWMax,GenParFac,GenAVRAble,GenVoltSet,GenRegNum,GenMVRMin,GenMVRMax,
-   GenRMPCT,GenUseCapCurve,GenUseLDCRCC,GenXLDCRCC,GenMVABase,GenZR,GenZX,
-   GenStepR,GenStepX,GenStepTap,AreaNum,ZoneNum])
+                      GenMWMax,GenParFac,GenAVRAble,GenVoltSet,GenRegNum,GenMVRMin,GenMVRMax,
+                      GenRMPCT,GenUseCapCurve,GenUseLDCRCC,GenXLDCRCC,GenMVABase,GenZR,GenZX,
+                      GenStepR,GenStepX,GenStepTap,AreaNum,ZoneNum])
 		 */
 		
-		/*Now we Only consider the following 
-		  BusNum,GenID,GenStatus,GenMW,GenMVR,GenEnforceMWLimits,GenMWMin,
-		   GenMWMax GenRegNum,GenMVRMin,GenMVRMax,GenVoltSet,GenMVABase,AreaNum,ZoneNum
-		*/
 		long busNum=-1,regBusNum=-1;
 		int areaNum=-1,zoneNum=-1;
 		String genId="";
@@ -258,75 +246,74 @@ public class BusDataProcessor extends InputLineStringParser {
 		
 		   parseData(busGenDataStr);
          
-		   try {
-
+			try {
+		
+						
+				 busNum=getLong("BusNum");// mandatory filed
 				
-			busNum=getLong("BusNum");// mandatory filed
+				 genId =exist("GenID")?getString("GenID"):"";
+				   
+				   
+				  if (exist("GenStatus")) 
+					  genOnLine =getString("GenStatus").equalsIgnoreCase("Closed")?true:false;
 		
-		   genId =exist("GenID")?getString("GenID"):"";
-		   
-		   
-		  if (exist("GenStatus")) 
-			  genOnLine =getString("GenStatus").equalsIgnoreCase("Closed")?true:false;
-
-		  if (exist("GenMW"))
-					genMW =getDouble("GenMW");
-		  if(exist("GenEnforceMWLimits")) 
-				 pLimitForced= getString("GenEnforceMWLimits").equalsIgnoreCase("YES")?
-						true:false;
-		  if(exist("GenRegNum"))
-				regBusNum =getInt("GenRegNum");
-		
-		  genMVR =getDouble("GenMVR");
-		  
-		  if(exist("GenMWMin"))
-				genMWMin = getDouble("GenMWMin");
-		  
-		  if (exist("GenMWMax"))
-				genMWMax =getDouble("GenMWMax");
-		  
-		  if (exist("GenMVRMin"))
-					genMVRMin = getDouble("GenMVRMin");
-		  if (exist("GenMVRMax"))
-					genMVRMax = getDouble("GenMVRMax");
-		  if (exist("GenMVABase"))
-					genMVABase =getDouble("GenMVABase");
-		  if (exist("AreaNum"))
-					areaNum = getInt("AreaNum");
-		  if (exist("ZoneNum"))
-		            zoneNum = getInt("ZoneNum");
-		  
-		  if(exist("GenVoltSet"))
-					genVoltSet=getDouble("GenVoltSet");
-		  if(exist("GenAGCAble"))
-			  genAGCAble=getString("GenAGCAble").toLowerCase().equals("yes");
-		  if(exist("GenParFac"))		
-			  partFactor= getDouble("GenParFac");
-		  
-		  //process custom string, this is for specifically customized data 
-		  if(exist("CustomString")) {
-				customString = getString("CustomString"); 
-				int underScoreIdx = customString.indexOf("_");
-				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
-		  }
-		  
-		  if(exist("CustomString:1")) customString_1 = getString("CustomString:1");
-		  
-		  if(exist("CustomString:2")) customString_2 = getString("CustomString:2");
-			
-		  } catch (ODMException e) {
-				// TODO Auto-generated catch block
+				  if (exist("GenMW"))
+							genMW =getDouble("GenMW");
+				  if(exist("GenEnforceMWLimits")) 
+						 pLimitForced= getString("GenEnforceMWLimits").equalsIgnoreCase("YES")?
+								true:false;
+				  if(exist("GenRegNum"))
+						regBusNum =getInt("GenRegNum");
+				
+				  genMVR =getDouble("GenMVR");
+				  
+				  if(exist("GenMWMin"))
+						genMWMin = getDouble("GenMWMin");
+				  
+				  if (exist("GenMWMax"))
+						genMWMax =getDouble("GenMWMax");
+				  
+				  if (exist("GenMVRMin"))
+							genMVRMin = getDouble("GenMVRMin");
+				  if (exist("GenMVRMax"))
+							genMVRMax = getDouble("GenMVRMax");
+				  if (exist("GenMVABase"))
+							genMVABase =getDouble("GenMVABase");
+				  if (exist("AreaNum"))
+							areaNum = getInt("AreaNum");
+				  if (exist("ZoneNum"))
+				            zoneNum = getInt("ZoneNum");
+				  
+				  if(exist("GenVoltSet"))
+							genVoltSet=getDouble("GenVoltSet");
+				  if(exist("GenAGCAble"))
+					  genAGCAble=getString("GenAGCAble").toLowerCase().equals("yes");
+				  if(exist("GenParFac"))		
+					  partFactor= getDouble("GenParFac");
+				  
+				  //process custom string, this is for specifically customized data 
+				  if(exist("CustomString")) {
+						customString = getString("CustomString"); 
+						int underScoreIdx = customString.indexOf("_");
+						if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+				  }
+				  
+				  if(exist("CustomString:1")) customString_1 = getString("CustomString:1");
+				  
+				  if(exist("CustomString:2")) customString_2 = getString("CustomString:2");
+					
+			   } catch (ODMException e) {
 				e.printStackTrace();
 		   }
 
-			String busId = parser.BusIdPreFix + busNum;
+			String busId = AbstractModelParser.BusIdPreFix + busNum;
 			LoadflowBusXmlType bus = parser.getAclfBus(busId);
 			
 			//save custom string as NV pairs
-			if(!customString.equals(""))BaseDataSetter.addNVPair(bus, "Gen_CustomString", customString);
-			if(!substation.equals(""))BaseDataSetter.addNVPair(bus, STATION_TOKEN, substation);
-			if(!customString_1.equals(""))BaseDataSetter.addNVPair(bus, "Gen_CustomString:1", customString_1);
-			if(!customString_2.equals(""))BaseDataSetter.addNVPair(bus, "Gen_CustomString:2", customString_2);
+			if(!customString.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString", customString);
+			if(!substation.equals(""))BaseJaxbHelper.addNVPair(bus, STATION_TOKEN, substation);
+			if(!customString_1.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString:1", customString_1);
+			if(!customString_2.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString:2", customString_2);
 
 			if (regBusNum != -1) {
 				// this generator control the bus it connects to
@@ -379,7 +366,7 @@ public class BusDataProcessor extends InputLineStringParser {
 						equivGen.setPLimit(BaseDataSetter
 								.createActivePowerLimit(genMWMax, genMWMin,
 										ActivePowerUnitType.MW));
-						// TODO need to set plimitforced?
+					
 						equivGen.getPLimit().setActive(pLimitForced);
 						// q limit
 						equivGen.setQLimit(BaseDataSetter
@@ -400,7 +387,7 @@ public class BusDataProcessor extends InputLineStringParser {
 
 					// set remote bus data
 					
-					String regBusId = parser.BusIdPreFix + regBusNum;
+					String regBusId = AbstractModelParser.BusIdPreFix + regBusNum;
 		
 					// set this gen bus data
 					AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, genVoltSet,
@@ -506,7 +493,8 @@ public class BusDataProcessor extends InputLineStringParser {
 		 if(exist(CustomStrToken)) {
 				customString = getString(CustomStrToken); 
 				int underScoreIdx = customString.indexOf("_");
-				if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+				if(underScoreIdx>0)
+					customString.substring(0, underScoreIdx);
 		  }
 		
 		} catch (ODMException e) {
@@ -516,7 +504,7 @@ public class BusDataProcessor extends InputLineStringParser {
 
 		//TODO no shunt status defined in ODM
 		
-		String busId=AclfModelParser.BusIdPreFix+busNum;
+		String busId=AbstractModelParser.BusIdPreFix+busNum;
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
 		
 		AclfDataSetter.setShuntCompensatorData(bus, mode, normalMVR, vHigh, vLow);
@@ -524,16 +512,13 @@ public class BusDataProcessor extends InputLineStringParser {
 		
 	
 		// store custom string
-		//TODO No nvpair is defined for ShuntCompensatorXmlType
-//		if(!substation.equals(""))
-//		        BaseDataSetter.addNVPair(, STATION_TOKEN, substation);
 		if(!customString.equals(""))
-				BaseDataSetter.addNVPair(bus, "Shunt_"+CustomStrToken, customString);
+				BaseJaxbHelper.addNVPair(bus, "Shunt_"+CustomStrToken, customString);
 		         
 		
 		// regulate a remote bus
 		if(busNum!=regBusNum)
-			shunt.setRemoteControlledBus(parser.createBusRef(parser.BusIdPreFix+regBusNum));
+			shunt.setRemoteControlledBus(parser.createBusRef(AbstractModelParser.BusIdPreFix+regBusNum));
 		
 		if(steps1>0&&MVarPerStep1!=0)
 		AclfDataSetter.addShuntCompensatorBlock(bus, steps1, MVarPerStep1, ReactivePowerUnitType.MVAR);

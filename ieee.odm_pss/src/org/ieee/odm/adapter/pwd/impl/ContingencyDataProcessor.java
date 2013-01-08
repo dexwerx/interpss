@@ -36,7 +36,8 @@ public class ContingencyDataProcessor extends InputLineStringParser{
 		// initialization
 		// create empty base network 
 		parser.getAclfNet();
-		
+		// create net modification helper. A contingency is corresponding to a modification record
+		// The helper save the contingencies to a modification record list.
 	    helper = new NetModificationHelper(parser);		
 		// create a container for bus/branch-change type contingency records
 		netModList = helper.createNetModificationList("ContingencyList", "Created from PWD contingency file");
@@ -100,8 +101,6 @@ public class ContingencyDataProcessor extends InputLineStringParser{
 	private void processCTGElementData(String str) {
 		String action="";
 		String comment="";
-		//String id="";
-		//String status="";
 		//TODO process the following CTGElement Data if skipCtg=false
 		if(!skipCtg){
 		    //first process the comment

@@ -37,10 +37,10 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
  /**
-  * PowerWorld-TO-ODM Adapter based on power world v16 data definition
+  * PWD Adapter branch data processor, extends from the inputLineStringParser
   * 
   * @version 0.3  
-  * @author Tony Huang
+  * @author 
   * 
   * ====revision history===
   * 09/08/2012 add Phase Xfr
@@ -73,7 +73,6 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		 * LineG->Per unit conductance (G) of branch on the system base
 		 * LineXfmr: the flag indicating whether the branch is a Line or transformer;
 		 */
-		//TODO exact meanings of LineAMVA,LineBMVA,LineCMVA
 		
 		long fromBusNum=-1,toBusNum=-1;
 		String fromBusId, toBusId,circuitId="1";
@@ -83,7 +82,8 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		double DEFAULT_LineX_MINIMUM =1.0E-5;
 		double r=0,x=DEFAULT_LineX_MINIMUM,b=0,g=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
-		       mvaRating1=DEFAULT_MVA_RATING ,mvaRating2=DEFAULT_MVA_RATING ,mvaRating3=DEFAULT_MVA_RATING ;//mvar rating
+		       mvaRating1=DEFAULT_MVA_RATING ,mvaRating2=DEFAULT_MVA_RATING, 
+		       mvaRating3=DEFAULT_MVA_RATING ;//mvar rating
    
 		/*
 		 * ONLY for specific application
@@ -97,19 +97,15 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		       equipmentName ="";   //"L25"
 		String substation ="";      //substring before the underscore of customString
 		
-
 		
-		//data has been processed in the PWD adapter main program;
-		//parseData(branchDataStr);
-		
-		
-			if (exist("LineXfmr"))
+	   if (exist("LineXfmr"))
 				isXfmr=getString("LineXfmr").equalsIgnoreCase("YES")?true:false;
 			//both LineXfmr or BranchDeviceType could be used to define branch type
-			if (exist("BranchDeviceType"))
+	   if (exist("BranchDeviceType"))
 				isXfmr=getString("BranchDeviceType").equalsIgnoreCase("Transformer")?true:false;
-		
-		if(isXfmr==true){
+	   
+	   //transformer data is processed differently from line data
+	   if(isXfmr==true){
 			process2WXfrData();
 		}
         else {
@@ -124,7 +120,7 @@ public class BranchDataProcessor extends InputLineStringParser  {
 					closed=getString("LineStatus").equalsIgnoreCase("Closed")?true:false;
 				    
 				// LineR:1, LineX:1, LineG:1, LineC:1, XFStep:1, XFTapMax:1, XFTapMin:1, LineTap:1
-				//TODO The suffix of ¡°£º1¡± is used for Transformer definition,means those data values are based on transformer MVA base 
+				// The suffix of ":1" is used for Transformer definition,means those data values are based on transformer MVA base 
 				   
 				r=exist("LineR")?getDouble("LineR"):exist("LineR:1")?getDouble("LineR:1"):0;
 				    
@@ -149,21 +145,21 @@ public class BranchDataProcessor extends InputLineStringParser  {
 					     
 				tBusShuntMvar=exist("LineShuntMVR:1")?getDouble("LineShuntMVR:1"):0;
 				
-				//process custom string
+				//process custom string, for record type
 				if(exist(typeToken))
 					   type=getString(typeToken);
 					    
-				if(exist(equipmentNameToken)) //CustomString:2
+				if(exist(equipmentNameToken)) //CustomString:2, equipment name
 					   equipmentName=getString(equipmentNameToken);
 				
-				if(exist(extendedNameToken)){//CustomString:1
+				if(exist(extendedNameToken)){//CustomString:1, extended branch name, including substation id.
 					extBranchName =getString(extendedNameToken);
 					int underScoreIdx = extBranchName.indexOf("_");
 					if(underScoreIdx>0) substation =extBranchName.substring(0, underScoreIdx);
 				}
-					
-			   //END OF DATA PROCESSING, BEGIN DATA SETTING 
-
+			   //	
+			   //***END OF DATA PROCESSING, BEGIN DATA SETTING *********************************
+               //
 				fromBusId =AclfModelParser.BusIdPreFix + fromBusNum;
 				toBusId   =AclfModelParser.BusIdPreFix + toBusNum;
 
@@ -194,19 +190,19 @@ public class BranchDataProcessor extends InputLineStringParser  {
     			
 				branch.setOffLine(!closed);
 				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
-				// processing lint shunt at from bus
+				// processing line shunt at from bus
 				if (fBusShuntMW != 0 || fBusShuntMvar != 0) {
 					LoadflowBusXmlType fromBus = parser.getAclfBus(fromBusId);
 					AclfDataSetter.addBusShuntY(fromBus, fBusShuntMW,
 							fBusShuntMvar, YUnitType.MVAR);
 				}
-				// processing lint shunt at to bus
+				// processing line shunt at to bus
 				if (tBusShuntMW != 0 || tBusShuntMvar != 0) {
 					LoadflowBusXmlType toBus = parser.getAclfBus(toBusId);
 					AclfDataSetter.addBusShuntY(toBus, tBusShuntMW,
 							tBusShuntMvar, YUnitType.MVAR);
 				}
-
+                // processing line total charging shunt
 				LineBranchXmlType line = (LineBranchXmlType) branch;
 				if (g != 0 || b != 0)
 					line.setTotalShuntY(BaseDataSetter.createYValue(g, b,
@@ -228,9 +224,8 @@ public class BranchDataProcessor extends InputLineStringParser  {
 
 	private void process2WXfrData(){
 		long fromBusNum=-1,toBusNum=-1;
-		String fromBusId, toBusId,circuitId="1";
-		String type="";
-		String xfrId="";
+		long regBusNum=-1;//ONLY used for LTC type Transformer
+		
 		boolean closed=true,isXFAutoControl=false;
 		double r=0,x=0,b=0,g=0, bMag=0,gMag=0, // all per unit value on system base;
 		       fBusShuntMW=0,fBusShuntMvar=0,tBusShuntMW=0,tBusShuntMvar=0, //shunt Mw and Mvar at two ends;
@@ -242,10 +237,13 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		double xfrStep=0;
 		double xfrMvaBase = 0.0, xfrFromSideNominalKV = 0.0, xfrToSideNominalKV=0.0;
 		double miniLineX=1.0E-5;
-		long regBusNum=-1;//ONLY use for LTC type Transformer
+		
+		String fromBusId, toBusId,circuitId="1";
+		String type="";
 		String regBusId="";
 		XfrCtrlTargetType regTargetType=null;
 		XfrType xfrType=null;
+		
 		//The following is ONLY for specific user-defined format.
 		String typeToken="CustomString"; //type
 		String extNameToken="CustomString:1"; //extended branch name
@@ -477,7 +475,16 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		
 		
 	}
-
+    /**
+     * Process phase shifting transformer control data
+     * @param isXFAutoControl
+     * @param xfrRegMin
+     * @param xfrRegMax
+     * @param xfrTapMax
+     * @param xfrTapMin
+     * @param regTargetType
+     * @param psXfr
+     */
 	private void setXfrPhaseControlData(boolean isXFAutoControl,
 			double xfrRegMin, double xfrRegMax, double xfrTapMax,
 			double xfrTapMin, XfrCtrlTargetType regTargetType,
@@ -521,7 +528,19 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		
 		angAdj.setDesiredMeasuredOnFromSide(true);
 	}
-
+    /**
+     * Process LTC type transformer control data
+     * @param isXFAutoControl
+     * @param xfrRegMin
+     * @param xfrRegMax
+     * @param xfrTapMax
+     * @param xfrTapMin
+     * @param xfrStep
+     * @param regBusId
+     * @param regTargetType
+     * @param xfrType
+     * @param xfr
+     */
 	private void setTapControlData(boolean isXFAutoControl, double xfrRegMin,
 			double xfrRegMax, double xfrTapMax, double xfrTapMin,
 			double xfrStep, String regBusId, XfrCtrlTargetType regTargetType,

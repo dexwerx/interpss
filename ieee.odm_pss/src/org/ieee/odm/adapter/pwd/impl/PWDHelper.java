@@ -1,7 +1,11 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * PWDHelper is defined to hold some common method used in the data processing.
+ * For example, data completeness checking and get record data type
+ * @author 
+ *
+ */
 
 public class PWDHelper {
 	/**
@@ -176,7 +180,11 @@ public class PWDHelper {
 	private static boolean endsWithRightParenthesis(String str){
 		return str.trim().endsWith(")");
 	}
-	
+	/**
+	 * Get the record data type
+	 * @param str input record string
+	 * @return record data type string
+	 */
 	public static String getDataType(String str){
 		int indexOfLeftParenthesis=str.indexOf("(");
 		int indexOfFirstComma=str.indexOf(",");

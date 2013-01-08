@@ -32,6 +32,13 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
+/**
+ * Transformer control data processor. It assumes that the basic load flow 
+ * data for the transformers have been defined in the BRANCH part, thus, this
+ * processor only deals with the tap or phase shifting control definition data.  
+ * @author 
+ *
+ */
 public class TransformerDataProcessor extends InputLineStringParser  {
 	private enum XfrCtrlTargetType{Midddle_Of_Range,MaxMin};
 	private enum XfrType{Fixed, LTC, Mvar,Phase};
@@ -364,7 +371,16 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 		
 		
 	}
-
+    /**
+     *  set the phase shifting control data
+     * @param isXFAutoControl
+     * @param xfrRegMin
+     * @param xfrRegMax
+     * @param xfrTapMax
+     * @param xfrTapMin
+     * @param regTargetType
+     * @param psXfr
+     */
 	private void setXfrPhaseControlData(boolean isXFAutoControl,
 			double xfrRegMin, double xfrRegMax, double xfrTapMax,
 			double xfrTapMin, XfrCtrlTargetType regTargetType,
@@ -408,7 +424,19 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 		
 		angAdj.setDesiredMeasuredOnFromSide(true);
 	}
-
+    /**
+     * set  LTC type transformer tap control data
+     * @param isXFAutoControl
+     * @param xfrRegMin
+     * @param xfrRegMax
+     * @param xfrTapMax
+     * @param xfrTapMin
+     * @param xfrStep
+     * @param regBusId
+     * @param regTargetType
+     * @param xfrType
+     * @param xfr
+     */
 	private void setTapControlData(boolean isXFAutoControl, double xfrRegMin,
 			double xfrRegMax, double xfrTapMax, double xfrTapMin,
 			double xfrStep, String regBusId, XfrCtrlTargetType regTargetType,
@@ -486,7 +514,10 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 		}//END OF TAP CONTROL SETTING
 	}
 	
-	
+	/**
+	 *  process three winding transformer data
+	 * @param triWXformerDataStr
+	 */
 	public void process3WXFomerData(String triWXformerDataStr){
 		throw new UnsupportedOperationException("The 3winding transformer is not supported yet!");
 		/*

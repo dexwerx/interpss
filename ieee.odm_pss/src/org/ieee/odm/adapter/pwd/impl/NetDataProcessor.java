@@ -8,10 +8,10 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
  /**
-  * PowerWorld-TO-ODM Adapter based on power world v16 data definition
-  * 
+  * Network data processor for PowerWorld-TO-ODM Adapter based on power world v16 data definition
+  * Now it supports both Area data and Zone data, Owner and Interface data is not yet implemented.
   * @version 0.2  09/30/2012
-  * @author Tony Huang
+  * @author  
   * 
   */
 public class NetDataProcessor extends InputLineStringParser  {
@@ -21,6 +21,11 @@ public class NetDataProcessor extends InputLineStringParser  {
 		this.parser = parser;
 	}
 	
+	/**
+	 *  Process area data. It creates area XmlType for each area and adds it to the network area list
+	 *  Now only areaNum and areaName are considered.
+	 * @param areaDataStr
+	 */
 	public void processAreaData(String areaDataStr){
 		/*
 		 * DATA (AREA, [AreaNum,AreaName,BGAGC,BGAutoSS,BGAutoXF,EnforceGenMWLimits,SchedName,SAName,
@@ -38,15 +43,21 @@ public class NetDataProcessor extends InputLineStringParser  {
 		} catch (ODMException e) {
 			e.printStackTrace();
 		}
+		
 		NetAreaXmlType area=odmObjFactory.createNetAreaXmlType();
 		area.setNumber(areaNum);
 		area.setName(areaName);
+		
 		if(parser.getAclfNet().getAreaList()==null)
 			parser.getAclfNet().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		
 		parser.getAclfNet().getAreaList().getArea().add(area);
 	}
 	
+	/**
+	 * Process zone data.
+	 * @param zoneDataStr
+	 */
 	public void processZoneData(String zoneDataStr){
 		/*
 		 * DATA (ZONE, [ZoneNum,ZoneName,SchedName])
@@ -66,13 +77,17 @@ public class NetDataProcessor extends InputLineStringParser  {
 		NetZoneXmlType zone=odmObjFactory.createNetZoneXmlType();
 		zone.setNumber(zoneNum);
 		zone.setName(zoneName);
+		
 		if(parser.getAclfNet().getLossZoneList()==null)
 			parser.getAclfNet().setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
 		
 		parser.getAclfNet().getLossZoneList().getLossZone().add(zone);
 		
 	}
-	
+	/**
+	 * process owner data
+	 * @param ownerDataStr
+	 */
 	public void processOwnerData(String ownerDataStr){
 		//TODO
 		/*
@@ -84,7 +99,10 @@ public class NetDataProcessor extends InputLineStringParser  {
 		 *
 		 */
 	}
-	
+	/**
+	 * process interface data
+	 * @param interfaceDataStr
+	 */
 	public void processInterfaceData(String interfaceDataStr){
 		//TODO
 	}
