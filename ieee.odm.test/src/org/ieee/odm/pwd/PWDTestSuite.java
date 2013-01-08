@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	PWD_IEEE14Bus_ODMTest.class,
 	PWD_XfrControl_Test.class,
 	LineStringParserTest.class,
+	PwdAdapterTest.class,
 })
 public class PWDTestSuite {
 	
