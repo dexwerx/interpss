@@ -56,7 +56,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		//parser.stdout();
+		parser.stdout();
 		
 		LoadflowNetXmlType net = parser.getAclfNet();
 		assertTrue(net.getBasePower().getValue() == 100.0);
@@ -167,55 +167,53 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(xfr.getXfrInfo().getRatedPower().getValue() == 100.0);
 		assertTrue(xfr.getRatingLimit().getMva().getRating1() == 363.0);
 		/*
-	      <branch id="Bus27824_to_Bus27871_n_Bus27957_cirId_W" circuitId="W" name="D575121     " offLine="false">
-          <aclf3WPSXfr wind1OffLine="false" wind2OffLine="false" wind3OffLine="false" circuitId="W" id="Bus27824_to_Bus27871_n_Bus27857_cirId_W" areaNumber="1" zoneNumber="1" offLine="false" name="D575121     ">
-	        <ownerList>
-	          <owner id="1" ownership="1.0"/>
-	        </ownerList>
-	        <fromBus idRef="Bus27824"/>
-	        <toBus idRef="Bus27871"/>
-	        <tertiaryBus idRef="Bus27957"/>
-	        <loadflowData code="PhaseShiftXformer" xfr3W="true">
-	          <z re="0.00133" im="0.11469" unit="PU"/>
-	          <fromShuntY re="8.9E-4" im="-0.00448" unit="PU"/>
-	          <fromTap value="0.9777805555555555" unit="PU"/>
-	          <toTap value="1.0" unit="PU"/>
-	          <fromAngle value="0.0" unit="DEG"/>
-	          <toAngle value="0.0" unit="DEG"/>
-	          <meterLocation>FromSide</meterLocation>
-	          <xfrInfo>
-	            <dataOnSystemBase>false</dataOnSystemBase>
-	            <z23 re="0.00124" im="0.02795" unit="PU"/>
-	            <z31 re="0.00108" im="0.06264" unit="PU"/>
-	            <tap3 value="1.0" unit="PU"/>
-	            <shiftAngle3 value="-30.0" unit="DEG"/>
-	            <starVMag value="1.00436" unit="PU"/>
-	            <starVAng value="-9.5049" unit="DEG"/>
-	            <ratedVoltage1 value="360.0" unit="KV"/>
-	            <ratedVoltage2 value="137.5" unit="KV"/>
-	            <ratedVoltage3 value="34.5" unit="KV"/>
-	            <ratedPower12 value="90.0" unit="MVA"/>
-	            <ratedPower23 value="22.29" unit="MVA"/>
-	            <ratedPower31 value="22.29" unit="MVA"/>
-	            <branchRatingLimit23>
-	              <mva rating1="150.0" rating2="150.0" rating3="150.0" unit="MVA"/>
-	            </branchRatingLimit23>
-	            <branchRatingLimit13>
-	              <mva rating1="22.29" rating2="22.29" rating3="22.29" unit="MVA"/>
-	            </branchRatingLimit13>
-	          </xfrInfo>
-	          <branchRatingLimit>
-	            <mva rating1="150.0" rating2="150.0" rating3="150.0" unit="MVA"/>
-	          </branchRatingLimit>
-	        </loadflowData>
-	      </branch>
+	                 <aclf3WPSXfr wind1OffLine="false" wind2OffLine="false" wind3OffLine="false" circuitId="W" id="Bus27824_to_Bus27871_n_Bus27857_cirId_W" areaNumber="1" zoneNumber="1" offLine="false" name="D575121     ">
+                <ownerList id="1">
+                    <ownership unit="PU" value="1.0"/>
+                </ownerList>
+                <fromBus idRef="Bus27824"/>
+                <toBus idRef="Bus27871"/>
+                <tertiaryBus idRef="Bus27857"/>
+                <z unit="PU" re="0.001477777777777778" im="0.12743333333333332"/>
+                <ratingLimit>
+                    <mva unit="MVA" rating1="150.0" rating2="150.0" rating3="150.0"/>
+                </ratingLimit>
+                <meterLocation>FromSide</meterLocation>
+                <fromTurnRatio unit="PU" value="1.0202927536231883"/>
+                <toTurnRatio unit="PU" value="0.9963768115942029"/>
+                <magnitizingY unit="PU" re="8.9E-4" im="-0.00448"/>
+                <xfrInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Transformer3WInfoXmlType">
+                    <dataOnSystemBase>true</dataOnSystemBase>
+                    <ratedPower unit="MVA" value="90.0"/>
+                    <starVMag unit="PU" value="1.00436"/>
+                    <starVAng unit="DEG" value="-9.5049"/>
+                    <ratedPower23 unit="MVA" value="22.29"/>
+                    <ratedPower31 unit="MVA" value="22.29"/>
+                </xfrInfo>
+                <z23 unit="PU" re="0.005563032750112159" im="0.12539255271422164"/>
+                <z31 unit="PU" re="0.004845222072678332" im="0.2810228802153433"/>
+                <tertTurnRatio unit="PU" value="0.25"/>
+                <ratingLimit23>
+                    <mva unit="MVA" rating1="150.0" rating2="150.0" rating3="150.0"/>
+                </ratingLimit23>
+                <ratingLimit13>
+                    <mva unit="MVA" rating1="22.29" rating2="22.29" rating3="22.29"/>
+                </ratingLimit13>
+                <fromAngle unit="DEG" value="0.0"/>
+                <tertShiftAngle unit="DEG" value="-30.0"/>
+            </aclf3WPSXfr>
+
 	      */
-		PSXfr3WBranchXmlType psXfr3W = parser.getPSXfr3WBranch("Bus27824", "Bus27871", "Bus27957", "W");
-		//assertTrue(!psXfr3W.isOffLine());
-		assertTrue(psXfr3W.getZ().getRe() == 0.00133);
+		PSXfr3WBranchXmlType psXfr3W = parser.getPSXfr3WBranch("Bus27824", "Bus27871", "Bus27857", "W");
+		//PSXfr3WBranchXmlType psXfr3W= (PSXfr3WBranchXmlType) parser.getBranch("Bus27824_to_Bus27871_n_Bus27857_cirId_W");
+		// assertTrue(!psXfr3W.isOffLine());
+		// Input Z12_0=0.00133, tj=1.0  CW=2  wind voltage in kV; CZ=2: Transformer based,90MW  
+		// Therefore, the actual Z12 = Z12_0*(SYS_BASE/XFR_BASE)=0.00133/0.9=0.0014777
+		
+		assertTrue(Math.abs(psXfr3W.getZ().getRe()-0.001477)<1.0E-5);
 		assertTrue(psXfr3W.getFromAngle().getValue() == 0.0);
 		assertTrue(psXfr3W.getTertShiftAngle().getValue() == -30.0);
-		assertTrue(psXfr3W.getXfrInfo().getFromRatedVoltage().getValue() == 360.0);
+		//assertTrue(psXfr3W.getXfrInfo().getFromRatedVoltage().getValue() == 360.);
 		assertTrue(psXfr3W.getXfrInfo().getRatedPower().getValue() == 90.0);
 		assertTrue(psXfr3W.getRatingLimit23().getMva().getRating1() == 150.0);
 		
