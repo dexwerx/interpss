@@ -1,13 +1,26 @@
 package org.interpss.datamodel.bean.aclf;
 
-public class AclfBranchBean {
+import org.interpss.datamodel.bean.BaseJSONBean;
+
+public class AclfBranchBean extends BaseJSONBean {
 	public static enum BranchCode {Line, Xfr, PsXfr};
 	
-	public String id, name, desc;
-	public String fromId, toId, cirId = "1";
+	public String 
+		f_id, 
+		t_id, 
+		cir_id = "1";
 	
-	public BranchCode branchCode = BranchCode.Line;
-	public double r, x, b, fromTurnRatio=1.0, toTurnRatio=1.0;
+	public BranchCode 
+		code = BranchCode.Line;
+	
+	public double 
+		r, 
+		x, 
+		b, 
+		f_ratio=1.0, 
+		t_ratio=1.0,
+		f_ang=0.0, 
+		t_ang=0.0;
 	
 	public AclfBranchBean() {}
 }
