@@ -1,5 +1,6 @@
 package org.interpss;
 
+import org.interpss.beanModel.JSONBeanTestCases;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
@@ -81,6 +82,8 @@ import org.junit.runners.Suite.SuiteClasses;
 //	Bus11856Test.class,
 	
 	GuideSample_TestCase.class,
+	
+	JSONBeanTestCases.class,
 })
 public class CorePluginTestSuite {
 }
