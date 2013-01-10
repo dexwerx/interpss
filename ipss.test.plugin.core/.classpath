@@ -21,5 +21,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dcSen_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.util"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/json/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
