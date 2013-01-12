@@ -37,7 +37,7 @@ import org.ieee.odm.schema.VoltageUnitType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.aclf.Aclf3WXformer;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Area;
@@ -56,7 +56,7 @@ import com.interpss.core.net.Zone;
  * @param <Tfrom> a ODM parser object 
  * @param <Tto> a Network object (AclfNetwork, AcscNetwork)
  */
-public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMapping<Tfrom, Tto> {
+public abstract class AbstractODMNetDataMapper<Tfrom, Tto> extends AbstractMapper<Tfrom, Tto> {
 	/**
 	 * constructor
 	 */

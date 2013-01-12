@@ -1,5 +1,5 @@
 /*
- * @(#)AclfNetBean.java   
+ * @(#)AclfBusResultBean.java   
  *
  * Copyright (C) 2008-2013 www.interpss.org
  *
@@ -24,16 +24,17 @@
 
 package org.interpss.datamodel.bean.aclf;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.interpss.datamodel.bean.BaseBranchBean;
 
-import org.interpss.datamodel.bean.BaseNetBean;
-
-public class AclfNetBean extends BaseNetBean {
-	public List<AclfBusBean> 
-		bus_list;					// bus result bean list
-	public List<AclfBranchBean> 
-		branch_list;                // branch result bean list
+public class AclfBranchResultBean extends BaseBranchBean {
+	public double 
+		p_f2t,     		// branch real power (pu) flow from->to
+		q_f2t,     		// branch reactive power flow from->to 
+		p_t2f,     		// branch real power flow to->from   
+		q_t2f,     		// branch reactive power flow to->from
+		cur,       		// branch current in amps, for Xfr, it is at the high voltage side
+		p_loss,    		// branch real power loss
+		q_loss;	   		// branch reactive power loss
 	
-	public AclfNetBean() { bus_list = new ArrayList<>(); branch_list = new ArrayList<>(); }
+	public AclfBranchResultBean() { }
 }

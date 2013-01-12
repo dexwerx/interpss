@@ -1,5 +1,5 @@
 /*
- * @(#)AclfNetBean.java   
+ * @(#)MismatchResultBean.java   
  *
  * Copyright (C) 2008-2013 www.interpss.org
  *
@@ -24,16 +24,15 @@
 
 package org.interpss.datamodel.bean.aclf;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.interpss.datamodel.bean.BaseNetBean;
-
-public class AclfNetBean extends BaseNetBean {
-	public List<AclfBusBean> 
-		bus_list;					// bus result bean list
-	public List<AclfBranchBean> 
-		branch_list;                // branch result bean list
+public class MismatchResultBean {
+	public double
+		p_err,				// real power mismatch
+		q_err;				// reactive power mismatch
 	
-	public AclfNetBean() { bus_list = new ArrayList<>(); branch_list = new ArrayList<>(); }
+	public String
+	 	p_bus_id,			// real power mismatch bus id
+ 		q_bus_id;       	// reactive power mismatch bus id
+
+	public MismatchResultBean() { }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)AclfNetBean.java   
+ * @(#)AclfNetResultBean.java   
  *
  * Copyright (C) 2008-2013 www.interpss.org
  *
@@ -29,11 +29,25 @@ import java.util.List;
 
 import org.interpss.datamodel.bean.BaseNetBean;
 
-public class AclfNetBean extends BaseNetBean {
-	public List<AclfBusBean> 
-		bus_list;					// bus result bean list
-	public List<AclfBranchBean> 
-		branch_list;                // branch result bean list
+public class AclfNetResultBean extends BaseNetBean {
+	public boolean
+		lf_converge;				// AC loadflow convergence
 	
-	public AclfNetBean() { bus_list = new ArrayList<>(); branch_list = new ArrayList<>(); }
+	public double
+		p_gen,						// total real gen power
+		q_gen,						// total reactive gen power
+		p_load,						// total real load pwer
+		q_load,						// total reactive load power
+		p_loss,						// total real power loss
+		q_loss;						// total reactive power loss
+	
+	public MismatchResultBean
+		max_mis;					// max mismatch
+	
+	public List<AclfBusBean> 
+		bus_list;					// bus bean list
+	public List<AclfBranchResultBean> 
+		branch_list;                // branch bean list
+	
+	public AclfNetResultBean() { bus_list = new ArrayList<>(); branch_list = new ArrayList<>(); }
 }
