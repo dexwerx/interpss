@@ -25,6 +25,7 @@
 package org.interpss.mapper.bean.aclf;
 
 import org.apache.commons.math3.complex.Complex;
+import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
 import org.interpss.datamodel.bean.aclf.AclfNetBean;
@@ -32,7 +33,7 @@ import org.interpss.datamodel.bean.aclf.AclfNetBean;
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
@@ -51,7 +52,7 @@ import com.interpss.simu.SimuCtxType;
  * 
  * @author mzhou
  */
-public class AclfNetBeanMapper extends AbstractMapping<AclfNetBean, SimuContext> {
+public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> {
 	/**
 	 * constructor
 	 */
@@ -122,12 +123,12 @@ public class AclfNetBeanMapper extends AbstractMapping<AclfNetBean, SimuContext>
 				bus.setGenCode(AclfGenCode.GEN_PV);
 				AclfPVGenBus pvBus = bus.toPVBus();
 				pvBus.setGenP(busBean.p_gen);
-				pvBus.setVoltMag(busBean.v_msg);
+				pvBus.setVoltMag(busBean.v_mag);
 			}
 			else {
 				bus.setGenCode(AclfGenCode.SWING);
 				AclfSwingBus swingBus = bus.toSwingBus();
-				swingBus.setVoltMag(busBean.v_msg);
+				swingBus.setVoltMag(busBean.v_mag);
 				swingBus.setVoltAngDeg(busBean.v_ang);
 			}
 			
@@ -151,8 +152,8 @@ public class AclfNetBeanMapper extends AbstractMapping<AclfNetBean, SimuContext>
 	private void mapBranchBean(AclfBranchBean branchBean, AclfNetwork aclfNet) {
 		AclfBranch branch = CoreObjectFactory.createAclfBranch();
 		aclfNet.addBranch(branch, branchBean.f_id, branchBean.t_id, branchBean.cir_id);
-		branch.setBranchCode(branchBean.code == AclfBranchBean.BranchCode.Line? AclfBranchCode.LINE :
-			(branchBean.code == AclfBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
+		branch.setBranchCode(branchBean.code == BaseBranchBean.BranchCode.Line? AclfBranchCode.LINE :
+			(branchBean.code == BaseBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
 		branch.setZ(new Complex(branchBean.r, branchBean.x));
 		if (branch.getBranchCode() == AclfBranchCode.LINE) {
 			branch.setHShuntY(new Complex(0.0, branchBean.b*0.5));
