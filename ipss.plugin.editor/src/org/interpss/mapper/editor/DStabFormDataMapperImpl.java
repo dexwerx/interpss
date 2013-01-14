@@ -49,7 +49,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLangEnum;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.datatype.ScGroundType;
@@ -73,7 +73,7 @@ import com.interpss.simu.util.SimuSpringAppCtxUtil;
  * Bus, Branch simu objects
  */
 
-public class DStabFormDataMapperImpl extends AbstractMapping<GFormContainer, DStabilityNetwork> {
+public class DStabFormDataMapperImpl extends AbstractMapper<GFormContainer, DStabilityNetwork> {
 	private IPSSMsgHub msg = null;
 
 	public DStabFormDataMapperImpl(IPSSMsgHub msg) {

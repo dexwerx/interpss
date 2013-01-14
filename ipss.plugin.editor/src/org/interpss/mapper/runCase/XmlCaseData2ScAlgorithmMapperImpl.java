@@ -33,7 +33,8 @@ import org.interpss.xml.schema.BusAcscInitVoltDataType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.exp.InterpssException;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.acsc.AcscBranch;
@@ -45,7 +46,14 @@ import com.interpss.core.acsc.fault.SimpleFaultCode;
 import com.interpss.core.algo.ScBusVoltageType;
 import com.interpss.core.algo.SimpleFaultAlgorithm;
 
-public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm> {
+public class XmlCaseData2ScAlgorithmMapperImpl extends AbstractMapper<AcscStudyCaseXmlType, SimpleFaultAlgorithm> {
+	@Override
+	public SimpleFaultAlgorithm map2Model(AcscStudyCaseXmlType arg0)
+			throws InterpssException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public XmlCaseData2ScAlgorithmMapperImpl(IPSSMsgHub msg) {
 	}
 	

@@ -192,7 +192,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	else {
     		busOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    				CoreUtilFunc.getBusIdArray(simuCtx.getDStabilityNet())));
+    				CoreUtilFunc.getBusIdArray(simuCtx.getNetwork())));
     	}
     }
 
@@ -203,7 +203,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	else {
     		branchOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    				CoreUtilFunc.getBranchIdArray(simuCtx.getDStabilityNet())));
+    				CoreUtilFunc.getBranchIdArray(simuCtx.getNetwork())));
     	}
     }
 /*
@@ -1095,7 +1095,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         	for (Object obj : GetMachineIdAry.f(simuCtx.getDStabilityNet()))
         		if (!StringUtil.contain(outVarList, (String)obj))
         			this.xmlCaseData.getOutputConfig().getOutputVariable().add((String)obj);
-        	for (Object obj : CoreUtilFunc.getBusIdArray(simuCtx.getDStabilityNet()))
+        	for (Object obj : CoreUtilFunc.getBusIdArray(simuCtx.getNetwork()))
         		if (!StringUtil.contain(outVarList, (String)obj))
         			this.xmlCaseData.getOutputConfig().getOutputVariable().add((String)obj);
     	}

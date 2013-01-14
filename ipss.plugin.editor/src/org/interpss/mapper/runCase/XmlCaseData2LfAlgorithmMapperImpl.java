@@ -28,12 +28,20 @@ import org.interpss.xml.schema.AclfAlgorithmXmlType;
 import org.interpss.xml.schema.AclfMethodDataType;
 import org.interpss.xml.schema.UnitDataType;
 
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.exp.InterpssException;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
-public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> {
+public class XmlCaseData2LfAlgorithmMapperImpl extends AbstractMapper<AclfAlgorithmXmlType, LoadflowAlgorithm> {
+	@Override
+	public LoadflowAlgorithm map2Model(AclfAlgorithmXmlType arg0)
+			throws InterpssException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public XmlCaseData2LfAlgorithmMapperImpl(IPSSMsgHub msg) {
 	}
 	

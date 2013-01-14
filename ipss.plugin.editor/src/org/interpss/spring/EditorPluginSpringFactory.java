@@ -43,7 +43,7 @@ import org.interpss.xml.schema.AcscStudyCaseXmlType;
 import org.interpss.xml.schema.DStabStudyCaseXmlType;
 import org.interpss.xml.schema.ModificationXmlType;
 
-import com.interpss.common.mapper.IMapping;
+import com.interpss.common.mapper.IMapper;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
@@ -206,25 +206,25 @@ public class EditorPluginSpringFactory extends CoreSimuSpringFactory {
 	 * 		=============================
 	 */
 	@SuppressWarnings("unchecked")
-	public static IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm> getXml2LfAlgorithmMapper() {
-		return (IMapping<AclfAlgorithmXmlType, LoadflowAlgorithm>) springAppCtx.getBean("xml2LfAlgorithmMapper");
+	public static IMapper<AclfAlgorithmXmlType, LoadflowAlgorithm> getXml2LfAlgorithmMapper() {
+		return (IMapper<AclfAlgorithmXmlType, LoadflowAlgorithm>) springAppCtx.getBean("xml2LfAlgorithmMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
-	public static IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm> getXml2ScAlgorithmMapper() {
-		return (IMapping<AcscStudyCaseXmlType, SimpleFaultAlgorithm>) springAppCtx.getBean("xml2ScAlgorithmMapper");
+	public static IMapper<AcscStudyCaseXmlType, SimpleFaultAlgorithm> getXml2ScAlgorithmMapper() {
+		return (IMapper<AcscStudyCaseXmlType, SimpleFaultAlgorithm>) springAppCtx.getBean("xml2ScAlgorithmMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
-	public static IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> getXml2DStabAlgorithmMapper() {
-		return (IMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) springAppCtx.getBean("xml2DStabAlgorithmMapper");
+	public static IMapper<DStabStudyCaseXmlType, DynamicSimuAlgorithm> getXml2DStabAlgorithmMapper() {
+		return (IMapper<DStabStudyCaseXmlType, DynamicSimuAlgorithm>) springAppCtx.getBean("xml2DStabAlgorithmMapper");
 	}
 
 	@SuppressWarnings("unchecked")
-	public static IMapping<ModificationXmlType, Network> getModXml2NetMapper() {
+	public static IMapper<ModificationXmlType, Network> getModXml2NetMapper() {
 		if (springAppCtx == null) // for grid computing
 			return new XmlNetParamModifier();
-		return (IMapping<ModificationXmlType, Network>) springAppCtx.getBean("modification2NetMapper");
+		return (IMapper<ModificationXmlType, Network>) springAppCtx.getBean("modification2NetMapper");
 	}
 	
 	/*
@@ -232,22 +232,22 @@ public class EditorPluginSpringFactory extends CoreSimuSpringFactory {
 	 * 		=============================
 	 */
 	@SuppressWarnings("unchecked")
-	public static IMapping<GFormContainer, AclfNetwork> getForm2AclfNetMapper() {
-		return (IMapping<GFormContainer, AclfNetwork>) springAppCtx.getBean("aclfForm2AclfNetMapper");
+	public static IMapper<GFormContainer, AclfNetwork> getForm2AclfNetMapper() {
+		return (IMapper<GFormContainer, AclfNetwork>) springAppCtx.getBean("aclfForm2AclfNetMapper");
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public static IMapping<GFormContainer, AcscNetwork> getForm2AcscNetMapper() {
-		return (IMapping<GFormContainer, AcscNetwork>) springAppCtx.getBean("acscForm2AcscNetMapper");
+	public static IMapper<GFormContainer, AcscNetwork> getForm2AcscNetMapper() {
+		return (IMapper<GFormContainer, AcscNetwork>) springAppCtx.getBean("acscForm2AcscNetMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
-	public static IMapping<GFormContainer, DStabilityNetwork> getForm2DStabNetMapper() {
-		return (IMapping<GFormContainer, DStabilityNetwork>) springAppCtx.getBean("dstabForm2DStabNetMapper");
+	public static IMapper<GFormContainer, DStabilityNetwork> getForm2DStabNetMapper() {
+		return (IMapper<GFormContainer, DStabilityNetwork>) springAppCtx.getBean("dstabForm2DStabNetMapper");
 	}	
 
 	@SuppressWarnings("unchecked")
-	public static IMapping<GFormContainer, DistNetwork> getForm2DistNetMapper() {
-		return (IMapping<GFormContainer, DistNetwork>) springAppCtx.getBean("distForm2DistNetMapper");
+	public static IMapper<GFormContainer, DistNetwork> getForm2DistNetMapper() {
+		return (IMapper<GFormContainer, DistNetwork>) springAppCtx.getBean("distForm2DistNetMapper");
 	}	
 }

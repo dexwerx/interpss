@@ -50,7 +50,7 @@ import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
@@ -84,7 +84,7 @@ import com.interpss.dstab.DStabilityNetwork;
  * Bus, Branch simu objects
  */
 
-public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, AclfNetwork> {
+public class AclfFormDataMapperImpl extends AbstractMapper<GFormContainer, AclfNetwork> {
 	private IPSSMsgHub msg = null;
 	public AclfFormDataMapperImpl(IPSSMsgHub msg) {
 		this.msg = msg;
@@ -198,7 +198,7 @@ public class AclfFormDataMapperImpl extends AbstractMapping<GFormContainer, Aclf
 					(DStabilityNetwork) net);
 		else {
 			if (net instanceof AcscNetwork) {
-				bus = CoreObjectFactory.createAcscBus(form.getId(), net);
+				bus = CoreObjectFactory.createAcscBus(form.getId(), (AcscNetwork)net);
 			} else {
 				bus = CoreObjectFactory.createAclfBus(form.getId(), net);
 			}

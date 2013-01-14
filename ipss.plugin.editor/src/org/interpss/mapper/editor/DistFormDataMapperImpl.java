@@ -49,7 +49,7 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.numeric.datatype.Unit;
 
 import com.interpss.DistObjectFactory;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.acsc.XFormerConnectCode;
 import com.interpss.dist.DistBranch;
@@ -60,7 +60,7 @@ import com.interpss.dist.DistNetwork;
 import com.interpss.dist.ScStanderd;
 import com.interpss.dist.datatype.ScPointType;
 
-public class DistFormDataMapperImpl extends AbstractMapping<GFormContainer, DistNetwork> {
+public class DistFormDataMapperImpl extends AbstractMapper<GFormContainer, DistNetwork> {
 	private IPSSMsgHub msg = null;
 
 	public DistFormDataMapperImpl(IPSSMsgHub msg) {

@@ -44,8 +44,9 @@ import org.interpss.xml.schema.ValueChangeDataType;
 import com.interpss.CoreObjectFactory;
 import com.interpss.DStabObjectFactory;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
@@ -67,7 +68,14 @@ import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineControllerType;
 
-public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapping<DStabStudyCaseXmlType, DynamicSimuAlgorithm> {
+public class XmlCaseData2DStabAlgorithmMapperImpl extends AbstractMapper<DStabStudyCaseXmlType, DynamicSimuAlgorithm> {
+	@Override
+	public DynamicSimuAlgorithm map2Model(DStabStudyCaseXmlType arg0)
+			throws InterpssException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private IPSSMsgHub msg = null;
 	public XmlCaseData2DStabAlgorithmMapperImpl(IPSSMsgHub msg) {
 		this.msg = msg;

@@ -40,7 +40,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 		}		
 		
 		SimuContext simuCtx = (SimuContext)project.getSimuCtx();
-		Network net = simuCtx.getNetwork();
+		Network<Bus, Branch> net = simuCtx.getNetwork();
 		AclfStudyCaseListXmlType list =	IpssXmlParser.getFactory().createAclfStudyCaseListXmlType();
   		for (Branch bra : net.getBranchList()) {
   			AclfStudyCaseXmlType studyCase = IpssXmlParser.getFactory().createAclfStudyCaseXmlType();

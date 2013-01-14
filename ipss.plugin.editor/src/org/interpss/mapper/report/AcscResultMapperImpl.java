@@ -36,6 +36,7 @@ import org.interpss.report.bean.acsc.RptAcscVoltAmpsBean;
 import org.interpss.report.bean.acsc.RptFaultSummaryBean;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscNetwork;
@@ -203,7 +204,7 @@ public class AcscResultMapperImpl {
 
 				fault.getFaultResult().calBranchCurrent();
 				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P) {
-					EList<Branch> branchList = faultNet.getBranchList();
+					EList<AclfBranch> branchList = faultNet.getBranchList();
 					int cnt = 0;
 					for (int n = 0; n < branchList.size(); n++) {
 						AcscBranch bra = (AcscBranch) branchList.get(n);
@@ -224,7 +225,7 @@ public class AcscResultMapperImpl {
 						list.add(bean);
 					}
 				} else {
-					EList<Branch> branchList = faultNet.getBranchList();
+					EList<AclfBranch> branchList = faultNet.getBranchList();
 					int cnt = 0;
 					for (int n = 0; n < branchList.size(); n++) {
 						AcscBranch bra = (AcscBranch) branchList.get(n);

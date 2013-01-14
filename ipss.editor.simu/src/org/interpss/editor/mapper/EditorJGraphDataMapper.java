@@ -33,7 +33,7 @@ import org.interpss.spring.EditorPluginSpringFactory;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.DataCheckConfiguration;
 import com.interpss.simu.SimuContext;
@@ -43,7 +43,13 @@ import com.interpss.simu.SimuCtxType;
  * Map editor data NetContainer to a DistNetwork object for simulation purpose.
  */
 
-public class EditorJGraphDataMapper extends AbstractMapping<IGFormContainer, SimuContext> {
+public class EditorJGraphDataMapper extends AbstractMapper<IGFormContainer, SimuContext> {
+	@Override
+	public SimuContext map2Model(IGFormContainer arg0) throws InterpssException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private IPSSMsgHub msg = null;
 	public EditorJGraphDataMapper(IPSSMsgHub msg) {
 		this.msg = msg;

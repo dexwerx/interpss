@@ -50,7 +50,7 @@ import org.interpss.util.MemoryJavaCompiler;
 import com.interpss.CoreObjectFactory;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
-import com.interpss.common.mapper.AbstractMapping;
+import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -69,7 +69,7 @@ import com.interpss.core.acsc.adpter.AcscXformer;
  * Bus, Branch simu objects
  */
 
-public class AcscFormDataMapperImpl extends AbstractMapping<GFormContainer, AcscNetwork> {
+public class AcscFormDataMapperImpl extends AbstractMapper<GFormContainer, AcscNetwork> {
 	private IPSSMsgHub msg = null;
 
 	public AcscFormDataMapperImpl(IPSSMsgHub msg) {
