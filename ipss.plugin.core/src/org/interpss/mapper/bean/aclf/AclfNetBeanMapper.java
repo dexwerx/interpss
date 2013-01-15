@@ -152,8 +152,8 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	private void mapBranchBean(AclfBranchBean branchBean, AclfNetwork aclfNet) {
 		AclfBranch branch = CoreObjectFactory.createAclfBranch();
 		aclfNet.addBranch(branch, branchBean.f_id, branchBean.t_id, branchBean.cir_id);
-		branch.setBranchCode(branchBean.code == BaseBranchBean.BranchCode.Line? AclfBranchCode.LINE :
-			(branchBean.code == BaseBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
+		branch.setBranchCode(branchBean.bra_code == BaseBranchBean.BranchCode.Line? AclfBranchCode.LINE :
+			(branchBean.bra_code == BaseBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
 		branch.setZ(new Complex(branchBean.r, branchBean.x));
 		if (branch.getBranchCode() == AclfBranchCode.LINE) {
 			branch.setHShuntY(new Complex(0.0, branchBean.b*0.5));
