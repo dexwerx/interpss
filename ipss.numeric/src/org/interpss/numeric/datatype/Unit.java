@@ -436,95 +436,124 @@ public class Unit {
 	 * @return the unit constant
 	 */
 	public static UnitType toUnit(final String unit) {
-		switch (unit.toLowerCase()) {
-			case "%" :
-			case "percent" :	
-				return UnitType.Percent;
-			case "pu" :
-				return UnitType.PU;	
-			case "deg" :
-				return UnitType.Deg;
-			case "rad" :
-				return UnitType.Rad;
-			case "v" :
-			case "volt" :
-				return UnitType.Volt;	
-			case "kv" : 
-			case "kVolt" : 
-				return UnitType.kV;
-			case "kamps" :
-			case "kamp" :
-			case "ka" :
-				return UnitType.kAmp;
-			case "amps" :
-			case "amp" :
-			case "a" :
-				return UnitType.Amp;
-			case "ma" : 
-			case "milliamps" :
-				return UnitType.MilliAmp;
-			case "w" :
-			case "watt" : 
-				return UnitType.Watt;
-			case "kw" :
-			case "kwatt" :
-				return UnitType.kW;
-			case "hp" :
-				return UnitType.HP;
-			case "mw" :
-			case "mwatt" :
-				return UnitType.mW;
-			case "var" :
-				return UnitType.Var;
-			case "kvar" :
-				return UnitType.kVar;
-			case "mvar" :
-				return UnitType.mVar;
-			case "va" :
-				return UnitType.VA;
-			case "kva" :
-				return UnitType.kVA;
-			case "mva" :
-				return UnitType.mVA;
-			case "ohm" :
-			case "ohms" :
-				return UnitType.Ohm;
-			case "mohm" :
-			case "mohms" :
-				return UnitType.MilliOhm;
-			case "kohm" :
-			case "Kohm" :
-				return UnitType.kOhm;
-			case "mho" :
-			case "mhos" :
-				return UnitType.Mho;
-			case "micromho" :
-			case "micromhos" :
-				return UnitType.MicroMho;
-			case "h" :
-			case "henry" :
-				return UnitType.Henry;
-			case "mh" :
-				return UnitType.MilliH;
-			case "microh" :
-				return UnitType.MicroH;
-			case "f" :
-			case "farad" :
-				return UnitType.Farad;
-			case "mf" :
-				return UnitType.MilliF;
-			case "microf" :
-				return UnitType.MicroF;
-			case "year" :
-				return UnitType.Year;
-			case "month" :
-				return UnitType.Month;
-			case "day" :
-				return UnitType.Day;
-			case "hour" :
-				return UnitType.Hour;
-			default :
-				return UnitType.PU;				
+		if ((unit.compareTo("%") == 0) || unit.toLowerCase().equals("percent")) {
+			return UnitType.Percent;
 		}
+		else if (unit.toLowerCase().equals("pu")) {
+			return UnitType.PU;
+		}
+		else if (unit.toLowerCase().equals("deg")) {
+			return UnitType.Deg;
+		}
+		else if (unit.toLowerCase().equals("rad")) {
+			return UnitType.Rad;
+		}
+		else if (unit.toLowerCase().equals("v") || unit.toLowerCase().equals("volt")) {
+			return UnitType.Volt;
+		}
+		else if (unit.toLowerCase().equals("kv") || (unit.compareTo("kVolt") == 0)) {
+			return UnitType.kV;
+		}
+		else if (unit.toLowerCase().equals("kamps")
+				|| unit.toLowerCase().equals("kamp")
+				|| unit.toLowerCase().equals("va")) {
+			return UnitType.kAmp;
+		}
+		else if (unit.toLowerCase().equals("amps")
+				|| unit.toLowerCase().equals("amp")
+				|| unit.toLowerCase().equals("a")) {
+			return UnitType.Amp;
+		}
+		else if (unit.toLowerCase().equals("ma")
+				|| unit.toLowerCase().equals("milliamps")) {
+			return UnitType.MilliAmp;
+		}
+		else if (unit.toLowerCase().equals("w") || unit.toLowerCase().equals("watt")) {
+			return UnitType.Watt;
+		}
+		else if (unit.toLowerCase().equals("kw")
+				|| unit.toLowerCase().equals("kwatt")) {
+			return UnitType.kW;
+		}
+		else if (unit.toLowerCase().equals("HP")
+				|| unit.toLowerCase().equals("hp")
+				|| unit.toLowerCase().equals("Hp")) {
+			return UnitType.HP;
+		}
+		else if (unit.toLowerCase().equals("mw")
+				|| unit.toLowerCase().equals("mwatt")) {
+			return UnitType.mW;
+		}
+		else if (unit.toLowerCase().equals("var")) {
+			return UnitType.Var;
+		}
+		else if (unit.toLowerCase().equals("kvar")) {
+			return UnitType.kVar;
+		}
+		else if (unit.toLowerCase().equals("mvar")) {
+			return UnitType.mVar;
+		}
+		else if (unit.toLowerCase().equals("va")) {
+			return UnitType.VA;
+		}
+		else if (unit.toLowerCase().equals("kva")) {
+			return UnitType.kVA;
+		}
+		else if (unit.toLowerCase().equals("mva")) {
+			return UnitType.mVA;
+		}
+		else if (unit.toLowerCase().equals("ohm")
+				|| unit.toLowerCase().equals("ohms")) {
+			return UnitType.Ohm;
+		}
+		else if (unit.toLowerCase().equals("mohm")
+				|| unit.toLowerCase().equals("mohms")) {
+			return UnitType.MilliOhm;
+		}
+		else if (unit.toLowerCase().equals("kohm")
+				|| unit.toLowerCase().equals("Kohm")) {
+			return UnitType.kOhm;
+		}
+		else if (unit.toLowerCase().equals("mho")
+				|| unit.toLowerCase().equals("mhos")) {
+			return UnitType.Mho;
+		}
+		else if (unit.toLowerCase().equals("micromho")
+				|| unit.toLowerCase().equals("micromhos")) {
+			return UnitType.MicroMho;
+		}
+		else if (unit.toLowerCase().equals("h")
+				|| unit.toLowerCase().equals("henry")) {
+			return UnitType.Henry;
+		}
+		else if (unit.toLowerCase().equals("mh")) {
+			return UnitType.MilliH;
+		}
+		else if (unit.toLowerCase().equals("microh")) {
+			return UnitType.MicroH;
+		}
+		else if (unit.toLowerCase().equals("f")
+				|| unit.toLowerCase().equals("farad")) {
+			return UnitType.Farad;
+		}
+		else if (unit.toLowerCase().equals("mf")) {
+			return UnitType.MilliF;
+		}
+		else if (unit.toLowerCase().equals("microf")) {
+			return UnitType.MicroF;
+		}
+		else if ("year".equals(unit.toLowerCase())) {
+			return UnitType.Year;
+		}
+		else if ("month".equals(unit.toLowerCase())) {
+			return UnitType.Month;
+		}
+		else if ("day".equals(unit.toLowerCase())) {
+			return UnitType.Day;
+		}
+		else if ("hour".equals(unit.toLowerCase())) {
+			return UnitType.Hour;
+		}
+		return UnitType.PU;
 	}
 }
