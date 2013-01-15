@@ -35,5 +35,5 @@ public class AclfNetBean extends BaseNetBean {
 	public List<AclfBranchBean> 
 		branch_list;                // branch result bean list
 	
-	public AclfNetBean() { bus_list = new ArrayList<>(); branch_list = new ArrayList<>(); }
+	public AclfNetBean() { bus_list = new ArrayList<AclfBusBean>(); branch_list = new ArrayList<AclfBranchBean>(); }
 }

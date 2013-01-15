@@ -17,7 +17,7 @@ public class BaseBranchBean extends BaseJSONBean {
 		cir_id = "1";  				// branch circuit id/number
 	
 	public BranchCode 
-		code = BranchCode.Line;  	// branch type code
+		bra_code = BranchCode.Line;  	// branch type code
 	
 	public BaseBranchBean() {}
 }
