@@ -1,5 +1,5 @@
 /*
- * @(#)AclfBusResultBean.java   
+ * @(#)ComplexBean.java   
  *
  * Copyright (C) 2008-2013 www.interpss.org
  *
@@ -22,19 +22,14 @@
  *
  */
 
-package org.interpss.datamodel.bean.aclf;
+package org.interpss.datamodel.bean.datatype;
 
-import org.interpss.datamodel.bean.BaseBranchBean;
-import org.interpss.datamodel.bean.datatype.ComplexBean;
 
-public class AclfBranchResultBean extends BaseBranchBean {
-	public ComplexBean 
-		flow_f2t,		// branch power flow from->to
-	    flow_t2f,		// branch power flow to->from
-	    loss;			// branch power loss
+public class BranchValueBean {
+	public double
+		f,				// value at the from side
+		t;				// value at the to side
 	
-	public double 
-		cur;			// branch current in amps, for Xfr, it is at the high voltage side
-	
-	public AclfBranchResultBean() { }
+	public BranchValueBean() { }
+	public BranchValueBean(double f, double t) { this.f = f; this.t = t; }
 }

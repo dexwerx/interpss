@@ -1,5 +1,5 @@
 /*
- * @(#)MismatchResultBean.java   
+ * @(#)ComplexBean.java   
  *
  * Copyright (C) 2008-2013 www.interpss.org
  *
@@ -22,17 +22,19 @@
  *
  */
 
-package org.interpss.datamodel.bean.aclf;
+package org.interpss.datamodel.bean.datatype;
+
+import org.apache.commons.math3.complex.Complex;
 
 
-public class MismatchResultBean {
+public class ComplexBean {
 	public double
-		p_err,				// real power mismatch
-		q_err;				// reactive power mismatch
+		re,				// real part
+		im;				// imaginary part
 	
-	public String
-	 	p_bus_id,			// real power mismatch bus id
- 		q_bus_id;       	// reactive power mismatch bus id
+	public ComplexBean() { }
+	public ComplexBean(double re, double im) {this.re = re; this.im = im; }
+	public ComplexBean(Complex c) {this.re = c.getReal(); this.im = c.getImaginary(); }
 
-	public MismatchResultBean() { }
+	public Complex toComplex() { return new Complex(this.re, this.im); }
 }

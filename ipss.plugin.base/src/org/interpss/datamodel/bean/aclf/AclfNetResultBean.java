@@ -28,18 +28,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.datamodel.bean.BaseNetBean;
+import org.interpss.datamodel.bean.datatype.ComplexBean;
+import org.interpss.datamodel.bean.datatype.MismatchResultBean;
 
 public class AclfNetResultBean extends BaseNetBean {
 	public boolean
 		lf_converge;				// AC loadflow convergence
 	
-	public double
-		p_gen,						// total real gen power
-		q_gen,						// total reactive gen power
-		p_load,						// total real load pwer
-		q_load,						// total reactive load power
-		p_loss,						// total real power loss
-		q_loss;						// total reactive power loss
+	public ComplexBean
+		gen,						// total gen power
+		load,						// total load power
+		loss;						// total network power loss
 	
 	public MismatchResultBean
 		max_mis;					// max mismatch

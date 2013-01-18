@@ -1,5 +1,5 @@
 /*
- * @(#)AclfBusResultBean.java   
+ * @(#)MismatchResultBean.java   
  *
  * Copyright (C) 2008-2013 www.interpss.org
  *
@@ -22,19 +22,16 @@
  *
  */
 
-package org.interpss.datamodel.bean.aclf;
+package org.interpss.datamodel.bean.datatype;
 
-import org.interpss.datamodel.bean.BaseBranchBean;
-import org.interpss.datamodel.bean.datatype.ComplexBean;
 
-public class AclfBranchResultBean extends BaseBranchBean {
-	public ComplexBean 
-		flow_f2t,		// branch power flow from->to
-	    flow_t2f,		// branch power flow to->from
-	    loss;			// branch power loss
+public class MismatchResultBean {
+	public ComplexBean
+		err;				// real/reactive power mismatch
 	
-	public double 
-		cur;			// branch current in amps, for Xfr, it is at the high voltage side
-	
-	public AclfBranchResultBean() { }
+	public String
+	 	p_bus_id,			// real power mismatch bus id
+ 		q_bus_id;       	// reactive power mismatch bus id
+
+	public MismatchResultBean() { }
 }

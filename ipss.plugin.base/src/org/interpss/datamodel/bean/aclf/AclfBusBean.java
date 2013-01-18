@@ -1,6 +1,7 @@
 package org.interpss.datamodel.bean.aclf;
 
 import org.interpss.datamodel.bean.BaseJSONBean;
+import org.interpss.datamodel.bean.datatype.ComplexBean;
 
 public class AclfBusBean  extends BaseJSONBean {
 	/**
@@ -14,7 +15,9 @@ public class AclfBusBean  extends BaseJSONBean {
 	public static enum LoadCode {ConstP, ConstI, ConstZ};
 
 	public double
-		base_v;					// bus base voltage
+		base_v,					// bus base voltage
+		v_mag=1.0,				// bus voltage magnitude 
+		v_ang;					// bus voltage angle
 	
 	public String 
 		area="1", 				// bus area number/id
@@ -26,13 +29,9 @@ public class AclfBusBean  extends BaseJSONBean {
 	public LoadCode 
 		load_code;				// bus load code
 	
-	public double 
-		v_mag=1.0,				// bus voltage magnitude 
-		v_ang,					// bus voltage angle
-		p_gen, 					// bus generator real power
-		q_gen,					// bus generator reactive power
-		p_load, 				// bus load real power
-		q_load;					// bus load reactive power
+	public ComplexBean
+		gen, 					// bus generation
+		load; 					// bus load
 	
 	public AclfBusBean() {}
 }
