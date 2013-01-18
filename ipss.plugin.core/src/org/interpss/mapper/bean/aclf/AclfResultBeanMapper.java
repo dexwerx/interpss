@@ -28,7 +28,8 @@ import org.apache.commons.math3.complex.Complex;
 import org.interpss.datamodel.bean.aclf.AclfBranchResultBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
 import org.interpss.datamodel.bean.aclf.AclfNetResultBean;
-import org.interpss.datamodel.bean.aclf.MismatchResultBean;
+import org.interpss.datamodel.bean.datatype.ComplexBean;
+import org.interpss.datamodel.bean.datatype.MismatchResultBean;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
@@ -81,20 +82,16 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		MismatchResultBean misBean = new MismatchResultBean();
 		Mismatch mis = aclfNet.maxMismatch(AclfMethod.NR);
 		aclfResult.max_mis = misBean;
-		misBean.p_err = mis.maxMis.getReal();
-		misBean.q_err = mis.maxMis.getImaginary();
+		misBean.err = new ComplexBean(mis.maxMis.getReal(), mis.maxMis.getImaginary());
 		misBean.p_bus_id = mis.maxPBus.getId(); 
 		misBean.q_bus_id = mis.maxQBus.getId();
 		
 		Complex gen = aclfNet.totalGeneration(UnitType.PU);
 		Complex load = aclfNet.totalLoad(UnitType.PU);
 		Complex loss = aclfNet.totalLoss(UnitType.PU);
-		aclfResult.p_gen = format(gen.getReal());
-		aclfResult.q_gen = format(gen.getImaginary());
-		aclfResult.p_load = format(load.getReal());
-		aclfResult.q_load = format(load.getImaginary());
-		aclfResult.p_loss = format(loss.getReal());
-		aclfResult.q_loss = format(loss.getImaginary());
+		aclfResult.gen = new ComplexBean(format(gen));
+		aclfResult.load = new ComplexBean(format(load));
+		aclfResult.loss = new ComplexBean(format(loss));
 		
 		for (AclfBus bus : aclfNet.getBusList()) {
 			AclfBusBean bean = new AclfBusBean();
@@ -118,12 +115,10 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.v_ang = format(bus.getVoltageAng(UnitType.Deg));
 
 		Complex gen = bus.getGenResults();
-		bean.p_gen = format(gen.getReal());
-		bean.q_gen = format(gen.getImaginary());
+		bean.gen = new ComplexBean(format(gen));
 
 		Complex load = bus.getLoadResults();
-		bean.p_load = format(load.getReal());
-		bean.q_load = format(load.getImaginary());
+		bean.load = new ComplexBean(format(load));
 	}
 	
 	private void mapBranchResult(AclfBranch branch, AclfBranchResultBean bean) {
@@ -132,20 +127,22 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.cir_id = branch.getCircuitNumber();
 		
 		Complex flow = branch.powerFrom2To();
-		bean.p_f2t = format(flow.getReal());
-		bean.q_f2t = format(flow.getImaginary());
+		bean.flow_f2t = new ComplexBean(format(flow));
 
 		flow = branch.powerTo2From();
-		bean.p_t2f = format(flow.getReal());
-		bean.q_t2f = format(flow.getImaginary());
+		bean.flow_t2f = new ComplexBean(format(flow));
 		
 		Complex loss = branch.loss();
-		bean.p_loss = format(loss.getReal());
-		bean.q_loss = format(loss.getImaginary());
+		bean.loss = new ComplexBean(format(loss));
 		
 		bean.cur = format2(branch.current(UnitType.Amp));
 	}	
 	
+	private Complex format(Complex x) {
+		return new Complex(new Double(Number2String.toStr(x.getReal())).doubleValue(), 
+				           new Double(Number2String.toStr(x.getImaginary())).doubleValue());
+	}
+
 	private double format(double x) {
 		return new Double(Number2String.toStr(x)).doubleValue();
 	}

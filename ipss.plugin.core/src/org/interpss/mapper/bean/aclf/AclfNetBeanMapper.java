@@ -117,12 +117,12 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 			if (busBean.gen_code==AclfBusBean.GenCode.PQ) {
 				bus.setGenCode(AclfGenCode.GEN_PQ);
 				AclfPQGenBus pqBus = bus.toPQBus();
-				pqBus.setGen(new Complex(busBean.p_gen, busBean.q_gen));
+				pqBus.setGen(new Complex(busBean.gen.re, busBean.gen.im));
 			}
 			else if (busBean.gen_code==AclfBusBean.GenCode.PV) {
 				bus.setGenCode(AclfGenCode.GEN_PV);
 				AclfPVGenBus pvBus = bus.toPVBus();
-				pvBus.setGenP(busBean.p_gen);
+				pvBus.setGenP(busBean.gen.re);
 				pvBus.setVoltMag(busBean.v_mag);
 			}
 			else {
@@ -137,8 +137,10 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 		if (busBean.load_code != null) {
 			bus.setLoadCode(busBean.load_code==AclfBusBean.LoadCode.ConstP? AclfLoadCode.CONST_P :
 				(busBean.load_code==AclfBusBean.LoadCode.ConstI? AclfLoadCode.CONST_I : AclfLoadCode.CONST_Z));
-			bus.setLoadP(busBean.p_load);
-			bus.setLoadQ(busBean.q_load);
+			if (busBean.load != null) {
+				bus.setLoadP(busBean.load.re);
+				bus.setLoadQ(busBean.load.im);
+			}
 		}
 	}
 	
@@ -154,14 +156,18 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 		aclfNet.addBranch(branch, branchBean.f_id, branchBean.t_id, branchBean.cir_id);
 		branch.setBranchCode(branchBean.bra_code == BaseBranchBean.BranchCode.Line? AclfBranchCode.LINE :
 			(branchBean.bra_code == BaseBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
-		branch.setZ(new Complex(branchBean.r, branchBean.x));
+		if (branchBean.z != null)
+			branch.setZ(new Complex(branchBean.z.re, branchBean.z.im));
 		if (branch.getBranchCode() == AclfBranchCode.LINE) {
-			branch.setHShuntY(new Complex(0.0, branchBean.b*0.5));
+			if (branchBean.shunt_y != null)
+				branch.setHShuntY(new Complex(0.0, branchBean.shunt_y.im*0.5));
 		}
 		else {
 			AclfXformer xfr = branch.toXfr();
-			xfr.setFromTurnRatio(branchBean.f_ratio);
-			xfr.setToTurnRatio(branchBean.t_ratio);
+			if (branchBean.ratio != null) {
+				xfr.setFromTurnRatio(branchBean.ratio.f);
+				xfr.setToTurnRatio(branchBean.ratio.t);
+			}
 		}
 	}	
 }
