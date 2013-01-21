@@ -46,6 +46,15 @@ public interface IODMAdapter {
 				DcSystemNet, DistributionNet, };
 	
 	/**
+	 * parse the input string lines into a ODM model according the the ODM schema, in
+	 * general this method is for AclfNet implementation
+	 * 
+	 * @param lines input lines
+	 * @return
+	 */
+	boolean parseInput(String[] lines);
+
+	/**
 	 * parse the input file into a ODM model according the the ODM schema, in
 	 * general this method is for AclfNet implementation
 	 * 
@@ -53,7 +62,7 @@ public interface IODMAdapter {
 	 * @return
 	 */
 	boolean parseInputFile(String filename);
-	
+
 	/**
 	 * parse the input file into a ODM model according the the ODM schema, the 
 	 * base case AclfNet file should put first in the filenames array

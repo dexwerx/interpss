@@ -122,6 +122,22 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	}
 	
 	/**
+	 * parse the input string lines into a ODM parser object
+	 * 
+	 * @param lines input string lines
+	 */
+	public boolean parseInput(String[] lines) {
+		try {
+			StringArrayReader reader = new StringArrayReader(lines);
+			this.parser = parseInputFile(reader, IODMModelParser.defaultEncoding);		
+			return true;
+		} catch (Exception e) {
+			ODMLogger.getLogger().severe(e.toString());
+			return false;
+		} 
+	}
+
+	/**
 	 * parse the input file into a ODM parser object
 	 * 
 	 * @param filename
@@ -141,7 +157,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * parse the input fileContent into a ODM parser object
 	 * 
@@ -273,7 +289,25 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		java.io.BufferedReader din = null;
 		public FileReader(java.io.BufferedReader din) { this.din = din;}
 		public String readLine() throws Exception {
-			return din.readLine();
+			String str = din.readLine();
+			//System.out.println(str);
+			return str;
+		}
+	}
+
+	private class StringArrayReader implements IFileReader {
+		private String[] lines = null;
+		private int cnt;
+		public StringArrayReader(String[] lines) {
+			this.lines = lines;
+			this.cnt = 0;
+		}
+		public String readLine() throws Exception {
+			if (this.cnt >= this.lines.length)
+				throw new Exception("attempt to read beyound the boundary of input lines");
+			String str = this.lines[this.cnt++];
+			//System.out.println(str);
+			return str;
 		}
 	}
 }
