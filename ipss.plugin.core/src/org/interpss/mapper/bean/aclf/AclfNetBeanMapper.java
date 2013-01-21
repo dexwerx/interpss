@@ -117,7 +117,7 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 			if (busBean.gen_code==AclfBusBean.GenCode.PQ) {
 				bus.setGenCode(AclfGenCode.GEN_PQ);
 				AclfPQGenBus pqBus = bus.toPQBus();
-				pqBus.setGen(new Complex(busBean.gen.re, busBean.gen.im));
+				pqBus.setGen(busBean.gen.toComplex());
 			}
 			else if (busBean.gen_code==AclfBusBean.GenCode.PV) {
 				bus.setGenCode(AclfGenCode.GEN_PV);
@@ -157,7 +157,7 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 		branch.setBranchCode(branchBean.bra_code == BaseBranchBean.BranchCode.Line? AclfBranchCode.LINE :
 			(branchBean.bra_code == BaseBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
 		if (branchBean.z != null)
-			branch.setZ(new Complex(branchBean.z.re, branchBean.z.im));
+			branch.setZ(branchBean.z.toComplex());
 		if (branch.getBranchCode() == AclfBranchCode.LINE) {
 			if (branchBean.shunt_y != null)
 				branch.setHShuntY(new Complex(0.0, branchBean.shunt_y.im*0.5));
