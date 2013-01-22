@@ -25,6 +25,7 @@
 package org.interpss.mapper.bean.aclf;
 
 import org.apache.commons.math3.complex.Complex;
+import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBranchResultBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
 import org.interpss.datamodel.bean.aclf.AclfNetResultBean;
@@ -114,8 +115,14 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.v_mag = format(bus.getVoltageMag());
 		bean.v_ang = format(bus.getVoltageAng(UnitType.Deg));
 
+		bean.gen_code = bus.isGenPQ() ? AclfBusBean.GenCode.PQ :
+			(bus.isGenPV() ? AclfBusBean.GenCode.PV : AclfBusBean.GenCode.Swing);
+				
 		Complex gen = bus.getGenResults();
 		bean.gen = new ComplexBean(format(gen));
+
+		bean.load_code = bus.isConstPLoad() ? AclfBusBean.LoadCode.ConstP :
+			(bus.isConstZLoad() ? AclfBusBean.LoadCode.ConstZ : AclfBusBean.LoadCode.ConstI);
 
 		Complex load = bus.getLoadResults();
 		bean.load = new ComplexBean(format(load));
@@ -126,6 +133,9 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.t_id = branch.getToBus().getId();
 		bean.cir_id = branch.getCircuitNumber();
 		
+		bean.bra_code = branch.isLine() ? BaseBranchBean.BranchCode.Line :
+			(branch.isXfr() ? BaseBranchBean.BranchCode.Xfr : BaseBranchBean.BranchCode.PsXfr);
+				
 		Complex flow = branch.powerFrom2To();
 		bean.flow_f2t = new ComplexBean(format(flow));
 
