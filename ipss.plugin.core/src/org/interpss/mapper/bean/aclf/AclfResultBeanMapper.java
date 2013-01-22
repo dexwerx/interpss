@@ -115,7 +115,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.v_mag = format(bus.getVoltageMag());
 		bean.v_ang = format(bus.getVoltageAng(UnitType.Deg));
 
-		bean.gen_code = bus.isGenPQ() ? AclfBusBean.GenCode.PQ :
+		bean.gen_code = bus.isGenPQ() || !bus.isGen() ? AclfBusBean.GenCode.PQ :
 			(bus.isGenPV() ? AclfBusBean.GenCode.PV : AclfBusBean.GenCode.Swing);
 				
 		Complex gen = bus.getGenResults();
