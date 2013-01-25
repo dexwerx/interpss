@@ -1,7 +1,9 @@
 package org.interpss.datamodel.bean;
 
+import java.util.List;
 
-public class BaseBranchBean extends BaseJSONBean {
+
+public abstract class BaseBranchBean extends BaseJSONBean {
 	/**
 	 *  branch type code
 	 */
@@ -20,4 +22,6 @@ public class BaseBranchBean extends BaseJSONBean {
 		bra_code = BranchCode.Line;  	// branch type code
 	
 	public BaseBranchBean() {}
+	
+	public boolean validate(List<String> msgList) { return true; }
 }

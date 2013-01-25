@@ -1,8 +1,10 @@
 package org.interpss.datamodel.bean;
 
+import java.util.List;
+
 import org.interpss.numeric.datatype.Unit.UnitType;
 
-public class BaseNetBean extends BaseJSONBean {
+public abstract class BaseNetBean extends BaseJSONBean {
 	public double 
 		base_kva;      						// network base kva 
 
@@ -18,4 +20,14 @@ public class BaseNetBean extends BaseJSONBean {
 		unit_branch_b = UnitType.PU;        // branch shunt Y unit
 	
 	public BaseNetBean() {}
+	
+	public boolean validate(List<String> msgList) {
+		boolean noErr = true;
+		if (this.base_kva == 0.0) {
+			msgList.add("NetBean data error: baseKva not defined");
+			noErr = false;
+		}
+		return noErr; 
+	}	
+	
 }

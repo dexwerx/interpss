@@ -24,6 +24,8 @@
 
 package org.interpss.datamodel.bean;
 
+import java.util.List;
+
 /**
  * Base bean class. The bean data model is intended for use in combination
  * with JSON. Wire communication efficiency is considered in the data structure
@@ -36,5 +38,7 @@ public abstract class BaseJSONBean {
 	public String 
 		id,      		// net, bus, branch id. only bus.id is mandatory
 		name,    		// net, bus, branch name, optional
-		desc;    		// net, bus, branch description, optioanal
+		desc;    		// net, bus, branch description, optional
+	
+	abstract public boolean validate(List<String> msgList); 
 }

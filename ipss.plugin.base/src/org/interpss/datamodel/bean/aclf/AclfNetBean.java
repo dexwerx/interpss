@@ -36,4 +36,16 @@ public class AclfNetBean extends BaseNetBean {
 		branch_list;                // branch result bean list
 	
 	public AclfNetBean() { bus_list = new ArrayList<AclfBusBean>(); branch_list = new ArrayList<AclfBranchBean>(); }
+	
+	public boolean validate(List<String> msgList) {
+		boolean noErr = super.validate(msgList);
+		
+		for (AclfBusBean bean : this.bus_list) 
+			if (!bean.validate(msgList))
+				noErr = false;
+		for (AclfBranchBean bean : this.branch_list) 
+			if (!bean.validate(msgList))
+				noErr = false;
+		return noErr; 
+	}	
 }
