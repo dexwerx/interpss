@@ -304,7 +304,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		}
 		public String readLine() throws Exception {
 			if (this.cnt >= this.lines.length)
-				throw new Exception("attempt to read beyound the boundary of input lines");
+				return null;
 			String str = this.lines[this.cnt++];
 			//System.out.println(str);
 			return str;
