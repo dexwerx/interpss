@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.interpss.util.ITextFileProcessor;
 
@@ -38,7 +40,7 @@ import com.interpss.common.exp.InterpssException;
 
 /**
  * A text file reader implementation. The file is processed line by line
- * by using a file line processor. The processFile method take the file
+ * by using a file line processor. The processFile method takes the file
  * line processor and performs the line processing.
  * 
  * 
@@ -98,6 +100,28 @@ public class TextFileReader {
 		} catch (Exception e) {
 			ipssLogger.severe(e.toString());
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Get the file content as List<String>
+	 * 
+	 * @return the list
+	 */
+	public List<String> getFileContent() {
+		TextFileProcessor proc = new TextFileProcessor();
+		this.processFile(proc);
+		return proc.strList;
+	}
+	
+	private static class TextFileProcessor implements ITextFileProcessor {
+		List<String> strList;
+		public TextFileProcessor() {
+			this.strList = new ArrayList<String>();
+		}
+		@Override public boolean processLine(String lineStr) throws InterpssException {
+			this.strList.add(lineStr);
+			return true;
 		}
 	}
 }
