@@ -1,6 +1,5 @@
 package org.interpss;
 
-import org.interpss.beanModel.JSONBeanTestCases;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
@@ -28,6 +27,7 @@ import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
 import org.interpss.odm.psse.v30.GuideSample_TestCase;
+import org.interpss.plugin.beanModel.JSONBeanTestCases;
 import org.interpss.spring.SimuAppCtxTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
