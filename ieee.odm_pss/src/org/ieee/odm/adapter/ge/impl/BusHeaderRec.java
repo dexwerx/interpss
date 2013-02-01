@@ -36,8 +36,6 @@ public class BusHeaderRec {
 	public void setHeaderData(String dataStr) {
 		StringTokenizer st = new StringTokenizer(dataStr, "\"");
 		
-		// format: <number> <"name"> <kV>
-        //         <bus> <"name"> <bkv> <"id"> <"long id">		           
 		this.number = new Integer(st.nextToken().trim()).intValue();
 		this.name = st.nextToken();
 		this.bkv = new Double(st.nextToken()).doubleValue();

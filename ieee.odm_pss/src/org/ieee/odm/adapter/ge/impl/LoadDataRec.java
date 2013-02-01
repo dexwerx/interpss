@@ -43,9 +43,6 @@ public class LoadDataRec extends BusHeaderRec {
 	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser) {
 		//System.out.println("load data->" + lineStr);
 /*
-	<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <p> <q> <ip> <iq> <g> <b> /
-	<ar> <z> <d_in> <d_out> <proj id> <nst> <owner>
-
        2 "P-2     " 380.00 "1 " "        "  :  1  868.096    0.000    0.000    0.000    0.000    0.000   1  201   400101   391231   0 0   1
  */		
 		String str1 = lineStr.substring(0, lineStr.indexOf(':')),
@@ -103,12 +100,6 @@ public class LoadDataRec extends BusHeaderRec {
 		contribLoad.setNormalOffLineStatus(this.nst != 1);
 
 		/*
-		<p> Constant real power (MW)
-		<q> Constant reactive power (MVAR)
-		<ip> Constant current real power (MW)
-		<iq> Constant current reactive power (MVAR)
-		<g> Constant admittance real power (MW)
-		<b> Constant admittance reactive power (MVAR)
  */		
 		if (this.p != 0.0 || this.q != 0.0)
 			contribLoad.setConstPLoad(BaseDataSetter.createPowerValue(this.p, this.q, ApparentPowerUnitType.MVA));

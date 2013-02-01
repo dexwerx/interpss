@@ -87,8 +87,6 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		if (st1.hasMoreElements()) 
 			this.igregName = st1.nextToken();
 	
-		// <igreg bkv> <prf> <qrf> <ar> <z> <pgen> <pmax> <pmin> <qgen> <qmax> <qmin> /
-		//   <mbase> <rcomp> <xcomp> <zgenr> <zgenx> <h bus> 
 		st1 = new StringTokenizer(st.nextToken());
 		if (st1.hasMoreTokens())
 			this.igregBkv = new Double(st1.nextToken()).doubleValue();
@@ -139,9 +137,6 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		//   <"t name"> 
 		this.tName = st.nextToken();
 		   
-		//   <t bkv> <d_in> <d_out> <projid> <snt> <rtr> <xtr> <gtap> /
-		//   <o1> <p1> <o2> <p2> <o3> <p3> <o4> <p4> <o5> <p5> <o6> <p6> <o7> <p7> <o8> <p8> 
-		//   <gov_flag> <agc_flag> <dispatch_flag> <baseload_flag> <air_temp> / <turbine_type> <qtab> <pmax2>
 		if (st.hasMoreElements()) {
 			st1 = new StringTokenizer(st.nextToken());
 			if (st1.hasMoreTokens())
@@ -192,29 +187,17 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		// <nst> Normal load status 1=in service; 0=out of service
 	    contriGen.setNormalOffLineStatus(this.nst != 1);		
 		/*
-		<igreg bus> Number of bus whose voltage is controlled by this generator
-		<"igreg name"> Regulating bus name enclosed in quotation marks
-		<igreg bkv> Regulating bus base voltage
 		*/
 		
 	    contriGen.setRemoteVoltageControlBus(parser.createBusRef(AbstractModelParser.BusIdPreFix+this.igregBus));
 		
 		/*
-		<prf> Real power regulating assignment factor (0.0 - 1.0)
-		<qrf> Reactive power regulating assignment factor (0.0 - 1.0)
 		 */
 		
 	    contriGen.setMwControlParticipateFactor(this.prf);
 	    contriGen.setMvarVControlParticipateFactor(this.qrf);
 
 		/*
-		<pgen> Actual real power output (MW)
-		<pmax> Maximum real power output (MW)
-		<pmin> Minimum real power output (MW)
-		<qgen> Actual reactive power output (MVAr)
-		<qmax> Maximum reactive power output (MVAr)
-		<qmin> Minimum reactive power output (MVAr)
-		<mbase> Generator base (MVA)
 		 */
 		
 	    contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(this.mbase));
@@ -223,15 +206,6 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 	    contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(this.qmax, this.qmin, ReactivePowerUnitType.MVAR));
 		
 		/*
-		<rcomp> Compensating resistance (pu)
-		<xcomp> Compensating reactance (pu)
-		<zgenr> Generator characteristic resistance (pu)
-		<zgenx> Generator characteristic reactance (pu)
-*/		
-/*		gen.setRCompenPU(this.rcomp);
-		gen.setXCompenPU(this.xcomp);
-		gen.setRCharactPU(this.zgenr);
-		gen.setXCharactPU(this.zgenx);
 */		
 		if (this.rcomp != 0.0 || this.xcomp != 0.0)
 			contriGen.setSourceZ(BaseDataSetter.createZValue(this.rcomp, this.xcomp, ZUnitType.PU));
@@ -256,5 +230,4 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		str += "airTemp, pmax2: " + airTemp + ", " + pmax2 + "\n";			
 		return str;
 	}
-	
 }

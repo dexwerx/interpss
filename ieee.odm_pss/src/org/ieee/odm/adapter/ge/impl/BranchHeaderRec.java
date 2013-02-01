@@ -32,7 +32,6 @@ public class BranchHeaderRec {
 	public double f_bkv, t_bkv;
 
 	/*
-       <f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <sec> <"long id">
 	 */
 	public void setBranchHeaderData(String headerStr) {
 		StringTokenizer st = new StringTokenizer(headerStr, "\"");

@@ -51,15 +51,6 @@ public class XformerDataRec extends BaseBranchDataRec {
 	public XformerDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
 		//PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		/*
-		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <"long id">:
-		<st> <type> <kreg bus> <"kreg name"> <kreg bkv> <zt> <iint bus> <"iint name"> /
-		<iint bkv> <tert bus> <"tert name"> <tert bkv> <area> <zone> <tbase> <zpsr> /
-		<zpsx> <zptr> <zptx> <ztsr> <ztsx> <vnomp> <vnoms> <vnomt> <anglp> <gmag> /
-		<bmag> <r1> <r2> <r3> <r4> <aloss> <tmax> <tmin> <vtmax> <vtmin> <stepp> <tapp> <tapfp> <tapfs> <tapft> <date_in> <date_out> <projid> <stn> /
-		<r5> <r6> <r7> <r8> <o1> <p1> <o2> <p2> <o3> <p3> <o4> <p4> <o5> <p5> /
-		<o6> <p6> <o7> <p7> <o8> <p8> <ohms> <tbasept> <tbasets> <angls> <anglt> /
-		<rs1> <rs2> <rs3> <rt1> <rt2> <rt3> <alosss> <alosst> <rxunits> <gbunits> / <tunits> <rcomp> <xcomp>
-
        	1 "NORTH-01" 230.00      101 "NORTH-G1"  16.00 "1 " "        " :  
        	1  1   -1      "        " 000.00   0   -1      "        " 000.00   -1      "        " 
        	000.00   1    1  600.0 0.00000 0.10000 0.00000 0.00000 0.00000 0.00000 /
@@ -109,13 +100,6 @@ public class XformerDataRec extends BaseBranchDataRec {
        	230.00  16.00   0.00    0.0 0.00000 0.00000  600.0    0.0    0.0    
        	0.0 0.000 1.5000 0.5100 1.5000 0.5100 0.00000 1.0000 1.0000 1.0000 1.0000   400101   391231   0 0     0.0    0.0    0.0    0.0 /
        	0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000   0 0.000
-       	
-		<tert bkv> <area> <zone> <tbase> <zpsr> /
-		<zpsx> <zptr> <zptx> <ztsr> <ztsx> <vnomp> <vnoms> <vnomt> <anglp> <gmag> /
-		<bmag> <r1> <r2> <r3> <r4> <aloss> <tmax> <tmin> <vtmax> <vtmin> <stepp> <tapp> <tapfp> <tapfs> <tapft> <date_in> <date_out> <projid> <stn> /
-		<r5> <r6> <r7> <r8> <o1> <p1> <o2> <p2> <o3> <p3> <o4> <p4> <o5> <p5> /
-		<o6> <p6> <o7> <p7> <o8> <p8> <ohms> <tbasept> <tbasets> <angls> <anglt> /
-		<rs1> <rs2> <rs3> <rt1> <rt2> <rt3> <alosss> <alosst> <rxunits> <gbunits> / <tunits> <rcomp> <xcomp>       	
        	*/
 		st = new StringTokenizer(s4);
 		this.tertBkv = new Double(st.nextToken()).doubleValue();
@@ -189,23 +173,6 @@ public class XformerDataRec extends BaseBranchDataRec {
 			this.alosst = new Double(st.nextToken()).doubleValue();
 		
 /*
-		<type> Control type {1,11,2,12,4,14} 
-       		1 or 11= None 
-       		2 or 12= Controls a voltage by adjusting TCUL ratio 
-       		4 or 14= Controls real power flow by adjusting ps angle
-		<tbase> Transformer Base (primary to secondary) (MVA)
-		<vnomp> Primary winding nominal voltage (kV)
-		<vnoms> Secondary winding nominal voltage (kV)
-		<zpsr> Resistance primary to secondary (pu on tbase)
-		<zpsx> Reactance primary to secondary (pu on tbase)
-		<tapfp> Primary winding fixed tap position (pu)
-		<tapfs> Secondary winding fixed tap position (pu)
-		<anglp> Primary winding phase angle (degrees)
-		<angls> Secondary winding phase angle (degrees)
-		<gmag> Magnetizing conductance (pu on tbase)
-		<bmag> Magnetizing susceptance (pu on tbase)
-		<aloss> Loss factor (0.0 - 1.0) used to assign losses.1.0 = 100% loss assigned to "from" side of transformer
-		<alosss> Secondary Loss factor (0.0 - 1.0)
 */
 		boolean isPsXfr = this.anglp != 0.0 || this.angls != 0.0;
 
@@ -248,17 +215,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 			xfrInfo.setToLossFactor(this.alosss);
 
 		/*		
-		<kreg bus> Number of bus whose voltage is controlled by this transformer if type is not a 1.
-		<"kreg name"> Regulating bus name enclosed in quotation marks  // no need
-		<kreg bkv> Regulating bus base voltage           // no need
-		<tmax> Maximum TCUL ratio if type 2 (pu) (degrees) Maximum phase angle if type 4
-		<tmin> Minimum TCUL ratio if type 2 (pu) (degrees) Minimum phase angle if type 4
-		<vtmax> Upper limit of controlled voltage band if type 2 (pu) Upper limit of controlled MW flow band if type 4 (pu)
-		<vtmin> Lower limit of controlled voltage band if type 2 (pu) Lower limit of controlled MW flow band if type 4 (pu)
-		<stepp> Ratio step of TCUL unit if type is 2 Angle step of TCUL unit if type is 4 (pu) (degrees)
-		<tapp> TCUL tap position (primary winding) (pu)
-		<iztabl> Transformer impedance table number
-*/
+		 */
 
 		if (this.type == 2 || this.type == 12) {
 			/* TODO
@@ -285,37 +242,6 @@ public class XformerDataRec extends BaseBranchDataRec {
 			*/
 		}
 /*
-// Teriary data
-  
-		<iint bus> 3-winding point bus number
-		<"iint name"> 3-winding point bus name enclosed in quotation marks
-		<iint bkv> 3-winding point bus base voltage
-
-		<tert bus> Tertiary winding bus number
-		<"tert name"> Tertiary winding bus name enclosed in quotation marks
-		<tert bkv> Tertiary winding bus base voltage
-
-		<zptr> Resistance primary to tertiary (pu on tbasept)
-		<zptx> Reactance primary to tertiary (pu on tbasept)
-		<ztsr> Resistance tertiary to secondary (pu on tbasets)
-		<ztsx> Reactance tertiary to secondary (pu on tbasets)
- 
-		<vnomt> Tertiary winding nominal voltage (kV) 
-		<tapft> Tertiary winding fixed tap position (pu)
-
-		<tbasept> Transformer Base (primary to tertiary) (MVA)
-		<tbasets> Transformer Base (tertiary to secondary) (MVA)
-		<anglt> Tertiary winding phase angle (degrees)
-
-		<rt1> Tertiary rating 1 (MVA)
-		<rt2> Tertiary rating 1 (MVA)
-		<rt3> Tertiary rating 1 (MVA)
-
-		<rs1> Secondary rating 1 (MVA)
-		<rs2> Secondary rating 2 (MVA)
-		<rs3> Secondary rating 3 (MVA)
-
-		<alosst> Tertiary Loss factor (0.0 - 1.0)
  */	
 	}
 	

@@ -46,11 +46,6 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 	public int type = 0;   //Type of line 0=normal line, 1=Xfr
 
 	/*
-		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <sec> <"long id">: 
-		<st> <r> <x> <b> <r1> <r2> <r3> <r4> <al> <l> <ar> <z> <gi> <tf> <tt> /
-		<d_in> <d_out> <proj id> <nst> <type> <r5> <r6> <r7> <r8> 
-		<o1> <p1> <o2> <p2> <o3> <p3> <o4> <p4> <o5> <p5> <o6> <p6> <o7> <p7> <o8> <p8> <ohms>
-	 
       	1 "P-1     " 380.00       2 "P-2     " 380.00 "1 "  1 "        " :  1 0.00000 0.02348 0.00000    
       	0.0    0.0    0.0    0.0 1.000    1.0 /
   		1 201 0.0000 0.000 1.000   400101   391231   0 1  0    0.0    0.0    0.0    
@@ -169,12 +164,6 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
 		
 		/*
-		<al> - Loss factor (0.0 - 1.0) used to assign losses.
-				1.0 = 100% loss assigned to "from" end of branch
-				0.0 = 100% loss assigned to "to" end of branch
-		<l> - Branch length ( information only )
-		<ar> - Branch area number
-		<z>  - Branch Zone number
 		 */
 		branchRec.setAreaNumber(ar);
 		branchRec.setZoneNumber(z);

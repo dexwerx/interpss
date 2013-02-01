@@ -47,8 +47,6 @@ public class BusDataRec extends BusHeaderRec {
 
 	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser) {
 /*
-		<number> <"name"> <kV> : <ty> <vs> <vt> <an> <ar> <z> <vma> <vmi> <d_in> <d_out> <projid> <level> <owner> <stisol> <latitude> <longitude> <islnum>
- 
 		bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin   date_in date_out pid L own
        		   1 "P-1     " 380.00  :  0 1.04000 1.040000  -5.00000   1  201 4.0000 0.4000   400101   391231   0 0   1
  */
@@ -118,18 +116,7 @@ public class BusDataRec extends BusHeaderRec {
 		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(bkv, VoltageUnitType.KV));
 		
 		/*
-		<ty> Bus type {0,1,2,-2}
-			0 = swing bus (voltage magnitude and phase fixed)
-			1 = load bus (unconstrained voltage angle and magnitude)
-			2 = generator bus (voltage control [terminal or remote] within generator limits)
-			-2 = generator bus with unlimited reactive power limits
-		
-		<vs> Scheduled voltage (pu)
-		<vt> Bus voltage magnitude (pu)
-		<an> Bus voltage phase angle (degrees)
-		<vma> Voltage checking limit (pu)
-		<vmi> Voltage checking limit (pu)		
- */	
+		 */	
 		if (owner > 0)
 			BaseJaxbHelper.addOwner(busRec, new Integer(owner).toString());
 

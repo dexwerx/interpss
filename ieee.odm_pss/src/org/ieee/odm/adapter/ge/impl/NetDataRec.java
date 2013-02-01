@@ -56,26 +56,6 @@ public class NetDataRec {
 	}
 
 	/*
-	tap <1 or 0> TCUL adjustment flag
-	phas <1 or 0> Phase shifter adjustment flag
-	area <1 or 0> Area interchange control flag
-	svd <1 or 0> Control shunt adjustment flag
-	dctap <1 or 0> DC converter control flag
-	gcd <1 or 0> GCD control flag
-	jump <value> Jumper threshold impedance, pu
-	toler <value> Newton solution tolerance, MVA
-	sbase <value> System base, MVA
-	
-	sample data
-		tap    1    tcul  enabled/disabled
-		phas   1    ps    enabled/disabled
-		area   1    area  enabled/disabled
-		svd    1    svd   enabled/disabled
-		dctap  1    dc    enabled/disabled
-		ped    1    ped   enabled/disabled  // not defined in V15
-		jump  0.000100    jumper threshold
-		toler   0.1000    newton tolerance
-		sbase    100.0    system mva base	
 	 */	
 	static public class SolutionParamRec {
 
@@ -122,14 +102,6 @@ public class NetDataRec {
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
 			/*
-			<arnum> Area number (0 - 999)
-			<"arnam"> Area name up to 32 characters enclosed in quotation marks
-			<swing> Bus number at which area swing generator is located
-			<pnetdes> Scheduled real power net interchange (MW)
-			<pnettol> Real power net interchange tolerance (MW)
-			<pnet> Actual real power net interchange (MW)
-			<qnet> Actual reactive power net interchange (MVAR)
-			
 		        1 "P                               "       0      0.0   1000.0    -88.2    -84.1	
 			 */
 
@@ -170,11 +142,6 @@ public class NetDataRec {
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
 			/*
-			<zonum> Zone number (0 - 999)
-			<"zonam"> Zone name up to 32 characters enclosed in quotation marks
-			<pznet> Actual real power interchange (MW)
-			<qznet> Actual reactive power interchange (MVAR)
-			
 		    	2 "Italyz2                         "    9.448  112.738
 			 */
 			this.zonum = new Integer(st.nextToken().trim()).intValue();
@@ -197,15 +164,6 @@ public class NetDataRec {
 	}
 
 	/*
-	<owner no> Owner number
-	<"oname"> Owner name up to 32 characters enclosed in quotation mark
-	<"s name"> Owner short name up to 4 characters enclosed in quotation marks
-	<net_mw> Actual real power net interchange (MW)
-	<net_mvar> Actual reactive power net interchange (MVAr)
-	<sch_mw> Schedule real power net interchange (MW)
-	<sch_mvar> Schedule reactive power net interchange (MVAr)
-	<ar> Area number
-	
        1 "                                " "O1  " :       0.00       0.00       0.00       0.00   0
 	 */
 	static public class OwnerRec {
@@ -235,19 +193,6 @@ public class NetDataRec {
 	}
 	
 /*
-	<ifno> Interface number 
-	<"name"> Interface name up to 32 characters enclosed in quotation marks
-	<pnet> Actual real power flow across interface (MW)
-	<qnet> Actual reactive power flow across interface (MVAR)
-	<r1> First Interface Rating (MVA)
-	<r2> Second Interface Rating (MVA)
-	<r3> Third Interface Rating (MVA)
-	<r4> Fourth Interface Rating (MVA)
-	<r5> Fifth Interface Rating (MVA)
-	<r6> Sixth Interface Rating (MVA)
-	<r7> Seventh Interface Rating (MVA)
-	<r8> Eighth Interface Rating (MVA)
-	
     1 "E-P                             "   88.209   84.065  2275.0     0.0     0.0    0.0     0.0     0.0     0.0     0.0 
 	
  */	
@@ -288,16 +233,6 @@ public class NetDataRec {
 	}
 	
 /*
-	<f bus> From bus number
-	<"f name"> From bus name enclosed in quotation marks
-	<f bkv> From bus base voltage (kV)
-	<t bus> To bus number
-	<"t name"> To bus name enclosed in quotation marks
-	<t bkv> To bus base voltage (kV)
-	<"ck"> Two character circuit identifier enclosed in quotation marks
-	<ifn> Number of interface of which this branch is a member 
-	<pf> Fraction of the flow on this branch that is to be counted as part of the interface flow
-	             
      79 "E-55    " 380.00       1 "P-1     " 380.00 "1 "   :      1     1.000
 */	
 	static public class InterfaceBranchRec extends BranchHeaderRec{
