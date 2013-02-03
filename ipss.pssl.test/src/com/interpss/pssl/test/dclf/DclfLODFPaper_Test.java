@@ -101,7 +101,7 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 
 		algoDsl.setRefBus("Bus14");
 		
-		algoDsl.calLineOutageDFactors();
+		algoDsl.calLineOutageDFactors("ContId");
 		
 		double[] factors = algoDsl.monitorBranch("Bus2", "Bus5", "1")
 								  .getLineOutageDFactors();

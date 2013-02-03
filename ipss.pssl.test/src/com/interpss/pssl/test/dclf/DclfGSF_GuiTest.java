@@ -121,7 +121,7 @@ public class DclfGSF_GuiTest extends BaseTestSetup {
 
 		algoDsl.setRefBus("Bus14");
 		
-		algoDsl.calLineOutageDFactors();
+		algoDsl.calLineOutageDFactors("ContId");
 		
 		double[] factors = algoDsl.monitorBranch("Bus2", "Bus5", "1")
 								  .getLineOutageDFactors();
