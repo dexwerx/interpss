@@ -108,7 +108,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	if (this.protectedBranchIds.size() > 0) 
 		  		for (String id : this.protectedBranchIds)
 		  			net.getBranch(id).setVisited(true);
-		  	
+		  	AclfBranch br = net.getAclfBranch("Bus4645->Bus4644(1)");
 		  	// marked contingency outage branches with visited = true
 		  	if (this.contingencyList != null)
 		  		for (Contingency cont : this.contingencyList) {
