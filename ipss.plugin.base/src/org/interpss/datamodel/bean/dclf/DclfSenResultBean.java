@@ -9,12 +9,16 @@ import org.interpss.datamodel.bean.BaseNetBean;
 public class DclfSenResultBean extends BaseJSONBean {	
 	
 
-	public List<GSFResultBean> gsf_list; // bus bean list
-	public List<LODFResultBean> lodf_list; // branch bean list	
+	public List<GSFResultBean> gsf_list; 
+	public List<LODFResultBean> lodf_list; 
+	public List<ContingencyAnalysisResultBean> ca_List; //
 
+	//public String contingency;
+	
 	public DclfSenResultBean() {
 		gsf_list = new ArrayList<GSFResultBean>();
-		lodf_list = new ArrayList<LODFResultBean>();	
+		lodf_list = new ArrayList<LODFResultBean>();
+		ca_List = new ArrayList<ContingencyAnalysisResultBean>();
 	}
 
 	@Override

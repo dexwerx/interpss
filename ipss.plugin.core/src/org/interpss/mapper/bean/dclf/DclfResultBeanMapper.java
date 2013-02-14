@@ -73,16 +73,15 @@ public class DclfResultBeanMapper extends AbstractMapper<DclfAlgorithm, DclfNetR
 			double angle = algo.getAclfNetwork().isRefBus(bus) ? 0.0 : Math
 					.toDegrees(algo.getBusAngle(n));
 			bean.v_ang =  format2(angle);
-			bean.gen_code = bus.isGenPQ() || !bus.isGen() ? AclfBusBean.GenCode.PQ
-				: (bus.isGenPV() ? AclfBusBean.GenCode.PV
-						: AclfBusBean.GenCode.Swing);
+			bean.gen_code = bus.isGenPQ() || !bus.isGen() ? AclfBusBean.GenCode.PQ :
+				(bus.isGenPV() ? AclfBusBean.GenCode.PV : AclfBusBean.GenCode.Swing);
 						
 			double pgen = (bus.isRefBus() ? algo.getBusPower(bus) : bus
 					.getGenP());
-			bean.pGen = format(pgen);
+			bean.pGen = format2(pgen);
 					
 			double pload = bus.getLoadP();
-			bean.pLoad = format(pload);
+			bean.pLoad = format2(pload);
 			double pshunt = bus.getShuntY().getReal();
 			bean.shuntG = format2(pshunt);
 			/*System.out.println(bean.id+", "+bean.base_v+", "+bean.v_ang+", "+bean.gen_code
@@ -105,13 +104,15 @@ public class DclfResultBeanMapper extends AbstractMapper<DclfAlgorithm, DclfNetR
 						
 			bean.lineFlow = format2(mwFlow);
 
-			double limitMva = aclfBra.getRatingMva1();
+			double limitMva = aclfBra.getRatingMva1()/aclfNet.getBaseMva();
 			bean.limit = format2(limitMva);
 			double loading = 0 ;
 			if (limitMva > 0.0)
 			    loading = Math.abs(100 * (mwFlow) / limitMva);
 			bean.loading = format2(loading);
-			boolean violation = Math.abs(mwFlow) > limitMva * threshold;
+			boolean violation = false;
+			if (limitMva > 0)
+			   violation = Math.abs(mwFlow) > limitMva * threshold;
 
 			bean.violation = 0;
 			if (violation) {
