@@ -3,7 +3,7 @@ package org.interpss.datamodel.bean;
 import java.util.List;
 
 
-public abstract class BaseBranchBean extends BaseJSONBean {
+public class BaseBranchBean extends BaseJSONBean {
 	/**
 	 *  branch type code
 	 */

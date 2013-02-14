@@ -2,11 +2,14 @@
  
 package org.interpss.mapper.bean.dclf;
 
+import java.util.List;
+
 import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
 import org.interpss.datamodel.bean.dclf.DclfBranchResultBean;
 import org.interpss.datamodel.bean.dclf.DclfBusResultBean;
 import org.interpss.datamodel.bean.dclf.DclfNetResultBean;
+import org.interpss.datamodel.bean.dclf.GSFResultBean;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.Number2String;
 
@@ -69,7 +72,7 @@ public class DclfResultBeanMapper extends AbstractMapper<DclfAlgorithm, DclfNetR
 			int n = bus.getSortNumber();
 			double angle = algo.getAclfNetwork().isRefBus(bus) ? 0.0 : Math
 					.toDegrees(algo.getBusAngle(n));
-			bean.v_ang =  angle;
+			bean.v_ang =  format2(angle);
 			bean.gen_code = bus.isGenPQ() || !bus.isGen() ? AclfBusBean.GenCode.PQ
 				: (bus.isGenPV() ? AclfBusBean.GenCode.PV
 						: AclfBusBean.GenCode.Swing);
@@ -121,6 +124,8 @@ public class DclfResultBeanMapper extends AbstractMapper<DclfAlgorithm, DclfNetR
 
 		return noError;
 	}	
+	
+	
 
     private double format(double x) {
 		return new Double(Number2String.toStr(x)).doubleValue();
