@@ -30,15 +30,15 @@
 	To use native solver, ipss.native jar has to be on the class path 
 	 -->
 	<bean id="sparseEqnDoubleNative" 
-	      class="com.interpss.numeric.sparse.SparseEqnDoubleNativeImpl" scope="prototype">
+	      class="com.interpss.numeric.sparse.ntv.SparseEqnDoubleNativeImpl" scope="prototype">
 	</bean>
 
 	<bean id="sparseEqnMatrix2x2Native" 
-	      class="com.interpss.numeric.sparse.SparseEqnMatrix2x2NativeImpl"  scope="prototype">
+	      class="com.interpss.numeric.sparse.ntv.SparseEqnMatrix2x2NativeImpl"  scope="prototype">
 	</bean>
 
 	<bean id="sparseEqnComplexNative" 
-	      class="com.interpss.numveric.sparse.SparseEqnComplexNativeImpl"  scope="prototype">
+	      class="com.interpss.numveric.sparse.ntv.SparseEqnComplexNativeImpl"  scope="prototype">
 	</bean>
 
 	<!--
