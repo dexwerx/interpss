@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/commons-logging.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/spring/spring-2.5.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSparseJ"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
