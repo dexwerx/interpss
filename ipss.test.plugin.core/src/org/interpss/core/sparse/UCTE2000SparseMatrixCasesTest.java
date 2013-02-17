@@ -38,10 +38,10 @@ import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
-import org.interpss.numeric.sparse.impl.SparseEqnMatrix2x2CSparseJImpl1;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.numeric.sparse.csj.SparseEqnMatrix2x2CSparseJImpl;
 
 public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 	//@Test 
@@ -104,7 +104,7 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 		
 		SparseEqnMatrix2x2 eqn = net.formJMatrix();
 		
-		SparseEqnMatrix2x2CSparseJImpl1 csj= createCSparseJMatrix(eqn);
+		SparseEqnMatrix2x2CSparseJImpl csj= createCSparseJMatrix(eqn);
 
 		
 		for ( int i = 0; i < csj.getDimension(); i++)
@@ -125,7 +125,7 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 	  	System.out.println("Interpss ... ");
 		starttime = System.currentTimeMillis() ;
 		eqn.luMatrixAndSolveEqn(1.0e-20);
-	  	System.out.println("time for spase matrix : " + (System.currentTimeMillis() - starttime)*0.001);
+	  	System.out.println("time for InterPSS spase matrix : " + (System.currentTimeMillis() - starttime)*0.001);
 		
 		int cnt = 0;
 		for (int i = 0; i < n; i++) { 
@@ -167,10 +167,10 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 		return m;
 	}
 	
-	private SparseEqnMatrix2x2CSparseJImpl1 createCSparseJMatrix(SparseEqnMatrix2x2 eqn){
+	private SparseEqnMatrix2x2CSparseJImpl createCSparseJMatrix(SparseEqnMatrix2x2 eqn){
 		int n = eqn.getDimension();
 		
-		SparseEqnMatrix2x2CSparseJImpl1 csj = new SparseEqnMatrix2x2CSparseJImpl1(n/2);
+		SparseEqnMatrix2x2CSparseJImpl csj = new SparseEqnMatrix2x2CSparseJImpl(n/2);
 		int n_2 = n / 2;
 		for(int i=0; i< n_2; i++) { // index 1-N
 			for(int j=0; j < n_2; j++) {//index 1-N
