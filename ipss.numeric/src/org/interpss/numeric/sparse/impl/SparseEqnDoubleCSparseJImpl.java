@@ -16,7 +16,4 @@ public class SparseEqnDoubleCSparseJImpl extends BaseSparseEqnDblCSparseJImpl {
 	   super(n);
 		
 	}
-	
-	
-	
 }
