@@ -38,12 +38,13 @@ import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.Matrix_xy;
 import org.interpss.numeric.datatype.Vector_xy;
 import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.impl.SparseEqnMatrix2x2CSparseJImpl;
 import org.junit.Test;
 
 import com.interpss.core.aclf.AclfNetwork;
 
 public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
-	@Test 
+	//@Test 
 	public void testCase1() throws Exception {
 		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
@@ -94,6 +95,56 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 		 */
 	}
 	
+	@Test 
+	public void testCase2() throws Exception {
+		AclfNetwork net = CorePluginObjFactory
+				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
+				.load("testData/ieee_format/UCTE_2000_WinterOffPeak.ieee")
+				.getAclfNet();
+		
+		SparseEqnMatrix2x2 eqn = net.formJMatrix();
+		
+		SparseEqnMatrix2x2CSparseJImpl csj= createCSparseJMatrix(eqn);
+
+		
+		for ( int i = 0; i < csj.getDimension(); i++)
+			csj.setB2Unity(i);
+
+	  	System.out.println("CSparseJ ... ");
+		long starttime = System.currentTimeMillis() ;
+		csj.luMatrixAndSolveEqn(0.0001);
+	  	System.out.println("time for CspareJ : " + (System.currentTimeMillis() - starttime)*0.001);
+		
+
+		
+		int n =  eqn.getDimension()/2;
+		for (int i = 0; i < n; i++) 
+			eqn.setB(new Vector_xy(1.0,1.0), i);
+		
+		
+	  	System.out.println("Interpss ... ");
+		starttime = System.currentTimeMillis() ;
+		eqn.luMatrixAndSolveEqn(1.0e-20);
+	  	System.out.println("time for spase matrix : " + (System.currentTimeMillis() - starttime)*0.001);
+		
+		int cnt = 0;
+		for (int i = 0; i < n; i++) { 
+			Vector_xy xy = eqn.getX(i);
+			//System.out.println(cnt++ + ", " + xy.x);
+			//System.out.println(cnt++ + ", " + xy.y);
+	  		assertTrue(Math.abs(csj.getX(i).x - xy.x ) < 0.0001);
+	  		assertTrue(Math.abs(csj.getX(i).y - xy.y ) < 0.0001);
+		}
+		
+		/*
+		J-matrix Dimension:2508
+		time for full matrix : 54.321
+		time for sparse matrix : 0.197
+		 */
+	}
+	
+	
+	
 	private SparseRealMatrix sparseMatrix2Ary(SparseEqnMatrix2x2 eqn){
 		int n = eqn.getDimension();
 		System.out.println("J-matrix Demension:" + n);
@@ -114,6 +165,22 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 			}
 		}
 		return m;
-	}	
+	}
+	
+	private SparseEqnMatrix2x2CSparseJImpl createCSparseJMatrix(SparseEqnMatrix2x2 eqn){
+		int n = eqn.getDimension();
+		
+		SparseEqnMatrix2x2CSparseJImpl csj = new SparseEqnMatrix2x2CSparseJImpl(n/2);
+		int n_2 = n / 2;
+		for(int i=0; i< n_2; i++) { // index 1-N
+			for(int j=0; j < n_2; j++) {//index 1-N
+				csj.setA(eqn.getA(i, j),i, j);
+				
+			}
+		}
+		return csj;
+		
+	}
+	
 }
 
