@@ -60,20 +60,6 @@ public interface SparseEquation {
 	void increaseDimension();
 	
 	/**
-	 * 	Check if the sparse matrix is LUed
-	 *
-	 * @return true/false
-	 */
-	boolean isLUed();
-
-	/**
-	 * Set the sparse matrix LU status
-	 *
-	 * @param b true/false
-	 */
-	void setLUed( final boolean b );
-	
-	/**
 	 * Get the total elements in the matrix
 	 * 
 	 * @return the total elements

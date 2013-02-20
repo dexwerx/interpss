@@ -51,10 +51,6 @@ public class AbstractSparseEquation implements SparseEquation {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override public boolean isLUed() {
-		throw new UnsupportedOperationException();
-	}
-
 	@Override public boolean luMatrix(double tolerance) throws IpssNumericException {
 		throw new UnsupportedOperationException();
 	}
@@ -77,10 +73,6 @@ public class AbstractSparseEquation implements SparseEquation {
 
 	@Override public void setDimension(int n) {
 		this.dimenstion = n;
-	}
-
-	@Override public void setLUed(boolean b) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override public void setToZero() {
