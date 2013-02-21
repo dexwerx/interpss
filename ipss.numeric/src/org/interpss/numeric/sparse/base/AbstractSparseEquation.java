@@ -39,7 +39,7 @@ public class AbstractSparseEquation implements SparseEquation {
 		return this.dimenstion;
 	}
 
-	@Override public long getTotalElements() {
+	@Override public int getTotalElements() {
 		throw new UnsupportedOperationException();
 	}
 

@@ -64,7 +64,7 @@ public interface SparseEquation {
 	 * 
 	 * @return the total elements
 	 */
-	long getTotalElements();	
+	int getTotalElements();	
 	
 	/**
 	 * LU decomposition of the matrix.
