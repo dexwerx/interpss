@@ -72,7 +72,7 @@ public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
 	* @param bi the bi element
 	* @param i row number 
    */
-	void setB( final TBi bi, final int i );
+	void setBi( final TBi bi, final int i );
 	
 	/**
 	 * add to bi element.
