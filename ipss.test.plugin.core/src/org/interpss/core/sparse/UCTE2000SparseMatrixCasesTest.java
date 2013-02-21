@@ -71,7 +71,7 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 		
 		int n =  eqn.getDimension()/2;
 		for (int i = 0; i < n; i++) 
-			eqn.setB(new Vector_xy(1.0,1.0), i+1);
+			eqn.setBi(new Vector_xy(1.0,1.0), i+1);
 		
 		
 	  	System.out.println("Interpss ... ");
@@ -119,7 +119,7 @@ public class UCTE2000SparseMatrixCasesTest extends CorePluginTestSetup {
 		
 		int n =  eqn.getDimension()/2;
 		for (int i = 0; i < n; i++) 
-			eqn.setB(new Vector_xy(1.0,1.0), i);
+			eqn.setBi(new Vector_xy(1.0,1.0), i);
 		
 		
 	  	System.out.println("Interpss ... ");
