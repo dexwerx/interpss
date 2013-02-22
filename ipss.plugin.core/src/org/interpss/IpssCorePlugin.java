@@ -95,7 +95,7 @@ public class IpssCorePlugin {
 	 */
 	public static void setSparseEqnSolver(SparseEquation.SolverType solverType) {
 		if (solverType == SparseEquation.SolverType.Default ) {
-			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY2;
+			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY0;
 			NumericSpringFactory.setDefualtSparseEqnSolver();
 		}
 		else if (solverType == SparseEquation.SolverType.Native ) {
