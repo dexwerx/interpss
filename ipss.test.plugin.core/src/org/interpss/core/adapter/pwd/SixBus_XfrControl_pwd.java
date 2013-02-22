@@ -43,7 +43,7 @@ public class SixBus_XfrControl_pwd extends CorePluginTestSetup {
 	@Test
 	public void aclf() throws Exception {
 		IpssCorePlugin.init();
-        IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
 		ODMLogger.getLogger().setLevel(Level.WARNING);
 
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/pwd/SixBus_XfrControl.aux")

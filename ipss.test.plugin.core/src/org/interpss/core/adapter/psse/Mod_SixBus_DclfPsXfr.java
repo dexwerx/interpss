@@ -56,7 +56,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 	@Test
 	public void aclf() throws Exception {
 		IpssCorePlugin.init();
-        IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
 		ODMLogger.getLogger().setLevel(Level.WARNING);
 
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/psse/v30/Mod_SixBus_2WPsXfr.raw")
@@ -81,7 +81,7 @@ public class Mod_SixBus_DclfPsXfr extends CorePluginTestSetup {
 	@Test
 	public void aclf1() throws Exception {
 		IpssCorePlugin.init();
-        IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
+        //IpssCorePlugin.setSparseEqnSolver(SolverType.Native);
 		ODMLogger.getLogger().setLevel(Level.WARNING);
 
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/psse/v30/Mod_SixBus_2WPsXfr.raw")
