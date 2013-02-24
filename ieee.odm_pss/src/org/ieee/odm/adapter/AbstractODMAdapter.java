@@ -178,7 +178,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 		try {
 			final String[] strList = fileContent.split("\n");
 			ODMLogger.getLogger().info("Parse input fileContent and create the parser object, first line: " + strList[0]);
-			parseInputFile( new IFileReader() {
+			this.parser = parseInputFile( new IFileReader() {
 				private int cnt = 0;
 				public String readLine() throws Exception {
 					if (cnt < strList.length)
