@@ -452,7 +452,7 @@ public class BPADynamicTurbineGovernorRecord {
     		// since tur is part of the parent governor, it is assume that the parent genernor has been
     		// created
     		//TODO How to create one if there is no governor defined yet.
-    		assert(dynGen.getGovernor() != null);
+    		//assert(dynGen.getGovernor() != null);
     		SteamTurbineBPATBModelXmlType st=DStabParserHelper.createSteamTurbineBPATBModelXmlType(dynGen);
     		//busId   		
     		String tgId="1";
