@@ -583,7 +583,7 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		  			else if (regBusId.equals(BaseJaxbHelper.getRecId(xfr.getToBus())))
 		  				vAdjData.setAdjBusLocation(TapAdjustBusLocationEnumType.TO_BUS);
 		  			else {
-		  				ODMLogger.getLogger().warning("Cannot decide xfr tap control bus location: " + xfr.getId());
+		  				ODMLogger.getLogger().info("Cannot decide xfr tap control bus location: " + xfr.getId());
 		  				tapAdj.setOffLine(true);
 		  			}
 		  		}
