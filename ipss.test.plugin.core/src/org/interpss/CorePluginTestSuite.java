@@ -3,7 +3,9 @@ package org.interpss;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
+import org.interpss.core.adapter.internal.Bus11856Test;
 import org.interpss.core.adapter.internal.Bus1824Test;
+import org.interpss.core.adapter.internal.Bus6384Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.psse.Mod_SixBus_DclfPsXfr;
 import org.interpss.core.adapter.psse.SixBus_DclfPsXfr;
@@ -78,8 +80,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	IEEE14Test.class,
 	Bus1824Test.class,
-//	Bus6384Test.class,
-//	Bus11856Test.class,
+	Bus6384Test.class,
+	Bus11856Test.class,
 	
 	GuideSample_TestCase.class,
 	
