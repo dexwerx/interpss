@@ -12,7 +12,8 @@ public class BaseBranchBean extends BaseJSONBean {
 	public static enum BranchCode {
 		Line, // transmission line
 		Xfr, // transformer
-		PsXfr // phase-shifting transformer
+		PsXfr, // phase-shifting transformer
+		ZBR
 	};
 
 	public String f_id, // branch from side bus id
@@ -21,23 +22,13 @@ public class BaseBranchBean extends BaseJSONBean {
 
 	public long f_num, t_num;
 
-	public int status;
-	
-	public BranchValueBean 
-	ratio,				// xfr branch turn ratio
-	ang;				// PsXfr shifting angle
+	public int status;	
 
 	public ComplexBean 
 	    z,					// branch z
 	    shunt_y ;     		// branch total shunt y
-	public double MVARatingA, MVARatingB, MVARatingC;
-
-	public ComplexBean flow_f2t, // branch power flow from->to
-			flow_t2f, // branch power flow to->from
-			loss; // branch power loss
-	public double 
-	cur;			// branch current in amps, for Xfr, it is at the high voltage side
 	
+	public double MVARatingA, MVARatingB, MVARatingC;	
 
 	public BranchCode bra_code = BranchCode.Line; // branch type code
 

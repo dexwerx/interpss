@@ -10,9 +10,9 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 public abstract class BaseNetBean extends BaseJSONBean {
 	public double base_kva; // network base kva
 
-	public List<BaseBusBean> bus_list; // bus result bean list
+	/*public List<BaseBusBean> bus_list; // bus result bean list
 	public List<BaseBranchBean> branch_list; // branch result bean list
-
+*/
 	/**
 	 * units
 	 */
@@ -26,7 +26,7 @@ public abstract class BaseNetBean extends BaseJSONBean {
 
 	
 	
-	public BaseNetBean() { bus_list = new ArrayList<BaseBusBean>(); branch_list = new ArrayList<BaseBranchBean>(); }
+	public BaseNetBean() {  }
 
 	public boolean validate(List<String> msgList) {
 		boolean noErr = true;

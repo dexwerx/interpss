@@ -1,11 +1,8 @@
 package org.interpss.datamodel.bean.dclf;
 
-import org.interpss.datamodel.bean.BaseBranchBean;
+import org.interpss.datamodel.bean.aclf.AclfBranchResultBean;
 
-public class DclfBranchResultBean extends BaseBranchBean {
+public class DclfBranchResultBean extends AclfBranchResultBean {
 
-	public double lineFlow;       // branch flow	
 	
-	public double limit, loading;
-	public int violation;
 }

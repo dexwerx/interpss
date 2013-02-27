@@ -28,8 +28,10 @@ import org.apache.commons.math3.complex.Complex;
 import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.BaseBusBean;
 import org.interpss.datamodel.bean.BaseNetBean;
+import org.interpss.datamodel.bean.aclf.AclfBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBranchResultBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
+import org.interpss.datamodel.bean.aclf.AclfNetBean;
 import org.interpss.datamodel.bean.aclf.AclfNetResultBean;
 import org.interpss.datamodel.bean.datatype.BranchValueBean;
 import org.interpss.datamodel.bean.datatype.ComplexBean;
@@ -52,7 +54,7 @@ import com.interpss.core.datatype.Mismatch;
  * 
  * 
  */
-public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> {
+public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, AclfNetBean> {
 	/**
 	 * constructor
 	 */
@@ -60,8 +62,8 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> 
 	}
 	
 	
-	@Override public BaseNetBean map2Model(AclfNetwork aclfNet) throws InterpssException {
-		BaseNetBean netBean = new AclfNetResultBean();
+	@Override public AclfNetBean map2Model(AclfNetwork aclfNet) throws InterpssException {
+		AclfNetBean netBean = new AclfNetBean();
 
 		map2Model(aclfNet, netBean);
 		
@@ -69,19 +71,19 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> 
 	}	
 	
 	
-	@Override public boolean map2Model(AclfNetwork aclfNet, BaseNetBean netBean) {
+	@Override public boolean map2Model(AclfNetwork aclfNet, AclfNetBean netBean) {
 		boolean noError = true;
 		
 		netBean.base_kva = aclfNet.getBaseKva();			
 		
 		for (AclfBus bus : aclfNet.getBusList()) {
-			BaseBusBean bean = new BaseBusBean();
+			AclfBusBean bean = new AclfBusBean();
 			netBean.bus_list.add(bean);
 			mapBaseBus(bus, bean);
 		}
 		
 		for (AclfBranch branch : aclfNet.getBranchList()) {
-			BaseBranchBean bean = new BaseBranchBean();
+			AclfBranchBean bean = new AclfBranchBean();
 			netBean.branch_list.add(bean);
 			mapBaseBranch(branch, bean);
 		}
@@ -89,9 +91,13 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> 
 		return noError;
 	}	
 	
-	private void mapBaseBus(AclfBus bus, BaseBusBean bean) {
+	private void mapBaseBus(AclfBus bus, AclfBusBean bean) {
 		bean.number = bus.getNumber();
 		bean.id = bus.getId();
+		boolean status = bus.isActive();
+		bean.status = 1;
+		if(!status)
+			bean.status = 0;
 		bean.base_v = bus.getBaseVoltage()/1000;
 		bean.v_mag = format(bus.getVoltageMag());
 		bean.v_ang = format(bus.getVoltageAng(UnitType.Deg));
@@ -120,7 +126,7 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> 
 		
 	}
 	
-	private void mapBaseBranch(AclfBranch branch, BaseBranchBean bean) {
+	private void mapBaseBranch(AclfBranch branch, AclfBranchBean bean) {
 		bean.f_id = branch.getFromBus().getId();
 		bean.f_num = branch.getFromBus().getNumber();
 		bean.t_id = branch.getToBus().getId();
@@ -129,14 +135,17 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> 
 		
 		bean.status = branch.isActive()? 1 : 0; 		
 		
+		
 		bean.bra_code = branch.isLine() ? BaseBranchBean.BranchCode.Line :
-			(branch.isXfr() ? BaseBranchBean.BranchCode.Xfr : BaseBranchBean.BranchCode.PsXfr);
+			(branch.isXfr() ? BaseBranchBean.BranchCode.Xfr : 
+			(branch.isPSXfr() ? BaseBranchBean.BranchCode.PsXfr:BaseBranchBean.BranchCode.ZBR ));
 		
 		Complex z = branch.getZ();
 		bean.z = new ComplexBean(z);
 		bean.shunt_y = new ComplexBean(format(new Complex(0, 0)));	
 		bean.ratio = new BranchValueBean(1.0,1.0);		
-		if (branch.getBranchCode() == AclfBranchCode.LINE) {
+		if (branch.getBranchCode() == AclfBranchCode.LINE ||
+				branch.getBranchCode() == AclfBranchCode.ZBR) {
 			if (branch.getHShuntY() != null)				
 				bean.shunt_y = new ComplexBean(format(new Complex(0, branch.getHShuntY().getImaginary()*2)));				
 				
@@ -150,18 +159,8 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, BaseNetBean> 
 		
 		bean.MVARatingA = branch.getRatingMva1();
 		bean.MVARatingB = branch.getRatingMva2();
-		bean.MVARatingC = branch.getRatingMva3();
-				
-		/*Complex flow = branch.powerFrom2To();
-		bean.flow_f2t = new ComplexBean(format(flow));
-
-		flow = branch.powerTo2From();
-		bean.flow_t2f = new ComplexBean(format(flow));
+		bean.MVARatingC = branch.getRatingMva3();			
 		
-		Complex loss = branch.loss();
-		bean.loss = new ComplexBean(format(loss));
-		
-		bean.cur = format2(branch.current(UnitType.Amp));*/
 	}	
 	
 	private Complex format(Complex x) {

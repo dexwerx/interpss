@@ -87,7 +87,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		MismatchResultBean misBean = new MismatchResultBean();
 		Mismatch mis = aclfNet.maxMismatch(AclfMethod.NR);
 		aclfResult.max_mis = misBean;
-		misBean.err = new ComplexBean(format2(mis.maxMis.getReal()), format2(mis.maxMis.getImaginary()));
+		misBean.err = new ComplexBean(format(mis.maxMis.getReal()), format(mis.maxMis.getImaginary()));
 		misBean.p_bus_id = mis.maxPBus.getId(); 
 		misBean.q_bus_id = mis.maxQBus.getId();
 		
@@ -102,13 +102,13 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		mapper.map2Model(aclfNet, aclfResult);	*/	
 		
 		for (AclfBus bus : aclfNet.getBusList()) {
-			BaseBusBean bean = new BaseBusBean();
+			AclfBusBean bean = new AclfBusBean();
 			aclfResult.bus_list.add(bean);
 			mapBaseBus(bus, bean);
 		}
 		
 		for (AclfBranch branch : aclfNet.getBranchList()) {
-			BaseBranchBean bean = new BaseBranchBean();
+			AclfBranchResultBean bean = new AclfBranchResultBean();
 			aclfResult.branch_list.add(bean);
 			mapBaseBranch(branch, bean);
 		}
@@ -117,9 +117,13 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		return noError;
 	}	
 	
-	private void mapBaseBus(AclfBus bus, BaseBusBean bean) {
+	private void mapBaseBus(AclfBus bus, AclfBusBean bean) {
 		bean.number = bus.getNumber();
 		bean.id = bus.getId();
+		bean.status = 1;
+		boolean status = bus.isActive();
+		if(!status)
+			bean.status = 0;
 		bean.base_v = bus.getBaseVoltage()/1000;
 		bean.v_mag = format(bus.getVoltageMag());
 		bean.v_ang = format(bus.getVoltageAng(UnitType.Deg));
@@ -148,7 +152,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		
 	}
 	
-	private void mapBaseBranch(AclfBranch branch, BaseBranchBean bean) {
+	private void mapBaseBranch(AclfBranch branch, AclfBranchResultBean bean) {
 		bean.f_id = branch.getFromBus().getId();
 		bean.f_num = branch.getFromBus().getNumber();
 		bean.t_id = branch.getToBus().getId();
@@ -158,7 +162,8 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.status = branch.isActive()? 1 : 0; 		
 		
 		bean.bra_code = branch.isLine() ? BaseBranchBean.BranchCode.Line :
-			(branch.isXfr() ? BaseBranchBean.BranchCode.Xfr : BaseBranchBean.BranchCode.PsXfr);
+			(branch.isXfr() ? BaseBranchBean.BranchCode.Xfr : 
+			(branch.isPSXfr() ? BaseBranchBean.BranchCode.PsXfr:BaseBranchBean.BranchCode.ZBR ));
 		
 		Complex z = branch.getZ();
 		bean.z = new ComplexBean(z);

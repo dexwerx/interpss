@@ -43,10 +43,10 @@ public class AclfNetResultBean extends BaseNetBean {
 	public MismatchResultBean
 		max_mis;					// max mismatch
 	
-	/*public List<AclfBusBean> 
+	public List<AclfBusBean> 
 		bus_list;					// bus bean list
 	public List<AclfBranchResultBean> 
 		branch_list;                // branch bean list
-*/	
-	//public AclfNetResultBean() { bus_list = new ArrayList<AclfBusBean>(); branch_list = new ArrayList<AclfBranchResultBean>(); }
+	
+	public AclfNetResultBean() { bus_list = new ArrayList<AclfBusBean>(); branch_list = new ArrayList<AclfBranchResultBean>(); }
 }
