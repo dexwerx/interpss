@@ -35,7 +35,7 @@ import java.util.List;
  *
  */
 public abstract class BaseJSONBean {
-	public String 
+	public String 	    
 		id,      		// net, bus, branch id. only bus.id is mandatory
 		name,    		// net, bus, branch name, optional
 		desc;    		// net, bus, branch description, optional

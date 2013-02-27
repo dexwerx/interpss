@@ -26,6 +26,8 @@ package org.interpss.mapper.bean.aclf;
 
 import org.apache.commons.math3.complex.Complex;
 import org.interpss.datamodel.bean.BaseBranchBean;
+import org.interpss.datamodel.bean.BaseBusBean;
+import org.interpss.datamodel.bean.BaseNetBean;
 import org.interpss.datamodel.bean.aclf.AclfBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
 import org.interpss.datamodel.bean.aclf.AclfNetBean;
@@ -44,15 +46,14 @@ import com.interpss.core.aclf.adpter.AclfPQGenBus;
 import com.interpss.core.aclf.adpter.AclfPVGenBus;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.aclf.adpter.AclfXformer;
+import com.interpss.core.net.Area;
+import com.interpss.core.net.Bus;
+import com.interpss.core.net.Zone;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-/**
- * mapper implementation to map AclfNetBean object to InterPSS SimuContext object of type AclfNetwork
- * 
- * @author mzhou
- */
-public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> {
+
+public class AclfNetBeanMapper extends AbstractMapper<BaseNetBean, SimuContext> {
 	/**
 	 * constructor
 	 */
@@ -60,12 +61,12 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	}
 	
 	/**
-	 * map into store in the AclfNetBean object into simuCtx object
+	 * map into store in the BaseNetBean object into simuCtx object
 	 * 
 	 * @param netBean AclfNetBean object
 	 * @return SimuContext object
 	 */
-	@Override public SimuContext map2Model(AclfNetBean netBean) throws InterpssException {
+	@Override public SimuContext map2Model(BaseNetBean netBean) throws InterpssException {
 		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED);
 		if (this.map2Model(netBean, simuCtx)) {
   	  		simuCtx.setId("InterPSS_SimuCtx");
@@ -82,7 +83,7 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	 * @param netBean an AclfNetBean object, representing a aclf base network
 	 * @param simuCtx
 	 */
-	@Override public boolean map2Model(AclfNetBean netBean, SimuContext simuCtx) {
+	@Override public boolean map2Model(BaseNetBean netBean, SimuContext simuCtx) {
 		boolean noError = true;
 		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 		AclfNetwork aclfNet = CoreObjectFactory.createAclfNetwork();
@@ -91,11 +92,11 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 		
 		aclfNet.setBaseKva(netBean.base_kva);
 		
-		for (AclfBusBean busBean : netBean.bus_list) {
+		for (BaseBusBean busBean : netBean.bus_list) {
 			mapBusBean(busBean, aclfNet);
 		}
 
-		for (AclfBranchBean branchBean : netBean.branch_list) {
+		for (BaseBranchBean branchBean : netBean.branch_list) {
 			mapBranchBean(branchBean, aclfNet);
 		}
 
@@ -109,20 +110,31 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	 * @param busBean AclfBusBean object to be mapped
 	 * @param aclfNet AclfNetwork object
 	 */
-	private void mapBusBean(AclfBusBean busBean, AclfNetwork aclfNet) {
+	private void mapBusBean(BaseBusBean busBean, AclfNetwork aclfNet) {
 		AclfBus bus = CoreObjectFactory.createAclfBus(busBean.id, aclfNet);
-		bus.setBaseVoltage(busBean.base_v);
+		bus.setNumber(busBean.number);
+		
+		Area area = CoreObjectFactory.createArea(busBean.area, aclfNet);
+		bus.setArea(area);		
+		Zone zone = CoreObjectFactory.createZone(busBean.zone, aclfNet);
+		bus.setZone(zone);
+		
+		bus.setBaseVoltage(busBean.base_v*1000);
 		
 		if (busBean.gen_code != null) {
 			if (busBean.gen_code==AclfBusBean.GenCode.PQ) {
 				bus.setGenCode(AclfGenCode.GEN_PQ);
 				AclfPQGenBus pqBus = bus.toPQBus();
-				pqBus.setGen(busBean.gen.toComplex());
+				if(busBean.gen != null){					
+					pqBus.setGen(busBean.gen.toComplex());
+				}
+				    
 			}
 			else if (busBean.gen_code==AclfBusBean.GenCode.PV) {
 				bus.setGenCode(AclfGenCode.GEN_PV);
 				AclfPVGenBus pvBus = bus.toPVBus();
-				pvBus.setGenP(busBean.gen.re);
+				if(busBean.gen != null)
+				      pvBus.setGenP(busBean.gen.re);
 				pvBus.setVoltMag(busBean.v_mag);
 			}
 			else {
@@ -142,6 +154,10 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 				bus.setLoadQ(busBean.load.im);
 			}
 		}
+		
+		if(busBean.shunt != null){
+			bus.setShuntY(new Complex(busBean.shunt.re, busBean.shunt.im));
+		}
 	}
 	
 	/**
@@ -151,9 +167,18 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	 * @param branchBean AclfBranchBean object to be mapped
 	 * @param aclfNet AclfNetwork object
 	 */
-	private void mapBranchBean(AclfBranchBean branchBean, AclfNetwork aclfNet) {
+	private void mapBranchBean(BaseBranchBean branchBean, AclfNetwork aclfNet) {
 		AclfBranch branch = CoreObjectFactory.createAclfBranch();
 		aclfNet.addBranch(branch, branchBean.f_id, branchBean.t_id, branchBean.cir_id);
+		Bus fBus = aclfNet.getBus(branchBean.f_id);
+		Bus tBus = aclfNet.getBus(branchBean.t_id);
+		branch.setFromBus(fBus);
+		branch.setToBus(tBus);		
+		
+		branch.setStatus(true);
+		if(branchBean.status == 0)
+			branch.setStatus(false);
+		
 		branch.setBranchCode(branchBean.bra_code == BaseBranchBean.BranchCode.Line? AclfBranchCode.LINE :
 			(branchBean.bra_code == BaseBranchBean.BranchCode.Xfr? AclfBranchCode.XFORMER : AclfBranchCode.PS_XFORMER));
 		if (branchBean.z != null)
@@ -169,5 +194,10 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 				xfr.setToTurnRatio(branchBean.ratio.t);
 			}
 		}
+		
+		// rating		
+		branch.setRatingMva1(branchBean.MVARatingA);
+		branch.setRatingMva2(branchBean.MVARatingB);
+		branch.setRatingMva3(branchBean.MVARatingC);
 	}	
 }

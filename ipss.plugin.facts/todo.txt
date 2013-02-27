@@ -1,1 +1,0 @@
-[Simple net]If no SVC installed, vi = 0.905539, if a SVC installed at Bus2 but shuntQ = 0.0, the load flow cannot converge, there must be some mistakes here.

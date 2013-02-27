@@ -30,13 +30,13 @@ import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.datatype.ComplexBean;
 
 public class AclfBranchResultBean extends BaseBranchBean {
-	public ComplexBean 
+/*	public ComplexBean 
 		flow_f2t,		// branch power flow from->to
 	    flow_t2f,		// branch power flow to->from
 	    loss;			// branch power loss
 	
 	public double 
 		cur;			// branch current in amps, for Xfr, it is at the high voltage side
-	
+*/	
 	public AclfBranchResultBean() { }
 }
