@@ -24,9 +24,6 @@
 
 package org.interpss.datamodel.bean.aclf;
 
-import java.util.List;
-
-import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.datatype.ComplexBean;
 
 public class AclfBranchResultBean extends AclfBranchBean {

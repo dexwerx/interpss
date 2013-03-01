@@ -13,7 +13,7 @@ public class BaseBranchBean extends BaseJSONBean {
 		Line, // transmission line
 		Xfr, // transformer
 		PsXfr, // phase-shifting transformer
-		ZBR
+		ZBR    // zero impedance line
 	};
 
 	public String f_id, // branch from side bus id

@@ -10,7 +10,7 @@ import com.interpss.core.aclf.AclfBranch;
 
 public class DclfSenResultBeanMapper {
 	
-	public DclfSenResultBean mapGSFResult2Model(List<String> injBusList,
+	/*public DclfSenResultBean mapGSFResult2Model(List<String> injBusList,
 			List<String> withdrawBusList,List<AclfBranch> monBranchList, List<Double> gsfList){
 		DclfSenResultBean dclfResult = new DclfSenResultBean();		
 		int n = injBusList.size();
@@ -36,5 +36,5 @@ public class DclfSenResultBeanMapper {
 		
 		return dclfResult;
 	}
-
+*/
 }

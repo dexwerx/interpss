@@ -128,6 +128,7 @@ public class DclfResultBeanMapper extends AbstractMapper<DclfAlgorithm, DclfNetR
 	}
 	
 	private void mapBaseBranch(DclfAlgorithm algo,AclfBranch branch, DclfBranchResultBean bean) {
+		bean.id = branch.getId();
 		bean.f_id = branch.getFromBus().getId();
 		bean.f_num = branch.getFromBus().getNumber();
 		bean.t_id = branch.getToBus().getId();

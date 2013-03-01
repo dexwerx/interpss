@@ -133,8 +133,7 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 				AclfPQGenBus pqBus = bus.toPQBus();
 				if(busBean.gen != null){					
 					pqBus.setGen(busBean.gen.toComplex());
-				}
-				    
+				}				    
 			}
 			else if (busBean.gen_code==AclfBusBean.GenCode.PV) {
 				bus.setGenCode(AclfGenCode.GEN_PV);
@@ -175,6 +174,7 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	 */
 	private void mapBranchBean(AclfBranchBean branchBean, AclfNetwork aclfNet) {
 		AclfBranch branch = CoreObjectFactory.createAclfBranch();
+		branch.setId(branchBean.id);
 		aclfNet.addBranch(branch, branchBean.f_id, branchBean.t_id, branchBean.cir_id);
 		Bus fBus = aclfNet.getBus(branchBean.f_id);
 		Bus tBus = aclfNet.getBus(branchBean.t_id);

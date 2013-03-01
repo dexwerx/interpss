@@ -5,15 +5,15 @@ import java.util.List;
 import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.BaseJSONBean;
 
-public class GSFResultBean extends BaseJSONBean{
+public class CAResultBean extends BaseJSONBean{
 	
-	public String injBus, withdrawBus, monBranch;
+	public String branchId;
 	
-	public double gsf;
+	public double preFlow, postFlow,limit, loading;
 
 	@Override
 	public boolean validate(List<String> msgList) {		
 		return true;
-	}
+	}	
 
 }

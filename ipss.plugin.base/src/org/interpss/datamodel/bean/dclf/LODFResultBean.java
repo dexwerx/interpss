@@ -7,8 +7,8 @@ import org.interpss.datamodel.bean.BaseJSONBean;
 
 public class LODFResultBean extends BaseJSONBean{
 	
-	public BaseBranchBean outageBranch;
-	public BaseBranchBean monBranch;
+	public String outageBranchId;
+	public String monBranchId;
 	public double lodf;
 
 	@Override

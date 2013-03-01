@@ -153,6 +153,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 	}
 	
 	private void mapBaseBranch(AclfBranch branch, AclfBranchResultBean bean) {
+		bean.id = branch.getId();
 		bean.f_id = branch.getFromBus().getId();
 		bean.f_num = branch.getFromBus().getNumber();
 		bean.t_id = branch.getToBus().getId();
