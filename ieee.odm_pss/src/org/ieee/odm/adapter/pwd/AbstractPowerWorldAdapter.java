@@ -5,6 +5,8 @@ import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.pwd.impl.PWDHelper;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.IODMModelParser;
 
  /**
   * Abstract PowerWorld Adapter implementation
@@ -13,7 +15,7 @@ import org.ieee.odm.common.ODMException;
   * @author  
   * 
   */
-public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter{
+public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter {
 	public  static final String Token_Data="DATA";
 	public  static final String Token_Bus="BUS";
 	public  static final String Token_Load="LOAD";
@@ -34,7 +36,7 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter{
 	 * @param din
 	 * @throws ODMException
 	 */
-	protected void processInputFile(IFileReader din) throws ODMException {
+	public void processInputFile(IFileReader din) throws ODMException {
 		String str;
 		RecType recordType=RecType.Undefined;
 		do{
@@ -87,4 +89,16 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter{
 	 * @param str
 	 */
 	abstract protected void processOtherTypeLine(String str);
+	
+	@Override
+	protected IODMModelParser parseInputFile(IFileReader din, String encoding) {
+		ODMLogger.getLogger().severe("Method not implemented");
+		return null;
+	}
+	
+	@Override
+	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din, String encoding) {
+		ODMLogger.getLogger().severe("Method not implemented");
+		return null;
+	}	
 }

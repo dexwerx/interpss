@@ -96,12 +96,6 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		return true;
 	}	
 
-	@Override
-	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din, String encoding) {
-		ODMLogger.getLogger().severe("Method not implemented");
-		return null;
-	}
-	
 	@Override protected void processMetadataLine(IFileReader din, String str, RecType recordType) throws ODMException {
 	    //get all the argument fields of a record, then save them to a list.
 	    while(!PWDHelper.isArgumentFieldsCompleted(str)){
