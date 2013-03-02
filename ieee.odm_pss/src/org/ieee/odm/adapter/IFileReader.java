@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter;
 
+import org.ieee.odm.common.ODMException;
+
 /**
  * interface for implementing text file reader
  *  
@@ -36,5 +38,5 @@ public interface IFileReader {
 	 * 
 	 * @return the line, or null if end of the file
 	 */
-	String readLine() throws Exception ;
+	String readLine() throws ODMException ;
 }

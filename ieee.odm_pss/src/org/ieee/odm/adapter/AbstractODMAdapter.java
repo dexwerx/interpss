@@ -33,6 +33,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 
@@ -180,7 +181,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 			ODMLogger.getLogger().info("Parse input fileContent and create the parser object, first line: " + strList[0]);
 			this.parser = parseInputFile( new IFileReader() {
 				private int cnt = 0;
-				public String readLine() throws Exception {
+				public String readLine() throws ODMException {
 					if (cnt < strList.length)
 						return strList[cnt++];
 					else
@@ -288,10 +289,13 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 	private class FileReader implements IFileReader {
 		java.io.BufferedReader din = null;
 		public FileReader(java.io.BufferedReader din) { this.din = din;}
-		public String readLine() throws Exception {
-			String str = din.readLine();
-			//System.out.println(str);
-			return str;
+		public String readLine() throws ODMException {
+			try {
+				return din.readLine();
+				//System.out.println(str);
+			} catch (IOException e) {
+				throw new ODMException(e.toString());
+			}
 		}
 	}
 
@@ -302,7 +306,7 @@ public abstract class AbstractODMAdapter implements IODMAdapter {
 			this.lines = lines;
 			this.cnt = 0;
 		}
-		public String readLine() throws Exception {
+		public String readLine() throws ODMException {
 			if (this.cnt >= this.lines.length)
 				return null;
 			String str = this.lines[this.cnt++];

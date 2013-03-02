@@ -25,6 +25,7 @@
 package org.ieee.odm.adapter.bpa.dynamic;
 
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
@@ -41,7 +42,7 @@ public class BPADynamicRecord {
 	private final static int sequenceData=8;
 	private final static int simuData=9;
 	
-	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws Exception{
+	public static void processDynamicData(final IFileReader din, DStabModelParser parser) throws ODMException{
 		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
 
 		//PerformanceTimer timer = new PerformanceTimer(ODMLogger.getLogger());

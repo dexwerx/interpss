@@ -1,5 +1,10 @@
 package org.ieee.odm.adapter.pwd.impl;
 
+import static org.ieee.odm.adapter.pwd.PowerWorldAdapter.*;
+
+import org.ieee.odm.adapter.pwd.PowerWorldAdapter.RecType;
+import org.ieee.odm.common.ODMLogger;
+
 /**
  * PWDHelper is defined to hold some common method used in the data processing.
  * For example, data completeness checking and get record data type
@@ -185,12 +190,48 @@ public class PWDHelper {
 	 * @param str input record string
 	 * @return record data type string
 	 */
-	public static String getDataType(String str){
+	public static RecType getDataType(String str){
 		int indexOfLeftParenthesis=str.indexOf("(");
 		int indexOfFirstComma=str.indexOf(",");
 		String dataType=str.substring(indexOfLeftParenthesis+1, indexOfFirstComma).trim();
 		
-		return dataType;
+		RecType recordType=null;
+
+		if(dataType.equals(Token_Bus)){
+	    	recordType=RecType.BUS;		
+		}
+	    else if(dataType.equals(Token_Load)){
+	    	recordType=RecType.LOAD;		
+		} 
+	    else if(dataType.equals(Token_Gen)){
+	  		recordType=RecType.GEN;		
+	    }
+	    else if(dataType.equals(Token_Shunt)){
+	  		recordType=RecType.SHUNT;		
+	    }
+	    else if(dataType.equals(Token_Branch)){
+	  		recordType=RecType.BRANCH;		
+	    }
+	    else if(dataType.equals(Token_XFormer)){
+	  		recordType=RecType.XFORMER;		
+	    }
+	    else if(dataType.equals(Token_3WXFormer)){
+	  		recordType=RecType.TRI_W_XFORMER;		
+	    }
+	    else if(dataType.equals(Token_Area)){
+	  		recordType=RecType.AREA;		
+	    }
+	    else if(dataType.equals(Token_Zone)){
+	  		recordType=RecType.ZONE;
+	    }
+	    else if(dataType.equals(Token_CaseInfo)){
+	  		recordType=RecType.CASE_INFO;
+	    }
+	    else {
+	    	recordType=RecType.Undefined;
+	    	ODMLogger.getLogger().info("Undifined data type:"+dataType);
+	    }		
 		
+		return recordType;
 	}
 }

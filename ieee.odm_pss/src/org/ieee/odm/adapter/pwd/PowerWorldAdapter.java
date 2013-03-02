@@ -10,6 +10,7 @@ import org.ieee.odm.adapter.pwd.impl.BusDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.NetDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.PWDHelper;
 import org.ieee.odm.adapter.pwd.impl.TransformerDataProcessor;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -28,28 +29,44 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
   * 
   */
 public class PowerWorldAdapter extends AbstractODMAdapter{
-	
-	
-	private  static final String Token_Data="DATA";
-	private  static final String Token_Bus="BUS";
-	private  static final String Token_Load="LOAD";
-	private  static final String Token_Gen="GEN";
-	private  static final String Token_Shunt="SHUNT";
-	private  static final String Token_Branch="BRANCH";
-	private  static final String Token_XFormer="TRANSFORMER";
-	private  static final String Token_3WXFormer="3WXFORMER";
-	private  static final String Token_Area="AREA";
-	private  static final String Token_Zone="ZONE";
-	private  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
+	public  static final String Token_Data="DATA";
+	public  static final String Token_Bus="BUS";
+	public  static final String Token_Load="LOAD";
+	public  static final String Token_Gen="GEN";
+	public  static final String Token_Shunt="SHUNT";
+	public  static final String Token_Branch="BRANCH";
+	public  static final String Token_XFormer="TRANSFORMER";
+	public  static final String Token_3WXFormer="3WXFORMER";
+	public  static final String Token_Area="AREA";
+	public  static final String Token_Zone="ZONE";
+	public  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
 	//Define the record data type
-	private enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
+	public static enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
     //Define data specifier, two options defined in PWD, CSV or Blank
 	public static enum FileTypeSpecifier{CSV,Blank};
 	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
 
+	private AclfModelParser parser = null;
+
+	private NetDataProcessor netProc = null;
+	private BusDataProcessor busProc = null;
+	private BranchDataProcessor branchProc = null;
+	private TransformerDataProcessor xfrProc = null;
 
 	public PowerWorldAdapter(){
 		super();
+		this.parser=new AclfModelParser();
+		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
+		
+		// BaseCase object, plus busRecList and BranchRecList are created 
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		baseCaseNet.setId("Base_Case_from_PowerWorld_format");
+		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(100.0));//not defined in the file
+
+		this.netProc = new NetDataProcessor(parser);
+		this.busProc = new BusDataProcessor(parser);
+		this.branchProc = new BranchDataProcessor(parser);
+		this.xfrProc = new TransformerDataProcessor(parser);
 	}
 	/**
 	 * Entry point of the PWD adapter. It reads in the input PWD data file and parses 
@@ -58,140 +75,11 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 	 */
 	@Override
 	protected IODMModelParser parseInputFile(IFileReader din, String encoding) {
-		
-		AclfModelParser parser=new AclfModelParser(encoding);
-		
-		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
-		
-		// BaseCase object, plus busRecList and BranchRecList are created 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
-		baseCaseNet.setId("Base_Case_from_PowerWorld_format");
-		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(100.0));//not defined in the file
-		String str;
-		String dataType;
-		RecType recordType=null;
-
-		NetDataProcessor netProc = new NetDataProcessor(parser);
-		BusDataProcessor busProc = new BusDataProcessor(parser);
-		BranchDataProcessor branchProc = new BranchDataProcessor(parser);
-		TransformerDataProcessor xfrProc = new TransformerDataProcessor(parser);
-		try{
-			do{
-				str=din.readLine();
-				
-				if(str!=null){
-					str=str.trim();
-				  if(str.startsWith(Token_Data)){
-					dataType=PWDHelper.getDataType(str);
-				    if(dataType.equals(Token_Bus)){
-					  		recordType=RecType.BUS;		
-					}
-				    else if(dataType.equals(Token_Load)){
-					  		recordType=RecType.LOAD;		
-					} 
-				    else if(dataType.equals(Token_Gen)){
-				  		recordType=RecType.GEN;		
-				    }
-				    else if(dataType.equals(Token_Shunt)){
-				  		recordType=RecType.SHUNT;		
-				    }
-				    else if(dataType.equals(Token_Branch)){
-				  		recordType=RecType.BRANCH;		
-				    }
-				    else if(dataType.equals(Token_XFormer)){
-				  		recordType=RecType.XFORMER;		
-				    }
-				    else if(dataType.equals(Token_3WXFormer)){
-				  		recordType=RecType.TRI_W_XFORMER;		
-				    }
-				    else if(dataType.equals(Token_Area)){
-				  		recordType=RecType.AREA;		
-				    }
-				    else if(dataType.equals(Token_Zone)){
-				  		recordType=RecType.ZONE;
-				    }
-				    else if(dataType.equals(Token_CaseInfo)){
-				  		recordType=RecType.CASE_INFO;
-				    }
-				    else {
-				    	//TODO add undefined record type
-				    	recordType=RecType.Undefined;
-				    	ODMLogger.getLogger().info("Undifined data type:"+dataType);
-				    }
-				    
-				    //get all the argument fields of a record, then save them to a list.
-				    while(!PWDHelper.isArgumentFieldsCompleted(str)){
-						str+=din.readLine();
-					}
-				    //parse meta data
-				    switch(recordType){
-				    case BUS     :busProc.parseMetadata(str);break;
-				    case GEN     :busProc.parseMetadata(str);break;
-				    case LOAD    :busProc.parseMetadata(str);break;
-				    case SHUNT   :busProc.parseMetadata(str);break;
-				    case BRANCH  :branchProc.parseMetadata(str);break;
-				    case XFORMER :xfrProc.parseMetadata(str);break;
-				    case ZONE    :netProc.parseMetadata(str);break;
-				    case AREA    :netProc.parseMetadata(str);break;
-				   
-				    }
-
-				    
-				} //end of processing data type
-				
-				
-				 else if(str.startsWith("//"))
-					 ODMLogger.getLogger().fine("comments:"+str);
-				 else if(str.startsWith("{"))
-				    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
-				 
-				 else if(str.startsWith("}")){
-						ODMLogger.getLogger().info(recordType.toString()+" type data ends");
-				 }
-				 // start processing record data
-				 else if(!str.isEmpty()){
-		
-					   if(recordType==RecType.BUS) 
-						   busProc.processBusBasicData(str);
-					   else if(recordType==RecType.LOAD)
-						   busProc.processBusLoadData(str);
-					   else if(recordType==RecType.GEN)
-						   busProc.processBusGenData(str);
-					   else if(recordType==RecType.SHUNT)
-						   busProc.processBusShuntData(str);
-					   else if(recordType==RecType.BRANCH){
-						  
-						 //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
-						 //clear the processed data in memory, or it will cause fieldTable size wrong
-						   branchProc.clearNVPairTableData();  
-						   
-						   while(!branchProc.parseData(str,true))
-								str=din.readLine();
-						 
-						   //NOTE:No need to parse data within branch processor anymore
-						   branchProc.processBranchData();
-						  
-						   
-					   }
-						   //Here we assumed that TRANSFOMER part data is supplementary to the BRANCH part data
-					       //and is only to provide the transformer control/adjustment data
-					   else if(recordType==RecType.XFORMER)
-						   xfrProc.processXFormerControlData(str);
-					   else if(recordType==RecType.TRI_W_XFORMER){}
-						   //xfrProc.process3WXFomerData(str);
-					   else if(recordType==RecType.AREA)
-						   netProc.processAreaData(str);
-					   else if(recordType==RecType.ZONE)
-						   netProc.processZoneData(str);
-					   else{
-						  // ODMLogger.getLogger().warning("unsupported data #"+str);
-					   }
-					  
-				   }
-				}//end of if str is not null  
-			}while (str!=null);
+		this.parser.setEncoding(encoding);
+		try {
+			processInputFile(din);
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 			ODMLogger.getLogger().severe(e.toString());
 		}
 		
@@ -199,6 +87,80 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		return parser;
 	}
+	
+	private void processInputFile(IFileReader din) throws ODMException {
+		String str;
+		RecType recordType=RecType.Undefined;
+		do{
+			str=din.readLine().trim();
+			
+			if(str!=null) {
+				if(str.startsWith(Token_Data)) {
+					recordType=PWDHelper.getDataType(str);
+				    
+				    //get all the argument fields of a record, then save them to a list.
+				    while(!PWDHelper.isArgumentFieldsCompleted(str)){
+						str+=din.readLine();
+					}
+				    //parse meta data
+				    switch(recordType){
+				    	case BUS     :busProc.parseMetadata(str);break;
+				    	case GEN     :busProc.parseMetadata(str);break;
+				    	case LOAD    :busProc.parseMetadata(str);break;
+				    	case SHUNT   :busProc.parseMetadata(str);break;
+				    	case BRANCH  :branchProc.parseMetadata(str);break;
+				    	case XFORMER :xfrProc.parseMetadata(str);break;
+				    	case ZONE    :netProc.parseMetadata(str);break;
+				    	case AREA    :netProc.parseMetadata(str);break;
+				    	default: // do nothing
+				    }
+				} //end of processing data type
+			
+				else if(str.startsWith("//"))
+					ODMLogger.getLogger().fine("comments:"+str);
+				else if(str.startsWith("{"))
+			    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
+				else if(str.startsWith("}")){
+					ODMLogger.getLogger().info(recordType.toString()+" type data ends");
+				}
+				// start processing record data
+				else if(!str.isEmpty()){
+				   if(recordType==RecType.BUS) 
+					   busProc.processBusBasicData(str);
+				   else if(recordType==RecType.LOAD)
+					   busProc.processBusLoadData(str);
+				   else if(recordType==RecType.GEN)
+					   busProc.processBusGenData(str);
+				   else if(recordType==RecType.SHUNT)
+					   busProc.processBusShuntData(str);
+				   else if(recordType==RecType.BRANCH){
+					   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+					   //clear the processed data in memory, or it will cause fieldTable size wrong
+					   branchProc.clearNVPairTableData();  
+					   
+					   while(!branchProc.parseData(str,true))
+							str=din.readLine();
+					 
+					   branchProc.processBranchData();
+				   }
+				   //Here we assumed that TRANSFOMER part data is supplementary to the BRANCH part data
+				   //and is only to provide the transformer control/adjustment data
+				   else if(recordType==RecType.XFORMER)
+					   xfrProc.processXFormerControlData(str);
+				   else if(recordType==RecType.TRI_W_XFORMER){}
+					   //xfrProc.process3WXFomerData(str);
+				   else if(recordType==RecType.AREA)
+					   netProc.processAreaData(str);
+				   else if(recordType==RecType.ZONE)
+					   netProc.processZoneData(str);
+				   else{
+					  // ODMLogger.getLogger().warning("unsupported data #"+str);
+				   }
+			   }
+			}//end of if str is not null  
+		}while (str!=null);
+	}
+
 	/**
 	 * Perform data checking, or post processing, after parsing the data into ODM.
 	 * Here the buses whose voltage is less than 0.1, is marked as "OPEN".
@@ -226,6 +188,4 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		ODMLogger.getLogger().severe("Method not implemented");
 		return null;
 	}
-	
-	
 }

@@ -73,6 +73,7 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public static final String BusIdPreFix = "Bus";
 	
 	protected String encoding = IODMModelParser.defaultEncoding;
+	
 	/**
 	 * get encoding
 	 * 
@@ -80,6 +81,11 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	 */
 	public String getEncoding() { return this.encoding; }
 	
+	/**
+	 * set encoding
+	 * 
+	 */
+	public void setEncoding(String e) { this.encoding = e; }
 	/*
 	 *	property definition
 	 * 	=================== 
