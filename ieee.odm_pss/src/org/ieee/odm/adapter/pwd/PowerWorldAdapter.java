@@ -3,7 +3,6 @@ package org.ieee.odm.adapter.pwd;
 
 import javax.xml.bind.JAXBElement;
 
-import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.BusDataProcessor;
@@ -28,20 +27,7 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
   * @author  
   * 
   */
-public class PowerWorldAdapter extends AbstractODMAdapter{
-	public  static final String Token_Data="DATA";
-	public  static final String Token_Bus="BUS";
-	public  static final String Token_Load="LOAD";
-	public  static final String Token_Gen="GEN";
-	public  static final String Token_Shunt="SHUNT";
-	public  static final String Token_Branch="BRANCH";
-	public  static final String Token_XFormer="TRANSFORMER";
-	public  static final String Token_3WXFormer="3WXFORMER";
-	public  static final String Token_Area="AREA";
-	public  static final String Token_Zone="ZONE";
-	public  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
-	//Define the record data type
-	public static enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
+public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
     //Define data specifier, two options defined in PWD, CSV or Blank
 	public static enum FileTypeSpecifier{CSV,Blank};
 	public static FileTypeSpecifier dataSeparator=FileTypeSpecifier.Blank;//By default
@@ -87,79 +73,6 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		
 		return parser;
 	}
-	
-	private void processInputFile(IFileReader din) throws ODMException {
-		String str;
-		RecType recordType=RecType.Undefined;
-		do{
-			str=din.readLine().trim();
-			
-			if(str!=null) {
-				if(str.startsWith(Token_Data)) {
-					recordType=PWDHelper.getDataType(str);
-				    
-				    //get all the argument fields of a record, then save them to a list.
-				    while(!PWDHelper.isArgumentFieldsCompleted(str)){
-						str+=din.readLine();
-					}
-				    //parse meta data
-				    switch(recordType){
-				    	case BUS     :busProc.parseMetadata(str);break;
-				    	case GEN     :busProc.parseMetadata(str);break;
-				    	case LOAD    :busProc.parseMetadata(str);break;
-				    	case SHUNT   :busProc.parseMetadata(str);break;
-				    	case BRANCH  :branchProc.parseMetadata(str);break;
-				    	case XFORMER :xfrProc.parseMetadata(str);break;
-				    	case ZONE    :netProc.parseMetadata(str);break;
-				    	case AREA    :netProc.parseMetadata(str);break;
-				    	default: // do nothing
-				    }
-				} //end of processing data type
-			
-				else if(str.startsWith("//"))
-					ODMLogger.getLogger().fine("comments:"+str);
-				else if(str.startsWith("{"))
-			    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
-				else if(str.startsWith("}")){
-					ODMLogger.getLogger().info(recordType.toString()+" type data ends");
-				}
-				// start processing record data
-				else if(!str.isEmpty()){
-				   if(recordType==RecType.BUS) 
-					   busProc.processBusBasicData(str);
-				   else if(recordType==RecType.LOAD)
-					   busProc.processBusLoadData(str);
-				   else if(recordType==RecType.GEN)
-					   busProc.processBusGenData(str);
-				   else if(recordType==RecType.SHUNT)
-					   busProc.processBusShuntData(str);
-				   else if(recordType==RecType.BRANCH){
-					   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
-					   //clear the processed data in memory, or it will cause fieldTable size wrong
-					   branchProc.clearNVPairTableData();  
-					   
-					   while(!branchProc.parseData(str,true))
-							str=din.readLine();
-					 
-					   branchProc.processBranchData();
-				   }
-				   //Here we assumed that TRANSFOMER part data is supplementary to the BRANCH part data
-				   //and is only to provide the transformer control/adjustment data
-				   else if(recordType==RecType.XFORMER)
-					   xfrProc.processXFormerControlData(str);
-				   else if(recordType==RecType.TRI_W_XFORMER){}
-					   //xfrProc.process3WXFomerData(str);
-				   else if(recordType==RecType.AREA)
-					   netProc.processAreaData(str);
-				   else if(recordType==RecType.ZONE)
-					   netProc.processZoneData(str);
-				   else{
-					  // ODMLogger.getLogger().warning("unsupported data #"+str);
-				   }
-			   }
-			}//end of if str is not null  
-		}while (str!=null);
-	}
 
 	/**
 	 * Perform data checking, or post processing, after parsing the data into ODM.
@@ -188,4 +101,58 @@ public class PowerWorldAdapter extends AbstractODMAdapter{
 		ODMLogger.getLogger().severe("Method not implemented");
 		return null;
 	}
+	
+	protected void processMetadata(IFileReader din, String str, RecType recordType) throws ODMException {
+	    //get all the argument fields of a record, then save them to a list.
+	    while(!PWDHelper.isArgumentFieldsCompleted(str)){
+			str+=din.readLine();
+		}
+	    //parse meta data
+	    switch(recordType){
+	    	case BUS     :busProc.parseMetadata(str);break;
+	    	case GEN     :busProc.parseMetadata(str);break;
+	    	case LOAD    :busProc.parseMetadata(str);break;
+	    	case SHUNT   :busProc.parseMetadata(str);break;
+	    	case BRANCH  :branchProc.parseMetadata(str);break;
+	    	case XFORMER :xfrProc.parseMetadata(str);break;
+	    	case ZONE    :netProc.parseMetadata(str);break;
+	    	case AREA    :netProc.parseMetadata(str);break;
+	    	default: // do nothing
+	    }
+	}
+	
+	protected void processData(IFileReader din, String str, RecType recordType) throws ODMException {
+		   if(recordType==RecType.BUS) 
+			   busProc.processBusBasicData(str);
+		   else if(recordType==RecType.LOAD)
+			   busProc.processBusLoadData(str);
+		   else if(recordType==RecType.GEN)
+			   busProc.processBusGenData(str);
+		   else if(recordType==RecType.SHUNT)
+			   busProc.processBusShuntData(str);
+		   else if(recordType==RecType.BRANCH){
+			   //NE-ISO file uses multiple lines to store some data, e.g. transformer data;
+			   //clear the processed data in memory, or it will cause fieldTable size wrong
+			   branchProc.clearNVPairTableData();  
+			   
+			   while(!branchProc.parseData(str,true))
+					str=din.readLine();
+			 
+			   branchProc.processBranchData();
+		   }
+		   //Here we assumed that TRANSFOMER part data is supplementary to the BRANCH part data
+		   //and is only to provide the transformer control/adjustment data
+		   else if(recordType==RecType.XFORMER)
+			   xfrProc.processXFormerControlData(str);
+		   else if(recordType==RecType.TRI_W_XFORMER){}
+			   //xfrProc.process3WXFomerData(str);
+		   else if(recordType==RecType.AREA)
+			   netProc.processAreaData(str);
+		   else if(recordType==RecType.ZONE)
+			   netProc.processZoneData(str);
+		   else{
+			  // ODMLogger.getLogger().warning("unsupported data #"+str);
+		   }
+	}
+	
 }

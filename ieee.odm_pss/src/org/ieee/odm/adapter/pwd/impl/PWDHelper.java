@@ -1,8 +1,7 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import static org.ieee.odm.adapter.pwd.PowerWorldAdapter.*;
-
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.RecType;
+import static org.ieee.odm.adapter.pwd.AbstractPowerWorldAdapter.*;
+import org.ieee.odm.adapter.pwd.AbstractPowerWorldAdapter.RecType;
 import org.ieee.odm.common.ODMLogger;
 
 /**
