@@ -1,28 +1,13 @@
 package org.ieee.odm.adapter.pwd;
 
 
-import javax.xml.bind.JAXBElement;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
-import org.ieee.odm.adapter.pwd.impl.BusDataProcessor;
-import org.ieee.odm.adapter.pwd.impl.NetDataProcessor;
 import org.ieee.odm.adapter.pwd.impl.PWDHelper;
-import org.ieee.odm.adapter.pwd.impl.TransformerDataProcessor;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.IODMModelParser;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.aclf.AclfParserHelper;
-import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
  /**
-  * PowerWorld-TO-ODM Adapter based on power world v16 data definition
+  * Abstract PowerWorld Adapter implementation
   * 
   * @version 0.2  01/08/2012
   * @author  
@@ -43,6 +28,12 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter{
 	//Define the record data type
 	public static enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,Undefined};
 	
+	/**
+	 * process the input file line-by-line
+	 * 
+	 * @param din
+	 * @throws ODMException
+	 */
 	protected void processInputFile(IFileReader din) throws ODMException {
 		String str;
 		RecType recordType=RecType.Undefined;
@@ -52,25 +43,48 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter{
 			if(str!=null) {
 				if(str.startsWith(Token_Data)) {
 					recordType=PWDHelper.getDataType(str);
-				    
-					processMetadata(din, str, recordType);
+					processMetadataLine(din, str, recordType);
 				} //end of processing data type
 			
 				else if(str.startsWith("//"))
-					ODMLogger.getLogger().fine("comments:"+str);
+					processOtherTypeLine(str);
 				else if(str.startsWith("{"))
-			    	ODMLogger.getLogger().info(recordType.toString()+" type data begins");
+					processOtherTypeLine(str);
 				else if(str.startsWith("}")){
-					ODMLogger.getLogger().info(recordType.toString()+" type data ends");
+					processOtherTypeLine(str);
 				}
 				// start processing record data
 				else if(!str.isEmpty()){
-					processData(din, str, recordType);
+					processDataLine(din, str, recordType);
 				}
 			}//end of if str is not null  
 		}while (str!=null);
 	}
 	
-	abstract protected void processMetadata(IFileReader din, String str, RecType recordType) throws ODMException ;
-	abstract protected void processData(IFileReader din, String str, RecType recordType) throws ODMException ;
+	/**
+	 * process meta data line(s) 
+	 * 
+	 * @param din
+	 * @param str
+	 * @param recordType
+	 * @throws ODMException
+	 */
+	abstract protected void processMetadataLine(IFileReader din, String str, RecType recordType) throws ODMException ;
+	
+	/**
+	 * process data line(s)
+	 * 
+	 * @param din
+	 * @param str
+	 * @param recordType
+	 * @throws ODMException
+	 */
+	abstract protected void processDataLine(IFileReader din, String str, RecType recordType) throws ODMException ;
+	
+	/**
+	 * process other type line
+	 * 
+	 * @param str
+	 */
+	abstract protected void processOtherTypeLine(String str);
 }

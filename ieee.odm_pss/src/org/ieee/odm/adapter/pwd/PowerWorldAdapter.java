@@ -102,7 +102,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		return null;
 	}
 	
-	protected void processMetadata(IFileReader din, String str, RecType recordType) throws ODMException {
+	@Override protected void processMetadataLine(IFileReader din, String str, RecType recordType) throws ODMException {
 	    //get all the argument fields of a record, then save them to a list.
 	    while(!PWDHelper.isArgumentFieldsCompleted(str)){
 			str+=din.readLine();
@@ -121,7 +121,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 	    }
 	}
 	
-	protected void processData(IFileReader din, String str, RecType recordType) throws ODMException {
+	@Override protected void processDataLine(IFileReader din, String str, RecType recordType) throws ODMException {
 		   if(recordType==RecType.BUS) 
 			   busProc.processBusBasicData(str);
 		   else if(recordType==RecType.LOAD)
@@ -155,4 +155,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		   }
 	}
 	
+	@Override protected void processOtherTypeLine(String str) {
+		// do nothing
+	}
 }
