@@ -66,7 +66,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 			processInputFile(din);
 		}catch(Exception e){
 			//e.printStackTrace();
-			ODMLogger.getLogger().severe(e.toString());
+			ODMLogger.getLogger().severe("PWD AUX file parsing error, " + e.toString());
 		}
 		
 		postProcessing(parser);

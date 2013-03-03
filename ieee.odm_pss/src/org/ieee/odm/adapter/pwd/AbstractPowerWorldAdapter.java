@@ -36,13 +36,14 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter {
 	 * @param din
 	 * @throws ODMException
 	 */
-	public void processInputFile(IFileReader din) throws ODMException {
+	protected void processInputFile(IFileReader din) throws ODMException {
 		String str;
 		RecType recordType=RecType.Undefined;
 		do{
-			str=din.readLine().trim();
+			str=din.readLine();
 			
 			if(str!=null) {
+				str = str.trim();
 				if(str.startsWith(Token_Data)) {
 					recordType=PWDHelper.getDataType(str);
 					processMetadataLine(din, str, recordType);
@@ -89,12 +90,6 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter {
 	 * @param str
 	 */
 	abstract protected void processOtherTypeLine(String str);
-	
-	@Override
-	protected IODMModelParser parseInputFile(IFileReader din, String encoding) {
-		ODMLogger.getLogger().severe("Method not implemented");
-		return null;
-	}
 	
 	@Override
 	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din, String encoding) {
