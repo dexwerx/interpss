@@ -109,7 +109,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       			lineStr = din.readLine();
   				lineNo++;
       			if (lineStr != null && !lineStr.startsWith(Token_CommentLine1) && !lineStr.startsWith(Token_CommentLine2)) {
-      				while (lineStr.endsWith("/")) {
+      				while (lineStr.trim().endsWith("/")) {
       					lineStr = lineStr.substring(0, lineStr.indexOf("/")) + din.readLine();
       	  				lineNo++;
       				}
