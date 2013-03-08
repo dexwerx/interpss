@@ -55,6 +55,7 @@ public class InputLineStringParser {
 	 * store key position info { (1, BusNum), (2, BusNum:1) ... }
 	 */
 	private Hashtable<Integer, String> positionTable;  // 1, .... n
+
 	/**
 	 * store the nv pairs { (BusNum, 4), (BusNum:1, 5) ... }
 	 */
@@ -301,6 +302,14 @@ public class InputLineStringParser {
 		return this.dataList.toArray(new String[1]);
 	}	
 	
+	public Hashtable<String, String> getFieldTable() {
+		return fieldTable;
+	}
+
+	public void setFieldTable(Hashtable<String, String> fieldTable) {
+		this.fieldTable = fieldTable;
+	}
+
 	/*
 	public String[] parseDataFields(String Str){
 	    this.dataList.clear();
