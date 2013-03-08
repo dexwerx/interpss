@@ -158,9 +158,9 @@ public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, AclfNetBean> 
 			bean.ratio.t = xfr.getToTurnRatio();			
 		}
 		
-		bean.MVARatingA = branch.getRatingMva1();
-		bean.MVARatingB = branch.getRatingMva2();
-		bean.MVARatingC = branch.getRatingMva3();			
+		bean.mvaRatingA = branch.getRatingMva1();
+		bean.mvaRatingB = branch.getRatingMva2();
+		bean.mvaRatingC = branch.getRatingMva3();			
 		
 	}	
 	

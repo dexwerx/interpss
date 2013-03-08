@@ -157,9 +157,9 @@ public class DclfResultBeanMapper extends AbstractMapper<DclfAlgorithm, DclfNetR
 			bean.ratio.t = xfr.getToTurnRatio();			
 		}
 		
-		bean.MVARatingA = branch.getRatingMva1();
-		bean.MVARatingB = branch.getRatingMva2();
-		bean.MVARatingC = branch.getRatingMva3();
+		bean.mvaRatingA = branch.getRatingMva1();
+		bean.mvaRatingB = branch.getRatingMva2();
+		bean.mvaRatingC = branch.getRatingMva3();
 		
 		double mwFlow = algo.getBranchFlow(branch, UnitType.PU);		
 		Complex flow = new Complex(mwFlow, 0);		

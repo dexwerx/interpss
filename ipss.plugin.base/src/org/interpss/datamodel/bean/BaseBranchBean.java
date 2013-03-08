@@ -28,7 +28,7 @@ public class BaseBranchBean extends BaseJSONBean {
 	    z,					// branch z
 	    shunt_y ;     		// branch total shunt y
 	
-	public double MVARatingA, MVARatingB, MVARatingC;	
+	public double mvaRatingA, mvaRatingB, mvaRatingC;	
 
 	public BranchCode bra_code = BranchCode.Line; // branch type code
 

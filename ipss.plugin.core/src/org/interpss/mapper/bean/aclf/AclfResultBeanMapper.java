@@ -182,9 +182,9 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 			bean.ratio.t = xfr.getToTurnRatio();			
 		}
 		
-		bean.MVARatingA = branch.getRatingMva1();
-		bean.MVARatingB = branch.getRatingMva2();
-		bean.MVARatingC = branch.getRatingMva3();
+		bean.mvaRatingA = branch.getRatingMva1();
+		bean.mvaRatingB = branch.getRatingMva2();
+		bean.mvaRatingC = branch.getRatingMva3();
 				
 		Complex flow = branch.powerFrom2To();
 		bean.flow_f2t = new ComplexBean(format(flow));

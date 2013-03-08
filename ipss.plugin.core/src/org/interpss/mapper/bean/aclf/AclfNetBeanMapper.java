@@ -203,8 +203,8 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 		}
 		
 		// rating		
-		branch.setRatingMva1(branchBean.MVARatingA);
-		branch.setRatingMva2(branchBean.MVARatingB);
-		branch.setRatingMva3(branchBean.MVARatingC);
+		branch.setRatingMva1(branchBean.mvaRatingA);
+		branch.setRatingMva2(branchBean.mvaRatingB);
+		branch.setRatingMva3(branchBean.mvaRatingC);
 	}	
 }
