@@ -25,7 +25,7 @@
 package org.ieee.odm.adapter;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
@@ -34,7 +34,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 
 /**
- *  It first parses the meta data definition string, and save the attributes in a hashtable, 
+ *  It first parses the meta data definition string, and save the attributes in a LinkedHashMap, 
  *  named positionTable. Then it parses the data string according to the field definition as 
  *  name-value pairs. For example,  
  * 
@@ -54,12 +54,12 @@ public class InputLineStringParser {
 	/**
 	 * store key position info { (1, BusNum), (2, BusNum:1) ... }
 	 */
-	private Hashtable<Integer, String> positionTable;  // 1, .... n
+	private LinkedHashMap<Integer, String> positionTable;  // 1, .... n
 
 	/**
 	 * store the nv pairs { (BusNum, 4), (BusNum:1, 5) ... }
 	 */
-	private Hashtable<String, String> fieldTable;
+	private LinkedHashMap<String, String> fieldTable;
 	
 	private List<String> dataList;
 	
@@ -67,13 +67,13 @@ public class InputLineStringParser {
 	 * constructor
 	 */
 	public InputLineStringParser() {
-		this.positionTable = new Hashtable<Integer, String>();
-		this.fieldTable = new Hashtable<String, String>();
+		this.positionTable = new LinkedHashMap<Integer, String>();
+		this.fieldTable = new LinkedHashMap<String, String>();
 		this.dataList = new ArrayList<String>();
 	}
 	
 	/**
-	 * Parse metadata. The hashTable storing meta data will be renewed
+	 * Parse metadata. The LinkedHashMap storing meta data will be renewed
 	 * for each data section, therefore, make sure the input string for the 
 	 * metaData is completed by itself.  
 	 * 
@@ -302,11 +302,11 @@ public class InputLineStringParser {
 		return this.dataList.toArray(new String[1]);
 	}	
 	
-	public Hashtable<String, String> getFieldTable() {
+	public LinkedHashMap<String, String> getFieldTable() {
 		return fieldTable;
 	}
 
-	public void setFieldTable(Hashtable<String, String> fieldTable) {
+	public void setFieldTable(LinkedHashMap<String, String> fieldTable) {
 		this.fieldTable = fieldTable;
 	}
 
