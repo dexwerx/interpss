@@ -33,6 +33,8 @@ import org.apache.commons.math3.complex.Complex;
  *
  */
 public class NumericUtil {
+	public static boolean OUT_Alert = true;
+	
 	private static final double ERR = 1.0e-10;
 	
 	/**
@@ -43,7 +45,7 @@ public class NumericUtil {
 	 * @return
 	 */
 	public static boolean equals(int x, int y) {
-		if (x != y)
+		if (x != y && OUT_Alert)
 			System.out.println("x != y, x: " + x + ", y: " + y);
 		return x == y;
 	}
@@ -69,7 +71,7 @@ public class NumericUtil {
 	 */
 	public static boolean equals(double x, double y, double err) {
 		double a  = Math.abs(x - y);
-		if (a >= err) {
+		if (a >= err && OUT_Alert) {
 			System.out.println("x != y, x: " + x + ", y: " + y);
 		}
 		return a < err;
