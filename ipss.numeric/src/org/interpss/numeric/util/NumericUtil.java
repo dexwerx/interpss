@@ -33,7 +33,7 @@ import org.apache.commons.math3.complex.Complex;
  *
  */
 public class NumericUtil {
-	public static boolean OUT_Alert = true;
+	public static boolean OUT_Alert = false;
 	
 	private static final double ERR = 1.0e-10;
 	
