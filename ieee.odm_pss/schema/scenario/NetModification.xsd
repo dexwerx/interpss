@@ -315,6 +315,7 @@
 			<ns:enumeration value="Capacitor"/>
 			<ns:enumeration value="Breaker"/>
 			<ns:enumeration value="Shunt"/>
+			<ns:enumeration value="Gen"/>
 			<ns:enumeration value="Load"/>
 			<ns:enumeration value="Line"/>
 			<ns:enumeration value="Transformer"/>
