@@ -89,7 +89,7 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		 * ONLY for specific application
 		 */
 		String typeToken="CustomString"; //type
-		String extendedNameToken="CustomString:1"; //extended name starting by Subation name, e.g., 
+		String extendedNameToken="CustomString:1"; //extended name: subStationName_baseKV_equipmentName
 		String equipmentNameToken="CustomString:2"; //equipment name
 
 		String type="",             //extended name, e.g., "Line" 
@@ -154,8 +154,8 @@ public class BranchDataProcessor extends InputLineStringParser  {
 				
 				if(exist(extendedNameToken)){//CustomString:1, extended branch name, including substation id.
 					extBranchName =getString(extendedNameToken);
-					int underScoreIdx = extBranchName.indexOf("_");
-					if(underScoreIdx>0) substation =extBranchName.substring(0, underScoreIdx);
+					
+					substation = getSubstationName(extBranchName,equipmentName);
 				}
 			   //	
 			   //***END OF DATA PROCESSING, BEGIN DATA SETTING *********************************
@@ -177,8 +177,10 @@ public class BranchDataProcessor extends InputLineStringParser  {
 				((LineBranchXmlType) branch).setLineInfo(LineInfo);
                 }
                 
-                if(!substation.equals(""))
-                	BaseDataSetter.addNVPair(branch, STATION_TOKEN, substation);
+    		    if(substation!=null){
+    		    	if(!substation.equals(""))
+    		    	BaseDataSetter.addNVPair(branch, STATION_TOKEN, substation);
+    		    }
     			if(!equipmentName.equals(""))
     				BaseDataSetter.addNVPair(branch, EQUIMENT_NAME_TOKEN, equipmentName);
     			 if(!type.equals(""))
@@ -329,13 +331,14 @@ public class BranchDataProcessor extends InputLineStringParser  {
 			if(exist(typeToken))
 			   type=getString(typeToken);
 			    
-			if(exist(extNameToken)){
-				extBranchName=getString(extNameToken);
-				int underScoreIdx = extBranchName.indexOf("_");
-				if(underScoreIdx>0) substation =extBranchName.substring(0, underScoreIdx);
-			}
+			
 			if(exist(equimentNameToken))
 				equipmentName=getString(equimentNameToken);
+			
+			if(exist(extNameToken)){
+				extBranchName=getString(extNameToken);
+				substation = getSubstationName(extBranchName,equipmentName);
+			}
 			   
 			if(exist("XFMVABase")) xfrMvaBase=getDouble("XFMVABase");
 			    
@@ -381,8 +384,10 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		    	BaseDataSetter.addNVPair(xfr, "CustomString",type);
 		    if(!extBranchName.equals(""))
 		    	 BaseDataSetter.addNVPair(xfr, "CustomString:1",extBranchName);
-		    if(!substation.equals(""))
+		    if(substation!=null){
+		    	if(!substation.equals(""))
 		    	BaseDataSetter.addNVPair(xfr, STATION_TOKEN, substation);
+		    }
 		    if(!equipmentName.equals(""))
 		       BaseDataSetter.addNVPair(xfr, EQUIMENT_NAME_TOKEN, equipmentName);
 		    			                
@@ -616,6 +621,24 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		  		 }
 			}
 		}//END OF TAP CONTROL SETTING
+	}
+	
+	public static String getSubstationName(String customStr_1,String customStr_2){
+		String subName = "";
+		if(!customStr_1.contains(customStr_2)){
+			subName = null;
+			ODMLogger.getLogger().severe("Equipment Name is not contained in the branch extented name." +
+					" # Extented Name: "+customStr_1+", # equipment name:"+customStr_2);
+		}
+		else{
+			int idx= customStr_1.indexOf(customStr_2);
+		
+		    String s3=customStr_1.substring(0, idx-1);
+		    int last_underscore = s3.lastIndexOf("_");
+		    subName =s3.substring(0, last_underscore);
+		    
+		}
+		return subName;
 	}
 	
 }

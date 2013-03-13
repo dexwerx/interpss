@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
+import org.ieee.odm.adapter.pwd.impl.BranchDataProcessor;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -123,5 +124,16 @@ public class CustomStringTest {
 		
 
 		
+	}
+	
+	@Test
+	public void testSubstationName(){
+		 String extName="S_RANDOL_115_447-508-1",
+				 equipmentName="447-508-1";
+		 assertTrue(BranchDataProcessor.getSubstationName(extName, equipmentName).equals("S_RANDOL"));
+		 
+		 String extName2="KEENE_RD_115_T1L-2E",
+		 equipmentName2="T1L-2E";
+		 assertTrue(BranchDataProcessor.getSubstationName(extName2, equipmentName2).equals("KEENE_RD"));
 	}
 }
