@@ -625,17 +625,24 @@ public class BranchDataProcessor extends InputLineStringParser  {
 	
 	public static String getSubstationName(String customStr_1,String customStr_2){
 		String subName = "";
-		if(!customStr_1.contains(customStr_2)){
+		int idx= customStr_1.length()-customStr_2.length()-1;
+		if(!customStr_1.substring(idx).equals("_"+customStr_2)){
 			subName = null;
 			ODMLogger.getLogger().severe("Equipment Name is not contained in the branch extented name." +
 					" # Extented Name: "+customStr_1+", # equipment name:"+customStr_2);
 		}
 		else{
-			int idx= customStr_1.indexOf(customStr_2);
-		
-		    String s3=customStr_1.substring(0, idx-1);
+			
+		    String s3=customStr_1.substring(0, idx);
 		    int last_underscore = s3.lastIndexOf("_");
-		    subName =s3.substring(0, last_underscore);
+		    if(last_underscore<0){
+		    	ODMLogger.getLogger().severe("No underscore within " + s3
+						+", # Extented Name: "+customStr_1+", # equipment name:"+customStr_2);
+		    	subName = null;
+		    }
+		    else{
+		    	subName =s3.substring(0, last_underscore);
+		    }
 		    
 		}
 		return subName;
