@@ -332,17 +332,16 @@
 	<ns:complexType name="GenDailyDispatchXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
-				<ns:sequence>			<ns:element name="hourlyDispatches"
-				type="pss:GenHourlyDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
-		</ns:sequence>
+				<ns:sequence>
+					<ns:element name="hourlyDispatches" type="pss:GenHourlyDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
+				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
 	<ns:complexType name="GenHourlyDispatchXmlType">
 		<ns:sequence>
-			<ns:element name="date" type="ns:date" maxOccurs="1"
-				minOccurs="1" />
+			<ns:element name="hour" type="ns:int" maxOccurs="1" minOccurs="1" />
 			<ns:element name="busDispatches" type="pss:BusGenLoadEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
 			<ns:element name="branchDispatches" type="pss:BranchEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
 		</ns:sequence>
