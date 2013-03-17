@@ -160,9 +160,11 @@
 	</ns:complexType>
 
 	<ns:complexType name="BaseOutageOverrideXmlType"  abstract="true">
-		<ns:sequence>
-			<ns:element name="StartHour" type="ns:int" maxOccurs="1" minOccurs="1" />
-			<ns:element name="EndHour" type="ns:int" maxOccurs="1" minOccurs="1" />
+		<ns:sequence>
+			<ns:element name="StartDate" type="ns:date" maxOccurs="1"
+				minOccurs="1">
+			</ns:element>
+			<ns:element name="EndDate" type="ns:date" maxOccurs="1" minOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
@@ -339,7 +341,7 @@
 
 	<ns:complexType name="GenHourlyDispatchXmlType">
 		<ns:sequence>
-			<ns:element name="hour" type="ns:int" maxOccurs="1"
+			<ns:element name="date" type="ns:date" maxOccurs="1"
 				minOccurs="1" />
 			<ns:element name="busDispatches" type="pss:BusGenLoadEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
 			<ns:element name="branchDispatches" type="pss:BranchEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
