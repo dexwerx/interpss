@@ -229,4 +229,10 @@ public class NetModificationHelper {
 		this.parser.getStudyCase().getModificationList().getModification().add(rec);
 	}	
 	
+	/**
+	 * output the ODM parser object as a String
+	 */
+	public String toString() {
+		return this.parser.toXmlDoc();
+	}
 }
