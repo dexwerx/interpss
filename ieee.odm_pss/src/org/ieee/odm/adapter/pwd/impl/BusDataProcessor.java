@@ -432,6 +432,14 @@ public class BusDataProcessor extends InputLineStringParser {
             SSBlockNumSteps:4,SSBlockMVarPerStep:4,SSBlockNumSteps:5,SSBlockMVarPerStep:5,
             SSBlockNumSteps:6,SSBlockMVarPerStep:6,SSBlockNumSteps:7,SSBlockMVarPerStep:7,
             SSBlockNumSteps:8,SSBlockMVarPerStep:8,SSBlockNumSteps:9,SSBlockMVarPerStep:9])
+
+            sample data:
+            
+ DATA (SHUNT, [CustomString, BusNum, ShuntID, SSRegNum, SSStatus, SSCMode, DesiredVoltage, SSVHigh, SSVLow, SSNMVR, SSBlockNumSteps, SSBlockMVarPerStep])
+{
+"C62" 7296 1 7288 "Closed" "Discrete" 1.016 1.026 1.006 0.0 1 25.0
+"C64" 7294 1 7287 "Closed" "Discrete" 1.016 1.026 1.006 0.0 1 25.0
+}           
 		 */
 		
 		long busNum=-1,regBusNum=-1;
