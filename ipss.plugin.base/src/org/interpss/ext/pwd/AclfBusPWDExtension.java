@@ -24,6 +24,15 @@ public class AclfBusPWDExtension extends Hashtable<String,String> {
 		else 
 			return null;
 	}
+	
+	/**
+	 * get Shunt equipment name
+	 * 
+	 * @return
+	 */
+	public String getShuntEquipName() {
+		return this.get("Shunt_CustomString");
+	}
 
 	/**
 	 * to string function
