@@ -35,6 +35,25 @@ public class AclfBusPWDExtension extends Hashtable<String,String> {
 	}
 
 	/**
+	 * get Load equipment name
+	 * 
+                <nvPair>
+                    <name>Load_CustomString</name>
+                    <value>AGAWAM_115_6X</value>
+                </nvPair>
+                
+	 * @return
+	 */
+	public String getLoadEquipName() {
+		if (this.get("Load_CustomString") != null) {
+			String str = this.get("Load_CustomString");
+			return str.substring(str.lastIndexOf('_')+1, str.length());
+		}
+		else
+			return null;
+	}
+	
+	/**
 	 * to string function
 	 */
 	public String toString() {
