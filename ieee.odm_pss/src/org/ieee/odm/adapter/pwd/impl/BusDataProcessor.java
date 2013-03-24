@@ -50,7 +50,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		
 		long busNum=-1;
 		int areaNum=-1,zoneNum=-1,ownerNum=-1;// purposely set to -1, a not real number;
-		String busName="",busId="";
+		String busName="",busId="",substation="";
 		double basekV=0, puVolt=0,kvVolt=0,angle=-360,busG=0,busB=0;
 		boolean isSlackBus=false,busConnected=true;
 		//first, parse the data and set it to the internal Hashtable
@@ -132,7 +132,12 @@ public class BusDataProcessor extends InputLineStringParser {
 			
 		}
 		
-		//Data specified for other types of Buses(PV,PQ) is defined in Load and Gen data.
+		//bus substation name
+		//assume busName is created by following the convention: substationName_baseKV_busId
+		substation = getSubstationName(busName);
+		if(!substation.equals("")){
+			BaseJaxbHelper.addNVPair(bus, STATION_TOKEN, substation);
+		}
 		
 		} catch (ODMException e) {
 			
@@ -311,7 +316,6 @@ public class BusDataProcessor extends InputLineStringParser {
 			
 			//save custom string as NV pairs
 			if(!customString.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString", customString);
-			if(!substation.equals(""))BaseJaxbHelper.addNVPair(bus, STATION_TOKEN, substation);
 			if(!customString_1.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString:1", customString_1);
 			if(!customString_2.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString:2", customString_2);
 
@@ -537,4 +541,35 @@ public class BusDataProcessor extends InputLineStringParser {
 		//This should be enough for almost all real cases, one for capacitive, one for reactive
 		
 	}
+	/**
+	 * Get the substaion name out of the busName string, it is required that busName is created
+	 * by following the convention: substationName_baseKV_busId
+	 * 
+	 * busName: "GE_CO_14_115_1"
+	 * substationName: GE_CO_14
+	 * 
+	 * @param customStr
+	 * @return
+	 */
+	private String getSubstationName(String customStr){
+		
+		String substr="";
+		int last_underscore = customStr.lastIndexOf("_");
+		
+		if(last_underscore>0){
+			String str2 = customStr.substring(0, last_underscore);
+			int second_last_underscore=str2.lastIndexOf("_");
+			if(second_last_underscore>0){
+				substr = str2.substring(0, second_last_underscore);
+			}
+			else
+				substr = null;
+		}
+		else{
+			substr = null;
+		}
+		return substr;
+		
+	}
+	
 }
