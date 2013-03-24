@@ -40,10 +40,10 @@ public class CustomStringTest {
              "Sub1_14.9_G1" "G1" "DZONE_1"    11 "1"
 		 */
 		LoadflowBusXmlType g1=parser.getAclfBus("Bus11");
-		assertTrue(g1.getNvPair().get(0).getName().equals("Gen_CustomString"));
-		assertTrue(g1.getNvPair().get(0).getValue().equals("Sub1_14.9_G1"));
-		assertTrue(g1.getNvPair().get(1).getName().equals(STATION_TOKEN));
-		assertTrue(g1.getNvPair().get(1).getValue().equals("Sub1"));
+		assertTrue(g1.getNvPair().get(1).getName().equals("Gen_CustomString"));
+		assertTrue(g1.getNvPair().get(1).getValue().equals("Sub1_14.9_G1"));
+		assertTrue(g1.getNvPair().get(0).getName().equals(STATION_TOKEN));
+		assertTrue(g1.getNvPair().get(0).getValue().equals("Sub1"));
 		
 		assertTrue(g1.getNvPair().get(2).getName().equals("Gen_CustomString:1"));
 		assertTrue(g1.getNvPair().get(2).getValue().equals("G1"));

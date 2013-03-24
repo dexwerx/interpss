@@ -134,7 +134,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		
 		//bus substation name
 		//assume busName is created by following the convention: substationName_baseKV_busId
-		substation = getSubstationName(busName);
+		substation = getBusSubstationName(busName);
 		if(!substation.equals("")){
 			BaseJaxbHelper.addNVPair(bus, STATION_TOKEN, substation);
 		}
@@ -181,9 +181,6 @@ public class BusDataProcessor extends InputLineStringParser {
 		//process custom string, this is for specifically customized data 
 		  if(exist(CustomStrToken)) {
 				customString = getString(CustomStrToken); 
-				int underScoreIdx = customString.indexOf("_");
-				if(underScoreIdx>0)
-					customString.substring(0, underScoreIdx);
 		  }
 		} catch (ODMException e) {
 			e.printStackTrace();
@@ -299,14 +296,16 @@ public class BusDataProcessor extends InputLineStringParser {
 				  //process custom string, this is for specifically customized data 
 				  if(exist("CustomString")) {
 						customString = getString("CustomString"); 
-						int underScoreIdx = customString.indexOf("_");
-						if(underScoreIdx>0) substation =customString.substring(0, underScoreIdx);
+						
 				  }
 				  
 				  if(exist("CustomString:1")) customString_1 = getString("CustomString:1");
 				  
 				  if(exist("CustomString:2")) customString_2 = getString("CustomString:2");
 					
+				  int underScoreIdx = customString.indexOf("_");
+				  if(underScoreIdx>0) substation =getGenSubstationName(customString,customString_1);
+				  
 			   } catch (ODMException e) {
 				e.printStackTrace();
 		   }
@@ -315,6 +314,7 @@ public class BusDataProcessor extends InputLineStringParser {
 			LoadflowBusXmlType bus = parser.getAclfBus(busId);
 			
 			//save custom string as NV pairs
+			if(!substation.equals(""))BaseJaxbHelper.addNVPair(bus, STATION_TOKEN, substation);
 			if(!customString.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString", customString);
 			if(!customString_1.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString:1", customString_1);
 			if(!customString_2.equals(""))BaseJaxbHelper.addNVPair(bus, "Gen_CustomString:2", customString_2);
@@ -551,7 +551,7 @@ public class BusDataProcessor extends InputLineStringParser {
 	 * @param customStr
 	 * @return
 	 */
-	private String getSubstationName(String customStr){
+	private String getBusSubstationName(String customStr){
 		
 		String substr="";
 		int last_underscore = customStr.lastIndexOf("_");
@@ -562,14 +562,41 @@ public class BusDataProcessor extends InputLineStringParser {
 			if(second_last_underscore>0){
 				substr = str2.substring(0, second_last_underscore);
 			}
-			else
-				substr = null;
 		}
-		else{
-			substr = null;
-		}
+
 		return substr;
 		
+	}
+	
+	private  String getGenSubstationName(String customStr,String customStr_1){
+		String subName = "";
+		int idx= customStr.length()-customStr_1.length()-1;
+		
+		if(idx<=0){
+			subName = null;
+			ODMLogger.getLogger().severe("Equipment Name is not contained in the branch extented name." +
+					" # Extented Name: "+customStr+", # equipment name:"+customStr_1);
+		}
+		else if(!customStr.substring(idx).equals("_"+customStr_1)){
+			subName = null;
+			ODMLogger.getLogger().severe("Equipment Name is not contained in the branch extented name." +
+					" # Extented Name: "+customStr+", # equipment name:"+customStr_1);
+		}
+		else{
+			
+		    String s3=customStr.substring(0, idx);
+		    int last_underscore = s3.lastIndexOf("_");
+		    if(last_underscore<0){
+		    	ODMLogger.getLogger().severe("No underscore within " + s3
+						+", # Extented Name: "+customStr+", # equipment name:"+customStr_1);
+		    	subName = null;
+		    }
+		    else{
+		    	subName =s3.substring(0, last_underscore);
+		    }
+		    
+		}
+		return subName;
 	}
 	
 }
