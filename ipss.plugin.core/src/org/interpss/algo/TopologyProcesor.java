@@ -196,7 +196,7 @@ public class TopologyProcesor {
 
 		List<String> list = new AclfNetHelper(aclfNet).checkRefBus(); 
 		if (list.size() > 0) 
-			ipssLogger.info("There are island buses: " + list.toString() + " for contingency " + contingency.getId());
+			; //System.out.println("There are island buses: " + list.toString() + " for contingency " + contingency.getId());
 		
 		for (OutageBranch branch : contingency.getOutageBranches()) {
 			if (branch.getAclfBranch().getIntFlag() == 1)

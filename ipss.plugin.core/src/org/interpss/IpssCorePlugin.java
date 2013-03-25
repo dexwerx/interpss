@@ -29,7 +29,7 @@ import static com.interpss.common.util.IpssLogger.ipssLogger;
 import java.util.logging.Level;
 
 import org.ieee.odm.common.ODMLogger;
-import org.interpss.numeric.sparse.base.SparseEquation;
+import org.interpss.numeric.sparse.base.ISparseEquation;
 import org.interpss.spring.NumericSpringFactory;
 
 import com.interpss.CoreObjectFactory;
@@ -85,7 +85,7 @@ public class IpssCorePlugin {
 		IpssLogger.initLogger();
 		setSpringAppCtx(paths);
 		setLoggerLevel(level);
-		setSparseEqnSolver(SparseEquation.SolverType.Default);
+		setSparseEqnSolver(ISparseEquation.SolverType.Default);
 	}
 
 	/**
@@ -93,12 +93,12 @@ public class IpssCorePlugin {
 	 * 
 	 * @param solverType solver type
 	 */
-	public static void setSparseEqnSolver(SparseEquation.SolverType solverType) {
-		if (solverType == SparseEquation.SolverType.Default ) {
+	public static void setSparseEqnSolver(ISparseEquation.SolverType solverType) {
+		if (solverType == ISparseEquation.SolverType.Default ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY0;
 			NumericSpringFactory.setDefualtSparseEqnSolver();
 		}
-		else if (solverType == SparseEquation.SolverType.Native ) {
+		else if (solverType == ISparseEquation.SolverType.Native ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY0;
 			NumericSpringFactory.setNativeSparseEqnSolver();
 		}
