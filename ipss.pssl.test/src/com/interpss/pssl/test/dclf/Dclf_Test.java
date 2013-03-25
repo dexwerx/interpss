@@ -28,7 +28,7 @@ import static org.interpss.CorePluginFunction.DclfResult;
 
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.exp.IpssNumericException;
-import org.interpss.numeric.sparse.SparseEqnDouble;
+import org.interpss.numeric.sparse.ISparseEqnDouble;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
@@ -73,7 +73,7 @@ public class Dclf_Test extends BaseTestSetup {
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
 		
-		SparseEqnDouble b11Eqn = algoDsl.getB1Matrix();
+		ISparseEqnDouble b11Eqn = algoDsl.getB1Matrix();
 		
 /*
  * Base case
