@@ -31,7 +31,7 @@ import org.interpss.CorePluginObjFactory;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.fadapter.IpssFileAdapter;
 import org.interpss.numeric.datatype.ComplexFunc;
-import org.interpss.numeric.sparse.SparseEqnComplex;
+import org.interpss.numeric.sparse.ISparseEqnComplex;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -99,7 +99,7 @@ public class Bus11856Test extends CorePluginTestSetup {
   					.load("testData/ipssdata/BUS11856.ipssdat")
   					.getAclfNet();	
 		
-		final SparseEqnComplex eqn = net.formYMatrix();
+		final ISparseEqnComplex eqn = net.formYMatrix();
 		net.forEachAclfBus(new IAclfBusVisitor() {
 			public void visit(AclfBus bus) {
 				if (bus.isSwing()) {
