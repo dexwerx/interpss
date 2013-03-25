@@ -24,7 +24,7 @@
 
 package org.interpss.numeric.sparse.base;
 
-import org.interpss.numeric.sparse.SparseEqnDouble;
+import org.interpss.numeric.sparse.ISparseEqnDouble;
 
 /**
  * A base class for double type sparse eqn implementation
@@ -32,7 +32,7 @@ import org.interpss.numeric.sparse.SparseEqnDouble;
  * @author mzhou
  *
  */
-public class AbstractSparseEqnDouble extends AbstractSparseEquation implements SparseEqnDouble {
+public class AbstractSparseEqnDouble extends AbstractSparseEquation implements ISparseEqnDouble {
 
 	@Override public void addToAij(double x, int i, int j) {
 		throw new UnsupportedOperationException();

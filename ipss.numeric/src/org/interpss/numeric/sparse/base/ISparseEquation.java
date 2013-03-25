@@ -29,7 +29,7 @@ import org.interpss.numeric.exp.IpssNumericException;
  * Base Sparse Equation for solving sparse matrix problems.
  * 
  */
-public interface SparseEquation {
+public interface ISparseEquation {
 	/**
 	 * sparse eqn solver type
 	 * 

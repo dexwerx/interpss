@@ -24,10 +24,10 @@
 
 package org.interpss.numeric;
 
-import org.interpss.numeric.sparse.SparseEqnComplex;
-import org.interpss.numeric.sparse.SparseEqnDouble;
-import org.interpss.numeric.sparse.SparseEqnInteger;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.ISparseEqnComplex;
+import org.interpss.numeric.sparse.ISparseEqnDouble;
+import org.interpss.numeric.sparse.ISparseEqnInteger;
+import org.interpss.numeric.sparse.ISparseEqnMatrix2x2;
 import org.interpss.spring.NumericSpringFactory;
 
 /**
@@ -42,8 +42,8 @@ public class NumericObjectFactory {
 	 * 
 	 * @return
 	 */
-	public static SparseEqnInteger createSparseEqnInteger(int n) {
-		SparseEqnInteger e = NumericSpringFactory.getSparseEqnInteger();
+	public static ISparseEqnInteger createSparseEqnInteger(int n) {
+		ISparseEqnInteger e = NumericSpringFactory.getSparseEqnInteger();
 		e.setDimension(n);
 		return e;
 	}
@@ -53,8 +53,8 @@ public class NumericObjectFactory {
 	 * 
 	 * @return
 	 */
-	public static SparseEqnDouble createSparseEqnDouble(int n) {
-		SparseEqnDouble e = NumericSpringFactory.getSparseEqnDouble();
+	public static ISparseEqnDouble createSparseEqnDouble(int n) {
+		ISparseEqnDouble e = NumericSpringFactory.getSparseEqnDouble();
 		e.setDimension(n);
 		return e;
 	}
@@ -64,8 +64,8 @@ public class NumericObjectFactory {
 	 * 
 	 * @return
 	 */
-	public static SparseEqnMatrix2x2 createSparseEqnMatrix2x2(int n) {
-		SparseEqnMatrix2x2 e = NumericSpringFactory.getSparseEqnMatrix2x2();
+	public static ISparseEqnMatrix2x2 createSparseEqnMatrix2x2(int n) {
+		ISparseEqnMatrix2x2 e = NumericSpringFactory.getSparseEqnMatrix2x2();
 		e.setDimension(n);
 		return e;
 	}	
@@ -75,8 +75,8 @@ public class NumericObjectFactory {
 	 * 
 	 * @return
 	 */
-	public static SparseEqnComplex createSparseEqnComplex(int n) {
-		SparseEqnComplex e = NumericSpringFactory.getSparseEqnComplex();
+	public static ISparseEqnComplex createSparseEqnComplex(int n) {
+		ISparseEqnComplex e = NumericSpringFactory.getSparseEqnComplex();
 		e.setDimension(n);
 		return e;
 	}	

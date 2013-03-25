@@ -24,10 +24,10 @@
 
 package org.interpss.spring;
 
-import org.interpss.numeric.sparse.SparseEqnComplex;
-import org.interpss.numeric.sparse.SparseEqnDouble;
-import org.interpss.numeric.sparse.SparseEqnInteger;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.ISparseEqnComplex;
+import org.interpss.numeric.sparse.ISparseEqnDouble;
+import org.interpss.numeric.sparse.ISparseEqnInteger;
+import org.interpss.numeric.sparse.ISparseEqnMatrix2x2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -69,7 +69,7 @@ public class NumericSpringFactory {
 	 *  
 	 * @return the SparseEqnInteger object
 	 */
-	public static SparseEqnInteger getSparseEqnInteger() {
+	public static ISparseEqnInteger getSparseEqnInteger() {
 		return getSparseEqnInteger(DefaultSparseEqnIntegerId);
 	}
 
@@ -79,9 +79,9 @@ public class NumericSpringFactory {
 	 *  @param beanId Spring bean Id
 	 * @return the SparseEqnInteger object
 	 */
-	public static SparseEqnInteger getSparseEqnInteger(String beanId) {
+	public static ISparseEqnInteger getSparseEqnInteger(String beanId) {
 		setup();
-		return (SparseEqnInteger) SpringAppCtx.getBean(beanId);
+		return (ISparseEqnInteger) SpringAppCtx.getBean(beanId);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class NumericSpringFactory {
 	 *  
 	 * @return the SparseEqnDouble object
 	 */
-	public static SparseEqnDouble getSparseEqnDouble() {
+	public static ISparseEqnDouble getSparseEqnDouble() {
 		return getSparseEqnDouble(DefaultSparseEqnDoubleId);
 	}
 
@@ -99,9 +99,9 @@ public class NumericSpringFactory {
 	 *  @param beanId Spring bean Id
 	 * @return the SparseEqnDouble object
 	 */
-	public static SparseEqnDouble getSparseEqnDouble(String beanId) {
+	public static ISparseEqnDouble getSparseEqnDouble(String beanId) {
 		setup();
-		return (SparseEqnDouble) SpringAppCtx.getBean(beanId);
+		return (ISparseEqnDouble) SpringAppCtx.getBean(beanId);
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class NumericSpringFactory {
 	 *  
 	 * @return the SparseEqnDouble object
 	 */
-	public static SparseEqnMatrix2x2 getSparseEqnMatrix2x2() {
+	public static ISparseEqnMatrix2x2 getSparseEqnMatrix2x2() {
 		return getSparseEqnMatrix2x2(DefaultSparseEqnMatrix2x2Id);
 	}
 
@@ -119,9 +119,9 @@ public class NumericSpringFactory {
 	 *  @param beanId Spring bean Id
 	 * @return the SparseEqnDouble object
 	 */
-	public static SparseEqnMatrix2x2 getSparseEqnMatrix2x2(String beanId) {
+	public static ISparseEqnMatrix2x2 getSparseEqnMatrix2x2(String beanId) {
 		setup();
-		return (SparseEqnMatrix2x2) SpringAppCtx.getBean(beanId);
+		return (ISparseEqnMatrix2x2) SpringAppCtx.getBean(beanId);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class NumericSpringFactory {
 	 *  
 	 * @return the SparseEqnComplex object
 	 */
-	public static SparseEqnComplex getSparseEqnComplex() {
+	public static ISparseEqnComplex getSparseEqnComplex() {
 		return getSparseEqnComplex(DefaultSparseEqnComplexId);
 	}
 	
@@ -139,9 +139,9 @@ public class NumericSpringFactory {
 	 * @param beanId Spring bean id
 	 * @return the SparseEqnComplex object
 	 */
-	public static SparseEqnComplex getSparseEqnComplex(String beanId) {
+	public static ISparseEqnComplex getSparseEqnComplex(String beanId) {
 		setup();
-		return (SparseEqnComplex) SpringAppCtx.getBean(beanId);
+		return (ISparseEqnComplex) SpringAppCtx.getBean(beanId);
 	}
 
 	/*

@@ -1,5 +1,5 @@
 /*
- * @(#)SparseEqnMatrix2x2.java   
+ * @(#)SparseEqnComplex.java   
  *
  * Copyright (C) 2006-2011 www.interpss.org
  *
@@ -25,29 +25,12 @@
 package org.interpss.numeric.sparse;
 
 import org.apache.commons.math3.complex.Complex;
-import org.interpss.numeric.datatype.Matrix_xy;
-import org.interpss.numeric.datatype.Vector_xy;
-import org.interpss.numeric.sparse.base.SparseEqnObject;
+import org.interpss.numeric.sparse.base.ISparseEqnObject;
 
 /**
- * Sparse Equation of data type 2x2 matrix for solving the [A]X=B problem. 
+ * Sparse Equation of data type Complex for solving the [A]X=B problem. 
  * To outside, the index number is from 0 to n-1
  *
  */
-public interface SparseEqnMatrix2x2 extends SparseEqnObject<Matrix_xy, Vector_xy> {
-	/**
-	* Set b[i] object.
-	* 
-	* @param c the b[i] object
-	* @param i row number 
-	*/
-	public void setB( final Complex c, final int i );
-		
-  /**
-   * add to b[i] object.
-	* 
-	* @param c the b[i] object
-	* @param i row number 
-   */
-	public void addToB( final Complex c, final int i );
+public interface ISparseEqnComplex extends ISparseEqnObject<Complex, Complex> {
 }

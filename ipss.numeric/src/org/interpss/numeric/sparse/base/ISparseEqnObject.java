@@ -30,7 +30,7 @@ package org.interpss.numeric.sparse.base;
  *
  */
 
-public interface SparseEqnObject<TAij, TBi> extends SparseEquation {
+public interface ISparseEqnObject<TAij, TBi> extends ISparseEquation {
   /**
    * Add the aij object to the matrix. If aij exists, aij += x.
 	* 

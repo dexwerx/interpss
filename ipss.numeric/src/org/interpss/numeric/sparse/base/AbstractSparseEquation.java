@@ -32,7 +32,7 @@ import org.interpss.numeric.exp.IpssNumericException;
  * @author mzhou
  *
  */
-public class AbstractSparseEquation implements SparseEquation {
+public class AbstractSparseEquation implements ISparseEquation {
 	int dimenstion = 0;
 
 	@Override public int getDimension() {

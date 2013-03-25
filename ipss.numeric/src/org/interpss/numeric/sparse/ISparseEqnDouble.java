@@ -24,7 +24,7 @@
 
 package org.interpss.numeric.sparse;
 
-import org.interpss.numeric.sparse.base.SparseEquation;
+import org.interpss.numeric.sparse.base.ISparseEquation;
 
 
 /**
@@ -33,7 +33,7 @@ import org.interpss.numeric.sparse.base.SparseEquation;
  *
  */
 
-public interface SparseEqnDouble extends SparseEquation {
+public interface ISparseEqnDouble extends ISparseEquation {
 
   /**
    * Add the aij element to the matrix. If aij exists, aij += x.

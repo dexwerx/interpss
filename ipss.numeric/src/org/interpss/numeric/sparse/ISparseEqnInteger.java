@@ -24,14 +24,14 @@
 
 package org.interpss.numeric.sparse;
 
-import org.interpss.numeric.sparse.base.SparseEquation;
+import org.interpss.numeric.sparse.base.ISparseEquation;
 
 
 /**
  * Sparse Equation of data type integer. The purpose is for arranging network bus number
  * to minimize the non-zero fill-ins. 	To outside, the index number is from 0 to n-1
  */
-public interface SparseEqnInteger extends SparseEquation {
+public interface ISparseEqnInteger extends ISparseEquation {
 
   /**
    * Arrange bus bus according to the Tinney-2 rule
