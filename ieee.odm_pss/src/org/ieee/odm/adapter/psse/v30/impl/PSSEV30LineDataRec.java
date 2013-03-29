@@ -68,7 +68,7 @@ public class PSSEV30LineDataRec {
        if ( gi != 0.0 || bi != 0.0)
     	   branchRec.setFromShuntY(BaseDataSetter.createYValue(gi, bi, YUnitType.PU));
        if ( gj != 0.0 || bj != 0.0)
-    	   branchRec.setFromShuntY(BaseDataSetter.createYValue(gj, bj, YUnitType.PU));
+    	   branchRec.setToShuntY(BaseDataSetter.createYValue(gj, bj, YUnitType.PU));
       
     	BaseJaxbHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
