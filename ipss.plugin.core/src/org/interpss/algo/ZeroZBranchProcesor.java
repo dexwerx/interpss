@@ -101,7 +101,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	@Override public boolean visit(AclfNetwork net) {
 		try {
 		  	// bus and branch visited status will be used
-			// in the processing
+			// in mark the zero branch
 		  	net.setVisitedStatus(false);
 		  	
 		  	// marked those protected branches with visited = true
@@ -121,46 +121,9 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	// if threshold = 0.0, Breaker branches are turned to zero-z branch
 		  	net.markSmallZBranch(this.threshold, true, this.method==Method.ZValue);		
 
-		  	// bus and branch visited status will be used
-			// in the processing
-		  	net.setVisitedStatus(false);
-		  		  	
-			
-		  	for (Bus b : net.getBusList()) {		  		
-		  		
-		  		if (b.isStatus()){
-		  			if (!b.isVisited()) {
-			  			// find all buses on the zero z branch path of the bus, including
-			  			// the bus itself
-			  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
-			  			// if more than one, meaning there is zero-z branch(es), process
-			  			// zero-z branch
-			  			if (list.size() > 1) {
-			  				ipssLogger.info("Select parent bus, total buses: " + list.size());
-			  				Bus parentBus = selectParentBus(list);
-			  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
-			  				for (Bus bus : list) {
-				  				if (!bus.getId().equals(parentBus.getId())) {
-				  					ipssLogger.info("child bus: " + bus.getId());
-				  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
-				  				}
-			  				}
-			  			}
-			  		}
-		  		}
-		  	}
+		  	busBasedSearch(net);
 		  	
-		  	// turn-off processed zero-z branches
-		  	for (Branch b : net.getBranchList()) {
-		  		if (((AclfBranch)b).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
-		  			if (b.isVisited()) {
-		  				ipssLogger.info("Turn processed small Z branch off, " + b.getId());
-			  			b.setStatus(false);
-		  			}
-		  			else
-		  				ipssLogger.warning("Small Z branch not processed, " + b.getId());
-		  		}
-		  	}		  	
+		  	//branchBasedSearch(net);
 		  	
 			net.setZeroZBranchProcessed(true);
 			net.setBusNumberArranged(false);		  	
@@ -170,6 +133,133 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		}		
 	  	return true;
 	}
+	
+	private void busBasedSearch(AclfNetwork net) throws InterpssException {
+	  	// bus and branch visited status will be used
+		// in the zero Z branch processing
+	  	net.setVisitedStatus(false);
+		  		  		
+	  	for (Bus b : net.getBusList()) {		  		
+	  		if (b.isStatus()){
+	  			if (!b.isVisited()) {
+		  			// find all buses on the zero z branch path of the bus, including
+		  			// the bus itself
+		  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
+		  			// if more than one, meaning there is zero-z branch(es), process
+		  			// zero-z branch
+		  			if (list.size() > 1) {
+		  				ipssLogger.info("Select parent bus, total buses: " + list.size());
+		  				Bus parentBus = selectParentBus(list);
+		  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
+		  				for (Bus bus : list) {
+			  				if (!bus.getId().equals(parentBus.getId())) {
+			  					ipssLogger.info("child bus: " + bus.getId());
+			  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
+			  				}
+		  				}
+		  			}
+		  		}
+	  		}
+	  	}
+
+	  	// turn-off processed zero-z branches
+	  	for (Branch b : net.getBranchList()) {
+	  		if (((AclfBranch)b).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
+	  			if (b.isVisited()) {
+	  				ipssLogger.info("Turn processed small Z branch off, " + b.getId());
+		  			b.setStatus(false);
+	  			}
+	  			else
+	  				ipssLogger.warning("Small Z branch not processed, " + b.getId());
+	  		}
+	  	}		  	
+	}
+	
+	private void branchBasedSearch(AclfNetwork net) {
+	  	// bus and branch visited status will be used
+		// in the zero Z branch processing
+	  	net.setVisitedStatus(false);
+
+	  	for (AclfBranch b : net.getBranchList()) {
+	  		if (b.getBranchCode() != AclfBranchCode.ZERO_IMPEDENCE) {
+	  			if (!b.getFromAclfBus().isVisited())
+	  				processZeroPath(b, b.getFromAclfBus());
+	  			if (!b.getToAclfBus().isVisited())
+	  				processZeroPath(b, b.getToAclfBus());
+	  		}
+	  	}
+	  	
+	  	// turn-off processed zero-z branches
+	  	for (Branch b : net.getBranchList()) {
+	  		if (((AclfBranch)b).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
+	  			if (b.isVisited()) {
+	  				ipssLogger.info("Turn processed small Z branch off, " + b.getId());
+		  			b.setStatus(false);
+	  			}
+	  		}
+	  	}		  	
+	}
+	
+
+	/**
+	 * process branch zero Z branch path on the bus side
+	 * 
+	 * @param branch
+	 * @param parentBus
+	 */
+	private void processZeroPath(AclfBranch branch, AclfBus bus) {
+		List<Bus> list = new ArrayList<>();
+		
+		bus.setVisited(true);
+		list.add(bus);
+		
+		findZeroPathBuses(list, branch, bus);
+		
+		if (list.size() > 1) {
+  			ipssLogger.info("Select parent bus, total buses: " + list.size());
+			Bus parentBus = selectParentBus(list);
+  			for (Bus childBus : list) {
+  				if (!childBus.getId().equals(parentBus.getId())) {
+  					ipssLogger.info("child bus: " + childBus.getId());
+  					parentBus.addSection(parentBus.getBusSecList().size()+1, childBus);
+  				}
+  			}
+  		}
+	}
+	
+	/**
+	 * recursively find buses along the zero Z path on the bus side. The following is the 
+	 * search pattern. <br>
+	 * 
+	 *      |--- ref Branch ---|---- Zero Z Branch ---|  <br>
+	 *                      refBus                   optBus
+	 * 
+	 * @param list bus list
+	 * @param refBranch reference branch
+	 * @param refBus the bus object for the search
+	 */
+	private void findZeroPathBuses(List<Bus> list, Branch refBranch, Bus refBus) {
+		// check if the bus has only two active branches connected
+		if (refBus.nActiveBranchConnected() == 2) {
+			for (Branch bra : refBus.getBranchList() ) {
+				if (bra.getId() != refBranch.getId() &&     // make sure we get the other branch connected to the bus
+						((AclfBranch)bra).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {  // make sure the other branch is a zero Z branch
+					if (!bra.isVisited() ) {             // make the other branch has not been visited
+						bra.setVisited(true);
+						
+						// get the bus on the opposite side regarding to the bus object
+						Bus optBus = bra.getOppositeBus(refBus);
+						if (!optBus.isVisited()) {  // make sure the other bus has not been visited
+							list.add(optBus);
+							optBus.setVisited(true);
+							// recursively search along the branch path with the optBus as the ref bus
+							findZeroPathBuses(list, bra, optBus);					
+						}
+					}
+				}
+			}
+		}
+	}	
 	
 	/**
 	 * Select parent bus from the bus list
