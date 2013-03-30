@@ -47,6 +47,8 @@ import com.interpss.core.net.Bus;
 public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	public static enum Method {ZValue, BranchType};
 	
+	private boolean busBaseSearch = true;
+	
 	private Method method = Method.ZValue;
 	private double threshold = 1.0e-10;
 	private boolean allowZeroZBranchLoop = false;
@@ -98,6 +100,16 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
 	
+	/**
+	 * constructor 
+	 * 
+	 * @param threshold zero impedance is define as abs(Z) < threshold 
+	 */
+	public ZeroZBranchProcesor(double threshold, boolean allowZeroZBranchLoop, boolean busBaseSearch) {
+		this(threshold, allowZeroZBranchLoop);
+		this.busBaseSearch = busBaseSearch;
+	}
+
 	@Override public boolean visit(AclfNetwork net) {
 		try {
 		  	// bus and branch visited status will be used
@@ -121,9 +133,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  	// if threshold = 0.0, Breaker branches are turned to zero-z branch
 		  	net.markSmallZBranch(this.threshold, true, this.method==Method.ZValue);		
 
-		  	busBasedSearch(net);
-		  	
-		  	//branchBasedSearch(net);
+		  	if (this.busBaseSearch)
+		  		busBasedSearch(net);
+		  	else
+		  		branchBasedSearch(net);
 		  	
 			net.setZeroZBranchProcessed(true);
 			net.setBusNumberArranged(false);		  	
