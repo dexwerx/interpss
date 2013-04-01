@@ -103,7 +103,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		int dataType = 0;
 		do {
 			str = din.readLine(); //kvaBase
-			if (!str.trim().equals("END OF DATA")) {
+			//NOTE: Some data miss the "END OF DATA" string at the end of the file, which may cause a problem
+			if(str!=null){
+			  if (!str.trim().equals("END OF DATA")) {
 				try {
 					// process the data
 					if (str.startsWith("-999") || str.startsWith("-99")
@@ -151,6 +153,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					e.printStackTrace();
 				}
 			}
+		  }else{
+			  ODMLogger.getLogger().severe("No 'END OF DATA' is defined at the end of the input IEEE-CDF file!");
+			  break;//end of the file, break the loop;
+		  }
+			  
 		} while (!str.trim().equals("END OF DATA"));
 
 		return parser;
@@ -443,11 +450,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
 		double rating1Mvar = 0.0, rating2Mvar = 0.0, rating3Mvar = 0.0;
 		if (!strAry[9].trim().equals(""))
-			rating1Mvar = new Integer(strAry[9]).intValue();
+			rating1Mvar = new Double(strAry[9]).doubleValue();
 		if (!strAry[10].trim().equals(""))
-			rating2Mvar = new Integer(strAry[10]).intValue();
+			rating2Mvar = new Double(strAry[10]).doubleValue();
 		if (!strAry[11].trim().equals(""))
-			rating3Mvar = new Integer(strAry[11]).intValue();
+			rating3Mvar = new Double(strAry[11]).doubleValue();
 		branch.setRatingLimit(this.factory.createBranchRatingLimitXmlType());
 		AclfDataSetter.setBranchRatingLimitData(branch.getRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
@@ -618,8 +625,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		tieLine.setCirId(new Integer(cirNo).toString());
 	}
 
-	/*
-	 * util functions
+	/**
+	 * Note: only the MVA Base is mandatory.
+	 * @param str
+	 * @return
 	 */
 	private String[] getNetDataFields(final String str) {
 		final String[] strAry = new String[6];
@@ -637,13 +646,19 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				//Columns 11-30   Originator's name [A]
 				strAry[1] = str.substring(10, 30);
 				//Columns 32-37   MVA Base [F] *
-				strAry[2] = str.substring(31, 37); // in MVA
-				//Columns 39-42   Year [I]
-				strAry[3] = ModelStringUtil.getString(str, 38, 42);
-				//Column  44      Season (S - Summer, W - Winter)
-				strAry[4] = ModelStringUtil.getString(str, 43, 44);
-				//Column  46-73   Case identification [A]
-				strAry[5] = ModelStringUtil.getString(str, 46, 73);
+				if(str.length()<37){
+					strAry[2] = str.substring(31, str.length()); // in MVA
+				}
+				else{
+					strAry[2] = str.substring(31, 37); // in MVA
+					//Columns 39-42   Year [I]
+					strAry[3] = ModelStringUtil.getString(str, 38, 42);
+					//Column  44      Season (S - Summer, W - Winter)
+					strAry[4] = ModelStringUtil.getString(str, 43, 44);
+					//Column  46-73   Case identification [A]
+					strAry[5] = ModelStringUtil.getString(str, 46, 73);
+				}
+				
 			} catch (Exception e) {
 				this.logErr("Error: Network data line has problem, " + str);
 				this.logErr(e.toString());
