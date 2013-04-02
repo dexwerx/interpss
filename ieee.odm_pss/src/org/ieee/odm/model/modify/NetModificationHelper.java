@@ -36,8 +36,9 @@ import org.ieee.odm.schema.BranchChangeRecXmlType;
 import org.ieee.odm.schema.BranchLossAreaAllocationXmlType;
 import org.ieee.odm.schema.BusChangeRecSetXmlType;
 import org.ieee.odm.schema.BusChangeRecXmlType;
-import org.ieee.odm.schema.DailyOverrideOutageScheduleXmlType;
 import org.ieee.odm.schema.DailyDispatchXmlType;
+import org.ieee.odm.schema.DailyOverrideOutageScheduleXmlType;
+import org.ieee.odm.schema.HourlyDispatchXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
 
@@ -167,22 +168,37 @@ public class NetModificationHelper {
 	}
 	
 	/*
-	 * Daily gen/load dispatch help functions
-	 * ======================================
+	 * Daily gen/load, psxfr angle dispatch help functions
+	 * ===================================================
 	 * 
 	 */
 	
 	/**
-	 * Get the gen daily dispatch. A GenDailyDispatchXmlType record will be
+	 * Get the daily dispatch. A GenDailyDispatchXmlType record will be
 	 * created if genDailyDispatch is null.
 	 *   
 	 * @return
 	 */
-	public DailyDispatchXmlType getGenDailyDispatch() {
+	public DailyDispatchXmlType getDailyDispatch() {
 		if (parser.getModification() == null)
 			addModifyRecord(odmObjFactory.createDailyDispatchXmlType());
 		return (DailyDispatchXmlType)parser.getModification();
 	}	
+	
+	/**
+	 * Get the hourly dispatch. 
+	 *   
+	 * @param hr hour  
+	 * @return
+	 */
+	public HourlyDispatchXmlType getHourlyDispatch(int hr) {
+		DailyDispatchXmlType dispXml = getDailyDispatch();
+		for (HourlyDispatchXmlType hrDisp : dispXml.getHourlyDispatches()) {
+			if (hrDisp.getHour() == hr)
+				return hrDisp;
+		}
+		return null;
+	}
 
 	/*
 	 *  branch loss area Allocation factor help functions
