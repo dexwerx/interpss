@@ -342,8 +342,8 @@
 	<ns:complexType name="HourlyDispatchXmlType">
 		<ns:sequence>
 			<ns:element name="hour" type="ns:int" maxOccurs="1" minOccurs="1" />
-			<ns:element name="busDispatches" type="pss:BusGenLoadEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
-			<ns:element name="branchDispatches" type="pss:BranchEDispatchXmlType" maxOccurs="unbounded" minOccurs="0" />
+			<ns:element name="busDispatch" type="pss:BusGenLoadEDispatchXmlType" maxOccurs="1" minOccurs="0" />
+			<ns:element name="branchDispatch" type="pss:BranchEDispatchXmlType" maxOccurs="1" minOccurs="0" />
 		</ns:sequence>
 	</ns:complexType>
 
