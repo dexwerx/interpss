@@ -358,7 +358,7 @@
 	<ns:complexType name="BranchEDispatchXmlType">
 		<ns:sequence>
 			<ns:element name="dispatchId" type="ns:string" maxOccurs="1">	</ns:element>
-			<ns:element name="psXfrAnagle" type="pss:AngleLimitXmlType" maxOccurs="1">
+			<ns:element name="psXfrAnagle" type="pss:AngleXmlType" maxOccurs="1">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
