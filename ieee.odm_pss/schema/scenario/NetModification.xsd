@@ -329,7 +329,7 @@
 		=============================
 	 -->
 
-	<ns:complexType name="GenDailyDispatchXmlType">
+	<ns:complexType name="DailyDispatchXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:BaseDailyScheduleXmlType">
 				<ns:sequence>
