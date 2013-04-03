@@ -197,9 +197,9 @@
 	</ns:complexType>
 
 
-	<ns:complexType name="DailyOverrideOutageScheduleXmlType">
+	<ns:complexType name="OverrideOutageScheduleXmlType">
 		<ns:complexContent>
-			<ns:extension base="pss:BaseDailyScheduleXmlType">
+			<ns:extension base="pss:ModifyRecordXmlType">
 				<ns:sequence>
 					<ns:element name="genOutage" type="pss:GenOutageXmlType" 	maxOccurs="unbounded" minOccurs="0" />
 					<ns:element name="branchOutage" type="pss:TransmissionOutageXmlType" maxOccurs="unbounded" minOccurs="0" />

@@ -37,7 +37,7 @@ import org.ieee.odm.schema.BranchLossAreaAllocationXmlType;
 import org.ieee.odm.schema.BusChangeRecSetXmlType;
 import org.ieee.odm.schema.BusChangeRecXmlType;
 import org.ieee.odm.schema.DailyDispatchXmlType;
-import org.ieee.odm.schema.DailyOverrideOutageScheduleXmlType;
+import org.ieee.odm.schema.OverrideOutageScheduleXmlType;
 import org.ieee.odm.schema.HourlyDispatchXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetModificationXmlType;
@@ -229,10 +229,10 @@ public class NetModificationHelper {
 	 *   
 	 * @return
 	 */
-	public DailyOverrideOutageScheduleXmlType getDailyOverrideOutageSchedule() {
+	public OverrideOutageScheduleXmlType getOverrideOutageSchedule() {
 		if (parser.getModification() == null)
-			addModifyRecord(odmObjFactory.createDailyOverrideOutageScheduleXmlType());
-		return (DailyOverrideOutageScheduleXmlType)parser.getModification();
+			addModifyRecord(odmObjFactory.createOverrideOutageScheduleXmlType());
+		return (OverrideOutageScheduleXmlType)parser.getModification();
 	}
 	
 	//=====================================
