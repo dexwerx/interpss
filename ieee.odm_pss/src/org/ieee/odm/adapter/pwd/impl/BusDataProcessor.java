@@ -190,15 +190,18 @@ public class BusDataProcessor extends InputLineStringParser {
 		LoadflowBusXmlType bus=parser.getAclfBus(busId);
 		
 		// END OF DATA PROCESSING ,BEGIN DATA SETTING
-
-		if(loadSMW!=0||loadSMVR!=0){
-			if(loadIMW!=0||loadIMVR!=0||loadZMW!=0||loadZMVR!=0)
+        //TODO 04/03/2013
+		//Some of original load is actually ZERO, we can set it as it is in the data
+		//if(loadSMW!=0||loadSMVR!=0){
+			if(loadIMW!=0||loadIMVR!=0||loadZMW!=0||loadZMVR!=0){
 			  AclfDataSetter.setZIPLoadData(bus, loadSMW, loadSMVR, loadIMW, loadIMVR,
 					  loadZMW, loadZMVR, ApparentPowerUnitType.MVA);
-		    
-			  else AclfDataSetter.setLoadData(bus, LFLoadCodeEnumType.CONST_P, 
+			  
+			}else{ 
+				AclfDataSetter.setLoadData(bus, LFLoadCodeEnumType.CONST_P, 
 				loadSMW, loadSMVR, ApparentPowerUnitType.MVA);
-		}
+			  }
+		//}
 		
 		if(!customString.equals(""))
 				BaseJaxbHelper.addNVPair(bus, "Load_"+CustomStrToken, customString);
