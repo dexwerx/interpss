@@ -1,8 +1,9 @@
 package test.ed;
 
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 
 import com.gams.api.gamsglobals;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
@@ -20,15 +21,15 @@ import com.interpss.spring.CoreCommonSpringFactory;
  */
 
 public class Ieee14Ed2 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterpssException {
     	GAMS.GamsDir = "c:\\Program Files (x86)\\GAMS23.7";
     	GAMS.JNIDir = "c:/eclipse/JNI";
     	
     	new Ieee14Ed2().run();
     }
     
-    private void run() {
-		IpssPlugin.init();
+    private void run() throws InterpssException {
+    	IpssCorePlugin.init();
 		BaseDSL.setMsgHub(CoreCommonSpringFactory.getIpssMsgHub());
 		
 		AclfNetwork net = IpssAdapter.importAclfNet("basecase/ieee14.ieee")

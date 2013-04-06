@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.opf.OpfModelParser;
-import org.interpss.IpssPlugin;
+import org.interpss.IpssCorePlugin;
 import org.interpss.mapper.odm.ODMOpfDataMapper;
-import org.interpss.numeric.sparse.SparseEqnDouble;
+import org.interpss.numeric.sparse.ISparseEqnDouble;
 
 import com.gams.api.gamsglobals;
 import com.interpss.CoreObjectFactory;
@@ -62,7 +62,7 @@ public class DcOPFSample2 {
 	}
 
 	private OpfNetwork loadOpfNet(String filename) throws Exception {
-		IpssPlugin.init();
+		IpssCorePlugin.init();
 		IPSSMsgHub msg = CoreCommonSpringFactory.getIpssMsgHub();
 		BaseDSL.setMsgHub(msg);
 					
@@ -76,7 +76,7 @@ public class DcOPFSample2 {
 						.map2Model(parser, simuCtx)) {
 		  		throw new Exception("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
 			}	
-			return simuCtx.getOpfNet();
+			return (OpfNetwork) simuCtx.getOpfNet();
 		}		 
   		throw new Exception("Error: reading file " + filename);
 	 }
@@ -110,34 +110,34 @@ public class DcOPFSample2 {
         GAMS.gdxDataWriteStrStart("ACoeff", "linear cost coefficient at generator i", 1, gamsglobals.dt_par, 0);
 		for (Bus b : opfNet.getBusList()) {
 			OpfGenBus bus = (OpfGenBus)b;
-			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getCoeffA());
+			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getIncCost().getQuadraticCurve().getA());
 		}
 		GAMS.gdxDataWriteDone();
 		
         GAMS.gdxDataWriteStrStart("BCoeff", "quantratic  const coefficient at generator i", 1, gamsglobals.dt_par, 0);
 		for (Bus b : opfNet.getBusList()) {
 			OpfGenBus bus = (OpfGenBus)b;
-			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getCoeffB());
+			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getIncCost().getQuadraticCurve().getB());
 		}
 		GAMS.gdxDataWriteDone();
 		
         GAMS.gdxDataWriteStrStart("Pgmax", "max real power output at generator i(in pu unit)", 1, gamsglobals.dt_par, 0);
 		for (Bus b : opfNet.getBusList()) {
 			OpfGenBus bus = (OpfGenBus)b;
-			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getCapacityLimit().getMax()/baseMav);
+			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getPGenLimit().getMax()/baseMav);
 		}
 		GAMS.gdxDataWriteDone();
 		
         GAMS.gdxDataWriteStrStart("Pgmin", "min real power output at generator i(in pu unit)", 1, gamsglobals.dt_par, 0);
 		for (Bus b : opfNet.getBusList()) {
 			OpfGenBus bus = (OpfGenBus)b;
-			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getCapacityLimit().getMin()/baseMav);
+			GAMS.gdxDataWriteStr("gen"+b.getId(), bus.getPGenLimit().getMin()/baseMav);
 		}
 		GAMS.gdxDataWriteDone();
 		
 		GAMS.gdxDataWriteStrStart("BMatrix", "the [B] matrix of the network", 2, gamsglobals.dt_par, 0);
         opfNet.accept(CoreObjectFactory.createBusNoArrangeVisitor());
-		SparseEqnDouble eqn = opfNet.formB1Matrix(JacobianMatrixType.FULL_BMATRIX);
+		ISparseEqnDouble eqn = opfNet.formB1Matrix(JacobianMatrixType.FULL_BMATRIX);
 		//System.out.println(eqn.toString());
 
 		for (Bus bi : opfNet.getBusList()) {
