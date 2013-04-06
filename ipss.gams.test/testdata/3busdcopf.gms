@@ -78,8 +78,8 @@
 
    Display z.l, pg.l, angle.l;
 
-// These lines execute during the execution phase
-execute_unload 'results_dcopf.gdx', pg=result;  
+* These lines execute during the execution phase
+execute_unload 'results_dcopf.gdx', pg=result;
 
 
 

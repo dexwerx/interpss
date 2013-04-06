@@ -7,8 +7,8 @@ import com.interpss.gams.util.GAMSHelper;
 
 public class DcOPFSample {
 	 public static void main(String[] args) {
-	    	GAMS.GamsDir = "c:\\Program Files (x86)\\GAMS23.7";
-	    	GAMS.JNIDir = "c:/eclipse/JNI";
+	    	GAMS.GamsDir = "c:\\Program Files (x86)\\GAMS24.0";
+	    	GAMS.JNIDir = "c:\\GANSJNI";
 	    	
 	    	new DcOPFSample().run();
 	 }
@@ -18,7 +18,7 @@ public class DcOPFSample {
 	   	 		GAMS.init();
 	   	 			
 	   	 		GAMSHelper helper = new GAMSHelper();
-	   	   	    helper.CallGams("model\\dcopf.gms");
+	   	   	    helper.CallGams("testdata\\dcopf.gms");
 	   	   	    
 	   	   	    helper.readResult("results.gdx", new String[] {"result"}, 
 	   	        			helper.getResultReader1D());	   	   	    
