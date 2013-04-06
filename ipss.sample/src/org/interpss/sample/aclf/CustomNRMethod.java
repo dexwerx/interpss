@@ -21,12 +21,12 @@
   *
   */
 
-package org.interpss.sample.dep.aclf;
+package org.interpss.sample.aclf;
 
+import org.apache.commons.math3.complex.Complex;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Matrix_xy;
-import org.interpss.numeric.datatype.Vector_xy;
-import org.interpss.numeric.sparse.SparseEqnMatrix2x2;
+import org.interpss.numeric.sparse.ISparseEqnMatrix2x2;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -49,9 +49,9 @@ public class CustomNRMethod {
 		 * formJMatrix method is called at the beginning of each NR iteration
 		 */
 		@Override
-		public SparseEqnMatrix2x2 formJMatrix() {
+		public ISparseEqnMatrix2x2 formJMatrix() {
 			// create network J-matrix with one extra-dimension
-			SparseEqnMatrix2x2 lfEqn = getAclfNet().formJMatrix(1);
+			ISparseEqnMatrix2x2 lfEqn = getAclfNet().formJMatrix(1);
 			
 			// create a 2x2 matrix element
 			Matrix_xy m = new Matrix_xy();
@@ -74,16 +74,14 @@ public class CustomNRMethod {
 		 * setPowerMismatch method is called at the beginning of each NR iteration
 		 */
 		@Override
-		public void setPowerMismatch(SparseEqnMatrix2x2 lfEqn) {
+		public void setPowerMismatch(ISparseEqnMatrix2x2 lfEqn) {
 			// calculate bus power mismatch. The mismatch stored on 
 			// the right-hand side of the sparse eqn
 			super.setPowerMismatch(lfEqn);
 			
 			// define a 2x1 vector
-			Vector_xy b = new Vector_xy();
-			b.x = mis;
-			b.y = mis;
-			
+			Complex b = new Complex(1.0, 1.0);
+		
 			// set the vector to the right-hand side of the sparse eqn
 			int n = getAclfNet().getNoBus();
 			lfEqn.setB(b, n+1);
@@ -95,7 +93,7 @@ public class CustomNRMethod {
 		 * sparse eqn.
 		 */
 		@Override
-		public void updateBusVoltage(SparseEqnMatrix2x2 lfEqn) {
+		public void updateBusVoltage(ISparseEqnMatrix2x2 lfEqn) {
 			// update the bus voltage using the solution results store in the sparse eqn
 			super.updateBusVoltage(lfEqn);
 			

@@ -22,9 +22,10 @@
   *
   */
 
-package org.interpss.sample.dep.aclf;
+package org.interpss.sample.aclf;
 
 import org.apache.commons.math3.complex.Complex;
+import org.interpss.IpssCorePlugin;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
@@ -39,6 +40,8 @@ import com.interpss.pssl.simu.net.IpssAclfNet;
 
 public class SampleLoadflowDSL {
 	public static void main(String args[]) {
+		IpssCorePlugin.init();
+		
 		AclfNetwork net = IpssAclfNet.createAclfNetwork("Sample AclfNetwork")
 				.setBaseKva(100000.0)
 				.getAclfNet();
@@ -72,6 +75,7 @@ public class SampleLoadflowDSL {
 		IpssAclfNet.addAclfBranch("Bus3", "Bus2", "Branch 2", net)
 		        .setBranchCode(AclfBranchCode.LINE)
 		        .setZ(new Complex(0.00, 0.15), UnitType.PU);
+		
 	  	// create the default loadflow algorithm
 	  	IpssAclf.createAclfAlgo(net)
 	  			.setLfMethod(AclfMethod.NR)

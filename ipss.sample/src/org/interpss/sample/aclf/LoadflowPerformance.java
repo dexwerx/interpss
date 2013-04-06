@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.sample.dep.aclf;
+package org.interpss.sample.aclf;
 
 import java.util.logging.Level;
 
@@ -42,9 +42,7 @@ import com.interpss.spring.CoreCommonSpringFactory;
 
 public class LoadflowPerformance {
 	public static void main(String args[]) throws Exception {
-		CoreCommonSpringFactory.setAppContext(new String[] {IpssCorePlugin.CtxPath});
-
-		IpssLogger.getLogger().setLevel(Level.WARNING);
+		IpssCorePlugin.init();
 
 	  	PerformanceTimer timer = new PerformanceTimer(IpssLogger.getLogger());
 

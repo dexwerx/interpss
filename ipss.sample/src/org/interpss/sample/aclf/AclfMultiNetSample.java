@@ -22,9 +22,10 @@
   *
   */
 
-package org.interpss.sample.dep.aclf;
+package org.interpss.sample.aclf;
 
 import org.apache.commons.math3.complex.Complex;
+import org.interpss.IpssCorePlugin;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
@@ -44,6 +45,8 @@ import com.interpss.simu.util.sample.SampleCases;
 
 public class AclfMultiNetSample {
 	public static void main(String args[])  throws InterpssException {
+		IpssCorePlugin.init();
+		
 		AclfNetwork mainNet = createNet();
 		
 		IAclfNetBVisitor netAlgoVisitor = CoreObjectFactory.createLfAlgoVisitor();

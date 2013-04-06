@@ -1,4 +1,4 @@
-package org.interpss.sample.dep.opf;
+package org.interpss.sample.opf;
 
 import org.interpss.numeric.exp.IpssNumericException;
 

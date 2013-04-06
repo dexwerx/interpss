@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.sample.dep.aclf;
+package org.interpss.sample.aclf;
 
 import org.apache.commons.math3.complex.Complex;
 import org.interpss.IpssCorePlugin;
@@ -50,13 +50,13 @@ import com.interpss.spring.CoreCommonSpringFactory;
 
 public class XfrTapControlSample {
 	public static void main(String args[]) throws IpssNumericException, InterpssException {
-		CoreCommonSpringFactory.setAppContext(new String[] {IpssCorePlugin.CtxPath});
+		IpssCorePlugin.init();
 		
 		AclfNetwork net = SampleCases.sample2BusXfr();
 		
 		// xfr tap could be used to control voltage or mvar flow. In this
 		// example, it is used to control voltage
-		AclfBranch branch = net.getAclfBranch("0001->0002(1)");
+		AclfBranch branch = net.getBranch("0001->0002(1)");
 		TapControl tap = CoreObjectFactory.createTapVControlBusVoltage(branch, 
 							AdjControlType.POINT_CONTROL, net, "0002");
 		// tap limit
@@ -78,7 +78,7 @@ public class XfrTapControlSample {
 
 		// toside bus voltage is controled to 0.9 pu
 		assert(Math.abs(tap.getVcBus().getVoltageMag()-0.9)<0.0001);
-		assert(Math.abs(net.getAclfBus("0002").getVoltageMag()-0.9)<0.0001);
+		assert(Math.abs(net.getBus("0002").getVoltageMag()-0.9)<0.0001);
 	}	
 	
 	public static AclfNetwork sampleNet2BusWithXfr()	{

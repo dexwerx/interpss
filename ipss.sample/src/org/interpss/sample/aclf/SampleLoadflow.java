@@ -22,13 +22,14 @@
   *
   */
 
-package org.interpss.sample.dep.aclf;
+package org.interpss.sample.aclf;
 
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import java.util.logging.Level;
 
 import org.apache.commons.math3.complex.Complex;
+import org.interpss.IpssCorePlugin;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
 import org.interpss.numeric.util.PerformanceTimer;
@@ -53,10 +54,10 @@ import com.interpss.pssl.simu.net.IpssAclfNet;
 
 public class SampleLoadflow {
 	public static void main(String args[]) {
+		IpssCorePlugin.init();
+		
 		// set session message to Warning level
 		IPSSMsgHub msg = IpssAclf.psslMsg;
-		
-		ipssLogger.setLevel(Level.WARNING);
 		
 		simpleLoadflow(msg);
 
