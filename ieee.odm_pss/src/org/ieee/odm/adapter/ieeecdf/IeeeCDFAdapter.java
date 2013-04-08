@@ -48,6 +48,7 @@ import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LimitXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
@@ -354,7 +355,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String tid = AbstractModelParser.BusIdPreFix + strAry[1];
 		final String areaNo = strAry[2];
 		final String zoneNo = strAry[3];
-		final String cirId = strAry[4];
+		String cirId = strAry[4];
+		if(cirId.equals(""))cirId="1";//if empty,set cirId to 1 by default
 		int branchType = 0;
 		if (!strAry[5].trim().equals(""))
 			branchType = new Integer(strAry[5]).intValue();
@@ -508,11 +510,17 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 								: (controlSide == 1 ? TapAdjustBusLocationEnumType.NEAR_FROM_BUS
 										: TapAdjustBusLocationEnumType.NEAR_TO_BUS));
 				voltTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
+				
+				if(voltTapAdj.getRange()==null)voltTapAdj.setRange(new LimitXmlType());
 				BaseDataSetter.setLimit(voltTapAdj.getRange(), maxVoltPQ, minVoltPQ);
+				
 			} else if (branchType == 3) {
 				MvarFlowAdjustmentDataXmlType mvarTapAdj = this.factory.createMvarFlowAdjustmentDataXmlType();
 				tapAdj.setMvarFlowAdjData(mvarTapAdj);
+				
+				if(mvarTapAdj.getRange()==null)mvarTapAdj.setRange(new LimitXmlType());
 				BaseDataSetter.setLimit(mvarTapAdj.getRange(), maxVoltPQ, minVoltPQ);
+				
 				mvarTapAdj.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
