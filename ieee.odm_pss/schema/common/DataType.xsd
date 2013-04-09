@@ -182,6 +182,8 @@
     
 
     <ns:complexType name="XformerZTableXmlType">
+        	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
 		<ns:sequence>
 			<ns:element name="XformerZTableItem" minOccurs="0" maxOccurs="unbounded">
 				<ns:complexType>
@@ -199,6 +201,8 @@
 				</ns:complexType>
 			</ns:element>
 		</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>		
 	</ns:complexType>
     
 	
