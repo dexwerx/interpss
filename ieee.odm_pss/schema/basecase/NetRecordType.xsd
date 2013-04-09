@@ -79,6 +79,14 @@
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
+					<ns:element name="xfrZCorrectionTable" minOccurs="0">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="xfrZCorrection" maxOccurs="unbounded" minOccurs="0" type="pss:TransformerZCorrectionXmlType"></ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+
 					<ns:element name="type" type="pss:NetworkTypeEnumType" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
 						MainNetwork or ChildNetwork. A Child network might has child networks.
@@ -298,7 +306,29 @@
 		</ns:complexContent>
 	</ns:complexType>
     
-		
+    <ns:complexType name="TransformerZCorrectionXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="pss:NameTagXmlType">
+    			<ns:sequence>
+    				<ns:element name="correction" maxOccurs="unbounded" minOccurs="0">
+    					<ns:complexType>
+    						<ns:sequence>
+    							<ns:element name="tap"
+    								type="ns:double">
+    							</ns:element>
+    							<ns:element name="factor"
+    								type="ns:double">
+    							</ns:element>
+    						</ns:sequence>
+    					</ns:complexType></ns:element>
+    			</ns:sequence>
+    			<ns:attribute name="number" type="ns:int"
+    				use="optional">
+    			</ns:attribute>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
     <ns:complexType name="FlowInterfaceRecXmlType">
         <ns:annotation><ns:documentation>
         	Interface record is for power flow interface limit checking purpose.
