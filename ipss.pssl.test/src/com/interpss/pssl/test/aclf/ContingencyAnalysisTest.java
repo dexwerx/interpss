@@ -34,6 +34,7 @@ import org.ieee.odm.schema.ContingencyAnalysisEnumType;
 import org.ieee.odm.schema.ContingencyAnalysisXmlType;
 import org.ieee.odm.schema.IpssAclfAlgorithmXmlType;
 import org.ieee.odm.schema.LfMethodEnumType;
+import org.interpss.display.ContingencyOutConfigure;
 import org.interpss.display.ContingencyOutFunc;
 import org.junit.Test;
 
@@ -65,8 +66,8 @@ public class ContingencyAnalysisTest extends BaseTestSetup {
 		algo.setTolerance(0.001);
 		
 		mscase.analysis(algo, ContingencyAnalysisType.N1);
-
-		System.out.println(ContingencyOutFunc.securityMargin(mscase));	
+		
+		System.out.println(ContingencyOutFunc.securityMargin(mscase, new ContingencyOutConfigure(mscase, net)));	
 	}	
 
 	@Test
