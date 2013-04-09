@@ -67,6 +67,7 @@ public class ContingencyAnalysisTest extends BaseTestSetup {
 		
 		mscase.analysis(algo, ContingencyAnalysisType.N1);
 		
+		// example to customize bus voltage limit and branch rating
 		System.out.println(ContingencyOutFunc.securityMargin(mscase, new ContingencyOutConfigure(mscase, net)));	
 	}	
 
