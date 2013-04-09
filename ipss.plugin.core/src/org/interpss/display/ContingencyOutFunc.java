@@ -42,13 +42,39 @@ import com.interpss.simu.multicase.result.AclfBusResultRec;
  */
 public class ContingencyOutFunc {
 	/**
+	 * Contingency analysus output configuration interface
+	 * 
+	 * @author mzhou
+	 *
+	 */
+	public static interface IConfigure {
+		/**
+		 * set bus limit, for example, voltage limit
+		 */
+		void setBusLimit();
+		/**
+		 * set branch rating limit
+		 */
+		void setBranchRating();
+	}
+	
+	/**
 	 * output security margin analysis results
 	 * 
 	 * @param mcase
 	 * @return
 	 */
 	public static StringBuffer securityMargin(ContingencyAnalysis mcase) {
+		return securityMargin(mcase, null);
+	}
+	
+	public static StringBuffer securityMargin(ContingencyAnalysis mcase, IConfigure config) {
 		StringBuffer buf = new StringBuffer();
+		
+		if (config != null) {
+			config.setBusLimit();
+			config.setBranchRating();
+		}
 
 		buf.append("\n");
 		buf.append("                     Security Margin Report\n");
@@ -67,19 +93,22 @@ public class ContingencyOutFunc {
 			}
 		}
 		
-		double max = mcase.getBusVoltageUpperLimitPU(), 
-		       min = mcase.getBusVoltageLowerLimitPU();
+		//double max = mcase.getBusVoltageUpperLimitPU(),    // need to be at the bus level
+		//       min = mcase.getBusVoltageLowerLimitPU();
 		buf.append("\n");
-		buf.append(String.format("              Bus Voltage Limit: [%4.2f, %4.2f]\n", max, min));
-		buf.append("\n");
+		//buf.append(String.format("              Bus Voltage Limit: [%4.2f, %4.2f]\n", max, min));
+		//buf.append("\n");
 
-		buf.append("         Bus Id       LowVolt LowMargin           Description\n");
-		buf.append("       ===============================================================\n");
+		buf.append("         Bus Id       max   min    LowVolt LowMargin           Description\n");
+		buf.append("       ====================================================================\n");
 		Enumeration<String> keys = mcase.getBusResultSummary().keys();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
 			AclfBusResultRec r = mcase.getBusResultSummary().get(key);
-			buf.append(String.format("     %12s    %8.4f   %5.1f%s          %s%n", key, 
+			double max = r.getLimit().getUpperVoltLimit(),
+			       min = r.getLimit().getLowerVoltLimit();
+			buf.append(String.format("     %12s    %4.2f, %4.2f   %8.4f   %5.1f%s          %s%n", key, 
+					max, min,
 					r.getLowVoltMagPU(), (r.getLowVoltMagPU()-min)*100.0, "%", 
 					r.getDescLowVoltage()));
 		}
