@@ -31,5 +31,4 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-    <ns:element name="pwdNetExtension" type="ipss:PWDNetworkExtXmlType"></ns:element>
 </ns:schema>
