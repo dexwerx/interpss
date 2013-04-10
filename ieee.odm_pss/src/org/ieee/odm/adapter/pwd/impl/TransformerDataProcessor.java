@@ -3,6 +3,7 @@ package org.ieee.odm.adapter.pwd.impl;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.adapter.InputLineStringParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -28,6 +29,9 @@ import org.ieee.odm.schema.TapAdjustmentXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.XformerZTableXmlType;
+import org.ieee.odm.schema.XformerZTableXmlType.XformerZTableItem;
+import org.ieee.odm.schema.XformerZTableXmlType.XformerZTableItem.Lookup;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -44,6 +48,7 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 	private enum XfrType{Fixed, LTC, Mvar,Phase};
 	
 	private AclfModelParser parser = null;
+	private XformerZTableXmlType xfrCorrectTableList = null;
 	
 	public TransformerDataProcessor(AclfModelParser parser) {
 		this.parser = parser;
@@ -528,6 +533,65 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 		
 	}
 	
+	public void processXFCorrection(String XfCorrectionStr) throws ODMException{
+		if(xfrCorrectTableList == null){
+			xfrCorrectTableList = odmObjFactory.createXformerZTableXmlType();
+		    parser.getAclfNet().setXfrZTable(xfrCorrectTableList);
+		}
+		//parse the input data and save it to the fieldTable
+		parseData(XfCorrectionStr);
+		
+		//create an xfr correction Item
+		XformerZTableItem corItem = odmObjFactory.createXformerZTableXmlTypeXformerZTableItem();
+		xfrCorrectTableList.getXformerZTableItem().add(corItem);
+		
+		//create tap-factor pair 
+		Lookup nvPair=odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup();
+		
+	    int tableNum = getInt("XFCorTableNum");
+		//String tableName = getString("XFCorTableName");
+	    corItem.setNumber(tableNum);
+	    
+	    /*Based on definition of PSS/E:
+	      On each record, at least 2 pairs of values must be specified
+	      and up to 11 may be entered.
+	    */
+	   
+		double tap0=getDouble("XFCorTap");
+		double factor0=getDouble("XFCorFactor");
+		
+		nvPair.setTurnRatioShiftAngle(tap0);
+		nvPair.setScaleFactor(factor0);
+		corItem.getLookup().add(nvPair);
+		
+		double tap1=getDouble("XFCorTap:1");
+		double factor1=getDouble("XFCorFactor:1");
+		nvPair=odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup();
+		nvPair.setTurnRatioShiftAngle(tap1);
+		nvPair.setScaleFactor(factor1);
+		corItem.getLookup().add(nvPair);
+
+		//processing the remaining tap-factor pairs
+		String corTapPrefix="XFCorTap:";
+		String corFactorPrefix="XFCorFactor:";
+		for(int k=2;k<=10;k++){
+			
+			if(!getString(corTapPrefix+k).equals("")){
+				double tapk=getDouble(corTapPrefix+k);
+				double factork=getDouble(corFactorPrefix+k);
+				//set tap-factor pair
+				nvPair=odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup();
+				nvPair.setTurnRatioShiftAngle(tapk);
+				nvPair.setScaleFactor(factork);
+				//add it to lookup list
+				corItem.getLookup().add(nvPair);
+			}
+			else{// the rest is not defined, break the loop;
+				break;
+			}
+			
+		}
+	}
 	
 
 }

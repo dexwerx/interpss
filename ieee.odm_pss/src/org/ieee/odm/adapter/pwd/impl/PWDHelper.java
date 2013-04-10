@@ -226,6 +226,9 @@ public class PWDHelper {
 	    else if(dataType.equals(Token_CaseInfo)){
 	  		recordType=RecType.CASE_INFO;
 	    }
+	    else if(dataType.equals(Token_XFCORRECTION)){
+	  		recordType=RecType.XFCORRECTION;
+	    }
 	    else {
 	    	recordType=RecType.Undefined;
 	    	ODMLogger.getLogger().info("Undifined data type:"+dataType);

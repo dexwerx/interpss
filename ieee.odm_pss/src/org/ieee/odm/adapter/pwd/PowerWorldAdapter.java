@@ -111,6 +111,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 	    	case XFORMER :xfrProc.parseMetadata(str);break;
 	    	case ZONE    :netProc.parseMetadata(str);break;
 	    	case AREA    :netProc.parseMetadata(str);break;
+	    	case XFCORRECTION:xfrProc.parseMetadata(str);break;
 	    	default: // do nothing
 	    }
 	}
@@ -140,6 +141,8 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 			   xfrProc.processXFormerControlData(str);
 		   else if(recordType==RecType.TRI_W_XFORMER){}
 			   //xfrProc.process3WXFomerData(str);
+		   else if(recordType==RecType.XFCORRECTION)
+			   xfrProc.processXFCorrection(str);
 		   else if(recordType==RecType.AREA)
 			   netProc.processAreaData(str);
 		   else if(recordType==RecType.ZONE)

@@ -240,6 +240,8 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		double xfrMvaBase = 0.0, xfrFromSideNominalKV = 0.0, xfrToSideNominalKV=0.0;
 		double miniLineX=1.0E-5;
 		
+		int xfTableNum =0;
+		
 		String fromBusId, toBusId,circuitId="1";
 		String type="";
 		String regBusId="";
@@ -361,7 +363,9 @@ public class BranchDataProcessor extends InputLineStringParser  {
 			    		getString("LineXFType").trim().equalsIgnoreCase("LTC")?XfrType.LTC:
 			    			getString("LineXFType").trim().equalsIgnoreCase("Mvar")?XfrType.Mvar:XfrType.Phase;
 				
-			
+			if(exist("XFTableNum")){
+				xfTableNum = getInt("XFTableNum");
+			}
 			
 			if(gMag==0&&g!=0)gMag=g;
 			if(bMag==0&&b!=0)bMag=b;
@@ -432,6 +436,8 @@ public class BranchDataProcessor extends InputLineStringParser  {
 							"Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: "
 									+ fromBusId + ", " + toBusId);
 				}
+				
+				
 					
 			} else { //Non-phase shifting transformer
 					
@@ -474,6 +480,15 @@ public class BranchDataProcessor extends InputLineStringParser  {
 			
 			AclfDataSetter.setBranchRatingLimitData(xfr.getRatingLimit(),
 					mvaRating1, mvaRating2, mvaRating3, ApparentPowerUnitType.MVA);
+			
+			//set XFCorrection table number
+			if(xfTableNum != 0){
+			    if(xfr.getXfrInfo()==null)
+			    	xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
+			    TransformerInfoXmlType xfrInfo = xfr.getXfrInfo();
+			    xfrInfo.setZTableNumber(xfTableNum);
+
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
