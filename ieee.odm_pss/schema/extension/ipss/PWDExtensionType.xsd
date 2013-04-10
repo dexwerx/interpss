@@ -16,7 +16,14 @@
 
 	<ns:complexType name="PWDNetworkExtXmlType">
 		<ns:sequence>
-			<ns:element name="limitSets" type="ipss:LimitSetXmlType" maxOccurs="unbounded" minOccurs="0"></ns:element>
+			<ns:element name="limitSets" maxOccurs="1" minOccurs="1">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="limitSet"
+							type="ipss:LimitSetXmlType" minOccurs="0" maxOccurs="unbounded">
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
