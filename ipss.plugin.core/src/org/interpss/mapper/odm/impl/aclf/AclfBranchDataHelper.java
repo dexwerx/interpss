@@ -246,12 +246,16 @@ public class AclfBranchDataHelper {
 			    if(item !=null){
 			      XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(item);
 			      if (helper.isPsXfrSAngleBased()) {
-				  // we assume the PsXfr phase shifting angle is defined on the from side
-				  double ang = xmlPsXfrBranch.getFromAngle().getValue();
-				  double factor = helper.calFactor(ang);
-				
-				  // TODO PsXfr ZTable Correction
-				  aclfBra.setZ(aclfBra.getZ().multiply(factor));
+				     if(xmlPsXfrBranch.getFromAngle()!=null){
+					     // we assume the PsXfr phase shifting angle is defined on the from side
+
+			             double ang = xmlPsXfrBranch.getFromAngle().getValue();
+				         double factor = helper.calFactor(ang);
+				         // TODO PsXfr ZTable Correction
+				         aclfBra.setZ(aclfBra.getZ().multiply(factor));
+				      }
+				      else
+					    ipssLogger.warning(xmlPsXfrBranch.getId()+" from angle is null");
 			      }
 		      }else{
 		    	  ipssLogger.warning("XFCorrection table is not defined for table number #"+num);
