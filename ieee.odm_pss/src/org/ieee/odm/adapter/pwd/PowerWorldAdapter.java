@@ -1,5 +1,6 @@
 package org.ieee.odm.adapter.pwd;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import javax.xml.bind.JAXBElement;
 
@@ -16,9 +17,11 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LimitSetXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PWDNetworkExtXmlType;
 
  /**
   * PowerWorld-TO-ODM Adapter based on power world v16 data definition
@@ -46,6 +49,18 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		
+		baseCaseNet.setExtension(odmObjFactory.createPWDNetworkExtXmlType());
+		
+		// TODO sample case to add LimitSet to the basecase network
+		PWDNetworkExtXmlType pwdNetExt = (PWDNetworkExtXmlType)baseCaseNet.getExtension();
+		LimitSetXmlType limitSet = odmObjFactory.createLimitSetXmlType();
+		limitSet.setNumber(1);
+		limitSet.setName("LimitSetName");
+		limitSet.setLsDiabled(false);
+		pwdNetExt.getLimitSets().add(limitSet);
+		// End TODO
+		
 		baseCaseNet.setId("Base_Case_from_PowerWorld_format");
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(100.0));//not defined in the file
 
