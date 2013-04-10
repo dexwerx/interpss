@@ -384,9 +384,13 @@ public class AclfDataSetter extends BaseDataSetter {
 			double gFrom, double bFrom, YUnitType yUnit) {
 		setXformerData(branch,
 				r, x, zUnit, fromTap, toTap, gFrom, bFrom, yUnit);
-		if (fromAng != 0.0) {
-			branch.setFromAngle(createAngleValue(fromAng, angUnit));
-		}
+		//TODO if we don't set it, it will cause if we want to getFromAngle(), which
+		// return null, why not just let it be zero, a PSXfr without a fromAngle attribute
+		// is not completed ;
+		branch.setFromAngle(createAngleValue(fromAng, angUnit));
+//		if (fromAng != 0.0) {
+//			branch.setFromAngle(createAngleValue(fromAng, angUnit));
+//		}
 		if (toAng != 0.0) {
 			branch.setToAngle(createAngleValue(toAng, angUnit));
 		}
