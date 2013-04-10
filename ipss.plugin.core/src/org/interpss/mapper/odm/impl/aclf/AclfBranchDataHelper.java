@@ -34,6 +34,7 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
@@ -235,7 +236,9 @@ public class AclfBranchDataHelper {
 		}
 		
 		TransformerInfoXmlType xfrData = xmlPsXfrBranch.getXfrInfo();		
-		if (xfrData.getZTableNumber() > 1) {
+		if (xfrData.getZTableNumber() != null && xfrData.getZTableNumber() > 1) {
+			int num = xfrData.getZTableNumber();
+			AclfParserHelper.getXfrZTableItem(num, xfrZTable);
 			// TODO PsXfr ZTable Correction
 		}
 	}
@@ -370,8 +373,9 @@ public class AclfBranchDataHelper {
 			}
 		}
 		
-		// TODO Xfr ZTable Correction
-		if (xfrData.getZTableNumber() > 1) {
+		if (xfrData.getZTableNumber() != null && xfrData.getZTableNumber() > 1) {
+			int num = xfrData.getZTableNumber();
+			AclfParserHelper.getXfrZTableItem(num, xfrZTable);
 			// TODO PsXfr ZTable Correction
 		}
 	}
