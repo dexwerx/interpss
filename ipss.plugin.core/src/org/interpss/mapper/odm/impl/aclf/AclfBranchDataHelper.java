@@ -237,14 +237,20 @@ public class AclfBranchDataHelper {
 		
 		TransformerInfoXmlType xfrData = xmlPsXfrBranch.getXfrInfo();		
 		Integer num = xfrData.getZTableNumber();
-		if (num != null && num > 0) {
-			XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
-			if (helper.isPsXfrSAngleBased()) {
+		if (num != null ) {
+			if(num > 0){
+			   XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
+			   if (helper.isPsXfrSAngleBased()) {
 				// we assume the PsXfr phase shifting angle is defined on the from side
 				double ang = xmlPsXfrBranch.getFromAngle().getValue();
 				double factor = helper.calFactor(ang);
-				int i = 0;
+				
 				// TODO PsXfr ZTable Correction
+				aclfBra.setZ(aclfBra.getZ().multiply(factor));
+			   }
+		   }
+			else{
+				ipssLogger.warning("Correction Table Number is less than 1, transformer Id :"+xmlPsXfrBranch.getId());
 			}
 		}
 	}
@@ -380,14 +386,19 @@ public class AclfBranchDataHelper {
 		}
 		
 		Integer num = xfrData.getZTableNumber();
-		if (num != null && num > 0) {
-			XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
-			if (!helper.isPsXfrSAngleBased()) {
-				// we assume the Xfr turn ratio is defined on the from side
-				double t = xmlXfrBranch.getFromTurnRatio().getValue();
-				double factor = helper.calFactor(t);
-				int i = 0;
-				// TODO Xfr ZTable Correction
+		if (num != null) {
+			if(num > 0){
+			     XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
+			    if (!helper.isPsXfrSAngleBased()) {
+				    // we assume the Xfr turn ratio is defined on the from side
+				   double t = xmlXfrBranch.getFromTurnRatio().getValue();
+				   double factor = helper.calFactor(t);
+				
+				   // TODO Xfr ZTable Correction
+				   aclfBra.setZ(aclfBra.getZ().multiply(factor));
+			    }
+		  }else{
+				ipssLogger.warning("Correction Table Number is less than 1, transformer Id :"+xmlXfrBranch.getId());
 			}
 		}
 	}
