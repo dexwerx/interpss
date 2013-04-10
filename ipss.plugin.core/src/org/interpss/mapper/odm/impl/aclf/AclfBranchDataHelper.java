@@ -53,6 +53,7 @@ import org.ieee.odm.schema.TransformerInfoXmlType;
 import org.ieee.odm.schema.VoltageAdjustmentDataXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XformerZTableXmlType;
+import org.ieee.odm.schema.XformerZTableXmlType.XformerZTableItem;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YXmlType;
@@ -239,19 +240,24 @@ public class AclfBranchDataHelper {
 		Integer num = xfrData.getZTableNumber();
 		if (num != null ) {
 			if(num > 0){
-			   XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
-			   if (helper.isPsXfrSAngleBased()) {
-				// we assume the PsXfr phase shifting angle is defined on the from side
-				double ang = xmlPsXfrBranch.getFromAngle().getValue();
-				double factor = helper.calFactor(ang);
+				//there are some cases the XFCorrection data is not provided while 
+				//ZTableNumber is defined in the XFormer data.
+				XformerZTableItem item =AclfParserHelper.getXfrZTableItem(num, xfrZTable);
+			    if(item !=null){
+			      XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(item);
+			      if (helper.isPsXfrSAngleBased()) {
+				  // we assume the PsXfr phase shifting angle is defined on the from side
+				  double ang = xmlPsXfrBranch.getFromAngle().getValue();
+				  double factor = helper.calFactor(ang);
 				
-				// TODO PsXfr ZTable Correction
-				aclfBra.setZ(aclfBra.getZ().multiply(factor));
-			   }
-		   }
-			else{
-				ipssLogger.warning("Correction Table Number is less than 1, transformer Id :"+xmlPsXfrBranch.getId());
-			}
+				  // TODO PsXfr ZTable Correction
+				  aclfBra.setZ(aclfBra.getZ().multiply(factor));
+			      }
+		      }else{
+		    	  ipssLogger.warning("XFCorrection table is not defined for table number #"+num);
+		      }
+			
+		  }
 		}
 	}
 
@@ -388,18 +394,26 @@ public class AclfBranchDataHelper {
 		Integer num = xfrData.getZTableNumber();
 		if (num != null) {
 			if(num > 0){
-			     XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
-			    if (!helper.isPsXfrSAngleBased()) {
+				XformerZTableItem item =AclfParserHelper.getXfrZTableItem(num, xfrZTable);
+			    if(item !=null){
+			      XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(item);
+			      
+			      if (!helper.isPsXfrSAngleBased()) {
 				    // we assume the Xfr turn ratio is defined on the from side
 				   double t = xmlXfrBranch.getFromTurnRatio().getValue();
 				   double factor = helper.calFactor(t);
 				
 				   // TODO Xfr ZTable Correction
 				   aclfBra.setZ(aclfBra.getZ().multiply(factor));
-			    }
-		  }else{
-				ipssLogger.warning("Correction Table Number is less than 1, transformer Id :"+xmlXfrBranch.getId());
-			}
+			      }
+		  
+		       }else
+			    ipssLogger.warning("XFCorrection table is not defined for table number #"+num);
+
+	       }
+			//else{
+			//	ipssLogger.warning("Correction Table Number is less than 1, transformer Id :"+xmlXfrBranch.getId());
+			//}
 		}
 	}
 	
