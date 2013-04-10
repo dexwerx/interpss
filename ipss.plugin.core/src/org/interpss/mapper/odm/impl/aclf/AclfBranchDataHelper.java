@@ -234,7 +234,10 @@ public class AclfBranchDataHelper {
 			}
 		}
 		
-		// TODO Xfr ZTable Correction
+		TransformerInfoXmlType xfrData = xmlPsXfrBranch.getXfrInfo();		
+		if (xfrData.getZTableNumber() > 1) {
+			// TODO PsXfr ZTable Correction
+		}
 	}
 
 	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, XformerZTableXmlType xfrZTable) {
@@ -368,7 +371,9 @@ public class AclfBranchDataHelper {
 		}
 		
 		// TODO Xfr ZTable Correction
-
+		if (xfrData.getZTableNumber() > 1) {
+			// TODO PsXfr ZTable Correction
+		}
 	}
 	
 	/*
