@@ -236,14 +236,20 @@ public class AclfBranchDataHelper {
 		}
 		
 		TransformerInfoXmlType xfrData = xmlPsXfrBranch.getXfrInfo();		
-		if (xfrData.getZTableNumber() != null && xfrData.getZTableNumber() > 1) {
-			int num = xfrData.getZTableNumber();
-			AclfParserHelper.getXfrZTableItem(num, xfrZTable);
-			// TODO PsXfr ZTable Correction
+		Integer num = xfrData.getZTableNumber();
+		if (num != null && num > 0) {
+			XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
+			if (helper.isPsXfrSAngleBased()) {
+				// we assume the PsXfr phase shifting angle is defined on the from side
+				double ang = xmlPsXfrBranch.getFromAngle().getValue();
+				double factor = helper.calFactor(ang);
+				int i = 0;
+				// TODO PsXfr ZTable Correction
+			}
 		}
 	}
 
-	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, XformerZTableXmlType xfrZTable) {
+	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, XformerZTableXmlType xfrZTable) throws InterpssException {
 		double baseKva = aclfNet.getBaseKva();
 
 		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
@@ -373,10 +379,16 @@ public class AclfBranchDataHelper {
 			}
 		}
 		
-		if (xfrData.getZTableNumber() != null && xfrData.getZTableNumber() > 1) {
-			int num = xfrData.getZTableNumber();
-			AclfParserHelper.getXfrZTableItem(num, xfrZTable);
-			// TODO PsXfr ZTable Correction
+		Integer num = xfrData.getZTableNumber();
+		if (num != null && num > 0) {
+			XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(AclfParserHelper.getXfrZTableItem(num, xfrZTable));
+			if (!helper.isPsXfrSAngleBased()) {
+				// we assume the Xfr turn ratio is defined on the from side
+				double t = xmlXfrBranch.getFromTurnRatio().getValue();
+				double factor = helper.calFactor(t);
+				int i = 0;
+				// TODO Xfr ZTable Correction
+			}
 		}
 	}
 	

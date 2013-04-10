@@ -126,6 +126,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 				LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
 				mapAclfBusData(busRec, aclfBus, adjNet);
+				//System.out.println("map bus " + aclfBus.getId());
 			}
 			// TODO 
 			// process remote bus reference. Remote reference bus of a bus might be located behind 
@@ -139,6 +140,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 				else
 					branch = CoreObjectFactory.createAclfBranch();
 				mapAclfBranchData(xmlBranch, branch, adjNet, xfrZTable);
+				//System.out.println("map branch " + branch.getId());
 			}
 		} catch (InterpssException e) {
 			//e.printStackTrace();
