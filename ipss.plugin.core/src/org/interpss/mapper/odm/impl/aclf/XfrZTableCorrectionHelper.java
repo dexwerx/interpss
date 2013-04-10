@@ -64,6 +64,8 @@ public class XfrZTableCorrectionHelper {
 						   t2 = ti_1.getTurnRatioShiftAngle(),
 						   x1 = ti.getScaleFactor(),
 						   x2 = ti_1.getScaleFactor();	
+					if (t2 <= t1)
+						throw new InterpssException("Error in Xfr Z Table correction factor definition t[i+1] <= t[i]");
 					return x1 + (x2 - x1) * (t_ang - t1) / (t2 - t1);
 				}
 			}
