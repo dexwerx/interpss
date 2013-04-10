@@ -50,15 +50,20 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		
-		baseCaseNet.setExtension(odmObjFactory.createPWDNetworkExtXmlType());
+		// add PWD network extension 
+		PWDNetworkExtXmlType pwdNetExt = odmObjFactory.createPWDNetworkExtXmlType();
+		pwdNetExt.setLimitSets(odmObjFactory.createPWDNetworkExtXmlTypeLimitSets());
+		baseCaseNet.setExtension(pwdNetExt);
 		
 		// TODO sample case to add LimitSet to the basecase network
-		PWDNetworkExtXmlType pwdNetExt = (PWDNetworkExtXmlType)baseCaseNet.getExtension();
+		pwdNetExt = (PWDNetworkExtXmlType)baseCaseNet.getExtension();
+		pwdNetExt.setLimitSets(odmObjFactory.createPWDNetworkExtXmlTypeLimitSets());
+		
 		LimitSetXmlType limitSet = odmObjFactory.createLimitSetXmlType();
 		limitSet.setNumber(1);
 		limitSet.setName("LimitSetName");
 		limitSet.setLsDiabled(false);
-		pwdNetExt.getLimitSets().add(limitSet);
+		pwdNetExt.getLimitSets().getLimitSet().add(limitSet);
 		// End TODO
 		
 		baseCaseNet.setId("Base_Case_from_PowerWorld_format");
