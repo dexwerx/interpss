@@ -47,6 +47,7 @@ import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.XformerZTableXmlType;
 
 /**
  * Aclf model parser help functions
@@ -322,5 +323,20 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		ShuntCompensatorXmlType compensator = odmObjFactory.createShuntCompensatorXmlType();
 		bus.getShuntCompensatorData().getShuntCompensator().add(compensator);
 		return compensator; 
+	}
+	
+	/**
+	 * get Xfr Z correction table item by item nubmer
+	 * 
+	 * @param number
+	 * @param xfrZTable
+	 * @return
+	 */
+	public static XformerZTableXmlType.XformerZTableItem getXfrZTableItem(int number, XformerZTableXmlType xfrZTable) {
+		for (XformerZTableXmlType.XformerZTableItem item : xfrZTable.getXformerZTableItem()) {
+			if (item.getNumber() == number)
+				return item;
+		}
+		return null;
 	}
 }
