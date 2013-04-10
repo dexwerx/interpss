@@ -51,6 +51,7 @@ import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
+import org.ieee.odm.schema.XformerZTableXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -103,6 +104,9 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY) {
 			// get the base net xml record from the parser object
 			DStabNetXmlType xmlNet = parser.getDStabNet();
+			
+			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			
 			try {
 				// create a DStabilityNetwork object and map the net info 
 				DStabilityNetwork dstabNet = mapDStabNetworkData(xmlNet);
@@ -164,7 +168,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 							branch.getValue() instanceof XfrBranchXmlType ||
 								branch.getValue() instanceof PSXfrBranchXmlType) {
 						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
-						aclfNetMapper.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet);
+						aclfNetMapper.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, xfrZTable);
 
 						if (branch.getValue() instanceof LineShortCircuitXmlType || 
 								branch.getValue() instanceof XfrShortCircuitXmlType ||

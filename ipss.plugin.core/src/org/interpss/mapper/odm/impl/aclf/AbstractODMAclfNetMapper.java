@@ -44,6 +44,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.XformerZTableXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.interpss.ext.pwd.AclfBranchPWDExtension;
@@ -119,6 +120,8 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 			mapAclfNetworkData(adjNet, xmlNet);
 			simuCtx.setAclfNet(adjNet);
 
+			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			
 			for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 				LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
@@ -135,7 +138,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 					branch = CoreObjectFactory.createAclf3WXformer();
 				else
 					branch = CoreObjectFactory.createAclfBranch();
-				mapAclfBranchData(xmlBranch, branch, adjNet);
+				mapAclfBranchData(xmlBranch, branch, adjNet, xfrZTable);
 			}
 		} catch (InterpssException e) {
 			//e.printStackTrace();
@@ -255,7 +258,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * @param msg
 	 * @throws Exception
 	 */
-	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet) throws InterpssException {
+	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet, XformerZTableXmlType xfrZTable) throws InterpssException {
 		if (adjNet.getOriginalDataFormat() == OriginalDataFormat.PWD) {
 			AclfBranchPWDExtension ext = new AclfBranchPWDExtension();
 			branch.setExtensionObject(ext);
@@ -280,11 +283,11 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 		}
 		else if (xmlBranch instanceof PSXfrBranchXmlType) {
 			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) xmlBranch;
-			helper.setPsXfrBranchData(branchRec);
+			helper.setPsXfrBranchData(branchRec, xfrZTable);
 		}		
 		else if (xmlBranch instanceof XfrBranchXmlType) {
 			XfrBranchXmlType branchRec = (XfrBranchXmlType) xmlBranch;
-			helper.setXfrBranchData(branchRec);
+			helper.setXfrBranchData(branchRec, xfrZTable);
 		}
 	}
 	

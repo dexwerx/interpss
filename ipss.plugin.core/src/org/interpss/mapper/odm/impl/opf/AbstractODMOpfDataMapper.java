@@ -62,6 +62,7 @@ import org.ieee.odm.schema.SqrCoeffXmlType;
 import org.ieee.odm.schema.StairStepXmlType;
 import org.ieee.odm.schema.VoltageLimitXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.XformerZTableXmlType;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
 import org.interpss.mapper.odm.impl.aclf.AbstractODMAclfParserMapper;
@@ -125,6 +126,9 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.OPF) {			
 			BaseOpfNetworkXmlType xmlNet = parser.getBaseOpfNet();
 			simuCtx.setNetType(SimuCtxType.OPF_NET);
+			
+			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			
 			try {
 				BaseOpfNetwork opfNet = null;
 				if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) 
@@ -162,11 +166,11 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
 						DclfOpfBranch opfDclfBranch = OpfObjectFactory.createDclfOpfBranch();
-						aclfNetMapper.mapAclfBranchData(b.getValue(), opfDclfBranch, (DclfOpfNetwork)opfNet);
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfDclfBranch, (DclfOpfNetwork)opfNet, xfrZTable);
 					}
 					else {
 						OpfBranch opfBranch = OpfObjectFactory.createOpfBranch();
-						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (OpfNetwork)opfNet);
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (OpfNetwork)opfNet, xfrZTable);
 						// map MW rating
 						BranchXmlType branchXml = (BranchXmlType)b.getValue();
 						if(branchXml.getRatingLimit()!=null){

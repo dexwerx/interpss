@@ -50,6 +50,7 @@ import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
+import org.ieee.odm.schema.XformerZTableXmlType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
@@ -111,6 +112,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				&& parser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT) {
 			// get the base net xml record from the parser object
 			ShortCircuitNetXmlType xmlNet = parser.getAcscNet();
+			
+			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			
 			try {
 				// create a AcscFaultNetwork object and map the net info 
 				AcscNetwork acscFaultNet =  CoreObjectFactory.createAcscNetwork();						
@@ -160,7 +164,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
-						aclfNetMapper.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet);
+						aclfNetMapper.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet, xfrZTable);
 						setAcscBranchData(acscBraXml, acscBranch);
 					}
 					else {
