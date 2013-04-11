@@ -5,8 +5,10 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import org.ieee.odm.adapter.InputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.LimitSetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.PWDNetworkExtXmlType;
  /**
   * Network data processor for PowerWorld-TO-ODM Adapter based on power world v16 data definition
   * Now it supports both Area data and Zone data, Owner and Interface data is not yet implemented.
@@ -16,7 +18,7 @@ import org.ieee.odm.schema.NetZoneXmlType;
   */
 public class NetDataProcessor extends InputLineStringParser  {
 	private AclfModelParser parser = null;
-	
+	private boolean initLimitSet =false;
 	public NetDataProcessor(AclfModelParser parser) {
 		this.parser = parser;
 	}
@@ -84,6 +86,39 @@ public class NetDataProcessor extends InputLineStringParser  {
 		parser.getAclfNet().getLossZoneList().getLossZone().add(zone);
 		
 	}
+    /**
+     * 
+     * @param limitSetStr
+     * @throws ODMException 
+     */
+	public void processLimitSet(String limitSetStr) throws ODMException{
+		PWDNetworkExtXmlType pwdNetExt =(PWDNetworkExtXmlType)parser.getAclfNet().getExtension();
+		if(!initLimitSet){
+			if (pwdNetExt.getLimitSets()==null) 
+			    pwdNetExt.setLimitSets(odmObjFactory.createPWDNetworkExtXmlTypeLimitSets());
+			initLimitSet=true;
+		}
+		
+		
+		String limitSetName="";
+		boolean isDisable =false;
+		int lsNum=0;
+		
+		parseData(limitSetStr);
+		if(exist("LSDisabled")){
+		   isDisable = getString("LSDisabled").trim().equalsIgnoreCase("No")?false:true;
+		}
+		lsNum = getInt("LSNum");
+		limitSetName = getString("LSName");
+		
+		LimitSetXmlType limitSet = odmObjFactory.createLimitSetXmlType();
+		limitSet.setNumber(lsNum);
+		limitSet.setName(limitSetName);
+		limitSet.setLsDiabled(isDisable);
+		 pwdNetExt.getLimitSets().getLimitSet().add(limitSet);
+		
+	}
+	
 	/**
 	 * process owner data
 	 * @param ownerDataStr

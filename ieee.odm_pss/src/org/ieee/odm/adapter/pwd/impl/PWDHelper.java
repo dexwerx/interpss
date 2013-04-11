@@ -229,6 +229,9 @@ public class PWDHelper {
 	    else if(dataType.equals(Token_XFCORRECTION)){
 	  		recordType=RecType.XFCORRECTION;
 	    }
+	    else if(dataType.equals(Token_LIMITSET)){
+	    	recordType=RecType.LIMITSET;
+	    }
 	    else {
 	    	recordType=RecType.Undefined;
 	    	ODMLogger.getLogger().info("Undifined data type:"+dataType);

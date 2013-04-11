@@ -55,6 +55,7 @@ public class BranchDataProcessor extends InputLineStringParser  {
 	private String STATION_TOKEN ="SubStation";
 	private String EQUIMENT_NAME_TOKEN ="EquimentName";
 	
+	
 	private AclfModelParser parser = null;
 	
 	public BranchDataProcessor( AclfModelParser parser) {
@@ -96,6 +97,9 @@ public class BranchDataProcessor extends InputLineStringParser  {
 			   extBranchName ="",   //unique equipment name, e.g., "Sub2_230_L25" 
 		       equipmentName ="";   //"L25"
 		String substation ="";      //substring before the underscore of customString
+		
+		String isMonitorEle="";
+		String  lsName="";
 		
 		
 	   if (exist("LineXfmr"))
@@ -188,7 +192,17 @@ public class BranchDataProcessor extends InputLineStringParser  {
                 if(!extBranchName.equals(""))
                 	BaseDataSetter.addNVPair(branch,extendedNameToken,extBranchName);
                 
-    			
+    			//check if the branch is a Line monitor element and the corresponding LSName
+                if(exist("LineMonEle")) 
+                	isMonitorEle=getString("LineMonEle");
+                if(exist("LSName"))
+                	lsName=getString("LSName");
+                
+                if(!lsName.equals("")){
+                	BaseDataSetter.addNVPair(branch,"LineMonEle",isMonitorEle);
+                	BaseDataSetter.addNVPair(branch,"LSName",lsName);
+                }
+                
     			
 				branch.setOffLine(!closed);
 				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
@@ -254,8 +268,12 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		String equimentNameToken="CustomString:2";
 		String extBranchName ="",   //unique equipment name, e.g., "Sub2_230_L25" 
 			   equipmentName ="";   //"L25"
-			String substation ="";      //substring before the underscore of customString
+		String substation ="";      //substring before the underscore of customString
 
+		String isMonitorEle="";
+		String  lsName="";
+		
+		
 		try{
 		
 		    fromBusNum=getLong("BusNum"); //mandatory field
@@ -394,7 +412,18 @@ public class BranchDataProcessor extends InputLineStringParser  {
 		    }
 		    if(!equipmentName.equals(""))
 		       BaseDataSetter.addNVPair(xfr, EQUIMENT_NAME_TOKEN, equipmentName);
-		    			                
+		    
+		  //check if the branch is a Line monitor element and the corresponding LSName
+            if(exist("LineMonEle")) 
+            	isMonitorEle=getString("LineMonEle");
+            if(exist("LSName"))
+            	lsName=getString("LSName");
+            
+            if(!lsName.equals("")){
+            	BaseDataSetter.addNVPair(xfr,"LineMonEle",isMonitorEle);
+            	BaseDataSetter.addNVPair(xfr,"LSName",lsName);
+            }
+		    
 		    			               
 			/*
 			 * common setting for Transformer branch

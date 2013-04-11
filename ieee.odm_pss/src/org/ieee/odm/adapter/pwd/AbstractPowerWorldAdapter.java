@@ -28,8 +28,9 @@ public abstract class AbstractPowerWorldAdapter extends AbstractODMAdapter {
 	public  static final String Token_Zone="ZONE";
 	public  static final String Token_CaseInfo="PWCASEINFORMATION";//PWCASEINFORMATION
 	public  static final String Token_XFCORRECTION="XFCORRECTION";
+	public  static final String Token_LIMITSET="LIMITSET";
 	//Define the record data type
-	public static enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,XFCORRECTION,Undefined};
+	public static enum RecType{BUS,LOAD,GEN,SHUNT,BRANCH,XFORMER,TRI_W_XFORMER,AREA,ZONE,CASE_INFO,XFCORRECTION,LIMITSET,Undefined};
 	
 	/**
 	 * process the input file line-by-line
