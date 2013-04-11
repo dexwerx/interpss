@@ -60,6 +60,8 @@ public class LimitSetHelper {
 	 * @throws InterpssException
 	 */
 	public boolean isDisabled(String lsName) throws InterpssException {
+		if (lsName == null)
+			return true;
 		if (this.lookupTable.get(lsName) == null)
 			throw new InterpssException("LimitSet not defined, " + lsName);
 		return this.lookupTable.get(lsName);
