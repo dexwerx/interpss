@@ -248,10 +248,8 @@ public class AclfBranchDataHelper {
 			      if (helper.isPsXfrSAngleBased()) {
 				     if(xmlPsXfrBranch.getFromAngle()!=null){
 					     // we assume the PsXfr phase shifting angle is defined on the from side
-
 			             double ang = xmlPsXfrBranch.getFromAngle().getValue();
 				         double factor = helper.calFactor(ang);
-				         // TODO PsXfr ZTable Correction
 				         aclfBra.setZ(aclfBra.getZ().multiply(factor));
 				      }
 				      else
@@ -406,8 +404,6 @@ public class AclfBranchDataHelper {
 				    // we assume the Xfr turn ratio is defined on the from side
 				   double t = xmlXfrBranch.getFromTurnRatio().getValue();
 				   double factor = helper.calFactor(t);
-				
-				   // TODO Xfr ZTable Correction
 				   aclfBra.setZ(aclfBra.getZ().multiply(factor));
 			      }
 		  

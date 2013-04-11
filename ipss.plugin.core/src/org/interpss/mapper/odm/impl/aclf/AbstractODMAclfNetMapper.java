@@ -27,6 +27,7 @@ package org.interpss.mapper.odm.impl.aclf;
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -44,6 +45,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NameValuePairXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.PWDNetworkExtXmlType;
 import org.ieee.odm.schema.XformerZTableXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -114,18 +116,18 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 		LoadflowNetXmlType xmlNet = (LoadflowNetXmlType)p; 
 		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 		try {
-			AclfNetwork adjNet = CoreObjectFactory.createAclfNetwork();
-			adjNet.setOriginalDataFormat(this.originalFormat);		
+			AclfNetwork aclfNet = CoreObjectFactory.createAclfNetwork();
+			aclfNet.setOriginalDataFormat(this.originalFormat);		
 			
-			mapAclfNetworkData(adjNet, xmlNet);
-			simuCtx.setAclfNet(adjNet);
+			mapAclfNetworkData(aclfNet, xmlNet);
+			simuCtx.setAclfNet(aclfNet);
 
 			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
 			
 			for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 				LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
-				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), adjNet);
-				mapAclfBusData(busRec, aclfBus, adjNet);
+				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), aclfNet);
+				mapAclfBusData(busRec, aclfBus, aclfNet);
 				//System.out.println("map bus " + aclfBus.getId());
 			}
 			// TODO 
@@ -139,8 +141,26 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 					branch = CoreObjectFactory.createAclf3WXformer();
 				else
 					branch = CoreObjectFactory.createAclfBranch();
-				mapAclfBranchData(xmlBranch, branch, adjNet, xfrZTable);
+				mapAclfBranchData(xmlBranch, branch, aclfNet, xfrZTable);
 				//System.out.println("map branch " + branch.getId());
+			}
+			
+			// process CA monitoring status. The function only applies to PWD
+			if (this.originalFormat == OriginalDataFormat.PWD) {
+				/* TODO
+				if (xmlNet.getExtension() != null) {
+					PWDNetworkExtXmlType pwdNetExt = (PWDNetworkExtXmlType)xmlNet.getExtension();
+					PWDNetworkExtXmlType.LimitSets limitSets = pwdNetExt.getLimitSets();
+					if (limitSets != null) {
+						LimitSetHelper helper = new LimitSetHelper(limitSets);
+						for (AclfBranch branch : aclfNet.getBranchList()) {
+							AclfBranchPWDExtension ext = (AclfBranchPWDExtension)branch.getExtensionObject();
+							boolean isDisabled = helper.isDisabled(ext.getLSName());
+							ext.setCaMonitoring(!isDisabled && ext.getLineMonEle().toLowerCase().equals("yes"));
+						}
+					}
+				}
+				*/
 			}
 		} catch (InterpssException e) {
 			//e.printStackTrace();

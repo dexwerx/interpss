@@ -46,12 +46,24 @@ public class XfrZTableCorrectionHelper {
 		this.itemList = item;
 	}
 
+	/**
+	 * check if the Z Table correction is PsXfr shifting angle based or Xfr turn ratio based
+	 * 
+	 * @return
+	 */
 	public boolean isPsXfrSAngleBased() {
 		int last = this.itemList.getLookup().size() - 1;
 		return itemList.getLookup().get(0).getTurnRatioShiftAngle() < 0.5 ||
 				itemList.getLookup().get(last).getTurnRatioShiftAngle() > 2.0;
 	}
 	
+	/**
+	 * calculate the scaling factor
+	 * 
+	 * @param t_ang
+	 * @return
+	 * @throws InterpssException
+	 */
 	public double calFactor(double t_ang) throws InterpssException {
 		if (this.itemList.getLookup().size() > 2) {
 			int last = this.itemList.getLookup().size() - 1;
