@@ -6,21 +6,22 @@
 	targetNamespace="http://www.interpss.org/Schema/odm/2008" 
 	elementFormDefault="qualified">
 
-    <ns:include schemaLocation=""></ns:include>
     <ns:import schemaLocation="../../common/DataType.xsd" namespace="http://www.ieee.org/odm/Schema/2008"></ns:import>
+
     <ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2010</ns:documentation>
 	</ns:annotation>
-	
-		
 
+    <ns:annotation>
+		<ns:documentation>Schema type for defining extension attribute of the baseCaseNet for PWD AUX file</ns:documentation>
+	</ns:annotation>
+	
 	<ns:complexType name="PWDNetworkExtXmlType">
 		<ns:sequence>
 			<ns:element name="limitSets" maxOccurs="1" minOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="limitSet"
-							type="ipss:LimitSetXmlType" minOccurs="0" maxOccurs="unbounded">
+						<ns:element name="limitSet" type="ipss:LimitSetXmlType" minOccurs="0" maxOccurs="unbounded">
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType></ns:element>
