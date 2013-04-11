@@ -147,7 +147,6 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 			
 			// process CA monitoring status. The function only applies to PWD
 			if (this.originalFormat == OriginalDataFormat.PWD) {
-				/* TODO
 				if (xmlNet.getExtension() != null) {
 					PWDNetworkExtXmlType pwdNetExt = (PWDNetworkExtXmlType)xmlNet.getExtension();
 					PWDNetworkExtXmlType.LimitSets limitSets = pwdNetExt.getLimitSets();
@@ -160,7 +159,6 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 						}
 					}
 				}
-				*/
 			}
 		} catch (InterpssException e) {
 			//e.printStackTrace();
