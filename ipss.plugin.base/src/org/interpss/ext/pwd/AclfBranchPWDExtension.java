@@ -29,6 +29,24 @@ public class AclfBranchPWDExtension extends Hashtable<String,String> {
 	}
 
 	/**
+	 * get LineMonEle attribute
+	 * 
+	 * @return
+	 */
+	public String getLineMonEle() {
+		return this.get("LineMonEle");
+	}
+
+	/**
+	 * get LSName attribute
+	 * 
+	 * @return
+	 */
+	public String getLSName() {
+		return this.get("LSName");
+	}
+	
+	/**
 	 * to string function
 	 */
 	public String toString() {
