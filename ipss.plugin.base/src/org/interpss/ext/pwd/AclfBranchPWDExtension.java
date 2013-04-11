@@ -13,6 +13,10 @@ import java.util.Hashtable;
 public class AclfBranchPWDExtension extends Hashtable<String,String> {
 	private static final long serialVersionUID = 1L;
 	
+	private boolean caMonitoring = false;
+	public boolean isCaMonitoring() { return caMonitoring; }
+	public void setCaMonitoring(boolean caMonitoring) { this.caMonitoring = caMonitoring; }
+
 	/**
 	 * Defined as "EquipmentType_SubstationName_EquipmentName”. Take Transformer_Sub1_T12 for example, 
 	 * it refers to the transformer connected to substation Sub1 (where the “fromBus” is located) 
