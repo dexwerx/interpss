@@ -12,11 +12,6 @@ import java.util.Hashtable;
  */
 public class AclfBusPWDExtension extends Hashtable<String,String> {
 	private static final long serialVersionUID = 1L;
-	
-	private boolean eNode = false;
-	public boolean iseNode() { return eNode; }
-	public void seteNode(boolean eNode) { this.eNode = eNode; }
-
 
 	public String getSubstationName(){
 		return this.get("SubStation");
