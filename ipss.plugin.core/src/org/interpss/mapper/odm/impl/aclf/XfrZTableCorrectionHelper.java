@@ -67,11 +67,18 @@ public class XfrZTableCorrectionHelper {
 	public double calFactor(double t_ang) throws InterpssException {
 		if (this.itemList.getLookup().size() > 2) {
 			int last = this.itemList.getLookup().size() - 1;
+			XformerZTableXmlType.XformerZTableItem.Lookup 
+			ti = null,
+			ti_1=null;
 			for (int cnt = 0; cnt < last; cnt++) {
-				XformerZTableXmlType.XformerZTableItem.Lookup 
-					ti = this.itemList.getLookup().get(cnt),
+				//XformerZTableXmlType.XformerZTableItem.Lookup 
+					ti = this.itemList.getLookup().get(cnt);
 					ti_1 = this.itemList.getLookup().get(cnt+1);
-				if (ti.getTurnRatioShiftAngle() <= t_ang && ti_1.getTurnRatioShiftAngle() > t_ang) {
+				if(ti_1.getTurnRatioShiftAngle()== t_ang){
+					System.out.println("ti+1= Tang");
+				}
+				//Make use ti<= tang <=ti+1
+				if (ti.getTurnRatioShiftAngle() <= t_ang && ti_1.getTurnRatioShiftAngle() >= t_ang) {
 					double t1 = ti.getTurnRatioShiftAngle(),
 						   t2 = ti_1.getTurnRatioShiftAngle(),
 						   x1 = ti.getScaleFactor(),
@@ -81,7 +88,7 @@ public class XfrZTableCorrectionHelper {
 					return x1 + (x2 - x1) * (t_ang - t1) / (t2 - t1);
 				}
 			}
-			throw new InterpssException("Cannot find Xfr Z Table correction factor");
+			throw new InterpssException("Cannot find Xfr Z Table correction factor, Tang" + t_ang+",  last Ti"+ti_1.getTurnRatioShiftAngle());
 		}
 		else
 			throw new InterpssException("Xfr Z correction table entries < 2");
