@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
-import org.ieee.odm.adapter.pwd.PowerWorldAdapter.FileTypeSpecifier;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 
@@ -57,7 +55,7 @@ public class InputLineStringParser {
 	private LinkedHashMap<Integer, String> positionTable;  // 1, .... n
 
 	/**
-	 * store the nv pairs { (BusNum, 4), (BusNum:1, 5) ... }
+	 * store the nv pairs { (BusNum, 4), (BusNum:1, 5), (BusName, Name) ... }
 	 */
 	private LinkedHashMap<String, String> fieldTable;
 	
@@ -80,15 +78,33 @@ public class InputLineStringParser {
 	 * @param data
 	 */
 	public void parseMetadata(String data) {
+		setMetadata(parseMetaData(data));
+	}
+
+	/**
+	 * set parser meta data
+	 * 
+	 * @param dataAry meta date string array
+	 */
+	public void setMetadata(String[] dataAry) {
 		//renew the position table for each data section
 		this.positionTable.clear();
 		int cnt =0;
-		String[] sAry = parseMetaData(data);
-		for (String s : sAry) {
+		for (String s : dataAry) {
 			this.positionTable.put(cnt++, s.trim());
 		}
 	}
 
+	/**
+	 * set value at the postion
+	 * 
+	 * @param position
+	 * @param value
+	 */
+	public void setValue(int position, String value) {
+		this.fieldTable.put(this.positionTable.get(position), value);
+	}
+	
 	/**
 	 * parse the data string. 
 	 * 
@@ -309,146 +325,4 @@ public class InputLineStringParser {
 	public void setFieldTable(LinkedHashMap<String, String> fieldTable) {
 		this.fieldTable = fieldTable;
 	}
-
-	/*
-	public String[] parseDataFields(String Str){
-	    this.dataList.clear();
-	    
-		StringBuilder strBuf=new StringBuilder();
-
-		boolean isEntry = false;
-
-		boolean quotBegin = false, quotEnd = false;
-
-		int beginIdx =0, endIdx=0;
-		
-		String s=Str.trim();
-			
-		//convert the input string to a char array
-	    char[] charAry =s.toCharArray();
-
-	    for( int i = 0;i<charAry.length;i++){
-			//string within a quotation is processed separately 
-			// and treated as a whole
-			if(!(charAry[i]=='"'||charAry[i]=='\'')){
-				//PWD uses the space to separate data, the consecutive non-space
-				//characters are appended together to form a string, and set the 
-				//isEntry to be true
-				if (!Character.isWhitespace(charAry[i]) || quotBegin) {
-					strBuf.append(charAry[i]);
-					isEntry = true;
-					//if the processing data is the last one, since no white space
-					//after it, it needs to be treated specially.
-					if (i == charAry.length - 1) {
-						this.dataList.add(strBuf.toString());
-					}
-				}
-			    //if any white space not within a quotation is encountered, then one data entry
-			    // is completed and should be added to the data list
-				else if(isEntry){
-					this.dataList.add(strBuf.toString());
-					strBuf.setLength(0);
-					//reset the flag
-					isEntry=false;
-				}
-			}	   
-			else	{ // charAry[i]=='"' || charAry[i]=='\'')
-				if (!quotBegin)
-					quotBegin = true;
-				else
-					quotEnd = true;
-				
-			   //if the quotation counter is two, then one complete data entry within
-			   // a quotation has been processed and need to save to the data list
-			   if(quotEnd){
-				   this.dataList.add(strBuf.toString());
-				   strBuf.setLength(0);
-				   quotBegin = false;
-				   quotEnd = false;
-				   isEntry=false;
-			   }
-		   }
-		}
-		//System.out.println(dataList.toString());
-		return this.dataList.toArray(new String[1]);
-	}	
-	
-	public String[] xparseDataFields(String str){
-		List<String> dataList=new ArrayList<String>();
-		String[] dataFields=null;
-		str=str.trim();
-		try{
-		if (PowerWorldAdapter.dataSeparator == FileTypeSpecifier.Blank) {
-				int j = -1;
-				//int k = 0;
-				// get the quote index
-				List<Integer> quoteIndexAry = new ArrayList<Integer>();
-				do {
-					j = str.indexOf("\"", j + 1);// index of double-quote
-					if (j != -1)
-						quoteIndexAry.add(j);
-				} while (j != -1);
-
-				int index = 0;
-				for (int n = 0; n < quoteIndexAry.size(); n++) {
-					String sub = "";
-
-					if (n % 2 == 0) {
-						sub = str.substring(index, quoteIndexAry.get(n));
-						// separating substrings without double-quote with blank
-						if(!sub.trim().isEmpty()){
-						  String[] temp = sub.trim().split("\\s++");
-								
-						  for (String value : temp) {
-							//if (!value.trim().equals(""))
-								//dataFields[k++] = value.trim();
-							  dataList.add(value.trim());
-						  }
-						}
-
-					}
-
-					else {
-						//make the data field within a quote as one data 
-						sub = str.substring(index, quoteIndexAry.get(n)); 
-						//dataFields[k++] = sub;
-						dataList.add(sub);
-						if (n == quoteIndexAry.size() - 1) {
-							//from the last quote to the end
-							sub = str.substring(quoteIndexAry.get(n) + 1); 
-							if(!sub.trim().isEmpty()){
-							   String[] temp = sub.trim().split("\\s++");
-							   for (String value : temp) {
-									//dataFields[k++] = value.trim();
-								   dataList.add(value.trim());
-							   }
-							}
-						}
-					}
-					index = quoteIndexAry.get(n) + 1;
-					//System.out.println("n=" +n+", k="+k);
-					
-				}
-				
-				//set the result to dataFields[];
-				dataFields=new String[dataList.size()];
-				for(int i=0;i<dataList.size();i++){
-					dataFields[i]=dataList.get(i);
-				}
-				
-			} else {
-				String[] tempDataFields = str.split(",");
-				dataFields=new String[tempDataFields.length];
-				for (int i = 0; i < tempDataFields.length; i++) {
-					dataFields[i] = tempDataFields[i].trim();
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println("input: " + str + "\n" + 
-					           "data fields: " + dataFields+ "\n");
-		}
-		return dataFields;
-	}	
-	*/
 } 

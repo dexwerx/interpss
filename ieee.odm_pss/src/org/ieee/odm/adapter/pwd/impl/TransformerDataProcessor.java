@@ -549,8 +549,9 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 		Lookup nvPair=odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup();
 		
 	    int tableNum = getInt("XFCorTableNum");
-		//String tableName = getString("XFCorTableName");
+		String tableName = getString("XFCorTableName");
 	    corItem.setNumber(tableNum);
+	    corItem.setName(tableName);
 	    
 	    /*Based on definition of PSS/E:
 	      On each record, at least 2 pairs of values must be specified
