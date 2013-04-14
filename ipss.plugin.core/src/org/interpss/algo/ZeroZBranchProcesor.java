@@ -153,25 +153,38 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	  	// bus and branch visited status will be used
 		// in the zero Z branch processing
 	  	net.setVisitedStatus(false);
-		  		  		
+		
+	  	int cnt = 0;
 	  	for (Bus b : net.getBusList()) {		  		
+			cnt++;
+	  		//System.out.println("cnt " + ++cnt);
 	  		if (b.isStatus()){
 	  			if (!b.isVisited()) {
 		  			// find all buses on the zero z branch path of the bus, including
 		  			// the bus itself
-		  			List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
-		  			// if more than one, meaning there is zero-z branch(es), process
-		  			// zero-z branch
-		  			if (list.size() > 1) {
-		  				ipssLogger.info("Select parent bus, total buses: " + list.size());
-		  				Bus parentBus = selectParentBus(list);
-		  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
-		  				for (Bus bus : list) {
-			  				if (!bus.getId().equals(parentBus.getId())) {
-			  					ipssLogger.info("child bus: " + bus.getId());
-			  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
+		  			if ( cnt > 0
+		  					//cnt > 4 && cnt < 31 
+		  					//cnt < 3	|| 
+		  					//cnt > 31 && cnt < 100 
+		  					//|| cnt > 100 && cnt < 197
+		  					)	{
+		  				System.out.println("Processing bus " + b.getId());
+		  				List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
+			  			// if more than one, meaning there is zero-z branch(es), process
+			  			// zero-z branch
+			  			if (list.size() > 1) {
+			  				ipssLogger.info("Select parent bus, total buses: " + list.size());
+			  				Bus parentBus = selectParentBus(list);
+			  				System.out.println("Select parent bus " + parentBus.getId() + " total buses: " + list.size());
+			  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
+			  				for (Bus bus : list) {
+				  				if (!bus.getId().equals(parentBus.getId())) {
+				  					ipssLogger.info("child bus: " + bus.getId());
+				  					System.out.println("child bus: " + bus.getId());
+				  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
+				  				}
 			  				}
-		  				}
+			  			}
 		  			}
 		  		}
 	  		}
@@ -185,7 +198,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  			b.setStatus(false);
 	  			}
 	  			else
-	  				ipssLogger.warning("Small Z branch not processed, " + b.getId());
+	  				;//ipssLogger.warning("Small Z branch not processed, " + b.getId());
 	  		}
 	  	}		  	
 	}
@@ -199,16 +212,16 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	  	for (AclfBranch b : net.getBranchList()) {
 	  		if (b.getBranchCode() != AclfBranchCode.ZERO_IMPEDENCE) {
 	  			cnt++;
-	  			//if ( cnt <= 15 //|| cnt == 14 || cnt == 15
+	  			if ( cnt == 13 || cnt == 14 // || cnt == 15
 	  			//	cnt != 14 && cnt != 15 && 
 	  			//	cnt < 20
-	  			//	) {
+	  				) {
 	  				//System.out.println("cnt " + cnt + " " + b.getId());
 		  			if (!b.getFromAclfBus().isVisited())
 		  				processZeroPath(b, b.getFromAclfBus());
 		  			if (!b.getToAclfBus().isVisited())
 		  				processZeroPath(b, b.getToAclfBus());
-	  			//}
+	  			}
 	  		}
 	  	}
 	  	//System.out.println("Branch processed: " + cnt);
@@ -237,16 +250,17 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		bus.setVisited(true);
 		list.add(bus);
 		
+		System.out.println("Search branch: " + branch.getId() + " on side " + bus.getId());
 		findZeroPathBuses(list, branch, bus);
 		
 		if (list.size() > 1) {
   			ipssLogger.info("Select parent bus, total buses: " + list.size());
-  			//System.out.println("Select parent bus, total buses: " + list.size());
-			Bus parentBus = selectParentBus(list);
-  			for (Bus childBus : list) {
+ 			Bus parentBus = selectParentBus(list);
+ 			System.out.println("Select parent bus, " + parentBus.getId() + " total buses: " + list.size());
+ 			for (Bus childBus : list) {
   				if (!childBus.getId().equals(parentBus.getId())) {
   					ipssLogger.info("child bus: " + childBus.getId());
-  					//System.out.println("child bus: " + childBus.getId());
+  					System.out.println("child bus: " + childBus.getId());
   					parentBus.addSection(parentBus.getBusSecList().size()+1, childBus);
   				}
   			}
@@ -322,7 +336,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  		if (bus.isLoad())
 		  			return b;
 			}
-	  		
 	  	}
 	  	// at the end, select bus with largest zero-z branches
 		Bus bus = busList.get(0);
