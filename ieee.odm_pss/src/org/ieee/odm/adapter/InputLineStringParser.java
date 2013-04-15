@@ -48,25 +48,14 @@ import org.ieee.odm.common.ODMLogger;
  * @author mzhou
  *
  */
-public class InputLineStringParser {
-	/**
-	 * store key position info { (1, BusNum), (2, BusNum:1) ... }
-	 */
-	private LinkedHashMap<Integer, String> positionTable;  // 1, .... n
-
-	/**
-	 * store the nv pairs { (BusNum, 4), (BusNum:1, 5), (BusName, Name) ... }
-	 */
-	private LinkedHashMap<String, String> fieldTable;
-	
+public class InputLineStringParser extends BaseInputLineStringParser {
 	private List<String> dataList;
 	
 	/**
 	 * constructor
 	 */
 	public InputLineStringParser() {
-		this.positionTable = new LinkedHashMap<Integer, String>();
-		this.fieldTable = new LinkedHashMap<String, String>();
+		super();
 		this.dataList = new ArrayList<String>();
 	}
 	
@@ -81,30 +70,6 @@ public class InputLineStringParser {
 		setMetadata(parseMetaData(data));
 	}
 
-	/**
-	 * set parser meta data
-	 * 
-	 * @param dataAry meta date string array
-	 */
-	public void setMetadata(String[] dataAry) {
-		//renew the position table for each data section
-		this.positionTable.clear();
-		int cnt =0;
-		for (String s : dataAry) {
-			this.positionTable.put(cnt++, s.trim());
-		}
-	}
-
-	/**
-	 * set value at the postion
-	 * 
-	 * @param position
-	 * @param value
-	 */
-	public void setValue(int position, String value) {
-		this.fieldTable.put(this.positionTable.get(position), value);
-	}
-	
 	/**
 	 * parse the data string. 
 	 * 
@@ -154,83 +119,6 @@ public class InputLineStringParser {
 		}
 		//System.out.println("position table="+this.positionTable.size()+", fieldTable ="+this.fieldTable.size());
 	    return this.positionTable.size() == this.fieldTable.size();
-	}
-	
-	/**
-	 * clear the name-value pair table 
-	 */
-	public void clearNVPairTableData(){
-		this.fieldTable.clear();
-	}
-	
-	/**
-	 * check if all data fields are parsed
-	 * 
-	 * @return
-	 */
-	public boolean isDataCompleted(){
-		 return this.positionTable.size() == this.fieldTable.size();
-	}
-
-	/**
-	 * check if the data field identified by the key exists
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public boolean exist(String key) {
-		return this.fieldTable.get(key) != null;
-	}
-	
-	/**
-	 * Get field of type String
-	 * 
-	 * @param key
-	 * @return
-	 * @throws ODMException throw exception if the field does not exist
-	 */
-	public String getString(String key) throws ODMException {
-		String field = this.fieldTable.get(key);
-		if (field == null)
-			throw new ODMException("Field " + key + " not found");
-		return field;
-	}
-	
-	/**
-	 * Get field of type double
-	 * 
-	 * @param key
-	 * @return
-	 * @throws ODMException throw exception if the field does not exist
-	 */
-	public double getDouble(String key) throws ODMException {
-		return Double.valueOf(this.getString(key));
-	}
-
-	/**
-	 * Get field of type int
-	 * 
-	 * @param key
-	 * @return
-	 * @throws ODMException throw exception if the field does not exist
-	 */
-	public int getInt(String key) throws ODMException {
-		return Integer.valueOf(this.getString(key));
-	}
-	
-	/**
-	 * Get field of type long
-	 * 
-	 * @param key
-	 * @return
-	 * @throws ODMException throw exception if the field does not exist
-	 */
-	public long getLong(String key) throws ODMException {
-		return Long.valueOf(this.getString(key));
-	}
-	
-	@Override public String toString() {
-		return this.positionTable.toString() + "\n" + this.fieldTable.toString();
 	}
 	
 	/**
@@ -317,12 +205,4 @@ public class InputLineStringParser {
 		//System.out.println(dataList.toString());
 		return this.dataList.toArray(new String[1]);
 	}	
-	
-	public LinkedHashMap<String, String> getFieldTable() {
-		return fieldTable;
-	}
-
-	public void setFieldTable(LinkedHashMap<String, String> fieldTable) {
-		this.fieldTable = fieldTable;
-	}
 } 

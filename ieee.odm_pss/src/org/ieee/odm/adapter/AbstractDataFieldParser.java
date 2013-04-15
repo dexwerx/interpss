@@ -32,7 +32,7 @@ import org.ieee.odm.common.ODMException;
  * @author mzhou
  *
  */
-public abstract class AbstractDataFieldParser extends InputLineStringParser {
+public abstract class AbstractDataFieldParser extends BaseInputLineStringParser {
 	/**
 	 * parse a line in the input file
 	 * 
