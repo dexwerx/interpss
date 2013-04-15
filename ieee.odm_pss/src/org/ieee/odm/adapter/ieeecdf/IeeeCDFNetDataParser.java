@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ieeecdf;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.BaseDataFieldParser;
+import org.ieee.odm.adapter.AbstractDataFieldParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.base.ModelStringUtil;
 
@@ -36,7 +36,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
  * @author mzhou
  *
  */
-public class IeeeCDFNetDataParser extends BaseDataFieldParser {
+public class IeeeCDFNetDataParser extends AbstractDataFieldParser {
 	/**
 	 * input line meta data
 	 */
@@ -52,7 +52,7 @@ public class IeeeCDFNetDataParser extends BaseDataFieldParser {
 	 */
 	public IeeeCDFNetDataParser() {
 		super();
-		this.dataParser.setMetadata(FieldDef);
+		this.setMetadata(FieldDef);
 	}
 
 	@Override public void parseFields(final String str) throws ODMException {
@@ -60,26 +60,26 @@ public class IeeeCDFNetDataParser extends BaseDataFieldParser {
 			final StringTokenizer st = new StringTokenizer(str, ",");
 			int cnt = 0;
 			while (st.hasMoreTokens()) {
-				dataParser.setValue(cnt++, st.nextToken().trim());
+				setValue(cnt++, st.nextToken().trim());
 			}
 		} else {
 			try {
 				//Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
-				dataParser.setValue(0, str.substring(1, 9));
+				setValue(0, str.substring(1, 9));
 				//Columns 11-30   Originator's name [A]
-				dataParser.setValue(1, str.substring(10, 30));
+				setValue(1, str.substring(10, 30));
 				//Columns 32-37   MVA Base [F] *
 				if(str.length()<37){
-					dataParser.setValue(2, str.substring(31, str.length())); // in MVA
+					setValue(2, str.substring(31, str.length())); // in MVA
 				}
 				else{
-					dataParser.setValue(2, str.substring(31, 37)); // in MVA
+					setValue(2, str.substring(31, 37)); // in MVA
 					//Columns 39-42   Year [I]
-					dataParser.setValue(3, ModelStringUtil.getString(str, 38, 42));
+					setValue(3, ModelStringUtil.getString(str, 38, 42));
 					//Column  44      Season (S - Summer, W - Winter)
-					dataParser.setValue(4, ModelStringUtil.getString(str, 43, 44));
+					setValue(4, ModelStringUtil.getString(str, 43, 44));
 					//Column  46-73   Case identification [A]
-					dataParser.setValue(5, ModelStringUtil.getString(str, 46, 73));
+					setValue(5, ModelStringUtil.getString(str, 46, 73));
 				}
 				
 			} catch (Exception e) {
