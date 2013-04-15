@@ -32,26 +32,7 @@ import org.ieee.odm.common.ODMException;
  * @author mzhou
  *
  */
-public abstract class BaseDataFieldParser {
-	/**
-	 * data parser 
-	 */
-	protected InputLineStringParser dataParser = null;
-	
-	/**
-	 * get the data parser object
-	 * 
-	 * @return the data parser object
-	 */
-	public InputLineStringParser getDataParser() { return this.dataParser; }
-	
-	/**
-	 * constructor
-	 */
-	public BaseDataFieldParser() {
-		this.dataParser = new InputLineStringParser();
-	}
-	
+public abstract class AbstractDataFieldParser extends InputLineStringParser {
 	/**
 	 * parse a line in the input file
 	 * 
