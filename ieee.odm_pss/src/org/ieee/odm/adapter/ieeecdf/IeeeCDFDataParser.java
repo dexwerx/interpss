@@ -26,10 +26,6 @@ package org.ieee.odm.adapter.ieeecdf;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.InputLineStringParser;
-import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.base.ModelStringUtil;
-
 public class IeeeCDFDataParser {
 	public static String[] getBranchDataFields(final String str) {
 		final String[] strAry = new String[21];

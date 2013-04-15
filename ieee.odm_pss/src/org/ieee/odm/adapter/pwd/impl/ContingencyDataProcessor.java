@@ -1,6 +1,6 @@
 package org.ieee.odm.adapter.pwd.impl;
 
-import org.ieee.odm.adapter.InputLineStringParser;
+import org.ieee.odm.adapter.pwd.InputLineStringParser;
 import org.ieee.odm.adapter.pwd.PWDAdapterForContingency.ContingencyType;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;

@@ -22,12 +22,13 @@
  *
  */
 
-package org.ieee.odm.adapter;
+package org.ieee.odm.adapter.pwd;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.ieee.odm.adapter.BaseInputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 
