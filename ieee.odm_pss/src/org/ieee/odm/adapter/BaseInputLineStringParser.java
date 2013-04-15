@@ -1,5 +1,5 @@
 /*
- * @(#)InputLineStringParser.java   
+ * @(#)BaseInputLineStringParser.java   
  *
  * Copyright (C) 2006 www.interpss.com
  *
@@ -24,38 +24,23 @@
 
 package org.ieee.odm.adapter;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
 
 /**
- *  It first parses the meta data definition string, and save the attributes in a LinkedHashMap, 
- *  named positionTable. Then it parses the data string according to the field definition as 
- *  name-value pairs. For example,  
- * 
-	  [BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG,LineAMVA,LineBMVA,
-            LineCMVA,LineShuntMW,LineShuntMW:1,LineShuntMVR,LineShuntMVR:1,LineXfmr,LineTap,
-            LinePhase,SeriesCapStatus]
-	    4     5 " 1" "Closed"  0.000000  0.100000  0.000000  0.000000  1000.000  1000.000  1000.000     0.000     0.000     0.000     0.000  "YES"    0.993750   0.000000 "Not Bypassed"
- * 
- * after the parsing, the nv pairs in the fieldTable will store
- * 
- *       <"BusNum","4">, <"BusNum:1","5">, ....
- * 
+ *  A generic class for holding {position, name, value} date structure
+ *   
  * @author mzhou
- *
  */
 public class BaseInputLineStringParser {
 	/**
-	 * store key position info { (1, BusNum), (2, BusNum:1) ... }
+	 * store position to key lookup info { (1, BusNum), (2, BusNum:1) ... }
 	 */
 	protected LinkedHashMap<Integer, String> positionTable;  // 1, .... n
 
 	/**
-	 * store the nv pairs { (BusNum, 4), (BusNum:1, 5), (BusName, Name) ... }
+	 * store key to value lookup info { (BusNum, 4), (BusNum:1, 5), (BusName, Name) ... }
 	 */
 	protected LinkedHashMap<String, String> fieldTable;
 	
