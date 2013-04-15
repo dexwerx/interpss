@@ -252,10 +252,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//Columns 19-20   Load flow area number [I].  Don't use zero! *
 		//Columns 21-23   Loss zone number [I]
-		final String areaNo = dataParser.getString("Area");
-		final String zoneNo = dataParser.getString("Zone");
-		aclfBus.setAreaNumber(new Integer(areaNo).intValue());
-		aclfBus.setZoneNumber(new Integer(zoneNo).intValue());
+		final int areaNo = dataParser.getInt("Area");
+		final int zoneNo = dataParser.getInt("Zone");
+		aclfBus.setAreaNumber(areaNo);
+		aclfBus.setZoneNumber(zoneNo);
 
 		//Columns 77-83   Base kV [F]
 		double baseKv =  dataParser.getDouble("BaseKV");
