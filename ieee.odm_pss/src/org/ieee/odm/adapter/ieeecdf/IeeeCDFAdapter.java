@@ -171,48 +171,55 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   Network data
 	 *   ============ 
 	 */
-
+	private IeeeCDFNetDataParser netDataParser = new IeeeCDFNetDataParser();
 	private void processNetData(final String str, 
 			final LoadflowNetXmlType baseCaseNet) throws ODMException {
 		// parse the input data line {"Date", "Originator", "MVA", "Year", "Season", "CaseId"}
-		InputLineStringParser parser = IeeeCDFDataParser.getNetDataParser();
-		IeeeCDFDataParser.parseNetDataFields(str, parser);
+		netDataParser.parseFields(str);
+		InputLineStringParser dataParser = this.busDataParser.getDataParser();
 
 		//NameValuePairListXmlType nvList = this.factory.createNameValuePairListXmlType();
 		//baseCaseNet.setNvPairList(nvList);
 
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
-		final String date = parser.getString("Date");
-		if (date != null) 
+		if (dataParser.exist("Date")) {
+			final String date = dataParser.getString("Date");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Date, date);
-
+		}
+		
 		//[1] Columns 11-30   Originator's name [A]
-		final String orgName = parser.getString("Originator");
-		if (orgName != null)
+		if (dataParser.exist("Originator")) {
+			final String orgName = dataParser.getString("Originator");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_OrgName, orgName);
+		}
 
 		//[3] Columns 39-42   Year [I]
-		final String year = parser.getString("Year");
-		if (year != null)
+		if (dataParser.equals("Year")) {
+			final String year = dataParser.getString("Year");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Year, year);
-
+		}
+		
 		//[4] Column  44      Season (S - Summer, W - Winter)
-		final String season = parser.getString("Year");
-		if (season != null)
+		if (dataParser.exist("Season")) {
+			final String season = dataParser.getString("Season");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Season, season);
-
+		}
+		
 		//[5] Column  46-73   Case identification [A]
-		if (parser.exist("CaseId")) {
-			final String caseId = parser.getString("CaseId");
+		if (netDataParser.getDataParser().exist("CaseId")) {
+			final String caseId = dataParser.getString("CaseId");
 			if (caseId != null)
 				BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseId, caseId);
-			ODMLogger.getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
-					+ orgName + ", " + year + ", " + season + ", " + caseId);
+			//ODMLogger.getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
+			//		+ orgName + ", " + year + ", " + season + ", " + caseId);
 		}
 
 		//[2] Columns 32-37   MVA Base [F] *
-		final double baseMva = parser.getDouble("MVA"); // in MVA
-		ODMLogger.getLogger().fine("BaseKva: " + baseMva);
+		double baseMva = 100.0;
+		if (dataParser.equals("MVA")) {
+			baseMva = dataParser.getDouble("MVA"); // in MVA
+			ODMLogger.getLogger().fine("BaseKva: " + baseMva);
+		}
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
 	}
 
@@ -220,13 +227,15 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   Bus data
 	 *   ======== 
 	 */
-
-	private  void processBusData(final String str, AclfModelParser parser) {
+	private IeeeCDFBusDataParser busDataParser = new IeeeCDFBusDataParser();
+	private  void processBusData(final String str, AclfModelParser parser) throws ODMException {
 		// parse the input data line
-		final String[] strAry = IeeeCDFDataParser.getBusDataFields(str);
+		//final String[] strAry = IeeeCDFDataParser.getBusDataFields(str);
+		busDataParser.parseFields(str);
+		InputLineStringParser dataParser = this.busDataParser.getDataParser();
 
 		//Columns  1- 4   Bus number [I] *
-		final String busId = AbstractModelParser.BusIdPreFix + strAry[0];
+		final String busId = AbstractModelParser.BusIdPreFix + dataParser.getString("BusNumber");
 		ODMLogger.getLogger().fine("Bus data loaded, id: " + busId);
 		LoadflowBusXmlType aclfBus = null;
 		try {
@@ -235,21 +244,21 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			this.logErr(e.toString());
 			return;
 		}
-		aclfBus.setNumber(new Long(strAry[0]));
+		aclfBus.setNumber(dataParser.getLong("BusNumber"));
 
 		//Columns  6-17   Name [A] (left justify) *
-		final String busName = strAry[1];
+		final String busName = dataParser.getString("BusName");
 		aclfBus.setName(busName);
 
 		//Columns 19-20   Load flow area number [I].  Don't use zero! *
 		//Columns 21-23   Loss zone number [I]
-		final String areaNo = strAry[2];
-		final String zoneNo = strAry[3];
+		final String areaNo = dataParser.getString("Area");
+		final String zoneNo = dataParser.getString("Zone");
 		aclfBus.setAreaNumber(new Integer(areaNo).intValue());
 		aclfBus.setZoneNumber(new Integer(zoneNo).intValue());
 
 		//Columns 77-83   Base kV [F]
-		double baseKv = new Double(strAry[11]).doubleValue();
+		double baseKv =  dataParser.getDouble("BaseKV");
 		if (baseKv == 0.0) {
 			baseKv = 1.0;
 		}
@@ -264,21 +273,21 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//		3 - Hold voltage and angle (swing, V-Theta; must always have one)
 		// it might empty, if empty, type = 0;
 		int type = 0;
-		if (!strAry[4].trim().equals(""))
-			type = new Integer(strAry[4]).intValue();
+		if (!dataParser.getString("Type").trim().equals(""))
+			type = dataParser.getInt("Type");
 
 		//Columns 28-33   Final voltage, p.u. [F] *
 		//Columns 34-40   Final angle, degrees [F] *
-		final double vpu = new Double(strAry[5]).doubleValue();
-		final double angDeg = new Double(strAry[6]).doubleValue();
+		final double vpu = dataParser.getDouble("VMag");
+		final double angDeg = dataParser.getDouble("VAng");
 		aclfBus.setVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
 
 		aclfBus.setAngle(BaseDataSetter.createAngleValue(angDeg, AngleUnitType.DEG));
 
 		//Columns 41-49   Load MW [F] *
 		//Columns 50-59   Load MVAR [F] *
-		final double loadMw = new Double(strAry[7]).doubleValue();
-		final double loadMvar = new Double(strAry[8]).doubleValue();
+		final double loadMw = dataParser.getDouble("LoadP");
+		final double loadMvar = dataParser.getDouble("LoadQ");
 		if (loadMw != 0.0 || loadMvar != 0.0) {
 			AclfDataSetter.setLoadData(aclfBus,
 					LFLoadCodeEnumType.CONST_P, loadMw,
@@ -287,8 +296,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//Columns 60-67   Generation MW [F] *
 		//Columns 68-75   Generation MVAR [F] *
-		final double genMw = new Double(strAry[9]).doubleValue();
-		final double genMvar = new Double(strAry[10]).doubleValue();
+		final double genMw = dataParser.getDouble("GenP");
+		final double genMvar = dataParser.getDouble("GenQ");
 
 		LFGenCodeEnumType genType = type == 3? LFGenCodeEnumType.SWING :
 				( type == 2? LFGenCodeEnumType.PV : LFGenCodeEnumType.PQ );
@@ -298,22 +307,22 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//Columns 107-114 Shunt conductance G (per unit) [F] *
 		//Columns 115-122 Shunt susceptance B (per unit) [F] *
-		final double gPU = new Double(strAry[15]).doubleValue();
-		final double bPU = new Double(strAry[16]).doubleValue();
+		final double gPU = dataParser.getDouble("ShuntG");
+		final double bPU = dataParser.getDouble("ShuntB");
 		if (gPU != 0.0 || bPU != 0.0) {
 			aclfBus.setShuntY(BaseDataSetter.createYValue(gPU, bPU, YUnitType.PU));
 		}
 
 		//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
-		final double vSpecPu = new Double(strAry[12]).doubleValue();
+		final double vSpecPu = dataParser.getDouble("DesiredV");
 
 		//Columns 91-98   Maximum MVAR or voltage limit [F]
 		//Columns 99-106  Minimum MVAR or voltage limit [F]
-		final double max = new Double(strAry[13]).doubleValue();
-		final double min = new Double(strAry[14]).doubleValue();
+		final double max = dataParser.getDouble("MaxVarVolt");
+		final double min = dataParser.getDouble("MinVarVolt");
 
 		//Columns 124-127 Remote controlled bus number
-		final String reBusId = strAry[17];
+		final String reBusId = dataParser.getString("RemoteBusNumber");
 
 		if (max != 0.0 || min != 0.0) {
 			LoadflowGenXmlType equivGen = aclfBus.getGenData().getEquivGen();
