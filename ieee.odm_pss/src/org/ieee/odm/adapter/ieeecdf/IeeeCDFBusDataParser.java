@@ -31,7 +31,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.base.ModelStringUtil;
 
 /**
- * Class for processing IEEE CDF Network data line string
+ * Class for processing IEEE CDF bus data line string
  * 
  * @author mzhou
  *

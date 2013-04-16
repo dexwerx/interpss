@@ -84,6 +84,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 	private IeeeCDFNetDataParser netDataParser = new IeeeCDFNetDataParser();
 	private IeeeCDFBusDataParser busDataParser = new IeeeCDFBusDataParser();
+	private IeeeCDFBranchDataParser branchDataParser = new IeeeCDFBranchDataParser();
+	private IeeeCDFLossZoneDataParser zoneDataParser = new IeeeCDFLossZoneDataParser();
+	private IeeeCDFInterchangeDataParser exchangeDataParser = new IeeeCDFInterchangeDataParser();
+	private IeeeCDFTieLineDataParser tieLineDataParser = new IeeeCDFTieLineDataParser();
 	
 	public IeeeCDFAdapter() {
 		super();
@@ -182,32 +186,32 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//baseCaseNet.setNvPairList(nvList);
 
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
-		if (busDataParser.exist("Date")) {
-			final String date = busDataParser.getString("Date");
+		if (netDataParser.exist("Date")) {
+			final String date = netDataParser.getString("Date");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Date, date);
 		}
 		
 		//[1] Columns 11-30   Originator's name [A]
-		if (busDataParser.exist("Originator")) {
-			final String orgName = busDataParser.getString("Originator");
+		if (netDataParser.exist("Originator")) {
+			final String orgName = netDataParser.getString("Originator");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_OrgName, orgName);
 		}
 
 		//[3] Columns 39-42   Year [I]
-		if (busDataParser.equals("Year")) {
-			final String year = busDataParser.getString("Year");
+		if (netDataParser.equals("Year")) {
+			final String year = netDataParser.getString("Year");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Year, year);
 		}
 		
 		//[4] Column  44      Season (S - Summer, W - Winter)
-		if (busDataParser.exist("Season")) {
-			final String season = busDataParser.getString("Season");
+		if (netDataParser.exist("Season")) {
+			final String season = netDataParser.getString("Season");
 			BaseJaxbHelper.addNVPair(baseCaseNet, Token_Season, season);
 		}
 		
 		//[5] Column  46-73   Case identification [A]
 		if (netDataParser.exist("CaseId")) {
-			final String caseId = busDataParser.getString("CaseId");
+			final String caseId = netDataParser.getString("CaseId");
 			if (caseId != null)
 				BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseId, caseId);
 			//ODMLogger.getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
@@ -216,8 +220,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//[2] Columns 32-37   MVA Base [F] *
 		double baseMva = 100.0;
-		if (busDataParser.equals("MVA")) {
-			baseMva = busDataParser.getDouble("MVA"); // in MVA
+		if (netDataParser.equals("MVA")) {
+			baseMva = netDataParser.getDouble("MVA"); // in MVA
 			ODMLogger.getLogger().fine("BaseKva: " + baseMva);
 		}
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
@@ -342,9 +346,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   =========== 
 	 */
 
-	private void processBranchData(final String str, AclfModelParser parser) {
+	private void processBranchData(final String str, AclfModelParser parser) throws ODMException {
 		// parse the input data line
-		final String[] strAry = IeeeCDFDataParser.getBranchDataFields(str);
+		//final String[] strAry = IeeeCDFDataParser.getBranchDataFields(str);
+		branchDataParser.parseFields(str);
 
 		//    	Columns  1- 4   Tap bus number [I] *
 		//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
@@ -359,15 +364,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//      2 - Variable tap for voltage control (TCUL, LTC)
 		//      3 - Variable tap (turns ratio) for MVAR control
 		//      4 - Variable phase angle for MW control (phase shifter)
-		final String fid = AbstractModelParser.BusIdPreFix + strAry[0];
-		final String tid = AbstractModelParser.BusIdPreFix + strAry[1];
-		final String areaNo = strAry[2];
-		final String zoneNo = strAry[3];
-		String cirId = strAry[4];
+		final String fid = AbstractModelParser.BusIdPreFix + branchDataParser.getString("FromNum");
+		final String tid = AbstractModelParser.BusIdPreFix + branchDataParser.getString("ToNum");
+		String cirId = branchDataParser.getString("CirId");
 		if(cirId.equals(""))cirId="1";//if empty,set cirId to 1 by default
-		int branchType = 0;
-		if (!strAry[5].trim().equals(""))
-			branchType = new Integer(strAry[5]).intValue();
+		int branchType = branchDataParser.getInt("Type", 0);
 		//String branchId = ModelStringUtil.formBranchId(fid, tid, cirId);
 		BranchXmlType branch = null;
 		try {
@@ -387,13 +388,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			this.logErr("branch is not connected properly, " + e.toString());
 		}
 		*/
-		int an = 0, zn = 0;
-		if (!areaNo.trim().equals(""))
-			an = new Integer(areaNo).intValue();
-		if (!zoneNo.trim().equals(""))
-			zn = new Integer(zoneNo).intValue();
-		branch.setAreaNumber(new Integer(an).intValue());
-		branch.setZoneNumber(new Integer(zn).intValue());
+		branch.setAreaNumber(branchDataParser.getInt("Area", 0));
+		branch.setZoneNumber(branchDataParser.getInt("Zone", 0));
+
 		branch.setCircuitId(cirId);
 
 		branch.setId(ModelStringUtil.formBranchId(fid, tid, cirId));
@@ -405,9 +402,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//    	Columns 20-29   Branch resistance R, per unit [F] *
 		//    	Columns 30-40   Branch reactance X, per unit [F] * No zero impedance lines
 		//    	Columns 41-50   Line charging B, per unit [F] * (total line charging, +B), Xfr B is negative
-		final double rpu = new Double(strAry[6]).doubleValue();
-		final double xpu = new Double(strAry[7]).doubleValue();
-		final double bpu = new Double(strAry[8]).doubleValue();
+		final double rpu = branchDataParser.getDouble("R");
+		final double xpu = branchDataParser.getDouble("X");
+		final double bpu = branchDataParser.getDouble("B");
 		if (branchType == 0) {
 			LineBranchXmlType line = (LineBranchXmlType)branch;
 			AclfDataSetter.setLineData(line, rpu, xpu,
@@ -417,8 +414,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		// assume ratio and angle are defined at to side
 		//    	Columns 77-82   Transformer final turns ratio [F]
 		//    	Columns 84-90   Transformer (phase shifter) final angle [F]
-		final double ratio = new Double(strAry[14]).doubleValue();
-		final double angle = new Double(strAry[15]).doubleValue();
+		final double ratio = branchDataParser.getDouble("TurnRatio");
+		final double angle = branchDataParser.getDouble("ShiftAngle");
 		if (branchType > 0) {
 			if (angle == 0.0) {
 				XfrBranchXmlType xfrBranch = (XfrBranchXmlType)branch;
@@ -458,13 +455,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//    	Columns 51-55   Line MVA rating No 1 [I] Left justify!
 		//    	Columns 57-61   Line MVA rating No 2 [I] Left justify!
 		//    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
-		double rating1Mvar = 0.0, rating2Mvar = 0.0, rating3Mvar = 0.0;
-		if (!strAry[9].trim().equals(""))
-			rating1Mvar = new Double(strAry[9]).doubleValue();
-		if (!strAry[10].trim().equals(""))
-			rating2Mvar = new Double(strAry[10]).doubleValue();
-		if (!strAry[11].trim().equals(""))
-			rating3Mvar = new Double(strAry[11]).doubleValue();
+		double rating1Mvar = branchDataParser.getDouble("MvaRating1", 0.0), 
+			   rating2Mvar = branchDataParser.getDouble("MvaRating2", 0.0), 
+			   rating3Mvar = branchDataParser.getDouble("MvaRating3", 0.0);
 		branch.setRatingLimit(this.factory.createBranchRatingLimitXmlType());
 		AclfDataSetter.setBranchRatingLimitData(branch.getRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
@@ -474,28 +467,26 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		double stepSize = 0.0, maxTapAng = 0.0, minTapAng = 0.0, maxVoltPQ = 0.0, minVoltPQ = 0.0;
 		if (branchType > 1) {
 			//    		Columns 69-72   Control bus number
-			controlBusId = AbstractModelParser.BusIdPreFix + strAry[12];
+			controlBusId = AbstractModelParser.BusIdPreFix + branchDataParser.getString("CntlBusNum");
 
 			//        	Column  74      Side [I]
 			//          	0 - Controlled bus is one of the terminals
 			//          	1 - Controlled bus is near the tap side
 			//          	2 - Controlled bus is near the impedance side (Z bus)
-			controlSide = 0;
-			if (!strAry[13].trim().equals(""))
-				controlSide = new Integer(strAry[13]).intValue();
+			controlSide = branchDataParser.getInt("CntlBusSide", 0);
 
 			//        	Columns 106-111 Step size [F]
-			stepSize = new Double(strAry[18]).doubleValue();
+			stepSize = branchDataParser.getDouble("TapStepSize");
 
 			//        	Columns 91-97   Minimum tap or phase shift [F]
 			//        	Columns 98-104  Maximum tap or phase shift [F]
-			minTapAng = new Double(strAry[16]).doubleValue();
-			maxTapAng = new Double(strAry[17]).doubleValue();
+			minTapAng = branchDataParser.getDouble("MaxTapShiftAng");
+			maxTapAng = branchDataParser.getDouble("MinTapShiftAng");
 
 			//        	Columns 113-119 Minimum voltage, MVAR or MW limit [F]
 			//        	Columns 120-126 Maximum voltage, MVAR or MW limit [F]
-			maxVoltPQ = new Double(strAry[19]).doubleValue();
-			minVoltPQ = new Double(strAry[20]).doubleValue();
+			maxVoltPQ = branchDataParser.getDouble("MinVoltMvarMw");
+			minVoltPQ = branchDataParser.getDouble("MaxVoltMvarMw");
 		}
 
 		if (branchType == 2 || branchType == 3) {
@@ -549,13 +540,14 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 *   ============== 
 	 */
 
-	private void processLossZoneData(final String str,	final NetZoneXmlType lossZone) {
-		final String[] strAry = IeeeCDFDataParser.getLossZoneDataFields(str);
+	private void processLossZoneData(final String str,	final NetZoneXmlType lossZone) throws ODMException {
+		//final String[] strAry = IeeeCDFDataParser.getLossZoneDataFields(str);
+		zoneDataParser.parseFields(str);
 
 		//    	Columns  1- 3   Loss zone number [I] *
 		//    	Columns  5-16   Loss zone name [A] 
-		final int no = new Integer(strAry[0]).intValue();
-		final String name = strAry[1];
+		final int no = zoneDataParser.getInt("ZoneNum");
+		final String name = zoneDataParser.getString("ZoneName");
 		lossZone.setNumber(no);
 		lossZone.setName(name);
 	}
@@ -566,30 +558,31 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processInterchangeData(final String str,
-			final PowerInterchangeXmlType interchange, AclfModelParser parser) {
-		final String[] strAry = IeeeCDFDataParser.getInterchangeDataFields(str);
-
+			final PowerInterchangeXmlType interchange, AclfModelParser parser) throws ODMException {
+		//final String[] strAry = IeeeCDFDataParser.getInterchangeDataFields(str);
+		exchangeDataParser.parseFields(str);
+		
 		//    	Columns  1- 2   Area number [I], no zeros! *
-		final int no = new Integer(strAry[0]).intValue();
+		final int no = exchangeDataParser.getInt("AreaNum");
 
 		//    	Columns  4- 7   Interchange slack bus number [I] *
 		//      Columns  9-20   Alternate swing bus name [A]
-		final String slackBusId = AbstractModelParser.BusIdPreFix + strAry[1];
-		final String alSwingBusName = strAry[2];
+		int slackBusNumber = exchangeDataParser.getInt("SwingBusNum");
+		String slackBusId = AbstractModelParser.BusIdPreFix + slackBusNumber;
+		final String alSwingBusName = exchangeDataParser.getString("AltSwingBusName");
 
 		//      Columns 21-28   Area interchange export, MW [F] (+ = out) *
 		//      Columns 30-35   Area interchange tolerance, MW [F] *
-		final double mw = new Double(strAry[3]).doubleValue();
-		final double err = new Double(strAry[4]).doubleValue();
+		final double mw = exchangeDataParser.getDouble("ExportMw");
+		final double err = exchangeDataParser.getDouble("ExTolerance");
 
 		//      Columns 38-43   Area code (abbreviated name) [A] *
 		//      Columns 46-75   Area name [A]
-		final String code = strAry[5];
-		final String name = strAry[6];
+		final String code = exchangeDataParser.getString("AreaCode");
+		final String name = exchangeDataParser.getString("AreaName");
 
 		interchange.setAreaNumber(no);
 		
-		int slackBusNumber = new Integer(strAry[1]).intValue();
 		if (slackBusNumber > 0)
 			try {
 				interchange.setSwingBus(parser.createBusRef(slackBusId));
@@ -611,23 +604,22 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processTielineData(final String str,
-			final TielineXmlType tieLine, AclfModelParser parser) {
-		final String[] strAry = IeeeCDFDataParser.getTielineDataFields(str);
+			final TielineXmlType tieLine, AclfModelParser parser) throws ODMException {
+		//final String[] strAry = IeeeCDFDataParser.getTielineDataFields(str);
+		tieLineDataParser.parseFields(str);
 
 		//    	Columns  1- 4   Metered bus number [I] *
 		//    	Columns  7-8    Metered area number [I] *
-		final String meteredBusId = AbstractModelParser.BusIdPreFix + strAry[0];
-		final String meteredAreaNo = strAry[1];
+		final String meteredBusId = AbstractModelParser.BusIdPreFix + tieLineDataParser.getString("MeteredBusNum");
+		final String meteredAreaNo = tieLineDataParser.getString("MeteredAreaNum");
 
 		//      Columns  11-14  Non-metered bus number [I] *
 		//      Columns  17-18  Non-metered area number [I] *
-		final String nonMeteredBusId = AbstractModelParser.BusIdPreFix + strAry[2];
-		final String nonMeteredAreaNo = strAry[3];
+		final String nonMeteredBusId = AbstractModelParser.BusIdPreFix + tieLineDataParser.getString("NotMeteredBusNum");
+		final String nonMeteredAreaNo = tieLineDataParser.getString("NotMeteredAreaNum");
 
 		//      Column   21     Circuit number
-		int cirNo = 0;
-		if (!strAry[4].trim().equals(""))
-			cirNo = new Integer(strAry[4]).intValue();
+		int cirNo = tieLineDataParser.getInt("CirNum", 0);
 
 		try {
 			tieLine.setMeteredBus(parser.createBusRef(meteredBusId));
@@ -638,6 +630,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		tieLine.setMeteredArea(meteredAreaNo);
 		tieLine.setNonMeteredArea(nonMeteredAreaNo);
+		
 		tieLine.setCirId(new Integer(cirNo).toString());
 	}
 }

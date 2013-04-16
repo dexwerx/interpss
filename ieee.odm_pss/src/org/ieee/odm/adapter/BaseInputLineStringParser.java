@@ -120,13 +120,28 @@ public class BaseInputLineStringParser {
 	 * Get field of type double
 	 * 
 	 * @param key
-	 * @return
+	 * @return field of type double
 	 * @throws ODMException throw exception if the field does not exist
 	 */
 	public double getDouble(String key) throws ODMException {
 		return Double.valueOf(this.getString(key));
 	}
 
+	/**
+	 * Get field of type double, if the field does not exist, return default value
+	 * 
+	 * @param key
+	 * @param defaultValue default value
+	 * @return field of type double
+	 * @throws ODMException throw exception if the field does not exist
+	 */
+	public double getDouble(String key, double defaultValue) throws ODMException {
+		if (exist(key) && !this.getString(key).equals(""))
+			return Double.valueOf(this.getString(key));
+		else
+			return defaultValue;
+	}
+	
 	/**
 	 * Get field of type int
 	 * 
@@ -139,14 +154,43 @@ public class BaseInputLineStringParser {
 	}
 	
 	/**
+	 * Get field of type int
+	 * 
+	 * @param key
+	 * @return the field of type int
+	 * @throws ODMException throw exception if the field does not exist
+	 */
+	public int getInt(String key, int defaultValue) throws ODMException {
+		if (exist(key)  && !this.getString(key).equals(""))
+			return Integer.valueOf(this.getString(key));
+		else
+			return defaultValue; 
+	}
+
+	/**
 	 * Get field of type long
 	 * 
 	 * @param key
-	 * @return
+	 * @return the field of type long
 	 * @throws ODMException throw exception if the field does not exist
 	 */
 	public long getLong(String key) throws ODMException {
 		return Long.valueOf(this.getString(key));
+	}
+	
+	/**
+	 * Get field of type long, if the field does not exit, return the default value
+	 * 
+	 * @param key
+	 * @param defaultValue default value
+	 * @return the field of type long
+	 * @throws ODMException throw exception if the field does not exist
+	 */
+	public long getLong(String key, long defaultValue) throws ODMException {
+		if (exist(key)  && !this.getString(key).equals(""))
+			return Long.valueOf(this.getString(key));
+		else
+			return defaultValue;
 	}
 	
 	@Override public String toString() {

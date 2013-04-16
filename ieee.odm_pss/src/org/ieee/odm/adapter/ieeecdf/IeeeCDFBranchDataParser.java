@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFNetDataParser.java   
+ * @(#)IeeeCDFBranchDataParser.java   
  *
  * Copyright (C) 2006-2013 www.interpss.org
  *
@@ -28,10 +28,9 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.AbstractDataFieldParser;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.base.ModelStringUtil;
 
 /**
- * Class for processing IEEE CDF Network data line string
+ * Class for processing IEEE CDF branch data line string
  * 
  * @author mzhou
  *
@@ -39,16 +38,16 @@ import org.ieee.odm.model.base.ModelStringUtil;
 public class IeeeCDFBranchDataParser extends AbstractDataFieldParser {
 	@Override public String[] getMetadata() {
 		return new String[] {
-		   //  0               1        2       3        4
-		     "BusNumber", "BusName", "Area",  "Zone", "Type", 
-		   //  5               6        7       8        9
-		     "VMag",      "VAng",    "LoadP", "LoadQ", "GenP", 
-		   //  10             11       12            13             14
-		     "GenQ",      "BaseKV",  "DesiredV",  "MaxVarVolt", "MinVarVolt", 
-		   //  15             16       17               18      19
-		     "ShuntG",    "ShuntB",  "RemoteBusNumber", "",    "", 
+		   //  0               1                  2                3               4
+		     "FromNum",    "ToNum",           "Area",           "Zone",         "CirId", 
+		   //  5               6                  7                8               9
+		     "Type",       "R",               "X",              "B",            "MvaRating1", 
+		   //  10             11                  12              13               14
+		     "MvaRating2", "MvaRating3",      "CntlBusNum",     "CntlBusSide",  "TurnRatio", 
+		   //  15             16                 17               18               19
+		     "ShiftAngle", "MaxTapShiftAng",  "MinTapShiftAng", "TapStepSize",  "MinVoltMvarMw", 
 		   //  20             21       22      23      24
-		     ""
+		     "MaxVoltMvarMw"
 		   //  25             26       27      28      29
 		};
 	}
@@ -58,60 +57,70 @@ public class IeeeCDFBranchDataParser extends AbstractDataFieldParser {
 			final StringTokenizer st = new StringTokenizer(str, ",");
 			int cnt = 0;
 			while (st.hasMoreTokens()) {
-				this.setValue(cnt++, st.nextToken().trim());
+				setValue(cnt++, st.nextToken().trim());
 			}
 		} else {
-			//Columns  1- 4   Bus number [I] *
-			this.setValue(0, str.substring(0, 4).trim());
+			//        	Columns  1- 4   Tap bus number [I] *
+			//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
+			//			Columns  6- 9   Z bus number [I] *
+			//      	For transformers and phase shifters, the side of the model the device impedance is on.
+			setValue(0, str.substring(0, 4).trim());
+			setValue(1, str.substring(5, 9).trim());
+			//    		IpssLogger.getLogger().fine("Branch data loaded, from-id, to-id: " + strAry[0] + ", " + strAry[1]);
 
-			//Columns  6-17   Name [A] (left justify) *
-			this.setValue(1, str.substring(5, 17).trim());
+			//    		Columns 11-12   Load flow area [I]
+			//    		Columns 13-15   Loss zone [I]
+			//    		Column  17      Circuit [I] * (Use 1 for single lines)
+			setValue(2, str.substring(10, 12).trim());
+			setValue(3, str.substring(12, 15).trim());
+			setValue(4, str.substring(16, 17).trim());
 
-			//Columns 19-20   Load flow area number [I].  Don't use zero! *
-			//Columns 21-23   Loss zone number [I]
-			this.setValue(2, str.substring(18, 20).trim());
-			this.setValue(3, str.substring(20, 23).trim());
+			//    		Column  19      Type [I] *
+			String typeStr = str.substring(18, 19).trim();
+			setValue(5, typeStr);
 
-			//Columns 77-83   Base kV [F]
-			this.setValue(11, str.substring(76, 83));
+			//    		Columns 20-29   Branch resistance R, per unit [F] *
+			//    		Columns 30-40   Branch reactance X, per unit [F] * No zero impedance lines
+			//    		Columns 41-50   Line charging B, per unit [F] * (total line charging, +B)
+			setValue(6, str.substring(19, 29));
+			setValue(7, str.substring(29, 40));
+			setValue(8, str.substring(40, 50));
 
-			//Columns 25-26   Type [I] *
-			//		0 - Unregulated (load, PQ)
-			//		1 - Hold MVAR generation within voltage limits, (gen, PQ)
-			//		2 - Hold voltage within VAR limits (gen, PV)
-			//		3 - Hold voltage and angle (swing, V-Theta; must always have one)
-			this.setValue(4, str.substring(24, 26).trim());
+			//    		Columns 77-82   Transformer final turns ratio [F]
+			//    		Columns 84-90   Transformer (phase shifter) final angle [F]
+			setValue(14, str.substring(76, 82));
+			setValue(15, str.substring(83, 90));
 
-			//Columns 28-33   Final voltage, p.u. [F] *
-			//Columns 34-40   Final angle, degrees [F] *
-			this.setValue(5, str.substring(27, 33));
-			this.setValue(6, str.substring(33, 40));
+			//    		Columns 51-55   Line MVA rating No 1 [I] Left justify!
+			//    		Columns 57-61   Line MVA rating No 2 [I] Left justify!
+			//    		Columns 63-67   Line MVA rating No 3 [I] Left justify!
+			setValue(9, str.substring(50, 55).trim());
+			setValue(10, str.substring(56, 61).trim());
+			setValue(11, str.substring(62, 67).trim());
 
-			//Columns 41-49   Load MW [F] *
-			//Columns 50-59   Load MVAR [F] *
-			this.setValue(7, str.substring(40, 49));
-			this.setValue(8, str.substring(49, 59));
+			int type = 0;
+			if (!typeStr.equals(""))
+				type = new Integer(typeStr).intValue();
+			if (type > 1) {
+				//    			Columns 69-72   Control bus number
+				setValue(12, str.substring(68, 72).trim());
 
-			//Columns 60-67   Generation MW [F] *
-			//Columns 68-75   Generation MVAR [F] *
-			this.setValue(9, str.substring(59, 67));
-			this.setValue(10, str.substring(67, 75));
+				//        		Column  74      Side [I]
+				setValue(13, str.substring(73, 74).trim());
 
-			//Columns 107-114 Shunt conductance G (per unit) [F] *
-			//Columns 115-122 Shunt susceptance B (per unit) [F] *
-			this.setValue(15, ModelStringUtil.getString(str,107, 114));
-			this.setValue(16, ModelStringUtil.getString(str,115, 122));
+				//        		Columns 106-111 Step size [F]
+				setValue(18, str.substring(105, 111));
 
-			//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
-			this.setValue(12, ModelStringUtil.getString(str,85, 90));
+				//        		Columns 91-97   Maximum tap or phase shift [F]
+				setValue(16, str.substring(90, 97));
+				//        		Columns 98-104  Minimum tap or phase shift [F]
+				setValue(17, str.substring(97, 104));
 
-			//Columns 91-98   Minimum MVAR or voltage limit [F]
-			//Columns 99-106  Maximum MVAR or voltage limit [F]
-			this.setValue(13, ModelStringUtil.getString(str,91, 98));
-			this.setValue(14, ModelStringUtil.getString(str,99, 106));
-
-			//Columns 124-127 Remote controlled bus number
-			this.setValue(17, ModelStringUtil.getString(str,123, 127).trim());
+				//        		Columns 113-119 Minimum voltage, MVAR or MW limit [F]
+				setValue(19, str.substring(112, 119));
+				//        		Columns 120-126 Maximum voltage, MVAR or MW limit [F]
+				setValue(20, str.substring(119, 126));
+			}
 		}
 	}
 }
