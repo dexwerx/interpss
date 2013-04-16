@@ -2,7 +2,7 @@ package org.ieee.odm.pwd;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.odm.adapter.InputLineStringParser;
+import org.ieee.odm.adapter.pwd.InputLineStringParser;
 import org.ieee.odm.common.ODMException;
 import org.junit.Test;
 
