@@ -36,7 +36,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
  * @author mzhou
  *
  */
-public class IeeeCDFBusDataParser extends AbstractDataFieldParser {
+public class IeeeCDFInterchangeDataParser extends AbstractDataFieldParser {
 	@Override public String[] getMetadata() {
 		return new String[] {
 		   //  0               1        2       3        4
@@ -50,8 +50,8 @@ public class IeeeCDFBusDataParser extends AbstractDataFieldParser {
 		   //  20             21       22      23      24
 		   //  25             26       27      28      29
 		};
-	}
-	
+	}	
+
 	@Override public void parseFields(final String str) throws ODMException {
 		if (str.indexOf(',') >= 0) {
 			final StringTokenizer st = new StringTokenizer(str, ",");

@@ -37,22 +37,13 @@ import org.ieee.odm.model.base.ModelStringUtil;
  *
  */
 public class IeeeCDFNetDataParser extends AbstractDataFieldParser {
-	/**
-	 * input line meta data
-	 */
-	public static String[] FieldDef = new String[] {
+	@Override public String[] getMetadata() {
+		return new String[] {
 		   //  0          1          2       3        4
 		     "Date", "Originator", "MVA", "Year", "Season", 
 		   //  5
 		     "CaseId"
 	    };
-	
-	/**
-	 * constructor
-	 */
-	public IeeeCDFNetDataParser() {
-		super();
-		this.setMetadata(FieldDef);
 	}
 
 	@Override public void parseFields(final String str) throws ODMException {

@@ -34,6 +34,21 @@ import org.ieee.odm.common.ODMException;
  */
 public abstract class AbstractDataFieldParser extends BaseInputLineStringParser {
 	/**
+	 * constructor
+	 */
+	public AbstractDataFieldParser() {
+		super();
+		this.setMetadata(getMetadata());
+	}
+	
+	/**
+	 * get input line metadata field definition
+	 * 
+	 * @return metadata definition
+	 */
+	abstract public String[] getMetadata();
+	
+	/**
 	 * parse a line in the input file
 	 * 
 	 * @param str line string
