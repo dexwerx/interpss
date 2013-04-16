@@ -2,6 +2,7 @@ package test.ed;
 
 import org.interpss.CorePluginObjFactory;
 import org.interpss.IpssCorePlugin;
+import org.interpss.display.DclfOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
 
 import com.gams.api.GAMSDatabase;
@@ -12,10 +13,14 @@ import com.gams.api.GAMSSet;
 import com.gams.api.GAMSVariableRecord;
 import com.gams.api.GAMSWorkspace;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.core.DclfObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.net.Bus;
 import com.interpss.pssl.simu.BaseDSL;
+import com.interpss.pssl.simu.IpssDclf;
+import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.spring.CoreCommonSpringFactory;
 
 public class Ieee14EdWithGAMS24 {
@@ -31,10 +36,7 @@ public class Ieee14EdWithGAMS24 {
 				.getFileAdapter(IpssFileAdapter.FileFormat.IEEECDF)
 				.loadDebug("testData/ieee14.ieee")
 				.getAclfNet();
-//		AclfNetwork net = IpssAdapter.importAclfNet("basecase/ieee14.ieee")
-//				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
-//				.load()
-//				.getAclfNet();
+
 		
 		// Step-2. set the data for GAMS model  through GAMSDatabase
 		
@@ -122,8 +124,34 @@ public class Ieee14EdWithGAMS24 {
         GAMSJob ieee14ED = ws.addJobFromString(modelStr);
         opt.defines("gdxincname", db.getName());
         ieee14ED.run(opt, db);
-        for (GAMSVariableRecord rec : ieee14ED.OutDB().getVariable("p"))
+        
+        //store the genP of all the active buses.
+        double[] genP=new double[net.getNoActiveBus()];
+        int idx=0;
+        //iterate the output of "genp" 
+        for (GAMSVariableRecord rec : ieee14ED.OutDB().getVariable("genp")){
             System.out.println("genP @ Bus-" + rec.getKeys()[0]+"  : level=" + rec.getLevel() + " ,  marginal=" + rec.getMarginal());
+            genP[idx++] = rec.getLevel();
+        }
+        
+        //update the genP of gen buses in the  network
+        idx=0;
+        for(AclfBus b: net.getBusList()){
+        	if(b.isGen()){
+        		b.setGenP(genP[idx]);
+        	}
+        	idx++;
+        }
+        
+        //perform dc load flow to check whether there is any line rating violation
+        DclfAlgorithm algo = DclfObjectFactory.createDclfAlgorithm(net);
+        
+        algo.calculateDclf();
+        
+        //NOTE: the branch mva rating data is not defined in input IEEE14 Bus system 
+        System.out.println(DclfOutFunc.dclfResults(algo, true));
+        
+	
         
         
     }
@@ -147,21 +175,21 @@ public class Ieee14EdWithGAMS24 {
         "$GDXIN                                                          \n"+
         "                                                                \n"+
         "Variables                                                       \n"+
-        "         p(i)     generation output for each generating unit    \n"+
+        "         genp(i)     generation output for each generating unit  \n"+
         "         ft       total generation cost ;                       \n"+
 
         "Equations                                                       \n"+
         "        cost            define objective function               \n"+
         "        powerBalance    real power balance of the whole network; \n"+
         "                                                                \n"+
-        "cost..  ft =e= sum(i,  FactorA(i)+FactorB(i)*p(i)+FactorC(i)*p(i)*p(i));\n"+
-        "powerBalance ..      sum(i, p(i)) =g= sum(j,loadP(j)) ;         \n"+
-        "  p.lo(i)  =  genPLow(i);                                       \n"+
-        "  p.up(i)  =  genPUp(i);                                        \n"+
+        "cost.. ft =e= sum(i,  FactorA(i)+FactorB(i)*genp(i)+FactorC(i)*genp(i)*genp(i));\n"+
+        "powerBalance ..      sum(i, genp(i)) =g= sum(j,loadP(j)) ;         \n"+
+        "  genp.lo(i)  =  genPLow(i);                                       \n"+
+        "  genp.up(i)  =  genPUp(i);                                        \n"+
         "                                                                \n"+
         "Model transport /all/ ;                                         \n"+
         "                                                                \n"+
         "solve transport using nlp minimizing ft ;                       \n"+
         "                                                                \n"+
-        "display p.l, p.m ;                                              \n";
+        "display genp.l, genp.m ;                                        \n";
 }
