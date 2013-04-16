@@ -122,7 +122,11 @@ public class Ieee14EdWithGAMS24 {
         // Create and run the GAMSJob
         GAMSOptions opt = ws.addOptions();
         GAMSJob ieee14ED = ws.addJobFromString(modelStr);
+        
+        // load the database data into the GAMS engine by GDXIN 
         opt.defines("gdxincname", db.getName());
+        
+        //run GAMSJob with the option and input data
         ieee14ED.run(opt, db);
         
         //store the genP of all the active buses.
