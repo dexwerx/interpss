@@ -27,6 +27,10 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.StringTokenizer;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSEBranchDataParser;
+import org.ieee.odm.adapter.psse.parser.PSSEXfrAdjustDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -50,9 +54,13 @@ import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV26BranchRecord {
-	public static  void processBranchData(final String str, final AclfModelParser parser) {
+	PSSEBranchDataParser branchDataParser = new PSSEBranchDataParser(PsseVersion.PSSE_26);
+	PSSEXfrAdjustDataParser xfrAdjDataParser = new PSSEXfrAdjustDataParser(PsseVersion.PSSE_26);
+	
+	public void processBranchData(final String str, final AclfModelParser parser) throws ODMException {
 		/*
 		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
+		
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
 
 		I - From bus number
@@ -66,32 +74,34 @@ public class PSSEV26BranchRecord {
 		ANGLE - Transformer phase shift angle
 		 */
 		// parse the input data line	
-		final String[] strAry = getBranchDataFields(str);		
-		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
-		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
-		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
+		//final String[] strAry = getBranchDataFields(str);	
+		branchDataParser.parseFields(str);
+		
+		final String fid = AbstractModelParser.BusIdPreFix+branchDataParser.getString("I");
+		final String tid = AbstractModelParser.BusIdPreFix+branchDataParser.getString("J");
+		final String cirId = ModelStringUtil.formatCircuitId(branchDataParser.getString("CKT"));
 		ODMLogger.getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
 		//    	Line charging B, per unit  * (total line charging, +B), Xfr B is negative
-		final double rpu = ModelStringUtil.getDouble(strAry[3], 0.0);
-		final double xpu = ModelStringUtil.getDouble(strAry[4], 0.0);
-		final double bpu = ModelStringUtil.getDouble(strAry[5], 0.0);
+		final double rpu = branchDataParser.getDouble("R", 0.0);
+		final double xpu = branchDataParser.getDouble("X", 0.0);
+		final double bpu = branchDataParser.getDouble("B", 0.0);
 		
-		final double ratio = ModelStringUtil.getDouble(strAry[9], 0.0);
-		final double angle = ModelStringUtil.getDouble(strAry[10], 0.0);;
+		final double ratio = branchDataParser.getDouble("RATIO", 0.0);
+		final double angle = branchDataParser.getDouble("ANGLE", 0.0);;
 
 		final double fromTap = ratio, toTap = 1.0;
 		final double fromAng = angle, toAng = 0.0;
 		
 		//From side shuntY
-		final double GI= ModelStringUtil.getDouble(strAry[11], 0.0);
-		final double BI= ModelStringUtil.getDouble(strAry[12], 0.0);
+		final double GI= branchDataParser.getDouble("GI", 0.0);
+		final double BI= branchDataParser.getDouble("BI", 0.0);
 
 	    //To side shuntY
-		final double GJ= ModelStringUtil.getDouble(strAry[13], 0.0);
-		final double BJ= ModelStringUtil.getDouble(strAry[14], 0.0);
+		final double GJ= branchDataParser.getDouble("GJ", 0.0);
+		final double BJ= branchDataParser.getDouble("BJ", 0.0);
 		
 		BranchXmlType branchRec;
 		try {
@@ -138,12 +148,12 @@ public class PSSEV26BranchRecord {
 			return;
 		}		
 		
-		int status = ModelStringUtil.getInt(strAry[15], 0);
+		int status = branchDataParser.getInt("ST", 0);
 		branchRec.setOffLine(status == 0);
 		
-		final double rating1Mvar = ModelStringUtil.getDouble(strAry[6], 0.0);
-		final double rating2Mvar = ModelStringUtil.getDouble(strAry[7], 0.0);
-		final double rating3Mvar = ModelStringUtil.getDouble(strAry[8], 0.0);
+		final double rating1Mvar = branchDataParser.getDouble("RATEA", 0.0);
+		final double rating2Mvar = branchDataParser.getDouble("RATEB", 0.0);
+		final double rating3Mvar = branchDataParser.getDouble("RATEC", 0.0);
 		
 		branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
 		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
@@ -152,7 +162,7 @@ public class PSSEV26BranchRecord {
 				null);
 	}
    
-	public static void processXformerAdjData(final String str, final AclfModelParser parser) {
+	public void processXformerAdjData(final String str, final AclfModelParser parser) throws ODMException {
 		/*
 		I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP,   TABLE
     	31212,31435,' 1',     0,    1.5000,    0.5100,    1.5000,    0.5100,0.00625,0,0, 0.000, 0.000,   
@@ -170,10 +180,12 @@ public class PSSEV26BranchRecord {
 		STEP - Turns ratio step increment
 		TABLE - Zero, or number of a transformer impedance correction table 1-5
 	 */
-		final String[] strAry = getXfrAdjDataFields(str);		
-		final String fid = AbstractModelParser.BusIdPreFix+strAry[0];
-		final String tid = AbstractModelParser.BusIdPreFix+strAry[1];
-		final String cirId = ModelStringUtil.formatCircuitId(strAry[2]);
+		//final String[] strAry = getXfrAdjDataFields(str);		
+		xfrAdjDataParser.parseFields(str);
+		
+		final String fid = AbstractModelParser.BusIdPreFix+xfrAdjDataParser.getString("I");
+		final String tid = AbstractModelParser.BusIdPreFix+xfrAdjDataParser.getString("J");
+		final String cirId = ModelStringUtil.formatCircuitId(xfrAdjDataParser.getString("CKT"));
 		ODMLogger.getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
 		BranchXmlType branchRec = (BranchXmlType)parser.getBranch(fid, tid, cirId);
@@ -185,7 +197,7 @@ public class PSSEV26BranchRecord {
 
 	    // only one branch section
 	    
-	    int icon = ModelStringUtil.getInt(strAry[3], 0);
+	    int icon = xfrAdjDataParser.getInt("ICONT", 0);
 	    boolean isNegative = false;
 	    if (icon < 0) {
 	    	isNegative = true;
@@ -195,11 +207,11 @@ public class PSSEV26BranchRecord {
 
 		if (branchRec instanceof XfrBranchXmlType) {
 			XfrBranchXmlType branchData = (XfrBranchXmlType)branchRec;
-	    	double tmax = ModelStringUtil.getDouble(strAry[4], 0.0);
-	    	double tmin = ModelStringUtil.getDouble(strAry[5], 0.0);
-	    	double tstep = ModelStringUtil.getDouble(strAry[8], 0.0);
-	    	double vup = ModelStringUtil.getDouble(strAry[6], 0.0);
-	    	double vlow = ModelStringUtil.getDouble(strAry[7], 0.0);
+	    	double tmax = xfrAdjDataParser.getDouble("RMA", 0.0);
+	    	double tmin = xfrAdjDataParser.getDouble("RMI", 0.0);
+	    	double tstep = xfrAdjDataParser.getDouble("STEP", 0.0);
+	    	double vup = xfrAdjDataParser.getDouble("VMA", 0.0);
+	    	double vlow = xfrAdjDataParser.getDouble("VMI", 0.0);
 	    	
 	    	TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType(); 
 	    	branchData.setTapAdjustment(tapAdj);
@@ -234,10 +246,10 @@ public class PSSEV26BranchRecord {
 	    }
 	    else if (branchRec instanceof PSXfrBranchXmlType) {
 			PSXfrBranchXmlType branchData = (PSXfrBranchXmlType)branchRec;
-	    	double angmax = ModelStringUtil.getDouble(strAry[4], 0.0);
-	    	double angmin = ModelStringUtil.getDouble(strAry[5], 0.0);
-	    	double mwup = ModelStringUtil.getDouble(strAry[6], 0.0);
-	    	double mwlow = ModelStringUtil.getDouble(strAry[7], 0.0);
+	    	double angmax = xfrAdjDataParser.getDouble("RMA", 0.0);
+	    	double angmin = xfrAdjDataParser.getDouble("RMI", 0.0);
+	    	double mwup = xfrAdjDataParser.getDouble("VMA", 0.0);
+	    	double mwlow = xfrAdjDataParser.getDouble("VMI", 0.0);
 
 	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType(); 
 	    	branchData.setAngleAdjustment(angAdj);
@@ -249,54 +261,5 @@ public class PSSEV26BranchRecord {
 	    	angAdj.setDesiredMeasuredOnFromSide(true);
 	    }
 
-	}
-	
-	private static String[] getBranchDataFields(final String lineStr) {
-		final String[] strAry = new String[23];
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		/*
-		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
-        */
-
-  		for (int i = 0; i < 15; i++)
-  			strAry[i]=st.nextToken().trim();
-
-        //O1,F1,...,O4,F4
-  		
-		// O1 = 0, O2 = 0, O3 = 0, O4 = 0;
-		// F1 = 0.0, F2 = 0.0, F3 = 0.0, F4 = 0.0;
-  		for (int i = 15; i < 23; i++)
-  			strAry[i]="0";
-
-		if (st.hasMoreTokens()) {
-			strAry[15]=st.nextToken().trim();
-	  		strAry[16]=st.nextToken().trim();
-		}
-		if (st.hasMoreTokens()) {
-			strAry[17]=st.nextToken().trim();
-	  		strAry[18]=st.nextToken().trim();
-		}
-		if (st.hasMoreTokens()) {
-			strAry[19]=st.nextToken().trim();
-	  		strAry[20]=st.nextToken().trim();
-		}
-		if (st.hasMoreTokens()) {
-			strAry[21]=st.nextToken().trim();
-	  		strAry[22]=st.nextToken().trim();
-		}
-		return strAry;
-	}
-
-	private static String[] getXfrAdjDataFields(final String lineStr) {
-		final String[] strAry = new String[9];
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		/*
-	    I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP(9),   TABLE 
-        */
-  		for (int i = 0; i < 8; i++)
-  			strAry[i]=st.nextToken().trim();
-  		if (st.hasMoreTokens())
-  			strAry[8]=st.nextToken().trim();
-		return strAry;
 	}
 }

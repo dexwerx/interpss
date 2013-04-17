@@ -27,6 +27,11 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.StringTokenizer;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSEBusDataParser;
+import org.ieee.odm.adapter.psse.parser.PSSEGenDataParser;
+import org.ieee.odm.adapter.psse.parser.PSSELoadDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -48,44 +53,49 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV26BusRecord {
-	public static void processBusData(final String str, final AclfModelParser parser) {
+	private PSSEBusDataParser busDataParser = new PSSEBusDataParser(PsseVersion.PSSE_26);
+	private PSSEGenDataParser genDataParser = new PSSEGenDataParser(PsseVersion.PSSE_26);
+	private PSSELoadDataParser loadDataParser = new PSSELoadDataParser(PsseVersion.PSSE_26);
+	
+	public void processBusData(final String str, final AclfModelParser parser) throws ODMException {
 		// parse the input data line
-		final String[] strAry = getBusDataFields(str);	    
+		//final String[] strAry = getBusDataFields(str);
+		busDataParser.parseFields(str);
 
 		// I,    NAME        BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,      OWNER
 		// 31212,'ADLIN  1', 115.00,1,    0.00,    0.00,  1,  1,   1.01273, -10.5533,1 
 		// 45035,'CAPJAK 1', 500.00,1,    0.00,  400.00,  8, 11,1.08554,  18.6841,1,    /* [45035_CAPTJACK_500_B2] */ 
 
-		final String busId = AbstractModelParser.BusIdPreFix+strAry[0];
+		final String busId = AbstractModelParser.BusIdPreFix+busDataParser.getString("I");
 			// XML requires id start with a char
 		ODMLogger.getLogger().fine("Bus data loaded, id: " + busId);
 		LoadflowBusXmlType busRec;
 		try {
-			busRec = parser.createAclfBus(busId, new Integer(strAry[0]));
+			busRec = parser.createAclfBus(busId, busDataParser.getInt("I"));
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}
 		
-		busRec.setNumber(ModelStringUtil.getLong(strAry[0], 0));
+		busRec.setNumber(busDataParser.getLong("I", 0));
 		
-		final String busName = ModelStringUtil.removeSingleQuote(strAry[1]);
+		final String busName = ModelStringUtil.removeSingleQuote(busDataParser.getString("NAME"));
 		busRec.setName(busName);
-		double baseKv = ModelStringUtil.getDouble(strAry[2], 0.0);
+		double baseKv = busDataParser.getDouble("BASKV", 0.0);
 		if (baseKv == 0.0) {
 			ODMLogger.getLogger().severe("Error: base kv = 0.0");
 			baseKv = 1.0;
 		}
 		
-		final String owner=strAry[10];
+		final String owner=busDataParser.getString("OWNER");
 		BaseJaxbHelper.addOwner(busRec, owner);
 		
 		busRec.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
 		// vm voltage, p.u. [F] *
 		//va angle, degrees [F] *
-		final double vpu = ModelStringUtil.getDouble(strAry[8], 1.0);
-		final double angDeg = ModelStringUtil.getDouble(strAry[9], 0.0);
+		final double vpu = busDataParser.getDouble("VM", 1.0);
+		final double angDeg = busDataParser.getDouble("VA", 0.0);
 		busRec.setVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
 		busRec.setAngle(BaseDataSetter.createAngleValue(angDeg, AngleUnitType.DEG));
 		
@@ -96,7 +106,7 @@ public class PSSEV26BusRecord {
 			4 - disconnected (isolated) bus
 			IDE = 1 by default.
 		*/			
-		final int IDE = ModelStringUtil.getInt(strAry[3], 1);
+		final int IDE = busDataParser.getInt("IDE", 1);
 		if (IDE ==3){//Swing bus
 			busRec.setGenData(odmObjFactory.createAclfGenDataXmlType());
 			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType(); 
@@ -120,25 +130,25 @@ public class PSSEV26BusRecord {
 		}
 		
 		//GL BL in Mva
-		final double gMw = ModelStringUtil.getDouble(strAry[4], 0.0);
-		final double bMvar= ModelStringUtil.getDouble(strAry[5], 0.0);
+		final double gMw = busDataParser.getDouble("GL", 0.0);
+		final double bMvar= busDataParser.getDouble("BL", 0.0);
 		if (gMw != 0.0 || bMvar != 0.0) {
 			busRec.setShuntY(BaseDataSetter.createYValue(gMw, bMvar, YUnitType.MVAR));
 		}
+		
 		//area zone	
-		final String areaNo = strAry[6];
-		final String zoneNo = strAry[7];
-		busRec.setAreaNumber(ModelStringUtil.getInt(areaNo, 0));
-		busRec.setZoneNumber(ModelStringUtil.getInt(zoneNo, 0));		
+		busRec.setAreaNumber(busDataParser.getInt("AREA", 0));
+		busRec.setZoneNumber(busDataParser.getInt("ZONE", 0));		
 	}
 		
-	public static  void processLoadData(final String str,final AclfModelParser parser) {
+	public void processLoadData(final String str,final AclfModelParser parser) throws ODMException {
 		// I,    ID,  STATUS, AREA, ZONE, PL,   QL,   IP,   IQ,   YP,    YQ,  OWNER
 		// 33547,' 1',1,      1,    1,    3.00, 9.54, 0.00, 0.00, 0.00,  0.00,1,   /* [EnergyConsumer_1704] */
 		
-		final String[] strAry = getLoadDataFields(str);
+		//final String[] strAry = getLoadDataFields(str);
+		loadDataParser.parseFields(str);
 
-	    final String busId = AbstractModelParser.BusIdPreFix+strAry[0];
+	    final String busId = AbstractModelParser.BusIdPreFix+loadDataParser.getString("I");
 	    //to test if there is a responding bus in the bus data record
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 	    if (busRec == null){
@@ -160,30 +170,29 @@ public class PSSEV26BusRecord {
 	    // processing contributing load data
 
 	    //loadId is used to distinguish multiple loads at one bus
-	    final String loadId =strAry[1];
+	    final String loadId = loadDataParser.getString("ID");
 		contribLoad.setId(loadId);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
-		int status = ModelStringUtil.getInt(strAry[1], 1);
-		int area = ModelStringUtil.getInt(strAry[2], 1);
-		int zone = ModelStringUtil.getInt(strAry[3], 1);
+		int status = loadDataParser.getInt("STATUS", 1);
+		int area = loadDataParser.getInt("AREA", 1);
+		int zone = loadDataParser.getInt("ZONE", 1);
 		contribLoad.setOffLine(status != 1);
 		contribLoad.setAreaNumber(area);
 		contribLoad.setZoneNumber(zone);
 		
 		//set owner and it's factor
-		final String owner =strAry[11];
-		BaseJaxbHelper.addOwner(contribLoad, owner);
+		BaseJaxbHelper.addOwner(contribLoad, loadDataParser.getString("OWNER"));
 		    
 	    //Constant-P load
-		final double CPloadMw = ModelStringUtil.getDouble(strAry[5], 0.0);
-		final double CQloadMvar = ModelStringUtil.getDouble(strAry[6], 0.0);
+		final double CPloadMw = loadDataParser.getDouble("PL", 0.0);
+		final double CQloadMvar = loadDataParser.getDouble("QL", 0.0);
 		//Constant-I load
-		final double CIloadMw = ModelStringUtil.getDouble(strAry[7], 0.0);
-		final double CIloadMvar = ModelStringUtil.getDouble(strAry[8], 0.0);
+		final double CIloadMw = loadDataParser.getDouble("IP", 0.0);
+		final double CIloadMvar = loadDataParser.getDouble("IQ", 0.0);
 		//Constant-Y load
-		final double CYloadMw = ModelStringUtil.getDouble(strAry[9], 0.0);
-		final double CYloadMvar = ModelStringUtil.getDouble(strAry[10], 0.0);
+		final double CYloadMw = loadDataParser.getDouble("YP", 0.0);
+		final double CYloadMvar = loadDataParser.getDouble("YQ", 0.0);
 
 		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
 			contribLoad.setConstPLoad(BaseDataSetter.createPowerValue(
@@ -211,7 +220,7 @@ public class PSSEV26BusRecord {
 	    load.setConstPLoad(BaseDataSetter.createPowerValue(tp, tq, ApparentPowerUnitType.MVA));
 	}
 	
-	public static  void processGenData(final String str,final AclfModelParser parser) {
+	public void processGenData(final String str,final AclfModelParser parser) throws ODMException {
 		//I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
 		//31435,' 1',    8.52,    2.51,   10.00,   -6.00,1.0203,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,    0.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_78] */ 
 		
@@ -219,8 +228,10 @@ public class PSSEV26BusRecord {
 		//37585,' 2',   -1.00,  186.48, 1774.00,-1774.00,1.0331,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,-5322.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_20804] */ 
 		
 		// parse the input data line
-	    final String[] strAry = getGenDataFields(str);
-		final String busId = AbstractModelParser.BusIdPreFix+strAry[0];
+	    //final String[] strAry = getGenDataFields(str);
+	    genDataParser.parseFields(str);
+	    
+		final String busId = AbstractModelParser.BusIdPreFix+genDataParser.getString("I");
 		// get the responding-bus data with busId
 		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
 		if (busRec==null){
@@ -243,15 +254,15 @@ public class PSSEV26BusRecord {
 	    // processing contributing gen data
 	    
 		// genId is used to distinguish multiple generations at one bus		
-		final String genId = strAry[1];
+		final String genId = genDataParser.getString("ID");
 		contriGen.setId(genId);
 		
-		double mbase = ModelStringUtil.getDouble(strAry[8], 0.0),
-		       zr = ModelStringUtil.getDouble(strAry[9], 0.0),
-		       zx = ModelStringUtil.getDouble(strAry[10], 0.0),
-		       rt = ModelStringUtil.getDouble(strAry[11], 0.0),
-		       xt = ModelStringUtil.getDouble(strAry[12], 0.0),
-		       gtap = ModelStringUtil.getDouble(strAry[13], 0.0); 
+		double mbase = genDataParser.getDouble("MBASE", 0.0),
+		       zr = genDataParser.getDouble("ZR", 0.0),
+		       zx = genDataParser.getDouble("ZX", 0.0),
+		       rt = genDataParser.getDouble("RT", 0.0),
+		       xt = genDataParser.getDouble("XT", 0.0),
+		       gtap = genDataParser.getDouble("GTAP", 0.0); 
 		contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(mbase));
 		if(zr != 0.0 || zx != 0.0)
 			contriGen.setSourceZ(BaseDataSetter.createZValue(zr, zx, ZUnitType.PU));
@@ -260,18 +271,20 @@ public class PSSEV26BusRecord {
 		contriGen.setXfrTap(gtap);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
-		int status = ModelStringUtil.getInt(strAry[14], 1);
+		int status = genDataParser.getInt("STAT", 1);
 		contriGen.setOffLine(status != 1);
-		
-		double genMw = ModelStringUtil.getDouble(strAry[2], 0.0);
-		double genMvar = ModelStringUtil.getDouble(strAry[3], 0.0);
+
+		//I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
+
+		double genMw = genDataParser.getDouble("PG", 0.0);
+		double genMvar = genDataParser.getDouble("QG", 0.0);
 		contriGen.setPower(BaseDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
 		BaseJaxbHelper.addOwner(contriGen, 
-				strAry[18], ModelStringUtil.getDouble(strAry[19], 0.0), 
-				strAry[20], ModelStringUtil.getDouble(strAry[21], 0.0), 
-				strAry[22], ModelStringUtil.getDouble(strAry[23], 0.0), 
-				strAry[24], ModelStringUtil.getDouble(strAry[25], 0.0));
+				genDataParser.getString("O1"), genDataParser.getDouble("F1", 0.0), 
+				genDataParser.getString("O2"), genDataParser.getDouble("F2", 0.0), 
+				genDataParser.getString("O3"), genDataParser.getDouble("F3", 0.0), 
+				genDataParser.getString("O4"), genDataParser.getDouble("F4", 0.0));
 
 		// processing Equiv Gen Data
 		if (!contriGen.isOffLine()) {
@@ -282,14 +295,14 @@ public class PSSEV26BusRecord {
 			}
 			equivGen.setPower(BaseDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
-			final double vSpecPu = ModelStringUtil.getDouble(strAry[6], 1.0);
+			final double vSpecPu = genDataParser.getDouble("VS", 1.0);
 			if (genData.getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
 				equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
 			}
 			else {
 				// qmax, gmin in Mvar. there may exist already
-				double max = ModelStringUtil.getDouble(strAry[4], 0.0);
-				double min = ModelStringUtil.getDouble(strAry[5], 0.0);
+				double max = genDataParser.getDouble("QT", 0.0);
+				double min = genDataParser.getDouble("QB", 0.0);
 				if (equivGen.getQLimit() != null) {
 					max += equivGen.getQLimit().getMax();
 					min += equivGen.getQLimit().getMin();
@@ -299,9 +312,9 @@ public class PSSEV26BusRecord {
 
 				// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 				/*  IREG  */
-		      	final int iReg = ModelStringUtil.getInt(strAry[7], 0);
+		      	final int iReg = genDataParser.getInt("IREG", 0);
 				if (iReg > 0) {
-					final String reBusId = AbstractModelParser.BusIdPreFix+strAry[7];
+					final String reBusId = AbstractModelParser.BusIdPreFix+genDataParser.getString("IREG");
 					equivGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 				}
 			}
@@ -314,52 +327,4 @@ public class PSSEV26BusRecord {
 		
 		//System.out.println(busRec.toString());
     }
-
-	private static String[] getBusDataFields(final String lineStr) {
-		final String[] strAry = new String[11];
-
-		StringTokenizer st = new StringTokenizer(lineStr,",");
-		for (int i = 0; i < 11; i++)
-			strAry[i]=st.nextToken().trim();
-		return strAry;
-	}
-	
-	private static String[] getLoadDataFields(final String lineStr) {
-		final String[] strAry = new String[12];
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		for (int i = 0; i < 12; i++)
-			strAry[i]=st.nextToken().trim();
-  		return strAry;
-	}	
-	
-	
-	private static String[] getGenDataFields(final String lineStr) {
-		final String[] strAry = new String[26];		
-		//I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		for (int i = 0; i < 18; i++)
-			strAry[i]=st.nextToken().trim();
-
-        //O1,F1,...,O4,F4
-		for (int i = 18; i < 26; i++)
-			strAry[i]="0";
-		if (st.hasMoreTokens()) {
-			strAry[18]=st.nextToken().trim();
-	  		strAry[19]=st.nextToken().trim();
-		}
-		if (st.hasMoreTokens()) {
-			strAry[20]=st.nextToken().trim();
-	  		strAry[21]=st.nextToken().trim();
-		}
-		if (st.hasMoreTokens()) {
-			strAry[22]=st.nextToken().trim();
-	  		strAry[23]=st.nextToken().trim();
-		}
-		if (st.hasMoreTokens()) {
-			strAry[24]=st.nextToken().trim();
-	  		strAry[25]=st.nextToken().trim();
-		}
-				
-		return strAry;
-	}
 }

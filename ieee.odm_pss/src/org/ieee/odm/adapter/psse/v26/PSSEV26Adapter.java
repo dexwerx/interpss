@@ -58,6 +58,9 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		//FactsData = 15;
 	
 	private ObjectFactory factory = null;	
+	
+	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord();
+	PSSEV26BranchRecord branchRecProcessor = new PSSEV26BranchRecord();
 		
 	public PSSEV26Adapter() {
 		super();
@@ -106,23 +109,23 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         			else {
         				if (type==BusData){
         					//System.out.println("BusData: " + str);
-        					PSSEV26BusRecord.processBusData(str, parser);
+        					busRecProcessor.processBusData(str, parser);
         				}
         				else if(type==LoadData){
         					//System.out.println("LoadData: " + str);
-        					PSSEV26BusRecord.processLoadData(str, parser);
+        					busRecProcessor.processLoadData(str, parser);
         				}
         				else if(type==GenData){
         					//System.out.println("GenData: " + str);
-        					PSSEV26BusRecord.processGenData(str, parser);        			 
+        					busRecProcessor.processGenData(str, parser);        			 
         				}
         				else if(type==BranchData){
         					//System.out.println("LineData: " + str);
-        					PSSEV26BranchRecord.processBranchData(str, parser); 
+        					branchRecProcessor.processBranchData(str, parser); 
         				}
         				else if(type==XfrAdjData){        			   
         					//System.out.println("XfrData: " + str);
-        					PSSEV26BranchRecord.processXformerAdjData(str, parser);
+        					branchRecProcessor.processXformerAdjData(str, parser);
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==SwitchedShuntData){        			   
