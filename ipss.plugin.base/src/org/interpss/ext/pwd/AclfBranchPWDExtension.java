@@ -1,6 +1,6 @@
 package org.interpss.ext.pwd;
 
-import java.util.Hashtable;
+import org.interpss.ext.AclfBranchExtension;
 
 /**
  *  AclfBranch extension for representing PowerWorld custom fields
@@ -10,7 +10,7 @@ import java.util.Hashtable;
  * @author mzhou
  *
  */
-public class AclfBranchPWDExtension extends Hashtable<String,String> {
+public class AclfBranchPWDExtension extends AclfBranchExtension {
 	private static final long serialVersionUID = 1L;
 	
 	private boolean caMonitoring = false;
@@ -44,13 +44,5 @@ public class AclfBranchPWDExtension extends Hashtable<String,String> {
 	 */
 	public String getLSName() {
 		return this.get("LSName");
-	}
-	
-	/**
-	 * to string function
-	 */
-	public String toString() {
-		String str = "AclfBranchPWDExtension: " + super.toString();
-		return str;
 	}
 }

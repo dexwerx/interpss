@@ -1,6 +1,6 @@
 package org.interpss.ext.pwd;
 
-import java.util.Hashtable;
+import org.interpss.ext.AclfBusExtension;
 
 /**
  *  AclfBus extension for representing PowerWorld custom fields
@@ -10,7 +10,7 @@ import java.util.Hashtable;
  * @author mzhou
  *
  */
-public class AclfBusPWDExtension extends Hashtable<String,String> {
+public class AclfBusPWDExtension extends AclfBusExtension {
 	private static final long serialVersionUID = 1L;
 
 	public String getSubstationName(){
@@ -56,13 +56,5 @@ public class AclfBusPWDExtension extends Hashtable<String,String> {
 		}
 		else
 			return null;
-	}
-	
-	/**
-	 * to string function
-	 */
-	public String toString() {
-		String str = "AclfBusPWDExtension: " + super.toString();
-		return str;
 	}
 }
