@@ -27,11 +27,15 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.StringTokenizer;
 
+import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSEAreaInterchangeDataParser;
+import org.ieee.odm.adapter.psse.parser.PSSEHeaderDataParser;
+import org.ieee.odm.adapter.psse.parser.PSSEInterAreaTransferDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -42,46 +46,55 @@ public class PSSEV26NetRecord {
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";	
 	
+	PSSEHeaderDataParser headerDataParser = new PSSEHeaderDataParser(PsseVersion.PSSE_26);
+	PSSEAreaInterchangeDataParser areaInterDataParser = new PSSEAreaInterchangeDataParser(PsseVersion.PSSE_26);
+	PSSEInterAreaTransferDataParser interAreaDataParser = new PSSEInterAreaTransferDataParser(PsseVersion.PSSE_26);
+	
 	public boolean processHeaderData(final String str1,final String str2,final String str3,
 			final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) throws Exception {
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
-		final String[] strAry = getHeaderDataFields(str1,str2,str3);
-		if (strAry == null)
-			return false;
+		//final String[] strAry = getHeaderDataFields(str1,str2,str3);
+		headerDataParser.parseFields(new String[] {str1,str2,str3});
 		
-		final double baseMva = ModelStringUtil.getDouble(strAry[1], 100.0);
+		//if (strAry == null)
+		//	return false;
+		
+		final double baseMva = headerDataParser.getDouble("BaseKva", 100.0);
 		ODMLogger.getLogger().fine("BaseKva: "  + baseMva);
 		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));	    
 	    
 		//NameValuePairListXmlType nvList = factory.createNameValuePairListXmlType();
 		//baseCaseNet.setNvPairList(nvList);
 		
-		final String desc = strAry[2];// The 2nd line is treated as description
+		final String desc = headerDataParser.getString("Comment1");// The 2nd line is treated as description
 		BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
-		final String caseId= strAry[3];
+		final String caseId= headerDataParser.getString("Comment2");
 		BaseJaxbHelper.addNVPair(baseCaseNet, Token_CaseId, caseId);				
 		ODMLogger.getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
 	}
         
-	public void processAreaInterchangeData(final String str, AclfModelParser parser) {
+	public void processAreaInterchangeData(final String str, AclfModelParser parser) throws ODMException {
 		final LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 
-		final String[] strAry = getAreaInterchangeDataFields(str);
+		//final String[] strAry = getAreaInterchangeDataFields(str);
+		areaInterDataParser.parseFields(str);
+		
+		// "AreaNum", "SwingBusName", "ExpoertMw", "ExTolerance", "Notefined"             
 		
 		//     Area number , no zeros! *
-		final int no = ModelStringUtil.getInt(strAry[0], 0);
+		final int no = areaInterDataParser.getInt("AreaNum", 0);
 		
 		//       swing bus name [A]
-		final String swingBusName = strAry[1];
+		final String swingBusName = areaInterDataParser.getString("SwingBusName");
 
 		//        Area interchange export, MW [F] (+ = out) *
 		//        Area interchange tolerance, MW [F] *
-		final double mw = ModelStringUtil.getDouble(strAry[2], 0.0);
-		final double err = ModelStringUtil.getDouble(strAry[3], 0.0);
+		final double mw = areaInterDataParser.getDouble("ExpoertMw", 0.0);
+		final double err = areaInterDataParser.getDouble("ExTolerance", 0.0);
     
 		PowerInterchangeXmlType interchange = odmObjFactory.createPowerInterchangeXmlType();
 		baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
@@ -98,59 +111,8 @@ public class PSSEV26NetRecord {
 	}
 	
 	public void processInterAreaTransferData(final String str,
-			final LoadflowNetXmlType baseCaseNet) {
-		final String[] strAry = getInterAreaTransferDataFields(str);
-		
+			final LoadflowNetXmlType baseCaseNet) throws ODMException {
+		//final String[] strAry = getInterAreaTransferDataFields(str);
+		interAreaDataParser.parseFields(str);
 	}
-	
-	/*
-	 * String[0] indicator
-	 * String[1] baseKav
-	 * String[2] comments
-	 * String[3] comments
-	 */
-	private String[] getHeaderDataFields(final String lineStr, final String lineStr2,
-							final String lineStr3)	throws Exception{
-		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
-		final String[] strAry = new String[4];	
-		StringTokenizer st = lineStr.contains(",") ?
-				new StringTokenizer(lineStr, ",") :
-				new StringTokenizer(lineStr);
-		
-		strAry[0] = st.nextToken();  			   
-		int indicator = new Integer(strAry[0]).intValue();
-		if (indicator !=0){
-			ODMLogger.getLogger().severe("Error: Only base case can be process");
-			return null;
-		}
-
-		strAry[1]=st.nextToken().trim();  			   
-		
-		if (lineStr2!= null){
-			strAry[2] = lineStr2;
-		} else {strAry[2] =""; }
-		
-		if (lineStr3!= null){
-			strAry[3] = lineStr3;
-		}else {strAry[3] =""; }
-  				
-		return strAry;
-	}
-	
-	private String[] getAreaInterchangeDataFields(final String lineStr) {
-		final String[] strAry = new String[5];
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		for (int i = 0; i < 5; i++)
-  			strAry[i]=st.nextToken().trim();
-  		return strAry;
-	}
-	
-	private String[] getInterAreaTransferDataFields(final String lineStr) {
-		final String[] strAry = new String[4];	
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		for (int i = 0; i < 4; i++)
-  			strAry[i]=st.nextToken().trim();
-  		return strAry;
-
-       }
 }
