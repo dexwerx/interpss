@@ -83,13 +83,13 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 		STAT - Initial machine status of one for in-service and zero for out-of-service; STAT = 1 by default.
 */		
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
-	    if (busRec == null){
+		LoadflowBusXmlType busRecXml = parser.getAclfBus(busId);
+	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 	    
-	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
+	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRecXml);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");

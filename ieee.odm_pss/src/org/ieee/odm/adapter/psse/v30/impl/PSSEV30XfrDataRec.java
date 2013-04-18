@@ -91,35 +91,35 @@ public class PSSEV30XfrDataRec {
 		final String tid = AbstractModelParser.BusIdPreFix+j;
 		final String tertId = AbstractModelParser.BusIdPreFix+k;
 
-		XfrBranchXmlType branchRec;
-		TransformerInfoXmlType xfrInfo;
+		XfrBranchXmlType branRecXml;
+		TransformerInfoXmlType xfrInfoXml;
 		try {
 			if (is3W && isPsXfr) {
-				branchRec = parser.createPSXfr3WBranch(fid, tid, tertId, ckt);
-		       	xfrInfo = odmObjFactory.createTransformer3WInfoXmlType(); 
-		       	branchRec.setXfrInfo(xfrInfo);
+				branRecXml = parser.createPSXfr3WBranch(fid, tid, tertId, ckt);
+		       	xfrInfoXml = odmObjFactory.createTransformer3WInfoXmlType(); 
+		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 			else if (is3W) {
-				branchRec = parser.createXfr3WBranch(fid, tid, tertId, ckt);
-		       	xfrInfo = odmObjFactory.createTransformer3WInfoXmlType(); 
-		       	branchRec.setXfrInfo(xfrInfo);
+				branRecXml = parser.createXfr3WBranch(fid, tid, tertId, ckt);
+		       	xfrInfoXml = odmObjFactory.createTransformer3WInfoXmlType(); 
+		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 			else if (isPsXfr) {
-				branchRec = parser.createPSXfrBranch(fid, tid, ckt);
-		       	xfrInfo = odmObjFactory.createTransformerInfoXmlType(); 
-		       	branchRec.setXfrInfo(xfrInfo);
+				branRecXml = parser.createPSXfrBranch(fid, tid, ckt);
+		       	xfrInfoXml = odmObjFactory.createTransformerInfoXmlType(); 
+		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 			else {
-				branchRec = parser.createXfrBranch(fid, tid, ckt);
-		       	xfrInfo = odmObjFactory.createTransformerInfoXmlType(); 
-		       	branchRec.setXfrInfo(xfrInfo);
+				branRecXml = parser.createXfrBranch(fid, tid, ckt);
+		       	xfrInfoXml = odmObjFactory.createTransformerInfoXmlType(); 
+		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}		
 		
-		branchRec.setName(name);
+		branRecXml.setName(name);
 		
 /*
 		The initial transformer status, where 1 designates in-service and 0 designates
@@ -128,9 +128,9 @@ public class PSSEV30XfrDataRec {
 		service, and 4 indicates that only winding one is out-of-service, with the
 		remaining windings in-service. STAT = 1 by default.
  */
-		branchRec.setOffLine(stat == 0);
+		branRecXml.setOffLine(stat == 0);
 		if (is3W) {
-    		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branchRec;			
+    		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branRecXml;			
     		if (stat == 1) {
     			branch3WRec.setWind1OffLine(false);
     			branch3WRec.setWind2OffLine(false);
@@ -161,7 +161,7 @@ public class PSSEV30XfrDataRec {
        	if (is3W && nomv3 == 0.0)
        		nomv3 = parser.getAclfBus(tertId).getBaseVoltage().getValue();
        	
-		branchRec.setMeterLocation( nmetr==1 ? BranchMeterLocationEnumType.FROM_SIDE :
+		branRecXml.setMeterLocation( nmetr==1 ? BranchMeterLocationEnumType.FROM_SIDE :
 							BranchMeterLocationEnumType.TO_SIDE);
 
 		/*
@@ -196,17 +196,17 @@ public class PSSEV30XfrDataRec {
                 double b_rv=mag2*Ybase_w12;
                 double b_pu=b_rv/Ybase;
     			
-    			branchRec.setMagnitizingY(BaseDataSetter.createYValue(g_pu, b_pu, YUnitType.PU));
+    			branRecXml.setMagnitizingY(BaseDataSetter.createYValue(g_pu, b_pu, YUnitType.PU));
     		}
     			
     	}
     	else {
     		if (mag1 != 0.0 || mag2 != 0.0)
-    			branchRec.setMagnitizingY(BaseDataSetter.createYValue(mag1, mag2, YUnitType.PU));
+    			branRecXml.setMagnitizingY(BaseDataSetter.createYValue(mag1, mag2, YUnitType.PU));
     	}
       	
     	// owner id = 0.0, no contribution
-    	BaseJaxbHelper.addOwner(branchRec, 
+    	BaseJaxbHelper.addOwner(branRecXml, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 
@@ -221,9 +221,9 @@ public class PSSEV30XfrDataRec {
 			ANSTAR The bus voltage phase angle at the hidden "star point" bus; entered in degrees. ANSTAR = 0.0 by default.       		
 
     	*/
-    	xfrInfo.setRatedPower(BaseDataSetter.createPowerMvaValue(sbase1_2));
+    	xfrInfoXml.setRatedPower(BaseDataSetter.createPowerMvaValue(sbase1_2));
        	if (is3W) {
-    		Transformer3WInfoXmlType xfr3WInfo = (Transformer3WInfoXmlType)xfrInfo;
+    		Transformer3WInfoXmlType xfr3WInfo = (Transformer3WInfoXmlType)xfrInfoXml;
        		xfr3WInfo.setRatedPower23(BaseDataSetter.createPowerMvaValue(sbase2_3));
        		xfr3WInfo.setRatedPower31(BaseDataSetter.createPowerMvaValue(sbase3_1));
        		xfr3WInfo.setStarVMag(BaseDataSetter.createVoltageValue(vmstar, VoltageUnitType.PU));
@@ -233,8 +233,8 @@ public class PSSEV30XfrDataRec {
        	if (cz == 1) {
        		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
        		// system base quantities; 
-       		branchRec.setZ(BaseDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
-        	xfrInfo.setDataOnSystemBase(true);
+       		branRecXml.setZ(BaseDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
+        	xfrInfoXml.setDataOnSystemBase(true);
         	//TODO This system base attribute is updated by both cz and cw, might cause some problems which are hard to identified;
        	    //It might be better to change these basic settings to system base,to avoid potential problem.However, these might make it hard for direct comparison
        	}
@@ -243,8 +243,8 @@ public class PSSEV30XfrDataRec {
        		// winding one to two base MVA (SBASE1-2) and winding one bus base voltage; 
        		r1_2=r1_2*sysMVABase/sbase1_2;
        		x1_2=x1_2*sysMVABase/sbase1_2;
-       		branchRec.setZ(BaseDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
-        	xfrInfo.setDataOnSystemBase(true);
+       		branRecXml.setZ(BaseDataSetter.createZValue(r1_2, x1_2, ZUnitType.PU));
+        	xfrInfoXml.setDataOnSystemBase(true);
         	
        		
        	}
@@ -253,12 +253,12 @@ public class PSSEV30XfrDataRec {
        		// in pu on winding one to two base MVA (SBASE1-2) and winding one bus base voltage.
        		double zpu = x1_2*sysMVABase/sbase1_2;
        		double rpu = r1_2 * 0.001 * 0.001 /sysMVABase;  
-       		branchRec.setZ(BaseDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
-        	xfrInfo.setDataOnSystemBase(true);
+       		branRecXml.setZ(BaseDataSetter.createZValue(rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU));
+        	xfrInfoXml.setDataOnSystemBase(true);
        	}
        	
        	if (is3W) {
-    		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branchRec;
+    		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branRecXml;
            	if (cz == 1) {
            		branch3WRec.setZ23(BaseDataSetter.createZValue(r2_3, x2_3, ZUnitType.PU));
            		branch3WRec.setZ31(BaseDataSetter.createZValue(r3_1, x3_1, ZUnitType.PU));
@@ -293,7 +293,7 @@ public class PSSEV30XfrDataRec {
   		if (cw == 1) {
        		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
        		// when CW is 1; WINDV1 is 1.0 by default. 
-        	xfrInfo.setDataOnSystemBase(true);
+        	xfrInfoXml.setDataOnSystemBase(true);
        	}
        	else if (cw == 2) {
        		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
@@ -308,18 +308,18 @@ public class PSSEV30XfrDataRec {
   			xfrInfo.setFromRatedVoltage(BaseDataSetter.createVoltageValue(nomv1, VoltageUnitType.KV));
   		}
   		*/
-  		branchRec.setFromTurnRatio(BaseDataSetter.createTurnRatioPU(windv1));
+  		branRecXml.setFromTurnRatio(BaseDataSetter.createTurnRatioPU(windv1));
 	
     	if (isPsXfr && is3W) {
-    		PSXfr3WBranchXmlType branchPsXfr = (PSXfr3WBranchXmlType)branchRec; 
+    		PSXfr3WBranchXmlType branchPsXfr = (PSXfr3WBranchXmlType)branRecXml; 
 			branchPsXfr.setFromAngle(BaseDataSetter.createAngleValue(ang1, AngleUnitType.DEG));
     	}
     	else if (isPsXfr) {
-    		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branchRec; 
+    		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branRecXml; 
 			branchPsXfr.setFromAngle(BaseDataSetter.createAngleValue(ang1, AngleUnitType.DEG));
     	}
-    	branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
-    	AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
+    	branRecXml.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+    	AclfDataSetter.setBranchRatingLimitData(branRecXml.getRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
 		
 		/*
 		 * The transformer control mode for automatic adjustments of the winding one
@@ -376,7 +376,7 @@ public class PSSEV30XfrDataRec {
       	if (cod > 0) {
           	if (!isPsXfr) {
            		TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
-           		branchRec.setTapAdjustment(tapAdj);
+           		branRecXml.setTapAdjustment(tapAdj);
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
            		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(rma, rmi));
@@ -401,7 +401,7 @@ public class PSSEV30XfrDataRec {
            		}
           	}
     	    else {
-        		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branchRec; 
+        		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branRecXml; 
     	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType();
     	    	branchPsXfr.setAngleAdjustment(angAdj);
     	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(rma, rmi, AngleUnitType.DEG));
@@ -421,7 +421,7 @@ public class PSSEV30XfrDataRec {
       	if (cr != 0.0 || cx != 0.0) {
       		///if (branchRec.getNvPairList() == null)
       		//	branchRec.setNvPairList(odmObjFactory.createNameValuePairListXmlType());
-      		BaseJaxbHelper.addNVPair(branchRec, "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
+      		BaseJaxbHelper.addNVPair(branRecXml, "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
       	}
 
       	/*
@@ -432,7 +432,7 @@ public class PSSEV30XfrDataRec {
 
       	 */
       	if (tab > 0)
-      		xfrInfo.setZTableNumber(tab);
+      		xfrInfoXml.setZTableNumber(tab);
       	
   		/*
 		Line-4 
@@ -458,15 +458,15 @@ public class PSSEV30XfrDataRec {
   		}
   		*/
       	if(cw==2) windv2 /=parser.getAclfBus(tid).getBaseVoltage().getValue();
-  		branchRec.setToTurnRatio(BaseDataSetter.createTurnRatioPU(windv2));
+  		branRecXml.setToTurnRatio(BaseDataSetter.createTurnRatioPU(windv2));
 
   		if (is3W) {
-    		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branchRec; 
+    		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branRecXml; 
     		branch3WXfr.setRatingLimit23(odmObjFactory.createBranchRatingLimitXmlType());
        		AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit23(), rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
        	}
        	else if (isPsXfr) {
-    		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branchRec; 
+    		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branRecXml; 
        		branchPsXfr.setToAngle(BaseDataSetter.createAngleValue(ang2, AngleUnitType.DEG));
        	}
 
@@ -479,7 +479,7 @@ public class PSSEV30XfrDataRec {
             	34.5000,  34.500, -30.000,    22.29,    22.29,    22.29, 0,      0, 0.00000, 0.00000, 0.00000, 0.00000,  33, 0, 0.00000, 0.00000
 		*/
        	if (is3W) {
-    		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branchRec; 
+    		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branRecXml; 
     		
     		/*Transformer3WInfoXmlType xfr3WInfo = (Transformer3WInfoXmlType)xfrInfo;
       		if (!xfrInfo.isDataOnSystemBase()) {
@@ -492,7 +492,7 @@ public class PSSEV30XfrDataRec {
       		branch3WXfr.setRatingLimit13(odmObjFactory.createBranchRatingLimitXmlType());
            	AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
            	if (isPsXfr) {
-        		PSXfr3WBranchXmlType branchPsXfr3W = (PSXfr3WBranchXmlType)branchRec; 
+        		PSXfr3WBranchXmlType branchPsXfr3W = (PSXfr3WBranchXmlType)branRecXml; 
         		branchPsXfr3W.setTertShiftAngle(BaseDataSetter.createAngleValue(ang3, AngleUnitType.DEG));
            	}
        	}

@@ -51,13 +51,13 @@ public class PSSEV30LoadDataRec {
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
-	    if (busRec == null){
+		LoadflowBusXmlType busRecXml = parser.getAclfBus(busId);
+	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 		
-	    LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRec); 
+	    LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRecXml); 
 
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");

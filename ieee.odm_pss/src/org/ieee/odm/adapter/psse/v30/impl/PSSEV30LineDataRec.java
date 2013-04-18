@@ -46,31 +46,31 @@ public class PSSEV30LineDataRec {
 		final String fid = AbstractModelParser.BusIdPreFix+i;
 		final String tid = AbstractModelParser.BusIdPreFix+j;
 
-		LineBranchXmlType branchRec;
+		LineBranchXmlType braRecXml;
 		try {
-			branchRec = parser.createLineBranch(fid, tid, ckt);
+			braRecXml = parser.createLineBranch(fid, tid, ckt);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}		
 		
-		branchRec.setOffLine(status != 1);
+		braRecXml.setOffLine(status != 1);
 		
-		branchRec.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
+		braRecXml.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
 										BranchMeterLocationEnumType.TO_SIDE);
       	
-		AclfDataSetter.setLineData(branchRec, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
+		AclfDataSetter.setLineData(braRecXml, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
-		branchRec.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
-		AclfDataSetter.setBranchRatingLimitData(branchRec.getRatingLimit(),
+		braRecXml.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		AclfDataSetter.setBranchRatingLimitData(braRecXml.getRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)
-    	   branchRec.setFromShuntY(BaseDataSetter.createYValue(gi, bi, YUnitType.PU));
+    	   braRecXml.setFromShuntY(BaseDataSetter.createYValue(gi, bi, YUnitType.PU));
        if ( gj != 0.0 || bj != 0.0)
-    	   branchRec.setToShuntY(BaseDataSetter.createYValue(gj, bj, YUnitType.PU));
+    	   braRecXml.setToShuntY(BaseDataSetter.createYValue(gj, bj, YUnitType.PU));
       
-    	BaseJaxbHelper.addOwner(branchRec, 
+    	BaseJaxbHelper.addOwner(braRecXml, 
     			new Integer(o1).toString(), f1, 
     			new Integer(o2).toString(), o2==0?0.0:f2, 
     			new Integer(o3).toString(), o3==0?0.0:f3, 

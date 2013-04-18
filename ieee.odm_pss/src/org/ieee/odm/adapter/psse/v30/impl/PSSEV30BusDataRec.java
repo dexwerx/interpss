@@ -63,45 +63,45 @@ public class PSSEV30BusDataRec {
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
 */
 		String iStr = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType aclfBus;
+		LoadflowBusXmlType aclfBusXml;
 		try {
-			aclfBus = parser.createAclfBus(iStr, i);
+			aclfBusXml = parser.createAclfBus(iStr, i);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;
 		}
-		aclfBus.setNumber((long)i);
+		aclfBusXml.setNumber((long)i);
 		
-		aclfBus.setAreaNumber(area);
-		aclfBus.setZoneNumber(zone);
+		aclfBusXml.setAreaNumber(area);
+		aclfBusXml.setZoneNumber(zone);
 		if (owner > 0) {
-			BaseJaxbHelper.addOwner(aclfBus, new Integer(owner).toString());
+			BaseJaxbHelper.addOwner(aclfBusXml, new Integer(owner).toString());
 		}
 		
-		aclfBus.setName(name);
-		aclfBus.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
+		aclfBusXml.setName(name);
+		aclfBusXml.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
 		
-		aclfBus.setVoltage(BaseDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
-		aclfBus.setAngle(BaseDataSetter.createAngleValue(va, AngleUnitType.DEG));
+		aclfBusXml.setVoltage(BaseDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
+		aclfBusXml.setAngle(BaseDataSetter.createAngleValue(va, AngleUnitType.DEG));
 
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getAclfNet().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
-    		aclfBus.setShuntY(BaseDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
+    		aclfBusXml.setShuntY(BaseDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
     	// set input data to the bus object
 		LFGenCodeEnumType genType = ide == 3? LFGenCodeEnumType.SWING : 
 								( ide == 1? LFGenCodeEnumType.PQ : 
 									( ide == 2 ? LFGenCodeEnumType.PV : LFGenCodeEnumType.NONE_GEN ));
-		AclfDataSetter.setGenData(aclfBus, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
+		AclfDataSetter.setGenData(aclfBusXml, genType, vm, VoltageUnitType.PU, va, AngleUnitType.DEG, 
 						0.0, 0.0,	ApparentPowerUnitType.MVA);
 
 		if (ide == 1 || ide == 2 || ide == 3) 
-			aclfBus.setOffLine(false);
+			aclfBusXml.setOffLine(false);
 		else
-			aclfBus.setOffLine(true);
+			aclfBusXml.setOffLine(true);
 			
 	}
 	
