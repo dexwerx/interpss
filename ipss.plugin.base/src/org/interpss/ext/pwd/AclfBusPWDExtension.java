@@ -11,10 +11,15 @@ import org.interpss.ext.AclfBusExtension;
  *
  */
 public class AclfBusPWDExtension extends AclfBusExtension {
+	public static final String SubStation = "SubStation";
+	public static final String Gen_CustomString_1 = "Gen_CustomString:1";
+	public static final String Load_CustomString = "Load_CustomString";
+	public static final String Shunt_CustomString = "Shunt_CustomString";
+	
 	private static final long serialVersionUID = 1L;
 
 	public String getSubstationName(){
-		return this.get("SubStation");
+		return this.get(SubStation);
 	}
 	
 	
@@ -24,8 +29,8 @@ public class AclfBusPWDExtension extends AclfBusExtension {
 	 * @return
 	 */
 	public String getGenOutageId() {
-		if (this.get("SubStation") != null && this.get("Gen_CustomString:1") != null)
-			return this.get("SubStation") + "_" + this.get("Gen_CustomString:1");
+		if (this.get(SubStation) != null && this.get(Gen_CustomString_1) != null)
+			return this.get(SubStation) + "_" + this.get(Gen_CustomString_1);
 		else 
 			return null;
 	}
@@ -36,7 +41,7 @@ public class AclfBusPWDExtension extends AclfBusExtension {
 	 * @return
 	 */
 	public String getShuntEquipName() {
-		return this.get("Shunt_CustomString");
+		return this.get(Shunt_CustomString);
 	}
 
 	/**
@@ -50,8 +55,8 @@ public class AclfBusPWDExtension extends AclfBusExtension {
 	 * @return
 	 */
 	public String getLoadEquipName() {
-		if (this.get("Load_CustomString") != null) {
-			String str = this.get("Load_CustomString");
+		if (this.get(Load_CustomString) != null) {
+			String str = this.get(Load_CustomString);
 			return str.substring(str.lastIndexOf('_')+1, str.length());
 		}
 		else

@@ -11,6 +11,11 @@ import org.interpss.ext.AclfBranchExtension;
  *
  */
 public class AclfBranchPWDExtension extends AclfBranchExtension {
+	public static final String CustomString = "CustomString";
+	public static final String EquimentName = "EquimentName";
+	public static final String LineMonEle = "LineMonEle";
+	public static final String LSName = "LSName";
+	
 	private static final long serialVersionUID = 1L;
 	
 	private boolean caMonitoring = false;
@@ -25,7 +30,7 @@ public class AclfBranchPWDExtension extends AclfBranchExtension {
 	 * @return
 	 */
 	public String getBranchOutageId() {
-		return this.get("CustomString") + "_" + this.get("SubStation") + "_" + this.get("EquimentName");
+		return this.get(CustomString) + "_" + this.get(AclfBusPWDExtension.SubStation) + "_" + this.get(EquimentName);
 	}
 
 	/**
@@ -34,7 +39,7 @@ public class AclfBranchPWDExtension extends AclfBranchExtension {
 	 * @return
 	 */
 	public String getLineMonEle() {
-		return this.get("LineMonEle");
+		return this.get(LineMonEle);
 	}
 
 	/**
@@ -43,6 +48,6 @@ public class AclfBranchPWDExtension extends AclfBranchExtension {
 	 * @return
 	 */
 	public String getLSName() {
-		return this.get("LSName");
+		return this.get(LSName);
 	}
 }
