@@ -59,6 +59,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	
 	private ObjectFactory factory = null;	
 	
+	PSSEV26NetRecord netRecProcessor = new PSSEV26NetRecord();
 	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord();
 	PSSEV26BranchRecord branchRecProcessor = new PSSEV26BranchRecord();
 		
@@ -84,7 +85,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 			String str = din.readLine();
 			sAry[i]= str;				
 		} 
-		PSSEV26NetRecord.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.factory);	
+		netRecProcessor.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.factory);	
 
         String str ;         
         int type=BusData;
@@ -135,7 +136,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				} 
         				else if(type==InterchangeData){
         					//System.out.println("InterData: " + str);
-        					PSSEV26NetRecord.processAreaInterchangeData(str, parser); 
+        					netRecProcessor.processAreaInterchangeData(str, parser); 
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);

@@ -42,7 +42,7 @@ public class PSSEV26NetRecord {
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";	
 	
-	public static boolean processHeaderData(final String str1,final String str2,final String str3,
+	public boolean processHeaderData(final String str1,final String str2,final String str3,
 			final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) throws Exception {
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = getHeaderDataFields(str1,str2,str3);
@@ -67,7 +67,7 @@ public class PSSEV26NetRecord {
         return true;
 	}
         
-	public static  void processAreaInterchangeData(final String str, AclfModelParser parser) {
+	public void processAreaInterchangeData(final String str, AclfModelParser parser) {
 		final LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 
 		final String[] strAry = getAreaInterchangeDataFields(str);
@@ -97,7 +97,7 @@ public class PSSEV26NetRecord {
 		interchange.setExErrTolerance(BaseDataSetter.createActivePowerValue(err, ActivePowerUnitType.MW));			
 	}
 	
-	public static  void processInterAreaTransferData(final String str,
+	public void processInterAreaTransferData(final String str,
 			final LoadflowNetXmlType baseCaseNet) {
 		final String[] strAry = getInterAreaTransferDataFields(str);
 		
@@ -109,7 +109,7 @@ public class PSSEV26NetRecord {
 	 * String[2] comments
 	 * String[3] comments
 	 */
-	private static String[] getHeaderDataFields(final String lineStr, final String lineStr2,
+	private String[] getHeaderDataFields(final String lineStr, final String lineStr2,
 							final String lineStr3)	throws Exception{
 		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = new String[4];	
@@ -137,7 +137,7 @@ public class PSSEV26NetRecord {
 		return strAry;
 	}
 	
-	private static String[] getAreaInterchangeDataFields(final String lineStr) {
+	private String[] getAreaInterchangeDataFields(final String lineStr) {
 		final String[] strAry = new String[5];
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
   		for (int i = 0; i < 5; i++)
@@ -145,7 +145,7 @@ public class PSSEV26NetRecord {
   		return strAry;
 	}
 	
-	private static  String[] getInterAreaTransferDataFields(final String lineStr) {
+	private String[] getInterAreaTransferDataFields(final String lineStr) {
 		final String[] strAry = new String[4];	
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
   		for (int i = 0; i < 4; i++)
