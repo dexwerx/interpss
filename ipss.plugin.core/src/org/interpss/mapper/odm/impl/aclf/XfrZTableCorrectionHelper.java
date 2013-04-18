@@ -27,6 +27,7 @@ package org.interpss.mapper.odm.impl.aclf;
 import org.ieee.odm.schema.XformerZTableXmlType;
 
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.util.IpssLogger;
 
 /**
  * Xfr Z Table correction helper
@@ -83,7 +84,8 @@ public class XfrZTableCorrectionHelper {
 			}
 			// by reaching here, it indicates that the t_ang is not within the interval
 			// defined in the Z Table
-			throw new InterpssException("Cannot find Xfr Z Table correction factor" + "\n" + itemList2Str());
+			IpssLogger.ipssLogger.warning("Cannot find Xfr Z Table correction factor" + "\n" + itemList2Str());
+			return 1.0;
 		}
 		else
 			throw new InterpssException("Xfr Z correction table entries < 2");
