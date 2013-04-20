@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFLossZoneDataParser.java   
+ * @(#)IeeeCDFTieLineDataParser.java   
  *
  * Copyright (C) 2006-2013 www.interpss.org
  *
@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.adapter.ieeecdf;
+package org.ieee.odm.adapter.ieeecdf.parser;
 
 import java.util.StringTokenizer;
 
@@ -30,18 +30,18 @@ import org.ieee.odm.adapter.AbstractDataFieldParser;
 import org.ieee.odm.common.ODMException;
 
 /**
- * Class for processing IEEE CDF loss zone data line string
+ * Class for processing IEEE CDF Network data line string
  * 
  * @author mzhou
  *
  */
-public class IeeeCDFLossZoneDataParser extends AbstractDataFieldParser {
+public class IeeeCDFTieLineDataParser extends AbstractDataFieldParser {
 	@Override public String[] getMetadata() {
 		return new String[] {
-		   //  0           1        2       3        4
-		     "ZoneNum", "ZoneName" 
+		   //  0                    1             2                   3                   4
+		     "MeteredBusNum", "MeteredAreaNum", "NotMeteredBusNum", "NotMeteredAreaNum", "CirNum", 
 		};
-	}	
+	}
 
 	@Override public void parseFields(final String str) throws ODMException {
 		if (str.indexOf(',') >= 0) {
@@ -51,8 +51,18 @@ public class IeeeCDFLossZoneDataParser extends AbstractDataFieldParser {
 				setValue(cnt++, st.nextToken().trim());
 			}
 		} else {
-			setValue(0, str.substring(0, 3).trim());
-			setValue(1, str.substring(4).trim());
+			//        	Columns  1- 4   Metered bus number [I] *
+			//        	Columns  7-8    Metered area number [I] *
+			setValue(0, str.substring(0, 4).trim());
+			setValue(1, str.substring(6, 8).trim());
+
+			//          Columns  11-14  Non-metered bus number [I] *
+			//          Columns  17-18  Non-metered area number [I] *
+			setValue(2, str.substring(10, 14).trim());
+			setValue(3, str.substring(16, 18).trim());
+
+			//          Column   21     Circuit number
+			setValue(4, str.substring(20, 21));
 		}
 	}
 }

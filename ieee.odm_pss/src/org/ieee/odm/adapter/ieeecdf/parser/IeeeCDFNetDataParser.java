@@ -22,7 +22,7 @@
  *
  */
 
-package org.ieee.odm.adapter.ieeecdf;
+package org.ieee.odm.adapter.ieeecdf.parser;
 
 import java.util.StringTokenizer;
 
