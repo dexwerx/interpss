@@ -61,19 +61,6 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
 		this.dataParser = new PSSEXfrDataParser(ver);
 	}
 
-	/*
-	private static int i, j, k, cw, cz, cm, stat, nmetr;
-	private static String ckt, name;
-	private static double mag1, mag2;
-	private static int o1 = 0, o2 = 0, o3 = 0, o4 = 0;
-	private static double f1 = 0.0, f2 = 0.0, f3 = 0.0, f4 = 0.0;
-	private static double r1_2, x1_2, sbase1_2, r2_3, x2_3, sbase2_3, r3_1, x3_1, sbase3_1, vmstar, anstar;
-	private static int cod, cont, ntp, tab;
-	private static double windv1, nomv1, windv2, nomv2, windv3, nomv3;
-	private static double rma, rmi, vma, vmi, cr, cx;
-	private static double ang1, rata1, ratb1, ratc1, ang2, rata2, ratb2, ratc2, ang3, rata3, ratb3, ratc3;
-	*/
-	
 	public void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
 							AclfModelParser parser) throws ODMException {
 		//procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);

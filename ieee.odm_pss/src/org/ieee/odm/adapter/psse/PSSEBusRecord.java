@@ -157,8 +157,8 @@ public class PSSEBusRecord {
 	}
 
 	private static String[] getSwitchedShuntDataFields(final String lineStr, PsseVersion version) {
-		// V26 - I,    MODSW,VSWHI, VSWLO,  SWREM,   BINIT,    N1,      B1,   N2,        B2...N8,B8
-		// V30 - I, MODSW, VSWHI, VSWLO, SWREM, RMPCT, ’RMIDNT’, BINIT, N1, B1, N2, B2, ... N8, B8
+		// V26 - I, MODSW, VSWHI, VSWLO, SWREM,                  BINIT, N1, B1, N2, B2, ... N8,B8
+		// V30 - I, MODSW, VSWHI, VSWLO, SWREM, RMPCT, ’RMIDNT’, BINIT, N1, B1, N2, B2, ... N8,B8
 		final String[] strAry = new String[24];		
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
   		
