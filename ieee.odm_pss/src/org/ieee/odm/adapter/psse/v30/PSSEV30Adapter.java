@@ -31,12 +31,12 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.PSSEBusRecord;
 import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30BusDataRec;
+import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEGenDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSELineDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSELoadDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEXfrDataMapper;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
@@ -54,14 +54,26 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	private String  elemCntStr = "";
 
 	private ObjectFactory factory = null;
-
-	public PSSEV30Adapter() {
+	
+	PSSEBusDataMapper busDataMapper = null;
+	PSSEGenDataMapper genDataMapper = null;
+	PSSELoadDataMapper loadDataMapper = null;
+	
+	PSSELineDataMapper lineDataMapper = null;
+	PSSEXfrDataMapper xfrDataMapper = null;
+	
+	public PSSEV30Adapter(PsseVersion ver) {
 		super();
 		this.factory = new ObjectFactory();
+		this.busDataMapper = new PSSEBusDataMapper(ver);
+		this.genDataMapper = new PSSEGenDataMapper(ver);
+		this.loadDataMapper = new PSSELoadDataMapper(ver);
+		this.lineDataMapper = new PSSELineDataMapper(ver);
+		this.xfrDataMapper = new PSSEXfrDataMapper(ver);
 	}
 
-	public PSSEV30Adapter(boolean elemCntOnly) {
-		this();
+	public PSSEV30Adapter(PsseVersion ver, boolean elemCntOnly) {
+		this(ver);
 		this.elemCntOnly = elemCntOnly;
 	}
 	
@@ -130,7 +142,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}	 
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30BusDataRec.procLineString(lineStr, version, parser);
+								busDataMapper.procLineString(lineStr, parser);
 							busCnt++;
 						}	 
       				}
@@ -142,7 +154,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30LoadDataRec.procLineString(lineStr, version, parser);
+								loadDataMapper.procLineString(lineStr, parser);
 							loadCnt++;
 						}	 
       				}
@@ -154,7 +166,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30GenDataRec.procLineString(lineStr, version, parser);
+								genDataMapper.procLineString(lineStr, parser);
 							genCnt++;
 						}	 
       				}
@@ -166,7 +178,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEV30LineDataRec.procLineString(lineStr, version, parser);
+								lineDataMapper.procLineString(lineStr, parser);
 							lineCnt++;
 						}	 
       				}
@@ -192,7 +204,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
     							xfrCnt++;
 							
 							if (!this.elemCntOnly)
-								PSSEV30XfrDataRec.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser);
+								xfrDataMapper.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, parser);
 						}	 
       				}
       				else if (!areaInterProcessed) {

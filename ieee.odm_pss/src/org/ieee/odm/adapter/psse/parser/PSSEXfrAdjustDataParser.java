@@ -54,6 +54,8 @@ public class PSSEXfrAdjustDataParser extends BasePSSEDataParser {
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
+		this.clearNVPairTableData();
+		
   		StringTokenizer st = new StringTokenizer(str, ",");
 		/*
 	    I,    J,     CKT,  ICONT,     RMA,       RMI,       VMA,       VMI,   STEP,   TABLE 

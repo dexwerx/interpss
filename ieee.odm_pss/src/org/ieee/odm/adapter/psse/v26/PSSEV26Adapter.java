@@ -60,7 +60,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	private ObjectFactory factory = null;	
 	
 	PSSEV26NetRecord netRecProcessor = new PSSEV26NetRecord();
-	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord();
+	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord(PsseVersion.PSSE_26);
 	PSSEV26BranchRecord branchRecProcessor = new PSSEV26BranchRecord();
 		
 	public PSSEV26Adapter() {

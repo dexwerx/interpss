@@ -22,12 +22,11 @@
   *
   */
 
-package org.ieee.odm.adapter.psse.v30.impl;
-
-import java.util.StringTokenizer;
-import java.util.logging.Logger;
+package org.ieee.odm.adapter.psse.mapper;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSEBusDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -41,27 +40,23 @@ import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
-public class PSSEV30BusDataRec {
-	private static int i, ide, area = 1, zone = 1, owner = 1;
-	private static String name;
-	private static double baseKv, gl = 0.0, bl = 0.0, vm = 1.0, va = 0.0;
+public class PSSEBusDataMapper extends BasePSSEDataMapper {
+
+	public PSSEBusDataMapper(PsseVersion ver) {
+		super(ver);
+		this.dataParser = new PSSEBusDataParser(ver);
+	}
 	
 	/*
-	 * BusData Format: I, ’NAME’, BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
+	 * BusData Format: 
+	 *       I, ’NAME’, BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
 	 *       101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
 
 	 */
-	public static void procLineString(String lineStr, PsseVersion version, AclfModelParser parser) {
-		try {
-			procFields(lineStr, version);
-		} catch (Exception e) {
-			ODMLogger.getLogger().severe("lineStr: " + lineStr);
-			e.printStackTrace();
-		}
-
-/*
-		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
-*/
+	public void procLineString(String lineStr, AclfModelParser parser) throws ODMException {
+		dataParser.parseFields(lineStr);
+		
+		int i = dataParser.getInt("I");
 		String iStr = AbstractModelParser.BusIdPreFix+i;
 		LoadflowBusXmlType aclfBusXml;
 		try {
@@ -72,18 +67,22 @@ public class PSSEV30BusDataRec {
 		}
 		aclfBusXml.setNumber((long)i);
 		
-		aclfBusXml.setAreaNumber(area);
-		aclfBusXml.setZoneNumber(zone);
-		if (owner > 0) {
-			BaseJaxbHelper.addOwner(aclfBusXml, new Integer(owner).toString());
+		aclfBusXml.setAreaNumber(dataParser.getInt("AREA", 0));
+		aclfBusXml.setZoneNumber(dataParser.getInt("ZONE", 0));
+		if (dataParser.exist("OWNER")) {
+			BaseJaxbHelper.addOwner(aclfBusXml, dataParser.getString("OWNER"));
 		}
 		
-		aclfBusXml.setName(name);
-		aclfBusXml.setBaseVoltage(BaseDataSetter.createVoltageValue(baseKv, VoltageUnitType.KV));
+		aclfBusXml.setName(dataParser.getString("NAME"));
+		aclfBusXml.setBaseVoltage(BaseDataSetter.createVoltageValue(dataParser.getDouble("BASKV"), VoltageUnitType.KV));
 		
+		double vm = dataParser.getDouble("VM", 1.0);
+		double va = dataParser.getDouble("VA", 0.0);
 		aclfBusXml.setVoltage(BaseDataSetter.createVoltageValue(vm, VoltageUnitType.PU));
 		aclfBusXml.setAngle(BaseDataSetter.createAngleValue(va, AngleUnitType.DEG));
 
+		double gl = dataParser.getDouble("GL", 0.0);
+		double bl = dataParser.getDouble("BL", 0.0);
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getAclfNet().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
@@ -91,6 +90,7 @@ public class PSSEV30BusDataRec {
     		aclfBusXml.setShuntY(BaseDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));
     	}
       	
+    	int ide = dataParser.getInt("IDE", 0);
     	// set input data to the bus object
 		LFGenCodeEnumType genType = ide == 3? LFGenCodeEnumType.SWING : 
 								( ide == 1? LFGenCodeEnumType.PQ : 
@@ -102,44 +102,5 @@ public class PSSEV30BusDataRec {
 			aclfBusXml.setOffLine(false);
 		else
 			aclfBusXml.setOffLine(true);
-			
-	}
-	
-	private static void procFields(String lineStr, PsseVersion version) throws Exception {
-		StringTokenizer st;
-
-	//	 101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
-	//    10001,'ALB_T4*     ',   1.0000,1,     0.000,     0.000,   1,   1,1.03259, -13.5044,   1
-	// -- str1-- ----str2---- -----------str3---------------	
-		String str1 = lineStr.substring(0, lineStr.indexOf('\'')),
-	           strbuf = lineStr.substring(lineStr.indexOf('\'')+1),
-	           str2 = strbuf.substring(0, strbuf.indexOf('\'')),
-	           str3 = strbuf.substring(strbuf.indexOf('\'')+1);
-	           
-		
-		st = new StringTokenizer(str1, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		name = str2;
-
-		st = new StringTokenizer(str3, ",");
-        String s = st.nextToken().trim();
-        if (s.equals(""))   // in case there are spaces between '  ,
-            s = st.nextToken().trim();		
-		baseKv = new Double(s).doubleValue();
-		ide = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			gl = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			bl = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			area = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			zone = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			vm = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			va = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			owner = new Integer(st.nextToken().trim()).intValue();
 	}
 }

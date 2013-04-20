@@ -43,7 +43,11 @@ public class PSSEGenDataParser extends BasePSSEDataParser {
 	@Override public String[] getMetadata() {
 		/* Format V26
 		 * 
-		 * 	I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
+		 * 	I, ID, PG, QG, QT, QB, VS, IREG,MBASE, ZR,ZX,RT,XT, GTAP, STAT,RMPCT, PT,PB, O1,F1,...,O4,F4
+		 * 
+		 * Format V30
+		 * 	I, ID, PG, QG, QT, QB, VS, IREG,MBASE, ZR,ZX,RT,XT, GTAP, STAT,RMPCT, PT,PB, O1,F1,...,O4,F4
+
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
@@ -62,6 +66,8 @@ public class PSSEGenDataParser extends BasePSSEDataParser {
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
+		this.clearNVPairTableData();
+		
 		//I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,
   		StringTokenizer st = new StringTokenizer(str, ",");
 		for (int i = 0; i < 18; i++)

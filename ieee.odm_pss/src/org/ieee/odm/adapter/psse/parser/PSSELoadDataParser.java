@@ -43,7 +43,11 @@ public class PSSELoadDataParser extends BasePSSEDataParser {
 	@Override public String[] getMetadata() {
 		/* Format V26
 		 * 
-		 * 	I,    ID,  STATUS, AREA, ZONE, PL,   QL,   IP,   IQ,   YP,    YQ,  OWNER
+		 * 	I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
+		 * 
+		 * format V30
+		 * 
+		 *  I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
@@ -56,6 +60,8 @@ public class PSSELoadDataParser extends BasePSSEDataParser {
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
+		this.clearNVPairTableData();
+		
   		StringTokenizer st = new StringTokenizer(str, ",");
 		for (int i = 0; i < 12; i++)
 			setValue(i, st.nextToken().trim());

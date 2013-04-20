@@ -53,10 +53,16 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV26BusRecord {
-	private PSSEBusDataParser busDataParser = new PSSEBusDataParser(PsseVersion.PSSE_26);
-	private PSSEGenDataParser genDataParser = new PSSEGenDataParser(PsseVersion.PSSE_26);
-	private PSSELoadDataParser loadDataParser = new PSSELoadDataParser(PsseVersion.PSSE_26);
+	private PSSEBusDataParser busDataParser = null;
+	private PSSEGenDataParser genDataParser = null;
+	private PSSELoadDataParser loadDataParser = null;
 	
+	public PSSEV26BusRecord(PsseVersion version) {
+		this.busDataParser = new PSSEBusDataParser(version);
+		this.genDataParser = new PSSEGenDataParser(version);
+		this.loadDataParser = new PSSELoadDataParser(version);
+	}
+
 	public void processBusData(final String str, final AclfModelParser parser) throws ODMException {
 		// parse the input data line
 		//final String[] strAry = getBusDataFields(str);
@@ -79,7 +85,8 @@ public class PSSEV26BusRecord {
 		
 		busRec.setNumber(busDataParser.getLong("I", 0));
 		
-		final String busName = ModelStringUtil.removeSingleQuote(busDataParser.getString("NAME"));
+		//final String busName = ModelStringUtil.removeSingleQuote(busDataParser.getString("NAME"));
+		final String busName = busDataParser.getString("NAME");
 		busRec.setName(busName);
 		double baseKv = busDataParser.getDouble("BASKV", 0.0);
 		if (baseKv == 0.0) {

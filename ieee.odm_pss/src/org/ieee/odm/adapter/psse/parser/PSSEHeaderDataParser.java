@@ -56,6 +56,8 @@ public class PSSEHeaderDataParser extends BasePSSEDataParser {
 	}
 	
 	@Override public void parseFields(final String[] lineAry) throws ODMException {
+		this.clearNVPairTableData();
+		
 		String lineStr = lineAry[0];
 		String lineStr2 = lineAry[1];
 		String lineStr3 = lineAry[2];

@@ -52,6 +52,8 @@ public class PSSEInterAreaTransferDataParser extends BasePSSEDataParser {
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
+		this.clearNVPairTableData();
+		
   		StringTokenizer st = new StringTokenizer(str, ",");
   		for (int i = 0; i < 4; i++)
   			setValue(i, st.nextToken().trim());

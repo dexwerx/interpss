@@ -44,6 +44,10 @@ public class PSSEBusDataParser extends BasePSSEDataParser {
 		/* Format V26
 		 * 
 		 * 	I,    NAME        BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,      OWNER
+		 * 
+		 * Format V30
+		 * 
+		 *  I,   ’NAME’,      BASKV, IDE,  GL,      BL, AREA, ZONE, VM,       VA,     OWNER
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
@@ -55,9 +59,39 @@ public class PSSEBusDataParser extends BasePSSEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
-		StringTokenizer st = new StringTokenizer(str,",");
-		for (int i = 0; i < 11; i++)
-			setValue(i, st.nextToken().trim());
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		this.clearNVPairTableData();
+		
+		if (this.verion == PsseVersion.PSSE_26) {
+			StringTokenizer st = new StringTokenizer(lineStr,",");
+			for (int i = 0; i < 11; i++)
+				setValue(i, st.nextToken().trim());
+		}
+		else if (this.verion == PsseVersion.PSSE_30) {
+			StringTokenizer st;
+
+			//    10001,'ALB_T4*     ',   1.0000,1,     0.000,     0.000,   1,   1,1.03259, -13.5044,   1
+			// -- str1-- ----str2---- -----------str3---------------	
+			String str1 = lineStr.substring(0, lineStr.indexOf('\'')),
+			           strbuf = lineStr.substring(lineStr.indexOf('\'')+1),
+			           str2 = strbuf.substring(0, strbuf.indexOf('\'')),
+			           str3 = strbuf.substring(strbuf.indexOf('\'')+1);
+				
+			st = new StringTokenizer(str1, ",");
+			setValue(0, st.nextToken().trim());
+			setValue(1, str2);
+
+			st = new StringTokenizer(str3, ",");
+		    String s = st.nextToken().trim();
+		    if (s.equals(""))   // in case there are spaces between '  ,
+		        s = st.nextToken().trim();		
+		    setValue(2,s);
+		    
+		    int cnt = 3;
+		    while(st.hasMoreTokens())
+		    	setValue(cnt++, st.nextToken().trim());
+		}
+		else
+			throw new ODMException("PSSEBusDataParser, wrong PSSE Version " + this.verion);
 	}
 }

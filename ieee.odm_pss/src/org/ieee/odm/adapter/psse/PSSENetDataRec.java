@@ -10,12 +10,12 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30BusDataRec;
+import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEGenDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSELineDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSELoadDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEXfrDataMapper;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30GenDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LineDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30LoadDataRec;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30XfrDataRec;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;

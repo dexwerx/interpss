@@ -22,13 +22,13 @@
   *
   */
 
-package org.ieee.odm.adapter.psse.v30.impl;
+package org.ieee.odm.adapter.psse.mapper;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.StringTokenizer;
-
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSEXfrDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -54,7 +54,14 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEV30XfrDataRec {
+public class PSSEXfrDataMapper extends BasePSSEDataMapper {
+
+	public PSSEXfrDataMapper(PsseVersion ver) {
+		super(ver);
+		this.dataParser = new PSSEXfrDataParser(ver);
+	}
+
+	/*
 	private static int i, j, k, cw, cz, cm, stat, nmetr;
 	private static String ckt, name;
 	private static double mag1, mag2;
@@ -65,15 +72,26 @@ public class PSSEV30XfrDataRec {
 	private static double windv1, nomv1, windv2, nomv2, windv3, nomv3;
 	private static double rma, rmi, vma, vmi, cr, cx;
 	private static double ang1, rata1, ratb1, ratc1, ang2, rata2, ratb2, ratc2, ang3, rata3, ratb3, ratc3;
+	*/
 	
-	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-							PsseVersion version, AclfModelParser parser) {
-		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
+	public void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
+							AclfModelParser parser) throws ODMException {
+		//procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
+		dataParser.parseFields(new String[]{lineStr1, lineStr2, lineStr3, lineStr4, lineStr5});
 		
 		double sysMVABase=parser.getAclfNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
                 parser.getAclfNet().getBasePower().getValue(): parser.getAclfNet().getBasePower().getValue()*0.001;
 		
+      	int i = dataParser.getInt("I");
+      	int j = dataParser.getInt("J");                
+      	int k = dataParser.getInt("K");                
+                
         boolean is3W = k != 0; 
+        
+        int cod = dataParser.getInt("COD", 0);
+        double ang1 = dataParser.getDouble("ANG1", 0.0);
+        double ang2 = dataParser.getDouble("ANG2", 0.0);
+        double ang3 = dataParser.getDouble("ANG3", 0.0);
 		boolean isPsXfr = false;
     	if ( (is3W && (ang1 != 0.0 || ang2 != 0.0 || ang3 != 0.0)) ||
        		 (!is3W && ang1 != 0.0) || cod == 3 || cod == -3) {
@@ -93,6 +111,7 @@ public class PSSEV30XfrDataRec {
 
 		XfrBranchXmlType branRecXml;
 		TransformerInfoXmlType xfrInfoXml;
+		String ckt = dataParser.getString("CKT");
 		try {
 			if (is3W && isPsXfr) {
 				branRecXml = parser.createPSXfr3WBranch(fid, tid, tertId, ckt);
@@ -119,7 +138,7 @@ public class PSSEV30XfrDataRec {
 			return;
 		}		
 		
-		branRecXml.setName(name);
+		branRecXml.setName(dataParser.getString("NAME"));
 		
 /*
 		The initial transformer status, where 1 designates in-service and 0 designates
@@ -128,6 +147,7 @@ public class PSSEV30XfrDataRec {
 		service, and 4 indicates that only winding one is out-of-service, with the
 		remaining windings in-service. STAT = 1 by default.
  */
+		int stat = dataParser.getInt("STAT", 1);
 		branRecXml.setOffLine(stat == 0);
 		if (is3W) {
     		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branRecXml;			
@@ -154,6 +174,9 @@ public class PSSEV30XfrDataRec {
 		}
        	
        	// rated voltage could be entered 0.0, Bus BaseVoltage should be used in this case
+        double nomv1 = dataParser.getDouble("NOMV1", 0.0);
+        double nomv2 = dataParser.getDouble("NOMV2", 0.0);
+        double nomv3 = dataParser.getDouble("NOMV3", 0.0);
        	if (nomv1 == 0.0)
        		nomv1 = parser.getAclfBus(fid).getBaseVoltage().getValue();
        	if (nomv2 == 0.0)
@@ -161,6 +184,7 @@ public class PSSEV30XfrDataRec {
        	if (is3W && nomv3 == 0.0)
        		nomv3 = parser.getAclfBus(tertId).getBaseVoltage().getValue();
        	
+       	int nmetr = dataParser.getInt("NMETR");
 		branRecXml.setMeterLocation( nmetr==1 ? BranchMeterLocationEnumType.FROM_SIDE :
 							BranchMeterLocationEnumType.TO_SIDE);
 
@@ -181,6 +205,10 @@ public class PSSEV30XfrDataRec {
     	 */
 	
 		// sample data : 1,   0.00089,  -0.00448
+		int cm = dataParser.getInt("CM", 1);
+		double mag1 = dataParser.getDouble("MAG1", 0.0);
+		double mag2 = dataParser.getDouble("MAG2", 0.0);
+		double sbase1_2 = dataParser.getDouble("SBASE1-2");
     	if (cm == 2) {
     		//TODO
     		if (mag1 != 0.0 || mag2 != 0.0){
@@ -206,11 +234,7 @@ public class PSSEV30XfrDataRec {
     	}
       	
     	// owner id = 0.0, no contribution
-    	BaseJaxbHelper.addOwner(branRecXml, 
-    			new Integer(o1).toString(), f1, 
-    			new Integer(o2).toString(), o2==0?0.0:f2, 
-    			new Integer(o3).toString(), o3==0?0.0:f3, 
-    			new Integer(o4).toString(), o4==0?0.0:f4);
+    	mapOwnerInfo(branRecXml);    	
 	
     	/*
        	Line-2 
@@ -223,6 +247,10 @@ public class PSSEV30XfrDataRec {
     	*/
     	xfrInfoXml.setRatedPower(BaseDataSetter.createPowerMvaValue(sbase1_2));
        	if (is3W) {
+       		double sbase2_3 = dataParser.getDouble("SBASE2-3");
+       		double sbase3_1 = dataParser.getDouble("SBASE3-1");
+       		double vmstar = dataParser.getDouble("VMSTAR");
+       		double anstar = dataParser.getDouble("ANSTAR");
     		Transformer3WInfoXmlType xfr3WInfo = (Transformer3WInfoXmlType)xfrInfoXml;
        		xfr3WInfo.setRatedPower23(BaseDataSetter.createPowerMvaValue(sbase2_3));
        		xfr3WInfo.setRatedPower31(BaseDataSetter.createPowerMvaValue(sbase3_1));
@@ -230,6 +258,9 @@ public class PSSEV30XfrDataRec {
        		xfr3WInfo.setStarVAng(BaseDataSetter.createAngleValue(anstar, AngleUnitType.DEG));
        	}
        	
+       	int cz = dataParser.getInt("CZ", 1);
+       	double r1_2 = dataParser.getDouble("R1-2", 0.0);
+       	double x1_2 = dataParser.getDouble("X1-2", 0.0);
        	if (cz == 1) {
        		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
        		// system base quantities; 
@@ -258,6 +289,12 @@ public class PSSEV30XfrDataRec {
        	}
        	
        	if (is3W) {
+    		double sbase2_3 = dataParser.getDouble("SBASE2-3");
+    		double sbase3_1 = dataParser.getDouble("SBASE3-1");
+           	double r2_3 = dataParser.getDouble("R2-3", 0.0);
+           	double x2_3 = dataParser.getDouble("X2-3", 0.0);
+           	double r3_1 = dataParser.getDouble("R3-1", 0.0);
+           	double x3_1 = dataParser.getDouble("X3-1", 0.0);
     		Xfr3WBranchXmlType branch3WRec = (Xfr3WBranchXmlType)branRecXml;
            	if (cz == 1) {
            		branch3WRec.setZ23(BaseDataSetter.createZValue(r2_3, x2_3, ZUnitType.PU));
@@ -290,6 +327,8 @@ public class PSSEV30XfrDataRec {
 		 	
     	 */
   		
+       	int cw = dataParser.getInt("CW", 1);
+       	double windv1 = dataParser.getDouble("WINDV1");
   		if (cw == 1) {
        		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
        		// when CW is 1; WINDV1 is 1.0 by default. 
@@ -318,6 +357,10 @@ public class PSSEV30XfrDataRec {
     		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branRecXml; 
 			branchPsXfr.setFromAngle(BaseDataSetter.createAngleValue(ang1, AngleUnitType.DEG));
     	}
+    	
+       	double rata1 = dataParser.getDouble("RATA1");
+       	double ratb1 = dataParser.getDouble("RATB1");
+       	double ratc1 = dataParser.getDouble("RATC1");
     	branRecXml.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
     	AclfDataSetter.setBranchRatingLimitData(branRecXml.getRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
 		
@@ -345,6 +388,7 @@ public class PSSEV30XfrDataRec {
       	 */
 	
       	boolean onFromSide = false;
+      	int cont = dataParser.getInt("CONT", 0);
       	if (cont < 0) {
       		cont = -cont;
       		onFromSide = true;
@@ -374,12 +418,17 @@ public class PSSEV30XfrDataRec {
 				between 2 and 9999. NTP1 = 33 by default.
       	 */
       	if (cod > 0) {
-          	if (!isPsXfr) {
+      		double rma = dataParser.getDouble("RMA");
+      		double rmi = dataParser.getDouble("RMI");
+      		double vma = dataParser.getDouble("VMA");
+      		double vmi = dataParser.getDouble("VMI");
+      		if (!isPsXfr) {
            		TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
            		branRecXml.setTapAdjustment(tapAdj);
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
            		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(rma, rmi));
+           		int ntp = dataParser.getInt("NTP");
            		tapAdj.setTapAdjSteps(ntp);
            		if (Math.abs(cod) == 1) {
                		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
@@ -418,6 +467,8 @@ public class PSSEV30XfrDataRec {
 						entered in pu on system base quantities; used when COD1 is 1.
 						CR1 + j CX1 = 0.0 by default
       	 */
+      	double cr = dataParser.getDouble("CR1", 0.0);
+      	double cx = dataParser.getDouble("CX1", 0.0);
       	if (cr != 0.0 || cx != 0.0) {
       		///if (branchRec.getNvPairList() == null)
       		//	branchRec.setNvPairList(odmObjFactory.createNameValuePairListXmlType());
@@ -429,8 +480,8 @@ public class PSSEV30XfrDataRec {
 				winding抯 impedance is to be a function of either off-nominal turns ratio or
 				phase shift angle (see Section 4.1.1.11), or 0 if no transformer impedance correction
 				is to be applied to this transformer winding. TAB1 = 0 by default.					
-
       	 */
+      	int tab = dataParser.getInt("TAB1", 0);
       	if (tab > 0)
       		xfrInfoXml.setZTableNumber(tab);
       	
@@ -457,10 +508,15 @@ public class PSSEV30XfrDataRec {
   			xfrInfo.setToRatedVoltage(BaseDataSetter.createVoltageValue(nomv2, VoltageUnitType.KV));
   		}
   		*/
-      	if(cw==2) windv2 /=parser.getAclfBus(tid).getBaseVoltage().getValue();
+      	double windv2 = dataParser.getDouble("WINDV2");
+      	if(cw==2) 
+      		windv2 /=parser.getAclfBus(tid).getBaseVoltage().getValue();
   		branRecXml.setToTurnRatio(BaseDataSetter.createTurnRatioPU(windv2));
 
   		if (is3W) {
+  	       	double rata2 = dataParser.getDouble("RATA2");
+  	       	double ratb2 = dataParser.getDouble("RATB2");
+  	       	double ratc2 = dataParser.getDouble("RATC2");
     		Xfr3WBranchXmlType branch3WXfr = (Xfr3WBranchXmlType)branRecXml; 
     		branch3WXfr.setRatingLimit23(odmObjFactory.createBranchRatingLimitXmlType());
        		AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit23(), rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
@@ -487,6 +543,10 @@ public class PSSEV30XfrDataRec {
       			xfr3WInfo.setTertRatedVoltage(BaseDataSetter.createVoltageValue(nomv3, VoltageUnitType.KV));
       		}
       		*/
+          	double windv3 = dataParser.getDouble("WINDV3");
+           	double rata3 = dataParser.getDouble("RATA3");
+           	double ratb3 = dataParser.getDouble("RATB3");
+           	double ratc3 = dataParser.getDouble("RATC3");
     		if(cw==2)windv3 /=parser.getAclfBus(tertId).getBaseVoltage().getValue();
       		branch3WXfr.setTertTurnRatio(BaseDataSetter.createTurnRatioPU(windv3));
       		branch3WXfr.setRatingLimit13(odmObjFactory.createBranchRatingLimitXmlType());
@@ -497,109 +557,4 @@ public class PSSEV30XfrDataRec {
            	}
        	}
 	}
-	
-	private static void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-							PsseVersion version) {
-		// 324558,324023,     0,'1 ',2,2,1,   0.00036,  -0.00197,1,'HFL- 1,2    ',1,   1,1.0000
-		// The name field might have ','
-		StringTokenizer st = new StringTokenizer(lineStr1, "'");
-		String s1 = st.nextToken();  // 324558,324023,     0, 
-		String s2 = st.nextToken();  // 1 
-		String s3 = st.nextToken();  // ,2,2,1,   0.00036,  -0.00197,1, 
-		String s4 = st.nextToken();  // HFL- 1,2    
-		String s5 = st.nextToken();  // ,1,   1,1.0000 
-
-		st = new StringTokenizer(s1, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		j = new Integer(st.nextToken().trim()).intValue();
-		k = new Integer(st.nextToken().trim()).intValue();
-
-		ckt = s2.trim();
-
-		st = new StringTokenizer(s3, ",");
-		cw = new Integer(st.nextToken().trim()).intValue();
-		cz = new Integer(st.nextToken().trim()).intValue();
-		cm = new Integer(st.nextToken().trim()).intValue();
-		mag1 = new Double(st.nextToken().trim()).doubleValue();
-		mag2 = new Double(st.nextToken().trim()).doubleValue();
-		nmetr = new Integer(st.nextToken().trim()).intValue();
-
-		name = s4;
-
-		st = new StringTokenizer(s5, ",");
-		stat = new Integer(st.nextToken().trim()).intValue();
-
-		if (st.hasMoreTokens())
-			o1 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f1 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o2 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f2 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o3 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f3 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o4 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f4 = new Double(st.nextToken().trim()).doubleValue();
-
-		st = new StringTokenizer(lineStr2, ",");
-		r1_2 = new Double(st.nextToken().trim()).doubleValue();
-		x1_2 = new Double(st.nextToken().trim()).doubleValue();
-		sbase1_2 = new Double(st.nextToken().trim()).doubleValue();
-		if (k != 0) {
-			r2_3 = new Double(st.nextToken().trim()).doubleValue();
-			x2_3 = new Double(st.nextToken().trim()).doubleValue();
-			sbase2_3 = new Double(st.nextToken().trim()).doubleValue();
-			r3_1 = new Double(st.nextToken().trim()).doubleValue();
-			x3_1 = new Double(st.nextToken().trim()).doubleValue();
-			sbase3_1 = new Double(st.nextToken().trim()).doubleValue();
-			vmstar = new Double(st.nextToken().trim()).doubleValue();
-			anstar  = new Double(st.nextToken().trim()).doubleValue();
-		}
-
-		st = new StringTokenizer(lineStr3, ",");
-		windv1 = new Double(st.nextToken().trim()).doubleValue();
-		nomv1 = new Double(st.nextToken().trim()).doubleValue();
-		ang1 = new Double(st.nextToken().trim()).doubleValue();
-		rata1 = new Double(st.nextToken().trim()).doubleValue();
-		ratb1 = new Double(st.nextToken().trim()).doubleValue();
-		ratc1 = new Double(st.nextToken().trim()).doubleValue();
-		cod = new Integer(st.nextToken().trim()).intValue();
-		cont = new Integer(st.nextToken().trim()).intValue();
-		rma = new Double(st.nextToken().trim()).doubleValue();
-		rmi = new Double(st.nextToken().trim()).doubleValue();
-		vma = new Double(st.nextToken().trim()).doubleValue();
-		vmi = new Double(st.nextToken().trim()).doubleValue();
-		ntp = new Integer(st.nextToken().trim()).intValue();
-		tab = new Integer(st.nextToken().trim()).intValue();
-		cr = new Double(st.nextToken().trim()).doubleValue();
-		cx = new Double(st.nextToken().trim()).doubleValue();
-
-		st = new StringTokenizer(lineStr4, ",");
-		windv2 = new Double(st.nextToken().trim()).doubleValue();
-		nomv2 = new Double(st.nextToken().trim()).doubleValue();
-		if (k != 0) {
-			ang2 = new Double(st.nextToken().trim()).doubleValue();
-			rata2 = new Double(st.nextToken().trim()).doubleValue();
-			ratb2 = new Double(st.nextToken().trim()).doubleValue();
-			ratc2 = new Double(st.nextToken().trim()).doubleValue();
-		}
-
-		if (k != 0) {
-			st = new StringTokenizer(lineStr5, ",");
-			windv3 = new Double(st.nextToken().trim()).doubleValue();
-			nomv3 = new Double(st.nextToken().trim()).doubleValue();
-			if (k != 0) {
-				ang3 = new Double(st.nextToken().trim()).doubleValue();
-				rata3 = new Double(st.nextToken().trim()).doubleValue();
-				ratb3 = new Double(st.nextToken().trim()).doubleValue();
-				ratc3 = new Double(st.nextToken().trim()).doubleValue();
-			}
-		}
-	}
-	
 }

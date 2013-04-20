@@ -22,11 +22,11 @@
   *
   */
 
-package org.ieee.odm.adapter.psse.v30.impl;
-
-import java.util.StringTokenizer;
+package org.ieee.odm.adapter.psse.mapper;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSEGenDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -41,12 +41,12 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEV30GenDataRec {
-	private static int i, ireg, stat ;
-	private static String id;
-	private static double pg, qg, qt, qb, vs, mbase, zr, zx, rt, xt, gtap, rmpct, pt, pb;
-	private static int o1 = 0, o2 = 0, o3 = 0, o4 = 0;
-	private static double f1 = 0.0, f2 = 0.0, f3 = 0.0, f4 = 0.0;
+public class PSSEGenDataMapper extends BasePSSEDataMapper {
+	
+	public PSSEGenDataMapper(PsseVersion ver) {
+		super(ver);
+		this.dataParser = new PSSEGenDataParser(ver);
+	}
 	
 	/*
 	 * GenData
@@ -71,8 +71,9 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
  10636,'1 ',     0.000,     0.000,     0.000,     0.000,1.05100,     0,   100.000,   0.00000,   1.00000,   0.00000,   0.00000,1.00000,1,  100.0,     0.000,     0.000,   1,1.0000
 	 */
 
-	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser) {
-		procFields(lineStr, version);
+	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
+		//procFields(lineStr, version);
+		dataParser.parseFields(lineStr);
 
 /*
 		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
@@ -82,6 +83,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 		
 		STAT - Initial machine status of one for in-service and zero for out-of-service; STAT = 1 by default.
 */		
+		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 		LoadflowBusXmlType busRecXml = parser.getAclfBus(busId);
 	    if (busRecXml == null){
@@ -91,96 +93,54 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	    
 	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRecXml);
 	    
+	    String id = dataParser.getString("ID");
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");
 	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
+	    
+	    int stat = dataParser.getInt("STAT");
 	    contriGen.setOffLine(stat!=1);
 
+	    double pg = dataParser.getDouble("PG", 0.0);
+	    double qg = dataParser.getDouble("QG", 0.0);
 	    contriGen.setPower(BaseDataSetter.createPowerValue(pg, qg, ApparentPowerUnitType.MVA));
 
+	    double vs = dataParser.getDouble("VS");
 	    contriGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vs, VoltageUnitType.PU));
 		
-//		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
-//			pt = 9999.0; pb = -9999.0;
-//		}
-		contriGen.setPLimit(BaseDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
+	    double pt = dataParser.getDouble("PT", 0.0);
+	    double pb = dataParser.getDouble("PB", 0.0);
+	    contriGen.setPLimit(BaseDataSetter.createActivePowerLimit(pt, pb, ActivePowerUnitType.MW));
 		
-//		if (qt == 0.0 & qb == 0.0 || qt < qb) {
-//			qt = 9999.0; qb = -9999.0;
-//		}
-		contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
+	    double qt = dataParser.getDouble("QT", 0.0);
+	    double qb = dataParser.getDouble("QB", 0.0);
+	    contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qt, qb, ReactivePowerUnitType.MVAR));
 		
+	    int ireg = dataParser.getInt("IREG");
 	    if (ireg > 0) {
 	    	final String reBusId = AbstractModelParser.BusIdPreFix+ireg;
 	    	contriGen.setRemoteVoltageControlBus(parser.createBusRef(reBusId));
 	    }
 	    
+	    double mbase = dataParser.getDouble("MBASE");
 	    contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(mbase));
 
+	    double zr = dataParser.getDouble("ZR", 0.0);
+	    double zx = dataParser.getDouble("ZX", 0.0);
 		if ( zr != 0.0 || zx != 0.0 )
 			contriGen.setSourceZ(BaseDataSetter.createZValue(zr, zx, ZUnitType.PU));
 
+		double rt = dataParser.getDouble("RT", 0.0);
+		double xt = dataParser.getDouble("XT", 0.0);
+		double gtap = dataParser.getDouble("GTAP");
 		if ( rt != 0.0 || xt != 0.0 ) {
 			contriGen.setXfrZ(BaseDataSetter.createZValue(rt, xt, ZUnitType.PU));
 			contriGen.setXfrTap(gtap);
 		}
 		
+		double rmpct = dataParser.getDouble("RMPCT");
 		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
 
-		BaseJaxbHelper.addOwner(contriGen, 
-				new Integer(o1).toString(), f1, 
-				new Integer(o2).toString(), o2==0?0.0:f2, 
-				new Integer(o3).toString(), o3==0?0.0:f3, 
-				new Integer(o4).toString(), o4==0?0.0:f4);
-	}
-	
-	private static void procFields(String lineStr, PsseVersion version) {
-		StringTokenizer st;
-
-		st = new StringTokenizer(lineStr, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		id = st.nextToken().trim();
-
-		pg = new Double(st.nextToken().trim()).doubleValue();
-		qg = new Double(st.nextToken().trim()).doubleValue();
-		
-		qt = new Double(st.nextToken().trim()).doubleValue();
-		qb = new Double(st.nextToken().trim()).doubleValue();
-		if (qt < qb) {
-			ODMLogger.getLogger().warning("Gen Data qt (qMax: " + qt + ") < qb (qMin:" + qb + "), set to [9999.0, -9999.0]\n" + lineStr);
-		}
-		vs = new Double(st.nextToken().trim()).doubleValue();
-		ireg = new Integer(st.nextToken().trim()).intValue();
-		mbase = new Double(st.nextToken().trim()).doubleValue();
-		zr = new Double(st.nextToken().trim()).doubleValue();
-		zx = new Double(st.nextToken().trim()).doubleValue();
-		rt = new Double(st.nextToken().trim()).doubleValue();
-		xt = new Double(st.nextToken().trim()).doubleValue();
-		gtap = new Double(st.nextToken().trim()).doubleValue();
-		stat = new Integer(st.nextToken().trim()).intValue();
-		rmpct = new Double(st.nextToken().trim()).doubleValue();
-		
-		pt = new Double(st.nextToken().trim()).doubleValue();
-		pb = new Double(st.nextToken().trim()).doubleValue();
-		if (pt < pb) {
-			ODMLogger.getLogger().warning("Gen Data pt (pMax:" + pt + ") < pb (pMin:" + pb + "), set to [9999.0, -9999.0] \n" + lineStr);
-		}
-
-		if (st.hasMoreTokens())
-			o1 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f1 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o2 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f2 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o3 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f3 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o4 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f4 = new Double(st.nextToken().trim()).doubleValue();
+		mapOwnerInfo(contriGen);
 	}
 }

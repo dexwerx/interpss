@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.base.ModelStringUtil;
 
 /**
  * Class for processing IEEE CDF bus data line string
@@ -35,17 +36,23 @@ import org.ieee.odm.common.ODMException;
  * @author mzhou
  *
  */
-public class PSSEBranchDataParser extends BasePSSEDataParser {
-	public PSSEBranchDataParser(PsseVersion ver) {
+public class PSSELineDataParser extends BasePSSEDataParser {
+	public PSSELineDataParser(PsseVersion ver) {
 		super(ver);
 	}	
 	
 	@Override public String[] getMetadata() {
 		/* Format V26
 		 * 
-		 * 	I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
+		 * 	I, J, CKT, R,X,B, RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
+		 * 
+		 * V30
+		 *  I, J, CKT, R,X,B, RATEA,RATEB,RATEC,            GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 		 */
 		return new String[] {
+				/*
+				 * V26
+				 */
 		   //  0----------1----------2----------3----------4
 			  "I",       "J",       "CKT",     "R",       "X",             
 		   //  5          6          7          8          9
@@ -56,38 +63,65 @@ public class PSSEBranchDataParser extends BasePSSEDataParser {
 			  "ST",       "LEN",     "O1",      "F1",     "O2",
 		   //  20         21         22         23         24	  
 			  "F2",       "O3",      "F3",      "O4",     "F4"
+			  
+				/*
+				 * V30
+
+		   //  0----------1----------2----------3----------4
+			  "I",       "J",       "CKT",     "R",       "X",             
+		   //  5          6          7          8          9
+			  "B",      "RATEA",    "RATEB",   "RATEC",   "GI",
+		   //  10         11         12         13         14
+			  "BI",      "GJ",      "BJ",      "ST",       "LEN",
+		   //  15         16         17         18         19
+			  "O1",      "F1",      "O2",      "F2",       "O3",
+		   //  20         21         22         23         24	  
+			  "F3",      "O4",     "F4"
+				 */
 		};
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
+		this.clearNVPairTableData();
+		
   		StringTokenizer st = new StringTokenizer(str, ",");
 		/*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
         */
 
-  		for (int i = 0; i < 15; i++)
-  			setValue(i, st.nextToken().trim());
+  		int M = 17, N = 25;  // for V26
+  		if (this.verion == PsseVersion.PSSE_30) {
+  	  		M = 15; N = 23;
+  		}
+  		
+  		for (int i = 0; i < M; i++) {
+  			if (i == 2 && this.verion == PsseVersion.PSSE_30)
+  				setValue(i, ModelStringUtil.trimQuote(st.nextToken()).trim());
+  			else
+  				setValue(i, st.nextToken().trim());
+  		}	
+  		
 
         //O1,F1,...,O4,F4
   		
-  		for (int i = 15; i < 23; i++)
+  		for (int i = M; i < N; i++)
   			setValue(i, "0");
 
 		if (st.hasMoreTokens()) {
-			setValue(15, st.nextToken().trim());
-			setValue(16, st.nextToken().trim());
+			setValue(M, st.nextToken().trim());
+			setValue(M+1, st.nextToken().trim());
 		}
 		if (st.hasMoreTokens()) {
-			setValue(17, st.nextToken().trim());
-			setValue(18, st.nextToken().trim());
+			setValue(M+2, st.nextToken().trim());
+			setValue(M+3, st.nextToken().trim());
 		}
 		if (st.hasMoreTokens()) {
-			setValue(19, st.nextToken().trim());
-			setValue(20, st.nextToken().trim());
+			setValue(M+4, st.nextToken().trim());
+			setValue(M+5, st.nextToken().trim());
 		}
 		if (st.hasMoreTokens()) {
-			setValue(21, st.nextToken().trim());
-			setValue(22, st.nextToken().trim());
+			setValue(M+6, st.nextToken().trim());
+			setValue(M+7, st.nextToken().trim());
 		}
 	}
 }

@@ -28,7 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.parser.PSSEBranchDataParser;
+import org.ieee.odm.adapter.psse.parser.PSSELineDataParser;
 import org.ieee.odm.adapter.psse.parser.PSSEXfrAdjustDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -54,7 +54,7 @@ import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEV26BranchRecord {
-	PSSEBranchDataParser branchDataParser = new PSSEBranchDataParser(PsseVersion.PSSE_26);
+	PSSELineDataParser branchDataParser = new PSSELineDataParser(PsseVersion.PSSE_26);
 	PSSEXfrAdjustDataParser xfrAdjDataParser = new PSSEXfrAdjustDataParser(PsseVersion.PSSE_26);
 	
 	public void processBranchData(final String str, final AclfModelParser parser) throws ODMException {

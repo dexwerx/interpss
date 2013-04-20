@@ -22,11 +22,11 @@
   *
   */
 
-package org.ieee.odm.adapter.psse.v30.impl;
-
-import java.util.StringTokenizer;
+package org.ieee.odm.adapter.psse.mapper;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.parser.PSSELoadDataParser;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -37,19 +37,22 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowLoadXmlType;
 
-public class PSSEV30LoadDataRec {
-	private static int i, status, area = 1, zone = 1, owner = 1;
-	private static String id;
-	private static double pl = 0.0, ql = 0.0, ip = 0.0, iq = 0.0, yp = 0.0, yq = 0.0;
+public class PSSELoadDataMapper extends BasePSSEDataMapper {
+	public PSSELoadDataMapper(PsseVersion ver) {
+		super(ver);
+		this.dataParser = new PSSELoadDataParser(ver);
+	}
 	
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLineString(String lineStr, PsseVersion version, final AclfModelParser parser) {
-		procLineString(lineStr, version);
+	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
+		//procLineString(lineStr, version);
+		this.dataParser.parseFields(lineStr);
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
+		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 		LoadflowBusXmlType busRecXml = parser.getAclfBus(busId);
 	    if (busRecXml == null){
@@ -59,39 +62,31 @@ public class PSSEV30LoadDataRec {
 		
 	    LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRecXml); 
 
+	    String id = dataParser.getString("ID");
 	    contribLoad.setId(id);
 	    contribLoad.setName("Load:" + id + "(" + i + ")");
 	    contribLoad.setDesc("PSSE Load " + id + " at Bus " + i);
+	    
+	    int status = dataParser.getInt("STATUS");
 	    contribLoad.setOffLine(status!=1);
 
-	    contribLoad.setAreaNumber(area);
-	    contribLoad.setZoneNumber(zone);
-	    BaseJaxbHelper.addOwner(contribLoad, new Integer(owner).toString());
+	    contribLoad.setAreaNumber(dataParser.getInt("AREA", 1));
+	    contribLoad.setZoneNumber(dataParser.getInt("ZONE", 1));
+	    BaseJaxbHelper.addOwner(contribLoad, dataParser.getString("OWNER"));
 		
+	    double pl = dataParser.getDouble("PL", 0.0);
+	    double ql = dataParser.getDouble("QL", 0.0);
 		if (pl != 0.0 || ql != 0.0)
 			contribLoad.setConstPLoad(BaseDataSetter.createPowerValue(pl, ql, ApparentPowerUnitType.MVA));
+
+		double ip = dataParser.getDouble("IP", 0.0);
+	    double iq = dataParser.getDouble("IQ", 0.0);
 		if (ip != 0.0 || iq != 0.0)
 			contribLoad.setConstILoad(BaseDataSetter.createPowerValue(ip, iq, ApparentPowerUnitType.MVA));
+
+		double yp = dataParser.getDouble("YP", 0.0);
+	    double yq = dataParser.getDouble("YQ", 0.0);
 		if (yp != 0.0 || yq != 0.0)
 			contribLoad.setConstZLoad(BaseDataSetter.createPowerValue(yp, yq, ApparentPowerUnitType.MVA));
-	}
-
-	private static void procLineString(String lineStr, PsseVersion version) {
-		StringTokenizer st;
-
-		st = new StringTokenizer(lineStr, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		id = st.nextToken();
-	
-		status = new Integer(st.nextToken().trim()).intValue();
-		area = new Integer(st.nextToken().trim()).intValue();
-		zone = new Integer(st.nextToken().trim()).intValue();
-		pl = new Double(st.nextToken().trim()).doubleValue();
-		ql = new Double(st.nextToken().trim()).doubleValue();
-		ip = new Double(st.nextToken().trim()).doubleValue();
-		iq = new Double(st.nextToken().trim()).doubleValue();
-		yp = new Double(st.nextToken().trim()).doubleValue();
-		yq = new Double(st.nextToken().trim()).doubleValue();
-		owner = new Integer(st.nextToken().trim()).intValue();
 	}
 }
