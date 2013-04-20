@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFAdapter.java   
+ * @(#)IeeeCDFBusDataMapper.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
@@ -24,7 +24,6 @@
 
 package org.ieee.odm.adapter.ieeecdf.mapper;
 
-import org.ieee.odm.adapter.AbstractDataFieldParser;
 import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFBusDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
