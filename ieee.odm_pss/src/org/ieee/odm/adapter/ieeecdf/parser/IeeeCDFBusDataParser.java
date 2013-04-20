@@ -39,16 +39,14 @@ import org.ieee.odm.model.base.ModelStringUtil;
 public class IeeeCDFBusDataParser extends AbstractDataFieldParser {
 	@Override public String[] getMetadata() {
 		return new String[] {
-		   //  0               1        2       3        4
-		     "BusNumber", "BusName", "Area",  "Zone", "Type", 
-		   //  5               6        7       8        9
-		     "VMag",      "VAng",    "LoadP", "LoadQ", "GenP", 
-		   //  10             11       12            13             14
-		     "GenQ",      "BaseKV",  "DesiredV",  "MaxVarVolt", "MinVarVolt", 
-		   //  15             16       17              18      19
-		     "ShuntG",    "ShuntB",  "RemoteBusNumber" 
-		   //  20             21       22      23      24
-		   //  25             26       27      28      29
+		   //  0---------------1---------------2---------------3---------------4
+		     "BusNumber",  "BusName",       "Area",          "Zone",        "Type", 
+		   //  5               6               7               8               9
+		     "VMag",        "VAng",         "LoadP",         "LoadQ",       "GenP", 
+		   //  10              11              12              13              14
+		     "GenQ",       "BaseKV",        "DesiredV",     "MaxVarVolt",   "MinVarVolt", 
+		   //  15              16              17              
+		     "ShuntG",    "ShuntB",         "RemoteBusNumber" 
 		};
 	}
 	
