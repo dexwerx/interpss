@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/commons-math3-3.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib.3rdPty/lib/apache/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/ieee.odm_pss.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/ieee.odm.schema.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/ipss_core.impl.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/ipss_core.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/ipss_plugin.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/ipss_pssl.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/commons-logging-api.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/commons-math3-3.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/csparsej-1.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/org.eclipse.emf.common.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/org.eclipse.emf.ecore.change.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/org.eclipse.emf.ecore.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/org.eclipse.emf.ecore.xmi.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/org.eclipse.emf.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/poi-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/poi-ooxml-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/poi-ooxml-schemas-3.8.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/spring-2.5.6.jar"/>
+	<classpathentry kind="lib" path="/ipss.isone/lib/3rdPty/xmlbeans-2.3.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.isone"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
