@@ -46,9 +46,8 @@ public class IeeeCDFBranchDataParser extends AbstractDataFieldParser {
 		     "MvaRating2", "MvaRating3",      "CntlBusNum",     "CntlBusSide",  "TurnRatio", 
 		   //  15             16                 17               18               19
 		     "ShiftAngle", "MaxTapShiftAng",  "MinTapShiftAng", "TapStepSize",  "MinVoltMvarMw", 
-		   //  20             21       22      23      24
+		   //  20             
 		     "MaxVoltMvarMw"
-		   //  25             26       27      28      29
 		};
 	}
 

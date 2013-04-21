@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFAdapter.java   
+ * @(#)IODMAdapter.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *

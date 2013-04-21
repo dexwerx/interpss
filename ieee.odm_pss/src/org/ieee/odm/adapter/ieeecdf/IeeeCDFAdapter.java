@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ieeecdf;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
@@ -50,7 +52,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	private static final int InterchangeData = 4;
 	private static final int TielineData = 5;
 
-	private ObjectFactory factory = null;
+	//private ObjectFactory factory = null;
 
 	private IeeeCDFBusDataMapper busDataMapper = new IeeeCDFBusDataMapper();
 	private IeeeCDFBranchDataMapper branchDataMapper = new IeeeCDFBranchDataMapper();
@@ -61,7 +63,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	
 	public IeeeCDFAdapter() {
 		super();
-		this.factory = new ObjectFactory();		
+		//this.factory = new ObjectFactory();		
 	}
 	 
 	@Override
@@ -95,7 +97,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 						zoneDataMapper.processLossZoneData(str, parser.createNetworkLossZone());
 					} else if (dataType == InterchangeData) {
 						InterchangeXmlType interchange = parser.createInterchange();
-						PowerInterchangeXmlType p = this.factory.createPowerInterchangeXmlType();
+						PowerInterchangeXmlType p = odmObjFactory.createPowerInterchangeXmlType();
 						exchangeDataMapper.processInterchangeData(str, p, parser);
 						interchange.setPowerEx(p);
 					} else if (dataType == TielineData) {

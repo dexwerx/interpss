@@ -10,12 +10,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
-import org.ieee.odm.adapter.psse.mapper.PSSEGenDataMapper;
-import org.ieee.odm.adapter.psse.mapper.PSSELineDataMapper;
-import org.ieee.odm.adapter.psse.mapper.PSSELoadDataMapper;
-import org.ieee.odm.adapter.psse.mapper.PSSEXfrDataMapper;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -34,7 +28,7 @@ import org.ieee.odm.schema.XformerZTableXmlType;
 public class PSSENetDataRec {
 	public static class HeaderRec {
 		public static void procLineString(String lineStr, int lineNo, PsseVersion version, 
-				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet) {
 			if (lineNo == 1) {
 				StringTokenizer st = new StringTokenizer(lineStr, ",");
 				int indicator = new Integer(st.nextToken().trim()).intValue();
@@ -139,7 +133,7 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 	 * ZoneData Format: I, ’ZONAME’
 	 */
 	public static void processZoneRec(String lineStr, PsseVersion version, 
-				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		String name = st.nextToken().trim();
@@ -148,8 +142,8 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 		 * Format: I, ’ZONAME’
 		 */
 		if (baseCaseNet.getLossZoneList() == null)
-			baseCaseNet.setLossZoneList(factory.createNetworkXmlTypeLossZoneList());
-		NetZoneXmlType zone = factory.createNetZoneXmlType(); 
+			baseCaseNet.setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
+		NetZoneXmlType zone = odmObjFactory.createNetZoneXmlType(); 
 		baseCaseNet.getLossZoneList().getLossZone().add(zone);
 		zone.setId(new Integer(i).toString());
 		zone.setNumber(i);
@@ -160,7 +154,7 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 	 * InterareaTransfer format: ARFROM, ARTO, TRID, PTRAN
 	 */
 	public static void processInterareaTransferRec(String lineStr, PsseVersion version, 
-				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	arfrom = new Integer(st.nextToken().trim()).intValue();
 		int	arto = new Integer(st.nextToken().trim()).intValue();
@@ -183,10 +177,10 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 				- FromAreaNo_ToAreaNo_TRID is unique					 
 		*/
 		if (baseCaseNet.getInterchangeList() == null)
-			baseCaseNet.setInterchangeList(factory.createLoadflowNetXmlTypeInterchangeList());
-		InterchangeXmlType interchange = factory.createInterchangeXmlType();
+			baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
+		InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(interchange);
-		AreaTransferXmlType transfer = factory.createAreaTransferXmlType(); 
+		AreaTransferXmlType transfer = odmObjFactory.createAreaTransferXmlType(); 
 		interchange.setAreaTransfer(transfer);
 		
 		transfer.setFromArea(arfrom);
@@ -199,7 +193,7 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 	 * Owner format : I, ’OWNAME’
 	 */
 	public static void processOwnerRec(String lineStr, PsseVersion version, 
-				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		String name = st.nextToken().trim();
@@ -209,7 +203,7 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 		 */
 		//if (baseCaseNet.getOwnerList() == null)
 		//	baseCaseNet.setOwnerList(factory.createBaseRecordXmlTypeOwnerList());
-		OwnerXmlType owner = factory.createOwnerXmlType();
+		OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
 		baseCaseNet.getOwnerList().add(owner);
 		owner.setId(new Integer(i).toString());
 		owner.setNumber(i);
@@ -217,7 +211,7 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 	}
 
 	public static void processXfrZTableRec(String lineStr, PsseVersion version,
-				final LoadflowNetXmlType baseCaseNet, ObjectFactory factory) {
+				final LoadflowNetXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		double[] t = new double[11], f = new double[11];
@@ -231,12 +225,12 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 		 * format V30: I, T1, F1, T2, F2, T3, F3, ... T11, F11
 		 */
 		if (baseCaseNet.getXfrZTable() == null)
-			baseCaseNet.setXfrZTable(factory.createXformerZTableXmlType());
-		XformerZTableXmlType.XformerZTableItem item = factory.createXformerZTableXmlTypeXformerZTableItem(); 
+			baseCaseNet.setXfrZTable(odmObjFactory.createXformerZTableXmlType());
+		XformerZTableXmlType.XformerZTableItem item = odmObjFactory.createXformerZTableXmlTypeXformerZTableItem(); 
 		baseCaseNet.getXfrZTable().getXformerZTableItem().add(item);
 		item.setNumber(i);
 		for (int n = 0; n < cnt; n++) {
-			XformerZTableXmlType.XformerZTableItem.Lookup lookup = factory.createXformerZTableXmlTypeXformerZTableItemLookup(); 
+			XformerZTableXmlType.XformerZTableItem.Lookup lookup = odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup(); 
 			item.getLookup().add(lookup);
 			lookup.setTurnRatioShiftAngle(t[n]);
 			lookup.setScaleFactor(f[n]);

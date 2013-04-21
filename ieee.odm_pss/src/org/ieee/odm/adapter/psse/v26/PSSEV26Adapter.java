@@ -23,6 +23,8 @@
  */
 package org.ieee.odm.adapter.psse.v26;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
@@ -57,7 +59,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		OwnerData = 14;
 		//FactsData = 15;
 	
-	private ObjectFactory factory = null;	
+	//private ObjectFactory factory = null;	
 	
 	PSSEV26NetRecord netRecProcessor = new PSSEV26NetRecord();
 	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord(PsseVersion.PSSE_26);
@@ -65,7 +67,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		
 	public PSSEV26Adapter() {
 		super();
-		this.factory = new ObjectFactory();
+		//this.factory = new ObjectFactory();
 	}
 	
 	@Override
@@ -85,7 +87,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 			String str = din.readLine();
 			sAry[i]= str;				
 		} 
-		netRecProcessor.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet, this.factory);	
+		netRecProcessor.processHeaderData(sAry[0],sAry[1],sAry[2],baseCaseNet);	
 
         String str ;         
         int type=BusData;
@@ -140,14 +142,14 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);
-        					PSSENetDataRec.processZoneRec(str, PsseVersion.PSSE_26, baseCaseNet, this.factory); 
+        					PSSENetDataRec.processZoneRec(str, PsseVersion.PSSE_26, baseCaseNet); 
         				}
         				else if(type==InterAreaTransferData){
         					//processInterAreaTransferData(str,baseCaseNet); 
         				}
         				else if(type==OwnerData){
         					//System.out.println("OwnerData: " + str);
-        					PSSENetDataRec.processOwnerRec(str, PsseVersion.PSSE_26, baseCaseNet, this.factory); 
+        					PSSENetDataRec.processOwnerRec(str, PsseVersion.PSSE_26, baseCaseNet); 
         				}
         			}
         		}catch (final Exception e){

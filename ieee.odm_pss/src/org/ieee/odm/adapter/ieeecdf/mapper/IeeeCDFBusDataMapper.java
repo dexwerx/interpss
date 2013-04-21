@@ -55,8 +55,7 @@ public class IeeeCDFBusDataMapper extends BaseIeeeCDFDataMapper {
 		//Columns  1- 4   Bus number [I] *
 		final String busId = AbstractModelParser.BusIdPreFix + dataParser.getString("BusNumber");
 		ODMLogger.getLogger().fine("Bus data loaded, id: " + busId);
-		LoadflowBusXmlType aclfBus = null;
-		aclfBus = parser.createAclfBus(busId);
+		LoadflowBusXmlType aclfBus = parser.createAclfBus(busId);
 		aclfBus.setNumber(dataParser.getLong("BusNumber"));
 
 		//Columns  6-17   Name [A] (left justify) *

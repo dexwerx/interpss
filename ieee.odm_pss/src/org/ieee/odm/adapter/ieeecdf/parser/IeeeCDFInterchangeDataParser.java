@@ -40,7 +40,7 @@ public class IeeeCDFInterchangeDataParser extends AbstractDataFieldParser {
 		return new String[] {
 		   //  0               1           2                   3           4
 		     "AreaNum",   "SwingBusNum", "AltSwingBusName",  "ExportMw", "ExTolerance", 
-		   //  5               6           7                   8           9
+		   //  5               6           
 		     "AreaCode",  "AreaName" 
 		};
 	}	
