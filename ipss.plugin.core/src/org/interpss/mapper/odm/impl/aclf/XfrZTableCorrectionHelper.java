@@ -72,6 +72,14 @@ public class XfrZTableCorrectionHelper {
 				XformerZTableXmlType.XformerZTableItem.Lookup 
 					ti = this.itemList.getLookup().get(cnt),
 					ti_1 = this.itemList.getLookup().get(cnt+1);
+				if (cnt == 0) {
+					if (t_ang <= ti.getTurnRatioShiftAngle())
+						return ti.getScaleFactor();
+				}
+				else if (cnt == last-1) {
+					if (t_ang >= ti_1.getTurnRatioShiftAngle())
+						return ti_1.getScaleFactor();
+				}
 				if (ti.getTurnRatioShiftAngle() <= t_ang && ti_1.getTurnRatioShiftAngle() > t_ang) {
 					double t1 = ti.getTurnRatioShiftAngle(),
 						   t2 = ti_1.getTurnRatioShiftAngle(),
@@ -82,10 +90,8 @@ public class XfrZTableCorrectionHelper {
 					return x1 + (x2 - x1) * (t_ang - t1) / (t2 - t1);
 				}
 			}
-			// by reaching here, it indicates that the t_ang is not within the interval
-			// defined in the Z Table
-			IpssLogger.ipssLogger.warning("Cannot find Xfr Z Table correction factor" + "\n" + itemList2Str());
-			return 1.0;
+			// it is not possible to reach here
+			throw new InterpssException("Cannot find Xfr Z Table correction factor" + "\n" + itemList2Str());
 		}
 		else
 			throw new InterpssException("Xfr Z correction table entries < 2");
