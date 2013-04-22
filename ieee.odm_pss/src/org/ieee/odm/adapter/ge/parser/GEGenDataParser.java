@@ -45,45 +45,32 @@ public class GEGenDataParser extends BaseGEDataParser {
                 <gov_flag> <agc_flag> <dispatch_flag> <baseload_flag> <air_temp> 
                 <turbine_type> <qtab> <pmax2>
 		 */
-		   //  5          6          7          8          9
-		   //  10         11         12         13         14
-		   //  15         16         17         18         19
-		   //  20         21         22         23         24
-		   //  25         26         27         28         29
-		   //  30         31         32         33         34
-		   //  35         36         37         38         39
-		   //  40         41         42         43         44
-		   //  45         46         47         48         49
-		   //  50         51         52         53         54
-		   //  55         56         57         58         59
-		   //  60         61         62         63         64
-		   //  65         66         67         68         69
 		return new String[] {
 		   //  0----------1----------2----------3------------4
 		     "bus",     "name",    "bkv",     "id",      "long_id",    
-		   //
+		   //  10         11         12         13          14
 		     "st",  "igreg_bus", "igreg_name", "igreg_bkv",  "prf",    
-		   //
+		   //  15         16         17         18          19
 		     "qrf",      "ar",      "z",      "pgen",      "pmax",    
-		   //
+		   //  20         21         22         23          24
 		     "pmin",    "qgen",    "qmax",    "qmin",      "mbase",    
-		   //
+		   //  25         26         27         28          29
 		     "rcomp",   "xcomp",   "zgenr",    "zgenx",    "h_bus",    
-		   //
+		   //  30         31         32         33          34
 		     "h_name",  "h_bkv",   "t_bus",    "t_name",   "t_bkv", 
-		   //
-		     "d_in",    "d_out",   "projid",   "snt",      "rtr",    
-		   //
+		   //  35         36         37         38          39
+		     "d_in",    "d_out",   "proj_id",  "snt",      "rtr",    
+		   //  40         41         42         43          44
 		     "xtr",     "gtap",    "o1",       "p1",       "o2",   
-		   //
+		   //  45         46         47         48          49
 		     "p2",      "o3",      "p3",       "o4",       "p4",    
-		   //
+		   //  50         51         52         53          54
 		     "o5",      "p5",      "o6",       "p6",       "o7",    
-		   //
+		   //  55         56         57         58          59
 		     "p7",      "o8",      "p8",      "gov_flag",  "agc_flag",    
-		   //
+		   //  60               61                62          63              64
 		     "dispatch_flag", "baseload_flag",  "air_temp", "turbine_type",  "qtab",    
-		   //
+		   // 65
 		     "pmax2"
 		};
 	}

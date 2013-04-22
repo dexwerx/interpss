@@ -43,13 +43,17 @@ public class GEShuntDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3------------4
-		     "number",  "name",    "kV",       "ty",        "vs",  
-		   //  5          6          7          8            9   
-		     "vt",      "an",      "ar",       "z",         "vma", 
-		   //  10         11         12         13           14
-		     "vmi",     "d_in",    "d_out",    "projid",    "level",
-		   //  15         16         17         18           19  
-		     "owner",   "stisol",  "latitude", "longitude", "islnum"
+		     "fbus",    "fname",   "fbkv",     "id",       "tbus",
+		   //  5          6          7          8          9  
+		     "tname",   "tbkv",    "ck",       "sec",      "long_id",       
+		   //  10         11         12         13         14
+		     "st",       "ar",      "z",       "g",        "b",       
+		   //  15         16         17         18         19
+		     "d_in",     "d_out",   "proj_id", "nst",      "o1",       
+		   //  20         21         22         23         24
+		     "p1",       "o2",      "p2",      "o3",       "p3",       
+		   //  25         26         27         28         29
+		     "o4",       "p4",     "reg_bus",  "rname",    "rkv"
 		};
 	}
 	

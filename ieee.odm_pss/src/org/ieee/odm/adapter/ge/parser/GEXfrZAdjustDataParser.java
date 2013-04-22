@@ -41,9 +41,15 @@ public class GEXfrZAdjustDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-		     "arnum",   "arnam",   "swing",  "pnetdes",  "pnettol", 
-		   //  5          6   
-		     "pnet",    "qnet" 
+		     "no",      "ta",      "t0",      "f0",      "t1",    
+		   //  5          6          7          8          9
+		     "f1",      "t2",      "f2",      "t3",      "f3",
+		   //  10         11         12         13         14  
+		     "t4",      "f4",      "t5",      "f5",      "t6",    
+		   //  15         16         17         18         19
+		     "f6",      "t7",      "f7",      "t8",      "f8",
+		   //  20         21         22         23         
+		     "t9",      "f9",      "t10",     "f10" 
 		};
 	}
 	

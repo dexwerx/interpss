@@ -42,13 +42,13 @@ public class GELoadDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3------------4
-		     "number",  "name",    "kV",       "ty",        "vs",  
-		   //  5          6          7          8            9   
-		     "vt",      "an",      "ar",       "z",         "vma", 
-		   //  10         11         12         13           14
-		     "vmi",     "d_in",    "d_out",    "projid",    "level",
-		   //  15         16         17         18           19  
-		     "owner",   "stisol",  "latitude", "longitude", "islnum"
+		     "bus",     "name",    "bkv",     "id",       "long_id",       
+		   //  5          6          7          8          9
+		     "st",       "p",       "q",      "ip",       "iq",       
+		   //  10         11         12         13         14
+		     "g",        "b",       "ar",     "z",       "d_in",       
+		   //  15         16         17         18        
+		     "d_out",    "proj_id", "nst",    "owner"
 		};
 	}
 	

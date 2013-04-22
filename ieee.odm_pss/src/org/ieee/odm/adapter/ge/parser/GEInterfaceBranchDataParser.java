@@ -41,9 +41,9 @@ public class GEInterfaceBranchDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-		     "arnum",   "arnam",   "swing",  "pnetdes",  "pnettol", 
-		   //  5          6   
-		     "pnet",    "qnet" 
+		     "f_bus",   "f_name",  "f_bkv",   "t_bus",   "t_name",
+		   //  5          6          7          8           
+		     "t_bkv",   "ck",      "ifn",     "pf" 
 		};
 	}
 	

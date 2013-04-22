@@ -55,7 +55,7 @@ public class GEBranchDataParser extends BaseGEDataParser {
 		   //  20         21         22         23         24
 		     "z",       "gi",       "tf",      "tt",      "d_in",
 		   //  25         26         27         28         29
-		     "d_out",   "proj id",  "nst",     "type",    "r5",
+		     "d_out",   "proj_id",  "nst",     "type",    "r5",
 		   //  30         31         32         33         34  
 		     "r6",      "r7",       "r8",      "o1",      "p1",      
 		   //  35         36         37         38         39 

@@ -46,7 +46,7 @@ public class GEBusDataParser extends BaseGEDataParser {
 		   //  5          6          7          8            9   
 		     "vt",      "an",      "ar",       "z",         "vma", 
 		   //  10         11         12         13           14
-		     "vmi",     "d_in",    "d_out",    "projid",    "level",
+		     "vmi",     "d_in",    "d_out",    "proj_id",   "level",
 		   //  15         16         17         18           19  
 		     "owner",   "stisol",  "latitude", "longitude", "islnum"
 		};

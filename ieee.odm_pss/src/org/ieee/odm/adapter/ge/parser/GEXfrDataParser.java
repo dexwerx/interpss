@@ -51,25 +51,43 @@ public class GEXfrDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-		     "f_bus",   "f_name",   "f_bkv",   "t_bus",  "t_name",   
-		   //  5          6          7          8          9   
-		     "t_bkv",   "ck",       "sec",    "long_id",  "st",
-		   //  10         11         12         13         14
-		     "r",       "x",        "b",       "r1",      "r2",
-		   //  15         16         17         18         19  
-		     "r3",      "r4",       "al",      "l",       "ar",
+		     "f_bus",  "f_name",   "f_bkv",   "t_bus",   "t_name",       
+		   //  5          6          7          8          9
+		     "t_bkv",  "ck",       "long_id",  "st",      "type",       
+		   //10          11              12           13      14
+		     "kreg_bus", "kreg_name",  "kreg_bkv",   "zt", "iint_bus",  
+		   //  15         16         17         18         19
+		     "iint_name", "iint_bkv", "tert_bus", "tert_name",  "tert_bkv",       
 		   //  20         21         22         23         24
-		     "z",       "gi",       "tf",      "tt",      "d_in",
+		     "area",    "zone",    "tbase",    "zpsr",    "zpsx",       
 		   //  25         26         27         28         29
-		     "d_out",   "proj id",  "nst",     "type",    "r5",
-		   //  30         31         32         33         34  
-		     "r6",      "r7",       "r8",      "o1",      "p1",      
-		   //  35         36         37         38         39 
-		     "o2",      "p2",       "o3",      "p3",      "o4",      
-		   //  40         41         42         43         44   
-		     "p4",      "o5",       "p5",      "o6",      "p6",      
-		   //  45         46         47         48         49  
-		     "o7",      "p7",       "o8",      "p8",      "ohms"
+		     "zptr",    "zptx",    "ztsr",     "ztsx",    "vnomp",       
+		   //  30         31         32         33         34
+		     "vnoms",   "vnomt",   "anglp",    "gmag",    "bmag",       
+		   //  35         36         37         38         39
+		     "r1",       "r2",       "r3",     "r4",     "aloss",       
+		   //  40         41         42         43         44
+		     "tmax",     "tmin",    "vtmax",   "vtmin",   "stepp",       
+		   //  45         46         47         48         49
+		     "tapp",     "tapfp",   "tapfs",   "tapft",   "date_in",       
+		   //  50         51         52         53         54
+		     "date_out", "projid",  "stn",     "r5",      "r6",       
+		   //  55         56         57         58         59
+		     "r7",       "r8",      "o1",      "p1",      "o2",       
+		   //  60         61         62         63         64
+		     "p2",       "o3",      "p3",      "o4",      "p4",       
+		   //  65         66         67         68         69
+		     "o5",       "p5",      "o6",      "p6",      "o7",       
+		   //  70         71         72         73         74
+		     "p7",       "o8",      "p8",      "ohms",   "tbasept",       
+		   //  75         76         77         78         79
+		     "tbasets", "angls",   "anglt",    "rs1",     "rs2",       
+		   //  80         81         82         83         84
+		     "rs3",       "rt1",    "rt2",     "rt3",    "alosss",       
+		   //  85         86         87         88         89
+		     "alosst",   "rxunits", "gbunits", "tunits",  "rcomp",       
+		   // 90
+		     "xcomp"
 		};
 	}
 	

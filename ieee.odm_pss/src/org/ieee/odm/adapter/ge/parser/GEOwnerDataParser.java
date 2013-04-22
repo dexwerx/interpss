@@ -41,9 +41,9 @@ public class GEOwnerDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-		     "arnum",   "arnam",   "swing",  "pnetdes",  "pnettol", 
-		   //  5          6   
-		     "pnet",    "qnet" 
+		     "owner_no", "oname",  "s_name",  "net_mw",  "net_mvar",    
+		   //  5            6          7
+		     "sch_mw",   "sch_mvar",  "ar" 
 		};
 	}
 	

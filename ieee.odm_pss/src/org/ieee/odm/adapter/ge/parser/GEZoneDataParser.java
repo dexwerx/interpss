@@ -41,9 +41,7 @@ public class GEZoneDataParser extends BaseGEDataParser {
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-		     "arnum",   "arnam",   "swing",  "pnetdes",  "pnettol", 
-		   //  5          6   
-		     "pnet",    "qnet" 
+		     "zonum",   "zonam",   "pznet",   "qznet" 
 		};
 	}
 	
