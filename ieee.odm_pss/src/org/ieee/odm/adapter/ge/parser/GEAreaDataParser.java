@@ -35,7 +35,7 @@ import org.ieee.odm.common.ODMException;
 public class GEAreaDataParser extends BaseGEDataParser {
 	@Override public String[] getMetadata() {
 		/*
-		 * format V15
+		 * V15
 		 * 
 		 * 		<arnum> <"arnam"> <swing> <pnetdes> <pnettol> <pnet> <qnet>
 		 */
