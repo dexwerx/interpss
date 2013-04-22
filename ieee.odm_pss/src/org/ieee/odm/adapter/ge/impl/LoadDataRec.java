@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -40,7 +40,7 @@ public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
 	public double p, q, ip, iq, g, b;
 			
-	public LoadDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser) {
+	public LoadDataRec(String lineStr, GePslfVersion version, final AclfModelParser parser) {
 		//System.out.println("load data->" + lineStr);
 /*
        2 "P-2     " 380.00 "1 " "        "  :  1  868.096    0.000    0.000    0.000    0.000    0.000   1  201   400101   391231   0 0   1

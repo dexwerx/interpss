@@ -29,6 +29,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -40,7 +41,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class NetDataRec {
 	static public class TitleRec {
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			BaseJaxbHelper.addNVPair(baseCaseNet, "Title", lineStr);
 		}
@@ -49,7 +50,7 @@ public class NetDataRec {
 	static public class CommentsRec {
 		public String comments = "";
 
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			BaseJaxbHelper.addNVPair(baseCaseNet, "Comments", lineStr);
 		}
@@ -59,7 +60,7 @@ public class NetDataRec {
 	 */	
 	static public class SolutionParamRec {
 
-		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;
@@ -96,7 +97,7 @@ public class NetDataRec {
 		public String arnam;
 		public double pnetdes, pnettol, pnet, qnet;
 
-		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) throws Exception {
+		public AreaRec(String lineStr, GePslfVersion version, AclfModelParser parser) throws Exception {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			//System.out.println("area->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
@@ -136,7 +137,7 @@ public class NetDataRec {
 		public String zonam;
 		public double pznet, qznet;
 
-		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) throws Exception {
+		public ZoneRec(String lineStr, GePslfVersion version, AclfModelParser parser) throws Exception {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			//System.out.println("zone->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
@@ -171,7 +172,7 @@ public class NetDataRec {
 		public String oname, sname;
 		public double net_mw, net_mvar, sch_mw, sch_mvar;
 
-		public OwnerRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public OwnerRec(String lineStr, GePslfVersion version) {
 			String str1 = lineStr.substring(0, lineStr.indexOf(':')),
 		           str2 = lineStr.substring(lineStr.indexOf(':')+1);
 
@@ -202,7 +203,7 @@ public class NetDataRec {
 		public double pnet, qnet; 
 		double[] rAry = new double[8];
 		
-		public InterfaceRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public InterfaceRec(String lineStr, GePslfVersion version) {
 			// System.out.println("interface->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
@@ -239,7 +240,7 @@ public class NetDataRec {
 		public int ifn;
 		public double pf;
 
-		public InterfaceBranchRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public InterfaceBranchRec(String lineStr, GePslfVersion version) {
 			//System.out.println("inter branch->" + lineStr);
 			String str1 = lineStr.substring(0, lineStr.indexOf(':')),
 	               str2 = lineStr.substring(lineStr.indexOf(':')+1);

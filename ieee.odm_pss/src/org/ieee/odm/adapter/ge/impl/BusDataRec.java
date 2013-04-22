@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
@@ -45,7 +45,7 @@ public class BusDataRec extends BusHeaderRec {
 			public int level, stisol, islnum;
 			public double latitude, longitude;
 
-	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final AclfModelParser parser) {
+	public BusDataRec(String lineStr, GePslfVersion version, final AclfModelParser parser) {
 /*
 		bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin   date_in date_out pid L own
        		   1 "P-1     " 380.00  :  0 1.04000 1.040000  -5.00000   1  201 4.0000 0.4000   400101   391231   0 0   1

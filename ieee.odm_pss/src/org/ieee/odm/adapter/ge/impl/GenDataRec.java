@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -50,7 +50,7 @@ public class GenDataRec extends BusHeaderRec {
 	public int govFlag, agcFlag, dispatchFlag, baseloadFlag, turbineType, qtab;
 	public double airTemp, pmax2;
 
-	public GenDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, 
+	public GenDataRec(String lineStr, GePslfVersion version, 
 			final AclfModelParser parser) throws Exception {
 		//System.out.println("gen data->" + lineStr);
 /*

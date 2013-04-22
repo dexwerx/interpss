@@ -28,7 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -51,7 +51,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
   		1 201 0.0000 0.000 1.000   400101   391231   0 1  0    0.0    0.0    0.0    
   		0.0   1 1.000   0 1.000   0 1.000   0 1.000   0 0.000   0 0.000   0 0.000   0 0.000  0
 	 */
-	public BranchSecDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+	public BranchSecDataRec(String lineStr, GePslfVersion version, AclfModelParser parser) {
 		//PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		//System.out.println("branch sec->" + lineStr);
 

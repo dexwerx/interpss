@@ -27,6 +27,7 @@ package org.ieee.odm.adapter.ge.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -48,7 +49,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 	public double tbasept, tbasets, angls, anglt;
 	public double rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst;
 
-	public XformerDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, AclfModelParser parser) {
+	public XformerDataRec(String lineStr, GePslfVersion version, AclfModelParser parser) {
 		//PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		/*
        	1 "NORTH-01" 230.00      101 "NORTH-G1"  16.00 "1 " "        " :  

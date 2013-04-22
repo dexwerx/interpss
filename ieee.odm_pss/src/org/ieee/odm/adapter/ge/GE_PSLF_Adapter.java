@@ -41,7 +41,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
 public class GE_PSLF_Adapter  extends AbstractODMAdapter {
-	public static enum VersionNo {PSLF15};
+	//public static enum VersionNo {PSLF15};
 
 	public static final String Token_XfrType = "GE_XfrType";
 
@@ -89,7 +89,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	@Override
 	protected AclfModelParser parseInputFile(
 			final IFileReader din, String encoding) throws Exception {
-		VersionNo version = VersionNo.PSLF15;
+		GePslfVersion version = GePslfVersion.PSLF15;
 		
 		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.setLFTransInfo(OriginalDataFormatEnumType.GE_PSLF);
