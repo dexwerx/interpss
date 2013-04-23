@@ -250,7 +250,8 @@ public class AclfBranchDataHelper {
 					     // we assume the PsXfr phase shifting angle is defined on the from side
 			             double ang = xmlPsXfrBranch.getFromAngle().getValue();
 				         double factor = helper.calFactor(ang);
-				         aclfBra.setZ(aclfBra.getZ().multiply(factor));
+				         aclfBra.setZMultiplyFactor(factor);
+				         //aclfBra.setZ(aclfBra.getZ().multiply(factor));
 				      }
 				      else
 					    ipssLogger.warning(xmlPsXfrBranch.getId()+" from angle is null");
@@ -401,10 +402,11 @@ public class AclfBranchDataHelper {
 			      XfrZTableCorrectionHelper helper = new XfrZTableCorrectionHelper(item);
 			      
 			      if (!helper.isPsXfrSAngleBased()) {
-				    // we assume the Xfr turn ratio is defined on the from side
-				   double t = xmlXfrBranch.getFromTurnRatio().getValue();
-				   double factor = helper.calFactor(t);
-				   aclfBra.setZ(aclfBra.getZ().multiply(factor));
+			    	  // we assume the Xfr turn ratio is defined on the from side
+			    	  double t = xmlXfrBranch.getFromTurnRatio().getValue();
+			    	  double factor = helper.calFactor(t);
+			    	  aclfBra.setZMultiplyFactor(factor);
+			    	  //aclfBra.setZ(aclfBra.getZ().multiply(factor));
 			      }
 		  
 		       }else
