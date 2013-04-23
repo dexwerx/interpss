@@ -185,7 +185,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 		
 		// map Xfr Z Table
 		XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
-		if (xfrZTable != null)
+		if (xfrZTable != null) {
 			net.setXfrZAdjustSide(xfrZTable.getAdjustSide() == BranchBusSideEnumType.FROM_SIDE?
 					         BranchBusSide.FROM_SIDE : BranchBusSide.TO_SIDE);
 			for (XformerZTableXmlType.XformerZTableItem item : xfrZTable.getXformerZTableItem()) {
@@ -194,6 +194,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 					elem.getPointSet().getPoints().add(new Point(point.getTurnRatioShiftAngle(), point.getScaleFactor()));
 				}
 			}	
+		}
 	}
 	
 	/**
