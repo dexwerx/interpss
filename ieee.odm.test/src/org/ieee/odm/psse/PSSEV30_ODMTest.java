@@ -34,7 +34,7 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.schema.BranchMeterLocationEnumType;
+import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -167,7 +167,7 @@ public class PSSEV30_ODMTest {
 		assertTrue(line.getZ().getIm() == 0.0085);
 		assertTrue(line.getTotalShuntY().getRe() == 0.0);
 		assertTrue(line.getTotalShuntY().getIm() == 0.0164);
-		assertTrue(line.getMeterLocation() == BranchMeterLocationEnumType.FROM_SIDE);
+		assertTrue(line.getMeterLocation() == BranchBusSideEnumType.FROM_SIDE);
 		assertTrue(line.getRatingLimit().getMva().getRating1() == 300.0);
 		assertTrue(line.getRatingLimit().getMva().getRating2() == 330.0);
 		assertTrue(line.getRatingLimit().getMva().getRating3() == 0.0);
@@ -200,8 +200,8 @@ public class PSSEV30_ODMTest {
 		assertTrue(xfr.getZ().getIm() == 0.17191);
 		assertTrue(xfr.getFromTurnRatio().getValue() == 1.0);
 		assertTrue(xfr.getToTurnRatio().getValue() == 1.0);
-		assertTrue(xfr.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
-		assertTrue(xfr.getMeterLocation() == BranchMeterLocationEnumType.TO_SIDE);
+		assertTrue(xfr.getMeterLocation() == BranchBusSideEnumType.TO_SIDE);
+		assertTrue(xfr.getMeterLocation() == BranchBusSideEnumType.TO_SIDE);
 		assertTrue(xfr.getXfrInfo().getRatedPower().getValue() == 100.0 );
 		assertTrue(xfr.getXfrInfo().isDataOnSystemBase());
 		assertTrue(xfr.getRatingLimit().getMva().getRating2() == 118.5);
