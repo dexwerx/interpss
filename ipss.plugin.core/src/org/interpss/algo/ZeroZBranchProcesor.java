@@ -168,19 +168,19 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		  					//cnt > 31 && cnt < 100 
 		  					//|| cnt > 100 && cnt < 197
 		  					)	{
-		  				System.out.println("Processing bus " + b.getId());
+		  				//System.out.println("Processing bus " + b.getId());
 		  				List<Bus> list = ((AclfBus)b).findZeroZPathBuses(allowZeroZBranchLoop);
 			  			// if more than one, meaning there is zero-z branch(es), process
 			  			// zero-z branch
 			  			if (list.size() > 1) {
 			  				ipssLogger.info("Select parent bus, total buses: " + list.size());
 			  				Bus parentBus = selectParentBus(list);
-			  				System.out.println("Select parent bus " + parentBus.getId() + " total buses: " + list.size());
+			  				//System.out.println("Select parent bus " + parentBus.getId() + " total buses: " + list.size());
 			  				ipssLogger.info("Selected parent bus: " + parentBus.getId());
 			  				for (Bus bus : list) {
 				  				if (!bus.getId().equals(parentBus.getId())) {
 				  					ipssLogger.info("child bus: " + bus.getId());
-				  					System.out.println("child bus: " + bus.getId());
+				  					//System.out.println("child bus: " + bus.getId());
 				  					parentBus.addSection(parentBus.getBusSecList().size()+1, bus);
 				  				}
 			  				}
