@@ -50,7 +50,7 @@ public class V1_1_10_Issue_1_Investigation extends UserTestSetup {
 
 		HourlyNetworkModel model = new HourlyNetworkModel(false)
 		.loadAclfNet(TestDataDir + "/_06012012/network_model.aux") 
-		.loadEDispathFile(TestDataDir + "/_06012012/BusGenLoad.csv", "testData/_06012012/PARAngles.csv")
+		.loadEDispathFile(TestDataDir + "/_06012012/BusGenLoad.csv", TestDataDir + "/_06012012/PARAngles.csv")
 		.loadTransmissionOutageFile(TestDataDir + "/_06012012/Trans_Outage.csv")
 		.loadGenOutageFile(TestDataDir + "/_06012012/Gen_Outage.csv")
 		.loadBranchOverrideFile(TestDataDir + "/_06012012/Branch_Override.csv")
@@ -67,14 +67,16 @@ public class V1_1_10_Issue_1_Investigation extends UserTestSetup {
 		//-------output corrected phase shifter impedance ----------------// 
 		String branchID = "Bus12084->Bus12089(1)"; 	
 		System.out.println(branchID);
-		System.out.println(aclfNet.getBranch(branchID).getFromPSXfrAngle()*180/Math.PI + " [deg]");
-		System.out.println(1/aclfNet.getBranch(branchID).b1tf());
+		System.out.println("ShiftAngle: " + aclfNet.getBranch(branchID).getFromPSXfrAngle()*180/Math.PI + " [deg]");
+		System.out.println("ScaleFacror: " + aclfNet.getBranch(branchID).getZMultiplyFactor());
+		System.out.println("ZTable number: " + aclfNet.getBranch(branchID).getXfrZTableNumber());
+		System.out.println("b1tf: " + 1/aclfNet.getBranch(branchID).b1tf());
 		
 		branchID = "Bus10908->Bus10909(1)"; 	
 		System.out.println(branchID);
-		System.out.println(aclfNet.getBranch(branchID).getFromPSXfrAngle()*180/Math.PI + " [deg]");
-		System.out.println(1/aclfNet.getBranch(branchID).b1tf());
-		
-		
+		System.out.println("ShiftAngle: " + aclfNet.getBranch(branchID).getFromPSXfrAngle()*180/Math.PI + " [deg]");
+		System.out.println("ScaleFacror: " + aclfNet.getBranch(branchID).getZMultiplyFactor());
+		System.out.println("ZTable number: " + aclfNet.getBranch(branchID).getXfrZTableNumber());
+		System.out.println("b1tf: " + 1/aclfNet.getBranch(branchID).b1tf());
 	}
 }
