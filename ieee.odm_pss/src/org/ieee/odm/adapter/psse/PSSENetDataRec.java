@@ -17,6 +17,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AreaTransferXmlType;
+import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -224,8 +225,10 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 		/*
 		 * format V30: I, T1, F1, T2, F2, T3, F3, ... T11, F11
 		 */
-		if (baseCaseNet.getXfrZTable() == null)
+		if (baseCaseNet.getXfrZTable() == null) {
 			baseCaseNet.setXfrZTable(odmObjFactory.createXformerZTableXmlType());
+			baseCaseNet.getXfrZTable().setAdjustSide(BranchBusSideEnumType.FROM_SIDE);
+		}
 		XformerZTableXmlType.XformerZTableItem item = odmObjFactory.createXformerZTableXmlTypeXformerZTableItem(); 
 		baseCaseNet.getXfrZTable().getXformerZTableItem().add(item);
 		item.setNumber(i);

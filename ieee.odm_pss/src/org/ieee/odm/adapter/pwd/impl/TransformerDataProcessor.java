@@ -15,6 +15,7 @@ import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.FactorUnitType;
 import org.ieee.odm.schema.IDRefRecordXmlType;
@@ -536,6 +537,7 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 	public void processXFCorrection(String XfCorrectionStr) throws ODMException{
 		if(xfrCorrectTableList == null){
 			xfrCorrectTableList = odmObjFactory.createXformerZTableXmlType();
+			xfrCorrectTableList.setAdjustSide(BranchBusSideEnumType.FROM_SIDE);
 		    parser.getAclfNet().setXfrZTable(xfrCorrectTableList);
 		}
 		//parse the input data and save it to the fieldTable

@@ -5,6 +5,7 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008" 
 	elementFormDefault="qualified" >
 
+    <ns:include schemaLocation="../basecase/NetRecordType.xsd"></ns:include>
     <ns:include schemaLocation=""></ns:include>
     <ns:include schemaLocation="UnitType.xsd"></ns:include>
 	
@@ -185,27 +186,36 @@
         	<ns:complexContent>
     		<ns:extension base="pss:NameTagXmlType">
 		<ns:sequence>
-			<ns:element name="XformerZTableItem" minOccurs="0" maxOccurs="unbounded">
+			<ns:element name="XformerZTableItem" minOccurs="0"
+				maxOccurs="unbounded">
 				<ns:complexType>
-       				<ns:complexContent>
-    				<ns:extension base="pss:NameTagXmlType">
-					<ns:sequence>
-						<ns:element name="number" type="ns:int" minOccurs="1"></ns:element>
-						<ns:element name="lookup" minOccurs="0" maxOccurs="unbounded">
-							<ns:complexType>
-								<ns:sequence>
-									<ns:element name="turnRatioShiftAngle" type="ns:double" minOccurs="1"></ns:element>
-									<ns:element name="scaleFactor" type="ns:double" minOccurs="1"></ns:element>
-								</ns:sequence>
-							</ns:complexType>
-						</ns:element>
-					</ns:sequence>
-					</ns:extension>
-					</ns:complexContent>		
+					<ns:complexContent>
+						<ns:extension base="pss:NameTagXmlType">
+							<ns:sequence>
+								<ns:element name="number" type="ns:int"
+									minOccurs="1">
+								</ns:element>
+								<ns:element name="lookup" minOccurs="0"
+									maxOccurs="unbounded">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element
+												name="turnRatioShiftAngle" type="ns:double" minOccurs="1">
+											</ns:element>
+											<ns:element
+												name="scaleFactor" type="ns:double" minOccurs="1">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
+							</ns:sequence>
+						</ns:extension>
+					</ns:complexContent>
 				</ns:complexType>
 			</ns:element>
+			<ns:element name="adjustSide" type="pss:BranchBusSideEnumType" minOccurs="1" maxOccurs="1"></ns:element>
 		</ns:sequence>
-			</ns:extension>
+    		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
     

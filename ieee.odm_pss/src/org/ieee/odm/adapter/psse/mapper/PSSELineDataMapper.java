@@ -13,7 +13,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchMeterLocationEnumType;
+import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
@@ -59,8 +59,8 @@ public class PSSELineDataMapper extends BasePSSEDataMapper {
 		int status = dataParser.getInt("ST", 1);
 		braRecXml.setOffLine(status != 1);
 		
-		braRecXml.setMeterLocation( fromMetered ? BranchMeterLocationEnumType.FROM_SIDE :
-										BranchMeterLocationEnumType.TO_SIDE);
+		braRecXml.setMeterLocation( fromMetered ? BranchBusSideEnumType.FROM_SIDE :
+										BranchBusSideEnumType.TO_SIDE);
       	
 		double r = dataParser.getDouble("R", 0.0);
 		double x = dataParser.getDouble("X", 0.0);

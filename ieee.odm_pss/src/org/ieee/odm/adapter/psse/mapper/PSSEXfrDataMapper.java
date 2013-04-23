@@ -39,7 +39,7 @@ import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.BranchMeterLocationEnumType;
+import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -172,8 +172,8 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
        		nomv3 = parser.getAclfBus(tertId).getBaseVoltage().getValue();
        	
        	int nmetr = dataParser.getInt("NMETR");
-		branRecXml.setMeterLocation( nmetr==1 ? BranchMeterLocationEnumType.FROM_SIDE :
-							BranchMeterLocationEnumType.TO_SIDE);
+		branRecXml.setMeterLocation( nmetr==1 ? BranchBusSideEnumType.FROM_SIDE :
+							BranchBusSideEnumType.TO_SIDE);
 
 		/*
 		CM - The magnetizing admittance I/O code that defines the units in which MAG1 and MAG2 are specified: 

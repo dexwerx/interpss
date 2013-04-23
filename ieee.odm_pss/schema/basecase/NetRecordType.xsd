@@ -199,7 +199,7 @@
 				<ns:sequence>
 				    <ns:element name="z" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="ratingLimit" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></ns:element>
-					<ns:element name="meterLocation" minOccurs="0" type="pss:BranchMeterLocationEnumType"></ns:element>
+					<ns:element name="meterLocation" minOccurs="0" type="pss:BranchBusSideEnumType"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
@@ -373,7 +373,7 @@
 	</ns:simpleType>
     
 
-    <ns:simpleType name="BranchMeterLocationEnumType">
+    <ns:simpleType name="BranchBusSideEnumType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="FromSide"></ns:enumeration>
 			<ns:enumeration value="ToSide"></ns:enumeration>
