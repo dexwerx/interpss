@@ -113,7 +113,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 			// get the base net xml record from the parser object
 			ShortCircuitNetXmlType xmlNet = parser.getAcscNet();
 			
-			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			//XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
 			
 			try {
 				// create a AcscFaultNetwork object and map the net info 
@@ -164,7 +164,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 						AcscBranch acscBranch = CoreObjectFactory.createAcscBranch();
 						BranchXmlType acscBraXml = (BranchXmlType)branch.getValue();
 						// the branch is added into acscNet in the mapAclfBranchData() method
-						aclfNetMapper.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet, xfrZTable);
+						aclfNetMapper.mapAclfBranchData(branch.getValue(), acscBranch, acscFaultNet);
 						setAcscBranchData(acscBraXml, acscBranch);
 					}
 					else {
@@ -201,7 +201,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 	 * @param xmlNet
 	 * @return
 	 */
-	public void mapAcscNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) {
+	public void mapAcscNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) throws InterpssException {
 		new ODMAclfNetMapper().mapAclfNetworkData(net, xmlNet);
 		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());		
 	}	

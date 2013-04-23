@@ -159,17 +159,17 @@ public class AclfBranchDataHelper {
 	 * @param xmlXfrBranch
 	 * @throws InterpssException
 	 */
-	public void setXfrBranchData(XfrBranchXmlType xmlXfrBranch, XformerZTableXmlType xfrZTable) throws InterpssException {
+	public void setXfrBranchData(XfrBranchXmlType xmlXfrBranch) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		double baseKva = aclfNet.getBaseKva();
 		
 		aclfBra.setBranchCode(AclfBranchCode.XFORMER);
-		setXfrData(xmlXfrBranch, aclfBra, baseKva, xfrZTable);
+		setXfrData(xmlXfrBranch, aclfBra, baseKva);
 	}
 
 	
-	private void setXfrData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, double baseKva, XformerZTableXmlType xfrZTable) throws InterpssException {
-		setXformerInfoData(xmlXfrBranch, aclfBra, xfrZTable);
+	private void setXfrData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, double baseKva) throws InterpssException {
+		setXformerInfoData(xmlXfrBranch, aclfBra);
 
 		YXmlType fromShuntY = xmlXfrBranch.getMagnitizingY();
 		if (fromShuntY != null) {
@@ -186,12 +186,12 @@ public class AclfBranchDataHelper {
 	 * @param xmlPsXfrBranch
 	 * @throws InterpssException
 	 */
-	public void setPsXfrBranchData(PSXfrBranchXmlType xmlPsXfrBranch, XformerZTableXmlType xfrZTable) throws InterpssException {
+	public void setPsXfrBranchData(PSXfrBranchXmlType xmlPsXfrBranch) throws InterpssException {
 		AclfBranch aclfBra = (AclfBranch)this.branch;
 		aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 		double baseKva = aclfNet.getBaseKva();
 		
-		setXfrData(xmlPsXfrBranch, aclfBra, baseKva, xfrZTable);
+		setXfrData(xmlPsXfrBranch, aclfBra, baseKva);
 		
 		AclfPSXformer psXfr = aclfBra.toPSXfr();
 		if(xmlPsXfrBranch.getFromAngle() != null)
@@ -239,6 +239,14 @@ public class AclfBranchDataHelper {
 		TransformerInfoXmlType xfrData = xmlPsXfrBranch.getXfrInfo();		
 		Integer num = xfrData.getZTableNumber();
 		if (num != null ) {
+			if(num > 0)
+				aclfBra.setXfrZTableNumber(num);
+		}
+
+		/*
+		TransformerInfoXmlType xfrData = xmlPsXfrBranch.getXfrInfo();		
+		Integer num = xfrData.getZTableNumber();
+		if (num != null ) {
 			if(num > 0){
 				//there are some cases the XFCorrection data is not provided while 
 				//ZTableNumber is defined in the XFormer data.
@@ -259,12 +267,12 @@ public class AclfBranchDataHelper {
 		      }else{
 		    	  ipssLogger.warning("XFCorrection table is not defined for table number #"+num);
 		      }
-			
 		  }
 		}
+		*/
 	}
 
-	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra, XformerZTableXmlType xfrZTable) throws InterpssException {
+	private void setXformerInfoData(XfrBranchXmlType xmlXfrBranch, AclfBranch aclfBra) throws InterpssException {
 		double baseKva = aclfNet.getBaseKva();
 
 		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
@@ -395,6 +403,13 @@ public class AclfBranchDataHelper {
 		}
 		
 		Integer num = xfrData.getZTableNumber();
+		if (num != null ) {
+			if(num > 0)
+				aclfBra.setXfrZTableNumber(num);
+		}
+
+		/*
+		Integer num = xfrData.getZTableNumber();
 		if (num != null) {
 			if(num > 0){
 				XformerZTableItem item =AclfParserHelper.getXfrZTableItem(num, xfrZTable);
@@ -417,6 +432,7 @@ public class AclfBranchDataHelper {
 			//	ipssLogger.warning("Correction Table Number is less than 1, transformer Id :"+xmlXfrBranch.getId());
 			//}
 		}
+	  */
 	}
 	
 	/*

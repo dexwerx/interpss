@@ -105,7 +105,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 			// get the base net xml record from the parser object
 			DStabNetXmlType xmlNet = parser.getDStabNet();
 			
-			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			//XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
 			
 			try {
 				// create a DStabilityNetwork object and map the net info 
@@ -168,7 +168,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 							branch.getValue() instanceof XfrBranchXmlType ||
 								branch.getValue() instanceof PSXfrBranchXmlType) {
 						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
-						aclfNetMapper.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet, xfrZTable);
+						aclfNetMapper.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet);
 
 						if (branch.getValue() instanceof LineShortCircuitXmlType || 
 								branch.getValue() instanceof XfrShortCircuitXmlType ||

@@ -27,13 +27,13 @@ package org.interpss.mapper.odm.impl.aclf;
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
 
-import java.util.Hashtable;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BaseBranchXmlType;
+import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.FlowInterfaceBranchXmlType;
@@ -53,6 +53,7 @@ import org.interpss.ext.pwd.AclfBranchPWDExtension;
 import org.interpss.ext.pwd.AclfBusPWDExtension;
 import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
+import org.interpss.numeric.datatype.Point;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
@@ -61,11 +62,13 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.XfrZTableEntry;
 import com.interpss.core.aclf.flow.FlowInterface;
 import com.interpss.core.aclf.flow.FlowInterfaceBranch;
 import com.interpss.core.aclf.flow.FlowInterfaceLimit;
 import com.interpss.core.aclf.flow.FlowInterfaceType;
 import com.interpss.core.net.Branch;
+import com.interpss.core.net.BranchBusSide;
 import com.interpss.core.net.OriginalDataFormat;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -122,7 +125,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 			mapAclfNetworkData(aclfNet, xmlNet);
 			simuCtx.setAclfNet(aclfNet);
 
-			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			//XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
 			
 			for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 				LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
@@ -141,7 +144,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 					branch = CoreObjectFactory.createAclf3WXformer();
 				else
 					branch = CoreObjectFactory.createAclfBranch();
-				mapAclfBranchData(xmlBranch, branch, aclfNet, xfrZTable);
+				mapAclfBranchData(xmlBranch, branch, aclfNet);
 				//System.out.println("map branch " + branch.getId());
 			}
 			
@@ -160,6 +163,9 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 					}
 				}
 			}
+			
+			aclfNet.adjustXfrZ();
+			
 		} catch (InterpssException e) {
 			//e.printStackTrace();
 			ipssLogger.severe(e.toString());
@@ -174,8 +180,20 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * @param xmlNet
 	 * @return
 	 */
-	public void mapAclfNetworkData(AclfNetwork net, LoadflowNetXmlType xmlNet) {
+	public void mapAclfNetworkData(AclfNetwork net, LoadflowNetXmlType xmlNet) throws InterpssException {
 		mapNetworkData(net, xmlNet);
+		
+		// map Xfr Z Table
+		XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+		if (xfrZTable != null)
+			net.setXfrZAdjustSide(xfrZTable.getAdjustSide() == BranchBusSideEnumType.FROM_SIDE?
+					         BranchBusSide.FROM_SIDE : BranchBusSide.TO_SIDE);
+			for (XformerZTableXmlType.XformerZTableItem item : xfrZTable.getXformerZTableItem()) {
+				XfrZTableEntry elem = CoreObjectFactory.createXfrZTableEntry(item.getNumber(), net);
+				for (XformerZTableXmlType.XformerZTableItem.Lookup point : item.getLookup()) {
+					elem.getPointSet().getPoints().add(new Point(point.getTurnRatioShiftAngle(), point.getScaleFactor()));
+				}
+			}	
 	}
 	
 	/**
@@ -278,7 +296,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * @param msg
 	 * @throws Exception
 	 */
-	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet, XformerZTableXmlType xfrZTable) throws InterpssException {
+	public void mapAclfBranchData(BaseBranchXmlType xmlBranch, Branch branch, AclfNetwork adjNet) throws InterpssException {
 		if (adjNet.getOriginalDataFormat() == OriginalDataFormat.PWD) {
 			AclfBranchPWDExtension ext = new AclfBranchPWDExtension();
 			branch.setExtensionObject(ext);
@@ -303,11 +321,11 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 		}
 		else if (xmlBranch instanceof PSXfrBranchXmlType) {
 			PSXfrBranchXmlType branchRec = (PSXfrBranchXmlType) xmlBranch;
-			helper.setPsXfrBranchData(branchRec, xfrZTable);
+			helper.setPsXfrBranchData(branchRec);
 		}		
 		else if (xmlBranch instanceof XfrBranchXmlType) {
 			XfrBranchXmlType branchRec = (XfrBranchXmlType) xmlBranch;
-			helper.setXfrBranchData(branchRec, xfrZTable);
+			helper.setXfrBranchData(branchRec);
 		}
 	}
 	

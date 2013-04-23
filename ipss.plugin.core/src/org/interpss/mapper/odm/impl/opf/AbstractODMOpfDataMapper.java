@@ -127,7 +127,7 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 			BaseOpfNetworkXmlType xmlNet = parser.getBaseOpfNet();
 			simuCtx.setNetType(SimuCtxType.OPF_NET);
 			
-			XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
+			//XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
 			
 			try {
 				BaseOpfNetwork opfNet = null;
@@ -166,11 +166,11 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 				for (JAXBElement<? extends BaseBranchXmlType> b : xmlNet.getBranchList().getBranch()) {
 					if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
 						DclfOpfBranch opfDclfBranch = OpfObjectFactory.createDclfOpfBranch();
-						aclfNetMapper.mapAclfBranchData(b.getValue(), opfDclfBranch, (DclfOpfNetwork)opfNet, xfrZTable);
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfDclfBranch, (DclfOpfNetwork)opfNet);
 					}
 					else {
 						OpfBranch opfBranch = OpfObjectFactory.createOpfBranch();
-						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (OpfNetwork)opfNet, xfrZTable);
+						aclfNetMapper.mapAclfBranchData(b.getValue(), opfBranch, (OpfNetwork)opfNet);
 						// map MW rating
 						BranchXmlType branchXml = (BranchXmlType)b.getValue();
 						if(branchXml.getRatingLimit()!=null){
