@@ -34,4 +34,8 @@ public class BaseGEDataMapper {
 	public BaseGEDataMapper(GePslfVersion ver) {
 		this.version = ver;
 	}
+
+	@Override public String toString() {
+		return this.dataParser.toString();
+	}
 }

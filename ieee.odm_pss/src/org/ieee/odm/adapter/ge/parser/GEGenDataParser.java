@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -40,7 +42,7 @@ public class GEGenDataParser extends BaseGEDataParser {
 		 * 		<bus> <"name"> <bkv> <"id"> <"long id"> : <st> <igreg bus> <"igreg name"> 
                 <igreg bkv> <prf> <qrf> <ar> <z> <pgen> <pmax> <pmin> <qgen> <qmax> <qmin> 
                 <mbase> <rcomp> <xcomp> <zgenr> <zgenx> <h bus> <"h name"> <h bkv> <t bus> 
-                <"t name"> <t bkv> <d_in> <d_out> <projid> <snt> <rtr> <xtr> <gtap> 
+                <"t name"> <t bkv> <d_in> <d_out> <projid> <stn> <rtr> <xtr> <gtap> 
                 <o1> <p1> <o2> <p2> <o3> <p3> <o4> <p4> <o5> <p5> <o6> <p6> <o7> <p7> <o8> <p8> 
                 <gov_flag> <agc_flag> <dispatch_flag> <baseload_flag> <air_temp> 
                 <turbine_type> <qtab> <pmax2>
@@ -59,7 +61,7 @@ public class GEGenDataParser extends BaseGEDataParser {
 		   //  30         31         32         33          34
 		     "h_name",  "h_bkv",   "t_bus",    "t_name",   "t_bkv", 
 		   //  35         36         37         38          39
-		     "d_in",    "d_out",   "proj_id",  "snt",      "rtr",    
+		     "d_in",    "d_out",   "proj_id",  "stn",      "rtr",    
 		   //  40         41         42         43          44
 		     "xtr",     "gtap",    "o1",       "p1",       "o2",   
 		   //  45         46         47         48          49
@@ -75,6 +77,19 @@ public class GEGenDataParser extends BaseGEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		int n = lineStr.indexOf(':');
+		String str1 = lineStr.substring(0, n),
+			   str2 = lineStr.substring(n+1);
+			
+		int m = 5;
+		StringTokenizer st = new StringTokenizer(str1, "\"");
+		for (int cnt = 0; cnt < 5; cnt++)
+			setValue(cnt, st.nextToken().trim());
+			
+		st = new StringTokenizer(str2);
+		int cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());
 	}
 }

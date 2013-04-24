@@ -28,11 +28,11 @@ import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.ge.impl.BranchSecDataRec;
-import org.ieee.odm.adapter.ge.impl.BusDataRec;
-import org.ieee.odm.adapter.ge.impl.GenDataRec;
 import org.ieee.odm.adapter.ge.impl.LoadDataRec;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
 import org.ieee.odm.adapter.ge.impl.XformerDataRec;
+import org.ieee.odm.adapter.ge.mapper.GEBusDataMapper;
+import org.ieee.odm.adapter.ge.mapper.GEGenDataMapper;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -81,6 +81,9 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 				XfrZAdjData, UPFCData, TransactionData,
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
+	
+	GEBusDataMapper busDataMapper = new GEBusDataMapper(GePslfVersion.PSLF15);			
+	GEGenDataMapper genDataMapper = new GEGenDataMapper(GePslfVersion.PSLF15);			
 	
 	public GE_PSLF_Adapter() {
 		super();
@@ -202,7 +205,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
-      						new BusDataRec(lineStr, version, parser);
+      						busDataMapper.mapLineStr(lineStr, parser);
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
@@ -214,7 +217,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
-      						new GenDataRec(lineStr, version, parser);
+      						genDataMapper.mapLineStr(lineStr, parser);
       					}
       					else if (recType == RecType.LoadData) {
       						// process Line Data
