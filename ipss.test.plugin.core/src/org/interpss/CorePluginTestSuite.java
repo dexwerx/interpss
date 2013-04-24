@@ -1,6 +1,7 @@
 package org.interpss;
 
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
+import org.interpss.core.adapter.ge.GESampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus11856Test;
@@ -77,6 +78,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	UCTEFormatAusPowerTest.class,
 	//CR_UserTestCases.class,
 	//GuideSampleTestCases.class,
+	
+	GESampleTestCases.class,
 	
 	IEEE14Test.class,
 	Bus1824Test.class,
