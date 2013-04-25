@@ -11,6 +11,7 @@ import org.ieee.odm.adapter.pwd.PWDAdapterForContingency;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.BranchOutageEnumType;
 import org.ieee.odm.schema.NetModificationXmlType;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class PWD_Contingency_test {
 			//rec element
 			BranchChangeRecXmlType braCtgElement=braRecSet.getBranchChangeRec().get(0);
 			assertTrue(braCtgElement.getBranchId().equals("Bus514_to_Bus7512_cirId_1"));
-			assertTrue(braCtgElement.isOffLine()==true);
+			assertTrue(braCtgElement.getOutage()==BranchOutageEnumType.OPEN);
 		}
 
 }
