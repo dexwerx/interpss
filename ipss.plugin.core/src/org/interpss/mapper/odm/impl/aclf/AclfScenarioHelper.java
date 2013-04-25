@@ -28,12 +28,15 @@ import org.ieee.odm.schema.AclfAlgorithmXmlType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.BranchOutageEnumType;
 import org.ieee.odm.schema.LfMethodEnumType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.BranchOutageType;
 import com.interpss.core.aclf.contingency.Contingency;
+import com.interpss.core.aclf.contingency.OutageBranch;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
@@ -107,7 +110,9 @@ public class AclfScenarioHelper {
 		Contingency cont = CoreObjectFactory.createContingency(contingency.getId());
 		for (BranchChangeRecXmlType bra : contingency.getBranchChangeRec()) {
 			AclfBranch branch = net.getBranch(bra.getFromBusId(), bra.getToBusId(), bra.getCircuitId());
-			cont.addOutageBranch(CoreObjectFactory.createOutageBranch(branch, cont));
+			OutageBranch outageBranch = CoreObjectFactory.createOutageBranch(branch, cont);
+			cont.addOutageBranch(outageBranch);
+			outageBranch.setOutageType(bra.getOutage()==BranchOutageEnumType.OPEN?BranchOutageType.OPEN:BranchOutageType.CLOSE);
 		}			
 		return cont;
 	}
