@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -67,6 +69,19 @@ public class GEBranchDataParser extends BaseGEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		int n = lineStr.indexOf(':');
+		String str1 = lineStr.substring(0, n),
+			   str2 = lineStr.substring(n+1);
+			
+		int m = 9;
+		StringTokenizer st = new StringTokenizer(str1, "\"");
+		for (int cnt = 0; cnt < m; cnt++)
+			setValue(cnt, st.nextToken().trim());
+			
+		st = new StringTokenizer(str2);
+		int cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());		
 	}
 }

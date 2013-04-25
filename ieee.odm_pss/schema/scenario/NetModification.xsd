@@ -115,7 +115,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:BranchRefXmlType">
 				<ns:sequence>
-					<ns:element maxOccurs="1" minOccurs="0" name="offLine" type="ns:boolean"/>
+					<ns:element maxOccurs="1" minOccurs="0" name="outage" type="pss:BranchOutageEnumType"/>
 					<ns:element minOccurs="0" name="aclfBranchChangeData" type="pss:AclfBranchChangeXmlType"/>
 					<ns:element minOccurs="0" name="acscBranchChangeData" type="pss:AcscBranchChangeXmlTYpe"/>
 					<ns:element minOccurs="0" name="dstabBranchChangeData" type="pss:DstabBranchChangeXmlType"/>
@@ -286,7 +286,13 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-
+	
+	<ns:simpleType name="BranchOutageEnumType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Open"/>
+			<ns:enumeration value="Close"/>
+		</ns:restriction>
+	</ns:simpleType>
 	
 	<ns:simpleType name="BranchOverrideEnumType">
 		<ns:restriction base="ns:string">

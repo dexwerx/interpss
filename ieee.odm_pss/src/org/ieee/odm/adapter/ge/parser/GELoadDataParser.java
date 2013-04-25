@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -38,7 +40,7 @@ public class GELoadDataParser extends BaseGEDataParser {
 		 * V15
 		 * 
 		 * 		<bus> <"name"> <bkv> <"id"> <"long id"> <st> <p> <q> <ip> <iq> <g> <b> 
-                <ar> <z> <d_in> <d_out> <proj id> <nst> <owner>
+                <ar> <z> <d_in> <d_out> <proj id> <stn> <owner>
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3------------4
@@ -48,10 +50,23 @@ public class GELoadDataParser extends BaseGEDataParser {
 		   //  10         11         12         13         14
 		     "g",        "b",       "ar",     "z",       "d_in",       
 		   //  15         16         17         18        
-		     "d_out",    "proj_id", "nst",    "owner"
+		     "d_out",    "proj_id", "stn",    "owner"
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		int n = lineStr.indexOf(':');
+		String str1 = lineStr.substring(0, n),
+			   str2 = lineStr.substring(n+1);
+			
+		int m = 5;
+		StringTokenizer st = new StringTokenizer(str1, "\"");
+		for (int cnt = 0; cnt < 5; cnt++)
+			setValue(cnt, st.nextToken().trim());
+			
+		st = new StringTokenizer(str2);
+		int cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());		
 	}
 }

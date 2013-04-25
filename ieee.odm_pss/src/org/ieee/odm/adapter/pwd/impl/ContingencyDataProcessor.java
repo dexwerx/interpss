@@ -9,6 +9,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.modify.NetModificationHelper;
 import org.ieee.odm.schema.BranchChangeRecSetXmlType;
 import org.ieee.odm.schema.BranchChangeRecXmlType;
+import org.ieee.odm.schema.BranchOutageEnumType;
 import org.ieee.odm.schema.NetModificationXmlType;
 
 /**
@@ -124,7 +125,7 @@ public class ContingencyDataProcessor extends InputLineStringParser{
 				// for each contingency, one to many branch change could be defined
 				BranchChangeRecXmlType branchChange = helper.createBranchChangeRecXmlType(branchTypeCtg);
 				branchChange.setBranchId(braInfo[0]);
-				branchChange.setOffLine(braInfo[1].equalsIgnoreCase("OPEN"));
+				branchChange.setOutage(braInfo[1].equalsIgnoreCase("OPEN")?BranchOutageEnumType.OPEN:BranchOutageEnumType.CLOSE);
 				branchChange.setFromBusId(braInfo[2]);
 				branchChange.setToBusId(braInfo[3]);
 				branchChange.setCircuitId(braInfo[4]);
