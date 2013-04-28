@@ -1,5 +1,5 @@
  /*
-  * @(#)DclfLODFPaper_OutageBranchDup.java   
+  * @(#)AclfSampleTest.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -24,14 +24,12 @@
 
 package com.interpss.pssl.test.dclf;
 
-import static org.junit.Assert.assertTrue;
-
 import org.interpss.numeric.exp.IpssNumericException;
-import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.BranchOutageType;
 import com.interpss.core.dclf.LODFSenAnalysisType;
 import com.interpss.core.dclf.common.OutageConnectivityException;
 import com.interpss.core.dclf.common.ReferenceBusException;
@@ -40,38 +38,26 @@ import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.test.BaseTestSetup;
 
-public class DclfLODFPaper_OutageBranchDup extends BaseTestSetup {
-	
-	@Test
-	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException, IpssNumericException   {
+public class DclfLODFPaperClosure_Test extends BaseTestSetup {
+	@Test 
+	public void lodfTest_BranchClosure()  throws ReferenceBusException, OutageConnectivityException, InterpssException, IpssNumericException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
 				.getAclfNet();		
-		//System.out.println(net.net2String());
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 										.runDclfAnalysis();
 		
+
 		algoDsl.setLODFAnalysisType(LODFSenAnalysisType.MULTI_BRANCH)
-				.addOutageBranch("Bus1", "Bus5", "1")
-				.addOutageBranch("Bus3", "Bus4", "1")
-				.addOutageBranch("Bus6", "Bus11", "1")
-				.addOutageBranch("Bus10", "Bus11", "1")     // Bus10->Bus11(1)
-				.addOutageBranch("Bus9", "Bus10", "1");		// Bus9->Bus10(1)
+				.addOutageBranch("Bus1", "Bus5", "1", BranchOutageType.OPEN)
+				.addOutageBranch("Bus3", "Bus4", "1", BranchOutageType.OPEN)
+				.addOutageBranch("Bus6", "Bus11", "1", BranchOutageType.CLOSE);
 
 		algoDsl.setRefBus("Bus14");
 		
 		algoDsl.calLineOutageDFactors("ContId");
-		
-		double[] factors = algoDsl.monitorBranch("Bus2", "Bus5", "1")
-								  .getLineOutageDFactors();
-
-		//System.out.println(new Array2DRowRealMatrix(factors));
-		// {{0.5551262632496149},{0.4511165014022788},{-0.06373460005412564}}
-		assertTrue(NumericUtil.equals(factors[0], 0.555126, 0.00001));
-		assertTrue(NumericUtil.equals(factors[1], 0.451117, 0.00001));
-		assertTrue(NumericUtil.equals(factors[2],-0.063735, 0.00001));
 	}
 }
 

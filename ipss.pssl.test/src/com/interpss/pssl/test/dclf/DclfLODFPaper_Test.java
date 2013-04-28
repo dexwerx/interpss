@@ -28,58 +28,26 @@ import static com.interpss.core.dclf.funcImpl.DclfFunction.DclfBranchAptr;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.numeric.datatype.Unit.UnitType;
+import org.interpss.numeric.exp.IpssNumericException;
 import org.interpss.numeric.util.NumericUtil;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.BranchOutageType;
 import com.interpss.core.aclf.contingency.OutageBranch;
 import com.interpss.core.dclf.LODFSenAnalysisType;
 import com.interpss.core.dclf.common.OutageConnectivityException;
 import com.interpss.core.dclf.common.ReferenceBusException;
-import com.interpss.core.net.Branch;
 import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssDclf.DclfAlgorithmDSL;
 import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODFPaper_Test extends BaseTestSetup {
-	//@Test  This method does not work
-	/*
-	public void lodfTest_Ipss()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
-				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
-				.load()
-				.getAclfNet();		
-		
-		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
-										.runDclfAnalysis();
-		
-
-		algoDsl.setLODFAnalysisType(LODFSenAnalysisType.MULTI_BRANCH)
-				.addOutageBranch("Bus1", "Bus5", "1")
-				.addOutageBranch("Bus3", "Bus4", "1")
-				.addOutageBranch("Bus6", "Bus11", "1");
-
-		algoDsl.setRefBus("Bus14");
-		
-		AclfBranch monBranch = net.getAclfBranch("Bus2", "Bus5", "1");
-
-		double sum = 0.0;
-		for (Branch bra : algoDsl.outageBranchList()) {
-			AclfBranch aclfBra = (AclfBranch)bra;
-			double flow = aclfBra.getDclfFlow();
-			double gsfFrom = algoDsl.genShiftFactor(aclfBra.getFromBusId(), monBranch);
-			double gsfTo = algoDsl.genShiftFactor(aclfBra.getToBusId(), monBranch);
-			sum += flow * (gsfFrom - gsfTo);
-		}
-		System.out.println("Shifted power flow: " + sum);
-	}
-	*/
-	
 	@Test
-	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException   {
+	public void lodfTest1()  throws ReferenceBusException, OutageConnectivityException, InterpssException, IpssNumericException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 				.load()
@@ -88,15 +56,8 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net)
 										.runDclfAnalysis();
 		
-//		// make sure get branch power flow before set the RefBus
-//		for (Branch bra : net.getBranchList()) {
-//			//System.out.println(bra.getId());
-//			AclfBranch aclfBra = (AclfBranch)bra;
-//			aclfBra.setWeight(algoDsl.branchFlow(aclfBra, UnitType.PU));
-//		}
-
 		algoDsl.setLODFAnalysisType(LODFSenAnalysisType.MULTI_BRANCH)
-				.addOutageBranch("Bus1", "Bus5", "1")
+				.addOutageBranch("Bus1", "Bus5", "1", BranchOutageType.OPEN)
 				.addOutageBranch("Bus3", "Bus4", "1")
 				.addOutageBranch("Bus6", "Bus11", "1");
 
