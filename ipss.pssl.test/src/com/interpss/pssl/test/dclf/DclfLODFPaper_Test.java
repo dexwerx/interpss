@@ -34,6 +34,7 @@ import org.junit.Test;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.contingency.OutageBranch;
 import com.interpss.core.dclf.LODFSenAnalysisType;
 import com.interpss.core.dclf.common.OutageConnectivityException;
 import com.interpss.core.dclf.common.ReferenceBusException;
@@ -107,9 +108,9 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 								  .getLineOutageDFactors();
 		double sum = 0.0;
 		int cnt = 0;
-		for (Branch bra : algoDsl.outageBranchList()) {
+		for (OutageBranch bra : algoDsl.outageBranchList()) {
 			//System.out.println(bra.getId());
-			AclfBranch aclfBra = (AclfBranch)bra;
+			AclfBranch aclfBra = bra.getAclfBranch();
 			double flow = aclfBra.getDclfFlow();
 			sum += flow * factors[cnt++];
 		}
@@ -129,9 +130,9 @@ public class DclfLODFPaper_Test extends BaseTestSetup {
 		  				.getLineOutageDFactors();
 		sum = 0.0;
 		cnt = 0;
-		for (Branch bra : algoDsl.outageBranchList()) {
+		for (OutageBranch bra : algoDsl.outageBranchList()) {
 			//System.out.println(bra.getId());
-			AclfBranch aclfBra = (AclfBranch)bra;
+			AclfBranch aclfBra = bra.getAclfBranch();
 			double flow = aclfBra.getDclfFlow();
 			sum += flow * factors[cnt++];
 		}
