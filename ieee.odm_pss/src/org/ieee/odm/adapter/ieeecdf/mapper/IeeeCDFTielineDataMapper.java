@@ -24,7 +24,7 @@
 
 package org.ieee.odm.adapter.ieeecdf.mapper;
 
-import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFNetDataParser;
+import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFTieLineDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -32,7 +32,7 @@ import org.ieee.odm.schema.TielineXmlType;
 
 public class IeeeCDFTielineDataMapper extends BaseIeeeCDFDataMapper {
 	public IeeeCDFTielineDataMapper() {
-		this.dataParser = new IeeeCDFNetDataParser();
+		this.dataParser = new IeeeCDFTieLineDataParser();
 	}
 
 	public void processTielineData(final String str,

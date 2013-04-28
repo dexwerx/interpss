@@ -58,19 +58,25 @@ public class IeeeCDFNetDataParser extends AbstractDataFieldParser {
 				//Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 				setValue(0, str.substring(1, 9));
 				//Columns 11-30   Originator's name [A]
-				setValue(1, str.substring(10, 30));
+				if (str.length() >= 30)
+					setValue(1, str.substring(10, 30));
 				//Columns 32-37   MVA Base [F] *
 				if(str.length()<37){
-					setValue(2, str.substring(31, str.length())); // in MVA
+					if (str.length() > 30)
+						setValue(2, str.substring(31, str.length())); // in MVA
 				}
 				else{
-					setValue(2, str.substring(31, 37)); // in MVA
+					if (str.length() > 30)
+						setValue(2, str.substring(31, 37)); // in MVA
 					//Columns 39-42   Year [I]
-					setValue(3, ModelStringUtil.getString(str, 38, 42));
+					if (str.length() > 37)
+						setValue(3, ModelStringUtil.getString(str, 38, 42));
 					//Column  44      Season (S - Summer, W - Winter)
-					setValue(4, ModelStringUtil.getString(str, 43, 44));
+					if (str.length() > 42)
+						setValue(4, ModelStringUtil.getString(str, 43, 44));
 					//Column  46-73   Case identification [A]
-					setValue(5, ModelStringUtil.getString(str, 46, 73));
+					if (str.length() > 45)
+						setValue(5, ModelStringUtil.getString(str, 46, 73));
 				}
 				
 			} catch (Exception e) {

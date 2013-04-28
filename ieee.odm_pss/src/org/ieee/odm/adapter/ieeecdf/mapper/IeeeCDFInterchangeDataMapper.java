@@ -24,7 +24,7 @@
 
 package org.ieee.odm.adapter.ieeecdf.mapper;
 
-import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFNetDataParser;
+import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFInterchangeDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -35,7 +35,7 @@ import org.ieee.odm.schema.PowerInterchangeXmlType;
 public class IeeeCDFInterchangeDataMapper extends BaseIeeeCDFDataMapper {
 	
 	public IeeeCDFInterchangeDataMapper() {
-		this.dataParser = new IeeeCDFNetDataParser();
+		this.dataParser = new IeeeCDFInterchangeDataParser();
 	}
 
 	public void processInterchangeData(final String str,

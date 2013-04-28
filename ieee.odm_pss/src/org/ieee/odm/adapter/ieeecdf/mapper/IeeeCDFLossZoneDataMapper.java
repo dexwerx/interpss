@@ -24,14 +24,14 @@
 
 package org.ieee.odm.adapter.ieeecdf.mapper;
 
-import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFNetDataParser;
+import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFLossZoneDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.schema.NetZoneXmlType;
 
 public class IeeeCDFLossZoneDataMapper extends BaseIeeeCDFDataMapper {
 
 	public IeeeCDFLossZoneDataMapper() {
-		this.dataParser = new IeeeCDFNetDataParser();
+		this.dataParser = new IeeeCDFLossZoneDataParser();
 	}
 
 	public void processLossZoneData(final String str,	final NetZoneXmlType lossZone) throws ODMException {
