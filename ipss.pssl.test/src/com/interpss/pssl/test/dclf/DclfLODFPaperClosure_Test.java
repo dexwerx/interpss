@@ -121,7 +121,7 @@ public class DclfLODFPaperClosure_Test extends BaseTestSetup {
 		algoDsl.destroy();
 	}
 	
-	@Test 
+	//@Test 
 	public void lodfTest_BranchClosure2()  throws ReferenceBusException, OutageConnectivityException, InterpssException, IpssNumericException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
@@ -163,7 +163,7 @@ public class DclfLODFPaperClosure_Test extends BaseTestSetup {
 	}
 	
 	
-	@Test 
+	//@Test 
 	public void lodfTest_BranchClosure4()  throws ReferenceBusException, OutageConnectivityException, InterpssException, IpssNumericException   {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
