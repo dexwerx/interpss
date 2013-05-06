@@ -26,12 +26,12 @@ package com.interpss.pssl.test.dclf;
 
 import static org.interpss.CorePluginFunction.DclfResult;
 
-import org.apache.commons.math3.linear.RealMatrix;
 import org.interpss.numeric.exp.IpssNumericException;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.contingency.BranchOutageType;
 import com.interpss.core.aclf.contingency.OutageBranch;
@@ -105,7 +105,18 @@ public class DclfLODFPaperClosure_Test extends BaseTestSetup {
 
 		printResult(algoDsl, factors);
 		
-		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());			
+		System.out.println(DclfResult.f(algoDsl.algo(), false).toString());		
+		
+		for (AclfBus bus : net.getBusList()) {
+			if (!bus.isRefBus()) {
+				System.out.println("Bus: " + bus.getId() + ", sort number: " + bus.getSortNumber());
+				double xAry[] = algoDsl.algo().getDclfSolver().getSenPAngle(bus.getId());
+				int cnt = 0;
+				for ( double x : xAry) {
+					System.out.println("(" + (cnt++) + "," + x + ")");
+				}
+			}
+		}
 
 		algoDsl.destroy();
 		
