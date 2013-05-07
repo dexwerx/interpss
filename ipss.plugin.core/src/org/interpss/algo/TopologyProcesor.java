@@ -86,11 +86,12 @@ public class TopologyProcesor {
 		if (branch.getBranchCode() != AclfBranchCode.BREAKER)
 			throw new InterpssException("The starting branch to findBranchInSubstation should be Breaker, "
 					+ branchId + "[" + branch.getBranchCode() + "]");
-		
+		/* for branch closure outage, the aclf branch is inactive pre-contingency
 		if (!branch.isActive())
 			throw new InterpssException("The starting branch to findBranchInSubstation() is inactive, "
 					+ branchId + "[" + branch.getBranchCode() + "]");
-
+        */
+		
 		// first the branchId is added to the list
 		branchIdList.add(branchId);
 	
