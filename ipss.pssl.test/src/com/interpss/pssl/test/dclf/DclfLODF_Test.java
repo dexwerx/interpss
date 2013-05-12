@@ -41,7 +41,7 @@ import com.interpss.pssl.test.BaseTestSetup;
 
 public class DclfLODF_Test extends BaseTestSetup {
 
-	@Test
+	//@Test
 	public void lodfTest() throws PSSLException, ReferenceBusException, InterpssException  {
 		AclfNetwork net = IpssAdapter.importAclfNet("testData/aclf/ieee14.ieee")
 				.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
@@ -49,6 +49,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 				.getAclfNet();		
 		
 		DclfAlgorithmDSL algoDsl = IpssPTrading.createDclfAlgorithm(net);
+		algoDsl.algo().calculateDclf();
 
 		//////////////////////
 		algoDsl.outageBranch("Bus4", "Bus7", "1");
@@ -60,7 +61,7 @@ public class DclfLODF_Test extends BaseTestSetup {
 
 		f = algoDsl.monitorBranch("Bus5", "Bus6", "1")
 	       			.lineOutageDFactor();
-	    //System.out.println("LODF (x4->7) -> (5->6): " + f );
+	    System.out.println("LODF (x4->7) -> (5->6): " + f );
 		assertTrue(NumericUtil.equals(f, 0.492179, 0.00001));
 
 	    f = algoDsl.monitorBranch("Bus9", "Bus14", "1")
