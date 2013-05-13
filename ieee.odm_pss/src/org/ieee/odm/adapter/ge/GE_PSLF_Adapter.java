@@ -27,12 +27,12 @@ package org.ieee.odm.adapter.ge;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.ge.impl.GEBranchDataMapper;
 import org.ieee.odm.adapter.ge.impl.NetDataRec;
-import org.ieee.odm.adapter.ge.impl.XformerDataRec;
+import org.ieee.odm.adapter.ge.mapper.GEBranchDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GEBusDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GEGenDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GELoadDataMapper;
+import org.ieee.odm.adapter.ge.mapper.GEXformerDataMapper;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -86,6 +86,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	GEGenDataMapper genDataMapper = new GEGenDataMapper(GePslfVersion.PSLF15);			
 	GELoadDataMapper loadDataMapper = new GELoadDataMapper(GePslfVersion.PSLF15);	
 	GEBranchDataMapper branchDataMapper = new GEBranchDataMapper(GePslfVersion.PSLF15);	
+	GEXformerDataMapper xfrDataMapper = new GEXformerDataMapper(GePslfVersion.PSLF15);	
 	
 	public GE_PSLF_Adapter() {
 		super();
@@ -215,7 +216,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
-      						new XformerDataRec(lineStr, version, parser);
+      						xfrDataMapper.mapLineStr(lineStr, parser);
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data

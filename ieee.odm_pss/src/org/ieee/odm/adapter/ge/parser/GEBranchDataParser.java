@@ -43,6 +43,14 @@ public class GEBranchDataParser extends BaseGEDataParser {
                 <st> <r> <x> <b> <r1> <r2> <r3> <r4> <al> <l> <ar> <z> <gi> <tf> <tt> 
                 <d_in> <d_out> <proj id> <nst> <type> <r5> <r6> <r7> <r8>
                 <o1> <p1> <o2> <p2> <o3> <p3> <o4> <p4> <o5> <p5> <o6> <p6> <o7> <p7> <o8> <p8> <ohms> 
+                
+		Sample data:
+		
+      	1 "P-1     " 380.00       2 "P-2     " 380.00 "1 "  1 "        " :  1 0.00000 0.02348 0.00000    
+      	0.0    0.0    0.0    0.0 1.000    1.0 /
+  		1 201 0.0000 0.000 1.000   400101   391231   0 1  0    0.0    0.0    0.0    
+  		0.0   1 1.000   0 1.000   0 1.000   0 1.000   0 0.000   0 0.000   0 0.000   0 0.000  0
+	                
 		 *      
 		 */
 		return new String[] {
@@ -74,13 +82,38 @@ public class GEBranchDataParser extends BaseGEDataParser {
 		String str1 = lineStr.substring(0, n),
 			   str2 = lineStr.substring(n+1);
 			
-		int m = 9;
+		int cnt = 0;
+		/*
+		 * Sample data : 1 "P-1     " 380.00       2 "P-2     " 380.00 "1 "  1 "        "
+		 */
 		StringTokenizer st = new StringTokenizer(str1, "\"");
-		for (int cnt = 0; cnt < m; cnt++)
-			setValue(cnt, st.nextToken().trim());
+		//this.f_bus
+		setValue(cnt++, st.nextToken().trim());
+		//this.f_name
+		setValue(cnt++, st.nextToken().trim());
+		
+		String s = st.nextToken();
+		StringTokenizer st1 = new StringTokenizer(s);
+		//this.f_bkv
+		setValue(cnt++, st1.nextToken().trim());
+		//this.t_bus
+		setValue(cnt++, st1.nextToken().trim());
+		
+		//this.t_name
+		setValue(cnt++, st.nextToken().trim());
+		//this.t_bkv
+		setValue(cnt++, st.nextToken().trim());
+		//this.ck
+		setValue(cnt++, st.nextToken().trim());
+		//this.sec
+		setValue(cnt++, st.nextToken().trim());
+		//this.long_id
+		setValue(cnt++, st.nextToken().trim());
+
+		int m = 9;
 			
 		st = new StringTokenizer(str2);
-		int cnt = m;
+		cnt = m;
 		while(st.hasMoreElements())
 			setValue(cnt++, st.nextToken());		
 	}
