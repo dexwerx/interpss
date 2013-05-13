@@ -87,28 +87,28 @@ public class GEBranchDataParser extends BaseGEDataParser {
 		 * Sample data : 1 "P-1     " 380.00       2 "P-2     " 380.00 "1 "  1 "        "
 		 */
 		StringTokenizer st = new StringTokenizer(str1, "\"");
-		//this.f_bus
-		setValue(cnt++, st.nextToken().trim());
-		//this.f_name
-		setValue(cnt++, st.nextToken().trim());
+		String f_bus = st.nextToken().trim();
+		setValue(cnt++, f_bus);
+		String f_name  = st.nextToken().trim();
+		setValue(cnt++, f_name);
 		
 		String s = st.nextToken();
 		StringTokenizer st1 = new StringTokenizer(s);
-		//this.f_bkv
-		setValue(cnt++, st1.nextToken().trim());
-		//this.t_bus
-		setValue(cnt++, st1.nextToken().trim());
+		String f_bkv  = st1.nextToken().trim();
+		setValue(cnt++, f_bkv);
+		String t_bus = st1.nextToken().trim();
+		setValue(cnt++, t_bus);
 		
-		//this.t_name
-		setValue(cnt++, st.nextToken().trim());
-		//this.t_bkv
-		setValue(cnt++, st.nextToken().trim());
-		//this.ck
-		setValue(cnt++, st.nextToken().trim());
-		//this.sec
-		setValue(cnt++, st.nextToken().trim());
-		//this.long_id
-		setValue(cnt++, st.nextToken().trim());
+		String t_name = st.nextToken().trim();
+		setValue(cnt++, t_name);
+		String t_bkv = st.nextToken().trim();
+		setValue(cnt++, t_bkv);
+		String ck = st.nextToken().trim();
+		setValue(cnt++, ck);
+		String sec = st.nextToken().trim();
+		setValue(cnt++, sec);
+		String long_id = st.nextToken().trim();
+		setValue(cnt++, long_id);
 
 		int m = 9;
 			

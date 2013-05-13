@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.odm.adapter.ge.impl;
+package org.ieee.odm.adapter.ge.mapper;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
@@ -39,7 +39,7 @@ import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.ExchangeZoneXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
-public class NetDataRec {
+public class GENetDatMapper {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();

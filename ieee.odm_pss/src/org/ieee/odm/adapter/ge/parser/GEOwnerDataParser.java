@@ -24,6 +24,9 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
+import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -38,6 +41,10 @@ public class GEOwnerDataParser extends BaseGEDataParser {
 		 * V15
 		 * 
 		 * 		<owner no> <"oname"> <"s name"> <net_mw> <net_mvar> <sch_mw> <sch_mvar> <ar>
+		 * 
+	   Sample Data
+       1 "                                " "O1  " :       0.00       0.00       0.00       0.00   0
+		 
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
@@ -47,6 +54,27 @@ public class GEOwnerDataParser extends BaseGEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		String str1 = lineStr.substring(0, lineStr.indexOf(':')),
+		       str2 = lineStr.substring(lineStr.indexOf(':')+1);
+
+		int cnt = 0;
+		//System.out.println("owner->" + lineStr);
+		StringTokenizer st = new StringTokenizer(str1, "\"");
+		String ownerNo = st.nextToken().trim();
+		setValue(cnt++, ownerNo);		
+		String oname = st.nextToken();
+		setValue(cnt++, oname);
+		st.nextToken();
+		String sname = st.nextToken();
+		setValue(cnt++, sname);
+		
+		int m = 3;
+
+		//        0.00       0.00       0.00       0.00   0
+		st = new StringTokenizer(str2);
+		cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());
 	}
 }

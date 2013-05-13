@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -38,6 +40,9 @@ public class GEInterfaceBranchDataParser extends BaseGEDataParser {
 		 * V15
 		 * 
 		 * 		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <ifn> <pf>
+		 * 
+		 Sample data
+		 79 "E-55    " 380.00       1 "P-1     " 380.00 "1 "   :      1     1.000
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4
@@ -47,6 +52,37 @@ public class GEInterfaceBranchDataParser extends BaseGEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		String str1 = lineStr.substring(0, lineStr.indexOf(':')),
+	           str2 = lineStr.substring(lineStr.indexOf(':')+1);
+		
+		int cnt = 0;
+		
+		StringTokenizer st = new StringTokenizer(str1, "\"");
+		String f_bus = st.nextToken().trim();
+		setValue(cnt++, f_bus);
+		String f_name  = st.nextToken().trim();
+		setValue(cnt++, f_name);
+		
+		String s = st.nextToken();
+		StringTokenizer st1 = new StringTokenizer(s);
+		String f_bkv  = st1.nextToken().trim();
+		setValue(cnt++, f_bkv);
+		String t_bus = st1.nextToken().trim();
+		setValue(cnt++, t_bus);
+		
+		String t_name = st.nextToken().trim();
+		setValue(cnt++, t_name);
+		String t_bkv = st.nextToken().trim();
+		setValue(cnt++, t_bkv);
+		String ck = st.nextToken().trim();
+		setValue(cnt++, ck);
+
+		int m = 7;
+			
+		st = new StringTokenizer(str2);
+		cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());	
 	}
 }

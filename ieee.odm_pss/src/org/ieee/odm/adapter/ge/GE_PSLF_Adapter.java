@@ -27,12 +27,14 @@ package org.ieee.odm.adapter.ge;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.ge.impl.NetDataRec;
+import org.ieee.odm.adapter.ge.mapper.GEAreaDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GEBranchDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GEBusDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GEGenDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GELoadDataMapper;
 import org.ieee.odm.adapter.ge.mapper.GEXformerDataMapper;
+import org.ieee.odm.adapter.ge.mapper.GEZoneDataMapper;
+import org.ieee.odm.adapter.ge.mapper.GENetDatMapper;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -82,9 +84,13 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
 	
+	GEAreaDataMapper areaDataMapper = new GEAreaDataMapper(GePslfVersion.PSLF15);			
+	GEZoneDataMapper zoneDataMapper = new GEZoneDataMapper(GePslfVersion.PSLF15);			
+
 	GEBusDataMapper busDataMapper = new GEBusDataMapper(GePslfVersion.PSLF15);			
 	GEGenDataMapper genDataMapper = new GEGenDataMapper(GePslfVersion.PSLF15);			
 	GELoadDataMapper loadDataMapper = new GELoadDataMapper(GePslfVersion.PSLF15);	
+	
 	GEBranchDataMapper branchDataMapper = new GEBranchDataMapper(GePslfVersion.PSLF15);	
 	GEXformerDataMapper xfrDataMapper = new GEXformerDataMapper(GePslfVersion.PSLF15);	
 	
@@ -103,9 +109,9 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
-		NetDataRec.TitleRec titleRec = new NetDataRec.TitleRec();
-		NetDataRec.CommentsRec commentRec = new NetDataRec.CommentsRec();
-		NetDataRec.SolutionParamRec solParamRec = new NetDataRec.SolutionParamRec();
+		GENetDatMapper.TitleRec titleRec = new GENetDatMapper.TitleRec();
+		GENetDatMapper.CommentsRec commentRec = new GENetDatMapper.CommentsRec();
+		GENetDatMapper.SolutionParamRec solParamRec = new GENetDatMapper.SolutionParamRec();
 		
 		RecType recType = RecType.NotDefined; 
   		String lineStr = null;
@@ -236,11 +242,11 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.AreaData) {
       						// process Area Data
-      						new NetDataRec.AreaRec(lineStr, version, parser);
+      						areaDataMapper.mapLineStr(lineStr, parser);
       					}
       					else if (recType == RecType.ZoneData) {
       						// process Zone Data
-      						new NetDataRec.ZoneRec(lineStr, version, parser);
+      						zoneDataMapper.mapLineStr(lineStr, parser);
       					}
       					else if (recType == RecType.InterfaceData) {
       						// process Interface Data

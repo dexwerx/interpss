@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -45,6 +47,25 @@ public class GEZoneDataParser extends BaseGEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		StringTokenizer st = new StringTokenizer(lineStr, "\"");
+		
+		int cnt = 0;
+		/*
+	    	2 "Italyz2                         "    9.448  112.738
+		 */
+		String zonum = st.nextToken().trim();
+		setValue(cnt++, zonum);
+		String zonam = st.nextToken().trim();
+		setValue(cnt++, zonam);
+		
+		int m = 2;
+
+		String str = st.nextToken();
+		//        0      0.0   1000.0    -88.2    -84.1
+		st = new StringTokenizer(str);
+		cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());		
 	}
 }

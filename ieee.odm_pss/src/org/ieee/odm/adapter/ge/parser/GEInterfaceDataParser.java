@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.ge.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.common.ODMException;
 
 /**
@@ -49,6 +51,22 @@ public class GEInterfaceDataParser extends BaseGEDataParser {
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		StringTokenizer st = new StringTokenizer(lineStr, "\"");
+		
+		int cnt = 0;
+		
+		String ifno = st.nextToken();
+		setValue(cnt++, ifno);
+		String name = st.nextToken();
+		setValue(cnt++, name);
+		
+		int m = 2;
+
+		String str = st.nextToken();
+		st = new StringTokenizer(str);
+		cnt = m;
+		while(st.hasMoreElements())
+			setValue(cnt++, st.nextToken());
 	}
 }
