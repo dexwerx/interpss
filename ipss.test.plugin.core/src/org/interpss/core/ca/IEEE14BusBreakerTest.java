@@ -71,7 +71,7 @@ public class IEEE14BusBreakerTest extends CorePluginTestSetup {
 				.getAclfNet();
 		
 	  	net.setVisitedStatus(false);
-	  	net.markSmallZBranch(0.00001, false, true);		
+	  	net.markSmallZBranch(0.00001, false);		
 		
 	  	List<Bus> list = net.getBus("Bus1").findZeroZPathBuses(false);
 	  	//System.out.println(list);
