@@ -53,8 +53,7 @@ public class ObsoleteBranchProcessor {
 					for (Branch br : bus.getBranchList()) {
 						Bus optBus = br.getOppositeBus(bus);
 						AclfBranchCode code = ((AclfBranch) br).getBranchCode();
-						if (busList.contains(optBus)
-								&& code.equals(AclfBranchCode.LINE)) {
+						if (busList.contains(optBus) && isObsolateBranchType(code)) {
 							if (!obsBranchList.contains(br)) {
 								String msg = "Obsolete branch found when processing bus "
 										+ b.getId() + ": " + br.getId();
@@ -64,12 +63,15 @@ public class ObsoleteBranchProcessor {
 						}
 					}
 				}
-
 			}
 		}
-
 	}
 
+	private boolean isObsolateBranchType(AclfBranchCode code) {
+		// currently only LINE type is included. This may expanded in the future.
+		return code.equals(AclfBranchCode.LINE);
+	}
+	
 	public List<Branch> getObsoleteBranches() {
 		return this.obsBranchList;
 	}
