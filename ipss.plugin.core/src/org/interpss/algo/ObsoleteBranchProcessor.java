@@ -51,14 +51,16 @@ public class ObsoleteBranchProcessor {
 				List<Bus> busList = ((AclfBus) b).findZeroZPathBuses(true);
 				for (Bus bus : busList) {
 					for (Branch br : bus.getBranchList()) {
-						Bus optBus = br.getOppositeBus(bus);
-						AclfBranchCode code = ((AclfBranch) br).getBranchCode();
-						if (busList.contains(optBus) && isObsolateBranchType(code)) {
-							if (!obsBranchList.contains(br)) {
-								String msg = "Obsolete branch found when processing bus "
-										+ b.getId() + ": " + br.getId();
-								ipssLogger.warning(msg);
-								obsBranchList.add(br);
+						if (br.isActive()) {  // only active branch might be obsolete branch
+							Bus optBus = br.getOppositeBus(bus);
+							AclfBranchCode code = ((AclfBranch) br).getBranchCode();
+							if (busList.contains(optBus) && isObsolateBranchType(code)) {
+								if (!obsBranchList.contains(br)) {
+									String msg = "Obsolete branch found when processing bus "
+											+ b.getId() + ": " + br.getId();
+									ipssLogger.warning(msg);
+									obsBranchList.add(br);
+								}
 							}
 						}
 					}
