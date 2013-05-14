@@ -120,6 +120,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 	private void mapBaseBus(AclfBus bus, AclfBusBean bean) {
 		bean.number = bus.getNumber();
 		bean.id = bus.getId();
+		bean.name = bus.getName();
 		bean.status = 1;
 		boolean status = bus.isActive();
 		if(!status)
@@ -127,6 +128,8 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.base_v = bus.getBaseVoltage()/1000;
 		bean.v_mag = format(bus.getVoltageMag());
 		bean.v_ang = format(bus.getVoltageAng(UnitType.Deg));
+		bean.vmax = format(bus.getVLimit().getMax()) == 0? bean.vmax : format(bus.getVLimit().getMax());
+		bean.vmin = format(bus.getVLimit().getMin()) == 0? bean.vmin : format(bus.getVLimit().getMin());
 
 		bean.gen_code = bus.isGenPQ() || !bus.isGen() ? AclfBusBean.GenCode.PQ :
 			(bus.isGenPV() ? AclfBusBean.GenCode.PV : AclfBusBean.GenCode.Swing);
@@ -154,11 +157,14 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 	
 	private void mapBaseBranch(AclfBranch branch, AclfBranchResultBean bean) {
 		bean.id = branch.getId();
+		bean.name = branch.getName();
 		bean.f_id = branch.getFromBus().getId();
 		bean.f_num = branch.getFromBus().getNumber();
 		bean.t_id = branch.getToBus().getId();
 		bean.t_num = branch.getToBus().getNumber();		
 		bean.cir_id = branch.getCircuitNumber();
+		bean.f_name = branch.getFromBus().getName();
+		bean.t_name = branch.getToBus().getName();
 		
 		bean.status = branch.isActive()? 1 : 0; 		
 		

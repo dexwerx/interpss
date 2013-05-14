@@ -31,6 +31,7 @@ import org.interpss.datamodel.bean.BaseNetBean;
 import org.interpss.datamodel.bean.aclf.AclfBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
 import org.interpss.datamodel.bean.aclf.AclfNetBean;
+import org.interpss.numeric.datatype.LimitType;
 
 import com.interpss.CoreObjectFactory;
 import com.interpss.SimuObjectFactory;
@@ -114,11 +115,15 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 		AclfBus bus = CoreObjectFactory.createAclfBus(busBean.id, aclfNet);
 		bus.setNumber(busBean.number);
 		
+		bus.setName(busBean.name);
+		
 		int status = busBean.status;
 		if(status ==0)
 			bus.setStatus(false);
 		else
 			bus.setStatus(true);
+		
+		bus.setVLimit(new LimitType(busBean.vmax, busBean.vmin));
 		
 		Area area = CoreObjectFactory.createArea(busBean.area, aclfNet);
 		bus.setArea(area);		
@@ -175,6 +180,7 @@ public class AclfNetBeanMapper extends AbstractMapper<AclfNetBean, SimuContext> 
 	private void mapBranchBean(AclfBranchBean branchBean, AclfNetwork aclfNet) {
 		AclfBranch branch = CoreObjectFactory.createAclfBranch();
 		branch.setId(branchBean.id);
+		branch.setName(branchBean.name);
 		aclfNet.addBranch(branch, branchBean.f_id, branchBean.t_id, branchBean.cir_id);
 		Bus fBus = aclfNet.getBus(branchBean.f_id);
 		Bus tBus = aclfNet.getBus(branchBean.t_id);

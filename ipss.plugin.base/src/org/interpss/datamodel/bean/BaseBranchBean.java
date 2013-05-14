@@ -21,6 +21,8 @@ public class BaseBranchBean extends BaseJSONBean {
 			cir_id = "1"; // branch circuit id/number
 
 	public long f_num, t_num;
+	
+	public String f_name, t_name;
 
 	public int status;	
 

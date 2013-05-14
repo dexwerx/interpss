@@ -1,6 +1,6 @@
 package org.interpss.ext.pwd;
 
-import java.util.Hashtable;
+import org.interpss.ext.AclfBranchExtension;
 
 /**
  *  AclfBranch extension for representing PowerWorld custom fields
@@ -10,25 +10,44 @@ import java.util.Hashtable;
  * @author mzhou
  *
  */
-public class AclfBranchPWDExtension extends Hashtable<String,String> {
+public class AclfBranchPWDExtension extends AclfBranchExtension {
+	public static final String CustomString = "CustomString";
+	public static final String EquimentName = "EquimentName";
+	public static final String LineMonEle = "LineMonEle";
+	public static final String LSName = "LSName";
+	
 	private static final long serialVersionUID = 1L;
 	
+	private boolean caMonitoring = false;
+	public boolean isCaMonitoring() { return caMonitoring; }
+	public void setCaMonitoring(boolean caMonitoring) { this.caMonitoring = caMonitoring; }
+
 	/**
-	 * Defined as "EquipmentType_SubstationName_EquipmentNameî. Take Transformer_Sub1_T12 for example, 
-	 * it refers to the transformer connected to substation Sub1 (where the ìfromBusî is located) 
+	 * Defined as "EquipmentType_SubstationName_EquipmentNameÔøΩ Take Transformer_Sub1_T12 for example, 
+	 * it refers to the transformer connected to substation Sub1 (where the ÊèªromBusÔøΩis located) 
 	 * with the equipment name of T12. 
 	 * 
 	 * @return
 	 */
 	public String getBranchOutageId() {
-		return this.get("CustomString") + "_" + this.get("SubStation") + "_" + this.get("EquimentName");
+		return this.get(CustomString) + "_" + this.get(AclfBusPWDExtension.SubStation) + "_" + this.get(EquimentName);
 	}
 
 	/**
-	 * to string function
+	 * get LineMonEle attribute
+	 * 
+	 * @return
 	 */
-	public String toString() {
-		String str = "AclfBranchPWDExtension: " + super.toString();
-		return str;
+	public String getLineMonEle() {
+		return this.get(LineMonEle);
+	}
+
+	/**
+	 * get LSName attribute
+	 * 
+	 * @return
+	 */
+	public String getLSName() {
+		return this.get(LSName);
 	}
 }
