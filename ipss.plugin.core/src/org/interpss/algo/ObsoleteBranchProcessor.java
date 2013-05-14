@@ -44,7 +44,7 @@ public class ObsoleteBranchProcessor {
 
 	public void findObsoleteBranch() throws InterpssException {
 
-		aclfNet.markSmallZBranch(this.smallZThreshold, true, false);
+		aclfNet.markSmallZBranch(this.smallZThreshold, true);
 
 		for (Bus b : this.aclfNet.getBusList()) {
 			if (b.isStatus() && !b.isVisited()) {
