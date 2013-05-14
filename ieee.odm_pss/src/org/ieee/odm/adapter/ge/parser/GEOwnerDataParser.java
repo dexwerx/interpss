@@ -1,5 +1,5 @@
 /*
- * @(#)GEAreaDataParser.java   
+ * @(#)GEOwnerDataParser.java   
  *
  * Copyright (C) 2006-2013 www.interpss.org
  *
@@ -26,7 +26,6 @@ package org.ieee.odm.adapter.ge.parser;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.common.ODMException;
 
 /**

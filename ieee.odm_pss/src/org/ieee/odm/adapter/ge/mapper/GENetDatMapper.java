@@ -1,5 +1,5 @@
  /*
-  * @(#)GEDataRec.java   
+  * @(#)GENetDatMapper.java   
   *
   * Copyright (C) 2006-2008 www.interpss.org
   *
@@ -24,19 +24,12 @@
 
 package org.ieee.odm.adapter.ge.mapper;
 
-import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.adapter.ge.GePslfVersion;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.ExchangeAreaXmlType;
-import org.ieee.odm.schema.ExchangeZoneXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class GENetDatMapper {

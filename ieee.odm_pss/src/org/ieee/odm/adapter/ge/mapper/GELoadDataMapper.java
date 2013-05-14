@@ -1,5 +1,5 @@
  /*
-  * @(#)LoadDataRec.java   
+  * @(#)GELoadDataMapper.java   
   *
   * Copyright (C) 2006-2008 www.interpss.org
   *

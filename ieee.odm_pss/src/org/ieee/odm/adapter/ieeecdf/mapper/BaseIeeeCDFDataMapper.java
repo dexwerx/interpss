@@ -25,22 +25,6 @@
 package org.ieee.odm.adapter.ieeecdf.mapper;
 
 import org.ieee.odm.adapter.AbstractDataFieldParser;
-import org.ieee.odm.adapter.ieeecdf.parser.IeeeCDFBusDataParser;
-import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.aclf.AclfDataSetter;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.schema.AngleUnitType;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.LFGenCodeEnumType;
-import org.ieee.odm.schema.LFLoadCodeEnumType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
-import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.YUnitType;
 
 public class BaseIeeeCDFDataMapper {
 	protected AbstractDataFieldParser dataParser = null;
