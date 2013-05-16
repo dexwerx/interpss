@@ -117,6 +117,21 @@ public class BaseInputLineStringParser {
 	}
 	
 	/**
+	 * Get field of type String
+	 * 
+	 * @param key
+	 * @param defValue
+	 * @return
+	 * @throws ODMException throw exception if the field does not exist
+	 */
+	public String getString(String key, String defValue) throws ODMException {
+		String field = this.fieldTable.get(key);
+		if (field == null)
+			return defValue;
+		return field;
+	}
+
+	/**
 	 * Get field of type double
 	 * 
 	 * @param key
