@@ -1,5 +1,5 @@
 /*
- * @(#)IeeeCDFLossZoneDataMapper.java   
+ * @(#)UCTEXfrDataMapper.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *

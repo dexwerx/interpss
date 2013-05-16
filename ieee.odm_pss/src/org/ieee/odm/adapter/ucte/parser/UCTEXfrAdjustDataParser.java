@@ -1,5 +1,5 @@
 /*
- * @(#)UCTEXformerDataParser.java   
+ * @(#)UCTEXfrAdjustDataParser.java   
  *
  * Copyright (C) 2006-2013 www.interpss.org
  *
@@ -29,7 +29,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.base.ModelStringUtil;
 
 /**
- * Class for processing UCTE xfr data line string
+ * Class for processing UCTE xfr adjustment data line string
  * 
  * @author mzhou
  *

@@ -29,6 +29,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.adapter.ucte.mapper.UCTEExPowerDataMapper;
 import org.ieee.odm.adapter.ucte.mapper.UCTELineDataMapper;
 import org.ieee.odm.adapter.ucte.mapper.UCTENodeDataMapper;
 import org.ieee.odm.adapter.ucte.mapper.UCTEXfrAdjustDataMapper;
@@ -36,21 +37,10 @@ import org.ieee.odm.adapter.ucte.mapper.UCTEXfrDataMapper;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
-import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.ApparentPowerUnitType;
-import org.ieee.odm.schema.CurrentUnitType;
-import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-import org.ieee.odm.schema.UCTEExchangeXmlType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.XfrBranchXmlType;
-import org.ieee.odm.schema.YUnitType;
-import org.ieee.odm.schema.ZUnitType;
 
 /*
 	UCTE data exchange format for load flow and three phase short circuit studies (UCTE-DEF)
@@ -58,31 +48,12 @@ import org.ieee.odm.schema.ZUnitType;
 */
 
 public class UCTE_DEFAdapter extends AbstractODMAdapter {
-	/*
-	public final static String Token_Status = "Status";
-	public final static String Token_MinGenMW = "Min Gen MW";
-	public final static String Token_MaxGenMW = "Max Gen MW";
-	public final static String Token_SPControl = "Sstatic Primary Control";
-	public final static String Token_NPPControl = "Normal Power Primary Control";
-	public final static String Token_SCMva3P = "SC MVA 3P";
-	public final static String Token_XRRatio = "X/R Ratio";
-	public final static String Token_PPlanType = "PowerPlanType";
-	
-	//public final static String Token_dUPhase = "dUPhase";
-	/*
-	public final static String Token_nPhase = "nPhase";
-	public final static String Token_n1Phase = "n1Phase";
-	public final static String Token_uKvPhase = "uKvPhase";
-	public final static String Token_dUAngle = "dUAngle";
-	public final static String Token_thetaDegAngle = "thetaDegAngle";
-	public final static String Token_nAngle = "nAngle";
-	public final static String Token_n1Angle = "n1Angle";
-	public final static String Token_pMwAngle = "pMwAngle";
-	*/
-	
 	public final static String PsXfrType_ASYM = "ASYM"; 
+
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 
+	private UCTEExPowerDataMapper exPowerDataMapper = new UCTEExPowerDataMapper();
+	
 	private UCTENodeDataMapper nodeDataMapper = new UCTENodeDataMapper();
 
 	private UCTELineDataMapper lineDataMapper = new UCTELineDataMapper();
@@ -173,7 +144,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     			    	    processXfr2LookupRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.ExPower) {
-    			    	    processExchangePowerRecord(str, baseCaseNet, odmObjFactory);
+    			    	    this.exPowerDataMapper.mapInputLine(str, parser);
     			    	}
     				}
     			} catch (final Exception e) {
@@ -206,36 +177,5 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	ODMLogger.getLogger().fine("Xfr 2W Desc Record: " + str);
     	ODMLogger.getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
 		return;
-    }
-    
-    /*
-     * ##E section
-     */
-    private void processExchangePowerRecord(String str, LoadflowNetXmlType xmlBaseNet, ObjectFactory factory) {
-    	ODMLogger.getLogger().info("Exchange Power Record: " + str);
-
-		String fromIsoId, toIsoId, comment;
-		double exPower;  
-
-		try {
-			fromIsoId = ModelStringUtil.getString(str, 1, 2);
-			toIsoId = ModelStringUtil.getString(str, 4, 5);
-			exPower = ModelStringUtil.getDouble(str, 7, 13);  
-			comment = ModelStringUtil.getString(str, 15, 26);
-		} catch (Exception e) {
-			logErr(e.toString());
-			return;
-		}
-
-		InterchangeXmlType interChange = factory.createInterchangeXmlType();
-		xmlBaseNet.getInterchangeList().getInterchange().add(interChange);
-		
-		UCTEExchangeXmlType ucteExRec = factory.createUCTEExchangeXmlType(); 
-		interChange.setUcteExchange(ucteExRec);
-		ucteExRec.setFromIsoId(fromIsoId);
-		ucteExRec.setToIsoId(toIsoId);
-		ucteExRec.setExchangePower(BaseDataSetter.createPowerValue(exPower, 0.0, ApparentPowerUnitType.MVA)); 
-		if (comment != null)
-			ucteExRec.setComment(comment);
     }
 }
