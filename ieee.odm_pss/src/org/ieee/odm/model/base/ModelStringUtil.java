@@ -94,7 +94,7 @@ public class ModelStringUtil {
 	 * @param endCol end column
 	 * @return the number
 	 */
-	public static double getDouble(String str, int beginCol, int endCol) throws Exception {
+	public static double getDouble(String str, int beginCol, int endCol) {
 		if (str.length() < endCol)
 			return 0.0;
 		String s = str.substring(beginCol-1, endCol);
@@ -154,7 +154,7 @@ public class ModelStringUtil {
 	 * @param endCol end column
 	 * @return the number
 	 */
-	public static int getInt(String str, int beginCol, int endCol) throws Exception {
+	public static int getInt(String str, int beginCol, int endCol) {
 		if (str.length() < endCol)
 			return 0;
 		String s = str.substring(beginCol-1, endCol);
