@@ -51,7 +51,7 @@ public class PSSEV26_ODMTest {
 		
 		IODMAdapter adapter = new PSSEV26Adapter();
 		assertTrue(adapter.parseInputFile("testData/psse/LFModel_testV26.raw"));
-		//System.out.println(adapter.getModel());
+		//System.out.println(adapter.getModel().toXmlDoc());
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		LoadflowNetXmlType net = parser.getAclfNet();
