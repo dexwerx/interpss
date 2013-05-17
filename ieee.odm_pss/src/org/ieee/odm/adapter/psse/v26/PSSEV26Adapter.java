@@ -28,9 +28,9 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.PSSEBusRecord;
 import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.mapper.PSSESwitchedSShuntDataMapper;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
@@ -63,6 +63,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	
 	PSSEV26NetRecord netRecProcessor = new PSSEV26NetRecord();
 	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord(PsseVersion.PSSE_26);
+	PSSESwitchedSShuntDataMapper switchedShuntDataMapper = new PSSESwitchedSShuntDataMapper(PsseVersion.PSSE_26);
 	PSSEV26BranchRecord branchRecProcessor = new PSSEV26BranchRecord();
 		
 	public PSSEV26Adapter() {
@@ -133,7 +134,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				} 
         				else if(type==SwitchedShuntData){        			   
         					//System.out.println("ShuntData: " + str);
-        					PSSEBusRecord.processSwitchedShuntData(str, PsseVersion.PSSE_26, parser);
+        					switchedShuntDataMapper.procLineString(str, parser);
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==InterchangeData){

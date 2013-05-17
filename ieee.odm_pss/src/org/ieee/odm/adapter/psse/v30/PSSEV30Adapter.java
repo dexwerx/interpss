@@ -25,18 +25,16 @@ package org.ieee.odm.adapter.psse.v30;
 
 import java.util.StringTokenizer;
 
-import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.PSSEBusRecord;
 import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEGenDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSELineDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSELoadDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSESwitchedSShuntDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEXfrDataMapper;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
 import org.ieee.odm.common.ODMException;
@@ -45,8 +43,8 @@ import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+//import org.ieee.odm.adapter.psse.PSSEBusRecord;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
@@ -60,6 +58,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	PSSEBusDataMapper busDataMapper = null;
 	PSSEGenDataMapper genDataMapper = null;
 	PSSELoadDataMapper loadDataMapper = null;
+	PSSESwitchedSShuntDataMapper switchedShuntDataMapper = null;
 	
 	PSSELineDataMapper lineDataMapper = null;
 	PSSEXfrDataMapper xfrDataMapper = null;
@@ -70,6 +69,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		this.busDataMapper = new PSSEBusDataMapper(ver);
 		this.genDataMapper = new PSSEGenDataMapper(ver);
 		this.loadDataMapper = new PSSELoadDataMapper(ver);
+		this.switchedShuntDataMapper = new PSSESwitchedSShuntDataMapper(ver);
 		this.lineDataMapper = new PSSELineDataMapper(ver);
 		this.xfrDataMapper = new PSSEXfrDataMapper(ver);
 	}
@@ -256,7 +256,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSEBusRecord.processSwitchedShuntData(lineStr, PsseVersion.PSSE_30, parser);
+								switchedShuntDataMapper.procLineString(lineStr, parser);
 							switchedShuntCnt++;
 						}	 
       				}
