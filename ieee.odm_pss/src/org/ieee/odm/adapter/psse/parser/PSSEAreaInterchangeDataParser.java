@@ -50,15 +50,14 @@ public class PSSEAreaInterchangeDataParser extends BasePSSEDataParser {
 		*/
 		return new String[] {
 		   //  0----------1---------     -2------------3---------   -4
-			 "AreaNum", "SwingBusName", "ExpoertMw", "ExTolerance", "NotDefined"             
+			 "AreaNum", "SwingBusName", "ExpoertMw", "ExTolerance"             
 		};
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
-		this.clearNVPairTableData();
-		
   		StringTokenizer st = new StringTokenizer(str, ",");
-  		for (int i = 0; i < 5; i++)
-  			setValue(i, st.nextToken().trim());
+  		int cnt = 0;
+  		while (st.hasMoreTokens())
+  			setValue(cnt++, st.nextToken().trim());
   	}
 }

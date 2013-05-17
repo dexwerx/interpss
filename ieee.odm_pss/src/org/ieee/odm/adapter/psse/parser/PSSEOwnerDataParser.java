@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.psse.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.common.ODMException;
 
@@ -39,15 +41,19 @@ public class PSSEOwnerDataParser extends BasePSSEDataParser {
 	}	
 	
 	@Override public String[] getMetadata() {
-		/* Format V26
-		 * 
+		/* 
+		 *   I, ’OWNAME’
 		*/
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-			 "ARFROM",   "ARTO",    "TRID",   "PTRAN"             
+			  "I",      "’OWNAME"             
 		};
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
+  		StringTokenizer st = new StringTokenizer(str, ",");
+  		int cnt = 0;
+  		while (st.hasMoreTokens())
+  			setValue(cnt++, st.nextToken().trim());		
   	}
 }
