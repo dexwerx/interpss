@@ -46,7 +46,7 @@ public class PSSEOwnerDataParser extends BasePSSEDataParser {
 		*/
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-			  "I",      "’OWNAME"             
+			  "I",      "OWNAME"             
 		};
 	}
 	

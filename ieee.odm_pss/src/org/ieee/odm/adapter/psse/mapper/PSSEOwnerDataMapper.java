@@ -24,10 +24,14 @@
 
 package org.ieee.odm.adapter.psse.mapper;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEOwnerDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.OwnerXmlType;
 
 public class PSSEOwnerDataMapper extends BasePSSEDataMapper {
 	
@@ -35,9 +39,21 @@ public class PSSEOwnerDataMapper extends BasePSSEDataMapper {
 		super(ver);
 		this.dataParser = new PSSEOwnerDataParser(ver);
 	}
-	
 
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
+		
+		/*
+		 * format : I, ’OWNAME’
+		 */
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
+		baseCaseNet.getOwnerList().add(owner);
+		
+		int i = this.dataParser.getInt("I");
+		String name = this.dataParser.getString("OWNAME");
+		owner.setId(new Integer(i).toString());
+		owner.setNumber(i);
+		owner.setName(name);		
 	}
 }

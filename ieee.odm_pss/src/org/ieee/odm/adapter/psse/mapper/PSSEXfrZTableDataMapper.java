@@ -24,10 +24,15 @@
 
 package org.ieee.odm.adapter.psse.mapper;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEXfrZTableDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.BranchBusSideEnumType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.XformerZTableXmlType;
 
 public class PSSEXfrZTableDataMapper extends BasePSSEDataMapper {
 	
@@ -39,5 +44,27 @@ public class PSSEXfrZTableDataMapper extends BasePSSEDataMapper {
 
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
+		
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		if (baseCaseNet.getXfrZTable() == null) {
+			baseCaseNet.setXfrZTable(odmObjFactory.createXformerZTableXmlType());
+			baseCaseNet.getXfrZTable().setAdjustSide(BranchBusSideEnumType.FROM_SIDE);
+		}
+		XformerZTableXmlType.XformerZTableItem item = odmObjFactory.createXformerZTableXmlTypeXformerZTableItem(); 
+		baseCaseNet.getXfrZTable().getXformerZTableItem().add(item);
+		
+		/*
+		 * format V30: I, T1, F1, T2, F2, T3, F3, ... T11, F11
+		 */
+		int i = this.dataParser.getInt("I");
+		item.setNumber(i);
+		for (int n = 1; n < 12; n++) {
+			if (this.dataParser.exist("T"+n)) {
+				XformerZTableXmlType.XformerZTableItem.Lookup lookup = odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup(); 
+				item.getLookup().add(lookup);
+				lookup.setTurnRatioShiftAngle(this.dataParser.getDouble("T"+n));
+				lookup.setScaleFactor(this.dataParser.getDouble("F"+n));
+			}
+		}		
 	}
 }

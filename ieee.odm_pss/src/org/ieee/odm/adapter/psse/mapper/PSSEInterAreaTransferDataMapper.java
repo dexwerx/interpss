@@ -24,10 +24,15 @@
 
 package org.ieee.odm.adapter.psse.mapper;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEInterAreaTransferDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.AreaTransferXmlType;
+import org.ieee.odm.schema.InterchangeXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class PSSEInterAreaTransferDataMapper extends BasePSSEDataMapper {
 	
@@ -36,8 +41,41 @@ public class PSSEInterAreaTransferDataMapper extends BasePSSEDataMapper {
 		this.dataParser = new PSSEInterAreaTransferDataParser(ver);
 	}
 	
-
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
+		
+		int	arfrom = this.dataParser.getInt("ARFROM");
+		int	arto = this.dataParser.getInt("ARTO");
+		String	trid = this.dataParser.getString("TRID");
+		double	ptran = this.dataParser.getDouble("PTRAN");
+
+		/*
+			 * format: ARFROM, ARTO, TRID, PTRAN
+
+			ARFROM "From area" number (1 through the maximum number of areas at the 
+					current size level; see Table P-1).
+			ARTO "To area" number (1 through the maximum number of areas at the current 
+					size level; see Table P-1).
+			TRID Single-character (0 through 9 or A through Z) upper case interarea transfer identifier
+					used to distinguish among multiple transfers between areas ARFROM and
+					ARTO. TRID = ’1’ by default.
+			PTRAN MW comprising this transfer. A positive PTRAN indicates that area ARFROM is
+					selling to area ARTO. PTRAN = 0.0 by default.
+					
+				- FromAreaNo_ToAreaNo_TRID is unique					 
+		*/
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		if (baseCaseNet.getInterchangeList() == null)
+			baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
+		InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
+		baseCaseNet.getInterchangeList().getInterchange().add(interchange);
+		AreaTransferXmlType transfer = odmObjFactory.createAreaTransferXmlType(); 
+		interchange.setAreaTransfer(transfer);
+		
+		transfer.setFromArea(arfrom);
+		transfer.setToArea(arto);
+		transfer.setId(trid);
+		transfer.setAmountMW(ptran);
+		
 	}
 }

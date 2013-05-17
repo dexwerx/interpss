@@ -23,14 +23,13 @@
  */
 package org.ieee.odm.adapter.psse.v26;
 
-import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.mapper.PSSEOwnerDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSESwitchedSShuntDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEZoneDataMapper;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.odm.adapter.psse.v26.impl.PSSEV26NetRecord;
@@ -38,7 +37,6 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
@@ -59,7 +57,8 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		OwnerData = 14;
 		//FactsData = 15;
 	
-	//private ObjectFactory factory = null;	
+	PSSEZoneDataMapper zoneDataMapper = new PSSEZoneDataMapper(PsseVersion.PSSE_26);
+	PSSEOwnerDataMapper ownerDataMapper = new PSSEOwnerDataMapper(PsseVersion.PSSE_26);
 	
 	PSSEV26NetRecord netRecProcessor = new PSSEV26NetRecord();
 	PSSEV26BusRecord busRecProcessor = new PSSEV26BusRecord(PsseVersion.PSSE_26);
@@ -143,14 +142,14 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);
-        					PSSENetDataRec.processZoneRec(str, PsseVersion.PSSE_26, baseCaseNet); 
+        					zoneDataMapper.procLineString(str, parser); 
         				}
         				else if(type==InterAreaTransferData){
         					//processInterAreaTransferData(str,baseCaseNet); 
         				}
         				else if(type==OwnerData){
         					//System.out.println("OwnerData: " + str);
-        					PSSENetDataRec.processOwnerRec(str, PsseVersion.PSSE_26, baseCaseNet); 
+        					ownerDataMapper.procLineString(str, parser); 
         				}
         			}
         		}catch (final Exception e){

@@ -28,14 +28,19 @@ import java.util.StringTokenizer;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.PSSENetDataRec;
 import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.mapper.PSSEAreaDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEGenDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEHeaderDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEInterAreaTransferDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSELineDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSELoadDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEOwnerDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSESwitchedSShuntDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEXfrDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEXfrZTableDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEZoneDataMapper;
 import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -55,6 +60,13 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 
 	//private ObjectFactory factory = null;
 	
+	PSSEHeaderDataMapper headerDataMapper = null;	
+	PSSEAreaDataMapper areaDataMapper = null;
+	PSSEZoneDataMapper zoneDataMapper = null;
+	PSSEOwnerDataMapper ownerDataMapper = null;
+	PSSEInterAreaTransferDataMapper interAreaDataMapper = null;
+	PSSEXfrZTableDataMapper zTableDataMapper = null;
+	
 	PSSEBusDataMapper busDataMapper = null;
 	PSSEGenDataMapper genDataMapper = null;
 	PSSELoadDataMapper loadDataMapper = null;
@@ -65,7 +77,12 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	
 	public PSSEV30Adapter(PsseVersion ver) {
 		super();
-		//this.factory = new ObjectFactory();
+		this.headerDataMapper = new PSSEHeaderDataMapper();
+		this.areaDataMapper = new PSSEAreaDataMapper(ver);
+		this.zoneDataMapper = new PSSEZoneDataMapper(ver);
+		this.ownerDataMapper = new PSSEOwnerDataMapper(ver);
+		this.interAreaDataMapper = new PSSEInterAreaTransferDataMapper(ver);
+		this.zTableDataMapper = new PSSEXfrZTableDataMapper(ver);
 		this.busDataMapper = new PSSEBusDataMapper(ver);
 		this.genDataMapper = new PSSEGenDataMapper(ver);
 		this.loadDataMapper = new PSSELoadDataMapper(ver);
@@ -134,7 +151,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (lineNo == 3) 
       						headerProcessed = true;
 						if (!this.elemCntOnly)
-							PSSENetDataRec.HeaderRec.procLineString(lineStr, lineNo, version, baseCaseNet);
+							this.headerDataMapper.procLineString(lineStr, lineNo, parser);
       				}
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
@@ -217,7 +234,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet, parser);
+								this.areaDataMapper.procLineString(lineStr, parser);
 							areaInterCnt++;
 						}	 
       				}
@@ -268,7 +285,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processXfrZTableRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								zTableDataMapper.procLineString(lineStr, parser);
 							xfrZTableCnt++;
 						}	 
       				}
@@ -304,7 +321,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processZoneRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								this.zoneDataMapper.procLineString(lineStr, parser);
 							//rec.processZone(adjNet, msg);
 							zoneCnt++;
 						}	 
@@ -317,7 +334,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processInterareaTransferRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								interAreaDataMapper.procLineString(lineStr, parser);
 							interTransCnt++;
 						}	 
       				}
@@ -329,7 +346,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						}
 						else {
 							if (!this.elemCntOnly)
-								PSSENetDataRec.processOwnerRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+								ownerDataMapper.procLineString(lineStr, parser);
 							ownerCnt++;
 						}	 
       				}

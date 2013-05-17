@@ -24,10 +24,14 @@
 
 package org.ieee.odm.adapter.psse.mapper;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEZoneDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NetZoneXmlType;
 
 public class PSSEZoneDataMapper extends BasePSSEDataMapper {
 	
@@ -35,9 +39,23 @@ public class PSSEZoneDataMapper extends BasePSSEDataMapper {
 		super(ver);
 		this.dataParser = new PSSEZoneDataParser(ver);
 	}
-	
 
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
+		
+		/*
+		 * Format: I, ’ZONAME’
+		 */
+		int	i = this.dataParser.getInt("I");
+		String name = this.dataParser.getString("ZONAME");
+
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		if (baseCaseNet.getLossZoneList() == null)
+			baseCaseNet.setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
+		NetZoneXmlType zone = odmObjFactory.createNetZoneXmlType(); 
+		baseCaseNet.getLossZoneList().getLossZone().add(zone);
+		zone.setId(new Integer(i).toString());
+		zone.setNumber(i);
+		zone.setName(name);		
 	}
 }

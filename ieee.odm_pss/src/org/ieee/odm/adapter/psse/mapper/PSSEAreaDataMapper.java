@@ -24,10 +24,17 @@
 
 package org.ieee.odm.adapter.psse.mapper;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEAreaDataParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.ActivePowerUnitType;
+import org.ieee.odm.schema.ExchangeAreaXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class PSSEAreaDataMapper extends BasePSSEDataMapper {
 	
@@ -39,5 +46,31 @@ public class PSSEAreaDataMapper extends BasePSSEDataMapper {
 
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
+		
+		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		if (baseCaseNet.getAreaList() == null)
+			baseCaseNet.setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
+		ExchangeAreaXmlType area = odmObjFactory.createExchangeAreaXmlType();
+		baseCaseNet.getAreaList().getArea().add(area);
+		
+		/*
+		I,  ISW,     PDES,      PTOL, 'ARNAM'
+	    1,    0,     0.000,     1.000,'NEPEX       '
+		 */		
+		int i = this.dataParser.getInt("I");
+		int isw = this.dataParser.getInt("ISW");
+		double pdes = this.dataParser.getDouble("PDES");
+		double ptol = this.dataParser.getDouble("PTOL");
+		String arnam = this.dataParser.getString("ARNAM");
+		
+		area.setId(new Integer(i).toString());
+		area.setNumber(i);
+		area.setName(arnam);
+
+		if (isw > 0) {
+			area.setSwingBusId(parser.createBusRef(AbstractModelParser.BusIdPreFix+isw));
+			area.setDesiredExchangePower(BaseDataSetter.createActivePowerValue(pdes, ActivePowerUnitType.MW));
+			area.setExchangeErrTolerance(BaseDataSetter.createActivePowerValue(ptol, ActivePowerUnitType.MW));			
+		}		
 	}
 }

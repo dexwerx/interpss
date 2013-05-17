@@ -24,6 +24,8 @@
 
 package org.ieee.odm.adapter.psse.parser;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.common.ODMException;
 
@@ -39,15 +41,29 @@ public class PSSEXfrZTableDataParser extends BasePSSEDataParser {
 	}	
 	
 	@Override public String[] getMetadata() {
-		/* Format V26
+		/* 
+		 * format V30: I, T1, F1, T2, F2, T3, F3, ... T11, F11
 		 * 
 		*/
 		return new String[] {
 		   //  0----------1----------2----------3----------4
-			 "ARFROM",   "ARTO",    "TRID",   "PTRAN"             
+			  "I",      "T1",      "F1",      "T2",       "F2", 
+		   //  0----------1----------2----------3----------4
+			  "T3",     "F3",      "T4",      "F4",       "T5",     
+		   //  0----------1----------2----------3----------4
+			  "F5",     "T6",      "F6",      "T7",       "F8",  
+		   //  0----------1----------2----------3----------4	  
+			  "T9",     "F9",      "T10",     "F10",       "T11",     
+		   //  0----------1----------2----------3----------4	  
+			  "F11"           
 		};
 	}
 	
-	@Override public void parseFields(final String str) throws ODMException {
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		
+		int cnt = 0;
+		while (st.hasMoreTokens())
+			this.setValue(cnt++, st.nextToken().trim());			
   	}
 }
