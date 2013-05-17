@@ -47,7 +47,7 @@ public class PSSEAreaInterchangeDataParser extends BasePSSEDataParser {
 		//    swing bus name [A]
 		//    Area interchange export, MW [F] (+ = out) *
 		//    Area interchange tolerance, MW [F] *
-		 */
+		*/
 		return new String[] {
 		   //  0----------1---------     -2------------3---------   -4
 			 "AreaNum", "SwingBusName", "ExpoertMw", "ExTolerance", "NotDefined"             

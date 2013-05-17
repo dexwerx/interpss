@@ -24,8 +24,6 @@
 
 package org.ieee.odm.adapter.psse.parser;
 
-import java.util.StringTokenizer;
-
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.common.ODMException;
 
@@ -35,31 +33,14 @@ import org.ieee.odm.common.ODMException;
  * @author mzhou
  *
  */
-public class PSSEInterAreaTransferDataParser extends BasePSSEDataParser {
-	public PSSEInterAreaTransferDataParser(PsseVersion ver) {
+public class PSSEAreaDataParser extends BasePSSEDataParser {
+	public PSSEAreaDataParser(PsseVersion ver) {
 		super(ver);
 	}	
 	
 	@Override public String[] getMetadata() {
 		/* Format V26
 		 * 
-		 * 	 DotDefined 
-		 * 
-		 * Format V30
-		 * 
-			ARFROM, ARTO, TRID, PTRAN
-
-			ARFROM "From area" number (1 through the maximum number of areas at the 
-					current size level; see Table P-1).
-			ARTO "To area" number (1 through the maximum number of areas at the current 
-					size level; see Table P-1).
-			TRID Single-character (0 through 9 or A through Z) upper case interarea transfer identifier
-					used to distinguish among multiple transfers between areas ARFROM and
-					ARTO. TRID = ’1’ by default.
-			PTRAN MW comprising this transfer. A positive PTRAN indicates that area ARFROM is
-					selling to area ARTO. PTRAN = 0.0 by default.
-					
-				- FromAreaNo_ToAreaNo_TRID is unique					 
 		*/
 		return new String[] {
 		   //  0----------1----------2----------3----------4
@@ -68,10 +49,5 @@ public class PSSEInterAreaTransferDataParser extends BasePSSEDataParser {
 	}
 	
 	@Override public void parseFields(final String str) throws ODMException {
-		this.clearNVPairTableData();
-		
-  		StringTokenizer st = new StringTokenizer(str, ",");
-  		for (int i = 0; i < 4; i++)
-  			setValue(i, st.nextToken().trim());
   	}
 }
