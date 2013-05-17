@@ -95,8 +95,8 @@ public class PSSEDcLine2TDataMapper extends BasePSSEDataMapper {
 		       TAPI = this.dataParser.getDouble("TAPI"),
 		       TMXI = this.dataParser.getDouble("TMXI"),
 		       TMNI = this.dataParser.getDouble("TMNI"),
-		       STPI = this.dataParser.getDouble("XCAPI"),
-		       XCAPI = this.dataParser.getDouble("");	
+		       STPI = this.dataParser.getDouble("STPI"),
+		       XCAPI = this.dataParser.getDouble("XCAPI");	
 		
 		final String fid = AbstractModelParser.BusIdPreFix+IPR;
 		final String tid = AbstractModelParser.BusIdPreFix+IPI;

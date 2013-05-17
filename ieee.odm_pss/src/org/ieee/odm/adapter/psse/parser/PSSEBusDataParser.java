@@ -47,7 +47,7 @@ public class PSSEBusDataParser extends BasePSSEDataParser {
 		 * 
 		 * Format V30
 		 * 
-		 *  I,   ’NAME’,      BASKV, IDE,  GL,      BL, AREA, ZONE, VM,       VA,     OWNER
+		 *  I,   ’NAME’,      BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,     OWNER
 		 */
 		return new String[] {
 		   //  0----------1----------2----------3----------4

@@ -59,7 +59,7 @@ public class PSSEXfrZTableDataMapper extends BasePSSEDataMapper {
 		int i = this.dataParser.getInt("I");
 		item.setNumber(i);
 		for (int n = 1; n < 12; n++) {
-			if (this.dataParser.exist("T"+n)) {
+			if (this.dataParser.exist("T"+n) && this.dataParser.exist("F"+n)) {
 				XformerZTableXmlType.XformerZTableItem.Lookup lookup = odmObjFactory.createXformerZTableXmlTypeXformerZTableItemLookup(); 
 				item.getLookup().add(lookup);
 				lookup.setTurnRatioShiftAngle(this.dataParser.getDouble("T"+n));
