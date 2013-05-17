@@ -350,7 +350,7 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, long number) throws Exception {
+	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, long number) throws ODMBranchDuplicationException {
 		DCLineData2TXmlType dcLine = odmObjFactory.createDCLineData2TXmlType();
 		addBranch2BaseCase(dcLine, recId, invId, null, new Long(number).toString());
 		
