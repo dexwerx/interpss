@@ -1,12 +1,46 @@
-package org.ieee.odm.adapter.psse.v30.impl;
+/*
+ * @(#)PSSEBusDataParser.java   
+ *
+ * Copyright (C) 2006-2013 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 04/11/2013
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
+
+package org.ieee.odm.adapter.psse.parser;
 
 import java.util.StringTokenizer;
-import java.util.logging.Logger;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.common.ODMException;
 
-public class PSSEV30FactsDataRec {
+/**
+ * Class for processing IEEE CDF bus data line string
+ * 
+ * @author mzhou
+ *
+ */
+public class PSSEFactsDataParser extends BasePSSEDataParser {
+	public PSSEFactsDataParser(PsseVersion ver) {
+		super(ver);
+	}	
+	
+	@Override public String[] getMetadata() {
 	/*
 		N,I,J,MODE,PDES,QDES,VSET,SHMX,TRMX,VTMN,VTMX,VSMX,IMX,LINX,RMPCT,OWNER,SET1,SET2,VSREF
 
@@ -69,13 +103,21 @@ public class PSSEV30FactsDataRec {
 	VSREF Series voltage reference code to indicate the series voltage reference of SET1 and
 		SET2 when MODE is 4, 7 or 8: 0 for sending end voltage, 1 for series current.
 		VSREF = 0 by default.
-	 * 
 	 */
-	public static void procFactsString(String lineStr, PsseVersion version, AclfModelParser parser, Logger logger) {
-		procFactsFields(lineStr, version, logger);
+		return new String[] {
+		   //  0----------1----------2----------3----------4
+			  "N",       "I",       "J",      "MODE",    "PDES",
+			  "QDES",    "VSET",    "SHMX",   "TRMX",    "VTMN",
+			  "VTMX",    "VSMX",    "IMX",    "LINX",    "RMPCT",
+			  "OWNER",   "SET1",    "SET2",   "VSREF"             
+		};
 	}
 	
-	private static void procFactsFields(String lineStr, PsseVersion version, Logger logger) {
-		StringTokenizer st;
-	}	
+	@Override public void parseFields(final String lineStr) throws ODMException {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		
+		int cnt = 0;
+		while (st.hasMoreTokens())
+			this.setValue(cnt++, st.nextToken().trim());
+  	}
 }

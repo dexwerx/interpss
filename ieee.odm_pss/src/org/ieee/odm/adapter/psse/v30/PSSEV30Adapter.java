@@ -31,6 +31,7 @@ import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.PSSEAreaDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
+import org.ieee.odm.adapter.psse.mapper.PSSEDcLine2TDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEGenDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEHeaderDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEInterAreaTransferDataMapper;
@@ -41,7 +42,6 @@ import org.ieee.odm.adapter.psse.mapper.PSSESwitchedSShuntDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEXfrDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEXfrZTableDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEZoneDataMapper;
-import org.ieee.odm.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
@@ -74,6 +74,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	
 	PSSELineDataMapper lineDataMapper = null;
 	PSSEXfrDataMapper xfrDataMapper = null;
+	PSSEDcLine2TDataMapper dcLine2TDataMapper = null;
 	
 	public PSSEV30Adapter(PsseVersion ver) {
 		super();
@@ -89,6 +90,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		this.switchedShuntDataMapper = new PSSESwitchedSShuntDataMapper(ver);
 		this.lineDataMapper = new PSSELineDataMapper(ver);
 		this.xfrDataMapper = new PSSEXfrDataMapper(ver);
+		this.dcLine2TDataMapper = new PSSEDcLine2TDataMapper(ver);
 	}
 
 	public PSSEV30Adapter(PsseVersion ver, boolean elemCntOnly) {
@@ -249,7 +251,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
 							if (!this.elemCntOnly)
-								PSSEV30DcLine2TDataRec.procLineString(lineStr, lineStr2, lineStr3, version, parser);
+								this.dcLine2TDataMapper.procLineString(new String[] {lineStr, lineStr2, lineStr3}, parser);
 							dcLineCnt++;
 						}	 
       				}

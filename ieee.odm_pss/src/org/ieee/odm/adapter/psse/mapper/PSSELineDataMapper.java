@@ -11,7 +11,6 @@ import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;

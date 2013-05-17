@@ -1,9 +1,33 @@
-package org.ieee.odm.adapter.psse.v30.impl;
+ /*
+  * @(#)PSSEV30GenDataRec.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 09/15/2006
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
 
-import java.util.StringTokenizer;
+package org.ieee.odm.adapter.psse.mapper;
 
 import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.adapter.psse.parser.PSSEDcLine2TDataParser;
+import org.ieee.odm.common.ODMBranchDuplicationException;
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -17,28 +41,67 @@ import org.ieee.odm.schema.DcLineMeteredEndEnumType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEV30DcLine2TDataRec {
-	private static int I, MDC, CCCITMX;
-	private static String METER, IDR, IDI;
-	private static double RDC,SETVL,VSCHD,VCMOD,RCOMP,DELTI,DCVMIN,CCCACC; 
-	private static int IPR, NBR, ICR, IFR, ITR;
-	private static double ALFMX,ALFMN,RCR,XCR,EBASR,TRR,TAPR,TMXR,TMNR,STPR,XCAPR;	
-	private static int IPI, NBI, ICI, IFI, ITI;
-	private static double GAMMX,GAMMN,RCI,XCI,EBASI,TRI,TAPI,TMXI,TMNI,STPI,XCAPI;	
-
-	public static void procLineString(String lineStr1, String lineStr2, String lineStr3, PsseVersion version, AclfModelParser parser) {
-		procLineFields(lineStr1, lineStr2, lineStr3, version);
+public class PSSEDcLine2TDataMapper extends BasePSSEDataMapper {
+	
+	public PSSEDcLine2TDataMapper(PsseVersion ver) {
+		super(ver);
+		this.dataParser = new PSSEDcLine2TDataParser(ver);
+	}
+	
+	public void procLineString(String[] lineStrAry, final AclfModelParser parser) throws ODMException, ODMBranchDuplicationException {
+		dataParser.parseFields(lineStrAry);
+		
+		int I = this.dataParser.getInt("I"), 
+		    MDC = this.dataParser.getInt("MDC"), 
+		    CCCITMX = this.dataParser.getInt("CCCITMX");
+		String METER = this.dataParser.getString("METER"), 
+		       IDR = this.dataParser.getString("IDR"), 
+		       IDI = this.dataParser.getString("IDI");
+		double RDC = this.dataParser.getDouble("RDC"),
+		       SETVL = this.dataParser.getDouble("SETVL"),
+		       VSCHD = this.dataParser.getDouble("VSCHD"),
+		       VCMOD = this.dataParser.getDouble("VCMOD"),
+		       RCOMP = this.dataParser.getDouble("RCOMP"),
+		       DELTI = this.dataParser.getDouble("DELTI"),
+		       DCVMIN = this.dataParser.getDouble("DCVMIN"),
+		       CCCACC = this.dataParser.getDouble("CCCACC"); 
+		int IPR = this.dataParser.getInt("IPR"), 
+		    NBR = this.dataParser.getInt("NBR"), 
+		    ICR = this.dataParser.getInt("ICR"), 
+		    IFR = this.dataParser.getInt("IFR"), 
+		    ITR = this.dataParser.getInt("ITR");
+		double ALFMX = this.dataParser.getDouble("ALFMX"),
+		       ALFMN = this.dataParser.getDouble("ALFMN"),
+		       RCR = this.dataParser.getDouble("RCR"),
+		       XCR = this.dataParser.getDouble("XCR"),
+		       EBASR = this.dataParser.getDouble("EBASR"),
+		       TRR = this.dataParser.getDouble("TRR"),
+		       TAPR = this.dataParser.getDouble("TAPR"),
+		       TMXR = this.dataParser.getDouble("TMXR"),
+		       TMNR = this.dataParser.getDouble("TMNR"),
+		       STPR = this.dataParser.getDouble("STPR"),
+		       XCAPR = this.dataParser.getDouble("XCAPR");	
+		int IPI = this.dataParser.getInt("IPI"), 
+		    NBI = this.dataParser.getInt("NBI"), 
+		    ICI = this.dataParser.getInt("ICI"), 
+		    IFI = this.dataParser.getInt("IFI"), 
+		    ITI = this.dataParser.getInt("ITI");
+		double GAMMX = this.dataParser.getDouble("GAMMX"),
+		       GAMMN = this.dataParser.getDouble("GAMMN"),
+		       RCI = this.dataParser.getDouble("RCI"),
+		       XCI = this.dataParser.getDouble("XCI"),
+		       EBASI = this.dataParser.getDouble("EBASI"),
+		       TRI = this.dataParser.getDouble("TRI"),
+		       TAPI = this.dataParser.getDouble("TAPI"),
+		       TMXI = this.dataParser.getDouble("TMXI"),
+		       TMNI = this.dataParser.getDouble("TMNI"),
+		       STPI = this.dataParser.getDouble("XCAPI"),
+		       XCAPI = this.dataParser.getDouble("");	
 		
 		final String fid = AbstractModelParser.BusIdPreFix+IPR;
 		final String tid = AbstractModelParser.BusIdPreFix+IPI;
 		DCLineData2TXmlType dcLine2T;
-		try {
-			dcLine2T = parser.createDCLine2TRecord(fid, tid, I);
-		} catch (Exception e) {
-			e.printStackTrace();
-			ODMLogger.getLogger().severe(e.toString());
-			return;
-		}			
+		dcLine2T = parser.createDCLine2TRecord(fid, tid, I);
 
 		/*
 		Line-1: 
@@ -179,68 +242,4 @@ public class PSSEV30DcLine2TDataRec {
 			inverter.setRefXfrCirId(IDI);
 		}
 	}
-	
-	private static void procLineFields(String lineStr1, String lineStr2, String lineStr3, PsseVersion version) {
-		StringTokenizer st;
-		/*
-		Line-1: I,MDC,RDC,SETVL,VSCHD,VCMOD,RCOMP,DELTI,METER,DCVMIN,CCCITMX,CCCACC
-		 */
-		st = new StringTokenizer(lineStr1, ",");
-		I = new Integer(st.nextToken().trim()).intValue();
-		MDC = new Integer(st.nextToken().trim()).intValue();
-		RDC = new Double(st.nextToken().trim()).doubleValue();
-		SETVL  = new Double(st.nextToken().trim()).doubleValue();
-		VSCHD  = new Double(st.nextToken().trim()).doubleValue();
-		VCMOD  = new Double(st.nextToken().trim()).doubleValue();
-		RCOMP  = new Double(st.nextToken().trim()).doubleValue();
-		DELTI  = new Double(st.nextToken().trim()).doubleValue();
-		METER  = st.nextToken().trim();
-		DCVMIN  = new Double(st.nextToken().trim()).doubleValue();
-		CCCITMX = new Integer(st.nextToken().trim()).intValue();
-		CCCACC  = new Double(st.nextToken().trim()).doubleValue();
-
-		/*
-		Line-2: IPR,NPR,ALFMX,ALFMN,RCR,XCR,EBASR,TRR,TAPR,TMXR,TMNR,STPR,ICR,IFR,ITR,IDR,XCAPR
-		 */
-		st = new StringTokenizer(lineStr2, ",");
-		IPR = new Integer(st.nextToken().trim()).intValue();
-		NBR = new Integer(st.nextToken().trim()).intValue();
-		ALFMX  = new Double(st.nextToken().trim()).doubleValue();
-		ALFMN = new Double(st.nextToken().trim()).doubleValue();
-		RCR  = new Double(st.nextToken().trim()).doubleValue();
-		XCR  = new Double(st.nextToken().trim()).doubleValue();
-		EBASR  = new Double(st.nextToken().trim()).doubleValue();
-		TRR = new Double(st.nextToken().trim()).doubleValue();
-		TAPR  = new Double(st.nextToken().trim()).doubleValue();
-		TMXR  = new Double(st.nextToken().trim()).doubleValue();
-		TMNR  = new Double(st.nextToken().trim()).doubleValue();
-		STPR  = new Double(st.nextToken().trim()).doubleValue();
-		ICR = new Integer(st.nextToken().trim()).intValue();
-		IFR = new Integer(st.nextToken().trim()).intValue();
-		ITR = new Integer(st.nextToken().trim()).intValue();
-		IDR = st.nextToken().trim();
-		XCAPR  = new Double(st.nextToken().trim()).doubleValue();
-		
-		/*
-		Line-3: IPI,NBI,GAMMX,GAMMN,RCI,XCI,EBASI,TRI,TAPI,TMXI,TMNI,STPI,ICI,IFI,ITI,IDI,XCAPI		
-		 */
-		st = new StringTokenizer(lineStr3, ",");
-		IPI = new Integer(st.nextToken().trim()).intValue();
-		NBI = new Integer(st.nextToken().trim()).intValue();
-		GAMMX  = new Double(st.nextToken().trim()).doubleValue();
-		GAMMN = new Double(st.nextToken().trim()).doubleValue();
-		RCI  = new Double(st.nextToken().trim()).doubleValue();
-		XCI  = new Double(st.nextToken().trim()).doubleValue();
-		EBASI  = new Double(st.nextToken().trim()).doubleValue();
-		TRI = new Double(st.nextToken().trim()).doubleValue();
-		TAPI  = new Double(st.nextToken().trim()).doubleValue();
-		TMXI  = new Double(st.nextToken().trim()).doubleValue();
-		TMNI  = new Double(st.nextToken().trim()).doubleValue();
-		STPI  = new Double(st.nextToken().trim()).doubleValue();
-		ICI = new Integer(st.nextToken().trim()).intValue();
-		IFI = new Integer(st.nextToken().trim()).intValue();
-		ITI = new Integer(st.nextToken().trim()).intValue();
-		IDI = st.nextToken().trim();
-		XCAPI  = new Double(st.nextToken().trim()).doubleValue();
-	}	
 }
