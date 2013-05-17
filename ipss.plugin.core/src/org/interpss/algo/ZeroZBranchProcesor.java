@@ -52,7 +52,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	private boolean debug = false;
 
 	private double threshold = 1.0e-10;
-	private boolean allowZeroZBranchLoop = false;
+	private boolean allowZeroZBranchLoop = true;
 
 	private List<String> protectedBranchIds = new ArrayList<String>();
 
