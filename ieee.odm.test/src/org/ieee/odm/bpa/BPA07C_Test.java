@@ -31,7 +31,7 @@ import java.io.FileOutputStream;
 
 import org.ieee.odm.adapter.IODMAdapter;
 import org.ieee.odm.adapter.bpa.BPAAdapter;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.psse.PSSEAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.junit.Test;
 
