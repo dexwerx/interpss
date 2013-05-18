@@ -61,10 +61,9 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
 		this.dataParser = new PSSEXfrDataParser(ver);
 	}
 
-	public void procLineString(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-							AclfModelParser parser) throws ODMException {
+	public void procLineString(String[] lineStrAry, AclfModelParser parser) throws ODMException {
 		//procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
-		dataParser.parseFields(new String[]{lineStr1, lineStr2, lineStr3, lineStr4, lineStr5});
+		dataParser.parseFields( lineStrAry);
 		
 		double sysMVABase=parser.getAclfNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
                 parser.getAclfNet().getBasePower().getValue(): parser.getAclfNet().getBasePower().getValue()*0.001;

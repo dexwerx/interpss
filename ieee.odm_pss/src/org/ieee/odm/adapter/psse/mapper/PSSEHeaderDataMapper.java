@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.ODMFileFormatEnum;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
@@ -39,27 +40,32 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class PSSEHeaderDataMapper {
-	public void procLineString(String lineStr, int lineNo, final AclfModelParser parser) throws ODMException {
+	private PsseVersion fileVersion = PsseVersion.PSSE_30;
+	
+	public void procLineString(String[] lineStrAry, PsseVersion adptrVersion, final AclfModelParser parser) throws ODMException {
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
-		if (lineNo == 1) {
-			StringTokenizer st = new StringTokenizer(lineStr, ",");
-			int indicator = new Integer(st.nextToken().trim()).intValue();
-			// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
-			st = new StringTokenizer(st.nextToken(), "/");
+		
+		String lineStr = lineStrAry[0];
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int indicator = new Integer(st.nextToken().trim()).intValue();
+		// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
+		st = new StringTokenizer(st.nextToken(), "/");
 
-			double baseMva = new Double(st.nextToken().trim()).doubleValue();
-			baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
-			BaseJaxbHelper.addNVPair(baseCaseNet, "CaseIndicator", 
-					new Integer(indicator).toString());
-		}
-		else if (lineNo == 2) {
-			// The 2nd line is treated as description
-			baseCaseNet.setDesc(lineStr);
-		}
-		else {
-			// the 3rd line is treated as the network id and network name
-			baseCaseNet.setName(lineStr);
-		}
+		double baseMva = new Double(st.nextToken().trim()).doubleValue();
+		baseCaseNet.setBasePower(BaseDataSetter.createPowerMvaValue(baseMva));
+		BaseJaxbHelper.addNVPair(baseCaseNet, "CaseIndicator", new Integer(indicator).toString());
+		
+		// The 2nd line is treated as description
+		baseCaseNet.setDesc(lineStrAry[1]);
+		
+		// the 3rd line is treated as the network id and network name
+		baseCaseNet.setName(lineStrAry[2]);
+		
+		for (String s : lineStrAry)
+			filterVersion(s);
+		
+		if (this.fileVersion != adptrVersion)
+			throw new ODMException("PSSE Adapter version and input file has different version, adapter: " + adptrVersion + "  file: " + this.fileVersion);
 	}
 	
 	public ODMFileFormatEnum getVersion(String filename) throws ODMException {
@@ -100,5 +106,12 @@ VER 26   PARAMETERS INITIALIZED ON 22-Jun-2011 16:45:56 PDT
 			throw new ODMException(e.toString());
 		}			
 		return ODMFileFormatEnum.PsseV30;
+	}
+	
+	private void filterVersion(String lineStr) {
+  		if (lineStr.contains("VER 26"))
+  			this.fileVersion = PsseVersion.PSSE_26;
+  		else if (lineStr.contains("RAW29"))
+  			this.fileVersion = PsseVersion.PSSE_29;
 	}
 }

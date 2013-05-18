@@ -54,16 +54,13 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	public static enum PsseVersion {
 		PSSE_26, PSSE_29, PSSE_30	
 	}
-
 	
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";		
-	
-	private boolean elemCntOnly = false;
+
+	private PsseVersion adptrtVersion;
 	private String  elemCntStr = "";
 
-	//private ObjectFactory factory = null;
-	
 	PSSEHeaderDataMapper headerDataMapper = null;	
 	PSSEAreaDataMapper areaDataMapper = null;
 	PSSEZoneDataMapper zoneDataMapper = null;
@@ -82,6 +79,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	
 	public PSSEAdapter(PsseVersion ver) {
 		super();
+		this.adptrtVersion = ver;
 		this.headerDataMapper = new PSSEHeaderDataMapper();
 		this.areaDataMapper = new PSSEAreaDataMapper(ver);
 		this.zoneDataMapper = new PSSEZoneDataMapper(ver);
@@ -97,11 +95,6 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		this.dcLine2TDataMapper = new PSSEDcLine2TDataMapper(ver);
 	}
 
-	public PSSEAdapter(PsseVersion ver, boolean elemCntOnly) {
-		this(ver);
-		this.elemCntOnly = elemCntOnly;
-	}
-	
 	public String countElements(String filename) {
 		try {
 			parseInputFile(filename);
@@ -111,19 +104,15 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		return "PSS/E File elements coount\n" + this.elemCntStr;
 	}
 	
-	@Override
-	protected AclfModelParser parseInputFile(
-			final IFileReader din, String encoding) throws Exception {
+	@Override protected AclfModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
 		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
-		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV30");
+		parser.getStudyCase().getContentInfo().setOriginalFormatVersion(this.adptrtVersion.toString());
 
 		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format");
 
-		PsseVersion version = PsseVersion.PSSE_30;
-		
   		String lineStr = null;
   		int lineNo = 0;
   		try {
@@ -154,10 +143,10 @@ public class PSSEAdapter extends AbstractODMAdapter{
       			if (lineStr != null) {
       				lineNo++;
       				if (!headerProcessed) {
-						if (lineNo == 3) 
-      						headerProcessed = true;
-						if (!this.elemCntOnly)
-							this.headerDataMapper.procLineString(lineStr, lineNo, parser);
+  						String lineStr2 = din.readLine(); lineNo++;
+  						String lineStr3 = din.readLine(); lineNo++;
+						this.headerDataMapper.procLineString(new String[] {lineStr, lineStr2, lineStr3}, this.adptrtVersion, parser);
+  						headerProcessed = true;
       				}
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
@@ -166,8 +155,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Bus record " + busCnt +"\n";
 						}	 
 						else {
-							if (!this.elemCntOnly)
-								busDataMapper.procLineString(lineStr, parser);
+							busDataMapper.procLineString(lineStr, parser);
 							busCnt++;
 						}	 
       				}
@@ -178,8 +166,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Load record " + loadCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								loadDataMapper.procLineString(lineStr, parser);
+							loadDataMapper.procLineString(lineStr, parser);
 							loadCnt++;
 						}	 
       				}
@@ -190,8 +177,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Gen record " + genCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								genDataMapper.procLineString(lineStr, parser);
+							genDataMapper.procLineString(lineStr, parser);
 							genCnt++;
 						}	 
       				}
@@ -202,8 +188,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Line record " + lineCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								lineDataMapper.procLineString(lineStr, parser);
+							lineDataMapper.procLineString(lineStr, parser);
 							lineCnt++;
 						}	 
       				}
@@ -215,21 +200,17 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "3W Xfr record " + xfr3WCnt +"\n";
 						}
 						else {
-      						String lineStr2 = din.readLine();
-      						String lineStr3 = din.readLine();
-      						String lineStr4 = din.readLine();
-      						lineNo++; lineNo++; lineNo++;
+      						String lineStr2 = din.readLine(); lineNo++;
+      						String lineStr3 = din.readLine(); lineNo++;
+      						String lineStr4 = din.readLine(); lineNo++;
       						String lineStr5 = "";
       						if (is3WXfr(lineStr)) {
-          						lineStr5 = din.readLine();
-          						lineNo++;
+          						lineStr5 = din.readLine(); lineNo++;
     							xfr3WCnt++;
       						}
       						else
     							xfrCnt++;
-							
-							if (!this.elemCntOnly)
-								xfrDataMapper.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, parser);
+							xfrDataMapper.procLineString( new String[] { lineStr, lineStr2, lineStr3, lineStr4, lineStr5 }, parser);
 						}	 
       				}
       				else if (!areaInterProcessed) {
@@ -239,8 +220,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Area interchange record " + areaInterCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								this.areaDataMapper.procLineString(lineStr, parser);
+							this.areaDataMapper.procLineString(lineStr, parser);
 							areaInterCnt++;
 						}	 
       				}
@@ -251,11 +231,9 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "2T DC line record " + dcLineCnt +"\n";
 						}
 						else {
-      						String lineStr2 = din.readLine();
-      						String lineStr3 = din.readLine();
-      						lineNo++; lineNo++;
-							if (!this.elemCntOnly)
-								this.dcLine2TDataMapper.procLineString(new String[] {lineStr, lineStr2, lineStr3}, parser);
+      						String lineStr2 = din.readLine(); lineNo++;
+      						String lineStr3 = din.readLine(); lineNo++;
+							this.dcLine2TDataMapper.procLineString(new String[] {lineStr, lineStr2, lineStr3}, parser);
 							dcLineCnt++;
 						}	 
       				}
@@ -278,8 +256,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Switched Shunt record " + switchedShuntCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								switchedShuntDataMapper.procLineString(lineStr, parser);
+							switchedShuntDataMapper.procLineString(lineStr, parser);
 							switchedShuntCnt++;
 						}	 
       				}
@@ -290,8 +267,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Xfr table record " + xfrZTableCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								zTableDataMapper.procLineString(lineStr, parser);
+							zTableDataMapper.procLineString(lineStr, parser);
 							xfrZTableCnt++;
 						}	 
       				}
@@ -326,9 +302,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Zone record " + zoneCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								this.zoneDataMapper.procLineString(lineStr, parser);
-							//rec.processZone(adjNet, msg);
+							this.zoneDataMapper.procLineString(lineStr, parser);
 							zoneCnt++;
 						}	 
       				}
@@ -339,8 +313,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Interarea transfer record " + interTransCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								interAreaDataMapper.procLineString(lineStr, parser);
+							interAreaDataMapper.procLineString(lineStr, parser);
 							interTransCnt++;
 						}	 
       				}
@@ -351,8 +324,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							 this.elemCntStr += "Owner record " + ownerCnt +"\n";
 						}
 						else {
-							if (!this.elemCntOnly)
-								ownerDataMapper.procLineString(lineStr, parser);
+							ownerDataMapper.procLineString(lineStr, parser);
 							ownerCnt++;
 						}	 
       				}
@@ -373,11 +345,10 @@ public class PSSEAdapter extends AbstractODMAdapter{
     		} while (lineStr != null);
   		} catch (Exception e) {
   			e.printStackTrace();
-    		throw new Exception("PSSE data input error, line no " + lineNo + ", " + e.toString());
+    		throw new ODMException("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
              
-		if (!this.elemCntOnly)
-			AclfParserHelper.createBusEquivData(parser);
+		AclfParserHelper.createBusEquivData(parser);
   		
    	   	return parser;
 	}

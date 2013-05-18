@@ -35,6 +35,7 @@ public enum ODMFileFormatEnum {
 	UCTE, 
 	GePSLF, 
 	PsseV26, 
+	PsseV29, 
 	PsseV30, 
 	BPA,
 	PWD, PWD_Contingency,
