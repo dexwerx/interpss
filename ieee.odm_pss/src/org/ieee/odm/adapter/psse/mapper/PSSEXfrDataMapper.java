@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.psse.mapper;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEXfrDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;

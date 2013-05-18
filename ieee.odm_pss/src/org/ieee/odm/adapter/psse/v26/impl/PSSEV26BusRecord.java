@@ -25,9 +25,7 @@ package org.ieee.odm.adapter.psse.v26.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.StringTokenizer;
-
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEBusDataParser;
 import org.ieee.odm.adapter.psse.parser.PSSEGenDataParser;
 import org.ieee.odm.adapter.psse.parser.PSSELoadDataParser;
@@ -37,7 +35,6 @@ import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.AclfGenDataXmlType;
 import org.ieee.odm.schema.AclfLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;

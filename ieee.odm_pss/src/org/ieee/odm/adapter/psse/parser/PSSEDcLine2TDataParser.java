@@ -26,15 +26,8 @@ package org.ieee.odm.adapter.psse.parser;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.schema.ActivePowerUnitType;
-import org.ieee.odm.schema.CurrentUnitType;
-import org.ieee.odm.schema.DcLineControlModeEnumType;
-import org.ieee.odm.schema.DcLineMeteredEndEnumType;
-import org.ieee.odm.schema.VoltageUnitType;
-import org.ieee.odm.schema.ZUnitType;
 
 /**
  * Class for processing IEEE CDF bus data line string

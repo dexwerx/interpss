@@ -25,9 +25,7 @@ package org.ieee.odm.adapter.psse.v26.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.StringTokenizer;
-
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSELineDataParser;
 import org.ieee.odm.adapter.psse.parser.PSSEXfrAdjustDataParser;
 import org.ieee.odm.common.ODMException;

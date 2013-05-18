@@ -21,14 +21,13 @@
  *   ================
  *
  */
-package org.ieee.odm.adapter.psse.v30;
+package org.ieee.odm.adapter.psse;
 
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.PSSEAreaDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEBusDataMapper;
 import org.ieee.odm.adapter.psse.mapper.PSSEDcLine2TDataMapper;
@@ -51,7 +50,12 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 //import org.ieee.odm.adapter.psse.PSSEBusRecord;
 
-public class PSSEV30Adapter extends AbstractODMAdapter{
+public class PSSEAdapter extends AbstractODMAdapter{
+	public static enum PsseVersion {
+		PSSE_26, PSSE_29, PSSE_30	
+	}
+
+	
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";		
 	
@@ -76,7 +80,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	PSSEXfrDataMapper xfrDataMapper = null;
 	PSSEDcLine2TDataMapper dcLine2TDataMapper = null;
 	
-	public PSSEV30Adapter(PsseVersion ver) {
+	public PSSEAdapter(PsseVersion ver) {
 		super();
 		this.headerDataMapper = new PSSEHeaderDataMapper();
 		this.areaDataMapper = new PSSEAreaDataMapper(ver);
@@ -93,7 +97,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		this.dcLine2TDataMapper = new PSSEDcLine2TDataMapper(ver);
 	}
 
-	public PSSEV30Adapter(PsseVersion ver, boolean elemCntOnly) {
+	public PSSEAdapter(PsseVersion ver, boolean elemCntOnly) {
 		this(ver);
 		this.elemCntOnly = elemCntOnly;
 	}

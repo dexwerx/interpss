@@ -29,9 +29,9 @@ import org.ieee.odm.adapter.bpa.BPAAdapter;
 import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.odm.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.odm.adapter.opf.matpower.OpfMatpowerAdapter;
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.v26.PSSEV26Adapter;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.odm.adapter.pwd.PWDAdapterForContingency;
 import org.ieee.odm.adapter.pwd.PowerWorldAdapter;
 import org.ieee.odm.adapter.ucte.UCTE_DEFAdapter;
@@ -128,7 +128,7 @@ public class ODMObjectFactory {
 		else if ( f == ODMFileFormatEnum.PsseV26 )
 			return new PSSEV26Adapter();
 		else if ( f == ODMFileFormatEnum.PsseV30 )
-			return new PSSEV30Adapter(PsseVersion.PSSE_30);
+			return new PSSEAdapter(PsseVersion.PSSE_30);
 		else if ( f == ODMFileFormatEnum.GePSLF ) 
 			return new GE_PSLF_Adapter();
 		else if ( f == ODMFileFormatEnum.UCTE ) 

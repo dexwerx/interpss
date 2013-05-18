@@ -25,9 +25,7 @@ package org.ieee.odm.adapter.psse.v26.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import java.util.StringTokenizer;
-
-import org.ieee.odm.adapter.psse.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.PSSEAreaInterchangeDataParser;
 import org.ieee.odm.adapter.psse.parser.PSSEHeaderDataParser;
 import org.ieee.odm.adapter.psse.parser.PSSEInterAreaTransferDataParser;
@@ -39,7 +37,6 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
-import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.PowerInterchangeXmlType;
 
 public class PSSEV26NetRecord {
