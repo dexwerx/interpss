@@ -28,8 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.PsseVersion;
-import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.psse.PSSEAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
@@ -51,7 +50,7 @@ import com.interpss.simu.SimuCtxType;
 public class GuideSample_TestCase extends CorePluginTestSetup {
 	@Test
 	public void testCase() throws Exception {
-		IODMAdapter adapter = new PSSEV30Adapter(PsseVersion.PSSE_30);
+		IODMAdapter adapter = new PSSEAdapter(PSSEAdapter.PsseVersion.PSSE_30);
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
@@ -85,7 +84,7 @@ public class GuideSample_TestCase extends CorePluginTestSetup {
 
 	@Test
 	public void testCase1() throws Exception {
-		IODMAdapter adapter = new PSSEV30Adapter(PsseVersion.PSSE_30);
+		IODMAdapter adapter = new PSSEAdapter(PSSEAdapter.PsseVersion.PSSE_30);
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfNetwork net = CorePluginSpringFactory

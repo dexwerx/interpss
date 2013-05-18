@@ -35,7 +35,6 @@ import org.interpss.IpssCorePlugin;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.numeric.datatype.Unit.UnitType;
-import org.interpss.numeric.sparse.base.ISparseEquation.SolverType;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
