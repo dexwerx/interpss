@@ -1,5 +1,5 @@
 /*
- * @(#)PSSEV30Adapter.java   
+ * @(#)PSSEAdapter.java   
  *
  * Copyright (C) 2006-2009 www.interpss.org
  *
@@ -48,8 +48,13 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
-//import org.ieee.odm.adapter.psse.PSSEBusRecord;
 
+/**
+ * ODM adapter for PSS/E input format
+ * 
+ * @author mzhou
+ *
+ */
 public class PSSEAdapter extends AbstractODMAdapter{
 	public static enum PsseVersion {
 		PSSE_26, PSSE_29, PSSE_30	
@@ -61,21 +66,21 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	private PsseVersion adptrtVersion;
 	private String  elemCntStr = "";
 
-	PSSEHeaderDataMapper headerDataMapper = null;	
-	PSSEAreaDataMapper areaDataMapper = null;
-	PSSEZoneDataMapper zoneDataMapper = null;
-	PSSEOwnerDataMapper ownerDataMapper = null;
-	PSSEInterAreaTransferDataMapper interAreaDataMapper = null;
-	PSSEXfrZTableDataMapper zTableDataMapper = null;
+	private PSSEHeaderDataMapper headerDataMapper = null;	
+	private PSSEAreaDataMapper areaDataMapper = null;
+	private PSSEZoneDataMapper zoneDataMapper = null;
+	private PSSEOwnerDataMapper ownerDataMapper = null;
+	private PSSEInterAreaTransferDataMapper interAreaDataMapper = null;
+	private PSSEXfrZTableDataMapper zTableDataMapper = null;
 	
-	PSSEBusDataMapper busDataMapper = null;
-	PSSEGenDataMapper genDataMapper = null;
-	PSSELoadDataMapper loadDataMapper = null;
-	PSSESwitchedSShuntDataMapper switchedShuntDataMapper = null;
+	private PSSEBusDataMapper busDataMapper = null;
+	private PSSEGenDataMapper genDataMapper = null;
+	private PSSELoadDataMapper loadDataMapper = null;
+	private PSSESwitchedSShuntDataMapper switchedShuntDataMapper = null;
 	
-	PSSELineDataMapper lineDataMapper = null;
-	PSSEXfrDataMapper xfrDataMapper = null;
-	PSSEDcLine2TDataMapper dcLine2TDataMapper = null;
+	private PSSELineDataMapper lineDataMapper = null;
+	private PSSEXfrDataMapper xfrDataMapper = null;
+	private PSSEDcLine2TDataMapper dcLine2TDataMapper = null;
 	
 	public PSSEAdapter(PsseVersion ver) {
 		super();
@@ -340,11 +345,10 @@ public class PSSEAdapter extends AbstractODMAdapter{
 							factsCnt++;
 						}	 
       				}
-      				
       			}
     		} while (lineStr != null);
   		} catch (Exception e) {
-  			e.printStackTrace();
+  			//e.printStackTrace();
     		throw new ODMException("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
              
@@ -367,9 +371,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		String s = str.trim();
 		return s.startsWith("0") || s.startsWith("/") || s.startsWith("Q");
 	}	
-
 	
-	public static boolean is3WXfr(String str) {
+	private boolean is3WXfr(String str) {
 		// for 2W xfr, line1, K = 0
   		StringTokenizer st = new StringTokenizer(str, ",");
 		st.nextToken();
