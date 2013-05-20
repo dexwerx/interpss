@@ -1,5 +1,6 @@
 package org.interpss;
 
+import org.interpss.core.aclf.IEEE14_3WXfrTest;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ge.GESampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
@@ -8,6 +9,8 @@ import org.interpss.core.adapter.internal.Bus11856Test;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.Bus6384Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
+import org.interpss.core.adapter.psse.CR_UserTestCases;
+import org.interpss.core.adapter.psse.GuideSampleTestCases;
 import org.interpss.core.adapter.psse.Mod_SixBus_DclfPsXfr;
 import org.interpss.core.adapter.psse.SixBus_DclfPsXfr;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
@@ -38,6 +41,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	// aclf
+	IEEE14_3WXfrTest.class,
+	
 	// Dclf
 	Mod_SixBus_DclfPsXfr.class,
 	SixBus_DclfPsXfr.class,
@@ -76,8 +82,10 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEECommonFormatTest.class,
 	BPASampleTestCases.class,
 	UCTEFormatAusPowerTest.class,
-	//CR_UserTestCases.class,
-	//GuideSampleTestCases.class,
+	CR_UserTestCases.class,
+	GuideSampleTestCases.class,
+	SixBus_DclfPsXfr.class,
+	Mod_SixBus_DclfPsXfr.class,
 	
 	GESampleTestCases.class,
 	

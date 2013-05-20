@@ -75,11 +75,9 @@ public class GuideSample_TestCase extends CorePluginTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getBus("Bus3011");
 		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
-  		System.out.println(p.getReal() + ", " + p.getImaginary());
-  		//assertTrue(Math.abs(p.getReal()-258.6568)<0.01);
-  		//assertTrue(Math.abs(p.getImaginary()-104.04017)<0.01);
-  		assertTrue(Math.abs(p.getReal()-232.75415773671355)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-92.92551601758932)<0.01);
+  		//System.out.println(p.getReal() + ", " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-258.6568)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-104.04017)<0.01);
 	}
 
 	@Test
@@ -103,11 +101,9 @@ public class GuideSample_TestCase extends CorePluginTestSetup {
   		AclfBus swingBus = net.getBus("Bus3011");
 		AclfSwingBus swing = swingBus.toSwingBus();
   		Complex p = swing.getGenResults(UnitType.mW);
-  		System.out.println(p.getReal() + ", " + p.getImaginary());
-  		//assertTrue(Math.abs(p.getReal()-258.657)<0.01);
-  		//assertTrue(Math.abs(p.getImaginary()-104.045)<0.01);
-  		assertTrue(Math.abs(p.getReal()-232.75415773671355)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-92.92551601758932)<0.01);
+  		//System.out.println(p.getReal() + ", " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-258.657)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-104.045)<0.01);
 	}
 }
 
