@@ -41,13 +41,23 @@ public class BasePSSEDataMapper {
 	protected void mapOwnerInfo(BaseRecordXmlType recXml) throws ODMException {
 		String o1 = dataParser.getString("O1");
 		double f1 = dataParser.getDouble("F1", 0.0);
-		String o2 = dataParser.exist("O2")? dataParser.getString("O2") : null;
+		
+		String o2 = dataParser.getString("O2", null);
+		if (o2 != null && new Integer(o2) == 0)
+			o2 = null;
+		
 		double f2 = dataParser.getDouble("F2", 0.0);
-		String o3 = dataParser.exist("O3")? dataParser.getString("O3") : null;
+		String o3 = dataParser.getString("O3", null);
+		if (o3 != null && new Integer(o3) == 0)
+			o3 = null;
+		
 		double f3 = dataParser.getDouble("F3", 0.0);
-		String o4 = dataParser.exist("O4")? dataParser.getString("O4") : null;
+		String o4 = dataParser.getString("O4", null);
+		if (o4 != null && new Integer(o4) == 0)
+			o4 = null;
 		double f4 = dataParser.getDouble("F4", 0.0);
-    	BaseJaxbHelper.addOwner(recXml, 
+    	
+		BaseJaxbHelper.addOwner(recXml, 
 				o1, f1, 
 				o2, o2==null?0.0:f2, 
 				o3, o3==null?0.0:f3, 

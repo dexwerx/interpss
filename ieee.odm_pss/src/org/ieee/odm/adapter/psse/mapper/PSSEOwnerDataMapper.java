@@ -46,14 +46,17 @@ public class PSSEOwnerDataMapper extends BasePSSEDataMapper {
 		/*
 		 * format : I, ’OWNAME’
 		 */
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
-		OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
-		baseCaseNet.getOwnerList().add(owner);
 		
 		int i = this.dataParser.getInt("I");
-		String name = this.dataParser.getString("OWNAME");
-		owner.setId(new Integer(i).toString());
-		owner.setNumber(i);
-		owner.setName(name);		
+		if (i > 0) {
+			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+			OwnerXmlType owner = odmObjFactory.createOwnerXmlType();
+			baseCaseNet.getOwnerList().add(owner);
+
+			String name = this.dataParser.getString("OWNAME");
+			owner.setId(new Integer(i).toString());
+			owner.setNumber(i);
+			owner.setName(name);
+		}
 	}
 }

@@ -56,28 +56,15 @@ public class PSSELineDataParser extends BasePSSEDataParser {
 		   //  0----------1----------2----------3----------4
 			  "I",       "J",       "CKT",     "R",       "X",             
 		   //  5          6          7          8          9
-			  "B",      "RATEA",    "RATEB",   "RATEC",   "RATIO",
+			  "B",      "RATEA",    "RATEB",   "RATEC",   
+			                                              "RATIO",   // ver26 only
 		   //  10         11         12         13         14
-			  "ANGLE",   "GI",      "BI",      "GJ",      "BJ",
+			  "ANGLE",                                               // ver26 only
+			            "GI",      "BI",      "GJ",      "BJ",
 		   //  15         16         17         18         19
-			  "ST",       "LEN",     "O1",      "F1",     "O2",
+			  "ST",     "LEN",     "O1",      "F1",     "O2",
 		   //  20         21         22         23         24	  
-			  "F2",       "O3",      "F3",      "O4",     "F4"
-			  
-				/*
-				 * V30
-
-		   //  0----------1----------2----------3----------4
-			  "I",       "J",       "CKT",     "R",       "X",             
-		   //  5          6          7          8          9
-			  "B",      "RATEA",    "RATEB",   "RATEC",   "GI",
-		   //  10         11         12         13         14
-			  "BI",      "GJ",      "BJ",      "ST",       "LEN",
-		   //  15         16         17         18         19
-			  "O1",      "F1",      "O2",      "F2",       "O3",
-		   //  20         21         22         23         24	  
-			  "F3",      "O4",     "F4"
-				 */
+			  "F2",     "O3",      "F3",      "O4",     "F4"
 		};
 	}
 	
@@ -85,43 +72,21 @@ public class PSSELineDataParser extends BasePSSEDataParser {
 		this.clearNVPairTableData();
 		
   		StringTokenizer st = new StringTokenizer(str, ",");
-		/*
-		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
-        */
 
-  		int M = 17, N = 25;  // for V26
-  		if (this.verion == PsseVersion.PSSE_30) {
-  	  		M = 15; N = 23;
-  		}
-  		
-  		for (int i = 0; i < M; i++) {
+  		for (int i = 0; i < 9; i++) {
   			if (i == 2 && this.verion == PsseVersion.PSSE_30)
   				setValue(i, ModelStringUtil.trimQuote(st.nextToken()).trim());
   			else
   				setValue(i, st.nextToken().trim());
   		}	
-  		
 
-        //O1,F1,...,O4,F4
-  		
-  		for (int i = M; i < N; i++)
-  			setValue(i, "0");
+  		if (this.verion == PsseVersion.PSSE_26) {
+			setValue(9, st.nextToken().trim());
+			setValue(10, st.nextToken().trim());
+  		}
 
-		if (st.hasMoreTokens()) {
-			setValue(M, st.nextToken().trim());
-			setValue(M+1, st.nextToken().trim());
-		}
-		if (st.hasMoreTokens()) {
-			setValue(M+2, st.nextToken().trim());
-			setValue(M+3, st.nextToken().trim());
-		}
-		if (st.hasMoreTokens()) {
-			setValue(M+4, st.nextToken().trim());
-			setValue(M+5, st.nextToken().trim());
-		}
-		if (st.hasMoreTokens()) {
-			setValue(M+6, st.nextToken().trim());
-			setValue(M+7, st.nextToken().trim());
-		}
+  		for (int i = 11; i < 25; i++)
+  			if (st.hasMoreTokens()) 
+  				setValue(i, st.nextToken().trim());
 	}
 }
