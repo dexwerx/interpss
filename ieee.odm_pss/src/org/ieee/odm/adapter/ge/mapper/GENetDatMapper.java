@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.mapper;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -34,7 +34,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class GENetDatMapper {
 	static public class TitleRec {
-		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
+		public void processLineStr(String lineStr, GePslfAdapter.Version version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			BaseJaxbHelper.addNVPair(baseCaseNet, "Title", lineStr);
 		}
@@ -43,7 +43,7 @@ public class GENetDatMapper {
 	static public class CommentsRec {
 		public String comments = "";
 
-		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
+		public void processLineStr(String lineStr, GePslfAdapter.Version version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			BaseJaxbHelper.addNVPair(baseCaseNet, "Comments", lineStr);
 		}
@@ -53,7 +53,7 @@ public class GENetDatMapper {
 	 */	
 	static public class SolutionParamRec {
 
-		public void processLineStr(String lineStr, GePslfVersion version, AclfModelParser parser) {
+		public void processLineStr(String lineStr, GePslfAdapter.Version version, AclfModelParser parser) {
 			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;

@@ -24,7 +24,7 @@
 
 package org.ieee.odm.adapter.ge.mapper;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.adapter.ge.parser.GEGenDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
@@ -39,7 +39,7 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class GEGenDataMapper extends BaseGEDataMapper {
-	public GEGenDataMapper(GePslfVersion ver)  {
+	public GEGenDataMapper(GePslfAdapter.Version ver)  {
 		super(ver);
 		this.dataParser = new GEGenDataParser();
 	}

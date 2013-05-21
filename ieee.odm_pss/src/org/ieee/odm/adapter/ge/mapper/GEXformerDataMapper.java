@@ -24,8 +24,7 @@
 
 package org.ieee.odm.adapter.ge.mapper;
 
-import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.adapter.ge.parser.GEXfrDataParser;
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
@@ -42,7 +41,7 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class GEXformerDataMapper extends BaseGEDataMapper {
-	public GEXformerDataMapper(GePslfVersion ver)  {
+	public GEXformerDataMapper(GePslfAdapter.Version ver)  {
 		super(ver);
 		this.dataParser = new GEXfrDataParser();
 	}	
@@ -68,7 +67,7 @@ public class GEXformerDataMapper extends BaseGEDataMapper {
 		}				
 		
 		int type = this.dataParser.getInt("type");
-		BaseJaxbHelper.addNVPair(branchRec, GE_PSLF_Adapter.Token_XfrType, this.dataParser.getString("type"));
+		BaseJaxbHelper.addNVPair(branchRec, GePslfAdapter.Token_XfrType, this.dataParser.getString("type"));
 		
 		double tbase = this.dataParser.getDouble("tbase");
 		double vnomp = this.dataParser.getDouble("vnomp");

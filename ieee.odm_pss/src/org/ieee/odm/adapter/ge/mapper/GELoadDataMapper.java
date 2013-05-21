@@ -24,7 +24,7 @@
 
 package org.ieee.odm.adapter.ge.mapper;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.adapter.ge.parser.GELoadDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
@@ -36,7 +36,7 @@ import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowLoadXmlType;
 
 public class GELoadDataMapper extends BaseGEDataMapper {
-	public GELoadDataMapper(GePslfVersion ver)  {
+	public GELoadDataMapper(GePslfAdapter.Version ver)  {
 		super(ver);
 		this.dataParser = new GELoadDataParser();
 	}

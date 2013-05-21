@@ -25,13 +25,13 @@
 package org.ieee.odm.adapter.ge.mapper;
 
 import org.ieee.odm.adapter.AbstractDataFieldParser;
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 
 public class BaseGEDataMapper {
-	protected GePslfVersion version = null;
+	protected GePslfAdapter.Version version = null;
 	protected AbstractDataFieldParser dataParser = null;
 	
-	public BaseGEDataMapper(GePslfVersion ver) {
+	public BaseGEDataMapper(GePslfAdapter.Version ver) {
 		this.version = ver;
 	}
 

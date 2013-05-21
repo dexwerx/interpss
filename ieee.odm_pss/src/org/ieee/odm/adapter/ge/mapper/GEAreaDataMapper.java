@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.mapper;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.adapter.ge.parser.GEAreaDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -37,7 +37,7 @@ import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class GEAreaDataMapper extends BaseGEDataMapper {
-	public GEAreaDataMapper(GePslfVersion ver)  {
+	public GEAreaDataMapper(GePslfAdapter.Version ver)  {
 		super(ver);
 		this.dataParser = new GEAreaDataParser();
 	}

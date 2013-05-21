@@ -25,7 +25,7 @@
 package org.ieee.odm.adapter.ge.parser;
 
 import org.ieee.odm.adapter.AbstractDataFieldParser;
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 
 /**
  * Class for processing IEEE CDF bus data line string
@@ -48,13 +48,13 @@ public abstract class BaseGEDataParser extends AbstractDataFieldParser {
 	   //  55         56         57         58         59
 	   //  60         61         62         63         64
 	   //  65         66         67         68         69
-	protected GePslfVersion verion = GePslfVersion.PSLF15;
+	protected GePslfAdapter.Version verion = GePslfAdapter.Version.PSLF15;
 	
 	public BaseGEDataParser() {
 		super();
 	}
 
-	public BaseGEDataParser(GePslfVersion ver) {
+	public BaseGEDataParser(GePslfAdapter.Version ver) {
 		super();
 		this.verion = ver;
 	}

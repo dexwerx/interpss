@@ -42,8 +42,10 @@ import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
-public class GE_PSLF_Adapter  extends AbstractODMAdapter {
-	//public static enum VersionNo {PSLF15};
+public class GePslfAdapter  extends AbstractODMAdapter {
+	public static enum Version {
+		PSLF15	
+	}
 
 	public static final String Token_XfrType = "GE_XfrType";
 
@@ -84,24 +86,36 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
 	
-	GEAreaDataMapper areaDataMapper = new GEAreaDataMapper(GePslfVersion.PSLF15);			
-	GEZoneDataMapper zoneDataMapper = new GEZoneDataMapper(GePslfVersion.PSLF15);			
+	Version version = Version.PSLF15;
+	
+	GEAreaDataMapper areaDataMapper = null;			
+	GEZoneDataMapper zoneDataMapper = null;			
 
-	GEBusDataMapper busDataMapper = new GEBusDataMapper(GePslfVersion.PSLF15);			
-	GEGenDataMapper genDataMapper = new GEGenDataMapper(GePslfVersion.PSLF15);			
-	GELoadDataMapper loadDataMapper = new GELoadDataMapper(GePslfVersion.PSLF15);	
+	GEBusDataMapper busDataMapper = null;			
+	GEGenDataMapper genDataMapper = null;			
+	GELoadDataMapper loadDataMapper = null;	
 	
-	GEBranchDataMapper branchDataMapper = new GEBranchDataMapper(GePslfVersion.PSLF15);	
-	GEXformerDataMapper xfrDataMapper = new GEXformerDataMapper(GePslfVersion.PSLF15);	
+	GEBranchDataMapper branchDataMapper = null;	
+	GEXformerDataMapper xfrDataMapper = null;	
 	
-	public GE_PSLF_Adapter() {
+	public GePslfAdapter(Version ver) {
 		super();
+		this.version = ver;
+		
+		this.areaDataMapper = new GEAreaDataMapper(ver);			
+		this.zoneDataMapper = new GEZoneDataMapper(ver);			
+
+		this.busDataMapper = new GEBusDataMapper(ver);			
+		this.genDataMapper = new GEGenDataMapper(ver);			
+		this.loadDataMapper = new GELoadDataMapper(ver);	
+		
+		this.branchDataMapper = new GEBranchDataMapper(ver);	
+		this.xfrDataMapper = new GEXformerDataMapper(ver);
 	}
 	 
 	@Override
 	protected AclfModelParser parseInputFile(
 			final IFileReader din, String encoding) throws Exception {
-		GePslfVersion version = GePslfVersion.PSLF15;
 		
 		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.setLFTransInfo(OriginalDataFormatEnumType.GE_PSLF);

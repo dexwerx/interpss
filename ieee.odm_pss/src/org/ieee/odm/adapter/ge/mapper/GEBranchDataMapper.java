@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.mapper;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.adapter.ge.parser.GEBranchDataParser;
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
@@ -41,7 +41,7 @@ import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class GEBranchDataMapper extends BaseGEDataMapper {
-	public GEBranchDataMapper(GePslfVersion ver)  {
+	public GEBranchDataMapper(GePslfAdapter.Version ver)  {
 		super(ver);
 		this.dataParser = new GEBranchDataParser();
 	}

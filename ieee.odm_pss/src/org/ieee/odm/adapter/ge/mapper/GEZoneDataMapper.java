@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.ge.mapper;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.ge.GePslfVersion;
+import org.ieee.odm.adapter.ge.GePslfAdapter;
 import org.ieee.odm.adapter.ge.parser.GEZoneDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -36,7 +36,7 @@ import org.ieee.odm.schema.ExchangeZoneXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
 public class GEZoneDataMapper extends BaseGEDataMapper {
-	public GEZoneDataMapper(GePslfVersion ver)  {
+	public GEZoneDataMapper(GePslfAdapter.Version ver)  {
 		super(ver);
 		this.dataParser = new GEZoneDataParser();
 	}
