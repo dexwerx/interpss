@@ -4,40 +4,30 @@
 	targetNamespace="http://www.ieee.org/odm/Schema/2008"
 	elementFormDefault="qualified" xmlns:ipss="http://www.interpss.org/Schema/odm/2008">
 
+    <!-- include schema definitions in the pss ns -->
 	<ns:include schemaLocation="basecase/loadflow/LFRecordType.xsd"></ns:include>
-	<ns:include
-		schemaLocation="basecase/shortcircuit/SCRecordType.xsd">
-	</ns:include>
+	<ns:include schemaLocation="basecase/shortcircuit/SCRecordType.xsd"></ns:include>
 	<ns:include schemaLocation="basecase/dynamic/DstabRecordType.xsd"></ns:include>
 	<ns:include schemaLocation="basecase/opf/OPFRecordType.xsd"></ns:include>
-	<ns:include
-		schemaLocation="basecase/distribution/DistRecordType.xsd">
-	</ns:include>
-	<ns:include
-		schemaLocation="basecase/dcsystem/DcSystemRecordType.xsd">
-	</ns:include>
+	<ns:include	schemaLocation="basecase/distribution/DistRecordType.xsd"></ns:include>
+	<ns:include schemaLocation="basecase/dcsystem/DcSystemRecordType.xsd"></ns:include>
 	<ns:include schemaLocation="scenario/StudyScenario.xsd"></ns:include>
 
-
-	<ns:include schemaLocation=""></ns:include>
+	<!-- import InterPSS extension schema definition -->
 	<ns:import schemaLocation="extension/ExtensionType.xsd" namespace="http://www.interpss.org/Schema/odm/2008"></ns:import>
+
 	<ns:annotation>
 		<ns:documentation>
 			Copyright www.interpss.org 2008-2011
 		</ns:documentation>
 	</ns:annotation>
 
-	<ns:annotation>
-		<ns:documentation>
-			a StudyCase contains a BaseCase may contain (*) ChildNet may
-			contain (*) modification records may contain a
-			StudyScenario, which contains (*) AnalysisCase
-		</ns:documentation>
-	</ns:annotation>
-
 	<ns:element name="pssStudyCase" type="pss:StudyCaseXmlType">
 		<ns:annotation>
-			<ns:documentation></ns:documentation>
+			<ns:documentation>
+			root element of the ODM schema - a StudyCase contains a BaseCase may contain (*) ChildNet may
+			contain (*) modification records may contain a StudyScenario, which contains (*) AnalysisCase
+			</ns:documentation>
 		</ns:annotation>
 	</ns:element>
 
@@ -46,16 +36,11 @@
 		<ns:complexContent>
 			<ns:extension base="pss:IDRecordXmlType">
 				<ns:sequence>
-					<ns:element name="contentInfo" minOccurs="0"
-						type="pss:ContentInfoXmlType" />
-					<ns:element name="networkCategory" minOccurs="1"
-						maxOccurs="1" type="pss:NetworkCategoryEnumType">
-					</ns:element>
-					<ns:element name="analysisCategory"
-						type="pss:AnalysisCategoryEnumType" maxOccurs="1">
-					</ns:element>
-					<ns:element ref="pss:baseCase" minOccurs="1"
-						maxOccurs="1">
+					<ns:element name="contentInfo" minOccurs="0" type="pss:ContentInfoXmlType" />
+					<ns:element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType" />
+					<ns:element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"/>
+					
+					<ns:element ref="pss:baseCase" minOccurs="1" maxOccurs="1">
 						<ns:annotation>
 							<ns:documentation>
 								Base case power network data for power
@@ -63,8 +48,7 @@
 							</ns:documentation>
 						</ns:annotation>
 					</ns:element>
-					<ns:element ref="pss:childNet" minOccurs="0"
-						maxOccurs="unbounded">
+					<ns:element ref="pss:childNet" minOccurs="0" maxOccurs="unbounded">
 						<ns:annotation>
 							<ns:documentation>
 								It is assumed that parent network of the
@@ -73,8 +57,8 @@
 							</ns:documentation>
 						</ns:annotation>
 					</ns:element>
-					<ns:element name="modificationList" minOccurs="0"
-						maxOccurs="1">
+					
+					<ns:element name="modificationList" minOccurs="0" maxOccurs="1">
 						<ns:annotation>
 							<ns:documentation>
 								Modifications to be applied to the base
@@ -84,9 +68,7 @@
 						</ns:annotation>
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="modification"
-									type="pss:ModifyRecordXmlType" maxOccurs="unbounded"
-									minOccurs="0">
+								<ns:element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0">
 									<ns:annotation>
 										<ns:documentation>
 											Each modifyRecord may
@@ -106,8 +88,8 @@
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
-					<ns:element ref="pss:studyScenario" minOccurs="0"
-						maxOccurs="1">
+					
+					<ns:element ref="pss:studyScenario" minOccurs="0" maxOccurs="1">
 						<ns:annotation>
 							<ns:documentation>
 								A study case might include a list of
@@ -117,8 +99,7 @@
 						</ns:annotation>
 					</ns:element>
 				</ns:sequence>
-				<ns:attribute name="schemaVersion" type="ns:string"
-					fixed="0.9.0" />
+				<ns:attribute name="schemaVersion" type="ns:string" fixed="0.9.0" />
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
@@ -126,8 +107,7 @@
 
 	<ns:complexType name="ContentInfoXmlType">
 		<ns:sequence>
-			<ns:element name="originalDataFormat" minOccurs="1"
-				maxOccurs="1" type="pss:OriginalDataFormatEnumType">
+			<ns:element name="originalDataFormat" minOccurs="1" maxOccurs="1" type="pss:OriginalDataFormatEnumType">
 				<ns:annotation>
 					<ns:documentation>
 						for describing the original data format, from
@@ -135,11 +115,8 @@
 					</ns:documentation>
 				</ns:annotation>
 			</ns:element>
-			<ns:element name="originalFormatVersion" type="ns:string"
-				minOccurs="0">
-			</ns:element>
-			<ns:element name="adapterProviderName" type="ns:string"
-				minOccurs="0" maxOccurs="1">
+			<ns:element name="originalFormatVersion" type="ns:string" minOccurs="0"> </ns:element>
+			<ns:element name="adapterProviderName" type="ns:string" minOccurs="0" maxOccurs="1">
 				<ns:annotation>
 					<ns:documentation>
 						adapter provider name this file was created or
@@ -147,8 +124,7 @@
 					</ns:documentation>
 				</ns:annotation>
 			</ns:element>
-			<ns:element name="adapterProviderVersion" type="ns:string"
-				minOccurs="0" maxOccurs="1">
+			<ns:element name="adapterProviderVersion" type="ns:string" minOccurs="0" maxOccurs="1">
 				<ns:annotation>
 					<ns:documentation>
 						adapter provider version this file was created

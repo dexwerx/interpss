@@ -79,7 +79,6 @@
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
-
 					<ns:element name="type" type="pss:NetworkTypeEnumType" minOccurs="0" maxOccurs="1">
 						<ns:annotation><ns:documentation>
 						MainNetwork or ChildNetwork. A Child network might has child networks.
