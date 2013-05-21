@@ -1,5 +1,5 @@
  /*
-  * @(#)PSSEV30GenDataRec.java   
+  * @(#)PSSEGenDataMapper.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *

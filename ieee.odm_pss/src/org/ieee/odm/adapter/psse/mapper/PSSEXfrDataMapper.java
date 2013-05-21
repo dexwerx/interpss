@@ -1,5 +1,5 @@
  /*
-  * @(#)PSSEV30XfrDataRec.java   
+  * @(#)PSSEXfrDataMapper.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
