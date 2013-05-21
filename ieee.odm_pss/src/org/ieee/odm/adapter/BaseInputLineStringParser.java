@@ -67,7 +67,7 @@ public class BaseInputLineStringParser {
 	}
 
 	/**
-	 * set value at the postion
+	 * set value at the position
 	 * 
 	 * @param position
 	 * @param value
