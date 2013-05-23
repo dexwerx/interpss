@@ -73,39 +73,10 @@ public abstract class AbstractModelParser implements IODMModelParser {
 	public static final String BusIdPreFix = "Bus";
 	
 	protected String encoding = IODMModelParser.defaultEncoding;
-	
-	/**
-	 * get encoding
-	 * 
-	 * @return
-	 */
-	public String getEncoding() { return this.encoding; }
-	
-	/**
-	 * set encoding
-	 * 
-	 */
-	public void setEncoding(String e) { this.encoding = e; }
-	/*
-	 *	property definition
-	 * 	=================== 
-	 */
-	
 	// bus and branch object cache for fast lookup. 
 	protected Hashtable<String,IDRecordXmlType> objectCache = null;
-	/**
-	 * get object cache
-	 * 
-	 * @return
-	 */
-	public Hashtable<String,IDRecordXmlType> getObjectCache() { return this.objectCache; }
-
-	protected StudyCaseXmlType pssStudyCase = null;
 	
-	/*
-	 *	Constructor 
-	 *  ===========
-	 */
+	protected StudyCaseXmlType pssStudyCase = null;
 	
 	/**
 	 * Default Constructor 
@@ -128,6 +99,31 @@ public abstract class AbstractModelParser implements IODMModelParser {
 		this.encoding = encoding;
 	}
 	
+	/**
+	 * get encoding
+	 * 
+	 * @return
+	 */
+	public String getEncoding() { return this.encoding; }
+	
+	/**
+	 * set encoding
+	 * 
+	 * @param e encoding string
+	 */
+	public void setEncoding(String e) { this.encoding = e; }
+	/*
+	 *	property definition
+	 * 	=================== 
+	 */
+	
+	/**
+	 * get object cache
+	 * 
+	 * @return
+	 */
+	public Hashtable<String,IDRecordXmlType> getObjectCache() { return this.objectCache; }
+
 	/**
 	 * parse the xml file to create a model parser object
 	 * 
