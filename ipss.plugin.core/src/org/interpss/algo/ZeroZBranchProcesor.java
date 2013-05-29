@@ -226,7 +226,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			// System.out.println("cnt " + ++cnt);
 			if (b.isStatus()) {
 				if (!b.isVisited()) {
-					if (cnt < 6255
+					if (cnt < 4777
 					// cnt == 643
 					) {
 
