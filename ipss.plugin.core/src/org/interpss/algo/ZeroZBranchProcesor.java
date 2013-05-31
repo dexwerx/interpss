@@ -211,7 +211,9 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		return this.busBasedResults;
 	}
 
-	public BusBasedSeaerchResult getBusBasedSearchResult(String busId) {
+	public BusBasedSeaerchResult getBusBasedSearchResult(String busId) throws Exception {	
+		if(busBasedResultTable.isEmpty())
+			throw new Exception("Debug mode of ZeroZBranchProcesor needs to be enabled in order to plot the bus consolidation.");
 		return busBasedResultTable.get(busId);
 	}
 
@@ -219,17 +221,15 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		// bus and branch visited status will be used
 		// in the zero Z branch processing
 		net.setVisitedStatus(false);
-
 		int cnt = 0;
 		for (Bus b : net.getBusList()) {
 			cnt++;
-			// System.out.println("cnt " + ++cnt);
+			// System.out.println("cnt " + ++cnt);			
 			if (b.isStatus()) {
 				if (!b.isVisited()) {
-					if (cnt < 4777
+					if (cnt < 4790
 					// cnt == 643
 					) {
-
 						BusBasedSeaerchResult result = new BusBasedSeaerchResult(
 								b.getId());
 						System.out.println("Processing bus " + b.getId());
@@ -262,7 +262,10 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 							}
 						}
 						this.busBasedResults.add(result);
-						this.busBasedResultTable.put(b.getId(), result);
+						for (Bus bus : list) {
+							this.busBasedResultTable.put(bus.getId(), result);
+						}
+						
 					}
 				}
 			}
