@@ -336,12 +336,11 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		for (Branch b : net.getBranchList()) {
 			if (((AclfBranch) b).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
 				if (b.isVisited()) {
-					ipssLogger.info("Turn processed small Z branch off, "
-							+ b.getId());
+					ipssLogger.info("Turn processed small Z branch off, " + b.getId());
 					b.setStatus(false);
+					b.setChildBranch(true);
 				} else
-					ipssLogger.warning("Small Z branch not processed, "
-							+ b.getId());
+					ipssLogger.warning("Small Z branch not processed, " + b.getId());
 			}
 		}
 	}
@@ -373,9 +372,9 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		for (Branch b : net.getBranchList()) {
 			if (((AclfBranch) b).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
 				if (b.isVisited()) {
-					ipssLogger.info("Turn processed small Z branch off, "
-							+ b.getId());
+					ipssLogger.info("Turn processed small Z branch off, " + b.getId());
 					b.setStatus(false);
+					b.setChildBranch(true);
 				}
 			}
 		}
