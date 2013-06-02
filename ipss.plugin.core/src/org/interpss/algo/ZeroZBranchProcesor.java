@@ -53,6 +53,8 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 
 	private double threshold = 1.0e-10;
 	private boolean allowZeroZBranchLoop = true;
+	
+	private int busDebugNumber;
 
 	private List<String> protectedBranchIds = new ArrayList<String>();
 
@@ -120,9 +122,22 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			boolean busBaseSearch, boolean debug) {
 		this(threshold, allowZeroZBranchLoop);
 		this.busBaseSearch = busBaseSearch;
-		this.debug = debug;
+		this.debug = debug;		 
 	}
 
+	/**
+	 * constructor
+	 * 
+	 * @param threshold
+	 *            zero impedance is define as abs(Z) < threshold
+	 */
+	public ZeroZBranchProcesor(double threshold, boolean allowZeroZBranchLoop,
+			boolean busBaseSearch, boolean debug, int busDebugNumber) {			 
+		this(threshold, allowZeroZBranchLoop, busBaseSearch,  debug);
+		this.busDebugNumber = busDebugNumber;
+	}
+
+	
 	@Override
 	public boolean visit(AclfNetwork net) {
 		try {
@@ -227,9 +242,7 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			// System.out.println("cnt " + ++cnt);			
 			if (b.isStatus()) {
 				if (!b.isVisited()) {
-					if (cnt < 4790
-					// cnt == 643
-					) {
+					if (cnt < this.busDebugNumber) {
 						BusBasedSeaerchResult result = new BusBasedSeaerchResult(
 								b.getId());
 						System.out.println("Processing bus " + b.getId());
