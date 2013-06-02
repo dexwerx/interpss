@@ -154,7 +154,8 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			if (this.contingencyList != null)
 				for (Contingency cont : this.contingencyList) {
 					for (OutageBranch outBranch : cont.getOutageBranches())
-						outBranch.getAclfBranch().setVisited(true);
+						if (outBranch.isActive())
+							outBranch.getAclfBranch().setVisited(true);
 				}
 
 			// mark small Z branch with regarding to the threshold
