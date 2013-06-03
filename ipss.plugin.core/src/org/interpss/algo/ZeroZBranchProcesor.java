@@ -169,27 +169,23 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		// in the zero Z branch processing
 		net.setVisitedStatus(false);
 
-		for (Bus b : net.getBusList()) {
-			if (b.isStatus()) {
-				if (!b.isVisited()) {
+		for (AclfBus bus : net.getBusList()) {
+			if (bus.isStatus()) {
+				if (!bus.isVisited()) {
 					// find all buses on the zero z branch path of the bus,
-					// including
-					// the bus itself
-					List<Bus> list = ((AclfBus) b)
-							.findZeroZPathBuses(allowZeroZBranchLoop);
+					// including the bus itself
+					List<Bus> list = bus.findZeroZPathBuses(this.allowZeroZBranchLoop);
 					// if more than one, meaning there is zero-z branch(es),
 					// process zero-z branch
 					if (list.size() > 1) {
 						ipssLogger.info("Select parent bus, total buses: "
 								+ list.size());
 						Bus parentBus = selectParentBus(list);
-						ipssLogger.info("Selected parent bus: "
-								+ parentBus.getId());
-						for (Bus bus : list) {
-							if (!bus.getId().equals(parentBus.getId())) {
-								ipssLogger.info("child bus: " + bus.getId());
-								parentBus.addSection(parentBus.getBusSecList()
-										.size() + 1, bus);
+						ipssLogger.info("Selected parent bus: "	+ parentBus.getId());
+						for (Bus childBus : list) {
+							if (!childBus.getId().equals(parentBus.getId())) {
+								ipssLogger.info("child bus: " + childBus.getId());
+								parentBus.addSection(childBus);
 							}
 						}
 					}
@@ -198,14 +194,14 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 		}
 
 		// turn-off processed zero-z branches
-		for (Branch b : net.getBranchList()) {
-			if (((AclfBranch) b).getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
-				if (b.isVisited()) {
-					ipssLogger.info("Turn processed small Z branch off, " + b.getId());
-					b.setStatus(false);
-					b.setChildBranch(true);
+		for (AclfBranch branch : net.getBranchList()) {
+			if ( branch.getBranchCode() == AclfBranchCode.ZERO_IMPEDENCE) {
+				if (branch.isVisited()) {
+					ipssLogger.info("Turn processed small Z branch off, " + branch.getId());
+					branch.setStatus(false);
+					branch.setChildBranch(true);
 				} else
-					ipssLogger.warning("Small Z branch not processed, " + b.getId());
+					ipssLogger.warning("Small Z branch not processed, " + branch.getId());
 			}
 		}
 	}
@@ -274,7 +270,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 * ===========
 	 */
 
-	//private boolean busBaseSearch = true;
 	private boolean debug = false;
 	private int busDebugNumber;
 
