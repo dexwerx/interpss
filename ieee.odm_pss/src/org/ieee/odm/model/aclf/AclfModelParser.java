@@ -339,8 +339,8 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, long number) {
-		String id = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
+	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, String dcLineId) {
+		String id = ModelStringUtil.formBranchId(recId, invId, dcLineId);
 		return (DCLineData2TXmlType)this.getCachedObject(id);
 	}
 	
@@ -350,9 +350,9 @@ public class AclfModelParser extends AbstractModelParser {
 	 * @param id
 	 * @return
 	 */
-	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, long number) throws ODMBranchDuplicationException {
+	public DCLineData2TXmlType createDCLine2TRecord(String recId, String invId, String dcLineId) throws ODMBranchDuplicationException {
 		DCLineData2TXmlType dcLine = odmObjFactory.createDCLineData2TXmlType();
-		addBranch2BaseCase(dcLine, recId, invId, null, new Long(number).toString());
+		addBranch2BaseCase(dcLine, recId, invId, null, dcLineId);
 		
 		ConverterXmlType rectifier = odmObjFactory.createConverterXmlType();
 		dcLine.setRectifier(rectifier);

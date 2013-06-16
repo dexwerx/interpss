@@ -40,6 +40,7 @@ import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchBusSideEnumType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
@@ -354,10 +355,10 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
 		 * The transformer control mode for automatic adjustments of the winding one
 			tap or phase shift angle during power flow solutions: 0 for no control (fixed tap
 			and phase shift); 
-			� for voltage control; 
-			� for reactive power flow control; 
-			� for active power flow control; 
-			� for control of a dc line quantity (+4 is valid only for two-winding transformers). 
+			+-1 for voltage control; 
+			+-2 for reactive power flow control; 
+			+-3 for active power flow control; 
+			+-4 for control of a dc line quantity (+4 is valid only for two-winding transformers). 
 			
 			If the control mode is entered as a positive
 			number, automatic adjustment of this transformer winding is enabled when the
@@ -381,7 +382,8 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
       	}
       	
       	String reBusId = AbstractModelParser.BusIdPreFix+cont;
-      	
+      	if(cont == 0)reBusId=fid;//by default set to the winding one bus
+      		
 		// COD1,CONT1,RMA,RMI,VMA,VMI,NTP,TAB, 
 		//Sample data : 1,    31, 1.10000, 0.90000, 1.09255, 1.04255, 33, 0, 0.00000, 0.00000
       	/*
@@ -404,22 +406,35 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
 				between 2 and 9999. NTP1 = 33 by default.
       	 */
       	if (cod > 0) {
-      		double rma = dataParser.getDouble("RMA");
-      		double rmi = dataParser.getDouble("RMI");
+      		double rma = dataParser.getDouble("RMA",1.1);
+      		double rmi = dataParser.getDouble("RMI",0.9);
       		double vma = dataParser.getDouble("VMA");
       		double vmi = dataParser.getDouble("VMI");
-      		if (!isPsXfr) {
+      		//TODO PsXfr can also adjust the tap
+      		//In the Mod_SixBus_2WPsXfr.raw, the phase shift xfr(bus5->bus6) is used to control MVAR
+    	    
+      		//if (!isPsXfr) {
+      		 if(Math.abs(cod) != 3){
            		TapAdjustmentXmlType tapAdj = odmObjFactory.createTapAdjustmentXmlType();
            		branRecXml.setTapAdjustment(tapAdj);
            		tapAdj.setOffLine(cod < 0);
            		tapAdj.setTapAdjOnFromSide(onFromSide);
+           		// cw=1, RMA, RMI are Off-nominal turns ratio in pu of winding one bus base voltage
+           		// cw=2, RMA, RMI are Actual winding one voltage in kV 
+           		if(cw==2){
+           			rma/=parser.getAclfBus(fid).getBaseVoltage().getValue();
+           			rmi/=parser.getAclfBus(fid).getBaseVoltage().getValue();
+           		}
            		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(rma, rmi));
            		int ntp = dataParser.getInt("NTP");
            		tapAdj.setTapAdjSteps(ntp);
            		if (Math.abs(cod) == 1) {
+           			
                		tapAdj.setAdjustmentType(TapAdjustmentEnumType.VOLTAGE);
                		VoltageAdjustmentDataXmlType vAdjData = odmObjFactory.createVoltageAdjustmentDataXmlType();
         	    	tapAdj.setVoltageAdjData(vAdjData);
+        	    	//add adjust votlage bus
+        	    	vAdjData.setAdjVoltageBus(parser.createBusRef(reBusId));
         	    	vAdjData.setMode(AdjustmentModeEnumType.RANGE_ADJUSTMENT);
         	    	vAdjData.setRange(odmObjFactory.createLimitXmlType());
         	    	vAdjData.getRange().setMax(vma);
@@ -435,8 +450,9 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
         	    	mvaAdjData.getRange().setMin(vmi);               		
            		}
           	}
-    	    else {
-        		PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branRecXml; 
+    	    else {//COD =3 phase shifting adjustment
+    	    	
+    	    	PSXfrBranchXmlType branchPsXfr = (PSXfrBranchXmlType)branRecXml; 
     	    	AngleAdjustmentXmlType angAdj = odmObjFactory.createAngleAdjustmentXmlType();
     	    	branchPsXfr.setAngleAdjustment(angAdj);
     	    	angAdj.setAngleLimit(BaseDataSetter.createAngleLimit(rma, rmi, AngleUnitType.DEG));
@@ -453,8 +469,8 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
 						entered in pu on system base quantities; used when COD1 is 1.
 						CR1 + j CX1 = 0.0 by default
       	 */
-      	double cr = dataParser.getDouble("CR1", 0.0);
-      	double cx = dataParser.getDouble("CX1", 0.0);
+      	double cr = dataParser.getDouble("CR", 0.0);
+      	double cx = dataParser.getDouble("CX", 0.0);
       	if (cr != 0.0 || cx != 0.0) {
       		///if (branchRec.getNvPairList() == null)
       		//	branchRec.setNvPairList(odmObjFactory.createNameValuePairListXmlType());

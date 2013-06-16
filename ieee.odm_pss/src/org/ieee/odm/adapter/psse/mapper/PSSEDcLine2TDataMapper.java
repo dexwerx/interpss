@@ -51,10 +51,13 @@ public class PSSEDcLine2TDataMapper extends BasePSSEDataMapper {
 	public void procLineString(String[] lineStrAry, final AclfModelParser parser) throws ODMException, ODMBranchDuplicationException {
 		dataParser.parseFields(lineStrAry);
 		
-		int I = this.dataParser.getInt("I"), 
-		    MDC = this.dataParser.getInt("MDC"), 
+		int MDC = this.dataParser.getInt("MDC"), 
 		    CCCITMX = this.dataParser.getInt("CCCITMX");
-		String METER = this.dataParser.getString("METER"), 
+		
+		//NOTE: DC Line Num is necessarily  an Integer, as illustrated in the "sample.raw" by PSS/E, 
+		//it can be string too, Therefore, it is better to save it as DCLine Id in String
+		String DCLineID = this.dataParser.getString("I"), 
+		       METER = this.dataParser.getString("METER"), 
 		       IDR = this.dataParser.getString("IDR"), 
 		       IDI = this.dataParser.getString("IDI");
 		double RDC = this.dataParser.getDouble("RDC"),
@@ -101,7 +104,7 @@ public class PSSEDcLine2TDataMapper extends BasePSSEDataMapper {
 		final String fid = AbstractModelParser.BusIdPreFix+IPR;
 		final String tid = AbstractModelParser.BusIdPreFix+IPI;
 		DCLineData2TXmlType dcLine2T;
-		dcLine2T = parser.createDCLine2TRecord(fid, tid, I);
+		dcLine2T = parser.createDCLine2TRecord(fid, tid, DCLineID);
 
 		/*
 		Line-1: 
