@@ -99,8 +99,6 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 				busRec.setOffLine(Boolean.TRUE);
 			}
 		}
-
-		AclfParserHelper.createBusEquivShuntData(parser);
 		
 		return true;
 	}	

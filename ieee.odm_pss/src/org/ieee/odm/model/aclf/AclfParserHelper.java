@@ -249,35 +249,6 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	}
 
 	/**
-	 * create bus EquivShuntData
-	 * 
-	 * @param parser
-	 * @return
-	 */
-	public static boolean createBusEquivShuntData(AclfModelParser parser) {
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
-
-		// create bus equiv shunt data
-		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
-			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
-			ShuntCompensatorDataXmlType shuntData = busRec.getShuntCompensatorData();
-			if (shuntData != null) {
-				ODMLogger.getLogger().info("Bus " + busRec.getId() + " has ShuntCompensatorData");
-				if (shuntData.getEquivQ() == null) {
-					shuntData.setEquivQ(shuntData.getShuntCompensator().get(0).getNorminalQOutput());
-					if (shuntData.getShuntCompensator().size() > 1) {
-						for (int cnt = 1; cnt < shuntData.getShuntCompensator().size(); cnt++)
-							shuntData.getEquivQ().setValue(shuntData.getEquivQ().getValue() + 
-									shuntData.getShuntCompensator().get(cnt).getNorminalQOutput().getValue());
-					}
-				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * create bus EquivData info
 	 * 
 	 * @param parser
@@ -287,8 +258,6 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		createBusEquivGenData(parser);
 		
 		createBusEquivLoadData(parser);
-
-		createBusEquivShuntData(parser);
 
 		return true;
 	}
@@ -304,7 +273,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		//	bus.setSvcData(data);
 		//}
 		StaticVarCompensatorXmlType svc = odmObjFactory.createStaticVarCompensatorXmlType();
-		bus.getSvc().add(svc);
+		bus.getSvcList().add(svc);
 		return svc;
 	}
 
@@ -313,15 +282,11 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * 
 	 */
 	public static ShuntCompensatorXmlType createShuntCompensator(LoadflowBusXmlType bus) {
-		if (bus.getShuntCompensatorData() == null) {
-			ShuntCompensatorDataXmlType data = odmObjFactory.createShuntCompensatorDataXmlType(); 
-			bus.setShuntCompensatorData(data);
-		}
 		//if (bus.getShuntCompensatorData().getShuntCompensatorList() == null) {
 		//	bus.getShuntCompensatorData().setShuntCompensatorList(odmObjFactory.createShuntCompensatorDataXmlTypeShuntCompensatorList());
 		//}
 		ShuntCompensatorXmlType compensator = odmObjFactory.createShuntCompensatorXmlType();
-		bus.getShuntCompensatorData().getShuntCompensator().add(compensator);
+		bus.getShuntCompensatorList().add(compensator);
 		return compensator; 
 	}
 	

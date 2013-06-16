@@ -213,7 +213,8 @@
 				<ns:sequence>
 					<ns:element maxOccurs="1" minOccurs="0" name="voltage" type="pss:VoltageXmlType"/>
 					<ns:element maxOccurs="1" minOccurs="0" name="angle" type="pss:AngleXmlType"/>
-					<ns:element maxOccurs="1" minOccurs="0" name="genData" type="pss:AclfGenDataXmlType">
+                    <ns:element maxOccurs="1" minOccurs="0" name="powerInjection" type="pss:PowerXmlType" />
+                    <ns:element maxOccurs="1" minOccurs="0" name="genData" type="pss:AclfGenDataXmlType">
 						<ns:annotation>
               <ns:documentation>
 								Loadflow bus gen has an equivGen and a list contribGen. For gen models with contribGen list,
@@ -229,10 +230,9 @@
 						</ns:documentation>
             </ns:annotation>
 					</ns:element>
-					<ns:element minOccurs="0" name="shuntCompensatorData" type="pss:ShuntCompensatorDataXmlType"/>
-					<ns:element maxOccurs="1" minOccurs="0" name="shuntY" type="pss:YXmlType"/>
-					<ns:element maxOccurs="unbounded" minOccurs="0" name="svc" type="pss:StaticVarCompensatorXmlType"/>
-					<ns:element maxOccurs="1" minOccurs="0" name="powerInjection" type="pss:PowerXmlType"/>
+                    <ns:element maxOccurs="1" minOccurs="0" name="shuntY" type="pss:YXmlType" />
+                    <ns:element minOccurs="0" name="shuntCompensatorList" type="pss:ShuntCompensatorXmlType" maxOccurs="unbounded"></ns:element>
+					<ns:element maxOccurs="unbounded" minOccurs="0" name="svcList" type="pss:StaticVarCompensatorXmlType"/>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>

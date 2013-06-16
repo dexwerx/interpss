@@ -14,12 +14,6 @@
 	</ns:annotation>
     
 	
-    <ns:complexType name="ShuntCompensatorDataXmlType">
-		<ns:sequence>
-			<ns:element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></ns:element>
-			<ns:element name="shuntCompensator" type="pss:ShuntCompensatorXmlType" maxOccurs="unbounded" minOccurs="0">	</ns:element>
-		</ns:sequence>
-	</ns:complexType>
     
 
     <ns:complexType name="ShuntCompensatorXmlType">

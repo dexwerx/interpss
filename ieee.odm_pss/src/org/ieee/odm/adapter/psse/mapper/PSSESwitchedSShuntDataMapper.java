@@ -35,7 +35,6 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
-import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -68,13 +67,8 @@ public class PSSESwitchedSShuntDataMapper extends BasePSSEDataMapper {
 			throw new ODMException("Error: Bus not found in the network, bus number: " + busId);
         }
 				
-	    if (aclfBus.getShuntCompensatorData() == null) {  // there may be multiple contribute switched shunt records on a bus
-	    	ShuntCompensatorDataXmlType d = odmObjFactory.createShuntCompensatorDataXmlType();
-	    	aclfBus.setShuntCompensatorData(d);
-	    	//d.setShuntCompensatorList(odmObjFactory.createShuntCompensatorDataXmlTypeShuntCompensatorList());
-	    }
 	    ShuntCompensatorXmlType shunt = odmObjFactory.createShuntCompensatorXmlType();
-	    aclfBus.getShuntCompensatorData().getShuntCompensator().add(shunt);
+	    aclfBus.getShuntCompensatorList().add(shunt);
 		
 		// genId is used to distinguish multiple generations at one bus		
 		int mode = this.dataParser.getInt("MODSW",  0);
@@ -115,11 +109,6 @@ public class PSSESwitchedSShuntDataMapper extends BasePSSEDataMapper {
 		//BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
 		final double binit = this.dataParser.getDouble("BINIT", 0.0);
 		shunt.setBInit(binit);
-		
-		double equiQ = 0.0;
-		if (aclfBus.getShuntCompensatorData().getEquivQ() != null)
-			equiQ = aclfBus.getShuntCompensatorData().getEquivQ().getValue();
-		aclfBus.getShuntCompensatorData().setEquivQ(BaseDataSetter.createReactivePowerValue(equiQ+binit, ReactivePowerUnitType.MVAR));
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
