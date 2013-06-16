@@ -261,7 +261,7 @@ public class PSSEV30_NEISO_ODMTest {
       </dcLint2T>
       		 */
 		//System.out.println(parser.getObjectCache());
-		DCLineData2TXmlType dcLine = parser.getDcLine2TRecord("Bus615600", "Bus615353", 1);
+		DCLineData2TXmlType dcLine = parser.getDcLine2TRecord("Bus615600", "Bus615353", "1");
 		assertTrue(dcLine.getControlMode() == DcLineControlModeEnumType.POWER);
 		assertTrue(dcLine.getPowerDemand().getValue() == 552.0);
 		assertTrue(dcLine.getPowerOrCurrentMarginPU() == 0.1);
