@@ -7,6 +7,7 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
 import org.apache.commons.math3.complex.Complex;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
@@ -19,6 +20,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.hvdc.ConverterType;
 import com.interpss.core.aclf.hvdc.HvdcControlMode;
 import com.interpss.core.aclf.hvdc.HvdcLine2T;
+import com.interpss.core.aclf.hvdc.Inverter;
 import com.interpss.core.aclf.hvdc.Rectifier;
 import com.interpss.core.aclf.hvdc.impl.HvdcLineFactoryImpl;
 import com.interpss.core.aclf.hvdc.impl.RectifierImpl;
@@ -32,8 +34,11 @@ public class AclfHvdcDataHelper {
 		this.aclfNet = aclfNet;
 		this.hvdc2T = hvdc2T;
 	}
-	//TODO to handle two kinds of HVDC under the same method
+	//TODO Define DCLineDataXmlType as a baseModel for two-terminal HVDC and VSC-HVDC
+	// so that in the future, we can handle two kinds of HVDC under the same method here as well
+	// as in the core engine;
 	/*
+	 * 
 	public boolean setHvdcData(DCLineDataXmlType hvdcXml){
 		if(hvdcXml instanceof DCLineData2TXmlType){
 			setHvdc2TData((DCLineData2TXmlType)hvdcXml)
@@ -42,21 +47,20 @@ public class AclfHvdcDataHelper {
            setVSCHvdcData(DCLineDataVSCXmlType)hvdcXml)
 	}
 	*/
-	private boolean setHvdc2TData(DCLineData2TXmlType hvdc2TXml){
+	public boolean setHvdc2TData(DCLineData2TXmlType hvdc2TXml){
 		boolean success = true;
 		//set DCLine Id
 		this.hvdc2T.setId(hvdc2TXml.getId());
 		
-		
-		
+		//Control Mode
 		DcLineControlModeEnumType mode =hvdc2TXml.getControlMode();
-		//Mode
+		
 		//TODO No "blocked" enum type
 		this.hvdc2T.setControlMode(mode==DcLineControlModeEnumType.POWER? HvdcControlMode.POWER: 
 			mode==DcLineControlModeEnumType.CURRENT?HvdcControlMode.CURRENT:HvdcControlMode.BLOCKED);
 		
 		//RDC
-		//TODO No lineR
+		//TODO 
 		//this.hvdc2T.setLineR()
 		
 		//SETVL
@@ -95,22 +99,25 @@ public class AclfHvdcDataHelper {
 		this.hvdc2T.setMeterEnd(hvdc2TXml.getMeteredEnd()==DcLineMeteredEndEnumType.RECTIFIER? ConverterType.RECTIFIER:ConverterType.INVERTER);
 		
 		//DCVMIN - Minimum compounded dc voltagle
-		//this.hvdc2T.set
+		//TODO
+		//this.hvdc2T.setMinCompVdc()
 		
 		//set Rectifier data
 		if(hvdc2TXml.getRectifier()!=null)
 		    setRectifierData(hvdc2TXml.getRectifier());
-		else 
+		else{ 
+			ODMLogger.getLogger().severe("Rectifier data is Null, or not defined in ODM/XML!");
 			return false;
-		
-		
+		}
+			
 		//set Inverter data
 		
 		if(hvdc2TXml.getInverter()!=null)
 		    setInverterData(hvdc2TXml.getRectifier());
-		else
+		else{
+			ODMLogger.getLogger().severe("Inverter data is Null, or not defined in ODM/XML!");
 			return false;
-		
+		}
 		
 		
 		return success;
@@ -119,7 +126,7 @@ public class AclfHvdcDataHelper {
 	
 	
 	private void setRectifierData(ConverterXmlType rectifierXml){
-		//Rectifier converter bus number
+		
 		Rectifier rectifier = null;
 		if(this.hvdc2T.getRectifier()==null){
 		   rectifier = HvdcLineFactoryImpl.init().createRectifier();
@@ -161,9 +168,10 @@ public class AclfHvdcDataHelper {
 		//ALPHA/GARMER within limit
 		
 		// IFR = ITR=0, IDR =1.0 by default
-		BusIDRefXmlType fbRef=((BusIDRefXmlType)rectifierXml.getRefXfrFromBusId());
+		if(rectifierXml.getRefXfrFromBusId()!=null && rectifierXml.getRefXfrToBusId()!=null)
+		//BusIDRefXmlType fbRef=((BusIDRefXmlType)rectifierXml.getRefXfrFromBusId());
 		
-		//TODO
+		//TODO to add the following methods
 		//rectifier.setXfrFromBus()
 		//rectifier.setXfrToBus()
 		//rectifier.setXfrCirId();
@@ -175,6 +183,61 @@ public class AclfHvdcDataHelper {
 	
     private void setInverterData(ConverterXmlType inverterXml){
 		
+    	Inverter inverter = null;
+    	if(this.hvdc2T.getInverter()==null){
+    		inverter = HvdcLineFactoryImpl.init().createInverter();
+ 		   this.hvdc2T.setInverter(inverter);
+ 		}
+    	
+    	inverter = this.hvdc2T.getInverter();
+    	
+    	//Num of bridges
+		inverter.setNBridges(inverterXml.getNumberofBridges());
+
+		inverter.setFiringAngLimit(new LimitType(inverterXml
+				.getMaxFiringAngle().getValue(), inverterXml
+				.getMinFiringAngle().getValue()), ToAngleUnit.f(inverterXml
+				.getMaxFiringAngle().getUnit()));
+
+		// RCR and XCR in ohm
+		inverter.setCommutingZ(new Complex(inverterXml.getCommutatingZ()
+				.getRe(), inverterXml.getCommutatingZ().getIm()));
+
+		// inverter primary base ac voltage; entered in kV
+		inverter.setAcRatedVoltage(inverterXml.getAcSideRatedVoltage()
+				.getValue());
+
+		// TRR transformer ratio ,1.0 by default
+		inverter.setXformerRatio(inverterXml.getXformerTurnRatio());
+
+		// TAPR tap setting
+		inverter.setXformerTapSetting(inverterXml.getXformerTapSetting()
+				.getValue());
+
+		// TAP Setting limit
+		inverter.setXformerTapLimit(new LimitType(inverterXml
+				.getXformerTapLimit().getMax(), inverterXml
+				.getXformerTapLimit().getMin()));
+
+		// STPR tap step; must be positive. STPR = 0.00625 by default.
+		inverter.setXformerTapStepSize(inverterXml.getXformerTapStepSize());
+
+		// IFR, ITR,IDR for specifying a two winding transformer to control a
+		// converter to keep
+		// ALPHA/GARMER within limit
+
+		// IFR = ITR=0, IDR =1.0 by default
+		BusIDRefXmlType fbRef = ((BusIDRefXmlType) inverterXml
+				.getRefXfrFromBusId());
+
+		// TODO
+		// inverter.setXfrFromBus()
+		// inverter.setXfrToBus()
+		// inverter.setXfrCirId();
+
+		// XCAPR , =0 by default
+		inverter.setCommutingCapacitor(inverterXml.getCommutatingCapacitor());
+    	
 	}
     
     /*
