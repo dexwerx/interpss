@@ -91,6 +91,7 @@ public class FileUtil {
 			if (n >= 0)
 				bos.write(buf, 0, n);
 		} while (n > 0);
+		inStream.close();
 		return bos.toByteArray();
 	}	
 }
