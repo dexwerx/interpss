@@ -128,20 +128,6 @@ public class AclfBusDataHelper {
 			//System.out.println("----------->" + shuntY.getIm() + ", " + shuntY.getUnit() + ", " + ypu.getImaginary());
 			aclfBus.setShuntY(ypu);
 		}
-
-		if (xmlBusData.getShuntCompensatorData() != null) {
-			ReactivePowerXmlType shuntB = xmlBusData.getShuntCompensatorData().getEquivQ();
-//			byte unit = shuntB.getUnit() == ReactivePowerUnitType.MVAR? UnitType.mVar : UnitType.PU;
-			if (shuntB != null) {
-				UnitType unit = ToReactivePowerUnit.f(shuntB.getUnit());
-				Complex ypu = UnitHelper.yConversion(new Complex(0.0, shuntB.getValue()),
-						aclfBus.getBaseVoltage(), aclfNet.getBaseKva(), unit, UnitType.PU);
-				//System.out.println("----------->" + shuntB.getValue() + ", " + shuntB.getUnit() + ", " + ypu.getImaginary());
-				aclfBus.setShuntY(ypu);
-			}
-			else 
-				ODMLogger.getLogger().warning("ShuntCompensatorData.equivQ not defined");
-		}
 	}
 	
 	private void mapGenData(AclfGenDataXmlType xmlGenData) throws InterpssException {

@@ -47,18 +47,9 @@ import com.interpss.core.net.Bus;
  * 
  */
 public class ZeroZBranchProcesor implements IAclfNetBVisitor {
-	public static enum Method {
-		ZValue, BranchType
-	};
 
 	private boolean busBaseSearch = true;
 	private boolean debug = false;
-
-	private Method method = Method.ZValue;
-
-	public void setMethod(Method method) {
-		this.method = method;
-	}
 
 	private double threshold = 1.0e-10;
 	private boolean allowZeroZBranchLoop = false;
@@ -95,7 +86,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 *            zero impedance is define as abs(Z) < threshold
 	 */
 	public ZeroZBranchProcesor(double threshold) {
-		this.method = Method.ZValue;
 		this.threshold = threshold;
 	}
 
@@ -106,7 +96,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 *            zero impedance is define as abs(Z) < threshold
 	 */
 	public ZeroZBranchProcesor(boolean allowZeroZBranchLoop) {
-		this.method = Method.BranchType;
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
 
@@ -117,7 +106,6 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 	 *            zero impedance is define as abs(Z) < threshold
 	 */
 	public ZeroZBranchProcesor(double threshold, boolean allowZeroZBranchLoop) {
-		this.method = Method.BranchType;
 		this.threshold = threshold;
 		this.allowZeroZBranchLoop = allowZeroZBranchLoop;
 	}
@@ -150,15 +138,14 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			// marked contingency outage branches with visited = true
 			if (this.contingencyList != null)
 				for (Contingency cont : this.contingencyList) {
-					for (AclfBranch branch : cont.getOutageAclfBranches())
-						branch.setVisited(true);
+					for (OutageBranch outBranch : cont.getOutageBranches())
+						outBranch.getAclfBranch().setVisited(true);
 				}
 
 			// mark small Z branch with regarding to the threshold
 			// line branch will be turned to ZERO_IMPEDENCE branch
 			// if threshold = 0.0, Breaker branches are turned to zero-z branch
-			net.markSmallZBranch(this.threshold, true,
-					this.method == Method.ZValue);
+			net.markSmallZBranch(this.threshold, true);
 
 			if (this.busBaseSearch) {
 				if (this.debug)
@@ -239,7 +226,8 @@ public class ZeroZBranchProcesor implements IAclfNetBVisitor {
 			// System.out.println("cnt " + ++cnt);
 			if (b.isStatus()) {
 				if (!b.isVisited()) {
-					if (cnt < 7008
+					if (cnt < 13450
+					// cnt < 6255		
 					// cnt == 643
 					) {
 
