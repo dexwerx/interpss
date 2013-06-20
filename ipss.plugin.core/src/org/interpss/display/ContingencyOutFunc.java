@@ -89,7 +89,7 @@ public class ContingencyOutFunc {
 		for (StudyCase scase : mcase.getStudyCaseList()) {
 			AclfStudyCase aclfCase = (AclfStudyCase)scase;
 			if (!aclfCase.isAclfConverged()) {
-				buf.append(String.format("%40s   %s\n", aclfCase.getId(), aclfCase.getDesc()));
+				buf.append(String.format("%25s   %s\n", aclfCase.getId(), aclfCase.getDesc()));
 			}
 		}
 		

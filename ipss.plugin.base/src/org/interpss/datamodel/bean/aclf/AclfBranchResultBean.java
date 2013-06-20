@@ -24,12 +24,10 @@
 
 package org.interpss.datamodel.bean.aclf;
 
-import java.util.List;
-
-import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.datatype.ComplexBean;
 
-public class AclfBranchResultBean extends BaseBranchBean {
+public class AclfBranchResultBean extends AclfBranchBean {
+
 	public ComplexBean 
 		flow_f2t,		// branch power flow from->to
 	    flow_t2f,		// branch power flow to->from

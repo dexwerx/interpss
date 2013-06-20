@@ -27,8 +27,8 @@ package org.interpss.datamodel.bean.datatype;
 
 public class BranchValueBean {
 	public double
-		f,				// value at the from side
-		t;				// value at the to side
+		f ,				// value at the from side
+		t ;				// value at the to side
 	
 	public BranchValueBean() { }
 	public BranchValueBean(double f, double t) { this.f = f; this.t = t; }

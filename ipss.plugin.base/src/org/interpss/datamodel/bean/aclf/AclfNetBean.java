@@ -30,6 +30,7 @@ import java.util.List;
 import org.interpss.datamodel.bean.BaseNetBean;
 
 public class AclfNetBean extends BaseNetBean {
+	
 	public List<AclfBusBean> 
 		bus_list;					// bus result bean list
 	public List<AclfBranchBean> 

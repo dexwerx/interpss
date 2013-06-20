@@ -27,8 +27,11 @@ package org.interpss.mapper.bean.aclf;
 import org.apache.commons.math3.complex.Complex;
 import org.interpss.datamodel.bean.BaseBranchBean;
 import org.interpss.datamodel.bean.BaseBusBean;
+import org.interpss.datamodel.bean.BaseNetBean;
+import org.interpss.datamodel.bean.aclf.AclfBranchBean;
 import org.interpss.datamodel.bean.aclf.AclfBranchResultBean;
 import org.interpss.datamodel.bean.aclf.AclfBusBean;
+import org.interpss.datamodel.bean.aclf.AclfNetBean;
 import org.interpss.datamodel.bean.aclf.AclfNetResultBean;
 import org.interpss.datamodel.bean.datatype.BranchValueBean;
 import org.interpss.datamodel.bean.datatype.ComplexBean;
@@ -47,72 +50,43 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.datatype.Mismatch;
 
 /**
- * mapper implementation to map AclfNetwork object to AclfNetResultBean
+ * mapper implementation to map AclfNetwork object to BaseNetBean
  * 
- * @author mzhou
+ * 
  */
-public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetResultBean> {
+public class BaseNetBeanMapper extends AbstractMapper<AclfNetwork, AclfNetBean> {
 	/**
 	 * constructor
 	 */
-	public AclfResultBeanMapper() {
+	public BaseNetBeanMapper() {
 	}
 	
-	/**
-	 * map into store in the AclfNetBean object into simuCtx object
-	 * 
-	 * @param netBean AclfNetBean object
-	 * @return SimuContext object
-	 */
-	@Override public AclfNetResultBean map2Model(AclfNetwork aclfNet) throws InterpssException {
-		AclfNetResultBean aclfResult = new AclfNetResultBean();
+	
+	@Override public AclfNetBean map2Model(AclfNetwork aclfNet) throws InterpssException {
+		AclfNetBean netBean = new AclfNetBean();
 
-		map2Model(aclfNet, aclfResult);
+		map2Model(aclfNet, netBean);
 		
-		return aclfResult;
+		return netBean;
 	}	
 	
-	/**
-	 * map the AclfNetBean object into simuCtx object
-	 * 
-	 * @param netBean an AclfNetBean object, representing a aclf base network
-	 * @param simuCtx
-	 */
-	@Override public boolean map2Model(AclfNetwork aclfNet, AclfNetResultBean aclfResult) {
+	
+	@Override public boolean map2Model(AclfNetwork aclfNet, AclfNetBean netBean) {
 		boolean noError = true;
 		
-		aclfResult.base_kva = aclfNet.getBaseKva();
-		aclfResult.lf_converge = aclfNet.isLfConverged();
-		
-		MismatchResultBean misBean = new MismatchResultBean();
-		Mismatch mis = aclfNet.maxMismatch(AclfMethod.NR);
-		aclfResult.max_mis = misBean;
-		misBean.err = new ComplexBean(format(mis.maxMis.getReal()), format(mis.maxMis.getImaginary()));
-		misBean.p_bus_id = mis.maxPBus.getId(); 
-		misBean.q_bus_id = mis.maxQBus.getId();
-		
-		Complex gen = aclfNet.totalGeneration(UnitType.PU);
-		Complex load = aclfNet.totalLoad(UnitType.PU);
-		Complex loss = aclfNet.totalLoss(UnitType.PU);
-		aclfResult.gen = new ComplexBean(format(gen));
-		aclfResult.load = new ComplexBean(format(load));
-		aclfResult.loss = new ComplexBean(format(loss));
-		
-		/*BaseNetBeanMapper mapper = new BaseNetBeanMapper();
-		mapper.map2Model(aclfNet, aclfResult);	*/	
+		netBean.base_kva = aclfNet.getBaseKva();			
 		
 		for (AclfBus bus : aclfNet.getBusList()) {
 			AclfBusBean bean = new AclfBusBean();
-			aclfResult.bus_list.add(bean);
+			netBean.bus_list.add(bean);
 			mapBaseBus(bus, bean);
 		}
 		
 		for (AclfBranch branch : aclfNet.getBranchList()) {
-			AclfBranchResultBean bean = new AclfBranchResultBean();
-			aclfResult.branch_list.add(bean);
+			AclfBranchBean bean = new AclfBranchBean();
+			netBean.branch_list.add(bean);
 			mapBaseBranch(branch, bean);
 		}
-		
 
 		return noError;
 	}	
@@ -121,8 +95,8 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.number = bus.getNumber();
 		bean.id = bus.getId();
 		bean.name = bus.getName();
-		bean.status = 1;
 		boolean status = bus.isActive();
+		bean.status = 1;
 		if(!status)
 			bean.status = 0;
 		bean.base_v = bus.getBaseVoltage()/1000;
@@ -155,7 +129,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		
 	}
 	
-	private void mapBaseBranch(AclfBranch branch, AclfBranchResultBean bean) {
+	private void mapBaseBranch(AclfBranch branch, AclfBranchBean bean) {
 		bean.id = branch.getId();
 		bean.name = branch.getName();
 		bean.f_id = branch.getFromBus().getId();
@@ -168,6 +142,7 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		
 		bean.status = branch.isActive()? 1 : 0; 		
 		
+		
 		bean.bra_code = branch.isLine() ? BaseBranchBean.BranchCode.Line :
 			(branch.isXfr() ? BaseBranchBean.BranchCode.Xfr : 
 			(branch.isPSXfr() ? BaseBranchBean.BranchCode.PsXfr:BaseBranchBean.BranchCode.ZBR ));
@@ -176,7 +151,8 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		bean.z = new ComplexBean(z);
 		bean.shunt_y = new ComplexBean(format(new Complex(0, 0)));	
 		bean.ratio = new BranchValueBean(1.0,1.0);		
-		if (branch.getBranchCode() == AclfBranchCode.LINE) {
+		if (branch.getBranchCode() == AclfBranchCode.LINE ||
+				branch.getBranchCode() == AclfBranchCode.ZBR) {
 			if (branch.getHShuntY() != null)				
 				bean.shunt_y = new ComplexBean(format(new Complex(0, branch.getHShuntY().getImaginary()*2)));				
 				
@@ -190,18 +166,8 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 		
 		bean.mvaRatingA = branch.getRatingMva1();
 		bean.mvaRatingB = branch.getRatingMva2();
-		bean.mvaRatingC = branch.getRatingMva3();
-				
-		Complex flow = branch.powerFrom2To();
-		bean.flow_f2t = new ComplexBean(format(flow));
-
-		flow = branch.powerTo2From();
-		bean.flow_t2f = new ComplexBean(format(flow));
+		bean.mvaRatingC = branch.getRatingMva3();			
 		
-		Complex loss = branch.loss();
-		bean.loss = new ComplexBean(format(loss));
-		
-		bean.cur = format2(branch.current(UnitType.Amp));
 	}	
 	
 	private Complex format(Complex x) {
@@ -216,5 +182,4 @@ public class AclfResultBeanMapper extends AbstractMapper<AclfNetwork, AclfNetRes
 	private double format2(double x) {
 		return new Double(Number2String.toStr(x, "#0.0#")).doubleValue();
 	}
-	
 }
