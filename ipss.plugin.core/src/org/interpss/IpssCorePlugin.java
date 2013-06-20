@@ -85,14 +85,14 @@ public class IpssCorePlugin {
 		IpssLogger.initLogger();
 		setSpringAppCtx(paths);
 		setLoggerLevel(level);
-		setSparseEqnSolver(ISparseEquation.SolverType.Default);
 	}
 
 	/**
-	 * set sparse eqn solver type
+	 * set sparse eqn solver type. Native sparse eqn solver has been deprecated
 	 * 
 	 * @param solverType solver type
 	 */
+	@Deprecated
 	public static void setSparseEqnSolver(ISparseEquation.SolverType solverType) {
 		if (solverType == ISparseEquation.SolverType.Default ) {
 			CoreObjectFactory.DefaultBusArrangeRule = BusNumberArrangeRule.TINNEY0;
