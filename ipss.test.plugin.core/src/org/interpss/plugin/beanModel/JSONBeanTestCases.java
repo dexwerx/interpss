@@ -123,8 +123,8 @@ public class JSONBeanTestCases extends CorePluginTestSetup {
 		// "1", 13800, 1, 1, AclfLoadCode.CONST_P, 1.6, 0.8, UnitType.PU );
 		busBean.id = "1";
 		busBean.base_v = 13800.0;
-		busBean.area = "1";
-		busBean.zone = "1";
+		busBean.area = 1;
+		busBean.zone = 1;
 		busBean.load_code = AclfBusBean.LoadCode.ConstP;
 		busBean.load = new ComplexBean(1.6, 0.8);
 				
@@ -133,8 +133,8 @@ public class JSONBeanTestCases extends CorePluginTestSetup {
 		// "2", 13800, 1, 1, AclfLoadCode.CONST_P, 2.0, 1.0, UnitType.PU );
 		busBean.id = "2";
 		busBean.base_v = 13800.0;
-		busBean.area = "1";
-		busBean.zone = "1";
+		busBean.area = 1;
+		busBean.zone = 1;
 		busBean.load_code = AclfBusBean.LoadCode.ConstP;
 		busBean.load = new ComplexBean(2.0, 1.0);
 		
@@ -143,8 +143,8 @@ public class JSONBeanTestCases extends CorePluginTestSetup {
 		// "3", 13800, 2, 1, AclfLoadCode.CONST_P, 3.7, 1.3, UnitType.PU );
 		busBean.id = "3";
 		busBean.base_v = 13800.0;
-		busBean.area = "1";
-		busBean.zone = "1";
+		busBean.area = 1;
+		busBean.zone = 1;
 		busBean.load_code = AclfBusBean.LoadCode.ConstP;
 		busBean.load = new ComplexBean(3.7, 1.3);
 		
@@ -153,8 +153,8 @@ public class JSONBeanTestCases extends CorePluginTestSetup {
 		// "4", 1000,  1, 1, 5.0, UnitType.PU, 1.05, UnitType.PU );
 		busBean.id = "4";
 		busBean.base_v = 1000.0;
-		busBean.area = "1";
-		busBean.zone = "1";
+		busBean.area = 1;
+		busBean.zone = 1;
 		busBean.gen_code = AclfBusBean.GenCode.PV;
 		busBean.v_mag = 1.05;
 		busBean.gen = new ComplexBean(5.0, 0.0);
@@ -164,8 +164,8 @@ public class JSONBeanTestCases extends CorePluginTestSetup {
 		// AclfInputUtilFunc.addSwingBusTo(net, "5", 4000,  2, 1, 1.05, UnitType.PU, 0.0, UnitType.Deg );	
 		busBean.id = "5";
 		busBean.base_v = 4000.0;
-		busBean.area = "1";
-		busBean.zone = "1";
+		busBean.area = 1;
+		busBean.zone = 1;
 		busBean.gen_code = AclfBusBean.GenCode.Swing;
 		busBean.v_mag = 1.05;
 		busBean.v_ang = 0.0;
