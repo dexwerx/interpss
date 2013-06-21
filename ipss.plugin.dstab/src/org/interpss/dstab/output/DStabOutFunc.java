@@ -169,8 +169,7 @@ public class DStabOutFunc {
 				busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU));
 				if (bus.isCapacitor()) {
 					AclfCapacitorBus cap = bus.toCapacitorBus();
-					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
-							.getVoltageMag(), UnitType.PU)));
+					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(UnitType.PU)));
 				}
 				str.append(Number2String.toStr(2, " "));
 				str.append(Number2String.toStr(-12, bus.getId()) + "  ");

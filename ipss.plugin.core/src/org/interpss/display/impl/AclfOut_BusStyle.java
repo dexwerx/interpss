@@ -132,7 +132,7 @@ public class AclfOut_BusStyle {
 		Complex busLoad = genBus.getLoadResults(UnitType.mVA);
 		if (bus.isCapacitor()) {
 			AclfCapacitorBus cap = bus.toCapacitorBus();
-			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU)));
+			busGen = busGen.add(new Complex(0.0, cap.getQResults(UnitType.PU)));
 		}
 		String id = style == AclfOutFunc.BusIdStyle.BusId_No?
 				OutputBusId.f(bus, net.getOriginalDataFormat()):
