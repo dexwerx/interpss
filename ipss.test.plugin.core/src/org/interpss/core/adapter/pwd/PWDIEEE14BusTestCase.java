@@ -26,10 +26,19 @@ package org.interpss.core.adapter.pwd;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import org.interpss.mapper.odm.ODMAclfNetMapper;
+import org.ieee.odm.ODMFileFormatEnum;
+import org.ieee.odm.ODMObjectFactory;
+import org.ieee.odm.adapter.IODMAdapter;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.interpss.CorePluginObjFactory;
 import org.interpss.CorePluginTestSetup;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.fadapter.IpssFileAdapter;
+import org.interpss.spring.CorePluginSpringFactory;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
@@ -37,7 +46,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.LoadflowAlgorithm;
 
 public class PWDIEEE14BusTestCase extends CorePluginTestSetup {
-	@Test
+	//@Test
 	public void odmAdapterTestCase() throws Exception {
 		AclfNetwork net = CorePluginObjFactory
 				.getFileAdapter(IpssFileAdapter.FileFormat.PWD)
@@ -58,5 +67,35 @@ public class PWDIEEE14BusTestCase extends CorePluginTestSetup {
   		//assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-1.0586)<0.01);
   		//assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.4366)<0.01);
 	}	
+	@Test
+	public void testCaseStringInput() throws Exception{
+		String file = "testData/pwd/ieee14.AUX";
+  		IODMAdapter adapter = ODMObjectFactory
+				.createODMAdapter(ODMFileFormatEnum.PWD);
+
+  		BufferedReader br = new BufferedReader(new FileReader(file));
+  		String everything = null;
+  	    try {
+  	        StringBuilder sb = new StringBuilder();
+  	        String line = br.readLine();
+  	        while (line != null) {
+  	            sb.append(line);
+  	            sb.append("\n");
+  	            line = br.readLine();
+  	        }
+  	        everything = sb.toString();
+  	    } finally {
+  	        br.close();
+  	    }					
+
+		//this.log.info("casedata.inputDataFile: " + casedata.inputDataFile);
+		adapter.parseFileContent(everything);		
+		
+		AclfNetwork aclfNet = CorePluginSpringFactory
+				.getOdm2AclfParserMapper(ODMAclfNetMapper.XfrBranchModel.InterPSS)
+				.map2Model((AclfModelParser) adapter.getModel())
+				.getAclfNet();
+		
+	}
 }
 
