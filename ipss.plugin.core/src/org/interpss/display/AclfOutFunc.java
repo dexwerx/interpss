@@ -54,8 +54,6 @@ import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.path.NetPathWalkDirectionEnum;
 import com.interpss.core.algo.sec.AclfBranchRating;
 import com.interpss.core.algo.sec.SecAnalysisViolationType;
-import com.interpss.core.common.visitor.IAclfBusVisitor;
-import com.interpss.core.common.visitor.IPVBusLimitVisitor;
 import com.interpss.core.datatype.Mismatch;
 import com.interpss.core.funcImpl.CoreUtilFunc;
 import com.interpss.core.net.Branch;
@@ -243,14 +241,12 @@ public class AclfOutFunc {
 		str.append("  ------------------------------------------------------------------------\n");
 		
 		
-		net.forEachAclfBus(new IAclfBusVisitor() {
-			public void visit(AclfBus bus) {
-				if ( bus.getLossPFactor(NetPathWalkDirectionEnum.ALONG_PATH, lossPU) > 0.0 && 
+		for (AclfBus bus : net.getBusList()) {
+			if ( bus.getLossPFactor(NetPathWalkDirectionEnum.ALONG_PATH, lossPU) > 0.0 && 
 						(bus.isLoad() || bus.isSwing())) { 
-					str.append(lossString(bus, NetPathWalkDirectionEnum.ALONG_PATH, lossMW, lossPU));
-				}
+				str.append(lossString(bus, NetPathWalkDirectionEnum.ALONG_PATH, lossMW, lossPU));
 			}
-		});
+		}
 		return str;
 	}
 	
