@@ -56,8 +56,10 @@ public class NumericSpringFactory {
 	}
 
 	/**
-	 * set the native sparse eqn solver
+	 * set the native sparse eqn solver. Native sparse eqn solver has been 
+	 * deprecated.
 	 */
+	@Deprecated 
 	public static void setNativeSparseEqnSolver() {
 		DefaultSparseEqnDoubleId 		= "sparseEqnDoubleNative";
 		DefaultSparseEqnMatrix2x2Id 	= "sparseEqnMatrix2x2Native";
