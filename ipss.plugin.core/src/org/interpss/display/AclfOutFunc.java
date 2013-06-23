@@ -440,8 +440,9 @@ public class AclfOutFunc {
 		str
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
-		net.forEachPVBusLimit(new IPVBusLimitVisitor() {
-			public void visit(PVBusLimit pv) {
+		for( AclfBus bus : net.getBusList()) {
+			if (bus.isPVBusLimit()) {
+				PVBusLimit pv = bus.getPVBusLimit();
 				AclfGenBus genBus = pv.getParentBus().toGenBus();
 				str.append(Number2String.toStr(5, " "));
 				str.append(Number2String.toStr(-8, OutputBusId.f(pv.getParentBus(), 
@@ -459,7 +460,7 @@ public class AclfOutFunc {
 				str.append(Number2String.toStr(6, pv.isActive() ? "on" : "off")
 						+ "\n");
 			}
-		});
+		}
 		
 		return str;
 	}
