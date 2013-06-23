@@ -39,7 +39,6 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algo.AclfMethod;
 import com.interpss.core.algo.LoadflowAlgorithm;
-import com.interpss.core.common.visitor.IAclfBusVisitor;
 import com.interpss.core.funcImpl.AclfNetHelper;
 
 public class Bus11856Test extends CorePluginTestSetup {
@@ -100,14 +99,12 @@ public class Bus11856Test extends CorePluginTestSetup {
   					.getAclfNet();	
 		
 		final ISparseEqnComplex eqn = net.formYMatrix();
-		net.forEachAclfBus(new IAclfBusVisitor() {
-			public void visit(AclfBus bus) {
-				if (bus.isSwing()) {
-					int busNo = bus.getSortNumber();
-					eqn.setA(new Complex(0.0, 1.0e10), busNo, busNo);		
-				}
+		for (AclfBus bus : net.getBusList()) {
+			if (bus.isSwing()) {
+				int busNo = bus.getSortNumber();
+				eqn.setA(new Complex(0.0, 1.0e10), busNo, busNo);		
 			}
-		});
+		}
 		eqn.luMatrix(1.0e-20);
 		
 		AclfBus bus1 = net.getBus("9a");
