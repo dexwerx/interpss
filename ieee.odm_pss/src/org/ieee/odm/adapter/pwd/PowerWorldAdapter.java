@@ -52,7 +52,12 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		
 		// add PWD network extension 
 		PWDNetworkExtXmlType pwdNetExt = odmObjFactory.createPWDNetworkExtXmlType();
-		pwdNetExt.setLimitSets(odmObjFactory.createPWDNetworkExtXmlTypeLimitSets());
+		
+		// Since the LimitSet is not necessarily included but an optional data, 
+		// LimitSets is initialized when it is processed for the first time.
+		
+		//pwdNetExt.setLimitSets(odmObjFactory.createPWDNetworkExtXmlTypeLimitSets());
+		
 		baseCaseNet.setExtension(pwdNetExt);
 		
 		baseCaseNet.setId("Base_Case_from_PowerWorld_format");
