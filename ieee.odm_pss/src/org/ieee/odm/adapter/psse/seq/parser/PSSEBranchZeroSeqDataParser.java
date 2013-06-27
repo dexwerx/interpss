@@ -1,7 +1,7 @@
 package org.ieee.odm.adapter.psse.seq.parser;
 
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
-import org.ieee.odm.adapter.psse.parser.BasePSSEDataParser;
+import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 
 public class PSSEBranchZeroSeqDataParser extends BasePSSEDataParser {
 	public PSSEBranchZeroSeqDataParser(PsseVersion ver) {
