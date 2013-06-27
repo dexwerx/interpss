@@ -33,8 +33,8 @@ public class IEEE009Bus_Test extends CorePluginTestSetup{
   		assertTrue(net.isLfConverged());		
  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
  		AclfSwingBus swing = swingBus.toSwingBus();
-		System.out.println(swing.getGenResults(UnitType.PU));
-		System.out.println(AclfOutFunc.loadFlowSummary(net));
+		//System.out.println(swing.getGenResults(UnitType.PU));
+		//System.out.println(AclfOutFunc.loadFlowSummary(net));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getReal()-0.7164098)<1.0E-5);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU).getImaginary()-0.2704474)<1.0E-5);
 	}

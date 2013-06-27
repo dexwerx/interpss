@@ -3,6 +3,7 @@ package org.interpss;
 import org.interpss.core.aclf.IEEE14_3WXfrTest;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ge.GESampleTestCases;
+import org.interpss.core.adapter.ieee.IEEE009Bus_Test;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus11856Test;
@@ -13,6 +14,7 @@ import org.interpss.core.adapter.psse.CR_UserTestCases;
 import org.interpss.core.adapter.psse.GuideSampleTestCases;
 import org.interpss.core.adapter.psse.Mod_SixBus_DclfPsXfr;
 import org.interpss.core.adapter.psse.SixBus_DclfPsXfr;
+import org.interpss.core.adapter.pwd.PWDIEEE14BusTestCase;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.ca.IEEE14BusBreakerTest;
 import org.interpss.core.ca.IEEE14BusBreaker_dclf_Test;
@@ -80,12 +82,14 @@ import org.junit.runners.Suite.SuiteClasses;
 	// core file adapter
 	IEEECommonFormat_CommaTest.class,
 	IEEECommonFormatTest.class,
+	IEEE009Bus_Test.class,
 	BPASampleTestCases.class,
 	UCTEFormatAusPowerTest.class,
 	CR_UserTestCases.class,
 	GuideSampleTestCases.class,
 	SixBus_DclfPsXfr.class,
 	Mod_SixBus_DclfPsXfr.class,
+	PWDIEEE14BusTestCase.class,
 	
 	GESampleTestCases.class,
 	
