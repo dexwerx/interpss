@@ -26,8 +26,8 @@ package org.ieee.odm.adapter.psse.v26.impl;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
-import org.ieee.odm.adapter.psse.parser.PSSELineDataParser;
-import org.ieee.odm.adapter.psse.parser.PSSEXfrAdjustDataParser;
+import org.ieee.odm.adapter.psse.parser.aclf.PSSELineDataParser;
+import org.ieee.odm.adapter.psse.parser.aclf.PSSEXfrAdjustDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
