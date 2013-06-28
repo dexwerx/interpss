@@ -24,7 +24,11 @@
 
 package org.ieee.odm.model.acsc;
 
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
+import org.ieee.odm.schema.ScGenDataXmlType;
 
 /**
  * Acsc ODM model parser helper utility functions
@@ -33,4 +37,18 @@ import org.ieee.odm.model.aclf.AclfParserHelper;
  *
  */
 public class AcscParserHelper extends AclfParserHelper {
+	
+	
+	public static ScGenDataXmlType getScGenData(AcscModelParser parser, String busId, String genId) throws ODMException {
+		ScGenDataXmlType targetScGen=null;
+		if(!parser.getAcscBus(busId).getScGenData().isEmpty()){
+			for(ScGenDataXmlType scGenData: parser.getAcscBus(busId).getScGenData()){
+				if(scGenData.getId().equals(genId)){
+					targetScGen= scGenData;
+				}
+			}
+		}
+		
+		return targetScGen;
+	}
 }

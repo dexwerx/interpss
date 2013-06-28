@@ -100,7 +100,7 @@
 
     <ns:group name="ShortCircuitBusDataGroup">
         <ns:sequence>
-            <ns:element minOccurs="0" name="scGenData" type="pss:ScGenDataXmlType" />
+            <ns:element maxOccurs="unbounded" minOccurs="0" name="scGenData" type="pss:ScGenDataXmlType" />
 			<ns:element minOccurs="0" name="shuntLoadNegativeZ" type="pss:ZXmlType" />
 			<ns:element minOccurs="0" name="shuntLoadZeroZ" type="pss:ZXmlType" />
 			<ns:element minOccurs="0" name="swithedShuntLoadZeroZ" type="pss:ZXmlType" />
@@ -109,12 +109,16 @@
 	
 
     <ns:complexType name="ScGenDataXmlType">
-		<ns:sequence>
-			<ns:element minOccurs="1" name="potiveZ" type="pss:ZXmlType" />
-			<ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />
-			<ns:element minOccurs="0" name="zeroZ" type="pss:ZXmlType" />
-			<ns:element minOccurs="0" name="grounding" type="pss:GroundingXmlType" />
-		</ns:sequence>
+    <ns:complexContent>
+			<ns:extension base="pss:IDRecordXmlType">
+		      <ns:sequence>
+			    <ns:element minOccurs="1" name="potiveZ" type="pss:ZXmlType" />
+			    <ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />
+			    <ns:element minOccurs="0" name="zeroZ" type="pss:ZXmlType" />
+			    <ns:element minOccurs="0" name="grounding" type="pss:GroundingXmlType" />
+			  </ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
     
 <!-- 
