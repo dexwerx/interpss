@@ -40,7 +40,7 @@ public class PSSEMachineNegSeqZMapper extends BasePSSEDataMapper{
 	    ShortCircuitBusXmlType acscBus=parser.getAcscBus(busId);
 	    ScGenDataXmlType scGenData=null;
 	    if((scGenData =AcscParserHelper.getScGenData(parser, busId, machId))==null){
-	    	scGenData = parser.createScGenData(acscBus);
+	    	scGenData = parser.createScGenData(acscBus,machId);
 	    }
 	    scGenData.setNegativeZ(BaseDataSetter.createZValue(ZRNEG,ZXNEG, ZUnitType.PU));
 	    

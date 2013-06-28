@@ -122,8 +122,9 @@ public class AcscModelParser extends AclfModelParser {
 	
 	//ScGenDataXmlType
 	
-	public ScGenDataXmlType createScGenData(ShortCircuitBusXmlType acscBus){
+	public ScGenDataXmlType createScGenData(ShortCircuitBusXmlType acscBus, String machId){
 		ScGenDataXmlType scGenData=odmObjFactory.createScGenDataXmlType();
+		scGenData.setId(machId);
 		acscBus.getScGenData().add(scGenData);
 		return scGenData;
 	}

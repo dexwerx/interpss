@@ -38,7 +38,7 @@ public class PSSEMachineZeroSeqZMapper extends BasePSSEDataMapper{
 	    ShortCircuitBusXmlType acscBus=parser.getAcscBus(busId);
 	    ScGenDataXmlType scGenData=null;
 	    if((scGenData = AcscParserHelper.getScGenData(parser, busId, machId))==null){
-	    	scGenData = parser.createScGenData(acscBus);
+	    	scGenData = parser.createScGenData(acscBus,machId);
 	    }
 	    scGenData.setZeroZ(BaseDataSetter.createZValue(ZRZERO,ZXZERO, ZUnitType.PU));
 	    
