@@ -63,7 +63,7 @@ public class UCTE_ODMTest {
 		
 		// A1____1 is a load bus, voltage code 1 -> 380kv
 		// A1    1                 0        280.000 .000000 .000000 .000000               
-		LoadflowBusXmlType busRec = parser.getAclfBus("A1____1");
+		LoadflowBusXmlType busRec = parser.getBus("A1____1");
 		assertTrue(busRec.getBaseVoltage().getValue() == 380.0);
 		assertTrue(busRec.getBaseVoltage().getUnit() == VoltageUnitType.KV);
 		// if voltage not defined, it is equal to the base voltage
@@ -77,7 +77,7 @@ public class UCTE_ODMTest {
 
 		// A2____1 is a load bus
 		// A2    1                 0        .000000 .000000 -150.00 .000000                
-		busRec = parser.getAclfBus("A2____1");
+		busRec = parser.getBus("A2____1");
 		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PQ);
 		assertTrue(busRec.getGenData().getEquivGen().getPower().getRe() == 150.0);
 		assertTrue(busRec.getGenData().getEquivGen().getPower().getIm() == 0.0);
@@ -86,7 +86,7 @@ public class UCTE_ODMTest {
 		
 		// B4____1 is a swing bus
 		// B4    1                 3 405.00 70.0000 .000000 .000000 .000000                
-		busRec = parser.getAclfBus("B4____1");
+		busRec = parser.getBus("B4____1");
 		assertTrue(busRec.getVoltage().getValue() == 405.0);
 		assertTrue(busRec.getVoltage().getUnit() == VoltageUnitType.KV);
 		assertTrue(busRec.getAngle().getValue() == 0.0);

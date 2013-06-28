@@ -208,13 +208,13 @@ public class BranchDataProcessor extends InputLineStringParser  {
 				branch.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
 				// processing line shunt at from bus
 				if (fBusShuntMW != 0 || fBusShuntMvar != 0) {
-					LoadflowBusXmlType fromBus = parser.getAclfBus(fromBusId);
+					LoadflowBusXmlType fromBus = parser.getBus(fromBusId);
 					AclfDataSetter.addBusShuntY(fromBus, fBusShuntMW,
 							fBusShuntMvar, YUnitType.MVAR);
 				}
 				// processing line shunt at to bus
 				if (tBusShuntMW != 0 || tBusShuntMvar != 0) {
-					LoadflowBusXmlType toBus = parser.getAclfBus(toBusId);
+					LoadflowBusXmlType toBus = parser.getBus(toBusId);
 					AclfDataSetter.addBusShuntY(toBus, tBusShuntMW,
 							tBusShuntMvar, YUnitType.MVAR);
 				}
@@ -433,12 +433,12 @@ public class BranchDataProcessor extends InputLineStringParser  {
 			xfr.setZ(BaseDataSetter.createZValue(r, x, ZUnitType.PU));
 			//processing lint shunt at from bus 
 			if(fBusShuntMW!=0||fBusShuntMvar!=0){
-				LoadflowBusXmlType fromBus=parser.getAclfBus(fromBusId);
+				LoadflowBusXmlType fromBus=parser.getBus(fromBusId);
 				AclfDataSetter.addBusShuntY(fromBus, fBusShuntMW, fBusShuntMvar, YUnitType.MVAR);
 			}
 			//processing lint shunt at to bus 
 			if(tBusShuntMW!=0||tBusShuntMvar!=0){
-				LoadflowBusXmlType toBus=parser.getAclfBus(toBusId);
+				LoadflowBusXmlType toBus=parser.getBus(toBusId);
 				AclfDataSetter.addBusShuntY(toBus, tBusShuntMW, tBusShuntMvar, YUnitType.MVAR);
 			}
 

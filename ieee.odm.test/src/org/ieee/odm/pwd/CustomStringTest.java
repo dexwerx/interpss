@@ -27,7 +27,7 @@ public class CustomStringTest {
            {
             "Sub2_230_LOAD"     2 "1 " "Closed"   100.000000    50.000000 "LDAREA_1" "" "" "YES"
 		 */
-		LoadflowBusXmlType bus2=parser.getAclfBus("Bus2");
+		LoadflowBusXmlType bus2=parser.getBus("Bus2");
 		assertTrue(bus2.getNvPair().get(0).getName().equals("Load_CustomString"));
 		assertTrue(bus2.getNvPair().get(0).getValue().equals("Sub2_230_LOAD"));
         //Gen custom String
@@ -39,7 +39,7 @@ public class CustomStringTest {
             {
              "Sub1_14.9_G1" "G1" "DZONE_1"    11 "1"
 		 */
-		LoadflowBusXmlType g1=parser.getAclfBus("Bus11");
+		LoadflowBusXmlType g1=parser.getBus("Bus11");
 		assertTrue(g1.getNvPair().get(1).getName().equals("Gen_CustomString"));
 		assertTrue(g1.getNvPair().get(1).getValue().equals("Sub1_14.9_G1"));
 		assertTrue(g1.getNvPair().get(0).getName().equals(STATION_TOKEN));

@@ -11,7 +11,7 @@ import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 
-public class BPAGenLoadDataModifyRecord<TNetXml extends NetworkXmlType> {
+public class BPAGenLoadDataModifyRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
 	/*
 	 * only AC Bus will be considered for generation and/or load data modification.
 	 */
@@ -23,7 +23,7 @@ public class BPAGenLoadDataModifyRecord<TNetXml extends NetworkXmlType> {
 	private static final String Modify_ConstZILoad_BY_ZONE="PC";   //PC
 	private static final String Modify_ConstZILoad_BY_OWNER="PB";   //PB
 	
-	public void processGenLoadModificationData(final String str, BaseAclfModelParser<TNetXml> parser)
+	public void processGenLoadModificationData(final String str, BaseAclfModelParser<TNetXml,TBusXml> parser)
 	throws Exception {
 		final String[] strAry =getModificationData(str);
 		double loadP_Factor=1;

@@ -30,6 +30,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -38,8 +39,8 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class BPALineBranchRecord<TNetXml extends NetworkXmlType> {
-	public void processBranchData(final String str,	BaseAclfModelParser<TNetXml> parser)  throws ODMException {	
+public class BPALineBranchRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
+	public void processBranchData(final String str,	BaseAclfModelParser<TNetXml, TBusXml> parser)  throws ODMException {	
 		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
 		// symmetry line data
 		if(str.startsWith("L ")){
@@ -186,7 +187,7 @@ public class BPALineBranchRecord<TNetXml extends NetworkXmlType> {
 				final double fromShuntVar=new Double(strAry[9]).doubleValue();
 				double fShuntVar=ModelStringUtil.getNumberFormat(fromShuntVar/baseMVA); // x(pu)=Var/baseMVA
 				if(fShuntVar!=0.0){
-					LoadflowBusXmlType fromBus=parser.getAclfBus(fid);
+					LoadflowBusXmlType fromBus= (LoadflowBusXmlType)parser.getBus(fid);
 					/*
 					 * It should be negative considering that positive sign means capacitive shunt var
 					 * 
@@ -198,7 +199,7 @@ public class BPALineBranchRecord<TNetXml extends NetworkXmlType> {
 				final double toShuntVar=new Double(strAry[10]).doubleValue();
 				double tShuntVar=ModelStringUtil.getNumberFormat(toShuntVar/baseMVA);
 				if(tShuntVar!=0.0){
-					LoadflowBusXmlType toBus=parser.getAclfBus(tid);
+					LoadflowBusXmlType toBus= (LoadflowBusXmlType)parser.getBus(tid);
 					AclfDataSetter.addBusShuntVar(toBus, -tShuntVar, YUnitType.PU);
 				}
 			}

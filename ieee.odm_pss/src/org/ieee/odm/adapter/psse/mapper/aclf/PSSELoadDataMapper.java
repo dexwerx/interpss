@@ -54,7 +54,7 @@ public class PSSELoadDataMapper extends BasePSSEDataMapper {
 */		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRecXml = parser.getAclfBus(busId);
+		LoadflowBusXmlType busRecXml = parser.getBus(busId);
 	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;

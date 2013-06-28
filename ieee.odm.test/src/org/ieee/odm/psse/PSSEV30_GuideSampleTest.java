@@ -68,7 +68,7 @@ public class PSSEV30_GuideSampleTest {
         </loadflowData>
       </bus>
 		 */
-		LoadflowBusXmlType bus = parser.getAclfBus("Bus151");
+		LoadflowBusXmlType bus = parser.getBus("Bus151");
 		assertTrue(bus.getShuntY().getIm() == -6.0);
 		
 	/*

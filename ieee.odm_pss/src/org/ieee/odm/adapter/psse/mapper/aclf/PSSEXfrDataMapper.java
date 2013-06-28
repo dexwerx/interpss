@@ -165,11 +165,11 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
         double nomv2 = dataParser.getDouble("NOMV2", 0.0);
         double nomv3 = dataParser.getDouble("NOMV3", 0.0);
        	if (nomv1 == 0.0)
-       		nomv1 = parser.getAclfBus(fid).getBaseVoltage().getValue();
+       		nomv1 = parser.getBus(fid).getBaseVoltage().getValue();
        	if (nomv2 == 0.0)
-       		nomv2 = parser.getAclfBus(tid).getBaseVoltage().getValue();
+       		nomv2 = parser.getBus(tid).getBaseVoltage().getValue();
        	if (is3W && nomv3 == 0.0)
-       		nomv3 = parser.getAclfBus(tertId).getBaseVoltage().getValue();
+       		nomv3 = parser.getBus(tertId).getBaseVoltage().getValue();
        	
        	int nmetr = dataParser.getInt("NMETR");
 		branRecXml.setMeterLocation( nmetr==1 ? BranchBusSideEnumType.FROM_SIDE :
@@ -203,7 +203,7 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
     			//I=U1*b
     			double g_rv=mag1/(nomv1*nomv1)*1.0E-6;//real value of conductance
     			
-    			double vbase=parser.getAclfBus(fid).getBaseVoltage().getValue();
+    			double vbase=parser.getBus(fid).getBaseVoltage().getValue();
                 double Ybase=sysMVABase/(vbase*vbase);
                 double g_pu=g_rv/Ybase; // based on system base
                 
@@ -325,7 +325,7 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
        		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
        		//TODO It seems not proper to use system base here, since the turnRatio is, in fact, still based on system base.
         	//xfrInfo.setDataOnSystemBase(false);
-       		windv1 /=parser.getAclfBus(fid).getBaseVoltage().getValue();
+       		windv1 /=parser.getBus(fid).getBaseVoltage().getValue();
        		
        	}
   		/*
@@ -422,8 +422,8 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
            		// cw=1, RMA, RMI are Off-nominal turns ratio in pu of winding one bus base voltage
            		// cw=2, RMA, RMI are Actual winding one voltage in kV 
            		if(cw==2){
-           			rma/=parser.getAclfBus(fid).getBaseVoltage().getValue();
-           			rmi/=parser.getAclfBus(fid).getBaseVoltage().getValue();
+           			rma/=parser.getBus(fid).getBaseVoltage().getValue();
+           			rmi/=parser.getBus(fid).getBaseVoltage().getValue();
            		}
            		tapAdj.setTapLimit(BaseDataSetter.createTapLimit(rma, rmi));
            		int ntp = dataParser.getInt("NTP");
@@ -512,7 +512,7 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
   		*/
       	double windv2 = dataParser.getDouble("WINDV2");
       	if(cw==2) 
-      		windv2 /=parser.getAclfBus(tid).getBaseVoltage().getValue();
+      		windv2 /=parser.getBus(tid).getBaseVoltage().getValue();
   		branRecXml.setToTurnRatio(BaseDataSetter.createTurnRatioPU(windv2));
 
   		if (is3W) {
@@ -549,7 +549,7 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
            	double rata3 = dataParser.getDouble("RATA3");
            	double ratb3 = dataParser.getDouble("RATB3");
            	double ratc3 = dataParser.getDouble("RATC3");
-    		if(cw==2)windv3 /=parser.getAclfBus(tertId).getBaseVoltage().getValue();
+    		if(cw==2)windv3 /=parser.getBus(tertId).getBaseVoltage().getValue();
       		branch3WXfr.setTertTurnRatio(BaseDataSetter.createTurnRatioPU(windv3));
       		branch3WXfr.setRatingLimit13(odmObjFactory.createBranchRatingLimitXmlType());
            	AclfDataSetter.setBranchRatingLimitData(branch3WXfr.getRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);

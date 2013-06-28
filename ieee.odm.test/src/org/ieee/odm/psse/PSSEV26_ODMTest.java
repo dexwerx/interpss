@@ -65,7 +65,7 @@ public class PSSEV26_ODMTest {
             </equivGen>
         </bus>
       		 */
-		LoadflowBusXmlType bus = parser.getAclfBus("Bus15021");
+		LoadflowBusXmlType bus = parser.getBus("Bus15021");
 		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.07);
 		assertTrue(bus.getGenData().getEquivGen().getDesiredAngle().getValue() == 3.1024);
@@ -78,7 +78,7 @@ public class PSSEV26_ODMTest {
           <loadData/>
         </loadflowData>
         */
-		bus = parser.getAclfBus("Bus31212");
+		bus = parser.getBus("Bus31212");
 		assertTrue(bus.getBaseVoltage().getValue() == 115.0);
 		assertTrue(bus.getVoltage().getValue() == 1.01273);
 		assertTrue(bus.getAngle().getValue() == -10.5533);			
@@ -94,7 +94,7 @@ public class PSSEV26_ODMTest {
 		 */
 						
 		// gen bus
-		bus = parser.getAclfBus("Bus31435");
+		bus = parser.getBus("Bus31435");
 		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(bus.getGenData().getEquivGen().getPower().getRe() == 8.52);
 		assertTrue(bus.getGenData().getEquivGen().getPower().getIm() == 2.51);
@@ -109,7 +109,7 @@ public class PSSEV26_ODMTest {
             </equivLoad>
           </loadData>
 		 */
-		bus = parser.getAclfBus("Bus36016");
+		bus = parser.getBus("Bus36016");
 		assertTrue(bus.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 6.5);
 		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getIm() == 3.86);
@@ -119,7 +119,7 @@ public class PSSEV26_ODMTest {
             <equivQ value="75.0" unit="MVAR"/>
           </shuntQData>
 		 */
-		bus = parser.getAclfBus("Bus30810");
+		bus = parser.getBus("Bus30810");
 		//assertTrue(bus.getShuntCompensatorData().getEquivQ().getValue() == 75.0);
 
 		// two loads on a bus, also, gen on the bus is turned off
@@ -141,7 +141,7 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </bus>
 		 */
-		bus = parser.getAclfBus("Bus32252");
+		bus = parser.getBus("Bus32252");
 		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 20.32);
 		
@@ -157,7 +157,7 @@ public class PSSEV26_ODMTest {
         </loadflowData>
       </bus>
  */
-		bus = parser.getAclfBus("Bus32252");
+		bus = parser.getBus("Bus32252");
 		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 
 		// Branch info

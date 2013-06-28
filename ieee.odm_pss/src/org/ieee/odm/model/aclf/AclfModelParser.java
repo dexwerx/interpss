@@ -24,12 +24,13 @@
 
 package org.ieee.odm.model.aclf;
 
+import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 
 /**
  * An Aclf Xml parser for the IEEE DOM schema. 
  */
-public class AclfModelParser extends BaseAclfModelParser<LoadflowNetXmlType> {
+public class AclfModelParser extends BaseAclfModelParser<LoadflowNetXmlType, LoadflowBusXmlType> {
 	/**
 	 * Default Constructor 
 	 * 

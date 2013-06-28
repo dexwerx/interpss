@@ -92,7 +92,7 @@ public class IEEECDF_ODMTest {
 		
 		// Bus 1 is a swing bus
 		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
-		LoadflowBusXmlType busRec = parser.getAclfBus("Bus1");
+		LoadflowBusXmlType busRec = parser.getBus("Bus1");
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 132.0);
 		assertTrue(busRec.getVoltage().getValue() == 1.060);
@@ -103,7 +103,7 @@ public class IEEECDF_ODMTest {
 
 		// Bus 2 is a PV bus with load
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
-		busRec = parser.getAclfBus("Bus2");
+		busRec = parser.getBus("Bus2");
 		//System.out.println(busRec);
 		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(busRec.getGenData().getEquivGen().getPower().getRe() == 40.0);
@@ -119,7 +119,7 @@ public class IEEECDF_ODMTest {
 
 		// Bus 9 is a load bus, also there is a capacitor of 0.19 pu
 		//    9 Bus 9     LV  1  1  0 1.056 -14.94     29.5     16.6      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.19       0
-		busRec = parser.getAclfBus("Bus9");
+		busRec = parser.getBus("Bus9");
 		assertTrue(busRec.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe() == 29.5);
 		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getIm() == 16.6);
@@ -131,7 +131,7 @@ public class IEEECDF_ODMTest {
 		
 		// Bus 7 is non-gen and non-load bus
 		//    7 Bus 7     ZV  1  1  0 1.062 -13.37      0.0      0.0      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.0        0
-		busRec = parser.getAclfBus("Bus7");
+		busRec = parser.getBus("Bus7");
 		//assertTrue(busRec.getLoadflowData().getGenData() == null);
 		assertTrue(busRec.getLoadData() == null);
 		assertTrue(busRec.getShuntY() == null);

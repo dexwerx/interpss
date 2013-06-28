@@ -95,7 +95,7 @@ public class OPF_Matpower_ODMTest {
 		
 		// Bus 2 is a PV bus with load
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
-		LoadflowBusXmlType bus3 =  parser.getAclfBus("Bus3");
+		LoadflowBusXmlType bus3 =  parser.getBus("Bus3");
 		//System.out.println(busRec);
 		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getRe()==150);		
 		assertTrue(bus3.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);		
@@ -145,7 +145,7 @@ public class OPF_Matpower_ODMTest {
 		
 		// Bus 1 is a swing bus
 		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
-		OpfGenBusXmlType busRec = (OpfGenBusXmlType) parser.getAclfBus("Bus1");
+		OpfGenBusXmlType busRec = (OpfGenBusXmlType) parser.getBus("Bus1");
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 10.0);
 		assertTrue(busRec.getVoltage().getValue() == 1.0);

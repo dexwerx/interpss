@@ -49,7 +49,7 @@ public class GEGenDataMapper extends BaseGEDataMapper {
 		
 	    final String busId = AbstractModelParser.BusIdPreFix+dataParser.getString("bus");
 		// get the responding-bus data with busId
-		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
+		LoadflowBusXmlType busRec = parser.getBus(busId);
 		if (busRec==null)
 			throw new ODMException("Error: Bus not found in the network, bus number: " + busId);
 		

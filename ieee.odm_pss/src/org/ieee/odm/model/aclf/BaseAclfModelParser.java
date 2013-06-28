@@ -34,6 +34,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.FlowInterfaceRecXmlType;
@@ -51,7 +52,7 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 /**
  * An Aclf Xml parser for the IEEE DOM schema. 
  */
-public class BaseAclfModelParser<TNetXml extends NetworkXmlType> extends AbstractModelParser<TNetXml> {
+public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> extends AbstractModelParser<TNetXml, TBusXml> {
 	/**
 	 * Default Constructor 
 	 * 
@@ -138,16 +139,6 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType> extends Abstrac
 		return busRec;
 	}	
 	
-	/**
-	 * get the bus object using the id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public LoadflowBusXmlType getAclfBus(String id) {
-		return (LoadflowBusXmlType)getBus(id);
-	}
-
 	/*
 	 * 		Branch functions
 	 * 		================

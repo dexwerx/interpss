@@ -154,7 +154,7 @@ public class PSSEV26BusRecord {
 
 	    final String busId = AbstractModelParser.BusIdPreFix+loadDataParser.getString("I");
 	    //to test if there is a responding bus in the bus data record
-		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
+		LoadflowBusXmlType busRec = parser.getBus(busId);
 	    if (busRec == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
@@ -237,7 +237,7 @@ public class PSSEV26BusRecord {
 	    
 		final String busId = AbstractModelParser.BusIdPreFix+genDataParser.getString("I");
 		// get the responding-bus data with busId
-		LoadflowBusXmlType busRec = parser.getAclfBus(busId);
+		LoadflowBusXmlType busRec = parser.getBus(busId);
 		if (busRec==null){
 			ODMLogger.getLogger().severe("Error: Bus not found in the network, bus number: " + busId);
         	return;

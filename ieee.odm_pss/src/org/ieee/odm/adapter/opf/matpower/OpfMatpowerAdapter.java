@@ -248,7 +248,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 		final String[] s = getGenDataFields(str);
 		final String id = s[0];
 		final String busId = AbstractModelParser.BusIdPreFix + id;
-		OpfGenBusXmlType bus = (OpfGenBusXmlType) parser.getAclfBus(busId);
+		OpfGenBusXmlType bus = (OpfGenBusXmlType) parser.getBus(busId);
 		opfGenContainer.add(bus);
 		double pg = str2d(s[1]);
 		double qg = str2d(s[2]);

@@ -62,7 +62,7 @@ public class PSSESwitchedSShuntDataMapper extends BasePSSEDataMapper {
 		
 		final String busId = AbstractModelParser.BusIdPreFix+this.dataParser.getString("I");
 		// get the responding-bus data with busId
-		LoadflowBusXmlType aclfBus = parser.getAclfBus(busId);
+		LoadflowBusXmlType aclfBus = parser.getBus(busId);
 		if (aclfBus==null){
 			throw new ODMException("Error: Bus not found in the network, bus number: " + busId);
         }

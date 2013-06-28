@@ -27,7 +27,7 @@ package org.ieee.odm.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.adapter.psse.mapper.PSSEHeaderDataMapper;
+import org.ieee.odm.adapter.psse.mapper.aclf.PSSEHeaderDataMapper;
 import org.junit.Test;
 
 public class PSSE_HearderVer_ODMTest { 

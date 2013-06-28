@@ -35,6 +35,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -43,7 +44,7 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
-public class BPABusRecord<TNetXml extends NetworkXmlType> {
+public class BPABusRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
 	private static final int swingBus=1;
 	private static final int pqBus=2;
 	private static final int pvBus=3;		
@@ -89,7 +90,7 @@ public class BPABusRecord<TNetXml extends NetworkXmlType> {
 		return id; 
 	}
 	
-	public void processBusData(final String str, BaseAclfModelParser<TNetXml> parser) throws Exception {		
+	public void processBusData(final String str, BaseAclfModelParser<TNetXml, TBusXml> parser) throws Exception {		
 		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
 
 		// parse the input data line
@@ -294,7 +295,7 @@ public class BPABusRecord<TNetXml extends NetworkXmlType> {
 			*/
 			if(busType==supplementaryBusInfo){
 				
-				LoadflowBusXmlType Bus=parser.getAclfBus(getBusId(busName));
+				TBusXml Bus=parser.getBus(getBusId(busName));
 				final String loadType=strAry[5];
 				//loadType: *I or 01 for constI,  and *P or 02 for constP
 				final double p=ModelStringUtil.getDouble(strAry[6], 0.0);
@@ -308,7 +309,7 @@ public class BPABusRecord<TNetXml extends NetworkXmlType> {
 					double re=ModelStringUtil.getNumberFormat(ShuntG/baseMVA); // x(pu)=Var/baseMVA
 					double im=ModelStringUtil.getNumberFormat(ShuntB/baseMVA);
 					if(re!=0.0||im!=0.0){
-						AclfDataSetter.addBusShuntY(Bus, re, im, YUnitType.PU);	
+						AclfDataSetter.addBusShuntY((LoadflowBusXmlType)Bus, re, im, YUnitType.PU);	
 					}
 					//System.out.println("Im="+im+",Shunt B="+Bus.getShuntY().getIm());
 				}

@@ -49,7 +49,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * An Acsc ODM Xml parser for the IEEE DOM schema. 
  */
-public class AcscModelParser extends BaseAclfModelParser<ShortCircuitNetXmlType> {	
+public class AcscModelParser extends BaseAclfModelParser<ShortCircuitNetXmlType, ShortCircuitBusXmlType> {	
 
 	/**
 	 * Default Constructor 

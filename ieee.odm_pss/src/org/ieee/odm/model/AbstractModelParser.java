@@ -66,7 +66,7 @@ import org.ieee.odm.schema.StudyScenarioXmlType;
 /**
  * Abstract Xml parser implementation as the base for all the IEEE DOM schema parsers. 
  */
-public abstract class AbstractModelParser<TNetXml extends NetworkXmlType> implements IODMModelParser {
+public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> implements IODMModelParser {
 	/**
 	 * Bus pre-fix, default value "Bus", pre-fix added to the bus number to create Bus Id
 	 */
@@ -356,8 +356,8 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType> implem
 	 * @param id
 	 * @return
 	 */
-	public BusXmlType getBus(String id) {
-		return (BusXmlType)this.getCachedObject(id);
+	public TBusXml getBus(String id) {
+		return (TBusXml)this.getCachedObject(id);
 	}	
 
 	/**

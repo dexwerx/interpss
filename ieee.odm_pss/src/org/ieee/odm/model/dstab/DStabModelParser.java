@@ -27,7 +27,6 @@ package org.ieee.odm.model.dstab;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -41,12 +40,10 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
-import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -54,7 +51,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * A DStab ODM Xml model parser for the IEEE DOM schema. 
  */
-public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType> {
+public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType, DStabBusXmlType> {
 	// some input file might carry DStab Simu data;
 	private DStabSimulationXmlType tranSimu = null;
 	

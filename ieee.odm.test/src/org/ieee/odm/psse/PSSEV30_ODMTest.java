@@ -80,7 +80,7 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </bus>
  */
-		LoadflowBusXmlType bus = parser.getAclfBus("Bus1");
+		LoadflowBusXmlType bus = parser.getBus("Bus1");
 		assertTrue(bus.getBaseVoltage().getValue() == 13.8);
 		LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.SWING);
@@ -106,7 +106,7 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </bus>
 */
-		bus = parser.getAclfBus("Bus2");
+		bus = parser.getBus("Bus2");
 		assertTrue(bus.getLoadData() == null);
 		equivGen = bus.getGenData().getEquivGen();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.NONE_GEN);
@@ -131,7 +131,7 @@ public class PSSEV30_ODMTest {
         </loadflowData>
       </bus>
 */
-		bus = parser.getAclfBus("Bus5");
+		bus = parser.getBus("Bus5");
 		assertTrue(bus.getLoadData() == null);
 		equivGen = bus.getGenData().getEquivGen();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.PV);

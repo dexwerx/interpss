@@ -84,7 +84,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 */		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRecXml = parser.getAclfBus(busId);
+		LoadflowBusXmlType busRecXml = parser.getBus(busId);
 	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;

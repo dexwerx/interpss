@@ -187,7 +187,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		}
 		busId=AbstractModelParser.BusIdPreFix+busNum;
 		
-		LoadflowBusXmlType bus=parser.getAclfBus(busId);
+		LoadflowBusXmlType bus=parser.getBus(busId);
 		
 		// END OF DATA PROCESSING ,BEGIN DATA SETTING
         //TODO 04/03/2013
@@ -314,7 +314,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		   }
 
 			String busId = AbstractModelParser.BusIdPreFix + busNum;
-			LoadflowBusXmlType bus = parser.getAclfBus(busId);
+			LoadflowBusXmlType bus = parser.getBus(busId);
 			
 			//save custom string as NV pairs
 			if(!substation.equals(""))BaseJaxbHelper.addNVPair(bus, STATION_TOKEN, substation);
@@ -520,7 +520,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		//TODO no shunt status defined in ODM
 		
 		String busId=AbstractModelParser.BusIdPreFix+busNum;
-		LoadflowBusXmlType bus=parser.getAclfBus(busId);
+		LoadflowBusXmlType bus=parser.getBus(busId);
 		
 		AclfDataSetter.setShuntCompensatorData(bus, mode, normalMVR, vHigh, vLow);
 		ShuntCompensatorXmlType shunt=bus.getShuntCompensatorList().get(0);
