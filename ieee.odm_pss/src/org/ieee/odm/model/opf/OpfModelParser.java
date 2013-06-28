@@ -29,7 +29,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseOpfNetworkXmlType;
@@ -48,7 +48,7 @@ import org.ieee.odm.schema.QuadraticModelXmlType;
  * An OPF ODM Xml parser for the IEEE DOM schema. It supports two types of Opf net
  * 
  */
-public class OpfModelParser extends AclfModelParser {
+public class OpfModelParser extends BaseAclfModelParser<BaseOpfNetworkXmlType> {
 	/**
 	 * OPF network type
 	 * 
@@ -113,7 +113,7 @@ public class OpfModelParser extends AclfModelParser {
 	 * create the base case object of type LoadflowXmlType
 	 */
 	@Override
-	public NetworkXmlType createBaseCase() {
+	public BaseOpfNetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			BaseOpfNetworkXmlType baseCase;
 			if (netType == OpfNetType.DclfOpf)
@@ -124,7 +124,7 @@ public class OpfModelParser extends AclfModelParser {
 			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return getStudyCase().getBaseCase().getValue();
+		return (BaseOpfNetworkXmlType)getStudyCase().getBaseCase().getValue();
 	}	
 	
 	/*

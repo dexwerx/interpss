@@ -28,7 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.BaseBranchXmlType;
@@ -39,7 +39,6 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
@@ -50,7 +49,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * An Acsc ODM Xml parser for the IEEE DOM schema. 
  */
-public class AcscModelParser extends AclfModelParser {	
+public class AcscModelParser extends BaseAclfModelParser<ShortCircuitNetXmlType> {	
 
 	/**
 	 * Default Constructor 
@@ -73,14 +72,14 @@ public class AcscModelParser extends AclfModelParser {
 	 * create the base case object of type ShortCircuitNetXmlType
 	 */
 	@Override
-	public NetworkXmlType createBaseCase() {
+	public ShortCircuitNetXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			ShortCircuitNetXmlType baseCase = odmObjFactory.createShortCircuitNetXmlType();
 			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
 			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return getStudyCase().getBaseCase().getValue();
+		return (ShortCircuitNetXmlType)getStudyCase().getBaseCase().getValue();
 	}
 	
 	/**
@@ -157,28 +156,29 @@ public class AcscModelParser extends AclfModelParser {
 	 * @throws ODMException
 	 */
     public LineShortCircuitXmlType getAcscLine(String fromId, String toId, String cirId) throws ODMException {
-    		BaseBranchXmlType branch = this.getBranch(fromId, toId, cirId);
-    		if (branch != null) {
-    			if (!(branch instanceof LineShortCircuitXmlType)) {
-    				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
-    				LineShortCircuitXmlType acscbra = null;
-    				if (branch instanceof LineBranchXmlType) {
-    					acscbra = (LineShortCircuitXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfLine", "acscLine", this.encoding);
-    					this.replaceBranch(id, acscbra);
-    				}
-    				else if (branch instanceof LineDStabXmlType) {
-    					acscbra = (LineShortCircuitXmlType)branch;
-    				}
-    				else
-    					throw new ODMException("Branch is not of AcscXfr type, however, it is neither Aclf nor Dstab Xfr type, id: " + fromId + "->" + toId + "(" + cirId + ")");
-    			
-    				return acscbra;
-    			}
-    			else
-    				return (LineShortCircuitXmlType)branch;
-    		}
-    		throw new ODMException("Branch not found in the AcscNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
-    	}
+		BaseBranchXmlType branch = this.getBranch(fromId, toId, cirId);
+		if (branch != null) {
+			if (!(branch instanceof LineShortCircuitXmlType)) {
+				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
+				LineShortCircuitXmlType acscbra = null;
+				if (branch instanceof LineBranchXmlType) {
+					acscbra = (LineShortCircuitXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfLine", "acscLine", this.encoding);
+					this.replaceBranch(id, acscbra);
+				}
+				else if (branch instanceof LineDStabXmlType) {
+					acscbra = (LineShortCircuitXmlType)branch;
+				}
+				else
+					throw new ODMException("Branch is not of AcscXfr type, however, it is neither Aclf nor Dstab Xfr type, id: " + fromId + "->" + toId + "(" + cirId + ")");
+			
+				return acscbra;
+			}
+			else
+				return (LineShortCircuitXmlType)branch;
+		}
+		throw new ODMException("Branch not found in the AcscNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
+    }
+    
 	/**
 	 * create a new XfrShortCircuitXmlType AcscXfr. This function is used only when
 	 * no AclfXfr or DstabXfr has been defined for the same id. If not, use the getAcscXfr() instead!
@@ -204,29 +204,26 @@ public class AcscModelParser extends AclfModelParser {
 	 * @throws ODMException 
 	  */
     public XfrShortCircuitXmlType getAcscXfr(String fromId, String toId, String cirId) throws ODMException{
-    	
-
-    		BaseBranchXmlType branch = this.getBranch(fromId, toId, cirId);
-    		if (branch != null) {
-    			if (!(branch instanceof XfrShortCircuitXmlType)) {
-    				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
-    				XfrShortCircuitXmlType acscXfr = null;
-    				if (branch instanceof XfrBranchXmlType) {
-    					acscXfr  = (XfrShortCircuitXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfXfr", "acscXfr", this.encoding);
-    					this.replaceBranch(id, acscXfr );
-    				}
-    				else if (branch instanceof XfrDStabXmlType) {
-    					acscXfr  = (XfrShortCircuitXmlType)branch;
-    				}
-    				else
-    					throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
-    				
-    				 return acscXfr;
-    			}
-    			else
-    				return (XfrShortCircuitXmlType)branch;
-    		}
-    		throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
-    	}
-    
+		BaseBranchXmlType branch = this.getBranch(fromId, toId, cirId);
+		if (branch != null) {
+			if (!(branch instanceof XfrShortCircuitXmlType)) {
+				String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
+				XfrShortCircuitXmlType acscXfr = null;
+				if (branch instanceof XfrBranchXmlType) {
+					acscXfr  = (XfrShortCircuitXmlType)ModelStringUtil.casting((BranchXmlType)branch, "aclfXfr", "acscXfr", this.encoding);
+					this.replaceBranch(id, acscXfr );
+				}
+				else if (branch instanceof XfrDStabXmlType) {
+					acscXfr  = (XfrShortCircuitXmlType)branch;
+				}
+				else
+					throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
+				
+				 return acscXfr;
+			}
+			else
+				return (XfrShortCircuitXmlType)branch;
+		}
+		throw new ODMException("Branch not found in the DStabNet, id: " + fromId + "->" + toId + "(" + cirId + ")");
+   	}
 }

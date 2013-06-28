@@ -27,17 +27,19 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.LengthUnitType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class BPALineBranchRecord {
-	public static void processBranchData(final String str,	AclfModelParser parser)  throws ODMException {	
+public class BPALineBranchRecord<TNetXml extends NetworkXmlType> {
+	public void processBranchData(final String str,	BaseAclfModelParser<TNetXml> parser)  throws ODMException {	
 		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
 		// symmetry line data
 		if(str.startsWith("L ")){

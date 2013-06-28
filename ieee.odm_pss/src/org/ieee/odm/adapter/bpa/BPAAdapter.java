@@ -37,6 +37,8 @@ import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
+import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
 /**
@@ -69,7 +71,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		} while (str.startsWith(".") || str.trim().equals(""));  // bypass lines starts with . or blank lines
 		
 		if(str.equals("loadflow") || str.contains("POWERFLOW")){
-			BPALoadflowRecord.processLfData(parser, din);			
+			new BPALoadflowRecord<LoadflowNetXmlType>().processLfData(parser, din);			
 			return parser;
 		}
 		throw new ODMException("Only LF data file could be prcessed by this method");
@@ -97,7 +99,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			} while (str.startsWith(".") || str.trim().equals(""));
 			
 			if(str.equals("loadflow") || str.contains("POWERFLOW")){
-				BPALoadflowRecord.processLfData(parser, din);			
+				new BPALoadflowRecord<DStabNetXmlType>().processLfData(parser, din);			
 			}
 			//timer.logStd("Load LF data");
 			

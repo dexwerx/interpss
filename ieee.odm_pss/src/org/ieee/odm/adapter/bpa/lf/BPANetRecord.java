@@ -30,6 +30,7 @@ import java.util.StringTokenizer;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
@@ -41,9 +42,10 @@ import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
-public class BPANetRecord {
+public class BPANetRecord<TNetXml extends NetworkXmlType> {
 	/*
 	 *   Network data
 	 *   ============ 
@@ -84,7 +86,7 @@ public class BPANetRecord {
 	 *   ================ 
 	 */
 
-	public static void processAreaData(final String str,final AclfModelParser parser ,
+	public void processAreaData(final String str,final BaseAclfModelParser<TNetXml> parser ,
 			final LoadflowNetXmlType baseCaseNet, int areaNumber	) throws ODMException {
 		
 		final String[] strAry = getAreaDataFields(str);

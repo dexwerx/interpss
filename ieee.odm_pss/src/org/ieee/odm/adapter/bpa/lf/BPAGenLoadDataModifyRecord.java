@@ -3,14 +3,15 @@ package org.ieee.odm.adapter.bpa.lf;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 
-public class BPAGenLoadDataModifyRecord {
+public class BPAGenLoadDataModifyRecord<TNetXml extends NetworkXmlType> {
 	/*
 	 * only AC Bus will be considered for generation and/or load data modification.
 	 */
@@ -22,7 +23,7 @@ public class BPAGenLoadDataModifyRecord {
 	private static final String Modify_ConstZILoad_BY_ZONE="PC";   //PC
 	private static final String Modify_ConstZILoad_BY_OWNER="PB";   //PB
 	
-	public static void processGenLoadModificationData(final String str, AclfModelParser parser)
+	public void processGenLoadModificationData(final String str, BaseAclfModelParser<TNetXml> parser)
 	throws Exception {
 		final String[] strAry =getModificationData(str);
 		double loadP_Factor=1;

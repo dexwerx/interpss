@@ -28,6 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.BaseBranchXmlType;
@@ -45,6 +46,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -52,7 +54,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * A DStab ODM Xml model parser for the IEEE DOM schema. 
  */
-public class DStabModelParser extends AclfModelParser {
+public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType> {
 	// some input file might carry DStab Simu data;
 	private DStabSimulationXmlType tranSimu = null;
 	
@@ -97,7 +99,7 @@ public class DStabModelParser extends AclfModelParser {
 	 * create the base case object of type DStabNetXmlType
 	 */
 	@Override
-	public NetworkXmlType createBaseCase() {
+	public DStabNetXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			DStabNetXmlType baseCase = odmObjFactory.createDStabNetXmlType();
 			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
@@ -105,7 +107,7 @@ public class DStabModelParser extends AclfModelParser {
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 			this.tranSimu = odmObjFactory.createDStabSimulationXmlType();
 		}
-		return getStudyCase().getBaseCase().getValue();
+		return (DStabNetXmlType)getStudyCase().getBaseCase().getValue();
 	}
 	
 	/*

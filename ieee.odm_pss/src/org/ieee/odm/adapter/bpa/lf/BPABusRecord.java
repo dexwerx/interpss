@@ -29,7 +29,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -38,11 +38,12 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
-public class BPABusRecord {
+public class BPABusRecord<TNetXml extends NetworkXmlType> {
 	private static final int swingBus=1;
 	private static final int pqBus=2;
 	private static final int pvBus=3;		
@@ -88,7 +89,7 @@ public class BPABusRecord {
 		return id; 
 	}
 	
-	public static void processBusData(final String str, AclfModelParser parser) throws Exception {		
+	public void processBusData(final String str, BaseAclfModelParser<TNetXml> parser) throws Exception {		
 		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
 
 		// parse the input data line
