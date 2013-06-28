@@ -281,7 +281,7 @@ public class BPADynamicSequenceRecord {
 					//How about the case that several generators is in parallel on the bus?
 					ScGenDataXmlType scgd = odmObjFactory.createScGenDataXmlType();
 					scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
-					bus.setScGenData(scgd);
+					bus.getScGenData().add(scgd);
 					
 					//odmObjFactory.createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));	
 				}
