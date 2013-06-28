@@ -91,7 +91,7 @@ public class BPABusRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 	}
 	
 	public void processBusData(final String str, BaseAclfModelParser<TNetXml, TBusXml> parser) throws Exception {		
-		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
+		final double baseMVA = parser.getNet().getBasePower().getValue();
 
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);
@@ -134,7 +134,7 @@ public class BPABusRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 		    final String busId =  createBusId(busName);
 			ODMLogger.getLogger().fine("Bus data loaded, busName: " + busId);	
 		try {
-			busRec = parser.createAclfBus(busId);
+			busRec = (LoadflowBusXmlType)parser.createBus(busId);
 			busRec.setName(busName);
 		} catch (ODMException e) {
 			ODMLogger.getLogger().severe(e.toString());

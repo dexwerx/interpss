@@ -67,7 +67,7 @@ public class PWD_XfrControl_Test {
 		parser.stdout();
 
 		//check network data
-		assertTrue(parser.getAclfNet().getBusList().getBus().size()==5);
+		assertTrue(parser.getNet().getBusList().getBus().size()==5);
 		
 		//Xfr Bus1_to_Bus3_cirId_1
 		XfrBranchXmlType xfr13=parser.getXfrBranch("Bus1", "Bus3", "1");

@@ -131,7 +131,7 @@ public class OPF_Matpower_ODMTest {
 		OpfModelParser parser = (OpfModelParser)adapter.getModel();
 		System.out.println(parser.toXmlDoc("out/matpower/case3bus_qp.xml"));
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		OpfNetworkXmlType net = parser.getOpfNetwork();
 		
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 3);

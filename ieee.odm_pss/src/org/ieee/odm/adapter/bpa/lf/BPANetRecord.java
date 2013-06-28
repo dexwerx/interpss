@@ -29,7 +29,6 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
@@ -51,14 +50,14 @@ public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 	 *   Network data
 	 *   ============ 
 	 */
-	public static void processReadComment(final String str, final LoadflowNetXmlType baseCaseNet){
+	public void processReadComment(final String str, final TNetXml baseCaseNet){
 		
 	//	adapter.logErr("This line is for comment only:  "+str);
 		// to do in future
 		
 	}
 
-	public static void processNetData(final String str, final LoadflowNetXmlType baseCaseNet) {
+	public void processNetData(final String str, final TNetXml baseCaseNet) {
 			// parse the input data line
 			final String[] strAry = getNetDataFields(str);			
 	        //read powerflow, caseID,projectName, 			
@@ -88,7 +87,8 @@ public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 	 */
 
 	public void processAreaData(final String str,final BaseAclfModelParser<TNetXml, TBusXml> parser ,
-			final LoadflowNetXmlType baseCaseNet, int areaNumber	) throws ODMException {
+			final TNetXml baseCaseNet, int areaNumber	) throws ODMException {
+		LoadflowNetXmlType net = (LoadflowNetXmlType)baseCaseNet;
 		
 		final String[] strAry = getAreaDataFields(str);
 		int zoneId=0;
@@ -171,8 +171,8 @@ public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 		}
 		*/
 		else if(str.trim().startsWith("I")){// I Record defines the inter-area power exchange
-			if (baseCaseNet.getInterchangeList() == null)
-				baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
+			if (net.getInterchangeList() == null)
+				net.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
 
 			String fAreaName="";
 			if(!strAry[2].equals("")){
@@ -188,7 +188,7 @@ public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 			}			
 			if(!fAreaName.equals("")&&!tAreaName.equals("")){//&& exchangePower!=0
 				InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
-				baseCaseNet.getInterchangeList().getInterchange().add(interchange);
+				net.getInterchangeList().getInterchange().add(interchange);
 				
 				AreaTransferXmlType transfer = odmObjFactory.createAreaTransferXmlType(); 
 				interchange.setAreaTransfer(transfer);
@@ -271,9 +271,11 @@ public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 		}
 		return strAry;
 	}
-	private static NetAreaXmlType getAreaByName(final LoadflowNetXmlType baseCaseNet, final String areaName) throws ODMException{
+	
+	private NetAreaXmlType getAreaByName(final TNetXml baseNet, final String areaName) throws ODMException{
 		NetAreaXmlType targetArea=null;
-		for(NetAreaXmlType area:baseCaseNet.getAreaList().getArea()){
+		LoadflowNetXmlType net = (LoadflowNetXmlType)baseNet;
+		for(NetAreaXmlType area : net.getAreaList().getArea()){
 			if(area.getName().equals(areaName))
 			{targetArea=area;break;}
 		}

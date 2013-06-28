@@ -49,7 +49,7 @@ public class PSSEZoneDataMapper extends BasePSSEDataMapper {
 		int	i = this.dataParser.getInt("I");
 		String name = this.dataParser.getString("ZONAME");
 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		if (baseCaseNet.getLossZoneList() == null)
 			baseCaseNet.setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
 		NetZoneXmlType zone = odmObjFactory.createNetZoneXmlType(); 

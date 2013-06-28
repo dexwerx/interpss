@@ -27,6 +27,7 @@ package org.ieee.odm.model.dc;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.DcBranchXmlType;
 import org.ieee.odm.schema.DcBusXmlType;
@@ -36,7 +37,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 /**
  * A Dc system Xml model parser for the IEEE DOM schema. 
  */
-public class DcSystemModelParser extends AbstractModelParser {
+public class DcSystemModelParser extends BaseAclfModelParser<DcNetworkXmlType, DcBusXmlType> {
 	/**
 	 * Default Constructor 
 	 * 
@@ -58,7 +59,7 @@ public class DcSystemModelParser extends AbstractModelParser {
 	 * create the base case object of type DcNetworkXmlType
 	 */
 	@Override
-	public NetworkXmlType createBaseCase() {
+	public DcNetworkXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			DcNetworkXmlType baseCase = odmObjFactory.createDcNetworkXmlType();
 			
@@ -66,7 +67,7 @@ public class DcSystemModelParser extends AbstractModelParser {
 			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return getStudyCase().getBaseCase().getValue();
+		return (DcNetworkXmlType)getStudyCase().getBaseCase().getValue();
 	}
 	
 	/*

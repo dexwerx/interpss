@@ -45,7 +45,7 @@ public class GEAreaDataMapper extends BaseGEDataMapper {
 	public void mapLineStr(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		if (baseCaseNet.getAreaList() == null)
 			baseCaseNet.setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		ExchangeAreaXmlType area = odmObjFactory.createExchangeAreaXmlType();

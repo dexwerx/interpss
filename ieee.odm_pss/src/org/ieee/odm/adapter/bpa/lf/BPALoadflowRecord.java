@@ -51,7 +51,7 @@ public class BPALoadflowRecord<TNetXml extends NetworkXmlType, TBusXml extends B
 	public final static String Token_BN="Bus Name";
 	
 	public void processLfData(BaseAclfModelParser<TNetXml, TBusXml> parser, final IFileReader din) throws Exception {
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		TNetXml baseCaseNet = parser.getNet();
 		baseCaseNet.setId("Base_Case_from_BPA_loadflow_format");			
 
 		// we set default base MVA here, since MVA line is optional
@@ -81,7 +81,7 @@ public class BPALoadflowRecord<TNetXml extends NetworkXmlType, TBusXml extends B
 					else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
 							||str.startsWith(">")){
 						ODMLogger.getLogger().fine("load header data");
-						BPANetRecord.processNetData(str, baseCaseNet);
+						new BPANetRecord<TNetXml, TBusXml>().processNetData(str, baseCaseNet);
 					}
 					else if(str.startsWith("A")||str.trim().startsWith("I")){
 						areaList.add(str);
@@ -109,7 +109,7 @@ public class BPALoadflowRecord<TNetXml extends NetworkXmlType, TBusXml extends B
 						new BPAGenLoadDataModifyRecord<TNetXml, TBusXml>().processGenLoadModificationData(str,parser);
 					}
 					else{
-						BPANetRecord.processReadComment(str, baseCaseNet);
+						new BPANetRecord<TNetXml, TBusXml>().processReadComment(str, baseCaseNet);
 					}						
 				}
 				catch (final Exception e) {
@@ -157,12 +157,13 @@ public class BPALoadflowRecord<TNetXml extends NetworkXmlType, TBusXml extends B
 			}
 		}
 	}
+	
 	private void processInterAreaExchangeData(List<String> strList, BaseAclfModelParser<TNetXml,TBusXml> parser) throws ODMException{
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		TNetXml baseCaseNet = parser.getNet();
 		int areaNumber=0;
 		for (String str : strList) {
 			if(str.startsWith("AC ")||str.startsWith("A ")) areaNumber++; //only AC,NOT AC+
-			new BPANetRecord<TNetXml, TBusXml>().processAreaData(str, parser, baseCaseNet,areaNumber );
+			new BPANetRecord<TNetXml, TBusXml>().processAreaData(str, parser, baseCaseNet, areaNumber );
 		}
 	}
 }

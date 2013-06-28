@@ -43,7 +43,7 @@ public class PSSEHeaderDataMapper {
 	private PsseVersion fileVersion = PsseVersion.PSSE_30;
 	
 	public void procLineString(String[] lineStrAry, PsseVersion adptrVersion, final AclfModelParser parser) throws ODMException {
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		
 		String lineStr = lineStrAry[0];
 		StringTokenizer st = new StringTokenizer(lineStr, ",");

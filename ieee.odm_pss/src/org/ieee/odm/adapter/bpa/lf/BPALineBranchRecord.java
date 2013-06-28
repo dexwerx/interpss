@@ -41,7 +41,7 @@ import org.ieee.odm.schema.ZUnitType;
 
 public class BPALineBranchRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
 	public void processBranchData(final String str,	BaseAclfModelParser<TNetXml, TBusXml> parser)  throws ODMException {	
-		final double baseMVA = parser.getAclfNet().getBasePower().getValue();
+		final double baseMVA = parser.getNet().getBasePower().getValue();
 		// symmetry line data
 		if(str.startsWith("L ")){
 			// parse the branch input line str

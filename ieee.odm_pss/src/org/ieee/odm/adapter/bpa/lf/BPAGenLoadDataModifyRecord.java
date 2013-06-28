@@ -41,14 +41,14 @@ public class BPAGenLoadDataModifyRecord<TNetXml extends NetworkXmlType, TBusXml 
 		
 		if(strAry[0].equals(Modify_Gen_n_Load_ALL)){
 			
-			for(JAXBElement<? extends BusXmlType> b : parser.getAclfNet().getBusList().getBus()){
+			for(JAXBElement<? extends BusXmlType> b : parser.getNet().getBusList().getBus()){
 				LoadflowBusXmlType bus=(LoadflowBusXmlType) b.getValue();
 				modifyLoadData(bus,loadP_Factor,loadQ_Factor);
 				modifyGenData(bus,genP_Factor,genQ_Factor);
 			}
 		}
 		else if(strAry[0].equals(Modify_Gen_n_Load_BY_ZONE)){
-			for(JAXBElement<? extends BusXmlType> b : parser.getAclfNet().getBusList().getBus()){
+			for(JAXBElement<? extends BusXmlType> b : parser.getNet().getBusList().getBus()){
 				LoadflowBusXmlType bus=(LoadflowBusXmlType) b.getValue();
 				if(bus.getZoneName().equals(strAry[1])){
 					modifyLoadData(bus,loadP_Factor,loadQ_Factor);
@@ -57,7 +57,7 @@ public class BPAGenLoadDataModifyRecord<TNetXml extends NetworkXmlType, TBusXml 
 			}
 		}
 		else if (strAry[0].equals(Modify_Gen_n_Load_BY_OWNER)){
-			for(JAXBElement<? extends BusXmlType> b : parser.getAclfNet().getBusList().getBus()){
+			for(JAXBElement<? extends BusXmlType> b : parser.getNet().getBusList().getBus()){
 				LoadflowBusXmlType bus=(LoadflowBusXmlType) b.getValue();
 				if(bus.getZoneName().equals(strAry[1])){
 					modifyLoadData(bus,loadP_Factor,loadQ_Factor);

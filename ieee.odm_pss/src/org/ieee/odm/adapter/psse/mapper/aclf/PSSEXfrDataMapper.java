@@ -66,8 +66,8 @@ public class PSSEXfrDataMapper extends BasePSSEDataMapper {
 		//procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
 		dataParser.parseFields( lineStrAry);
 		
-		double sysMVABase=parser.getAclfNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
-                parser.getAclfNet().getBasePower().getValue(): parser.getAclfNet().getBasePower().getValue()*0.001;
+		double sysMVABase=parser.getNet().getBasePower().getUnit()==ApparentPowerUnitType.MVA?
+                parser.getNet().getBasePower().getValue(): parser.getNet().getBasePower().getValue()*0.001;
 		
       	int i = dataParser.getInt("I");
       	int j = dataParser.getInt("J");                

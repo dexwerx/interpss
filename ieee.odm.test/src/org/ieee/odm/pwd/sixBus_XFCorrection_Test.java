@@ -27,8 +27,8 @@ public class sixBus_XFCorrection_Test {
 	AclfModelParser parser = (AclfModelParser)adapter.getModel();
 	System.out.println(parser.toXmlDoc());
 	
-	assertTrue(parser.getAclfNet().getXfrZTable().getXformerZTableItem().size()==1);
-	XformerZTableItem item= parser.getAclfNet().getXfrZTable().getXformerZTableItem().get(0);
+	assertTrue(parser.getNet().getXfrZTable().getXformerZTableItem().size()==1);
+	XformerZTableItem item= parser.getNet().getXfrZTable().getXformerZTableItem().get(0);
 	assertTrue(item.getLookup().size()==3);
 	assertTrue(item.getLookup().get(0).getTurnRatioShiftAngle()==-25.0);
 	assertTrue(item.getLookup().get(1).getTurnRatioShiftAngle()==0.0);

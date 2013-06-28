@@ -77,7 +77,7 @@ public class UCTENodeDataMapper extends BaseUCTEDataMapper {
 		String powerPlanType = this.dataParser.getString("powerPlanType", "");
 		
 		// create a bus record
-		LoadflowBusXmlType aclfBus = parser.createAclfBus(id); 
+		LoadflowBusXmlType aclfBus = parser.createBus(id); 
       	aclfBus.setId(id);
       	aclfBus.setNumber((long)busCnt);
       	if (name != null && !name.trim().equals(""))

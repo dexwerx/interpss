@@ -194,7 +194,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 				opfGenBus
 						.setOperatingMode(OpfGenOperatingModeEnumType.PV_GENERATOR);
 			} else {
-				aclfBus = parser.createAclfBus(busId);
+				aclfBus = parser.createBus(busId);
 			}
 		} catch (Exception e) {
 			this.logErr(e.toString());

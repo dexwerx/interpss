@@ -57,7 +57,7 @@ public class UCTE_ODMTest {
 		assertTrue(adapter.parseInputFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 18);
 		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 30);
 		

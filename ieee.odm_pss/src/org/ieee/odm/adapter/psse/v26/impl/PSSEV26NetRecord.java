@@ -75,7 +75,7 @@ public class PSSEV26NetRecord {
 	}
         
 	public void processAreaInterchangeData(final String str, AclfModelParser parser) throws ODMException {
-		final LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		final LoadflowNetXmlType baseCaseNet = parser.getNet();
 
 		//final String[] strAry = getAreaInterchangeDataFields(str);
 		areaInterDataParser.parseFields(str);

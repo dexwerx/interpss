@@ -44,7 +44,7 @@ public class GEZoneDataMapper extends BaseGEDataMapper {
 	public void mapLineStr(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		if (baseCaseNet.getLossZoneList() == null)
 			baseCaseNet.setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
 		ExchangeZoneXmlType zone = odmObjFactory.createExchangeZoneXmlType(); 

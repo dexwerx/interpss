@@ -36,7 +36,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 /**
  * A generic Xml parser for the IEEE DOM schema, used when the network type is unknown 
  */
-public class ODMModelParser extends AbstractModelParser {
+public class ODMModelParser extends AclfModelParser {
 	/**
 	 * Default Constructor 
 	 * 
@@ -45,14 +45,6 @@ public class ODMModelParser extends AbstractModelParser {
 		super();
 	}
 	
-	/**
-	 * create the base case object of type LoadflowXmlType
-	 */
-	@Override public NetworkXmlType createBaseCase() {
-		ODMLogger.getLogger().severe("Programming error: ODMModelParser.createBaseCase() called");
-		return null;
-	}
-
 	/**
 	 * convert to an Aclf model parser
 	 * 

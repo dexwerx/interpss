@@ -69,14 +69,6 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	public BaseAclfModelParser(String encoding) {
 		super(encoding);
 	}	
-	/**
-	 * get the base case object of type LoadflowXmlType
-	 * 
-	 * @return
-	 */
-	public LoadflowNetXmlType getAclfNet() {
-		return (LoadflowNetXmlType)getBaseCase();
-	}
 	
 	/**
 	 * create the base case object of type LoadflowXmlType
@@ -101,7 +93,7 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * 
 	 * @return
 	 */
-	public LoadflowBusXmlType createAclfBus() {
+	private LoadflowBusXmlType createAclfBus() {
 		LoadflowBusXmlType busRec = odmObjFactory.createLoadflowBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
@@ -117,14 +109,14 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * @return
 	 * @throws Exception
 	 */
-	public LoadflowBusXmlType createAclfBus(String id) throws ODMException {
+	@Override public TBusXml createBus(String id) throws ODMException {
 		LoadflowBusXmlType busRec = createAclfBus();
 		busRec.setId(id);
 		if (this.objectCache.get(id) != null) {
 			throw new ODMException("Bus record duplication, bus id: " + id);
 		}
 		this.objectCache.put(id, busRec);
-		return busRec;
+		return (TBusXml)busRec;
 	}		
 	
 	/**
@@ -133,8 +125,8 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * @param id
 	 * @return
 	 */
-	public LoadflowBusXmlType createAclfBus(String id, long number) throws ODMException {
-		LoadflowBusXmlType busRec = createAclfBus(id);
+	@Override public TBusXml createBus(String id, long number) throws ODMException {
+		TBusXml busRec = createBus(id);
 		busRec.setNumber(number);
 		return busRec;
 	}	
@@ -366,10 +358,11 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * @return
 	 */
 	public TielineXmlType createTieline() {
-		if (getAclfNet().getTieLineList() == null)
-			getAclfNet().setTieLineList(odmObjFactory.createLoadflowNetXmlTypeTieLineList());
+		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		if (net.getTieLineList() == null)
+			net.setTieLineList(odmObjFactory.createLoadflowNetXmlTypeTieLineList());
 		TielineXmlType tieLine = odmObjFactory.createTielineXmlType();
-		getAclfNet().getTieLineList().getTieline().add(tieLine);
+		net.getTieLineList().getTieline().add(tieLine);
 		return tieLine;
 	}	
 	
@@ -379,15 +372,17 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * @return
 	 */
 	public InterchangeXmlType createInterchange() {
-		if (getAclfNet().getInterchangeList() == null)
-			getAclfNet().setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
+		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		if (net.getInterchangeList() == null)
+			net.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
-		getAclfNet().getInterchangeList().getInterchange().add(interchange);
+		net.getInterchangeList().getInterchange().add(interchange);
 		return interchange;
 	}	
 
 	public List<FlowInterfaceRecXmlType> getInterfaceList() {
-		return getAclfNet().getFlowInterfaceList().getFlowInterface();
+		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		return net.getFlowInterfaceList().getFlowInterface();
 	}	
 	
 	/**
@@ -396,10 +391,11 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * @return
 	 */
 	public FlowInterfaceRecXmlType createInterface() {
-		if (getAclfNet().getFlowInterfaceList() == null)
-			getAclfNet().setFlowInterfaceList(odmObjFactory.createLoadflowNetXmlTypeFlowInterfaceList());
+		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		if (net.getFlowInterfaceList() == null)
+			net.setFlowInterfaceList(odmObjFactory.createLoadflowNetXmlTypeFlowInterfaceList());
 		FlowInterfaceRecXmlType inter = odmObjFactory.createFlowInterfaceRecXmlType();
-		getAclfNet().getFlowInterfaceList().getFlowInterface().add(inter);
+		net.getFlowInterfaceList().getFlowInterface().add(inter);
 		return inter;
 	}	
 
@@ -410,8 +406,9 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * @return
 	 */
 	public FlowInterfaceRecXmlType getInterface(String id) {
-		if (getAclfNet().getFlowInterfaceList() != null)
-			for (FlowInterfaceRecXmlType inter : getAclfNet().getFlowInterfaceList().getFlowInterface()) {
+		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		if (net.getFlowInterfaceList() != null)
+			for (FlowInterfaceRecXmlType inter : net.getFlowInterfaceList().getFlowInterface()) {
 				if (id.equals(inter.getId()))
 					return inter;
 			}
@@ -426,9 +423,10 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 
 	private Hashtable<String, FlowInterfaceRecXmlType> interfaceLookupTable = null;
 	public FlowInterfaceRecXmlType getInterfaceCached(String id) {
+		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
 		if (this.interfaceLookupTable == null) {
 			this.interfaceLookupTable = new Hashtable<String, FlowInterfaceRecXmlType>();
-			for (FlowInterfaceRecXmlType inter : getAclfNet().getFlowInterfaceList().getFlowInterface()) {
+			for (FlowInterfaceRecXmlType inter : net.getFlowInterfaceList().getFlowInterface()) {
 				this.interfaceLookupTable.put(inter.getId(), inter);
 			}
 		}

@@ -60,7 +60,7 @@ public class PSSEBusDataMapper extends BasePSSEDataMapper {
 		String iStr = AbstractModelParser.BusIdPreFix+i;
 		LoadflowBusXmlType aclfBusXml;
 		try {
-			aclfBusXml = parser.createAclfBus(iStr, i);
+			aclfBusXml = parser.createBus(iStr, i);
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;
@@ -84,7 +84,7 @@ public class PSSEBusDataMapper extends BasePSSEDataMapper {
 		double gl = dataParser.getDouble("GL", 0.0);
 		double bl = dataParser.getDouble("BL", 0.0);
     	if (gl != 0.0 || bl != 0.0) {
-    		double factor = parser.getAclfNet().getBasePower().getValue();  
+    		double factor = parser.getNet().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
     		// bl is reactive power consumed, - for capactor
     		aclfBusXml.setShuntY(BaseDataSetter.createYValue(gl/factor, bl/factor, YUnitType.PU));

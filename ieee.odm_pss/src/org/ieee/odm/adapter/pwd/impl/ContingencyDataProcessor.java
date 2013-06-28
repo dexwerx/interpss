@@ -36,7 +36,7 @@ public class ContingencyDataProcessor extends InputLineStringParser{
 		this.parser = parser;
 		// initialization
 		// create empty base network 
-		parser.getAclfNet();
+		parser.getNet();
 		// create net modification helper. A contingency is corresponding to a modification record
 		// The helper save the contingencies to a modification record list.
 	    helper = new NetModificationHelper(parser);		

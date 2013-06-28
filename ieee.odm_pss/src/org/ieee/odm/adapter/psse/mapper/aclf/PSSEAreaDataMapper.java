@@ -47,7 +47,7 @@ public class PSSEAreaDataMapper extends BasePSSEDataMapper {
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		if (baseCaseNet.getAreaList() == null)
 			baseCaseNet.setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		ExchangeAreaXmlType area = odmObjFactory.createExchangeAreaXmlType();

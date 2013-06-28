@@ -26,9 +26,10 @@ package org.ieee.odm.model.dist;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BreakerDistBranchXmlType;
+import org.ieee.odm.schema.DistBusXmlType;
 import org.ieee.odm.schema.DistributionNetXmlType;
 import org.ieee.odm.schema.FeederDistBranchXmlType;
 import org.ieee.odm.schema.GeneratorDistBusXmlType;
@@ -44,7 +45,7 @@ import org.ieee.odm.schema.XFormerDistBranchXmlType;
 /**
  * A Dist ODM Xml model parser for the IEEE DOM schema. 
  */
-public class DistModelParser extends AbstractModelParser {
+public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType, DistBusXmlType> {
 	/**
 	 * Default Constructor 
 	 * 
@@ -66,7 +67,7 @@ public class DistModelParser extends AbstractModelParser {
 	 * create the base case object of type DcNetworkXmlType
 	 */
 	@Override
-	public NetworkXmlType createBaseCase() {
+	public DistributionNetXmlType createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			DistributionNetXmlType baseCase = odmObjFactory.createDistributionNetXmlType();
 			
@@ -74,7 +75,7 @@ public class DistModelParser extends AbstractModelParser {
 			baseCase.setBranchList(odmObjFactory.createNetworkXmlTypeBranchList());
 			getStudyCase().setBaseCase(BaseJaxbHelper.network(baseCase));
 		}
-		return getStudyCase().getBaseCase().getValue();
+		return (DistributionNetXmlType)getStudyCase().getBaseCase().getValue();
 	}
 	
 	/*

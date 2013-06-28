@@ -48,7 +48,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
 		
 		// BaseCase object, plus busRecList and BranchRecList are created 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		
 		// add PWD network extension 
 		PWDNetworkExtXmlType pwdNetExt = odmObjFactory.createPWDNetworkExtXmlType();
@@ -95,7 +95,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 	 * @return
 	 */
 	public boolean postProcessing(AclfModelParser parser) {
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
+		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();

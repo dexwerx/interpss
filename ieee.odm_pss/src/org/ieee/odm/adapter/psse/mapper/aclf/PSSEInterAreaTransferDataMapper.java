@@ -64,7 +64,7 @@ public class PSSEInterAreaTransferDataMapper extends BasePSSEDataMapper {
 					
 				- FromAreaNo_ToAreaNo_TRID is unique					 
 		*/
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		if (baseCaseNet.getInterchangeList() == null)
 			baseCaseNet.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();

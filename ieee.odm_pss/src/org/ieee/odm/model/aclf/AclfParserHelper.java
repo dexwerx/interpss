@@ -96,7 +96,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * 
 	 */
 	public static boolean createBusEquivGenData(AclfModelParser parser) {
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
+		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			AclfGenDataXmlType genData = busRec.getGenData();
@@ -193,7 +193,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * 
 	 */
 	public static boolean createBusEquivLoadData(AclfModelParser parser) {
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet(); 
+		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			AclfLoadDataXmlType loadData = busRec.getLoadData();

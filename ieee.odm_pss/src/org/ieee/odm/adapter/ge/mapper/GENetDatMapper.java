@@ -35,7 +35,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 public class GENetDatMapper {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GePslfAdapter.Version version, AclfModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+			LoadflowNetXmlType baseCaseNet = parser.getNet();
 			BaseJaxbHelper.addNVPair(baseCaseNet, "Title", lineStr);
 		}
 	}
@@ -44,7 +44,7 @@ public class GENetDatMapper {
 		public String comments = "";
 
 		public void processLineStr(String lineStr, GePslfAdapter.Version version, AclfModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+			LoadflowNetXmlType baseCaseNet = parser.getNet();
 			BaseJaxbHelper.addNVPair(baseCaseNet, "Comments", lineStr);
 		}
 	}
@@ -54,7 +54,7 @@ public class GENetDatMapper {
 	static public class SolutionParamRec {
 
 		public void processLineStr(String lineStr, GePslfAdapter.Version version, AclfModelParser parser) {
-			LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+			LoadflowNetXmlType baseCaseNet = parser.getNet();
 			int tap, phas, area, svd, dctap, gcd;
 			double jump, toler;
 

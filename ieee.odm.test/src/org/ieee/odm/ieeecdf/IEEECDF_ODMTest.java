@@ -59,7 +59,7 @@ public class IEEECDF_ODMTest {
 
 		//System.out.println(parser.toXmlDoc());
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 20);
 
@@ -80,7 +80,7 @@ public class IEEECDF_ODMTest {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//System.out.println(parser.toXmlDoc());
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		assertTrue(baseCaseNet.getBusList().getBus().size() == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranch().size() == 20);
 

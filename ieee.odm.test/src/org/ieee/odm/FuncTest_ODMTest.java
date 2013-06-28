@@ -36,7 +36,7 @@ public class FuncTest_ODMTest {
 		
 		AclfModelParser parser = ODMObjectFactory.createAclfModelParser();
 		if (parser.parse(str)) {
-			XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+			XfrBranchXmlType xfr = (XfrBranchXmlType)parser.getNet().getBranchList().getBranch().get(0).getValue();
 			
 			PSXfrBranchXmlType psXfr = (PSXfrBranchXmlType)ModelStringUtil.casting(
 							xfr, "aclfXfr", "aclfPSXfr", parser.getEncoding());

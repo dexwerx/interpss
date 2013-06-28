@@ -37,7 +37,7 @@ public class PSSEMachineNegSeqZMapper extends BasePSSEDataMapper{
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 	    
-	    ShortCircuitBusXmlType acscBus=parser.getAcscBus(busId);
+	    ShortCircuitBusXmlType acscBus=parser.getBus(busId);
 	    ScGenDataXmlType scGenData=null;
 	    if((scGenData =AcscParserHelper.getScGenData(parser, busId, machId))==null){
 	    	scGenData = parser.createScGenData(acscBus,machId);

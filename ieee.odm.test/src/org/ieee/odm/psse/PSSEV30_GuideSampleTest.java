@@ -51,7 +51,7 @@ public class PSSEV30_GuideSampleTest {
 		
 		//System.out.println(adapter.getModel().toString());
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
-		LoadflowNetXmlType net = parser.getAclfNet();		
+		LoadflowNetXmlType net = parser.getNet();		
 		/*
       <bus id="Bus151" number="151" areaNumber="1" name="NUCPANT     " offLine="false">
         <ownerList>

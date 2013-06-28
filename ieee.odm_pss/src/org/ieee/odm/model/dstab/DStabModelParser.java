@@ -117,8 +117,7 @@ public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType, DStab
 	 * 
 	 * @return
 	 */
-	@Override
-	public LoadflowBusXmlType createAclfBus() {
+	public DStabBusXmlType createBus() {
 		DStabBusXmlType busRec = odmObjFactory.createDStabBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);

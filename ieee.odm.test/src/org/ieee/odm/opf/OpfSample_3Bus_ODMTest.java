@@ -42,8 +42,8 @@ public class OpfSample_3Bus_ODMTest {
 		//System.out.println(parser.toXmlDoc(false));
 		
 		OpfModelParser opfParser = parser.toOpfModelParser();
-		assertTrue(opfParser.getAclfNet().getBasePower().getValue() == 100.0);
-		assertTrue(opfParser.getAclfNet().getBusList().getBus().size() == 3);
+		assertTrue(opfParser.getNet().getBasePower().getValue() == 100.0);
+		assertTrue(opfParser.getNet().getBusList().getBus().size() == 3);
 	}
 }
 

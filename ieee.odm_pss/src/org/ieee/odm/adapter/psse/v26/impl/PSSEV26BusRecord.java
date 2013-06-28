@@ -74,7 +74,7 @@ public class PSSEV26BusRecord {
 		ODMLogger.getLogger().fine("Bus data loaded, id: " + busId);
 		LoadflowBusXmlType busRec;
 		try {
-			busRec = parser.createAclfBus(busId, busDataParser.getInt("I"));
+			busRec = parser.createBus(busId, busDataParser.getInt("I"));
 		} catch (Exception e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;

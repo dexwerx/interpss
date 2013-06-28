@@ -26,10 +26,10 @@ public class PwdAdapterTest {
 		parser.stdout();
 
 		//check network data
-		assertTrue(parser.getAclfNet().getBasePower().getValue()==100.0);
+		assertTrue(parser.getNet().getBasePower().getValue()==100.0);
 		
-		assertTrue(parser.getAclfNet().getBusList().getBus().size()==6);
-		assertTrue(parser.getAclfNet().getBranchList().getBranch().size()==8);
+		assertTrue(parser.getNet().getBusList().getBus().size()==6);
+		assertTrue(parser.getNet().getBranchList().getBranch().size()==8);
 		
 //		 
 		//ZONE
@@ -37,8 +37,8 @@ public class PwdAdapterTest {
 		 * DATA (ZONE, [ZoneNum,ZoneName,SchedName])
                          1 "1       " ""
 		 */
-		assertTrue(parser.getAclfNet().getLossZoneList().getLossZone().size()==1);
-		assertTrue(parser.getAclfNet().getLossZoneList().getLossZone().get(0).getNumber()==1);
+		assertTrue(parser.getNet().getLossZoneList().getLossZone().size()==1);
+		assertTrue(parser.getNet().getLossZoneList().getLossZone().get(0).getNumber()==1);
 		
 		//AREA
 		/*
@@ -49,9 +49,9 @@ public class PwdAdapterTest {
          2 "2       " "   ED     " "YES" "YES" "YES" "" ""   1.0000 "YES" ""        0.000
         }
 		 */
-		assertTrue(parser.getAclfNet().getAreaList().getArea().size()==2);
-		assertTrue(parser.getAclfNet().getAreaList().getArea().get(0).getNumber()==1);
-		assertTrue(parser.getAclfNet().getAreaList().getArea().get(0).getName().equals("Home"));//already trim
+		assertTrue(parser.getNet().getAreaList().getArea().size()==2);
+		assertTrue(parser.getNet().getAreaList().getArea().get(0).getNumber()==1);
+		assertTrue(parser.getNet().getAreaList().getArea().get(0).getName().equals("Home"));//already trim
 	
 		
 		
@@ -69,7 +69,7 @@ public class PwdAdapterTest {
 		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getIm()==0.0);
 		
 		//check line data
-		LineBranchXmlType line=(LineBranchXmlType) parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+		LineBranchXmlType line=(LineBranchXmlType) parser.getNet().getBranchList().getBranch().get(0).getValue();
 		assertTrue(Math.abs(line.getZ().getRe()-0.03)<zError);
 		assertTrue(Math.abs(line.getZ().getIm()-0.16)<zError);
 		//check transformer data
@@ -98,10 +98,10 @@ public class PwdAdapterTest {
 		parser.stdout();
 		
 		//check network data
-		assertTrue(parser.getAclfNet().getBasePower().getValue()==100.0);
+		assertTrue(parser.getNet().getBasePower().getValue()==100.0);
 		
-		assertTrue(parser.getAclfNet().getBusList().getBus().size()==18);
-		assertTrue(parser.getAclfNet().getBranchList().getBranch().size()==24);
+		assertTrue(parser.getNet().getBusList().getBus().size()==18);
+		assertTrue(parser.getNet().getBranchList().getBranch().size()==24);
 		
 		//check bus data
 		LoadflowBusXmlType bus2=(LoadflowBusXmlType) parser.getBus("Bus2");

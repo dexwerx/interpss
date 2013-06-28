@@ -120,7 +120,7 @@ public class GePslfAdapter  extends AbstractODMAdapter {
 		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.setLFTransInfo(OriginalDataFormatEnumType.GE_PSLF);
 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
 		GENetDatMapper.TitleRec titleRec = new GENetDatMapper.TitleRec();

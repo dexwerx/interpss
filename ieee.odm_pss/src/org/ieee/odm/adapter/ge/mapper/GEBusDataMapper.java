@@ -51,7 +51,7 @@ public class GEBusDataMapper extends BaseGEDataMapper {
 		final String busId = AbstractModelParser.BusIdPreFix+num;
 		// XML requires id start with a char
 		LoadflowBusXmlType busRec;
-		busRec = parser.createAclfBus(busId, num);
+		busRec = parser.createBus(busId, num);
 		busRec.setNumber(num);
 
 		busRec.setAreaNumber(dataParser.getInt("ar"));

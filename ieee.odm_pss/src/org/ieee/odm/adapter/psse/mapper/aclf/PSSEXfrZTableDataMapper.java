@@ -45,7 +45,7 @@ public class PSSEXfrZTableDataMapper extends BasePSSEDataMapper {
 	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		if (baseCaseNet.getXfrZTable() == null) {
 			baseCaseNet.setXfrZTable(odmObjFactory.createXformerZTableXmlType());
 			baseCaseNet.getXfrZTable().setAdjustSide(BranchBusSideEnumType.FROM_SIDE);

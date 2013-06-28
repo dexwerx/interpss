@@ -41,8 +41,8 @@ public class AcscParserHelper extends AclfParserHelper {
 	
 	public static ScGenDataXmlType getScGenData(AcscModelParser parser, String busId, String genId) throws ODMException {
 		ScGenDataXmlType targetScGen=null;
-		if(!parser.getAcscBus(busId).getScGenData().isEmpty()){
-			for(ScGenDataXmlType scGenData: parser.getAcscBus(busId).getScGenData()){
+		if(!parser.getBus(busId).getScGenData().isEmpty()){
+			for(ScGenDataXmlType scGenData: parser.getBus(busId).getScGenData()){
 				if(scGenData.getId().equals(genId)){
 					targetScGen= scGenData;
 				}

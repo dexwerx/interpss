@@ -50,10 +50,10 @@ public class NetDataProcessor extends InputLineStringParser  {
 		area.setNumber(areaNum);
 		area.setName(areaName);
 		
-		if(parser.getAclfNet().getAreaList()==null)
-			parser.getAclfNet().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
+		if(parser.getNet().getAreaList()==null)
+			parser.getNet().setAreaList(odmObjFactory.createNetworkXmlTypeAreaList());
 		
-		parser.getAclfNet().getAreaList().getArea().add(area);
+		parser.getNet().getAreaList().getArea().add(area);
 	}
 	
 	/**
@@ -80,10 +80,10 @@ public class NetDataProcessor extends InputLineStringParser  {
 		zone.setNumber(zoneNum);
 		zone.setName(zoneName);
 		
-		if(parser.getAclfNet().getLossZoneList()==null)
-			parser.getAclfNet().setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
+		if(parser.getNet().getLossZoneList()==null)
+			parser.getNet().setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
 		
-		parser.getAclfNet().getLossZoneList().getLossZone().add(zone);
+		parser.getNet().getLossZoneList().getLossZone().add(zone);
 		
 	}
     /**
@@ -92,7 +92,7 @@ public class NetDataProcessor extends InputLineStringParser  {
      * @throws ODMException 
      */
 	public void processLimitSet(String limitSetStr) throws ODMException{
-		PWDNetworkExtXmlType pwdNetExt =(PWDNetworkExtXmlType)parser.getAclfNet().getExtension();
+		PWDNetworkExtXmlType pwdNetExt =(PWDNetworkExtXmlType)parser.getNet().getExtension();
 		if(!initLimitSet){
 			if (pwdNetExt.getLimitSets()==null) 
 			    pwdNetExt.setLimitSets(odmObjFactory.createPWDNetworkExtXmlTypeLimitSets());

@@ -50,7 +50,7 @@ public class UCTEExPowerDataMapper extends BaseUCTEDataMapper {
 		       comment = this.dataParser.getString("", "comment");
 		double exPower = this.dataParser.getDouble("exPower", 0.0);  
 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		InterchangeXmlType interChange = odmObjFactory.createInterchangeXmlType();
 		baseCaseNet.getInterchangeList().getInterchange().add(interChange);
 		

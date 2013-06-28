@@ -538,7 +538,7 @@ public class TransformerDataProcessor extends InputLineStringParser  {
 		if(xfrCorrectTableList == null){
 			xfrCorrectTableList = odmObjFactory.createXformerZTableXmlType();
 			xfrCorrectTableList.setAdjustSide(BranchBusSideEnumType.FROM_SIDE);
-		    parser.getAclfNet().setXfrZTable(xfrCorrectTableList);
+		    parser.getNet().setXfrZTable(xfrCorrectTableList);
 		}
 		//parse the input data and save it to the fieldTable
 		parseData(XfCorrectionStr);

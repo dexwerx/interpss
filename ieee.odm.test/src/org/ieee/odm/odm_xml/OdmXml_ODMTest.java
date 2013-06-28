@@ -43,8 +43,8 @@ public class OdmXml_ODMTest {
 		
 		AclfModelParser aclfParser = parser.toAclfModelParser();
 		//System.out.println(aclfParser.toXmlDoc(false));
-		assertTrue(aclfParser.getAclfNet().getBasePower().getValue() == 100.0);
-		assertTrue(aclfParser.getAclfNet().getBusList().getBus().size() == 14);
+		assertTrue(aclfParser.getNet().getBasePower().getValue() == 100.0);
+		assertTrue(aclfParser.getNet().getBusList().getBus().size() == 14);
 	}
 }
 

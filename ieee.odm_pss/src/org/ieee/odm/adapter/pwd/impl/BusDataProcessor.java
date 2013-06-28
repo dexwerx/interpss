@@ -104,7 +104,7 @@ public class BusDataProcessor extends InputLineStringParser {
 			ODMLogger.getLogger().severe("bus Num is not defined yet!");
 		busId=AbstractModelParser.BusIdPreFix+busNum;
 		
-		LoadflowBusXmlType bus=parser.createAclfBus(busId);
+		LoadflowBusXmlType bus=parser.createBus(busId);
 		bus.setId(busId);
 		bus.setNumber(busNum);
 		bus.setOffLine(!busConnected);

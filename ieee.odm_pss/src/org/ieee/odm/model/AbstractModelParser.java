@@ -54,6 +54,8 @@ import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
@@ -199,6 +201,15 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	 * example LoadflowXmlType
 	 */
 	public abstract TNetXml createBaseCase();
+	
+	/**
+	 * get the base case object of type LoadflowXmlType
+	 * 
+	 * @return
+	 */
+	public TNetXml getNet() {
+		return getBaseCase();
+	}
 	
 	/**
 	 * check if the network info stored in the model parser object is for 
@@ -364,7 +375,7 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	 * add a bus object into the branch list and to the cashe table
 	 * 
 	 */
-	public void addBus(BusXmlType bus) {
+	public void addBus(TBusXml bus) {
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(bus));
 		this.objectCache.put(bus.getId(), bus);
 	}
@@ -392,7 +403,7 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	 * @param busId id of the bus to be removed
 	 * @param bus bus object to be added
 	 */
-	public void replaceBus(String busId, BusXmlType bus) {
+	public void replaceBus(String busId, TBusXml bus) {
 		this.removeBus(busId);
 		this.addBus(bus);
 	}
@@ -404,7 +415,7 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	 * @param id
 	 * @throws Exception
 	 */
-	public void setBusId(BusXmlType busRec, String id) throws ODMException {
+	public void setBusId(TBusXml busRec, String id) throws ODMException {
 		busRec.setId(id);
 		if (this.objectCache.get(id) != null) {
 			throw new ODMException("Bus record duplication, bus id: " + id);
@@ -427,6 +438,23 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 		}
 		return null;
 	}
+	
+	/**
+	 * create a bus object with the id, make sure there is no duplication
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract TBusXml createBus(String id) throws ODMException;
+	
+	/**
+	 * add a new bus record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public abstract TBusXml createBus(String id, long number) throws ODMException;
 
 	/*
 	 *    Branch functions

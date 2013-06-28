@@ -55,8 +55,8 @@ public class ProcessOPFData_ODMTest {
 		OpfModelParser parser = new OpfModelParser(OpfModelParser.OpfNetType.DclfOpf);
 		parser.parse(new FileInputStream(file));
 		//System.out.println(parser.toXmlDoc(false));
-		assertTrue(parser.getAclfNet().getBasePower().getValue() == 100.0);
-		assertTrue(parser.getAclfNet().getBusList().getBus().size() == 14);
+		assertTrue(parser.getNet().getBasePower().getValue() == 100.0);
+		assertTrue(parser.getNet().getBusList().getBus().size() == 14);
 		
 		BusXmlType aclfBus = parser.getBus("Bus2");
 		assertTrue(aclfBus instanceof LoadflowBusXmlType);

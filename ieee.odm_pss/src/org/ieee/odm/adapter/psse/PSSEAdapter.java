@@ -114,7 +114,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion(this.adptrtVersion.toString());
 
-		LoadflowNetXmlType baseCaseNet = parser.getAclfNet();
+		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format");
 

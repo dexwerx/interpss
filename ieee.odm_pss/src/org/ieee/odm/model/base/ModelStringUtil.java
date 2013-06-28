@@ -245,13 +245,13 @@ public class ModelStringUtil {
 	 */
 	public static BranchXmlType casting(BranchXmlType fromBranch, String fromType, String toType, String encoding) throws ODMException {
 		AclfModelParser parser = new AclfModelParser(encoding);
-		parser.getAclfNet().getBranchList().getBranch().add(BaseJaxbHelper.branch(fromBranch));
+		parser.getNet().getBranchList().getBranch().add(BaseJaxbHelper.branch(fromBranch));
 		String braStr = parser.toXmlDoc()
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
 		parser = new AclfModelParser(encoding);
 		parser.parse(braStr);
-		BranchXmlType toBranch = (BranchXmlType)parser.getAclfNet().getBranchList().getBranch().get(0).getValue();
+		BranchXmlType toBranch = (BranchXmlType)parser.getNet().getBranchList().getBranch().get(0).getValue();
 		toBranch.setFromBus(fromBranch.getFromBus());
 		toBranch.setToBus(fromBranch.getToBus());
 		return toBranch;
@@ -268,13 +268,13 @@ public class ModelStringUtil {
 	 */
 	public static BusXmlType casting(BusXmlType from, String fromType, String toType, String encoding) throws ODMException {
 		AclfModelParser parser = new AclfModelParser(encoding);
-		parser.getAclfNet().getBusList().getBus().add(BaseJaxbHelper.bus(from));
+		parser.getNet().getBusList().getBus().add(BaseJaxbHelper.bus(from));
 		String busStr = parser.toXmlDoc()
 				.replaceAll("<"+fromType, "<"+toType)
 				.replace("</"+fromType, "</"+toType);
 		parser = new AclfModelParser(encoding);
 		parser.parse(busStr);
-		return (BusXmlType)parser.getAclfNet().getBusList().getBus().get(0).getValue();
+		return (BusXmlType)parser.getNet().getBusList().getBus().get(0).getValue();
 	}	
 	
 
