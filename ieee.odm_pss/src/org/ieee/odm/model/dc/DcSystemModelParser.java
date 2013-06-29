@@ -26,18 +26,16 @@ package org.ieee.odm.model.dc;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.DcBranchXmlType;
 import org.ieee.odm.schema.DcBusXmlType;
 import org.ieee.odm.schema.DcNetworkXmlType;
-import org.ieee.odm.schema.NetworkXmlType;
 
 /**
  * A Dc system Xml model parser for the IEEE DOM schema. 
  */
-public class DcSystemModelParser extends BaseAclfModelParser<DcNetworkXmlType, DcBusXmlType> {
+public class DcSystemModelParser extends BaseAclfModelParser<DcNetworkXmlType, DcBusXmlType, DcBranchXmlType, DcBranchXmlType, DcBranchXmlType> {
 	/**
 	 * Default Constructor 
 	 * 

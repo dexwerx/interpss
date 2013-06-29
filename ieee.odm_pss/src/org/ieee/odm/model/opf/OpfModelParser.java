@@ -34,6 +34,7 @@ import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseOpfNetworkXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OpfBranchXmlType;
@@ -41,14 +42,16 @@ import org.ieee.odm.schema.OpfDclfNetworkXmlType;
 import org.ieee.odm.schema.OpfGenBusXmlType;
 import org.ieee.odm.schema.OpfNetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PieceWiseLinearModelXmlType;
 import org.ieee.odm.schema.QuadraticModelXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 
 /**
  * An OPF ODM Xml parser for the IEEE DOM schema. It supports two types of Opf net
  * 
  */
-public class OpfModelParser extends BaseAclfModelParser<BaseOpfNetworkXmlType, LoadflowBusXmlType> {
+public class OpfModelParser extends BaseAclfModelParser<BaseOpfNetworkXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType> {
 	/**
 	 * OPF network type
 	 * 

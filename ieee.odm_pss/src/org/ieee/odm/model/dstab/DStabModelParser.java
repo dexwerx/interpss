@@ -51,7 +51,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * A DStab ODM Xml model parser for the IEEE DOM schema. 
  */
-public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType, DStabBusXmlType> {
+public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType, DStabBusXmlType, LineDStabXmlType, XfrDStabXmlType, PSXfrDStabXmlType> {
 	// some input file might carry DStab Simu data;
 	private DStabSimulationXmlType tranSimu = null;
 	

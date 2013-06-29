@@ -54,8 +54,6 @@ import org.ieee.odm.schema.BusIDRefXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ContentInfoXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
@@ -68,7 +66,13 @@ import org.ieee.odm.schema.StudyScenarioXmlType;
 /**
  * Abstract Xml parser implementation as the base for all the IEEE DOM schema parsers. 
  */
-public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> implements IODMModelParser {
+public abstract class AbstractModelParser<
+				TNetXml extends NetworkXmlType, 
+				TBusXml extends BusXmlType,
+				TLineXml extends BaseBranchXmlType,
+				TXfrXml extends BaseBranchXmlType,
+				TPsXfrineXml extends BaseBranchXmlType
+			> implements IODMModelParser {
 	/**
 	 * Bus pre-fix, default value "Bus", pre-fix added to the bus number to create Bus Id
 	 */
@@ -257,6 +261,7 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 		return this.pssStudyCase;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected TNetXml getBaseCase() {
 		return (TNetXml)this.pssStudyCase.getBaseCase().getValue();
 	}
@@ -367,6 +372,7 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	 * @param id
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public TBusXml getBus(String id) {
 		return (TBusXml)this.getCachedObject(id);
 	}	
@@ -440,13 +446,28 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	}
 	
 	/**
+	 * add a new Bus record to the base case
+	 * 
+	 * @return
+	 */
+	public abstract TBusXml createBus();
+	
+	/**
 	 * create a bus object with the id, make sure there is no duplication
 	 * 
 	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
-	public abstract TBusXml createBus(String id) throws ODMException;
+	public TBusXml createBus(String id) throws ODMException {
+		TBusXml busRec = createBus();
+		busRec.setId(id);
+		if (this.objectCache.get(id) != null) {
+			throw new ODMException("Bus record duplication, bus id: " + id);
+		}
+		this.objectCache.put(id, busRec);
+		return busRec;
+	}		
 	
 	/**
 	 * add a new bus record to the base case and to the cache table
@@ -454,7 +475,11 @@ public abstract class AbstractModelParser<TNetXml extends NetworkXmlType, TBusXm
 	 * @param id
 	 * @return
 	 */
-	public abstract TBusXml createBus(String id, long number) throws ODMException;
+	public TBusXml createBus(String id, long number) throws ODMException {
+		TBusXml busRec = createBus(id);
+		busRec.setNumber(number);
+		return busRec;
+	}	
 
 	/*
 	 *    Branch functions

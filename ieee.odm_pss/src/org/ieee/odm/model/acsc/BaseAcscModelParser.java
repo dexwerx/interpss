@@ -34,11 +34,9 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
@@ -50,7 +48,13 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * An Acsc ODM Xml parser for the IEEE DOM schema. 
  */
-public class BaseAcscModelParser<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> extends BaseAclfModelParser<TNetXml, TBusXml> {	
+public class BaseAcscModelParser<
+					TNetXml extends NetworkXmlType, 
+					TBusXml extends BusXmlType,
+					TLineXml extends BranchXmlType,
+					TXfrXml extends BranchXmlType,
+					TPsXfrXml extends BranchXmlType
+				> extends BaseAclfModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> {	
 
 	/**
 	 * Default Constructor 
@@ -72,8 +76,8 @@ public class BaseAcscModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	/**
 	 * create the base case object of type ShortCircuitNetXmlType
 	 */
-	@Override
-	public TNetXml createBaseCase() {
+	@SuppressWarnings("unchecked")
+	@Override public TNetXml createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			ShortCircuitNetXmlType baseCase = odmObjFactory.createShortCircuitNetXmlType();
 			baseCase.setBusList(odmObjFactory.createNetworkXmlTypeBusList());
@@ -82,6 +86,21 @@ public class BaseAcscModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 		}
 		return (TNetXml)getStudyCase().getBaseCase().getValue();
 	}
+	
+	/**
+	 * add a new Bus record to the base case
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override public TBusXml createBus() {
+		ShortCircuitBusXmlType busRec = odmObjFactory.createShortCircuitBusXmlType();
+		busRec.setOffLine(false);
+		busRec.setAreaNumber(1);
+		busRec.setZoneNumber(1);
+		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
+		return (TBusXml)busRec;
+	}	
 	
 	/**
 	 * get the Acsc bus object using the id. If the bus object is of type aclfBus or acscBus,

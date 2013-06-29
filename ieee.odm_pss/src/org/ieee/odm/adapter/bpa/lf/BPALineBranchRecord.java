@@ -30,6 +30,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.LengthUnitType;
@@ -39,8 +40,13 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class BPALineBranchRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
-	public void processBranchData(final String str,	BaseAclfModelParser<TNetXml, TBusXml> parser)  throws ODMException {	
+public class BPALineBranchRecord<
+					TNetXml extends NetworkXmlType, 
+					TBusXml extends BusXmlType,
+					TLineXml extends BranchXmlType,
+					TXfrXml extends BranchXmlType,
+					TPsXfrXml extends BranchXmlType> {
+	public void processBranchData(final String str,	BaseAclfModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> parser)  throws ODMException {	
 		final double baseMVA = parser.getNet().getBasePower().getValue();
 		// symmetry line data
 		if(str.startsWith("L ")){

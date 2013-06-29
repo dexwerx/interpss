@@ -30,10 +30,10 @@ import java.util.Hashtable;
 import java.util.List;
 
 import org.ieee.odm.common.ODMBranchDuplicationException;
-import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
+import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
@@ -52,7 +52,13 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 /**
  * An Aclf Xml parser for the IEEE DOM schema. 
  */
-public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> extends AbstractModelParser<TNetXml, TBusXml> {
+public class BaseAclfModelParser<
+					TNetXml extends NetworkXmlType, 
+					TBusXml extends BusXmlType,
+					TLineXml extends BaseBranchXmlType,
+					TXfrXml extends BaseBranchXmlType,
+					TPsXfrXml extends BaseBranchXmlType
+				> extends AbstractModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> {
 	/**
 	 * Default Constructor 
 	 * 
@@ -73,6 +79,7 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	/**
 	 * create the base case object of type LoadflowXmlType
 	 */
+	@SuppressWarnings("unchecked")
 	@Override public TNetXml createBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
 			LoadflowNetXmlType baseCase = odmObjFactory.createLoadflowNetXmlType();
@@ -93,42 +100,14 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	 * 
 	 * @return
 	 */
-	private LoadflowBusXmlType createAclfBus() {
+	@SuppressWarnings("unchecked")
+	@Override public TBusXml createBus() {
 		LoadflowBusXmlType busRec = odmObjFactory.createLoadflowBusXmlType();
 		busRec.setOffLine(false);
 		busRec.setAreaNumber(1);
 		busRec.setZoneNumber(1);
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
-		return busRec;
-	}	
-	
-	/**
-	 * create a bus object with the id, make sure there is no duplication
-	 * 
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@Override public TBusXml createBus(String id) throws ODMException {
-		LoadflowBusXmlType busRec = createAclfBus();
-		busRec.setId(id);
-		if (this.objectCache.get(id) != null) {
-			throw new ODMException("Bus record duplication, bus id: " + id);
-		}
-		this.objectCache.put(id, busRec);
 		return (TBusXml)busRec;
-	}		
-	
-	/**
-	 * add a new bus record to the base case and to the cache table
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@Override public TBusXml createBus(String id, long number) throws ODMException {
-		TBusXml busRec = createBus(id);
-		busRec.setNumber(number);
-		return busRec;
 	}	
 	
 	/*
@@ -159,6 +138,15 @@ public class BaseAclfModelParser<TNetXml extends NetworkXmlType, TBusXml extends
 	public XfrBranchXmlType getXfrBranch(String fromId, String toId, String cirId) {
 		return (XfrBranchXmlType)getBranch(fromId, toId, cirId);
 	}
+	
+	/**
+	 * get the 3W xfr branch object
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
 	public Xfr3WBranchXmlType getXfr3WBranch(String fromId, String toId, String tertId, String cirId) {
 		return (Xfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
 	}

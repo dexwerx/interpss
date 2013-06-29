@@ -39,9 +39,15 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
+import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
+import org.ieee.odm.schema.XfrDStabXmlType;
 
 /**
  * BPA adapter is design to handle Loadflow data file and Loadflow+TransienStability data files
@@ -73,7 +79,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		} while (str.startsWith(".") || str.trim().equals(""));  // bypass lines starts with . or blank lines
 		
 		if(str.equals("loadflow") || str.contains("POWERFLOW")){
-			new BPALoadflowRecord<LoadflowNetXmlType, LoadflowBusXmlType>().processLfData(parser, din);			
+			new BPALoadflowRecord<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType>().processLfData(parser, din);			
 			return parser;
 		}
 		throw new ODMException("Only LF data file could be prcessed by this method");
@@ -101,7 +107,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			} while (str.startsWith(".") || str.trim().equals(""));
 			
 			if(str.equals("loadflow") || str.contains("POWERFLOW")){
-				new BPALoadflowRecord<DStabNetXmlType, DStabBusXmlType>().processLfData(parser, din);			
+				new BPALoadflowRecord<DStabNetXmlType, DStabBusXmlType, LineDStabXmlType, XfrDStabXmlType, PSXfrDStabXmlType>().processLfData(parser, din);			
 			}
 			//timer.logStd("Load LF data");
 			

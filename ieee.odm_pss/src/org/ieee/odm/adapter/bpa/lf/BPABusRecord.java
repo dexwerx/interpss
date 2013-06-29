@@ -35,6 +35,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -44,7 +45,12 @@ import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
 
-public class BPABusRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
+public class BPABusRecord<
+					TNetXml extends NetworkXmlType, 
+					TBusXml extends BusXmlType,
+					TLineXml extends BranchXmlType,
+					TXfrXml extends BranchXmlType,
+					TPsXfrXml extends BranchXmlType> {
 	private static final int swingBus=1;
 	private static final int pqBus=2;
 	private static final int pvBus=3;		
@@ -90,7 +96,7 @@ public class BPABusRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 		return id; 
 	}
 	
-	public void processBusData(final String str, BaseAclfModelParser<TNetXml, TBusXml> parser) throws Exception {		
+	public void processBusData(final String str, BaseAclfModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> parser) throws Exception {		
 		final double baseMVA = parser.getNet().getBasePower().getValue();
 
 		// parse the input data line

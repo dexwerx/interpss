@@ -24,32 +24,16 @@
 
 package org.ieee.odm.model.acsc;
 
-import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
-
-import org.ieee.odm.common.ODMBranchDuplicationException;
-import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.BaseAclfModelParser;
-import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.model.base.ModelStringUtil;
-import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BranchXmlType;
-import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.LineBranchXmlType;
-import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.ScGenDataXmlType;
+import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
-import org.ieee.odm.schema.XfrBranchXmlType;
-import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 
 /**
  * An Acsc ODM Xml parser for the IEEE DOM schema. 
  */
-public class AcscModelParser extends BaseAcscModelParser<ShortCircuitNetXmlType, ShortCircuitBusXmlType> {	
+public class AcscModelParser extends BaseAcscModelParser<ShortCircuitNetXmlType, ShortCircuitBusXmlType, LineShortCircuitXmlType, XfrShortCircuitXmlType, PSXfrShortCircuitXmlType> {	
 
 	/**
 	 * Default Constructor 

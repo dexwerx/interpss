@@ -36,6 +36,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.AreaTransferXmlType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ExchangeAreaXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
@@ -45,7 +46,12 @@ import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
-public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
+public class BPANetRecord<
+				TNetXml extends NetworkXmlType, 
+				TBusXml extends BusXmlType,
+				TLineXml extends BranchXmlType,
+				TXfrXml extends BranchXmlType,
+				TPsXfrXml extends BranchXmlType> {
 	/*
 	 *   Network data
 	 *   ============ 
@@ -86,7 +92,7 @@ public class BPANetRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXml
 	 *   ================ 
 	 */
 
-	public void processAreaData(final String str,final BaseAclfModelParser<TNetXml, TBusXml> parser ,
+	public void processAreaData(final String str,final BaseAclfModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> parser ,
 			final TNetXml baseCaseNet, int areaNumber	) throws ODMException {
 		LoadflowNetXmlType net = (LoadflowNetXmlType)baseCaseNet;
 		

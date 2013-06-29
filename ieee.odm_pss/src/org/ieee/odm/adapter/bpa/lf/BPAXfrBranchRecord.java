@@ -39,6 +39,7 @@ import org.ieee.odm.schema.AdjustmentModeEnumType;
 import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -51,12 +52,17 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class BPAXfrBranchRecord<TNetXml extends NetworkXmlType, TBusXml extends BusXmlType> {
+public class BPAXfrBranchRecord<
+				TNetXml extends NetworkXmlType, 
+				TBusXml extends BusXmlType,
+				TLineXml extends BranchXmlType,
+				TXfrXml extends BranchXmlType,
+				TPsXfrXml extends BranchXmlType> {
 	static final int transformer=1;
 	static final int phaseShiftXfr=2;
 	static final int transformerAndPhaseShiftXfr=3;
 
-	public void processXfrData(final String str, BaseAclfModelParser<TNetXml, TBusXml> parser) throws ODMException {
+	public void processXfrData(final String str, BaseAclfModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> parser) throws ODMException {
 		
 		int dataType=0;	    	
 		
@@ -237,7 +243,7 @@ public class BPAXfrBranchRecord<TNetXml extends NetworkXmlType, TBusXml extends 
 	}			
 	
 	
-	public void processXfrAdjustData(final String str, BaseAclfModelParser<TNetXml, TBusXml> parser) throws ODMException {
+	public void processXfrAdjustData(final String str, BaseAclfModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> parser) throws ODMException {
 		
 		final String[] strAry = getXfrAdjustDataFields(str);
 		
