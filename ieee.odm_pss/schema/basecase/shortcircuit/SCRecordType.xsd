@@ -29,6 +29,13 @@
 		</ns:documentation></ns:annotation>
     </ns:element>
     
+    
+     <ns:element name="acscGenData" substitutionGroup="pss:contributeGen" type="pss:ShortCircuitGenDataXmlType">
+        <ns:annotation><ns:documentation>
+		Generator data record for short circuit analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>   
+    
 	
     <ns:element name="acscNoLFBus" substitutionGroup="pss:bus" type="pss:BasicScBusXmlType">
         <ns:annotation><ns:documentation>
@@ -100,7 +107,6 @@
 
     <ns:group name="ShortCircuitBusDataGroup">
         <ns:sequence>
-            <ns:element maxOccurs="unbounded" minOccurs="0" name="scGenData" type="pss:ScGenDataXmlType" />
 			<ns:element minOccurs="0" name="shuntLoadNegativeZ" type="pss:ZXmlType" />
 			<ns:element minOccurs="0" name="shuntLoadZeroZ" type="pss:ZXmlType" />
 			<ns:element minOccurs="0" name="swithedShuntLoadZeroZ" type="pss:ZXmlType" />
@@ -108,9 +114,9 @@
     </ns:group>
 	
 
-    <ns:complexType name="ScGenDataXmlType">
-    <ns:complexContent>
-			<ns:extension base="pss:IDRecordXmlType">
+    <ns:complexType name="ShortCircuitGenDataXmlType">
+    	<ns:complexContent>
+			<ns:extension base="pss:LoadflowGenXmlType">
 		      <ns:sequence>
 			    <ns:element minOccurs="1" name="potiveZ" type="pss:ZXmlType" />
 			    <ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />

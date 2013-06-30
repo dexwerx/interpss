@@ -31,8 +31,8 @@
 		substitutionGroup is used to define network, for example, loadflow study
 		</ns:documentation></ns:annotation>
     </ns:element>
-    
 
+    
     <ns:element name="branch" type="pss:BaseBranchXmlType">
         <ns:annotation><ns:documentation>
 		Base branch for defining a generic branch with bus and branch objects.

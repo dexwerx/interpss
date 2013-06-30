@@ -30,6 +30,14 @@
     </ns:annotation>
     </ns:element>
     
+    
+    <ns:element name="contributeGen" type="pss:LoadflowGenXmlType">
+        <ns:annotation><ns:documentation>
+		Contributing generator at bus for defining a generator data for Loadflow study
+		</ns:documentation></ns:annotation>
+    </ns:element>
+    
+        
     <ns:element name="aclfLine" substitutionGroup="pss:branch" type="pss:LineBranchXmlType">
         <ns:annotation>
       <ns:documentation>
@@ -214,7 +222,7 @@
 					<ns:element maxOccurs="1" minOccurs="0" name="voltage" type="pss:VoltageXmlType"/>
 					<ns:element maxOccurs="1" minOccurs="0" name="angle" type="pss:AngleXmlType"/>
                     <ns:element maxOccurs="1" minOccurs="0" name="powerInjection" type="pss:PowerXmlType" />
-                    <ns:element maxOccurs="1" minOccurs="0" name="genData" type="pss:AclfGenDataXmlType">
+                    <ns:element maxOccurs="1" minOccurs="0" name="genData" type="pss:BusGenDataXmlType">
 						<ns:annotation>
               <ns:documentation>
 								Loadflow bus gen has an equivGen and a list contribGen. For gen models with contribGen list,
@@ -222,7 +230,7 @@
 						</ns:documentation>
             </ns:annotation>
 					</ns:element>
-					<ns:element maxOccurs="1" minOccurs="0" name="loadData" type="pss:AclfLoadDataXmlType">
+					<ns:element maxOccurs="1" minOccurs="0" name="loadData" type="pss:BusLoadDataXmlType">
 						<ns:annotation>
               <ns:documentation>
 								Loadflow bus load has an equivLoad and a list contribLoad. For load models with contribLoad list,
@@ -239,15 +247,15 @@
 	</ns:complexType>
 	
 	
-	<ns:complexType name="AclfGenDataXmlType">
+	<ns:complexType name="BusGenDataXmlType">
 		<ns:sequence>
 			<ns:element maxOccurs="1" minOccurs="0" name="equivGen" type="pss:LoadflowGenXmlType"/>
-			<ns:element maxOccurs="unbounded" minOccurs="0" name="contributeGen" type="pss:LoadflowGenXmlType"/>
+			<ns:element maxOccurs="unbounded" minOccurs="0" ref="pss:contributeGen"/>
 		</ns:sequence>
 	</ns:complexType>
 
 
-	<ns:complexType name="AclfLoadDataXmlType">
+	<ns:complexType name="BusLoadDataXmlType">
 		<ns:sequence>
 			<ns:element maxOccurs="1" minOccurs="0" name="equivLoad" type="pss:LoadflowLoadXmlType"/>
 			<ns:element maxOccurs="unbounded" minOccurs="0" name="contributeLoad" type="pss:LoadflowLoadXmlType"/>
