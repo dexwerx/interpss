@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pssStudyCase id="ODM_StudyCase" schemaVersion="0.9.0"
+    xmlns="http://www.ieee.org/odm/Schema/2008"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/ODMSchema.xsd ">
+    <networkCategory>Transmission</networkCategory>
+    <analysisCategory>ShortCircuit</analysisCategory>
+    <acscNet id="Base_Case_from_IEEECDF_format">
+        <basePower unit="MVA" value="100.0"/>
+        <busList>
+            <acscBus id="Bus1" offLine="false" number="1" zoneNumber="1"
+            	areaNumber="1" name="Bus 1     HV" scCode="Contributing">
+            	<baseVoltage unit="KV" value="132.0" />
+            	<voltage unit="PU" value="1.06" />
+            	<angle unit="DEG" value="0.0" />
+            	<genData>
+            		<equivGen code="Swing" id="gen1">
+            			<power unit="MVA" im="-16.9" re="232.4" />
+            			<desiredVoltage unit="PU" value="1.06" />
+            			<desiredAngle unit="DEG" value="0.0" />
+            		</equivGen>
+            		<acscGenData id="idvalue0" code="PQ">
+            			<potiveZ im="0.0" unit="PU" />
+            		</acscGenData>
+            	</genData>
+            </acscBus>
+            <acscBus id="Bus2" offLine="false" number="2" zoneNumber="1"
+            	areaNumber="1" name="Bus 2     HV" scCode="Contributing">
+            	<baseVoltage unit="KV" value="132.0" />
+            	<voltage unit="PU" value="1.045" />
+            	<angle unit="DEG" value="-4.98" />
+            	<genData>
+            		<equivGen code="PV" id="gen2">
+            			<power unit="MVA" im="42.4" re="40.0" />
+            			<desiredVoltage unit="PU" value="1.045" />
+            			<qLimit unit="MVAR" min="-40.0" max="50.0" />
+            		</equivGen>
+            	</genData>
+            	<loadData>
+            		<equivLoad code="CONST_P" id="load2">
+            			<constPLoad unit="MVA" im="12.7" re="21.7" />
+            		</equivLoad>
+            	</loadData>
+            </acscBus>
+        </busList>
+        <branchList>
+            <acscLine circuitId="1" id="Bus1_to_Bus2_cirId_1" offLine="false" zoneNumber="1" areaNumber="1">
+                <fromBus idRef="Bus1"/>
+                <toBus idRef="Bus2"/>
+                <z unit="PU" im="0.05917" re="0.01938"/>
+                <ratingLimit/>
+                <totalShuntY unit="PU" im="0.0528" re="0.0"/>
+                <lineInfo/>
+            </acscLine>
+        </branchList>
+        <hasLoadflowData>true</hasLoadflowData>
+        <positiveSeqDataOnly>false</positiveSeqDataOnly>
+    </acscNet>
+</pssStudyCase>
