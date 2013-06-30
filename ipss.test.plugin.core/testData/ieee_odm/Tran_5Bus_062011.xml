@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pss:pssStudyCase id="idvalue0" xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
+<pss:pssStudyCase id="idvalue0" schemaVersion="0.9.0""
+xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/ODMSchema.xsd ">
-	<pss:schemaVersion>V0.8</pss:schemaVersion>
+	<pss:schemaVersion>0.9.0</pss:schemaVersion>
 	<pss:contentInfo>
 		<pss:originalDataFormat>InterPSS</pss:originalDataFormat>
 		<pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
