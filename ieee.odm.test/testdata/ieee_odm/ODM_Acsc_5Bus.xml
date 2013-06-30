@@ -58,6 +58,11 @@
             				<groundingZ im="0.0" unit="PU"/>
             			</grounding>
             		</acscEquivGen>
+            		<!--
+            		To define multiple contribute generator, use the acscGenData structure 
+            		<acscGenData id="" code="PQ">
+            		</acscGenData>
+            		 -->
             	</genData>
  			</acscBus>
             <acscBus id="Bus5" offLine="false" number="1" zoneNumber="1"
