@@ -72,7 +72,7 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 		boolean noError = true;
 		AclfModelParser parser = (AclfModelParser)p;
 		if (parser.getStudyCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION ) {
-			LoadflowNetXmlType xmlNet = parser.getAclfNet();
+			LoadflowNetXmlType xmlNet = parser.getNet();
 			ODMAclfNetMapper mapper = new ODMAclfNetMapper();
 			mapper.setXfrBranchModel(xfrBranchModel);
 			

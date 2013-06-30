@@ -36,7 +36,6 @@ import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BaseBranchXmlType;
-import org.ieee.odm.schema.BasicScBusXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
@@ -48,9 +47,9 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
-import org.ieee.odm.schema.XformerZTableXmlType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
@@ -141,14 +140,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 						helper.setAclfBusData(acscBusXml);
 						
 						setAcscBusData(acscBusXml, acscBus);
-					} else if (bus.getValue() instanceof BasicScBusXmlType){
-						// no loadflow info included
-						BasicScBusXmlType acscBusXml = (BasicScBusXmlType) bus.getValue();
-						// map the base bus info part
-						mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
-						AbstractODMAcscDataMapper.setAcscBusNoLFData(acscBusXml, acscBus);
-					}
-					else {
+					} else {
 						ipssLogger.severe( "Error: only scscBus and pss:acscNoLFBus could be used for DStab study");
 						noError = false;
 					}
@@ -220,21 +212,6 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		} 
 	}
 
-	/**
-	 * set Acsc bus data for scenario no lf data
-	 * 
-	 * @param acscBusXml
-	 * @param acscBus
-	 * @throws InterpssException
-	 */
-	public static void setAcscBusNoLFData(BasicScBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
-		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
-			setContributeBusNoLFInfo(acscBusXml, acscBus);
-		} else { // non-contributing
-			setNonContributeBusFormInfo(acscBus);
-		} 
-	}
-
 	private static void setNonContributeBusFormInfo(AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.NON_CONTRI);
 		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
@@ -246,28 +223,14 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 
 	private static void setContributeBusInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
-		if (busData.getScGenData() != null) {
+		if (busData.getGenData().getContributeGen().size() > 0) {
+			ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)busData.getGenData().getContributeGen().get(0).getValue();
 			setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 
-					busData.getScGenData().getPotiveZ(),
-					busData.getScGenData().getNegativeZ(),
-					busData.getScGenData().getZeroZ());
+					scGenData.getPotiveZ(),
+					scGenData.getNegativeZ(),
+					scGenData.getZeroZ());
 			setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
-					busData.getScGenData().getGrounding());
-		}
-	}
-
-	private static void setContributeBusNoLFInfo(BasicScBusXmlType busData, AcscBus acscBus) {
-		acscBus.setScCode(BusScCode.CONTRIBUTE);
-		if (busData.getScGenData() != null) {
-			setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 
-					busData.getScGenData().getPotiveZ(),
-					busData.getScGenData().getNegativeZ(),
-					busData.getScGenData().getZeroZ());
-			if(busData.getScGenData().getGrounding() != null){
-				setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
-						busData.getScGenData().getGrounding());
-			}
-
+					scGenData.getGrounding());
 		}
 	}
 

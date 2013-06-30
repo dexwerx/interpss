@@ -34,8 +34,8 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 
 import org.apache.commons.math3.complex.Complex;
 import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.schema.AclfGenDataXmlType;
-import org.ieee.odm.schema.AclfLoadDataXmlType;
+import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -130,7 +130,7 @@ public class AclfBusDataHelper {
 		}
 	}
 	
-	private void mapGenData(AclfGenDataXmlType xmlGenData) throws InterpssException {
+	private void mapGenData(BusGenDataXmlType xmlGenData) throws InterpssException {
 		LoadflowGenXmlType xmlEquivGenData = xmlGenData.getEquivGen();
 		VoltageXmlType vXml = xmlEquivGenData.getDesiredVoltage();
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
@@ -221,7 +221,7 @@ public class AclfBusDataHelper {
 			aclfBus.setGenPartFactor(xmlEquivGenData.getMwControlParticipateFactor());
 	}
 	
-	private void mapLoadData(AclfLoadDataXmlType xmlLoadData) {
+	private void mapLoadData(BusLoadDataXmlType xmlLoadData) {
 		aclfBus.setLoadCode(xmlLoadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
 				AclfLoadCode.CONST_I : (xmlLoadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
