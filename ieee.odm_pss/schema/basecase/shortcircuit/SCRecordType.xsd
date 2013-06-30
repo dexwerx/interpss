@@ -37,12 +37,6 @@
     </ns:element>   
     
 	
-    <ns:element name="acscNoLFBus" substitutionGroup="pss:bus" type="pss:BasicScBusXmlType">
-        <ns:annotation><ns:documentation>
-		Bus record for AC short circuit analysis without Loadflow info. Unit voltage is used for the 
-		bus init voltage.
-		</ns:documentation></ns:annotation>
-    </ns:element>
     
     <ns:element name="acscLine" substitutionGroup="pss:branch" type="pss:LineShortCircuitXmlType">
         <ns:annotation><ns:documentation>
@@ -92,17 +86,6 @@
 	</ns:complexType>
     
 
-    <ns:complexType name="BasicScBusXmlType">
-		<ns:annotation><ns:documentation>
-		Simple SC Bus without Aclf info
-		</ns:documentation></ns:annotation>	
-		<ns:complexContent>
-			<ns:extension base="pss:BusXmlType">
-				<ns:group ref="pss:ShortCircuitBusDataGroup" />
-				<ns:attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="required" />
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
     
 
     <ns:group name="ShortCircuitBusDataGroup">
