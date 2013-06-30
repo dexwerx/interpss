@@ -231,13 +231,13 @@ public class BPABusRecord<
 							vMinOrAngDeg, AngleUnitType.DEG,pGen,0, ApparentPowerUnitType.MVA);
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					busRec.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit( 
+					busRec.getGenData().getEquivGen().getValue().setQLimit(BaseDataSetter.createReactivePowerLimit( 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR));				
 				}
 				
 				// set P limit
 				if(pGenMax!=0.0){
-					busRec.getGenData().getEquivGen().setPLimit(BaseDataSetter.createActivePowerLimit(
+					busRec.getGenData().getEquivGen().getValue().setPLimit(BaseDataSetter.createActivePowerLimit(
 							pGenMax, 0, ActivePowerUnitType.MW));
 				}	
 			}
@@ -246,8 +246,8 @@ public class BPABusRecord<
 						LFGenCodeEnumType.NONE_GEN, 
 						1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG);
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
-					busRec.getGenData().getEquivGen().setCode(LFGenCodeEnumType.PQ);
-					busRec.getGenData().getEquivGen()
+					busRec.getGenData().getEquivGen().getValue().setCode(LFGenCodeEnumType.PQ);
+					busRec.getGenData().getEquivGen().getValue()
 						.setPower(BaseDataSetter.createPowerValue(
 							pGen, qGenOrQGenMax, ApparentPowerUnitType.MVA));
 			    // for a PQ Bus, it is not proper to set the Vlimit;

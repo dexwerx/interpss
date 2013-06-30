@@ -67,8 +67,8 @@ public class AcscParserHelper extends AclfParserHelper {
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
-			LoadflowGenXmlType equivGen = new LoadflowGenXmlType();
-			genData.setEquivGen(equivGen);
+			ShortCircuitGenDataXmlType equivGen = odmObjFactory.createShortCircuitGenDataXmlType();
+			genData.setEquivGen(odmObjFactory.createAcscEquivGen(equivGen));
 		}
 		// some model does not need ContributeGenList
 		ShortCircuitGenDataXmlType contribGen = odmObjFactory.createShortCircuitGenDataXmlType();

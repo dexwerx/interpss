@@ -45,42 +45,42 @@ public class AclfModelComparator {
                 </genData>
 */
 		if (base.getGenData() != null && bus.getGenData() != null) {
-			if (base.getGenData().getEquivGen().getCode() != bus.getGenData().getEquivGen().getCode())
+			if (base.getGenData().getEquivGen().getValue().getCode() != bus.getGenData().getEquivGen().getValue().getCode())
 				msgList.add("\nBus EquivGen code not equal: " + id + ", " + 
-						base.getGenData().getEquivGen().getCode() + baseStr + 
-						"  " + bus.getGenData().getEquivGen().getCode() + format);
-			if (base.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV) {
-				if (!NumericUtil.equals(base.getGenData().getEquivGen().getPower().getRe(), bus.getGenData().getEquivGen().getPower().getRe()))
-					msgList.add("\nBus EquivGen power not equal: " + id + " " + base.getGenData().getEquivGen().getCode() 
-							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getPower()) + baseStr
-							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getPower()) + format);
-				if (!ODMNumericUtil.equals(base.getGenData().getEquivGen().getDesiredVoltage(), 
-						                bus.getGenData().getEquivGen().getDesiredVoltage()))
-					msgList.add("\nBus EquivGen desiredVoltage not equal: " + id + " " + base.getGenData().getEquivGen().getCode() 
-							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getDesiredVoltage()) + baseStr
-							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getDesiredVoltage()) + format);
+						base.getGenData().getEquivGen().getValue().getCode() + baseStr + 
+						"  " + bus.getGenData().getEquivGen().getValue().getCode() + format);
+			if (base.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV) {
+				if (!NumericUtil.equals(base.getGenData().getEquivGen().getValue().getPower().getRe(), bus.getGenData().getEquivGen().getValue().getPower().getRe()))
+					msgList.add("\nBus EquivGen power not equal: " + id + " " + base.getGenData().getEquivGen().getValue().getCode() 
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getValue().getPower()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getValue().getPower()) + format);
+				if (!ODMNumericUtil.equals(base.getGenData().getEquivGen().getValue().getDesiredVoltage(), 
+						                bus.getGenData().getEquivGen().getValue().getDesiredVoltage()))
+					msgList.add("\nBus EquivGen desiredVoltage not equal: " + id + " " + base.getGenData().getEquivGen().getValue().getCode() 
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getValue().getDesiredVoltage()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getValue().getDesiredVoltage()) + format);
 			}
-			else if (base.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PQ) {
-				if (!ODMNumericUtil.equals(base.getGenData().getEquivGen().getPower(), bus.getGenData().getEquivGen().getPower()))
-					msgList.add("\nBus EquivGen power not equal: " + id + " " + base.getGenData().getEquivGen().getCode()
-							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getPower()) + baseStr
-							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getPower()) + format);
+			else if (base.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PQ) {
+				if (!ODMNumericUtil.equals(base.getGenData().getEquivGen().getValue().getPower(), bus.getGenData().getEquivGen().getValue().getPower()))
+					msgList.add("\nBus EquivGen power not equal: " + id + " " + base.getGenData().getEquivGen().getValue().getCode()
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getValue().getPower()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getValue().getPower()) + format);
 			}
-			else if (base.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
-				if (!ODMNumericUtil.equals(base.getGenData().getEquivGen().getDesiredVoltage(), 
-		                bus.getGenData().getEquivGen().getDesiredVoltage()))
-					msgList.add("\nBus EquivGen desiredVoltage not equal: " + id + " " + base.getGenData().getEquivGen().getCode()
-							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getDesiredVoltage()) + baseStr
-							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getDesiredVoltage()) + format);
+			else if (base.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.SWING) {
+				if (!ODMNumericUtil.equals(base.getGenData().getEquivGen().getValue().getDesiredVoltage(), 
+		                bus.getGenData().getEquivGen().getValue().getDesiredVoltage()))
+					msgList.add("\nBus EquivGen desiredVoltage not equal: " + id + " " + base.getGenData().getEquivGen().getValue().getCode()
+							+ "   " + BaseJaxbHelper.toStr(base.getGenData().getEquivGen().getValue().getDesiredVoltage()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getGenData().getEquivGen().getValue().getDesiredVoltage()) + format);
 			}
 		}
 		else if (base.getGenData() == null && bus.getGenData() != null 
-						&& bus.getGenData().getEquivGen().getCode() != LFGenCodeEnumType.NONE_GEN ||
+						&& bus.getGenData().getEquivGen().getValue().getCode() != LFGenCodeEnumType.NONE_GEN ||
 				 base.getGenData() != null && bus.getGenData() == null 
-				 		&& base.getGenData().getEquivGen().getCode() != LFGenCodeEnumType.NONE_GEN) {
+				 		&& base.getGenData().getEquivGen().getValue().getCode() != LFGenCodeEnumType.NONE_GEN) {
 			msgList.add("\nBus EquivGen model not equal: " + id + ", " + 
-					base.getGenData().getEquivGen().getCode() + baseStr + 
-					"  " + bus.getGenData().getEquivGen().getCode() + format);
+					base.getGenData().getEquivGen().getValue().getCode() + baseStr + 
+					"  " + bus.getGenData().getEquivGen().getValue().getCode() + format);
 		}	
 			
 /*

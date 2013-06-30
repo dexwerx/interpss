@@ -31,10 +31,10 @@ import javax.xml.bind.JAXBElement;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.schema.BusGenDataXmlType;
-import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -43,7 +43,6 @@ import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowLoadXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
-import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
@@ -82,8 +81,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
-			LoadflowGenXmlType equivGen = new LoadflowGenXmlType();
-			genData.setEquivGen(equivGen);
+			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType();
+			genData.setEquivGen(odmObjFactory.createEquivGen(equivGen));
 		}
 		// some model does not need ContributeGenList
 		LoadflowGenXmlType contribGen = odmObjFactory.createLoadflowGenXmlType();
@@ -102,7 +101,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 			BusGenDataXmlType genData = busRec.getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGen().size() > 0) {
-					LoadflowGenXmlType equivGen = genData.getEquivGen();
+					LoadflowGenXmlType equivGen = genData.getEquivGen().getValue();
 					double pgen = 0.0, qgen = 0.0, qmax = 0.0, qmin = 0.0, pmax = 0.0, pmin = 0.0, vSpec = 0.0;
 					VoltageUnitType vSpecUnit = VoltageUnitType.PU;
 					String remoteBusId = null;
@@ -147,10 +146,10 @@ public class AclfParserHelper extends BaseJaxbHelper {
 						}
 					}
 					
-					if (offLine && genData.getEquivGen().getCode() != LFGenCodeEnumType.SWING)
+					if (offLine && genData.getEquivGen().getValue().getCode() != LFGenCodeEnumType.SWING)
 						// generator on a swing bus might turned off
-						genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
-					else if (genData.getEquivGen().getCode() == LFGenCodeEnumType.PV) {
+						genData.getEquivGen().getValue().setCode(LFGenCodeEnumType.OFF);
+					else if (genData.getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV) {
 						equivGen.setPower(BaseDataSetter.createPowerValue(pgen, qgen, ApparentPowerUnitType.MVA));
 						if (qmax != 0.0 || qmin != 0.0) {
 							equivGen.setQLimit(BaseDataSetter.createReactivePowerLimit(qmax, qmin, ReactivePowerUnitType.MVAR));
@@ -160,7 +159,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 						}
 						else {
 							// this is the case when the generator is turn-off
-							genData.getEquivGen().setCode(LFGenCodeEnumType.PQ);
+							genData.getEquivGen().getValue().setCode(LFGenCodeEnumType.PQ);
 						}
 					}	
 					else {  // PQ bus	
@@ -171,17 +170,17 @@ public class AclfParserHelper extends BaseJaxbHelper {
 					}
 					
 					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
-							genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
+							genData.getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV){
 						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
-						genData.getEquivGen().setRemoteVoltageControlBus(parser.createBusRef(remoteBusId));
+						genData.getEquivGen().getValue().setRemoteVoltageControlBus(parser.createBusRef(remoteBusId));
 					}
 				}
 				else {
-					genData.getEquivGen().setCode(LFGenCodeEnumType.NONE_GEN);
-					if (genData.getEquivGen().getPower() != null)
-						genData.getEquivGen().setPower(null);
-					if (genData.getEquivGen().getVoltageLimit() != null)
-						genData.getEquivGen().setVoltageLimit(null);
+					genData.getEquivGen().getValue().setCode(LFGenCodeEnumType.NONE_GEN);
+					if (genData.getEquivGen().getValue().getPower() != null)
+						genData.getEquivGen().getValue().setPower(null);
+					if (genData.getEquivGen().getValue().getVoltageLimit() != null)
+						genData.getEquivGen().getValue().setVoltageLimit(null);
 				}
 			}
 		}

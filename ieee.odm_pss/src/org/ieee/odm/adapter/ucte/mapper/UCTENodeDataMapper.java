@@ -116,7 +116,7 @@ public class UCTENodeDataMapper extends BaseUCTEDataMapper {
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
 				ODMLogger.getLogger().fine("Bus is a PVLimitBus, id: " + id);
-				aclfBus.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit(  
+				aclfBus.getGenData().getEquivGen().getValue().setQLimit(BaseDataSetter.createReactivePowerLimit(  
 						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR));
 			}
 			break;

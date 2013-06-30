@@ -296,7 +296,7 @@ public class BPADynamicGeneratorRecord {
 				
 				EquiMachineXmlType.EquivGen equGen =odmObjFactory.createEquiMachineXmlTypeEquivGen();
 				if(bus1.getGenData()!=null){
-					double pGen=bus1.getGenData().getEquivGen().getPower().getRe();
+					double pGen=bus1.getGenData().getEquivGen().getValue().getPower().getRe();
 					equGen.setEquiPgen(pGen);//TODO why only pGen, for equivalence, qGen should be included
 					equGen.setPGenUnit(ApparentPowerUnitType.MVA);
 					mach.setEquivGen(equGen);
