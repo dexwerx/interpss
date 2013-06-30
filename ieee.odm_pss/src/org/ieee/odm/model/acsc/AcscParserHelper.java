@@ -42,6 +42,17 @@ import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
  *
  */
 public class AcscParserHelper extends AclfParserHelper {
+
+	/**
+	 * create Acsc equiv gen
+	 * 
+	 * @return
+	 */
+	public static JAXBElement<ShortCircuitGenDataXmlType> createAcscEquivGen() {
+		ShortCircuitGenDataXmlType equivGen = odmObjFactory.createShortCircuitGenDataXmlType();
+		return odmObjFactory.createAcscEquivGen(equivGen);
+	}
+	
 	/**
 	 * get Acsc Gen Data object on the acscBus with id = genId
 	 * 
@@ -59,7 +70,7 @@ public class AcscParserHelper extends AclfParserHelper {
 	}
 	
 	/**
-	 * create a Contribution Generator object
+	 * create a Acsc Contribution Generator object
 	 * 
 	 */
 	public static ShortCircuitGenDataXmlType createAcscGen(ShortCircuitBusXmlType busRec) {
@@ -67,8 +78,7 @@ public class AcscParserHelper extends AclfParserHelper {
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
-			ShortCircuitGenDataXmlType equivGen = odmObjFactory.createShortCircuitGenDataXmlType();
-			genData.setEquivGen(odmObjFactory.createAcscEquivGen(equivGen));
+			genData.setEquivGen(createAcscEquivGen());
 		}
 		// some model does not need ContributeGenList
 		ShortCircuitGenDataXmlType contribGen = odmObjFactory.createShortCircuitGenDataXmlType();

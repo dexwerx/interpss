@@ -11,46 +11,20 @@
             <acscBus id="Bus1" offLine="false" number="1" zoneNumber="1"
             	areaNumber="1" name="Bus-1 138.0 KV" scCode="Non-contributing">
             	<baseVoltage unit="KV" value="138.0" />
-            	<voltage unit="PU" value="1.0" />
-            	<angle unit="DEG" value="0.0" />
-				<loadData>
-					<equivLoad code="CONST_P" id="Bus1Load">
-						<constPLoad im="80.0" unit="MVA" re="160.0" />
-					</equivLoad>
-				</loadData>
 			</acscBus>
             <acscBus id="Bus2" offLine="false" number="1" zoneNumber="1"
             	areaNumber="1" name="Bus-2 138.0 KV" scCode="Non-contributing">
             	<baseVoltage unit="KV" value="138.0" />
-            	<voltage unit="PU" value="1.0" />
-            	<angle unit="DEG" value="0.0" />
-				<loadData>
-					<equivLoad code="CONST_P" id="Bus2Load">
-						<constPLoad im="100.0" unit="MVA" re="200.0" />
-					</equivLoad>
-				</loadData>
 			</acscBus>
             <acscBus id="Bus3" offLine="false" number="1" zoneNumber="1"
             	areaNumber="1" name="Bus-3 138.0 KV" scCode="Non-contributing">
             	<baseVoltage unit="KV" value="138.0" />
-            	<voltage unit="PU" value="1.0" />
-            	<angle unit="DEG" value="0.0" />
-				<loadData>
-					<equivLoad code="CONST_P" id="Bus3Load">
-						<constPLoad im="130.0" unit="MVA" re="370.0" />
-					</equivLoad>
-				</loadData>
 			</acscBus>
             <acscBus id="Bus4" offLine="false" number="1" zoneNumber="1"
             	areaNumber="1" name="Gen Bus-4 1000 Volt" scCode="Contributing">
             	<baseVoltage unit="VOLT" value="1000.0" />
-            	<voltage unit="PU" value="1.0" />
-            	<angle unit="DEG" value="0.0" />
            		<genData>
-            		<acscEquivGen code="PV" id="gen4">
-            			<power unit="MVA" im="0.0" re="500.0" />
-            			<desiredVoltage unit="PU" value="1.05" />
-            			<qLimit unit="MVAR" min="-40.0" max="50.0" />
+            		<acscEquivGen code="NoneGen" id="gen4">
             			<potiveZ im="0.02" unit="PU"/>
             			<negativeZ im="0.02" unit="PU"/>
             			<zeroZ im="1.0e10" unit="PU"/>
@@ -66,9 +40,7 @@
             	<voltage unit="PU" value="1.0" />
             	<angle unit="DEG" value="0.0" />
            		<genData>
-            		<acscEquivGen code="Swing" id="gen5">
-            			<desiredVoltage unit="PU" value="1.05" />
-            			<desiredAngle unit="DEG" value="0.0"/>
+            		<acscEquivGen code="NoneGen" id="gen5">
             			<potiveZ im="0.02" unit="PU"/>
             			<negativeZ im="0.02" unit="PU"/>
             			<zeroZ im="1.0e10" unit="PU"/>
@@ -121,7 +93,7 @@
 				<toSideConnection xfrConnection="Delta"></toSideConnection>
 			</acscXfr>
         </branchList>
-        <hasLoadflowData>true</hasLoadflowData>
+        <hasLoadflowData>false</hasLoadflowData>
         <positiveSeqDataOnly>false</positiveSeqDataOnly>
     </acscNet>
 </pssStudyCase>
