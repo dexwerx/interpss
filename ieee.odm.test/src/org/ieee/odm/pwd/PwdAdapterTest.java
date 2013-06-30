@@ -57,14 +57,14 @@ public class PwdAdapterTest {
 		
 		//check bus data
 		LoadflowBusXmlType bus1=(LoadflowBusXmlType) parser.getBus("Bus1");
-		assertTrue(bus1.getGenData().getEquivGen().getCode()==LFGenCodeEnumType.SWING);
-		assertTrue(bus1.getGenData().getEquivGen().getDesiredVoltage().getValue()==1.0);
+		assertTrue(bus1.getGenData().getEquivGen().getValue().getCode()==LFGenCodeEnumType.SWING);
+		assertTrue(bus1.getGenData().getEquivGen().getValue().getDesiredVoltage().getValue()==1.0);
 		
-		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getPower().getRe()-100.0056)<1E-3);
-		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getQLimit().getMax()-99998.999)<1E-3);
-		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getQLimit().getMin()-(-99998.999))<1E-3);
-		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getPLimit().getMax()-800.0)<1E-4);
-		assertTrue(bus1.getGenData().getEquivGen().getPLimit().getMin()==0.0);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getValue().getPower().getRe()-100.0056)<1E-3);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getValue().getQLimit().getMax()-99998.999)<1E-3);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getValue().getQLimit().getMin()-(-99998.999))<1E-3);
+		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getValue().getPLimit().getMax()-800.0)<1E-4);
+		assertTrue(bus1.getGenData().getEquivGen().getValue().getPLimit().getMin()==0.0);
 		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getRe()==100.0);
 		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getIm()==0.0);
 		
@@ -108,12 +108,12 @@ public class PwdAdapterTest {
 		assertTrue(bus2.getBaseVoltage().getValue()==132.00);
 		assertTrue(bus2.isOffLine()==false);
 		
-		assertTrue(bus2.getGenData().getEquivGen().getDesiredVoltage().getValue()==1.045000);
-		assertTrue(bus2.getGenData().getEquivGen().getPower().getRe() == 40.0);
-		assertTrue(bus2.getGenData().getEquivGen().getQLimit().getMax() == 50.0);
-		assertTrue(bus2.getGenData().getEquivGen().getQLimit().getMin() == -40.0);
-		assertTrue(bus2.getGenData().getEquivGen().getPLimit().getMax() == 10000.0);
-		assertTrue(bus2.getGenData().getEquivGen().getPLimit().getMin()==-10000.0);
+		assertTrue(bus2.getGenData().getEquivGen().getValue().getDesiredVoltage().getValue()==1.045000);
+		assertTrue(bus2.getGenData().getEquivGen().getValue().getPower().getRe() == 40.0);
+		assertTrue(bus2.getGenData().getEquivGen().getValue().getQLimit().getMax() == 50.0);
+		assertTrue(bus2.getGenData().getEquivGen().getValue().getQLimit().getMin() == -40.0);
+		assertTrue(bus2.getGenData().getEquivGen().getValue().getPLimit().getMax() == 10000.0);
+		assertTrue(bus2.getGenData().getEquivGen().getValue().getPLimit().getMin()==-10000.0);
 		
 		assertTrue(bus2.getLoadData().getEquivLoad().getConstPLoad().getRe()==21.700);
 		assertTrue(bus2.getLoadData().getEquivLoad().getConstPLoad().getIm()==12.700);

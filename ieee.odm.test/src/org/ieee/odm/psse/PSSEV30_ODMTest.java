@@ -82,7 +82,7 @@ public class PSSEV30_ODMTest {
  */
 		LoadflowBusXmlType bus = parser.getBus("Bus1");
 		assertTrue(bus.getBaseVoltage().getValue() == 13.8);
-		LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
+		LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(equivGen.getDesiredVoltage().getValue() == 1.0);
 		assertTrue(equivGen.getDesiredAngle().getValue() == 0.0);
@@ -108,7 +108,7 @@ public class PSSEV30_ODMTest {
 */
 		bus = parser.getBus("Bus2");
 		assertTrue(bus.getLoadData() == null);
-		equivGen = bus.getGenData().getEquivGen();
+		equivGen = bus.getGenData().getEquivGen().getValue();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.NONE_GEN);
 		
 /*
@@ -133,7 +133,7 @@ public class PSSEV30_ODMTest {
 */
 		bus = parser.getBus("Bus5");
 		assertTrue(bus.getLoadData() == null);
-		equivGen = bus.getGenData().getEquivGen();
+		equivGen = bus.getGenData().getEquivGen().getValue();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.PV);
 		assertTrue(equivGen.getPower().getRe() == 22.5);
 		assertTrue(equivGen.getPower().getIm() == 15.852);

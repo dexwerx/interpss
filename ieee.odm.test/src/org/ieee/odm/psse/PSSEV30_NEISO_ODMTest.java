@@ -79,7 +79,7 @@ public class PSSEV30_NEISO_ODMTest {
 		LoadflowBusXmlType bus = parser.getBus("Bus1");
 		assertTrue(bus.getBaseVoltage().getValue() == 345.0);
 		assertTrue(bus.getBaseVoltage().getUnit() == VoltageUnitType.KV);
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.NONE_GEN);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.NONE_GEN);
 
 		/*
       <bus id="Bus3" number="3" areaNumber="1" name="'0001        '" offLine="false">
@@ -111,11 +111,11 @@ public class PSSEV30_NEISO_ODMTest {
       </bus>
         */
 		bus = parser.getBus("Bus3");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
-		assertTrue(bus.getGenData().getEquivGen().getPower().getRe() == 0.0);
-		assertTrue(bus.getGenData().getEquivGen().getPower().getIm() == -65.628);
-		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.03842);
-		assertTrue(bus.getGenData().getEquivGen().getQLimit().getMax() == 441.0);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getPower().getRe() == 0.0);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getPower().getIm() == -65.628);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getDesiredVoltage().getValue() == 1.03842);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getQLimit().getMax() == 441.0);
 		assertTrue(bus.getGenData().getContributeGen().size() == 1);
 		
 		/*

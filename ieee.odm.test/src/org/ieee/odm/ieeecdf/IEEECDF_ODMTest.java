@@ -97,7 +97,7 @@ public class IEEECDF_ODMTest {
 		assertTrue(busRec.getBaseVoltage().getValue() == 132.0);
 		assertTrue(busRec.getVoltage().getValue() == 1.060);
 		assertTrue(busRec.getAngle().getValue() == 0.0);
-		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(busRec.getLoadData() == null);
 		assertTrue(busRec.getShuntY() == null);
 
@@ -105,12 +105,12 @@ public class IEEECDF_ODMTest {
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
 		busRec = parser.getBus("Bus2");
 		//System.out.println(busRec);
-		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
-		assertTrue(busRec.getGenData().getEquivGen().getPower().getRe() == 40.0);
-		assertTrue(busRec.getGenData().getEquivGen().getPower().getUnit() == ApparentPowerUnitType.MVA);
-		assertTrue(busRec.getGenData().getEquivGen().getQLimit().getMax() == 50.0);
-		assertTrue(busRec.getGenData().getEquivGen().getQLimit().getMin() == -40.0);
-		assertTrue(busRec.getGenData().getEquivGen().getQLimit().getUnit() == ReactivePowerUnitType.MVAR);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getPower().getRe() == 40.0);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getPower().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getQLimit().getMax() == 50.0);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getQLimit().getMin() == -40.0);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getQLimit().getUnit() == ReactivePowerUnitType.MVAR);
 		
 		assertTrue(busRec.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe() == 21.7);

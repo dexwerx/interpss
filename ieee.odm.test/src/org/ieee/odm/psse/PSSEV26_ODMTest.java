@@ -66,9 +66,9 @@ public class PSSEV26_ODMTest {
         </bus>
       		 */
 		LoadflowBusXmlType bus = parser.getBus("Bus15021");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
-		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.07);
-		assertTrue(bus.getGenData().getEquivGen().getDesiredAngle().getValue() == 3.1024);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.SWING);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getDesiredVoltage().getValue() == 1.07);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getDesiredAngle().getValue() == 3.1024);
 				
 		/*
         <baseVoltage value="115.0" unit="KV"/>
@@ -95,12 +95,12 @@ public class PSSEV26_ODMTest {
 						
 		// gen bus
 		bus = parser.getBus("Bus31435");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
-		assertTrue(bus.getGenData().getEquivGen().getPower().getRe() == 8.52);
-		assertTrue(bus.getGenData().getEquivGen().getPower().getIm() == 2.51);
-		assertTrue(bus.getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.0203);
-		assertTrue(bus.getGenData().getEquivGen().getQLimit().getMax() == 10.0);
-		assertTrue(bus.getGenData().getEquivGen().getQLimit().getMin() == -6.0);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getPower().getRe() == 8.52);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getPower().getIm() == 2.51);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getDesiredVoltage().getValue() == 1.0203);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getQLimit().getMax() == 10.0);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getQLimit().getMin() == -6.0);
 
 		/*
           <loadData code="CONST_P">
@@ -142,7 +142,7 @@ public class PSSEV26_ODMTest {
       </bus>
 		 */
 		bus = parser.getBus("Bus32252");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 20.32);
 		
 		// bus turned off case
@@ -158,7 +158,7 @@ public class PSSEV26_ODMTest {
       </bus>
  */
 		bus = parser.getBus("Bus32252");
-		assertTrue(bus.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV);
 
 		// Branch info
 		// =========

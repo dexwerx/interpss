@@ -84,7 +84,7 @@ public class OPF_Matpower_ODMTest {
 		assertTrue(busRec.getBaseVoltage().getValue() == 10.0);
 		assertTrue(busRec.getVoltage().getValue() == 1.0);
 		assertTrue(busRec.getAngle().getValue() == 0.0);
-		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(busRec.getLoadData() == null);
 		assertTrue(busRec.getOperatingMode().equals(OpfGenOperatingModeEnumType.PV_GENERATOR));
 		assertTrue(busRec.getIncCost().getCostModel().equals(CostModelEnumType.PIECE_WISE_LINEAR_MODEL));
@@ -150,7 +150,7 @@ public class OPF_Matpower_ODMTest {
 		assertTrue(busRec.getBaseVoltage().getValue() == 10.0);
 		assertTrue(busRec.getVoltage().getValue() == 1.0);
 		assertTrue(busRec.getAngle().getValue() == 0.0);
-		assertTrue(busRec.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);		
+		assertTrue(busRec.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.SWING);		
 		assertTrue(busRec.getOperatingMode().equals(OpfGenOperatingModeEnumType.PV_GENERATOR));
 		assertTrue(busRec.getIncCost().getCostModel().equals(CostModelEnumType.QUADRATIC_MODEL));
 		assertTrue(busRec.getIncCost().getQuadraticModel().getSqrCoeff().getValue() == 0.00463);

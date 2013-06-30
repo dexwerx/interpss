@@ -50,9 +50,9 @@ public class PWD_IEEE14Bus_ODMTest {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//System.out.println(parser.toXmlDoc());
 		
-		assertTrue(parser.getBus("Bus1").getGenData().getEquivGen().getCode()
+		assertTrue(parser.getBus("Bus1").getGenData().getEquivGen().getValue().getCode()
 				==LFGenCodeEnumType.SWING);
-		assertTrue(parser.getBus("Bus2").getGenData().getEquivGen().getCode()
+		assertTrue(parser.getBus("Bus2").getGenData().getEquivGen().getValue().getCode()
 				==LFGenCodeEnumType.PV);
 	}
 
@@ -69,9 +69,9 @@ public class PWD_IEEE14Bus_ODMTest {
 		AclfModelParser parser = (AclfModelParser)adapter.getModel();
 		//System.out.println(parser.toXmlDoc());
 		
-		assertTrue(parser.getBus("Bus1").getGenData().getEquivGen().getCode()
+		assertTrue(parser.getBus("Bus1").getGenData().getEquivGen().getValue().getCode()
 				==LFGenCodeEnumType.SWING);
-		assertTrue(parser.getBus("Bus2").getGenData().getEquivGen().getCode()
+		assertTrue(parser.getBus("Bus2").getGenData().getEquivGen().getValue().getCode()
 				==LFGenCodeEnumType.PV);
 	}
 }
