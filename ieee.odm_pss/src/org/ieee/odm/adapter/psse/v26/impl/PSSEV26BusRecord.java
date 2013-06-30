@@ -33,10 +33,11 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.schema.AclfGenDataXmlType;
-import org.ieee.odm.schema.AclfLoadDataXmlType;
+import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -112,7 +113,7 @@ public class PSSEV26BusRecord {
 		*/			
 		final int IDE = busDataParser.getInt("IDE", 1);
 		if (IDE ==3){//Swing bus
-			busRec.setGenData(odmObjFactory.createAclfGenDataXmlType());
+			busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
 			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType(); 
 			busRec.getGenData().setEquivGen(equivGen);
 			equivGen.setCode(LFGenCodeEnumType.SWING);
@@ -121,7 +122,7 @@ public class PSSEV26BusRecord {
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
-			busRec.setGenData(odmObjFactory.createAclfGenDataXmlType());
+			busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
 			busRec.getGenData().setEquivGen(odmObjFactory.createLoadflowGenXmlType());
 			busRec.getGenData().getEquivGen().setCode(LFGenCodeEnumType.PV);
 		} else if (IDE==4){// Isolated bus
@@ -129,7 +130,7 @@ public class PSSEV26BusRecord {
 			busRec.setOffLine(true);
 		}
 		else { //Non-Gen Load Bus
-			busRec.setLoadData(odmObjFactory.createAclfLoadDataXmlType());
+			busRec.setLoadData(odmObjFactory.createBusLoadDataXmlType());
 			busRec.getLoadData().setEquivLoad(odmObjFactory.createLoadflowLoadXmlType());
 		}
 		
@@ -162,9 +163,9 @@ public class PSSEV26BusRecord {
 
 	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-		AclfLoadDataXmlType loadData = busRec.getLoadData();
+		BusLoadDataXmlType loadData = busRec.getLoadData();
 		if (loadData == null) { 
-			loadData = odmObjFactory.createAclfLoadDataXmlType(); 
+			loadData = odmObjFactory.createBusLoadDataXmlType(); 
 			busRec.setLoadData(loadData);
 			loadData.setEquivLoad(odmObjFactory.createLoadflowLoadXmlType());
 		}
@@ -245,15 +246,14 @@ public class PSSEV26BusRecord {
 				
 	    // ODM allows one equiv gen has many contribute generators
 
-		AclfGenDataXmlType genData = busRec.getGenData();
+		BusGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
-			genData = odmObjFactory.createAclfGenDataXmlType();
+			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
 			busRec.getGenData().setEquivGen(odmObjFactory.createLoadflowGenXmlType());
 		}
 		LoadflowGenXmlType equivGen = genData.getEquivGen();
-	    LoadflowGenXmlType contriGen = odmObjFactory.createLoadflowGenXmlType(); 
-	    genData.getContributeGen().add(contriGen);
+	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 		
 	    // processing contributing gen data
 	    

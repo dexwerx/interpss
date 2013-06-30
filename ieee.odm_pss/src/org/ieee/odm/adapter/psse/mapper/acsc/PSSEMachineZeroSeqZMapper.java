@@ -10,6 +10,7 @@ import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
 public class PSSEMachineZeroSeqZMapper extends BasePSSEDataMapper{
@@ -36,10 +37,8 @@ public class PSSEMachineZeroSeqZMapper extends BasePSSEDataMapper{
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 	    
 	    ShortCircuitBusXmlType acscBus=parser.getBus(busId);
-	    ScGenDataXmlType scGenData=null;
-	    if((scGenData = AcscParserHelper.getScGenData(parser, busId, machId))==null){
-	    	scGenData = parser.createScGenData(acscBus,machId);
-	    }
+	    ShortCircuitGenDataXmlType scGenData= AcscParserHelper.getScGenData(acscBus, machId);
+
 	    scGenData.setZeroZ(BaseDataSetter.createZValue(ZRZERO,ZXZERO, ZUnitType.PU));
 	    
 	    

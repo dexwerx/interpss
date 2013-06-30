@@ -24,11 +24,16 @@
 
 package org.ieee.odm.model.acsc;
 
+import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
+
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.common.ODMLogger;
-import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
-import org.ieee.odm.schema.ScGenDataXmlType;
+import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 
 /**
  * Acsc ODM model parser helper utility functions
@@ -37,18 +42,37 @@ import org.ieee.odm.schema.ScGenDataXmlType;
  *
  */
 public class AcscParserHelper extends AclfParserHelper {
-	
-	
-	public static ScGenDataXmlType getScGenData(AcscModelParser parser, String busId, String genId) throws ODMException {
-		ScGenDataXmlType targetScGen=null;
-		if(!parser.getBus(busId).getScGenData().isEmpty()){
-			for(ScGenDataXmlType scGenData: parser.getBus(busId).getScGenData()){
-				if(scGenData.getId().equals(genId)){
-					targetScGen= scGenData;
-				}
-			}
+	/**
+	 * get Acsc Gen Data object on the acscBus with id = genId
+	 * 
+	 * @param acscBus
+	 * @param genId
+	 * @return null if acscGenData not found
+	 */
+	public static ShortCircuitGenDataXmlType getScGenData(ShortCircuitBusXmlType acscBus, String genId) throws ODMException {
+		for (JAXBElement<? extends LoadflowGenXmlType> elem : acscBus.getGenData().getContributeGen()) {
+			ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)elem.getValue();
+			if (scGenData.getId().equals(genId))
+				return scGenData;
 		}
-		
-		return targetScGen;
+    	throw new ODMException("Generator not found, ID: " + genId + "@Bus:" + acscBus.getId());
 	}
+	
+	/**
+	 * create a Contribution Generator object
+	 * 
+	 */
+	public static ShortCircuitGenDataXmlType createAcscGen(ShortCircuitBusXmlType busRec) {
+		BusGenDataXmlType genData = busRec.getGenData();
+		if (genData == null) {
+			genData = odmObjFactory.createBusGenDataXmlType();
+			busRec.setGenData(genData);
+			LoadflowGenXmlType equivGen = new LoadflowGenXmlType();
+			genData.setEquivGen(equivGen);
+		}
+		// some model does not need ContributeGenList
+		ShortCircuitGenDataXmlType contribGen = odmObjFactory.createShortCircuitGenDataXmlType();
+		genData.getContributeGen().add(odmObjFactory.createAcscGenData(contribGen));
+		return contribGen;
+	}	
 }

@@ -45,6 +45,7 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
+import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -75,6 +76,15 @@ public class BaseAclfModelParser<
 	public BaseAclfModelParser(String encoding) {
 		super(encoding);
 	}	
+	
+	/**
+	 * get the base case object of type ShortCircuitNetXmlType
+	 * 
+	 * @return
+	 */
+	public LoadflowNetXmlType getAclfNet() {
+		return (LoadflowNetXmlType)getBaseCase();
+	}
 	
 	/**
 	 * create the base case object of type LoadflowXmlType
@@ -346,7 +356,7 @@ public class BaseAclfModelParser<
 	 * @return
 	 */
 	public TielineXmlType createTieline() {
-		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		LoadflowNetXmlType net = getAclfNet();
 		if (net.getTieLineList() == null)
 			net.setTieLineList(odmObjFactory.createLoadflowNetXmlTypeTieLineList());
 		TielineXmlType tieLine = odmObjFactory.createTielineXmlType();
@@ -360,7 +370,7 @@ public class BaseAclfModelParser<
 	 * @return
 	 */
 	public InterchangeXmlType createInterchange() {
-		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		LoadflowNetXmlType net = getAclfNet();
 		if (net.getInterchangeList() == null)
 			net.setInterchangeList(odmObjFactory.createLoadflowNetXmlTypeInterchangeList());
 		InterchangeXmlType interchange = odmObjFactory.createInterchangeXmlType();
@@ -369,7 +379,7 @@ public class BaseAclfModelParser<
 	}	
 
 	public List<FlowInterfaceRecXmlType> getInterfaceList() {
-		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		LoadflowNetXmlType net = getAclfNet();
 		return net.getFlowInterfaceList().getFlowInterface();
 	}	
 	
@@ -379,7 +389,7 @@ public class BaseAclfModelParser<
 	 * @return
 	 */
 	public FlowInterfaceRecXmlType createInterface() {
-		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		LoadflowNetXmlType net = getAclfNet();
 		if (net.getFlowInterfaceList() == null)
 			net.setFlowInterfaceList(odmObjFactory.createLoadflowNetXmlTypeFlowInterfaceList());
 		FlowInterfaceRecXmlType inter = odmObjFactory.createFlowInterfaceRecXmlType();
@@ -394,7 +404,7 @@ public class BaseAclfModelParser<
 	 * @return
 	 */
 	public FlowInterfaceRecXmlType getInterface(String id) {
-		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		LoadflowNetXmlType net = getAclfNet();
 		if (net.getFlowInterfaceList() != null)
 			for (FlowInterfaceRecXmlType inter : net.getFlowInterfaceList().getFlowInterface()) {
 				if (id.equals(inter.getId()))
@@ -411,7 +421,7 @@ public class BaseAclfModelParser<
 
 	private Hashtable<String, FlowInterfaceRecXmlType> interfaceLookupTable = null;
 	public FlowInterfaceRecXmlType getInterfaceCached(String id) {
-		LoadflowNetXmlType net = (LoadflowNetXmlType)getNet();
+		LoadflowNetXmlType net = getAclfNet();
 		if (this.interfaceLookupTable == null) {
 			this.interfaceLookupTable = new Hashtable<String, FlowInterfaceRecXmlType>();
 			for (FlowInterfaceRecXmlType inter : net.getFlowInterfaceList().getFlowInterface()) {

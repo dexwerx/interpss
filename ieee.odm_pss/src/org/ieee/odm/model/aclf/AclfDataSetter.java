@@ -29,7 +29,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import javax.activation.UnsupportedDataTypeException;
 
 import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.schema.AclfLoadDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
@@ -78,7 +78,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setLoadData(LoadflowBusXmlType bus, 
 			LFLoadCodeEnumType code, 
 			double p, double q, ApparentPowerUnitType unit) {
-		AclfLoadDataXmlType loadData = odmObjFactory.createAclfLoadDataXmlType();
+		BusLoadDataXmlType loadData = odmObjFactory.createBusLoadDataXmlType();
 		bus.setLoadData(loadData);
 		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
 		loadData.setEquivLoad(equivLoad);
@@ -113,7 +113,7 @@ public class AclfDataSetter extends BaseDataSetter {
 			double loadSQ,double loadIP,double loadIQ, double loadZP, double loadZQ,
 			ApparentPowerUnitType unit){
 		
-		AclfLoadDataXmlType loadData = odmObjFactory.createAclfLoadDataXmlType();
+		BusLoadDataXmlType loadData = odmObjFactory.createBusLoadDataXmlType();
 		bus.setLoadData(loadData);
 		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
 		loadData.setEquivLoad(equivLoad);
@@ -168,7 +168,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setGenData(LoadflowBusXmlType bus, LFGenCodeEnumType code, 
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit) {
-   		bus.setGenData(odmObjFactory.createAclfGenDataXmlType());
+   		bus.setGenData(odmObjFactory.createBusGenDataXmlType());
    		LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType();
    		bus.getGenData().setEquivGen(equivGen);
    		equivGen.setCode(code);

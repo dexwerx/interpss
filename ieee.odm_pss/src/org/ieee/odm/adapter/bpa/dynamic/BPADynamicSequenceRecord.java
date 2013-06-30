@@ -279,9 +279,9 @@ public class BPADynamicSequenceRecord {
 					x2= new Double(ddf1.format(x2)).doubleValue();
 					//TODO How to set the negative sequence impedance to associate to generator?
 					//How about the case that several generators is in parallel on the bus?
-					ScGenDataXmlType scgd = odmObjFactory.createScGenDataXmlType();
-					scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
-					bus.getScGenData().add(scgd);
+					//ScGenDataXmlType scgd = odmObjFactory.createScGenDataXmlType();
+					//scgd.setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));
+					// TODO bus.getScGenData().add(scgd);
 					
 					//odmObjFactory.createSequenceBusDataXmlTypeGenData().setNegativeZ(DStabDataSetter.createZValue(0.0, x2, ZUnitType.PU));	
 				}

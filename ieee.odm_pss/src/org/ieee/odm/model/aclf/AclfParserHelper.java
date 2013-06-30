@@ -31,8 +31,8 @@ import javax.xml.bind.JAXBElement;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
-import org.ieee.odm.schema.AclfGenDataXmlType;
-import org.ieee.odm.schema.AclfLoadDataXmlType;
+import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BusXmlType;
@@ -61,9 +61,9 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * 
 	 */
 	public static LoadflowLoadXmlType createContriLoad(LoadflowBusXmlType busRec) {
-		AclfLoadDataXmlType loadData = busRec.getLoadData();
+		BusLoadDataXmlType loadData = busRec.getLoadData();
 		if (loadData == null) { 
-			loadData = odmObjFactory.createAclfLoadDataXmlType();
+			loadData = odmObjFactory.createBusLoadDataXmlType();
 			busRec.setLoadData(loadData);
 			LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
 			loadData.setEquivLoad(equivLoad);
@@ -74,20 +74,20 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	}
 	
 	/**
-	 * create a Contribution Load object
+	 * create a Contribution Generator object
 	 * 
 	 */
 	public static LoadflowGenXmlType createContriGen(LoadflowBusXmlType busRec) {
-		AclfGenDataXmlType genData = busRec.getGenData();
+		BusGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
-			genData = odmObjFactory.createAclfGenDataXmlType();
+			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
 			LoadflowGenXmlType equivGen = new LoadflowGenXmlType();
 			genData.setEquivGen(equivGen);
 		}
 		// some model does not need ContributeGenList
 		LoadflowGenXmlType contribGen = odmObjFactory.createLoadflowGenXmlType();
-		genData.getContributeGen().add(contribGen);
+		genData.getContributeGen().add(odmObjFactory.createContributeGen(contribGen));
 		return contribGen;
 	}
 	
@@ -99,7 +99,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
-			AclfGenDataXmlType genData = busRec.getGenData();
+			BusGenDataXmlType genData = busRec.getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGen().size() > 0) {
 					LoadflowGenXmlType equivGen = genData.getEquivGen();
@@ -107,7 +107,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 					VoltageUnitType vSpecUnit = VoltageUnitType.PU;
 					String remoteBusId = null;
 					boolean offLine = true;
-					for ( LoadflowGenXmlType gen : genData.getContributeGen()) {
+					for ( JAXBElement<? extends LoadflowGenXmlType> elem : genData.getContributeGen()) {
+						LoadflowGenXmlType gen = elem.getValue();
 						if (!gen.isOffLine()) {
 							offLine = false;
 							if (remoteBusId == null) {
@@ -196,7 +197,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
-			AclfLoadDataXmlType loadData = busRec.getLoadData();
+			BusLoadDataXmlType loadData = busRec.getLoadData();
 			if (loadData != null) {
 				if ( loadData.getContributeLoad().size() > 0) {
 					LoadflowLoadXmlType equivLoad = loadData.getEquivLoad();
