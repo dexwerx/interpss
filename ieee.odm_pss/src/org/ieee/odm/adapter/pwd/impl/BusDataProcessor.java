@@ -333,8 +333,7 @@ public class BusDataProcessor extends InputLineStringParser {
 						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, genVoltSet, VoltageUnitType.PU, 0, AngleUnitType.DEG,
 								genMW, genMVR, ApparentPowerUnitType.MVA);
 
-						LoadflowGenXmlType equivGen = bus.getGenData()
-								.getEquivGen();
+						LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 						
 						equivGen.setId(genId);
 						equivGen.setOffLine(!genOnLine);
@@ -363,8 +362,7 @@ public class BusDataProcessor extends InputLineStringParser {
 								angle.getUnit(), genMW, genMVR,
 								ApparentPowerUnitType.MVA);
 
-						LoadflowGenXmlType equivGen = bus.getGenData()
-								.getEquivGen();
+						LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 						equivGen.setId(genId);
 						equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
 						equivGen.setOffLine(!genOnLine);
@@ -401,7 +399,7 @@ public class BusDataProcessor extends InputLineStringParser {
 							VoltageUnitType.PU, 0, AngleUnitType.DEG, genMW,
 							genMVR, ApparentPowerUnitType.MVA);
 
-					LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
+					LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 							
 					equivGen.setId(genId);
 					equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
@@ -424,7 +422,7 @@ public class BusDataProcessor extends InputLineStringParser {
 				}
 
 				// process generator participation factor
-				LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen();
+				LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 				if (genAGCAble)
 					equivGen.setMwControlParticipateFactor(partFactor);
 			}

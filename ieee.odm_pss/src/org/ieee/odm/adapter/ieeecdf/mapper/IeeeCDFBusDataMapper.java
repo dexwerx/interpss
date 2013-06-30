@@ -137,11 +137,11 @@ public class IeeeCDFBusDataMapper extends BaseIeeeCDFDataMapper {
 		final String reBusId = dataParser.getString("RemoteBusNumber");
 
 		if (max != 0.0 || min != 0.0) {
-			LoadflowGenXmlType equivGen = aclfBus.getGenData().getEquivGen();
+			LoadflowGenXmlType equivGen = aclfBus.getGenData().getEquivGen().getValue();
 			if (type == 1) {
 				equivGen.setVoltageLimit(BaseDataSetter.createVoltageLimit(max, min, VoltageUnitType.PU));
 			} else if (type == 2) {
-				aclfBus.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit(max, min, ReactivePowerUnitType.MVAR));
+				aclfBus.getGenData().getEquivGen().getValue().setQLimit(BaseDataSetter.createReactivePowerLimit(max, min, ReactivePowerUnitType.MVAR));
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
 					equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));

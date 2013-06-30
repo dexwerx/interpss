@@ -69,7 +69,7 @@ public class GEBusDataMapper extends BaseGEDataMapper {
 		AclfDataSetter.setGenData(busRec, genType, dataParser.getDouble("vs"), 
 				VoltageUnitType.PU, dataParser.getDouble("an"), AngleUnitType.DEG, 
 				0.0, 0.0,	ApparentPowerUnitType.MVA);
-		busRec.getGenData().getEquivGen().setVoltageLimit(
+		busRec.getGenData().getEquivGen().getValue().setVoltageLimit(
 				BaseDataSetter.createVoltageLimit(dataParser.getDouble("vma"), dataParser.getDouble("vmi"), VoltageUnitType.PU));
 	}
 }

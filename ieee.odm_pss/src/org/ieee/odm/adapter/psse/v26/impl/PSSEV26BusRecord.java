@@ -115,7 +115,7 @@ public class PSSEV26BusRecord {
 		if (IDE ==3){//Swing bus
 			busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
 			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType(); 
-			busRec.getGenData().setEquivGen(equivGen);
+			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(equivGen));
 			equivGen.setCode(LFGenCodeEnumType.SWING);
 			equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
 			equivGen.setDesiredAngle(BaseDataSetter.createAngleValue(angDeg, AngleUnitType.DEG));
@@ -123,8 +123,8 @@ public class PSSEV26BusRecord {
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
 			busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
-			busRec.getGenData().setEquivGen(odmObjFactory.createLoadflowGenXmlType());
-			busRec.getGenData().getEquivGen().setCode(LFGenCodeEnumType.PV);
+			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(odmObjFactory.createLoadflowGenXmlType()));
+			busRec.getGenData().getEquivGen().getValue().setCode(LFGenCodeEnumType.PV);
 		} else if (IDE==4){// Isolated bus
 			// should be no gen and load defined
 			busRec.setOffLine(true);
@@ -250,9 +250,9 @@ public class PSSEV26BusRecord {
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
-			busRec.getGenData().setEquivGen(odmObjFactory.createLoadflowGenXmlType());
+			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(odmObjFactory.createLoadflowGenXmlType()));
 		}
-		LoadflowGenXmlType equivGen = genData.getEquivGen();
+		LoadflowGenXmlType equivGen = genData.getEquivGen().getValue();
 	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 		
 	    // processing contributing gen data
@@ -300,7 +300,7 @@ public class PSSEV26BusRecord {
 			equivGen.setPower(BaseDataSetter.createPowerValue(genMw, genMvar, ApparentPowerUnitType.MVA));
 
 			final double vSpecPu = genDataParser.getDouble("VS", 1.0);
-			if (genData.getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
+			if (genData.getEquivGen().getValue().getCode() == LFGenCodeEnumType.SWING) {
 				equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vSpecPu, VoltageUnitType.PU));
 			}
 			else {

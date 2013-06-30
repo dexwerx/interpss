@@ -275,18 +275,18 @@ public class BPABusRecord<
 							pGen, 0.0, ApparentPowerUnitType.MVA);
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					busRec.getGenData().getEquivGen().setQLimit(BaseDataSetter.createReactivePowerLimit( 
+					busRec.getGenData().getEquivGen().getValue().setQLimit(BaseDataSetter.createReactivePowerLimit( 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR));	
 				// for "BE" type the limit if disabled
 					if (busType==pvBusNoQLimit)
-						busRec.getGenData().getEquivGen().getQLimit().setActive(false);
+						busRec.getGenData().getEquivGen().getValue().getQLimit().setActive(false);
 					   //TODO BPA automatically balance the shuntVar at BE Type Bus, 
 					   // considering Ipss does not support such function, set it  to zero here.
 					  // AclfDataSetter.setBusShuntVar(busRec, 0, YUnitType.PU);
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					busRec.getGenData().getEquivGen().setPLimit(BaseDataSetter.createActivePowerLimit(
+					busRec.getGenData().getEquivGen().getValue().setPLimit(BaseDataSetter.createActivePowerLimit(
 							pGenMax, 0, ActivePowerUnitType.MW));
 				}	
 				
@@ -329,8 +329,8 @@ public class BPABusRecord<
 			
 			if(strAry[0].equals("BG")||strAry[0].equals("BX")){
 				if(!controlledBus.equals("")) {			
-					busRec.getGenData().getEquivGen().getRemoteVoltageControlBus().setIdRef(controlledBus);
-					busRec.getGenData().getEquivGen().setDesiredVoltage(BaseDataSetter.createVoltageValue(
+					busRec.getGenData().getEquivGen().getValue().getRemoteVoltageControlBus().setIdRef(controlledBus);
+					busRec.getGenData().getEquivGen().getValue().setDesiredVoltage(BaseDataSetter.createVoltageValue(
 							controlledBusRatedVol, VoltageUnitType.PU));
 				}
 			}

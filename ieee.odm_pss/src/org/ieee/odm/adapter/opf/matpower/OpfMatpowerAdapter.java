@@ -253,7 +253,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 		double pg = str2d(s[1]);
 		double qg = str2d(s[2]);
 
-		LoadflowGenXmlType gen = bus.getGenData().getEquivGen();
+		LoadflowGenXmlType gen = bus.getGenData().getEquivGen().getValue();
 		gen.setPower(BaseDataSetter.createPowerValue(pg, qg,
 				ApparentPowerUnitType.MVA));
 
