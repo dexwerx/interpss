@@ -401,11 +401,13 @@ public class AclfBranchDataHelper {
 				ipssLogger.severe("Error in mapping Xfr tap control data, " + e.toString());
 			}
 		}
-		
-		Integer num = xfrData.getZTableNumber();
-		if (num != null ) {
-			if(num > 0)
-				aclfBra.setXfrZTableNumber(num);
+
+		if (xfrData != null) {
+			Integer num = xfrData.getZTableNumber();
+			if (num != null ) {
+				if(num > 0)
+					aclfBra.setXfrZTableNumber(num);
+			}
 		}
 
 		/*

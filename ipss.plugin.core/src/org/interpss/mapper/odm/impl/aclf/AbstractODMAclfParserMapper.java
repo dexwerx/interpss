@@ -27,6 +27,7 @@ package org.interpss.mapper.odm.impl.aclf;
 import static com.interpss.common.util.IpssLogger.ipssLogger;
 
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -34,8 +35,10 @@ import org.interpss.mapper.odm.AbstractODMSimuCtxDataMapper;
 import org.interpss.mapper.odm.ODMAclfNetMapper;
 import org.interpss.mapper.odm.ODMHelper;
 
-import com.interpss.core.net.OriginalDataFormat;
+import com.interpss.SimuObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
 
 /**
  * abstract mapper implementation to map ODM Aclf parser object to InterPSS AclfNet object
@@ -89,4 +92,27 @@ public abstract class AbstractODMAclfParserMapper<Tfrom> extends AbstractODMSimu
 		}
 		return noError;
 	}
+	
+	/**
+	 * map into store in the ODM parser into simuCtx object
+	 * 
+	 * @param p ODM parser object, representing a ODM xml file
+	 * @param simuCtx
+	 */
+	@Override
+	public SimuContext map2Model(Tfrom p) throws InterpssException {
+		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(
+				(p instanceof AclfModelParser)? SimuCtxType.ACLF_NETWORK :
+				(p instanceof AcscModelParser)? SimuCtxType.ACSC_NET :
+				SimuCtxType.NOT_DEFINED);
+		
+		if (this.map2Model(p, simuCtx)) {
+  	  		simuCtx.setId("InterPSS_SimuCtx");
+  	  		simuCtx.setName("InterPSS SimuContext Object");
+  	  		simuCtx.setDesc("InterPSS SimuContext Object - created from ODM model");
+  			return simuCtx;
+		}	
+		throw new InterpssException("Error in map ODM model to SimuContext object");
+	}	
+	
 }

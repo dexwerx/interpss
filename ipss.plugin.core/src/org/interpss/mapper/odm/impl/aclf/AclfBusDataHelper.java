@@ -131,7 +131,7 @@ public class AclfBusDataHelper {
 	}
 	
 	private void mapGenData(BusGenDataXmlType xmlGenData) throws InterpssException {
-		LoadflowGenXmlType xmlEquivGenData = xmlGenData.getEquivGen();
+		LoadflowGenXmlType xmlEquivGenData = xmlGenData.getEquivGen().getValue();
 		VoltageXmlType vXml = xmlEquivGenData.getDesiredVoltage();
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 			aclfBus.setGenCode(AclfGenCode.GEN_PQ);
@@ -205,7 +205,7 @@ public class AclfBusDataHelper {
 			AclfSwingBus swing = aclfBus.toSwingBus();
 			double vpu = UnitHelper.vConversion(vXml.getValue(),
 					aclfBus.getBaseVoltage(), ToVoltageUnit.f(vXml.getUnit()), UnitType.PU);
-			AngleXmlType angXml = xmlGenData.getEquivGen().getDesiredAngle(); 
+			AngleXmlType angXml = xmlGenData.getEquivGen().getValue().getDesiredAngle(); 
 			double angRad = UnitHelper.angleConversion(angXml.getValue(),
 					ToAngleUnit.f(angXml.getUnit()), UnitType.Rad);				
 			swing.setVoltMag(vpu, UnitType.PU);
