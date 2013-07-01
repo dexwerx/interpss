@@ -36,6 +36,7 @@ import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
+import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -56,7 +57,15 @@ public class OdmXml_Acsc5BusTest {
 		
 		for (JAXBElement<? extends BusXmlType> bus : parser.getNet().getBusList().getBus()) {
 			ShortCircuitBusXmlType scBus = (ShortCircuitBusXmlType)bus.getValue();
+			
 			System.out.println("ScBus: " + scBus.getId() + ", ScCode: " + scBus.getScCode());
+			if (scBus.getId().equals("Bus1") || scBus.getId().equals("Bus2") || scBus.getId().equals("Bus3")) 
+				assertTrue(scBus.getScCode() == ShortCircuitBusEnumType.NON_CONTRIBUTING);
+			else if (scBus.getId().equals("Bus4") || scBus.getId().equals("Bus5")) {
+				assertTrue(scBus.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING);
+				assertTrue(scBus.getGenData() != null && scBus.getGenData().getEquivGen() != null);
+			}
+			
 			if (scBus.getGenData() != null && scBus.getGenData().getEquivGen() != null) {
 				ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)scBus.getGenData().getEquivGen().getValue();
 				System.out.println("   ScGenData: " + scGenData.getPotiveZ().getRe() + "+j" + scGenData.getPotiveZ().getIm());
@@ -65,6 +74,12 @@ public class OdmXml_Acsc5BusTest {
 
 		for (JAXBElement<? extends BaseBranchXmlType> bra : parser.getNet().getBranchList().getBranch()) {
 			BaseBranchXmlType scBra = (BaseBranchXmlType)bra.getValue();
+			
+			if (scBra.getId().equals("Bus1_to_Bus2_cirId_1"))
+				assertTrue(scBra instanceof LineShortCircuitXmlType);
+			else if (scBra.getId().equals("Bus2_to_Bus4_cirId_1"))
+				assertTrue(scBra instanceof XfrShortCircuitXmlType);
+				
 			if (scBra instanceof LineShortCircuitXmlType) {
 				LineShortCircuitXmlType scLine = (LineShortCircuitXmlType)scBra;
 				System.out.println("ScLine: " + scLine.getId());
