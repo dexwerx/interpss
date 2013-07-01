@@ -29,9 +29,9 @@ public class PSSEMachineNegSeqZMapper extends BasePSSEDataMapper{
 		
 		String machId = dataParser.getString("ID");
 		
-		double ZRNEG = dataParser.getDouble("ZRPOS");
+		double ZRNEG = dataParser.getDouble("ZRNEG");
 		
-		double ZXNEG = dataParser.getDouble("ZXPOS");
+		double ZXNEG = dataParser.getDouble("ZXNEG");
 		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;

@@ -21,17 +21,23 @@ public class PSSEMachineZeroSeqZMapper extends BasePSSEDataMapper{
 	
 	/*
 	 * Format 
-	 * I, ID, ZRNEG, ZXNEG
+	 * I, ID, ZRZERO, ZXZERO
 
+
+     For those machines at which the step-up transformer is represented as part of the generator data
+    (i.e., XTRAN is non-zero), ZZERO (i.e., RZERO + j XZERO) is not used and, in the fault analysis
+     activities, the step-up transformer is assumed to be a delta wye transformer
 	 */
+	
+	
 	public void procLineString(String lineStr, AcscModelParser parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
 		String machId = dataParser.getString("ID");
 		
-		double ZRZERO = dataParser.getDouble("ZRPOS");
+		double ZRZERO = dataParser.getDouble("ZRZERO");
 		
-		double ZXZERO = dataParser.getDouble("ZXPOS");
+		double ZXZERO = dataParser.getDouble("ZRZERO");
 		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;

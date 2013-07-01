@@ -6,33 +6,34 @@ import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
 
-public class PSSEMachineNegSeqZParser extends BasePSSEDataParser {
-	public PSSEMachineNegSeqZParser(PsseVersion ver) {
+public class PSSEZeroSeqMulualZParser extends BasePSSEDataParser {
+	public PSSEZeroSeqMulualZParser(PsseVersion ver) {
 		super(ver);
 	}
 	
 	@Override public String[] getMetadata() {
-		
+	
 	/*
-	 * PSS/E ver. 30-32 machine negative sequence data
-	 * It is equal to ZPOS, by default.
-	 * 
-	 * I, ID, ZRNEG, ZXNEG
-	 * 
+	 * Format:
+	 * I, J, ICKT1, K, L, ICKT2, RM, XM, BIJ1, BIJ2, BKL1, BKL2
 	 */
-		return new String[] {
-				   //  0----------1----------2----------3
-					 "I",        "ID",  "ZRNEG", "ZXNEG"            
-				};	
-		
+		return new String[]{
+			//  0----------1----------2----------3----------4
+				"I",      "J",      "ICKT1",     "K",     "L",
+				"ICKT2",  "RM",      "XM",     "BIJ1",   "BIJ2", 
+				"BKL1",   "BKL2"		
+		};
 	}
 	
 	@Override 
 	public void parseFields(final String lineStr) throws ODMException {
 		this.clearNVPairTableData();
 		StringTokenizer st = new StringTokenizer(lineStr,",");
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < st.countTokens(); i++)
 			setValue(i, st.nextToken().trim());
 	}
 
-}  
+	
+	
+
+}

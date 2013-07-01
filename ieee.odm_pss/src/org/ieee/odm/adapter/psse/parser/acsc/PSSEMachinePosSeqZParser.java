@@ -1,7 +1,10 @@
 package org.ieee.odm.adapter.psse.parser.acsc;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
+import org.ieee.odm.common.ODMException;
 
 public class PSSEMachinePosSeqZParser extends BasePSSEDataParser {
 	public PSSEMachinePosSeqZParser(PsseVersion ver) {
@@ -24,6 +27,14 @@ public class PSSEMachinePosSeqZParser extends BasePSSEDataParser {
 					 "I",        "ID",  "ZRPOS", "ZXPOS"            
 				};	
 		
+	}
+	
+	@Override 
+	public void parseFields(final String lineStr) throws ODMException {
+		this.clearNVPairTableData();
+		StringTokenizer st = new StringTokenizer(lineStr,",");
+		for (int i = 0; i < 4; i++)
+			setValue(i, st.nextToken().trim());
 	}
    
 }

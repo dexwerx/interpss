@@ -1,5 +1,7 @@
 package org.ieee.odm.adapter.psse.parser.acsc;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
@@ -14,20 +16,27 @@ public class PSSEBranchZeroSeqDataParser extends BasePSSEDataParser {
 		/**
 		 * PSS/E ver. 30-32 NON-TRANSFORMER Branch Zero sequence data
 		 * 
-		 * I,J,CKT,R0,X0,B0,GI0,BI0,GJ0,BJ0
+		 * I, J, ICKT, RLINZ, XLINZ, BCHZ, GI, BI, GJ, BJ
 		 */
 		
 		return new String[] {
 				 //  0----------1----------2----------3----------4
-				   "I",          "J",     "CKT",      "R0",      "X0",
+				   "I",        "J",     "ICKT",    "RLINZ",   "XLINZ", 
 				   
 				 //  5          6          7          8           9  
-				   "B0",        "GI0",     "BI0",     "GJ0",     "BJ0"	
+				   "BCHZ",     "GI",      "BI",      "GJ",       "BJ"
 		};
 	}
-	@Override public void parseFields(final String str) throws ODMException {
+	
+	@Override 
+	public void parseFields(final String lineStr) throws ODMException {
 		this.clearNVPairTableData();
-		
+		StringTokenizer st = new StringTokenizer(lineStr,",");
+		for (int i = 0; i < st.countTokens(); i++)
+			setValue(i, st.nextToken().trim());
 		
 	}
 }
+
+
+	
