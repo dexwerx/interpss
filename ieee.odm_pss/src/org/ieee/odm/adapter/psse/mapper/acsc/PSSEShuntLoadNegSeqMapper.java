@@ -4,9 +4,24 @@ import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.aclf.BasePSSEDataMapper;
 import org.ieee.odm.adapter.psse.parser.acsc.PSSEMachineZeroSeqZParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.model.acsc.BaseAcscModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.AcscBusChangeXmlType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.YUnitType;
 
-public class PSSEShuntLoadNegSeqMapper extends BasePSSEDataMapper{
+public class PSSEShuntLoadNegSeqMapper <
+  TNetXml extends NetworkXmlType, 
+  TBusXml extends BusXmlType,
+  TLineXml extends BranchXmlType,
+  TXfrXml extends BranchXmlType,
+  TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
+
 	public PSSEShuntLoadNegSeqMapper(PsseVersion ver) {
 		super(ver);
 		this.dataParser = new PSSEMachineZeroSeqZParser(ver);
@@ -21,8 +36,10 @@ public class PSSEShuntLoadNegSeqMapper extends BasePSSEDataMapper{
        BNEG   Reactive component of negative sequence shunt admittance to ground, including all
               load to be represented at the bus; entered in pu.
 	 * 
+	 * Negative sequence admittances corresponding to "fixed bus shunts", which is different from bus load data
+	 * 
 	 * Only exceptional negative sequence shunt load (i.e. differ from postive sequence load)
-	 * should be entered in the sequence file, since it is set be to  same as the positive
+	 * should be entered in the sequence file, since it is set be to same as the positive
 	 * sequence data
 	 * 
 	 * 
@@ -31,8 +48,18 @@ public class PSSEShuntLoadNegSeqMapper extends BasePSSEDataMapper{
 	 * 
 	 */
 	
-	public void procLineString(String lineStr, AcscModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAcscModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		dataParser.parseFields(lineStr);
+		
+		
+		int i = dataParser.getInt("I");
+		final String busId = AbstractModelParser.BusIdPreFix+i;
+		double gNeg = dataParser.getDouble("GNEG");
+		double bNeg = dataParser.getDouble("BNEG");
+		ShortCircuitBusXmlType scBusXmlType= (ShortCircuitBusXmlType) parser.getBus(busId);
+		scBusXmlType.setShuntLoadNegativeY(BaseDataSetter.createYValue(gNeg, bNeg, YUnitType.PU));
+		//check against the positive sequence 
+		//
 		
 	}
 

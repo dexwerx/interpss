@@ -7,12 +7,21 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.model.acsc.AcscParserHelper;
+import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEMachineNegSeqZMapper extends BasePSSEDataMapper{
+public class PSSEMachineNegSeqZMapper <
+       TNetXml extends NetworkXmlType, 
+       TBusXml extends BusXmlType,
+       TLineXml extends BranchXmlType,
+       TXfrXml extends BranchXmlType,
+       TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
     
 	public PSSEMachineNegSeqZMapper(PsseVersion ver) {
 		super(ver);
@@ -24,7 +33,7 @@ public class PSSEMachineNegSeqZMapper extends BasePSSEDataMapper{
 	 * I, ID, ZRNEG, ZXNEG
 
 	 */
-	public void procLineString(String lineStr, AcscModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAcscModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
 		String machId = dataParser.getString("ID");
@@ -36,7 +45,7 @@ public class PSSEMachineNegSeqZMapper extends BasePSSEDataMapper{
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 	    
-	    ShortCircuitBusXmlType acscBus=parser.getBus(busId);
+	    ShortCircuitBusXmlType acscBus=(ShortCircuitBusXmlType) parser.getBus(busId);
 	    ShortCircuitGenDataXmlType scGenData= AcscParserHelper.getScGenData(acscBus, machId);
 	    
 	    scGenData.setNegativeZ(BaseDataSetter.createZValue(ZRNEG,ZXNEG, ZUnitType.PU));

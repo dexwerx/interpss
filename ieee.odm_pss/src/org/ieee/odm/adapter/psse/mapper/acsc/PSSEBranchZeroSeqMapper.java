@@ -6,8 +6,21 @@ import org.ieee.odm.adapter.psse.parser.acsc.PSSEBranchZeroSeqDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.model.acsc.BaseAcscModelParser;
+import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LineShortCircuitXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.YUnitType;
+import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEBranchZeroSeqMapper extends BasePSSEDataMapper{
+public class PSSEBranchZeroSeqMapper<
+        TNetXml extends NetworkXmlType, 
+        TBusXml extends BusXmlType,
+        TLineXml extends BranchXmlType,
+        TXfrXml extends BranchXmlType,
+        TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
     
 	public PSSEBranchZeroSeqMapper(PsseVersion ver) {
 		super(ver);
@@ -44,7 +57,7 @@ public class PSSEBranchZeroSeqMapper extends BasePSSEDataMapper{
             
 	 */
 	
-	public void procLineString(String lineStr, AcscModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAcscModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		this.dataParser.parseFields(lineStr);
 		
 		/*
@@ -65,6 +78,14 @@ public class PSSEBranchZeroSeqMapper extends BasePSSEDataMapper{
         double BI   =dataParser.getDouble("BI");
         double GJ   =dataParser.getDouble("GJ");
         double BJ   =dataParser.getDouble("BJ");
+        
+        LineShortCircuitXmlType scLine = (LineShortCircuitXmlType) parser.getBranch(fbusId, tbusId, cirId);
+        scLine.setZ0(BaseDataSetter.createZValue(r0, x0, ZUnitType.PU));
+        scLine.setY0Shunt(BaseDataSetter.createYValue(0, BCHZ, YUnitType.PU));
+        
+        if(GI !=0 ||BI !=0)scLine.setY0ShuntFromSide(BaseDataSetter.createYValue(GI, BI, YUnitType.PU));
+        if(GJ !=0 ||BJ !=0)scLine.setY0ShuntFromSide(BaseDataSetter.createYValue(GJ, BJ, YUnitType.PU));
+        
         
         
 	    

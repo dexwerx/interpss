@@ -20,7 +20,9 @@ public class PSSEZeroSeqMulualZParser extends BasePSSEDataParser {
 		return new String[]{
 			//  0----------1----------2----------3----------4
 				"I",      "J",      "ICKT1",     "K",     "L",
+			//  5----------6----------7----------8----------9	
 				"ICKT2",  "RM",      "XM",     "BIJ1",   "BIJ2", 
+			//  10----------11	
 				"BKL1",   "BKL2"		
 		};
 	}

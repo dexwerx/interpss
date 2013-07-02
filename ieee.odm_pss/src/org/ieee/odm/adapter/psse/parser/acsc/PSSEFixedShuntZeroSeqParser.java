@@ -16,7 +16,7 @@ public class PSSEFixedShuntZeroSeqParser extends BasePSSEDataParser {
          
 	
 	/*
-	 * Zero Sequence Fixed Shunt Data
+	 * For V32 and later: Zero Sequence Fixed Shunt Data
 	 * I, ’ID’, GSZERO, BSZERO
 	 * 
 	 */
