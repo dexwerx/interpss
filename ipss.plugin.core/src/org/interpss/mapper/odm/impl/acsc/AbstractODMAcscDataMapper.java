@@ -119,33 +119,29 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				AcscNetwork acscFaultNet =  CoreObjectFactory.createAcscNetwork();						
 				simuCtx.setAcscNet(acscFaultNet);
 
+				/*
 				SimpleFaultAlgorithm acscAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(acscFaultNet);
 				simuCtx.setSimpleFaultAlgorithm(acscAlgo);
-				
+				*/
 				mapAcscNetworkData(acscFaultNet,xmlNet);
 
 				// map the bus info
-				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
+				for (JAXBElement<? extends BusXmlType> busXml : xmlNet.getBusList().getBus()) {
+					ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType)busXml.getValue();
 					// for short circuit, the bus could be acscBus or acscNoLFBus 
-					AcscBus acscBus = CoreObjectFactory.createAcscBus(bus.getValue().getId(), acscFaultNet);		
+					AcscBus acscBus = CoreObjectFactory.createAcscBus(acscBusXml.getId(), acscFaultNet);		
 					// add the acscBus object into acscNet and build bus <-> net relationship
 					//acscNet.addBus(acscBus);
-					if (bus.getValue() instanceof ShortCircuitBusXmlType) {
-						// lf info included
-						ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
-						// map the base bus info part
-						mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
-						// map the Aclf info part		
-						AclfBusDataHelper helper = new AclfBusDataHelper(acscFaultNet, acscBus);
-						helper.setAclfBusData(acscBusXml);
-						
-						setAcscBusData(acscBusXml, acscBus);
-					} else {
-						ipssLogger.severe( "Error: only scscBus and pss:acscNoLFBus could be used for DStab study");
-						noError = false;
-					}
+
+					// lf info included
+					// map the base bus info part
+					mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
+					// map the Aclf info part		
+					AclfBusDataHelper helper = new AclfBusDataHelper(acscFaultNet, acscBus);
+					helper.setAclfBusData(acscBusXml);
+					
+					setAcscBusData(acscBusXml, acscBus);
 				}
-				// TODO
 
 				// map the branch info
 				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
@@ -165,12 +161,14 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 					}
 				}		
 				
+				/*
 				// map the fault network information
 				if(parser.getStudyCase().getStudyScenario()!=null){
 					IpssStudyScenarioXmlType s = (IpssStudyScenarioXmlType)parser.getStudyCase().getStudyScenario().getValue();
 					new AcscScenarioHelper(acscFaultNet, acscAlgo).
 								mapOneFaultScenario(s);
 				}
+				*/
 			} catch (InterpssException e) {
 				ipssLogger.severe(e.toString());
 				e.printStackTrace();
@@ -196,6 +194,8 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 	public void mapAcscNetworkData(AcscNetwork net, ShortCircuitNetXmlType xmlNet) throws InterpssException {
 		new ODMAclfNetMapper().mapAclfNetworkData(net, xmlNet);
 		net.setPositiveSeqDataOnly(xmlNet.isPositiveSeqDataOnly());		
+		net.setLfDataLoaded(xmlNet.isHasLoadflowData());
+		net.setScDataLoaded(true);	
 	}	
 
 	/**
@@ -223,15 +223,15 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 
 	private static void setContributeBusInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
-		if (busData.getGenData().getContributeGen().size() > 0) {
-			ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)busData.getGenData().getContributeGen().get(0).getValue();
-			setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 
+		// at this point it is assumed that contribute generators have been consolidated to the 
+		// acscEquivGen
+		ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)busData.getGenData().getEquivGen().getValue();
+		setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 
 					scGenData.getPotiveZ(),
 					scGenData.getNegativeZ(),
 					scGenData.getZeroZ());
-			setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
+		setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
 					scGenData.getGrounding());
-		}
 	}
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, 
