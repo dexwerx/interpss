@@ -37,6 +37,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
+import org.ieee.odm.schema.XformerConnectionXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 
 /**
@@ -165,4 +166,6 @@ public class BaseAcscModelParser<
    public PSXfrShortCircuitXmlType getAcscPsXfr(String fromId, String toId, String cirId) throws ODMException{
 		return (PSXfrShortCircuitXmlType)this.getBranch(fromId, toId, cirId);
   	}
+   
+
 }

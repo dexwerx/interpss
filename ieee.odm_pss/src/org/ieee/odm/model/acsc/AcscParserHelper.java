@@ -30,10 +30,16 @@ import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfParserHelper;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.GroundingEnumType;
+import org.ieee.odm.schema.GroundingXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
+import org.ieee.odm.schema.XformerConnectionXmlType;
+import org.ieee.odm.schema.XformrtConnectionEnumType;
+import org.ieee.odm.schema.ZUnitType;
 
 /**
  * Acsc ODM model parser helper utility functions
@@ -73,7 +79,7 @@ public class AcscParserHelper extends AclfParserHelper {
 	 * create a Acsc Contribution Generator object
 	 * 
 	 */
-	public static ShortCircuitGenDataXmlType createAcscGen(ShortCircuitBusXmlType busRec) {
+	public static ShortCircuitGenDataXmlType createAcscGen(ShortCircuitBusXmlType busRec,String machId) {
 		BusGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
@@ -82,7 +88,48 @@ public class AcscParserHelper extends AclfParserHelper {
 		}
 		// some model does not need ContributeGenList
 		ShortCircuitGenDataXmlType contribGen = odmObjFactory.createShortCircuitGenDataXmlType();
+		contribGen.setId(machId);
 		genData.getContributeGen().add(odmObjFactory.createAcscGenData(contribGen));
 		return contribGen;
-	}	
+	}
+	/**
+	 * create directed or solid grounding xfr connection xml Type
+	 * @return
+	 */
+	public static XformerConnectionXmlType createDirectedGroundingConnection(){
+		XformerConnectionXmlType  xfrConnect = odmObjFactory.createXformerConnectionXmlType();
+		GroundingXmlType ground = odmObjFactory.createGroundingXmlType();
+		ground.setGroundingConnection(GroundingEnumType.SOLID_GROUNDED);
+		xfrConnect.setGrounding(ground);
+		return xfrConnect;
+	}
+	/**
+	 * create impdeance grounding xfr connection xml Type
+	 * ZG = rg + j* xg
+	 * @param rg
+	 * @param xg
+	 * @return
+	 */
+	public static XformerConnectionXmlType createZGroundingConnection(double rg, double xg){
+		XformerConnectionXmlType  xfrConnect = odmObjFactory.createXformerConnectionXmlType();
+		GroundingXmlType ground = odmObjFactory.createGroundingXmlType();
+		ground.setGroundingConnection(GroundingEnumType.Z_GROUNDED);
+		ground.setGroundingZ(BaseDataSetter.createZValue(rg, xg, ZUnitType.PU));
+		xfrConnect.setGrounding(ground);
+		return xfrConnect;
+	}
+	
+	/**
+	 * create ungrounding xfr connection xml Type
+	 * @return
+	 */
+	public static XformerConnectionXmlType createUnGroundingConnection(){
+		XformerConnectionXmlType  xfrConnect = odmObjFactory.createXformerConnectionXmlType();
+		GroundingXmlType ground = odmObjFactory.createGroundingXmlType();
+		ground.setGroundingConnection(GroundingEnumType.UNGROUNDED);
+		xfrConnect.setGrounding(ground);
+		return xfrConnect;
+	}
+	
+	  
 }
