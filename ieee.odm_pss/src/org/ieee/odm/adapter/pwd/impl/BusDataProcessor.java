@@ -307,7 +307,7 @@ public class BusDataProcessor extends InputLineStringParser {
 				  if(exist("CustomString:2")) customString_2 = getString("CustomString:2");
 					
 				  int underScoreIdx = customString.indexOf("_");
-				  if(underScoreIdx>0) substation =getGenSubstationName(customString,customString_1);
+				  if(underScoreIdx>0 && !customString_1.isEmpty() ) substation =getGenSubstationName(customString,customString_1);
 				  
 			   } catch (ODMException e) {
 				e.printStackTrace();
@@ -575,20 +575,26 @@ public class BusDataProcessor extends InputLineStringParser {
 		
 		if(idx<=0){
 			subName = null;
-			ODMLogger.getLogger().warning("Equipment Name is not contained in the branch extented name." +
+			/*
+			ODMLogger.getLogger().info("Equipment Name is not contained in the branch extented name." +
 					" # Extented Name: "+customStr+", # equipment name:"+customStr_1);
+			*/
 		}
 		else if(!customStr.substring(idx).equals("_"+customStr_1)){
 			subName = null;
-			ODMLogger.getLogger().warning("Equipment Name is not contained in the branch extented name." +
+			/*
+			ODMLogger.getLogger().info("Equipment Name is not contained in the branch extented name." +
 					" # Extented Name: "+customStr+", # equipment name:"+customStr_1);
+					*/
 		}
 		else{
 		    String s3=customStr.substring(0, idx);
 		    int last_underscore = s3.lastIndexOf("_");
 		    if(last_underscore<0){
-		    	ODMLogger.getLogger().warning("No underscore within " + s3
+		    	/*
+		    	ODMLogger.getLogger().info("No underscore within " + s3
 						+", # Extented Name: "+customStr+", # equipment name:"+customStr_1);
+		    	*/
 		    	subName = null;
 		    }
 		    else{
