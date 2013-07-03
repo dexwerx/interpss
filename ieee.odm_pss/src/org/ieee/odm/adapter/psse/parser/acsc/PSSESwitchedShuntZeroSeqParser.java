@@ -1,7 +1,10 @@
 package org.ieee.odm.adapter.psse.parser.acsc;
 
+import java.util.StringTokenizer;
+
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
+import org.ieee.odm.common.ODMException;
 
 public class PSSESwitchedShuntZeroSeqParser extends BasePSSEDataParser {
 	public PSSESwitchedShuntZeroSeqParser(PsseVersion ver) {
@@ -29,6 +32,14 @@ public class PSSESwitchedShuntZeroSeqParser extends BasePSSEDataParser {
 				"BZ5",    "BZ6",    "BZ7",    "BZ8"
 		};
 		
+	}
+	
+	@Override 
+	public void parseFields(final String lineStr) throws ODMException {
+		this.clearNVPairTableData();
+		StringTokenizer st = new StringTokenizer(lineStr,",");
+		for (int i = 0; i < st.countTokens(); i++)
+			setValue(i, st.nextToken().trim());
 	}
 
 }

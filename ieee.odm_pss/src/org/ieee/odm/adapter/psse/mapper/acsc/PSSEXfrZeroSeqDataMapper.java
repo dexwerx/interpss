@@ -16,6 +16,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
+import org.ieee.odm.schema.ZUnitType;
 
 import sun.font.CreatedFontTracker;
 
@@ -96,8 +97,19 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         
         int cc = dataParser.getInt("CC");
         
+        double rg = dataParser.getDouble("RG");
+        double xg = dataParser.getDouble("XG");
+        
+        double r1 = dataParser.getDouble("R1");
+        double x1 = dataParser.getDouble("X1");
+        
+        double r2 = dataParser.getDouble("R2");
+        double x2 = dataParser.getDouble("X2");
+        
         if(!is3W){
         	XfrShortCircuitXmlType scXfr = (XfrShortCircuitXmlType) parser.getBranch(fbusId, tbusId, cirId);
+        	scXfr.setZ0(BaseDataSetter.createZValue(r1, x1, ZUnitType.PU));
+        	
         	switch(cc){
         	case 1:  //grounded wye-grounded wye
         		XformerConnectionXmlType xfrConnect1 = AcscParserHelper.createDirectedGroundingConnection();
@@ -108,8 +120,9 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
         		scXfr.setToSideConnection(xfrConnect2);
         		
-        	case 2: //grounded wye-delta
-        		xfrConnect1 = AcscParserHelper.createDirectedGroundingConnection();
+        	case 2: //grounded wye-delta ( ground path on winding one side)
+        		xfrConnect1 = (rg!=0||xg!=0)?AcscParserHelper.createZGroundingConnection(rg,xg):
+        			AcscParserHelper.createDirectedGroundingConnection();
         		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.WYE);
         		scXfr.setFromSideConnection(xfrConnect1);
         		
@@ -117,8 +130,75 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.DELTA);
         		scXfr.setToSideConnection(xfrConnect2);
         		
-        	case 3: 
+        	case 3: //delta-grounded wye ( ground path on winding two side)
+        		xfrConnect1 = AcscParserHelper.createUnGroundingConnection();
+        		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.DELTA);
+        		scXfr.setFromSideConnection(xfrConnect1);
+        		
+        		
+        		xfrConnect2 = (rg!=0||xg!=0)?AcscParserHelper.createZGroundingConnection(rg,xg):
+        			AcscParserHelper.createDirectedGroundingConnection();
+        		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
+        		scXfr.setToSideConnection(xfrConnect2);
+        	
+        	case 4:
+        		xfrConnect1 = AcscParserHelper.createUnGroundingConnection();
+        		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.DELTA);
+        		scXfr.setFromSideConnection(xfrConnect1);
+        		
+        		xfrConnect2 = AcscParserHelper.createUnGroundingConnection();
+        		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.DELTA);
+        		scXfr.setToSideConnection(xfrConnect2);
+            
+        	case 5: //series path, ground path on winding two side (normally only used as part of 
+        		    //a three-winding transformer) 
+        		throw new UnsupportedOperationException("Zero sequence for two winding transformer of cc = 5 is not supported yet!");
+        		
+        	case 6://grounded wye-delta with an earthing transformer
+        		xfrConnect1 = AcscParserHelper.createDirectedGroundingConnection();
+        		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.WYE);
+        		scXfr.setFromSideConnection(xfrConnect1);
+        		
+        		
+        		xfrConnect2 = (rg!=0||xg!=0)?AcscParserHelper.createZGroundingConnection(rg,xg):
+        			AcscParserHelper.createDirectedGroundingConnection();
+        		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.DELTA);
+        		scXfr.setToSideConnection(xfrConnect2);
+            
+        	case 7://delta with an earthing transformer-grounded wye
+        		/*no series path, earthing transformer on winding one side, ground path on 
+        		  winding two side
+        		*/
+        		xfrConnect1 = (rg!=0||xg!=0)?AcscParserHelper.createZGroundingConnection(rg,xg):
+        			AcscParserHelper.createDirectedGroundingConnection();
+        		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.DELTA);
+        		scXfr.setFromSideConnection(xfrConnect1);
+        		
+        		xfrConnect2 = AcscParserHelper.createDirectedGroundingConnection();
+        		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
+        		scXfr.setToSideConnection(xfrConnect2);
+        		
+        	case 8 :
+        		//ZG2 (i.e., RG2 + jXG2) is applied if the connection code CC is 8
+        		 xfrConnect1 = AcscParserHelper.createZGroundingConnection(rg,xg);
+        		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.WYE);
+        		scXfr.setFromSideConnection(xfrConnect1);
+        		
+        		xfrConnect2 = AcscParserHelper.createZGroundingConnection(r2,x2);
+        		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
+        		scXfr.setToSideConnection(xfrConnect2);
+        		
+        		
+        	default:
+        		
+        		
+        		
+        		
         	}
+        }
+        else{// three winding transformer
+        	throw new UnsupportedOperationException("Zero sequence for three winding transformer is not supported yet!");
+        	
         }
         
         
