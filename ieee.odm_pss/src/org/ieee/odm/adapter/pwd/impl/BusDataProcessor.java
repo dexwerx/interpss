@@ -521,7 +521,7 @@ public class BusDataProcessor extends InputLineStringParser {
 		LoadflowBusXmlType bus=parser.getBus(busId);
 		
 		AclfDataSetter.setShuntCompensatorData(bus, mode, normalMVR, vHigh, vLow);
-		ShuntCompensatorXmlType shunt=bus.getShuntCompensatorList().get(0);
+		ShuntCompensatorXmlType shunt=bus.getShuntCompensator();
 		
 	
 		// store custom string

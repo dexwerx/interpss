@@ -68,7 +68,7 @@ public class PSSESwitchedSShuntDataMapper extends BasePSSEDataMapper {
         }
 				
 	    ShuntCompensatorXmlType shunt = odmObjFactory.createShuntCompensatorXmlType();
-	    aclfBus.getShuntCompensatorList().add(shunt);
+	    aclfBus.setShuntCompensator(shunt);
 		
 		// genId is used to distinguish multiple generations at one bus		
 		int mode = this.dataParser.getInt("MODSW",  0);

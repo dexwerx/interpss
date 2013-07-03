@@ -126,7 +126,7 @@ public class BPADynamicSequenceRecord {
 				x0=x0/10000;
 			}
         	//ScSimpleBusXmlType.ScShuntLoadData scsld =odmObjFactory.createScSimpleBusXmlTypeScShuntLoadData();
-        	bus.setShuntLoadZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
+        	//bus.setShuntLoadZeroZ(DStabDataSetter.createZValue(r0, x0, ZUnitType.PU));
         	//bus.setScShuntLoadData(scsld);
 	    }
 	    else if(strAry[0].equals("LO")){
@@ -292,7 +292,7 @@ public class BPADynamicSequenceRecord {
 					//TODO 这里将负荷负序导纳等效成对地支路负序阻抗，但节点本身的并联接地支路的负序参数呢？
 					//hard coded values
 					//ScSimpleBusXmlType.ScShuntLoadData scsld = odmObjFactory.createScSimpleBusXmlTypeScShuntLoadData();
-					bus.setShuntLoadNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
+					//bus.setShuntLoadNegativeZ(DStabDataSetter.createZValue(0.19, 0.36, ZUnitType.PU));
 			        //bus.setScShuntLoadData(scsld);
 				}
 			}

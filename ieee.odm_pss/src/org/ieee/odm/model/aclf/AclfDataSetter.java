@@ -213,7 +213,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setShuntCompensatorData(LoadflowBusXmlType bus,ShuntCompensatorModeEnumType mode
 			, double normalMvar, double vHigh, double vLow){
 		ShuntCompensatorXmlType shunt = odmObjFactory.createShuntCompensatorXmlType();
-		bus.getShuntCompensatorList().add(shunt);
+		bus.setShuntCompensator(shunt);
 		shunt.setDesiredVoltageRange(createVoltageLimit(vHigh, vLow, VoltageUnitType.KV));
 		shunt.setNorminalQOutput(createReactivePowerValue(normalMvar, ReactivePowerUnitType.MVAR));
 		shunt.setMode(mode);
@@ -230,7 +230,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	 */
 	public static void addShuntCompensatorBlock(LoadflowBusXmlType bus,int steps, double mvarPerStep,
 			ReactivePowerUnitType type){
-		ShuntCompensatorXmlType shunt= bus.getShuntCompensatorList().get(0);
+		ShuntCompensatorXmlType shunt= bus.getShuntCompensator();
 		ShuntCompensatorBlockXmlType block=odmObjFactory.createShuntCompensatorBlockXmlType();
 		shunt.getBlock().add(block);
 		block.setSteps(steps);

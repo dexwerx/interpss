@@ -273,7 +273,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		//	bus.setSvcData(data);
 		//}
 		StaticVarCompensatorXmlType svc = odmObjFactory.createStaticVarCompensatorXmlType();
-		bus.getSvcList().add(svc);
+		bus.setSvc(svc);
 		return svc;
 	}
 
@@ -286,7 +286,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		//	bus.getShuntCompensatorData().setShuntCompensatorList(odmObjFactory.createShuntCompensatorDataXmlTypeShuntCompensatorList());
 		//}
 		ShuntCompensatorXmlType compensator = odmObjFactory.createShuntCompensatorXmlType();
-		bus.getShuntCompensatorList().add(compensator);
+		bus.setShuntCompensator(compensator);
 		return compensator; 
 	}
 	
