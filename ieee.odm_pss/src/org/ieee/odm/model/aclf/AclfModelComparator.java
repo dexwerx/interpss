@@ -134,8 +134,9 @@ public class AclfModelComparator {
 	 */
 	public static void compare(BranchXmlType base, BranchXmlType bra, IODMModelParser baseParser, List<String> msgList, 
 								String baseFormat, String format) {
-		BusXmlType baseFromBus = baseParser.getBus(BaseJaxbHelper.getRecId(base.getFromBus()));
-		BusXmlType BASEtoBus = baseParser.getBus(BaseJaxbHelper.getRecId(base.getToBus()));
+		AclfModelParser aclfParser = (AclfModelParser)baseParser;
+		BusXmlType baseFromBus = aclfParser.getBus(BaseJaxbHelper.getRecId(base.getFromBus()));
+		BusXmlType BASEtoBus = aclfParser.getBus(BaseJaxbHelper.getRecId(base.getToBus()));
 		String braId = baseFromBus.getName().trim() + "->" + BASEtoBus.getName().trim() + "_" + base.getCircuitId();
 		
 		//

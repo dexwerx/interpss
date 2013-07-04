@@ -27,7 +27,6 @@ package org.ieee.odm.model;
 import java.io.File;
 import java.io.InputStream;
 
-import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ModifyRecordXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.StudyScenarioXmlType;
@@ -99,14 +98,6 @@ public interface IODMModelParser {
 	 */
 	StudyScenarioXmlType getStudyScenario();	
 
-	/**
-	 * get bus element by bus id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	BusXmlType getBus(String id);
-	
 	/**
 	 * output the content of the ODM object to an xml document
 	 * 
