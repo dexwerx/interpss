@@ -26,7 +26,7 @@ package org.ieee.odm.adapter.psse.v26;
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.IODMAdapter;
-import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.aclf.PSSEOwnerDataMapper;
 import org.ieee.odm.adapter.psse.mapper.aclf.PSSESwitchedSShuntDataMapper;
 import org.ieee.odm.adapter.psse.mapper.aclf.PSSEZoneDataMapper;

@@ -25,6 +25,7 @@ package org.ieee.odm.adapter.psse;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.schema.LineBranchXmlType;
@@ -40,9 +41,6 @@ import org.ieee.odm.schema.XfrBranchXmlType;
  *
  */
 public class BasePSSEAdapter extends AbstractODMAdapter{
-	public static enum PsseVersion {
-		PSSE_26, PSSE_29, PSSE_30	
-	}
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";		
 

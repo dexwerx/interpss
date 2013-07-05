@@ -3,6 +3,7 @@ package org.ieee.odm.adapter.psse;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.aclf.PSSEAreaDataMapper;
 import org.ieee.odm.adapter.psse.mapper.aclf.PSSEBusDataMapper;
 import org.ieee.odm.adapter.psse.mapper.aclf.PSSEDcLine2TDataMapper;

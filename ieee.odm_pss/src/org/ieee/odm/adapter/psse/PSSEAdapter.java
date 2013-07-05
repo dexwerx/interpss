@@ -23,11 +23,8 @@
  */
 package org.ieee.odm.adapter.psse;
 
-import java.util.StringTokenizer;
-
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
@@ -50,7 +47,9 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
  *
  */
 public class PSSEAdapter extends AbstractODMAdapter{
-	
+	public static enum PsseVersion {
+		PSSE_26, PSSE_29, PSSE_30	
+	}
 
 	private PsseVersion adptrtVersion;
 	
