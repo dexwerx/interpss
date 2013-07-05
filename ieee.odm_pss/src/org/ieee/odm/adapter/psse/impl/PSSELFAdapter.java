@@ -41,7 +41,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";		
 
-	private String  elemCntStr = "";
+	
 	
 
 	private PSSEHeaderDataMapper<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> headerDataMapper = null;	

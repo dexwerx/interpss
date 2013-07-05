@@ -117,6 +117,6 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	@Override
 	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din,
 			String encoding) throws Exception {
-		throw new ODMException("not implemented yet");
+		throw new ODMException("not implemented yet, please use the specific parse<Type>Files() method instead!");
 	}
 }

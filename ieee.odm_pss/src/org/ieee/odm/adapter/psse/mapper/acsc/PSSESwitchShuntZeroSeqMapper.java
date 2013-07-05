@@ -42,10 +42,11 @@ public class PSSESwitchShuntZeroSeqMapper <
         */
         ShuntCompensatorXmlType shunt = scBus.getShuntCompensator();
         int k = 1;
-        if(shunt !=null)
-        for(ShuntCompensatorBlockXmlType block: shunt.getBlock()){
-        	block.setZeroSeqIncrementB(
+        if(shunt !=null){
+           for(ShuntCompensatorBlockXmlType block: shunt.getBlock()){
+        	    block.setZeroSeqIncrementB(
         			BaseDataSetter.createReactivePowerValue(dataParser.getDouble("BZ"+k++), ReactivePowerUnitType.PU));
+           }
         }
         
 	}

@@ -162,6 +162,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		scXfr.setToSideConnection(xfrConnect2);
             
         	case 7://delta with an earthing transformer-grounded wye
+        		
         		/*no series path, earthing transformer on winding one side, ground path on 
         		  winding two side
         		*/

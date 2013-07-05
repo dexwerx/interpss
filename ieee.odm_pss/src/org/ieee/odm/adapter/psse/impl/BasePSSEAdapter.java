@@ -46,9 +46,11 @@ public class BasePSSEAdapter extends AbstractODMAdapter{
 	public final static String Token_CaseId = "Case ID";		
 
 	protected PsseVersion adptrtVersion;
-	protected BaseAclfModelParser<? extends LoadflowNetXmlType, ? extends LoadflowBusXmlType, ? extends LineBranchXmlType, ? extends XfrBranchXmlType, ? extends PSXfrBranchXmlType> parser =null;
+	protected BaseAclfModelParser<? extends LoadflowNetXmlType, 
+			        ? extends LoadflowBusXmlType, ? extends LineBranchXmlType, 
+					? extends XfrBranchXmlType, ? extends PSXfrBranchXmlType> parser =null;
 	
-	private String  elemCntStr = "";
+	protected String  elemCntStr = "";
        
 	
 	public BasePSSEAdapter(PsseVersion ver) {
@@ -94,12 +96,14 @@ public class BasePSSEAdapter extends AbstractODMAdapter{
 	}
 
 
-	public BaseAclfModelParser<? extends LoadflowNetXmlType, ? extends LoadflowBusXmlType, ? extends LineBranchXmlType, ? extends XfrBranchXmlType, ? extends PSXfrBranchXmlType> getParser() {
+	public BaseAclfModelParser<? extends LoadflowNetXmlType, ? extends LoadflowBusXmlType, 
+			? extends LineBranchXmlType, ? extends XfrBranchXmlType, ? extends PSXfrBranchXmlType> getParser() {
 		return parser;
 	}
 
 
-	public void setParser(BaseAclfModelParser<? extends LoadflowNetXmlType, ? extends LoadflowBusXmlType, ? extends LineBranchXmlType, ? extends XfrBranchXmlType, ? extends PSXfrBranchXmlType> parser) {
+	public void setParser(BaseAclfModelParser<? extends LoadflowNetXmlType, ? extends LoadflowBusXmlType,
+			? extends LineBranchXmlType, ? extends XfrBranchXmlType, ? extends PSXfrBranchXmlType> parser) {
 		this.parser = parser;
 	}	
 	
