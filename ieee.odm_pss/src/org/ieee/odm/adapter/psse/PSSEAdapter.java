@@ -117,6 +117,16 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	@Override
 	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din,
 			String encoding) throws Exception {
-		throw new ODMException("not implemented yet, please use the specific parse<Type>Files() method instead!");
+		IODMModelParser tempParser =null;
+		if(type==NetType.AcscNet)
+			 tempParser=parseAcscFiles(din,encoding);
+		else if(type==NetType.DStabNet){
+			 tempParser=parseDstabFiles(din,encoding);
+		}
+		else{
+			throw new ODMException("Only Acsc and Dstab types are supported now, " +
+					"please check or contact support@interpss.com !");
+		}
+		return tempParser;
 	}
 }

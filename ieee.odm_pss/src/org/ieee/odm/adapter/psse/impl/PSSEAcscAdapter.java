@@ -248,10 +248,11 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 						}
       				}
       				else{
-      					// supported yet
+      					//Not supported yet
       				}
       					
-      				}
+      			}//END IF lineStr!= null
+      			
       		} while (lineStr != null);//END OF DO-LOOP
   		} catch (Exception e) {
   			
@@ -298,7 +299,9 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 			String encoding) throws Exception {
 		if(type ==NetType.AcscNet){
 			// initialize the parser first
-			if(parser == null) setParser(new AcscModelParser());
+			if(parser == null){
+				setParser(new AcscModelParser());
+			}
 			
 		}
 		else if(type==NetType.DStabNet){
