@@ -24,7 +24,7 @@
 
 package org.ieee.odm.adapter.psse.mapper.aclf;
 
-import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEDcLine2TDataParser;
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;

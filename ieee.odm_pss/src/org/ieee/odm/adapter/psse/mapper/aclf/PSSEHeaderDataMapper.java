@@ -32,7 +32,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
