@@ -110,9 +110,9 @@ public class PSSEV26_ODMTest {
           </loadData>
 		 */
 		bus = parser.getBus("Bus36016");
-		assertTrue(bus.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
-		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 6.5);
-		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getIm() == 3.86);
+		assertTrue(bus.getLoadData().getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_P);
+		assertTrue(bus.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe() == 6.5);
+		assertTrue(bus.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm() == 3.86);
 
 		/*
           <shuntQData>
@@ -143,7 +143,7 @@ public class PSSEV26_ODMTest {
 		 */
 		bus = parser.getBus("Bus32252");
 		assertTrue(bus.getGenData().getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV);
-		assertTrue(bus.getLoadData().getEquivLoad().getConstPLoad().getRe() == 20.32);
+		assertTrue(bus.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe() == 20.32);
 		
 		// bus turned off case
 /*

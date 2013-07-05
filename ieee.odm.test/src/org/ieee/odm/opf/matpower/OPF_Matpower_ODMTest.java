@@ -97,10 +97,10 @@ public class OPF_Matpower_ODMTest {
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
 		LoadflowBusXmlType bus3 =  parser.getBus("Bus3");
 		//System.out.println(busRec);
-		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getRe()==150);		
-		assertTrue(bus3.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);		
-		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getIm() == 0);
-		assertTrue(bus3.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(bus3.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe()==150);		
+		assertTrue(bus3.getLoadData().getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_P);		
+		assertTrue(bus3.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm() == 0);
+		assertTrue(bus3.getLoadData().getEquivLoad().getValue().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
 
 		
 		// Check Branch Data
@@ -159,8 +159,8 @@ public class OPF_Matpower_ODMTest {
 		assertTrue(busRec.getConstraints().getActivePowerLimit().getMax() == 200);
 		assertTrue(busRec.getConstraints().getActivePowerLimit().getMin() == 20);
 		
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe()== 132.66);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe()== 132.66);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
 
 		
 		// Check Branch Data

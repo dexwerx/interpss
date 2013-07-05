@@ -129,15 +129,15 @@ public class BPAGenLoadDataModifyRecord<
 	private static boolean modifyLoadData(LoadflowBusXmlType bus, double loadPFactor,double loadQFactor){
 		try{
 			if(bus.getLoadData()!=null&&bus.getLoadData().getEquivLoad()!=null
-					&&bus.getLoadData().getEquivLoad().getConstPLoad()!=null){
-				  double loadP=bus.getLoadData().getEquivLoad().getConstPLoad().getRe();
-				  double loadQ=bus.getLoadData().getEquivLoad().getConstPLoad().getIm();
+					&&bus.getLoadData().getEquivLoad().getValue().getConstPLoad()!=null){
+				  double loadP=bus.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe();
+				  double loadQ=bus.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm();
 				  if(loadP!=0.0)loadP*=loadPFactor;
 				  if(loadQ!=0.0)loadQ*=loadQFactor;
 				  if(loadP!=0.0||loadQ!=0.0){
 					  loadP=ModelStringUtil.getNumberFormat(loadP);
 					  loadQ=ModelStringUtil.getNumberFormat(loadQ);
-					  bus.getLoadData().getEquivLoad().setConstPLoad(BaseDataSetter.createPowerValue(
+					  bus.getLoadData().getEquivLoad().getValue().setConstPLoad(BaseDataSetter.createPowerValue(
 							loadP,loadQ,ApparentPowerUnitType.MVA));
 				  }
 

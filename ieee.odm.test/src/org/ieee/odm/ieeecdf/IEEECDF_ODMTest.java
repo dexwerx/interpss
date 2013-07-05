@@ -112,18 +112,18 @@ public class IEEECDF_ODMTest {
 		assertTrue(busRec.getGenData().getEquivGen().getValue().getQLimit().getMin() == -40.0);
 		assertTrue(busRec.getGenData().getEquivGen().getValue().getQLimit().getUnit() == ReactivePowerUnitType.MVAR);
 		
-		assertTrue(busRec.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe() == 21.7);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getIm() == 12.7);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_P);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe() == 21.7);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm() == 12.7);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
 
 		// Bus 9 is a load bus, also there is a capacitor of 0.19 pu
 		//    9 Bus 9     LV  1  1  0 1.056 -14.94     29.5     16.6      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.19       0
 		busRec = parser.getBus("Bus9");
-		assertTrue(busRec.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getRe() == 29.5);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getIm() == 16.6);
-		assertTrue(busRec.getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_P);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe() == 29.5);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm() == 16.6);
+		assertTrue(busRec.getLoadData().getEquivLoad().getValue().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
 		
 		assertTrue(busRec.getShuntY().getRe() == 0.0);
 		assertTrue(busRec.getShuntY().getIm() == 0.19);

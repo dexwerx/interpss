@@ -65,8 +65,8 @@ public class PwdAdapterTest {
 		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getValue().getQLimit().getMin()-(-99998.999))<1E-3);
 		assertTrue(Math.abs(bus1.getGenData().getEquivGen().getValue().getPLimit().getMax()-800.0)<1E-4);
 		assertTrue(bus1.getGenData().getEquivGen().getValue().getPLimit().getMin()==0.0);
-		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getRe()==100.0);
-		assertTrue(bus1.getLoadData().getEquivLoad().getConstPLoad().getIm()==0.0);
+		assertTrue(bus1.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe()==100.0);
+		assertTrue(bus1.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm()==0.0);
 		
 		//check line data
 		LineBranchXmlType line=(LineBranchXmlType) parser.getNet().getBranchList().getBranch().get(0).getValue();
@@ -115,8 +115,8 @@ public class PwdAdapterTest {
 		assertTrue(bus2.getGenData().getEquivGen().getValue().getPLimit().getMax() == 10000.0);
 		assertTrue(bus2.getGenData().getEquivGen().getValue().getPLimit().getMin()==-10000.0);
 		
-		assertTrue(bus2.getLoadData().getEquivLoad().getConstPLoad().getRe()==21.700);
-		assertTrue(bus2.getLoadData().getEquivLoad().getConstPLoad().getIm()==12.700);
+		assertTrue(bus2.getLoadData().getEquivLoad().getValue().getConstPLoad().getRe()==21.700);
+		assertTrue(bus2.getLoadData().getEquivLoad().getValue().getConstPLoad().getIm()==12.700);
 		
 		//check line data
 		/*BusNum,BusNum:1,LineCircuit,LineStatus,LineR,LineX,LineC,LineG

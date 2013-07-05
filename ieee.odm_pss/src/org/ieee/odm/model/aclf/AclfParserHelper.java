@@ -70,10 +70,10 @@ public class AclfParserHelper extends BaseJaxbHelper {
 			loadData = odmObjFactory.createBusLoadDataXmlType();
 			busRec.setLoadData(loadData);
 			LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
-			loadData.setEquivLoad(equivLoad);
+			loadData.setEquivLoad(odmObjFactory.createEquivLoad(equivLoad));
 		}
 		LoadflowLoadXmlType contribLoad = odmObjFactory.createLoadflowLoadXmlType();
-	    loadData.getContributeLoad().add(contribLoad); 
+	    loadData.getContributeLoad().add(odmObjFactory.createEquivLoad(contribLoad)); 
 	    return contribLoad;
 	}
 	
@@ -205,9 +205,10 @@ public class AclfParserHelper extends BaseJaxbHelper {
 			BusLoadDataXmlType loadData = busRec.getLoadData();
 			if (loadData != null) {
 				if ( loadData.getContributeLoad().size() > 0) {
-					LoadflowLoadXmlType equivLoad = loadData.getEquivLoad();
+					LoadflowLoadXmlType equivLoad = loadData.getEquivLoad().getValue();
 					double cp_p=0.0, cp_q=0.0, ci_p=0.0, ci_q=0.0, cz_p=0.0, cz_q=0.0; 
-					for ( LoadflowLoadXmlType load : loadData.getContributeLoad()) {
+					for ( JAXBElement<? extends LoadflowLoadXmlType> loadXml : loadData.getContributeLoad()) {
+						LoadflowLoadXmlType load = loadXml.getValue();
 						if (!load.isOffLine()) {
 							if (load.getConstPLoad() != null) {
 								cp_p += load.getConstPLoad().getRe();
@@ -243,11 +244,11 @@ public class AclfParserHelper extends BaseJaxbHelper {
 						equivLoad.setConstZLoad(BaseDataSetter.createPowerValue(cz_p, cz_q, ApparentPowerUnitType.MVA));
 					}
 					else {
-						loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
+						loadData.getEquivLoad().getValue().setCode(LFLoadCodeEnumType.NONE_LOAD);
 					}
 				}
 				else
-					loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
+					loadData.getEquivLoad().getValue().setCode(LFLoadCodeEnumType.NONE_LOAD);
 			}
 		}
 

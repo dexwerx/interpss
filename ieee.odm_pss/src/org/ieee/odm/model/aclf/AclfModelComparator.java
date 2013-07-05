@@ -91,22 +91,22 @@ public class AclfModelComparator {
                 </loadData>
 */
 		if (base.getLoadData() != null && bus.getLoadData() != null) {
-			if (base.getLoadData().getEquivLoad().getCode() != bus.getLoadData().getEquivLoad().getCode())
+			if (base.getLoadData().getEquivLoad().getValue().getCode() != bus.getLoadData().getEquivLoad().getValue().getCode())
 				msgList.add("\nBus EquivLoad code not equal: " + id + ", " + 
-						base.getLoadData().getEquivLoad().getCode() + baseStr + 
-						"  " + bus.getLoadData().getEquivLoad().getCode() + format);
-			if (!ODMNumericUtil.equals(base.getLoadData().getEquivLoad().getConstPLoad(), bus.getLoadData().getEquivLoad().getConstPLoad()))
+						base.getLoadData().getEquivLoad().getValue().getCode() + baseStr + 
+						"  " + bus.getLoadData().getEquivLoad().getValue().getCode() + format);
+			if (!ODMNumericUtil.equals(base.getLoadData().getEquivLoad().getValue().getConstPLoad(), bus.getLoadData().getEquivLoad().getValue().getConstPLoad()))
 					msgList.add("\nBus EquivLoad constP not equal: " + id 
-							+ "   " + BaseJaxbHelper.toStr(base.getLoadData().getEquivLoad().getConstPLoad()) + baseStr
-							+ "   " + BaseJaxbHelper.toStr(bus.getLoadData().getEquivLoad().getConstPLoad()) + format);
+							+ "   " + BaseJaxbHelper.toStr(base.getLoadData().getEquivLoad().getValue().getConstPLoad()) + baseStr
+							+ "   " + BaseJaxbHelper.toStr(bus.getLoadData().getEquivLoad().getValue().getConstPLoad()) + format);
 		}
 		else if (base.getLoadData() == null && bus.getLoadData() != null 
-						&& bus.getLoadData().getEquivLoad().getCode() != LFLoadCodeEnumType.NONE_LOAD ||
+						&& bus.getLoadData().getEquivLoad().getValue().getCode() != LFLoadCodeEnumType.NONE_LOAD ||
 				 base.getLoadData() != null && bus.getLoadData() == null 
-				 		&& base.getLoadData().getEquivLoad().getCode() != LFLoadCodeEnumType.NONE_LOAD) {
+				 		&& base.getLoadData().getEquivLoad().getValue().getCode() != LFLoadCodeEnumType.NONE_LOAD) {
 			msgList.add("\nBus EquivLoad model not equal: " + id + ", " + 
-					base.getLoadData().getEquivLoad().getCode() + baseStr + 
-					"  " + bus.getLoadData().getEquivLoad().getCode() + format);
+					base.getLoadData().getEquivLoad().getValue().getCode() + baseStr + 
+					"  " + bus.getLoadData().getEquivLoad().getValue().getCode() + format);
 		}
 		
 /*

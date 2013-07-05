@@ -29,11 +29,11 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import javax.activation.UnsupportedDataTypeException;
 
 import org.ieee.odm.model.base.BaseDataSetter;
-import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ApparentPowerXmlType;
 import org.ieee.odm.schema.BranchRatingLimitXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.CurrentXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -48,7 +48,6 @@ import org.ieee.odm.schema.MvaRatingXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
-import org.ieee.odm.schema.ShuntCompensatorDataXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.TransformerInfoXmlType;
@@ -81,8 +80,8 @@ public class AclfDataSetter extends BaseDataSetter {
 		BusLoadDataXmlType loadData = odmObjFactory.createBusLoadDataXmlType();
 		bus.setLoadData(loadData);
 		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
-		loadData.setEquivLoad(equivLoad);
-    	bus.getLoadData().getEquivLoad().setCode(code);
+		loadData.setEquivLoad(odmObjFactory.createEquivLoad(equivLoad));
+    	bus.getLoadData().getEquivLoad().getValue().setCode(code);
     	if(code==LFLoadCodeEnumType.CONST_P)
     	    equivLoad.setConstPLoad(createPowerValue(p, q, unit));
     	else if(code==LFLoadCodeEnumType.CONST_I)
@@ -116,8 +115,8 @@ public class AclfDataSetter extends BaseDataSetter {
 		BusLoadDataXmlType loadData = odmObjFactory.createBusLoadDataXmlType();
 		bus.setLoadData(loadData);
 		LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
-		loadData.setEquivLoad(equivLoad);
-    	bus.getLoadData().getEquivLoad().setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
+		loadData.setEquivLoad(odmObjFactory.createEquivLoad(equivLoad));
+    	bus.getLoadData().getEquivLoad().getValue().setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
     	
     	equivLoad.setConstPLoad(createPowerValue(loadSP, loadSQ, unit));
     	equivLoad.setConstILoad(createPowerValue(loadIP, loadIQ, unit));

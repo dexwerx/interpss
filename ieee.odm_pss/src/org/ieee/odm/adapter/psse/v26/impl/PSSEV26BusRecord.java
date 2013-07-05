@@ -131,7 +131,7 @@ public class PSSEV26BusRecord {
 		}
 		else { //Non-Gen Load Bus
 			busRec.setLoadData(odmObjFactory.createBusLoadDataXmlType());
-			busRec.getLoadData().setEquivLoad(odmObjFactory.createLoadflowLoadXmlType());
+			busRec.getLoadData().setEquivLoad(odmObjFactory.createEquivLoad(odmObjFactory.createLoadflowLoadXmlType()));
 		}
 		
 		//GL BL in Mva
@@ -167,10 +167,10 @@ public class PSSEV26BusRecord {
 		if (loadData == null) { 
 			loadData = odmObjFactory.createBusLoadDataXmlType(); 
 			busRec.setLoadData(loadData);
-			loadData.setEquivLoad(odmObjFactory.createLoadflowLoadXmlType());
+			loadData.setEquivLoad(odmObjFactory.createEquivLoad(odmObjFactory.createLoadflowLoadXmlType()));
 		}
 	    LoadflowLoadXmlType contribLoad = odmObjFactory.createLoadflowLoadXmlType(); 
-	    loadData.getContributeLoad().add(contribLoad); 
+	    loadData.getContributeLoad().add(odmObjFactory.createContributeLoad(contribLoad)); 
 		
 	    // processing contributing load data
 
@@ -212,8 +212,8 @@ public class PSSEV26BusRecord {
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA));
 	    
 	    // processing equiv load data
-	    loadData.getEquivLoad().setCode(LFLoadCodeEnumType.CONST_P);
-	    LoadflowLoadXmlType load = loadData.getEquivLoad();
+	    loadData.getEquivLoad().getValue().setCode(LFLoadCodeEnumType.CONST_P);
+	    LoadflowLoadXmlType load = loadData.getEquivLoad().getValue();
 	    if (load == null) {
 	    	load = odmObjFactory.createLoadflowLoadXmlType();
 	    	load.setConstPLoad(odmObjFactory.createPowerXmlType());
