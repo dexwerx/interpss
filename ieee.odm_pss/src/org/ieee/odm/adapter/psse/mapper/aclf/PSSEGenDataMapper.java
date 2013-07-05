@@ -24,23 +24,31 @@
 
 package org.ieee.odm.adapter.psse.mapper.aclf;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEGenDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEGenDataMapper extends BasePSSEDataMapper {
+public class PSSEGenDataMapper<
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	
 	public PSSEGenDataMapper(PsseVersion ver) {
 		super(ver);
@@ -70,7 +78,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
  10636,'1 ',     0.000,     0.000,     0.000,     0.000,1.05100,     0,   100.000,   0.00000,   1.00000,   0.00000,   0.00000,1.00000,1,  100.0,     0.000,     0.000,   1,1.0000
 	 */
 
-	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		//procFields(lineStr, version);
 		dataParser.parseFields(lineStr);
 
@@ -84,7 +92,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 */		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRecXml = parser.getBus(busId);
+		LoadflowBusXmlType busRecXml = (LoadflowBusXmlType) parser.getBus(busId);
 	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;

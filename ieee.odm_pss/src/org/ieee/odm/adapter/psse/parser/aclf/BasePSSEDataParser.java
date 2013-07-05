@@ -25,7 +25,7 @@
 package org.ieee.odm.adapter.psse.parser.aclf;
 
 import org.ieee.odm.adapter.AbstractDataFieldParser;
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 
 /**
  * Class for processing IEEE CDF bus data line string

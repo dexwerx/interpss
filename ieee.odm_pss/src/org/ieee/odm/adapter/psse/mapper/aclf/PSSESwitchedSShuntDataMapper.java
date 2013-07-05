@@ -26,27 +26,35 @@ package org.ieee.odm.adapter.psse.mapper.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSESwitchedShuntDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorBlockXmlType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 
-public class PSSESwitchedSShuntDataMapper extends BasePSSEDataMapper {
+public class PSSESwitchedSShuntDataMapper <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 
 	public PSSESwitchedSShuntDataMapper(PsseVersion ver) {
 		super(ver);
 		this.dataParser = new PSSESwitchedShuntDataParser(ver);
 	}
 	
-	public void procLineString(String lineStr, AclfModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 /*
 		   //  0----------1----------2----------3----------4
@@ -62,7 +70,7 @@ public class PSSESwitchedSShuntDataMapper extends BasePSSEDataMapper {
 		
 		final String busId = AbstractModelParser.BusIdPreFix+this.dataParser.getString("I");
 		// get the responding-bus data with busId
-		LoadflowBusXmlType aclfBus = parser.getBus(busId);
+		LoadflowBusXmlType aclfBus = (LoadflowBusXmlType) parser.getBus(busId);
 		if (aclfBus==null){
 			throw new ODMException("Error: Bus not found in the network, bus number: " + busId);
         }

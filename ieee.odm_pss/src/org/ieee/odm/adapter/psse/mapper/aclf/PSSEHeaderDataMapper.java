@@ -32,18 +32,26 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.ODMFileFormatEnum;
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 
-public class PSSEHeaderDataMapper {
+public class PSSEHeaderDataMapper <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType>{
 	private PsseVersion fileVersion = PsseVersion.PSSE_30;
 	
-	public void procLineString(String[] lineStrAry, PsseVersion adptrVersion, final AclfModelParser parser) throws ODMException {
-		LoadflowNetXmlType baseCaseNet = parser.getNet();
+	public void procLineString(String[] lineStrAry, PsseVersion adptrVersion, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
+		LoadflowNetXmlType baseCaseNet = (LoadflowNetXmlType) parser.getNet();
 		
 		String lineStr = lineStrAry[0];
 		StringTokenizer st = new StringTokenizer(lineStr, ",");

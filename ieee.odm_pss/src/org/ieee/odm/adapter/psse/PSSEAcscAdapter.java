@@ -1,6 +1,24 @@
 package org.ieee.odm.adapter.psse;
 
-public class PSSEAcscAdapter {
+import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.IODMModelParser;
+import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
+
+public class PSSEAcscAdapter <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml>{
+
+	public PSSEAcscAdapter(PsseVersion ver) {
+		super(ver);
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	/*
@@ -37,5 +55,40 @@ public class PSSEAcscAdapter {
        the load elements are assumed to be equal in the positive and negative sequence networks.
 	 * 
 	 */
+	
+	@Override protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
+		 throw new UnsupportedOperationException("parse acsc data alone, without load flow info, is not supported yet!");
+	}
+	
+	
+	
+	/**
+	 * 
+	 */
+	@Override
+	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din,
+			String encoding) throws Exception {
+		if(type ==NetType.AcscNet){
+			// initialize the parser first
+			if(parser == null) setParser(new AcscModelParser());
+			
+		}
+		else if(type==NetType.DStabNet){
+			// the parser is supposed to be set at the PSSEDstabParser class, which call this method
+			if(parser == null){
+				throw new ODMException("Parser is not initialized before parsing Acsc data for Dstab NetType1 ");
+			}
+		}
+		
+		if(parser != null){
+		//the first file is supposed to be the Load flow data file
+		super.parseInputFile(din[0], encoding);
+		
+		//the second one should be the sequence data file;
+		this.parseInputFile(din[1], encoding);
+		}
+		
+		return parser;
+	}
 	 
 }

@@ -26,13 +26,13 @@ package org.ieee.odm.adapter.psse.mapper.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEXfrDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfDataSetter;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.AdjustmentModeEnumType;
@@ -40,8 +40,10 @@ import org.ieee.odm.schema.AngleAdjustmentXmlType;
 import org.ieee.odm.schema.AngleUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchBusSideEnumType;
-import org.ieee.odm.schema.IDRefRecordXmlType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.MvarFlowAdjustmentDataXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.TapAdjustmentEnumType;
@@ -55,14 +57,19 @@ import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEXfrDataMapper extends BasePSSEDataMapper {
+public class PSSEXfrDataMapper <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 
 	public PSSEXfrDataMapper(PsseVersion ver) {
 		super(ver);
 		this.dataParser = new PSSEXfrDataParser(ver);
 	}
 
-	public void procLineString(String[] lineStrAry, AclfModelParser parser) throws ODMException {
+	public void procLineString(String[] lineStrAry, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		//procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version);
 		dataParser.parseFields( lineStrAry);
 		

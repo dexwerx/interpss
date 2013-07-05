@@ -24,20 +24,28 @@
 
 package org.ieee.odm.adapter.psse.mapper.aclf;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSELoadDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowLoadXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 
-public class PSSELoadDataMapper extends BasePSSEDataMapper {
+public class PSSELoadDataMapper <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	public PSSELoadDataMapper(PsseVersion ver) {
 		super(ver);
 		this.dataParser = new PSSELoadDataParser(ver);
@@ -46,7 +54,7 @@ public class PSSELoadDataMapper extends BasePSSEDataMapper {
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		//procLineString(lineStr, version);
 		this.dataParser.parseFields(lineStr);
 /*
@@ -54,7 +62,7 @@ public class PSSELoadDataMapper extends BasePSSEDataMapper {
 */		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRecXml = parser.getBus(busId);
+		LoadflowBusXmlType busRecXml = (LoadflowBusXmlType) parser.getBus(busId);
 	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;

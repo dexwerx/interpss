@@ -24,31 +24,39 @@
 
 package org.ieee.odm.adapter.psse.mapper.aclf;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEDcLine2TDataParser;
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AngleUnitType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.CurrentUnitType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.DcLineControlModeEnumType;
 import org.ieee.odm.schema.DcLineMeteredEndEnumType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
-public class PSSEDcLine2TDataMapper extends BasePSSEDataMapper {
+public class PSSEDcLine2TDataMapper <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	
 	public PSSEDcLine2TDataMapper(PsseVersion ver) {
 		super(ver);
 		this.dataParser = new PSSEDcLine2TDataParser(ver);
 	}
 	
-	public void procLineString(String[] lineStrAry, final AclfModelParser parser) throws ODMException, ODMBranchDuplicationException {
+	public void procLineString(String[] lineStrAry, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException, ODMBranchDuplicationException {
 		dataParser.parseFields(lineStrAry);
 		
 		int MDC = this.dataParser.getInt("MDC"), 

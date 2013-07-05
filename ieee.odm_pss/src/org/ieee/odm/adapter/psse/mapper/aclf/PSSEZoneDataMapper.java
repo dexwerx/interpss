@@ -26,21 +26,29 @@ package org.ieee.odm.adapter.psse.mapper.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEZoneDataParser;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 
-public class PSSEZoneDataMapper extends BasePSSEDataMapper {
+public class PSSEZoneDataMapper <
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	
 	public PSSEZoneDataMapper(PsseVersion ver) {
 		super(ver);
 		this.dataParser = new PSSEZoneDataParser(ver);
 	}
 
-	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
 		/*
@@ -49,7 +57,7 @@ public class PSSEZoneDataMapper extends BasePSSEDataMapper {
 		int	i = this.dataParser.getInt("I");
 		String name = this.dataParser.getString("ZONAME");
 
-		LoadflowNetXmlType baseCaseNet = parser.getNet();
+		LoadflowNetXmlType baseCaseNet = (LoadflowNetXmlType) parser.getNet();
 		if (baseCaseNet.getLossZoneList() == null)
 			baseCaseNet.setLossZoneList(odmObjFactory.createNetworkXmlTypeLossZoneList());
 		NetZoneXmlType zone = odmObjFactory.createNetZoneXmlType(); 

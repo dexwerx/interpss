@@ -25,7 +25,7 @@ package org.ieee.odm.adapter.psse.v26.impl;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEAreaInterchangeDataParser;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEHeaderDataParser;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEInterAreaTransferDataParser;

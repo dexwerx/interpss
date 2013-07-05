@@ -26,15 +26,23 @@ package org.ieee.odm.adapter.psse.mapper.aclf;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.PSSEXfrZTableDataParser;
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.schema.BranchBusSideEnumType;
+import org.ieee.odm.schema.BranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.XformerZTableXmlType;
 
-public class PSSEXfrZTableDataMapper extends BasePSSEDataMapper {
+public class PSSEXfrZTableDataMapper<
+TNetXml extends NetworkXmlType, 
+TBusXml extends BusXmlType,
+TLineXml extends BranchXmlType,
+TXfrXml extends BranchXmlType,
+TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	
 	public PSSEXfrZTableDataMapper(PsseVersion ver) {
 		super(ver);
@@ -42,10 +50,10 @@ public class PSSEXfrZTableDataMapper extends BasePSSEDataMapper {
 	}
 	
 
-	public void procLineString(String lineStr, final AclfModelParser parser) throws ODMException {
+	public void procLineString(String lineStr, BaseAclfModelParser<TNetXml, TBusXml,TLineXml,TXfrXml,TPsXfrXml> parser) throws ODMException {
 		dataParser.parseFields(lineStr);
 		
-		LoadflowNetXmlType baseCaseNet = parser.getNet();
+		LoadflowNetXmlType baseCaseNet = (LoadflowNetXmlType) parser.getNet();
 		if (baseCaseNet.getXfrZTable() == null) {
 			baseCaseNet.setXfrZTable(odmObjFactory.createXformerZTableXmlType());
 			baseCaseNet.getXfrZTable().setAdjustSide(BranchBusSideEnumType.FROM_SIDE);

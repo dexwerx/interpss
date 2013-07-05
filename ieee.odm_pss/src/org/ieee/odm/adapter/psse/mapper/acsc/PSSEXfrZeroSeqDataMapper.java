@@ -1,7 +1,6 @@
 package org.ieee.odm.adapter.psse.mapper.acsc;
 
-import org.ieee.odm.ODMObjectFactory;
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.aclf.BasePSSEDataMapper;
 import org.ieee.odm.adapter.psse.parser.acsc.PSSEXfrZeroSeqDataParser;
 import org.ieee.odm.common.ODMException;
@@ -11,14 +10,11 @@ import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.GroundingXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
 import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.ZUnitType;
-
-import sun.font.CreatedFontTracker;
 
 public class PSSEXfrZeroSeqDataMapper <
 TNetXml extends NetworkXmlType, 

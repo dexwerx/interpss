@@ -2,7 +2,7 @@ package org.ieee.odm.adapter.psse.parser.acsc;
 
 import java.util.StringTokenizer;
 
-import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
+import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
 
