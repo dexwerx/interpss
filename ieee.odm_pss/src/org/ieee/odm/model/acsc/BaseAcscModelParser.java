@@ -57,6 +57,10 @@ public class BaseAcscModelParser<
 	 */
 	public BaseAcscModelParser() {
 		super();
+	}
+	
+	public BaseAcscModelParser(String encoding) {
+		super(encoding);
 	}	
 	
 	/**

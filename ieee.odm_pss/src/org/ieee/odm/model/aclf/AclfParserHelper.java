@@ -29,6 +29,8 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
@@ -38,15 +40,18 @@ import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.LoadflowLoadXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XformerZTableXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 
 /**
  * Aclf model parser help functions
@@ -94,8 +99,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * consolidate bus genContributionList to the equiv gen 
 	 * 
 	 */
-	public static boolean createBusEquivGenData(AclfModelParser parser) {
-		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
+	public static boolean createBusEquivGenData(IODMModelParser parser ) {
+		LoadflowNetXmlType baseCaseNet = ((AbstractModelParser<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType>) parser).getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			BusGenDataXmlType genData = busRec.getGenData();
@@ -172,7 +177,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
 							genData.getEquivGen().getValue().getCode() == LFGenCodeEnumType.PV){
 						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
-						genData.getEquivGen().getValue().setRemoteVoltageControlBus(parser.createBusRef(remoteBusId));
+						genData.getEquivGen().getValue().setRemoteVoltageControlBus(
+								((AbstractModelParser<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType>) parser).createBusRef(remoteBusId));
 					}
 				}
 				else {
@@ -192,8 +198,8 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * consolidate bus loadContributionList to the load 
 	 * 
 	 */
-	public static boolean createBusEquivLoadData(AclfModelParser parser) {
-		LoadflowNetXmlType baseCaseNet = parser.getNet(); 
+	public static boolean createBusEquivLoadData(IODMModelParser parser) {
+		LoadflowNetXmlType baseCaseNet = ((AbstractModelParser<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType>) parser).getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusXmlType busRec = (LoadflowBusXmlType)bus.getValue();
 			BusLoadDataXmlType loadData = busRec.getLoadData();
@@ -254,7 +260,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * @param parser
 	 * @return
 	 */
-	public static boolean createBusEquivData(AclfModelParser parser) {
+	public static boolean createBusEquivData(IODMModelParser parser) {
 		createBusEquivGenData(parser);
 		
 		createBusEquivLoadData(parser);

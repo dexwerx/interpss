@@ -28,6 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
+import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.BaseBranchXmlType;
@@ -51,7 +52,7 @@ import org.ieee.odm.schema.XfrShortCircuitXmlType;
 /**
  * A DStab ODM Xml model parser for the IEEE DOM schema. 
  */
-public class DStabModelParser extends BaseAclfModelParser<DStabNetXmlType, DStabBusXmlType, LineDStabXmlType, XfrDStabXmlType, PSXfrDStabXmlType> {
+public class DStabModelParser extends BaseDstabModelParser<DStabNetXmlType, DStabBusXmlType, LineDStabXmlType, XfrDStabXmlType, PSXfrDStabXmlType> {
 	// some input file might carry DStab Simu data;
 	private DStabSimulationXmlType tranSimu = null;
 	
