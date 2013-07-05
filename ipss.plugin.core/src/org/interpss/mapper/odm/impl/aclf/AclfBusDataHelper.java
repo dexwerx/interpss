@@ -222,11 +222,11 @@ public class AclfBusDataHelper {
 	}
 	
 	private void mapLoadData(BusLoadDataXmlType xmlLoadData) {
-		aclfBus.setLoadCode(xmlLoadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
-				AclfLoadCode.CONST_I : (xmlLoadData.getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
+		aclfBus.setLoadCode(xmlLoadData.getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_I ? 
+				AclfLoadCode.CONST_I : (xmlLoadData.getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 		AclfLoadBus loadBus = aclfBus.toLoadBus();
-		LoadflowLoadXmlType xmlEquivLoad = xmlLoadData.getEquivLoad();
+		LoadflowLoadXmlType xmlEquivLoad = xmlLoadData.getEquivLoad().getValue();
 		if (xmlEquivLoad != null) {
 			PowerXmlType p;
 			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)
