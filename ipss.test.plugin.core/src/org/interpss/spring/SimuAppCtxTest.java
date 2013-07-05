@@ -33,6 +33,7 @@ import org.interpss.numeric.util.TestUtilFunc;
 import org.junit.Test;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.adpter.AclfSwingBus;
 import com.interpss.core.acsc.fault.AcscBusFault;
@@ -68,7 +69,7 @@ public class SimuAppCtxTest extends CorePluginTestSetup {
 	}
 
 	@Test
-	public void testSimuCtxAcsc() {
+	public void testSimuCtxAcsc() throws InterpssException  {
 		SimuContext simuCtx = CoreSimuSpringFactory.getSimuContextTypeAcscNet();
 		SampleCases.load_SC_5BusSystem(simuCtx.getAcscNet());
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringFactory.getSimpleFaultAlgorithm());

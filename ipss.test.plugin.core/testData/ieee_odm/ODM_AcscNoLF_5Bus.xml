@@ -14,16 +14,16 @@
         <basePower unit="MVA" value="100.0"/>
         <busList>
             <acscBus id="Bus1" offLine="false" number="1" zoneNumber="1"
-            	areaNumber="1" name="Bus-1 138.0 KV" scCode="Non-contributing">
-            	<baseVoltage unit="KV" value="138.0" />
+            	areaNumber="1" name="Bus-1 13.8 KV" scCode="Non-contributing">
+            	<baseVoltage unit="KV" value="13.8" />
 			</acscBus>
             <acscBus id="Bus2" offLine="false" number="1" zoneNumber="1"
-            	areaNumber="1" name="Bus-2 138.0 KV" scCode="Non-contributing">
-            	<baseVoltage unit="KV" value="138.0" />
+            	areaNumber="1" name="Bus-2 13.8 KV" scCode="Non-contributing">
+            	<baseVoltage unit="KV" value="13.8" />
 			</acscBus>
             <acscBus id="Bus3" offLine="false" number="1" zoneNumber="1"
-            	areaNumber="1" name="Bus-3 138.0 KV" scCode="Non-contributing">
-            	<baseVoltage unit="KV" value="138.0" />
+            	areaNumber="1" name="Bus-3 13.8 KV" scCode="Non-contributing">
+            	<baseVoltage unit="KV" value="13.8" />
 			</acscBus>
             <acscBus id="Bus4" offLine="false" number="1" zoneNumber="1"
             	areaNumber="1" name="Gen Bus-4 1000 Volt" scCode="Contributing">
@@ -71,29 +71,29 @@
 				<z0 im="1.0" unit="PU"/>
 			</acscLine>
 			<acscLine id="Bus2_to_Bus3_cirId_1" circuitId="1" offLine="false" zoneNumber="1" areaNumber="1">
-				<fromBus idRef="Bus3"/>
-				<toBus idRef="Bus1"/>
+				<fromBus idRef="Bus2"/>
+				<toBus idRef="Bus3"/>
 				<z im="0.3" unit="PU" re="0.08" />
 				<totalShuntY im="0.5" unit="PU"/>
 				<z0 im="0.75" unit="PU"/>
 			</acscLine>
 			<acscXfr id="Bus2_to_Bus4_cirId_1" circuitId="1" offLine="false" zoneNumber="1" areaNumber="1">
-				<fromBus idRef="Bus2"/>
-				<toBus idRef="Bus4"/>
+				<fromBus idRef="Bus4"/>
+				<toBus idRef="Bus2"/>
 				<z im="0.015" unit="PU" re="0.0" />
-				<fromTurnRatio unit="PU" value="1.05" />
-				<toTurnRatio unit="PU" value="1.0" />
+				<fromTurnRatio unit="PU" value="1.0" />
+				<toTurnRatio unit="PU" value="1.05" />
 				<z0 im="0.03" unit="PU"/>
 				<fromSideConnection xfrConnection="Wye">
 					<grounding groundingConnection="Ungrounded"></grounding></fromSideConnection>
 				<toSideConnection xfrConnection="Delta"></toSideConnection>
 			</acscXfr>
 			<acscXfr id="Bus3_to_5_cirId_1" circuitId="1" offLine="false" zoneNumber="1" areaNumber="1">
-				<fromBus idRef="Bus3"/>
-				<toBus idRef="Bus5"/>
+				<fromBus idRef="Bus5"/>
+				<toBus idRef="Bus3"/>
 				<z im="0.03" unit="PU" re="0.0" />
-				<fromTurnRatio unit="PU" value="1.05" />
-				<toTurnRatio unit="PU" value="1.0" />
+				<fromTurnRatio unit="PU" value="1.0" />
+				<toTurnRatio unit="PU" value="1.05" />
 				<z0 im="0.03" unit="PU"/>
 				<fromSideConnection xfrConnection="Wye">
 					<grounding groundingConnection="Ungrounded"></grounding></fromSideConnection>

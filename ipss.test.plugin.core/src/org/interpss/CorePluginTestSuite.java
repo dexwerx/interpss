@@ -34,6 +34,7 @@ import org.interpss.dstab.mach.Eq1MachineCaseTest;
 import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
+import org.interpss.odm.acsc.Acsc5Bus_ODM_TestCase;
 import org.interpss.odm.psse.v30.GuideSample_TestCase;
 import org.interpss.plugin.beanModel.JSONBeanTestCases;
 import org.interpss.spring.SimuAppCtxTest;
@@ -72,6 +73,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	MachineSaturationTest.class,
 	RoundRotorMachineTest.class,
 	SalientPoleMachineTest.class,
+	
+	// Ascsc ODM
+	Acsc5Bus_ODM_TestCase.class,
 	
 	// DStab ODM
 	DStab_2Bus.class,
