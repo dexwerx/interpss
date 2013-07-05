@@ -1,6 +1,7 @@
-package org.ieee.odm.adapter.psse;
+package org.ieee.odm.adapter.psse.impl;
 
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.psse.PSSEAdapter;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
@@ -57,7 +58,7 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 	 * 
 	 */
 	
-	@Override protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
+	@Override public IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
 		 throw new UnsupportedOperationException("parse acsc data alone, without load flow info, is not supported yet!");
 	}
 	
@@ -67,7 +68,7 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 	 * 
 	 */
 	@Override
-	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din,
+	public IODMModelParser parseInputFile(NetType type, IFileReader[] din,
 			String encoding) throws Exception {
 		if(type ==NetType.AcscNet){
 			// initialize the parser first

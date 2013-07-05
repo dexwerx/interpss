@@ -25,6 +25,9 @@ package org.ieee.odm.adapter.psse;
 
 import org.ieee.odm.adapter.AbstractODMAdapter;
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.psse.impl.PSSEAcscAdapter;
+import org.ieee.odm.adapter.psse.impl.PSSEDynAdapter;
+import org.ieee.odm.adapter.psse.impl.PSSELFAdapter;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;

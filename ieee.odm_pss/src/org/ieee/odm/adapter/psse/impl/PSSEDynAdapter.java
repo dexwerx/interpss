@@ -1,6 +1,7 @@
-package org.ieee.odm.adapter.psse;
+package org.ieee.odm.adapter.psse.impl;
 
 import org.ieee.odm.adapter.IFileReader;
+import org.ieee.odm.adapter.psse.PSSEAdapter;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
@@ -18,13 +19,13 @@ public class PSSEDynAdapter extends PSSEAcscAdapter<DStabNetXmlType, DStabBusXml
 		
 	}
 	
-	@Override protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
+	@Override public IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
 		 throw new UnsupportedOperationException("parse dstab data is not supported yet!");
 	}
 	
 
 	@Override
-	protected IODMModelParser parseInputFile(NetType type, IFileReader[] din,
+	public IODMModelParser parseInputFile(NetType type, IFileReader[] din,
 			String encoding) throws Exception {
 		if(type !=NetType.DStabNet){
 			// initialize the parser first
