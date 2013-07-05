@@ -31,6 +31,7 @@ import org.ieee.odm.adapter.psse.BasePSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
+import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
@@ -59,7 +60,13 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		this.adptrtVersion = ver;
 	
 	}
-
+    /**
+     * Parse the ac load flow file
+     * @param din
+     * @param encoding
+     * @return
+     * @throws Exception
+     */
 	public AclfModelParser parseAclfFile(final IFileReader din, String encoding) throws Exception {
 		PSSELFAdapter<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType> 
 		lfAdapter = new PSSELFAdapter<>(this.adptrtVersion);
@@ -67,7 +74,14 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	    return lfAdapter.parseLoadflowFile(din, encoding);
 	
 	}
-	
+	/**
+	 * parse the aclf and sequence network files. The first file in the input "din" array is for aclf
+	 * and the second one stores the sequence data
+	 * @param din
+	 * @param encoding
+	 * @return
+	 * @throws Exception
+	 */
 	public IODMModelParser parseAcscFiles(final IFileReader[] din, String encoding) throws Exception {
 		PSSEAcscAdapter<ShortCircuitNetXmlType, ShortCircuitBusXmlType, LineShortCircuitXmlType, XfrShortCircuitXmlType, PSXfrShortCircuitXmlType> 
 		acscAdapter = new PSSEAcscAdapter<>(this.adptrtVersion);
@@ -76,31 +90,21 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		 
 	}
 	
-	public IODMModelParser parseDstabFiles(final IFileReader[] din, String encoding) throws Exception {
+	/**
+	 * parse the files for Dstab study. The first file in the input "din" array is for aclf,
+	 * the second one stores the sequence data, if it is available, and the third one is for Dynamic model data
+	 * 
+	 * @param din
+	 * @param encoding
+	 * @return
+	 * @throws Exception
+	 */
+	public DStabModelParser parseDstabFiles(final IFileReader[] din, String encoding) throws Exception {
 		PSSEDynAdapter dynAdapter = new PSSEDynAdapter(this.adptrtVersion);
-		return dynAdapter.parseInputFile(NetType.DStabNet, din, encoding);
+		return (DStabModelParser) dynAdapter.parseInputFile(NetType.DStabNet, din, encoding);
 		
 	}
 	
-	/**
-	 * PTI use 0 to indicate end of a data set, Bus Data for example. This function checks
-	 * if the input line is the end of record line
-	 *
-	 * @param str a input data line string
-	 */
-	public static boolean isEndRecLine(String str) {
-		String s = str.trim();
-		return s.startsWith("0") || s.startsWith("/") || s.startsWith("Q");
-	}	
-	
-	private boolean is3WXfr(String str) {
-		// for 2W xfr, line1, K = 0
-  		StringTokenizer st = new StringTokenizer(str, ",");
-		st.nextToken();
-		st.nextToken();
-		int K = new Integer(st.nextToken().trim()).intValue();
-		return K != 0;
-	}
 
 	@Override
 	protected IODMModelParser parseInputFile(IFileReader din, String encoding)
