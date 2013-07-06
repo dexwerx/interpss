@@ -26,23 +26,17 @@ package org.ieee.odm.model.acsc;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
-import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
-import org.ieee.odm.schema.XformerConnectionXmlType;
-import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.Xfr3WShortCircuitXmlType;
-import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 
 /**
@@ -112,10 +106,15 @@ public class BaseAcscModelParser<
 	@SuppressWarnings("unchecked")
 	@Override public TLineXml createLineBranch() {
 		LineShortCircuitXmlType line = odmObjFactory.createLineShortCircuitXmlType();
+		initAcscLineBranch(line);
 		return (TLineXml) line;
 		
 	}
-    
+
+	protected void initAcscLineBranch(LineShortCircuitXmlType line) {
+		initAclfLineBranch(line);
+	}
+	
 	
 	/**
 	 * create aclf xfr branch
@@ -126,7 +125,12 @@ public class BaseAcscModelParser<
 		XfrShortCircuitXmlType  xfr  =  odmObjFactory.createXfrShortCircuitXmlType();
 		return (TXfrXml) xfr;
 	}
-    
+
+	protected void initAcscXfrBranch(XfrShortCircuitXmlType  xfr) {
+		initAclfXfrBranch(xfr);
+	}
+	
+	
 	/**
 	 * create aclf 3 winding xfr
 	 */
@@ -144,8 +148,12 @@ public class BaseAcscModelParser<
 	@Override
 	public TPsXfrXml createPSXfrBranch() {
 		PSXfrShortCircuitXmlType psXfr = odmObjFactory.createPSXfrShortCircuitXmlType();
-		
+		initAcscPsXfrBranch(psXfr);
 		return (TPsXfrXml) psXfr;
+	}
+
+	protected void initAcscPsXfrBranch(PSXfrShortCircuitXmlType psXfr) {
+		initAclfPsXfrBranch(psXfr);
 	}
 	
 	/**

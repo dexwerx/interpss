@@ -45,7 +45,6 @@ import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
-import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.TielineXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
@@ -341,11 +340,14 @@ public class BaseAclfModelParser<
 	@SuppressWarnings("unchecked")
 	@Override public TLineXml createLineBranch() {
 		LineBranchXmlType line = odmObjFactory.createLineBranchXmlType();
-		line.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
-		line.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
+		initAclfLineBranch(line);
 		return (TLineXml) line;
 	}
     
+	protected void initAclfLineBranch(LineBranchXmlType line) {
+		line.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		line.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
+	}
 	
 	/**
 	 * create aclf xfr branch
@@ -354,11 +356,16 @@ public class BaseAclfModelParser<
 	@Override
 	public TXfrXml createXfrBranch() {
 		XfrBranchXmlType  xfr  =  odmObjFactory.createXfrBranchXmlType();
-		xfr.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
-		xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
+		initAclfXfrBranch(xfr);
 		return (TXfrXml) xfr;
 	}
-    
+
+	protected void initAclfXfrBranch(XfrBranchXmlType  xfr) {
+		xfr.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
+	}
+	
+	
 	/**
 	 * create aclf 3 winding xfr
 	 */
@@ -368,7 +375,7 @@ public class BaseAclfModelParser<
 		Xfr3WBranchXmlType w3xfr = odmObjFactory.createXfr3WBranchXmlType();
 		return (TXfrXml) w3xfr;
 	}
-    
+
 	/**
 	 * create aclf Phase-shifting xfr
 	 */
@@ -376,8 +383,12 @@ public class BaseAclfModelParser<
 	@Override
 	public TPsXfrXml createPSXfrBranch() {
 		PSXfrBranchXmlType psXfr = odmObjFactory.createPSXfrBranchXmlType();
+		initAclfPsXfrBranch(psXfr);
+		return (TPsXfrXml) psXfr;
+	}
+	
+	protected void initAclfPsXfrBranch(PSXfrBranchXmlType psXfr) {
 		psXfr.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
 		psXfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
-		return (TPsXfrXml) psXfr;
-	}	
+	}
 }

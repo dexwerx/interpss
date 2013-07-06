@@ -168,12 +168,14 @@ public class DStabModelParser extends BaseDstabModelParser<DStabNetXmlType, DSta
 	 */
 	@Override
 	public LineDStabXmlType createLineBranch() {
-		LineDStabXmlType branch = odmObjFactory.createLineDStabXmlType();
-		branch.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
-		branch.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
-		intiBranchData(branch);
-		return branch;
+		LineDStabXmlType line = odmObjFactory.createLineDStabXmlType();
+		initDStabLineBranch(line);
+		return line;
 	}
+	
+	protected void initDStabLineBranch(LineDStabXmlType line) {
+		initAcscLineBranch(line);
+	}	
 	
 	/**
 	 * create a XfrBranchXmlType object
@@ -182,12 +184,15 @@ public class DStabModelParser extends BaseDstabModelParser<DStabNetXmlType, DSta
 	 */
 	@Override
 	public XfrDStabXmlType createXfrBranch() {
-		XfrDStabXmlType branch = odmObjFactory.createXfrDStabXmlType();
-		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
-		intiBranchData(branch);
-		return branch;
+		XfrDStabXmlType xfr = odmObjFactory.createXfrDStabXmlType();
+		initDStabXfrBranch(xfr);
+		return xfr;
 	}
 
+	protected void initDStabXfrBranch(XfrDStabXmlType xfr) {
+		initAcscXfrBranch(xfr);
+	}	
+	
 	/**
 	 * create a PSXfrBranchXmlType object
 	 * 
@@ -195,10 +200,14 @@ public class DStabModelParser extends BaseDstabModelParser<DStabNetXmlType, DSta
 	 */
 	@Override
 	public PSXfrDStabXmlType createPSXfrBranch() {
-		PSXfrDStabXmlType branch = odmObjFactory.createPSXfrDStabXmlType();
-		intiBranchData(branch);
-		return branch;
+		PSXfrDStabXmlType psXfr = odmObjFactory.createPSXfrDStabXmlType();
+		initDStabPsXfrBranch(psXfr);
+		return psXfr;
 	}
+
+	protected void initDStabPsXfrBranch(PSXfrDStabXmlType psXfr) {
+		initAcscPsXfrBranch(psXfr);
+	}	
 	
 	/**
 	 * get the DStab Line object using the id. If the branch object is of type aclfLine or acscLine,
