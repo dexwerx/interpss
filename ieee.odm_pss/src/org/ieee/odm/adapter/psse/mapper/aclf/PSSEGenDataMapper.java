@@ -31,6 +31,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
+import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -40,6 +41,7 @@ import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
+import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
@@ -92,13 +94,19 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 */		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRecXml = (LoadflowBusXmlType) parser.getBus(busId);
+	    BusXmlType busRecXml = parser.getBus(busId);
 	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 	    
-	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRecXml);
+	    LoadflowGenXmlType contriGen;
+	    if (busRecXml instanceof ShortCircuitBusXmlType) {
+		    contriGen = AcscParserHelper.createAcscContributeGen((ShortCircuitBusXmlType)busRecXml);
+	    } 
+	    else {
+		    contriGen = AclfParserHelper.createContriGen((LoadflowBusXmlType)busRecXml);
+	    }
 	    
 	    String id = dataParser.getString("ID");
 	    contriGen.setId(id);

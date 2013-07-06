@@ -255,7 +255,7 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
       			
       		} while (lineStr != null);//END OF DO-LOOP
   		} catch (Exception e) {
-  			
+  			e.printStackTrace();
     		throw new ODMException("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
   		

@@ -47,7 +47,8 @@ public class PSSEMachinePosSeqZMapper <
 	    ShortCircuitBusXmlType acscBus=(ShortCircuitBusXmlType) parser.getBus(busId);
 	    ShortCircuitGenDataXmlType scGenData= AcscParserHelper.getAcscContritueGen(acscBus, machId);
         if(scGenData==null){
-        	scGenData=AcscParserHelper.createAcscContributeGen(acscBus, machId);
+        	scGenData=AcscParserHelper.createAcscContributeGen(acscBus);
+        	scGenData.setId(machId);
         }
 	    scGenData.setPotiveZ(BaseDataSetter.createZValue(ZRPOS,ZXPOS, ZUnitType.PU));
 	    

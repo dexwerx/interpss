@@ -79,7 +79,7 @@ public class AcscParserHelper extends AclfParserHelper {
 	 * create a Acsc Contributing Generator object
 	 * 
 	 */
-	public static ShortCircuitGenDataXmlType createAcscContributeGen(ShortCircuitBusXmlType busRec,String machId) {
+	public static ShortCircuitGenDataXmlType createAcscContributeGen(ShortCircuitBusXmlType busRec) {
 		BusGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
@@ -88,7 +88,6 @@ public class AcscParserHelper extends AclfParserHelper {
 		}
 		// some model does not need ContributeGenList
 		ShortCircuitGenDataXmlType contribGen = odmObjFactory.createShortCircuitGenDataXmlType();
-		contribGen.setId(machId);
 		genData.getContributeGen().add(odmObjFactory.createAcscGenData(contribGen));
 		return contribGen;
 	}
