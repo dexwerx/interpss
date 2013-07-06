@@ -38,7 +38,7 @@ import org.ieee.odm.schema.BranchBusSideEnumType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.junit.Test;
@@ -82,7 +82,7 @@ public class PSSEV30_ODMTest {
  */
 		LoadflowBusXmlType bus = parser.getBus("Bus1");
 		assertTrue(bus.getBaseVoltage().getValue() == 13.8);
-		LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
+		LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 		assertTrue(equivGen.getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(equivGen.getDesiredVoltage().getValue() == 1.0);
 		assertTrue(equivGen.getDesiredAngle().getValue() == 0.0);
