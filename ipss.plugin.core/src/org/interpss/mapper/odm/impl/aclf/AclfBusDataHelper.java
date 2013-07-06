@@ -40,8 +40,8 @@ import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
-import org.ieee.odm.schema.LoadflowLoadXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
@@ -131,7 +131,7 @@ public class AclfBusDataHelper {
 	}
 	
 	private void mapGenData(BusGenDataXmlType xmlGenData) throws InterpssException {
-		LoadflowGenXmlType xmlEquivGenData = xmlGenData.getEquivGen().getValue();
+		LoadflowGenDataXmlType xmlEquivGenData = xmlGenData.getEquivGen().getValue();
 		VoltageXmlType vXml = xmlEquivGenData.getDesiredVoltage();
 		if (xmlEquivGenData.getCode() == LFGenCodeEnumType.PQ) {
 			aclfBus.setGenCode(AclfGenCode.GEN_PQ);
@@ -226,7 +226,7 @@ public class AclfBusDataHelper {
 				AclfLoadCode.CONST_I : (xmlLoadData.getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 		AclfLoadBus loadBus = aclfBus.toLoadBus();
-		LoadflowLoadXmlType xmlEquivLoad = xmlLoadData.getEquivLoad().getValue();
+		LoadflowLoadDataXmlType xmlEquivLoad = xmlLoadData.getEquivLoad().getValue();
 		if (xmlEquivLoad != null) {
 			PowerXmlType p;
 			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)

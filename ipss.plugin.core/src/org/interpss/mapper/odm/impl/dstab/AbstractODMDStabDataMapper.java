@@ -34,8 +34,8 @@ import org.ieee.odm.schema.BaseBranchXmlType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.ExciterModelXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
@@ -43,6 +43,7 @@ import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -51,7 +52,6 @@ import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
-import org.ieee.odm.schema.XformerZTableXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -221,8 +221,9 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 	
 	private void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
-		if (dstabBusXml.getDynamicGen() != null)
-			for (DynamicGeneratorXmlType dyGen : dstabBusXml.getDynamicGen()) {
+		if (dstabBusXml.getGenData().getContributeGen() != null)
+			for (JAXBElement<? extends LoadflowGenDataXmlType> gen : dstabBusXml.getGenData().getContributeGen()) {
+				DStabGenDataXmlType dyGen = (DStabGenDataXmlType)gen.getValue();
 				// create the machine model and added to the parent bus object
 				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 				String machId = dstabBus.getId() + "-mach" + ++cnt;
