@@ -31,7 +31,8 @@ public class PSSEZeroSeqMulualZParser extends BasePSSEDataParser {
 	public void parseFields(final String lineStr) throws ODMException {
 		this.clearNVPairTableData();
 		StringTokenizer st = new StringTokenizer(lineStr,",");
-		for (int i = 0; i < st.countTokens(); i++)
+		int cnt =st.countTokens();
+		for (int i = 0; i <cnt ; i++)
 			setValue(i, st.nextToken().trim());
 	}
 

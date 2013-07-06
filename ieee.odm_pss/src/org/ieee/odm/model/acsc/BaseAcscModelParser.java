@@ -32,12 +32,17 @@ import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
+import org.ieee.odm.schema.Xfr3WBranchXmlType;
+import org.ieee.odm.schema.Xfr3WShortCircuitXmlType;
+import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
 
 /**
@@ -102,18 +107,45 @@ public class BaseAcscModelParser<
 	}	
 	
 	/**
-	 * create a new LineShortCircuitXmlType AcscLine. This function should be used when
-	 * no AclfBranch has been defined for the same id. If not, use the getAcscLine() instead!
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 * @throws ODMBranchDuplicationException
+	 * create acsc Line 
 	 */
-	public LineShortCircuitXmlType createAcscLine(String fromId, String toId, String cirId) throws ODMBranchDuplicationException{
-		LineShortCircuitXmlType acscLine= odmObjFactory.createLineShortCircuitXmlType();
-		addBranch2BaseCase(acscLine,fromId,toId,null,cirId);
-		return acscLine;
+	@SuppressWarnings("unchecked")
+	@Override public TLineXml createLineBranch() {
+		LineShortCircuitXmlType line = odmObjFactory.createLineShortCircuitXmlType();
+		return (TLineXml) line;
+		
+	}
+    
+	
+	/**
+	 * create aclf xfr branch
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public TXfrXml createXfrBranch() {
+		XfrShortCircuitXmlType  xfr  =  odmObjFactory.createXfrShortCircuitXmlType();
+		return (TXfrXml) xfr;
+	}
+    
+	/**
+	 * create aclf 3 winding xfr
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public TXfrXml createXfr3WBranch() {
+		Xfr3WShortCircuitXmlType w3xfr = odmObjFactory.createXfr3WShortCircuitXmlType();
+		return (TXfrXml) w3xfr;
+	}
+    
+	/**
+	 * create aclf Phase-shifting xfr
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public TPsXfrXml createPSXfrBranch() {
+		PSXfrShortCircuitXmlType psXfr = odmObjFactory.createPSXfrShortCircuitXmlType();
+		
+		return (TPsXfrXml) psXfr;
 	}
 	
 	/**
@@ -130,20 +162,6 @@ public class BaseAcscModelParser<
 		return (LineShortCircuitXmlType)this.getBranch(fromId, toId, cirId);
     }
     
-	/**
-	 * create a new XfrShortCircuitXmlType AcscXfr. This function is used only when
-	 * no AclfXfr or DstabXfr has been defined for the same id. If not, use the getAcscXfr() instead!
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-    public XfrShortCircuitXmlType createAcscXfr(String fromId, String toId, String cirId){
-    	XfrShortCircuitXmlType branch = odmObjFactory.createXfrShortCircuitXmlType();
-		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
-		intiBranchData(branch);
-		return branch;
-    }
   
 	 /**
 	  * get the Acsc Xfr object using the id. If the branch object is of type aclfXfr or DstabXfr,
@@ -170,6 +188,7 @@ public class BaseAcscModelParser<
    public PSXfrShortCircuitXmlType getAcscPsXfr(String fromId, String toId, String cirId) throws ODMException{
 		return (PSXfrShortCircuitXmlType)this.getBranch(fromId, toId, cirId);
   	}
+   
    
 
 }

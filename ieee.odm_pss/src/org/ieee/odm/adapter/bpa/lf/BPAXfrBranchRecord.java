@@ -91,8 +91,8 @@ public class BPAXfrBranchRecord<
 			
 		XfrBranchXmlType branchRec = null;
 		try {
-			branchRec = dataType == transformer ?
-								parser.createXfrBranch(fid, tid, cirId) : parser.createPSXfrBranch(fid, tid, cirId);
+			branchRec = (XfrBranchXmlType) (dataType == transformer ?
+								parser.createXfrBranch(fid, tid, cirId) : parser.createPSXfrBranch(fid, tid, cirId));
 		} catch (ODMBranchDuplicationException e) {
 			ODMLogger.getLogger().severe("branch data error, " + e.toString()+ 
 					"  " + fname + "->" + tname + "_" + cirId);

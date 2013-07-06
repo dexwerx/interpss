@@ -45,6 +45,7 @@ import javax.xml.bind.Unmarshaller;
 import org.ieee.odm.common.ODMBranchDuplicationException;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
@@ -71,7 +72,7 @@ public abstract class AbstractModelParser<
 				TBusXml extends BusXmlType,
 				TLineXml extends BaseBranchXmlType,
 				TXfrXml extends BaseBranchXmlType,
-				TPsXfrineXml extends BaseBranchXmlType
+				TPsXfrXml extends BaseBranchXmlType
 			> implements IODMModelParser {
 	/**
 	 * Bus pre-fix, default value "Bus", pre-fix added to the bus number to create Bus Id
@@ -469,6 +470,8 @@ public abstract class AbstractModelParser<
 		return busRec;
 	}		
 	
+	
+	
 	/**
 	 * add a new bus record to the base case and to the cache table
 	 * 
@@ -485,6 +488,48 @@ public abstract class AbstractModelParser<
 	 *    Branch functions
 	 *    ================
 	 */
+	public abstract TLineXml createLineBranch();
+	
+	public abstract TXfrXml  createXfrBranch();
+	
+	public abstract TXfrXml  createXfr3WBranch();
+	
+	public abstract TPsXfrXml  createPSXfrBranch();
+	
+	public TLineXml createLineBranch(String fBusId,String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
+		TLineXml branch = createLineBranch();
+		intiBranchData(branch);
+		addBranch2BaseCase(branch, fBusId, toBusId, null, cirId);
+		return branch;
+	
+	}
+	
+	public TXfrXml createXfrBranch(String fBusId,String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
+		TXfrXml branch = createXfrBranch();
+		intiBranchData(branch);
+		addBranch2BaseCase(branch, fBusId, toBusId, null, cirId);
+		return branch;
+	
+	}
+	
+	public TXfrXml createXfr3WBranch(String fBusId,String toBusId, String terBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
+		TXfrXml branch = createXfr3WBranch();
+		intiBranchData(branch);
+		addBranch2BaseCase(branch, fBusId, toBusId, terBusId, cirId);
+		return branch;
+	
+	}
+	
+	public TPsXfrXml createPSXfrBranch(String fBusId,String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
+		TPsXfrXml branch = createPSXfrBranch();
+		intiBranchData(branch);
+		addBranch2BaseCase(branch, fBusId, toBusId, null, cirId);
+		return branch;
+	
+	}
+	
+	
+	
 	
 	/**
 	 * Get the cashed branch object by id

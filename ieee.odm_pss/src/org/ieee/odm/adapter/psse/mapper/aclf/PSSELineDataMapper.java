@@ -81,7 +81,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 
 		LineBranchXmlType braRecXml;
 		try {
-			braRecXml = parser.createLineBranch(fid, tid, dataParser.getString("CKT"));
+			braRecXml = (LineBranchXmlType) parser.createLineBranch(fid, tid, dataParser.getString("CKT"));
 		} catch (ODMBranchDuplicationException e) {
 			ODMLogger.getLogger().severe(e.toString());
 			return;

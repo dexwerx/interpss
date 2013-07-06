@@ -78,7 +78,10 @@ public class PSSEBranchZeroSeqMapper<
         double GJ   =dataParser.getDouble("GJ");
         double BJ   =dataParser.getDouble("BJ");
         
-        LineShortCircuitXmlType scLine = (LineShortCircuitXmlType) parser.getBranch(fbusId, tbusId, cirId);
+        LineShortCircuitXmlType scLine = (LineShortCircuitXmlType) parser.getAcscLine(fbusId, tbusId, cirId);
+        if(scLine ==null){
+        	throw new ODMException("the branch not found !# From busNum_to BusNum_cirdId : "+i+"_"+j+"_"+cirId);
+        }
         scLine.setZ0(BaseDataSetter.createZValue(r0, x0, ZUnitType.PU));
         scLine.setY0Shunt(BaseDataSetter.createYValue(0, BCHZ, YUnitType.PU));
         

@@ -73,7 +73,7 @@ public class BPALineBranchRecord<
 			}
 			LineBranchXmlType branchRec = null;
 			try {
-				branchRec = parser.createLineBranch(fid, tid, cirId);
+				branchRec = (LineBranchXmlType) parser.createLineBranch(fid, tid, cirId);
 			} catch (Exception e) {
 				ODMLogger.getLogger().severe("branch data error, " + e.toString() + 
 						"  " + fname + "->" + tname + "_" + cirId);

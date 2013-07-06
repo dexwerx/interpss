@@ -133,8 +133,9 @@ public class BaseAclfModelParser<
 	 * @param cirId
 	 * @return
 	 */
-	public LineBranchXmlType getLineBranch(String fromId, String toId, String cirId) {
-		return (LineBranchXmlType)getBranch(fromId, toId, cirId);
+	@SuppressWarnings("unchecked")
+	public TLineXml getLineBranch(String fromId, String toId, String cirId) {
+		return (TLineXml)getBranch(fromId, toId, cirId);
 	}
 	
 	/**
@@ -145,8 +146,9 @@ public class BaseAclfModelParser<
 	 * @param cirId
 	 * @return
 	 */
-	public XfrBranchXmlType getXfrBranch(String fromId, String toId, String cirId) {
-		return (XfrBranchXmlType)getBranch(fromId, toId, cirId);
+	@SuppressWarnings("unchecked")
+	public TXfrXml getXfrBranch(String fromId, String toId, String cirId) {
+		return (TXfrXml)getBranch(fromId, toId, cirId);
 	}
 	
 	/**
@@ -157,8 +159,9 @@ public class BaseAclfModelParser<
 	 * @param cirId
 	 * @return
 	 */
-	public Xfr3WBranchXmlType getXfr3WBranch(String fromId, String toId, String tertId, String cirId) {
-		return (Xfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
+	@SuppressWarnings("unchecked")
+	public TXfrXml getXfr3WBranch(String fromId, String toId, String tertId, String cirId) {
+		return (TXfrXml)getBranch(fromId, toId, tertId, cirId);
 	}
 
 	/**
@@ -185,120 +188,21 @@ public class BaseAclfModelParser<
 		return (PSXfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
 	}
 
-	/**
-	 * create a LineBranchXmlType object
-	 * 
-	 * @return
-	 */
-	public LineBranchXmlType createLineBranch() {
-		LineBranchXmlType branch = odmObjFactory.createLineBranchXmlType();
-		branch.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
-		branch.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
-		intiBranchData(branch);
-		return branch;
-	}
 	
-	/**
-	 * create a XfrBranchXmlType object
-	 * 
-	 * @return
-	 */
-	public XfrBranchXmlType createXfrBranch() {
-		XfrBranchXmlType branch = odmObjFactory.createXfrBranchXmlType();
-		branch.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
-		intiBranchData(branch);
-		return branch;
-	}
-
-	/**
-	 * create a Xfr3WBranchXmlType object
-	 * 
-	 * @return
-	 */
-	public Xfr3WBranchXmlType createXfr3WBranch() {
-		Xfr3WBranchXmlType branch = odmObjFactory.createXfr3WBranchXmlType();
-		intiBranchData(branch);
-		return branch;
-	}
-
-	/**
-	 * create a PSXfrBranchXmlType object
-	 * 
-	 * @return
-	 */
-	public PSXfrBranchXmlType createPSXfrBranch() {
-		PSXfrBranchXmlType branch = odmObjFactory.createPSXfrBranchXmlType();
-		intiBranchData(branch);
-		return branch;
-	}
 
 	/**
 	 * create a PSXfr3WBranchXmlType object
 	 * 
 	 * @return
 	 */
-	public PSXfr3WBranchXmlType createPSXfr3WBranch() {
+	@SuppressWarnings("unchecked")
+	public TPsXfrXml createPSXfr3WBranch() {
 		PSXfr3WBranchXmlType branch = odmObjFactory.createPSXfr3WBranchXmlType();
 		intiBranchData(branch);
-		return branch;
+		return (TPsXfrXml)branch;
 	}
 	
-	/**
-	 * add a new Line branch record to the base case and to the cache table
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-	public LineBranchXmlType createLineBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
-		LineBranchXmlType branch = createLineBranch();
-		addBranch2BaseCase(branch, fromId, toId, null, cirId);
-		return branch;
-	}
-
-	/**
-	 * add a new Xfr branch record to the base case and to the cache table
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-	public XfrBranchXmlType createXfrBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
-		XfrBranchXmlType branch = createXfrBranch();
-		addBranch2BaseCase(branch, fromId, toId, null, cirId);
-		return branch;
-	}
-
-	/**
-	 * add a new Xfr branch record to the base case and to the cache table
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param tertId
-	 * @param cirId
-	 * @return
-	 */
-	public Xfr3WBranchXmlType createXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMBranchDuplicationException {
-		Xfr3WBranchXmlType branch = createXfr3WBranch();
-		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
-		return branch;
-	}
-
-	/**
-	 * add a new PS Xfr branch record to the base case and to the cache table
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-	public PSXfrBranchXmlType createPSXfrBranch(String fromId, String toId, String cirId) throws ODMBranchDuplicationException {
-		PSXfrBranchXmlType branch = createPSXfrBranch();
-		addBranch2BaseCase(branch, fromId, toId, null, cirId);
-		return branch;
-	}
+	
 
 	/**
 	 * add a new 3W PS Xfr branch record to the base case and to the cache table
@@ -309,7 +213,7 @@ public class BaseAclfModelParser<
 	 * @return
 	 */
 	public PSXfr3WBranchXmlType createPSXfr3WBranch(String fromId, String toId, String tertId, String cirId) throws ODMBranchDuplicationException {
-		PSXfr3WBranchXmlType branch = createPSXfr3WBranch();
+		PSXfr3WBranchXmlType branch = (PSXfr3WBranchXmlType) createPSXfr3WBranch();
 		addBranch2BaseCase(branch, fromId, toId, tertId, cirId);
 		return branch;
 	}
@@ -429,5 +333,47 @@ public class BaseAclfModelParser<
 			}
 		}
 		return this.interfaceLookupTable.get(id);
+	}
+	
+	/**
+	 * create aclf Line 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override public TLineXml createLineBranch() {
+		LineBranchXmlType line = odmObjFactory.createLineBranchXmlType();
+		return (TLineXml) line;
+		
+	}
+    
+	
+	/**
+	 * create aclf xfr branch
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public TXfrXml createXfrBranch() {
+		XfrBranchXmlType  xfr  =  odmObjFactory.createXfrBranchXmlType();
+		return (TXfrXml) xfr;
+	}
+    
+	/**
+	 * create aclf 3 winding xfr
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public TXfrXml createXfr3WBranch() {
+		Xfr3WBranchXmlType w3xfr = odmObjFactory.createXfr3WBranchXmlType();
+		return (TXfrXml) w3xfr;
+	}
+    
+	/**
+	 * create aclf Phase-shifting xfr
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public TPsXfrXml createPSXfrBranch() {
+		PSXfrBranchXmlType psXfr = odmObjFactory.createPSXfrBranchXmlType();
+		
+		return (TPsXfrXml) psXfr;
 	}	
 }

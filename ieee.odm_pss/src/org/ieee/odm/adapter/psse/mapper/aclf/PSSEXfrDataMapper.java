@@ -113,17 +113,17 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 			else if (is3W) {
-				branRecXml = parser.createXfr3WBranch(fid, tid, tertId, ckt);
+				branRecXml = (XfrBranchXmlType) parser.createXfr3WBranch(fid, tid, tertId, ckt);
 		       	xfrInfoXml = odmObjFactory.createTransformer3WInfoXmlType(); 
 		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 			else if (isPsXfr) {
-				branRecXml = parser.createPSXfrBranch(fid, tid, ckt);
+				branRecXml = (XfrBranchXmlType) parser.createPSXfrBranch(fid, tid, ckt);
 		       	xfrInfoXml = odmObjFactory.createTransformerInfoXmlType(); 
 		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}
 			else {
-				branRecXml = parser.createXfrBranch(fid, tid, ckt);
+				branRecXml = (XfrBranchXmlType) parser.createXfrBranch(fid, tid, ckt);
 		       	xfrInfoXml = odmObjFactory.createTransformerInfoXmlType(); 
 		       	branRecXml.setXfrInfo(xfrInfoXml);
 			}

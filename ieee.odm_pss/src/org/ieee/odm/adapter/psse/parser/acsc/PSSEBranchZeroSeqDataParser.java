@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.base.ModelStringUtil;
 
 public class PSSEBranchZeroSeqDataParser extends BasePSSEDataParser {
 	public PSSEBranchZeroSeqDataParser(PsseVersion ver) {
@@ -21,7 +22,7 @@ public class PSSEBranchZeroSeqDataParser extends BasePSSEDataParser {
 		
 		return new String[] {
 				 //  0----------1----------2----------3----------4
-				   "I",        "J",     "ICKT",    "RLINZ",   "XLINZ", 
+				   "I",        "J",     "ICKT",    "RLINZ",   "XLINZ",
 				   
 				 //  5          6          7          8           9  
 				   "BCHZ",     "GI",      "BI",      "GJ",       "BJ"
@@ -32,8 +33,13 @@ public class PSSEBranchZeroSeqDataParser extends BasePSSEDataParser {
 	public void parseFields(final String lineStr) throws ODMException {
 		this.clearNVPairTableData();
 		StringTokenizer st = new StringTokenizer(lineStr,",");
-		for (int i = 0; i < st.countTokens(); i++)
-			setValue(i, st.nextToken().trim());
+		int cnt =st.countTokens();
+		for (int i = 0; i <cnt ; i++){
+			if(i==2){//cirId, need to trim the quote
+				setValue(i,ModelStringUtil.trimQuote(st.nextToken()).trim());
+			}
+			else setValue(i, st.nextToken().trim());
+		}
 		
 	}
 }
