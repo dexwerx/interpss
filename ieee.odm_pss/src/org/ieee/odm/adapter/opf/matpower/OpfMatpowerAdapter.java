@@ -26,7 +26,7 @@ import org.ieee.odm.schema.IncCostXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.ObjectFactory;
 import org.ieee.odm.schema.OpfBranchXmlType;
@@ -253,7 +253,7 @@ public class OpfMatpowerAdapter extends AbstractODMAdapter {
 		double pg = str2d(s[1]);
 		double qg = str2d(s[2]);
 
-		LoadflowGenXmlType gen = bus.getGenData().getEquivGen().getValue();
+		LoadflowGenDataXmlType gen = bus.getGenData().getEquivGen().getValue();
 		gen.setPower(BaseDataSetter.createPowerValue(pg, qg,
 				ApparentPowerUnitType.MVA));
 

@@ -36,7 +36,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
@@ -137,7 +137,7 @@ public class IeeeCDFBusDataMapper extends BaseIeeeCDFDataMapper {
 		final String reBusId = dataParser.getString("RemoteBusNumber");
 
 		if (max != 0.0 || min != 0.0) {
-			LoadflowGenXmlType equivGen = aclfBus.getGenData().getEquivGen().getValue();
+			LoadflowGenDataXmlType equivGen = aclfBus.getGenData().getEquivGen().getValue();
 			if (type == 1) {
 				equivGen.setVoltageLimit(BaseDataSetter.createVoltageLimit(max, min, VoltageUnitType.PU));
 			} else if (type == 2) {

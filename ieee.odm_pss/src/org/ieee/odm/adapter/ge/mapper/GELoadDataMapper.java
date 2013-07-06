@@ -33,7 +33,7 @@ import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowLoadXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 
 public class GELoadDataMapper extends BaseGEDataMapper {
 	public GELoadDataMapper(GePslfAdapter.Version ver)  {
@@ -52,7 +52,7 @@ public class GELoadDataMapper extends BaseGEDataMapper {
 			
 		// ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-		LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRec);
+		LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRec);
 			
 		contribLoad.setId(dataParser.getString("id"));
 		String longId = dataParser.getString("long_id");

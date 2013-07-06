@@ -38,7 +38,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
@@ -104,7 +104,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	     * At this point, we need to check the type of the bus object to add appropriate contribute gen
 	     * data type
 	     */
-	    LoadflowGenXmlType contriGen;
+	    LoadflowGenDataXmlType contriGen;
 	    if (busRecXml instanceof ShortCircuitBusXmlType) {
 		    contriGen = AcscParserHelper.createAcscContributeGen((ShortCircuitBusXmlType)busRecXml);
 	    } 

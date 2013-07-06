@@ -34,7 +34,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ZUnitType;
 
@@ -55,7 +55,7 @@ public class GEGenDataMapper extends BaseGEDataMapper {
 		
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
-	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 		
 	    contriGen.setId(dataParser.getString("id"));
 	    String longId = dataParser.getString("long_id");

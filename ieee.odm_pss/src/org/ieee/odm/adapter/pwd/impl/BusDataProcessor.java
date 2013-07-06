@@ -15,7 +15,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorModeEnumType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
@@ -333,7 +333,7 @@ public class BusDataProcessor extends InputLineStringParser {
 						AclfDataSetter.setGenData(bus, LFGenCodeEnumType.PV, genVoltSet, VoltageUnitType.PU, 0, AngleUnitType.DEG,
 								genMW, genMVR, ApparentPowerUnitType.MVA);
 
-						LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
+						LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 						
 						equivGen.setId(genId);
 						equivGen.setOffLine(!genOnLine);
@@ -362,7 +362,7 @@ public class BusDataProcessor extends InputLineStringParser {
 								angle.getUnit(), genMW, genMVR,
 								ApparentPowerUnitType.MVA);
 
-						LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
+						LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 						equivGen.setId(genId);
 						equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
 						equivGen.setOffLine(!genOnLine);
@@ -399,7 +399,7 @@ public class BusDataProcessor extends InputLineStringParser {
 							VoltageUnitType.PU, 0, AngleUnitType.DEG, genMW,
 							genMVR, ApparentPowerUnitType.MVA);
 
-					LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
+					LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 							
 					equivGen.setId(genId);
 					equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
@@ -422,7 +422,7 @@ public class BusDataProcessor extends InputLineStringParser {
 				}
 
 				// process generator participation factor
-				LoadflowGenXmlType equivGen = bus.getGenData().getEquivGen().getValue();
+				LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 				if (genAGCAble)
 					equivGen.setMwControlParticipateFactor(partFactor);
 			}

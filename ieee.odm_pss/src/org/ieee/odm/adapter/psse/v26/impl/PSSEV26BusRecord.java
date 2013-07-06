@@ -43,8 +43,8 @@ import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
-import org.ieee.odm.schema.LoadflowLoadXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.YUnitType;
@@ -114,7 +114,7 @@ public class PSSEV26BusRecord {
 		final int IDE = busDataParser.getInt("IDE", 1);
 		if (IDE ==3){//Swing bus
 			busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
-			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType(); 
+			LoadflowGenDataXmlType equivGen = odmObjFactory.createLoadflowGenDataXmlType(); 
 			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(equivGen));
 			equivGen.setCode(LFGenCodeEnumType.SWING);
 			equivGen.setDesiredVoltage(BaseDataSetter.createVoltageValue(vpu, VoltageUnitType.PU));
@@ -123,7 +123,7 @@ public class PSSEV26BusRecord {
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
 			busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
-			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(odmObjFactory.createLoadflowGenXmlType()));
+			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(odmObjFactory.createLoadflowGenDataXmlType()));
 			busRec.getGenData().getEquivGen().getValue().setCode(LFGenCodeEnumType.PV);
 		} else if (IDE==4){// Isolated bus
 			// should be no gen and load defined
@@ -131,7 +131,7 @@ public class PSSEV26BusRecord {
 		}
 		else { //Non-Gen Load Bus
 			busRec.setLoadData(odmObjFactory.createBusLoadDataXmlType());
-			busRec.getLoadData().setEquivLoad(odmObjFactory.createEquivLoad(odmObjFactory.createLoadflowLoadXmlType()));
+			busRec.getLoadData().setEquivLoad(odmObjFactory.createEquivLoad(odmObjFactory.createLoadflowLoadDataXmlType()));
 		}
 		
 		//GL BL in Mva
@@ -167,9 +167,9 @@ public class PSSEV26BusRecord {
 		if (loadData == null) { 
 			loadData = odmObjFactory.createBusLoadDataXmlType(); 
 			busRec.setLoadData(loadData);
-			loadData.setEquivLoad(odmObjFactory.createEquivLoad(odmObjFactory.createLoadflowLoadXmlType()));
+			loadData.setEquivLoad(odmObjFactory.createEquivLoad(odmObjFactory.createLoadflowLoadDataXmlType()));
 		}
-	    LoadflowLoadXmlType contribLoad = odmObjFactory.createLoadflowLoadXmlType(); 
+	    LoadflowLoadDataXmlType contribLoad = odmObjFactory.createLoadflowLoadDataXmlType(); 
 	    loadData.getContributeLoad().add(odmObjFactory.createContributeLoad(contribLoad)); 
 		
 	    // processing contributing load data
@@ -213,9 +213,9 @@ public class PSSEV26BusRecord {
 	    
 	    // processing equiv load data
 	    loadData.getEquivLoad().getValue().setCode(LFLoadCodeEnumType.CONST_P);
-	    LoadflowLoadXmlType load = loadData.getEquivLoad().getValue();
+	    LoadflowLoadDataXmlType load = loadData.getEquivLoad().getValue();
 	    if (load == null) {
-	    	load = odmObjFactory.createLoadflowLoadXmlType();
+	    	load = odmObjFactory.createLoadflowLoadDataXmlType();
 	    	load.setConstPLoad(odmObjFactory.createPowerXmlType());
 	    }
 	    if(load.getConstPLoad() == null)
@@ -250,10 +250,10 @@ public class PSSEV26BusRecord {
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
-			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(odmObjFactory.createLoadflowGenXmlType()));
+			busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(odmObjFactory.createLoadflowGenDataXmlType()));
 		}
-		LoadflowGenXmlType equivGen = genData.getEquivGen().getValue();
-	    LoadflowGenXmlType contriGen = AclfParserHelper.createContriGen(busRec);
+		LoadflowGenDataXmlType equivGen = genData.getEquivGen().getValue();
+	    LoadflowGenDataXmlType contriGen = AclfParserHelper.createContriGen(busRec);
 		
 	    // processing contributing gen data
 	    

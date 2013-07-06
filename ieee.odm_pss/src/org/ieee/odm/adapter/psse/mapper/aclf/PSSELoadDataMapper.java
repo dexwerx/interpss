@@ -37,7 +37,7 @@ import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowLoadXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 
 public class PSSELoadDataMapper <
@@ -68,7 +68,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	    	return;
 	    }
 		
-	    LoadflowLoadXmlType contribLoad = AclfParserHelper.createContriLoad(busRecXml); 
+	    LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRecXml); 
 
 	    String id = dataParser.getString("ID");
 	    contribLoad.setId(id);
