@@ -100,6 +100,10 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	    	return;
 	    }
 	    
+	    /*
+	     * At this point, we need to check the type of the bus object to add appropriate contribute gen
+	     * data type
+	     */
 	    LoadflowGenXmlType contriGen;
 	    if (busRecXml instanceof ShortCircuitBusXmlType) {
 		    contriGen = AcscParserHelper.createAcscContributeGen((ShortCircuitBusXmlType)busRecXml);
