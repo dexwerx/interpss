@@ -45,7 +45,7 @@ public class PSSEMachineZeroSeqZMapper <
 		
 		double ZRZERO = dataParser.getDouble("ZRZERO");
 		
-		double ZXZERO = dataParser.getDouble("ZRZERO");
+		double ZXZERO = dataParser.getDouble("ZXZERO");
 		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;

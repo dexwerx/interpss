@@ -4,6 +4,7 @@ import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.aclf.BasePSSEDataMapper;
 import org.ieee.odm.adapter.psse.parser.acsc.PSSEXfrZeroSeqDataParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.acsc.BaseAcscModelParser;
@@ -87,7 +88,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	    final String terbusId = AbstractModelParser.BusIdPreFix+k;
 
                 
-        boolean is3W = k != 0; 
+        boolean is3W = (k != 0); 
         
         String cirId = dataParser.getString("ICKT");
         
@@ -99,11 +100,20 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         double r1 = dataParser.getDouble("R1");
         double x1 = dataParser.getDouble("X1");
         
-        double r2 = dataParser.getDouble("R2");
-        double x2 = dataParser.getDouble("X2");
+        double r2 = dataParser.getDouble("R2",0);
+        double x2 = dataParser.getDouble("X2",0);
         
         if(!is3W){
-        	XfrShortCircuitXmlType scXfr = (XfrShortCircuitXmlType) parser.getBranch(fbusId, tbusId, cirId);
+        	XfrShortCircuitXmlType scXfr = (XfrShortCircuitXmlType) parser.getXfrBranch(fbusId, tbusId, cirId);
+        	if(scXfr == null){ 
+        		ODMLogger.getLogger().severe("One sc xfr is NULL or cannot be found, fBusId,tBusId,cirId  #"+fbusId+"_"+tbusId+"_"+cirId);
+        		//As there may be some inconsistency between load flow data and sequence data, we can check the inverse direction.
+        		scXfr = (XfrShortCircuitXmlType) parser.getXfrBranch(tbusId, fbusId, cirId);
+        		if(scXfr == null){
+        			throw new ODMException("The xfr branch cannot be found in both direction, f->t or t->f . " +
+        					"fBusId,tBusId,cirId  # "+fbusId+"_"+tbusId+"_"+cirId);
+        		}
+        	}
         	scXfr.setZ0(BaseDataSetter.createZValue(r1, x1, ZUnitType.PU));
         	
         	switch(cc){
@@ -115,6 +125,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		XformerConnectionXmlType xfrConnect2 = AcscParserHelper.createDirectedGroundingConnection();
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
         		scXfr.setToSideConnection(xfrConnect2);
+        		break;
         		
         	case 2: //grounded wye-delta ( ground path on winding one side)
         		xfrConnect1 = (rg!=0||xg!=0)?AcscParserHelper.createZGroundingConnection(rg,xg):
@@ -125,6 +136,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		xfrConnect2 = AcscParserHelper.createUnGroundingConnection();
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.DELTA);
         		scXfr.setToSideConnection(xfrConnect2);
+        		break;
         		
         	case 3: //delta-grounded wye ( ground path on winding two side)
         		xfrConnect1 = AcscParserHelper.createUnGroundingConnection();
@@ -136,7 +148,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         			AcscParserHelper.createDirectedGroundingConnection();
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
         		scXfr.setToSideConnection(xfrConnect2);
-        	
+        		break;
         	case 4:
         		xfrConnect1 = AcscParserHelper.createUnGroundingConnection();
         		xfrConnect1.setXfrConnection(XformrtConnectionEnumType.DELTA);
@@ -145,10 +157,11 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		xfrConnect2 = AcscParserHelper.createUnGroundingConnection();
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.DELTA);
         		scXfr.setToSideConnection(xfrConnect2);
-            
+        		break;
+        		
         	case 5: //series path, ground path on winding two side (normally only used as part of 
-        		    //a three-winding transformer) 
-        		throw new UnsupportedOperationException("Zero sequence for two winding transformer of cc = 5 is not supported yet!");
+    		    //a three-winding transformer) 
+    		  throw new UnsupportedOperationException("Zero sequence for two winding transformer of cc = 5 is not supported yet!");
         		
         	case 6://grounded wye-delta with an earthing transformer
         		xfrConnect1 = AcscParserHelper.createDirectedGroundingConnection();
@@ -160,7 +173,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         			AcscParserHelper.createDirectedGroundingConnection();
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.DELTA);
         		scXfr.setToSideConnection(xfrConnect2);
-            
+        		break;
         	case 7://delta with an earthing transformer-grounded wye
         		
         		/*no series path, earthing transformer on winding one side, ground path on 
@@ -174,7 +187,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		xfrConnect2 = AcscParserHelper.createDirectedGroundingConnection();
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
         		scXfr.setToSideConnection(xfrConnect2);
-        		
+        		break;
         	case 8 :
         		//ZG2 (i.e., RG2 + jXG2) is applied if the connection code CC is 8
         		 xfrConnect1 = AcscParserHelper.createZGroundingConnection(rg,xg);
@@ -184,7 +197,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
         		xfrConnect2 = AcscParserHelper.createZGroundingConnection(r2,x2);
         		xfrConnect2.setXfrConnection(XformrtConnectionEnumType.WYE);
         		scXfr.setToSideConnection(xfrConnect2);
-        		
+        		break;
         		
         	default:
         		

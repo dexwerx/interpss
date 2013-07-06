@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.base.ModelStringUtil;
 
 public class PSSEZeroSeqMulualZParser extends BasePSSEDataParser {
 	public PSSEZeroSeqMulualZParser(PsseVersion ver) {
@@ -32,11 +33,14 @@ public class PSSEZeroSeqMulualZParser extends BasePSSEDataParser {
 		this.clearNVPairTableData();
 		StringTokenizer st = new StringTokenizer(lineStr,",");
 		int cnt =st.countTokens();
-		for (int i = 0; i <cnt ; i++)
-			setValue(i, st.nextToken().trim());
+		for (int i = 0; i <cnt ; i++){
+				if(i==2 || i== 5){
+					setValue(i,ModelStringUtil.trimQuote(st.nextToken()).trim());
+				}
+				else setValue(i, st.nextToken().trim());
+			
+		}
 	}
 
 	
-	
-
 }
