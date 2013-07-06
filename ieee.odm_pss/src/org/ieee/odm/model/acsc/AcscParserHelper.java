@@ -76,10 +76,10 @@ public class AcscParserHelper extends AclfParserHelper {
 	}
 	
 	/**
-	 * create a Acsc Contribution Generator object
+	 * create a Acsc Contributing Generator object
 	 * 
 	 */
-	public static ShortCircuitGenDataXmlType createAcscGen(ShortCircuitBusXmlType busRec,String machId) {
+	public static ShortCircuitGenDataXmlType createAcscContributeGen(ShortCircuitBusXmlType busRec,String machId) {
 		BusGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
@@ -92,6 +92,7 @@ public class AcscParserHelper extends AclfParserHelper {
 		genData.getContributeGen().add(odmObjFactory.createAcscGenData(contribGen));
 		return contribGen;
 	}
+	
 	/**
 	 * create directed or solid grounding xfr connection xml Type
 	 * @return
