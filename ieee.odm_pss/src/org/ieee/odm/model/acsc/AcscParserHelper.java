@@ -66,7 +66,7 @@ public class AcscParserHelper extends AclfParserHelper {
 	 * @param genId
 	 * @return null if acscGenData not found
 	 */
-	public static ShortCircuitGenDataXmlType getScGenData(ShortCircuitBusXmlType acscBus, String genId) throws ODMException {
+	public static ShortCircuitGenDataXmlType getAcscContritueGen(ShortCircuitBusXmlType acscBus, String genId) throws ODMException {
 		for (JAXBElement<? extends LoadflowGenXmlType> elem : acscBus.getGenData().getContributeGen()) {
 			ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)elem.getValue();
 			if (scGenData.getId().equals(genId))

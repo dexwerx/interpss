@@ -51,7 +51,7 @@ public class PSSEMachineZeroSeqZMapper <
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 	    
 	    ShortCircuitBusXmlType acscBus=(ShortCircuitBusXmlType) parser.getBus(busId);
-	    ShortCircuitGenDataXmlType scGenData= AcscParserHelper.getScGenData(acscBus, machId);
+	    ShortCircuitGenDataXmlType scGenData= AcscParserHelper.getAcscContritueGen(acscBus, machId);
 
 	    scGenData.setZeroZ(BaseDataSetter.createZValue(ZRZERO,ZXZERO, ZUnitType.PU));
 	    
