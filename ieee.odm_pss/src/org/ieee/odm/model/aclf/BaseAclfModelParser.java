@@ -341,8 +341,9 @@ public class BaseAclfModelParser<
 	@SuppressWarnings("unchecked")
 	@Override public TLineXml createLineBranch() {
 		LineBranchXmlType line = odmObjFactory.createLineBranchXmlType();
+		line.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		line.setLineInfo(odmObjFactory.createLineBranchInfoXmlType());
 		return (TLineXml) line;
-		
 	}
     
 	
@@ -353,6 +354,8 @@ public class BaseAclfModelParser<
 	@Override
 	public TXfrXml createXfrBranch() {
 		XfrBranchXmlType  xfr  =  odmObjFactory.createXfrBranchXmlType();
+		xfr.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		xfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		return (TXfrXml) xfr;
 	}
     
@@ -373,7 +376,8 @@ public class BaseAclfModelParser<
 	@Override
 	public TPsXfrXml createPSXfrBranch() {
 		PSXfrBranchXmlType psXfr = odmObjFactory.createPSXfrBranchXmlType();
-		
+		psXfr.setRatingLimit(odmObjFactory.createBranchRatingLimitXmlType());
+		psXfr.setXfrInfo(odmObjFactory.createTransformerInfoXmlType());
 		return (TPsXfrXml) psXfr;
 	}	
 }

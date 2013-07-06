@@ -42,8 +42,8 @@ import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
-import org.ieee.odm.schema.LoadflowLoadXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
+import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
@@ -64,15 +64,15 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * create a Contribution Load object
 	 * 
 	 */
-	public static LoadflowLoadXmlType createContriLoad(LoadflowBusXmlType busRec) {
+	public static LoadflowLoadDataXmlType createContriLoad(LoadflowBusXmlType busRec) {
 		BusLoadDataXmlType loadData = busRec.getLoadData();
 		if (loadData == null) { 
 			loadData = odmObjFactory.createBusLoadDataXmlType();
 			busRec.setLoadData(loadData);
-			LoadflowLoadXmlType equivLoad = odmObjFactory.createLoadflowLoadXmlType();
+			LoadflowLoadDataXmlType equivLoad = odmObjFactory.createLoadflowLoadDataXmlType();
 			loadData.setEquivLoad(odmObjFactory.createEquivLoad(equivLoad));
 		}
-		LoadflowLoadXmlType contribLoad = odmObjFactory.createLoadflowLoadXmlType();
+		LoadflowLoadDataXmlType contribLoad = odmObjFactory.createLoadflowLoadDataXmlType();
 	    loadData.getContributeLoad().add(odmObjFactory.createEquivLoad(contribLoad)); 
 	    return contribLoad;
 	}
@@ -81,16 +81,16 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * create a Contribution Generator object
 	 * 
 	 */
-	public static LoadflowGenXmlType createContriGen(LoadflowBusXmlType busRec) {
+	public static LoadflowGenDataXmlType createContriGen(LoadflowBusXmlType busRec) {
 		BusGenDataXmlType genData = busRec.getGenData();
 		if (genData == null) {
 			genData = odmObjFactory.createBusGenDataXmlType();
 			busRec.setGenData(genData);
-			LoadflowGenXmlType equivGen = odmObjFactory.createLoadflowGenXmlType();
+			LoadflowGenDataXmlType equivGen = odmObjFactory.createLoadflowGenDataXmlType();
 			genData.setEquivGen(odmObjFactory.createEquivGen(equivGen));
 		}
 		// some model does not need ContributeGenList
-		LoadflowGenXmlType contribGen = odmObjFactory.createLoadflowGenXmlType();
+		LoadflowGenDataXmlType contribGen = odmObjFactory.createLoadflowGenDataXmlType();
 		genData.getContributeGen().add(odmObjFactory.createContributeGen(contribGen));
 		return contribGen;
 	}
@@ -106,13 +106,13 @@ public class AclfParserHelper extends BaseJaxbHelper {
 			BusGenDataXmlType genData = busRec.getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGen().size() > 0) {
-					LoadflowGenXmlType equivGen = genData.getEquivGen().getValue();
+					LoadflowGenDataXmlType equivGen = genData.getEquivGen().getValue();
 					double pgen = 0.0, qgen = 0.0, qmax = 0.0, qmin = 0.0, pmax = 0.0, pmin = 0.0, vSpec = 0.0;
 					VoltageUnitType vSpecUnit = VoltageUnitType.PU;
 					String remoteBusId = null;
 					boolean offLine = true;
-					for ( JAXBElement<? extends LoadflowGenXmlType> elem : genData.getContributeGen()) {
-						LoadflowGenXmlType gen = elem.getValue();
+					for ( JAXBElement<? extends LoadflowGenDataXmlType> elem : genData.getContributeGen()) {
+						LoadflowGenDataXmlType gen = elem.getValue();
 						if (!gen.isOffLine()) {
 							offLine = false;
 							if (remoteBusId == null) {
@@ -205,10 +205,10 @@ public class AclfParserHelper extends BaseJaxbHelper {
 			BusLoadDataXmlType loadData = busRec.getLoadData();
 			if (loadData != null) {
 				if ( loadData.getContributeLoad().size() > 0) {
-					LoadflowLoadXmlType equivLoad = loadData.getEquivLoad().getValue();
+					LoadflowLoadDataXmlType equivLoad = loadData.getEquivLoad().getValue();
 					double cp_p=0.0, cp_q=0.0, ci_p=0.0, ci_q=0.0, cz_p=0.0, cz_q=0.0; 
-					for ( JAXBElement<? extends LoadflowLoadXmlType> loadXml : loadData.getContributeLoad()) {
-						LoadflowLoadXmlType load = loadXml.getValue();
+					for ( JAXBElement<? extends LoadflowLoadDataXmlType> loadXml : loadData.getContributeLoad()) {
+						LoadflowLoadDataXmlType load = loadXml.getValue();
 						if (!load.isOffLine()) {
 							if (load.getConstPLoad() != null) {
 								cp_p += load.getConstPLoad().getRe();

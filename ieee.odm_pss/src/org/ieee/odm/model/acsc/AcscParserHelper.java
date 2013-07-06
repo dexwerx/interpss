@@ -34,7 +34,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.BusGenDataXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
-import org.ieee.odm.schema.LoadflowGenXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
@@ -67,7 +67,7 @@ public class AcscParserHelper extends AclfParserHelper {
 	 * @return null if acscGenData not found
 	 */
 	public static ShortCircuitGenDataXmlType getAcscContritueGen(ShortCircuitBusXmlType acscBus, String genId) throws ODMException {
-		for (JAXBElement<? extends LoadflowGenXmlType> elem : acscBus.getGenData().getContributeGen()) {
+		for (JAXBElement<? extends LoadflowGenDataXmlType> elem : acscBus.getGenData().getContributeGen()) {
 			ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)elem.getValue();
 			if (scGenData.getId().equals(genId))
 				return scGenData;
