@@ -32,7 +32,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.ExcBPAECXmlType;
 import org.ieee.odm.schema.ExcBPAEKXmlType;
 import org.ieee.odm.schema.ExcBPAFJXmlType;
@@ -69,7 +69,7 @@ public class BPADynamicExciterRecord {
     	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+    	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
 
     	
     	if(type==EA){
@@ -1259,7 +1259,8 @@ else if(type==FK){
     	}
     	else if(str.substring(0, 2).trim().equals("FZ")||
     			str.substring(0, 2).trim().equals("F+")){// continued record for BPA Exciter models.
-    		ExciterModelXmlType exc=parser.getDStabBus(busId).getDynamicGen().get(0).getExciter().getValue();   	
+    		DStabGenDataXmlType genData = (DStabGenDataXmlType)parser.getDStabBus(busId).getGenData().getEquivGen().getValue();
+    		ExciterModelXmlType exc = genData.getExciter().getValue();   	
         	
         	if(str.substring(0, 2).trim().equals("FZ")){
         		

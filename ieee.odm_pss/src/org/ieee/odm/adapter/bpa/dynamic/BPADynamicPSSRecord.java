@@ -32,7 +32,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.PssBPADualInputXmlType;
 import org.ieee.odm.schema.PssBpaSgTypeXmlType;
 import org.ieee.odm.schema.PssBpaSpTypeXmlType;
@@ -48,7 +48,7 @@ public class BPADynamicPSSRecord {
     	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);   
+    	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);   
     	//machine Id
     	String macId="1";
     	if(!strAry[3].equals("")){

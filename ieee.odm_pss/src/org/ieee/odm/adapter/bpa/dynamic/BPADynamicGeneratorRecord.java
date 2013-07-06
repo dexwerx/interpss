@@ -38,12 +38,11 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
-import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
@@ -66,7 +65,7 @@ public class BPADynamicGeneratorRecord {
     	if (str.substring(0,2).trim().equals("MC")){
     		String busId = BPABusRecord.getBusId(strAry[1]);
         	DStabBusXmlType bus = parser.getDStabBus(busId);
-    		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+        	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     		ClassicMachineXmlType mach = DStabParserHelper.createClassicMachine(dynGen);
     		
     		double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
@@ -97,7 +96,7 @@ public class BPADynamicGeneratorRecord {
 			double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
 			dynGen.setPContributionPercent(pContri);
 			dynGen.setQContributionPercent(qContri);
-			dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));
+			dynGen.setRatedPower(DStabDataSetter.createApparentPower(MvaBase, ApparentPowerUnitType.MVA));
 			
 			double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
 			if(!strAry[9].contains(".")){
@@ -160,7 +159,7 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[3].equals("")){
     		    dynGenId=strAry[3];
     		}
-    		DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+    		DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     		dynGen.setId(dynGenId);
 			double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
 		   	dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
@@ -189,7 +188,7 @@ public class BPADynamicGeneratorRecord {
 			dynGen.setQContributionPercent(qContri);
 						
 			double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
-			dynGen.setRatedPower(DStabDataSetter.createActivePowerValue(MvaBase, ActivePowerUnitType.MW));
+			dynGen.setRatedPower(DStabDataSetter.createApparentPower(MvaBase, ApparentPowerUnitType.MVA));
 			//TODO Mike,  this is the baseMVA for the per unit system in BPA, I don't think this is the same as the rated power of a machine. 
 			// sometimes, these two are set differently, such as the baseMVA would be chosen equal to system baseMVA .
 			
@@ -290,7 +289,7 @@ public class BPADynamicGeneratorRecord {
 			
 			if(!busId1.equals("")&&Vol1!=0.0){
 		    	DStabBusXmlType bus1 = parser.getDStabBus(busId1);
-				DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus1);
+		    	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus1);
 				dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(Vol1, VoltageUnitType.KV));
 				EquiMachineXmlType mach = DStabParserHelper.createEquiMachine(dynGen);
 				

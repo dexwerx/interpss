@@ -22,22 +22,53 @@
 		</ns:documentation></ns:annotation>
 	</ns:element>
 	
+	
 	<ns:element name="dstabBus" type="pss:DStabBusXmlType" substitutionGroup="pss:bus">
 		<ns:annotation><ns:documentation>
 		Bus record for dynamic stability analysis. aclfBus/acscBus could be used also
 		</ns:documentation></ns:annotation>
 	</ns:element>
 	
+	
+     <ns:element name="dstabGenData" substitutionGroup="pss:contributeGen" type="pss:DStabGenDataXmlType">
+        <ns:annotation><ns:documentation>
+		Generator data record for dynamic stability analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>   
+    
+     <ns:element name="dstabEquivGen" substitutionGroup="pss:equivGen" type="pss:DStabGenDataXmlType">
+        <ns:annotation><ns:documentation>
+		Equiv generator data record for dynamic stability analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>   
+	
+     <ns:element name="dstabLoadData" substitutionGroup="pss:contributeLoad" type="pss:DStabLoadDataXmlType">
+        <ns:annotation><ns:documentation>
+		Load data record for dynamic stability analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>   
+    
+     <ns:element name="dstabEquivLoad" substitutionGroup="pss:equivLoad" type="pss:DStabLoadDataXmlType">
+        <ns:annotation><ns:documentation>
+		Equiv load data record for dynamic stability analysis
+		</ns:documentation></ns:annotation>
+    </ns:element> 
+	
+	
 	<ns:element name="dstabLine" type="pss:LineDStabXmlType" substitutionGroup="pss:branch">
 		<ns:annotation><ns:documentation>
 		Line branch record for DStability simulation
 		</ns:documentation></ns:annotation>
 	</ns:element>
+	
+	
 	<ns:element name="dstabXfr" type="pss:XfrDStabXmlType" substitutionGroup="pss:branch">
 		<ns:annotation><ns:documentation>
 		Xfr branch record for DStability simulation
 		</ns:documentation></ns:annotation>
 	</ns:element>
+	
+	
 	<ns:element name="dstabPSXfr" type="pss:PSXfrDStabXmlType" substitutionGroup="pss:branch">
 		<ns:annotation><ns:documentation>
 		PSXfr branch record for DStability simulation
@@ -67,25 +98,40 @@
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:ShortCircuitBusXmlType">
-				<ns:sequence>
-					<ns:element name="dynamicGen" type="pss:DynamicGeneratorXmlType" minOccurs="0" maxOccurs="unbounded">
-						<ns:annotation><ns:documentation>
-						0-* dynamic generators could be defined at a DStab Bus.
-						</ns:documentation></ns:annotation>
-					</ns:element>
-					<ns:element name="dynamicLoad" type="pss:DynamicLoadXmlType" minOccurs="0"></ns:element>
+				<ns:sequence>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
 
-	<ns:complexType name="DynamicLoadXmlType">
-		<ns:sequence>
-			<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType"></ns:element>
-			<ns:element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType"></ns:element>
-			<ns:element name="LoadModel" type="pss:DynamicLoadModelSelectionXmlType" maxOccurs="1" minOccurs="1"></ns:element>
-		</ns:sequence>
+    <ns:complexType name="DStabGenDataXmlType">
+    	<ns:complexContent>
+			<ns:extension base="pss:ShortCircuitGenDataXmlType">
+		      <ns:sequence>
+					<ns:element maxOccurs="1" minOccurs="0" name="ownerName" type="ns:string" />					<ns:element maxOccurs="1" minOccurs="0" name="ratedVoltage" type="pss:VoltageXmlType" />
+					<ns:element maxOccurs="1" minOccurs="0" name="pContributionPercent" type="ns:double" />
+					<ns:element maxOccurs="1" minOccurs="0" name="qContributionPercent" type="ns:double" />
+					<ns:element maxOccurs="1" minOccurs="1" ref="pss:machineModel" />
+					<ns:element minOccurs="0" ref="pss:exciter" />
+					<ns:element minOccurs="0" ref="pss:governor" />
+					<ns:element minOccurs="0" ref="pss:stabilizer" />
+			  </ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+
+    <ns:complexType name="DStabLoadDataXmlType">
+    	<ns:complexContent>
+			<ns:extension base="pss:ShortCircuitLoadDataXmlType">
+		      <ns:sequence>
+				<ns:element name="location" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicLocationEnumType"></ns:element>
+				<ns:element name="LoadXmlType" maxOccurs="1" minOccurs="1" type="pss:LoadCharacteristicTypeEnumType"></ns:element>
+				<ns:element name="LoadModel" type="pss:DynamicLoadModelSelectionXmlType" maxOccurs="1" minOccurs="1"></ns:element>
+			  </ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 	
 <!-- 

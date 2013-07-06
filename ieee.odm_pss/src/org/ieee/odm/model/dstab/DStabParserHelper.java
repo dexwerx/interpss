@@ -30,7 +30,7 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
@@ -104,10 +104,8 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param bus
 	 * @return
 	 */
-	public static DynamicGeneratorXmlType getDynamicGenRec(DStabBusXmlType bus) {
-		if (bus.getDynamicGen().size() ==0 )
-			bus.getDynamicGen().add(odmObjFactory.createDynamicGeneratorXmlType());
-		return bus.getDynamicGen().get(0);
+	public static DStabGenDataXmlType getDynamicGenRec(DStabBusXmlType bus) {
+		return (DStabGenDataXmlType)bus.getGenData().getEquivGen().getValue();
 	}
 
 	/*
@@ -121,7 +119,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ClassicMachineXmlType createClassicMachine(DynamicGeneratorXmlType gen) {
+	public static ClassicMachineXmlType createClassicMachine(DStabGenDataXmlType gen) {
 		ClassicMachineXmlType mach = odmObjFactory.createClassicMachineXmlType();
 		gen.setMachineModel(odmObjFactory.createClassicMachModel(mach));
 		return mach;
@@ -133,7 +131,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static EquiMachineXmlType createEquiMachine(DynamicGeneratorXmlType gen) {
+	public static EquiMachineXmlType createEquiMachine(DStabGenDataXmlType gen) {
 		EquiMachineXmlType mach = odmObjFactory.createEquiMachineXmlType();
 		gen.setMachineModel(odmObjFactory.createEquiMachModel(mach));
 		return mach;
@@ -145,7 +143,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static Eq1MachineXmlType createEq1Machine(DynamicGeneratorXmlType gen) {
+	public static Eq1MachineXmlType createEq1Machine(DStabGenDataXmlType gen) {
 		Eq1MachineXmlType mach = odmObjFactory.createEq1MachineXmlType();
 		gen.setMachineModel(odmObjFactory.createEq1MachModel(mach));
 		return mach;
@@ -157,7 +155,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static Eq1Ed1MachineXmlType createEq1Ed1Machine(DynamicGeneratorXmlType gen) {
+	public static Eq1Ed1MachineXmlType createEq1Ed1Machine(DStabGenDataXmlType gen) {
 		Eq1Ed1MachineXmlType mach = odmObjFactory.createEq1Ed1MachineXmlType();
 		gen.setMachineModel(odmObjFactory.createEq1Ed1MachModel(mach));
 		return mach;
@@ -169,7 +167,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static Eq11MachineXmlType createEq11Machine(DynamicGeneratorXmlType gen) {
+	public static Eq11MachineXmlType createEq11Machine(DStabGenDataXmlType gen) {
 		Eq11MachineXmlType mach = odmObjFactory.createEq11MachineXmlType();
 		gen.setMachineModel(odmObjFactory.createEq11MachModel(mach));
 		return mach;
@@ -181,7 +179,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static Eq11Ed11MachineXmlType createEq11Ed11Machine(DynamicGeneratorXmlType gen) {
+	public static Eq11Ed11MachineXmlType createEq11Ed11Machine(DStabGenDataXmlType gen) {
 		Eq11Ed11MachineXmlType mach = odmObjFactory.createEq11Ed11MachineXmlType();
 		gen.setMachineModel(odmObjFactory.createEq11Ed11MachModel(mach));
 		return mach;
@@ -211,7 +209,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcSimpleTypeXmlType createExcSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
+	public static ExcSimpleTypeXmlType createExcSimpleTypeXmlType(DStabGenDataXmlType gen) {
 		ExcSimpleTypeXmlType exc = odmObjFactory.createExcSimpleTypeXmlType();
 		gen.setExciter(odmObjFactory.createExcSimpleType(exc));
 		return exc;
@@ -223,7 +221,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1992TypeAC1AXmlType createExcIEEE1992TypeAC1AXmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1992TypeAC1AXmlType createExcIEEE1992TypeAC1AXmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1992TypeAC1AXmlType exc = odmObjFactory.createExcIEEE1992TypeAC1AXmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1992TypeAC1A(exc));
 		return exc;
@@ -235,7 +233,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1981TypeAC2XmlType createExcIEEE1981TypeAC2XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1981TypeAC2XmlType createExcIEEE1981TypeAC2XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1981TypeAC2XmlType exc = odmObjFactory.createExcIEEE1981TypeAC2XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1981TypeAC2(exc));
 		return exc;
@@ -247,7 +245,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1981TypeDC1XmlType createExcIEEE1981TypeDC1XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1981TypeDC1XmlType createExcIEEE1981TypeDC1XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1981TypeDC1XmlType exc = odmObjFactory.createExcIEEE1981TypeDC1XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1981TypeDC1(exc));
 		return exc;
@@ -259,7 +257,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1981TypeDC2XmlType createExcIEEE1981TypeDC2XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1981TypeDC2XmlType createExcIEEE1981TypeDC2XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1981TypeDC2XmlType exc = odmObjFactory.createExcIEEE1981TypeDC2XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1981TypeDC2(exc));
 		return exc;
@@ -271,7 +269,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1981ST1XmlType createExcIEEE1981ST1XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1981ST1XmlType createExcIEEE1981ST1XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1981ST1XmlType exc = odmObjFactory.createExcIEEE1981ST1XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1981ST1(exc));
 		return exc;
@@ -283,7 +281,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1968Type1XmlType createExcIEEE1968Type1XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1968Type1XmlType createExcIEEE1968Type1XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1968Type1XmlType exc = odmObjFactory.createExcIEEE1968Type1XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1968Type1(exc));
 		return exc;
@@ -295,7 +293,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEEModified1968Type1XmlType createExcIEEEModified1968Type1XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEEModified1968Type1XmlType createExcIEEEModified1968Type1XmlType(DStabGenDataXmlType gen) {
 		ExcIEEEModified1968Type1XmlType exc = odmObjFactory.createExcIEEEModified1968Type1XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEEModified1968Type1(exc));
 		return exc;
@@ -307,7 +305,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1968Type1SXmlType createExcIEEE1968Type1SXmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1968Type1SXmlType createExcIEEE1968Type1SXmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1968Type1SXmlType exc = odmObjFactory.createExcIEEE1968Type1SXmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1968Type1S(exc));
 		return exc;
@@ -319,7 +317,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1968Type2XmlType createExcIEEE1968Type2XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1968Type2XmlType createExcIEEE1968Type2XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1968Type2XmlType exc = odmObjFactory.createExcIEEE1968Type2XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1968Type2(exc));
 		return exc;
@@ -331,7 +329,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1968Type4XmlType createExcIEEE1968Type4XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1968Type4XmlType createExcIEEE1968Type4XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1968Type4XmlType exc = odmObjFactory.createExcIEEE1968Type4XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1968Type4(exc));
 		return exc;
@@ -343,7 +341,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcIEEE1968Type3XmlType createExcIEEE1968Type3XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcIEEE1968Type3XmlType createExcIEEE1968Type3XmlType(DStabGenDataXmlType gen) {
 		ExcIEEE1968Type3XmlType exc = odmObjFactory.createExcIEEE1968Type3XmlType();
 		gen.setExciter(odmObjFactory.createExcIEEE1968Type3(exc));
 		return exc;
@@ -357,7 +355,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcTSATTypeEXC34XmlType createExcTSATTypeEXC34XmlType(DynamicGeneratorXmlType gen) {
+	public static ExcTSATTypeEXC34XmlType createExcTSATTypeEXC34XmlType(DStabGenDataXmlType gen) {
 		ExcTSATTypeEXC34XmlType exc = odmObjFactory.createExcTSATTypeEXC34XmlType();
 		gen.setExciter(odmObjFactory.createExcTSATTypeEXC34(exc));
 		return exc;
@@ -369,7 +367,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcBPAECXmlType createExcBPAECXmlType(DynamicGeneratorXmlType gen) {
+	public static ExcBPAECXmlType createExcBPAECXmlType(DStabGenDataXmlType gen) {
 		ExcBPAECXmlType exc = odmObjFactory.createExcBPAECXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeEC(exc));
 		return exc;
@@ -381,7 +379,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcBPAEKXmlType createExcBPAEKXmlType(DynamicGeneratorXmlType gen) {
+	public static ExcBPAEKXmlType createExcBPAEKXmlType(DStabGenDataXmlType gen) {
 		ExcBPAEKXmlType exc = odmObjFactory.createExcBPAEKXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeEK(exc));
 		return exc;
@@ -393,7 +391,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static ExcBPAFJXmlType createExcBPAFJXmlType(DynamicGeneratorXmlType gen) {
+	public static ExcBPAFJXmlType createExcBPAFJXmlType(DStabGenDataXmlType gen) {
 		ExcBPAFJXmlType exc = odmObjFactory.createExcBPAFJXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFJ(exc));
 		return exc;
@@ -406,7 +404,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static ExcBPAFKXmlType createExcBPAFKXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		ExcBPAFKXmlType exc = odmObjFactory.createExcBPAFKXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFK(exc));
 		return exc;
@@ -419,7 +417,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static ExcBPAFQXmlType createExcBPAFQXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		ExcBPAFQXmlType exc = odmObjFactory.createExcBPAFQXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFQ(exc));
 		return exc;
@@ -432,7 +430,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static ExcBPAFRXmlType createExcBPAFRXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		ExcBPAFRXmlType exc = odmObjFactory.createExcBPAFRXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFR(exc));
 		return exc;
@@ -445,7 +443,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static ExcBPAFSXmlType createExcBPAFSXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		ExcBPAFSXmlType exc = odmObjFactory.createExcBPAFSXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFS(exc));
 		return exc;
@@ -458,7 +456,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static ExcBPAFUXmlType createExcBPAFUXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		ExcBPAFUXmlType exc = odmObjFactory.createExcBPAFUXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFU(exc));
 		return exc;
@@ -471,7 +469,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static ExcBPAFVXmlType createExcBPAFVXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		ExcBPAFVXmlType exc = odmObjFactory.createExcBPAFVXmlType();
 		gen.setExciter(odmObjFactory.createExcBPATypeFV(exc));
 		return exc;
@@ -488,7 +486,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovSimpleTypeXmlType createGovSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
+	public static GovSimpleTypeXmlType createGovSimpleTypeXmlType(DStabGenDataXmlType gen) {
 		GovSimpleTypeXmlType gov = odmObjFactory.createGovSimpleTypeXmlType();
 		gen.setGovernor(odmObjFactory.createGovSimpleType(gov));
 		return gov;
@@ -500,7 +498,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovIEEE1981Type1XmlType createGovIEEE1981Type1XmlType(DynamicGeneratorXmlType gen) {
+	public static GovIEEE1981Type1XmlType createGovIEEE1981Type1XmlType(DStabGenDataXmlType gen) {
 		GovIEEE1981Type1XmlType gov = odmObjFactory.createGovIEEE1981Type1XmlType();
 		gen.setGovernor(odmObjFactory.createGovIEEE1981Type1(gov));
 		return gov;
@@ -512,7 +510,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovIEEE1981Type2XmlType createGovIEEE1981Type2XmlType(DynamicGeneratorXmlType gen) {
+	public static GovIEEE1981Type2XmlType createGovIEEE1981Type2XmlType(DStabGenDataXmlType gen) {
 		GovIEEE1981Type2XmlType gov = odmObjFactory.createGovIEEE1981Type2XmlType();
 		gen.setGovernor(odmObjFactory.createGovIEEE1981Type2(gov));
 		return gov;
@@ -524,7 +522,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovIEEE1981Type3XmlType createGovIEEE1981Type3XmlType(DynamicGeneratorXmlType gen) {
+	public static GovIEEE1981Type3XmlType createGovIEEE1981Type3XmlType(DStabGenDataXmlType gen) {
 		GovIEEE1981Type3XmlType gov = odmObjFactory.createGovIEEE1981Type3XmlType();
 		gen.setGovernor(odmObjFactory.createGovIEEE1981Type3(gov));
 		return gov;
@@ -536,7 +534,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovHydroXmlType createGovHydroXmlType(DynamicGeneratorXmlType gen) {
+	public static GovHydroXmlType createGovHydroXmlType(DStabGenDataXmlType gen) {
 		GovHydroXmlType gov = odmObjFactory.createGovHydroXmlType();
 		gen.setGovernor(odmObjFactory.createGovHydro(gov));
 		return gov;
@@ -548,7 +546,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovHydroTurbineXmlType createGovHydroTurbineXmlType(DynamicGeneratorXmlType gen) {
+	public static GovHydroTurbineXmlType createGovHydroTurbineXmlType(DStabGenDataXmlType gen) {
 		GovHydroTurbineXmlType gov = odmObjFactory.createGovHydroTurbineXmlType();
 		gen.setGovernor(odmObjFactory.createGovHydroTurbine(gov));
 		return gov;
@@ -560,7 +558,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovHydroSteamGeneralModelXmlType createGovHydroSteamGeneralModelXmlType(DynamicGeneratorXmlType gen) {
+	public static GovHydroSteamGeneralModelXmlType createGovHydroSteamGeneralModelXmlType(DStabGenDataXmlType gen) {
 		GovHydroSteamGeneralModelXmlType gov = odmObjFactory.createGovHydroSteamGeneralModelXmlType();
 		gen.setGovernor(odmObjFactory.createGovHydroSteamGeneralModel(gov));
 		return gov;
@@ -572,7 +570,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovSteamNRXmlType createGovSteamNRXmlType(DynamicGeneratorXmlType gen) {
+	public static GovSteamNRXmlType createGovSteamNRXmlType(DStabGenDataXmlType gen) {
 		GovSteamNRXmlType gov = odmObjFactory.createGovSteamNRXmlType();
 		gen.setGovernor(odmObjFactory.createGovSteamNR(gov));
 		return gov;
@@ -584,7 +582,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovSteamTCSRXmlType createGovSteamTCSRXmlType(DynamicGeneratorXmlType gen) {
+	public static GovSteamTCSRXmlType createGovSteamTCSRXmlType(DStabGenDataXmlType gen) {
 		GovSteamTCSRXmlType gov = odmObjFactory.createGovSteamTCSRXmlType();
 		gen.setGovernor(odmObjFactory.createGovSteamTCSR(gov));
 		return gov;
@@ -596,7 +594,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static GovSteamTDSRXmlType createGovSteamTDSRXmlType(DynamicGeneratorXmlType gen) {
+	public static GovSteamTDSRXmlType createGovSteamTDSRXmlType(DStabGenDataXmlType gen) {
 		GovSteamTDSRXmlType gov = odmObjFactory.createGovSteamTDSRXmlType();
 		gen.setGovernor(odmObjFactory.createGovSteamTDSR(gov));
 		return gov;
@@ -612,7 +610,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static SteamTurbineNRXmlType createSteamTurbineNRXmlType(DynamicGeneratorXmlType gen){
+	public static SteamTurbineNRXmlType createSteamTurbineNRXmlType(DStabGenDataXmlType gen){
 		SteamTurbineNRXmlType stNR=odmObjFactory.createSteamTurbineNRXmlType();
 		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbineSteamNR(stNR));
 		return stNR;
@@ -625,7 +623,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static SteamTurbineTCSRXmlType createSteamTurbineTCSRRXmlType(DynamicGeneratorXmlType gen){
+	public static SteamTurbineTCSRXmlType createSteamTurbineTCSRRXmlType(DStabGenDataXmlType gen){
 		SteamTurbineTCSRXmlType stTCSR=odmObjFactory.createSteamTurbineTCSRXmlType();
 		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbineSteamTCSR(stTCSR));
 		return stTCSR;
@@ -638,7 +636,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static SteamTurbineTCDRXmlType createSteamTurbineTCDRXmlType(DynamicGeneratorXmlType gen){
+	public static SteamTurbineTCDRXmlType createSteamTurbineTCDRXmlType(DStabGenDataXmlType gen){
 		SteamTurbineTCDRXmlType stTCDR=odmObjFactory.createSteamTurbineTCDRXmlType();
 		gen.getGovernor().getValue().setTurbine(odmObjFactory.createTurbineSteamNR(stTCDR));
 		return stTCDR;
@@ -657,7 +655,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static GovBPAHydroTurbineGHXmlType createGovBPAHydroTurbineGHXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		GovBPAHydroTurbineGHXmlType gov=odmObjFactory.createGovBPAHydroTurbineGHXmlType();
 		gen.setGovernor(odmObjFactory.createGovBPAHydroTurbineGHModel(gov));
 		
@@ -671,7 +669,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static SpeedGovBPAGSModelXmlType createSpeedGovBPAGSModelXmlType(
-			DynamicGeneratorXmlType gen) throws ODMException {
+			DStabGenDataXmlType gen) throws ODMException {
 		SpeedGovBPAGSModelXmlType spdgov=odmObjFactory.createSpeedGovBPAGSModelXmlType();
 		if(gen.getGovernor()==null){
 			gen.setGovernor(odmObjFactory.createGovBPAGsTbCombinedModel(
@@ -693,7 +691,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static SpeedGovBPARegGIModelXmlType createSpeedGovBPARegGIModelXmlType(
-			DynamicGeneratorXmlType gen) throws ODMException {
+			DStabGenDataXmlType gen) throws ODMException {
 		SpeedGovBPARegGIModelXmlType regGi =odmObjFactory.createSpeedGovBPARegGIModelXmlType();
 		// before linking a regulator to a gen,  it need to be first connected to SpeedGov.
 		SpeedGovModelXmlType spdGov=null;
@@ -717,7 +715,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static SpeedGovBPAGiGaCombinedXmlType createSpeedGovBPAGiGaCombinedXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		SpeedGovBPAGiGaCombinedXmlType spdgov=odmObjFactory.createSpeedGovBPAGiGaCombinedXmlType();
 		
         //create a governor when it is none in a generator;
@@ -734,7 +732,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static SpeedGovBPAServoGAModelXmlType createSpeedGovBPAServoGAModelXmlType(
-			DynamicGeneratorXmlType dynGen) throws ODMException {
+			DStabGenDataXmlType dynGen) throws ODMException {
 		SpeedGovBPAServoGAModelXmlType servoGa =odmObjFactory.createSpeedGovBPAServoGAModelXmlType();
 		// before linking a servo to a gen,  it need to be first connected to SpeedGov.
 		
@@ -759,7 +757,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static SteamTurbineBPATBModelXmlType createSteamTurbineBPATBModelXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		SteamTurbineBPATBModelXmlType tur=odmObjFactory.createSteamTurbineBPATBModelXmlType();
         //create a governor when it is none in a generator;
 		//if(gen.getGovernor()==null)gen.setGovernor(odmObjFactory.createGovernorModelXmlType());
@@ -775,7 +773,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @return
 	 */
 	public static GovBPAGsTbCombinedModelXmlType createGovBPAGsTbCombinedModelXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		GovBPAGsTbCombinedModelXmlType gov=odmObjFactory.createGovBPAGsTbCombinedModelXmlType();
 		gen.setGovernor(odmObjFactory.createGovBPAGsTbCombinedModel(gov));
 		return gov;
@@ -790,7 +788,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 */
 	
 	public static GovBPAGiGaTbCombinedModelXmlType createGovBPAGiGaTbCombinedModelXmlType(
-			DynamicGeneratorXmlType gen) {
+			DStabGenDataXmlType gen) {
 		GovBPAGiGaTbCombinedModelXmlType gov=odmObjFactory.createGovBPAGiGaTbCombinedModelXmlType();
 		gen.setGovernor(odmObjFactory.createGovBPAGiGaTbCombinedModel(gov));		
 		return gov;
@@ -808,7 +806,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssSimpleTypeXmlType createPssSimpleTypeXmlType(DynamicGeneratorXmlType gen) {
+	public static PssSimpleTypeXmlType createPssSimpleTypeXmlType(DStabGenDataXmlType gen) {
 		PssSimpleTypeXmlType pss = odmObjFactory.createPssSimpleTypeXmlType();
 		gen.setStabilizer(odmObjFactory.createPssSimpleType(pss));
 		return pss;
@@ -820,7 +818,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssIEEE1981TypeXmlType createPssIEEE1981TypeXmlType(DynamicGeneratorXmlType gen) {
+	public static PssIEEE1981TypeXmlType createPssIEEE1981TypeXmlType(DStabGenDataXmlType gen) {
 		PssIEEE1981TypeXmlType pss = odmObjFactory.createPssIEEE1981TypeXmlType();
 		gen.setStabilizer(odmObjFactory.createPssIEEE1981Type(pss));
 		return pss;
@@ -832,7 +830,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssIEEE1992Type2AXmlType createPssIEEE1992Type2AXmlType(DynamicGeneratorXmlType gen) {
+	public static PssIEEE1992Type2AXmlType createPssIEEE1992Type2AXmlType(DStabGenDataXmlType gen) {
 		PssIEEE1992Type2AXmlType pss = odmObjFactory.createPssIEEE1992Type2AXmlType();
 		gen.setStabilizer(odmObjFactory.createPssIEEE1992Type2A(pss));
 		return pss;
@@ -844,7 +842,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssIEEE1AXmlType createPssIEEE1AXmlType(DynamicGeneratorXmlType gen) {
+	public static PssIEEE1AXmlType createPssIEEE1AXmlType(DStabGenDataXmlType gen) {
 		PssIEEE1AXmlType pss = odmObjFactory.createPssIEEE1AXmlType();
 		gen.setStabilizer(odmObjFactory.createPssIEEEType1A(pss));
 		return pss;
@@ -856,7 +854,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssIEE2STXmlType createPssIEE2STXmlType(DynamicGeneratorXmlType gen) {
+	public static PssIEE2STXmlType createPssIEE2STXmlType(DStabGenDataXmlType gen) {
 		PssIEE2STXmlType pss = odmObjFactory.createPssIEE2STXmlType();
 		gen.setStabilizer(odmObjFactory.createPssIEE2ST(pss));
 		return pss;
@@ -868,7 +866,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssIEEEDualInputXmlType createPssIEEEDualInputXmlType(DynamicGeneratorXmlType gen) {
+	public static PssIEEEDualInputXmlType createPssIEEEDualInputXmlType(DStabGenDataXmlType gen) {
 		PssIEEEDualInputXmlType pss = odmObjFactory.createPssIEEEDualInputXmlType();
 		gen.setStabilizer(odmObjFactory.createPssIEEEDualInput(pss));
 		return pss;
@@ -880,7 +878,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssBPADualInputXmlType createPssBPADualInputXmlType(DynamicGeneratorXmlType gen) {
+	public static PssBPADualInputXmlType createPssBPADualInputXmlType(DStabGenDataXmlType gen) {
 		PssBPADualInputXmlType pss = odmObjFactory.createPssBPADualInputXmlType();
 		gen.setStabilizer(odmObjFactory.createPssBPADualInput(pss));
 		return pss;
@@ -892,7 +890,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssBpaSsTypeXmlType createPssBPASsXmlType(DynamicGeneratorXmlType gen) {
+	public static PssBpaSsTypeXmlType createPssBPASsXmlType(DStabGenDataXmlType gen) {
 		PssBpaSsTypeXmlType pss = odmObjFactory.createPssBpaSsTypeXmlType();
 		gen.setStabilizer(odmObjFactory.createPssBPASs(pss));
 		return pss;
@@ -904,7 +902,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssBpaSgTypeXmlType createPssBPASgXmlType(DynamicGeneratorXmlType gen) {
+	public static PssBpaSgTypeXmlType createPssBPASgXmlType(DStabGenDataXmlType gen) {
 		PssBpaSgTypeXmlType pss = odmObjFactory.createPssBpaSgTypeXmlType();
 		gen.setStabilizer(odmObjFactory.createPssBPASg(pss));
 		return pss;
@@ -916,7 +914,7 @@ public class DStabParserHelper extends AclfParserHelper {
 	 * @param gen
 	 * @return
 	 */
-	public static PssBpaSpTypeXmlType createPssBPASpXmlType(DynamicGeneratorXmlType gen) {
+	public static PssBpaSpTypeXmlType createPssBPASpXmlType(DStabGenDataXmlType gen) {
 		PssBpaSpTypeXmlType pss = odmObjFactory.createPssBpaSpTypeXmlType();
 		gen.setStabilizer(odmObjFactory.createPssBPASp(pss));
 		return pss;

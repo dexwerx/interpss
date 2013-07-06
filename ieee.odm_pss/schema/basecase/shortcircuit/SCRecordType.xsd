@@ -113,7 +113,7 @@
 
     <ns:complexType name="ShortCircuitGenDataXmlType">
     	<ns:complexContent>
-			<ns:extension base="pss:LoadflowGenXmlType">
+			<ns:extension base="pss:LoadflowGenDataXmlType">
 		      <ns:sequence>
 			    <ns:element minOccurs="1" name="potiveZ" type="pss:ZXmlType" />
 			    <ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />
@@ -126,7 +126,7 @@
 
     <ns:complexType name="ShortCircuitLoadDataXmlType">
     	<ns:complexContent>
-			<ns:extension base="pss:LoadflowLoadXmlType">
+			<ns:extension base="pss:LoadflowLoadDataXmlType">
 		      <ns:sequence>
 			  </ns:sequence>
 			</ns:extension>

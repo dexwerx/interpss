@@ -36,26 +36,7 @@
     <ns:element name="subTransientMachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
     <ns:element name="eq11Ed11MachModel" substitutionGroup="pss:machineModel" type="pss:Eq11Ed11MachineXmlType" />
     
-
-    <ns:complexType name="DynamicGeneratorXmlType">
-		<ns:complexContent>
-			<ns:extension base="pss:IDRecordXmlType">
-				<ns:sequence>
-					<ns:element maxOccurs="1" minOccurs="0" name="ownerName" type="ns:string" />
-					<ns:element maxOccurs="1" minOccurs="0" name="ratedPower" type="pss:ActivePowerXmlType" />
-					<ns:element maxOccurs="1" minOccurs="0" name="ratedVoltage" type="pss:VoltageXmlType" />
-					<ns:element maxOccurs="1" minOccurs="0" name="pContributionPercent" type="ns:double" />
-					<ns:element maxOccurs="1" minOccurs="0" name="qContributionPercent" type="ns:double" />
-					<ns:element maxOccurs="1" minOccurs="1" ref="pss:machineModel" />
-					<ns:element minOccurs="0" ref="pss:exciter" />
-					<ns:element minOccurs="0" ref="pss:governor" />
-					<ns:element minOccurs="0" ref="pss:stabilizer" />
-					<ns:element maxOccurs="1" minOccurs="0" name="grounding" type="pss:GroundingXmlType" />
-				</ns:sequence>
-			</ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-    
+   
     <ns:complexType abstract="true" name="MachineModelXmlType">
 		<ns:annotation><ns:documentation>
 		Parent type for all machine model types

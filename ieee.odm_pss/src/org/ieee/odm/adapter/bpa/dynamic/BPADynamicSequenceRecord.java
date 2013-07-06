@@ -27,6 +27,8 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import java.text.NumberFormat;
 
+import javax.xml.bind.JAXBElement;
+
 import org.ieee.odm.adapter.bpa.lf.BPABusRecord;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
@@ -36,13 +38,13 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.ScGenDataXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -247,9 +249,10 @@ public class BPADynamicSequenceRecord {
 //			DStabBusXmlType bus=parser.getDStabBus(busXml.getValue().getId());
 			
 			// negative sequence generator data
-			if(bus.getDynamicGen()!=null){
-				for(DynamicGeneratorXmlType dynGen:bus.getDynamicGen()){
-				    //for(DynamicGeneratorXmlType dynGen:odmObjFactory.createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
+			if(bus.getGenData().getContributeGen()!=null){
+				for(JAXBElement<? extends LoadflowGenDataXmlType> gen : bus.getGenData().getContributeGen()){
+					DStabGenDataXmlType dynGen = (DStabGenDataXmlType)gen.getValue();
+					//for(DynamicGeneratorXmlType dynGen:odmObjFactory.createDStabBusXmlTypeDynamicGenList().getDynamicGen()){
 					double xd1=0.0;
 					double x2=0.0;
 					double tq01=0.0;

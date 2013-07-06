@@ -31,7 +31,7 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
-import org.ieee.odm.schema.DynamicGeneratorXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroSteamGeneralModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
@@ -50,7 +50,7 @@ public class BPADynamicTurbineGovernorRecord {
     	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	DynamicGeneratorXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+    	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
     	double ratedPower=dynGen.getRatedPower().getValue();
     	
     	if(strAry[0].equals("GG")){ 

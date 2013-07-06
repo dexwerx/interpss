@@ -37,9 +37,9 @@ import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DStabLoadDataXmlType;
 import org.ieee.odm.schema.DynamicLoadIEEEStaticLoadXmlType;
 import org.ieee.odm.schema.DynamicLoadModelSelectionXmlType;
-import org.ieee.odm.schema.DynamicLoadXmlType;
 import org.ieee.odm.schema.LoadCharacteristicLocationEnumType;
 
 public class BPADynamicLoadCharacteristicRecord {
@@ -136,12 +136,10 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 				// assume the zone id is the same as bus.zoneName
 				if(areaName.equals(bus.getAreaName())){
 					if(bus.getLoadData().getEquivLoad()!=null){
-					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(odmObjFactory.createDynamicLoadXmlType());
-					   DynamicLoadXmlType load = bus.getDynamicLoad();
-					   load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
-					   load.setLoadModel(loadModel);
+						DStabLoadDataXmlType load = (DStabLoadDataXmlType)bus.getLoadData().getEquivLoad().getValue();
+						load.setLocation(LoadCharacteristicLocationEnumType.AT_AREA);
+						load.setLoadModel(loadModel);
 					}
-					
 				}
 			}
 		}
@@ -155,8 +153,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 				// assume the zone id is the same as bus.zoneName
 				if(zoneName.equals(bus.getZoneName())){
 					if(bus.getLoadData().getEquivLoad()!=null){
-					   if(bus.getDynamicLoad() == null)  bus.setDynamicLoad(odmObjFactory.createDynamicLoadXmlType());
-					   DynamicLoadXmlType load = bus.getDynamicLoad();
+						DStabLoadDataXmlType load = (DStabLoadDataXmlType)bus.getLoadData().getEquivLoad().getValue();
 					   load.setLocation(LoadCharacteristicLocationEnumType.AT_ZONE);
 					   load.setLoadModel(loadModel);
 					}
@@ -177,11 +174,7 @@ public static void processLoadCharacteristicData(String str, DStabModelParser pa
 			}
 			bus = parser.getDStabBus(BusId);
 			if (bus !=null) {
-				if (bus.getDynamicLoad() == null) {
-			        bus.setDynamicLoad(odmObjFactory.createDynamicLoadXmlType());
-		        }
-
-		     DynamicLoadXmlType load = bus.getDynamicLoad();
+			 DStabLoadDataXmlType load = (DStabLoadDataXmlType)bus.getLoadData().getEquivLoad().getValue();
 		     load.setLocation(LoadCharacteristicLocationEnumType.AT_BUS);
 		     load.setLoadModel(loadModel);
 		}

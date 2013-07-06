@@ -30,25 +30,25 @@
     </ns:annotation>
     </ns:element>
     
-    <ns:element name="contributeGen" type="pss:LoadflowGenXmlType">
+    <ns:element name="contributeGen" type="pss:LoadflowGenDataXmlType">
         <ns:annotation><ns:documentation>
 		Contributing generator at bus for defining generator data for Loadflow study
 		</ns:documentation></ns:annotation>
     </ns:element>
     
-    <ns:element name="equivGen" type="pss:LoadflowGenXmlType">
+    <ns:element name="equivGen" type="pss:LoadflowGenDataXmlType">
         <ns:annotation><ns:documentation>
 		equiv generator at bus for defining equiv generator data for Loadflow study
 		</ns:documentation></ns:annotation>
     </ns:element>
 
-    <ns:element name="contributeLoad" type="pss:LoadflowLoadXmlType">
+    <ns:element name="contributeLoad" type="pss:LoadflowLoadDataXmlType">
         <ns:annotation><ns:documentation>
 		Contributing load at bus for defining load data for Loadflow study
 		</ns:documentation></ns:annotation>
     </ns:element>
     
-    <ns:element name="equivLoad" type="pss:LoadflowLoadXmlType">
+    <ns:element name="equivLoad" type="pss:LoadflowLoadDataXmlType">
         <ns:annotation><ns:documentation>
 		equiv load at bus for defining equiv load data for Loadflow study
 		</ns:documentation></ns:annotation>
@@ -272,7 +272,7 @@
 		</ns:sequence>
 	</ns:complexType>
 
-    <ns:complexType name="LoadflowGenXmlType">
+    <ns:complexType name="LoadflowGenDataXmlType">
 		<ns:annotation>
       <ns:documentation>
 			EquivGen is intended for Loadflow study. For PQ bus, p, q are specified using the power field. For Swing bus, 
@@ -316,7 +316,7 @@
 	</ns:complexType>
 
 
-    <ns:complexType name="LoadflowLoadXmlType">
+    <ns:complexType name="LoadflowLoadDataXmlType">
 		<ns:annotation>
       <ns:documentation>
 		It is used to define LoadflowBusXmlType equivLoad and contribLoad list
