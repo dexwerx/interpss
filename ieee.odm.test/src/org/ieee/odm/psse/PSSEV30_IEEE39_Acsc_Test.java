@@ -33,15 +33,15 @@ public class PSSEV30_IEEE39_Acsc_Test {
 				"testData/psse/IEEE39bus_v30.seq"
 		}));
 		AcscModelParser acscParser =(AcscModelParser) adapter.getModel();
-		
+		acscParser.stdout();
 		//generator sequence data @bus 30
 		//ZPOS = ZNeg = ZZero =2.24000E-01
 		
 		ShortCircuitBusXmlType bus30 = acscParser.getBus("Bus30");
 		ShortCircuitGenDataXmlType scGen = (ShortCircuitGenDataXmlType) bus30.getGenData().getContributeGen().get(0).getValue();
-		assertTrue( scGen.getPotiveZ().getRe()==2.24000E-01);
-		assertTrue( scGen.getNegativeZ().getRe()==2.24000E-01);
-		assertTrue( scGen.getZeroZ().getRe()==2.24000E-01);
+		assertTrue( scGen.getPotiveZ().getIm()== 2.24000E-01);
+		assertTrue( scGen.getNegativeZ().getIm()== 2.24000E-01);
+		assertTrue( scGen.getZeroZ().getIm()== 2.24000E-01);
 		
 		
 		//Zero sequence Branch data: Bus1->bus2(1)
