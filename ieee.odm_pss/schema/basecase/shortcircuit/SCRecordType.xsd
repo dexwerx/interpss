@@ -96,7 +96,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:LoadflowBusXmlType">
 				<ns:group ref="pss:ShortCircuitBusDataGroup" />
-				<ns:attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="required" />
+				<ns:attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="optional" />
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
