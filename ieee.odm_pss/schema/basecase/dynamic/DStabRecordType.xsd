@@ -84,6 +84,7 @@
 		<ns:complexContent>
 			<ns:extension base="pss:ShortCircuitNetXmlType">
 				<ns:sequence>
+					<ns:element name="hasShortCircuitData" type="ns:boolean" minOccurs="1"></ns:element>
 					<ns:element name="saturatedMachineParameter" type="ns:boolean" minOccurs="1"></ns:element>
 				</ns:sequence>
 			</ns:extension>
