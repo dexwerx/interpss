@@ -110,7 +110,8 @@
     	<ns:complexContent>
 			<ns:extension base="pss:ShortCircuitGenDataXmlType">
 		      <ns:sequence>
-					<ns:element maxOccurs="1" minOccurs="0" name="ownerName" type="ns:string" />					<ns:element maxOccurs="1" minOccurs="0" name="ratedVoltage" type="pss:VoltageXmlType" />
+					<ns:element maxOccurs="1" minOccurs="0" name="ownerName" type="ns:string" />					<ns:element maxOccurs="1" minOccurs="0" name="ratedMachPower" type="pss:ActivePowerXmlType" />
+					<ns:element maxOccurs="1" minOccurs="0" name="ratedMachVoltage" type="pss:VoltageXmlType" />
 					<ns:element maxOccurs="1" minOccurs="0" name="pContributionPercent" type="ns:double" />
 					<ns:element maxOccurs="1" minOccurs="0" name="qContributionPercent" type="ns:double" />
 					<ns:element maxOccurs="1" minOccurs="1" ref="pss:machineModel" />

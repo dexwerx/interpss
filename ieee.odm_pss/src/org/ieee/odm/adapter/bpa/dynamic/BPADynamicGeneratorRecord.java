@@ -69,7 +69,7 @@ public class BPADynamicGeneratorRecord {
     		ClassicMachineXmlType mach = DStabParserHelper.createClassicMachine(dynGen);
     		
     		double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-	   		dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
+	   		dynGen.setRatedMachVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
 	   		
 	   		String dynGenId="1";
     		if(!strAry[3].equals("")){
@@ -162,7 +162,7 @@ public class BPADynamicGeneratorRecord {
     		DStabGenDataXmlType dynGen = (DStabGenDataXmlType)bus.getGenData().getEquivGen().getValue();
     		dynGen.setId(dynGenId);
 			double ratedVoltage=ModelStringUtil.getDouble(strAry[2], 0.0);
-		   	dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
+		   	dynGen.setRatedMachVoltage(DStabDataSetter.createVoltageValue(ratedVoltage, VoltageUnitType.KV));
     		
 		   	Eq1MachineXmlType mach=null; 
 	        boolean isEq1Ed1=true;
@@ -290,7 +290,7 @@ public class BPADynamicGeneratorRecord {
 			if(!busId1.equals("")&&Vol1!=0.0){
 		    	DStabBusXmlType bus1 = parser.getDStabBus(busId1);
 		    	DStabGenDataXmlType dynGen = (DStabGenDataXmlType)bus1.getGenData().getEquivGen().getValue();
-				dynGen.setRatedVoltage(DStabDataSetter.createVoltageValue(Vol1, VoltageUnitType.KV));
+				dynGen.setRatedMachVoltage(DStabDataSetter.createVoltageValue(Vol1, VoltageUnitType.KV));
 				EquiMachineXmlType mach = DStabParserHelper.createEquiMachine(dynGen);
 				
 				EquiMachineXmlType.EquivGen equGen =odmObjFactory.createEquiMachineXmlTypeEquivGen();

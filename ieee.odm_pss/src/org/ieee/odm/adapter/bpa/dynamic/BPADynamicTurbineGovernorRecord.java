@@ -51,7 +51,7 @@ public class BPADynamicTurbineGovernorRecord {
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
     	DStabGenDataXmlType dynGen = (DStabGenDataXmlType)bus.getGenData().getEquivGen().getValue();
-    	double ratedPower=dynGen.getRatedPower().getValue();
+    	double ratedPower=dynGen.getRatedMachPower().getValue();
     	
     	if(strAry[0].equals("GG")){ 
     		GovHydroSteamGeneralModelXmlType gov = DStabParserHelper.createGovHydroSteamGeneralModelXmlType(dynGen);
