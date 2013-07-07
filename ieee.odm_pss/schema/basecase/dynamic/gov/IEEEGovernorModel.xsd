@@ -43,7 +43,7 @@
     <ns:element name="govSteamTCSR" substitutionGroup="pss:governor" type="pss:GovSteamTCSRXmlType" />
     
 	
-    <ns:element name="govSteamTDSR" substitutionGroup="pss:governor" type="pss:GovSteamTDSRXmlType" />
+    <ns:element name="govSteamTCDR" substitutionGroup="pss:governor" type="pss:GovSteamTCDRXmlType" />
     
     <ns:element name="govIEEE1981Type1" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type1XmlType" />
     
