@@ -27,7 +27,7 @@ package org.ieee.odm.model.dc;
 import org.ieee.odm.model.base.BaseDataSetter;
 
 /**
- * DC system data setter help funcitons
+ * DC system data setter help functions
  * 
  * @author mzhou
  *

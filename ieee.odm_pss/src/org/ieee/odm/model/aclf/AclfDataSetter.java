@@ -96,6 +96,7 @@ public class AclfDataSetter extends BaseDataSetter {
 			}
     	
 	}
+
 	/**
 	 * set ZIP type (or Function Type) of load data to a load flow Bus
 	 * 
@@ -122,8 +123,6 @@ public class AclfDataSetter extends BaseDataSetter {
     	equivLoad.setConstILoad(createPowerValue(loadIP, loadIQ, unit));
     	equivLoad.setConstZLoad(createPowerValue(loadZP, loadZQ, unit));
 	}
-	
-	
 	
 	/**
 	 * set EquivGen object, then set value(code, p, q, unit) to the created EquivGenData object
@@ -264,7 +263,7 @@ public class AclfDataSetter extends BaseDataSetter {
 		addBusShuntY(bus, 0.0, var, unit);
 	}	
 
-	/*
+	/**
 	 * add a LineData object to the branchData object, then set value(r, x, zUnit, g, b, yUnit) 
 	 * to the created LineData object
 	 * 
@@ -287,6 +286,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	}
 	
 	/**
+	 * set Line lengh
 	 * 
 	 * @param lineInfo
 	 * @param length
@@ -409,6 +409,7 @@ public class AclfDataSetter extends BaseDataSetter {
 				fromTap, toTap, fromAng, toAng, angUnit,
 				0.0, 0.0, YUnitType.PU);
 	}	
+	
 	/**
 	 * set transformer rating data
 	 *  

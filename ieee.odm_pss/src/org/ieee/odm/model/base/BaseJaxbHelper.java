@@ -1,5 +1,5 @@
  /*
-  * @(#)ContainerHelper.java   
+  * @(#)BaseJaxbHelper.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *

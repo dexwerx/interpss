@@ -1,5 +1,5 @@
  /*
-  * @(#)AclfModelParser.java   
+  * @(#)BaseAclfModelParser.java   
   *
   * Copyright (C) 2009 www.interpss.org
   *
@@ -50,7 +50,7 @@ import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 
 /**
- * An Aclf Xml parser for the IEEE DOM schema. 
+ * A base Aclf Xml parser implementation for the IEEE DOM schema. 
  */
 public class BaseAclfModelParser<
 					TNetXml extends NetworkXmlType, 
@@ -59,6 +59,9 @@ public class BaseAclfModelParser<
 					TXfrXml extends BaseBranchXmlType,
 					TPsXfrXml extends BaseBranchXmlType
 				> extends AbstractModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> {
+
+	private Hashtable<String, FlowInterfaceRecXmlType> interfaceLookupTable = null;
+	
 	/**
 	 * Default Constructor 
 	 * 
@@ -187,8 +190,6 @@ public class BaseAclfModelParser<
 		return (PSXfr3WBranchXmlType)getBranch(fromId, toId, tertId, cirId);
 	}
 
-	
-
 	/**
 	 * create a PSXfr3WBranchXmlType object
 	 * 
@@ -200,8 +201,6 @@ public class BaseAclfModelParser<
 		intiBranchData(branch);
 		return (TPsXfrXml)branch;
 	}
-	
-	
 
 	/**
 	 * add a new 3W PS Xfr branch record to the base case and to the cache table
@@ -281,6 +280,11 @@ public class BaseAclfModelParser<
 		return interchange;
 	}	
 
+	/**
+	 * get interface object list
+	 * 
+	 * @return
+	 */
 	public List<FlowInterfaceRecXmlType> getInterfaceList() {
 		LoadflowNetXmlType net = getAclfNet();
 		return net.getFlowInterfaceList().getFlowInterface();
@@ -315,14 +319,13 @@ public class BaseAclfModelParser<
 			}
 		return null;
 	}	
+	
 	/**
 	 * get Interface record by id
 	 * 
 	 * @param id
 	 * @return
 	 */
-
-	private Hashtable<String, FlowInterfaceRecXmlType> interfaceLookupTable = null;
 	public FlowInterfaceRecXmlType getInterfaceCached(String id) {
 		LoadflowNetXmlType net = getAclfNet();
 		if (this.interfaceLookupTable == null) {

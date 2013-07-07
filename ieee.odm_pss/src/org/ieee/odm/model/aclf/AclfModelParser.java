@@ -31,7 +31,7 @@ import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 
 /**
- * An Aclf Xml parser for the IEEE DOM schema. 
+ * An Aclf Xml parser implementation for the IEEE DOM schema. 
  */
 public class AclfModelParser extends BaseAclfModelParser<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType> {
 	/**

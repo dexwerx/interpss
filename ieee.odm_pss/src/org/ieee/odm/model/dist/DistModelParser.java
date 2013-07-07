@@ -1,5 +1,5 @@
  /*
-  * @(#)DcSystemModelParser.java   
+  * @(#)DistModelParser.java   
   *
   * Copyright (C) 2010 www.interpss.org
   *
@@ -35,7 +35,6 @@ import org.ieee.odm.schema.FeederDistBranchXmlType;
 import org.ieee.odm.schema.GeneratorDistBusXmlType;
 import org.ieee.odm.schema.InductionMotorDistBusXmlType;
 import org.ieee.odm.schema.MixedLoadDistBusXmlType;
-import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
 import org.ieee.odm.schema.ReactorDistBranchXmlType;
 import org.ieee.odm.schema.SynchronousMotorDistBusXmlType;

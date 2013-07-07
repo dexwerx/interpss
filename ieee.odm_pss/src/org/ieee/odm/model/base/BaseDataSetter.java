@@ -1,5 +1,5 @@
  /*
-  * @(#)DataSetter.java   
+  * @(#)BaseDataSetter.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *

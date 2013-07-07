@@ -47,6 +47,4 @@ public class AcscModelParser extends BaseAcscModelParser<
 	public AcscModelParser() {
 		super();
 	}	
-	
-	
 }

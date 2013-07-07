@@ -99,6 +99,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * consolidate bus genContributionList to the equiv gen 
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public static boolean createBusEquivGenData(IODMModelParser parser ) {
 		LoadflowNetXmlType baseCaseNet = ((AbstractModelParser<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType>) parser).getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
@@ -198,6 +199,7 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * consolidate bus loadContributionList to the load 
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public static boolean createBusEquivLoadData(IODMModelParser parser) {
 		LoadflowNetXmlType baseCaseNet = ((AbstractModelParser<LoadflowNetXmlType, LoadflowBusXmlType, LineBranchXmlType, XfrBranchXmlType, PSXfrBranchXmlType>) parser).getNet(); 
 		for (JAXBElement<? extends BusXmlType> bus : baseCaseNet.getBusList().getBus()) {
@@ -274,11 +276,6 @@ public class AclfParserHelper extends BaseJaxbHelper {
 	 * 
 	 */
 	public static StaticVarCompensatorXmlType createSVC(LoadflowBusXmlType bus) {
-		//if (bus.getSvcData() == null) {
-			//LoadflowBusDataXmlType.
-		//	LoadflowBusXmlType.SvcData data = odmObjFactory.createLoadflowBusXmlTypeSvcData();
-		//	bus.setSvcData(data);
-		//}
 		StaticVarCompensatorXmlType svc = odmObjFactory.createStaticVarCompensatorXmlType();
 		bus.setSvc(svc);
 		return svc;

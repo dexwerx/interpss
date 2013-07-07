@@ -1,5 +1,5 @@
  /*
-  * @(#)AcscModelParser.java   
+  * @(#)BaseAcscModelParser.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -58,6 +58,11 @@ public class BaseAcscModelParser<
 		super();
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param encoding
+	 */
 	public BaseAcscModelParser(String encoding) {
 		super(encoding);
 	}	
@@ -169,7 +174,6 @@ public class BaseAcscModelParser<
     public LineShortCircuitXmlType getAcscLine(String fromId, String toId, String cirId) throws ODMException {
 		return (LineShortCircuitXmlType)this.getBranch(fromId, toId, cirId);
     }
-    
   
 	 /**
 	  * get the Acsc Xfr object using the id. If the branch object is of type aclfXfr or DstabXfr,
@@ -196,7 +200,4 @@ public class BaseAcscModelParser<
    public PSXfrShortCircuitXmlType getAcscPsXfr(String fromId, String toId, String cirId) throws ODMException{
 		return (PSXfrShortCircuitXmlType)this.getBranch(fromId, toId, cirId);
   	}
-   
-   
-
 }

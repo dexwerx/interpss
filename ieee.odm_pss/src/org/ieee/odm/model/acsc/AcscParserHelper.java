@@ -32,13 +32,14 @@ import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
+import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
-import org.ieee.odm.schema.XformrtConnectionEnumType;
 import org.ieee.odm.schema.ZUnitType;
 
 /**
@@ -48,7 +49,6 @@ import org.ieee.odm.schema.ZUnitType;
  *
  */
 public class AcscParserHelper extends AclfParserHelper {
-
 	/**
 	 * create Acsc equiv gen
 	 * 
@@ -93,6 +93,33 @@ public class AcscParserHelper extends AclfParserHelper {
 	}
 	
 	/**
+	 * create Acsc equiv load
+	 * 
+	 * @return
+	 */
+	public static JAXBElement<ShortCircuitLoadDataXmlType> createAcscEquivLoad() {
+		ShortCircuitLoadDataXmlType equivLoad = odmObjFactory.createShortCircuitLoadDataXmlType();
+		return odmObjFactory.createAcscEquivLoad(equivLoad);
+	}
+
+	/**
+	 * create a ShortCircuit Contribution Load object
+	 * 
+	 */
+	public static ShortCircuitLoadDataXmlType createAcscContriLoad(ShortCircuitBusXmlType busRec) {
+		BusLoadDataXmlType loadData = busRec.getLoadData();
+		if (loadData == null) { 
+			loadData = odmObjFactory.createBusLoadDataXmlType();
+			busRec.setLoadData(loadData);
+			ShortCircuitLoadDataXmlType equivLoad = odmObjFactory.createShortCircuitLoadDataXmlType();
+			loadData.setEquivLoad(odmObjFactory.createAcscEquivLoad(equivLoad));
+		}
+		ShortCircuitLoadDataXmlType contribLoad = odmObjFactory.createShortCircuitLoadDataXmlType();
+	    loadData.getContributeLoad().add(odmObjFactory.createAcscEquivLoad(contribLoad)); 
+	    return contribLoad;
+	}	
+	
+	/**
 	 * create directed or solid grounding xfr connection xml Type
 	 * @return
 	 */
@@ -103,6 +130,7 @@ public class AcscParserHelper extends AclfParserHelper {
 		xfrConnect.setGrounding(ground);
 		return xfrConnect;
 	}
+	
 	/**
 	 * create impdeance grounding xfr connection xml Type
 	 * ZG = rg + j* xg
@@ -130,6 +158,4 @@ public class AcscParserHelper extends AclfParserHelper {
 		xfrConnect.setGrounding(ground);
 		return xfrConnect;
 	}
-	
-	  
 }

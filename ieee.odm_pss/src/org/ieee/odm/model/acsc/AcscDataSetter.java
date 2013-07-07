@@ -28,7 +28,7 @@ package org.ieee.odm.model.acsc;
 import org.ieee.odm.model.aclf.AclfDataSetter;
 
 /**
- * Acsc ODM model setter funcions
+ * Acsc ODM model setter functions
  * 
  * @author mzhou
  *
