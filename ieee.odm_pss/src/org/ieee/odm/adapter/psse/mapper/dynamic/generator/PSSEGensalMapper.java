@@ -55,7 +55,7 @@ public class PSSEGensalMapper extends BasePSSEDataMapper{
 	    
 	   DStabBusXmlType busXml = parser.getBus(busId);
 	    
-	   DStabGenDataXmlType dstabGenData = DStabParserHelper.getDstabContritueGen(busXml, genId);
+	   DStabGenDataXmlType dstabGenData = DStabParserHelper.getDStabContritueGen(busXml, genId);
 	   
 	   Eq11MachineXmlType mach = DStabParserHelper.createEq11Machine(dstabGenData);
 	   
