@@ -54,7 +54,7 @@
     
 	
 	
-    <!-- Tandem compound,single reheat stream turbine model-->
+    <!-- non-reheat stream turbine model-->
     <ns:complexType name="SteamTurbineNRXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:TurbineModelXmlType">
@@ -68,7 +68,8 @@
     
 	
 	
-	<!-- Tandem compound,double reheat stream turbine model-->
+	
+	<!-- Tandem compound,single reheat stream turbine model-->
     <ns:complexType name="SteamTurbineTCSRXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:SteamTurbineNRXmlType">
@@ -83,7 +84,7 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-		
+	<!-- Tandem compound,double reheat stream turbine model-->	
     <ns:complexType name="SteamTurbineTCDRXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:SteamTurbineNRXmlType">
@@ -111,7 +112,7 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-	
+	<!-- Stream speed Gov and Tandem compound,non-reheat turbine combo model-->	
     <ns:complexType name="GovSteamNRXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovernorModelXmlType">
@@ -130,14 +131,14 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-	
+	<!-- Stream speed Gov and Tandem compound,single-reheat turbine combo model-->	
     <ns:complexType name="GovSteamTCSRXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovSteamNRXmlType">
 		<ns:sequence>			
 			<ns:element maxOccurs="1" minOccurs="1" name="TRH" type="pss:TimePeriodXmlType" />
 			<ns:element maxOccurs="1" minOccurs="1" name="TCO" type="pss:TimePeriodXmlType" />						
-			<ns:element maxOccurs="1" minOccurs="1" name="FCH" type="ns:double" />
+			<ns:element maxOccurs="1" minOccurs="1" name="FHP" type="ns:double" />
 			<ns:element maxOccurs="1" minOccurs="1" name="FIP" type="ns:double" />
 			<ns:element maxOccurs="1" minOccurs="1" name="FLP" type="ns:double" />						
 		</ns:sequence>
@@ -145,8 +146,8 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-
-    <ns:complexType name="GovSteamTDSRXmlType">
+     <!-- Stream speed Gov and Tandem compound,double-reheat turbine combo model-->	
+    <ns:complexType name="GovSteamTCDRXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovSteamNRXmlType">
 		<ns:sequence>			
@@ -162,7 +163,9 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-
+    <!-- IEEE Recommended General Stream speed Gov and turbine combo model
+         It is called IEEE 1981 Type 1 model and compatible with PSSE IEEEG1 model
+    -->	
     <ns:complexType name="GovIEEE1981Type1XmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovernorModelXmlType">
@@ -192,7 +195,9 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-
+    <!-- An alternative representations of hydro turbine speed governing systems
+         It is called IEEE 1981 Type 2 model and compatible with PSSE IEEEG2 model
+    -->	
     <ns:complexType name="GovIEEE1981Type2XmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovernorModelXmlType">
@@ -209,7 +214,9 @@
 		</ns:complexContent>		
 	</ns:complexType>
     
-
+    <!-- An alternative representations of hydro turbine speed governing systems
+         It is called IEEE 1981 Type 3 model and compatible with PSSE IEEEG3 model
+    -->    
     <ns:complexType name="GovIEEE1981Type3XmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovernorModelXmlType">
