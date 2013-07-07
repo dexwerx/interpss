@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pss:pssStudyCase id="idvalue0" xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
+<pss:pssStudyCase id="idvalue0"  schemaVersion="0.9.0"
+xmlns:pss="http://www.ieee.org/odm/Schema/2008" 
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/schema/ODMSchema.xsd ">
-	<pss:schemaVersion>V0.8</pss:schemaVersion>
 	<pss:contentInfo>
 		<pss:originalDataFormat>InterPSS</pss:originalDataFormat>
 		<pss:adapterProviderVersion>1.0</pss:adapterProviderVersion>
@@ -16,19 +16,10 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
 			<pss:dstabBus scCode="Contributing" id="Bus-1" offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138"></pss:baseVoltage>
 				<pss:genData>
-					<pss:equivGen code="PQ" id="Bus4-Gen1">
+					<pss:dstabEquivGen code="PQ" id="Bus4-Gen1">
 						<pss:power im="1.0" unit="PU" re="2.0"/>
-					</pss:equivGen>
-				</pss:genData>
-                <pss:loadData>
-                    <pss:equivLoad id="L1" code="CONST_P">
-                        <pss:constPLoad unit="PU" im="0.2" re="0.2"/>
-                    </pss:equivLoad>
-                </pss:loadData>	
-                <!-- pss:shuntY unit="PU" im="-0.1763285" re="0.1763285"/-->
-					<pss:dynamicGen id="m1">
-						<pss:ratedPower unit="MW" value="600"></pss:ratedPower>
-						<pss:ratedVoltage unit="KV" value="138" />
+						<pss:ratedMachPower unit="MW" value="600"/>
+						<pss:ratedMachVoltage unit="KV" value="138" />
 						<pss:eq1MachModel>
 							<pss:H>3</pss:H>
 							<pss:D>1</pss:D>
@@ -45,19 +36,22 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
 								<pss:sliner>0.7</pss:sliner>
 							</pss:seFmt1>
 						</pss:eq1MachModel>
-					</pss:dynamicGen>
+					</pss:dstabEquivGen>
+				</pss:genData>
+                <pss:loadData>
+                    <pss:equivLoad id="L1" code="CONST_P">
+                        <pss:constPLoad unit="PU" im="0.2" re="0.2"/>
+                    </pss:equivLoad>
+                </pss:loadData>	
 			</pss:dstabBus>
 			<pss:dstabBus scCode="Contributing" id="Bus-5" offLine="false" areaNumber="1" zoneNumber="1">
 				<pss:baseVoltage unit="KV" value="138" />
 				<pss:genData>
-					<pss:equivGen code="Swing" id="Bus5-Gen1">
+					<pss:dstabEquivGen code="Swing" id="Bus5-Gen1">
 						<pss:desiredVoltage unit="PU" value="1.00" />
 						<pss:desiredAngle unit="DEG" value="0.0" />
-					</pss:equivGen>
-				</pss:genData>
-					<pss:dynamicGen id="m2">
-						<pss:ratedPower unit="MW" value="100"></pss:ratedPower>
-						<pss:ratedVoltage unit="KV" value="138" />
+						<pss:ratedMachPower unit="MW" value="100"/>
+						<pss:ratedMachVoltage unit="KV" value="138" />
 						<pss:equiMachModel>
 							<pss:equivSource>
 								<pss:scMva3Phase>10000.0</pss:scMva3Phase>
@@ -66,7 +60,8 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
 								<pss:xOverR1Phase>20.0</pss:xOverR1Phase>
 							</pss:equivSource>
 						</pss:equiMachModel>
-					</pss:dynamicGen>
+					</pss:dstabEquivGen>
+				</pss:genData>
 			</pss:dstabBus>
 		</pss:busList>
 		<pss:branchList>
@@ -80,6 +75,7 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
 		</pss:branchList>
 		<pss:hasLoadflowData>true</pss:hasLoadflowData>
 		<pss:positiveSeqDataOnly>false</pss:positiveSeqDataOnly>
+		<pss:hasShortCircuitData>false</pss:hasShortCircuitData>
 		<pss:saturatedMachineParameter>false</pss:saturatedMachineParameter>
 	</pss:dstabNet>
 </pss:pssStudyCase>
