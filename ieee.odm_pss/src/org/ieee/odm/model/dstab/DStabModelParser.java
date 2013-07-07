@@ -27,8 +27,6 @@ package org.ieee.odm.model.dstab;
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.BaseAclfModelParser;
-import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.model.base.ModelStringUtil;
 import org.ieee.odm.schema.BaseBranchXmlType;

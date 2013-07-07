@@ -1,3 +1,26 @@
+ /*
+  * @(#)BaseDstabModelParser.java   
+  *
+  * Copyright (C) 2008 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 08/11/2010
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
 package org.ieee.odm.model.dstab;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
@@ -8,28 +31,32 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
-import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.PSXfrDStabXmlType;
-import org.ieee.odm.schema.ShortCircuitBusXmlType;
-import org.ieee.odm.schema.ShortCircuitNetXmlType;
-import org.ieee.odm.schema.XfrDStabXmlType;
 
 public class BaseDstabModelParser <
-TNetXml extends NetworkXmlType, 
-TBusXml extends BusXmlType,
-TLineXml extends BranchXmlType,
-TXfrXml extends BranchXmlType,
-TPsXfrXml extends BranchXmlType
-> extends BaseAcscModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> {
+				TNetXml extends NetworkXmlType, 
+				TBusXml extends BusXmlType,
+				TLineXml extends BranchXmlType,
+				TXfrXml extends BranchXmlType,
+				TPsXfrXml extends BranchXmlType
+				> extends BaseAcscModelParser<TNetXml, TBusXml, TLineXml, TXfrXml, TPsXfrXml> {
 
+	/**
+	 * default constructor
+	 */
 	public BaseDstabModelParser() {
 		super();
 	}
 	
+	/**
+	 * constructor
+	 * 
+	 * @param encoding
+	 */
 	public BaseDstabModelParser(String encoding) {
 		super(encoding);
 	}	
+	
 	/**
 	 * get the base case object of type ShortCircuitNetXmlType
 	 * 
@@ -67,6 +94,4 @@ TPsXfrXml extends BranchXmlType
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return (TBusXml)busRec;
 	}	
-	
-	
 }
