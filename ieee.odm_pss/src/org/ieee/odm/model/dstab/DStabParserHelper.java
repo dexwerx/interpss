@@ -29,11 +29,13 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMException;
-import org.ieee.odm.model.aclf.AclfParserHelper;
+import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.schema.BusGenDataXmlType;
+import org.ieee.odm.schema.BusLoadDataXmlType;
 import org.ieee.odm.schema.ClassicMachineXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabGenDataXmlType;
+import org.ieee.odm.schema.DStabLoadDataXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.Eq1Ed1MachineXmlType;
@@ -85,8 +87,6 @@ import org.ieee.odm.schema.PssIEEE1992Type2AXmlType;
 import org.ieee.odm.schema.PssIEEE1AXmlType;
 import org.ieee.odm.schema.PssIEEEDualInputXmlType;
 import org.ieee.odm.schema.PssSimpleTypeXmlType;
-import org.ieee.odm.schema.ShortCircuitBusXmlType;
-import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGiGaCombinedXmlType;
 import org.ieee.odm.schema.SpeedGovBPARegGIModelXmlType;
@@ -103,35 +103,7 @@ import org.ieee.odm.schema.SteamTurbineTCSRXmlType;
  * @author mzhou
  *
  */
-public class DStabParserHelper extends AclfParserHelper {
-	/**
-	 * Get or create a dynamic generator record at the bus
-	 * 
-	 * @param bus
-	 * @return
-	 */
-	public static DStabGenDataXmlType getDynamicGenRec(DStabBusXmlType bus) {
-		return (DStabGenDataXmlType)bus.getGenData().getEquivGen().getValue();
-	}
-	
-	/**
-	 * create a Acsc Contributing Generator object
-	 * 
-	 */
-	public static DStabGenDataXmlType createDStabContributeGen(DStabBusXmlType busRec, String genId) {
-		BusGenDataXmlType genData = busRec.getGenData();
-		if (genData == null) {
-			genData = odmObjFactory.createBusGenDataXmlType();
-			busRec.setGenData(genData);
-			genData.setEquivGen(createDStabEquivGen());
-		}
-		// some model does not need ContributeGenList
-		DStabGenDataXmlType contribGen = odmObjFactory.createDStabGenDataXmlType();
-		contribGen.setId(genId);
-		genData.getContributeGen().add(odmObjFactory.createDstabGenData(contribGen));
-		return contribGen;
-	}
-	
+public class DStabParserHelper extends AcscParserHelper {
 	/**
 	 * create DStab equiv gen
 	 * 
@@ -143,13 +115,13 @@ public class DStabParserHelper extends AclfParserHelper {
 	}
 	
 	/**
-	 * get Dstab Gen Data object on the dstab Bus with id = genId
+	 * get DStab Gen Data object on the acscBus with id = genId
 	 * 
-	 * @param acscBus
+	 * @param dstabBus
 	 * @param genId
-	 * @return null if dstabGenData not found
+	 * @return null if acscGenData not found
 	 */
-	public static DStabGenDataXmlType getDstabContritueGen(DStabBusXmlType dstabBus, String genId) throws ODMException {
+	public static DStabGenDataXmlType getDStabContritueGen(DStabBusXmlType dstabBus, String genId) throws ODMException {
 		for (JAXBElement<? extends LoadflowGenDataXmlType> elem : dstabBus.getGenData().getContributeGen()) {
 			DStabGenDataXmlType dstabGenData = (DStabGenDataXmlType)elem.getValue();
 			if (dstabGenData.getId().equals(genId))
@@ -157,6 +129,50 @@ public class DStabParserHelper extends AclfParserHelper {
 		}
     	throw new ODMException("Generator not found, ID: " + genId + "@Bus:" + dstabBus.getId());
 	}
+	
+	/**
+	 * create a DStab Contributing Generator object
+	 * 
+	 */
+	public static DStabGenDataXmlType createDStabContributeGen(DStabBusXmlType busRec) {
+		BusGenDataXmlType genData = busRec.getGenData();
+		if (genData == null) {
+			genData = odmObjFactory.createBusGenDataXmlType();
+			busRec.setGenData(genData);
+			genData.setEquivGen(createDStabEquivGen());
+		}
+		// some model does not need ContributeGenList
+		DStabGenDataXmlType contribGen = odmObjFactory.createDStabGenDataXmlType();
+		genData.getContributeGen().add(odmObjFactory.createDstabGenData(contribGen));
+		return contribGen;
+	}
+	
+	/**
+	 * create DStab equiv load
+	 * 
+	 * @return
+	 */
+	public static JAXBElement<DStabLoadDataXmlType> createDStabEquivLoad() {
+		DStabLoadDataXmlType equivLoad = odmObjFactory.createDStabLoadDataXmlType();
+		return odmObjFactory.createDstabEquivLoad(equivLoad);
+	}
+
+	/**
+	 * create a DStab Contribution Load object
+	 * 
+	 */
+	public static DStabLoadDataXmlType createDStabContriLoad(DStabBusXmlType busRec) {
+		BusLoadDataXmlType loadData = busRec.getLoadData();
+		if (loadData == null) { 
+			loadData = odmObjFactory.createBusLoadDataXmlType();
+			busRec.setLoadData(loadData);
+			DStabLoadDataXmlType equivLoad = odmObjFactory.createDStabLoadDataXmlType();
+			loadData.setEquivLoad(odmObjFactory.createDstabEquivLoad(equivLoad));
+		}
+		DStabLoadDataXmlType contribLoad = odmObjFactory.createDStabLoadDataXmlType();
+	    loadData.getContributeLoad().add(odmObjFactory.createDstabEquivLoad(contribLoad)); 
+	    return contribLoad;
+	}	
 
 	/*
 	 * Machine model creation functions
