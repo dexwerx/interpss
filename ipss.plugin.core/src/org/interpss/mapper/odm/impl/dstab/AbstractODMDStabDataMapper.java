@@ -42,7 +42,6 @@ import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
-import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.MachineModelXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
@@ -50,7 +49,6 @@ import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
-import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.StabilizerModelXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -125,39 +123,26 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				dstabAlgo.setAclfAlgorithm(lfAlgo);
 
 				// map the bus info
+				AclfBusDataHelper helper = new AclfBusDataHelper(dstabNet);
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
-					// for DStab, the bus could be aclfBus, acscBus or dstabBus
-					// inheritance relationship aclfBus <- acscBus <- dstabBus
-					if (bus.getValue() instanceof LoadflowBusXmlType) {
-						LoadflowBusXmlType aclfBusXml = (LoadflowBusXmlType)bus.getValue();
-						DStabBus dstabBus = DStabObjectFactory.createDStabBus(aclfBusXml.getId(), dstabNet);
+					DStabBusXmlType dstabBusXml = (DStabBusXmlType) bus.getValue();
+					
+					DStabBus dstabBus = DStabObjectFactory.createDStabBus(dstabBusXml.getId(), dstabNet);
 						
-						// base the base bus info part
-						mapBaseBusData(aclfBusXml, dstabBus, dstabNet);
+					// base the base bus info part
+					mapBaseBusData(dstabBusXml, dstabBus, dstabNet);
 						
-						// map the Aclf info part
-						AclfBusDataHelper helper = new AclfBusDataHelper(dstabNet, dstabBus);
-						helper.setAclfBusData(aclfBusXml);
+					// map the Aclf info part
+					helper.setAclfBus(dstabBus);
+					helper.setAclfBusData(dstabBusXml);
 						
-						// if the record includes Acsc info, do the mapping
-						if (bus.getValue() instanceof ShortCircuitBusXmlType) {
-							ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType) bus.getValue();
-							setAcscBusData(acscBusXml, dstabBus);
-						}
+					// if the record includes Acsc bus info, do the mapping
+					if (xmlNet.isHasShortCircuitData()) {
+						setAcscBusData(dstabBusXml, dstabBus);
+					}
 
-						// if the record includes DStab info, do the mapping
-						if (bus.getValue() instanceof DStabBusXmlType) {
-							DStabBusXmlType dstabBusXml = (DStabBusXmlType) bus.getValue();
-							setDStabBusData(dstabBusXml, dstabBus);
-						}
-					}
-					else {
-						ipssLogger.severe( "Error: only aclfBus, acscBus and dstabBus could be used for DStab study");
-						noError = false;
-					}
+					setDStabBusData(dstabBusXml, dstabBus);
 				}
-				// TODO
-				
 
 				// map the branch info
 				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
@@ -221,32 +206,32 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 	
 	private void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
-		if (dstabBusXml.getGenData().getContributeGen() != null)
-			for (JAXBElement<? extends LoadflowGenDataXmlType> gen : dstabBusXml.getGenData().getContributeGen()) {
-				DStabGenDataXmlType dyGen = (DStabGenDataXmlType)gen.getValue();
-				// create the machine model and added to the parent bus object
-				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
-				String machId = dstabBus.getId() + "-mach" + ++cnt;
-				Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
+		/*
+		 * It is assumed that contribute generators are consolidated to the equivGen
+		 */
+		DStabGenDataXmlType dyGen = (DStabGenDataXmlType)dstabBusXml.getGenData().getEquivGen().getValue();
+		// create the machine model and added to the parent bus object
+		MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
+		String machId = dstabBus.getId() + "-mach" + ++cnt;
+		Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedPower(), dyGen.getRatedVoltage())
 									.createMachine(machXmlRec, machId);
 				
-				if (dyGen.getExciter() != null) {
-					// create the exc model and add to the parent machine object
-					ExciterModelXmlType excXml = dyGen.getExciter().getValue();
-					new ExciterDataHelper(mach).createExciter(excXml);
+		if (dyGen.getExciter() != null) {
+			// create the exc model and add to the parent machine object
+			ExciterModelXmlType excXml = dyGen.getExciter().getValue();
+			new ExciterDataHelper(mach).createExciter(excXml);
 					
-					if (dyGen.getStabilizer() != null) {
-						// create the pss model and add to the parent machine object
-						StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
-						new StabilizerDataHelper(mach).createStabilizer(pssXml);
-					}
-				}
-
-				if (dyGen.getGovernor() != null) {
-					// create the gov model and add to the parent machine object
-					GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
-					new GovernorDataHelper(mach).createGovernor(govXml);
-				}
+			if (dyGen.getStabilizer() != null) {
+				// create the pss model and add to the parent machine object
+				StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
+				new StabilizerDataHelper(mach).createStabilizer(pssXml);
 			}
+		}
+
+		if (dyGen.getGovernor() != null) {
+			// create the gov model and add to the parent machine object
+			GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
+			new GovernorDataHelper(mach).createGovernor(govXml);
+		}
 	}
 }

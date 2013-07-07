@@ -33,17 +33,15 @@ import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 
 import org.apache.commons.math3.complex.Complex;
-import org.ieee.odm.common.ODMLogger;
+import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.BusGenDataXmlType;
 import org.ieee.odm.schema.BusLoadDataXmlType;
-import org.ieee.odm.schema.AngleXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.PowerXmlType;
-import org.ieee.odm.schema.ReactivePowerXmlType;
 import org.ieee.odm.schema.VoltageXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.interpss.numeric.datatype.LimitType;
@@ -81,9 +79,18 @@ public class AclfBusDataHelper {
 	 * @param aclfNet
 	 * @param aclfBus
 	 */
-	public AclfBusDataHelper(AclfNetwork aclfNet, AclfBus aclfBus) {
+	public AclfBusDataHelper(AclfNetwork aclfNet) {
 		this.aclfNet = aclfNet;
 		this.aclfBus = aclfBus;
+	}
+	
+	/**
+	 * set AclfBus object
+	 * 
+	 * @param bus
+	 */
+	public void setAclfBus(AclfBus bus) {
+		this.aclfBus = bus;
 	}
 	
 	/**

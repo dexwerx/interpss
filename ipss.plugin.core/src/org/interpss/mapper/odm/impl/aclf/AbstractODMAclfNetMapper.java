@@ -126,11 +126,11 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 			simuCtx.setAclfNet(aclfNet);
 
 			//XformerZTableXmlType xfrZTable = xmlNet.getXfrZTable();
-			
+			AclfBusDataHelper busHelper = new AclfBusDataHelper(aclfNet);
 			for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 				LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId(), aclfNet);
-				mapAclfBusData(busRec, aclfBus, aclfNet);
+				mapAclfBusData(busRec, aclfBus, aclfNet, busHelper);
 				//System.out.println("map bus " + aclfBus.getId());
 			}
 			// TODO 
@@ -272,7 +272,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 	 * @return
 	 * @throws Exception
 	 */
-	public AclfBus mapAclfBusData(LoadflowBusXmlType xmlBusRec, AclfBus aclfBus, AclfNetwork adjNet) throws InterpssException {
+	public AclfBus mapAclfBusData(LoadflowBusXmlType xmlBusRec, AclfBus aclfBus, AclfNetwork adjNet, AclfBusDataHelper helper) throws InterpssException {
 		if (adjNet.getOriginalDataFormat() == OriginalDataFormat.PWD) {
 			AclfBusPWDExtension ext = new AclfBusPWDExtension();
 			aclfBus.setExtensionObject(ext);
@@ -283,7 +283,7 @@ public abstract class AbstractODMAclfNetMapper<Tfrom> extends AbstractODMSimuCtx
 
 		mapBaseBusData(xmlBusRec, aclfBus, adjNet);
 
-		AclfBusDataHelper helper = new AclfBusDataHelper(adjNet, aclfBus);
+		helper.setAclfBus(aclfBus);
 		helper.setAclfBusData(xmlBusRec);
 		
 		return aclfBus;

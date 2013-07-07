@@ -126,6 +126,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				mapAcscNetworkData(acscFaultNet,xmlNet);
 
 				// map the bus info
+				AclfBusDataHelper helper = new AclfBusDataHelper(acscFaultNet);
 				for (JAXBElement<? extends BusXmlType> busXml : xmlNet.getBusList().getBus()) {
 					ShortCircuitBusXmlType acscBusXml = (ShortCircuitBusXmlType)busXml.getValue();
 					// for short circuit, the bus could be acscBus or acscNoLFBus 
@@ -137,7 +138,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 					// map the base bus info part
 					mapBaseBusData(acscBusXml, acscBus, acscFaultNet);
 					// map the Aclf info part		
-					AclfBusDataHelper helper = new AclfBusDataHelper(acscFaultNet, acscBus);
+					helper.setAclfBus(acscBus);
 					helper.setAclfBusData(acscBusXml);
 					
 					setAcscBusData(acscBusXml, acscBus);

@@ -137,6 +137,8 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 					opfNet = mapOpfNetData((OpfNetworkXmlType)xmlNet);
 				simuCtx.setOpfNet(opfNet);
 
+				
+				AclfBusDataHelper busHelper = new AclfBusDataHelper(opfNet);
 				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
 				for (JAXBElement<? extends BusXmlType> bus : xmlNet.getBusList().getBus()) {
 					if (bus.getValue() instanceof OpfDclfGenBusXmlType ||
@@ -154,11 +156,11 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 						LoadflowBusXmlType busRec = (LoadflowBusXmlType) bus.getValue();
 						if (xmlNet.getOpfNetType() == OpfNetworkEnumType.SIMPLE_DCLF) {
 							DclfOpfBus opfDclfBus = OpfObjectFactory.createDclfOpfBus(busRec.getId(), (DclfOpfNetwork)opfNet);
-							aclfNetMapper.mapAclfBusData(busRec, opfDclfBus, opfNet);
+							aclfNetMapper.mapAclfBusData(busRec, opfDclfBus, opfNet, busHelper);
 						}
 						else {
 							OpfBus opfBus = OpfObjectFactory.createOpfBus(busRec.getId(), (OpfNetwork)opfNet);
-							aclfNetMapper.mapAclfBusData(busRec, opfBus, opfNet);
+							aclfNetMapper.mapAclfBusData(busRec, opfBus, opfNet, busHelper);
 						}
 					}
 				}
@@ -230,7 +232,8 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		OpfGenBus opfGenBus = OpfObjectFactory.createOpfGenBus(busRec.getId(), net);
 		mapBaseBusData(busRec, opfGenBus, net);
 
-		AclfBusDataHelper helper = new AclfBusDataHelper(net, opfGenBus);
+		AclfBusDataHelper helper = new AclfBusDataHelper(net);
+		helper.setAclfBus(opfGenBus);
 		helper.setAclfBusData(busRec);
 		
 
@@ -387,7 +390,8 @@ public abstract class AbstractODMOpfDataMapper <Tfrom> extends AbstractODMAclfPa
 		DclfOpfGenBus opfGenBus = OpfObjectFactory.createDclfOpfGenBus(busRec.getId(), net);
 		mapBaseBusData(busRec, opfGenBus, net);
 
-		AclfBusDataHelper helper = new AclfBusDataHelper(net, opfGenBus);
+		AclfBusDataHelper helper = new AclfBusDataHelper(net);
+		helper.setAclfBus(opfGenBus);
 		helper.setAclfBusData(busRec);
 		
 		/*
