@@ -69,8 +69,7 @@ public class BPADynamicExciterRecord {
     	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
-
+    	DStabGenDataXmlType dynGen = (DStabGenDataXmlType)bus.getGenData().getEquivGen().getValue();
     	
     	if(type==EA){
     		ExcIEEE1968Type1XmlType exc = DStabParserHelper.createExcIEEE1968Type1XmlType(dynGen);

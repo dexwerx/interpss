@@ -50,7 +50,7 @@ public class BPADynamicTurbineGovernorRecord {
     	String busId = BPABusRecord.getBusId(strAry[1]);
     	DStabBusXmlType bus = parser.getDStabBus(busId);
     	
-    	DStabGenDataXmlType dynGen = DStabParserHelper.getDynamicGenRec(bus);
+    	DStabGenDataXmlType dynGen = (DStabGenDataXmlType)bus.getGenData().getEquivGen().getValue();
     	double ratedPower=dynGen.getRatedPower().getValue();
     	
     	if(strAry[0].equals("GG")){ 
