@@ -143,7 +143,7 @@ public class DStabParserHelper extends AcscParserHelper {
 		}
 		// some model does not need ContributeGenList
 		DStabGenDataXmlType contribGen = odmObjFactory.createDStabGenDataXmlType();
-		genData.getContributeGen().add(odmObjFactory.createDstabGenData(contribGen));
+		genData.getContributeGen().add(odmObjFactory.createDstabContributeGen(contribGen));
 		return contribGen;
 	}
 	

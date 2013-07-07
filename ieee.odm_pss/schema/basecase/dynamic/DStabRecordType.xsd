@@ -30,7 +30,7 @@
 	</ns:element>
 	
 	
-     <ns:element name="dstabGenData" substitutionGroup="pss:contributeGen" type="pss:DStabGenDataXmlType">
+     <ns:element name="dstabContributeGen" substitutionGroup="pss:contributeGen" type="pss:DStabGenDataXmlType">
         <ns:annotation><ns:documentation>
 		Generator data record for dynamic stability analysis
 		</ns:documentation></ns:annotation>
@@ -42,7 +42,7 @@
 		</ns:documentation></ns:annotation>
     </ns:element>   
 	
-     <ns:element name="dstabLoadData" substitutionGroup="pss:contributeLoad" type="pss:DStabLoadDataXmlType">
+     <ns:element name="dstabContributeLoad" substitutionGroup="pss:contributeLoad" type="pss:DStabLoadDataXmlType">
         <ns:annotation><ns:documentation>
 		Load data record for dynamic stability analysis
 		</ns:documentation></ns:annotation>

@@ -30,7 +30,7 @@
     </ns:element>
     
     
-     <ns:element name="acscGenData" substitutionGroup="pss:contributeGen" type="pss:ShortCircuitGenDataXmlType">
+     <ns:element name="acscContributeGen" substitutionGroup="pss:contributeGen" type="pss:ShortCircuitGenDataXmlType">
         <ns:annotation><ns:documentation>
 		Generator data record for short circuit analysis
 		</ns:documentation></ns:annotation>
@@ -42,7 +42,7 @@
 		</ns:documentation></ns:annotation>
     </ns:element>   
 	
-     <ns:element name="acscLoadData" substitutionGroup="pss:contributeLoad" type="pss:ShortCircuitLoadDataXmlType">
+     <ns:element name="acscContributeLoad" substitutionGroup="pss:contributeLoad" type="pss:ShortCircuitLoadDataXmlType">
         <ns:annotation><ns:documentation>
 		Load data record for short circuit analysis
 		</ns:documentation></ns:annotation>

@@ -88,7 +88,7 @@ public class AcscParserHelper extends AclfParserHelper {
 		}
 		// some model does not need ContributeGenList
 		ShortCircuitGenDataXmlType contribGen = odmObjFactory.createShortCircuitGenDataXmlType();
-		genData.getContributeGen().add(odmObjFactory.createAcscGenData(contribGen));
+		genData.getContributeGen().add(odmObjFactory.createAcscContributeGen(contribGen));
 		return contribGen;
 	}
 	
