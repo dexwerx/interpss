@@ -79,11 +79,15 @@ public abstract class AbstractModelParser<
 	public static final String BusIdPreFix = "Bus";
 	
 	protected String encoding = IODMModelParser.defaultEncoding;
+	
 	// bus and branch object cache for fast lookup. 
 	protected Hashtable<String,IDRecordXmlType> objectCache = null;
 	
 	protected StudyCaseXmlType pssStudyCase = null;
 	
+	private static Unmarshaller unmarshaller = null;
+	private static Marshaller marshaller = null;
+
 	/**
 	 * Default Constructor 
 	 * 
@@ -261,6 +265,11 @@ public abstract class AbstractModelParser<
 		return this.pssStudyCase;
 	}
 
+	/**
+	 * get the base case network object
+	 * 
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	protected TNetXml getBaseCase() {
 		return (TNetXml)this.pssStudyCase.getBaseCase().getValue();
@@ -469,8 +478,6 @@ public abstract class AbstractModelParser<
 		return busRec;
 	}		
 	
-	
-	
 	/**
 	 * add a new bus record to the base case and to the cache table
 	 * 
@@ -487,14 +494,44 @@ public abstract class AbstractModelParser<
 	 *    Branch functions
 	 *    ================
 	 */
+	/**
+	 * create Line branch object, an abstract method to be implemented by the subclass
+	 * 
+	 * @return
+	 */
 	public abstract TLineXml createLineBranch();
 	
+	/**
+	 * create Xformer branch object, an abstract method to be implemented by the subclass
+	 * 
+	 * @return
+	 */
 	public abstract TXfrXml  createXfrBranch();
 	
+	/**
+	 * create 3W Xformer branch object, an abstract method to be implemented by the subclass
+	 * 
+	 * @return
+	 */
 	public abstract TXfrXml  createXfr3WBranch();
 	
+	/**
+	 * create PsXformer branch object, an abstract method to be implemented by the subclass
+	 * 
+	 * @return
+	 */
 	public abstract TPsXfrXml  createPSXfrBranch();
 	
+	/**
+	 * create Line branch object
+	 * 
+	 * @param fBusId from bus id
+	 * @param toBusId to bus id
+	 * @param cirId branch circuit number
+	 * @return
+	 * @throws ODMException
+	 * @throws ODMBranchDuplicationException
+	 */
 	public TLineXml createLineBranch(String fBusId,String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
 		TLineXml branch = createLineBranch();
 		intiBranchData(branch);
@@ -503,7 +540,17 @@ public abstract class AbstractModelParser<
 	
 	}
 	
-	public TXfrXml createXfrBranch(String fBusId,String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
+	/**
+	 * create Xformer branch object
+	 * 
+	 * @param fBusId from bus id
+	 * @param toBusId to bus id
+	 * @param cirId branch circuit number
+	 * @return
+	 * @throws ODMException
+	 * @throws ODMBranchDuplicationException
+	 */
+	public TXfrXml createXfrBranch(String fBusId, String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
 		TXfrXml branch = createXfrBranch();
 		intiBranchData(branch);
 		addBranch2BaseCase(branch, fBusId, toBusId, null, cirId);
@@ -511,6 +558,17 @@ public abstract class AbstractModelParser<
 	
 	}
 	
+	/**
+	 * create 3W Xformer branch object
+	 * 
+	 * @param fBusId from bus id
+	 * @param toBusId to bus id
+	 * @param terBusId tertiary bus id
+	 * @param cirId branch circuit number
+	 * @return
+	 * @throws ODMException
+	 * @throws ODMBranchDuplicationException
+	 */
 	public TXfrXml createXfr3WBranch(String fBusId,String toBusId, String terBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
 		TXfrXml branch = createXfr3WBranch();
 		intiBranchData(branch);
@@ -519,6 +577,16 @@ public abstract class AbstractModelParser<
 	
 	}
 	
+	/**
+	 * create PsXformer branch object
+	 * 
+	 * @param fBusId from bus id
+	 * @param toBusId to bus id
+	 * @param cirId branch circuit number
+	 * @return
+	 * @throws ODMException
+	 * @throws ODMBranchDuplicationException
+	 */
 	public TPsXfrXml createPSXfrBranch(String fBusId,String toBusId, String cirId) throws ODMException, ODMBranchDuplicationException {
 		TPsXfrXml branch = createPSXfrBranch();
 		intiBranchData(branch);
@@ -526,8 +594,6 @@ public abstract class AbstractModelParser<
 		return branch;
 	
 	}
-	
-	
 	
 	
 	/**
@@ -645,7 +711,6 @@ public abstract class AbstractModelParser<
 		}
 		return unmarshaller;
 	}	
-	private static Unmarshaller unmarshaller = null;
 
 	/**
 	 * create a Jaxb marshaller to marshall the odm object to an Xml document
@@ -663,7 +728,6 @@ public abstract class AbstractModelParser<
 		}
 		return marshaller;
 	}
-	private Marshaller marshaller = null;
 	
 	/**
 	 * print the Xml doc to the std out
