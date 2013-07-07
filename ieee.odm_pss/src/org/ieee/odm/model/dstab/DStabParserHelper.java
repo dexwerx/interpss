@@ -74,6 +74,7 @@ import org.ieee.odm.schema.GovIEEE1981Type2XmlType;
 import org.ieee.odm.schema.GovIEEE1981Type3XmlType;
 import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
+import org.ieee.odm.schema.GovSteamTCDRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
@@ -119,7 +120,7 @@ public class DStabParserHelper extends AcscParserHelper {
 	 * 
 	 * @param dstabBus
 	 * @param genId
-	 * @return null if acscGenData not found
+	 * @return null if dstabGenData not found
 	 */
 	public static DStabGenDataXmlType getDStabContritueGen(DStabBusXmlType dstabBus, String genId) throws ODMException {
 		for (JAXBElement<? extends LoadflowGenDataXmlType> elem : dstabBus.getGenData().getContributeGen()) {
@@ -631,7 +632,7 @@ public class DStabParserHelper extends AcscParserHelper {
 	}
 	
 	/**
-	 * create Gov model record of type StreamNR
+	 * create Gov model record of Stream speed Gov and Tandem compound,non-reheat(TCNR) turbine combo model
 	 * 
 	 * @param gen
 	 * @return
@@ -643,7 +644,7 @@ public class DStabParserHelper extends AcscParserHelper {
 	}
 
 	/**
-	 * create Gov model record of type StreamTCSR
+	 * create Gov model record of of Stream speed Gov and Tandem compound,single-reheat (TCSR) turbine combo model
 	 * 
 	 * @param gen
 	 * @return
@@ -655,14 +656,14 @@ public class DStabParserHelper extends AcscParserHelper {
 	}
 
 	/**
-	 * create Gov model record of type StreamTDSR
+	 * create Gov model record of of Stream speed Gov and Tandem compound,double-reheat(TCDR) turbine combo model
 	 * 
 	 * @param gen
 	 * @return
 	 */
-	public static GovSteamTDSRXmlType createGovSteamTDSRXmlType(DStabGenDataXmlType gen) {
-		GovSteamTDSRXmlType gov = odmObjFactory.createGovSteamTDSRXmlType();
-		gen.setGovernor(odmObjFactory.createGovSteamTDSR(gov));
+	public static GovSteamTCDRXmlType createGovSteamTCDRXmlType(DStabGenDataXmlType gen) {
+		GovSteamTCDRXmlType gov = odmObjFactory.createGovSteamTCDRXmlType();
+		gen.setGovernor(odmObjFactory.createGovSteamTCDR(gov));
 		return gov;
 	}
 	

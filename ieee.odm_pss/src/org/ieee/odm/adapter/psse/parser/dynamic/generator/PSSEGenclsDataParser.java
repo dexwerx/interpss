@@ -31,7 +31,7 @@ public class PSSEGenclsDataParser extends BasePSSEDataParser {
 		String[] strAry=lineStr.split("\\s+");
 		int cnt =strAry.length;
 		for (int i = 0; i <cnt ; i++){
-			if(i==1){//cirId, need to trim the quote
+			if(i==1){//gen model type, need to trim the quote
 				setValue(i,ModelStringUtil.trimQuote(strAry[i].trim()));
 			}
 			else setValue(i, strAry[i].trim());
