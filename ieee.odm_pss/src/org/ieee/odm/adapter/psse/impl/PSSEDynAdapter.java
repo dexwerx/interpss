@@ -6,6 +6,7 @@ import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.dstab.DStabModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
@@ -36,6 +37,7 @@ public class PSSEDynAdapter extends PSSEAcscAdapter<DStabNetXmlType, DStabBusXml
 			// the parser is supposed to be set at the PSSEDstabParser class, which call this method
 		if(parser == null){
 				parser = new DStabModelParser();
+				parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
 		}
 		
 		//Use the Acsc Parser to parse the first two files, namely, Aclf and Sequence data.

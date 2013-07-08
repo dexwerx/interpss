@@ -23,6 +23,7 @@ import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
 import org.ieee.odm.model.acsc.BaseAcscModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
@@ -300,7 +301,8 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 		if(type ==NetType.AcscNet){
 			// initialize the parser first
 			if(parser == null){
-				setParser(new AcscModelParser());
+				parser = new AcscModelParser();
+				parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.SHORT_CIRCUIT);
 			}
 			
 		}

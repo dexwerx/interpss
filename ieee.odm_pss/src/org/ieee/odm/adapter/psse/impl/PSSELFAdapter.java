@@ -24,9 +24,12 @@ import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
+import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
+import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 
@@ -86,6 +89,9 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEAdapter{
      */
 	public AclfModelParser parseLoadflowFile(final IFileReader din, String encoding) throws Exception {
 		parser = new AclfModelParser();
+		
+		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
+		
 		//parser the input load flow data
 		parseInputFile(din, encoding);
 	
@@ -96,8 +102,9 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEAdapter{
 	
 	@Override
 	protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
-	
+	    //set case base info
 		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
+		parser.getStudyCase().setNetworkCategory(NetworkCategoryEnumType.TRANSMISSION);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion(this.adptrtVersion.toString());
 
 		LoadflowNetXmlType baseCaseNet = (LoadflowNetXmlType) parser.getNet();
