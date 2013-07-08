@@ -28,6 +28,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
 import javax.xml.bind.JAXBElement;
 
+import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.schema.BusGenDataXmlType;
@@ -72,6 +73,7 @@ import org.ieee.odm.schema.GovHydroXmlType;
 import org.ieee.odm.schema.GovIEEE1981Type1XmlType;
 import org.ieee.odm.schema.GovIEEE1981Type2XmlType;
 import org.ieee.odm.schema.GovIEEE1981Type3XmlType;
+import org.ieee.odm.schema.GovPSSEIEESGOModelXmlType;
 import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCDRXmlType;
@@ -710,9 +712,27 @@ public class DStabParserHelper extends AcscParserHelper {
 		
 	}
 	
+	//****************************************************************************
+	// The following are PSSE Governor models, including speedGov and turbine 
+	//*****************************************************************************
 	
+	/**
+	 * create the general-purpose turbine-governor model IEESGO, based on IEEE 1973 gov model
+	 * @param gen
+	 * @return
+	 */
+	public static GovPSSEIEESGOModelXmlType createGovPSSEIEESGOXmlType(DStabGenDataXmlType gen){
+		GovPSSEIEESGOModelXmlType ieeeSGO=odmObjFactory.createGovPSSEIEESGOModelXmlType();
+		gen.setGovernor(odmObjFactory.createGovPSSEIEESGOModel(ieeeSGO));
+		return ieeeSGO;
+		
+	}
+	
+	
+	
+	//****************************************************************************
 	// The following are BPA Governor models, including speedGov and turbine 
-	
+	//*****************************************************************************
 	
 	//GH 
 	/**

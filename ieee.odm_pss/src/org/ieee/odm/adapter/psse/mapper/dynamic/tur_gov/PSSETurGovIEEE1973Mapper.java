@@ -5,12 +5,12 @@ import org.ieee.odm.adapter.psse.mapper.aclf.BasePSSEDataMapper;
 import org.ieee.odm.adapter.psse.parser.dynamic.tur_gov.PSSETurGovIEEE1973Parser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
+import org.ieee.odm.model.dstab.DStabDataSetter;
 import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabGenDataXmlType;
-import org.ieee.odm.schema.GovIEEE1981Type1XmlType;
-import org.ieee.odm.schema.GovSteamTCSRXmlType;
+import org.ieee.odm.schema.GovPSSEIEESGOModelXmlType;
 
 public class PSSETurGovIEEE1973Mapper extends BasePSSEDataMapper{
     
@@ -33,12 +33,8 @@ public class PSSETurGovIEEE1973Mapper extends BasePSSEDataMapper{
 	 */			
 		
 		/*
-		 * PSSE IEESGO, corresponds to IEEE 1973 Tandem Compound, Single Reheat.
+		 * PSSE IEESGO, similar to IEEE 1973 Tandem Compound, Single Reheat.
 		 * 
-		 * T4        = Tch
-		 * 1-K2      = Fhp
-		 * K2*(1-K3) = Fip
-		 * K2*K3     = Flp
 		 * 
 		*/
 		int i = dataParser.getInt("IBUS");
@@ -46,19 +42,33 @@ public class PSSETurGovIEEE1973Mapper extends BasePSSEDataMapper{
 	    String genId = dataParser.getString("MachId");
 	    
 	    //check model type
-	    if(!dataParser.getString("Type").equals("IEEET1")){
-	    	throw new ODMException(" Exciter of machine  : Id"+
-		             genId+" @ Bus"+i+"is not a IEEET1 type");
+	    if(!dataParser.getString("Type").equals("IEESGO")){
+	    	throw new ODMException(" Governor of machine  : Id"+
+		             genId+" @ Bus"+i+"is not a IEESGO type");
 	    }
 
 	   DStabBusXmlType busXml = parser.getBus(busId);
 	    
 	   DStabGenDataXmlType dstabGenData = DStabParserHelper.getDStabContritueGen(busXml, genId);
 	   
-	   GovSteamTCSRXmlType gov = DStabParserHelper.createGovSteamTCSRXmlType(dstabGenData);
+	   GovPSSEIEESGOModelXmlType gov = DStabParserHelper.createGovPSSEIEESGOXmlType(dstabGenData);
+	   gov.setT1(DStabDataSetter.createTimeConstSec(dataParser.getDouble("T1")));
+	   gov.setT2(DStabDataSetter.createTimeConstSec(dataParser.getDouble("T2")));
+	   gov.setT3(DStabDataSetter.createTimeConstSec(dataParser.getDouble("T3")));
 	   
+	   gov.setT4(DStabDataSetter.createTimeConstSec(dataParser.getDouble("T4")));
 	   
-	
+	   gov.setT4(DStabDataSetter.createTimeConstSec(dataParser.getDouble("T5")));
+	   
+	   gov.setT6(DStabDataSetter.createTimeConstSec(dataParser.getDouble("T6")));
+	   
+	   gov.setK1(dataParser.getDouble("K1"));
+	   gov.setK2(dataParser.getDouble("K2"));
+	   gov.setK3(dataParser.getDouble("K3"));
+	   
+	   gov.setPMAX(dataParser.getDouble("PMAX"));
+	   gov.setPMIN(dataParser.getDouble("PMIN"));
+	 
 	
 	}
 }
