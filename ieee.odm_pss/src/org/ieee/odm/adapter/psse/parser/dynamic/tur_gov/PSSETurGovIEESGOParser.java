@@ -5,8 +5,8 @@ import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.base.ModelStringUtil;
 
-public class PSSETurGovIEEE1973Parser extends BasePSSEDataParser {
-	public PSSETurGovIEEE1973Parser(PsseVersion ver) {
+public class PSSETurGovIEESGOParser extends BasePSSEDataParser {
+	public PSSETurGovIEESGOParser(PsseVersion ver) {
 		super(ver);
 	}
 	

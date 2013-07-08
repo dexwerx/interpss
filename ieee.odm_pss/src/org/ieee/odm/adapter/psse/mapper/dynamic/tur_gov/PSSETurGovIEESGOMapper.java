@@ -2,7 +2,7 @@ package org.ieee.odm.adapter.psse.mapper.dynamic.tur_gov;
 
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.aclf.BasePSSEDataMapper;
-import org.ieee.odm.adapter.psse.parser.dynamic.tur_gov.PSSETurGovIEEE1973Parser;
+import org.ieee.odm.adapter.psse.parser.dynamic.tur_gov.PSSETurGovIEESGOParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.dstab.DStabDataSetter;
@@ -12,11 +12,11 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabGenDataXmlType;
 import org.ieee.odm.schema.GovPSSEIEESGOModelXmlType;
 
-public class PSSETurGovIEEE1973Mapper extends BasePSSEDataMapper{
+public class PSSETurGovIEESGOMapper extends BasePSSEDataMapper{
     
-	public PSSETurGovIEEE1973Mapper(PsseVersion ver) {
+	public PSSETurGovIEESGOMapper(PsseVersion ver) {
 		super(ver);
-		this.dataParser = new PSSETurGovIEEE1973Parser(ver);
+		this.dataParser = new PSSETurGovIEESGOParser(ver);
 	}
 	
 	

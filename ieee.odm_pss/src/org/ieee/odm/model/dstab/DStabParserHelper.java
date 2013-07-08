@@ -74,6 +74,7 @@ import org.ieee.odm.schema.GovIEEE1981Type1XmlType;
 import org.ieee.odm.schema.GovIEEE1981Type2XmlType;
 import org.ieee.odm.schema.GovIEEE1981Type3XmlType;
 import org.ieee.odm.schema.GovPSSEIEESGOModelXmlType;
+import org.ieee.odm.schema.GovPSSETGOV1ModelXmlType;
 import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCDRXmlType;
@@ -723,8 +724,16 @@ public class DStabParserHelper extends AcscParserHelper {
 	 */
 	public static GovPSSEIEESGOModelXmlType createGovPSSEIEESGOXmlType(DStabGenDataXmlType gen){
 		GovPSSEIEESGOModelXmlType ieeeSGO=odmObjFactory.createGovPSSEIEESGOModelXmlType();
-		gen.setGovernor(odmObjFactory.createGovPSSEIEESGOModel(ieeeSGO));
+		gen.setGovernor(odmObjFactory.createGovPSSEIEESGO(ieeeSGO));
 		return ieeeSGO;
+		
+	}
+	
+	
+	public static GovPSSETGOV1ModelXmlType createGovPSSETGOV1XmlType(DStabGenDataXmlType gen){
+		GovPSSETGOV1ModelXmlType tgov1=odmObjFactory.createGovPSSETGOV1ModelXmlType();
+		gen.setGovernor(odmObjFactory.createGovPSSETGOV1(tgov1));
+		return tgov1;
 		
 	}
 	

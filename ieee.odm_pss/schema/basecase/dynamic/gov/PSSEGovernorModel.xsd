@@ -22,7 +22,8 @@
 	</ns:annotation>
     
 	
-    <ns:element name="govPSSEIEESGOModel" substitutionGroup="pss:governor" type="pss:GovPSSEIEESGOModelXmlType" />
+    <ns:element name="govPSSEIEESGO" substitutionGroup="pss:governor" type="pss:GovPSSEIEESGOModelXmlType" />
+    <ns:element name="govPSSETGOV1" substitutionGroup="pss:governor" type="pss:GovPSSETGOV1ModelXmlType" />
     
     
     
@@ -49,6 +50,22 @@
 			<ns:element maxOccurs="1" minOccurs="1" name="K3" type="ns:double" />
 			<ns:element maxOccurs="1" minOccurs="1" name="PMAX" type="ns:double" />
 			<ns:element maxOccurs="1" minOccurs="1" name="PMIN" type="ns:double" />
+		</ns:sequence>
+		</ns:extension>
+		</ns:complexContent>		
+	</ns:complexType>
+	
+	   <ns:complexType name="GovPSSETGOV1ModelXmlType">
+		<ns:complexContent>
+		<ns:extension base="pss:GovernorModelXmlType">
+		<ns:sequence>
+		    <ns:element maxOccurs="1" minOccurs="1" name="R" type="ns:double" />
+			<ns:element maxOccurs="1" minOccurs="1" name="T1" type="pss:TimePeriodXmlType" />
+			<ns:element maxOccurs="1" minOccurs="1" name="VMAX" type="ns:double" />
+			<ns:element maxOccurs="1" minOccurs="1" name="VMIN" type="ns:double" />
+			<ns:element maxOccurs="1" minOccurs="1" name="T2" type="pss:TimePeriodXmlType" />
+			<ns:element maxOccurs="1" minOccurs="1" name="T3" type="pss:TimePeriodXmlType" />
+			<ns:element maxOccurs="1" minOccurs="1" name="Dt" type="ns:double" />
 		</ns:sequence>
 		</ns:extension>
 		</ns:complexContent>		
