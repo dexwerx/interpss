@@ -35,6 +35,7 @@ import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.Xfr3WShortCircuitXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -98,11 +99,15 @@ public class BaseAcscModelParser<
 	@SuppressWarnings("unchecked")
 	@Override public TBusXml createBus() {
 		ShortCircuitBusXmlType busRec = odmObjFactory.createShortCircuitBusXmlType();
-		busRec.setOffLine(false);
-		busRec.setAreaNumber(1);
-		busRec.setZoneNumber(1);
+		initAcscBus(busRec);
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return (TBusXml)busRec;
+	}	
+	
+	protected void initAcscBus(ShortCircuitBusXmlType busRec) {
+		initAclfBus(busRec);
+   		ShortCircuitGenDataXmlType equivGen = odmObjFactory.createShortCircuitGenDataXmlType();
+   		busRec.getGenData().setEquivGen(odmObjFactory.createAcscEquivGen(equivGen));		
 	}	
 	
 	/**

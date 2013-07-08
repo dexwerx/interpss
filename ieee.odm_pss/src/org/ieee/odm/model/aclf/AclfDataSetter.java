@@ -166,9 +166,7 @@ public class AclfDataSetter extends BaseDataSetter {
 	public static void setGenData(LoadflowBusXmlType bus, LFGenCodeEnumType code, 
 			double v, VoltageUnitType vUnit,
 			double ang, AngleUnitType angUnit) {
-   		bus.setGenData(odmObjFactory.createBusGenDataXmlType());
-   		LoadflowGenDataXmlType equivGen = odmObjFactory.createLoadflowGenDataXmlType();
-   		bus.getGenData().setEquivGen(odmObjFactory.createEquivGen(equivGen));
+   		LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
    		equivGen.setCode(code);
 	}	
 

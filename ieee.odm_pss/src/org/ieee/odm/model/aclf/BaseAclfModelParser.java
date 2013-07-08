@@ -41,6 +41,7 @@ import org.ieee.odm.schema.FlowInterfaceRecXmlType;
 import org.ieee.odm.schema.InterchangeXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
@@ -115,12 +116,19 @@ public class BaseAclfModelParser<
 	@SuppressWarnings("unchecked")
 	@Override public TBusXml createBus() {
 		LoadflowBusXmlType busRec = odmObjFactory.createLoadflowBusXmlType();
-		busRec.setOffLine(false);
-		busRec.setAreaNumber(1);
-		busRec.setZoneNumber(1);
+		initAclfBus(busRec);
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return (TBusXml)busRec;
 	}	
+	
+	protected void initAclfBus(LoadflowBusXmlType busRec) {
+		busRec.setOffLine(false);
+		busRec.setAreaNumber(1);
+		busRec.setZoneNumber(1);	
+		busRec.setGenData(odmObjFactory.createBusGenDataXmlType());
+   		LoadflowGenDataXmlType equivGen = odmObjFactory.createLoadflowGenDataXmlType();
+   		busRec.getGenData().setEquivGen(odmObjFactory.createEquivGen(equivGen));		
+	}
 	
 	/*
 	 * 		Branch functions
