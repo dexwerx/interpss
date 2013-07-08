@@ -241,20 +241,7 @@ public class BaseJaxbHelper {
 			return odmObjFactory.createBus(bus);
 	}
 	
-	/**
-	 * add the bus record into the network record, and set some default values
-	 * 
-	 * @param busRec
-	 * @param net
-	 * 
-	 */
-	public static void addBus2Net(BusXmlType busRec, NetworkXmlType net) {
-		busRec.setOffLine(false);
-		busRec.setAreaNumber(1);
-		busRec.setZoneNumber(1);
-		net.getBusList().getBus().add(bus(busRec));
-	}
-	
+
 	/**
 	 * add a name/value pair to the name/value pair List
 	 * 

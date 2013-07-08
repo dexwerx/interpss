@@ -29,12 +29,14 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BreakerDistBranchXmlType;
+import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DistBusXmlType;
 import org.ieee.odm.schema.DistributionNetXmlType;
 import org.ieee.odm.schema.FeederDistBranchXmlType;
 import org.ieee.odm.schema.GeneratorDistBusXmlType;
 import org.ieee.odm.schema.InductionMotorDistBusXmlType;
 import org.ieee.odm.schema.MixedLoadDistBusXmlType;
+import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.NonContributingDistBusXmlType;
 import org.ieee.odm.schema.ReactorDistBranchXmlType;
 import org.ieee.odm.schema.SynchronousMotorDistBusXmlType;
@@ -83,13 +85,27 @@ public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType,
 	 */
 	
 	/**
+	 * add the bus record into the network record, and set some default values
+	 * 
+	 * @param busRec
+	 * @param net
+	 * 
+	 */
+	private void addBus2Net(BusXmlType busRec, NetworkXmlType net) {
+		busRec.setOffLine(false);
+		busRec.setAreaNumber(1);
+		busRec.setZoneNumber(1);
+		net.getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
+	}	
+	
+	/**
 	 * create a Utility bus record
 	 * 
 	 * <element name="distUtilityBus" type="pss:UtilityDistBusXmlType" substitutionGroup="pss:bus"/>
 	 */
 	public UtilityDistBusXmlType createUtilityDistBus() {
 		UtilityDistBusXmlType busRec = odmObjFactory.createUtilityDistBusXmlType();
-		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		this.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 	
@@ -138,7 +154,7 @@ public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType,
 	 */
 	public GeneratorDistBusXmlType createDistGeneratorBus() {
 		GeneratorDistBusXmlType busRec = odmObjFactory.createGeneratorDistBusXmlType();
-		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		this.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 
@@ -187,7 +203,7 @@ public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType,
 	 */
 	public SynchronousMotorDistBusXmlType createDistSynMotorBus() {
 		SynchronousMotorDistBusXmlType busRec = odmObjFactory.createSynchronousMotorDistBusXmlType();
-		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		this.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 
@@ -235,7 +251,7 @@ public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType,
 	 */
 	public InductionMotorDistBusXmlType createDistIndMotorBus() {
 		InductionMotorDistBusXmlType busRec = odmObjFactory.createInductionMotorDistBusXmlType();
-		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		this.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 	
@@ -283,7 +299,7 @@ public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType,
 	 */
 	public MixedLoadDistBusXmlType createDistMixedLoadBus() {
 		MixedLoadDistBusXmlType busRec = odmObjFactory.createMixedLoadDistBusXmlType();
-		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		this.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 
@@ -331,7 +347,7 @@ public class DistModelParser extends BaseAclfModelParser<DistributionNetXmlType,
 	 */
 	public NonContributingDistBusXmlType createDistNonContributeBus() {
 		NonContributingDistBusXmlType busRec = odmObjFactory.createNonContributingDistBusXmlType();
-		BaseJaxbHelper.addBus2Net(busRec, getBaseCase());
+		this.addBus2Net(busRec, getBaseCase());
 		return busRec;
 	}	
 
