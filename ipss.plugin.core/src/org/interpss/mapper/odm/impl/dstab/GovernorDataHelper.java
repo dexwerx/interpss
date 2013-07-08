@@ -29,6 +29,7 @@ import org.ieee.odm.schema.GovBPAHydroTurbineGHXmlType;
 import org.ieee.odm.schema.GovHydroTurbineXmlType;
 import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
+import org.ieee.odm.schema.GovSteamTCDRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
 import org.ieee.odm.schema.GovSteamTDSRXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
@@ -40,7 +41,7 @@ import org.interpss.dstab.control.gov.bpa.hydro.BpaGHTypeHydroGovernor;
 import org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor;
 import org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor;
 import org.interpss.dstab.control.gov.ieee.steamTCSR.IeeeSteamTCSRGovernor;
-import org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTDSRGovernor;
+import org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTCDRGovernor;
 import org.interpss.dstab.control.gov.simple.SimpleGovernor;
 
 import com.interpss.common.exp.InterpssException;
@@ -147,13 +148,13 @@ public class GovernorDataHelper {
 			gov.getData().setTch(govXml.getTCH().getValue());
 			gov.getData().setTrh(govXml.getTRH().getValue());
 			gov.getData().setTco(govXml.getTCO().getValue());
-			gov.getData().setFhp(govXml.getFCH());
+			gov.getData().setFhp(govXml.getFHP());
 			gov.getData().setFip(govXml.getFIP());
 			gov.getData().setFlp(govXml.getFLP());
 		}
-		else if (govXmlRec instanceof GovSteamTDSRXmlType) {
-			GovSteamTDSRXmlType govXml = (GovSteamTDSRXmlType)govXmlRec;
-			IeeeSteamTDSRGovernor gov = GovernorObjectFactory.createIeeeSteamTDSRGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
+		else if (govXmlRec instanceof GovSteamTCDRXmlType) {
+			GovSteamTCDRXmlType govXml = (GovSteamTCDRXmlType)govXmlRec;
+			IeeeSteamTCDRGovernor gov = GovernorObjectFactory.createIeeeSteamTCDRGovernor(mach.getId()+"_Gov", govXml.getName(), mach);
 			gov.getData().setK(govXml.getK());
 			gov.getData().setT1(govXml.getT1().getValue());
 			gov.getData().setT2(govXml.getT2().getValue());

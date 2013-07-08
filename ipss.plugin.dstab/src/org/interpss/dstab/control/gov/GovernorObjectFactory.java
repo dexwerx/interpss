@@ -136,7 +136,7 @@ public class GovernorObjectFactory {
 	 * @param machine parent machine object
 	 * @return
 	 */	
-	public static IeeeSteamTCDRGovernor createIeeeSteamTDSRGovernor(String id, String name, Machine machine) {
+	public static IeeeSteamTCDRGovernor createIeeeSteamTCDRGovernor(String id, String name, Machine machine) {
 		IeeeSteamTCDRGovernor gov = new IeeeSteamTCDRGovernor(id, name, "InterPSS");
 		gov.setMachine(machine); 
 		return gov;
