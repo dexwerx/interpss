@@ -36,6 +36,7 @@ import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
+import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.Xfr3WShortCircuitXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
@@ -106,8 +107,12 @@ public class BaseAcscModelParser<
 	
 	protected void initAcscBus(ShortCircuitBusXmlType busRec) {
 		initAclfBus(busRec);
+		
    		ShortCircuitGenDataXmlType equivGen = odmObjFactory.createShortCircuitGenDataXmlType();
    		busRec.getGenData().setEquivGen(odmObjFactory.createAcscEquivGen(equivGen));		
+
+   		ShortCircuitLoadDataXmlType equivLoad = odmObjFactory.createShortCircuitLoadDataXmlType();
+   		busRec.getLoadData().setEquivLoad(odmObjFactory.createAcscEquivLoad(equivLoad));		
 	}	
 	
 	/**

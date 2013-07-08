@@ -255,7 +255,8 @@ public class ModelStringUtil {
 		toBranch.setFromBus(fromBranch.getFromBus());
 		toBranch.setToBus(fromBranch.getToBus());
 		return toBranch;
-	}	
+	}
+		
 
 	/**
 	 * casting bus objects
@@ -276,7 +277,7 @@ public class ModelStringUtil {
 		parser.parse(busStr);
 		return (BusXmlType)parser.getNet().getBusList().getBus().get(0).getValue();
 	}	
-	
+
 
 	/**
 	 * a Chinese character takes up two-char-space but only counts one char, this method 

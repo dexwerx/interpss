@@ -25,13 +25,19 @@ package org.ieee.odm.model.dstab;
 
 import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 
+import org.ieee.odm.common.ODMException;
 import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.DStabBusXmlType;
+import org.ieee.odm.schema.DStabGenDataXmlType;
+import org.ieee.odm.schema.DStabLoadDataXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
+import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.XfrDStabXmlType;
 
 public class BaseDstabModelParser <
 				TNetXml extends NetworkXmlType, 
@@ -80,18 +86,134 @@ public class BaseDstabModelParser <
 		return (TNetXml)getStudyCase().getBaseCase().getValue();
 	}
 	
+	/*
+	 * 		Bus functions
+	 * 		=============
+	 */
+	
 	/**
 	 * add a new Bus record to the base case
 	 * 
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	@Override public TBusXml createBus() {
+	public TBusXml createBus() {
 		DStabBusXmlType busRec = odmObjFactory.createDStabBusXmlType();
-		busRec.setOffLine(false);
-		busRec.setAreaNumber(1);
-		busRec.setZoneNumber(1);
+		initDStabBus(busRec);
 		getBaseCase().getBusList().getBus().add(BaseJaxbHelper.bus(busRec));
 		return (TBusXml)busRec;
+	}
+	
+	protected void initDStabBus(DStabBusXmlType busRec) {
+		initAcscBus(busRec);
+		
+   		DStabGenDataXmlType equivGen = odmObjFactory.createDStabGenDataXmlType();
+   		busRec.getGenData().setEquivGen(odmObjFactory.createDstabEquivGen(equivGen));		
+
+   		DStabLoadDataXmlType equivLoad = odmObjFactory.createDStabLoadDataXmlType();
+   		busRec.getLoadData().setEquivLoad(odmObjFactory.createDstabEquivLoad(equivLoad));		
+	}		
+
+	/**
+	 * get the DStab bus object using the id. If the bus object is of type aclfBus or acscBus,
+	 * cast it to the dstabBus type
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public DStabBusXmlType getDStabBus(String id) throws ODMException {
+		return (DStabBusXmlType)getBus(id);
+	}
+	
+	/*
+	 * 		Branch functions
+	 * 		================
+	 */
+
+	/**
+	 * create a LineBranchXmlType object
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override public TLineXml createLineBranch() {
+		LineDStabXmlType line = odmObjFactory.createLineDStabXmlType();
+		initDStabLineBranch(line);
+		return (TLineXml)line;
+	}
+	
+	protected void initDStabLineBranch(LineDStabXmlType line) {
+		initAcscLineBranch(line);
+	}	
+	
+	/**
+	 * create a XfrBranchXmlType object
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override public TXfrXml createXfrBranch() {
+		XfrDStabXmlType xfr = odmObjFactory.createXfrDStabXmlType();
+		initDStabXfrBranch(xfr);
+		return (TXfrXml)xfr;
+	}
+
+	protected void initDStabXfrBranch(XfrDStabXmlType xfr) {
+		initAcscXfrBranch(xfr);
+	}	
+	
+	/**
+	 * create a PSXfrBranchXmlType object
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@Override public TPsXfrXml createPSXfrBranch() {
+		PSXfrDStabXmlType psXfr = odmObjFactory.createPSXfrDStabXmlType();
+		initDStabPsXfrBranch(psXfr);
+		return (TPsXfrXml)psXfr;
+	}
+
+	protected void initDStabPsXfrBranch(PSXfrDStabXmlType psXfr) {
+		initAcscPsXfrBranch(psXfr);
+	}	
+	
+	/**
+	 * get the DStab Line object using the id. If the branch object is of type aclfLine or acscLine,
+	 * cast it to the dstabLine type
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
+	public LineDStabXmlType getDStabLine(String fromId, String toId, String cirId) throws ODMException {
+		return (LineDStabXmlType)this.getBranch(fromId, toId, cirId);
+	}
+
+	/**
+	 * get the DStab Xfr object using the id. If the branch object is of type aclfXfr or acscXfr,
+	 * cast it to the dstabXfr type
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
+	public XfrDStabXmlType getDStabXfr(String fromId, String toId, String cirId) throws ODMException {
+		return (XfrDStabXmlType)this.getBranch(fromId, toId, cirId);
+	}
+	
+	/**
+	 * get the DStab PSXfr object using the id. If the branch object is of type aclfPSXfr or acscPSXfr,
+	 * cast it to the dstabPSXfr type
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
+	public PSXfrDStabXmlType getDStabPSXfr(String fromId, String toId, String cirId) throws ODMException {
+		return (PSXfrDStabXmlType)this.getBranch(fromId, toId, cirId);
 	}	
 }
