@@ -10,6 +10,7 @@
     <ns:include schemaLocation="exc/BPAExciterModel.xsd" />
     <ns:include schemaLocation="gov/IEEEGovernorModel.xsd" />
     <ns:include schemaLocation="gov/BPAGovernorModel.xsd" />
+    <ns:include schemaLocation="gov/PSSEGovernorModel.xsd" />
     <ns:include schemaLocation="pss/IEEEStabilizerModel.xsd" />
     <ns:include schemaLocation="pss/BPAStabilizerModel.xsd" />
     
