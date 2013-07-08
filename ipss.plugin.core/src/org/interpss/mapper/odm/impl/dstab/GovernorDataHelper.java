@@ -31,7 +31,6 @@ import org.ieee.odm.schema.GovSimpleTypeXmlType;
 import org.ieee.odm.schema.GovSteamNRXmlType;
 import org.ieee.odm.schema.GovSteamTCDRXmlType;
 import org.ieee.odm.schema.GovSteamTCSRXmlType;
-import org.ieee.odm.schema.GovSteamTDSRXmlType;
 import org.ieee.odm.schema.GovernorModelXmlType;
 import org.ieee.odm.schema.SpeedGovBPAGSModelXmlType;
 import org.ieee.odm.schema.SteamTurbineBPATBModelXmlType;
