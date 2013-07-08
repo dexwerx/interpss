@@ -52,6 +52,7 @@ import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.InductionMotorDistBusXmlType;
 import org.ieee.odm.schema.LineBranchXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
+import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.MixedLoadDistBusXmlType;
@@ -64,8 +65,10 @@ import org.ieee.odm.schema.OwnerXmlType;
 import org.ieee.odm.schema.PSXfr3WBranchXmlType;
 import org.ieee.odm.schema.PSXfrBranchXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.PowerXmlType;
 import org.ieee.odm.schema.ReactorDistBranchXmlType;
+import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.SynchronousMotorDistBusXmlType;
 import org.ieee.odm.schema.UtilityDistBusXmlType;
@@ -74,6 +77,7 @@ import org.ieee.odm.schema.XFormerDistBranchXmlType;
 import org.ieee.odm.schema.Xfr3WBranchXmlType;
 import org.ieee.odm.schema.XfrBranchXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
+import org.ieee.odm.schema.XfrShortCircuitXmlType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZXmlType;
 
@@ -150,6 +154,13 @@ public class BaseJaxbHelper {
 		else if (branch instanceof XfrDStabXmlType) 
 			return odmObjFactory.createDstabXfr((XfrDStabXmlType)branch);
 		
+		else if (branch instanceof LineShortCircuitXmlType) 
+			return odmObjFactory.createAcscLine((LineShortCircuitXmlType)branch);
+		else if (branch instanceof PSXfrShortCircuitXmlType) 
+			return odmObjFactory.createAcscPSXfr((PSXfrShortCircuitXmlType)branch);
+		else if (branch instanceof XfrShortCircuitXmlType) 
+			return odmObjFactory.createAcscXfr((XfrShortCircuitXmlType)branch);
+		
 		else if (branch instanceof LineBranchXmlType) 
 			return odmObjFactory.createAclfLine((LineBranchXmlType)branch);
 		else if (branch instanceof PSXfr3WBranchXmlType) 
@@ -204,6 +215,8 @@ public class BaseJaxbHelper {
 		// be careful with inheritance here 
 		if (bus instanceof DStabBusXmlType)
 			return odmObjFactory.createDstabBus((DStabBusXmlType)bus);
+		else if (bus instanceof ShortCircuitBusXmlType)
+			return odmObjFactory.createAcscBus((ShortCircuitBusXmlType)bus);
 		else if (bus instanceof OpfDclfGenBusXmlType)
 			return odmObjFactory.createDclfOpfGenBus((OpfDclfGenBusXmlType)bus);
 		else if (bus instanceof LoadflowBusXmlType)
