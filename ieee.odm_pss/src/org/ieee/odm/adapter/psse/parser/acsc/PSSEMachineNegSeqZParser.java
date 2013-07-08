@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.parser.aclf.BasePSSEDataParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.base.ModelStringUtil;
 
 public class PSSEMachineNegSeqZParser extends BasePSSEDataParser {
 	public PSSEMachineNegSeqZParser(PsseVersion ver) {
@@ -31,8 +32,12 @@ public class PSSEMachineNegSeqZParser extends BasePSSEDataParser {
 	public void parseFields(final String lineStr) throws ODMException {
 		this.clearNVPairTableData();
 		StringTokenizer st = new StringTokenizer(lineStr,",");
-		for (int i = 0; i < 4; i++)
-			setValue(i, st.nextToken().trim());
+		for (int i = 0; i < 4; i++){
+			if(i==1){//genId, need to trim the quote
+				setValue(i,ModelStringUtil.trimQuote(st.nextToken()).trim());
+			}
+			else setValue(i, st.nextToken().trim());
+		}
 	}
 
 }  

@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.model.base.ModelStringUtil;
 
 /**
  * Class for processing IEEE CDF bus data line string
@@ -70,9 +71,13 @@ public class PSSEGenDataParser extends BasePSSEDataParser {
 		
 		//I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,
   		StringTokenizer st = new StringTokenizer(str, ",");
-		for (int i = 0; i < 18; i++)
-			setValue(i, st.nextToken().trim());
-
+		for (int i = 0; i < 18; i++){
+			if(i==1){//genId, need to trim the quote
+				setValue(i,ModelStringUtil.trimQuote(st.nextToken()).trim());
+			}
+			else setValue(i, st.nextToken().trim());
+			
+		}
         //O1,F1,...,O4,F4
 		for (int i = 18; i < 26; i++)
 			setValue(i, "0");
