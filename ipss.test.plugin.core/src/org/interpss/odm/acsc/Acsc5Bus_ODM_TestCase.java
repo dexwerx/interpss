@@ -57,6 +57,7 @@ public class Acsc5Bus_ODM_TestCase extends CorePluginTestSetup {
 		File file = new File("testdata/ieee_odm/ODM_AcscNoLF_5Bus.xml");
 		AcscModelParser parser = new AcscModelParser();
 		parser.parse(new FileInputStream(file));	
+		//System.out.println(parser.toXmlDoc());
 		
 		AcscNetwork faultNet = new ODMAcscDataMapper().map2Model(parser).getAcscNet();
 		//System.out.println(faultNet.net2String());
