@@ -43,7 +43,7 @@ import com.interpss.dstab.mach.Machine;
 		   output="this.fvhp*this.chDelayBlock.y + this.fhp*this.rh1DelayBlock.y + this.fip*this.rh2DelayBlock.y + this.flp*this.coDelayBlock.y",
 		   refPoint="this.gainBlock.u0 + this.filterBlock.y + this.intBlock.y",
 		   display= {}		)
-public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
+public class IeeeSteamTCDRGovernor extends AnnotateGovernor {
    public double fvhp = 0.1, fhp = 0.1, fip = 0.3, flp = 0.5;
 
 	public double k = 10.0, t1 = 0.5, t2 = 0.1;
@@ -103,13 +103,13 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
     DelayControlBlock coDelayBlock;
  	
     // UI Editor panel
-    private static NBIeeeSteamTDSREditPanel _editPanel = new NBIeeeSteamTDSREditPanel();
+    private static NBIeeeSteamTCDREditPanel _editPanel = new NBIeeeSteamTCDREditPanel();
     
     /**
      * Default Constructor
      *
      */
-    public IeeeSteamTDSRGovernor() {
+    public IeeeSteamTCDRGovernor() {
         this.setName("ieeeSteamTDSRGovernor");
         this.setCategory("IEEE");
     }
@@ -120,7 +120,7 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
      * @param id excitor id
      * @param name excitor name
      */
-    public IeeeSteamTDSRGovernor(String id, String name, String caty) {
+    public IeeeSteamTCDRGovernor(String id, String name, String caty) {
         super(id, name, caty);
         // _data is defined in the parent class. However init it here is a MUST
         _data = new IeeeSteamTDSRGovernorData();

@@ -29,14 +29,14 @@ import java.util.Vector;
 import org.interpss.dstab.control.base.EditHelper;
 import org.interpss.ui.ICustomPluginEditor;
 
-public class NBIeeeSteamTDSREditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
+public class NBIeeeSteamTCDREditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
 	IeeeSteamTDSRGovernorData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBIeeeSteamTDSREditPanel() {
+    public NBIeeeSteamTCDREditPanel() {
         initComponents();
         // init the field to the default values
         _data = new IeeeSteamTDSRGovernorData();
@@ -67,7 +67,7 @@ public class NBIeeeSteamTDSREditPanel extends javax.swing.JPanel implements ICus
      */
 	public void init(Object controller) {
 		// init the data object from the bus object being edited
-		_data = ((IeeeSteamTDSRGovernor)controller).getData();
+		_data = ((IeeeSteamTCDRGovernor)controller).getData();
 	}
 	
 	/**

@@ -32,7 +32,7 @@ import org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor;
 import org.interpss.dstab.control.gov.ieee.ieeeST2.IeeeST2Governor;
 import org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor;
 import org.interpss.dstab.control.gov.ieee.steamTCSR.IeeeSteamTCSRGovernor;
-import org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTDSRGovernor;
+import org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTCDRGovernor;
 import org.interpss.dstab.control.gov.simple.SimpleGovernor;
 
 import com.interpss.dstab.mach.Machine;
@@ -136,8 +136,8 @@ public class GovernorObjectFactory {
 	 * @param machine parent machine object
 	 * @return
 	 */	
-	public static IeeeSteamTDSRGovernor createIeeeSteamTDSRGovernor(String id, String name, Machine machine) {
-		IeeeSteamTDSRGovernor gov = new IeeeSteamTDSRGovernor(id, name, "InterPSS");
+	public static IeeeSteamTCDRGovernor createIeeeSteamTDSRGovernor(String id, String name, Machine machine) {
+		IeeeSteamTCDRGovernor gov = new IeeeSteamTCDRGovernor(id, name, "InterPSS");
 		gov.setMachine(machine); 
 		return gov;
   	}
