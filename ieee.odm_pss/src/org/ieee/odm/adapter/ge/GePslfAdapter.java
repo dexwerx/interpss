@@ -118,7 +118,7 @@ public class GePslfAdapter  extends AbstractODMAdapter {
 			final IFileReader din, String encoding) throws Exception {
 		
 		AclfModelParser parser = new AclfModelParser(encoding);
-		parser.setLFTransInfo(OriginalDataFormatEnumType.GE_PSLF);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.GE_PSLF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");

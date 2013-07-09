@@ -45,7 +45,7 @@ public class PowerWorldAdapter extends AbstractPowerWorldAdapter{
 	public PowerWorldAdapter(){
 		super();
 		this.parser=new AclfModelParser();
-		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.POWER_WORLD);
 		
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getNet();

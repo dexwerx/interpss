@@ -74,7 +74,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	protected AclfModelParser parseInputFile(
 			final IFileReader din, String encoding) throws Exception {
 		AclfModelParser parser = new AclfModelParser();
-		parser.setLFTransInfo(OriginalDataFormatEnumType.PSS_E);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
 
 		LoadflowNetXmlType baseCaseNet = parser.getNet();

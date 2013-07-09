@@ -39,7 +39,7 @@ public class PWDAdapterForContingency extends AbstractODMAdapter{
 		RecType recType=null;
 		
 		AclfModelParser parser=new AclfModelParser(encoding);
-		parser.setLFTransInfo(OriginalDataFormatEnumType.POWER_WORLD);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.POWER_WORLD);
 		
 		//create contingency data processor
 		

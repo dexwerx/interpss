@@ -103,7 +103,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEAdapter{
 	@Override
 	protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
 	    //set case base info
-		parser.setCaseContentInfo(OriginalDataFormatEnumType.PSS_E);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.PSS_E);
 		parser.getStudyCase().setNetworkCategory(NetworkCategoryEnumType.TRANSMISSION);
 		parser.getStudyCase().getContentInfo().setOriginalFormatVersion(this.adptrtVersion.toString());
 

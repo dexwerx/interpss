@@ -69,7 +69,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	protected IODMModelParser parseInputFile(final IFileReader din, String encoding) throws Exception {
 		AclfModelParser parser = new AclfModelParser(encoding);
 		parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.LOADFLOW);
-		parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.BPA);
 
 		String str="";
 		// first line, as a sign to run power flow data or transient data
@@ -94,7 +94,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		if (type == IODMAdapter.NetType.DStabNet) {
 			DStabModelParser parser = new DStabModelParser(encoding);
 			parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.TRANSIENT_STABILITY);
-			parser.setLFTransInfo(OriginalDataFormatEnumType.BPA);
+			parser.initCaseContentInfo(OriginalDataFormatEnumType.BPA);
 			
 			//PerformanceTimer timer = new PerformanceTimer(ODMLogger.getLogger());
 

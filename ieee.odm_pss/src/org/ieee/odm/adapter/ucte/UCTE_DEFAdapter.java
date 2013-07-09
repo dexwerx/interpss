@@ -73,7 +73,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	protected AclfModelParser parseInputFile(
 			final IFileReader din, String encoding) throws Exception {
 		AclfModelParser parser = new AclfModelParser(encoding);
-		parser.setLFTransInfo(OriginalDataFormatEnumType.UCTE_DEF);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		LoadflowNetXmlType baseCaseNet = parser.getNet();

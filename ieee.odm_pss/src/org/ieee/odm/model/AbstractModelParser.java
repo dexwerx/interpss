@@ -234,12 +234,11 @@ public abstract class AbstractModelParser<
 	 */
 
 	/**
-	 * Set BaseCase to Loadflow and Transmission 
+	 * initial case content info, set AnalysisCategory = Loadflow, NetworkCategory = Transmission 
 	 * 
-	 * @param parser
 	 * @param originalFormat
 	 */
-	public void setLFTransInfo(OriginalDataFormatEnumType originalDataFormat) {
+	public void initCaseContentInfo(OriginalDataFormatEnumType originalDataFormat) {
 		ContentInfoXmlType info = odmObjFactory.createContentInfoXmlType();
 		getStudyCase().setContentInfo(info);
 		info.setOriginalDataFormat(originalDataFormat);

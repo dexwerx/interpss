@@ -70,7 +70,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	protected AclfModelParser parseInputFile(
 			final IFileReader din, String encoding) throws Exception {
 		AclfModelParser parser = new AclfModelParser(encoding);
-		parser.setLFTransInfo(OriginalDataFormatEnumType.IEEE_CDF);
+		parser.initCaseContentInfo(OriginalDataFormatEnumType.IEEE_CDF);
 
 		LoadflowNetXmlType baseCaseNet = parser.getNet();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
