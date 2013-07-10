@@ -11,6 +11,7 @@ import org.ieee.odm.adapter.IODMAdapter.NetType;
 import org.ieee.odm.adapter.psse.PSSEAdapter;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
@@ -34,6 +35,9 @@ public class PSSEV30_IEEE39_Acsc_Test {
 		}));
 		AcscModelParser acscParser =(AcscModelParser) adapter.getModel();
 		acscParser.stdout();
+		//caseContentInfo
+		assertTrue(acscParser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.SHORT_CIRCUIT);
+		
 		//generator sequence data @bus 30
 		//ZPOS = ZNeg = ZZero =2.24000E-01
 		
