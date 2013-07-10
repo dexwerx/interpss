@@ -279,8 +279,9 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
        
        For those machines at which the step-up transformer is represented as part of the generator data
       (i.e., XTRAN is non-zero), ZZERO (i.e., RZERO + j XZERO) is not used and, in the fault analysis
-       activities, the step-up transformer is assumed to be a delta wye transformer. Refer to Modeling of
-       Generator Step-Up Transformers (GSU).
+       activities, the step-up transformer is assumed to be a delta wye transformer, that means 
+       Gen is open from the zero sequence network.
+       Refer to Modeling of Generator Step-Up Transformers (GSU).
        
 	 * 
 	 * 2. bus negative sequence shunt load

@@ -249,7 +249,20 @@ public abstract class AbstractModelParser<
 				AnalysisCategoryEnumType.LOADFLOW);
 		getStudyCase().setNetworkCategory(
 				NetworkCategoryEnumType.TRANSMISSION);		
-	}	
+	}
+	/**
+	 * Set BaseCase content info
+	 * @param originalDataFormat
+	 */
+	public void setCaseContentInfo(OriginalDataFormatEnumType originalDataFormat) {
+		ContentInfoXmlType info = odmObjFactory.createContentInfoXmlType();
+		getStudyCase().setContentInfo(info);
+		info.setOriginalDataFormat(originalDataFormat);
+		info.setAdapterProviderName("www.interpss.org");
+		info.setAdapterProviderVersion("1.00");
+				
+	}
+	
 	
 	/**
 	 * Get the root schema element StudyCase
