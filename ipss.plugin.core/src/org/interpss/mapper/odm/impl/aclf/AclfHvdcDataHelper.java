@@ -19,7 +19,7 @@ import org.interpss.numeric.datatype.Unit.UnitType;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.hvdc.ConverterType;
 import com.interpss.core.aclf.hvdc.HvdcControlMode;
-import com.interpss.core.aclf.hvdc.HvdcLine2TCCC;
+import com.interpss.core.aclf.hvdc.HvdcLine2T;
 import com.interpss.core.aclf.hvdc.Inverter;
 import com.interpss.core.aclf.hvdc.Rectifier;
 import com.interpss.core.aclf.hvdc.impl.HvdcLineFactoryImpl;
@@ -28,9 +28,9 @@ import com.interpss.core.aclf.hvdc.impl.RectifierImpl;
 
 public class AclfHvdcDataHelper {
 	private AclfNetwork aclfNet = null;
-	private HvdcLine2TCCC hvdc2T = null;
+	private HvdcLine2T hvdc2T = null;
 	
-	public AclfHvdcDataHelper(AclfNetwork aclfNet, HvdcLine2TCCC hvdc2T){
+	public AclfHvdcDataHelper(AclfNetwork aclfNet, HvdcLine2T hvdc2T){
 		this.aclfNet = aclfNet;
 		this.hvdc2T = hvdc2T;
 	}
@@ -98,7 +98,7 @@ public class AclfHvdcDataHelper {
 		//Meter end
 		this.hvdc2T.setMeterEnd(hvdc2TXml.getMeteredEnd()==DcLineMeteredEndEnumType.RECTIFIER? ConverterType.RECTIFIER:ConverterType.INVERTER);
 		
-		//DCVMIN - Minimum compounded dc voltagle
+		//DCVMIN - Minimum compounded dc voltage
 		//TODO
 		//this.hvdc2T.setMinCompVdc()
 		

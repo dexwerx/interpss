@@ -347,8 +347,12 @@ public class AclfBranchDataHelper {
 					 * not complete
 					 */ 
 					VoltageAdjustmentDataXmlType xmlAdjData = xmlTapAdj.getVoltageAdjData();
-					if (xmlAdjData == null || xmlAdjData.getAdjVoltageBus() == null) {
-						ipssLogger.warning("Inconsist Xfr Tap control data: " + aclfBra.getId());
+					if (xmlAdjData == null){
+						ipssLogger.warning("No Xfr Tap control data: " + aclfBra.getId());
+						return;
+					}
+					else if ( xmlAdjData.getAdjVoltageBus() == null) {
+						ipssLogger.warning(" Xfr Tap control target bus number is not defined: " + aclfBra.getId());
 						return;
 					}
 					String vcBusId = BusXmlRef2BusId.fx(xmlAdjData.getAdjVoltageBus());
