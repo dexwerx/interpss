@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.AbstractDataFieldParser;
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 
 /**
  * Class for processing IEEE CDF Network data line string
@@ -62,7 +63,14 @@ public class IeeeCDFTieLineDataParser extends AbstractDataFieldParser {
 			setValue(3, str.substring(16, 18).trim());
 
 			//          Column   21     Circuit number
-			setValue(4, str.substring(20, 21));
+			int cirColNum =21;
+			// length after triming ending blanks
+			int length = str.replaceAll("\\s+$", "").length();
+			if(length>cirColNum) cirColNum = length;
+			
+			String cirIdString  =str.substring(20, length).trim();
+			ODMLogger.getLogger().warning("TieLine CirId is not in Column 21,Tieline str = "+str+",parsing cirId = "+cirIdString);
+			setValue(4, cirIdString);
 		}
 	}
 }
