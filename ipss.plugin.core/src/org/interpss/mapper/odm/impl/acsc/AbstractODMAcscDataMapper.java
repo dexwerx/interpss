@@ -42,6 +42,7 @@ import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
 import org.ieee.odm.schema.IpssStudyScenarioXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
+import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
@@ -62,6 +63,7 @@ import org.interpss.numeric.NumericConstant;
 import org.interpss.numeric.datatype.Unit.UnitType;
 
 import com.interpss.CoreObjectFactory;
+import com.interpss.common.datatype.UnitHelper;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
@@ -141,6 +143,10 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 					helper.setAclfBus(acscBus);
 					helper.setAclfBusData(acscBusXml);
 					
+					//By default, set the gen Buses to be "contributing"
+					if(acscBus.isGen())
+						acscBusXml.setScCode(ShortCircuitBusEnumType.CONTRIBUTING);
+					
 					setAcscBusData(acscBusXml, acscBus);
 				}
 
@@ -207,10 +213,55 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 	 */
 	public void setAcscBusData(ShortCircuitBusXmlType acscBusXml, AcscBus acscBus) throws InterpssException {
 		if (acscBusXml.getScCode() == ShortCircuitBusEnumType.CONTRIBUTING) {
-			setContributeBusInfo(acscBusXml, acscBus);
+			setContributeBusGenInfo(acscBusXml, acscBus);
 		} else { // non-contributing
 			setNonContributeBusFormInfo(acscBus);
 		} 
+		
+		//add sequence load equivalent data , add to the the Bus shuntY2/0
+		if(acscBus.isLoad()){
+			 //TODO positive sequence loads are not converted to ScZ here, as they can be converted during calculation of busScYii 
+			
+			//1) Negative part
+			  //1.1) if sequence data provided, it represents all loads connected to the bus
+			if(acscBusXml.getShuntLoadNegativeY()!=null){
+				YXmlType y2 = acscBusXml.getShuntLoadNegativeY();
+				UnitType unit = ToYUnit.f(y2.getUnit());
+				Complex ypu = UnitHelper.yConversion(new Complex(y2.getRe(), y2.getIm()),
+						acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), unit, UnitType.PU);
+			    acscBus.setShuntY2(ypu);
+			}
+			 //1.2) else, shuntY2 = shuntY1 for the constant MVA and/or current part.
+			else{
+				if(acscBus.isConstPLoad()||acscBus.isConstILoad()){	
+					/*
+					 * Use unit voltage vmag=1.0 to initialize the equivalent shuntY
+					 * 
+					 * For load flow-based short circuit analysis, 
+					 *  equivY_actual = equivY_0* v^2  for Constant Power load
+					 *                = equivY_0* v    for Constant current load
+					 * 
+					 */
+			
+					Complex eqivShuntY2= acscBus.getLoad().conjugate();
+					acscBus.setShuntY2(eqivShuntY2);
+				}
+				
+			}
+			
+			//2) Zero sequence part
+			
+			if(acscBusXml.getShuntLoadZeroY()!=null){
+				YXmlType y0 = acscBusXml.getShuntLoadNegativeY();
+				UnitType unit = ToYUnit.f(y0.getUnit());
+				Complex ypu = UnitHelper.yConversion(new Complex(y0.getRe(), y0.getIm()),
+						acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), unit, UnitType.PU);
+			    acscBus.setShuntY0(ypu);
+			}
+			// If not provided ,then the load is open from the zero sequence network
+		}
+		
+		
 	}
 
 	private static void setNonContributeBusFormInfo(AcscBus acscBus) {
@@ -222,17 +273,57 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		acscBus.getGrounding().setZ(NumericConstant.LargeBusZ);
 	}
 
-	private static void setContributeBusInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {
+	private static void setContributeBusGenInfo(ShortCircuitBusXmlType busData, AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.CONTRIBUTE);
-		// at this point it is assumed that contribute generators have been consolidated to the 
-		// acscEquivGen
+		
+
 		ShortCircuitGenDataXmlType scGenData = (ShortCircuitGenDataXmlType)busData.getGenData().getEquivGen().getValue();
-		setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 
-					scGenData.getPotiveZ(),
-					scGenData.getNegativeZ(),
-					scGenData.getZeroZ());
-		setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
-					scGenData.getGrounding());
+		if(acscBus.isGen()){
+			
+			//the generator data is not consolidated yet, perform consolidation
+		  if(scGenData.getPotiveZ()==null){
+			  
+			//Consolidate the positive and negative sequence
+			for( JAXBElement<? extends LoadflowGenDataXmlType> scContriGenEle : busData.getGenData().getContributeGen()){
+				ShortCircuitGenDataXmlType contriGenData = (ShortCircuitGenDataXmlType) scContriGenEle.getValue();
+				/*
+				 * ZSource is based on GEN MVABASE, therefore, it requires to convert it to system MVABASE
+				 *  before setting it to BusScZ
+				 */
+				double factor =acscBus.getNetwork().getBaseMva()/ contriGenData.getRatedPower().getValue();
+				ZXmlType z=contriGenData.getPotiveZ();
+				 
+				acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.POSITIVE);
+				if(contriGenData.getNegativeZ()!=null){
+					z=contriGenData.getNegativeZ();
+					acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.NEGATIVE);
+				}
+				if(contriGenData.getZeroZ()!=null){
+					z=contriGenData.getZeroZ();
+					acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.ZERO);
+				}
+				
+				//TODO It is very hard to consolidate the grounding Zg of multi-generators , since they are in series of ZZERO of gens
+			    
+				// IF ONLY one contribute gen
+				if(busData.getGenData().getContributeGen().size()==1)
+					setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
+							contriGenData.getGrounding());
+			}
+			
+			
+		  }// generator data is modeled at the equivalent Gen level or has been consolidated already. 
+		  else{
+			  setBusScZ(acscBus, acscBus.getNetwork().getBaseKva(), 
+						scGenData.getPotiveZ(),
+						scGenData.getNegativeZ(),
+						scGenData.getZeroZ());
+			setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
+						scGenData.getGrounding());
+		  }
+		}
+		
+		
 	}
 
 	private static void setBusScZ(AcscBus bus, double baseKVA, 
