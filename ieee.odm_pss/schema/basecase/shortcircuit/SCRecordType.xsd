@@ -112,6 +112,11 @@
 	
 
     <ns:complexType name="ShortCircuitGenDataXmlType">
+		<ns:annotation><ns:documentation>
+			for defining acscEquivGen and acsContributeGen. It is assumed
+			    acscEquivGen data is on system MVA base
+		        acscContributeGen data is on retedMachPower base if it is defined 
+		</ns:documentation></ns:annotation>
     	<ns:complexContent>
 			<ns:extension base="pss:LoadflowGenDataXmlType">
 		      <ns:sequence>
