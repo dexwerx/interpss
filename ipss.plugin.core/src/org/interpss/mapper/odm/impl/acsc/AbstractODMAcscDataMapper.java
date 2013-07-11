@@ -300,7 +300,11 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				}
 				if(contriGenData.getZeroZ()!=null){
 					z=contriGenData.getZeroZ();
-					acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.ZERO);
+					//Based on PSS/E convention, if Tap-up transformer is modeled as part of generator
+					//then, the generator is open from the zero sequence network, which can be model by LargeBusZ , or not adding ScZ.
+					boolean zeroOpen =(contriGenData.getXfrZ()==null)? false:(contriGenData.getXfrZ().getIm()==0)?false:true;
+					
+					if(!zeroOpen && z.getIm()!=0)acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.ZERO);
 				}
 				
 				//TODO It is very hard to consolidate the grounding Zg of multi-generators , since they are in series of ZZERO of gens
