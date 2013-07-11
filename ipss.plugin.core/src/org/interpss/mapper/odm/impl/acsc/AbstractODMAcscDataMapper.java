@@ -229,7 +229,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				UnitType unit = ToYUnit.f(y2.getUnit());
 				Complex ypu = UnitHelper.yConversion(new Complex(y2.getRe(), y2.getIm()),
 						acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), unit, UnitType.PU);
-			    acscBus.setShuntY2(ypu);
+			    acscBus.setScLoadShuntY2(ypu);
 			}
 			 //1.2) else, shuntY2 = shuntY1 for the constant MVA and/or current part.
 			else{
@@ -244,7 +244,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 					 */
 			
 					Complex eqivShuntY2= acscBus.getLoad().conjugate();
-					acscBus.setShuntY2(eqivShuntY2);
+					acscBus.setScLoadShuntY2(eqivShuntY2);
 				}
 				
 			}
@@ -256,7 +256,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				UnitType unit = ToYUnit.f(y0.getUnit());
 				Complex ypu = UnitHelper.yConversion(new Complex(y0.getRe(), y0.getIm()),
 						acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), unit, UnitType.PU);
-			    acscBus.setShuntY0(ypu);
+			    acscBus.setScLoadShuntY0(ypu);
 			}
 			// If not provided ,then the load is open from the zero sequence network
 		}
@@ -266,9 +266,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 
 	private static void setNonContributeBusFormInfo(AcscBus acscBus) {
 		acscBus.setScCode(BusScCode.NON_CONTRI);
-		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
-		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
-		acscBus.setScZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
+		acscBus.setScGenZ(NumericConstant.LargeBusZ, SequenceCode.POSITIVE);
+		acscBus.setScGenZ(NumericConstant.LargeBusZ, SequenceCode.NEGATIVE);
+		acscBus.setScGenZ(NumericConstant.LargeBusZ, SequenceCode.ZERO);
 		acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		acscBus.getGrounding().setZ(NumericConstant.LargeBusZ);
 	}
@@ -293,10 +293,10 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				double factor =acscBus.getNetwork().getBaseMva()/ contriGenData.getRatedPower().getValue();
 				ZXmlType z=contriGenData.getPotiveZ();
 				 
-				acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.POSITIVE);
+				acscBus.addScGenZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.POSITIVE);
 				if(contriGenData.getNegativeZ()!=null){
 					z=contriGenData.getNegativeZ();
-					acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.NEGATIVE);
+					acscBus.addScGenZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.NEGATIVE);
 				}
 				if(contriGenData.getZeroZ()!=null){
 					z=contriGenData.getZeroZ();
@@ -304,7 +304,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 					//then, the generator is open from the zero sequence network, which can be model by LargeBusZ , or not adding ScZ.
 					boolean zeroOpen =(contriGenData.getXfrZ()==null)? false:(contriGenData.getXfrZ().getIm()==0)?false:true;
 					
-					if(!zeroOpen && z.getIm()!=0)acscBus.addScZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.ZERO);
+					if(!zeroOpen && z.getIm()!=0)acscBus.addScGenZ(new Complex(z.getRe()*factor, z.getIm()*factor),SequenceCode.ZERO);
 				}
 				
 				//TODO It is very hard to consolidate the grounding Zg of multi-generators , since they are in series of ZZERO of gens
@@ -333,9 +333,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 	private static void setBusScZ(AcscBus bus, double baseKVA, 
 			ZXmlType z1, ZXmlType z2, ZXmlType z0) {
 		UnitType zUnit = ToZUnit.f(z1.getUnit());
-		bus.setScZ(new Complex(z1.getRe(), z1.getIm()), SequenceCode.POSITIVE, zUnit);
-		bus.setScZ(new Complex(z2.getRe(), z2.getIm()), SequenceCode.NEGATIVE, zUnit);
-		bus.setScZ(new Complex(z0.getRe(), z0.getIm()), SequenceCode.ZERO, zUnit);
+		bus.setScGenZ(new Complex(z1.getRe(), z1.getIm()), SequenceCode.POSITIVE, zUnit);
+		bus.setScGenZ(new Complex(z2.getRe(), z2.getIm()), SequenceCode.NEGATIVE, zUnit);
+		bus.setScGenZ(new Complex(z0.getRe(), z0.getIm()), SequenceCode.ZERO, zUnit);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA, GroundingXmlType g) {
