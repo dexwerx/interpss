@@ -233,15 +233,15 @@ public class AcscParserHelper extends AclfParserHelper {
 						 * ZSource is based on GEN MVABASE, therefore, it requires to convert it to system MVABASE
 						 *  before setting it to BusScZ
 						 */
-						double machRatedMva = contriGenData.getRatedPower().getValue();
-						if (contriGenData.getRatedPower().getUnit() == ApparentPowerUnitType.MVA)   // possible unit PU, W, KW, MW, HP;
+						double machRatedMva = contriGenData.getMvaBase().getValue();
+						if (contriGenData.getMvaBase().getUnit() == ApparentPowerUnitType.MVA)   // possible unit PU, W, KW, MW, HP;
 						   ;  // do nothing
-						else if (contriGenData.getRatedPower().getUnit() == ApparentPowerUnitType.KVA)
+						else if (contriGenData.getMvaBase().getUnit() == ApparentPowerUnitType.KVA)
 							machRatedMva *= 0.001;
-						else if (contriGenData.getRatedPower().getUnit() == ApparentPowerUnitType.VA)
+						else if (contriGenData.getMvaBase().getUnit() == ApparentPowerUnitType.VA)
 							machRatedMva *= 0.000001;
 						else {
-							throw new ODMException("Wrong acscGen.retedMachPower.unit, " + contriGenData.getRatedMachPower().getUnit());
+							throw new ODMException("Wrong acscGen.retedMachPower.unit, " + contriGenData.getMvaBase().getUnit());
 						}
 						
 						

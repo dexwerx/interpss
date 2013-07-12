@@ -117,8 +117,7 @@
 		</ns:documentation></ns:annotation>
     	<ns:complexContent>
 			<ns:extension base="pss:LoadflowGenDataXmlType">
-		      <ns:sequence>
-				<ns:element maxOccurs="1" minOccurs="0" name="ratedMachPower" type="pss:ActivePowerXmlType" />
+		      <ns:sequence>
 				<ns:element maxOccurs="1" minOccurs="0" name="ratedMachVoltage" type="pss:VoltageXmlType" />
 				<ns:element minOccurs="0" name="potiveZ" type="pss:ZXmlType" maxOccurs="1"/>
 			    <ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />

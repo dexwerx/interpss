@@ -364,7 +364,7 @@ public class BusDataProcessor extends InputLineStringParser {
 
 						LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 						equivGen.setId(genId);
-						equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
+						equivGen.setMvaBase(BaseDataSetter.createPowerMvaValue(genMVABase));
 						equivGen.setOffLine(!genOnLine);
 
 						// p limit
@@ -402,7 +402,7 @@ public class BusDataProcessor extends InputLineStringParser {
 					LoadflowGenDataXmlType equivGen = bus.getGenData().getEquivGen().getValue();
 							
 					equivGen.setId(genId);
-					equivGen.setRatedPower(BaseDataSetter.createPowerMvaValue(genMVABase));
+					equivGen.setMvaBase(BaseDataSetter.createPowerMvaValue(genMVABase));
 					
 					equivGen.setPLimit(BaseDataSetter.createActivePowerLimit(
 							genMWMax, genMWMin, ActivePowerUnitType.MW));

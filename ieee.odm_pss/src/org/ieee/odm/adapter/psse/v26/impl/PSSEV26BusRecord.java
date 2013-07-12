@@ -267,7 +267,7 @@ public class PSSEV26BusRecord {
 		       rt = genDataParser.getDouble("RT", 0.0),
 		       xt = genDataParser.getDouble("XT", 0.0),
 		       gtap = genDataParser.getDouble("GTAP", 0.0); 
-		contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(mbase));
+		contriGen.setMvaBase(BaseDataSetter.createPowerMvaValue(mbase));
 		if(zr != 0.0 || zx != 0.0)
 			contriGen.setSourceZ(BaseDataSetter.createZValue(zr, zx, ZUnitType.PU));
 		if(rt != 0.0 || xt != 0.0)

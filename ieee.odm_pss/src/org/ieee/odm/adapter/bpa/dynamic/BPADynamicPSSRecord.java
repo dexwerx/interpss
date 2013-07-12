@@ -314,7 +314,7 @@ public class BPADynamicPSSRecord {
             double kqsMvaBase=ModelStringUtil.getDouble(strAry[19], 0.0);
             
             if(kqsMvaBase>0.0){
-            	double newKqs=pss.getKQS()*kqsMvaBase/dynGen.getRatedMachPower().getValue();
+            	double newKqs=pss.getKQS()*kqsMvaBase/dynGen.getMvaBase().getValue();
             	pss.setKQS(newKqs);
             }
     	}
@@ -450,7 +450,7 @@ public class BPADynamicPSSRecord {
     		//TODO still don't know how this parameter is used in the dynamic analysis
     		double krBaseMVA=ModelStringUtil.getDouble(strAry[13], 0.0);
     		if(krBaseMVA==0.0){
-    			krBaseMVA=dynGen.getRatedMachPower().getValue();
+    			krBaseMVA=dynGen.getMvaBase().getValue();
     		}
     		dualPss.setKrBaseMVA(krBaseMVA);
    		}

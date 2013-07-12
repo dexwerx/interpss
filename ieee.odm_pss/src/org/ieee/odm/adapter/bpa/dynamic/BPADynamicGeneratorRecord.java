@@ -96,7 +96,7 @@ public class BPADynamicGeneratorRecord {
 			double qContri=ModelStringUtil.getDouble(strAry[6], 100.0);
 			dynGen.setPContributionPercent(pContri);
 			dynGen.setQContributionPercent(qContri);
-			dynGen.setRatedPower(DStabDataSetter.createApparentPower(MvaBase, ApparentPowerUnitType.MVA));
+			dynGen.setMvaBase(DStabDataSetter.createApparentPower(MvaBase, ApparentPowerUnitType.MVA));
 			
 			double xd1=ModelStringUtil.getDouble(strAry[9], 0.0);
 			if(!strAry[9].contains(".")){
@@ -188,7 +188,7 @@ public class BPADynamicGeneratorRecord {
 			dynGen.setQContributionPercent(qContri);
 						
 			double MvaBase=ModelStringUtil.getDouble(strAry[7], net.getBasePower().getValue());
-			dynGen.setRatedPower(DStabDataSetter.createApparentPower(MvaBase, ApparentPowerUnitType.MVA));
+			dynGen.setMvaBase(DStabDataSetter.createApparentPower(MvaBase, ApparentPowerUnitType.MVA));
 			//TODO Mike,  this is the baseMVA for the per unit system in BPA, I don't think this is the same as the rated power of a machine. 
 			// sometimes, these two are set differently, such as the baseMVA would be chosen equal to system baseMVA .
 			

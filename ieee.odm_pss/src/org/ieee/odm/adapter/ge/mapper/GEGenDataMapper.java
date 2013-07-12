@@ -75,7 +75,7 @@ public class GEGenDataMapper extends BaseGEDataMapper {
 	    contriGen.setMwControlParticipateFactor(dataParser.getDouble("prf"));
 	    contriGen.setMvarVControlParticipateFactor(dataParser.getDouble("qrf"));
 
-	    contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(dataParser.getDouble("mbase")));
+	    contriGen.setMvaBase(BaseDataSetter.createPowerMvaValue(dataParser.getDouble("mbase")));
 	    contriGen.setPower(BaseDataSetter.createPowerValue(dataParser.getDouble("pgen"), dataParser.getDouble("qgen"), ApparentPowerUnitType.MVA));
 	    contriGen.setPLimit(BaseDataSetter.createActivePowerLimit(dataParser.getDouble("pmax"), dataParser.getDouble("pmin"), ActivePowerUnitType.MW));
 	    contriGen.setQLimit(BaseDataSetter.createReactivePowerLimit(dataParser.getDouble("qmax"), dataParser.getDouble("qmin"), ReactivePowerUnitType.MVAR));

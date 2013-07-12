@@ -142,7 +142,7 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	    }
 	    
 	    double mbase = dataParser.getDouble("MBASE");
-	    contriGen.setRatedPower(BaseDataSetter.createPowerMvaValue(mbase));
+	    contriGen.setMvaBase(BaseDataSetter.createPowerMvaValue(mbase));
 
 	    double zr = dataParser.getDouble("ZR", 0.0);
 	    double zx = dataParser.getDouble("ZX", 0.0);
