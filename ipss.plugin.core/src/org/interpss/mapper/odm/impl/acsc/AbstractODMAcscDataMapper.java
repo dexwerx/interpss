@@ -199,7 +199,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		// acscBusXml.getScCode() is optional
 		if (acscBusXml.getScCode() == null) {
 			// we check if acscGenData is defined
-			if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN) 
+			//if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN) 
+			     // we do not assume any Lf info. The gen could be defined as a none-gen for Lf, yet a contributing gen for SC
+			if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
 				acscBusXml.setScCode(ShortCircuitBusEnumType.CONTRIBUTING);
 			else
 				acscBusXml.setScCode(ShortCircuitBusEnumType.NON_CONTRIBUTING);
