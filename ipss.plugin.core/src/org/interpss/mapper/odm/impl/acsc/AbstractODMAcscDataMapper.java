@@ -40,6 +40,7 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.GroundingEnumType;
 import org.ieee.odm.schema.GroundingXmlType;
+import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.OriginalDataFormatEnumType;
@@ -198,7 +199,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		// acscBusXml.getScCode() is optional
 		if (acscBusXml.getScCode() == null) {
 			// we check if acscGenData is defined
-			if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
+			if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN) 
 				acscBusXml.setScCode(ShortCircuitBusEnumType.CONTRIBUTING);
 			else
 				acscBusXml.setScCode(ShortCircuitBusEnumType.NON_CONTRIBUTING);
@@ -236,6 +237,10 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 					scGenData.getPotiveZ(),
 					scGenData.getNegativeZ(),
 					scGenData.getZeroZ());
+		if(scGenData.getGrounding()==null){//no grounding provided, supposed to be ungrounded
+			acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
+		}
+		else
 		setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
 					scGenData.getGrounding());
 	}
@@ -246,9 +251,13 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		
 		 //TODO positive sequence loads are not converted to ScZ here, as they can be converted during calculation of busScYii 
 		
+		
+		if(acscBusXml.getLoadData().getEquivLoad().getValue() instanceof ShortCircuitLoadDataXmlType){
+			
+		ShortCircuitLoadDataXmlType acscLoadData = (ShortCircuitLoadDataXmlType)acscBusXml.getLoadData().getEquivLoad().getValue();
 		//1) Negative part
 		  //1.1) if sequence data provided, it represents all loads connected to the bus
-		ShortCircuitLoadDataXmlType acscLoadData = (ShortCircuitLoadDataXmlType)acscBusXml.getLoadData().getEquivLoad().getValue();
+		
 		if(acscLoadData.getShuntLoadNegativeY()!=null){
 			YXmlType y2 = acscLoadData.getShuntLoadNegativeY();
 			UnitType unit = ToYUnit.f(y2.getUnit());
@@ -263,8 +272,8 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				 * Use unit voltage vmag=1.0 to initialize the equivalent shuntY
 				 * 
 				 * For load flow-based short circuit analysis, 
-				 *  equivY_actual = equivY_0* v^2  for Constant Power load
-				 *                = equivY_0* v    for Constant current load
+				 *  equivY_actual = equivY_0/v^2   for Constant Power load
+				 *                = equivY_0/v    for Constant current load
 				 * 
 				 */
 				Complex eqivShuntY2= acscBus.getLoad().conjugate();
@@ -282,6 +291,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		    acscBus.setScLoadShuntY0(ypu);
 		}
 		// If not provided ,then the load is open from the zero sequence network
+		}
 	}
 
 	private void setBusScZ(AcscBus bus, double baseKVA, 
@@ -293,8 +303,8 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 	}
 
 	private void setBusScZg(AcscBus bus, double baseV, double baseKVA, GroundingXmlType g) {
-		ZXmlType z = g.getGroundingZ();
 		bus.getGrounding().setCode(ODMHelper.toBusGroundCode(g.getGroundingConnection()));
+		ZXmlType z = g.getGroundingZ();
 		if(z != null){
 			UnitType zgUnit = ToZUnit.f(z.getUnit());			
 			bus.getGrounding().setZ(new Complex(z.getRe(), z.getIm()), zgUnit, baseV, baseKVA);
