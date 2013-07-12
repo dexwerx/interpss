@@ -19,9 +19,9 @@
             	<voltage unit="PU" value="1.0" />
             	<angle unit="DEG" value="0.0" />
 				<loadData>
-					<equivLoad code="CONST_P" id="Bus1Load">
+					<acscEquivLoad code="CONST_P" id="Bus1Load">
 						<constPLoad im="80.0" unit="MVA" re="160.0" />
-					</equivLoad>
+					</acscEquivLoad>
 				</loadData>
 			</acscBus>
             <acscBus id="Bus2" offLine="false" number="1" zoneNumber="1"
@@ -30,9 +30,9 @@
             	<voltage unit="PU" value="1.0" />
             	<angle unit="DEG" value="0.0" />
 				<loadData>
-					<equivLoad code="CONST_P" id="Bus2Load">
+					<acscEquivLoad code="CONST_P" id="Bus2Load">
 						<constPLoad im="100.0" unit="MVA" re="200.0" />
-					</equivLoad>
+					</acscEquivLoad>
 				</loadData>
 			</acscBus>
             <acscBus id="Bus3" offLine="false" number="1" zoneNumber="1"
@@ -41,9 +41,9 @@
             	<voltage unit="PU" value="1.0" />
             	<angle unit="DEG" value="0.0" />
 				<loadData>
-					<equivLoad code="CONST_P" id="Bus3Load">
+					<acscEquivLoad code="CONST_P" id="Bus3Load">
 						<constPLoad im="130.0" unit="MVA" re="370.0" />
-					</equivLoad>
+					</acscEquivLoad>
 				</loadData>
 			</acscBus>
             <acscBus id="Bus4" offLine="false" number="1" zoneNumber="1"
