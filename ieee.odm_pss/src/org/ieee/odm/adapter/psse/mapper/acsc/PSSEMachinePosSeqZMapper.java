@@ -11,6 +11,7 @@ import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ZUnitType;
@@ -45,6 +46,9 @@ public class PSSEMachinePosSeqZMapper <
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
 	    
 	    ShortCircuitBusXmlType acscBus=(ShortCircuitBusXmlType) parser.getBus(busId);
+	    //add SC code
+	    acscBus.setScCode(ShortCircuitBusEnumType.CONTRIBUTING);
+	    
 	    ShortCircuitGenDataXmlType scGenData= AcscParserHelper.getAcscContritueGen(acscBus, machId);
         if(scGenData==null){
         	scGenData=AcscParserHelper.createAcscContributeGen(acscBus);

@@ -34,6 +34,7 @@ import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LineShortCircuitXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
+import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
@@ -107,13 +108,20 @@ public class BaseAcscModelParser<
 	
 	protected void initAcscBus(ShortCircuitBusXmlType busRec) {
 		initAclfBus(busRec);
+		// for those non-Gen or non-Load data, equivGen or equivLoad is not required
 		
    		ShortCircuitGenDataXmlType equivGen = odmObjFactory.createShortCircuitGenDataXmlType();
    		busRec.getGenData().setEquivGen(odmObjFactory.createAcscEquivGen(equivGen));		
 
    		ShortCircuitLoadDataXmlType equivLoad = odmObjFactory.createShortCircuitLoadDataXmlType();
-   		busRec.getLoadData().setEquivLoad(odmObjFactory.createAcscEquivLoad(equivLoad));		
-	}	
+   		busRec.getLoadData().setEquivLoad(odmObjFactory.createAcscEquivLoad(equivLoad));
+   		
+   		//SC code, use to indicate contribution to SC analysis
+   		busRec.setScCode(ShortCircuitBusEnumType.NON_CONTRIBUTING);
+   	
+	}
+	
+	
 	
 	/**
 	 * create acsc Line 
