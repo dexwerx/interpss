@@ -56,6 +56,7 @@ import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XformerConnectionXmlType;
 import org.ieee.odm.schema.XfrShortCircuitXmlType;
+import org.ieee.odm.schema.YUnitType;
 import org.ieee.odm.schema.YXmlType;
 import org.ieee.odm.schema.ZUnitType;
 import org.ieee.odm.schema.ZXmlType;
@@ -219,9 +220,10 @@ public class AcscParserHelper extends AclfParserHelper {
 					//Consolidate the positive and negative sequence to scEquivLoadData
 					ShortCircuitGenDataXmlType scEquivData = (ShortCircuitGenDataXmlType)scBusXml.getGenData().getEquivGen().getValue();
 					
-					ZXmlType equivPosZ =BaseDataSetter.createZValue(0, 0, ZUnitType.PU);
-					ZXmlType equivNegZ =BaseDataSetter.createZValue(0, 0, ZUnitType.PU);
-					ZXmlType equivZeroZ =BaseDataSetter.createZValue(0, 0, ZUnitType.PU);
+					// gen z is init as a large Z, or open circuit
+					ZXmlType equivPosZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
+					ZXmlType equivNegZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
+					ZXmlType equivZeroZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
 					
 	
 					
@@ -363,11 +365,15 @@ public class AcscParserHelper extends AclfParserHelper {
 				     }
 				}
 				
-				if(equivShuntNegY!=null)
+				// we assume Y is in pu on the system base
+				if(equivShuntNegY!=null) {
+					equivShuntNegY.setUnit(YUnitType.PU);
 					scEquivData.setShuntLoadNegativeY(equivShuntNegY);
-				if(equivShuntZeroY!=null)
+				}
+				if(equivShuntZeroY!=null) {
+					equivShuntZeroY.setUnit(YUnitType.PU);
 					scEquivData.setShuntLoadZeroY(equivShuntZeroY);
-				
+				}
 			}
 			
 						
