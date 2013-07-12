@@ -45,6 +45,7 @@ import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.MutualZeroZXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
 import org.ieee.odm.schema.TransformerZeroSeqXmlType;
 import org.ieee.odm.schema.VoltageUnitType;
 import org.ieee.odm.schema.XfrDStabXmlType;
@@ -130,7 +131,8 @@ public class BPADynamicSequenceRecord {
         	double factor = r0*r0+x0*x0;
         	//ScSimpleBusXmlType.ScShuntLoadData scsld =odmObjFactory.createScSimpleBusXmlTypeScShuntLoadData();
 
-        	bus.setShuntLoadZeroY(DStabDataSetter.createYValue(r0/factor, -x0/factor, YUnitType.PU));
+        	((ShortCircuitLoadDataXmlType)bus.getLoadData().getEquivLoad().getValue())
+        		.setShuntLoadZeroY(DStabDataSetter.createYValue(r0/factor, -x0/factor, YUnitType.PU));
 
         	//bus.setScShuntLoadData(scsld);
 	    }
@@ -299,7 +301,8 @@ public class BPADynamicSequenceRecord {
 					//hard coded values
 					//ScSimpleBusXmlType.ScShuntLoadData scsld = odmObjFactory.createScSimpleBusXmlTypeScShuntLoadData();
 
-					bus.setShuntLoadNegativeY(DStabDataSetter.createYValue(0.19, 0.36, YUnitType.PU));
+					((ShortCircuitLoadDataXmlType)bus.getLoadData().getEquivLoad().getValue())
+							.setShuntLoadNegativeY(DStabDataSetter.createYValue(0.19, 0.36, YUnitType.PU));
 			        //bus.setScShuntLoadData(scsld);
 				}
 			}

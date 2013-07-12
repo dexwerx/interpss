@@ -11,6 +11,7 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
 import org.ieee.odm.schema.YUnitType;
 
 public class PSSEShuntLoadZeroSeqMapper <
@@ -43,6 +44,7 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 		double gZero = dataParser.getDouble("GZERO");
 		double bZero = dataParser.getDouble("BZERO");
 		ShortCircuitBusXmlType scBusXmlType= (ShortCircuitBusXmlType) parser.getBus(busId);
-		scBusXmlType.setShuntLoadNegativeY(BaseDataSetter.createYValue(gZero, bZero, YUnitType.PU));
+		((ShortCircuitLoadDataXmlType)scBusXmlType.getLoadData().getEquivLoad().getValue())
+						.setShuntLoadNegativeY(BaseDataSetter.createYValue(gZero, bZero, YUnitType.PU));
 	}
 }

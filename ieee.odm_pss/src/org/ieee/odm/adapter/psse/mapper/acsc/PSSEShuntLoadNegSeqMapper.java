@@ -11,6 +11,7 @@ import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
+import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
 import org.ieee.odm.schema.YUnitType;
 
 public class PSSEShuntLoadNegSeqMapper <
@@ -55,7 +56,8 @@ public class PSSEShuntLoadNegSeqMapper <
 		double gNeg = dataParser.getDouble("GNEG");
 		double bNeg = dataParser.getDouble("BNEG");
 		ShortCircuitBusXmlType scBusXmlType= (ShortCircuitBusXmlType) parser.getBus(busId);
-		scBusXmlType.setShuntLoadNegativeY(BaseDataSetter.createYValue(gNeg, bNeg, YUnitType.PU));
+		((ShortCircuitLoadDataXmlType)scBusXmlType.getLoadData().getEquivLoad().getValue())
+					.setShuntLoadNegativeY(BaseDataSetter.createYValue(gNeg, bNeg, YUnitType.PU));
 		//check against the positive sequence 
 		//
 		

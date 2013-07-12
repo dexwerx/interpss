@@ -104,8 +104,6 @@
 
     <ns:group name="ShortCircuitBusDataGroup">
         <ns:sequence>
-			<ns:element minOccurs="0" name="shuntLoadNegativeY" type="pss:YXmlType" />
-			<ns:element minOccurs="0" name="shuntLoadZeroY" type="pss:YXmlType" />
 			<ns:element minOccurs="0" name="swithedShuntLoadZeroY" type="pss:YXmlType" />
         </ns:sequence>
     </ns:group>
@@ -135,6 +133,8 @@
     	<ns:complexContent>
 			<ns:extension base="pss:LoadflowLoadDataXmlType">
 		      <ns:sequence>
+				<ns:element minOccurs="0" name="shuntLoadNegativeY" type="pss:YXmlType" />
+				<ns:element minOccurs="0" name="shuntLoadZeroY" type="pss:YXmlType" />
 			  </ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
