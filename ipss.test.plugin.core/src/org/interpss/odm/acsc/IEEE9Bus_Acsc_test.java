@@ -138,6 +138,10 @@ public class IEEE9Bus_Acsc_test {
   	
   		assertTrue( net.isLfConverged());
 		
+  	  	//*********************************************
+	  	//             Bus4 3P Fault
+	  	//********************************************
+	  	
   		
 	  	SimpleFaultAlgorithm acscAlgo = CoreObjectFactory.createSimpleFaultAlgorithm(net);
   		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus4", acscAlgo );
@@ -183,6 +187,33 @@ public class IEEE9Bus_Acsc_test {
 	  	//0.0000 + j0.0000  0.88659 + j0.01024  -0.15334 + j0.01034
 	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getBusVoltage_012(net.getAcscBus("Bus1")), 
 	  			0.0, 0.0, 0.88659, 0.01024, -0.15334, 0.01034) );
+	  	
+	  	
+	  	//*********************************************
+	  	//             Bus1 L-L Fault
+	  	//********************************************
+	  	
+	  	fault = CoreObjectFactory.createAcscBusFault("Bus1", acscAlgo );
+		fault.setFaultCode(SimpleFaultCode.GROUND_LL);
+		fault.setZLGFault(new Complex(0.0, 0.0));
+		fault.setZLLFault(new Complex(0.0, 0.0));
+		
+		//pre fault profile : solved power flow
+		acscAlgo.setScBusVoltage(ScBusVoltageType.LOADFLOW_VOLT);
+		
+		acscAlgo.calculateBusFault(fault);
+	  	System.out.println(fault.getFaultResult().getSCCurrent_012());
+	  	System.out.println(fault.getFaultResult().getBusVoltage_012(net.getAcscBus("Bus4")));
+	  	
+	    //seq voltage @Bus4
+	  	//0.0000 + j0.0000  0.61992 + j-0.00361  0.40512 + j-0.03572
+	  	
+	  	/*PWD: Fault Data - Buses
+	  	 Seq. Volt +	 Seq. Volt -
+	  	      0.61997	      0.40682
+         */
+	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getBusVoltage_012(net.getAcscBus("Bus4")), 
+	  			0.0, 0.0, 0.61992, -0.00361, 0.40512, -0.03572) );
 		
 	}
 	
