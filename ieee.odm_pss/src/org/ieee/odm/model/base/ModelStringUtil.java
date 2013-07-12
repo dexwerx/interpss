@@ -225,12 +225,14 @@ public class ModelStringUtil {
 	}	
 	
 	/**
+	 * trim the blanks on both ends first, then
 	 * trim "xxxx" -> xxxx
 	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String trimQuote(String str) {
+		str=str.trim();
 		return str.substring(1, str.length()-1);
 	}	
 	
