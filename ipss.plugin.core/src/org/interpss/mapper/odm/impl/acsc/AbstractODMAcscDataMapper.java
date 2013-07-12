@@ -243,7 +243,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 			acscBus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		}
 		else
-		setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
+			setBusScZg(acscBus, acscBus.getBaseVoltage(), acscBus.getNetwork().getBaseKva(), 
 					scGenData.getGrounding());
 	}
 
