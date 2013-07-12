@@ -23,6 +23,7 @@ import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
@@ -299,6 +300,7 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 			if(parser == null){
 				parser = new AcscModelParser();
 				parser.getStudyCase().setAnalysisCategory(AnalysisCategoryEnumType.SHORT_CIRCUIT);
+				
 			}
 			
 		}
@@ -314,6 +316,11 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 	    //to parse the load flow file
 		super.parseInputFile(din[0], encoding);
 		
+		//Aclf data is included
+		if(din[0]!=null){
+			ShortCircuitNetXmlType baseCaseNet = (ShortCircuitNetXmlType) parser.getNet();
+			baseCaseNet.setHasLoadflowData(true);
+		}
 		//the second one is the sequence data file;
 		this.parseInputFile(din[1], encoding);
 		}
