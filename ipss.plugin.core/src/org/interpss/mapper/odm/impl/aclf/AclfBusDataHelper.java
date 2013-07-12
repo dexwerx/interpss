@@ -115,19 +115,25 @@ public class AclfBusDataHelper {
 		//System.out.println(aclfBus.getId() + "  " + Number2String.toStr(aclfBus.getVoltage()));
 
 		if (xmlBusData.getGenData()!=null) {
+			mapGenData(xmlBusData.getGenData());
+			/* there is no need to do the check. the mapGenData() method should do the job
 			if(xmlBusData.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN)
 			mapGenData(xmlBusData.getGenData());
 			else 
 				aclfBus.setGenCode(AclfGenCode.NON_GEN);
+			*/
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}
 
 		if (xmlBusData.getLoadData() != null) {
+			mapLoadData(xmlBusData.getLoadData());
+			/* there is no need to do the check. the mapLoadData() method should do the job
 			if(xmlBusData.getLoadData().getEquivLoad().getValue().getCode()!=LFLoadCodeEnumType.NONE_LOAD)
 			   mapLoadData(xmlBusData.getLoadData());
 			else 
 				aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
+			*/	
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		}
@@ -237,16 +243,17 @@ public class AclfBusDataHelper {
 	private void mapLoadData(BusLoadDataXmlType xmlLoadData) {
 		aclfBus.setLoadCode(xmlLoadData.getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_I ? 
 				AclfLoadCode.CONST_I : (xmlLoadData.getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_Z ? 
-						AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
+						AclfLoadCode.CONST_Z : (xmlLoadData.getEquivLoad().getValue().getCode() == LFLoadCodeEnumType.CONST_P ? 
+								AclfLoadCode.CONST_P : AclfLoadCode.NON_LOAD)));
 		AclfLoadBus loadBus = aclfBus.toLoadBus();
 		LoadflowLoadDataXmlType xmlEquivLoad = xmlLoadData.getEquivLoad().getValue();
 		if (xmlEquivLoad != null) {
-			PowerXmlType p;
+			PowerXmlType p = null;
 			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)
 				p = xmlEquivLoad.getConstPLoad();
 			else if (aclfBus.getLoadCode() == AclfLoadCode.CONST_I)
 				p = xmlEquivLoad.getConstILoad();
-			else	
+			else if (aclfBus.getLoadCode() == AclfLoadCode.CONST_Z)	
 				p = xmlEquivLoad.getConstZLoad();
 			if (p != null)
 				loadBus.setLoad(new Complex(p.getRe(), p.getIm()),

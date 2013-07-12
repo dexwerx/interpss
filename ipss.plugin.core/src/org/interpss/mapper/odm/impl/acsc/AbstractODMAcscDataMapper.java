@@ -202,7 +202,9 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 			// we check if acscGenData is defined
 			//if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN) 
 			     // we do not assume any Lf info. The gen could be defined as a none-gen for Lf, yet a contributing gen for SC
-			if (acscBusXml.getScCode()==ShortCircuitBusEnumType.CONTRIBUTING && acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
+			// please note the acscBusXml.getScCode() == null condition to arrive here.
+			//if (acscBusXml.getScCode()==ShortCircuitBusEnumType.CONTRIBUTING && acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
+			if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
 				acscBusXml.setScCode(ShortCircuitBusEnumType.CONTRIBUTING);
 			else
 				acscBusXml.setScCode(ShortCircuitBusEnumType.NON_CONTRIBUTING);
@@ -252,7 +254,8 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		// at this point we assume that acscContributeLoadList has been consolidated to
 		// the acscEquivLoad. The consolidation logic is implemented in AcscParserHelper.createBusScEquivLoadData()
 		
-		if(acscBusXml.getLoadData().getEquivLoad().getValue() instanceof ShortCircuitLoadDataXmlType){
+		// we should not check condition here, since by arriving here acscLoadData should be of type ShortCircuitLoadDataXmlType 
+		//if(acscBusXml.getLoadData().getEquivLoad().getValue() instanceof ShortCircuitLoadDataXmlType){
 			
 		ShortCircuitLoadDataXmlType acscLoadData = (ShortCircuitLoadDataXmlType)acscBusXml.getLoadData().getEquivLoad().getValue();
 		
@@ -323,7 +326,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		    acscBus.setScLoadShuntY0(ypu);
 		}
 		// If not provided ,then the load is open from the zero sequence network
-		}
+		//}
 	}
 
 	private void setBusScZ(AcscBus bus, double baseKVA, 
