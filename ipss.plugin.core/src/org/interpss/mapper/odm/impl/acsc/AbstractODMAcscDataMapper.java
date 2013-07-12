@@ -30,6 +30,7 @@ import static com.interpss.core.funcImpl.AcscFunction.AcscXfrAptr;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToYUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToZUnit;
 
+import javax.activation.UnsupportedDataTypeException;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.math3.complex.Complex;
@@ -201,7 +202,7 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 			// we check if acscGenData is defined
 			//if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN) 
 			     // we do not assume any Lf info. The gen could be defined as a none-gen for Lf, yet a contributing gen for SC
-			if (acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
+			if (acscBusXml.getScCode()==ShortCircuitBusEnumType.CONTRIBUTING && acscBusXml.getGenData() != null && acscBusXml.getGenData().getEquivGen() != null) 
 				acscBusXml.setScCode(ShortCircuitBusEnumType.CONTRIBUTING);
 			else
 				acscBusXml.setScCode(ShortCircuitBusEnumType.NON_CONTRIBUTING);
@@ -251,14 +252,35 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 		// at this point we assume that acscContributeLoadList has been consolidated to
 		// the acscEquivLoad. The consolidation logic is implemented in AcscParserHelper.createBusScEquivLoadData()
 		
-		 //TODO positive sequence loads are not converted to ScZ here, as they can be converted during calculation of busScYii 
-		
-		
 		if(acscBusXml.getLoadData().getEquivLoad().getValue() instanceof ShortCircuitLoadDataXmlType){
 			
 		ShortCircuitLoadDataXmlType acscLoadData = (ShortCircuitLoadDataXmlType)acscBusXml.getLoadData().getEquivLoad().getValue();
-		//1) Negative part
-		  //1.1) if sequence data provided, it represents all loads connected to the bus
+		
+		// 1) positive sequence 
+		if(acscBus.isConstPLoad()||acscBus.isConstILoad()){	
+			/*
+			 * Use unit voltage vmag=1.0 to initialize the equivalent shuntY
+			 * 
+			 * For load flow-based short circuit analysis, 
+			 *  equivY_actual = equivY_0/v^2   for Constant Power load
+			 *                = equivY_0/v    for Constant current load
+			 * 
+			 */
+			Complex eqivShuntY1= acscBus.getLoad().conjugate();
+			acscBus.setScLoadShuntY1(eqivShuntY1);
+		}
+		else if(acscBus.isFunctionLoad()){
+			try {
+				throw new UnsupportedDataTypeException("ZIP function load is not supported for converting to positive sequence shunt load");
+			} catch (UnsupportedDataTypeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//2) Negative part
+		  //2.1) if sequence data provided, it represents all loads connected to the bus
+		
 		
 		if(acscLoadData.getShuntLoadNegativeY()!=null){
 			YXmlType y2 = acscLoadData.getShuntLoadNegativeY();
@@ -280,6 +302,14 @@ public abstract class AbstractODMAcscDataMapper<Tfrom> extends AbstractODMAclfPa
 				 */
 				Complex eqivShuntY2= acscBus.getLoad().conjugate();
 				acscBus.setScLoadShuntY2(eqivShuntY2);
+			}
+			else if(acscBus.isFunctionLoad()){
+				try {
+					throw new UnsupportedDataTypeException("ZIP function load is not supported for converting to negative sequence shunt load");
+				} catch (UnsupportedDataTypeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 		}

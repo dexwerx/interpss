@@ -114,14 +114,20 @@ public class AclfBusDataHelper {
 		aclfBus.setVoltage(vpu, angRad);
 		//System.out.println(aclfBus.getId() + "  " + Number2String.toStr(aclfBus.getVoltage()));
 
-		if (xmlBusData.getGenData() != null) {
+		if (xmlBusData.getGenData()!=null) {
+			if(xmlBusData.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN)
 			mapGenData(xmlBusData.getGenData());
+			else 
+				aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}
 
 		if (xmlBusData.getLoadData() != null) {
-			mapLoadData(xmlBusData.getLoadData());
+			if(xmlBusData.getLoadData().getEquivLoad().getValue().getCode()!=LFLoadCodeEnumType.NONE_LOAD)
+			   mapLoadData(xmlBusData.getLoadData());
+			else 
+				aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		}
