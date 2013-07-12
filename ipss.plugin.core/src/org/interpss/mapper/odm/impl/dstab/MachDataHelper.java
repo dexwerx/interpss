@@ -24,7 +24,7 @@
 
 package org.interpss.mapper.odm.impl.dstab;
 
-import static org.interpss.mapper.odm.ODMUnitHelper.ToActivePowerUnit;
+import static org.interpss.mapper.odm.ODMUnitHelper.ToApparentPowerUnit;
 import static org.interpss.mapper.odm.ODMUnitHelper.ToVoltageUnit;
 
 import org.apache.commons.math3.complex.Complex;
@@ -62,7 +62,7 @@ import com.interpss.dstab.mach.SalientPoleMachine;
  */
 public class MachDataHelper {
 	private DStabBus dstabBus = null;
-	private ActivePowerXmlType ratedPower = null;
+	private ApparentPowerXmlType ratedPower = null;
 	VoltageXmlType ratedVoltage = null;
 	
 	/**
@@ -72,7 +72,7 @@ public class MachDataHelper {
 	 * @param ratedP
 	 * @param ratedV
 	 */
-	public MachDataHelper(DStabBus dstabBus, ActivePowerXmlType ratedP,	VoltageXmlType ratedV) {
+	public MachDataHelper(DStabBus dstabBus, ApparentPowerXmlType ratedP,	VoltageXmlType ratedV) {
 		this.dstabBus = dstabBus;
 		this.ratedPower = ratedP;
 		this.ratedVoltage = ratedV;
@@ -146,7 +146,7 @@ public class MachDataHelper {
 	private void setClassicData(EConstMachine mach, ClassicMachineXmlType machXml) throws InterpssException {
 		// set machine data
 		if (this.ratedPower != null)
-			mach.setRating(this.ratedPower.getValue(), ToActivePowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+			mach.setRating(this.ratedPower.getValue(), ToApparentPowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
 		else
 			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
 		if (this.ratedVoltage != null)
@@ -165,7 +165,7 @@ public class MachDataHelper {
 	private void setEq1Data(Eq1Machine mach, Eq1MachineXmlType machXml) throws InterpssException {
 		// set machine data
 		if (this.ratedPower != null)
-			mach.setRating(this.ratedPower.getValue(), ToActivePowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
+			mach.setRating(this.ratedPower.getValue(), ToApparentPowerUnit.f(this.ratedPower.getUnit()), dstabBus.getNetwork().getBaseKva());
 		else
 			throw new InterpssException("ratedPower is required, bus Id: " + mach.getDStabBus().getId());
 		if (this.ratedVoltage != null)

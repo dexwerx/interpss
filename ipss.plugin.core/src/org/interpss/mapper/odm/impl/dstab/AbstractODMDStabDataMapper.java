@@ -213,7 +213,7 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 		// create the machine model and added to the parent bus object
 		MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
 		String machId = dstabBus.getId() + "-mach" + ++cnt;
-		Machine mach = new MachDataHelper(dstabBus, dyGen.getRatedMachPower(), dyGen.getRatedMachVoltage())
+		Machine mach = new MachDataHelper(dstabBus, dyGen.getMvaBase(), dyGen.getRatedMachVoltage())
 									.createMachine(machXmlRec, machId);
 				
 		if (dyGen.getExciter() != null) {
