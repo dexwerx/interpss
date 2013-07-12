@@ -36,7 +36,7 @@ public class PSSEBranchZeroSeqDataParser extends BasePSSEDataParser {
 		int cnt =st.countTokens();
 		for (int i = 0; i <cnt ; i++){
 			if(i==2){//cirId, need to trim the quote
-				setValue(i,ModelStringUtil.trimQuote(st.nextToken()).trim());
+				setValue(i,ModelStringUtil.trimQuote(st.nextToken().trim()).trim());
 			}
 			else setValue(i, st.nextToken().trim());
 		}

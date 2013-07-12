@@ -35,7 +35,7 @@ public class PSSEZeroSeqMulualZParser extends BasePSSEDataParser {
 		int cnt =st.countTokens();
 		for (int i = 0; i <cnt ; i++){
 				if(i==2 || i== 5){
-					setValue(i,ModelStringUtil.trimQuote(st.nextToken()).trim());
+					setValue(i,ModelStringUtil.trimQuote(st.nextToken().trim()).trim());
 				}
 				else setValue(i, st.nextToken().trim());
 			
