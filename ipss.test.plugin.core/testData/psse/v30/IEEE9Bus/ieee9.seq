@@ -1,0 +1,20 @@
+ 0,  30           / PSS(R)E 30 SEQ created by RWSQVERSION  FRI, JUN 21 2013  16:16
+     1,'1 ', 0.00000E+00, 0.04
+     2,'1 ', 0.00000E+00, 0.089
+     3,'1 ', 0.00000E+00, 0.107
+ 0 /End of Positive sequence Generator data, Begin Negative sequence Generator data
+     1,'1 ', 0.00000E+00, 0.04
+     2,'1 ', 0.00000E+00, 0.089
+     3,'1 ', 0.00000E+00, 0.107
+ 0 /End of Negative sequence Generator data, Begin Zero sequence Generator data
+     1,'1 ', 0.00000E+00, 0.04
+     2,'1 ', 0.00000E+00, 0.089
+     3,'1 ', 0.00000E+00, 0.107
+ 0 /End of Zero sequence Generator data, Begin Negative sequence Load data
+ 0 /End of Negative sequence Load data, Begin Zero sequence Load data
+ 0 /End of Zero sequence Load data, Begin Zero sequence Branch data
+ 0 /End of Zero sequence Branch data, Begin Zero sequence Mutual data
+ 0 /End of Zero sequence Mutual data, Begin Zero sequence Transformer data
+ 0 /End of Zero sequence Transformer data, Begin Zero sequence Switched shunt data
+ 0  / END OF ZERO SEQ. SWITCHED SHUNT DATA, BEGIN ZERO SEQ. FIXED SHUNT DATA
+ 0  / END OF ZERO SEQ. FIXED SHUNT DATA
