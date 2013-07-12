@@ -29,6 +29,7 @@ import static org.ieee.odm.ODMObjectFactory.odmObjFactory;
 import javax.xml.bind.JAXBElement;
 
 import org.ieee.odm.common.ODMException;
+import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.IODMModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
@@ -50,6 +51,7 @@ import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.PSXfrShortCircuitXmlType;
 import org.ieee.odm.schema.PowerXmlType;
+import org.ieee.odm.schema.ShortCircuitBusEnumType;
 import org.ieee.odm.schema.ShortCircuitBusXmlType;
 import org.ieee.odm.schema.ShortCircuitGenDataXmlType;
 import org.ieee.odm.schema.ShortCircuitLoadDataXmlType;
@@ -214,16 +216,17 @@ public class AcscParserHelper extends AclfParserHelper {
 		for ( JAXBElement<? extends BusXmlType> busXml : baseCaseNet.getBusList().getBus()) {
 			ShortCircuitBusXmlType scBusXml = (ShortCircuitBusXmlType)busXml.getValue();
 			
-			if(scBusXml.getGenData().getEquivGen()!=null &&
-				scBusXml.getGenData().getContributeGen()!=null){
+			if(scBusXml.getScCode()==ShortCircuitBusEnumType.CONTRIBUTING &&
+					scBusXml.getGenData().getEquivGen()!=null &&
+				    scBusXml.getGenData().getContributeGen()!=null){
 					
 					//Consolidate the positive and negative sequence to scEquivLoadData
 					ShortCircuitGenDataXmlType scEquivData = (ShortCircuitGenDataXmlType)scBusXml.getGenData().getEquivGen().getValue();
 					
 					// gen z is init as a large Z, or open circuit
-					ZXmlType equivPosZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
-					ZXmlType equivNegZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
-					ZXmlType equivZeroZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
+					ZXmlType equivPosZ  = null;
+					ZXmlType equivNegZ  = null;
+					ZXmlType equivZeroZ = null;
 					
 	
 					
@@ -248,10 +251,16 @@ public class AcscParserHelper extends AclfParserHelper {
 						double factor =sysMVABase/ machRatedMva;
 						
 						ZXmlType z1=contriGenData.getPotiveZ();
+						ZXmlType zSource = contriGenData.getSourceZ();
+						if(z1 == null ){
+							//check ZSOURCE
+							
+							
+						}
 						
 						ZXmlType z11 = ModelDataUtil.ZXmlMultiplyDouble(z1, factor);
 						
-						if(equivPosZ.getRe()==0 && equivPosZ.getIm()==0) equivPosZ = z11;
+						if(equivPosZ ==null) equivPosZ = z11;
 						else{
 							equivPosZ =ModelDataUtil.addParallelZ(equivPosZ, z11); 
 						}
@@ -259,7 +268,7 @@ public class AcscParserHelper extends AclfParserHelper {
 							ZXmlType z2=contriGenData.getNegativeZ();
 							ZXmlType z21 = ModelDataUtil.ZXmlMultiplyDouble(z2, factor);
                             
-							if(equivNegZ.getRe()==0 &&equivNegZ.getIm()==0) equivNegZ = z21;
+							if(equivNegZ==null) equivNegZ = z21;
 							else{
 								equivNegZ =ModelDataUtil.addParallelZ(equivNegZ, z21); 
 							}
@@ -273,7 +282,7 @@ public class AcscParserHelper extends AclfParserHelper {
 							ZXmlType z0=contriGenData.getZeroZ();
 							ZXmlType z01 = ModelDataUtil.ZXmlMultiplyDouble(z0, factor);
                             
-							if(equivZeroZ.getRe()==0 &&equivZeroZ.getIm()==0) equivZeroZ = z01;
+							if(equivZeroZ==null) equivZeroZ = z01;
 							else{
 								equivZeroZ =ModelDataUtil.addParallelZ(equivZeroZ, z01); 
 							}
@@ -293,6 +302,15 @@ public class AcscParserHelper extends AclfParserHelper {
                        */
 					}
 				   // generator data is modeled at the equivalent Gen level or has been consolidated already. 
+					//if no sequence data provided, gen z is init as a large Z, or open circuit
+					if(equivPosZ ==null ){
+						
+						equivPosZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
+						equivNegZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
+						equivZeroZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
+						
+						ODMLogger.getLogger().warning("posZ of gen is not provided, Bus Id, GenId #"+scBusXml.getId());
+					}
 					scEquivData.setPotiveZ(equivPosZ);
 					scEquivData.setNegativeZ(equivNegZ);
 					scEquivData.setZeroZ(equivZeroZ);

@@ -15,7 +15,7 @@ public class ModelDataUtil {
 	 * @param z2
 	 * @return
 	 */
-	public static ZXmlType addParallelZ(ZXmlType z1, ZXmlType z2){
+	public static ZXmlType addParallelZ(final ZXmlType z1, final ZXmlType z2){
 		if(z1.getUnit()!=z2.getUnit()){
 			try {
 				throw new Exception("Unit type of both are not the same, z1 unit #"+z1.getUnit()+", z2 unit #"+z2.getUnit());
@@ -26,7 +26,7 @@ public class ModelDataUtil {
 		
 		Complex z1cplx = ZXmlType2Cmplx(z1);
 		Complex z2cplx = ZXmlType2Cmplx(z2);
-		Complex parallelZ =z1cplx.add(z2cplx).divide(z1cplx.add(z2cplx));
+		Complex parallelZ =z1cplx.multiply(z2cplx).divide(z1cplx.add(z2cplx));
 		
 		return BaseDataSetter.createZValue(parallelZ.getReal(), parallelZ.getImaginary(), z1.getUnit());
 		
@@ -54,11 +54,11 @@ public class ModelDataUtil {
 		
 	}
 	
-	public static Complex ZXmlType2Cmplx(ZXmlType z){
+	public static Complex ZXmlType2Cmplx(final ZXmlType z){
 		return new Complex(z.getRe(),z.getIm());
 	}
 	
-	public static Complex YXmlType2Cmplx(YXmlType Y){
+	public static Complex YXmlType2Cmplx(final YXmlType Y){
 		return new Complex(Y.getRe(),Y.getIm());
 	}
 	
