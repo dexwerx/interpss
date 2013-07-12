@@ -49,7 +49,12 @@ public class IEEE9Bus_Acsc_test {
 	  		assertTrue( net.isLfConverged());
 	  		//System.out.println(AclfOutFunc.loadFlowSummary(net));
 	  		//System.out.println(net.net2String());
-	  		
+	  		/*
+	  		 * ***********************************
+	  		 *       Positive sequence
+	  		 * ***********************************      
+	  		 * 
+	  		 */
 	  		
 	        ISparseEqnComplex posYMatrix = net.formYMatrix(SequenceCode.POSITIVE, false);
 	        
@@ -76,6 +81,29 @@ public class IEEE9Bus_Acsc_test {
 	        assertTrue(Math.abs(posYMatrix.getA(6, 6).getImaginary()+35.45)<1.0E-2);
 	       
 			
+	        /*
+	  		 * ***********************************
+	  		 *       Zero sequence
+	  		 * ***********************************
+	  		 * Gen Bus 1,2 and 3 is open from the sequence network
+	  		 * 
+	  		 */
+	        
+	        ISparseEqnComplex zeroYMatrix = net.formYMatrix(SequenceCode.ZERO, false);
+	      //Load Bus: Bus 5
+	        //Yii: 1.0211168370406916 + (-6.79069203867941i)
+	        assertTrue(Math.abs(zeroYMatrix.getA(4, 4).getReal()-1.02)<1.0E-2);
+	        assertTrue(Math.abs(zeroYMatrix.getA(4, 4).getImaginary()+6.79)<1.0E-2);
+	        
+	        //Y54: -0.5460750853242321 + (4.641638225255973i)
+	        assertTrue(Math.abs(zeroYMatrix.getA(4, 3).getReal()+0.54)<1.0E-2);
+	        assertTrue(Math.abs(zeroYMatrix.getA(4, 3).getImaginary()-4.64)<1.0E-2);
+	        
+	        //Non-Gen, Non-Load: Bus7
+	        //Yii 1.1218907410149137 + (-23.641745252186816i)
+	        assertTrue(Math.abs(zeroYMatrix.getA(6, 6).getReal()-1.12)<1.0E-2);
+	        assertTrue(Math.abs(zeroYMatrix.getA(6, 6).getImaginary()+23.64)<1.0E-2);
+	        
 		}
 	
 
