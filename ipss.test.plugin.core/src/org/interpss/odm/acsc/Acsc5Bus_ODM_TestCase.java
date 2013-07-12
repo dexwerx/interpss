@@ -57,7 +57,7 @@ public class Acsc5Bus_ODM_TestCase extends CorePluginTestSetup {
 		File file = new File("testdata/ieee_odm/ODM_AcscNoLF_5Bus.xml");
 		AcscModelParser parser = new AcscModelParser();
 		parser.parse(new FileInputStream(file));	
-		//System.out.println(parser.toXmlDoc());
+		System.out.println(parser.toXmlDoc());
 		
 		AcscNetwork faultNet = new ODMAcscDataMapper().map2Model(parser).getAcscNet();
 		//System.out.println(faultNet.net2String());
@@ -82,7 +82,7 @@ public class Acsc5Bus_ODM_TestCase extends CorePluginTestSetup {
 		File file = new File("testdata/ieee_odm/ODM_Acsc_5Bus.xml");
 		AcscModelParser parser = new AcscModelParser();
 		parser.parse(new FileInputStream(file));		
-		
+		System.out.println(parser.toXmlDoc());
 		AcscNetwork faultNet = new ODMAcscDataMapper().map2Model(parser).getAcscNet();
 		//System.out.println(faultNet.net2String());
 
@@ -115,6 +115,11 @@ public class Acsc5Bus_ODM_TestCase extends CorePluginTestSetup {
 	  	algo.calculateBusFault(fault);
   		//System.out.println(fault.getFaultResult().getSCCurrent_012());
   		// 0.0000 + j0.0000  -10.37426 + j29.56081  0.0000 + j0.0000
+	  	
+	  	/* Note[07/12/2013]: 
+	  	 * If the load is considered in the SC when calculating scYii, then
+	  	 * iPU_012 = 0.0000 + j0.0000  -13.47708 + j30.27969  0.0000 + j0.0000
+	  	 */
 	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_012(), 
 	  			0.0, 0.0, -10.37426, 29.56081, 0.0, 0.0) );		
 	}
