@@ -3,7 +3,6 @@ package org.ieee.odm.adapter.psse.impl;
 import java.util.StringTokenizer;
 
 import org.ieee.odm.adapter.IFileReader;
-import org.ieee.odm.adapter.psse.PSSEAdapter;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.acsc.PSSEBranchZeroSeqMapper;
 import org.ieee.odm.adapter.psse.mapper.acsc.PSSEFixedShuntZeroSeqMapper;
@@ -15,20 +14,16 @@ import org.ieee.odm.adapter.psse.mapper.acsc.PSSEShuntLoadZeroSeqMapper;
 import org.ieee.odm.adapter.psse.mapper.acsc.PSSESwitchShuntZeroSeqMapper;
 import org.ieee.odm.adapter.psse.mapper.acsc.PSSEXfrZeroSeqDataMapper;
 import org.ieee.odm.adapter.psse.mapper.acsc.PSSEZeroSeqMutualZMapper;
-import org.ieee.odm.adapter.psse.parser.acsc.PSSEBranchZeroSeqDataParser;
 import org.ieee.odm.common.ODMException;
 import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.IODMModelParser;
-import org.ieee.odm.model.aclf.AclfModelParser;
-import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.acsc.AcscModelParser;
+import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.acsc.BaseAcscModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
-import org.ieee.odm.schema.LoadflowNetXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
-import org.ieee.odm.schema.OriginalDataFormatEnumType;
 import org.ieee.odm.schema.ShortCircuitNetXmlType;
 
 public class PSSEAcscAdapter <
@@ -260,7 +255,7 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
     		throw new ODMException("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
   		
-		
+		AcscParserHelper.createBusScEquivData(parser);		
 		
 		return parser;
 		

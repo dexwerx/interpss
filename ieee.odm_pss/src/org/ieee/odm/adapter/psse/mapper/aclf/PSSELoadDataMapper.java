@@ -31,6 +31,7 @@ import org.ieee.odm.common.ODMLogger;
 import org.ieee.odm.model.AbstractModelParser;
 import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
+import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -39,6 +40,7 @@ import org.ieee.odm.schema.BusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
+import org.ieee.odm.schema.ShortCircuitBusXmlType;
 
 public class PSSELoadDataMapper <
 TNetXml extends NetworkXmlType, 
@@ -62,13 +64,19 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 */		
 		int i = dataParser.getInt("I");
 	    final String busId = AbstractModelParser.BusIdPreFix+i;
-		LoadflowBusXmlType busRecXml = (LoadflowBusXmlType) parser.getBus(busId);
+	    BusXmlType busRecXml = parser.getBus(busId);
 	    if (busRecXml == null){
 	    	ODMLogger.getLogger().severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 		
-	    LoadflowLoadDataXmlType contribLoad = AclfParserHelper.createContriLoad(busRecXml); 
+	    LoadflowLoadDataXmlType contribLoad; 
+	    if (busRecXml instanceof ShortCircuitBusXmlType) {
+	    	contribLoad = AcscParserHelper.createAcscContributeLoad((ShortCircuitBusXmlType)busRecXml);
+	    } 
+	    else {
+	    	contribLoad = AclfParserHelper.createContriLoad((LoadflowBusXmlType)busRecXml); 
+	    }	    
 
 	    String id = dataParser.getString("ID");
 	    contribLoad.setId(id);

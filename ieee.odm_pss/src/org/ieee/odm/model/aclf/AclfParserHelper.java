@@ -194,6 +194,21 @@ public class AclfParserHelper extends BaseJaxbHelper {
 
 		return true;
 	}
+
+
+	/**
+	 * create bus EquivData info
+	 * 
+	 * @param parser
+	 * @return
+	 */
+	public static boolean createBusEquivData(IODMModelParser parser) {
+		createBusEquivGenData(parser);
+		
+		createBusEquivLoadData(parser);
+
+		return true;
+	}	
 	
 	/**
 	 * consolidate bus loadContributionList to the load 
@@ -257,19 +272,6 @@ public class AclfParserHelper extends BaseJaxbHelper {
 		return true;
 	}
 
-	/**
-	 * create bus EquivData info
-	 * 
-	 * @param parser
-	 * @return
-	 */
-	public static boolean createBusEquivData(IODMModelParser parser) {
-		createBusEquivGenData(parser);
-		
-		createBusEquivLoadData(parser);
-
-		return true;
-	}
 	
 	/**
 	 * create a SVC object
