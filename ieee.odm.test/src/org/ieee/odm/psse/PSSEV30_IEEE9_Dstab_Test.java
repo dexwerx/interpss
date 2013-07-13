@@ -14,6 +14,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabGenDataXmlType;
+import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
@@ -130,8 +131,59 @@ public class PSSEV30_IEEE9_Dstab_Test {
 	assertTrue(machine.getTq011().getValue()==0.06);
 	
 	
+	/*
+	 * BUS3
+	 * 
+	 * Machine GENROU
+	 * 
+	 *             <eq11Ed11MachModel>
+                           <desc>GENROU</desc>
+                            <H>3.01</H>
+                            <D>0.0</D>
+                            <xl>0.0742</xl>
+                            <ra>0.0</ra>
+                            <xd>1.313</xd>
+                            <xq>1.258</xq>
+                            <xd1>0.1813</xd1>
+                            <Td01 unit="Sec" value="5.89"/>
+                            <seFmt1>
+                                <se100>0.0</se100>
+                                <se120>0.0</se120>
+                                <sliner>1.0</sliner>
+                            </seFmt1>
+                            <xq1>0.25</xq1>
+                            <Tq01 unit="Sec" value="0.6"/>
+                            <xd11>0.107</xd11>
+                            <Td011 unit="Sec" value="0.033"/>
+                            <xq11>0.107</xq11>
+                            <Tq011 unit="Sec" value="0.07"/>
+                    </eq11Ed11MachModel>
+            
+	 * 
+	 */
+	 DStabBusXmlType bus3 = dstabParser.getDStabBus("Bus3");
+	 assertTrue(bus3.getGenData().getEquivGen().getValue().getCode()==LFGenCodeEnumType.PV);
+	 
+	 DStabGenDataXmlType contriGen3 = (DStabGenDataXmlType) bus3.getGenData().getContributeGen().get(0).getValue();
 	
-	
-	
+	 Eq11Ed11MachineXmlType gen3Mach = (Eq11Ed11MachineXmlType) contriGen3.getMachineModel().getValue();
+		assertTrue(gen3Mach.getD()==0.0);
+		assertTrue(gen3Mach.getH()==3.01);
+		
+		assertTrue(gen3Mach.getXl()< gen3Mach.getXd1());
+		
+		assertTrue(gen3Mach.getXd()==1.313);
+		assertTrue(gen3Mach.getXq()==1.258);
+		assertTrue(gen3Mach.getXl()==0.0742);
+		assertTrue(gen3Mach.getXd1()==0.1813);
+		assertTrue(gen3Mach.getXq1()==0.25);
+		assertTrue(gen3Mach.getXd11()==0.107);
+		assertTrue(gen3Mach.getXd11()==gen3Mach.getXq11());
+		
+		assertTrue(gen3Mach.getTd01().getValue()==5.89);
+		assertTrue(gen3Mach.getTd011().getValue()==0.033);
+		assertTrue(gen3Mach.getTq011().getValue()==0.07);
+	 
+	 
 	}
 }
