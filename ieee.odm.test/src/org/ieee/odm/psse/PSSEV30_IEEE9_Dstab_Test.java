@@ -46,7 +46,7 @@ public class PSSEV30_IEEE9_Dstab_Test {
 	/*
 	 * <hasLoadflowData>true</hasLoadflowData>
         <positiveSeqDataOnly>false</positiveSeqDataOnly>
-        <hasShortCircuitData>false</hasShortCircuitData>
+        <hasShortCircuitData>true</hasShortCircuitData>
         <saturatedMachineParameter>false</saturatedMachineParameter>
 	 */
 	assertTrue(dynNet.isHasShortCircuitData());

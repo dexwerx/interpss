@@ -14,6 +14,7 @@ import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.LineDStabXmlType;
 import org.ieee.odm.schema.PSXfrDStabXmlType;
+import org.ieee.odm.schema.ShortCircuitNetXmlType;
 import org.ieee.odm.schema.XfrDStabXmlType;
 
 public class PSSEDynAdapter extends PSSEAcscAdapter<DStabNetXmlType, DStabBusXmlType, LineDStabXmlType, XfrDStabXmlType, PSXfrDStabXmlType>{
@@ -80,6 +81,11 @@ public class PSSEDynAdapter extends PSSEAcscAdapter<DStabNetXmlType, DStabBusXml
 		}
 		
 		//Use the Acsc Parser to parse the first two files, namely, Aclf and Sequence data.
+		
+		if(din[1]!=null){ // the second data file stores the sequence data
+			DStabNetXmlType baseCaseNet = (DStabNetXmlType) parser.getNet();
+			baseCaseNet.setHasShortCircuitData(true);
+		}
 		super.parseInputFile(type, din, encoding);
 		
 	    //It is supposed that the third file defines the Dstab data.
