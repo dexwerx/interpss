@@ -45,10 +45,10 @@ public class PSSEGensalMapper extends BasePSSEDataMapper{
 	    
 	    //check model type
 	    //GENROU and GENROE data format are the same
-	    if(!(dataParser.getString("Type").equals("GENROU")||
-	    		dataParser.getString("Type").equals("GENROE"))){
+	    if(!(dataParser.getString("Type").equals("GENSAL")||
+	    		dataParser.getString("Type").equals("GENSAE"))){
 	    	throw new ODMException("machine  : Id"+
-		             genId+" @ Bus"+i+"is not a GENROU or GENROE generator model");
+		             genId+" @ Bus"+i+"is not a GENSAL or GENSAE generator model");
 	    }
 	    
 	   
@@ -61,12 +61,11 @@ public class PSSEGensalMapper extends BasePSSEDataMapper{
 	   
 	   double Td1 = dataParser.getDouble("T'do");
 	   double Td11 = dataParser.getDouble("T''do");
-	   double Tq1 = dataParser.getDouble("T'qo");
 	   double Tq11 = dataParser.getDouble("T''qo");
 	   
 	   double H = dataParser.getDouble("H");
-	   double D = dataParser.getDouble("H");
-	   
+	   double D = dataParser.getDouble("D");
+	   double Xl = dataParser.getDouble("Xl");
 	   double Xd = dataParser.getDouble("Xd");
 	   double Xq = dataParser.getDouble("Xq");
 	   double Xd1 = dataParser.getDouble("X'd");
@@ -88,7 +87,9 @@ public class PSSEGensalMapper extends BasePSSEDataMapper{
 	   mach.setTd011(DStabDataSetter.createTimeConstSec(Td11));
 	   mach.setTq011(DStabDataSetter.createTimeConstSec(Tq11));
 	   
+	   mach.setXl(Xl);
 	   mach.setXd(Xd);
+	   mach.setXq(Xq);
 	   mach.setXd1(Xd1);
 	
 	   mach.setXq11(Xd11); // x''q = x''d

@@ -34,9 +34,11 @@ import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
 import org.ieee.odm.model.base.BaseJaxbHelper;
+import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowLoadDataXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -71,7 +73,10 @@ TPsXfrXml extends BranchXmlType> extends BasePSSEDataMapper{
 	    }
 		
 	    LoadflowLoadDataXmlType contribLoad; 
-	    if (busRecXml instanceof ShortCircuitBusXmlType) {
+	    if (busRecXml instanceof DStabBusXmlType) {
+	    	contribLoad = DStabParserHelper.createDStabContriLoad((DStabBusXmlType)busRecXml);
+	    }
+	    else if (busRecXml instanceof ShortCircuitBusXmlType) {
 	    	contribLoad = AcscParserHelper.createAcscContributeLoad((ShortCircuitBusXmlType)busRecXml);
 	    } 
 	    else {

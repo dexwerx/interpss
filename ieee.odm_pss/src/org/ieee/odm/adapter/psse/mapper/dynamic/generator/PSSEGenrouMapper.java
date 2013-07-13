@@ -68,7 +68,9 @@ public class PSSEGenrouMapper extends BasePSSEDataMapper{
 	   double Tq1 = dataParser.getDouble("T'qo");
 	   double Tq11 = dataParser.getDouble("T''qo");
 	   double H = dataParser.getDouble("H");
-	   double D = dataParser.getDouble("H");
+	   double D = dataParser.getDouble("D");
+	   
+	   double Xl = dataParser.getDouble("Xl");
 	   double Xd = dataParser.getDouble("Xd");
 	   double Xq = dataParser.getDouble("Xq");
 	   double Xd1 = dataParser.getDouble("X'd");
@@ -90,7 +92,9 @@ public class PSSEGenrouMapper extends BasePSSEDataMapper{
 	   mach.setTq01(DStabDataSetter.createTimeConstSec(Tq1));
 	   mach.setTq011(DStabDataSetter.createTimeConstSec(Tq11));
 	   
+	   mach.setXl(Xl);
 	   mach.setXd(Xd);
+	   mach.setXq(Xq);
 	   mach.setXd1(Xd1);
 	   mach.setXq1(Xq1);
 	   mach.setXq11(Xd11); // x''q = x''d

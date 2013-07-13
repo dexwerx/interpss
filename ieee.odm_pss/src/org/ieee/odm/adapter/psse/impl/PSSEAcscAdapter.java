@@ -2,6 +2,8 @@ package org.ieee.odm.adapter.psse.impl;
 
 import java.util.StringTokenizer;
 
+import javax.sound.midi.Sequence;
+
 import org.ieee.odm.adapter.IFileReader;
 import org.ieee.odm.adapter.psse.PSSEAdapter.PsseVersion;
 import org.ieee.odm.adapter.psse.mapper.acsc.PSSEBranchZeroSeqMapper;
@@ -321,8 +323,12 @@ TPsXfrXml extends BranchXmlType> extends PSSELFAdapter<TNetXml, TBusXml, TLineXm
 			ShortCircuitNetXmlType baseCaseNet = (ShortCircuitNetXmlType) parser.getNet();
 			baseCaseNet.setHasLoadflowData(true);
 		}
-		//the second one is the sequence data file;
-		this.parseInputFile(din[1], encoding);
+		
+		if(din[1]==null){
+			ODMLogger.getLogger().warning("PSSEAcscAdater: Sequence network data is not provided or invalid, please check!");
+		}
+		     //the second one is the sequence data file;
+		else parseInputFile(din[1], encoding);
 		}
 		
 		return parser;

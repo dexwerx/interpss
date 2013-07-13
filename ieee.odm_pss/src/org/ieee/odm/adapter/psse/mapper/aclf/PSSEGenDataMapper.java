@@ -33,10 +33,12 @@ import org.ieee.odm.model.aclf.AclfParserHelper;
 import org.ieee.odm.model.aclf.BaseAclfModelParser;
 import org.ieee.odm.model.acsc.AcscParserHelper;
 import org.ieee.odm.model.base.BaseDataSetter;
+import org.ieee.odm.model.dstab.DStabParserHelper;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
 import org.ieee.odm.schema.BranchXmlType;
 import org.ieee.odm.schema.BusXmlType;
+import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.LoadflowBusXmlType;
 import org.ieee.odm.schema.LoadflowGenDataXmlType;
 import org.ieee.odm.schema.NetworkXmlType;
@@ -105,7 +107,10 @@ VS Regulated voltage setpoint; entered in pu. VS = 1.0 by default.
 	     * data type
 	     */
 	    LoadflowGenDataXmlType contriGen;
-	    if (busRecXml instanceof ShortCircuitBusXmlType) {
+	    if(busRecXml instanceof DStabBusXmlType){
+	    	contriGen = DStabParserHelper.createDStabContributeGen((DStabBusXmlType)busRecXml);
+	    }
+	    else if (busRecXml instanceof ShortCircuitBusXmlType) {
 		    contriGen = AcscParserHelper.createAcscContributeGen((ShortCircuitBusXmlType)busRecXml);
 	    } 
 	    else {
