@@ -14,6 +14,7 @@ import org.ieee.odm.model.dstab.DStabModelParser;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.DStabBusXmlType;
 import org.ieee.odm.schema.DStabGenDataXmlType;
+import org.ieee.odm.schema.DStabNetXmlType;
 import org.ieee.odm.schema.Eq11Ed11MachineXmlType;
 import org.ieee.odm.schema.Eq11MachineXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
@@ -39,6 +40,18 @@ public class PSSEV30_IEEE9_Dstab_Test {
 	dstabParser.stdout();
 	//caseContentInfo
 	assertTrue(dstabParser.getStudyCase().getAnalysisCategory() == AnalysisCategoryEnumType.TRANSIENT_STABILITY);
+	
+	DStabNetXmlType dynNet =  dstabParser.getDStabNet();
+	
+	/*
+	 * <hasLoadflowData>true</hasLoadflowData>
+        <positiveSeqDataOnly>false</positiveSeqDataOnly>
+        <hasShortCircuitData>false</hasShortCircuitData>
+        <saturatedMachineParameter>false</saturatedMachineParameter>
+	 */
+	assertTrue(dynNet.isHasShortCircuitData());
+	assertTrue(dynNet.isHasLoadflowData());
+	assertTrue(!dynNet.isPositiveSeqDataOnly());
 	
 	/*
 	 *  <dstabBus scCode="Contributing" id="Bus1" areaNumber="1" zoneNumber="1" number="1" offLine="false" name="BUS-1       ">
