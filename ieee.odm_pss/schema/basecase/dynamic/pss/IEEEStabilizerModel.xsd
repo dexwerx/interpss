@@ -11,16 +11,15 @@
 
     <ns:include schemaLocation="StabilizerModel.xsd" />
     
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 	
 	<!-- 
 		define models for those found in IEEE std
 			Naming convention
 			    pssIEEE*, PssIEEE* : for IEEE types  
 	 -->	
-	 	
-    <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
-	</ns:annotation>
     
     <ns:element name="pssIEEE1981Type" substitutionGroup="pss:stabilizer" type="pss:PssIEEE1981TypeXmlType" />
     

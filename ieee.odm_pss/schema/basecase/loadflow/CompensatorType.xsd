@@ -10,12 +10,10 @@
     
 	
     <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
 	</ns:annotation>
     
 	
-    
-
     <ns:complexType name="ShuntCompensatorXmlType">
 		<ns:sequence>
 			<ns:element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0"/>

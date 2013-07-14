@@ -5,19 +5,17 @@
     <ns:include schemaLocation="../NetRecordType.xsd"/>
     
     <ns:include schemaLocation="DcLineRecordType.xsd"/>
-    
-
     <ns:include schemaLocation="CompensatorType.xsd"/>
     
 	
     <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+		<ns:documentation>Copyright www.interpss.org 2008-2012</ns:documentation>
 	</ns:annotation>
     
     <ns:element name="aclfNet" substitutionGroup="pss:baseCase" type="pss:LoadflowNetXmlType">
         <ns:annotation>
       <ns:documentation>
-		Network for AC Loadflow analysis
+		Network type for AC Loadflow analysis
 		</ns:documentation>
     </ns:annotation>
     </ns:element>
@@ -55,57 +53,45 @@
     </ns:element>
             
     <ns:element name="aclfLine" substitutionGroup="pss:branch" type="pss:LineBranchXmlType">
-        <ns:annotation>
-      <ns:documentation>
+        <ns:annotation> <ns:documentation>
 		Line Branch record for defining line for AC Loadflow  
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation></ns:annotation>
     </ns:element>
 
     <ns:element name="aclfXfr" substitutionGroup="pss:branch" type="pss:XfrBranchXmlType">
-        <ns:annotation>
-      <ns:documentation>
+        <ns:annotation> <ns:documentation>
 		Xfr Branch record for  defining line for AC Loadflow  
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation> </ns:annotation>
     </ns:element>
     
     <ns:element name="aclf3WXfr" substitutionGroup="pss:branch" type="pss:Xfr3WBranchXmlType">
-        <ns:annotation>
-      <ns:documentation>
+        <ns:annotation><ns:documentation>
 		3W Xfr Branch record for defining line for AC Loadflow  
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation> </ns:annotation>
     </ns:element>
     
     <ns:element name="aclfPSXfr" substitutionGroup="pss:branch" type="pss:PSXfrBranchXmlType">
-        <ns:annotation>
-      <ns:documentation>
+        <ns:annotation> <ns:documentation>
 		PS Xfr Branch record for defining line for AC Loadflow  
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation></ns:annotation>
     </ns:element>
     
+    <ns:element name="aclf3WPSXfr" substitutionGroup="pss:branch" type="pss:PSXfr3WBranchXmlType">
+        <ns:annotation> <ns:documentation>
+		3W PS Xfr Branch record for define 
+		</ns:documentation> </ns:annotation>
+    </ns:element>
+
 		
 <!-- 
 		Network object
  -->
-    <ns:element name="aclf3WPSXfr" substitutionGroup="pss:branch" type="pss:PSXfr3WBranchXmlType">
-        <ns:annotation>
-      <ns:documentation>
-		3W PS Xfr Branch record for define 
-		</ns:documentation>
-    </ns:annotation>
-    </ns:element>
-    
 
     <ns:complexType name="LoadflowNetXmlType">
-		<ns:annotation>
-      <ns:documentation>
+		<ns:annotation><ns:documentation>
 			Network container for AC Loadflow study. It is a sub type of the NetworkXmlType,
-			which as a bus list of BusXmlType and a branch list of BaseBranchXmlType 
-		</ns:documentation>
-    </ns:annotation>
+			which has a bus list of BusXmlType and a branch list of BaseBranchXmlType 
+		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:NetworkXmlType">
 				<ns:sequence>
@@ -213,9 +199,6 @@
 		</ns:sequence>
 	</ns:complexType>
 
-<!--  
-		Bus objects
- -->
 	<ns:complexType name="ExchangeZoneXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:NetZoneXmlType">
@@ -225,6 +208,11 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+
+
+<!--  
+		Bus objects
+ -->
 
 	<ns:complexType name="LoadflowBusXmlType">
 		<ns:annotation>
@@ -273,13 +261,11 @@
 	</ns:complexType>
 
     <ns:complexType name="LoadflowGenDataXmlType">
-		<ns:annotation>
-      <ns:documentation>
+		<ns:annotation> <ns:documentation>
 			EquivGen is intended for Loadflow study. For PQ bus, p, q are specified using the power field. For Swing bus, 
 			desiredVoltage and desiredAngle are used For PV bus power.re and designedVoltage are used.
 			It is used to define LoadflowBusXmlType equivGen and contribGen list
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation> </ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:CimConnectionRecordType">
 				<ns:sequence>
@@ -292,18 +278,14 @@
 					<ns:element maxOccurs="1" minOccurs="0" name="voltageLimit" type="pss:VoltageLimitXmlType"/>
 					<ns:element minOccurs="0" name="mvaBase" type="pss:ApparentPowerXmlType"/>
 					<ns:element minOccurs="0" name="sourceZ" type="pss:ZXmlType">
-						<ns:annotation>
-              <ns:documentation>
+						<ns:annotation> <ns:documentation>
 						In GE-PSLF, it is called CompensatingZ
-						</ns:documentation>
-            </ns:annotation>
+						</ns:documentation></ns:annotation>
 					</ns:element>
 					<ns:element minOccurs="0" name="xfrZ" type="pss:ZXmlType">
-						<ns:annotation>
-              <ns:documentation>
+						<ns:annotation><ns:documentation>
 						In GE PSLF, it is called CharacteristicZ
-						</ns:documentation>
-            </ns:annotation>
+						</ns:documentation></ns:annotation>
 					</ns:element>
 					<ns:element minOccurs="0" name="xfrTap" type="ns:double"/>
 					<ns:element minOccurs="0" name="mvarVControlParticipateFactor" type="ns:double"/>
@@ -317,11 +299,9 @@
 
 
     <ns:complexType name="LoadflowLoadDataXmlType">
-		<ns:annotation>
-      <ns:documentation>
+		<ns:annotation> <ns:documentation>
 		It is used to define LoadflowBusXmlType equivLoad and contribLoad list
-		</ns:documentation>
-    </ns:annotation>
+		</ns:documentation> </ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:CimConnectionRecordType">
 				<ns:sequence>
@@ -389,11 +369,9 @@
     <ns:complexType name="TransformerInfoXmlType">
 		<ns:sequence>
 			<ns:element minOccurs="0" name="dataOnSystemBase" type="ns:boolean">
-				<ns:annotation>
-          <ns:documentation>
+				<ns:annotation> <ns:documentation>
 				Normally xfr data is on xfr rated power based. By setting
-				</ns:documentation>
-        </ns:annotation>
+				</ns:documentation> </ns:annotation>
 			</ns:element>
 			<ns:element minOccurs="0" name="fromRatedVoltage" type="pss:VoltageXmlType"/>
 			<ns:element minOccurs="0" name="toRatedVoltage" type="pss:VoltageXmlType"/>

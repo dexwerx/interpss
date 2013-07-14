@@ -9,6 +9,10 @@
     <ns:include schemaLocation="../../../common/DataType.xsd" />
     <ns:include schemaLocation="IEEEGovernorModel.xsd" />
     
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
+
 
 	<!--
 		define models for BPA Governor, Turbine
@@ -17,12 +21,8 @@
 		       GovBPA* SteamTurbineBPA* for complex type 
 	-->
 	
-    <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
-	</ns:annotation>
-    
-	
     <ns:element name="streamTurbineBPATB" substitutionGroup="pss:turbine" type="pss:SteamTurbineBPATBModelXmlType" />
+
     
     <ns:element name="speedGovBPAGSModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAGSModelXmlType" />
     
@@ -31,14 +31,13 @@
     <ns:element name="speedGovBPARegGIModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPARegGIModelXmlType" />
     
     <ns:element name="speedGovBPAServoModel" substitutionGroup="pss:speedGov" type="pss:SpeedGovBPAServoGAModelXmlType" />
+
     
     <ns:element name="govBPAHydroTurbineGHModel" substitutionGroup="pss:governor" type="pss:GovBPAHydroTurbineGHXmlType" />
     
     <ns:element name="govBPAGsTbCombinedModel" substitutionGroup="pss:governor" type="pss:GovBPAGsTbCombinedModelXmlType" />
     
-    
     <!--BPA GOV and steam turbine type -->
-    
     <ns:element name="govBPAGiGaTbCombinedModel" substitutionGroup="pss:governor" type="pss:GovBPAGiGaTbCombinedModelXmlType" />
     
     
@@ -173,6 +172,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
     <ns:complexType name="SpeedGovBPAServoGAModelXmlType">
 		<ns:complexContent>

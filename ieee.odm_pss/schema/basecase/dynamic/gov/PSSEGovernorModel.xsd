@@ -9,6 +9,10 @@
     <ns:include schemaLocation="../../../common/DataType.xsd" />
     <ns:include schemaLocation="IEEEGovernorModel.xsd" />
     
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
+	</ns:annotation>
+    
 
 	<!--
 		define models for PSSE Governor, Turbine
@@ -17,12 +21,8 @@
 		       GovPSSE* SteamTurbinePSSE* for complex type 
 	-->
 	
-    <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
-	</ns:annotation>
-    
-	
     <ns:element name="govPSSEIEESGO" substitutionGroup="pss:governor" type="pss:GovPSSEIEESGOModelXmlType" />
+
     <ns:element name="govPSSETGOV1" substitutionGroup="pss:governor" type="pss:GovPSSETGOV1ModelXmlType" />
     
     
@@ -33,8 +33,6 @@
         This model gives either a good representation of a reheat steam turbine or an approximate representation of a hydro 
         plant of simple configuration.
      -->
- 
-
     <ns:complexType name="GovPSSEIEESGOModelXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovernorModelXmlType">
@@ -55,7 +53,7 @@
 		</ns:complexContent>		
 	</ns:complexType>
 	
-	   <ns:complexType name="GovPSSETGOV1ModelXmlType">
+	<ns:complexType name="GovPSSETGOV1ModelXmlType">
 		<ns:complexContent>
 		<ns:extension base="pss:GovernorModelXmlType">
 		<ns:sequence>
@@ -70,7 +68,4 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
-
-	
-	
 </ns:schema>

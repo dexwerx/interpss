@@ -7,20 +7,19 @@
 
 	
     <ns:include schemaLocation="../../../common/DataType.xsd" />
-    
 
     <ns:include schemaLocation="ExciterModel.xsd" />
+
     
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 	
 	<!-- 
 		define models for those found in IEEE std
 			Naming convention
 			    excIEEE*, ExcIEEE* : for IEEE types  
 	 -->		
-	 
-    <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
-	</ns:annotation>
     
 	<!-- IEEE std 1992--> 
     <ns:element name="excIEEE1992TypeAC1A" substitutionGroup="pss:exciter" type="pss:ExcIEEE1992TypeAC1AXmlType" />

@@ -10,7 +10,7 @@
     
 
     <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
 	</ns:annotation>
     
     <ns:element name="baseCase" type="pss:NetworkXmlType">
@@ -22,6 +22,7 @@
     
     <ns:element name="childNet" type="pss:NetworkXmlType">
         <ns:annotation><ns:documentation>
+        	for defining child network object
 		</ns:documentation></ns:annotation>
     </ns:element>
 
@@ -145,14 +146,14 @@
     				</ns:element>
     			</ns:sequence>
     			<ns:attribute name="netId" type="ns:string" use="required">
-    				<ns:annotation>
-    					<ns:documentation>parent containing network id. It might be stored in a different file.</ns:documentation>
-    				</ns:annotation>
+    				<ns:annotation><ns:documentation>
+    					parent containing network id. It might be stored in a different file.
+    				</ns:documentation></ns:annotation>
     			</ns:attribute>
     			<ns:attribute name="parentBusId" type="ns:string" use="required">
-    				<ns:annotation>
-    					<ns:documentation>parent bus id, where this network is attached to. It might be stored in a different file.</ns:documentation>
-    				</ns:annotation>
+    				<ns:annotation><ns:documentation>
+    					parent bus id, where this network is attached to. It might be stored in a different file.
+    				</ns:documentation></ns:annotation>
     			</ns:attribute>
     		</ns:extension>
     	</ns:complexContent>
@@ -160,9 +161,9 @@
 
 
     <ns:complexType name="BusXmlType" abstract="true">
-        <ns:annotation>
-        	<ns:documentation>Base bus record for all bus type</ns:documentation>
-        </ns:annotation>
+        <ns:annotation><ns:documentation>
+        	Base bus record for all bus type
+        </ns:documentation></ns:annotation>
         <ns:complexContent>
 			<ns:extension base="pss:CimRdfRecordType">
 				<ns:sequence>
@@ -276,6 +277,7 @@
 		</ns:sequence>
     </ns:complexType>
 
+
 	<ns:complexType name="NetAreaXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:NameTagXmlType">
@@ -297,6 +299,7 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+
     
     <ns:complexType name="TransformerZCorrectionXmlType">
     	<ns:complexContent>
@@ -305,17 +308,12 @@
     				<ns:element name="correction" maxOccurs="unbounded" minOccurs="0">
     					<ns:complexType>
     						<ns:sequence>
-    							<ns:element name="tap"
-    								type="ns:double">
-    							</ns:element>
-    							<ns:element name="factor"
-    								type="ns:double">
-    							</ns:element>
+    							<ns:element name="tap" type="ns:double" />
+    							<ns:element name="factor" type="ns:double"/>
     						</ns:sequence>
     					</ns:complexType></ns:element>
     			</ns:sequence>
-    			<ns:attribute name="number" type="ns:int"
-    				use="optional">
+    			<ns:attribute name="number" type="ns:int" use="optional">
     			</ns:attribute>
     		</ns:extension>
     	</ns:complexContent>

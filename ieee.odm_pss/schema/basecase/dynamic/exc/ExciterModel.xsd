@@ -8,10 +8,6 @@
     <ns:include schemaLocation="../../../common/DataType.xsd" />
     
 	
-	<!-- 
-		define base types for exciter
-	 -->
-	 	
     <ns:annotation>
 		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
 	</ns:annotation>
@@ -21,7 +17,6 @@
 	    define a simple exciter for testing purpose 
  	-->		
     <ns:element name="exciter" type="pss:ExciterModelXmlType" />
-    
 
     <ns:element name="excSimpleType" substitutionGroup="pss:exciter" type="pss:ExcSimpleTypeXmlType" />
     
@@ -35,6 +30,7 @@
 			<ns:element maxOccurs="1" minOccurs="0" name="desc" type="ns:string" />
 		</ns:sequence>
 	</ns:complexType>
+
     
     <ns:complexType name="ExcSimpleTypeXmlType">
 		<ns:complexContent>

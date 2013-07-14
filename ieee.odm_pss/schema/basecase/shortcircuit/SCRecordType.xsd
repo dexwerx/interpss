@@ -10,14 +10,14 @@
     
 	
     <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
 	</ns:annotation>
     
 	
     <ns:element name="acscNet" substitutionGroup="pss:baseCase" type="pss:ShortCircuitNetXmlType">
         <ns:annotation><ns:documentation>
-		Network for AC Short circuit analysis. acscBus or acscNoLFBus could be
-		used define bus; acscLine/aclfLine, aclfXfr/aclfXfr and acscPSXfr/aclfPSXfr
+		Network type for AC Short circuit analysis. acscBus could be
+		used to define bus; acscLine, acscXfr and acscPSXfr
 		could be used to define branch 
 		</ns:documentation></ns:annotation>
     </ns:element>
@@ -25,14 +25,14 @@
     <ns:element name="acscBus" substitutionGroup="pss:bus" type="pss:ShortCircuitBusXmlType">
         <ns:annotation> <ns:documentation>
 		Bus record for AC short circuit analysis. It is a child type of LoadflowBusXmlType, therefore
-		Loadflow info for init voltage are included.
+		Loadflow info for calculating init bus voltage could be included.
 		</ns:documentation></ns:annotation>
     </ns:element>
     
     
      <ns:element name="acscContributeGen" substitutionGroup="pss:contributeGen" type="pss:ShortCircuitGenDataXmlType">
         <ns:annotation><ns:documentation>
-		Generator data record for short circuit analysis
+		Contributing generator data record for short circuit analysis
 		</ns:documentation></ns:annotation>
     </ns:element>   
     
@@ -44,7 +44,7 @@
 	
      <ns:element name="acscContributeLoad" substitutionGroup="pss:contributeLoad" type="pss:ShortCircuitLoadDataXmlType">
         <ns:annotation><ns:documentation>
-		Load data record for short circuit analysis
+		Contributing load data record for short circuit analysis
 		</ns:documentation></ns:annotation>
     </ns:element>   
     
@@ -63,6 +63,12 @@
     <ns:element name="acscXfr" substitutionGroup="pss:branch" type="pss:XfrShortCircuitXmlType">
         <ns:annotation><ns:documentation>
 		Xfr Branch record for acsc analysis
+		</ns:documentation></ns:annotation>
+    </ns:element>
+
+    <ns:element name="acscPsXfr" substitutionGroup="pss:branch" type="pss:PSXfrShortCircuitXmlType">
+        <ns:annotation><ns:documentation>
+		PsXfr Branch record for acsc analysis
 		</ns:documentation></ns:annotation>
     </ns:element>
 
@@ -95,19 +101,14 @@
 		</ns:documentation></ns:annotation>
 		<ns:complexContent>
 			<ns:extension base="pss:LoadflowBusXmlType">
-				<ns:group ref="pss:ShortCircuitBusDataGroup" />
-				<ns:attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="optional" />
+		      	<ns:sequence>
+					<ns:element minOccurs="0" name="swithedShuntLoadZeroY" type="pss:YXmlType" />
+		      	</ns:sequence>
+			  	<ns:attribute name="scCode" type="pss:ShortCircuitBusEnumType" use="optional" />
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-
-    <ns:group name="ShortCircuitBusDataGroup">
-        <ns:sequence>
-			<ns:element minOccurs="0" name="swithedShuntLoadZeroY" type="pss:YXmlType" />
-        </ns:sequence>
-    </ns:group>
-	
 
     <ns:complexType name="ShortCircuitGenDataXmlType">
 		<ns:annotation><ns:documentation>
@@ -117,8 +118,7 @@
 		</ns:documentation></ns:annotation>
     	<ns:complexContent>
 			<ns:extension base="pss:LoadflowGenDataXmlType">
-		      <ns:sequence>
-				<ns:element maxOccurs="1" minOccurs="0" name="ratedMachVoltage" type="pss:VoltageXmlType" />
+		      <ns:sequence>				<ns:element maxOccurs="1" minOccurs="0" name="ratedMachVoltage" type="pss:VoltageXmlType" />
 				<ns:element minOccurs="0" name="potiveZ" type="pss:ZXmlType" maxOccurs="1"/>
 			    <ns:element minOccurs="0" name="negativeZ" type="pss:ZXmlType" />
 			    <ns:element minOccurs="0" name="zeroZ" type="pss:ZXmlType" />
@@ -162,21 +162,22 @@
 		<ns:complexContent>
 			<ns:extension base="pss:XfrBranchXmlType">
 				<ns:sequence>
-			<ns:element minOccurs="0" name="z0" type="pss:ZXmlType" />
-			<ns:element minOccurs="0" name="fromSideConnection" type="pss:XformerConnectionXmlType" />
-			<ns:element minOccurs="0" name="toSideConnection" type="pss:XformerConnectionXmlType" />
-			<ns:element minOccurs="0" name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType" />
+					<ns:group ref="pss:ShortCircuitXfrInfoGroup"/>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-    	
-    <ns:element name="acscPSXfr" substitutionGroup="pss:branch" type="pss:PSXfrShortCircuitXmlType">
-        <ns:annotation> <ns:documentation>
-		PSXfr Branch record for acsc analysis
-		</ns:documentation></ns:annotation>
-    </ns:element>
 
+
+    <ns:group name="ShortCircuitXfrInfoGroup">
+        <ns:sequence>
+			<ns:element minOccurs="0" name="z0" type="pss:ZXmlType" />
+			<ns:element minOccurs="0" name="fromSideConnection" type="pss:XformerConnectionXmlType" />
+			<ns:element minOccurs="0" name="toSideConnection" type="pss:XformerConnectionXmlType" />
+			<ns:element minOccurs="0" name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType" />
+		</ns:sequence>
+    </ns:group>
+    
     <ns:complexType name="Xfr3WShortCircuitXmlType">
 		<ns:complexContent>
 			<ns:extension base="pss:Xfr3WBranchXmlType">
@@ -191,14 +192,12 @@
 		<ns:complexContent>
 			<ns:extension base="pss:PSXfrBranchXmlType">
 				<ns:sequence>
-			<ns:element minOccurs="0" name="z0" type="pss:ZXmlType" />
-			<ns:element minOccurs="0" name="fromSideConnection" type="pss:XformerConnectionXmlType" />
-			<ns:element minOccurs="0" name="toSideConnection" type="pss:XformerConnectionXmlType" />
-			<ns:element minOccurs="0" name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType" />
+					<ns:group ref="pss:ShortCircuitXfrInfoGroup"/>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+    
     	
     <ns:complexType name="PSXfr3WShortCircuitXmlType">
 		<ns:complexContent>
@@ -208,6 +207,7 @@
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
+	
 	
     <ns:complexType name="MutualZeroZXmlType">
 		<ns:sequence>

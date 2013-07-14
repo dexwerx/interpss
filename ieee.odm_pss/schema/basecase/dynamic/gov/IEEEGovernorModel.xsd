@@ -7,10 +7,12 @@
 
 	
     <ns:include schemaLocation="../../../common/DataType.xsd" />
-    
 
     <ns:include schemaLocation="GovernorModel.xsd" />
     
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+	</ns:annotation>
 	
 	<!-- 
 		define models for generic Governor, Turbine, and those found in IEEE std
@@ -18,23 +20,19 @@
 			    gov*, Gov* : for generic types
 			    govIEEE*, GovIEEE* : for IEEE types  
 	 -->	
-    <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
-	</ns:annotation>
     
     <ns:element name="turbineSteamNR" substitutionGroup="pss:turbine" type="pss:SteamTurbineNRXmlType" />
     
     <ns:element name="turbineSteamTCSR" substitutionGroup="pss:turbine" type="pss:SteamTurbineTCSRXmlType" />
     
     <ns:element name="turbineSteamTCDR" substitutionGroup="pss:turbine" type="pss:SteamTurbineTCDRXmlType" />
-    
 	
     <ns:element name="turbineHydraulic" substitutionGroup="pss:turbine" type="pss:HydraulicTurbineXmlType" />
+
     
     <ns:element name="govHydro" substitutionGroup="pss:governor" type="pss:GovHydroXmlType" />
     
     <ns:element name="govHydroTurbine" substitutionGroup="pss:governor" type="pss:GovHydroTurbineXmlType" />
-    
 	
     <ns:element name="govHydroSteamGeneralModel" substitutionGroup="pss:governor" type="pss:GovHydroSteamGeneralModelXmlType" />
     
@@ -48,7 +46,6 @@
     <ns:element name="govIEEE1981Type1" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type1XmlType" />
     
     <ns:element name="govIEEE1981Type2" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type2XmlType" />
-    
 
     <ns:element name="govIEEE1981Type3" substitutionGroup="pss:governor" type="pss:GovIEEE1981Type3XmlType" />
     
@@ -65,8 +62,6 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
-    
-	
 	
 	
 	<!-- Tandem compound,single reheat stream turbine model-->
@@ -83,6 +78,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
 	<!-- Tandem compound,double reheat stream turbine model-->	
     <ns:complexType name="SteamTurbineTCDRXmlType">
@@ -111,6 +107,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
 	<!-- Stream speed Gov and Tandem compound,non-reheat turbine combo model-->	
     <ns:complexType name="GovSteamNRXmlType">
@@ -130,6 +127,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
 	<!-- Stream speed Gov and Tandem compound,single-reheat turbine combo model-->	
     <ns:complexType name="GovSteamTCSRXmlType">
@@ -145,6 +143,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
      <!-- Stream speed Gov and Tandem compound,double-reheat turbine combo model-->	
     <ns:complexType name="GovSteamTCDRXmlType">
@@ -162,6 +161,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
     <!-- IEEE Recommended General Stream speed Gov and turbine combo model
          It is called IEEE 1981 Type 1 model and compatible with PSSE IEEEG1 model
@@ -194,6 +194,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
     <!-- An alternative representations of hydro turbine speed governing systems
          It is called IEEE 1981 Type 2 model and compatible with PSSE IEEEG2 model
@@ -213,6 +214,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
     <!-- An alternative representations of hydro turbine speed governing systems
          It is called IEEE 1981 Type 3 model and compatible with PSSE IEEEG3 model
@@ -275,6 +277,7 @@
 		</ns:extension>
 		</ns:complexContent>		
 	</ns:complexType>
+
     
     <ns:complexType name="GovHydroXmlType">
 		<ns:complexContent>

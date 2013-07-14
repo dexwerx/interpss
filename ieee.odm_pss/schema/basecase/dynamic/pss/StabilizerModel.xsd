@@ -8,13 +8,8 @@
 
     <ns:include schemaLocation="../../../common/DataType.xsd"></ns:include>
     
-	
-	<!-- 
-		define base types for Stabilizer
-	 -->
-	 	
     <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
+		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
 	</ns:annotation>
     
 	
@@ -22,9 +17,8 @@
 	    define a simple stabilizer for testing purpose 
  	-->	
     <ns:element name="stabilizer" type="pss:StabilizerModelXmlType" />
-    
 
-    <ns:element name="pssSimpleType" type="pss:PssSimpleTypeXmlType" substitutionGroup="pss:stabilizer" />
+    <ns:element name="pssSimpleType"  substitutionGroup="pss:stabilizer" type="pss:PssSimpleTypeXmlType"/>
     
 
     <ns:complexType name="StabilizerModelXmlType" abstract="true">

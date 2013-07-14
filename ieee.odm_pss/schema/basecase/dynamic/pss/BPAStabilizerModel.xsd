@@ -8,6 +8,9 @@
 	
     <ns:include schemaLocation="IEEEStabilizerModel.xsd" />
     
+    <ns:annotation>
+		<ns:documentation>Copyright www.interpss.org 2008-2013</ns:documentation>
+	</ns:annotation>
 	
 	<!--
 		define models for BPA Stabilizer
@@ -15,17 +18,12 @@
 		       pssBPA* for element
 		       PssBPA* for complex type 
 	-->
-	
-    <ns:annotation>
-		<ns:documentation>Copyright www.interpss.org 2008-2011</ns:documentation>
-	</ns:annotation>
     
     <ns:element name="pssBPADualInput" substitutionGroup="pss:stabilizer" type="pss:PssBPADualInputXmlType" />
     
     <ns:element name="pssBPASs" substitutionGroup="pss:stabilizer" type="pss:PssBpaSsTypeXmlType" />
     
     <ns:element name="pssBPASp" substitutionGroup="pss:stabilizer" type="pss:PssBpaSpTypeXmlType" />
-    
     
     <ns:element name="pssBPASg" substitutionGroup="pss:stabilizer" type="pss:PssBpaSgTypeXmlType" />
     
