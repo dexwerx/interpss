@@ -157,7 +157,7 @@ public class BaseJaxbHelper {
 		else if (branch instanceof LineShortCircuitXmlType) 
 			return odmObjFactory.createAcscLine((LineShortCircuitXmlType)branch);
 		else if (branch instanceof PSXfrShortCircuitXmlType) 
-			return odmObjFactory.createAcscPSXfr((PSXfrShortCircuitXmlType)branch);
+			return odmObjFactory.createAcscPsXfr((PSXfrShortCircuitXmlType)branch);
 		else if (branch instanceof XfrShortCircuitXmlType) 
 			return odmObjFactory.createAcscXfr((XfrShortCircuitXmlType)branch);
 		

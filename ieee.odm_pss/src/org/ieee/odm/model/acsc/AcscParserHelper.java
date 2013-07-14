@@ -136,7 +136,7 @@ public class AcscParserHelper extends AclfParserHelper {
 			loadData.setEquivLoad(odmObjFactory.createAcscEquivLoad(equivLoad));
 		}
 		ShortCircuitLoadDataXmlType contribLoad = odmObjFactory.createShortCircuitLoadDataXmlType();
-	    loadData.getContributeLoad().add(odmObjFactory.createAcscEquivLoad(contribLoad)); 
+	    loadData.getContributeLoad().add(odmObjFactory.createAcscContributeLoad(contribLoad)); 
 	    return contribLoad;
 	}	
 	
@@ -303,17 +303,18 @@ public class AcscParserHelper extends AclfParserHelper {
 					}
 				   // generator data is modeled at the equivalent Gen level or has been consolidated already. 
 					//if no sequence data provided, gen z is init as a large Z, or open circuit
-					if(equivPosZ ==null ){
-						
+					if(equivPosZ !=null ){
+						/*
 						equivPosZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
 						equivNegZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
 						equivZeroZ =BaseDataSetter.createZValue(0, 1.0e10, ZUnitType.PU);
 						
 						ODMLogger.getLogger().warning("posZ of gen is not provided, Bus Id, GenId #"+scBusXml.getId());
-					}
-					scEquivData.setPotiveZ(equivPosZ);
-					scEquivData.setNegativeZ(equivNegZ);
-					scEquivData.setZeroZ(equivZeroZ);
+						*/
+						scEquivData.setPotiveZ(equivPosZ);
+						scEquivData.setNegativeZ(equivNegZ);
+						scEquivData.setZeroZ(equivZeroZ);
+ 					}
 			}
 						
 		}
