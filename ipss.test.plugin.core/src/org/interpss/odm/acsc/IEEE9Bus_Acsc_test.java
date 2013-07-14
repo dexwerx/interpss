@@ -206,14 +206,14 @@ public class IEEE9Bus_Acsc_test {
 	  	System.out.println(fault.getFaultResult().getBusVoltage_012(net.getAcscBus("Bus4")));
 	  	
 	    //seq voltage @Bus4
-	  	//0.0000 + j0.0000  0.61992 + j-0.00361  0.40512 + j-0.03572
+	  	//0.0000 + j0.0000  0.61996 + j-0.00357  0.40527 + j-0.0355
 	  	
 	  	/*PWD: Fault Data - Buses
 	  	 Seq. Volt +	 Seq. Volt -
 	  	      0.61997	      0.40682
          */
 	  	assertTrue(TestUtilFunc.compare(fault.getFaultResult().getBusVoltage_012(net.getAcscBus("Bus4")), 
-	  			0.0, 0.0, 0.61992, -0.00361, 0.40512, -0.03572) );
+	  			0.0, 0.0, 0.61996, -0.00357, 0.40527, -0.0355) );
 		
 	}
 	
