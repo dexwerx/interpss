@@ -58,15 +58,6 @@ public class DStabModelParser extends BaseDstabModelParser<DStabNetXmlType, DSta
 		super(encoding);
 		this.tranSimu = odmObjFactory.createDStabSimulationXmlType();
 	}	
-
-	/**
-	 * get the base case object of type DStabNetXmlType
-	 * 
-	 * @return
-	 */
-	public DStabNetXmlType getDStabNet() {
-		return (DStabNetXmlType)getBaseCase();
-	}
 	
 	/**
 	 * get DStab Simulation record

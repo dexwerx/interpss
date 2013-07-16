@@ -68,7 +68,7 @@ public class BaseDstabModelParser <
 	 * 
 	 * @return
 	 */
-	public DStabNetXmlType getDstabNet() {
+	public DStabNetXmlType getDStabNet() {
 		return (DStabNetXmlType)getBaseCase();
 	}
 	

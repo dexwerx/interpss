@@ -174,7 +174,7 @@ public class DStabParserHelper extends AcscParserHelper {
 			loadData.setEquivLoad(odmObjFactory.createDstabEquivLoad(equivLoad));
 		}
 		DStabLoadDataXmlType contribLoad = odmObjFactory.createDStabLoadDataXmlType();
-	    loadData.getContributeLoad().add(odmObjFactory.createDstabEquivLoad(contribLoad)); 
+	    loadData.getContributeLoad().add(odmObjFactory.createDstabContributeLoad(contribLoad)); 
 	    return contribLoad;
 	}	
 
