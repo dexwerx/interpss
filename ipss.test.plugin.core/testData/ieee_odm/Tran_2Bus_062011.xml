@@ -18,7 +18,7 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
 				<pss:genData>
 					<pss:dstabEquivGen code="PQ" id="Bus4-Gen1">
 						<pss:power im="1.0" unit="PU" re="2.0"/>
-						<pss:ratedMachPower unit="MW" value="600"/>
+						<pss:mvaBase unit="MVA" value="600"/>
 						<pss:ratedMachVoltage unit="KV" value="138" />
 						<pss:eq1MachModel>
 							<pss:H>3</pss:H>
@@ -50,7 +50,7 @@ xsi:schemaLocation="http://www.ieee.org/odm/Schema/2008 ../../../ieee.odm_pss/sc
 					<pss:dstabEquivGen code="Swing" id="Bus5-Gen1">
 						<pss:desiredVoltage unit="PU" value="1.00" />
 						<pss:desiredAngle unit="DEG" value="0.0" />
-						<pss:ratedMachPower unit="MW" value="100"/>
+						<pss:mvaBase unit="MVA" value="100"/>
 						<pss:ratedMachVoltage unit="KV" value="138" />
 						<pss:equiMachModel>
 							<pss:equivSource>
