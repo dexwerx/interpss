@@ -148,25 +148,16 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 				// map the branch info
 				ODMAclfNetMapper aclfNetMapper = new ODMAclfNetMapper();
 				for (JAXBElement<? extends BaseBranchXmlType> branch : xmlNet.getBranchList().getBranch()) {
-					// for DStab, the branch could be (LineBranchXmlType, ...), (LineShortCircuitXmlType ...) or (LineDStabXmlType ... )
-					// inheritance relationship (LineBranchXmlType, ...) <- (LineShortCircuitXmlType ...) <- (LineDStabXmlType ... )
-					if (branch.getValue() instanceof LineBranchXmlType || 
-							branch.getValue() instanceof XfrBranchXmlType ||
-								branch.getValue() instanceof PSXfrBranchXmlType) {
+					if (branch.getValue() instanceof LineDStabXmlType || 
+							branch.getValue() instanceof XfrDStabXmlType ||
+								branch.getValue() instanceof PSXfrDStabXmlType) {
 						DStabBranch dstabBranch = DStabObjectFactory.createDStabBranch();
 						aclfNetMapper.mapAclfBranchData(branch.getValue(), dstabBranch, dstabNet);
 
-						if (branch.getValue() instanceof LineShortCircuitXmlType || 
-								branch.getValue() instanceof XfrShortCircuitXmlType ||
-									branch.getValue() instanceof PSXfrShortCircuitXmlType) {
+						// if the record includes Acsc bus info, do the mapping
+						if (xmlNet.isHasShortCircuitData()) {
 							BranchXmlType acscBraXml = (BranchXmlType)branch.getValue(); 
 							setAcscBranchData(acscBraXml, dstabBranch);
-						}
-
-						if (branch.getValue() instanceof LineDStabXmlType || 
-								branch.getValue() instanceof XfrDStabXmlType ||
-									branch.getValue() instanceof PSXfrDStabXmlType) {
-							// current no DStab branch info are defined
 						}
 					}
 					else {
@@ -208,46 +199,50 @@ public abstract class AbstractODMDStabDataMapper<Tfrom> extends AbstractODMAcscD
 	private void setDStabBusData(DStabBusXmlType dstabBusXml, DStabBus dstabBus)  throws InterpssException {
 		int cnt = 0;
 		/*
-		 * It is assumed that contribute generators are consolidated to the equivGen
+		 * It is assumed that contribute generators are consolidated to the equivGen, only the Aclf and Acsc part
 		 */
 
 		if(dstabBusXml.getGenData().getEquivGen()!=null){
 			
-		  if(dstabBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN){
+			if(dstabBusXml.getGenData().getEquivGen().getValue().getCode()!=LFGenCodeEnumType.NONE_GEN){
 		   
-			//multi-generators are allowed to added to the same dstab bus as dynamic devices
+				//Please note: currently multi-generators are NOT allowed
+				if (dstabBusXml.getGenData().getContributeGen() != null && dstabBusXml.getGenData().getContributeGen().size() > 1) {
+					throw new InterpssException("Currently multiple contributing generators are not supported in DStab");
+				}
 		   
-			for(JAXBElement<? extends LoadflowGenDataXmlType> contriGenEle :dstabBusXml.getGenData().getContributeGen()){	
-			   
-		       DStabGenDataXmlType dyGen = (DStabGenDataXmlType)contriGenEle.getValue();
-		       
-		       // create the machine model and added to the parent bus object
-		       MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
-		       String machId = dstabBus.getId() + "-mach" + ++cnt;
-		       Machine mach = new MachDataHelper(dstabBus, dyGen.getMvaBase(), dyGen.getRatedMachVoltage())
-
+				DStabGenDataXmlType dyGen = null;
+				if (dstabBusXml.getGenData().getContributeGen() != null && dstabBusXml.getGenData().getContributeGen().size() == 1) {
+					dyGen = (DStabGenDataXmlType)dstabBusXml.getGenData().getContributeGen().get(0).getValue();
+				}
+				else 
+					dyGen = (DStabGenDataXmlType)dstabBusXml.getGenData().getEquivGen().getValue();
+				
+				// create the machine model and added to the parent bus object
+				MachineModelXmlType machXmlRec = dyGen.getMachineModel().getValue();
+				String machId = dstabBus.getId() + "-mach" + ++cnt;
+				Machine mach = new MachDataHelper(dstabBus, dyGen.getMvaBase(), dyGen.getRatedMachVoltage())
 									.createMachine(machXmlRec, machId);
 				
-			   if (dyGen.getExciter() != null) {
-						// create the exc model and add to the parent machine object
-						ExciterModelXmlType excXml = dyGen.getExciter().getValue();
-						new ExciterDataHelper(mach).createExciter(excXml);
+				if (dyGen.getExciter() != null) {
+					// create the exc model and add to the parent machine object
+					ExciterModelXmlType excXml = dyGen.getExciter().getValue();
+					new ExciterDataHelper(mach).createExciter(excXml);
 
-						if (dyGen.getStabilizer() != null) {
-							// create the pss model and add to the parent
-							// machine object
-							StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
-							new StabilizerDataHelper(mach).createStabilizer(pssXml);
-						}
+					if (dyGen.getStabilizer() != null) {
+						// create the pss model and add to the parent
+						// machine object
+						StabilizerModelXmlType pssXml = dyGen.getStabilizer().getValue();
+						new StabilizerDataHelper(mach).createStabilizer(pssXml);
+					}
 				}
 
-		        if (dyGen.getGovernor() != null) {
-			       // create the gov model and add to the parent machine object
-			       GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
-			      new GovernorDataHelper(mach).createGovernor(govXml);
-		         }
-	         }//end of for-machine element
-	      }
+				if (dyGen.getGovernor() != null) {
+					// create the gov model and add to the parent machine object
+					GovernorModelXmlType govXml = dyGen.getGovernor().getValue();
+					new GovernorDataHelper(mach).createGovernor(govXml);
+				}
+			}
 	   }	
     }
 }
