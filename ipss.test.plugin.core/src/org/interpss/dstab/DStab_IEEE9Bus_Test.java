@@ -48,6 +48,9 @@ public class DStab_IEEE9Bus_Test extends DStabTestSetupBase{
 		}));
 		DStabModelParser parser =(DStabModelParser) adapter.getModel();
 		
+		System.out.println(parser.toXmlDoc());
+
+		
 		
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET);
 		if (!new ODMDStabDataMapper(msg)
@@ -98,14 +101,14 @@ public class DStab_IEEE9Bus_Test extends DStabTestSetupBase{
 			//System.out.println(dsNet.net2String());
 			System.out.println("Running DStab simulation ...");
 			//dstabAlgo.performSimulation();
-			dstabAlgo.performOneStepSimulation();
-			System.out.println("Time:"+ dstabAlgo.getInstantSimuTime());
+			//dstabAlgo.performOneStepSimulation();
+			//System.out.println("Time:"+ dstabAlgo.getInstantSimuTime());
 			
 			System.out.println("Volt@Bus1 : "+dsNet.getDStabBus("Bus1").getVoltageMag()+" , "
 			                    +dsNet.getDStabBus("Bus1").getVoltageAng(UnitType.Deg));
 			for(int i = 0;i<10; i++)
-			dstabAlgo.performOneStepSimulation();
-			System.out.println("Time:"+ dstabAlgo.getInstantSimuTime());
+			//dstabAlgo.performOneStepSimulation();
+			//System.out.println("Time:"+ dstabAlgo.getInstantSimuTime());
 			System.out.println("Volt@Bus2 : "+dsNet.getDStabBus("Bus2").getVoltageMag()+" , "
                     +dsNet.getDStabBus("Bus2").getVoltageAng(UnitType.Deg));
 			System.out.println("Volt@Bus1 : "+dsNet.getDStabBus("Bus1").getVoltageMag()+" , "

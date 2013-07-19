@@ -29,14 +29,15 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.logging.Level;
 
 import org.ieee.odm.ODMObjectFactory;
 import org.ieee.odm.model.dstab.DStabModelParser;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.mapper.odm.ODMDStabDataMapper;
 import org.junit.Test;
 
 import com.interpss.SimuObjectFactory;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algo.LoadflowAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuAlgorithm;
 import com.interpss.dstab.algo.DynamicSimuMethod;
@@ -62,7 +63,7 @@ public class DStab_2Bus extends DStabTestSetupBase {
 			}
 			//System.out.println(simuCtx.getDStabilityNet().net2String());
 			
-			//IpssLogger.getLogger().setLevel(Level.INFO);
+			IpssLogger.getLogger().setLevel(Level.INFO);
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
@@ -95,7 +96,7 @@ public class DStab_2Bus extends DStabTestSetupBase {
 			assertTrue(stateTestRecorder.diffTotal("Bus-1-mach1", MachineState, 
 					DStabOutSymbol.OUT_SYMBOL_MACH_EQ1) < 0.0001);
 			assertTrue(stateTestRecorder.diffTotal("Bus-1-mach1", MachineState, 
-					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.0001);			
+					DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.001);			
 		}
 	}
 }
