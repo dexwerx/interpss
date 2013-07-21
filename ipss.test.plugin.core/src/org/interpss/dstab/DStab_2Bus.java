@@ -63,7 +63,7 @@ public class DStab_2Bus extends DStabTestSetupBase {
 			}
 			//System.out.println(simuCtx.getDStabilityNet().net2String());
 			
-			IpssLogger.getLogger().setLevel(Level.INFO);
+			//IpssLogger.getLogger().setLevel(Level.INFO);
 			DynamicSimuAlgorithm dstabAlgo = simuCtx.getDynSimuAlgorithm();
 			LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 			assertTrue(aclfAlgo.loadflow());
