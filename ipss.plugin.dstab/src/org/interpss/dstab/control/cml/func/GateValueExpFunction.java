@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.controller.block.adapt.CMLFunctionExpressionAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 
@@ -34,7 +35,7 @@ public class GateValueExpFunction extends CMLFunctionExpressionAdapter {
 	 * @param dAry2D contains two arrays [u1Ary, u2Ary]
 	 * @return the function value
 	 */
-	public double eval(double[][] dAry2D, boolean highValue) throws Exception {
+	public double eval(double[][] dAry2D, boolean highValue) throws InterpssException {
 		// always there are two input value arrays
 		ExpCalculator u1Exp = getInputExpList().get(0);
 		ExpCalculator u2Exp = getInputExpList().get(1);

@@ -24,6 +24,8 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.exp.InterpssException;
+
 /**
  * A function to select low input value y = min[u1Expression, u2Expression]. u1, u2 are expression of
  * system variables, for example, "mach.vt - this.delay.y" 
@@ -37,7 +39,7 @@ public class LowValueExpFunction extends GateValueExpFunction {
 	 * 
 	 * @return input u
 	 */
-	@Override public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws InterpssException {
 		return y;
 	}
 
@@ -47,7 +49,7 @@ public class LowValueExpFunction extends GateValueExpFunction {
 	 * @param dAry2D contains two arrays [u1Ary, u2Ary]
 	 * @return the function value
 	 */
-	@Override public double eval(double[][] dAry2D) throws Exception {
+	@Override public double eval(double[][] dAry2D) throws InterpssException {
 		return eval(dAry2D, false);
 	}
 }

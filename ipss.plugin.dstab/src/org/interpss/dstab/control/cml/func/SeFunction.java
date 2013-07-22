@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
@@ -51,9 +52,9 @@ public class SeFunction extends CMLFunctionAdapter {
 	 * @throws Exception
 	 */
 	public SeFunction(double e1, double se_e1, double e2, double se_e2)
-			throws Exception {
+			throws InterpssException {
 		if (e1 <= e2 || se_e1 <= se_e2) {
-			throw new Exception("Se(Efd) data error, E1, Se(E1), E2, Se(E2): "
+			throw new InterpssException("Se(Efd) data error, E1, Se(E1), E2, Se(E2): "
 					+ e1 + ", " + se_e1 + ", " + e2 + ", " + se_e2);
 		}
 		this.e1 = e1;

@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.controller.block.adapt.CMLFunctionExpressionAdapter;
 import com.interpss.dstab.datatype.ExpCalculator;
 
@@ -50,7 +51,7 @@ public class GainExpFunction extends CMLFunctionExpressionAdapter {
 	 * 
 	 * @return input u
 	 */
-	@Override public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws InterpssException {
 		return y / this.k;
 	}
 
@@ -60,7 +61,7 @@ public class GainExpFunction extends CMLFunctionExpressionAdapter {
 	 * @param dAry2D contains only array [uAry]
 	 * @return the function value
 	 */
-	@Override public double eval(double[][] dAry2D) throws Exception {
+	@Override public double eval(double[][] dAry2D) throws InterpssException {
 		ExpCalculator uExp = getInputExpList().get(0);
 		return this.k * uExp.eval(dAry2D[0]);
 	}

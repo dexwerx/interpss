@@ -52,6 +52,7 @@ import org.interpss.dstab.control.cml.func.VthevFunction;
 import org.interpss.numeric.datatype.Point;
 
 import com.interpss.common.CommonObjectFactory;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.func.ILookupTable;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.controller.ICMLFieldObjectFactory;
@@ -206,7 +207,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public ICMLStaticBlock createStaticBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLStaticBlock createStaticBlockField(AbstractAnnotateController controllor, Field field, String[] parameters) throws InterpssException {
     	if (field.getType() == GainBlock.class) {
     		StaticBlockType type = CMLSymbolMapper.mapTypeStr2BlockType(parameters[0]);
     	    if (type == NoLimit) {
@@ -234,7 +235,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public ICMLFunction createFunctionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLFunction createFunctionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws InterpssException {
     	if (field.getType() == SeFunction.class) {
 	    	// format : {"this.e1", "this.se_e1", "this.e2", "this.se_e2"},
     	    double e1 = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
@@ -257,7 +258,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	    	// format : {"this.k"},
     		int k = controllor.getIntField(StringUtil.getParameterName(parameters[0]));
     		if ( k < 0)
-    			throw new Exception("Power function, n has to be >= 0");
+    			throw new InterpssException("Power function, n has to be >= 0");
     	    return new PowerFunction(k);
     	}
     	else if (field.getType() == HighValueFunction.class) {
@@ -290,7 +291,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @return the created object
 	 * @throws Exception
 	 */
-    public ICMLFunctionExpression createFunctionExpressionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    public ICMLFunctionExpression createFunctionExpressionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws InterpssException {
     	if (field.getType() == LowValueExpFunction.class) {
 	    	// format : no parameter
     	    return new LowValueExpFunction();
@@ -318,7 +319,7 @@ public class CMLFieldObjectFactory implements ICMLFieldObjectFactory {
 	 * @throws Exception 
 	 */
     public ICMLLookupTableFunction createLookupTableFunctionField(AbstractAnnotateController controllor, Field field, 
-    		                             ILookupTable.Type lookupTabletype, String[] dataPoints) throws Exception {
+    		                             ILookupTable.Type lookupTabletype, String[] dataPoints) throws InterpssException {
     	if (field.getType() == LookupTableFunction.class) {
     		ILookupTable table = CommonObjectFactory.createLookupTable(lookupTabletype);
     		// dataPoints format : {"1.0, 5.0", "2.0, 6.0", "3.0, 5.5"}

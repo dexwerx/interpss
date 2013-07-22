@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.controller.block.adapt.CMLFunctionAdapter;
 
 /**
@@ -49,7 +50,7 @@ public class SwitchFunction extends CMLFunctionAdapter {
 	 * 
 	 * @return input u
 	 */
-	@Override public double getU(double y) throws Exception {
+	@Override public double getU(double y) throws InterpssException {
 		return y;
 	}
 
