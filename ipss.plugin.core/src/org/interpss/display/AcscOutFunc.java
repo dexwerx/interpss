@@ -161,6 +161,7 @@ public class AcscOutFunc {
 	private static String displayBusVoltage(AcscBusFault bf) {
 		AcscNetwork net = bf.getFaultResult().getAcscNet();
 		try {
+			bf.getFaultResult().calBranchCurrent();
 			bf.getFaultResult().calContributingCurrent();
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
